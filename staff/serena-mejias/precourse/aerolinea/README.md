@@ -11,4 +11,4 @@ Coste medio de los vuelos.
 Número de vuelos con escala.
 
 ## TECHNICAL DESCRIPTION
-Se ha utilizado javascript.
+Javascript. 
