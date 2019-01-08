@@ -1,4 +1,4 @@
-Calculadora
+Pasapalabra
 =========
 
 
@@ -7,7 +7,7 @@ Last project of the skylab coders precourse.
 
 
 ## Functional description
-In this project,you can compete in the **pasapalabra** game  as if you were in the tv program 
+In this project,you can compete in the **pasapalabra** game  as if you were in the tv program. 
 
 You will have to resolve a question for every letter in the Spanish alphabet.
 
