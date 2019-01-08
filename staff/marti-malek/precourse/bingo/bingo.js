@@ -1,6 +1,20 @@
 //Bingo Game!
 
 function bingo() {
+    let userArray = [];
+
+    let usedNums = [];
+    
+    function generateArray() {
+        for (i = 0; userArray.length < 15; i++) {
+            var num = Math.floor(Math.random() * 50 + 1);
+            if(!(userArray.includes(num))) {
+                userArray.push(num);
+            };
+        };
+    };
+    generateArray();
+    
     function userStart() {
         var user = prompt("What's your name?")
         if (user != null) {
@@ -22,20 +36,6 @@ function bingo() {
             return 'Ciao!'
         }
     };
-    
-    var userArray = [];
-    
-    function generateArray() {
-        for (i = 0; userArray.length < 15; i++) {
-            var num = Math.floor(Math.random() * 50 + 1);
-            if(!(userArray.includes(num))) {
-                userArray.push(num);
-            };
-        };
-    };
-    generateArray();
-    
-    var usedNums = [];
     
     function luckyNum() {
         var newNum = Math.floor(Math.random() * 50 + 1);
