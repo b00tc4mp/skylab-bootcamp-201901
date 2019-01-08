@@ -1,0 +1,252 @@
+html,
+body {
+    background-color: #384c6f;
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Ubuntu Condensed', sans-serif;
+
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #fff;
+    height: 100%;
+}
+#pasapalabra {
+    height: 100%;
+}
+.left-wraper {
+    float: left;
+    position: relative;
+    width: 50%;
+    height: 100%;
+    padding: 0px;
+}
+.abcdario-wraper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-55%) translateY(-50%);
+    padding: 40px 0px;
+    top: 50%;
+}
+.abcdario {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-55%);
+}
+
+.abcdario .letra {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #6195ef;
+    color: #fff;
+    line-height: 39px;
+    text-align: center;
+    text-decoration: none;
+    cursor: default;
+}
+
+.abcdario .letra.pass {
+    background-color: #ccb027;
+}
+.abcdario .letra.success {
+    background-color: #38b12a;
+}
+.abcdario .letra.fail {
+    background-color: #f33558;
+}
+
+.abcdario > *:nth-of-type(1) {
+    transform: rotate(270deg) translate(250px) rotate(-270deg);
+}
+.abcdario > *:nth-of-type(2) {
+    transform: rotate(283.3deg) translate(250px) rotate(-283.3deg);
+}
+.abcdario > *:nth-of-type(3) {
+    transform: rotate(296.3deg) translate(250px) rotate(-296.3deg);
+}
+.abcdario > *:nth-of-type(4) {
+    transform: rotate(309.9deg) translate(250px) rotate(-309.9deg);
+}
+.abcdario > *:nth-of-type(5) {
+    transform: rotate(323.2deg) translate(250px) rotate(-323.2deg);
+}
+.abcdario > *:nth-of-type(6) {
+    transform: rotate(336.5deg) translate(250px) rotate(-336.5deg);
+}
+.abcdario > *:nth-of-type(7) {
+    transform: rotate(349.8deg) translate(250px) rotate(-349.8deg);
+}
+.abcdario > *:nth-of-type(8) {
+    transform: rotate(363.1deg) translate(250px) rotate(-363.1deg);
+}
+.abcdario > *:nth-of-type(9) {
+    transform: rotate(376.4deg) translate(250px) rotate(-376.4deg);
+}
+.abcdario > *:nth-of-type(10) {
+    transform: rotate(389.7deg) translate(250px) rotate(-389.7deg);
+}
+.abcdario > *:nth-of-type(11) {
+    transform: rotate(403deg) translate(250px) rotate(-403deg);
+}
+.abcdario > *:nth-of-type(12) {
+    transform: rotate(416.3deg) translate(250px) rotate(-416.3deg);
+}
+.abcdario > *:nth-of-type(13) {
+    transform: rotate(429.6deg) translate(250px) rotate(-429.6deg);
+}
+.abcdario > *:nth-of-type(14) {
+    transform: rotate(442.9deg) translate(250px) rotate(-442.9deg);
+}
+.abcdario > *:nth-of-type(15) {
+    transform: rotate(456.2deg) translate(250px) rotate(-456.2deg);
+}
+.abcdario > *:nth-of-type(16) {
+    transform: rotate(469.5deg) translate(250px) rotate(-469.5deg);
+}
+.abcdario > *:nth-of-type(17) {
+    transform: rotate(482.8deg) translate(250px) rotate(-482.8deg);
+}
+.abcdario > *:nth-of-type(18) {
+    transform: rotate(496.1deg) translate(250px) rotate(-496.1deg);
+}
+.abcdario > *:nth-of-type(19) {
+    transform: rotate(509.4deg) translate(250px) rotate(-509.4deg);
+}
+.abcdario > *:nth-of-type(20) {
+    transform: rotate(522.7deg) translate(250px) rotate(-522.7deg);
+}
+.abcdario > *:nth-of-type(21) {
+    transform: rotate(536deg) translate(250px) rotate(-536deg);
+}
+.abcdario > *:nth-of-type(22) {
+    transform: rotate(549.3deg) translate(250px) rotate(-549.3deg);
+}
+.abcdario > *:nth-of-type(23) {
+    transform: rotate(562.6deg) translate(250px) rotate(-562.6deg);
+}
+.abcdario > *:nth-of-type(24) {
+    transform: rotate(575.9deg) translate(250px) rotate(-575.9deg);
+}
+.abcdario > *:nth-of-type(25) {
+    transform: rotate(589.2deg) translate(250px) rotate(-589.2deg);
+}
+.abcdario > *:nth-of-type(26) {
+    transform: rotate(602.5deg) translate(250px) rotate(-602.5deg);
+}
+.abcdario > *:nth-of-type(27) {
+    transform: rotate(615.8deg) translate(250px) rotate(-615.8deg);
+}
+
+.points-time {
+    position: relative;
+    left: -20px;
+    float: left;
+}
+.points-time .time {
+    display: block;
+    width: 55px;
+    height: 55px;
+    background-color: #6195ef;
+    border: 2px solid #fff;
+    color: #fff;
+    line-height: 55px;
+    text-align: center;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.points-time .points {
+    display: block;
+    background-color: #6195ef;
+    border: 2px solid #fff;
+    color: #fff;
+    line-height: 39px;
+    text-align: center;
+}
+
+.questions-wraper {
+    float: right;
+    position: relative;
+    width: 50%;
+    height: 100%;
+    padding: 0px;
+}
+.questions-wraper > div {
+    position: relative;
+    top: 50%;
+    transform: translateY(-100%);
+}
+.question {
+    width: 90%;
+}
+.question h3 span {
+    text-transform: uppercase;
+}
+.question p {
+    font-size: 18px;
+    line-height: 22px;
+}
+.question input {
+    height: 40px;
+    width: 50%;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    border: 0;
+    border-radius: 3px;
+    display: inline-block;
+}
+.question button {
+    height: 50px;
+    display: inline-block;
+    font-size: 22px;
+    line-height: 24pxpx;
+    border-radius: 3px;
+    background-color: #6195ef;
+    border: 2px solid #fff;
+    color: #fff;
+    cursor: pointer;
+    padding: 0px 10px;
+}
+.question button.send {
+    background-color: #38b12a;
+}
+.question button.next {
+    display: block;
+}
+.question button i {
+    font-size: 20px;
+}
+
+.btn {
+    position: relative;
+    top: 20px;
+    background-color: #6195ef;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn:hover {
+    background-color: #3085d0;
+}
+.btn i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.hidden {
+    display: none;
+}
