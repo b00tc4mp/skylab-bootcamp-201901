@@ -1,20 +1,23 @@
-NSTRUCCIONES DEL BINGO
+INSTRUCCIONES DEL PASAPALABRA
 ===============================
 
 # Estructura
 
 ### Clases y Métodos principales
 
-1. Existe una class llamada Carton que gestiona todo lo relacionado con el carton. Métodos principales:
--showCarton() -->  Muestra cartón
--showCartonFinal() --> Muestra cartón final del juego
--Constructor() -- 5 números y un nombre
--CheckBola(numeroSalido) --> Marca con una X si ha salido la bola del bingo
--compruebaCarton() --> Comprueba si hay premio en el cartón
+1. HTML
+-Consta de varias secciones del body, así como un display de letras.
+-Consta de botonera para las diversas opciones (aceptar, pasapalabra, reiniciar)
 
-2. El juego empieza solicitando el nombre de los jugadores principales.
-A partir de ahí comienza el juego asignando en el constructor de cartón unos números aleatorios.
-3. Existe un array de números del bingo. Saca un número aleatorio correspondiente al índice del array. A continuación elimina esa posición. Lo aleatorio es realmente el índice de este array que se va reecortando a medida que avanza el juego.
-4. CAda turno se comprueba si alguien ha ganado.
+2. CSS
+-Css con los estilos de cada elemento o clase de elemento.
 
-![Bingo](captura.png "bingo")
+3. JS
+- Funciones:
+    - showPalabra() -- Muestra pregunta por pantalla.
+    - Resaltar() -- Resalta letra de pregunta en curso
+    - paint() -- pinta de color letra según si es acierto, fallo o pasapalabra.
+    - checkRespuesta() -- Comprueba respuesta. No es case-sensitive.
+    - setNextindex() -- Encuentra indice de la siguiente pregunta
+    - checkFinal() -- Comprueba final del juego
+    - displayResultadoFinal() -- Muestra resultado del juego una vez finalizado.

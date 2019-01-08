@@ -1,65 +1,20 @@
-INSTRUCCIONES LINEA DE COMANDOS
+INSTRUCCIONES DEL BINGO
 ===============================
 
-[Link a markdown](https://daringfireball.net/projects/markdown/syntax#link)
+# Estructura
 
-# Comandos principales
+### Clases y Métodos principales
 
-### Comandos básicos
+1. Existe una class llamada Carton que gestiona todo lo relacionado con el carton. Métodos principales:
+-showCarton() -->  Muestra cartón
+-showCartonFinal() --> Muestra cartón final del juego
+-Constructor() -- 5 números y un nombre
+-CheckBola(numeroSalido) --> Marca con una X si ha salido la bola del bingo
+-compruebaCarton() --> Comprueba si hay premio en el cartón
 
-1. pwd ver carpeta donde estamos trabajando
-2. cd change directory
-3. . = carpeta actual // .. carpeta superior
-4. ls contenido, ls.. contenido carpeta superior
+2. El juego empieza solicitando el nombre de los jugadores principales.
+A partir de ahí comienza el juego asignando en el constructor de cartón unos números aleatorios.
+3. Existe un array de números del bingo. Saca un número aleatorio correspondiente al índice del array. A continuación elimina esa posición. Lo aleatorio es realmente el índice de este array que se va reecortando a medida que avanza el juego.
+4. CAda turno se comprueba si alguien ha ganado.
 
-
-### Permisos sobre ficheros
-
-1. Crear fichero touch
--touch file1
-
-2. chmod número
-
-rwx = 111 (7)
---- = 000  (0)
--w-=010 (2)
-
-
-### Mover, copiar y borrar ficheros
-
-tree ver arbol de ficheros y carpetas.
-
-λ mv file2 folder2
-
-mover file2 a carpeta folder2
-
-Copia recursiva de carpeta
-
-cp – r folder2 folder3
-
-Copia folder2 y su contenido en folder3
-
-
-Renombrar fichero :
-
-mv file1 file2 → Cambiar el nombre del fichero (lo movemos)
-
-
-tree ver arbol de ficheros.
-
-
-
-Comando chmod : (0-7=
-
-rwx = 111 (7)
---- = 000  (0)
--w-=010 (2)
-
-
-echo mostrar algo en consola.
-
-Echo « hola mundo » > file4
-
-Envia el contenido hola mundo al file4, si no existe lo crea.
-
-Eliminar fichero rm file4
+![Bingo](captura.png "bingo")
