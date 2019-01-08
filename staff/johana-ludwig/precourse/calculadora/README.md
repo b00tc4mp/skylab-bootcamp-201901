@@ -1,7 +1,7 @@
 Calculadora
 =========
 
-# Introducction
+# Introduction
 
 Visualiza por consola la suma, resta, multiplicación y división entre dos números.
 
