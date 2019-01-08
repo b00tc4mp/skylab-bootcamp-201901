@@ -122,6 +122,10 @@ body {
 	display: none;
 }
 
+#username {
+	height: 19px
+}
+
 #send {
 	height: 30px;
 	width: 100px
@@ -139,7 +143,7 @@ body {
 }
 
 #theend {
-	margin-top: 130px;
+	margin-top: 50px;
 	height: 400px;
 	width: 50%;
 	display: inline-block;
