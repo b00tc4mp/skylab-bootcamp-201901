@@ -186,6 +186,12 @@ document.getElementById("play").onclick = pasapalabra;
 document.getElementById("validation").onclick = validateQuestion;
 document.getElementById("pass").onclick = nextQuestion;
 document.getElementById("restartPlay").onclick = restartPlay;
+document.getElementById("answer").addEventListener("keydown", function(event) {
+  var keycode = event.keyCode ? event.keyCode : event.which;
+  if (keycode == "13") {
+    nextQuestion();
+  }
+});
 
 function pasapalabra() {
   getPlayer();
