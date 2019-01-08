@@ -14,7 +14,7 @@ var flights = [
 
 function Bienvenida(){
     var name = prompt("Dime tu nombre de usuario");
-    console.log ('Bienvenido/a ' + name);
+    console.log ('Bienvenido/a ' + name);//console
 }
 
 function Visualizar(){
