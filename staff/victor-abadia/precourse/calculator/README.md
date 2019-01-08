@@ -1,4 +1,4 @@
-# Skylab Airlines
+# Calculator
 
 ## Introduction
 
@@ -7,7 +7,6 @@ It is a simple calculator developed in javascript.
 ## Functional description
 
 This project is designed to be executed in a console. You can use the Chrome browser console by copying and pasting the code.
-
 
 ## Instructions
 
