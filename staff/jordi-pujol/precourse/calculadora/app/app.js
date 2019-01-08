@@ -42,10 +42,11 @@ const decimales = function(){
 
 /* Definimos la funcion que hara de calculadora*/
 function calculate (num1, num2) {
-    number1String = num1.toString();
-    number2String = num2.toString();
-validateNumbers(number1String);
-validateNumbers(number2String);
+  resultado = []
+  number1String = num1.toString();
+  number2String = num2.toString();
+  validateNumbers(number1String);
+  validateNumbers(number2String);
 
 /* Si validation no es igual al total de caracteres introducidos por el usuario, sabremos que uno de estos NO era un numero*/
   if (validation !== number1String.length + number2String.length){
