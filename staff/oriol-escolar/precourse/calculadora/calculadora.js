@@ -4,27 +4,27 @@ function sum(num1, num2){
     return num1 + '+' + num2 + '=' + r;
 }
 
-function restar(num1, num2){
+function subst(num1, num2){
     var r = num1 - num2;
     return num1 + '-' + num2 + '=' + r;
 }
 
-function multiplicacion(num1, num2){
+function mult(num1, num2){
     var r = num1 * num2;
     return num1 + '*' + num2 + '=' + r;
 }
 
-function division(num1, num2){
+function div(num1, num2){
     var r = num1 / num2;
     if(isNaN(r)){
-        r="indefinido";
+        r="undefined";
        return num1 + "/" + num2 + "=" + r;
     }else{
         return num1 + '/' + num2 + '=' + +r.toFixed(3);
     }
 }
 
-function raiz(num1){
+function sqr(num1){
     var r= Math.sqrt(num1);
     return +r.toFixed(3);
 }
@@ -34,10 +34,10 @@ function total(num1, num2){
             if(typeof num1 !=='number'){
                 console.log("Esto no es un numero");
             }else{
-                console.log(raiz(num1));
+                console.log(sqr(num1));
             } 
         }else if(typeof num1 === 'number'&& typeof num2==='number'){
-        var arr = [sum(num1,num2), restar(num1, num2), multiplicacion(num1, num2), division(num1, num2)];
+        var arr = [sum(num1,num2), subst(num1, num2), mult(num1, num2), div(num1, num2)];
         console.log(arr);
         }else{
             console.log('Esto no es un numero');
@@ -45,4 +45,3 @@ function total(num1, num2){
    
 }
 
-total ('pepe');

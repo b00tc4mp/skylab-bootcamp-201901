@@ -26,15 +26,15 @@ function GenerateNumRandomCarton(){
 
 var name;
 var numRandom;
-var usados = [];
+var used = [];
 var carton=[];
 
-var linea1 = false;
-var linea2 = false;
-var linea3 = false;
+var line1 = false;
+var line2 = false;
+var line3 = false;
 var completed=false;
 
-var contadorTurnos=0;
+var counter=0;
 
 var showCarton=true;
 
@@ -42,7 +42,7 @@ for(var i = 0; i<bingoCard.length; i++){
     carton.push(bingoCard[i].number);
 }
 
-function PedirNombre(){
+function askName(){
     name=prompt('Nombre de Jugador:')
     console.log('Hola ' + name);
 }
@@ -55,12 +55,12 @@ function AskTurn(){
             console.log('Ciao!')
         }
     }else{
-        return alert('BINGOOOOO!!!!' + ' en ' + contadorTurnos + ' turnos') + RePlay();
+        return alert('BINGOOOOO!!!!' + ' en ' + counter + ' turnos') + RePlay();
     }
 }
 
 function NewTurn(){
-    contadorTurnos+=1; 
+    counter+=1; 
     GenerateNumRandom()
     for(var i = 0; i <carton.length; i++){
         if(numRandom == carton[i]){
@@ -69,19 +69,19 @@ function NewTurn(){
         }
     }
     
-    if(carton[0]=='x' && carton[1]=='x' && carton[2]=='x' && carton[3]=='x' && carton[4]=='x' && linea1==false){
+    if(carton[0]=='x' && carton[1]=='x' && carton[2]=='x' && carton[3]=='x' && carton[4]=='x' && line1==false){
         console.log('LINEAA!!!');
-        linea1=true;
+        line1=true;
     }
-    if(carton[5]=='x' && carton[6]=='x' && carton[7]=='x' && carton[8]=='x' && carton[9]=='x' && linea2==false){
+    if(carton[5]=='x' && carton[6]=='x' && carton[7]=='x' && carton[8]=='x' && carton[9]=='x' && line2==false){
         console.log('LINEAA!!!');
-        linea2=true;
+        line2=true;
     }
-    if(carton[10]=='x' && carton[11]=='x' && carton[12]=='x' && carton[13]=='x' && carton[14]=='x' && linea3==false){
+    if(carton[10]=='x' && carton[11]=='x' && carton[12]=='x' && carton[13]=='x' && carton[14]=='x' && line3==false){
         console.log('LINEAA!!!');
-        linea3=true;
+        line3=true;
     }
-    if(linea1==true && linea2==true && linea3==true){
+    if(line1==true && line2==true && line3==true){
         completed=true;
     }
     if(showCarton==true){
@@ -96,8 +96,8 @@ function GenerateNumRandom(){
     
     for(var i=0; i<10; i++){
         numRandom = Math.floor(Math.random()*(20)+1);
-        if(usados.indexOf(numRandom)==-1){
-            usados.push(numRandom);
+        if(used.indexOf(numRandom)==-1){
+            used.push(numRandom);
             return numRandom + alert(numRandom); 
         }else{
             i--;
@@ -114,7 +114,7 @@ function RePlay(){
 }
 
 function Bingo(){
-    PedirNombre() + AskTurn()
+    askName() + AskTurn()
 }
 
 Bingo();
