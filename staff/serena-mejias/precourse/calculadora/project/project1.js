@@ -18,11 +18,11 @@ let multMessage = null;
 let divMessage = null;
 
 function calculator() {
-        let num1 = parseInt(document.getElementById('n1').value);
-        let num2 = parseInt(document.getElementById('n2').value);
+        let num1 = parseFloat(document.getElementById('n1').value);
+        let num2 = parseFloat(document.getElementById('n2').value);
     
     function roundto3(num) {
-        if (num === parseInt(num)) {
+        if (num === parseFloat(num)) {
             return num;
         }
         return num.toFixed(3);
