@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proyecto 3</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <style>
+      .selected-number{
+        color: white;
+        background: #00d1b2;
+        font-size: 50px !important;
+        font-weight: bold;
+        padding: 1% !important;
+      }
+
+      .congratulations{
+        color: #00d1b2;
+        font-size: 50px !important;
+        font-weight: bold;
+        padding: 1% !important;
+      }
+    </style>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title" id="title">
+        
+      </h1>
+      <div class="columns">
+        <div class="column has-text-centered">
+          <div id="selected-number" class="selected-number" hidden>
+              
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+            <article class="message">
+                <div class="message-header" >
+                  <p id="turn"></p>
+                  <div>
+                    <span hidden="hidden" id="next-number"><a class="button is-light is-small" href="javascript:{}" onclick="bingo.generateNumber()">Next number</a></span>
+                    <span><a class="button is-light is-small" id="ranking" onclick="ranking()">Ranking</a></span>
+                  </div>
+                </div>
+                <div class="message-body">
+                 <table class="table is-fullwidth is-bordered" id="table">
+                    <tbody>
+                      <tr id="line1">
+                        <td class="has-text-centered bingo-number" id="card_1"></td>
+                        <td class="has-text-centered bingo-number" id="card_2"></td>
+                        <td class="has-text-centered bingo-number" id="card_3"></td>
+                        <td class="has-text-centered bingo-number" id="card_4"></td>
+                        <td class="has-text-centered bingo-number" id="card_5"></td>
+                      </tr>
+                      <tr id="line2">
+                        <td class="has-text-centered bingo-number" id="card_6"></td>
+                        <td class="has-text-centered bingo-number" id="card_7"></td>
+                        <td class="has-text-centered bingo-number" id="card_8"></td>
+                        <td class="has-text-centered bingo-number" id="card_9"></td>
+                        <td class="has-text-centered bingo-number" id="card_10"></td>
+                      </tr>  
+                      <tr id="line3">
+                        <td class="has-text-centered bingo-number" id="card_11"></td>
+                        <td class="has-text-centered bingo-number" id="card_12"></td>
+                        <td class="has-text-centered bingo-number" id="card_13"></td>
+                        <td class="has-text-centered bingo-number" id="card_14"></td>
+                        <td class="has-text-centered bingo-number" id="card_15"></td>
+                      </tr>                                                            
+                    </tbody>
+                 </table>
+                </div>
+              </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal end game -->
+    <div class="modal" id="end_game">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <section class="modal-card-body">
+              <h1 class="congratulations">Congratulations</h1>
+              <p style="padding: 1% !important";>You completed the bingo game</p>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success" onclick="initGame()">Play again</button>
+            <button class="button is-danger" onclick="location.reload()">Exit</button>
+          </footer>
+        </div>
+    </div>
+  </section>
+
+  <!-- Modal ranking -->
+  <div class="modal" id="ranking-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <section class="modal-card-body">
+          <h1 class="congratulations">Ranking</h1>
+          <table class="table is-fullwidth">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Points</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body">
+
+            </tbody>
+          </table>
+      </section>
+    </div>
+    <button class="modal-close is-large" aria-label="close" onclick="getElementById('ranking-modal').classList.remove('is-active');"></button>
+  </div>
+
+
+  <!-- Modal Bingo Cart -->
+  <div class="modal" id="reload-card-modal">
+      <div class="modal-background"></div>
+          <div class="modal-content">
+              <section class="modal-card-body">
+                      Do you want this card?
+                  <div class="control">
+                      <label class="radio">
+                          <input type="radio" id="yes-cart" name="wantcard" checked>
+                          Yes
+                      </label>
+                      <label class="radio">
+                          <input type="radio" id="no-cart" name="wantcard">
+                          No
+                      </label>
+                  </div>
+              </section>
+              <footer class="modal-card-foot">
+                  <button class="button is-success" onclick="reload_card()">Accept</button>
+              </footer>
+          </div>
+  </div>
+
+  <!-- Modal rules -->
+  <div class="modal is-active" id="rules-modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <section class="modal-card-body">
+            <h1 class="congratulations">Rules</h1>
+            <ul>
+              <li>The line will give 25 points</li>
+              <li>If you line in less than 50 turns you have a bonus of 50 points</li>
+              <li>The remaining points will be calculated when singing bingo calculating 
+                the difference between the maximum possible turns (100) and the turn where it is 
+                finished. This result will multiply by 10.</li>
+            </ul>
+        </section>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="getElementById('rules-modal').classList.remove('is-active');"></button>
+    </div>
+
+    <!-- Modal Line -->
+    <div class="modal" id="line-modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <section class="modal-card-body">
+            <h1 class="congratulations">LINE!</h1>
+        </section>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="getElementById('line-modal').classList.remove('is-active');"></button>
+    </div>   
+    
+    
+  <!-- Script section -->
+
+  <script>
+    //ask user
+    function askUser(){
+      //first enter user
+      var name = prompt("Please enter your name");
+      if (name != null) {
+       user = new User(name);
+       document.getElementById("title").innerHTML = "Hello " + user.name;
+      }
+    }
+
+    //init user
+    function User(name){
+      this.name = name;
+      this.points = 0;
+    }
+
+    //init array users
+    var users = [];
+
+    //init card
+    function Card(id, number, matched){
+      this.id = id;
+      this.number = number;
+      this.matched = matched;
+    }
+
+    //init bingo
+    function Bingo(){
+        //properties
+        this.turn = 0;
+        this.line = false;
+        this.bonusLine = false;
+        this.used_numbers = [];
+        this.bingoCard = [];
+
+        //methods
+        this.initCard = function(){
+            var i = 0;
+            var card_numbers = [];
+
+            while ( i!= 15){
+                var card_number = Math.floor(Math.random() * 100) + 1 ;
+
+                //check if the new number is already into the card
+                if(!card_numbers.includes(card_number)){
+
+                  //push the new number into the array
+                  card_numbers.push(card_number);
+
+                  //create new card number
+                  this.bingoCard.push(new Card( i+1, card_number, false));
+
+                  //set all numbers
+                  document.getElementById("card_"+ this.bingoCard[i].id).innerHTML = "<b>"+this.bingoCard[i].number+"</b>";
+                  i++;                  
+                }
+            }
+        }
+
+        this.generateNumber = function(){
+            var number = Math.floor(Math.random() * 100) + 1;
+
+            if(this.used_numbers.includes(number)){
+                this.generateNumber();
+            }else{
+                var number_element = document.getElementById("selected-number");
+
+                //check if visible the element
+                if(number_element.hasAttribute("hidden")){
+                    number_element.removeAttribute("hidden");
+                }
+
+                number_element.innerHTML = "<span>"+number+"</span>"
+
+                this.bingoCard.forEach(function(card){
+                    if(card.number == number){
+                        document.getElementById("card_"+ card.id).classList.add("is-selected");
+                    }
+                });
+
+                this.turn ++;
+                document.getElementById("turn").innerHTML = "Turn: " + this.turn;
+
+                //join number to array
+                this.used_numbers.push(number);
+
+                //check line
+                if(this.checkLine()){
+                  this.line = true;
+                  document.getElementById('line-modal').classList.add('is-active');
+                  if(this.turn <= 50){
+                    this.bonusLine = true;
+                  }
+                }
+
+                //check if the game  is finisihed
+                if(this.checkComplete()){
+                  document.getElementById("end_game").classList.add("is-active");
+                }
+            }
+        }
+
+        this.checkLine = function(){
+          if(!this.line){
+
+            //get cells
+            var cells1 = document.getElementById("line1").cells
+            var cells2 = document.getElementById("line2").cells
+            var cells3 = document.getElementById("line3").cells
+            
+            var c1_count = 0;
+            for (let c1 = 0; c1 < cells1.length; c1++) {
+              if(cells1[c1].classList.contains("is-selected")){
+                c1_count ++;
+              }
+            }
+
+            var c2_count = 0;
+            for (let c2 = 0; c2 < cells2.length; c2++) {
+              if(cells2[c2].classList.contains("is-selected")){
+                c2_count ++;
+              }
+            }
+
+            var c3_count = 0;
+            for (let c3 = 0; c3 < cells3.length; c3++) {
+              if(cells3[c3].classList.contains("is-selected")){
+                c3_count ++;
+              }
+            }
+            
+            if(c1_count == cells1.length || c2_count == cells2.length || c3_count == cells3.length){
+              return true;
+            }
+          }
+
+          return false;
+        }
+
+        this.checkComplete = function(){
+          //get all bingo numbers
+          var td = document.getElementsByClassName("bingo-number");
+
+          //get all elements selected
+          var elements_selected = document.getElementsByClassName("is-selected");
+
+          if(elements_selected.length == td.length){
+            return true;
+          }else{
+            return false;
+          }
+        }
+    }
+
+    //initGame
+    function initGame(){
+      document.getElementById("end_game").classList.remove("is-active");
+      document.getElementById("selected-number").setAttribute("hidden","hidden");
+      document.getElementById("turn").innerHTML = " ";
+
+      td = document.getElementsByClassName("bingo-number");
+      for (var i = 0; i < td.length; i++) {
+          td[i].classList.remove("is-selected");
+      }
+      
+      //save user
+      user.points = (100 - bingo.turn ) * 10;
+      bingo.bonusLine ? user.points += 50 : user.points += 25; 
+      users.push(user);
+
+      //init new user
+      askUser();
+
+      //restart bingo
+      bingo.turn = 0;
+      bingo.line = false;
+      bingo.used_numbers = [];
+      bingo.bingoCard = [];
+      bingo.initCard();
+      document.getElementById("next-number").setAttribute("hidden","hidden");
+      setTimeout(function(){ document.getElementById("reload-card-modal").classList.add("is-active"); }, 3000);
+    }
+
+    //ranking function
+    function ranking(){
+
+      var table_users = '';
+
+      users.sort(function (a, b) {
+        return b.points - a.points;
+      });
+
+      users.forEach(function(user){
+        table_users +="<tr><td>"+user.name+"</td><td>"+user.points+"</td></tr>";
+      });
+      
+      document.getElementById("ranking-body").innerHTML = table_users;
+      document.getElementById("ranking-modal").classList.add("is-active");
+    }
+
+    //reload card function
+    function reload_card(){
+      if (document.getElementById('no-cart').checked) {
+        bingo.bingoCard = [];
+        bingo.initCard();
+        setTimeout(function(){ document.getElementById("reload-card-modal").classList.add("is-active"); }, 3000);
+      }else{
+        document.getElementById("next-number").removeAttribute("hidden");
+      }
+      
+      document.getElementById("reload-card-modal").classList.remove("is-active");
+    }
+
+    askUser();
+    var bingo = new Bingo();
+    bingo.initCard();
+
+    //ask for another card
+    setTimeout(function(){ document.getElementById("reload-card-modal").classList.add("is-active"); }, 3000);
+
+  </script>
+  </body>
+</html>
