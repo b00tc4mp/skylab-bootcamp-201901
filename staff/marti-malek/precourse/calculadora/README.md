@@ -13,7 +13,7 @@ Simple calculator with two **placeholders** where the user has to put the two nu
 
 Image showing the basic layout of the program with some numbers in it:
 
-![Calc](./captura.png "Image of the calculator")
+![Calculator](./captura.png "Image of the calculator")
 
 ## Technical description
 

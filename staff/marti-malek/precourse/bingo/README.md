@@ -13,7 +13,7 @@ Once you enter the username the program wil greet you, following that it will as
 
 A part of the program showing the greeting of the user:
 
-![Use cases](./captura.png "console printed")
+![Showing flights](./captura.png "console printed")
 
 ## Technical description
 
