@@ -12,7 +12,7 @@ A simple calculator.
 
 ### Use cases
 
-No use cases.
+Calculator ![Calculator](./calculator.png "Calculator")
 
 ## Technical description
 
