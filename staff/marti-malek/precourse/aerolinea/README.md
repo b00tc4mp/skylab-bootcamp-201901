@@ -13,7 +13,7 @@ Once you enter your username the program will greet you and show you the differe
 
 A part of the program showing the greeting and a few flights:
 
-![Use cases](./captura.png "console printed")
+![Showing flights](./captura.png "console printed")
 
 ## Technical description
 
