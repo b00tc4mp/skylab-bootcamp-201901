@@ -12,7 +12,7 @@ Cuando todos los números de una misma linea estén en "X", mostrará un mensaje
 
 ## Technical Description
 
-En este aprtado se muestra por partes el funcionamiento del codigo.
+En este apartado se muestra por partes el funcionamiento del codigo.
 
 - Función que genera el cartón sin números repetidos.
 
