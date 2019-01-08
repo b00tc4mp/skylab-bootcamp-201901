@@ -45,8 +45,8 @@ function calculateOffset(letter){
 function rotateRosco(el){
   var offset = calculateOffset(el.letter)
   var offsetString = "moon" + (offset.index + 1).toString()
-  var letterRosco = document.getElementsByClassName(offsetString)[1].childNodes[0]
-  letterRosco.classList.add("letteractive")
+  //var letterRosco = document.getElementsByClassName(offsetString)[1].childNodes[0]
+  document.getElementsByClassName(offsetString)[1].childNodes[0].classList.add("letteractive")
 }
 
 function updateProgressBar(s){
