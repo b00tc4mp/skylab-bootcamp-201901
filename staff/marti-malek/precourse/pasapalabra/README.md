@@ -13,7 +13,7 @@ On username input and "**Click**" on "**JUGAR**" the program shows a question an
 
 Image showing the basic layout of the program:
 
-![Pasapalabra](./captura.png "Image of the program")
+![Pasapalabra](./pasapalabra.png "Image of the program")
 
 ## Technical description
 

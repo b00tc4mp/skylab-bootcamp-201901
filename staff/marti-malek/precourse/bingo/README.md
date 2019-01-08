@@ -13,7 +13,7 @@ Once you enter the username the program wil greet you, following that it will as
 
 A part of the program showing the greeting of the user:
 
-![Bingo Welcome](./captura.png "alert pop-up")
+![Bingo Welcome](./bingo.png "alert pop-up")
 
 ## Technical description
 
