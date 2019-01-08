@@ -1,0 +1,14 @@
+body{
+    background-color: lavender
+}
+
+.calculator{
+background-color: white;
+width: 200px;
+}
+
+#screen{
+line-height: 50px;
+width: 100%;
+background-color: greenyellow; 
+}
