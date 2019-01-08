@@ -4,11 +4,12 @@ body{
 
 .calculator{
 background-color: white;
-width: 200px;
+width: 215px;
 }
 
 #screen{
 line-height: 50px;
 width: 100%;
-background-color: greenyellow; 
+height: 50px;
+background-color: rgb(199, 236, 142); 
 }
