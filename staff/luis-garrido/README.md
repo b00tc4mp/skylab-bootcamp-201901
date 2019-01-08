@@ -1,1 +1,1 @@
-[GitHub](https://github.com/quinwacca)
+[github](https://github.com/quinwacca)
