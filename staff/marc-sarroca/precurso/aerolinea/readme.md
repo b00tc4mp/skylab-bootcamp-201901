@@ -21,7 +21,7 @@ En este aprtado se muestra por partes el funcionamiento del codigo.
 
 - Array con los vuelos.
 
-![Array con los vuelos](/lab/precurso/images/flights.jpg)
+![Array con los vuelos](flights.jpg)
 
 - Codigo para usuario bienvenida:
 
