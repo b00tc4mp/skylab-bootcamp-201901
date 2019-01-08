@@ -161,7 +161,7 @@ function playAgain() {
     }
     var x = document.getElementById("button1");
     var y = document.getElementById("button2");
-    var playa = document.getElementById("button3");
+    var playA = document.getElementById("button3");
     var z = document.getElementById("input1");
     var score = document.getElementById("points");
     var userPlace = document.getElementById("input2");
@@ -170,7 +170,7 @@ function playAgain() {
     y.style.display = "none";
     x.style.display = "unset";
     z.style.display = "none";
-    playa.style.display = "none";
+    playA.style.display = "none";
     score.style.display = "none";
     userPlace.style.display = "unset";
     userOkok.style.display = "unset";
