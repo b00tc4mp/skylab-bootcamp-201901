@@ -17,7 +17,7 @@ function pasapalabra() {
     { letter: "l", answer: "licantropo", status: 0, question: "CON LA L. Hombre lobo"},
     { letter: "m", answer: "misantropo", status: 0, question: "CON LA M. Persona que huye del trato con otras personas o siente gran aversión hacia ellas"},
     { letter: "n", answer: "necedad", status: 0, question: "CON LA N. Demostración de poca inteligencia"},
-    { letter: "ñ", answer: "señal", status: 0, question: "CONTIENE LA Ñ. Indicio que permite deducir algo de lo que no se tiene un conocimiento directo."},
+    { letter: "ñ", answer: "senal", status: 0, question: "CONTIENE LA Ñ. Indicio que permite deducir algo de lo que no se tiene un conocimiento directo."},
     { letter: "o", answer: "orco", status: 0, question: "CON LA O. Humanoide fantástico de apariencia terrible y bestial, piel de color verde creada por el escritor Tolkien"},
     { letter: "p", answer: "protoss", status: 0, question: "CON LA P. Raza ancestral tecnológicamente avanzada que se caracteriza por sus grandes poderes psíonicos del videojuego StarCraft"},
     { letter: "q", answer: "queso", status: 0, question: "CON LA Q. Producto obtenido por la maduración de la cuajada de la leche"},
@@ -37,7 +37,7 @@ function pasapalabra() {
             if (questions[i].status === 0) {
                 let userAnswer = prompt(questions[i].question).toLowerCase();
             
-                if (userAnswer === questions[i].answer) {
+                if (string_to_slug (userAnswer) === questions[i].answer) {
                     console.log(`Has acertado!`);
                     questions[i].status = 1;
                     correctAnswers++;
@@ -59,6 +59,24 @@ function pasapalabra() {
     document.write(`<h1>Has acertado ${correctAnswers} preguntas.</h1>`)
     document.write(`<h1>Has fallado ${wrongAnswers} preguntas.</h1>`)
 
+    }
+
+    function string_to_slug (str) {
+        str = str.replace(/^\s+|\s+$/g, ''); 
+        str = str.toLowerCase();
+      
+        // remove accents, swap ñ for n, etc
+        var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+        var to   = "aaaaeeeeiiiioooouuuunc------";
+        for (var i=0, l=from.length ; i<l ; i++) {
+            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+        }
+    
+        str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') 
+            .replace(/-+/g, '-'); 
+    
+        return str;
     }
 
 pasapalabra()
