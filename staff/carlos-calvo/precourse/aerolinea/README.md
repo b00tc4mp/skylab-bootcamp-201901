@@ -5,10 +5,8 @@ INSTRUCCIONES DEL AEROLINEA
 
 ### Clases y Métodos principales
 
-1. Calculadora para dos números. Los casos contemplados son los siguientes:
-- División entre cero
-- cero entre cero
-- ausencia de argumentos
-- caso de parámetros no numéricos
+1. Instrucciones de vuelo, muestra por pantalla resumen.
+2. mostraultimsvols(n) recibe como parámetro el número de vuelos a mostrar.
+3.
 
 
