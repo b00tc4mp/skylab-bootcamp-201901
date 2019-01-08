@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bingo</title>
+	<link rel="shortcut icon" href="img/azuleijo.jpg">
+	<link rel="stylesheet" type="text/css" href="styles/bingo.css">
+</head>
+<body>
+
+	
+	<div class="main">
+		<div class='presentador'>
+			
+			<div class="bienvenida" id='bienvenida'>
+				<p>En el Bingo se generará un carton con 15 numeros, el usuario podrá escoger generar otro carton o no.</p>
+				<p>El programa saca un numero aleatorio cada vez que se aprieta siguiente, si ese numero está en el cartón se marcará hasta completar el carton.</p>
+				<p>Todo jugador empezará con 30 puntos y cada vez que pida un numero se restará 1.</p>
+				<p>Una vez insertas tu nombre, ya podras empezar a jugar.</p> 
+				<h1>Mucha suerte!</h1>
+				
+				<div class="botonesInicio" id='botonesInicio'>
+					<input class='name' id='name' type="text" size="2.5" maxlength="30" value="" name="respuesta">
+					<button class="enviarNombre" id=enviarNombre>enviar nombre</button>			
+				</div>
+
+			</div>
+
+	
+			<div class="ventana" id='ventana'>
+				<div class="ruleta">
+					<p id='ruleta'></p>
+					
+				</div>
+			</div>
+
+			
+			<div class="final" id='final'>
+				<h1>El juego se ha acabado!</h1>
+				<br>
+				<p>Felicidades tus puntos son:</p>
+				<div class='puntos' id='puntos'></div>
+				<br>
+				<p><u>Este es el ranking:</u></p> 
+				<p class="ranking" id='ranking'></p>			
+			</div>
+
+			
+			
+
+			
+		</div>
+
+		<div class="carton">
+			<div class="numeros" id='numeros'>
+				<div class="row">
+					<p class='numero' id='pos0'></p>
+					<p class='numero' id='pos1'></p>
+					<p class='numero' id='pos2'></p>
+					<p class='numero' id='pos3'></p>
+					<p class='numero' id='pos4'></p>
+				</div>
+				<div class="row">
+					<p class='numero' id='pos5'></p>
+					<p class='numero' id='pos6'></p>
+					<p class='numero' id='pos7'></p>
+					<p class='numero' id='pos8'></p>
+					<p class='numero' id='pos9'></p>
+				</div>
+				<div class="row">
+					<p class='numero' id='pos10'></p>
+					<p class='numero' id='pos11'></p>
+					<p class='numero' id='pos12'></p>
+					<p class='numero' id='pos13'></p>
+					<p class='numero' id='pos14'></p>
+				</div>
+			</div>
+
+
+
+			<div class="linea" id='linea'></div>
+			<div class="bingo" id='bingo'></div>
+
+			<div class="botones" id='botones'>
+				<button class="otroCarton" id="otroCarton">generar otro carton</button>
+				<button class="siguiente" id='siguiente'>siguiente</button>
+				<button class="volverJugar" id='volverJugar'>vovler a jugar</button>
+				<button class="salir" id="salir">salir</button>		
+			</div>
+
+			
+	
+		
+		</div>
+
+	</div>
+
+	
+
+	<script type="text/javascript" src="js/bingo.js"></script>
+</body>
+</html>
