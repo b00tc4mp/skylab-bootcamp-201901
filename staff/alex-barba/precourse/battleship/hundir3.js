@@ -273,7 +273,7 @@ function placeShipUser(e) {
         }
     };
 
-    if (gridUser[gridUser.findIndex(p=> p.square === element.id)].status === 0 && Number(gridUser[gridUser.findIndex(p=> p.square === element.id)].square.charAt(1)) + Number(x) <= 9) {
+    if (j != 0 && gridUser[gridUser.findIndex(p=> p.square === element.id)].status === 0 && Number(gridUser[gridUser.findIndex(p=> p.square === element.id)].square.charAt(1)) + Number(x) <= 9) {
         for (let i = 0; i < x; i++) {
             gridUser[(gridUser.findIndex(p=> p.square === element.id)) + i].status = 1;
             gridUser[(gridUser.findIndex(p=> p.square === element.id)) + i].ship = j.ship;
@@ -418,6 +418,9 @@ function shootPC () {
 
 function checkGrid(e) {
     let element = e.target || e.srcElement;
+    if (grid.findIndex(p=> p.square === element.id) === -1) {
+        return  
+    }
     if (grid[grid.findIndex(p=> p.square === element.id)].status === 0) {
         showSplash()
         shots++;

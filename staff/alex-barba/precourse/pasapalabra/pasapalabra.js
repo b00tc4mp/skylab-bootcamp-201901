@@ -1,3 +1,10 @@
+
+let ranking = [
+	{name: 'Àlex', questions: 4},
+	{name: 'Myriam', questions: 20},
+	{name: 'Marti', questions: 24},
+];
+
 let questions = [
 	{id: 00, letter: 'A', question: 'What is the largest reptile in North America?', answer: 'Alligator', status: 0},
 	{id: 01, letter: 'B', question: 'What is the biggest animal in the world?', answer: 'Blue Whale', status: 0},
@@ -36,9 +43,10 @@ let seconds = 150;
 let pos= 0;
 let alphabeticals = [];
 
-
+let user;
 
 function startGame() {
+	user = document.getElementById("username").value;
 	document.getElementById("theend").style.display="none";
 	document.getElementById("presentation").style.display="none"; 
 	document.getElementById("letter").style.display="block";
@@ -85,13 +93,11 @@ function verify(){
 			questions[pos].status = 1
 			pos ++
 			document.getElementById('answer').value = ''
-			console.log('yes')
 		}else {
 			questions[pos].status = 2
 			document.getElementById(pos).style.background= "#B31B1B";
 			pos++
 			document.getElementById('answer').value = ''
-			console.log('no')
 		}
 	}
 	checkIfAllIsAnswered() ? checkAlphabeticals() : newQuestion()		
@@ -101,13 +107,11 @@ function alphabetical() {
 	if (!checkIfAllIsAnswered()) {
 		questions[pos].status = 3;
 		alphabeticals.push(questions[pos].id)
-		console.log(alphabeticals)
 		document.getElementById(pos).style.background= ""
 		pos ++
 		newQuestion()
 	} else {
 		document.getElementById(alphabeticals[0]).style.background= ""
-		console.log(alphabeticals[0])
 		alphabeticals.push(alphabeticals[0])
 		alphabeticals.shift()
 		checkAlphabeticals()
@@ -131,12 +135,22 @@ function checkAlphabeticals () {
 }
 
 function showResults () {
+	ranking.push({name: user, questions: result})
+	ranking.sort(function(a, b){
+		return b.questions - a.questions;
+	});
+	let rankingString='';
+
+    for (var i=0; i<ranking.length; i++){
+        rankingString+= ranking[i].name + ' with ' + ranking[i].questions.toString() + ' right answers.<br>'
+    }
 	document.getElementById("letter").style.display="none";
 	document.getElementById("answer").style.display="none";
 	document.getElementById("send").style.display="none";
 	document.getElementById("alphabetical").style.display="none";
 	document.getElementById("questions").style.display="none";
 	document.getElementById("theend").style.display="inline-block";
+	document.getElementById('ranking').innerHTML= rankingString;
 	document.getElementById('texttheend').innerHTML= 'THE END! You have correctly answered ' + result + ' questions!';
 }
 
@@ -161,6 +175,7 @@ function countdown() {
 	timeoutMyOswego = setTimeout(countdown, 1000);
 	}
 };
+
 
 
 function playAgain() {
