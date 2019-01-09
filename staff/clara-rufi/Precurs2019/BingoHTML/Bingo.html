@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Aguafina+Script|Molle:400i" rel="stylesheet">
+    <link rel = "stylesheet" href="Styles/Bingo.css">
+    <title>Bingo</title>
+</head>
+<body>
+
+    <div id = "welcome">
+    <h2>Bienvenido al Bingo!</h2>
+    <div id = "requestName">Escribe aqui tu nombre de usuario: </div>
+    <input type ="text" id= "nameUser" maxlength="15">
+    <button onclick= "login(); play()" id = "play">Jugar!</button>
+    </div>
+
+    <div id = "cartro">   
+    <div class="columna1">
+        <input class = "a fila1">
+        <input class = "a fila2">
+        <input class = "a fila3">  
+    </div>
+
+    <div class="columna2">
+        <input class = "b fila1">
+        <input class = "b fila2">
+        <input class = "b fila3">
+    </div>
+
+    <div class="columna3">
+        <input class = "c fila1">
+        <input class = "c fila2">
+        <input class = "c fila3">
+    </div>
+
+    <div class="columna4">
+        <input class = "d fila1">
+        <input class = "d fila2">
+        <input class = "d fila3">
+    </div>
+
+    <div class="columna5">
+        <input class = "e fila1">
+        <input class = "e fila2">
+        <input class = "e fila3">
+    </div>
+
+    <div class="columna6">
+        <input class = "f fila1">
+        <input class = "f fila2">
+        <input class = "f fila3">
+    </div>
+
+    <div class="columna7">
+        <input class = "g fila1">
+        <input class = "g fila2">
+        <input class = "g fila3">
+    </div>
+
+    <div class="columna8">
+        <input class = "h fila1">
+        <input class = "h fila2">
+        <input class = "h fila3">
+    </div>
+
+    <div class="columna9">
+        <input class = "i fila1">
+        <input class = "i fila2">
+        <input class = "i fila3">
+    </div>
+
+    </div>
+    
+    <div id = "questionCarton">
+    <input type="text" id = "requestlikeCarton" disabled></div>
+    <button onclick= "Yes()" id = "Yes">Me gusta este</button> 
+    <button onclick= "No()" id = "No">Quiero otro</button>
+    </div>
+
+    <div id = "number">
+    <input type="text" id = "aleatoryNumber"></div>
+     
+    <button onclick= "getNumber()" id = "getNumber">Siguiente</button> 
+    <input type="text" id = "linia" disabled></div>
+    <button onclick= "liniaOk()" id = "liniaOk">Aceptar</button> 
+    <input type="text" id = "bingo" disabled></div>
+    
+    
+<script src = "Bingo2.js"></script>
+</body>
+</html>
