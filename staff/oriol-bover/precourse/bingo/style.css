@@ -1,0 +1,14 @@
+.selected-number{
+    color: white;
+    background: #00d1b2;
+    font-size: 50px !important;
+    font-weight: bold;
+    padding: 1% !important;
+  }
+
+  .congratulations{
+    color: #00d1b2;
+    font-size: 50px !important;
+    font-weight: bold;
+    padding: 1% !important;
+  }

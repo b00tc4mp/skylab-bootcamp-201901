@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PasapalabraJS</title>
+    <link rel="stylesheet" href="styles/styles2.css">
+</head>
+<body>
+    <div id="title">BIENVENIDO AL JUEGO DE <strong>PASAPALBRA!</strong>
+        <img src="https://www.ecestaticos.com/imagestatic/clipping/944/c8a/944c8aa2a7e87cb5fcb1e604b8f4f4b8/el-mayor-secreto-de-pasapalabra-al-descubierto-asi-se-elabora-el-rosco.jpg?mtime=1542371934" alt="" op>
+    </div>
+    <div class="descripcion"><p id="tituloDesc">Descripción del juego</p>
+        <br>
+        <p id="explicacion">Se mostraran unas definiciones por pantalla y el usuario deberá responder con la palabra a la que corresponden.
+            El usuario tiene la opción de pulsar Pasapalabra y dejar esa definición para más adelante. <br><br> El programa es sensible a la
+            acentuación, asi que se debe introducir la palabra sin tilde.<br><br> Para pasarpalabra introduce "pasapalabra" y para finalizar el
+            juego introduce "end".
+        </p>
+    </div>
+    <div class="letras">
+        <div id="aa">
+            <h2 id="a">A</h2>
+        </div>
+        <div id="bb">
+            <h2 id="b">B</h2>
+        </div>
+        <div id="cc">
+            <h2 id="c">C</h2>
+        </div>
+        <div id="dd">
+            <h2 id="d">D</h2>
+        </div>
+        <div id="ee">
+            <h2 id="e">E</h2>
+        </div>
+        <div id="ff">
+            <h2 id="f">F</h2>
+        </div>
+        <div id="gg">
+            <h2 id="g">G</h2>
+        </div>
+        <div id="hh">
+            <h2 id="h">H</h2>
+        </div>
+        <div id="ii">
+            <h2 id="i">I</h2>
+        </div>
+        <div id="jj">
+            <h2 id="j">J</h2>
+        </div>
+        <div id="ll">
+            <h2 id="l">L</h2>
+        </div>
+        <div id="mm">
+            <h2 id="m">M</h2>
+        </div>
+        <div id="nn">
+            <h2 id="n">N</h2>
+        </div>
+        <div id="ññ">
+            <h2 id="ñ">Ñ</h2>
+        </div>
+        <div id="oo">
+            <h2 id="o">O</h2>
+        </div>
+        <div id="pp">
+            <h2 id="p">P</h2>
+        </div>
+        <div id="qq">
+            <h2 id="q">Q</h2>
+        </div>
+        <div id="rr">
+            <h2 id="r">R</h2>
+        </div>
+        <div id="ss">
+            <h2 id="s">S</h2>
+        </div>
+        <div id="tt">
+            <h2 id="t">T</h2>
+        </div>
+        <div id="uu">
+            <h2 id="u">U</h2>
+        </div>
+        <div id="vv">
+            <h2 id="v">V</h2>
+        </div>
+        <div id="xx">
+            <h2 id="x">X</h2>
+        </div>
+        <div id="yy">
+            <h2 id="y">Y</h2>
+        </div>
+        <div id="zz">
+            <h2 id="z">Z</h2>
+        </div>
+    </div>
+
+    <div id="jugarya">
+        <button onclick="pasapalabra()" id="jugar">Jugar!</button>
+    </div>
+
+    <div>
+        <p id="preguntas"></p>
+    </div>
+
+    <div id="timer">Tiempo Restante:
+            <p id="timer1"></p>
+    </div>
+
+    <div>
+        <input type="text" placeholder="Introduce aqui tu respuesta" onkeypress= "if(event.keyCode ===13) vuelta()" id="respuesta">
+        <button onclick="vuelta()" id="vuelta">Submit</button>
+        <button onclick="ranking()" id="ranking">Ver Ranking</button>
+    </div>
+    <script src="app/app2.js"></script>
+</body>
+</html>
