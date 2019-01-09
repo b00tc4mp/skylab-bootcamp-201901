@@ -1,1 +1,0 @@
-[Oriol Escolar's GitHub](https://github.com/Ury18)
