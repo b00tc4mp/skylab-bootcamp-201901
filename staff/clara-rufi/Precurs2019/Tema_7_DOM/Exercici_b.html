@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Finding HTML Elements by Id</h2>
+
+        <input type="text" id="name" />
+        <input type="text" id="surname" />
+        <button onclick="getUserInformation()">Submit</button>
+        <p id="demo"></p>
+        
+<script>
+function getUserInformation() {
+    var x = document.getElementById("name").value;
+    var y = document.getElementById("surname").value;
+    console.log("User name and surname are: " + x + " " + y)  
+}
+
+</script>
+
+</body>
+</html>
