@@ -2,30 +2,38 @@ let playerName = '';
 let attempts = 0;
 let boardWidth = 5;
 let boardHeight = 3;
+let bomboNumbers = [];
 let bingoCard = [
     { number: 1, matched: false },
-    { number: 3, matched: false },
+    { number: 10, matched: false },
     { number: 5, matched: false },
-    { number: 1, matched: false },
-    { number: 1, matched: false },
-
-    //next line
-    { number: 5, matched: false },
-    { number: 1, matched: false },
-    { number: 1, matched: false },
-    { number: 1, matched: false },
-    { number: 1, matched: false },
-
-    //next line
-    { number: 1, matched: false },
-    { number: 2, matched: false },
+    { number: 9, matched: false },
     { number: 4, matched: false },
-    { number: 1, matched: false },
-    { number: 1, matched: false },
+
+    //next line
+    { number: 7, matched: false },
+    { number: 2, matched: false },
+    { number: 12, matched: false },
+    { number: 8, matched: false },
+    { number: 13, matched: false },
+
+    //next line
+    { number: 15, matched: false },
+    { number: 11, matched: false },
+    { number: 3, matched: false },
+    { number: 14, matched: false },
+    { number: 6, matched: false },
 ];
 
-function generateRandomNumber() {
-    return Math.floor(Math.random() * 5) + 1;
+function drawRandomNumber() {
+    let drawnNumber = Math.floor(Math.random() * 15) + 1;
+
+    if (bomboNumbers.includes(drawnNumber)) {
+        return drawRandomNumber();
+    }
+    bomboNumbers.push(drawnNumber);
+
+    return drawnNumber;
 }
 
 function askTurn() {
@@ -47,7 +55,7 @@ function askTurn() {
 }
 
 function newTurn() {
-    let randomNumber = generateRandomNumber();
+    let randomNumber = drawRandomNumber();
 
     addBomboToList(randomNumber);
 
