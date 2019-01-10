@@ -36,12 +36,15 @@ article p{
 }
 
 article img{
-    width: 300px;
-    height: 250px;
+    width: 250px;
+    height: 200px;
 }
 
 header #logoSearch{
-    font-size: 2em; 
+    font-size: 1.5em; 
+}
+button{
+    padding:5px;
 }
 
 header #logoCSS{
@@ -55,12 +58,82 @@ header #logoBars{
 header #textSearch{
     width: 200px;
     padding:5px;
+    /* transition: 1s; */
+}
+/* #textSearch:focus{
+    width: 200px;
+} */
+
+nav{
+    display:none;
 }
 
 @media only screen and (min-width:768px){
     header #textSearch{
-        width: 800px;
+        width: 300px;
+    }
+    article{
+        display: flex;   
+        max-width: 35%;
+        flex-direction:row;
+        align-items: center;
+        display: inline-block;
+        margin: 30px;
+    }
+    article img{
+        max-width: 95%;
+        max-height: 95%;
+    }
+    nav{
+        display: block;
+        margin: 0;
+    }
+    nav ul li{
+        display: inline-block;
+        margin:15px;
+        font-size: 2em;
+    }
+    header #logoBars{
+        display: none;
+    }
+    nav ul li a{
+        text-decoration: none;
+        color: rgb(1, 70, 1);
+    }
+    article h2{
+        text-align: center;
     }
 }
 
-@media only screen and (min-width:)
+@media only screen and (min-width:992px){
+    header #textSearch{
+        width: 100%;
+    }
+    form{
+        width: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    article{
+        max-width: 25%;
+        display: inline-block;    
+    }
+    main{
+        display:flex;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    article img{
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 95%;
+        max-height: 95%;
+    }
+    article h2{
+        text-align: center;
+    }
+    
+}
