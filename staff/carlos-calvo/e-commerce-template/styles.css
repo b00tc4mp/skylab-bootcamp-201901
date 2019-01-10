@@ -1,0 +1,119 @@
+/*General*/
+*{
+    box-sizing: border-box;
+}
+
+
+/*Seccion superior*/
+
+body{
+    background-color: cadetblue;
+}
+
+main{
+    position: relative;
+    top: 100px;
+
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    background-color: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index:1000;
+}
+
+.uppernav{
+    display: none;
+}
+
+.linkshamburger{
+    display: none;
+    z-index: 1;
+}
+
+#contenidorhamburger:hover .linkshamburger{
+    display: list-item;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/*Seccion central*/
+
+.section{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width : 100%;
+}
+
+.logo{
+    width: 100px;
+    height: 100px;
+}
+
+
+p{
+    border: 2px solid black;
+    background-color: lightgreen;
+}
+
+.cabecera{
+    display: flex;
+    justify-content: center;
+}
+
+.imagen{
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+}
+
+
+
+
+
+
+
+/* TABLET cambio a 768px */
+
+@media screen and (min-width: 768px) {
+    .uppernav {
+        display: flex;
+        justify-content: flex-end;
+        font-size: 1em;
+    }
+
+    #hamburger{
+        display: none;
+    }
+
+    main{
+        display: grid;
+        columns:2;
+    }
+
+
+}
+
+
+/* TABLET cambio a 992px */
+
+@media screen and (min-width: 992px) {
+    main{
+        display: grid;
+        columns:3;
+        grid-auto-flow: column;
+        grid-row: span 3;
+    }
+}
