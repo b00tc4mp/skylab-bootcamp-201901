@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>PASAPALABRA</title>
+        <link href="pasapalabra.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="title container">
+            <h1>PASAPALABRA</h1>
+        </div>
+        <div class="questions container">
+            <ul id="list1">
+                <li class="item">A</li>
+                <li class="item">B</li>
+                <li class="item">C</li>
+                <li class="item">D</li>
+                <li class="item">E</li>
+                <li class="item">F</li>
+                <li class="item">G</li>
+                <li class="item">H</li>
+                <li class="item">I</li>
+            </ul>
+            <ul>
+                <li class="item">J</li>
+                <li class="item">K</li>
+                <li class="item">L</li>
+                <li class="item">M</li>
+                <li class="item">N</li>
+                <li class="item">Ñ</li>
+                <li class="item">O</li>
+                <li class="item">P</li>
+                <li class="item">Q</li>
+            </ul>
+            <ul>
+                <li class="item">R</li>
+                <li class="item">S</li>
+                <li class="item">T</li>
+                <li class="item">U</li>
+                <li class="item">V</li>
+                <li class="item">W</li>
+                <li class="item">X</li>
+                <li class="item">Y</li>
+                <li class="item">Z</li>
+            </ul>
+        </div>
+        <div class = "container" id="text">Bienvenidos a pasapalabra</div>
+        <div class="answer container">
+            <input type="text" id="input1" placeholder="Escribe tu respuesta">
+        </div>
+        <div class="user container">
+            <input type="text" id="input2" placeholder="Nombre de usuario">
+            <button id="okUser" onclick="userPush();">OK</button>
+        </div>
+        <div class="button container">
+            <button id="button1" onclick="turn(); changeButton();">JUGAR</button>
+        </div>
+        <div class="button container">
+            <button id="button2" onclick="pasapalabra(); turn();">ENVIAR</button>
+        </div>
+        <div class="button container">
+            <button id="button3" onclick="playAgain();">JUGAR DE NUEVO</button>
+        </div>
+        <div class="points container">
+            <h4 id="points"></h4>
+            <h5 id="rankT"><u>RANKING</u></h5>
+            <h6 id="ranking"></h6>
+        </div>
+
+    </body>
+    
+    <script src="pasapalabra.js"></script>
+</html>

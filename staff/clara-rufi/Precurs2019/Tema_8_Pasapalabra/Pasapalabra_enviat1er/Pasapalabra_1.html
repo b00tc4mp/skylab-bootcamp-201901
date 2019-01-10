@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pasapalabra</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel = "stylesheet" href="styles/pasapalabra_1.css">
+
+</head>
+<body>
+
+    
+    <div id = "loginUser">
+    <h2>PASAPALABRA</h2>
+    <input type ="text" id= "nameUser" placeholder= "Escribe aqui tu nombre">
+    <input type ="text" id= "welcome">
+    <button onclick= "login()" id = "login">Login</button>
+    <button onclick= "start()" id = "start">Que empiece el juego!!</button>
+    </div>
+
+    <div id="letters">
+    <div id = "A" class = "letter">A</div>
+    <div id = "B" class = "letter">B</div>
+    <div id = "C" class = "letter">C</div>
+    <div id = "D" class = "letter">D</div>
+    <div id = "E" class = "letter">E</div>
+    <div id = "F" class = "letter">F</div>
+    <div id = "G" class = "letter">G</div>
+    <div id = "H" class = "letter">H</div>
+    <div id = "I" class = "letter">I</div>
+    <div id = "J" class = "letter">J</div>
+    <div id = "K" class = "letter">K</div>
+    <div id = "L" class = "letter">L</div>
+    <div id = "M" class = "letter">M</div>
+    <div id = "N" class = "letter">N</div>
+   
+    <div id ="letters">
+    <div id = "Ñ" class = "letter">Ñ</div>
+    <div id = "O" class = "letter">O</div>
+    <div id = "P" class = "letter">P</div>
+    <div id = "Q" class = "letter">Q</div>
+    <div id = "R" class = "letter">R</div>
+    <div id = "S" class = "letter">S</div>
+    <div id = "T" class = "letter">T</div>
+    <div id = "U" class = "letter">U</div>
+    <div id = "V" class = "letter">V</div>
+    <div id = "W" class = "letter">W</div>
+    <div id = "X" class = "letter">X</div>
+    <div id = "Y" class = "letter">Y</div>
+    <div id = "Z" class = "letter">Z</div>
+    </div>
+    </div>
+    
+    <input type ="text" id = "showQuestion" disabled>    
+    <input type ="text" id= "userAnswer" placeholder= "Escribe aqui tu respuesta">
+
+
+
+    <button onclick= "accept()" id = "acceptar">Aceptar</button>
+    <button onclick= "repeatPasapalabra()" id = "repeatPasapalabra">Repeat Pasapalabra</button>
+    <button onclick= "Okrepeat()" id = "Okrepeat">Aceptar Repeat</button>
+    <button onclick= "showresults()" id = "showresults">Ranking jugadores</button>
+
+    <div id="results">
+        <h2>RESULTADOS:</h2>
+        <input type ="text" id= "ranking">
+
+<script src = "Pasapalabra_1.js"></script>
+
+ 
+</body>
+</html>
