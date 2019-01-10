@@ -101,6 +101,7 @@ img {
         width: 37%;
         padding: 5%;
     }
+}
 
   @media  screen and (min-width: 992px) {
 
@@ -130,4 +131,5 @@ img {
 
     .main {
         padding-top: 10%;
-    };
+    }
+}
