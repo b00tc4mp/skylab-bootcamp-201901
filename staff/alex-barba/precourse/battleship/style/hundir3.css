@@ -1,0 +1,167 @@
+html {
+	box-sizing: border-box;
+	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('ship.svg');
+	background-repeat: repeat; 
+  	background-size: contain;
+  	background-position: center;
+  	height: 100%;
+  	overflow: hidden;
+}
+
+body{
+	font-family: 'Advent Pro', sans-serif;
+	color: white;
+	cursor: default;
+}
+
+#shot {
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    margin-top: -250px;
+    margin-left: -250px;
+  	display: none; 	
+}
+
+#welcome {
+	margin: 0 auto;
+	text-align: center;
+	padding: 200px 0;
+}
+
+#gameDisplayPC {
+ 	display: none;
+	grid-template-columns: 20% 55% 20%;
+}
+
+.shipsUser {
+	align-self: center;
+	justify-self: center;
+ }
+
+ul.shipsTypesUser {
+ 	list-style-type: none;
+ 	padding: 0;
+}
+
+.grid-item-headerUser {
+  text-align: center;
+  font-weight: bold;
+  padding: 15px;
+  font-size: 15px;
+  text-align: center;
+ }
+
+.grid-itemUser {
+  border: 1px solid white;
+  font-size: 10px;
+  text-align: center;
+  object-position: fill;
+ }
+
+#instructionsUser {
+	align-self: center;
+	justify-self: center;
+}
+
+#gameDisplay {
+ 	display: none;
+	grid-template-columns: 20% 55% 20%;
+}
+
+h3 {
+
+}
+
+.ships {
+	align-self: center;
+	justify-self: center;
+ }
+
+ul.shipsTypes {
+ 	list-style-type: none;
+ 	padding: 0;
+ }
+
+#shots {
+	height: 25px;
+	width: 25px;
+	font-size: 18px;
+	border: 1px solid white;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.grid{
+	align-self: center;
+	justify-self: center;
+}
+
+.grid-container {
+
+	display: grid;
+	grid-template-columns: 45px 45px 45px 45px 45px 45px 45px 45px 45px;
+	grid-template-rows: 45px 45px 45px 45px 45px 45px 45px 45px 45px;
+	grid-gap: 10px 10px;
+	padding: 10px;
+}
+
+.grid-item-header {
+  text-align: center;
+  font-weight: bold;
+  padding: 15px;
+  font-size: 15px;
+  text-align: center;
+ }
+
+.grid-item {
+  border: 1px solid white;
+  font-size: 10px;
+  text-align: center;
+  object-position: fill;
+ }
+
+.instructions {
+	align-self: center;
+	justify-self: center;
+}
+
+#showResults {
+	display: none;
+	margin: 0 auto;
+	text-align: center;
+	padding: 10px 0;
+}
+
+#obama {
+	display: block;
+	padding-top: 50px;
+	margin-left: auto;
+  	margin-right: auto;
+  	animation: fadeIn 1s infinite alternate;
+}
+
+footer {
+	font-size: 12px;
+	color: #98D377;
+	position: absolute;
+	bottom: 0;
+	text-align: center;
+	width: 100%;
+}
+
+.blinking{
+	animation:blinkingText 1s infinite;
+	align-self: center;
+	justify-self: center;
+}
+
+@keyframes blinkingText{
+	0%{		color: white;	}
+	49%{	color: transparent;	}
+	50%{	color: transparent;	}
+	99%{	color:transparent;	}
+	100%{	color: white;	}
+}
