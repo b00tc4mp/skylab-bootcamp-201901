@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pasapalabra</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel = "stylesheet" href="styles/pasapalabra.css">
+
+</head>
+<body>
+
+    <div style="display:none;">
+    <ul id="questions">
+        <li>CON LA A. Dicho de una supuesta criatura extraterrestre: Apoderarse de alguien</li>
+        <li>CON LA B. Juego que ha sacado de quicio a todos los 'Skylabers' en las sesiones de precurso</li>
+        <li>CON LA C. Niño, crío, bebé</li>
+        <li>CON LA D. Anormalidad en la función del aparato digestivo caracterizada por frecuentes evacuaciones y su consistencia líquida</li>
+        <li>CON LA E. Gelatinoso y se encuentra debajo de la membrana plasmática. Los cazafantasmas medían su radiación</li>
+        <li>CON LA F. Que no requiere gran esfuerzo, capacidad o dificultad</li>
+        <li>CON LA G. Conjunto enorme de estrellas, polvo interestelar, gases y partículas</li>
+        <li>CON LA H. Suicidio ritual japonés por desentrañamiento</li> 
+    </ul>
+
+    <ul id="answers">
+        <li>abducir</li>
+        <li>bingo</li>
+        <li>churumbel</li>
+        <li>diarrea</li>
+        <li>ectoplasma</li>
+        <li>facil</li>
+        <li>galaxia</li>
+        <li>harakiri</li>
+    </ul>
+    </div>
+    
+    <div id = "loginUser">
+    <h2>PASAPALABRA</h2>
+    <input type ="text" id= "nameUser" placeholder= "Escribe aqui tu nombre">
+    <input type ="text" id= "welcome">
+    <button onclick= "login()" id = "login">Login</button>
+    <button onclick= "start()" id = "start">Que empiece el juego!!</button>
+    </div>
+
+    <div id="letters1">
+    <div id = "A" class = "letter">A</div>
+    <div id = "B" class = "letter">B</div>
+    <div id = "C" class = "letter">C</div>
+    <div id = "D" class = "letter">D</div>
+    <div id = "E" class = "letter">E</div>
+    <div id = "F" class = "letter">F</div>
+    <div id = "G" class = "letter">G</div>
+    <div id = "H" class = "letter">H</div>
+    <div id = "I" class = "letter">I</div>
+    <div id = "J" class = "letter">J</div>
+    <div id = "K" class = "letter">K</div>
+    <div id = "L" class = "letter">L</div>
+    <div id = "M" class = "letter">M</div>
+    <div id = "N" class = "letter">N</div>
+    </div>
+
+    <div id="letters2">
+    <div id = "Ñ" class = "letter">Ñ</div>
+    <div id = "O" class = "letter">O</div>
+    <div id = "P" class = "letter">P</div>
+    <div id = "Q" class = "letter">Q</div>
+    <div id = "R" class = "letter">R</div>
+    <div id = "S" class = "letter">S</div>
+    <div id = "T" class = "letter">T</div>
+    <div id = "U" class = "letter">U</div>
+    <div id = "V" class = "letter">V</div>
+    <div id = "W" class = "letter">W</div>
+    <div id = "X" class = "letter">X</div>
+    <div id = "Y" class = "letter">Y</div>
+    <div id = "Z" class = "letter">Z</div>
+    </div>
+
+    <input type ="text" id = "showQuestion" disabled>    
+    <input type ="text" id= "userAnswer" placeholder= "Escribe aqui tu respuesta">
+
+
+
+    <button onclick= "accept()" id = "acceptar">Aceptar</button>
+    <button onclick= "repeatPasapalabra()" id = "repeatPasapalabra">Segunda Ronda</button>
+    <button onclick= "Okrepeat()" id = "Okrepeat">Aceptar Repeat</button>
+
+<script src = "Pasapalabra.js"></script>
+
+ 
+</body>
+</html>
