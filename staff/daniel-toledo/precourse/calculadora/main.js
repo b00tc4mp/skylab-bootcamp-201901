@@ -1,5 +1,4 @@
 
-
 function calculadora(num1,num2){
 
 	for(var i=0; i<arguments.length; i++){
@@ -8,18 +7,9 @@ function calculadora(num1,num2){
 		}
 	}
 
-	function isInteger(num){
-			if (num%1 ==0){
-				return true;
-			}
-			else{
-				return false;
-			}
-	}
-	
 	if (arguments.length===1){
 		var sqrt=Math.sqrt(num1);
-		if (isInteger(sqrt)===false){
+		if (!Number.isInteger(sqrt)){
 			sqrt=sqrt.toFixed(3);
 		}
 	return sqrt;
@@ -29,19 +19,19 @@ function calculadora(num1,num2){
 
 		//SUMA
 		var suma=num1+num2;
-		if (isInteger(suma)===false){
+		if (!Number.isInteger(suma)){
 			suma=suma.toFixed(3);
 		}
 		
 		//RESTA
 		var resta=num1-num2;
-		if (isInteger(resta)===false){
+		if (!Number.isInteger(resta)){
 			resta=resta.toFixed(3);
 		}
 		
 		//MULTIPLICACIÓ
 		var multi=num1*num2;
-		if (isInteger(multi)===false){
+		if (!Number.isInteger(multi)){
 			multi=multi.toFixed(3);
 		}
 		
@@ -50,7 +40,7 @@ function calculadora(num1,num2){
 		if(num1===0 && num2===0){
 			div=Infinity;
 		}
-		if (isInteger(div)===false){
+		if (!Number.isInteger(div)){
 			div=div.toFixed(3);
 		}
 		
