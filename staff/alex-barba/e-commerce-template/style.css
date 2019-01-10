@@ -1,0 +1,133 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+html, body, main, section, header {
+    margin: 0;
+    width: 100%;
+}
+
+html, body {
+    height: 100%;
+}
+
+header {
+    height: 10%;
+}
+
+.containerHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    background-color: #d4cfc9;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 60%;
+    height: 60%;
+}
+
+.search input {
+    width: 90%;
+    height: 90%;
+}
+
+.containerHeader img{
+    width: 8%;
+}
+
+img {
+    width: 100px;
+}
+
+.showMenuContent {
+    display:none;
+    position: absolute;
+    z-index: 2;
+    background-color: grey;
+    text-align: center;
+}
+
+.showMenu:hover .showMenuContent {
+    display: block;
+}
+
+.main {
+    padding-top: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 80%;
+}
+
+@media  screen and (min-width: 768px) {
+
+    .showMenuContent {
+        display: flex;
+        position: inherit;
+        background-color: inherit;
+        justify-content: space-around;
+    }
+    .showMenuContent p {
+        padding-left: 30%;
+    }
+
+    .showMenu button {
+        display: none;
+    }
+
+    .main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding-top: 10%;
+    }
+
+    .section {
+        width: 37%;
+        padding: 5%;
+    }
+
+  @media  screen and (min-width: 992px) {
+
+    .showMenuContent {
+        display: flex;
+        position: inherit;
+        background-color: inherit;
+        justify-content: space-around;
+    }
+    .showMenuContent p {
+        padding-left: 30%;
+    }
+
+    .showMenu button {
+        display: none;
+    }
+
+    .main {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .section {
+        width: 30%;
+        padding: 5%;
+    }
+
+    .main {
+        padding-top: 10%;
+    };
