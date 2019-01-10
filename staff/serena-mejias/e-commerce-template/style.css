@@ -1,0 +1,145 @@
+html {
+  box-sizing: border-box;
+  font-size: 14px;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+header {
+  position: fixed;
+  top: 0;
+  background-color: #dedede;
+  height: 120px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 99;
+}
+header i {
+font-size: 4rem;
+flex: 1;
+color:white;
+}
+.search {
+  flex: 4;
+  text-align: center;
+}
+.search input, .search button{
+  height: 50px;
+}
+.search input{
+  padding-left: 20px;
+  border-radius: 10px;
+  border: 0;
+  outline: 0; 
+}
+.fa-bars{
+  font-size: 32px;
+  text-align: right;
+}
+header button{
+  background-color: transparent;
+  color: white;
+  outline: 0;
+  border: 0;
+}
+header button i {
+  font-size: 20px;
+}
+.header-placeholder {
+  height: 120px;
+  width: 100%;
+}
+header ul {
+  flex: 1;
+  color: white;
+}
+header ul li:last-child{
+  margin-left: 50px;
+}
+
+.product {
+  width: 80%;
+  padding: 20px 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.product h3 {
+  margin: 10px 0px;
+  font-size: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%
+}
+.product img {
+  width: 100%;
+}
+.description{
+  margin: 10px 0px;
+  font-size: 1.25rem;
+  font-weight: 300;
+  text-align: justify;
+}
+.price{
+  font-size: 1.2rem;
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0,0,0,0.3);
+  color: white;
+  padding: 3px;
+}
+.product-image{
+  position: relative;
+}
+@media screen and (max-width:768px) {
+  ul{
+    display: none;
+  }
+}
+@media screen and (min-width:768px) {
+  .fa-bars{
+    display: none;
+  }
+  ul{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+@media screen and (min-width:769px) and (max-width:992px){
+  html{
+    font-size: 18px;
+  }
+  main{
+    display: flex;
+    flex-flow: wrap;
+  }
+  .product{
+    width:50%;
+    flex: 1 0 50%;
+  }
+}
+@media screen and (min-width:992px){
+  html{
+    font-size: 20px;
+  }
+  main{
+    display: flex;
+    flex-flow: wrap;
+  }
+  .product{
+    width:33%;
+    flex: 1 0 33%;
+  }
+}
