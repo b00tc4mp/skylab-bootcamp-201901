@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>calculadora skylab</title>
+	<link rel="shortcut icon" href="img/icon.ico">
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+</head>
+<body>
+	<h1 class="titulo">Calculadora SKYLAB</h1>
+	<div class='container calculadora'>
+		<div class='pantalla'>
+			
+			<input class='numero'id='numero1' type="text" size="2.5" maxlength="30" value="" name="numero1">
+
+			<input class='numero' id='numero2' type="text" size="2.5" maxlength="30" value="" name="numero2">
+
+			<div class="mensaje" id='mensaje'> 
+				<p class="text" id='text'>PLEASE INSERT JUST NUMBERS</p>
+				<button class="aceptar" id='aceptar'>aceptar</button>
+			</div>
+		
+		</div>
+
+		<div class="teclado">
+			<div class='botones'>
+				<div class="botonesTop">
+					<button id='del'>del</button>
+					<button id='enter' class='botonGrande'>enter</button>
+				</div>
+				<div class="botonesMedio">
+					<button id='1'>1</button>
+					<button id='2'>2</button>
+					<button id='3'>3</button>
+					<button id='4'>4</button>
+					<button id='5'>5</button>
+					<button id='6'>6</button>
+					<button id='7'>7</button>
+					<button id='8'>8</button>
+					<button id='9'>9</button>
+				</div>
+				<div class="botonesBottom">
+					<button id='0' class='botonGrande'>0</button>
+					<button id='.'>.</button>
+				</div>
+			</div>
+
+
+
+			<div class='container resultados'>
+				<div class='resultat'>
+					<div class='operacion'>+</div>
+					<p id="suma"></p>
+				</div>
+				<div class='resultat'>
+					<div class='operacion'>−</div>
+					<p id="resta"></p>
+				</div>
+				<div class='resultat'>
+					<div class='operacion'>×</div>
+					<p id="multi"></p>
+				</div>
+				<div class='resultat'>
+					<div class='operacion'>÷</div>
+					<p id="div"></p>
+				</div>
+				<div class='resultat'>
+					<div class='operacion'>√</div>
+					<p id="sqrt"></p>
+				</div>
+				
+			</div>
+		</div>
+
+	</div>
+	<footer>Made for academic purpose by Daniel Toledo</footer>
+	
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>

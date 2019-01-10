@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculator JS</title>
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+</head>
+<body>
+	<h1>Calculator JS</h1>
+	<table >
+		<tr>
+			<td colspan="4">
+				<input type="text" id="display" placeholder="0">
+			</td>
+		</tr>
+		<tr>
+			<td><button id="plus" value="+" onclick="display.value += '+'">+</button></td>
+			<td><button id="minus" value="-" onclick="display.value += '-'">-</button></td>
+			<td><button id="mult" value="*" onclick="display.value += '*'">x</button></td>
+			<td><button id="subs" value="/" onclick="display.value += '/'">/</button></td>
+		</tr>
+		<tr>
+			<td><button id="7" value="7" onclick="display.value += '7'">7</button></td>
+			<td><button id="8" value="7" onclick="display.value += '8'">8</button></td>
+			<td><button id="9" value="7" onclick="display.value += '9'">9</button></td>
+			<td rowspan="4"><button id="doit" value="=" onclick="calculator()">=</td>
+		</tr>
+		<tr>
+			<td><button id="6" value="6" onclick="display.value += '6'">6</button></td>
+			<td><button id="5" value="5" onclick="display.value += '5'">5</button></td>
+			<td><button id="4" value="4" onclick="display.value += '4'">4</button></td>
+			
+		</tr>
+		<tr>
+			<td><button id="3" value="3" onclick="display.value += '3'">3</button></td>
+			<td><button id="2" value="2" onclick="display.value += '2'">2</button></td>
+			<td><button id="1" value="1" onclick="display.value += '1'">1</button></td>
+			
+		</tr>
+		<tr>
+			<td><button id="0" value="0" onclick="display.value += '0'">0</button></td>
+			<td><button id="decimal" value="" onclick="display.value += '.'">.</button></td>
+			<td><button id="clear" value="" onclick="display.value = ''">c</button></td>
+			
+			
+		</tr>
+	</table>
+	<ul id="results"></ul>
+	</div>
+	<footer>by Àlex Barba</footer>
+	<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
