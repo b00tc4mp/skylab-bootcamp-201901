@@ -1,0 +1,133 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=PT+Sans");
+html, body, header, main, section, footer {
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  font-family: "PT Sans";
+  color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 1rem;
+}
+.menu__title {
+  font-size: 1rem;
+  color: #1baa98;
+}
+.menu__button {
+  display: flex;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+.ad {
+  background-color: #1B222A;
+  display: flex;
+  flex-direction: column;
+}
+.ad__title {
+  display: flex;
+  justify-content: center;
+}
+.ad__title-white {
+  color: #ffffff;
+  text-align: center;
+  padding-top: 1rem;
+}
+.ad__title-green {
+  color: #1baa98;
+}
+.ad__body {
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 1rem;
+}
+.ad img {
+  width: 65%;
+  align-self: center;
+  padding-bottom: 1rem;
+}
+
+.card {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 0.2rem;
+}
+.card img {
+  width: 80%;
+  align-self: center;
+  padding: 1.5rem;
+  border: 0.01rem solid #DBDBD9;
+  margin-top: 0.4rem;
+}
+.card h3 {
+  text-align: left;
+  padding: 0.4rem;
+}
+.card p {
+  text-align: left;
+  padding: 0.4rem;
+}
+.card button {
+  border: 0.01rem solid #DBDBD9;
+  background-color: white;
+  width: 25%;
+  padding: 0.4rem;
+  margin-left: 0.4rem;
+}
+
+.ad2 {
+  background-color: #1baa98;
+  display: flex;
+  flex-direction: column;
+  padding: 0.2rem;
+  margin-top: 1rem;
+}
+.ad2 h3 {
+  color: #ffffff;
+  text-align: left;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+}
+.ad2 ul {
+  color: white;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+.ad2 ul li:before {
+  content: "✓ ";
+  line-height: 30px;
+}
+.ad2 img {
+  width: 60%;
+  align-self: right;
+  padding: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer {
+  background-color: #1B222A;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  color: white;
+  font-size: 0.5rem;
+  text-align: center;
+  height: 2rem;
+}
+
+/*# sourceMappingURL=style.css.map */
