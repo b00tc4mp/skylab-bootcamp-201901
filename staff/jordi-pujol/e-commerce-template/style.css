@@ -1,0 +1,88 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0px;
+    background-color: rgb(207, 231, 223);
+}
+
+/* HEADER ------------------------ */
+
+header {
+    display:flex;
+    flex-flow: row nowrap;
+    position: fixed;
+    height: 40px;
+    width: 100%;
+    background-color: aliceblue;
+    justify-content: space-around;
+    align-items: center;
+}
+
+header p {
+    display: none;
+}
+
+/* MAIN ------------------------ */
+
+main {
+    padding-top: 40px;
+    margin: 0px 10px;
+}
+
+section p {
+    text-align: justify;
+    max-width: 400px;
+}
+
+section {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+img {
+    max-width: 90%;
+}
+
+/* MEDIA QUERY - TABLET ------------------------ */
+
+@media (min-width: 768px) {
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap:20px;      
+    }
+    section {
+        width: 100%;
+    }
+    header p {
+        display: initial;
+    }
+    div p{
+        display: none;
+    }
+    #burg {
+        display: none;
+    }
+}
+
+/* MEDIA QUERY - DESKTOP ------------------------ */
+
+@media (min-width: 992px) {
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap:20px;      
+    }
+    section {
+        width: 100%;
+    }
+    div p{
+        display: initial;
+    }
+}
+
+    
+/* MEDIA QUERY - PC ------------------------ */
