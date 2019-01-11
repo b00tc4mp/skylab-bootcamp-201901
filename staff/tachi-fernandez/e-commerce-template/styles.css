@@ -9,3 +9,22 @@ header{
     height: 100px;
     
 }
+
+div {         
+    width:50px;
+    display: inline-block;
+         
+    }
+
+img {
+    width:100%;
+    height:auto
+}
+
+input{
+    top:0px;
+    position:absolute;
+    width:200px;
+    height:45px;
+    font-size: 30px;
+}
