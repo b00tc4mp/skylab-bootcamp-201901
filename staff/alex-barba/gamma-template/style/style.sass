@@ -7,41 +7,50 @@ html, body, header, main, section, footer
     font-family: 'PT Sans'
     color: #333333
 
-h1, h2, h3, h4, h5, h6, p 
+h1, h2, h3, h4, h5, h6, p, ul  
     margin: 0
 
-.menu
+@mixin flex-space-bt
     display: flex
     justify-content: space-between
+
+@mixin flex-col
+    display: flex
+    flex-direction: column
+
+.menu
+    +flex-space-bt
     align-content: center
-    padding: 1rem
+    padding: 0.6rem
 
     &__title
-        font-size: 1rem
+        font-size: 0.8rem
         color: #1baa98
+        padding: 0.4rem
 
     &__button
         display: flex
         align-items: center
+        border: 0.01rem solid #333333
+        padding: 0.4rem
 
 main 
-    display: flex
-    flex-direction: column
+    +flex-col 
 
 .ad
+    +flex-col
     background-color: #1B222A
-    display: flex
-    flex-direction: column
+    margin-bottom: 3rem
 
     &__title
         display: flex
         justify-content: center
 
-    
     &__title-white
         color: #ffffff
         text-align: center
         padding-top: 1rem
+        font-size: 2rem
     
     &__title-green
         color: #1baa98
@@ -50,77 +59,88 @@ main
         color: white
         text-align: center
         padding: 1.5rem
-        font-size: 1rem
-    & img 
-        width: 65%
+        font-size: 1.2rem
+    &__img
+        width: 55%
         align-self: center
         padding-bottom: 1rem
 
 .card
+    +flex-col
     background-color: #ffffff
-    display: flex
-    flex-direction: column
     padding: 0.2rem
 
-    & img 
+    &__img 
         width: 80%
         align-self: center
         padding: 1.5rem
         border: 0.01rem solid #DBDBD9
         margin-top: 0.4rem
     
-    & h3
+    &__title
         text-align: left
-        padding: 0.4rem
+        padding: 1rem
 
-    & p
+    &__body
         text-align: left
-        padding: 0.4rem
+        padding-left: 1rem
     
-    & button
+    &__btn
         border: 0.01rem solid #DBDBD9
         background-color: white
-        width: 25%
-        padding: 0.4rem
-        margin-left: 0.4rem
+        width: 20%
+        padding: 0.2rem
+        margin-left: 1rem
+        margin-top: 0.4rem
 
 .ad2
+    +flex-col
     background-color: #1baa98
-    display: flex
-    flex-direction: column
     padding: 0.2rem
-    margin-top: 1rem
+    margin-top: 3rem
 
-    & h3
+    &__title
         color: #ffffff
         text-align: left
+        font-size: 2rem
         padding-top: 1rem
-        padding-left: 1.5rem
-
-    & ul 
+        padding-left: 2rem
+        
+    &__list 
         color: white
-        padding-left: 1.5rem
+        padding-left: 2rem
         list-style: none
     
-    & ul li:before
+    &__list li:before
        content: '✓ '
        line-height: 30px
 
-    & img 
+    &__img 
         width: 60%
-        align-self: right
-        padding: 1.5rem
         margin-bottom: 0.5rem
+        padding-left: 2rem
     
 .footer
-    background-color: #1B222A
-    display: flex
-    flex-direction: column
+    +flex-col
+    background-color: #333333
     padding: 0.4rem
     color: white
-    font-size: 0.5rem
+    font-size: 0.7rem
     text-align: center
-    height: 2rem
+
+    &__list 
+        color: white
+        list-style: none
+        display: flex
+        justify-content: center
+        padding: 0.2rem
+    
+    &__list li
+        padding: 0.5rem
+    
+    &__cr
+        padding: 0.5rem
+    
 
     
 
