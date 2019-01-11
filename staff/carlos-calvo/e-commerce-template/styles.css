@@ -8,13 +8,12 @@
 /*Seccion superior*/
 
 body{
-    background-color: cadetblue;
+    background-image: url("https://i.pinimg.com/originals/4f/3f/fd/4f3ffdcbef67f88465abc5a953c91d8d.png");
 }
 
 main{
     position: relative;
     top: 100px; /*Que comenci 100px, per a que no es solapi amb el header */
-    background-image: "https://img.myloview.es/cuadros/patron-web-textura-para-fondo-de-pantalla-rellenos-fondo-de-la-pagina-web-400-119131393.jpg"
 }
 
 h3{
@@ -147,7 +146,7 @@ p{
     main{
         display: flex;
         flex-wrap: wrap;
-        align-items: flex-start;
+        align-items: flex-start; 
         flex-direction: row;
         justify-content: center;
         top: 50px;
