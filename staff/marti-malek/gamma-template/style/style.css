@@ -141,4 +141,17 @@ header button {
   text-align: center;
 }
 
+@media (min-width: 580px) {
+  .first {
+    display: inline-flex;
+    background: url(.\style\site_showcase_bg.jpg);
+  }
+  .first img {
+    width: 30%;
+  }
+  .first .img-back {
+    width: 100%;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
