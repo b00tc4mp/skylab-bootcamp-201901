@@ -63,7 +63,7 @@ h3{
     width : 95%;
 }
 
-.logo{
+.{
     width: 10%;
     height: 10%;
 }
@@ -127,7 +127,7 @@ p{
     /*Dins de la secció, tot s'organitza com a column, amb una amplada del 45% i s'alinea
     S'afegeix un margin per tal de que es separin */
 
-    .logo{
+    .{
         width: 10%;
         height: 10%;
     }
@@ -166,6 +166,13 @@ p{
     .logo{
         width: 50px;
         height: 50px;
+        animation: 3s rotate linear infinite;
+    }
+
+    @keyframes rotate{
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+
     }
 
     h3{
