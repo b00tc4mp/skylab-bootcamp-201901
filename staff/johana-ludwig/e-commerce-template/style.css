@@ -69,7 +69,6 @@ a:hover {
     margin: 30px;
     padding: 20px 40px 40px;
     max-width: 800px;
-    text-align: left;
     background: #fff;
     border-bottom: 4px solid #ccc;
     border-radius: 6px;
@@ -99,7 +98,6 @@ a:hover {
   }
 
 .bars {
-    position: absolute;
     border: 1px solid white;
     background: #04B4AE;
     text-align: center;
@@ -119,6 +117,10 @@ a:hover {
     cursor: pointer;
     font-size: 20px;
   }
+
+.flex {
+    padding-top: 20px;
+}
   
   @media screen and (min-width: 768px) {
     
@@ -140,6 +142,14 @@ a:hover {
   
     main p {
       line-height: 1.6em;
+    }
+
+    .menu {
+        display: block;  
+    }
+
+    .bars {
+        display: none;
     }
   }
 
