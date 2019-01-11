@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Bangers');
+
 *{
     margin:0;
     padding:0;
@@ -24,12 +26,19 @@ body{
 }
 
 
-.logo > img{
+.logo{
     height: 80px;
     width: 80px;
     margin-right:20px;
-    margin-left:10px;
+    margin-left:5%;
 
+}
+
+.logo-text{
+    display:none;
+    color:rgb(30,182,230);
+    font-family: 'Bangers', cursive;
+    line-height: 30px;
 }
 
 
@@ -101,7 +110,7 @@ article p{
         height: 150px;
     }
     
-    .logo > img{
+    .logo{
         height: 100px;
         width: 100px;
   
@@ -125,7 +134,7 @@ article p{
 
     .nav {
         display:flex;
-        margin-right:10px;
+        margin-right:5%;
         color:white;
         padding:20px;
     }
@@ -154,10 +163,14 @@ article p{
         height: 180px;
     }
     
-    .logo > img{
+    .logo{
         height: 120px;
         width: 120px;
   
+    }
+
+    .logo-text{
+        display:block;
     }
 
     .search input{
