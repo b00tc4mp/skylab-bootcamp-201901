@@ -2,6 +2,7 @@
 *{
     box-sizing: border-box;
 }
+/*Canvi de model de box, per a que sigui fins al border*/
 
 
 /*Seccion superior*/
@@ -12,8 +13,11 @@ body{
 
 main{
     position: relative;
-    top: 100px;
+    top: 100px; /*Que comenci 100px, per a que no es solapi amb el header */
+}
 
+h3{
+    display: none;
 }
 
 .header{
@@ -43,6 +47,11 @@ main{
     display: list-item;
     flex-direction: column;
     justify-content: center;
+}
+
+.homeabout{
+    margin: 1%;
+    size: 1em;
 }
 
 /*Seccion central*/
@@ -77,6 +86,7 @@ p{
     margin: 0 auto;
     width: 200px;
     height: 200px;
+    border: 1px solid black;
 }
 
 
@@ -90,7 +100,7 @@ p{
 @media screen and (min-width: 768px) {
     .uppernav {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         font-size: 1em;
     }
 
@@ -99,10 +109,33 @@ p{
     }
 
     main{
-        display: grid;
-        columns:2;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
+    /*Dins del main fem un display flex com a row. Fem que es centri */
+
+    .section{
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        width : 45%;
+        margin: 1%;
+    } 
+    /*Dins de la secció, tot s'organitza com a column, amb una amplada del 45% i s'alinea
+    S'afegeix un margin per tal de que es separin */
+
+    .logo{
+        width: 15%;
+        height: 10%;
+    }
+
+    h3{
+        display: inline;
+        size:2em;
+    }
 
 }
 
@@ -111,9 +144,32 @@ p{
 
 @media screen and (min-width: 992px) {
     main{
-        display: grid;
-        columns:3;
-        grid-auto-flow: column;
-        grid-row: span 3;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        flex-direction: row;
+        justify-content: center;
+        top: 50px;
+    }
+
+    /*Dins del main fem un display flex com a row. Fem que es centri.
+    Afegim un top per a que no es creui amb el header. */
+
+    .section{
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        width : 30%;
+        margin: 1%;
+    }
+
+    .logo{
+        width: 50px;
+        height: 50px;
+    }
+
+    h3{
+        display: inline;
+        size:2em;
     }
 }
