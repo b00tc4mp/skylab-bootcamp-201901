@@ -43,7 +43,8 @@ section {
 }
 
 img {
-    max-width: 90%;
+    width: 400px;
+    height: 250px;
 }
 
 /* MEDIA QUERY - TABLET ------------------------ */
@@ -82,6 +83,13 @@ img {
     div p{
         display: initial;
     }
+    img {
+        transition: width 4s, height 2s;
+    }
+    img:hover {
+        width: 600px;
+        height: 375px;
+      }
 }
 
     
