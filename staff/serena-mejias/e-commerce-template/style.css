@@ -22,10 +22,18 @@ header {
   align-items: center;
   z-index: 99;
 }
-header i {
-font-size: 4rem;
-flex: 1;
+.icon{
+display: flex;
+flex-direction: row;
 color:white;
+flex: 1.5 ;
+}
+.icon-name{
+  display: flex;
+  align-items: flex-end;
+}
+.fa-running{
+font-size: 4rem;
 }
 .search {
   flex: 4;
@@ -103,11 +111,17 @@ header ul li:last-child{
   position: relative;
 }
 @media screen and (max-width:768px) {
+  .icon-name{
+    display:none;
+  }
   ul{
     display: none;
   }
 }
 @media screen and (min-width:768px) {
+  .icon{
+    flex: 1;
+  }
   .fa-bars{
     display: none;
   }
