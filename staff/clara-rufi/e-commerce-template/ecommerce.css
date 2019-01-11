@@ -26,12 +26,13 @@ header{
 }
 
 .searchBar{
-    border-radius: 5px;  
+    border-radius: 5px;
+    
 }
 
-.search-containe button{
+.search-container button{
     border-radius: 5px;
-    background: red;
+  
 }
 
 .bike{
@@ -112,3 +113,9 @@ h1{
         justify-content: space-between;
     }
   }
+
+  h5{  
+    text-align: center;  
+    padding: 20px 40px;    
+    justify-content: end;
+    }
