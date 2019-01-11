@@ -94,6 +94,7 @@ article img{
     width: 60%;
     display:block;
     margin:10px auto;
+    animation: rotation 10s linear infinite;
 }
 
 article p{
@@ -101,6 +102,11 @@ article p{
     padding:5%;
     text-align: center;
 }
+
+@keyframes rotation {
+    from {transform: rotateY(0deg);}
+    to {transform: rotateY(360deg);}
+  }
 
 /*---------------------------- TABLET----------------*/
 
