@@ -4,7 +4,7 @@
 
 body {
     width: 100%;
-    font-size: 20px;
+    font-size: 2rem;
     background-color: #adadad;
     text-decoration: none;
     font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
@@ -43,7 +43,7 @@ header {
 }
 #logo {
     display: inherit;
-    font-size: 2rem;
+    font-size: 1.4rem;
     align-self: center;    
 }
 .dropdown {
@@ -73,14 +73,15 @@ header {
     background-color: #616161;
     border: none;
     height: 100%;
-    width: 200%;
-    text-align: center;
-    position: relative;
+    position: absolute;
+    justify-self: flex-end;
+    width: 3vh;
 }
 
 input {
     width: 60%;
     background-color: #d1d1d1;
+    font-size: 2vh;
     border: none;
 }
 .button2 {
@@ -99,6 +100,9 @@ input {
 .padding {
     padding-top: 10%;
 }
+section {
+    align-content: center;
+}
 
 
 @media only screen and (min-width: 768px) {
@@ -110,11 +114,20 @@ input {
         justify-content: center;
         justify-items: center;
     }
+    header {
+        align-content: space-between;
+        height: 10%;
+    }
     #logo {
         display: inherit;
-        font-size: 2rem;
+        font-size: 4vh;
         align-self: center;
+        margin-left: 2%;
+        margin-right: 2%;
         
+    }
+    input {
+        font-size: 2rem;
     }
     .dropdown button {
         display: none;
@@ -148,6 +161,9 @@ input {
 }
 
 @media only screen and (min-width: 992px) {
+    header {
+        height: 10%;
+    }
     .container {
         height: auto;
         display: flex;
@@ -157,6 +173,9 @@ input {
         justify-items: center;
     }
     #logo {
+        font-size: 4vh;
+    }
+    input {
         font-size: 2rem;
     }
     .dropdown button {
@@ -190,5 +209,6 @@ input {
         width: 29%;
         height: 100%;
         padding: 10px;
+        margin-top: 10%;
     }
 }
