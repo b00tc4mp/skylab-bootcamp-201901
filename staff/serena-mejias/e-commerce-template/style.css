@@ -116,6 +116,9 @@ header ul li:last-child{
     flex-direction: row;
     justify-content: flex-end;
   }
+  .description{
+    font-size: 1.1rem;
+  }
 }
 @media screen and (min-width:769px) and (max-width:992px){
   html{
@@ -128,6 +131,9 @@ header ul li:last-child{
   .product{
     width:50%;
     flex: 1 0 50%;
+  }
+  .description{
+    font-size: 1.1rem;
   }
 }
 @media screen and (min-width:992px){
