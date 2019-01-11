@@ -20,12 +20,15 @@ h3{
     display: none;
 }
 
+
+
 .header{
     display: flex;
     flex-direction: row;
     background-color: grey;
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-around;
     position: fixed;
     width: 100%;
@@ -63,7 +66,7 @@ h3{
     width : 95%;
 }
 
-.{
+.logo{
     width: 10%;
     height: 10%;
 }
@@ -75,8 +78,25 @@ p{
 }
 
 .cabecera{
+    position: relative;
     display: flex;
     justify-content: center;
+}
+
+.cabecera:hover .Tooltip{
+    display: inline-block;
+    position: relative;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    z-index: 1000;
+}
+
+.Tooltip {
+    display: none;
+    position: relative;
 }
 
 .imagen{
@@ -127,7 +147,7 @@ p{
     /*Dins de la secció, tot s'organitza com a column, amb una amplada del 45% i s'alinea
     S'afegeix un margin per tal de que es separin */
 
-    .{
+    .logo{
         width: 10%;
         height: 10%;
     }
@@ -172,7 +192,6 @@ p{
     @keyframes rotate{
         from {transform: rotate(0deg);}
         to {transform: rotate(360deg);}
-
     }
 
     h3{
