@@ -8,7 +8,7 @@ html, body, header, main, section, footer {
   color: #333333;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6, p, ul {
   margin: 0;
 }
 
@@ -16,15 +16,18 @@ h1, h2, h3, h4, h5, h6, p {
   display: flex;
   justify-content: space-between;
   align-content: center;
-  padding: 1rem;
+  padding: 0.6rem;
 }
 .menu__title {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #1baa98;
+  padding: 0.4rem;
 }
 .menu__button {
   display: flex;
   align-items: center;
+  border: 0.01rem solid #333333;
+  padding: 0.4rem;
 }
 
 main {
@@ -33,9 +36,10 @@ main {
 }
 
 .ad {
-  background-color: #1B222A;
   display: flex;
   flex-direction: column;
+  background-color: #1B222A;
+  margin-bottom: 3rem;
 }
 .ad__title {
   display: flex;
@@ -45,6 +49,7 @@ main {
   color: #ffffff;
   text-align: center;
   padding-top: 1rem;
+  font-size: 2rem;
 }
 .ad__title-green {
   color: #1baa98;
@@ -53,81 +58,94 @@ main {
   color: white;
   text-align: center;
   padding: 1.5rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
-.ad img {
-  width: 65%;
+.ad__img {
+  width: 55%;
   align-self: center;
   padding-bottom: 1rem;
 }
 
 .card {
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  background-color: #ffffff;
   padding: 0.2rem;
 }
-.card img {
+.card__img {
   width: 80%;
   align-self: center;
   padding: 1.5rem;
   border: 0.01rem solid #DBDBD9;
   margin-top: 0.4rem;
 }
-.card h3 {
+.card__title {
   text-align: left;
-  padding: 0.4rem;
+  padding: 1rem;
 }
-.card p {
+.card__body {
   text-align: left;
-  padding: 0.4rem;
+  padding-left: 1rem;
 }
-.card button {
+.card__btn {
   border: 0.01rem solid #DBDBD9;
   background-color: white;
-  width: 25%;
-  padding: 0.4rem;
-  margin-left: 0.4rem;
+  width: 20%;
+  padding: 0.2rem;
+  margin-left: 1rem;
+  margin-top: 0.4rem;
 }
 
 .ad2 {
-  background-color: #1baa98;
   display: flex;
   flex-direction: column;
+  background-color: #1baa98;
   padding: 0.2rem;
-  margin-top: 1rem;
+  margin-top: 3rem;
 }
-.ad2 h3 {
+.ad2__title {
   color: #ffffff;
   text-align: left;
+  font-size: 2rem;
   padding-top: 1rem;
-  padding-left: 1.5rem;
+  padding-left: 2rem;
 }
-.ad2 ul {
+.ad2__list {
   color: white;
-  padding-left: 1.5rem;
+  padding-left: 2rem;
   list-style: none;
 }
-.ad2 ul li:before {
+.ad2__list li:before {
   content: "✓ ";
   line-height: 30px;
 }
-.ad2 img {
+.ad2__img {
   width: 60%;
-  align-self: right;
-  padding: 1.5rem;
   margin-bottom: 0.5rem;
+  padding-left: 2rem;
 }
 
 .footer {
-  background-color: #1B222A;
   display: flex;
   flex-direction: column;
+  background-color: #333333;
   padding: 0.4rem;
   color: white;
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   text-align: center;
-  height: 2rem;
+}
+.footer__list {
+  color: white;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0.2rem;
+}
+.footer__list li {
+  padding: 0.5rem;
+}
+.footer__cr {
+  padding: 0.5rem;
 }
 
 /*# sourceMappingURL=style.css.map */
