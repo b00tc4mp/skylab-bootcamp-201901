@@ -1,30 +1,43 @@
-.container{
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-}
+body {
+    background:#f0f0f0;
+  }
+  img {
+    max-width:100%;
+  }
+  
+  .products {
+    width:100%;
+  }
 
-header, main, footer {
-    width: 100%;
-}
+  /* .card-grid:after {
+    content: "";
+    display: table;
+    clear: both;
+  } */
+  
+  .card-wrap {
+    float:left;
+    width:100%;
+    padding:5px;
+  }
+  
+  .card {
+    background-color:white;
+    border-radius:5px;
+    border:1px solid #ccc;
+    border-bottom:2px solid #ccc;
+  }
+  .card > div {
+    padding:0 1em;
+  }
 
-
-header {
-    background-color: plum;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-
-main {
-    background-color: lightcoral;
-}
-
-footer {
-    background-color: lightseagreen;
-}
-
-
-/*** Tablet size ***/
-
-/*** Desktop sizze ***/
+  @media (min-width: 768px) {
+    .card-wrap {
+      width:50%;
+    }
+  }
+  @media (min-width: 992px) {
+    .card-wrap {
+      width:33%;
+    }
+  } 
