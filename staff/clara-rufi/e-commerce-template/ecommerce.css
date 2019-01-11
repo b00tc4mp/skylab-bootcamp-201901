@@ -25,9 +25,24 @@ header{
     display: none;
 }
 
-.cat{
+.searchBar{
+    border-radius: 5px;  
+}
+
+.search-containe button{
+    border-radius: 5px;
+    background: red;
+}
+
+.bike{
     font-size: 2em;
     margin-right: 10px;
+}
+
+.titleBrand{
+    font-size: 1.3em;
+    margin-right: 50px;
+    display: none;
 }
 
 .hamburguer{
@@ -70,6 +85,10 @@ h1{
 
     .rightnav i{
         display: none;
+    }
+
+    .titleBrand{
+        display: inline;
     }
 
     article{
