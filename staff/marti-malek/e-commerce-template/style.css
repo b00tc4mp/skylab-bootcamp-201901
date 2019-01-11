@@ -44,8 +44,10 @@ header {
 #logo {
     display: inherit;
     font-size: 1.4rem;
-    align-self: center;    
+    align-self: center;   
+    animation: axis 3s linear infinite;
 }
+
 .dropdown {
     position: relative;
 }
@@ -103,6 +105,13 @@ input {
 section {
     align-content: center;
 }
+
+@keyframes axis {
+    to {  -webkit-transform: rotateY(0deg); transform: rotateY(0deg);}
+    from {  -webkit-transform: rotateY(360deg); transform: rotateY(360deg);}
+}
+
+
 
 
 @media only screen and (min-width: 768px) {
