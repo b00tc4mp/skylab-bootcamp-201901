@@ -1,0 +1,30 @@
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+header, main, footer {
+    width: 100%;
+}
+
+
+header {
+    background-color: plum;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+main {
+    background-color: lightcoral;
+}
+
+footer {
+    background-color: lightseagreen;
+}
+
+
+/*** Tablet size ***/
+
+/*** Desktop sizze ***/
