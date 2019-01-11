@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+body {
+    margin:0;
+    padding:0;  
+    height: 100%; /*lo puedo poner siempre pero son los elementos quienes marcan el scroll*/
+}
+
+header {
+    background-color: #0073C5;
+}
+
+h2{
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+p{
+    margin: 10px 30px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #686868;
+    font-size: 15px;
+}
+
+header, main {
+    display: flex;
+    z-index: 1;
+}
+
+main {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+main article {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+input{
+    height: 30px;
+    font-size:17px;
+}
+
+form, input {
+    width: 50%;
+}
+
+.fa-google{
+    font-size: 28px;
+    margin-right: 26px;
+}
+
+.fa-bars{
+    font-size:28px;
+    color: white;
+}
+
+header {
+    height: 100px;
+    position: sticky;
+    top:0;
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
+
+button {
+    width: 50px;
+    height: 35px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    background-color: #EAEBEB;
+    color: black;
+}
+
+button:hover{
+    background-color: #054A4A;
+    color: white;
+}
+
+nav.menu ul{
+    display: none;
+    list-style: none; 
+    text-transform: uppercase;
+}
+
+nav.menu ul a{
+    color: black;
+    padding: 15px;
+    text-decoration: none;
+}
+
+nav.menu ul a:hover{
+    color: white;
+    text-decoration: underline;
+}
+
+@media (min-width: 768px) { 
+    nav.menu ul{
+        display: flex;
+        display: -webkit-flex;
+    }
+
+    i.fa-bars{
+        display: none;
+    }
+    main article{
+        width: 50%;
+    }
+
+    main{
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    form, input {
+        width: 65%;
+    }
+}
+
+@media (min-width: 850px/*992px*/) { 
+    main article{
+        width: 33.333%;
+    }
+
+    form, input {
+        width: 85%;
+    }
+}
