@@ -14,6 +14,7 @@ body{
 main{
     position: relative;
     top: 100px; /*Que comenci 100px, per a que no es solapi amb el header */
+    background-image: "https://img.myloview.es/cuadros/patron-web-textura-para-fondo-de-pantalla-rellenos-fondo-de-la-pagina-web-400-119131393.jpg"
 }
 
 h3{
