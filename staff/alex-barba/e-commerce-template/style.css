@@ -11,6 +11,7 @@ html, body, main, section, header, footer {
 
 html, body {
     height: 100%;
+    background-color: #EBE4DE;
 }
 
 header {
@@ -19,10 +20,15 @@ header {
 
 footer {
     height: 5%;
+    color: greenyellow;
 }
 
 img {
     width: 50%;
+}
+
+h2 {
+    font-size: 1.5rem;
 }
 
 .containerHeader {
@@ -32,10 +38,14 @@ img {
     align-items: center;
     position: fixed;
     z-index: 1;
-    background-color: #d4cfc9;
+    background-color: #8D857B;
 }
 
 #logo {
+    font-size: 2.5rem;
+}
+
+#logo2 {
     display:none;
 }
 
@@ -105,6 +115,11 @@ footer {
         font-size: 2.7rem;
     }
 
+    #logo2 {
+        display:inherit;
+        font-size: 3rem;
+    }
+
     #glass {
         font-size: 1.3rem;
     }
@@ -139,13 +154,18 @@ footer {
     }
 
     .section {
-        width: 37%;
+        width: 45%;
     }
 }
 
   @media  screen and (min-width: 992px) {
 
     #logo {
+        display:inherit;
+        font-size: 3rem;
+    }
+
+    #logo2 {
         display:inherit;
         font-size: 3rem;
     }
