@@ -25,6 +25,13 @@ footer {
 
 img {
     width: 50%;
+    animation-name: example;
+    animation: example 6s linear infinite;
+}
+
+@keyframes example {
+    from {transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg)}
+    to {transform:rotateY(360deg) rotateX(360deg) rotateZ(360deg)}
 }
 
 h2 {
