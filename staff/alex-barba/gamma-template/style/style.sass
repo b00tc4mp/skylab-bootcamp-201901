@@ -21,12 +21,15 @@ h1, h2, h3, h4, h5, h6, p, ul
 .menu
     +flex-space-bt
     align-content: center
-    padding: 0.6rem
+    padding: 0.4rem
 
     &__title
         font-size: 0.8rem
         color: #1baa98
         padding: 0.4rem
+
+    &__nav
+        display: none
 
     &__button
         display: flex
@@ -40,7 +43,8 @@ main
 .ad
     +flex-col
     background-color: #1B222A
-    margin-bottom: 3rem
+    padding-bottom: 2rem
+    padding-top: 1.5rem
 
     &__title
         display: flex
@@ -61,9 +65,18 @@ main
         padding: 1.5rem
         font-size: 1.2rem
     &__img
+        +flex-col
+
+    &__img img
         width: 55%
         align-self: center
         padding-bottom: 1rem
+    
+    &__img2
+        display: none
+
+.cards
+    margin-top: 3rem
 
 .card
     +flex-col
@@ -73,7 +86,7 @@ main
     &__img 
         width: 80%
         align-self: center
-        padding: 1.5rem
+        padding: 1.7rem
         border: 0.01rem solid #DBDBD9
         margin-top: 0.4rem
     
@@ -88,10 +101,11 @@ main
     &__btn
         border: 0.01rem solid #DBDBD9
         background-color: white
-        width: 20%
-        padding: 0.2rem
+        width: 18%
+        padding: 0.4rem
         margin-left: 1rem
         margin-top: 0.4rem
+        font-size: 0.8rem
 
 .ad2
     +flex-col
@@ -116,7 +130,7 @@ main
        line-height: 30px
 
     &__img 
-        width: 60%
+        width: 40%
         margin-bottom: 0.5rem
         padding-left: 2rem
     
@@ -140,13 +154,255 @@ main
     
     &__cr
         padding: 0.5rem
+
+@media only screen and (min-width: 580px )
+
+    .ad
+        +flex-col
+        background-image: url('./site_showcase_bg.jpg')
+        background-position: center
+        background-size: cover
+        margin-bottom: 3rem
+        padding-top: 1rem
+        padding-bottom: 0.5rem
+
+        &__title-white
+            text-align: left
+            padding-top: 1rem
+            padding-left: 0.8rem
+            font-size: 2rem
+
+        &__body
+            text-align: left
+            padding: 1.2rem
+            padding-left: 0.8rem
+            font-size: 1.3rem
+
+        &__img
+            flex-direction: row
+            justify-content: space-around
+
+        &__img img
+            width: 35%
+            padding-bottom: 1rem
     
+    .cards
+        margin-top: 1.5rem
 
+    .card
+        &__img 
+            width: 90%
+            align-self: center
+            padding: 0.95rem
+            border: 0.01rem solid #DBDBD9
+            margin-top: 0.4rem
+        
+        &__title
+            font-size: 2rem
+
+    .footer
+        &__list 
+            justify-content: left
+            padding-top: 0.7rem
+            padding-bottom: 0rem
+
+        &__cr
+            text-align: right
+            padding-top: 0rem
+            padding-bottom: 0.3rem
+
+@media only screen and (min-width: 900px )
+
+    .menu
+        justify-content: flex-start
+
+        &__title
+            padding-left: 3rem
+            align-self: center
+            font-size: 1rem 
+
+        &__nav
+            display: flex
+            list-style: none
+            font-size: 0.8rem
+        
+        &__nav li
+            text-align: center
+            padding: 0.6rem
+
+        &__button
+            display: none 
+
+    .ad 
+        height: 25rem
+        padding-left: 5.5rem
+
+        &__title-white
+            padding-top: 2rem
+            font-size: 4rem
+            
+        &__body
+            font-size: 1.5rem
+
+        &__img
+            display: flex
+
+        &__img img 
+            width: 30%
+        
+        &__img :nth-child(2)
+            margin-right: 290px
+        
+    .card
+        &__img 
+            width: 80%
+            padding: 0.2rem
+        
+        &__title
+            margin-left: 70px
+        
+        &__body
+            margin-left: 70px
+        
+        &__btn
+            margin-left: 85px
+            width: 10%
+            
+    .ad2
+        &__title
+            margin-top: 2rem
+            padding-left: 5rem
+        
+        &__list
+            padding-left: 5rem
+
+        &__img
+            padding-left: 5rem
+            width: 25%
+            margin-bottom: 3rem
     
+    .footer
+        &__list 
+            padding-left: 5rem
 
+        &__cr
+            padding-right: 5rem    
 
+@media only screen and (min-width: 1400px )
+    
+    .menu
+        padding-left: 6rem
+        
+        &__title
+            font-size: 1.2rem
+        
+        &__nav
+            font-size: 1rem
 
- 
+    .ad
+        padding-left: 0
+        height: 30rem
+        flex-direction: row
+
+        &__desktop
+            +flex-col
+            justify-content: end
+            width: 50%
+
+        &__title-white
+            padding-top: 5rem
+            font-size: 2.9rem
+            padding-left: 8rem
+
+        &__body
+            font-size: 1.3rem
+            padding-left: 8rem
+            
+        &__img
+            justify-content: start
+            width: 50%
+            padding-left: 7.9rem
+
+        &__img img 
+            width: 50%
+        
+        &__img :nth-child(2)
+            margin-left: 1.5rem
+            margin-right: 0
+    
+        &__img2
+            display: block
+            width: 83%
+            padding-top: 0.85rem
+    
+    .cards
+        display: flex
+        justify-content: center
+        margin-left: 4rem
+        margin-right: 4rem
+    
+    .card
+        padding: 0
+
+        &__img 
+            width: 90%
+            padding: 0
+        
+        &__title
+            font-size: 2rem
+            width: 50%
+            margin-left: 0
+            padding-left: 1rem
+
+        &__body
+            font-size: 0.9rem
+            width: 70%
+            margin-left: 0
+            padding-left: 1rem
+
+        &__containerbtn
+            padding-left: 1rem
+
+        &__btn
+            width: 90px
+            margin-left: 0
+            
+
+    .ad2
+        flex-direction: row
+        justify-content: center
+        margin-top: 1.5rem
+
+        &__title
+            padding-left: 0rem
+            font-size: 2.5rem
+            margin-top: 0rem
+        
+        &__list
+            padding-left: 0rem
+            font-size: 1.5rem
+
+        &__img
+            width: 17%
+            padding-left: 28rem
+
+    .footer
+        flex-direction: row
+        height: 10rem
+
+        &__list
+            padding-top: 0.9rem
+        
+        &__list li
+            padding: 0rem  
+            padding-right: 0.6rem
+
+        &__cr
+            padding-left: 50rem
+            padding-top: 0.9rem
+            padding-bottom: 0rem
+        
+
 
 
 
