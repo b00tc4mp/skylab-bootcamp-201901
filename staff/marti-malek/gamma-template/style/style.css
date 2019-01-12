@@ -172,7 +172,11 @@ main {
   }
 
   .last h1 {
-    font-size: 1rem;
+    font-size: 2rem;
+    padding-inline-start: 40px;
+  }
+  .last ul {
+    font-size: 1.5rem;
   }
 
   .foot {
