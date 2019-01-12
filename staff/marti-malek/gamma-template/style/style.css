@@ -2,33 +2,42 @@
 .same img {
   width: 80%;
   align-self: center;
-  padding: 1rem;
   border: 1px solid lightgray;
   margin: auto;
+  margin-top: 1rem;
 }
 
-.first {
+.first, .same {
   display: flex;
   flex-wrap: wrap;
 }
 
 .same {
-  display: flex;
-  flex-wrap: wrap;
+  box-sizing: border-box;
+  align-content: center;
+  justify-content: center;
+  /* margin: auto */
 }
-.same h2 {
-  padding: 1rem;
+.same div {
+  width: 80%;
+  align-self: center;
+  margin: auto;
 }
-.same p {
-  padding: 1rem;
-  padding-top: 0;
+.same div h2 {
+  /* padding: 1rem */
+  padding-bottom: 1rem;
+  margin-top: 1rem;
 }
-.same button {
-  margin: 1rem;
+.same div p {
+  /* padding: 1rem */
+  padding-bottom: 1rem;
+}
+.same div button {
   padding: 0.3rem;
   background-color: white;
   border: 1px solid lightgray;
   border-radius: 0.2rem;
+  margin-bottom: 1rem;
 }
 
 * {
@@ -39,10 +48,6 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-}
-
-main {
-  box-sizing: border-box;
 }
 
 header {
@@ -68,6 +73,14 @@ header button {
   width: 3rem;
   margin-left: 1rem;
   margin-right: 1rem;
+}
+
+main {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
 }
 
 .first {
@@ -101,6 +114,8 @@ header button {
 
 .last {
   background-color: #1baa98;
+  width: 100%;
+  margin-top: 1rem;
 }
 .last h1 {
   color: white;
@@ -125,6 +140,7 @@ header button {
 .foot {
   background-color: #1b222a;
   text-align: center;
+  width: 100%;
 }
 .foot nav {
   padding-top: 1rem;
@@ -144,13 +160,36 @@ header button {
 @media (min-width: 580px) {
   .first {
     display: inline-flex;
-    background: url(.\style\site_showcase_bg.jpg);
+    background: #1c222a url(site_showcase_bg.jpg) no-repeat top center;
+    background-size: 100% 100%;
   }
   .first img {
     width: 30%;
   }
-  .first .img-back {
-    width: 100%;
+
+  .same img {
+    width: 90%;
+  }
+
+  .last h1 {
+    font-size: 1rem;
+  }
+
+  .foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  .foot nav {
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+  .foot nav a {
+    padding: 0.5rem;
+  }
+  .foot p {
+    grid-column: 2/3;
+    grid-row: 2/3;
   }
 }
 
