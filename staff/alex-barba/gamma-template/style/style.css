@@ -16,12 +16,15 @@ h1, h2, h3, h4, h5, h6, p, ul {
   display: flex;
   justify-content: space-between;
   align-content: center;
-  padding: 0.6rem;
+  padding: 0.4rem;
 }
 .menu__title {
   font-size: 0.8rem;
   color: #1baa98;
   padding: 0.4rem;
+}
+.menu__nav {
+  display: none;
 }
 .menu__button {
   display: flex;
@@ -39,7 +42,8 @@ main {
   display: flex;
   flex-direction: column;
   background-color: #1B222A;
-  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  padding-top: 1.5rem;
 }
 .ad__title {
   display: flex;
@@ -61,9 +65,20 @@ main {
   font-size: 1.2rem;
 }
 .ad__img {
+  display: flex;
+  flex-direction: column;
+}
+.ad__img img {
   width: 55%;
   align-self: center;
   padding-bottom: 1rem;
+}
+.ad__img2 {
+  display: none;
+}
+
+.cards {
+  margin-top: 3rem;
 }
 
 .card {
@@ -75,7 +90,7 @@ main {
 .card__img {
   width: 80%;
   align-self: center;
-  padding: 1.5rem;
+  padding: 1.7rem;
   border: 0.01rem solid #DBDBD9;
   margin-top: 0.4rem;
 }
@@ -90,10 +105,11 @@ main {
 .card__btn {
   border: 0.01rem solid #DBDBD9;
   background-color: white;
-  width: 20%;
-  padding: 0.2rem;
+  width: 18%;
+  padding: 0.4rem;
   margin-left: 1rem;
   margin-top: 0.4rem;
+  font-size: 0.8rem;
 }
 
 .ad2 {
@@ -120,7 +136,7 @@ main {
   line-height: 30px;
 }
 .ad2__img {
-  width: 60%;
+  width: 40%;
   margin-bottom: 0.5rem;
   padding-left: 2rem;
 }
@@ -146,6 +162,262 @@ main {
 }
 .footer__cr {
   padding: 0.5rem;
+}
+
+@media only screen and (min-width: 580px) {
+  .ad {
+    display: flex;
+    flex-direction: column;
+    background-image: url("./site_showcase_bg.jpg");
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+  }
+  .ad__title-white {
+    text-align: left;
+    padding-top: 1rem;
+    padding-left: 0.8rem;
+    font-size: 2rem;
+  }
+  .ad__body {
+    text-align: left;
+    padding: 1.2rem;
+    padding-left: 0.8rem;
+    font-size: 1.3rem;
+  }
+  .ad__img {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .ad__img img {
+    width: 35%;
+    padding-bottom: 1rem;
+  }
+
+  .cards {
+    margin-top: 1.5rem;
+  }
+
+  .card__img {
+    width: 90%;
+    align-self: center;
+    padding: 0.95rem;
+    border: 0.01rem solid #DBDBD9;
+    margin-top: 0.4rem;
+  }
+  .card__title {
+    font-size: 2rem;
+  }
+
+  .footer__list {
+    justify-content: left;
+    padding-top: 0.7rem;
+    padding-bottom: 0rem;
+  }
+  .footer__cr {
+    text-align: right;
+    padding-top: 0rem;
+    padding-bottom: 0.3rem;
+  }
+}
+@media only screen and (min-width: 900px) {
+  .menu {
+    justify-content: flex-start;
+  }
+  .menu__title {
+    padding-left: 3rem;
+    align-self: center;
+    font-size: 1rem;
+  }
+  .menu__nav {
+    display: flex;
+    list-style: none;
+    font-size: 0.8rem;
+  }
+  .menu__nav li {
+    text-align: center;
+    padding: 0.6rem;
+  }
+  .menu__button {
+    display: none;
+  }
+
+  .ad {
+    height: 25rem;
+    padding-left: 5.5rem;
+  }
+  .ad__title-white {
+    padding-top: 2rem;
+    font-size: 4rem;
+  }
+  .ad__body {
+    font-size: 1.5rem;
+  }
+  .ad__img {
+    display: flex;
+  }
+  .ad__img img {
+    width: 30%;
+  }
+  .ad__img :nth-child(2) {
+    margin-right: 290px;
+  }
+
+  .card__img {
+    width: 80%;
+    padding: 0.2rem;
+  }
+  .card__title {
+    margin-left: 70px;
+  }
+  .card__body {
+    margin-left: 70px;
+  }
+  .card__btn {
+    margin-left: 85px;
+    width: 10%;
+  }
+
+  .ad2__title {
+    margin-top: 2rem;
+    padding-left: 5rem;
+  }
+  .ad2__list {
+    padding-left: 5rem;
+  }
+  .ad2__img {
+    padding-left: 5rem;
+    width: 25%;
+    margin-bottom: 3rem;
+  }
+
+  .footer__list {
+    padding-left: 5rem;
+  }
+  .footer__cr {
+    padding-right: 5rem;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .menu {
+    padding-left: 6rem;
+  }
+  .menu__title {
+    font-size: 1.2rem;
+  }
+  .menu__nav {
+    font-size: 1rem;
+  }
+
+  .ad {
+    padding-left: 0;
+    height: 30rem;
+    flex-direction: row;
+  }
+  .ad__desktop {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    width: 50%;
+  }
+  .ad__title-white {
+    padding-top: 5rem;
+    font-size: 2.9rem;
+    padding-left: 8rem;
+  }
+  .ad__body {
+    font-size: 1.3rem;
+    padding-left: 8rem;
+  }
+  .ad__img {
+    justify-content: start;
+    width: 50%;
+    padding-left: 7.9rem;
+  }
+  .ad__img img {
+    width: 50%;
+  }
+  .ad__img :nth-child(2) {
+    margin-left: 1.5rem;
+    margin-right: 0;
+  }
+  .ad__img2 {
+    display: block;
+    width: 83%;
+    padding-top: 0.85rem;
+  }
+
+  .cards {
+    display: flex;
+    justify-content: center;
+    margin-left: 4rem;
+    margin-right: 4rem;
+  }
+
+  .card {
+    padding: 0;
+  }
+  .card__img {
+    width: 90%;
+    padding: 0;
+  }
+  .card__title {
+    font-size: 2rem;
+    width: 50%;
+    margin-left: 0;
+    padding-left: 1rem;
+  }
+  .card__body {
+    font-size: 0.9rem;
+    width: 70%;
+    margin-left: 0;
+    padding-left: 1rem;
+  }
+  .card__containerbtn {
+    padding-left: 1rem;
+  }
+  .card__btn {
+    width: 90px;
+    margin-left: 0;
+  }
+
+  .ad2 {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .ad2__title {
+    padding-left: 0rem;
+    font-size: 2.5rem;
+    margin-top: 0rem;
+  }
+  .ad2__list {
+    padding-left: 0rem;
+    font-size: 1.5rem;
+  }
+  .ad2__img {
+    width: 17%;
+    padding-left: 28rem;
+  }
+
+  .footer {
+    flex-direction: row;
+    height: 10rem;
+  }
+  .footer__list {
+    padding-top: 0.9rem;
+  }
+  .footer__list li {
+    padding: 0rem;
+    padding-right: 0.6rem;
+  }
+  .footer__cr {
+    padding-left: 50rem;
+    padding-top: 0.9rem;
+    padding-bottom: 0rem;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
