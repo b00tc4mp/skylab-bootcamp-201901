@@ -58,11 +58,17 @@ header {
   justify-content: space-between;
   align-content: center;
 }
-header h2 {
+header div {
+  display: inline-flex;
+}
+header div h2 {
   color: #1baa98;
   padding: 1rem;
   margin: 0;
   align-self: center;
+}
+header div nav {
+  display: none;
 }
 header button {
   background-color: #f7f7f7;
@@ -163,6 +169,12 @@ main {
     background: #1c222a url(site_showcase_bg.jpg) no-repeat top center;
     background-size: 100% 100%;
   }
+  .first h1 {
+    margin: 0rem 5rem;
+  }
+  .first p {
+    margin: 0rem 5rem;
+  }
   .first img {
     width: 30%;
   }
@@ -194,6 +206,36 @@ main {
   .foot p {
     grid-column: 2/3;
     grid-row: 2/3;
+  }
+}
+@media (min-width: 900px) {
+  header div nav {
+    display: flex;
+    align-items: center;
+  }
+  header div nav :nth-child(1) {
+    background-color: lightgray;
+  }
+  header div nav a {
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .first h1 {
+    margin-right: 30rem;
+    font-size: 2.7rem;
+  }
+  .first p {
+    margin-right: 17rem;
+  }
+  .first :nth-child(4) {
+    margin-right: 8rem;
+  }
+
+  .last img {
+    width: 40%;
   }
 }
 
