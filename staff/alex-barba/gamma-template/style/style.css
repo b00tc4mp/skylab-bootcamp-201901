@@ -1,5 +1,7 @@
 @charset "UTF-8";
+/* Fonts */
 @import url("https://fonts.googleapis.com/css?family=PT+Sans");
+/* General Rules */
 html, body, header, main, section, footer {
   margin: 0;
   box-sizing: border-box;
@@ -12,6 +14,8 @@ h1, h2, h3, h4, h5, h6, p, ul {
   margin: 0;
 }
 
+/* Mixins */
+/* Header */
 .menu {
   display: flex;
   justify-content: space-between;
@@ -23,9 +27,6 @@ h1, h2, h3, h4, h5, h6, p, ul {
   color: #1baa98;
   padding: 0.4rem;
 }
-.menu__nav {
-  display: none;
-}
 .menu__button {
   display: flex;
   align-items: center;
@@ -33,11 +34,17 @@ h1, h2, h3, h4, h5, h6, p, ul {
   padding: 0.4rem;
 }
 
+.nav {
+  display: none;
+}
+
+/* Main */
 main {
   display: flex;
   flex-direction: column;
 }
 
+/* First ad */
 .ad {
   display: flex;
   flex-direction: column;
@@ -45,38 +52,41 @@ main {
   padding-bottom: 2rem;
   padding-top: 1.5rem;
 }
-.ad__title {
+.ad__img {
+  display: none;
+}
+
+.title {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
-.ad__title-white {
+.title--white {
   color: #ffffff;
   text-align: center;
   padding-top: 1rem;
   font-size: 2rem;
 }
-.ad__title-green {
+.title--green {
   color: #1baa98;
 }
-.ad__body {
+.title__body {
   color: white;
   text-align: center;
   padding: 1.5rem;
   font-size: 1.2rem;
 }
-.ad__img {
+.title__img {
   display: flex;
   flex-direction: column;
 }
-.ad__img img {
+.title__img img {
   width: 55%;
   align-self: center;
   padding-bottom: 1rem;
 }
-.ad__img2 {
-  display: none;
-}
 
+/* Articles */
 .cards {
   margin-top: 3rem;
 }
@@ -96,13 +106,16 @@ main {
 }
 .card__title {
   text-align: left;
-  padding: 1rem;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
 }
 .card__body {
   text-align: left;
   padding-left: 1rem;
+  padding-top: 0.5rem;
 }
-.card__btn {
+
+.btncontaniner__btn {
   border: 0.01rem solid #DBDBD9;
   background-color: white;
   width: 18%;
@@ -112,35 +125,37 @@ main {
   font-size: 0.8rem;
 }
 
+/* Last Ad */
 .ad2 {
   display: flex;
   flex-direction: column;
   background-color: #1baa98;
-  padding: 0.2rem;
   margin-top: 3rem;
-}
-.ad2__title {
-  color: #ffffff;
-  text-align: left;
-  font-size: 2rem;
-  padding-top: 1rem;
-  padding-left: 2rem;
-}
-.ad2__list {
-  color: white;
-  padding-left: 2rem;
-  list-style: none;
-}
-.ad2__list li:before {
-  content: "✓ ";
-  line-height: 30px;
+  padding-left: 4rem;
+  padding-top: 3rem;
 }
 .ad2__img {
   width: 40%;
   margin-bottom: 0.5rem;
-  padding-left: 2rem;
 }
 
+.features__title {
+  color: #ffffff;
+  text-align: left;
+  font-size: 2rem;
+}
+
+.featureslist {
+  color: white;
+  list-style: none;
+  padding-left: 0;
+}
+.featureslist li:before {
+  content: "✓ ";
+  line-height: 30px;
+}
+
+/* Footer */
 .footer {
   display: flex;
   flex-direction: column;
@@ -150,20 +165,22 @@ main {
   font-size: 0.7rem;
   text-align: center;
 }
-.footer__list {
+.footer__text {
+  padding: 0.5rem;
+}
+
+.nav2 {
   color: white;
   list-style: none;
   display: flex;
   justify-content: center;
   padding: 0.2rem;
 }
-.footer__list li {
-  padding: 0.5rem;
-}
-.footer__cr {
+.nav2 li {
   padding: 0.5rem;
 }
 
+/* @media for min width 580px */
 @media only screen and (min-width: 580px) {
   .ad {
     display: flex;
@@ -175,23 +192,24 @@ main {
     padding-top: 1rem;
     padding-bottom: 0.5rem;
   }
-  .ad__title-white {
+
+  .title--white {
     text-align: left;
     padding-top: 1rem;
     padding-left: 0.8rem;
     font-size: 2rem;
   }
-  .ad__body {
+  .title__body {
     text-align: left;
     padding: 1.2rem;
     padding-left: 0.8rem;
     font-size: 1.3rem;
   }
-  .ad__img {
+  .title__img {
     flex-direction: row;
     justify-content: space-around;
   }
-  .ad__img img {
+  .title__img img {
     width: 35%;
     padding-bottom: 1rem;
   }
@@ -211,17 +229,17 @@ main {
     font-size: 2rem;
   }
 
-  .footer__list {
-    justify-content: left;
-    padding-top: 0.7rem;
-    padding-bottom: 0rem;
-  }
-  .footer__cr {
+  .footer__text {
     text-align: right;
     padding-top: 0rem;
     padding-bottom: 0.3rem;
   }
+
+  .nav2 {
+    justify-content: left;
+  }
 }
+/* @media for min width 900px */
 @media only screen and (min-width: 900px) {
   .menu {
     justify-content: flex-start;
@@ -231,37 +249,41 @@ main {
     align-self: center;
     font-size: 1rem;
   }
-  .menu__nav {
+  .menu__button {
+    display: none;
+  }
+
+  .nav {
     display: flex;
     list-style: none;
     font-size: 0.8rem;
+    justify-content: space-around;
   }
-  .menu__nav li {
+  .nav li {
     text-align: center;
+    justify-content: center;
     padding: 0.6rem;
-  }
-  .menu__button {
-    display: none;
   }
 
   .ad {
     height: 25rem;
     padding-left: 5.5rem;
   }
-  .ad__title-white {
+
+  .title--white {
     padding-top: 2rem;
     font-size: 4rem;
   }
-  .ad__body {
-    font-size: 1.5rem;
+  .title__body {
+    font-size: 1.3rem;
   }
-  .ad__img {
+  .title__img {
     display: flex;
   }
-  .ad__img img {
+  .title__img img {
     width: 30%;
   }
-  .ad__img :nth-child(2) {
+  .title__img :nth-child(2) {
     margin-right: 290px;
   }
 
@@ -275,31 +297,34 @@ main {
   .card__body {
     margin-left: 70px;
   }
-  .card__btn {
+
+  .btncontaniner__btn {
     margin-left: 85px;
     width: 10%;
   }
 
-  .ad2__title {
-    margin-top: 2rem;
-    padding-left: 5rem;
-  }
-  .ad2__list {
-    padding-left: 5rem;
+  .ad2 {
+    padding-top: 1.5rem;
+    padding-left: 6rem;
   }
   .ad2__img {
-    padding-left: 5rem;
     width: 25%;
     margin-bottom: 3rem;
   }
 
-  .footer__list {
-    padding-left: 5rem;
+  .features__title {
+    margin-top: 2rem;
   }
-  .footer__cr {
+
+  .footer__text {
     padding-right: 5rem;
   }
+
+  .nav2 {
+    padding-left: 5rem;
+  }
 }
+/* @media for min width 1400px */          
 @media only screen and (min-width: 1400px) {
   .menu {
     padding-left: 6rem;
@@ -307,7 +332,8 @@ main {
   .menu__title {
     font-size: 1.2rem;
   }
-  .menu__nav {
+
+  .nav {
     font-size: 1rem;
   }
 
@@ -316,37 +342,39 @@ main {
     height: 30rem;
     flex-direction: row;
   }
-  .ad__desktop {
+  .ad__img {
+    display: block;
+  }
+  .ad__img img {
+    width: 352px;
+  }
+
+  .title {
     display: flex;
     flex-direction: column;
     justify-content: end;
     width: 50%;
   }
-  .ad__title-white {
+  .title--white {
     padding-top: 5rem;
     font-size: 2.9rem;
     padding-left: 8rem;
   }
-  .ad__body {
+  .title__body {
     font-size: 1.3rem;
     padding-left: 8rem;
   }
-  .ad__img {
+  .title__img {
     justify-content: start;
     width: 50%;
     padding-left: 7.9rem;
   }
-  .ad__img img {
+  .title__img img {
     width: 50%;
   }
-  .ad__img :nth-child(2) {
+  .title__img :nth-child(2) {
     margin-left: 1.5rem;
     margin-right: 0;
-  }
-  .ad__img2 {
-    display: block;
-    width: 83%;
-    padding-top: 0.85rem;
   }
 
   .cards {
@@ -375,48 +403,53 @@ main {
     margin-left: 0;
     padding-left: 1rem;
   }
-  .card__containerbtn {
-    padding-left: 1rem;
-  }
-  .card__btn {
-    width: 90px;
-    margin-left: 0;
+
+  .btncontaniner__btn {
+    width: 21%;
+    margin-left: 1rem;
+    padding-left: 0;
   }
 
   .ad2 {
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     margin-top: 1.5rem;
+    padding-top: 3rem;
+    padding-left: 0rem;
+    padding-right: 3rem;
   }
-  .ad2__title {
+  .ad2__img {
+    width: 18%;
+    top: 0;
+  }
+
+  .features__title {
     padding-left: 0rem;
     font-size: 2.5rem;
     margin-top: 0rem;
   }
-  .ad2__list {
+
+  .featureslist {
     padding-left: 0rem;
     font-size: 1.5rem;
-  }
-  .ad2__img {
-    width: 17%;
-    padding-left: 28rem;
   }
 
   .footer {
     flex-direction: row;
-    height: 10rem;
+    height: 4rem;
   }
-  .footer__list {
-    padding-top: 0.9rem;
-  }
-  .footer__list li {
-    padding: 0rem;
-    padding-right: 0.6rem;
-  }
-  .footer__cr {
+  .footer__text {
     padding-left: 50rem;
     padding-top: 0.9rem;
     padding-bottom: 0rem;
+  }
+
+  .nav2 {
+    padding-top: 0.9rem;
+  }
+  .nav2 li {
+    padding: 0rem;
+    padding-right: 0.6rem;
   }
 }
 

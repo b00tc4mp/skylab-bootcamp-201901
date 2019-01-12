@@ -1,4 +1,8 @@
+/* Fonts */
+
 @import url('https://fonts.googleapis.com/css?family=PT+Sans')
+
+/* General Rules */
 
 html, body, header, main, section, footer
     margin: 0
@@ -10,6 +14,8 @@ html, body, header, main, section, footer
 h1, h2, h3, h4, h5, h6, p, ul  
     margin: 0
 
+/* Mixins */
+
 @mixin flex-space-bt
     display: flex
     justify-content: space-between
@@ -17,6 +23,8 @@ h1, h2, h3, h4, h5, h6, p, ul
 @mixin flex-col
     display: flex
     flex-direction: column
+
+/* Header */
 
 .menu
     +flex-space-bt
@@ -28,35 +36,42 @@ h1, h2, h3, h4, h5, h6, p, ul
         color: #1baa98
         padding: 0.4rem
 
-    &__nav
-        display: none
-
     &__button
         display: flex
         align-items: center
         border: 0.01rem solid #333333
         padding: 0.4rem
 
+.nav
+    display: none
+
+/* Main */
+
 main 
     +flex-col 
+
+/* First ad */
 
 .ad
     +flex-col
     background-color: #1B222A
     padding-bottom: 2rem
     padding-top: 1.5rem
+    
+    &__img
+        display: none
 
-    &__title
-        display: flex
-        justify-content: center
+.title
+    +flex-col
+    justify-content: center
 
-    &__title-white
+    &--white
         color: #ffffff
         text-align: center
         padding-top: 1rem
         font-size: 2rem
     
-    &__title-green
+    &--green
         color: #1baa98
 
     &__body
@@ -64,6 +79,7 @@ main
         text-align: center
         padding: 1.5rem
         font-size: 1.2rem
+
     &__img
         +flex-col
 
@@ -71,9 +87,8 @@ main
         width: 55%
         align-self: center
         padding-bottom: 1rem
-    
-    &__img2
-        display: none
+
+/* Articles */
 
 .cards
     margin-top: 3rem
@@ -92,13 +107,15 @@ main
     
     &__title
         text-align: left
-        padding: 1rem
+        padding-left: 1rem
+        padding-top: 0.5rem
 
     &__body
         text-align: left
         padding-left: 1rem
+        padding-top: 0.5rem
     
-    &__btn
+.btncontaniner__btn
         border: 0.01rem solid #DBDBD9
         background-color: white
         width: 18%
@@ -107,33 +124,36 @@ main
         margin-top: 0.4rem
         font-size: 0.8rem
 
+/* Last Ad */
+
 .ad2
     +flex-col
     background-color: #1baa98
-    padding: 0.2rem
     margin-top: 3rem
-
-    &__title
-        color: #ffffff
-        text-align: left
-        font-size: 2rem
-        padding-top: 1rem
-        padding-left: 2rem
-        
-    &__list 
-        color: white
-        padding-left: 2rem
-        list-style: none
-    
-    &__list li:before
-       content: '✓ '
-       line-height: 30px
+    padding-left: 4rem
+    padding-top: 3rem 
 
     &__img 
         width: 40%
         margin-bottom: 0.5rem
-        padding-left: 2rem
+
+.features
+    &__title
+        color: #ffffff
+        text-align: left
+        font-size: 2rem
+        
+.featureslist 
+    color: white
+    list-style: none
+    padding-left: 0
     
+    & li:before
+       content: '✓ '
+       line-height: 30px
+
+/* Footer */
+
 .footer
     +flex-col
     background-color: #333333
@@ -142,18 +162,20 @@ main
     font-size: 0.7rem
     text-align: center
 
-    &__list 
-        color: white
-        list-style: none
-        display: flex
-        justify-content: center
-        padding: 0.2rem
-    
-    &__list li
+    &__text
         padding: 0.5rem
+
+.nav2
+    color: white
+    list-style: none
+    display: flex
+    justify-content: center
+    padding: 0.2rem
     
-    &__cr
+    & li
         padding: 0.5rem
+
+/* @media for min width 580px */
 
 @media only screen and (min-width: 580px )
 
@@ -166,7 +188,9 @@ main
         padding-top: 1rem
         padding-bottom: 0.5rem
 
-        &__title-white
+    .title
+        
+        &--white
             text-align: left
             padding-top: 1rem
             padding-left: 0.8rem
@@ -201,15 +225,14 @@ main
             font-size: 2rem
 
     .footer
-        &__list 
-            justify-content: left
-            padding-top: 0.7rem
-            padding-bottom: 0rem
-
-        &__cr
+        &__text
             text-align: right
             padding-top: 0rem
             padding-bottom: 0.3rem
+    .nav2
+        justify-content: left
+
+/* @media for min width 900px */
 
 @media only screen and (min-width: 900px )
 
@@ -221,28 +244,32 @@ main
             align-self: center
             font-size: 1rem 
 
-        &__nav
-            display: flex
-            list-style: none
-            font-size: 0.8rem
-        
-        &__nav li
-            text-align: center
-            padding: 0.6rem
-
         &__button
             display: none 
+
+    .nav
+        display: flex
+        list-style: none
+        font-size: 0.8rem
+        justify-content: space-around
+        
+        & li
+            text-align: center
+            justify-content: center
+            padding: 0.6rem
 
     .ad 
         height: 25rem
         padding-left: 5.5rem
 
-        &__title-white
+    .title
+        
+        &--white
             padding-top: 2rem
             font-size: 4rem
             
         &__body
-            font-size: 1.5rem
+            font-size: 1.3rem
 
         &__img
             display: flex
@@ -264,29 +291,29 @@ main
         &__body
             margin-left: 70px
         
-        &__btn
+    .btncontaniner__btn
             margin-left: 85px
             width: 10%
             
     .ad2
-        &__title
-            margin-top: 2rem
-            padding-left: 5rem
-        
-        &__list
-            padding-left: 5rem
+        padding-top: 1.5rem
+        padding-left: 6rem
 
         &__img
-            padding-left: 5rem
             width: 25%
             margin-bottom: 3rem
+    .features
+        &__title
+            margin-top: 2rem
     
     .footer
-        &__list 
-            padding-left: 5rem
+        &__text
+            padding-right: 5rem 
+    
+    .nav2 
+        padding-left: 5rem
 
-        &__cr
-            padding-right: 5rem    
+/* @media for min width 1400px */          
 
 @media only screen and (min-width: 1400px )
     
@@ -296,20 +323,26 @@ main
         &__title
             font-size: 1.2rem
         
-        &__nav
-            font-size: 1rem
+    .nav
+        font-size: 1rem
 
     .ad
         padding-left: 0
         height: 30rem
         flex-direction: row
+        
+        &__img
+            display: block
+        
+        &__img img
+            width: 352px
 
-        &__desktop
-            +flex-col
-            justify-content: end
-            width: 50%
+    .title
+        +flex-col
+        justify-content: end
+        width: 50%
 
-        &__title-white
+        &--white
             padding-top: 5rem
             font-size: 2.9rem
             padding-left: 8rem
@@ -329,11 +362,6 @@ main
         &__img :nth-child(2)
             margin-left: 1.5rem
             margin-right: 0
-    
-        &__img2
-            display: block
-            width: 83%
-            padding-top: 0.85rem
     
     .cards
         display: flex
@@ -360,47 +388,51 @@ main
             margin-left: 0
             padding-left: 1rem
 
-        &__containerbtn
-            padding-left: 1rem
-
-        &__btn
-            width: 90px
-            margin-left: 0
+    .btncontaniner__btn
+            width: 21%
+            margin-left: 1rem
+            padding-left: 0
             
-
     .ad2
         flex-direction: row
-        justify-content: center
+        justify-content: space-around
         margin-top: 1.5rem
+        padding-top: 3rem
+        padding-left: 0rem
+        padding-right: 3rem
 
+        &__img
+            width: 18%
+            top: 0
+            
+
+    .features  
         &__title
             padding-left: 0rem
             font-size: 2.5rem
             margin-top: 0rem
         
-        &__list
+    .featureslist
             padding-left: 0rem
             font-size: 1.5rem
 
-        &__img
-            width: 17%
-            padding-left: 28rem
-
     .footer
         flex-direction: row
-        height: 10rem
+        height: 4rem
 
-        &__list
-            padding-top: 0.9rem
-        
-        &__list li
-            padding: 0rem  
-            padding-right: 0.6rem
-
-        &__cr
+        &__text
             padding-left: 50rem
             padding-top: 0.9rem
             padding-bottom: 0rem
+
+    .nav2
+        padding-top: 0.9rem
+        
+        & li
+            padding: 0rem  
+            padding-right: 0.6rem
+
+        
         
 
 
