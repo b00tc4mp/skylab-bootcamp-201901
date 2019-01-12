@@ -1,0 +1,56 @@
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+}
+
+.head {
+  padding: 0.4rem 0.4rem;
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 58%;
+}
+.head .head__title {
+  color: #269289;
+  font-weight: 700;
+}
+.head .fas {
+  border: 1px solid #dedede;
+  border-radius: 20%;
+  padding: 0.4rem 0.4rem;
+  height: 0.7rem;
+  font-size: 0.7rem;
+}
+
+.title {
+  background-color: #269289;
+  padding: 0.8rem 0.4rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.post {
+  padding: 2rem 0.4rem;
+}
+.post .post__title {
+  font-weight: 700;
+  padding: 0.4rem 0.4rem;
+}
+.post .post__text {
+  font-size: 0.5rem;
+  padding: 0.4rem 0.4rem;
+  width: 60%;
+  text-align: left;
+}
+.post .post__btn {
+  background-color: white;
+  border-radius: 20%;
+  outline: 0;
+  border: 1px solid #dedede;
+  font-size: 0.5rem;
+}
+
+/*# sourceMappingURL=style.css.map */
