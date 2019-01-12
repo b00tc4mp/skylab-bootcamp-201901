@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css?family=Sarabun:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i");
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  font-size: 20px;
+  font-family: Sarabun;
+}
+
+.header {
+  position: fixed;
+  top: 0px;
+  background-color: #f8f8f8;
+  height: 2.4em;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header .header__nav {
+  padding-right: 1em;
+  height: 1.2em;
+  width: 1.2em;
+}
+.header .header__logo {
+  letter-spacing: -0.03em;
+  font-size: 1.1em;
+  padding-left: 1em;
+  color: #1caa98;
+  font-weight: bolder;
+}
+
+main {
+  margin-top: 2.2em;
+  display: flex;
+  flex-direction: column;
+}
+
+.downloadApps {
+  padding: 2em 1em;
+  background-color: #1b222a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.downloadApps .downloadApps__title {
+  letter-spacing: -0.05em;
+  font-size: 1.9em;
+  font-weight: 800;
+}
+.downloadApps .downloadApps__title .downloadApps__title--green {
+  color: #1caa98;
+}
+.downloadApps .downloadApps__text {
+  letter-spacing: -0.03em;
+  margin-top: 0em;
+  text-align: center;
+  line-height: 1.3;
+  font-weight: bold;
+}
+.downloadApps .downloadApps__image {
+  width: 12em;
+}
+
+.news {
+  margin-top: 1.5em;
+  display: flex;
+  flex-direction: column;
+  padding: 2em 0.8em;
+}
+
+.article .article__image {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.2em;
+  border: solid 1px #cccccc;
+}
+
+/*# sourceMappingURL=style.css.map */
