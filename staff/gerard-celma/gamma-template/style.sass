@@ -70,72 +70,100 @@ body
         background-color: $darkgrey
         color: white
         display: flex
-        flex-direction: column
-        align-items: center
-        padding: 0 0.5em
-        margin-bottom: 40px
+        flex-direction: row
+        justify-content: center
 
         @media (min-width: 900px)
-            align-items: flex-start
+                background-image: url("img/site_showcase_bg.jpg")
+                background-size: cover
+                justify-content: flex-start
+
+        @media (min-width:1100px)
             background-image: url("img/site_showcase_bg.jpg")
-            background-size: cover
-            padding: 2em 2em
 
-        &__title
-            padding-top: 20px
-            font-weight: bolder
-            font-size: 2em
-            display: flex
-            flex-direction: row
-
-            & p:last-of-type
-                color: $green
-                margin-left: 0.25em       
-
-        & p  
-            text-align: center
-            font-weight: bold
-            font-size: 1.2em
-            margin-top: 0px
-
-        & div:last-of-type
+        &__sm
             display: flex
             flex-direction: column
             align-items: center
+            padding: 0 0.5em
+            margin-bottom: 40px
 
             @media (min-width: 900px)
-                flex-direction: row   
+                align-items: flex-start
+                margin-left: 5em
 
-        & img 
-            // padding-bottom: 20px 
-            padding: 10px 10px 20px 10px 
+            &__title
+                padding-top: 20px
+                font-weight: bolder
+                font-size: 2em
+                display: flex
+                flex-direction: row
 
-        & img:first-of-type
-            max-width: 217px          
+                & p:last-of-type
+                    color: $green
+                    margin-left: 0.25em       
+
+            & p  
+                text-align: center
+                font-weight: bold
+                font-size: 1.2em
+                margin-top: 0px
+
+            & div:last-of-type
+                display: flex
+                flex-direction: column
+                align-items: center
+
+                @media (min-width: 900px)
+                    flex-direction: row    
+
+            &__apple
+                max-width: 237px  
+                padding: 10px 10px 20px 10px
+
+            &__google
+                padding: 10px 10px 20px 10px     
+
+        &__lg
+            display: none
+
+            @media (min-width:1100px)
+                display: inline
+                max-height: 300px
+                margin: 2em 0em 0em 6em
 
     &__section
-        padding: 0 5%
-        display: flex
-        flex-direction: column
-        align-items: flex-start
 
-        & img 
-            align-self: center
-            max-width: 100%
-            border: 1px solid $midgrey
+        @media (min-width:1100px)
+                display: flex
+                flex-direction: row
+    
+        &__slide
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+            margin: 15px 10px
 
-        & p:first-of-type
-            font-size: 1.5em
-            font-weight: bold  
-            margin-bottom: 0 
+            @media (min-width:1100px)
+                margin: 35px 10px
 
-        & button
-            background-color: white
-            margin-bottom: 2em
-            padding: 0.5em 0.9em
-            font-size: 0.6em
-            border:  1px solid $midgrey    
-            border-radius: 0.25em
+            & img 
+                align-self: center
+                max-width: 100%
+                border: 1px solid $midgrey
+
+            & p:first-of-type
+                font-size: 1.5em
+                font-weight: bold  
+                margin-bottom: 0 
+
+            & button
+                background-color: white
+                margin-bottom: 2em
+                padding: 0.5em 0.9em
+                font-size: 0.6em
+                border:  1px solid $midgrey    
+                border-radius: 0.25em
 
     &__asidebottom
         background-color: $green
@@ -171,6 +199,164 @@ body
 
             @media (min-width:1100px)
                 align-self: center      
+
+
+.mainabout
+
+    &__title
+        background-color: $green
+        color: white
+        font-size: 1.75em
+        font-weight: bolder
+
+        & p 
+            padding: 0.5em 0em
+            margin: 0em 0em 0em 0.5em
+
+            @media (min-width: 900px)
+                margin: 0em 0em 0em 1.5em
+
+            @media (min-width:1100px)
+                margin: 0em 0em 0em 3em
+
+    &__section
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+
+        @media (min-width:1100px)
+            display: flex
+            flex-direction: row
+
+        &__sm
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+
+            @media (min-width:1100px)
+                align-self: center
+
+            &__text
+                margin: 0em 0.75em 1em 0.75em
+
+            &__dropdown
+                margin: 0em 0.75em
+
+                & h3 
+                    background-color: $grey
+                    padding: 0.5em 0em
+                    margin: 0.2em 0em
+                    border: 1px solid $midgrey
+                    font-size: 1em
+
+                & h3:first-of-type 
+                    margin-bottom: 0em    
+                    border-bottom: none
+
+                & p 
+                    border: 1px solid $midgrey
+                    margin: 0em 0em
+                    padding: 1em 0em 
+
+        &__slide
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+            margin: 15px 10px
+
+            @media (min-width:1100px)
+                margin: 35px 10px
+
+            & img 
+                align-self: center
+                max-width: 100%
+                border: 1px solid $midgrey
+
+            & p:first-of-type
+                font-size: 1.5em
+                font-weight: bold  
+                margin-bottom: 0 
+
+            & button
+                background-color: white
+                margin-bottom: 2em
+                padding: 0.5em 0.9em
+                font-size: 0.6em
+                border:  1px solid $midgrey    
+                border-radius: 0.25em             
+
+
+.contact-title
+    background-color: $green
+    color: white
+    font-size: 1.75em
+    font-weight: bolder
+
+    & p 
+        padding: 0.5em 0em
+        margin: 0em 0em 0em 0.5em
+
+        @media (min-width: 900px)
+            margin: 0em 0em 0em 1.5em
+
+        @media (min-width:1100px)
+            margin: 0em 0em 0em 3em    
+    
+.maincontact
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+
+    @media (min-width:1100px)
+        display: flex
+        flex-direction: row
+        justify-content: center
+
+    &__form
+        min-width: 450px
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        margin: 0px 10px
+
+        & form 
+            width: 100%
+
+        & p
+            font-size: 0.8em
+            font-weight: bolder
+            margin-bottom: 0em
+
+        & input 
+            padding-right: 100%vh
+  
+
+    &__slide
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        margin: 15px 10px
+
+        @media (min-width:1100px)
+            margin: 35px 10px
+
+        & img 
+            align-self: center
+            max-width: 100%
+            border: 1px solid $midgrey
+
+        & p:first-of-type
+            font-size: 1.5em
+            font-weight: bold  
+            margin-bottom: 0 
+
+        & button
+            background-color: white
+            margin-bottom: 2em
+            padding: 0.5em 0.9em
+            font-size: 0.6em
+            border:  1px solid $midgrey    
+            border-radius: 0.25em
 
 
 .footer
