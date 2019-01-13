@@ -1,55 +1,158 @@
-$main-color:  rgb(38, 146, 137);
-$space-l: 0.8rem 0.4rem;
-$space-s: 0.4rem 0.4rem;
+$main-color: rgb(38, 146, 137);
+$space-xl: 3rem;
+$space-l: 2rem;
+$space-m: 0.8rem;
+$space-s: 0.4rem;
+$border-grey: 1px solid #dedede;
+$font-size-xl: 2rem;
+$font-size-l: 1.5rem;
+$font-size-m: 1rem;
+$font-size-s: 0.6rem;
 
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 body {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  line-height: 13px;
 }
 .head {
+  padding: $space-m $space-s;
+  font-size: $font-size-m;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  .head__title {
+    color: $main-color;
+    font-weight: 700;
+  }
+  .fas {
+    border: $border-grey;
+    border-radius: 20%;
     padding: $space-s;
-    font-size: 0.7rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 58%;
-    .head__title {
-        color: $main-color;
-        font-weight:700;
-    }
-    .fas {
-        border: 1px solid #dedede;
-        border-radius: 20%;
-        padding: $space-s;
-        height: 0.7rem;
-        font-size: 0.7rem;
-    }
+    height: 0.7rem;
+    font-size: $font-size-m;
+    margin-right: 1rem;
+  }
 }
-.title { 
-    background-color: $main-color;
-    padding: $space-l;
-    color: white;
-    font-size: 1rem;
-    font-weight:700;
+.title {
+  background-color: $main-color;
+  padding: $space-l $space-s;
+  color: white;
+  font-size: $font-size-xl;
+  font-weight: 700;
 }
 .post {
-    padding: 2rem 0.4rem;
-    .post__title {
-        font-weight:700;
-        padding: $space-s;
+  &__title {
+    font-weight: 700;
+    padding: $space-xl $space-s $space-s $space-s;
+    font-size: $font-size-l;
+  }
+  &__text {
+    font-size: $font-size-s;
+    padding: $space-m $space-s;
+    width: 100%;
+    text-align: left;
+  }
+  &__btn {
+    background-color: white;
+    border-radius: 10%;
+    outline: 0;
+    border: $border-grey;
+    font-size: $font-size-m;
+    padding: $space-s 1rem;
+    margin: $space-s $space-s $space-l $space-s;
+  }
+  &__title--padding {
+    padding: $space-m $space-s $space-s $space-s;
+    font-weight: 700;
+  }
+}
+.collapsible {
+  border: $border-grey;
+  margin: $space-s;
+  &__title {
+    font-size: $font-size-m;
+    font-weight: 700;
+    padding: $space-s $space-m;
+    border: $border-grey;
+    background-color: #eeeeee;
+    color: #333;
+  }
+  &__text {
+    font-size: $font-size-s;
+    padding: $space-s $space-m;
+    text-align: left;
+    &.collapsible__text--hidden {
+        display: none;
     }
-    .post__text{
-        font-size: 0.5rem;
-        padding: $space-s;
-        width: 60%;
-        text-align: left;
+  }
+}
+.ad {
+  width: calc(100% - #{2 * $space-s});
+  border: $border-grey;
+  margin: $space-s;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  &__features {
+    background-color: $main-color;
+    flex: 4;
+    font-weight: 700;
+    padding: 3rem 4rem $space-m $space-l;
+    line-height: 35px;
+    &__title {
+      font-size: $font-size-xl;
+      font-weight: 700;
     }
-    .post__btn{
-        background-color: white;
-        border-radius: 20%;
-        outline: 0;
-        border: 1px solid #dedede;
-        font-size: 0.5rem;
+    &__list {
+      font-size: $font-size-m;
+      font-weight: 700;
+      margin-top: $space-m;
+
+      &__item:before {
+        content: "✓";
+        font-size: 1.5rem;
+      }
     }
+    &__ad {
+      width: 75%;
+      margin: $space-m;
+    }
+  }
+  &__info {
+    background-color: #363535;
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    padding: $space-m $space-l;
+    align-items: center;
+    &__list {
+      display: flex;
+      flex-direction: row;
+      font-size: $font-size-m;
+      padding: $space-m 0;
+      &__item {
+          margin-right: $space-m;
+          &__lastchild{
+              margin-right: none;
+          }
+      }
+    }
+    &__foot {
+      font-size: 0.6rem;
+      padding: $space-m 0;
+    }
+  }
 }

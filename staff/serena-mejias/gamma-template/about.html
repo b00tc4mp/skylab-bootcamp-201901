@@ -48,7 +48,7 @@
 
       <div class="collapsible">
         <h5 class="collapsible__title">Collapsible Group Item #2</h5>
-        <p class="collapsible__text collapsible__text-hidden">
+        <p class="collapsible__text collapsible__text--hidden">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -60,7 +60,7 @@
 
       <div class="collapsible">
         <h5 class="collapsible__title">Collapsible Group Item #3</h5>
-        <p class="collapsible__text collapsible__text-hidden">
+        <p class="collapsible__text collapsible__text--hidden">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -70,10 +70,10 @@
         </p>
       </div>
 
-      <img src="images/demo2.jpg" alt="demo2" />
+      <img class="ad" src="images/demo2.jpg" alt="demo2" />
 
       <div class="post">
-        <h2 class="post__title">cabaslistically</h2>
+        <h2 class="post__title--padding">cabaslistically</h2>
         <p class="post__text">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
@@ -86,25 +86,31 @@
       </div>
     </main>
 
-    <footer>
-      <div class="container">
-        <h1 class="conteiner__title">Gamma Features</h1>
-        <ul>
-          <li>charlatanistic</li>
-          <li>unembattled</li>
-          <li>bleekbok</li>
-          <li>overtipple</li>
-          <li>empathically</li>
+    <footer class="container">
+      <div class="container__features">
+        <h1 class="container__features__title">Gamma Features</h1>
+        <ul class="container__features__list">
+          <li class="container__features__list__item">charlatanistic</li>
+          <li class="container__features__list__item">unembattled</li>
+          <li class="container__features__list__item">bleekbok</li>
+          <li class="container__features__list__item">overtipple</li>
+          <li class="container__features__list__item">empathically</li>
         </ul>
-        <img src="images/logo.png" alt="logo" />
+        <img
+          class="container__features__ad"
+          src="images/logo.png"
+          alt="logo"
+        />
       </div>
-      <ul class="container__list">
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
-        <li>Privacy Policy</li>
-      </ul>
-      <div class="container__foot">Copyright 2015.All Rights Reserved</div>
+      <div class="container__info">
+        <ul class="container__info__list">
+          <li class="container__info__list__item">Home</li>
+          <li class="container__info__list__item">About</li>
+          <li class="container__info__list__item">Contact</li>
+          <li class="container__info__list__item">Privacy Policy</li>
+        </ul>
+        <div class="container__info__foot">Copyright 2015.All Rights Reserved</div>
+      </div>
     </footer>
   </body>
 </html>
