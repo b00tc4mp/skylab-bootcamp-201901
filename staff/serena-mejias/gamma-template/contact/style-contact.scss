@@ -1,0 +1,116 @@
+$main-color: rgb(38, 146, 137);
+$space-xl: 3rem;
+$space-l: 2rem;
+$space-m: 0.8rem;
+$space-s: 0.6rem;
+$border-grey: 1px solid #dedede;
+$font-size-xl: 2rem;
+$font-size-l: 1.5rem;
+$font-size-m: 1rem;
+$font-size-s: 0.6rem;
+
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  line-height: 13px;
+}
+.head {
+  padding: $space-m $space-s;
+  font-size: $font-size-m;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  &__title {
+    color: $main-color;
+    font-weight: 700;
+  }
+  &__icon {
+    border: $border-grey;
+    border-radius: 20%;
+    padding: $space-s;
+    height: 0.7rem;
+    font-size: $font-size-m;
+    margin-right: 1rem;
+  }
+  &__menu {
+    color: #333;
+    font-weight: 500;
+    font-size: $font-size-s;
+    display: flex;
+    flex-direction: row;
+    margin: $space-s $space-m;
+    &__item {
+      margin-right: $space-m;
+    }
+  }
+}
+.title {
+  background-color: $main-color;
+  padding: $space-l $space-s;
+  color: white;
+  font-size: $font-size-xl;
+  font-weight: 700;
+}
+.column {
+  font-weight: 700;
+  font-size: $font-size-m;
+  padding: $space-l $space-s $space-s $space-s;
+  &__form__item {
+    display: flex;
+    flex-direction: column;
+    &__sub {
+      margin: $space-s 0;
+    }
+    &__sub--input {
+      border: 1px solid #cecece;
+      border-radius: 10%;
+    }
+  }
+  &__form__btn {
+    border: 1px solid #cecece;
+    border-radius: 10%;
+    margin-top: $space-m;
+  }
+  &__img{
+
+  }
+}
+.column__post {
+  &__title {
+    font-weight: 700;
+    padding: $space-xl $space-s $space-s $space-s;
+    font-size: $font-size-l;
+  }
+  &__text {
+    font-size: $font-size-s;
+    padding: $space-m $space-s;
+    width: 100%;
+    text-align: left;
+  }
+  &__btn {
+    background-color: white;
+    border-radius: 10%;
+    outline: 0;
+    border: $border-grey;
+    font-size: $font-size-m;
+    padding: $space-s 1rem;
+    margin: $space-s $space-s $space-l $space-s;
+  }
+}
+@media screen and (max-width: 500px) {
+  .head {
+    justify-content: space-between;
+    .head__menu {
+      display: none;
+    }
+  }
+}
