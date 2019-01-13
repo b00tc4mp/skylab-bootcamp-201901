@@ -122,6 +122,10 @@ a:hover {
     padding-top: 20px;
 }
   
+/* ==========================================
+    Media Queries
+============================================== */
+
   @media screen and (min-width: 768px) {
     
     .flex {   
@@ -145,12 +149,19 @@ a:hover {
     }
 
     .menu {
-        display: block;  
+        display: inline-flex;  
     }
 
     .bars {
         display: none;
     }
+    
   }
 
+  @media screen and (min-width: 1024px) {
+
+    .card {
+        margin: 40px;
+    }
+  }
   
