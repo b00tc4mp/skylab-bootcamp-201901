@@ -47,7 +47,6 @@ body
     align-content: center
     margin-bottom: 50px
 
-
     &__title
         text-align: center
         padding: 1em
@@ -73,6 +72,18 @@ body
 
         &--nonedisplay
             display: none
+
+    &-about
+        background-color: #1caa98
+        padding: 10px
+        color: white
+        margin-bottom: 50px
+
+    &-contact
+        background-color: #1caa98
+        padding: 10px
+        color: white
+        margin-bottom: 50px
 
 .article
     display: flex
@@ -146,6 +157,37 @@ body
     &__text
         font-size: 0.8em
 
+.collapsible
+    margin: 10px 5px
+
+    &__header
+        background-color: whitesmoke
+        padding: 10px
+        border: 1px solid lightgrey
+        border-radius: 5px
+
+    &__body
+        padding: 10px
+        border: 1px solid lightgrey
+        border-radius: 5px
+        margin-bottom: 10px
+    
+.form
+    display: flex
+    flex-direction: column
+    align-content: center
+    margin: 10px
+
+    &__title
+        font-weight: bold
+        margin-bottom: 5px
+
+    &__input
+        margin-bottom: 10px
+        border: 1px solid lightgrey
+        border-radius: 10px
+        padding: 10px
+
 @media (min-width: 580px)
 
     .header
@@ -187,6 +229,12 @@ body
             align-items: center
             color: black
             padding: 0 30px
+            
+            & a
+                text-decoration: none
+
+            &:hover
+                background-color: lightgrey
     
     .nav__bars
         display: none
@@ -206,6 +254,23 @@ body
     .article__img
         max-width: 50em
 
+    .header-about h1
+        margin-left: 50px
+
+    .section-about
+        margin-left: 50px
+        margin-right: 50px
+
+    .form
+        margin-left: 50px
+        margin-right: 50px
+
+@media (min-width: 1100px)
+
+    .section-about
+        display: flex
+        flex-direction: row
+    
 @media (min-width: 1400px)
 
     .header__img--nonedisplay
@@ -238,4 +303,7 @@ body
 
         &__text
             align-self: center
+
+    .form
+        width: 100em
      
