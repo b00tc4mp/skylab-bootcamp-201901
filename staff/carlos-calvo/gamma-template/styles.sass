@@ -66,11 +66,16 @@ main
         background-color: #42f49e
         color: white
 
+        h1
+            margin-left: 0.75em
         ul
             list-style: none
             
             li:before
-                 content: '✓ '
+                content: '✓ '
+
+        img
+            margin-left: 1.5em
 
 .footer1
     background-color: black
@@ -90,7 +95,83 @@ main
                 color: white
 
 
+//a partir de aqui 900 px.
+
+@media screen and (min-width: 900px)
+
+
+    .headerprincipal   
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        padding-left: 10%
+        padding-right: 10%
+
+        .headerprincipal__burger
+
+            .menudesplegableburger
+                justify-content: flex-start
+
+            .menudesplegableburger a
+                visibility: visible
+                display: inline
+                color: black
+                margin: 1em
+                font-size: 1.2em
+                text-decoration: none
+
+                
+            .imageburger
+                visibility: hidden
+                display: none
+
+    .subheader
+        .subheader__title
+            padding-left: 10%
+            padding-right: 10%
+
+    main 
+        .maincontent1
+            margin-left: 10%
+            margin-right: 10%
         
+    main 
+        .maincontent1__collapsible
+            margin-left: 10%
+            margin-right: 10%
+    
+    main
+        img 
+            margin-left: 10%
+            margin-right: 10%
+
+        .maincontent1__GammaFeatures
+            padding-left: 5%
+            padding-right: 5%
+
+    .footer1
+        font-size: 2em
+
+    
+//a partir de aqui 1100 px.
+
+@media screen and (min-width: 1100px)      
+
+
+    main
+        display: grid
+        grid-template-columns: 40% 40%
+        grid-template-rows: auto auto
+
+
+        div
+            margin-left: 0%
+            margin-left: 0%
+            
+
+
+            
+
 
 
         
