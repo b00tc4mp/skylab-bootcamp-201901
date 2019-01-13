@@ -4,11 +4,11 @@
 
 /* General Rules */
 
-html, body, header, main, section, footer
+html, body, header, main, section, footer, button
     margin: 0
     box-sizing: border-box
     width: 100%
-    font-family: 'PT Sans'
+    font-family: "Helvetica Neue"
     color: #333333
 
 h1, h2, h3, h4, h5, h6, p, ul  
@@ -24,33 +24,46 @@ h1, h2, h3, h4, h5, h6, p, ul
     display: flex
     flex-direction: column
 
-/* Header */
+/* Header in Home/About/Contact*/
 
 .menu
     +flex-space-bt
-    align-content: center
-    padding: 0.4rem
+    align-items: center
+    padding-left:1rem
+    padding-right:1rem
+    padding-top: 0.5rem
+    padding-bottom: 0.5rem
+    
 
     &__title
         font-size: 0.8rem
         color: #1baa98
-        padding: 0.4rem
 
     &__button
         display: flex
-        align-items: center
-        border: 0.01rem solid #333333
-        padding: 0.4rem
+        width: 2rem
+        height: 1rem
+        border: 0.01rem solid #999999
+        padding: 0.5rem
 
 .nav
     display: none
 
+/* Head in About/Contact */
+
+.head
+    background-color: #1baa98
+    font-size: 1.2rem
+    color: white
+    padding: 1rem
+    margin-bottom: 2rem
+
 /* Main */
 
 main 
-    +flex-col 
+    +flex-col
 
-/* First ad */
+/* First ad in Home*/
 
 .ad
     +flex-col
@@ -88,43 +101,106 @@ main
         align-self: center
         padding-bottom: 1rem
 
-/* Articles */
+/* About in About */
+.content
+    padding-left:1rem
+    padding-right:1rem 
+
+    &__about h3
+        padding-bottom: 0.5rem 
+    
+    &__about p
+        padding-bottom: 0.5rem
+
+    &__card
+
+.collapsible
+    font-size: 0.9rem
+    border: 0.01rem solid #999999
+    background-color: #F0F0F2
+    padding: 0.3rem
+    padding-left: 0.5rem
+    text-align: start 
+    font-weight: bold 
+    margin-top: 0.3rem
+
+    &__content
+        font-size: 0.8rem
+        padding-left: 0.5rem
+        border: 0.01rem solid #999999
+        border-top: 0
+
+/* Form in Contact */
+
+.content
+    &__form
+        padding-right: 1rem
+
+    &__form p 
+        font-weight: bold
+        font-size: 0.8rem
+    
+    &__form input
+        font-size: 0.8rem
+        padding-top: 0.3rem
+        padding-bottom: 0.3rem
+        padding-left: 0.5rem
+        border: 0.01rem solid #999999
+        width: 100%
+        color: #999999
+        margin-bottom: 0.5rem
+
+    &__form textarea
+        font-size: 0.8rem
+        padding-top: 0.3rem
+        padding-bottom: 0.3rem
+        padding-left: 0.5rem
+        border: 0.01rem solid #999999
+        width: 100%
+        color: #999999
+        margin-bottom: 0.5rem
+    
+.btn__submit 
+    border: 0.01rem solid #999999 !important
+    width: 15% !important
+    color: #333333 !important
+    background: white !important
+    margin-bottom: 0 !important
+
+/* Articles in Home/Contact/About*/
 
 .cards
     margin-top: 3rem
+    padding-left: 1rem
+    padding-right:1rem 
 
 .card
     +flex-col
     background-color: #ffffff
-    padding: 0.2rem
 
     &__img 
-        width: 80%
+        width: 99.5%
         align-self: center
-        padding: 1.7rem
-        border: 0.01rem solid #DBDBD9
-        margin-top: 0.4rem
+        border: 0.07rem solid #999999
+        margin-top: 1rem
     
     &__title
         text-align: left
-        padding-left: 1rem
         padding-top: 0.5rem
 
     &__body
         text-align: left
-        padding-left: 1rem
         padding-top: 0.5rem
     
 .btncontaniner__btn
-        border: 0.01rem solid #DBDBD9
+        border: 0.01rem solid #999999
         background-color: white
-        width: 18%
+        width: 20%
         padding: 0.4rem
-        margin-left: 1rem
         margin-top: 0.4rem
         font-size: 0.8rem
 
-/* Last Ad */
+/* Last Ad in Home/Contact/About */
 
 .ad2
     +flex-col
@@ -134,7 +210,7 @@ main
     padding-top: 3rem 
 
     &__img 
-        width: 40%
+        width: 50%
         margin-bottom: 0.5rem
 
 .features
@@ -152,7 +228,7 @@ main
        content: '✓ '
        line-height: 30px
 
-/* Footer */
+/* Footer in Home/Contact/About */
 
 .footer
     +flex-col
@@ -175,7 +251,7 @@ main
     & li
         padding: 0.5rem
 
-/* @media for min width 580px */
+/* @media for min width 580px just for Home*/
 
 @media only screen and (min-width: 580px )
 
@@ -215,10 +291,10 @@ main
 
     .card
         &__img 
-            width: 90%
+            width: 94.5%
             align-self: center
             padding: 0.95rem
-            border: 0.01rem solid #DBDBD9
+            border: 0.01rem solid #999999
             margin-top: 0.4rem
         
         &__title
@@ -240,7 +316,7 @@ main
         justify-content: flex-start
 
         &__title
-            padding-left: 3rem
+            padding-left: 4.4rem
             align-self: center
             font-size: 1rem 
 
@@ -283,16 +359,15 @@ main
     .card
         &__img 
             width: 80%
-            padding: 0.2rem
         
         &__title
-            margin-left: 70px
+            margin-left: 4.4rem
         
         &__body
-            margin-left: 70px
+            margin-left: 4.4rem
         
     .btncontaniner__btn
-            margin-left: 85px
+            margin-left: 4.4rem
             width: 10%
             
     .ad2
@@ -312,6 +387,25 @@ main
     
     .nav2 
         padding-left: 5rem
+
+    /* About  */
+
+    .head
+        padding-left: 5.4rem
+    
+    .content__about
+        padding-left: 4.4rem
+        padding-right: 4.4rem
+
+    /* Contact  */
+    
+    .content__form
+        padding-left: 4.4rem
+        padding-right: 4.4rem
+        width: 82.5%
+    
+    .btn__submit 
+        width: 10% !important
 
 /* @media for min width 1400px */          
 
@@ -345,16 +439,16 @@ main
         &--white
             padding-top: 5rem
             font-size: 2.9rem
-            padding-left: 8rem
+            padding-left: 10.4rem
 
         &__body
-            font-size: 1.3rem
-            padding-left: 8rem
+            font-size: 1.2rem
+            padding-left: 10.4rem
             
         &__img
             justify-content: start
-            width: 50%
-            padding-left: 7.9rem
+            width: 60%
+            padding-left: 10rem
 
         &__img img 
             width: 50%
@@ -380,17 +474,17 @@ main
             font-size: 2rem
             width: 50%
             margin-left: 0
-            padding-left: 1rem
+            padding-left: 1.2rem
 
         &__body
             font-size: 0.9rem
             width: 70%
             margin-left: 0
-            padding-left: 1rem
+            padding-left: 1.2rem
 
     .btncontaniner__btn
             width: 21%
-            margin-left: 1rem
+            margin-left: 1.2rem
             padding-left: 0
             
     .ad2
@@ -405,7 +499,6 @@ main
             width: 18%
             top: 0
             
-
     .features  
         &__title
             padding-left: 0rem
@@ -432,10 +525,40 @@ main
             padding: 0rem  
             padding-right: 0.6rem
 
-        
-        
+    /* About  */
 
+    .head
+        padding-left:10.6rem      
+    
+    .content
+        display: flex
+        flex-direction: row
 
+        &__about
+            width: 65%
+            padding-left: 9.6rem
+            padding-right: 0rem
+        
+        &__card
+            width: 30%
+    
+    /* Form  */     
+
+    .content
+        &__form
+            width: 65%
+            padding-left: 9.6rem
+            padding-right: 0rem
+            width: 54%
+    
+        &__form input
+            width: 96%
+
+        &__form textarea
+            width: 96%
+
+    .btn__submit 
+        width: 8% !important
 
 
 
