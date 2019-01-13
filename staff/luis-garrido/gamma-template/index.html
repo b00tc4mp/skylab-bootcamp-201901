@@ -12,7 +12,12 @@
 
     <header class="header">
         <div class="header__logo">Gamma</div>
-        <nav class="header__nav">
+        <nav class="header__navList">
+            <div class="header__listItem"><a href="#">Home</a></div
+            ><div class="header__listItem"><a href="#">About</a></div
+            ><div class="header__listItem"><a href="#">Contact</a></div>
+        </nav>
+        <nav class="header__navBurguer">
             <img src="img/bars-solid.svg">
         </nav>
     </header>
@@ -20,11 +25,18 @@
 
     <main>
         <section class="downloadApps">
-            <h1 class="downloadApps__title">Capture <span class="downloadApps__title--green">Life</span></h1>
-            <p class="downloadApps__text">A fun and easy way to capture & share the moments you live for</p>
-            <img class="downloadApps__image" src="img/icon_app_store.png" />
-            <br />
-            <img class="downloadApps__image" src="img/icon_google_play.png" />
+            <div class="downloadApps__left">
+                <h1 class="downloadApps__title">Capture <span class="downloadApps__title--green"> Life</span></h1>
+                <p class="downloadApps__text">A fun and easy way to capture & share the moments you live for</p>
+                <div class="downloadApps__images">
+                    <img class="downloadApps__images--imageWidth" src="img/icon_app_store.png" />
+                    <br />
+                    <img class="downloadApps__images--imageWidth" src="img/icon_google_play.png" />
+                </div>
+            </div>
+            <div class="downloadApps__right">
+                <img class="downloadApps__phone" src="img/site_phone.png" />
+            </div>
         </section>
 
         <section class="news">
@@ -39,37 +51,47 @@
             </article>
             <article class="article">
                 <img class="article__image" src="img/demo2.jpg" />
-                <h2 class="article__title">Cabalistically</h2>
-                <p class="article__text">Lorem ipsum sundarum andarunen.</p>
-                <a hclass="article__link" ref="#">Read more</a>
+                <h2 class="article__title">cabalistically</h2>
+                <p class="article__text">th scripula alcyonic secessionist underminable sexivalent bronchoalveolar dogy
+                    registrational mishmee cinderlike Encephalartos flow indetermine mosquish counterscarp revieweress
+                    inflectionless pelagic diamminobromide placement unfroward Spica uncontributing</p>
+                <a class="article__link" href="#">Read more</a>
             </article>
             <article class="article">
                 <img class="article__image" src="img/demo3.jpg" />
                 <h2 class="article__title">jargonium</h2>
-                <p class="article__text">Lorem ipsum sundarum andarunen.</p>
-                <a hclass="article__link" ref="#">Read more</a>
+                <p class="article__text">inversedly ergosterol desightment bombastically tandemist panegyrical unstormy
+                    solicitee cassine arbitrarily starring unherolike caulicole virtueproof beveler stereomicrometer
+                    orvietan sliced abstinency spurtive coextensiveness prescient senicide unradicalize</p>
+                <a class="article__link" href="#">Read more</a>
             </article>
         </section>
+        
         <section class="features">
-            <h2>Gamma Features</h2>
-            <ul>
-                <li>charlatanistic</li>
-                <li>unembattled</li>
-                <li>bleekbok</li>
-                <li>overtipple</li>
-                <li>empathically</li>
-            </ul>
+            <div class="features__left">
+                <h2 class="features__title">Gamma Features</h2>
+                <ul class="features__list">
+                    <li>charlatanistic</li>
+                    <li>unembattled</li>
+                    <li>bleekbok</li>
+                    <li>overtipple</li>
+                    <li>empathically</li>
+                </ul>
+            </div>
+            <div class="features__right">
+                <img class="features__image" src="img/logo.png" alt="camera icon" />
+            </div>
         </section>
     </main>
     
-    <footer>
+    <footer class="footer">
         <ul>
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Privacy Policy</li>
+            <li class="footer__listitem"><a href="#">Home</a></li>
+            <li class="footer__listitem"><a href="#">About</a></li>
+            <li class="footer__listitem"><a href="#">Contact</a></li>
+            <li class="footer__listitem"><a href="#">Privacy Policy</a></li>
         </ul>
-        <p>Copyright c 2015, All Rights Reserved</p>
+        <p class="footer__copyright">Copyright © 2015, All Rights Reserved</p>
     </footer>
 
     
