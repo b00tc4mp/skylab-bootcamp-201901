@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* Home */
 .same img {
   width: 80%;
   align-self: center;
@@ -7,7 +8,7 @@
   margin-top: 1rem;
 }
 
-.first, .same {
+.about-first, .first, .same {
   display: flex;
   flex-wrap: wrap;
 }
@@ -356,6 +357,31 @@ main {
     grid-row: 2/3;
     width: 35%;
   }
+}
+/* About */
+.about-t {
+  width: 100%;
+  background-color: #1baa98;
+  color: white;
+  padding: 1rem;
+}
+
+.about-first {
+  box-sizing: border-box;
+  align-content: center;
+  justify-content: center;
+}
+.about-first div {
+  width: 80%;
+  align-self: center;
+  margin: auto;
+}
+.about-first div h2 {
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+}
+.about-first div p {
+  margin-bottom: 1rem;
 }
 
 /*# sourceMappingURL=style.css.map */
