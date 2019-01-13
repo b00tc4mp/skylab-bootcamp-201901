@@ -3,6 +3,10 @@
   font-family: "PT Sans", serif;
 }
 
+p {
+  word-wrap: break-word;
+}
+
 .headerprincipal {
   background-color: white;
   display: flex;
@@ -29,6 +33,7 @@
   height: 100px;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 .subheader .subheader__title {
   color: white;
@@ -43,6 +48,7 @@ main > img {
 }
 main div {
   margin-bottom: 1em;
+  width: 100%;
 }
 main .maincontent1 {
   width: 100%;
@@ -103,8 +109,8 @@ main .maincontent1__GammaFeatures img {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 2%;
+    padding-right: 2%;
   }
   .headerprincipal .headerprincipal__burger .menudesplegableburger {
     justify-content: flex-start;
@@ -127,38 +133,49 @@ main .maincontent1__GammaFeatures img {
     padding-right: 10%;
   }
 
-  main .maincontent1 {
-    margin-left: 10%;
-    margin-right: 10%;
+  main {
+    width: 100%;
   }
-
-  main .maincontent1__collapsible {
-    margin-left: 10%;
-    margin-right: 10%;
+  main div {
+    max-width: 100%;
+    margin-left: 3%;
+    margin-right: 3%;
   }
 
   main img {
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 2%;
+    margin-right: 2%;
   }
   main .maincontent1__GammaFeatures {
-    padding-left: 5%;
-    padding-right: 5%;
+    margin-left: 0%;
   }
 
   .footer1 {
     font-size: 2em;
+    padding: 2%;
   }
 }
 @media screen and (min-width: 1100px) {
   main {
-    display: grid;
-    grid-template-columns: 40% 40%;
-    grid-template-rows: auto auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0px;
+    max-height: 60%;
   }
-  main div {
+  main .maincontent1__collapsible {
+    margin: 5%;
+  }
+  main > div {
+    max-width: 40%;
     margin-left: 0%;
     margin-left: 0%;
+  }
+  main img {
+    margin-left: 0%;
+    margin-right: 0%;
+    max-width: 40%;
   }
 }
 
