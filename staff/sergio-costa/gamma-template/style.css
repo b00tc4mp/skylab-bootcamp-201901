@@ -158,6 +158,10 @@ body {
 .footer__list li {
   margin-left: 10px;
 }
+.footer__list li a {
+  text-decoration: none;
+  color: white;
+}
 .footer__text {
   font-size: 0.8em;
 }
@@ -241,6 +245,7 @@ body {
   }
   .nav__links--nonedisplay a {
     text-decoration: none;
+    color: black;
   }
   .nav__links--nonedisplay:hover {
     background-color: lightgrey;
