@@ -1,3 +1,95 @@
+@charset "UTF-8";
+* {
+  font-family: "PT Sans", serif;
+}
 
+.headerprincipal {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.headerprincipal .headerprincipal__title {
+  color: #42f49e;
+}
+.headerprincipal .headerprincipal__burger .menudesplegableburger a {
+  visibility: hidden;
+  display: none;
+}
+.headerprincipal .headerprincipal__burger .imageburger {
+  visibility: visible;
+  width: 50px;
+  height: 50px;
+  justify-content: flex-end;
+}
+
+.subheader {
+  background-color: #42f49e;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+.subheader .subheader__title {
+  color: white;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+main > img {
+  border: 1px solid grey;
+}
+main div {
+  margin-bottom: 1em;
+}
+main .maincontent1 {
+  width: 100%;
+}
+main .maincontent1__collapsible {
+  border: 1px solid grey;
+  color: black;
+  border-radius: 0.25em;
+}
+main .maincontent1__collapsible .maincontent1__collapsible__p {
+  padding: 3em;
+}
+main .maincontent1__button {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: #ebebe0;
+  font-size: 1em;
+  border-radius: 0.25em;
+}
+main .maincontent1__GammaFeatures {
+  background-color: #42f49e;
+  color: white;
+}
+main .maincontent1__GammaFeatures ul {
+  list-style: none;
+}
+main .maincontent1__GammaFeatures ul li:before {
+  content: "✓ ";
+}
+
+.footer1 {
+  background-color: black;
+  color: white;
+  display: block;
+}
+.footer1 div {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+.footer1 div h5 {
+  margin: 1em;
+}
+.footer1 div h5 a {
+  color: white;
+}
 
 /*# sourceMappingURL=styles.css.map */
