@@ -66,10 +66,6 @@ main
         font-size: 1em
         border-radius: 0.25em
 
-    .maincontent1__GammaFeatures
-        background-color: #42f49e
-        color: white
-
         h1
             margin-left: 0.75em
         ul
@@ -85,6 +81,11 @@ main
     background-color: black
     color: white
     display: block
+
+    .footer1__GammaFeatures
+        display: block
+        background-color: #42f49e
+        color: white
 
     div
         display: flex
@@ -108,7 +109,7 @@ main
         display: flex
         justify-content: flex-start
         align-items: center
-        padding-left: 2%
+        padding-left: 5%
         padding-right: 2%
 
         .headerprincipal__burger
@@ -131,8 +132,8 @@ main
 
     .subheader
         .subheader__title
-            padding-left: 10%
-            padding-right: 10%
+            padding-left: 5%
+            padding-right: 5%
 
     main 
         width: 100%
@@ -148,13 +149,15 @@ main
             margin-left: 2%
             margin-right: 2%
 
-        .maincontent1__GammaFeatures
-            margin-left: 0%
+
 
     .footer1
         font-size: 2em
-        padding: 2%
 
+
+        .footer1__GammaFeatures
+            padding-left: 5%
+            margin-left: 0%
     
 //a partir de aqui 1100 px.
 
@@ -164,10 +167,13 @@ main
     main
         display: flex
         flex-direction: column
-        align-items: flex-start
-        justify-content: flex-start
+        flex-flow: row
+        flex-wrap: wrap
+        align-content: center
+        justify-content: center
         padding: 0px
         max-height: 60%
+
 
         .maincontent1__collapsible
             margin: 5%
@@ -175,8 +181,8 @@ main
 
         > div
             max-width: 40%
-            margin-left: 0%
-            margin-left: 0%
+            margin-left: 2%
+            margin-left: 2%
 
         img 
             margin-left: 0%

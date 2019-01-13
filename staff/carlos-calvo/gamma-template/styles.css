@@ -69,20 +69,16 @@ main .maincontent1__button {
   font-size: 1em;
   border-radius: 0.25em;
 }
-main .maincontent1__GammaFeatures {
-  background-color: #42f49e;
-  color: white;
-}
-main .maincontent1__GammaFeatures h1 {
+main .maincontent1__button h1 {
   margin-left: 0.75em;
 }
-main .maincontent1__GammaFeatures ul {
+main .maincontent1__button ul {
   list-style: none;
 }
-main .maincontent1__GammaFeatures ul li:before {
+main .maincontent1__button ul li:before {
   content: "✓ ";
 }
-main .maincontent1__GammaFeatures img {
+main .maincontent1__button img {
   margin-left: 1.5em;
 }
 
@@ -90,6 +86,11 @@ main .maincontent1__GammaFeatures img {
   background-color: black;
   color: white;
   display: block;
+}
+.footer1 .footer1__GammaFeatures {
+  display: block;
+  background-color: #42f49e;
+  color: white;
 }
 .footer1 div {
   display: flex;
@@ -109,7 +110,7 @@ main .maincontent1__GammaFeatures img {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 2%;
+    padding-left: 5%;
     padding-right: 2%;
   }
   .headerprincipal .headerprincipal__burger .menudesplegableburger {
@@ -129,8 +130,8 @@ main .maincontent1__GammaFeatures img {
   }
 
   .subheader .subheader__title {
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
   }
 
   main {
@@ -146,21 +147,23 @@ main .maincontent1__GammaFeatures img {
     margin-left: 2%;
     margin-right: 2%;
   }
-  main .maincontent1__GammaFeatures {
-    margin-left: 0%;
-  }
 
   .footer1 {
     font-size: 2em;
-    padding: 2%;
+  }
+  .footer1 .footer1__GammaFeatures {
+    padding-left: 5%;
+    margin-left: 0%;
   }
 }
 @media screen and (min-width: 1100px) {
   main {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+    flex-flow: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
     padding: 0px;
     max-height: 60%;
   }
@@ -169,8 +172,8 @@ main .maincontent1__GammaFeatures img {
   }
   main > div {
     max-width: 40%;
-    margin-left: 0%;
-    margin-left: 0%;
+    margin-left: 2%;
+    margin-left: 2%;
   }
   main img {
     margin-left: 0%;
