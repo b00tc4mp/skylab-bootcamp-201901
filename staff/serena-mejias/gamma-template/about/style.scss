@@ -28,19 +28,29 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
-  .head__title {
+  &__title {
     color: $main-color;
     font-weight: 700;
   }
-  .fas {
+  &__icon {
     border: $border-grey;
     border-radius: 20%;
     padding: $space-s;
     height: 0.7rem;
     font-size: $font-size-m;
     margin-right: 1rem;
+  }
+  &__menu {
+    color: #333;
+    font-weight: 500;
+    font-size: $font-size-s;
+    display: flex;
+    flex-direction: row;
+    margin: $space-s $space-m;
+    &__item {
+      margin-right: $space-m;
+    }
   }
 }
 .title {
@@ -92,7 +102,7 @@ body {
     padding: $space-s $space-m;
     text-align: left;
     &.collapsible__text--hidden {
-        display: none;
+      display: none;
     }
   }
 }
@@ -141,18 +151,84 @@ body {
     &__list {
       display: flex;
       flex-direction: row;
-      font-size: $font-size-m;
+      font-size: 0.6rem;
       padding: $space-m 0;
+      flex: 1;
       &__item {
-          margin-right: $space-m;
-          &__lastchild{
-              margin-right: none;
-          }
+        margin-right: $space-m;
+        &__lastchild {
+          margin-right: none;
+        }
       }
     }
     &__foot {
       font-size: 0.6rem;
       padding: $space-m 0;
+      flex: 1;
+    }
+  }
+}
+@media screen and (max-width: 450px) {
+  .head {
+    justify-content: space-between;
+    .head__menu {
+      display: none;
+    }
+  }
+}
+@media screen and (min-width: 450px) and (max-width: 900px) {
+  .head__icon {
+    display: none;
+  }
+  .container {
+    &__info {
+      &__list {
+        align-self: flex-start;
+      }
+      &__foot {
+        align-self: flex-end;
+      }
+    }
+  }
+}
+@media screen and (min-width: 900px) and (max-width: 1100px) {
+  main {
+    display: flex;
+    flex-direction: row;
+    padding: $space-l $space-xl 0 $space-xl;
+    height: 100%;
+  }
+  .column :first-child {
+    padding: $space-m $space-s $space-s $space-s;
+    flex: 2;
+    //height: calc(100% - 32.78px);
+  }
+  .column :last-child {
+    flex: 1;
+  }
+  .head__icon {
+    display: none;
+  }
+  
+  .container {
+      &__features{
+          display: flex;
+          flex-direction: row;
+          &column :first-child {
+              flex: 1;
+          }
+          &__column :last-child {
+              align-content: center;
+              flex: 1;
+          }
+      }
+    &__info {
+      &__list {
+        align-self: flex-start;
+      }
+      &__foot {
+        align-self: flex-end;
+      }
     }
   }
 }
