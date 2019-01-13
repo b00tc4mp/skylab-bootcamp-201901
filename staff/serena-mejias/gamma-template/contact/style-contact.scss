@@ -63,54 +63,202 @@ body {
 .column {
   font-weight: 700;
   font-size: $font-size-m;
-  padding: $space-l $space-s $space-s $space-s;
+  margin-top: $font-size-m;
   &__form__item {
     display: flex;
     flex-direction: column;
     &__sub {
       margin: $space-s 0;
+      padding: 0 $space-s;
     }
     &__sub--input {
       border: 1px solid #cecece;
-      border-radius: 10%;
+      border-radius: 5%;
+      margin: $space-s $space-s;
     }
   }
   &__form__btn {
     border: 1px solid #cecece;
-    border-radius: 10%;
-    margin-top: $space-m;
+    border-radius: 5%;
+    margin: 0 0 $space-m $space-s;
+    background-color: white;
   }
-  &__img{
-
+  &__img {
+    padding: $space-l $space-s $space-s $space-s;
   }
 }
 .column__post {
   &__title {
     font-weight: 700;
-    padding: $space-xl $space-s $space-s $space-s;
+    padding: $space-l $space-s $space-s $space-s;
     font-size: $font-size-l;
   }
   &__text {
     font-size: $font-size-s;
+    font-weight: 500;
     padding: $space-m $space-s;
     width: 100%;
     text-align: left;
   }
   &__btn {
     background-color: white;
-    border-radius: 10%;
+    border-radius: 5%;
     outline: 0;
     border: $border-grey;
     font-size: $font-size-m;
     padding: $space-s 1rem;
-    margin: $space-s $space-s $space-l $space-s;
+    margin-bottom: $space-l;
   }
 }
+.container {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  &__features {
+    background-color: $main-color;
+    flex: 4;
+    font-weight: 700;
+    padding: 3rem 4rem $space-m $space-xl;
+    line-height: 35px;
+    &__title {
+      font-size: $font-size-xl;
+      font-weight: 700;
+    }
+    &__list {
+      font-size: $font-size-m;
+      font-weight: 700;
+      margin-top: $space-m;
+
+      &__item:before {
+        content: "✓";
+        font-size: 1.5rem;
+      }
+    }
+    &__ad {
+      width: 75%;
+      margin: $space-m;
+    }
+  }
+  &__info {
+    background-color: #363535;
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    padding: $space-m $space-l;
+    align-items: center;
+    &__list {
+      display: flex;
+      flex-direction: row;
+      font-size: 0.6rem;
+      padding: $space-m 0;
+      flex: 1;
+      &__item {
+        margin-right: $space-m;
+        &__lastchild {
+          margin-right: none;
+        }
+      }
+    }
+    &__foot {
+      font-size: 0.6rem;
+      padding: $space-m $space-xl;
+      flex: 1;
+    }
+  }
+}
+
 @media screen and (max-width: 500px) {
   .head {
     justify-content: space-between;
     .head__menu {
       display: none;
+    }
+  }
+}
+@media screen and (min-width: 500px) and (max-width: 900px) {
+  .head {
+    padding: $space-m $space-xl;
+    &__icon {
+      display: none;
+    }
+  }
+  .title {
+    padding: $space-l $space-xl;
+  }
+  .column {
+    &__form__item__sub {
+      padding: 0 $space-xl;
+    }
+    &__form__item__sub--input {
+      margin: $space-s $space-xl;
+    }
+    &__form__btn {
+      margin: 0 0 $space-m $space-xl;
+    }
+    &__img {
+      padding: $space-l $space-s $space-s $space-xl;
+    }
+    &__post__title {
+      padding: $space-l $space-s $space-s $space-xl;
+    }
+    &__post__text {
+      padding: $space-m $space-xl;
+    }
+    &__post__btn {
+      margin: $space-s $space-xl;
+    }
+  }
+  .container {
+    &__info {
+      &__list {
+        align-self: flex-start;
+      }
+      &__foot {
+        align-self: flex-end;
+      }
+    }
+  }
+}
+@media screen and (min-width: 900px) and (max-width: 1400px) {
+  main {
+    display: flex;
+    flex-direction: row;
+    padding: $space-l $space-xl 0 $space-xl;
+    height: 100%;
+  }
+  .column :first-child {
+    padding: $space-m $space-s $space-s $space-s;
+    flex: 2;
+    //height: calc(100% - 32.78px);
+  }
+  .column :last-child {
+    flex: 1;
+  }
+  .head__icon {
+    display: none;
+  }
+
+  .container {
+    &__features {
+      display: flex;
+      flex-direction: row;
+      padding-right: 5rem;
+      &__column :first-child {
+        flex: 1;
+      }
+      &__column :last-child {
+        align-content: center;
+        flex: 1;
+      }
+    }
+    &__info {
+      &__list {
+        align-self: flex-start;
+      }
+      &__foot {
+        align-self: flex-end;
+      }
     }
   }
 }
