@@ -24,26 +24,47 @@ body
     flex-flow: row nowrap
     justify-content: space-between
     align-items: center
+    
+    @media (min-width: 900px)
+        justify-content: flex-start
+        padding: 0px 3em
 
     &__logo
         color: $green
         font-size: 1.2em
+        margin-right: 10px
 
     &__nav__burger
         border: 0.09em solid lightgrey
         border-radius: 0.5em
+        
+        @media (min-width: 900px)
+            display: none 
 
         & i 
             padding: 0.4em
-            color: grey
+            color: grey  
 
     &__nav__links
         display: none
 
+        @media (min-width: 900px)
+            display: inline
+        
+        & a 
+            text-decoration: none
+            color: $darkgrey
+            margin: 0px 10px
+            padding: 1em 0
+
+        & :hover
+            background: $midgrey
+            // preguntar como hacer height del hover como header
+
+
 
 
 .main
-    width: 100%
 
     &__asidetop
         background-color: $darkgrey
@@ -53,6 +74,12 @@ body
         align-items: center
         padding: 0 0.5em
         margin-bottom: 40px
+
+        @media (min-width: 900px)
+            align-items: flex-start
+            background-image: url("img/site_showcase_bg.jpg")
+            background-size: cover
+            padding: 2em 2em
 
         &__title
             padding-top: 20px
@@ -71,8 +98,17 @@ body
             font-size: 1.2em
             margin-top: 0px
 
+        & div:last-of-type
+            display: flex
+            flex-direction: column
+            align-items: center
+
+            @media (min-width: 900px)
+                flex-direction: row   
+
         & img 
-            padding-bottom: 20px  
+            // padding-bottom: 20px 
+            padding: 10px 10px 20px 10px 
 
         & img:first-of-type
             max-width: 217px          
@@ -109,6 +145,11 @@ body
         flex-direction: column
         align-items: flex-start 
 
+        @media (min-width:1100px)
+            flex-direction: row
+            justify-content: space-around
+            padding: 2.5em
+
         & p:first-of-type 
             margin-bottom: 0px
             font-weight: bolder
@@ -126,7 +167,10 @@ body
 
         & img 
             max-width: 12em
-            margin-bottom: 32px        
+            margin-bottom: 32px  
+
+            @media (min-width:1100px)
+                align-self: center      
 
 
 .footer
@@ -138,7 +182,27 @@ body
     align-items: center
     justify-content: space-evenly
 
+    @media (min-width: 900px)
+        align-items: flex-start
+
+    @media (min-width:1100px)
+        flex-direction: row
+        justify-content: space-between
+        align-items: center   
+
+    &__nav
+        @media (min-width: 900px)
+            padding-left: 40px
+
     &__nav a
         margin: 0px 5px
         text-decoration: none
         color: white
+
+    & p 
+        @media (min-width: 900px)
+            align-self: flex-end
+            padding-right: 40px  
+
+        @media (min-width:1100px)
+            align-self: center         
