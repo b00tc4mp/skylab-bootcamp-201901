@@ -1,0 +1,92 @@
+* {
+  font-family: "PT Sans", serif;
+}
+
+.headerprincipal {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.headerprincipal__title {
+  color: #42f49e;
+}
+
+.headerprincipal__burger .menudesplegableburger a {
+  visibility: hidden;
+  display: none;
+}
+.headerprincipal__burger .imageburger {
+  visibility: visible;
+  width: 50px;
+  height: 50px;
+  justify-content: flex-end;
+}
+
+.subheader {
+  background-color: #42f49e;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.subheader .subheader__title {
+  color: white;
+}
+
+.sectionmain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 0.25em;
+}
+.sectionmain .sectionmain__formulario {
+  width: 100%;
+  margin-bottom: 1em;
+  font-style: inherit;
+}
+.sectionmain .sectionmain__formulario form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.sectionmain .sectionmain__formulario form input[type=submit] {
+  border-radius: 6px;
+}
+.sectionmain .sectionmain__contenido img {
+  max-width: 100%;
+}
+
+.GammaFeatures {
+  display: block;
+  background-color: #42f49e;
+  color: white;
+  padding-bottom: 0;
+}
+
+.footer1 {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 50px;
+}
+.footer1 .footer1_firstrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.footer1 .footer1_firstrow h5 {
+  margin: 0;
+}
+.footer1 .footer1_firstrow h5 a {
+  color: inherit;
+  font-style: none;
+}
+
+/*# sourceMappingURL=stylescontact.css.map */
