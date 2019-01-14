@@ -68,6 +68,10 @@ h2 {
     height: 75%;
 }
 
+i {
+    margin-left: 0.3rem
+}
+
 #glass {
     font-size: 1.2rem;
 }
@@ -144,6 +148,10 @@ footer {
        padding-right: 10px;
     }
 
+    .showMenuContent a {
+        font-size: 1.1rem 
+    }
+
     .showMenu:hover .showMenuContent {
         display: flex;
     }
@@ -185,6 +193,10 @@ footer {
         position: inherit;
         background-color: inherit;
         justify-content: space-around;
+    }
+
+    .showMenuContent a {
+        font-size: 1.3rem 
     }
 
     .showMenu button {
