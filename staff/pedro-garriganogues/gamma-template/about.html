@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <script src="main.js"></script>
+</head>
+
+
+
+<body>
+
+    <header class="header">
+        <h1 class="green-font">Gamma</h1>
+        <img class="burger" src="./images/bars-solid.svg" alt="404">
+        <section class="redirect">
+            <a class="link" href="index.html">Home</a>
+            <a class="link" href="about.html">About</a>
+            <a class="link" href="contact.html">Contact</a>
+        </section>
+    </header>
+
+    <h1 class="green-top white-font" >About Gamma</h1>
+    
+    <main class="supermain">
+
+
+        <section class=superaccordion>
+            <div>
+                <h1>intrigueproof</h1>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi maxime iure magni dolorem
+                    laboriosam, provident possimus, qui, dolorum suscipit vel et dignissimos consequuntur sint deleniti
+                    consequatur deserunt. Porro, quod tenetur.</p>
+            </div>
+            <div class="accordion">
+                <button class="collapsible">Collapsible Group Item #1</button>
+                <div class="content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip
+                        ex ea commodo consequat.</p>
+                </div>
+            </div>
+            <div class="accordion">
+                <button class="collapsible">Collapsible Group Item #2</button>
+                <div class="content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip
+                        ex ea commodo consequat.</p>
+                </div>
+
+            </div>
+            <div class="accordion">
+                <button class="collapsible">Collapsible Group Item #3</button>
+                <div class="content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip
+                        ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section class="amigo">
+            <img class="picture" src="./images/3.jpg" alt="404">
+            <div class="description">
+                <h1>cabalistically</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime veritatis blanditiis temporibus nemo
+                    ducimus alias accusantium magnam, eaque hic corrupti sint assumenda nulla cumque beatae, unde iste
+                    voluptatum maiores obcaecati?</p>
+            </div>
+            <a class="button-more">Read more</a>
+        </section>
+
+    </main>
+
+
+
+
+
+
+
+
+
+    <footer class="footer">
+
+        <div class="green">
+            <div class="white-font">
+                <h1>Gamma features</h1>
+                <p>&#10003 chalatanistic</p>
+                <p>&#10003 unembattled</p>
+                <p>&#10003 bleekbok</p>
+                <p>&#10003 overtipple</p>
+                <p>&#10003 empathically</p>
+                <img src="./images/camara.png" alt="404">
+            </div>
+        </div>
+
+
+        <div class="black">
+            <div class="white-font">
+                <a>Home</a>
+                <a>About</a>
+                <a>Contact</a>
+                <a>Privacy policy</a>
+                <p>Copyright 2015 ©, All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
+
+</html>
