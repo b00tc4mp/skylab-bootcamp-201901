@@ -21,24 +21,23 @@ $turquoise-background: #1ca495
 $turquoise-dark-color: #124c46
 
 
-/*mixins*/
+/*extensions*/
 
 %flexbtw 
     display: flex
-    flex-direction: space-between
-
+    justify-content: space-between
+   
 
 
 
 body
+  
     margin: 0px
     font-family: 'Open Sans', sans-serif
 
 header
-
+    @extend %flexbtw
     background: #f2ece4
-    display: flex
-    justify-content: space-between
     align-items: center
     padding: 1rem
 
