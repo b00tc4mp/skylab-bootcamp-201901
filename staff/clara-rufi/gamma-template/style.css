@@ -14,6 +14,7 @@ details summary::-webkit-details-marker {
 
 /*end reset*/
 /*start variables*/
+/*mixins*/
 body {
   margin: 0px;
   font-family: "Open Sans", sans-serif;
