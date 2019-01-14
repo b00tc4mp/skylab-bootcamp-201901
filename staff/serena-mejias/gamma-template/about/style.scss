@@ -198,6 +198,7 @@ body {
     padding: $space-l $space-xl 0 $space-xl;
     height: 100%;
   }
+  
   .column :first-child {
     padding: $space-m $space-s $space-s $space-s;
     flex: 2;
@@ -211,13 +212,14 @@ body {
   }
   
   .container {
-      &__features{
+      &__features {
           display: flex;
           flex-direction: row;
-          &column :first-child {
+          flex: 1;
+          & :first-child {
               flex: 1;
           }
-          &__column :last-child {
+          & :last-child {
               align-content: center;
               flex: 1;
           }

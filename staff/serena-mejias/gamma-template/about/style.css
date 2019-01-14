@@ -208,11 +208,12 @@ body {
   .container__features {
     display: flex;
     flex-direction: row;
-  }
-  .container__featurescolumn :first-child {
     flex: 1;
   }
-  .container__features__column :last-child {
+  .container__features :first-child {
+    flex: 1;
+  }
+  .container__features :last-child {
     align-content: center;
     flex: 1;
   }
