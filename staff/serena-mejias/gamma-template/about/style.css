@@ -23,6 +23,11 @@ body {
   align-items: center;
   width: 100%;
 }
+@media screen and (max-width: 450px) {
+  .head {
+    justify-content: space-between;
+  }
+}
 .head__title {
   color: #269289;
   font-weight: 700;
@@ -35,6 +40,11 @@ body {
   font-size: 1rem;
   margin-right: 1rem;
 }
+@media screen and (min-width: 450px) and (max-width: 1400px) {
+  .head__icon .head__icon {
+    display: none;
+  }
+}
 .head__menu {
   color: #333;
   font-weight: 500;
@@ -42,6 +52,11 @@ body {
   display: flex;
   flex-direction: row;
   margin: 0.4rem 0.8rem;
+}
+@media screen and (max-width: 450px) {
+  .head__menu {
+    display: none;
+  }
 }
 .head__menu__item {
   margin-right: 0.8rem;
@@ -53,6 +68,15 @@ body {
   color: white;
   font-size: 2rem;
   font-weight: 700;
+}
+
+@media screen and (min-width: 900px) and (max-width: 1400px) {
+  main {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem 3rem 0 3rem;
+    height: 100%;
+  }
 }
 
 .post__title {
@@ -152,6 +176,11 @@ body {
   padding: 0.8rem 0;
   flex: 1;
 }
+@media screen and (min-width: 450px) and (max-width: 1400px) {
+  .container__info__list {
+    align-self: flex-start;
+  }
+}
 .container__info__list__item {
   margin-right: 0.8rem;
 }
@@ -163,35 +192,13 @@ body {
   padding: 0.8rem 0;
   flex: 1;
 }
-
-@media screen and (max-width: 450px) {
-  .head {
-    justify-content: space-between;
-  }
-  .head .head__menu {
-    display: none;
-  }
-}
-@media screen and (min-width: 450px) and (max-width: 900px) {
-  .head__icon {
-    display: none;
-  }
-
-  .container__info__list {
-    align-self: flex-start;
-  }
+@media screen and (min-width: 450px) and (max-width: 1400px) {
   .container__info__foot {
     align-self: flex-end;
   }
 }
-@media screen and (min-width: 900px) and (max-width: 1100px) {
-  main {
-    display: flex;
-    flex-direction: row;
-    padding: 2rem 3rem 0 3rem;
-    height: 100%;
-  }
 
+@media screen and (min-width: 900px) and (max-width: 1100px) {
   .column :first-child {
     padding: 0.8rem 0.4rem 0.4rem 0.4rem;
     flex: 2;
@@ -199,10 +206,6 @@ body {
 
   .column :last-child {
     flex: 1;
-  }
-
-  .head__icon {
-    display: none;
   }
 
   .container__features {
@@ -216,12 +219,6 @@ body {
   .container__features :last-child {
     align-content: center;
     flex: 1;
-  }
-  .container__info__list {
-    align-self: flex-start;
-  }
-  .container__info__foot {
-    align-self: flex-end;
   }
 }
 
