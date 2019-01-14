@@ -1,0 +1,47 @@
+body
+    width: 100%
+    height: 100%
+    margin: 0
+    padding: 0
+    background: linear-gradient(180deg, #4ac0e4 50%, lightgray 50%)
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif
+.header
+    display: grid
+    grid-template-rows: 1fr 1fr
+    grid-template-columns: 50px 1fr 50px
+    &__log
+        grid-column: 2 / 3
+        grid-row: 1 / 2
+        justify-self: end
+        p
+            color: white
+    &__nav
+        grid-column: 2 / 3
+        grid-row: 2 / 3
+        display: flex
+        flex-direction: row
+        button
+            background-color: #46484c
+            border: 1px solid #46484c
+            margin: 0.5rem
+            border-radius: 0.5rem
+            color: white
+        nav
+            background-color: #e3e5ea
+            border: 1px solid #e3e5ea
+            padding: 0.5rem
+            border-radius: 0.5rem
+            display: flex
+            align-content: center
+            a
+                text-align: center
+                align-self: center
+                text-decoration: none
+                color: black
+                padding: 0.5rem
+                font-weight: bold
+                border-right: 1px solid white
+            input
+                border-radius: 0.5rem
+
+    
