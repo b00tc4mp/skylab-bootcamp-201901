@@ -60,6 +60,8 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   align-self: center;
   justify-self: center;
   font-size: 0.85rem;
+  border-right: 1px solid grey;
+  padding-right: 2rem;
 }
 .header__navigationbar-nav-features {
   grid-area: features;
