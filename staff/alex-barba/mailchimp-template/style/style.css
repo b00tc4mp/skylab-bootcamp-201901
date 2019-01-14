@@ -8,7 +8,6 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
 }
 
 /* Mixins */
-/* Other Classes */
 /* Header */
 .header {
   height: 7%;
@@ -42,6 +41,7 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
 .navigationbar__btn {
   color: white;
   background-color: #4f524c;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 51%);
   border-radius: 0.4rem;
   border: none;
   width: 75%;
@@ -112,7 +112,7 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   height: 55%;
   width: 100%;
   padding-right: 2rem;
-  background-image: linear-gradient(to bottom, #44bdd5 50%, #cdd1d1 50%);
+  background-image: linear-gradient(to bottom, #44bdd5 50%, black 50.03%, white 50.1%, #cdd1d1 50.3%);
 }
 .content__header {
   height: 45%;
@@ -150,6 +150,7 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
 .text_container button {
   color: white;
   background-color: #4f524c;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 51%);
   border-radius: 0.4rem;
   border: none;
   width: 75%;
