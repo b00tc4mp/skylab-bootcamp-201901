@@ -293,6 +293,94 @@ html
             padding: 5%
             text-align: center
 
+@media (min-width: 900px)
+
+    .about
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 7% 31% 37% 28%
+
+        .aheader
+            &__title
+                padding: 1rem 6rem
+
+            &__menu
+                padding:0 6rem
+                justify-content: flex-start
+
+                &--display
+                    display: initial
+                    padding: 0 1em
+
+                #burger
+                    display: none
+
+        .amain
+            padding: 0 10%
+
+            &__product
+                img
+                    width: 100%
+
+        footer
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows:30% 50% 20%
+            
+            div
+                padding-left: 3rem
+
+                h2 
+                    padding-left: 4rem
+            img
+                align-self: flex-start
+                grid-column-start: 1
+                grid-row-start: 2
+                padding-left: 6rem
+            nav
+                grid-column-start: 1
+                grid-row-start: 3
+        
+            p
+                grid-column-start: 2
+                grid-row-start: 3
+
+@media (min-width: 1100px)
+
+    .about
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 15% 55% 30%
+
+        .amain
+            display: grid
+            grid-template-columns: 60% 40%
+            grid-template-row: 100%
+            padding: 0% 8%
+            grid-gap: 5%
+
+
+        footer
+            grid-row-start: 3
+            grid-row-end: 4
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows: 80% 20%
+            
+            div
+                width:250px
+                padding-left: 25%
+                font-size: 20px
+                
+                li
+                    padding-bottom: 10%
+
+            img
+                grid-column-start: 2
+                grid-row-start: 1
+                padding-top: 10%
+
+
 /* CONTACT______________________________________________________*/
 .contact
     display: grid
@@ -343,7 +431,7 @@ html
         
         &__product
             &__img
-                max-width: 100%
+                width: 100%
                 border: 1px solid gray
 
     footer
@@ -376,4 +464,102 @@ html
             padding: 5%
             text-align: center
 
+@media (min-width: 900px)
+
+    .contact
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 8% 25% 39% 31%
+
+        .cheader
+            &__title
+                padding: 1rem 9rem
+
+            &__menu
+                padding:0 9rem
+                justify-content: flex-start
+
+                &--display
+                    display: initial
+                    padding: 0 1em
+
+                #burger
+                    display: none
+
+        .cmain
+            padding: 0 9em
+
+            &__product
+                img
+                    width: 100%
+
+        footer
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows:30% 50% 20% 
+            
+            div
+                padding-left: 6em
+                h2
+                    padding-left: 2em
+
+            img
+                align-self: flex-start
+                grid-column-start: 1
+                grid-row-start: 2
+                padding-left: 9em
+
+            nav
+                grid-column-start: 1
+                grid-row-start: 3 
+            p
+                grid-column-start: 2
+                grid-row-start: 3
+
 @media (min-width: 1100px)
+    .contact
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 13% 50% 37%
+        
+        .cheader
+            grid-row-start: 1
+            grid-row-end: 2
+
+        .cmain
+            display: grid
+            grid-template-columns: 60% 40%
+            grid-template-row: 100%
+            padding: 0% 15%
+            grid-gap: 5%
+
+
+            &__form
+                grid-column-start: 1
+                grid-column-end: 2
+
+            &__product
+                grid-column-start: 2
+                grid-column-end: 3
+
+                
+        footer
+            grid-row-start: 3
+            grid-row-end: 4
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows: 80% 20%
+            
+            div
+                width:250px
+                padding-left: 25%
+                font-size: 20px
+                
+                li
+                    padding-bottom: 10%
+
+            img
+                grid-column-start: 2
+                grid-row-start: 1
+                padding-top: 10%
+

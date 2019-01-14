@@ -294,6 +294,92 @@ html {
   text-align: center;
 }
 
+@media (min-width: 900px) {
+  .about {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 7% 31% 37% 28%;
+  }
+  .about .aheader__title {
+    padding: 1rem 6rem;
+  }
+  .about .aheader__menu {
+    padding: 0 6rem;
+    justify-content: flex-start;
+  }
+  .about .aheader__menu--display {
+    display: initial;
+    padding: 0 1em;
+  }
+  .about .aheader__menu #burger {
+    display: none;
+  }
+  .about .amain {
+    padding: 0 10%;
+  }
+  .about .amain__product img {
+    width: 100%;
+  }
+  .about footer {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 30% 50% 20%;
+  }
+  .about footer div {
+    padding-left: 3rem;
+  }
+  .about footer div h2 {
+    padding-left: 4rem;
+  }
+  .about footer img {
+    align-self: flex-start;
+    grid-column-start: 1;
+    grid-row-start: 2;
+    padding-left: 6rem;
+  }
+  .about footer nav {
+    grid-column-start: 1;
+    grid-row-start: 3;
+  }
+  .about footer p {
+    grid-column-start: 2;
+    grid-row-start: 3;
+  }
+}
+@media (min-width: 1100px) {
+  .about {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 15% 55% 30%;
+  }
+  .about .amain {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-row: 100%;
+    padding: 0% 8%;
+    grid-gap: 5%;
+  }
+  .about footer {
+    grid-row-start: 3;
+    grid-row-end: 4;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 80% 20%;
+  }
+  .about footer div {
+    width: 250px;
+    padding-left: 25%;
+    font-size: 20px;
+  }
+  .about footer div li {
+    padding-bottom: 10%;
+  }
+  .about footer img {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    padding-top: 10%;
+  }
+}
 /* CONTACT______________________________________________________*/
 .contact {
   display: grid;
@@ -344,7 +430,7 @@ html {
   background-color: white;
 }
 .contact .cmain__product__img {
-  max-width: 100%;
+  width: 100%;
   border: 1px solid gray;
 }
 .contact footer {
@@ -378,6 +464,105 @@ html {
   margin: 0;
   padding: 5%;
   text-align: center;
+}
+
+@media (min-width: 900px) {
+  .contact {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 8% 25% 39% 31%;
+  }
+  .contact .cheader__title {
+    padding: 1rem 9rem;
+  }
+  .contact .cheader__menu {
+    padding: 0 9rem;
+    justify-content: flex-start;
+  }
+  .contact .cheader__menu--display {
+    display: initial;
+    padding: 0 1em;
+  }
+  .contact .cheader__menu #burger {
+    display: none;
+  }
+  .contact .cmain {
+    padding: 0 9em;
+  }
+  .contact .cmain__product img {
+    width: 100%;
+  }
+  .contact footer {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 30% 50% 20%;
+  }
+  .contact footer div {
+    padding-left: 6em;
+  }
+  .contact footer div h2 {
+    padding-left: 2em;
+  }
+  .contact footer img {
+    align-self: flex-start;
+    grid-column-start: 1;
+    grid-row-start: 2;
+    padding-left: 9em;
+  }
+  .contact footer nav {
+    grid-column-start: 1;
+    grid-row-start: 3;
+  }
+  .contact footer p {
+    grid-column-start: 2;
+    grid-row-start: 3;
+  }
+}
+@media (min-width: 1100px) {
+  .contact {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 13% 50% 37%;
+  }
+  .contact .cheader {
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+  .contact .cmain {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-row: 100%;
+    padding: 0% 15%;
+    grid-gap: 5%;
+  }
+  .contact .cmain__form {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+  .contact .cmain__product {
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+  .contact footer {
+    grid-row-start: 3;
+    grid-row-end: 4;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 80% 20%;
+  }
+  .contact footer div {
+    width: 250px;
+    padding-left: 25%;
+    font-size: 20px;
+  }
+  .contact footer div li {
+    padding-bottom: 10%;
+  }
+  .contact footer img {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    padding-top: 10%;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
