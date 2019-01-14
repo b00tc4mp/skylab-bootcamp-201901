@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,900')
+
+
+.body-contact
+    margin: 0em
+    font-family: 'Roboto', sans-serif
+    //width: 100%
+
+    .nav-bar
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: space-between
+        max-width: 100%
+        border: 0
+        padding: 0
+        margin: 0
+
+        .nav-bar__gamma
+            color:  rgb(20, 153, 131)
+            margin: 1em
+
+        .nav-bar__components
+            display: none
+
+        .nav-bar__hamburguer
+            color: gray
+            padding: 0.4em
+            margin-right: 1em
+            border-style: solid
+            border-color: grey
+            border-radius: 0.4em
+            border-width: 0.1em
+
+    a:hover
+        color: #149983
+    a
+        text-decoration: none
+
+
+    .page-title
+        background-color: rgb(20, 153, 131)
+        max-width: 100%
+        margin: 0em
+
+        .page-title__header
+            font-weight: 900
+            font-size: 2em
+            padding: 1em
+            margin: 0em
+            color: white
+
+    .main-grid-container
+        display: grid
+        grid-template-columns: 1fr
+        margin-top: 2em
+        max-width: 100%
+
+        .main-grid-container__messages
+            margin: 1em
+
+            .main-grid-container__messages__text
+                width: 100%
+                padding: 0.5em
+                margin: 0em
+            
+            .main-grid-container__messages__input
+                color: rgb(36, 39, 49)
+                width: 98%
+                //padding: 0.5em
+                margin-left: 0.5em
+                border-style: solid
+                border-color: grey
+                border-radius: 0.3em
+                border-width: 0.1em
+
+            .main-grid-container__messages__button
+                background-color: white
+                border-style: solid
+                border-color: grey
+                border-radius: 0.3em
+                border-width: 0.1em
+                padding: 0.5em
+                align-self: flex-start
+                color: rgb(36, 39, 49)
+                margin-left: 0.5em
+
+        .main-grid-container__article
+            display: flex
+            flex-direction: column
+            justify-content: center
+            //padding: 1em
+            //width: 100%
+            margin: 1em
+
+            .main-grid-container__article__image
+                align-self: center
+                padding: 0.25em
+                border-style: solid
+                border-color: rgb(36, 39, 49)
+                border-radius: 0.1em
+                border-width: 0.05em
+                max-width:100%
+                padding: 0.5em
+
+            .main-grid-container__article__title
+                color: rgb(36, 39, 49)
+                max-width:100%
+                padding: 0.5em
+                margin: 0em
+
+            .main-grid-container__article__text
+                color: rgb(36, 39, 49)
+                max-width: 100%
+                padding: 0.5em
+                margin: 0em
+
+            .main-grid-container__article__button
+                background-color: white
+                border-style: solid
+                border-color: grey
+                border-radius: 0.3em
+                border-width: 0.1em
+                padding: 0.5em
+                align-self: flex-start
+                color: rgb(36, 39, 49)
+                margin-left: 0.5em
+
+    .features-container
+        background-color:  rgb(20, 153, 131)
+        display: flex
+        flex-direction: column
+        width: 100%
+
+        .features-container__list
+            color: white
+            padding: 1em
+
+            .features-container__flexbox2__title
+                font-size: 1em
+
+            //.features-container__flexbox2__list
+                //list-style: none
+
+        .features-container__img
+            align-self: flex-start
+            padding: 1em
+                
+    .footer
+        background-color: rgb(44, 44, 44)
+        color: white
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+
+    @media (min-width: 580px)
+    
+        .footer
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            align-items: flex-start
+            padding: 0em
+    
+            .footer__info
+                align-self: flex-start
+                padding: 3em
+    
+            .footer__copyright
+                align-self: flex-end
+                padding: 3em
+    
+    @media (min-width: 900px)
+    
+        .nav-bar            
+            //padding: 1em            
+    
+            .nav-bar__components
+                padding: 0em
+                margin: 0em
+                display: inline //!important
+    
+            .nav-bar__components__contact
+                margin: 0em
+                background-color: rgb(202, 202, 202)
+                padding: 1em
+
+        //a:hover
+            //color: #149983
+
+        //a
+            //text-decoration: none
+
+    @media (min-width: 1400px)
+
+        .main-grid-container
+            display: grid
+            grid-template-columns: 1fr 1fr
+            margin-top: 2em
+            max-width: 100%
+
+            .main-grid-container__messages
+                margin-left: 5em
+
+        .features-container
+            background-color:  rgb(20, 153, 131)
+            display: grid
+            grid-template-columns: 1fr 1fr
+            //width: 100%
+
+            .features-container__list
+                color: white
+                padding: 1em
+                margin-left: 14em
+                
+
+                .features-container__flexbox2__title
+                    font-size: 1em
+
+                //.features-container__flexbox2__list
+                    //list-style: none
+
+            .features-container__img
+                align-self: flex-start
+                padding: 1em
