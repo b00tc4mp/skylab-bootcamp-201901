@@ -94,11 +94,23 @@ body, html {
   display: flex;
   flex-flow: column wrap;
   text-align: center;
+  height: 10%;
   background-color: #1B222A;
 }
 @media screen and (min-width: 580px) {
   .main__home {
+    text-align: left;
     background: url(./images/site_showcase_bg.jpg) center no-repeat;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main__home {
+    padding: 4rem;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .main__home {
+    height: 465px;
   }
 }
 .main__home h2 {
@@ -108,11 +120,25 @@ body, html {
 .main__home span {
   color: #1CAA98;
 }
-.main__home img {
+.main__icons {
   margin: 0 auto;
   margin-bottom: 2rem;
   width: 70%;
   height: auto;
+}
+@media screen and (min-width: 580px) {
+  .main__icons {
+    width: 100%;
+  }
+}
+.main__phone {
+  width: 0.1%;
+  visibility: hidden;
+  visibility: visible;
+  width: 26%;
+  height: auto;
+  margin-left: -40rem;
+  margin-top: 0.4rem;
 }
 .main__title {
   padding: 1rem 2rem;
