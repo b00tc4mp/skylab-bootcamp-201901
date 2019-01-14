@@ -1,0 +1,716 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,900')
+
+
+.body-home
+    margin: 0em
+    font-family: 'Roboto', sans-serif
+    //width: 100%
+
+    .nav-bar
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: space-between
+        width: 100%
+        border: 0
+        padding: 0
+        margin: 0
+
+        .nav-bar__gamma
+            color:  rgb(20, 153, 131)
+            margin: 1em
+
+        .nav-bar__components
+            display: none
+
+        .nav-bar__hamburguer
+            color: gray
+            padding: 0.4em
+            margin-right: 1em
+            border-style: solid
+            border-color: grey
+            border-radius: 0.4em
+            border-width: 0.1em
+
+    a:hover
+        color: #149983
+    a
+        text-decoration: none
+
+    .page-title
+        background-color: rgb(36, 39, 49)
+        display: flex
+        flex-direction: column
+        align-items: center
+        width: 100%
+        //padding: 1em
+
+        .page-title__header
+            font-weight: 900
+            font-size: 2em
+            padding: 1em
+            margin: 0em
+
+            .page-title__header__1
+                color: white
+
+            .page-title__header__2
+                color:  rgb(20, 153, 131)
+
+        .page-title__quote
+            color: white
+            font-size: 1em
+            text-align: center
+            padding: 1em
+            margin: 0em
+
+        .page-title__icon
+            display: flex
+            flex-flow: column
+            align-items: center
+            padding: 1em
+
+            .page-title__icon-img
+                padding: 0.5em
+                max-width: 100%
+
+
+        .page-title__extra
+            display: none
+
+    .main-grid-container
+        display: grid
+        grid-template-columns: 1fr
+        margin-top: 5em
+        max-width: 100%
+
+        .article-block
+            display: flex
+            flex-direction: column
+            justify-content: center
+            margin: 1em
+
+            .article-block__image
+                align-self: center
+                padding: 0.25em
+                border-style: solid
+                border-color: rgb(36, 39, 49)
+                border-radius: 0.1em
+                border-width: 0.05em
+                max-width:100%
+                padding: 0.5em
+
+            .article-block__title
+                color: rgb(36, 39, 49)
+                max-width:100%
+                padding: 0.5em
+                margin: 0em
+
+            .article-block__text
+                color: rgb(36, 39, 49)
+                max-width: 100%
+                padding: 0.5em
+                margin: 0em
+
+            .article-block__button
+                background-color: white
+                border-style: solid
+                border-color: grey
+                border-radius: 0.3em
+                border-width: 0.1em
+                padding: 0.5em
+                align-self: flex-start
+                color: rgb(36, 39, 49)
+                margin-left: 0.5em
+
+    .features-container
+        background-color:  rgb(20, 153, 131)
+        display: flex
+        flex-direction: column
+        width: 100%
+
+        .features-container__list
+            color: white
+            padding: 1em
+
+            .features-container__flexbox2__title
+                font-size: 1em
+
+            //.features-container__flexbox2__list
+                //list-style: none
+
+        .features-container__img
+            align-self: flex-start
+            padding: 1em
+                
+    .footer
+        background-color: rgb(44, 44, 44)
+        color: white
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+
+    @media (min-width: 580px)
+        .page-title
+            background-image: url("./images/site_showcase_bg.jpg")
+            //width: 100%
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+            //padding: 2em
+    
+    
+            .page-title__header
+                font-size: 3em
+                padding: 1em
+    
+            .page-title__quote
+                font-size: 1.5em
+                padding: 1em
+    
+            .page-title__icon
+                flex-flow: row
+
+        .footer
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            align-items: flex-start
+            padding: 0em
+    
+            .footer__info
+                align-self: flex-start
+                padding: 3em
+    
+            .footer__copyright
+                align-self: flex-end
+                padding: 3em
+    
+    @media (min-width: 900px)
+    
+        .nav-bar            
+            justify-content: flex-start        
+    
+            .nav-bar__components
+                padding: 0em
+                margin: 0em
+                display: inline //!important
+                padding: 1em
+    
+            .nav-bar__components__home
+                background-color: rgb(202, 202, 202)
+                //padding: 1em
+
+            .nav-bar__hamburguer
+                display: none
+
+    @media (min-width: 1400px)
+
+        .page-title
+            display: grid
+            grid-template-columns: 1fr 1fr
+
+            .page-title__grid1
+                padding: 1em
+            .page-title__flex2
+                display: flex
+                justify-content: flex-start
+                align-items: flex-end
+                width: 100%
+                height: 100%
+
+                .page-title__extra
+                    display: inline-block
+                    max-height: 98%
+                
+
+
+        .main-grid-container
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr
+            margin-top: 5em
+            //max-width: 100%
+
+        .features-container
+            background-color:  rgb(20, 153, 131)
+            display: grid
+            grid-template-columns: 1fr 1fr
+            //width: 100%
+
+            .features-container__list
+                color: white
+                padding: 1em
+                margin-left: 14em
+                
+
+                .features-container__flexbox2__title
+                    font-size: 1em
+
+                //.features-container__flexbox2__list
+                    //list-style: none
+
+            .features-container__img
+                align-self: flex-start
+                padding: 1em
+    
+//contact style sheet
+
+.body-contact
+    margin: 0em
+    font-family: 'Roboto', sans-serif
+    //width: 100%
+
+    .nav-bar
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: space-between
+        max-width: 100%
+        border: 0
+        padding: 0
+        margin: 0
+
+        .nav-bar__gamma
+            color:  rgb(20, 153, 131)
+            margin: 1em
+
+        .nav-bar__components
+            display: none
+
+        .nav-bar__hamburguer
+            color: gray
+            padding: 0.4em
+            margin-right: 1em
+            border-style: solid
+            border-color: grey
+            border-radius: 0.4em
+            border-width: 0.1em
+
+    a:hover
+        color: #149983
+    a
+        text-decoration: none
+
+
+    .page-title
+        background-color: rgb(20, 153, 131)
+        max-width: 100%
+        margin: 0em
+
+        .page-title__header
+            font-weight: 900
+            font-size: 2em
+            padding: 1em
+            margin: 0em
+            color: white
+
+    .main-grid-container
+        display: grid
+        grid-template-columns: 1fr
+        margin-top: 2em
+        max-width: 100%
+
+        .main-grid-container__messages
+            margin: 1em
+
+            .main-grid-container__messages__text
+                width: 100%
+                padding: 0.5em
+                margin: 0em
+            
+            .main-grid-container__messages__input
+                color: rgb(36, 39, 49)
+                width: 98%
+                //padding: 0.5em
+                margin-left: 0.5em
+                border-style: solid
+                border-color: grey
+                border-radius: 0.3em
+                border-width: 0.1em
+
+            .main-grid-container__messages__button
+                background-color: white
+                border-style: solid
+                border-color: grey
+                border-radius: 0.3em
+                border-width: 0.1em
+                padding: 0.5em
+                align-self: flex-start
+                color: rgb(36, 39, 49)
+                margin-left: 0.5em
+
+        .main-grid-container__article
+            display: flex
+            flex-direction: column
+            justify-content: center
+            //padding: 1em
+            //width: 100%
+            margin: 1em
+
+            .main-grid-container__article__image
+                align-self: center
+                padding: 0.25em
+                border-style: solid
+                border-color: rgb(36, 39, 49)
+                border-radius: 0.1em
+                border-width: 0.05em
+                max-width:100%
+                padding: 0.5em
+
+            .main-grid-container__article__title
+                color: rgb(36, 39, 49)
+                max-width:100%
+                padding: 0.5em
+                margin: 0em
+
+            .main-grid-container__article__text
+                color: rgb(36, 39, 49)
+                max-width: 100%
+                padding: 0.5em
+                margin: 0em
+
+            .main-grid-container__article__button
+                background-color: white
+                border-style: solid
+                border-color: grey
+                border-radius: 0.3em
+                border-width: 0.1em
+                padding: 0.5em
+                align-self: flex-start
+                color: rgb(36, 39, 49)
+                margin-left: 0.5em
+
+    .features-container
+        background-color:  rgb(20, 153, 131)
+        display: flex
+        flex-direction: column
+        width: 100%
+
+        .features-container__list
+            color: white
+            padding: 1em
+
+            .features-container__flexbox2__title
+                font-size: 1em
+
+            //.features-container__flexbox2__list
+                //list-style: none
+
+        .features-container__img
+            align-self: flex-start
+            padding: 1em
+                
+    .footer
+        background-color: rgb(44, 44, 44)
+        color: white
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+
+    @media (min-width: 580px)
+    
+        .footer
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            align-items: flex-start
+            padding: 0em
+    
+            .footer__info
+                align-self: flex-start
+                padding: 3em
+    
+            .footer__copyright
+                align-self: flex-end
+                padding: 3em
+    
+    @media (min-width: 900px)
+    
+        .nav-bar            
+            justify-content: flex-start         
+    
+            .nav-bar__components
+                padding: 1em
+                margin: 0em
+                display: inline //!important
+    
+            .nav-bar__components__contact
+                margin: 0em
+                background-color: rgb(202, 202, 202)
+                //padding: 1em
+
+            .nav-bar__hamburguer
+                display: none
+
+
+    @media (min-width: 1400px)
+
+        .main-grid-container
+            display: grid
+            grid-template-columns: 1fr 1fr
+            margin-top: 2em
+            max-width: 100%
+
+            .main-grid-container__messages
+                margin-left: 5em
+
+        .features-container
+            background-color:  rgb(20, 153, 131)
+            display: grid
+            grid-template-columns: 1fr 1fr
+            //width: 100%
+
+            .features-container__list
+                color: white
+                padding: 1em
+                margin-left: 14em
+                
+
+                .features-container__flexbox2__title
+                    font-size: 1em
+
+                //.features-container__flexbox2__list
+                    //list-style: none
+
+            .features-container__img
+                align-self: flex-start
+                padding: 1em
+
+
+//about style sheet
+
+.body-about
+    margin: 0em
+    font-family: 'Roboto', sans-serif
+    //width: 100%
+
+    .nav-bar
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: space-between
+        max-width: 100%
+        border: 0
+        padding: 0
+        margin: 0
+
+        .nav-bar__gamma
+            color:  rgb(20, 153, 131)
+            margin: 1em
+
+        .nav-bar__components
+            display: none
+        
+
+        .nav-bar__hamburguer
+            color: gray
+            padding: 0.4em
+            margin-right: 1em
+            border-style: solid
+            border-color: grey
+            border-radius: 0.4em
+            border-width: 0.1em
+
+    a:hover
+        color: #149983
+    a
+        text-decoration: none
+
+    .page-title
+        background-color: rgb(20, 153, 131)
+        max-width: 100%
+        margin: 0em
+
+        .page-title__header
+            font-weight: 900
+            font-size: 2em
+            padding: 1em
+            margin: 0em
+            color: white
+
+    .main-grid-container
+        display: grid
+        grid-template-columns: 1fr
+        margin-top: 2em
+        max-width: 100%
+
+        .main-grid-container__about
+            margin: 0.5em
+            max-width: 98%
+            //padding: 0.5em
+
+            .main-grid-container__about__title
+                //max-width: 100%
+                padding: 0.4em
+                margin: 0em
+
+            .main-grid-container__about__text
+                //max-width: 100%
+                padding: 0.5em
+                margin-bottom: 0.5em
+                font-size: 0.9em
+
+            .main-grid-container__about__group
+                font-weight: normal
+                border-style: solid
+                border-color: rgb(180, 178, 178)
+                border-radius: 0.1em
+                border-width: 0.05em
+                //width: 98%
+                background-color: rgb(238, 238, 238)
+                padding: 0.3em
+                margin: 0.1em
+                font-size: 0.9em
+            
+            .main-grid-container__about__item
+                font-size: 0.75em
+                border-style: solid
+                border-color: rgb(180, 178, 178)
+                border-radius: 0.3em
+                border-width: 0.05em
+                //width: 98%
+                padding: 0.5em
+                margin: 0.1em
+
+        .main-grid-container__article
+            display: flex
+            flex-direction: column
+            justify-content: center
+            //padding: 1em
+            //width: 100%
+            margin: 1em
+
+            .main-grid-container__article__image
+                align-self: center
+                padding: 0.25em
+                border-style: solid
+                border-color: rgb(36, 39, 49)
+                border-radius: 0.1em
+                border-width: 0.05em
+                max-width:100%
+                padding: 0.5em
+
+            .main-grid-container__article__title
+                color: rgb(36, 39, 49)
+                max-width:100%
+                padding: 0.5em
+                margin: 0em
+
+            .main-grid-container__article__text
+                color: rgb(36, 39, 49)
+                max-width: 100%
+                padding: 0.5em
+                margin: 0em
+
+            .main-grid-container__article__button
+                background-color: white
+                border-style: solid
+                border-color: grey
+                border-radius: 0.3em
+                border-width: 0.1em
+                padding: 0.5em
+                align-self: flex-start
+                color: rgb(36, 39, 49)
+                margin-left: 0.5em
+
+    .features-container
+        background-color:  rgb(20, 153, 131)
+        display: flex
+        flex-direction: column
+        width: 100%
+
+        .features-container__list
+            color: white
+            padding: 1em
+
+            .features-container__flexbox2__title
+                font-size: 1em
+
+            //.features-container__flexbox2__list
+                //list-style: none
+
+        .features-container__img
+            align-self: flex-start
+            padding: 1em
+                
+    .footer
+        background-color: rgb(44, 44, 44)
+        color: white
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+
+    @media (min-width: 580px)
+    
+        .footer
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            align-items: flex-start
+            padding: 0em
+    
+            .footer__info
+                align-self: flex-start
+                padding: 3em
+    
+            .footer__copyright
+                align-self: flex-end
+                padding: 3em
+    
+    @media (min-width: 900px)
+    
+        .nav-bar            
+            justify-content: flex-start           
+    
+            .nav-bar__components
+                padding: 1em
+                margin: 0em
+                display: inline //!important
+    
+            .nav-bar__components__about
+                margin: 0em
+                background-color: rgb(202, 202, 202)
+                //padding: 1em
+            
+            .nav-bar__hamburguer
+                display: none
+            
+
+    @media (min-width: 1400px)
+
+        .main-grid-container
+            display: grid
+            grid-template-columns: 1fr 1fr
+            margin-top: 2em
+            max-width: 100%
+
+            .main-grid-container__about
+                margin-left: 5em
+
+        .features-container
+            background-color:  rgb(20, 153, 131)
+            display: grid
+            grid-template-columns: 1fr 1fr
+            //width: 100%
+
+            .features-container__list
+                color: white
+                padding: 1em
+                margin-left: 14em
+                
+
+                .features-container__flexbox2__title
+                    font-size: 1em
+
+                //.features-container__flexbox2__list
+                    //list-style: none
+
+            .features-container__img
+                align-self: flex-start
+                padding: 1em
