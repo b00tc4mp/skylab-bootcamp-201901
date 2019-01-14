@@ -84,7 +84,7 @@ html
             img
                 max-width: 100%
 
-    footer
+    .hfooter
         background-color: #29bc9f
         color: white
 
@@ -135,7 +135,7 @@ html
                 h3
                     padding-left: 5%
 
-        footer
+        .hfooter
 
             h2
                 padding-top: 5%
@@ -192,12 +192,12 @@ html
                 width: 100%
                 padding-bottom: 0%
         
-        footer
+        .hfooter
             display: grid
             grid-template-columns: 50% 50%
             grid-template-rows: 80% 20%
 
-            div
+            &__features
                 width:200px
                 padding-left: 25%
                 font-size: 20px
@@ -239,7 +239,7 @@ html
         grid-row-end: 3
         padding: 0 5%
 
-        &__items__title
+        &__items--title
             border: 2px solid gray
             background-color: lightgray
             padding: 5px
@@ -250,7 +250,7 @@ html
 
         &__product
 
-            button
+            &--button
                 width: 100px
                 height: 30px
                 border-radius: 10%
@@ -259,11 +259,11 @@ html
                 margin: 1px solid gray
                 background-color: white
 
-            &__img
+            &--img
                 max-width: 100%
                 border: 1px solid gray
 
-    footer
+    .afooter
         background-color: #29bc9f
         color: white
         grid-row-start: 4
@@ -319,15 +319,15 @@ html
             padding: 0 10%
 
             &__product
-                img
+                &--img
                     width: 100%
 
-        footer
+        .afooter
             display: grid
             grid-template-columns: 50% 50%
             grid-template-rows:30% 50% 20%
             
-            div
+            &__features
                 padding-left: 3rem
 
                 h2 
@@ -360,14 +360,14 @@ html
             grid-gap: 5%
 
 
-        footer
+        .afooter
             grid-row-start: 3
             grid-row-end: 4
             display: grid
             grid-template-columns: 50% 50%
             grid-template-rows: 80% 20%
             
-            div
+            &__features
                 width:250px
                 padding-left: 25%
                 font-size: 20px
@@ -414,10 +414,10 @@ html
         padding: 0 5%
 
         &__form
-            &-item
+            &--item
                 margin: 2% 0
             
-            &-text
+            &--text
                 width: 99%
                 border: 1px solid gray
                 border-radius: 0.3em 
@@ -430,11 +430,11 @@ html
             background-color: white
         
         &__product
-            &__img
+            &--img
                 width: 100%
                 border: 1px solid gray
 
-    footer
+    .cfooter
         background-color: #29bc9f
         color: white
         grid-row-start: 4
@@ -490,15 +490,15 @@ html
             padding: 0 9em
 
             &__product
-                img
+                &--img
                     width: 100%
 
-        footer
+        .cfooter
             display: grid
             grid-template-columns: 50% 50%
             grid-template-rows:30% 50% 20% 
             
-            div
+            &__features
                 padding-left: 6em
                 h2
                     padding-left: 2em
@@ -543,14 +543,14 @@ html
                 grid-column-end: 3
 
                 
-        footer
+        .cfooter
             grid-row-start: 3
             grid-row-end: 4
             display: grid
             grid-template-columns: 50% 50%
             grid-template-rows: 80% 20%
             
-            div
+            &__features
                 width:250px
                 padding-left: 25%
                 font-size: 20px
