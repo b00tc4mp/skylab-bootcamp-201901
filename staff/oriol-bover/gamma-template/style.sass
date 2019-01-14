@@ -83,21 +83,39 @@ $xl: 1400px
         display: flex
         flex-flow: column wrap
         text-align: center
+        height: 10%
         background-color: #1B222A
         @media screen and (min-width: $sm)
+            text-align: left
             background: url(./images/site_showcase_bg.jpg) center no-repeat
+        @media screen and (min-width: $md)
+            padding: 4rem
+        @media screen and (min-width: $xl)
+            height: 465px
         & h2
             font-size: 1.8rem
             margin-bottom: 2rem
 
         & span
             color: #1CAA98
-
-        & img
-            margin: 0 auto
-            margin-bottom: 2rem
-            width: 70%
-            height: auto
+    
+    &__icons
+        margin: 0 auto
+        margin-bottom: 2rem
+        width: 70%
+        height: auto
+        @media screen and (min-width: $sm)
+            width: 100%
+    
+    &__phone
+        width: 0.1%
+        visibility: hidden
+        @media screen and (min-width: $xl)
+        visibility: visible
+        width: 26%
+        height: auto
+        margin-left: -40rem
+        margin-top: 0.4rem
 
     &__title
         padding: 1rem 2rem
