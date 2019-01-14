@@ -26,19 +26,18 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   padding-right: 7rem;
   font-size: 0.9rem;
 }
-
-.navigationbar {
+.header__navigationbar {
   height: 70%;
   grid-area: navigationbar;
   display: grid;
   grid-template-columns: auto;
   grid-template-areas: "logo logo btn nav nav nav nav empty";
 }
-.navigationbar__logo {
+.header__navigationbar-logo {
   grid-area: logo;
   justify-self: end;
 }
-.navigationbar__btn {
+.header__navigationbar-btn {
   color: white;
   background-color: #4f524c;
   background-image: linear-gradient(rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 51%);
@@ -48,7 +47,7 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   grid-area: btn;
   justify-self: center;
 }
-.navigationbar__nav {
+.header__navigationbar-nav {
   grid-area: nav;
   background-color: #d6edf4;
   border-radius: 0.4rem;
@@ -56,37 +55,37 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   grid-template-columns: auto;
   grid-template-areas: "pricing features resources support blog search search";
 }
-.navigationbar__nav :nth-child(1) {
+.header__navigationbar-nav-pricing {
   grid-area: pricing;
   align-self: center;
   justify-self: center;
   font-size: 0.85rem;
 }
-.navigationbar__nav :nth-child(2) {
+.header__navigationbar-nav-features {
   grid-area: features;
   align-self: center;
   justify-self: center;
   font-size: 0.85rem;
 }
-.navigationbar__nav :nth-child(3) {
+.header__navigationbar-nav-resources {
   grid-area: resources;
   align-self: center;
   justify-self: center;
   font-size: 0.85rem;
 }
-.navigationbar__nav :nth-child(4) {
+.header__navigationbar-nav-support {
   grid-area: support;
   align-self: center;
   justify-self: center;
   font-size: 0.85rem;
 }
-.navigationbar__nav :nth-child(5) {
+.header__navigationbar-nav-blog {
   grid-area: blog;
   align-self: center;
   justify-self: center;
   font-size: 0.85rem;
 }
-.navigationbar__nav :nth-child(6) {
+.header__navigationbar-nav-search {
   grid-area: search;
   align-self: center;
   justify-self: center;
@@ -96,13 +95,13 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   background-color: white;
   width: 90%;
 }
-.navigationbar__nav :nth-child(6) input {
+.header__navigationbar-nav-search input {
   border-style: none;
   color: #959594;
   padding-left: 0.2rem;
   margin: 0.2rem;
 }
-.navigationbar__nav :nth-child(6) img {
+.header__navigationbar-nav-search img {
   position: relative;
   left: 3rem;
 }
@@ -120,34 +119,32 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   grid-auto-columns: 50% 50%;
   grid-template-areas: "img content";
 }
-
-.img_container {
+.content__header-img_container {
   grid-area: img;
 }
-.img_container img {
+.content__header-img_container img {
   display: block;
   justify-self: end;
   padding-left: 16rem;
 }
-
-.text_container {
+.content__header-text_container {
   grid-area: content;
   width: 50%;
   align-self: center;
   justify-self: start;
   margin-bottom: 3rem;
 }
-.text_container img {
+.content__header-text_container img {
   position: relative;
   width: 170%;
 }
-.text_container p {
+.content__header-text_container p {
   width: 32.5rem;
   color: #2a677d;
   text-align: justify;
   font-size: 0.9rem;
 }
-.text_container button {
+.content__header-text_container button {
   color: white;
   background-color: #4f524c;
   background-image: linear-gradient(rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 51%);
@@ -176,13 +173,11 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   display: grid;
   grid-template-rows: 15% 85%;
 }
-
-.features__title {
+.content__features-title {
   padding-left: 3.7rem;
   font-size: 2rem;
 }
-
-.features__article {
+.content__features-articles {
   padding-left: 1.5rem;
   display: grid;
   grid-template-columns: 19.8rem 19.8rem 19.8rem 19.8rem;
@@ -190,25 +185,20 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   justify-self: center;
   width: 95%;
 }
-
-.features__article article {
+.content__features-articles article {
   width: 90%;
 }
-
-.features__article img {
+.content__features-articles article img {
   width: 100%;
 }
-
-.features__article h5 {
+.content__features-articles article h5 {
   padding-top: 1rem;
 }
-
-.features__article p {
+.content__features-articles article p {
   font-size: 0.9rem;
   width: 100%;
 }
-
-.features__article button {
+.content__features-articles article button {
   color: white;
   background: #323232;
   border-radius: 0.2rem;
@@ -220,8 +210,7 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
   padding-top: 0.3rem;
   padding-bottom: 0.3rem;
 }
-
-.features__article button img {
+.content__features-articles article button img {
   width: 0.6rem;
   padding-left: 11.5rem;
 }

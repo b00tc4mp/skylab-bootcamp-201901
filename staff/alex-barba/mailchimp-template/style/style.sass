@@ -42,61 +42,61 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul
         padding-right: 7rem
         font-size: 0.9rem
 
-.navigationbar
-    height: 70%
-    grid-area: navigationbar 
-    display: grid
-    grid-template-columns: auto
-    grid-template-areas: "logo logo btn nav nav nav nav empty"
-
-    &__logo
-        grid-area: logo
-        justify-self: end
-
-    &__btn
-        @include sign_up_btn
-        grid-area: btn
-        justify-self: center
-
-    &__nav
-        grid-area: nav
-        background-color: rgb(214,237,244)
-        border-radius: 0.4rem
+    &__navigationbar
+        height: 70%
+        grid-area: navigationbar 
         display: grid
         grid-template-columns: auto
-        grid-template-areas: "pricing features resources support blog search search"
-        
-    &__nav :nth-child(1)
-        @include nav_child(pricing)
-    
-    &__nav :nth-child(2)
-        @include nav_child(features)
-    
-    &__nav :nth-child(3)
-        @include nav_child(resources)
-    
-    &__nav :nth-child(4)
-        @include nav_child(support)
+        grid-template-areas: "logo logo btn nav nav nav nav empty"
 
-    &__nav :nth-child(5)
-        @include nav_child(blog)
-    
-    &__nav :nth-child(6)
-        @include nav_child(search)
-        box-shadow: inset 0 0 0.2rem #959594
-        border-radius: 0.2rem
-        background-color: white
-        width: 90%
-    
-    &__nav :nth-child(6) input
-        border-style: none
-        color: #959594
-        padding-left: 0.2rem
-        margin: 0.2rem
-    
-    &__nav :nth-child(6) img 
-        position: relative
-        left: 3rem
+        &-logo
+            grid-area: logo
+            justify-self: end
+
+        &-btn
+            @include sign_up_btn
+            grid-area: btn
+            justify-self: center
+
+        &-nav
+            grid-area: nav
+            background-color: rgb(214,237,244)
+            border-radius: 0.4rem
+            display: grid
+            grid-template-columns: auto
+            grid-template-areas: "pricing features resources support blog search search"
+        
+            &-pricing
+                @include nav_child(pricing)
+            
+            &-features
+                @include nav_child(features)
+            
+            &-resources
+                @include nav_child(resources)
+            
+            &-support
+                @include nav_child(support)
+
+            &-blog
+                @include nav_child(blog)
+            
+            &-search
+                @include nav_child(search)
+                box-shadow: inset 0 0 0.2rem #959594
+                border-radius: 0.2rem
+                background-color: white
+                width: 90%
+            
+                & input
+                    border-style: none
+                    color: #959594
+                    padding-left: 0.2rem
+                    margin: 0.2rem
+                
+                & img 
+                    position: relative
+                    left: 3rem
 
 /* Main content*/
 
@@ -112,39 +112,39 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul
         grid-auto-columns: 50% 50%
         grid-template-areas: "img content"
     
-.img_container
-    grid-area: img 
+        &-img_container
+            grid-area: img 
 
-    & img
-        display: block
-        justify-self: end
-        padding-left: 16rem
+            & img
+                display: block
+                justify-self: end
+                padding-left: 16rem
 
-.text_container
-    grid-area: content
-    width: 50%
-    align-self: center
-    justify-self: start
-    margin-bottom: 3rem
+        &-text_container
+            grid-area: content
+            width: 50%
+            align-self: center
+            justify-self: start
+            margin-bottom: 3rem
 
-    & img 
-        position: relative
-        width: 170%
+            & img 
+                position: relative
+                width: 170%
 
-    & p
-        width: 32.5rem
-        color: rgb(42,103,125)
-        text-align: justify
-        font-size: 0.9rem
-    
-    & button
-        @include sign_up_btn
-        background-color: rgb(216,101,75)
-        padding-left: 1.5rem
-        padding-right: 1.5rem
-        padding-top: 0.8rem
-        padding-bottom: 0.8rem
-        font-size: 1.1rem
+            & p
+                width: 32.5rem
+                color: rgb(42,103,125)
+                text-align: justify
+                font-size: 0.9rem
+            
+            & button
+                @include sign_up_btn
+                background-color: rgb(216,101,75)
+                padding-left: 1.5rem
+                padding-right: 1.5rem
+                padding-top: 0.8rem
+                padding-bottom: 0.8rem
+                font-size: 1.1rem
 
 /* Main Content Features */
 
@@ -162,46 +162,46 @@ html, body, header, main, footer, div, nav, section, article, h5, h3, ul
         display: grid
         grid-template-rows: 15% 85%
 
-.features__title
-    padding-left: 3.7rem
-    font-size: 2rem
+        &-title
+            padding-left: 3.7rem
+            font-size: 2rem
 
-.features__article
-    padding-left: 1.5rem
-    display: grid
-    grid-template-columns: 19.8rem 19.8rem 19.8rem 19.8rem
-    grid-template-rows: 100%
-    justify-self: center
-    width: 95%
+        &-articles
+            padding-left: 1.5rem
+            display: grid
+            grid-template-columns: 19.8rem 19.8rem 19.8rem 19.8rem
+            grid-template-rows: 100%
+            justify-self: center
+            width: 95%
 
-.features__article article
-    width: 90%
+            & article
+                width: 90%
 
-.features__article img
-    width: 100%
+                & img
+                    width: 100%
 
-.features__article h5
-    padding-top: 1rem
+                & h5
+                    padding-top: 1rem
 
-.features__article p
-    font-size: 0.9rem
-    width: 100%
+                & p
+                    font-size: 0.9rem
+                    width: 100%
 
-.features__article button
-    color: white
-    background: #323232
-    border-radius: .2rem
-    border: none
-    width: 100%
-    font-size: 0.8rem
-    text-align: left
-    padding-left: 1rem
-    padding-top: 0.3rem
-    padding-bottom: 0.3rem
+                & button
+                    color: white
+                    background: #323232
+                    border-radius: .2rem
+                    border: none
+                    width: 100%
+                    font-size: 0.8rem
+                    text-align: left
+                    padding-left: 1rem
+                    padding-top: 0.3rem
+                    padding-bottom: 0.3rem
 
-.features__article button img
-    width: 0.6rem
-    padding-left: 11.5rem
+                    & img
+                        width: 0.6rem
+                        padding-left: 11.5rem
 
 /* Footer */
 
