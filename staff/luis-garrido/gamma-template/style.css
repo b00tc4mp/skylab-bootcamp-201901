@@ -7,6 +7,7 @@ body {
   font-size: 16px;
   font-family: Sarabun;
   color: #333333;
+  box-sizing: border-box;
 }
 
 ul,
@@ -32,7 +33,7 @@ li {
     justify-content: left;
   }
 }
-.header .header__logo {
+.header__logo {
   letter-spacing: -0.03em;
   font-size: 1.3em;
   padding-left: 1em;
@@ -40,38 +41,39 @@ li {
   font-weight: bolder;
 }
 @media only screen and (min-width: 900px) {
-  .header .header__logo {
+  .header__logo {
     padding-left: 4.4em;
     padding-right: 0.5em;
   }
 }
-.header .header__navBurguer {
+.header__nav-burguer {
   padding-right: 1em;
   height: 1.2em;
   width: 1.2em;
 }
 @media only screen and (min-width: 900px) {
-  .header .header__navBurguer {
+  .header__nav-burguer {
     display: none;
   }
 }
-.header .header__navList {
+.header__nav-list {
   display: none;
 }
 @media only screen and (min-width: 900px) {
-  .header .header__navList {
+  .header__nav-list {
     display: block;
     padding-top: 0.25em;
   }
 }
-.header .header__navList .header__listItem {
+.header__nav-list-item {
   display: inline-block;
+  padding: 1.2em 0;
 }
-.header .header__navList .header__listItem:hover {
+.header__nav-list-item:hover {
   background-color: #e7e7e7;
   color: #555555;
 }
-.header .header__navList .header__listItem a {
+.header__nav-list-item a {
   color: #777777;
   text-decoration: none;
   font-size: 0.9em;
@@ -96,7 +98,7 @@ main {
     background-position-x: center;
   }
 }
-.downloadApps .downloadApps__left {
+.downloadApps__left {
   padding: 3em 1.5em;
   color: white;
   display: flex;
@@ -104,30 +106,30 @@ main {
   align-items: center;
 }
 @media only screen and (min-width: 580px) {
-  .downloadApps .downloadApps__left {
+  .downloadApps__left {
     align-items: flex-start;
     padding: 3.8em 1em 2.4em 1em;
   }
 }
 @media only screen and (min-width: 900px) {
-  .downloadApps .downloadApps__left {
+  .downloadApps__left {
     padding: 3.8em 5.6em 6em 5.6em;
   }
 }
-.downloadApps .downloadApps__left .downloadApps__title {
+.downloadApps__title {
   letter-spacing: -0.04em;
   font-size: 2.3em;
   font-weight: 700;
 }
 @media only screen and (min-width: 900px) {
-  .downloadApps .downloadApps__left .downloadApps__title {
+  .downloadApps__title {
     font-size: 4.4em;
   }
 }
-.downloadApps .downloadApps__left .downloadApps__title .downloadApps__title--green {
+.downloadApps__title--green {
   color: #1caa98;
 }
-.downloadApps .downloadApps__left .downloadApps__text {
+.downloadApps__text {
   letter-spacing: -0.03em;
   margin-top: 0em;
   text-align: center;
@@ -136,54 +138,54 @@ main {
   font-size: 1.3em;
 }
 @media only screen and (min-width: 580px) {
-  .downloadApps .downloadApps__left .downloadApps__text {
+  .downloadApps__text {
     font-weight: 500;
     text-align: justify;
   }
 }
 @media only screen and (min-width: 900px) {
-  .downloadApps .downloadApps__left .downloadApps__text {
+  .downloadApps__text {
     font-size: 1.35em;
     margin-top: -1em;
   }
 }
-.downloadApps .downloadApps__left .downloadApps__images {
+.downloadApps__images {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.downloadApps .downloadApps__left .downloadApps__images .downloadApps__images--imageWidth {
+.downloadApps__images--imageWidth {
   width: 15em;
   height: auto;
 }
 @media only screen and (min-width: 580px) {
-  .downloadApps .downloadApps__left .downloadApps__images .downloadApps__images--imageWidth {
+  .downloadApps__images--imageWidth {
     width: 14em;
     height: auto;
     padding-right: 2em;
   }
 }
 @media only screen and (min-width: 580px) {
-  .downloadApps .downloadApps__left .downloadApps__images {
+  .downloadApps__images--imageWidth {
     flex-direction: row;
     justify-items: space-between;
   }
 }
-.downloadApps .downloadApps__right {
+.downloadApps__right {
   display: none;
 }
-@media only screen and (min-width: 1100px) {
-  .downloadApps .downloadApps__right {
+@media only screen and (min-width: 1150px) {
+  .downloadApps__right {
     display: block;
   }
 }
-.downloadApps .downloadApps__right .downloadApps__phone {
-  height: 80%;
+.downloadApps__phone {
+  height: 28em;
   position: relative;
-  bottom: -6.9em;
+  bottom: -6.75em;
   padding-right: 3em;
 }
-@media only screen and (min-width: 1100px) {
+@media only screen and (min-width: 1150px) {
   .downloadApps {
     display: flex;
     justify-content: space-between;
@@ -201,7 +203,7 @@ main {
     padding: 0 4.6em 4em 6em;
   }
 }
-@media only screen and (min-width: 1100px) {
+@media only screen and (min-width: 1150px) {
   .news {
     flex-direction: row;
   }
@@ -210,41 +212,41 @@ main {
 .article {
   margin: 0.9em 0;
 }
-@media only screen and (min-width: 1100px) {
+@media only screen and (min-width: 1150px) {
   .article {
     padding-right: 1.4em;
   }
 }
-.article .article__image {
+.article__image {
   box-sizing: border-box;
   width: 100%;
   padding: 0.2em;
   border: solid 1px #cccccc;
 }
-@media only screen and (min-width: 1100px) {
-  .article .article__image {
+@media only screen and (min-width: 1150px) {
+  .article__image {
     height: auto;
     width: 100%;
   }
 }
-.article .article__title {
+.article__title {
   font-size: 1.9em;
   line-height: 0.06em;
   font-weight: 700;
   letter-spacing: -0.03em;
 }
-.article .article__text {
+.article__text {
   font-size: 1em;
   font-weight: 500;
   letter-spacing: -0.03em;
   padding-bottom: 0.5em;
 }
 @media only screen and (min-width: 900px) {
-  .article .article__text {
+  .article__text {
     font-size: 0.9em;
   }
 }
-.article .article__link {
+.article__link {
   border: solid 1px #cccccc;
   border-radius: 0.3em;
   padding: 0.5em 0.9em;
@@ -254,7 +256,7 @@ main {
   text-decoration: none;
 }
 @media only screen and (min-width: 900px) {
-  .article .article__link {
+  .article__link {
     font-size: 0.9em;
   }
 }
@@ -271,18 +273,18 @@ main {
     padding: 0.7em 5.6em 2.5em 5.6em;
   }
 }
-@media only screen and (min-width: 1100px) {
+@media only screen and (min-width: 1150px) {
   .features {
     flex-direction: row;
     justify-content: space-around;
   }
 }
-.features .features__title {
+.features__title {
   letter-spacing: -0.05em;
   font-size: 2.5em;
   font-weight: 700;
 }
-.features .features__list {
+.features__list {
   letter-spacing: -0.03em;
   margin-top: -1.1em;
   line-height: 1.8;
@@ -291,15 +293,15 @@ main {
   font-size: 1.2em;
 }
 @media only screen and (min-width: 580px) {
-  .features .features__list {
+  .features__list {
     font-size: 1.4em;
   }
 }
-.features .features__list li {
+.features__list li {
   position: relative;
   padding-left: 1em;
 }
-.features .features__list li:before {
+.features__list li:before {
   position: absolute;
   top: 0.45em;
   left: 0;
@@ -310,17 +312,17 @@ main {
   background: url("img/checkmark-256.png") no-repeat;
   background-size: contain;
 }
-.features .features__image {
+.features__image {
   padding: 1em 0;
   width: 16.5em;
 }
 @media only screen and (min-width: 580px) {
-  .features .features__image {
+  .features__image {
     width: 15.7em;
   }
 }
-@media only screen and (min-width: 1100px) {
-  .features .features__image {
+@media only screen and (min-width: 1150px) {
+  .features__image {
     width: 14em;
     margin-top: 1em;
   }
@@ -331,13 +333,14 @@ main {
   color: white;
   font-size: 0.9em;
   padding: 2.4em 1em 1em 1em;
-  text-align: left;
+  text-align: center;
   letter-spacing: -0.04em;
   font-weight: 600;
 }
 @media only screen and (min-width: 580px) {
   .footer {
     font-weight: 700;
+    text-align: left;
   }
 }
 @media only screen and (min-width: 900px) {
@@ -345,7 +348,7 @@ main {
     padding: 2.4em 5.6em 1em 5.6em;
   }
 }
-@media only screen and (min-width: 1100px) {
+@media only screen and (min-width: 1150px) {
   .footer {
     display: flex;
     align-items: baseline;
@@ -366,9 +369,28 @@ main {
   text-decoration: none;
 }
 @media only screen and (min-width: 580px) {
-  .footer .footer__copyright {
+  .footer__copyright {
     text-align: right;
   }
+}
+.green-header {
+  padding: 1.8em 1em 0.6em 0.5em;
+  color: white;
+  font-size: 2.3em;
+  font-weight: 800;
+  background-color: #1caa98;
+}
+
+.intrigue {
+  margin-top: 0.8em;
+  display: flex;
+  flex-direction: column;
+  padding: 2em 0.8em 4em 0.8em;
+}
+.intrigue__collapsible {
+  background-color: whitesmoke;
+  border: solid 1px #cccccc;
+  border-radius: 0.3em;
 }
 
 /*# sourceMappingURL=style.css.map */
