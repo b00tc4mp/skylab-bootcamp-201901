@@ -1,0 +1,156 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+.header
+    background-color: rgb(68, 187, 211)
+    padding-left: 10%
+    padding-right: 10%
+    
+    &__login
+        padding: 20px
+        display: flex
+        flex-direction: row-reverse
+        text-decoration: none
+        color: white
+    
+    &__menu
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+    
+    &__logo
+        margin-right: 20px
+    
+    &__signup
+        padding: 20px
+        margin-right: 20px
+        color: white
+        background-color: black
+        border: 0px solid black
+        border-radius: 1em
+         
+
+    &__nav
+        border-radius: 1em
+        display: flex
+        flex-direction: row
+        align-items: center
+        background-color: rgb(225, 225, 225, 0.8)
+
+        & a
+            color: black
+            text-decoration: none
+            padding: 20px
+        
+        & input
+            margin: 0px 15px
+            padding: 5px
+            border-width: 0
+            border-radius: 0.5em
+
+    &__banner
+        margin-top: 20px
+        display: flex
+
+    &__info
+        margin-left: 30px
+        margin-top: 30px
+
+    &__title
+        color: white
+        font-size: 7em
+        line-height: 0.85em
+
+    &__text
+        margin: 20px 0
+    
+    &__signup--red
+        background-color: rgb(233, 92, 65)
+        padding-left: 50px
+        padding-right: 50px
+        
+
+    &__background-bottom
+        height: 50px
+
+.main
+    background-color: rgb(205, 209, 208)
+
+    &__board
+        position: relative
+        top: -50px
+        background-color: rgb(240, 240, 240)
+        margin-left: 5%
+        margin-right: 5%
+        border-radius: 1em 1em 0 0
+    
+    &__sections
+        padding: 30px
+        display: grid
+        grid-template-columns: repeat(4,1fr)
+        column-gap: 30px
+
+    &__title
+        padding: 30px
+        padding-bottom: 0
+        font-size: 200%
+    
+    &__card
+        display: flex
+        flex-direction: column
+        
+        img
+            margin-bottom: 40px
+            width: 100%
+        h4
+            font-size: 15px
+        h3
+            font-size: 24px
+        p
+            margin: 20px 0px
+        button
+            justify-self: end
+            width: 100%
+            background-color: rgb(63, 63, 55)
+            color: white
+            text-align: left
+            padding: 7px 15px
+            border-radius: 0.25em
+
+.footer
+    background-color: black
+    position: relative
+    top: -50px
+
+    &__menu
+        margin-left: 5%
+        margin-right: 5%
+        padding-top: 20px 
+    
+    &__board
+        margin-left: 30px
+        margin-right: 30px
+        margin-bottom: 100px
+        display: grid
+        grid-template-columns: repeat(4,1fr)
+        column-gap: 30px
+
+    &__nav
+        display: flex
+        flex-direction: column
+
+ 
+        a
+            color: white
+            text-decoration: none
+            line-height: 25px
+    
+    &__bold
+        font-weight: 900
+    
+    &__copy
+        color: white
+        padding-bottom: 50px
+        text-align: center
