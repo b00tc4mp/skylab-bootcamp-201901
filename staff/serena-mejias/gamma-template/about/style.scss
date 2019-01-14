@@ -29,6 +29,9 @@ body {
   flex-direction: row;
   align-items: center;
   width: 100%;
+  @media screen and (max-width: 450px) {
+    justify-content: space-between;
+  }
   &__title {
     color: $main-color;
     font-weight: 700;
@@ -40,6 +43,11 @@ body {
     height: 0.7rem;
     font-size: $font-size-m;
     margin-right: 1rem;
+    @media screen and (min-width: 450px) and (max-width: 1400px) {
+      .head__icon {
+        display: none;
+      }
+    }
   }
   &__menu {
     color: #333;
@@ -48,6 +56,9 @@ body {
     display: flex;
     flex-direction: row;
     margin: $space-s $space-m;
+    @media screen and (max-width: 450px) {
+      display: none;
+    }
     &__item {
       margin-right: $space-m;
     }
@@ -60,6 +71,14 @@ body {
   font-size: $font-size-xl;
   font-weight: 700;
 }
+main {
+  @media screen and (min-width: 900px) and (max-width: 1400px) {
+    display: flex;
+    flex-direction: row;
+    padding: $space-l $space-xl 0 $space-xl;
+    height: 100%;
+  }
+}  
 .post {
   &__title {
     font-weight: 700;
@@ -154,6 +173,9 @@ body {
       font-size: 0.6rem;
       padding: $space-m 0;
       flex: 1;
+      @media screen and (min-width: 450px) and (max-width: 1400px) {
+        align-self: flex-start;
+      }
       &__item {
         margin-right: $space-m;
         &__lastchild {
@@ -165,40 +187,16 @@ body {
       font-size: 0.6rem;
       padding: $space-m 0;
       flex: 1;
-    }
-  }
-}
-@media screen and (max-width: 450px) {
-  .head {
-    justify-content: space-between;
-    .head__menu {
-      display: none;
-    }
-  }
-}
-@media screen and (min-width: 450px) and (max-width: 900px) {
-  .head__icon {
-    display: none;
-  }
-  .container {
-    &__info {
-      &__list {
-        align-self: flex-start;
-      }
-      &__foot {
+      @media screen and (min-width: 450px) and (max-width: 1400px) {
         align-self: flex-end;
       }
     }
   }
 }
+
 @media screen and (min-width: 900px) and (max-width: 1100px) {
-  main {
-    display: flex;
-    flex-direction: row;
-    padding: $space-l $space-xl 0 $space-xl;
-    height: 100%;
-  }
-  
+
+
   .column :first-child {
     padding: $space-m $space-s $space-s $space-s;
     flex: 2;
@@ -207,30 +205,20 @@ body {
   .column :last-child {
     flex: 1;
   }
-  .head__icon {
-    display: none;
-  }
-  
+
   .container {
-      &__features {
-          display: flex;
-          flex-direction: row;
-          flex: 1;
-          & :first-child {
-              flex: 1;
-          }
-          & :last-child {
-              align-content: center;
-              flex: 1;
-          }
+    &__features {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      & :first-child {
+        flex: 1;
       }
-    &__info {
-      &__list {
-        align-self: flex-start;
-      }
-      &__foot {
-        align-self: flex-end;
+      & :last-child {
+        align-content: center;
+        flex: 1;
       }
     }
+    
   }
 }
