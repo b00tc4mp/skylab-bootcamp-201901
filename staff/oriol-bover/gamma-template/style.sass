@@ -1,0 +1,227 @@
+*
+    margin: 0
+    padding: 0
+    border: 0
+    font-size: 100%
+    box-sizing: border-box
+    font-family: sans-serif
+
+body, html
+    height: 100%
+
+/** variables **/
+
+$sm: 580px
+$md: 900px
+$lg: 1100px
+$xl: 1400px 
+
+
+/**  Common styles  **/
+.container
+    display: grid
+    grid-template-columns: repeat(12, 1fr)
+
+
+/**  Header styles  **/
+.header
+    display: flex
+    flex-flow: row wrap
+    align-items: center
+    background-color: #F8F8F8
+    grid-column: 1 / span 12
+    padding: 1rem
+    
+    &__logo
+        flex-grow: 1
+        font-weight: 500
+        font-size: 1.2rem
+        &--primary
+            color: #1CAA98
+            text-decoration: none  
+    
+    &__nav
+        flex-grow: 2
+        visibility: hidden
+        @media screen and (min-width: $md)
+            visibility: visible
+            flex-grow: 1
+        & ul
+            list-style-type: none
+            width: 100%
+            display: flex
+            flex-direction: row
+            & li
+                flex-grow: 1
+        & a
+            text-decoration: none
+            color: #777777
+        & a:hover
+            color:#595555
+    &__navHamb
+        flex-grow: 1
+        @media screen and (min-width: $md)
+            flex-grow: 5
+        text-align: center
+        border: 1px solid #DDDDDD
+        border-radius: 0.2em
+        padding: 0.2em 0.01em
+        font-size: 1.2em
+        color: #888888
+        @media screen and (min-width: $md)
+            visibility: hidden
+
+/**  Main styles  **/
+.main
+    grid-column: 1 / span 12
+    display: flex
+    flex-flow: column wrap
+    
+    &__home
+        padding: 2rem
+        color: white
+        display: flex
+        flex-flow: column wrap
+        text-align: center
+        background-color: #1B222A
+        @media screen and (min-width: $sm)
+            background: url(./images/site_showcase_bg.jpg) center no-repeat
+        & h2
+            font-size: 1.8rem
+            margin-bottom: 2rem
+
+        & span
+            color: #1CAA98
+
+        & img
+            margin: 0 auto
+            margin-bottom: 2rem
+            width: 70%
+            height: auto
+
+    &__title
+        padding: 1rem 2rem
+        background-color: #1CAA98
+        color: whiteSmoke
+        font-size: 1.5rem
+        margin-bottom: 1rem
+
+    &__section
+        padding:  1rem
+        & h2
+            font-size: 1.3rem
+            margin-bottom: 0.5rem
+    
+    &__article
+        border: 1px solid #DDDDDD
+        border-radius: 0.2rem
+        margin-top: 0.5rem
+        
+        & header
+            border-bottom: 1px solid #DDDDDD
+            background-color: #F5F5F5
+            padding: 0.8rem 1rem
+        & section
+            padding: 0.8rem 1rem    
+    &__img
+        margin-top: 1.5rem
+        margin-bottom: 1rem
+        border: 1px solid  #CCCCCC
+        width: 100%
+        padding: 0.8rem
+        height: auto
+    
+    & label
+        margin-bottom: 10rem
+
+    & input, textarea
+        width: 100%
+        padding: 0.5rem
+        margin-top: 0.5rem
+        margin-bottom: 0.5rem
+        border: 1px solid #CCCCCC
+        border-radius: 0.2rem
+    
+    & :nth-child(3)
+        margin-top: 1.5rem
+    
+    &__button
+        margin-top: 1rem
+        margin-bottom: 3rem
+        background-color: white
+        border: 1px solid #CCCCCC
+        border-radius: 0.5rem
+        padding: 0.5rem
+
+        &--form
+            margin-top: 1rem
+            background-color: white
+            border: 1px solid #CCCCCC
+            border-radius: 0.5rem
+            padding: 0.5rem
+            margin-bottom: 0
+    
+    &__button:hover
+        background-color: #CCCCCC
+        color: white
+
+/**  Footer styles  **/
+.footer
+    display: flex
+    flex-flow: column wrap
+    grid-column: 1 / span 12
+    color: whiteSmoke
+
+    &__features
+        grid-column: 4 / span 8
+        width: 100%
+        padding: 3rem
+        background-color: #1CAA98
+        & h2
+            font-size: 1.6em
+            margin-bottom: 0.5em
+
+        & ul
+            margin-top: 1.2em
+            list-style: none
+            font-size: 1.2em
+            & li
+                margin-bottom: 0.5em
+        &--camera
+            margin-top: 0.2em
+            color: #333333
+            font-size: 10em  
+
+    &__information
+        width: 100%
+        padding: 3rem
+        display: flex
+        flex-flow: column wrap
+        justify-content: center
+        background-color: #333333
+        font-size: 0.8em
+        text-align: center
+        @media screen and (min-width: $sm)
+           flex-flow: row
+           justify-content: space-between
+
+        & nav
+            margin-bottom: 2em
+            @media screen and (min-width: $sm)
+                align-self: start
+            & ul
+                list-style-type: none
+                width: 100%
+                display: flex
+                flex-direction: row
+                justify-content: center
+                & li
+                    margin-right: 1em
+        & a
+            color: white
+            text-decoration: none
+        
+        & p
+            @media screen and (min-width: $sm)
+                align-self: end
+        
