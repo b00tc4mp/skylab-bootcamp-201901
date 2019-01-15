@@ -340,22 +340,23 @@ body {
   }
 }
 .maincontact__form {
-  min-width: 450px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin: 0px 10px;
+  width: 100%;
 }
 .maincontact__form form {
   width: 100%;
+}
+.maincontact__form__input {
+  width: 98%;
+  margin: 0px 5px 0px 0px;
 }
 .maincontact__form p {
   font-size: 0.8em;
   font-weight: bolder;
   margin-bottom: 0em;
-}
-.maincontact__form input {
-  padding-right: 100% vh;
 }
 .maincontact__slide {
   display: flex;
