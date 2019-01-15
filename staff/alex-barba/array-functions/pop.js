@@ -5,9 +5,10 @@
  * 
  * @param {Array} arr - The array to remove the last element.
  * @param {Function} func - The expression to evaluate.
+ * 
  */
 function push(arr, func) {
-    delete arr[arr.length-1]
+    arr.length = arr.length-1
     func(arr);
 }
 
