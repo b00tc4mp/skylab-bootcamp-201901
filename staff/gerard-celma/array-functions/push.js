@@ -3,10 +3,7 @@
  * 
  * Adds an element to an array in last position.
  * 
- * @param {Array} array 
- * @param {element} any 
- * @param {number} start 
- * @param {number} end 
+ * @param {base} array + ilimited parameters, separated with ","  
  * 
  * @throws {Error} - If too many arguments (> 4)
  * @throws {TypeError} - If array is not an array
