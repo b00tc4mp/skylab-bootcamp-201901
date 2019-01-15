@@ -7,9 +7,9 @@
  * @param {Array} arr - The array to add the object at the end.
  * @param {Function} func - The expression to evaluate.
  */
-function push(element, arr, func) {
+function push(element, arr) {
     arr[arr.length]=element 
-    func(arr);
+    return arr
 }
 
 // use case 1
@@ -18,4 +18,4 @@ var a = [1, 2, 3];
 
 var b = 4;
 
-push(b, a, function (v) { console.log(v) }); // output: 1, 2, 3, 4
+push(b, a); // output: 1, 2, 3, 4
