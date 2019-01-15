@@ -7,13 +7,15 @@
  * @param {Function} func - The expression to evaluate.
  * 
  */
-function push(arr, func) {
+function pop(arr) {
+    var last = arr[arr.length-1]
     arr.length = arr.length-1
-    func(arr);
+    console.log(last)
+    return last
 }
 
 // use case 1
 
 var a = [1, 2, 3, 4];
 
-push( a, function (v) { console.log(v) }); // output: 1, 2, 3
+pop(a); // output: 1, 2, 3
