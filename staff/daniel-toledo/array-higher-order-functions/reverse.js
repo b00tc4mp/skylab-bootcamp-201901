@@ -9,6 +9,8 @@
  *@return {Array} - Array revertida
  */
 function reverse(arr) {
+    if(!(arr instanceof Array)) throw TypeError(arr+' should be an Array')
+
     var res=Object.assign([],arr)
 
     for (var i=0; i<arr.length; i++){

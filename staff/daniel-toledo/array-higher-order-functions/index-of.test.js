@@ -24,6 +24,17 @@ test('test with value outside array', function(){
 
 });
 
+test ('test different start', function(){
+    var arr=[1,8,3,8,5];
+    var find=8;
+    var start=2
+
+    res=indexOf(arr,find,start)
+
+    if (res!=3) throw Error ('Unexpected value')
+
+});
+
 test('test arr is not an Array', function(){
     
     var error;
@@ -44,7 +55,7 @@ test('test too many arguments', function(){
     var error;
 
     try {
-        indexOf(arr, 8, 3);
+        indexOf(arr, 8, 3, 5);
     } catch (err) {
         error = err;
     }

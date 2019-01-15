@@ -10,6 +10,9 @@
  *@return {*} - Delated item from the array
  */
 function pop(arr) {
+    
+    if (!(arr instanceof Array)) throw Error('arr is not Array')
+
     var last=arr[arr.length-1]
     arr.length=arr.length-1
     return last
