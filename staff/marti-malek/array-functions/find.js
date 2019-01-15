@@ -1,21 +1,23 @@
 /**
  * Abstraction of find.
  * 
- * Finds in an array the first element that evaluates 
+ * Finds an element in an array satisfying an expression.
  * 
- * @param {Array} arr 
- * @param {Function} func 
+ * @param {Array} array - The array to search an item in.
+ * @param {Function} callback - The expression to evaluate.
+ * 
+ * @returns {*} - An item if found, otherwise undefined.
  */
+function find(array, callback) {
+    if (arguments.length > 2) throw Error('too many arguments');
 
-function find(arr, func) {
-    for (var i = 0; i < arr.length; i++) {
-        if (func(arr[i])) {
-            return arr[i];
-        }
+    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
+    if(!(callback instanceof Function)) throw TypeError(callback + ' is not a function');
+
+    for (var i = 0; i < array.length; i++) {
+        var value = array[i];
+
+        if(callback(value)) return value;
     }
 }
-
-var a = [1,2,3,4];
-
-find(a, function(x) {return x > 2});
-

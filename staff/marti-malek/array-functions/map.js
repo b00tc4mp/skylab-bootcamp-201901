@@ -8,9 +8,16 @@
  * @param {Function} func - The expression to evaluate.
  * 
  * @returns {Array} - A new array with the resulting values.
+ * 
+ * @throws {Error} - If too many arguments (> 2)
+ * @throws {TypeError} - If arr is not an array
  */
 function map(arr, func) {
     var res = [];
+
+    if (arguments.length < 2) throw Error ('more arguments are needed');
+
+    if (!(arr instanceof Array)) throw new TypeError(arr + ' is not an array');
 
     for (var i = 0; i < arr.length; i++) res[i] = func(arr[i]);
 

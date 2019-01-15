@@ -5,6 +5,9 @@
  * 
  * @param {Array} arr 
  * @param {*} elem
+ * 
+ * @throws {Error} - If too many arguments (> 2)
+ * 
  */
 function join(arr, elem) {
     var res = '';

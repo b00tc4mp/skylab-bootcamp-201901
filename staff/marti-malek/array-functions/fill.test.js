@@ -1,6 +1,6 @@
 suite('fill');
 
-test('correct full arguments', function () {
+test('Correct full arguments', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, 0, 2);
@@ -36,7 +36,7 @@ test('2 correct arguments', function () {
     if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
 });
 
-test('negative start and end', function () {
+test('Negative start and end', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, -3, -2);
@@ -48,7 +48,7 @@ test('negative start and end', function () {
     if (arr.toString() !== expected.toString()) throw Error ('array should have been changed to the one expected');
 });
 
-test('negative start', function () {
+test('Negative start', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, -3, 4);
@@ -60,7 +60,7 @@ test('negative start', function () {
     if (arr.toString() !== expected.toString()) throw Error ('array should have been changed to the one expected');
 });
 
-test('fail on object instead of array', function () {
+test('Fail on object instead of array', function () {
     var error;
 
     try {
@@ -73,7 +73,7 @@ test('fail on object instead of array', function () {
     if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
 });
 
-test('fail on number instead of array', function () {
+test('Fail on number instead of array', function () {
     var error;
 
     try {
@@ -86,10 +86,7 @@ test('fail on number instead of array', function () {
     if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
 });
 
-
-// use case 8
-
-test('fail on boolean instead of array', function () {
+test('Fail on boolean instead of array', function () {
     var error;
 
     try {
@@ -102,7 +99,7 @@ test('fail on boolean instead of array', function () {
     if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
 });
 
-test('fail on too many arguments', function () {
+test('Fail on too many arguments', function () {
     var error;
 
     var arr = [1, 2, 3, 4, 5];
