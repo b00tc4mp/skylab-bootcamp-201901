@@ -88,13 +88,29 @@ body, html {
   display: flex;
   flex-flow: column wrap;
 }
+@media screen and (min-width: 1100px) {
+  .main__form-div {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .main__form-div form {
+    width: 65%;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .main__form-info {
+    width: 30%;
+  }
+}
 .main__home {
   padding: 2rem;
   color: white;
   display: flex;
   flex-flow: column wrap;
   text-align: center;
-  height: 10%;
   background-color: #1B222A;
 }
 @media screen and (min-width: 580px) {
@@ -133,12 +149,16 @@ body, html {
 }
 .main__phone {
   width: 0.1%;
-  visibility: hidden;
-  visibility: visible;
-  width: 26%;
-  height: auto;
-  margin-left: -40rem;
-  margin-top: 0.4rem;
+  display: none;
+}
+@media screen and (min-width: 1400px) {
+  .main__phone {
+    display: inherit;
+    width: 22%;
+    height: auto;
+    margin-left: -50rem;
+    margin-top: 1.7rem;
+  }
 }
 .main__title {
   padding: 1rem 2rem;
@@ -150,9 +170,39 @@ body, html {
 .main__section {
   padding: 1rem;
 }
+@media screen and (min-width: 900px) {
+  .main__section {
+    padding: 4rem;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .main__section {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+}
 .main__section h2 {
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
+}
+.main__element {
+  width: 100%;
+}
+@media screen and (min-width: 1100px) {
+  .main__element {
+    width: 31%;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .main__about-left {
+    width: 65%;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .main__about-right {
+    width: 30%;
+  }
 }
 .main__article {
   border: 1px solid #DDDDDD;
@@ -218,10 +268,16 @@ body, html {
   color: whiteSmoke;
 }
 .footer__features {
-  grid-column: 4/span 8;
   width: 100%;
   padding: 3rem;
   background-color: #1CAA98;
+}
+@media screen and (min-width: 1100px) {
+  .footer__features {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
 }
 .footer__features h2 {
   font-size: 1.6em;
