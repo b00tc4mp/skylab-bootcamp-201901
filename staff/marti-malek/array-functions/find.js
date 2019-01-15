@@ -1,17 +1,11 @@
-/* function find(arr, value) {
-    for (var i = 0; i < arr.length; i++) {
-        if (arr[i] == value) {
-            console.log(arr[i]);
-            return;
-        }
-    }
-    console.log(undefined);
-
-}
-
-var a = [1,5,94,32];
-
-find(a, 5); */
+/**
+ * Abstraction of find.
+ * 
+ * Finds in an array the first element that evaluates 
+ * 
+ * @param {Array} arr 
+ * @param {Function} func 
+ */
 
 function find(arr, func) {
     for (var i = 0; i < arr.length; i++) {
@@ -21,19 +15,7 @@ function find(arr, func) {
     }
 }
 
-var a = [1,5,94,32];
+var a = [1,2,3,4];
 
-var results = find(a, function (elem) {elem > 3});
+find(a, function(x) {return x > 2});
 
-console.log(results);
-
-function find(elem, func) { 
-    if (func(elem)) {
-        return elem;
-    }
-};
-
-var a = 2;
-
-var res = find(a, function (v) {v < 3});
-console.log(res);
