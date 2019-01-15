@@ -1,22 +1,27 @@
 /**
- * Abstraction of fill with 2 parameters
+ * Abstraction of fill.
  * 
- * @param {array} array 
- * @param {number} a 
+ * Fills an array from one position to other.
+ * 
+ * @param {Array} array 
+ * @param {*} value 
+ * @param {number} start 
+ * @param {number} end 
+ * 
+ * @throws {Error} - If too many arguments (> 4)
+ * @throws {TypeError} - If array is not an array
  */
+function fill(array, value, start, end) {
+    if (arguments.length > 4) throw Error('too many arguments');
 
-function fill1(array,a) {
-    for(var i = 0; i < array.length; i++) {
-        array[i] = a;
-    }
+    if (!(array instanceof Array))
+        throw new TypeError(array + ' is not an array');
+
+    start = start === undefined ? 0 : (start < 0 ? array.length + start : start);
+    end = end === undefined ? array.length : (end < 0 ? array.length + end : end);
+
+    for (var i = start; i < end; i++)
+        array[i] = value;
+
     return array;
 }
-
-// use case 1
-
-var arr = [1,2,3,4,5];
-
-var res = fill(arr,0);
-
-console.log(arr); //[0,0,0,0,0]
-console.log(res);
