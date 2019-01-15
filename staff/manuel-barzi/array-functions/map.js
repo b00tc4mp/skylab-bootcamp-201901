@@ -6,6 +6,8 @@
  * 
  * @param {Array} arr - The array to map.
  * @param {Function} func - The expression to evaluate.
+ * 
+ * @returns {Array} - A new array with the resulting values.
  */
 function map(arr, func) {
     var res = [];
@@ -15,7 +17,11 @@ function map(arr, func) {
     return res;
 }
 
-// use case
+console.log('TEST map');
+
+// use case 1
+
+console.log('use case 1');
 
 var a = [1, 2, 3]
 
