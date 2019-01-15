@@ -14,8 +14,7 @@
 function fill(array, value, start, end) {
     if (arguments.length > 4) throw Error('too many arguments');
 
-    if (!(array instanceof Array))
-        throw new TypeError(array + ' is not an array');
+    if (!(array instanceof Array)) throw new TypeError(array + ' is not an array');
 
     start = start === undefined ? 0 : (start < 0 ? array.length + start : start);
     end = end === undefined ? array.length : (end < 0 ? array.length + end : end);
