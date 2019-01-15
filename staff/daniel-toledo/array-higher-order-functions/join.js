@@ -11,13 +11,19 @@
  *
  */
 function join(arr, separator) {
-    var res=''
-    if (separator==undefined){
-        for (var i=0; i<arr.length-1; i++) res += arr[i]+','
+    var res = ''
+
+    if (arguments.length > 2) throw Error('too many arguments');
+
+    if (!(arr instanceof Array))
+        throw new TypeError(arr + ' is not an array');
+
+    separator = separator === undefined? ',' : separator + ''
+
+    for (var i = 0; i < arr.length - 1; i++) {
+        res += arr[i] + separator
     }
-    else{
-        for (var i=0; i<arr.length-1; i++) res += arr[i]+separator+''
-    }
-    res += arr[arr.length-1]
+    
+    res += arr[arr.length - 1]
     return res
 }

@@ -76,7 +76,6 @@ test('use case 5', function() {
 // use case 6
 
 test ('use case 6', function() {
-    console.log('use case 6');
 
     var error;
 
