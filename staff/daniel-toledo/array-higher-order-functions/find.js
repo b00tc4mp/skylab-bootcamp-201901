@@ -7,13 +7,19 @@
  * @param {Array} arr - The array to find.
  * @param {Function} func - testing funtion
  * 
- *
+ *@return {*} - The found value. Undefined if value is not found
  */
 function find(arr, func) {
+
+    if(arguments.length >2) throw Error('too many arguments')
+
+    if(!(arr instanceof Array)) throw TypeError(arr+' should be an Array')
+
+    if (!(func instanceof Function)) throw TypeError(func + ' should be a function')
+
     for (var i=0; i<arr.length; i++){
-        if (func(arr[i])){
-            return arr[i]
-        }
+        var value = arr[i]
+        if (func(value)) return value
     }
     
 }

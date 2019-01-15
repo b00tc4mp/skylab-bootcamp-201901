@@ -7,7 +7,7 @@
  *
  * @param {Array} arr - The array to join.
  *  
- *
+ *@return {*} - Delated item from the array
  */
 function pop(arr) {
     var last=arr[arr.length-1]
