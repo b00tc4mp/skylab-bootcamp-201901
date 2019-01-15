@@ -8,11 +8,11 @@
  */
 
 
-function find(arr, val, func){
+function find(arr, func){
     var res;
     for (var i=0; i<arr.length; i++)
-    if (arr[i] === val){
-        res = i
+    if (func === true){
+        res = arr[i]
     }
     return res
 }
@@ -21,6 +21,9 @@ function find(arr, val, func){
 
 var a = [1, 2, 3, 4, 5];
 
-var res = find(a,function(v) { return v + 10});
+var res = find(a,function(v) { return v > 3});
 
 console.log(res);
+
+
+
