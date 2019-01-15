@@ -77,13 +77,26 @@ $xl: 1400px
     display: flex
     flex-flow: column wrap
     
+    &__form-div
+        @media screen and (min-width: $lg)
+            display: flex
+            flex-flow: row wrap
+            justify-content: space-around
+    
+        & form
+            @media screen and (min-width: $lg)
+                width: 65%
+    
+    &__form-info
+        @media screen and (min-width: $lg)
+            width: 30%
+
     &__home
         padding: 2rem
         color: white
         display: flex
         flex-flow: column wrap
         text-align: center
-        height: 10%
         background-color: #1B222A
         @media screen and (min-width: $sm)
             text-align: left
@@ -109,13 +122,13 @@ $xl: 1400px
     
     &__phone
         width: 0.1%
-        visibility: hidden
+        display: none
         @media screen and (min-width: $xl)
-        visibility: visible
-        width: 26%
-        height: auto
-        margin-left: -40rem
-        margin-top: 0.4rem
+            display: inherit
+            width: 22%
+            height: auto
+            margin-left: -50rem
+            margin-top: 1.7rem
 
     &__title
         padding: 1rem 2rem
@@ -126,10 +139,29 @@ $xl: 1400px
 
     &__section
         padding:  1rem
+        @media screen and (min-width: $md)
+            padding: 4rem
+        @media screen and (min-width: $lg)
+            display: flex
+            flex-flow: row wrap
+            justify-content: space-around
         & h2
             font-size: 1.3rem
             margin-bottom: 0.5rem
     
+    &__element
+        width: 100%
+        @media screen and (min-width: $lg)
+            width: 31%
+
+    &__about-left
+        @media screen and (min-width: $lg)
+            width: 65%
+
+    &__about-right
+        @media screen and (min-width: $lg)
+            width: 30%
+
     &__article
         border: 1px solid #DDDDDD
         border-radius: 0.2rem
@@ -191,14 +223,17 @@ $xl: 1400px
     color: whiteSmoke
 
     &__features
-        grid-column: 4 / span 8
         width: 100%
         padding: 3rem
         background-color: #1CAA98
+        @media screen and (min-width: $lg)
+            display: flex
+            flex-flow: row wrap
+            justify-content: space-around
         & h2
             font-size: 1.6em
             margin-bottom: 0.5em
-
+                
         & ul
             margin-top: 1.2em
             list-style: none
@@ -208,7 +243,7 @@ $xl: 1400px
         &--camera
             margin-top: 0.2em
             color: #333333
-            font-size: 10em  
+            font-size: 10em   
 
     &__information
         width: 100%
