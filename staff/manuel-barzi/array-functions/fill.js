@@ -13,7 +13,8 @@
  */
 function fill(array, value, start, end) {
     if (arguments.length > 4) throw Error('too many arguments');
-
+    if (arguments.length == 0) throw new Error('No arguments!!');
+    if (arguments.length == 1) throw new Error('Not enough arguments!')
     if (!(array instanceof Array))
         throw new TypeError(array + ' is not an array');
 
