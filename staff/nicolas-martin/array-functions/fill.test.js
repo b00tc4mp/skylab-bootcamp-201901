@@ -12,7 +12,7 @@ test('all arguments', function () {
     if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
 });
 
-test('1 argument is missing', function () {
+test('3 arguments', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, 2);
@@ -24,7 +24,7 @@ test('1 argument is missing', function () {
     if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
 });
 
-test('only 1 argument(the value)', function() {
+test('2 arguments', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0);
@@ -36,7 +36,7 @@ test('only 1 argument(the value)', function() {
     if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
 });
 
-test('with negative arguments', function() {
+test('negative start and end', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, -3, -2);
@@ -48,7 +48,8 @@ test('with negative arguments', function() {
     if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
 });
 
-test('with negative & positive arguments', function() {
+
+test('negative start', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, -3, 4);
@@ -58,10 +59,9 @@ test('with negative & positive arguments', function() {
     if (res !== arr) throw Error('array and result should be the same');
     if (res.toString() !== expected.toString()) throw Error('result should be the one expected');
     if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
-
 });
 
-test('fail on using object instead of Array', function() {
+test('fail on object instead of array', function () {
     var error;
 
     try {
@@ -74,7 +74,8 @@ test('fail on using object instead of Array', function() {
     if (!(error instanceof TypeError)) throw Error('should have thrown TypeError');
 });
 
-test('fail on using a number instead an Array', function() {
+
+test('fail on number instead of array', function () {
     var error;
 
     try {
@@ -87,7 +88,7 @@ test('fail on using a number instead an Array', function() {
     if (!(error instanceof TypeError)) throw Error('should have thrown TypeError');
 });
 
-test('fail on using a Boolean value instead of Array', function() {
+test('fail on boolean instead of array', function () {
     var error;
 
     try {

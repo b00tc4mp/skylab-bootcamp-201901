@@ -7,8 +7,7 @@ function test(useCaseDescription, useCaseExpression) {
         useCaseExpression();
         console.log('%c CASE: ' + useCaseDescription, 'color: green;');
     } catch (err) {
-        console.error('%c CASE: ' + useCaseDescription);
-
+        console.error('CASE: ' + useCaseDescription);
         console.error(err);
     }
 }
