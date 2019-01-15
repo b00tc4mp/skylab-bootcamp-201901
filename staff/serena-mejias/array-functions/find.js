@@ -1,16 +1,9 @@
-var array=[1,2,3,4];
+var array = [1, 2, 3, 4];
 
-function find(arr, func) {
-    var newArr = [];
-    for (var i = 0; i < arr.length; i++) {
-      newArr[i] = func(arr[i]);
-      return newArr;
-    }
+function find(array, func) {
+  for (var i = 0; i < array.length; i++) {
+    var value = array[i];
+    if (func(value)) return value;
   }
-  
-  var result = find(array, function(num) {
-    num = 2;
-    return array[0] > num;
-  });
+}
 
-console.log(result);
