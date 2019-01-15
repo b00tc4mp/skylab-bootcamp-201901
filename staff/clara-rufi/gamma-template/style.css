@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+header {
+  background: #46BDD4;
+  width: calc(100% - 20px);
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10px;
+  top: 0px;
+}
+
+body {
+  background: blue;
+  font-family: "Roboto", sans-serif;
+}
+
+.headerchimp {
+  background: #46BDD4;
+  wide: 100%;
+  height: 50%;
+}
+
+.logosignup_black {
+  background: #465255;
+}
+
+.logosignup_red {
+  background: #DF7045;
+}
+
+.login {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navmenu li {
+  display: inline;
+}
+
+/*# sourceMappingURL=style.css.map */
