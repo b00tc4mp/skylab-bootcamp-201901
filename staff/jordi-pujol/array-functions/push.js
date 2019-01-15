@@ -7,9 +7,14 @@
  * 
  * @param {Array} arr 
  * @param {*} elem
+ * 
+ * @throws {TypeError} - If array is not an array
  */
 
 function push (arr, elem){
+
+    if (!(arr instanceof Array))
+        throw new TypeError(arr + ' is not an array');
 
     for (let i= 1; i<arguments.length; i++)
 
@@ -17,9 +22,3 @@ function push (arr, elem){
 
     return arr
 }
-
-var a = [1, 2, 3, 4, 5]
-
-push(a, 10, 11, 12, 13, 14)
-
-console.log(a)
