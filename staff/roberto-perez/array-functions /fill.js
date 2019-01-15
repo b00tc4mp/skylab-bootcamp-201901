@@ -12,23 +12,19 @@
  * @throws {TypeError} - If arr is not a array
  */
 function fill(arr, value, start, end) {
+  if (arguments.length > 4) throw Error('too many arguments');
+
   if (!(arr instanceof Array)) {
     throw new TypeError(arr + " is not an array");
   }
   start = Math.floor(start) || 0;
   end = Math.floor(end) || arr.length;
 
+  start = (start < 0) ? arr.length + start : start;
+  end = (end < 0) ? arr.length + end : end;
+
   for (var i = start; i < end; i++) arr[i] = value;
+
+  return arr;
 }
 
-// use case
-
-var a = [1, 2, 3, 4];
-
-try {
-  fill(a, 0, 2, 4);
-} catch (err) {
-  console.error(err.message);
-}
-
-console.log(a); // output: [1, 2, 0, 0]
