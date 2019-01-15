@@ -8,10 +8,12 @@
  * @param {Function} func - The expression to evaluate.
  */
 function find(functionA, arr, func) {
-    var = results=[]
+    var results=[]
     for (var i in arr) functionA
         if (functionA === true)
+        console.log(arr[i])
             results += arr[i]
+            console.log(results)
             func(results);
 }
 
