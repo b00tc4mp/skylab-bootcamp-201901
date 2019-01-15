@@ -1,0 +1,220 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+html, body, main, section, header, footer {
+    margin: 0;
+    width: 100%;
+    font-size:0.9rem;
+}
+
+html, body {
+    height: 100%;
+    background-color: #EBE4DE;
+}
+
+header {
+    height: 10%;
+}
+
+footer {
+    height: 5%;
+    color: greenyellow;
+}
+
+img {
+    width: 50%;
+    animation: example 6s linear infinite;
+}
+
+@keyframes example {
+    from {transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg)}
+    to {transform:rotateY(360deg) rotateX(360deg) rotateZ(360deg)}
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+.containerHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    background-color: #8D857B;
+}
+
+#logo {
+    font-size: 2.5rem;
+}
+
+#logo2 {
+    display:none;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 60%;
+    height: 60%;
+}
+
+.search input {
+    width: 90%;
+    height: 75%;
+}
+
+i {
+    margin-left: 0.3rem
+}
+
+#glass {
+    font-size: 1.2rem;
+}
+
+#menu {
+    font-size: 1.7rem;
+}
+
+.showMenuContent {
+    display:none;
+    position: absolute;
+    z-index: 2;
+    background-color: grey;
+    text-align: center;
+    width: 50px;
+    
+}
+
+.showMenu:hover .showMenuContent {
+    display: block;
+}
+
+.main {
+    padding-top: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 80%;
+}
+
+footer {
+    text-align: center;
+}
+
+@media  screen and (min-width: 768px) {
+
+    * {
+        font-size: 1rem;
+    }
+
+    #logo {
+        display:inherit;
+        font-size: 2.7rem;
+    }
+
+    #logo2 {
+        display:inherit;
+        font-size: 3rem;
+    }
+
+    #glass {
+        font-size: 1.3rem;
+    }
+
+    .showMenuContent {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        position: inherit;
+        background-color: inherit;
+        padding-right: 20%;
+        width: 20%;
+    }
+    .showMenuContent p {
+       display: inline-block;
+       padding-right: 10px;
+    }
+
+    .showMenuContent a {
+        font-size: 1.1rem 
+    }
+
+    .showMenu:hover .showMenuContent {
+        display: flex;
+    }
+
+    .showMenu button {
+        display: none;
+    }
+
+    .main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding-top: 13%;
+    }
+
+    .section {
+        width: 45%;
+    }
+}
+
+  @media  screen and (min-width: 992px) {
+
+    #logo {
+        display:inherit;
+        font-size: 3rem;
+    }
+
+    #logo2 {
+        display:inherit;
+        font-size: 3rem;
+    }
+
+    #glass {
+        font-size: 1.8rem;
+    }
+
+    .showMenuContent {
+        display: flex;
+        position: inherit;
+        background-color: inherit;
+        justify-content: space-around;
+    }
+
+    .showMenuContent a {
+        font-size: 1.3rem 
+    }
+
+    .showMenu button {
+        display: none;
+    }
+
+    .showMenu:hover .showMenuContent {
+        display: flex;
+    }
+
+    .main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding-top: 6%;
+    }
+
+    .section {
+        width: 30%;
+    }
+}
