@@ -1,29 +1,23 @@
 /**
- *Abstractation of find
- *The find() method returns the value of the first element in the array that satisfies the provided testing function.
- *Otherwise undefined is returned.
+ * Abstraction of find.
  * 
- * @param {*} arr 
- * @param {*} func 
+ * Finds an element in an array satisfying an expression.
+ * 
+ * @param {Array} array - The array to search an item in.
+ * @param {Function} callback - The expression to evaluate.
+ * 
+ * @returns {*} - An item if found, otherwise undefined.
  */
+function find(array, callback) {
+    if (arguments.length > 2) throw Error('too many arguments');
 
+    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
-function find(arr, func){
-    var res;
-    for (var i=0; i<arr.length; i++)
-    if (func === true){
-        res = arr[i]
+    if(!(callback instanceof Function)) throw TypeError(callback + ' is not a function');
+
+    for (var i = 0; i < array.length; i++) {
+        var value = array[i];
+
+        if(callback(value)) return value;
     }
-    return res
 }
-
-// start = start === undefined ? 0 : (start < 0 ? array.length + start : start);
-
-var a = [1, 2, 3, 4, 5];
-
-var res = find(a,function(v) { return v > 3});
-
-console.log(res);
-
-
-
