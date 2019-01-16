@@ -19,8 +19,7 @@ function join(array, separator){
 
     var string = '';
 
-    separator = separator === undefined ? ',' : separator;
-
+    separator = separator === undefined ? ',' : (separator === null ? 'null':separator);
     for (var i = 0; i < array.length; i++) {
         var value = array[i];
 
