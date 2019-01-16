@@ -1,23 +1,35 @@
 
 
 
-function fill(arr,func) {
+function join(arr,separator) {
 
-    var res =[];
+    if (!(arr instanceof Array)) { throw new TypeError(arr + ' is not an array'); }
+
+    if(!( typeof separator == 'string')){separator = ","}    
     
-    for (var i = 0; i < arr.length; i++) 
     
-    res[i] = func(arr[i]);
-    return res;
+
+    var joined = "";
+
     
+
+    for(i=0;i<arr.length;i++){
+
+        joined = joined + arr[i]
+        
+        if(i<arr.length-1){
+        joined+=separator;
+        }
+
+    }
+
+    
+
+    joined = joined.toString();
+    
+    return joined;
 }
 
 
-var cars = ['ferrari', 'porsche', 'mercedes'];
 
-console.log(cars);
-
-cars = fill(cars,function(v){ return v='ferrari'  });
-
-console.log(cars);
 

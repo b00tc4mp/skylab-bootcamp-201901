@@ -1,32 +1,32 @@
 
+/**
+ * Abstraction of Index-of
+ * 
+ * 
+ * Finds the index of the value in the array.
+ * 
+ * 
+ * @param {*} array 
+ * @param {*} value 
+ * @param {*} index 
+ */
 
-function indexof(array, value) {
 
+function indexof(array, value, index) {
 
+    if (!(array instanceof Array)) { throw new TypeError(array + ' is not an array'); }
+    index = typeof index === 'number' ? index : 0;
+    index = index < 0 ? index + array.length : index;
 
-    var indexes = [];
-    for (var i = 0; i < array.length; i++) {
+    for (var i = index; i < array.length; i++) {
 
-
-
-        if (value === array[i]) indexes[indexes.length] = i;
-
-
-
-    }
-
-    if (indexes.length == 1) { indexes = indexes[0] }
-    if (indexes.length == 0) {
-
-        if (value!==undefined) {
-            indexes = -1;
-        }else{
-            indexes = undefined;
+        if (array[i] == value) {
+            return i;
         }
 
+
     }
 
-    return indexes;
-
-
+    return -1;
 }
+
