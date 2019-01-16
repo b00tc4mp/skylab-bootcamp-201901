@@ -1,21 +1,26 @@
 /**
  * Abstraction of push.
  * 
- * Adds element at the end of an Array.
+ *  adds one or more elements to the end of an array and returns the new length of the array.
  * 
- * @param {Element} element - The element to add.
- * @param {Array} arr - The array to add the object at the end.
- * @param {Function} func - The expression to evaluate.
+ * @param {Element} element 
+ * @param {Array} arr 
+ * 
+ * @throws {TypeError} - If array is not an array.
+ * 
+ * @returns {Length}
  */
-function push(element, arr) {
-    arr[arr.length]=element 
-    return arr
-}
 
-// use case 1
+function push(array, element) {
+    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
+    array[array.length]=element;
 
-var a = [1, 2, 3];
+    if (arguments.length>2) {
+        for (var i = 2; i<arguments.length; i++) {
+            array[array.length] = arguments[i];
+        }
+    };
 
-var b = 4;
-
-push(b, a); // output: 1, 2, 3, 4
+    return array.length
+};

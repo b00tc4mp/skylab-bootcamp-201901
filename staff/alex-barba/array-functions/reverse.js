@@ -1,13 +1,29 @@
-function reverse (array) {
-    var duplicate = array;
-    array.length = 0;
+/**
+ * Abstraction of reverse.
+ * 
+ * Reverses an array in place. The first array element becomes the last, and the last       array element becomes the first.
+ * 
+ * @param {Array} array 
+ * 
+ * @throws {TypeError} - If array is not an array.
+ * 
+ * @returns {Array}
+ */
 
-    for (let i = duplicate.length-1; i > 0; i--){
-       array += duplicate[i];
+function reverse (array) {
+    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
+    var duplicate = Object.assign([],array);
+
+    for (var i = duplicate.length; i > 0; i--){
+        array[i-1] = duplicate[array.length-i];
     }
     return array
 };
 
-var array = ['alex', 'marti', 'carlos'];
+   
 
-reverse(array);
+    var array = [1,2,3];
+
+
+   reverse(array);
