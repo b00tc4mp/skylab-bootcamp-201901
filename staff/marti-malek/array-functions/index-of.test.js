@@ -7,58 +7,61 @@ test('Correct full arguments', function () {
     
     var expected = 2;
 
-    if (res.toString() !== expected.toString()) throw Error ('result should be the one expected')
+    assert(res.toString() === expected.toString(), 'result should be the one expected')
 });
 
 test('Fail too many arguments', function () {
     var a = [1,2,3,4];
 
     try{
-        indexOf(a,3,1,true)
+        indexOf(a,3,1)
     } catch (err) {
         error = err;
     }
 
-    if (!Error) throw Error ('should have thrown error')
+    assert(Error, 'should have thrown error')
 });
 
 test('Fail on string instead of array', function () {
+    var error;
     var a = "string";
 
     try{
-        indexOf(a,3,1,true)
+        indexOf(a,3,1)
     } catch (err) {
         error = err;
     }
 
-    if (!Error) throw Error ('should have thrown error');
-    if (!Error) throw TypeError ('should have thrown TypeError')
+    assert(Error, 'should have thrown error');
+    assert(error instanceof TypeError, 'should have thrown TypeError')
 });
 
 test('Fail on number instead of array', function () {
+    var error;
     var a = 4;
 
     try{
-        indexOf(a,3,1,true)
+        indexOf(a,3,1)
     } catch (err) {
         error = err;
     }
 
-    if (!Error) throw Error ('should have thrown error');
-    if (!Error) throw TypeError ('should have thrown TypeError')
+    assert(Error, 'should have thrown error');
+    assert(error instanceof TypeError, 'should have thrown TypeError')
 });
 
 test('Fail on object instead of array', function () {
+    var error;
     var a = {};
 
     try{
-        indexOf(a,3,1,true)
+        indexOf(a,3,1)
     } catch (err) {
         error = err;
     }
 
-    if (!Error) throw Error ('should have thrown error');
-    if (!Error) throw TypeError ('should have thrown TypeError')
+    assert(Error, 'should have thrown error');
+    assert(error instanceof TypeError, 'should have thrown TypeError')
 });
 
 

@@ -7,7 +7,7 @@ test('Correct full arguments', function () {
 
     var expected = "HelloWorld";
 
-    if (res.toString() !== expected.toString()) throw Error ('Unable to join');
+    assert(res.toString() === expected.toString(), 'Unable to join');
 
 });
 
@@ -18,7 +18,7 @@ test('Validated with 1 argument', function () {
 
     var expected = "Hello,World";
 
-    if (res.toString() !== expected.toString()) throw Error ('Unable to join');
+    assert(res.toString() === expected.toString(), 'Unable to join');
 
 });
 
@@ -29,7 +29,7 @@ test('Validated with number instead of string', function () {
 
     var expected = "Hello,World,4";
 
-    if (res.toString() !== expected.toString()) throw Error ('Unable to join');
+    assert(res.toString() === expected.toString(), 'Unable to join');
 
 });
 
@@ -40,7 +40,7 @@ test('Validated with boolean instead of string', function () {
 
     var expected = "Hello,World,true";
 
-    if (res.toString() !== expected.toString()) throw Error ('Unable to join');
+    assert(res.toString() === expected.toString(), 'Unable to join');
 
 });
 
@@ -55,7 +55,7 @@ test('fail on too many arguments', function () {
          error = err;
      }
 
-    if (!error) throw Error ('Should have thrown an error');
+    assert(error, 'Should have thrown an error');
 
 });
 

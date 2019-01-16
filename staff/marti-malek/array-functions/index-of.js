@@ -25,10 +25,3 @@ function indexOf(arr, value, start) {
     }
     return -1;
 };
-
-
-var a = [1,2,3,4];
-
-var res = indexOf(a, 3, 0);
-
-console.log(res);
