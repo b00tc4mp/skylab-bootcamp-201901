@@ -11,7 +11,7 @@
 function find(array, callback) {
     if (arguments.length > 2) throw Error('too many arguments');
 
-    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if(!(array instanceof Array)) throw TypeError();
 
     if(!(callback instanceof Function)) throw TypeError(callback + ' is not a function');
 
