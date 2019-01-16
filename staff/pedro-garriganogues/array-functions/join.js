@@ -23,5 +23,5 @@ function juntar(ele) {
 
 }
 
-juntar(arr)
+juntar(arr) 
 	console.log(res)
