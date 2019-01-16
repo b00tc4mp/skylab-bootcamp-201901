@@ -15,15 +15,11 @@ function indexOf(arr, value, start) {
     
     start = start ===undefined? 0 : start
 
-    var find=false
     for (var i=start; i<arr.length; i++){
         if (arr[i]===value){
-            find=true
             return i
         }
     }
-    if(!find){
-        return -1
-    }
+    return -1
     
 }
