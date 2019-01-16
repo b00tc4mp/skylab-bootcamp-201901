@@ -1,8 +1,5 @@
 function Desktop(brand, model, size, price) {
-    this.brand = brand;
-    this.model = model;
-    this.size = size;
-    this.price = price;
+    Electronics.apply(this, [brand, model, null, size, price]);
 }
 
 Desktop.prototype = Object.create(Computer.prototype);
