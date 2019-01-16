@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Alphabetical</title>
+	<link rel="stylesheet" type="text/css" href="style/style-pasapalabra.css">
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
+</head>
+<body>
+	<div class="top">
+		<div class="circle">
+			<h1> ALPHABETICAL</h1>
+			<ul class="circle-container">
+				<li id="0" class="A">A</li>
+				<li id="1" class="B">B</li>
+				<li id="2" class="C">C</li>
+				<li id="3" class="D">D</li>
+				<li id="4" class="E">E</li>
+				<li id="5" class="F">F</li>
+				<li id="6" class="G">G</li>
+				<li id="7" class="H">H</li>
+				<li id="8" class="I">I</li>
+				<li id="9" class="J">J</li>
+				<li id="10" class="K">K</li>
+				<li id="11" class="L">L</li>
+				<li id="12" class="M">M</li>
+				<li id="13" class="N">N</li>
+				<li id="14" class="O">O</li>
+				<li id="15" class="P">P</li>
+				<li id="16" class="Q">Q</li>
+				<li id="17" class="R">R</li>
+				<li id="18" class="S">S</li>
+				<li id="19" class="T">T</li>
+				<li id="20" class="U">U</li>
+				<li id="21" class="V">V</li>
+				<li id="22" class="W">W</li>
+				<li id="23" class="X">X</li>
+				<li id="24" class="Y">Y</li>
+				<li id="25" class="Z">Z</li>
+			</ul>
+			<p id="result"></p>
+			<p id="timing"></p>
+		</div>
+		<div id="presentation">
+			<h2>Welcome to Alphabetical!</h2>
+			<p>Can you answer all questions from A to Z?</p>
+			<input type="text" id="username" placeholder="Username" autofocus="">
+			<button onclick="startGame()">LET'S PLAY!</button>
+		</div>
+		<div id='questions'>
+			<p id='letter'></p>
+			<input type="text" id="answer" placeholder="Answer" autofocus="">
+			<button id="send" onclick='verify()'>Send</button>
+			<button id="alphabetical" onclick='alphabetical()'>Alphabetical</button>
+		</div>
+		<div id="theend">
+			<p id="texttheend"></p>
+			<p>Ranking:</p>
+			<p id ="ranking"></p>
+			<button id="playagain" onclick='playAgain()'>Play Again?</button>
+		</div>
+		<footer>by Àlex Barba</footer>
+	</div>
+<script type="text/javascript" src="pasapalabra.js"></script>
+</body>
+</html>

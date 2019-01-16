@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+        }
+
+        header, aside, main, footer {
+            border: 10px solid tomato;
+            box-sizing: border-box;
+        }
+
+        header, footer {
+            height: 20%;
+        }
+
+        aside {
+            width: 25%;
+        }
+
+        aside, main {
+            height: 60%;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <header>HEADER</header>
+    <aside class="left">ASIDE L</aside>
+    <aside class="right">ASIDE R</aside>
+    <main>MAIN</main>
+    <footer>FOOTER</footer>
+</body>
+</html>
