@@ -71,6 +71,12 @@ body {
 }
 .header .header__nav .header__nav-options .header__nav-options-curvatureright #searchbar {
   margin: 0em;
+  position: relative;
+}
+.header .header__nav .header__nav-options .header__nav-options-curvatureright #search-logo {
+  position: absolute;
+  right: 5.3em;
+  top: 6.5em;
 }
 .header .header__info {
   display: flex;
