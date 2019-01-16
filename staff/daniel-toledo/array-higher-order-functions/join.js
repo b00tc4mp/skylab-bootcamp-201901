@@ -1,4 +1,4 @@
-/** DONE
+/** 
  * Abstraction of join.
  *
  * This method creates an return a new string by concatenating all of the elements, separated by commas
