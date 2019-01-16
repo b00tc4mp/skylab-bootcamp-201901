@@ -7,7 +7,7 @@ test('all arguments are correct', function () {
 
     var expected = [11, 12, 13];
 
-    if (res.toString() !== expected.toString()) throw Error ('result should be the one exected');
+    assert(res.toString() === expected.toString(), 'result should be the one exected');
 });
 
 test('Fail on string instead of array', function () {
@@ -21,8 +21,8 @@ test('Fail on string instead of array', function () {
         error = err;
     }
 
-    if (!error) throw Error ('Should have thrown error');
-    if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
+    assert(error, 'Should have thrown error');
+    assert(error instanceof TypeError, 'should have thrown TypeError');
 });
 
 test('Fail on number instead of array', function () {
@@ -36,8 +36,8 @@ test('Fail on number instead of array', function () {
         error = err;
     }
 
-    if (!error) throw Error ('Should have thrown error');
-    if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
+    assert(error, 'Should have thrown error');
+    assert(error instanceof TypeError, 'should have thrown TypeError');
 });
 
 test('Fail on boolean instead of array', function () {
@@ -51,8 +51,8 @@ test('Fail on boolean instead of array', function () {
         error = err;
     }
 
-    if (!error) throw Error ('Should have thrown error');
-    if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
+    assert(error, 'Should have thrown error');
+    assert(error instanceof TypeError, 'should have thrown TypeError');
 });
 
 test('Fail on object instead of array', function () {
@@ -66,8 +66,8 @@ test('Fail on object instead of array', function () {
         error = err;
     }
 
-    if (!error) throw Error ('Should have thrown error');
-    if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
+    assert(error, 'Should have thrown error');
+    assert(error instanceof TypeError, 'should have thrown TypeError');
 });
 
 test('Fail with 1 argument', function () {
@@ -81,6 +81,6 @@ test('Fail with 1 argument', function () {
         error = err;
     }
 
-    if (!error) throw Error ('Should have thrown error');
+    assert(error, 'Should have thrown error');
 });
 

@@ -1,66 +1,67 @@
 suite('fill');
 
-test('Correct full arguments', function () {
+test('all arguments', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, 0, 2);
 
     var expected = [0, 0, 3, 4, 5];
 
-    if (res !== arr) throw Error('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
+    assert(res === arr, 'array and result should be the same');
+    assert(res.toString() === expected.toString(), 'result should be the one expected');
+    assert(arr.toString() === expected.toString(), 'array should have been changed to the one expected');
 });
 
-test('3 correct arguments', function () {
+test('3 arguments', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, 2);
 
     var expected = [1, 2, 0, 0, 0];
 
-    if (res !== arr) throw Error('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
+    assert(res === arr, 'array and result should be the same');
+    assert(res.toString() === expected.toString(), 'result should be the one expected');
+    assert(arr.toString() === expected.toString(), 'array should have been changed to the one expected');
 });
 
-test('2 correct arguments', function () {
+test('2 arguments', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0);
 
     var expected = [0, 0, 0, 0, 0];
 
-    if (res !== arr) throw Error ('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
+    assert(res === arr, 'array and result should be the same');
+    assert(res.toString() === expected.toString(), 'result should be the one expected');
+    assert(arr.toString() === expected.toString(), 'array should have been changed to the one expected');
 });
 
-test('Negative start and end', function () {
+test('negative start and end', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, -3, -2);
 
     var expected = [1, 2, 0, 4, 5];
 
-    if (res !== arr) throw Error ('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error ('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error ('array should have been changed to the one expected');
+    assert(res === arr, 'array and result should be the same');
+    assert(res.toString() === expected.toString(), 'result should be the one expected');
+    assert(arr.toString() === expected.toString(), 'array should have been changed to the one expected');
 });
 
-test('Negative start', function () {
+
+test('negative start', function () {
     var arr = [1, 2, 3, 4, 5];
 
     var res = fill(arr, 0, -3, 4);
 
     var expected = [1, 2, 0, 0, 5];
 
-    if (res !== arr) throw Error ('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error ('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error ('array should have been changed to the one expected');
+    assert(res === arr, 'array and result should be the same');
+    assert(res.toString() === expected.toString(), 'result should be the one expected');
+    assert(arr.toString() === expected.toString(), 'array should have been changed to the one expected');
 });
 
-test('Fail on object instead of array', function () {
+test('fail on object instead of array', function () {
     var error;
 
     try {
@@ -69,11 +70,12 @@ test('Fail on object instead of array', function () {
         error = err;
     }
 
-    if (!error) throw Error ('should have thrown an error');
-    if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
+    assert(error, 'should have thrown an error');
+    assert(error instanceof TypeError, 'should have thrown TypeError');
 });
 
-test('Fail on number instead of array', function () {
+
+test('fail on number instead of array', function () {
     var error;
 
     try {
@@ -82,11 +84,11 @@ test('Fail on number instead of array', function () {
         error = err;
     }
 
-    if (!error) throw Error ('should have thrown an error');
-    if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
+    assert(error, 'should have thrown an error');
+    assert(error instanceof TypeError, 'should have thrown TypeError');
 });
 
-test('Fail on boolean instead of array', function () {
+test('fail on boolean instead of array', function () {
     var error;
 
     try {
@@ -95,11 +97,11 @@ test('Fail on boolean instead of array', function () {
         error = err;
     }
 
-    if (!error) throw Error ('should have thrown an error');
-    if (!error instanceof TypeError) throw Error ('should have thrown TypeError');
+    assert(error, 'should have thrown an error');
+    assert(error instanceof TypeError, 'should have thrown TypeError');
 });
 
-test('Fail on too many arguments', function () {
+test('fail on more than 4 arguments', function () {
     var error;
 
     var arr = [1, 2, 3, 4, 5];
@@ -110,6 +112,6 @@ test('Fail on too many arguments', function () {
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!(error instanceof Error)) throw Error('should have thrown TypeError');
+    assert(error, 'should have thrown an error');
+    assert(error instanceof Error, 'should have thrown TypeError');
 });

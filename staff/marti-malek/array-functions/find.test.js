@@ -9,7 +9,7 @@ test('finds element that exists', function () {
 
     var expected = 12;
 
-    if (found !== expected) throw Error('found value ' + found + ' does not match expected ' + expected);
+    assert(found === expected, 'found value ' + found + ' does not match expected ' + expected);
 });
 
 test('finds element that exists (products demo)', function () {
@@ -26,7 +26,7 @@ test('finds element that exists (products demo)', function () {
 
     var expected = products[1];
 
-    if (found !== expected) throw Error('found value ' + found + ' does not match expected ' + expected);
+    assert(found === expected, 'found value ' + found + ' does not match expected ' + expected);
 });
 
 test('fail on too many arguments', function () {
@@ -38,8 +38,8 @@ test('fail on too many arguments', function () {
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!(error instanceof Error)) throw Error('error should be of type Error');
+    assert(error, 'should have thrown an error');
+    assert(error instanceof Error, 'error should be of type Error');
 });
 
 test('fail on number instead of array', function () {
@@ -53,12 +53,12 @@ test('fail on number instead of array', function () {
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
+    assert(error, 'should have thrown an error');
+    assert(error instanceof TypeError, 'error should be of type TypeError');
 
     var expectedErrorMessage = array + ' is not an array';
 
-    if (error.message !== expectedErrorMessage) throw Error('error message (' + error.message + ')  does not match expected (' + expectedErrorMessage + ')');
+    assert(error.message === expectedErrorMessage, 'error message (' + error.message + ')  does not match expected (' + expectedErrorMessage + ')');
 });
 
 
@@ -73,10 +73,10 @@ test('fail on number instead of callback', function () {
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
+    assert(Error, 'should have thrown an error');
+    assert(error instanceof TypeError, 'error should be of type TypeError');
 
     var expectedErrorMessage = callback + ' is not a function';
 
-    if (error.message !== expectedErrorMessage) throw Error('error message (' + error.message + ')  does not match expected (' + expectedErrorMessage + ')');
+    assert(error.message === expectedErrorMessage, 'error message (' + error.message + ')  does not match expected (' + expectedErrorMessage + ')');
 })

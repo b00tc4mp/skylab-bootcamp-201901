@@ -7,7 +7,7 @@ test('Correct full arguments', function () {
 
     var expected = [3,4];
 
-    if(res.toString() !== expected.toString()) throw Error ('should return correct output');
+    assert(res.toString() === expected.toString(), 'should return correct output');
 });
 
 test('Fail too many arguments', function () {
@@ -19,7 +19,7 @@ test('Fail too many arguments', function () {
         error = err;
     }
 
-    if(!Error) throw Error ('should have thrown an error');
+    assert(Error, 'should have thrown an error');
 });
 
 test('Fail on object instead of array', function () {
@@ -31,7 +31,7 @@ test('Fail on object instead of array', function () {
         error = err;
     }
 
-    if(!Error) throw Error ('should have thrown an error');
+    assert(Error, 'should have thrown an error');
 });
 
 test('Fail on boolean instead of array', function () {
@@ -43,7 +43,7 @@ test('Fail on boolean instead of array', function () {
         error = err;
     }
 
-    if(!Error) throw Error ('should have thrown an error');
+    assert(Error, 'should have thrown an error');
 });
 
 test('Fail on number instead of array', function () {
@@ -55,6 +55,6 @@ test('Fail on number instead of array', function () {
         error = err;
     }
 
-    if(!Error) throw Error ('should have thrown an error');
+    assert(Error, 'should have thrown an error');
 });
 
