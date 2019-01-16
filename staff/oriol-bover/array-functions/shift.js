@@ -10,7 +10,7 @@
  */
 
 function shift(array){
-    if(!(array instanceof Array)) throw Error('the array isn\'t an Array');
+    if(!(array instanceof Array)) throw TypeError('the array isn\'t an Array');
 
     var res = array[0];
     var array2 = Object.assign([], array);
