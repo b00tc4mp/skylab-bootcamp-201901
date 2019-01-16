@@ -26,3 +26,15 @@ function test(description, expression) {
         console.error(err);
     }
 }
+
+/**
+ * Asserts a condition.
+ * 
+ * @param {boolean} condition - The condition to be checked.
+ * @param {string} description - Description of the condition to be accomplished.
+ * 
+ * @throws {Error} - If condition is not satisfied.
+ */
+function assert(condition, description) {
+    if (!condition) throw Error(description);
+}
