@@ -1,0 +1,47 @@
+.parpadea {
+    text-align: center;
+    justify-content: center;
+    height: 500px;
+    font-size: 100px;
+    color: rgb(21, 226, 199);
+    animation-name: parpadeo;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  
+    -webkit-animation-name:parpadeo;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+  }
+  
+  @-moz-keyframes parpadeo{  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+  }
+  
+  @-webkit-keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+     100% { opacity: 1.0; }
+  }
+  
+  @keyframes parpadeo {  
+    0% { opacity: 1.0; }
+     50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+  }
+
+
+  .boton{
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 5px;
+    font-family: arial;
+    text-transform: uppercase;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+}

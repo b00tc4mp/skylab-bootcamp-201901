@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Pasapalabra!</title>
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/styles.css">
+  </head>
+
+  <body>
+
+    <!-- container -->
+    <div class="container justify-content-center">
+
+        <!-- empty header -->
+        <div class="header row">
+          <p></p>
+        </div><!-- /. empty header -->
+
+        <!-- /. main content + left sidebar + rigth sidebar  -->
+        <div class="row">
+
+              <!--sidebarleft-->
+              <div class="sidebarleft col-2"></div>
+              <!--sidebarleft end-->
+
+              <!-- main & central content -->
+              <div id="rosco" class="circle_container col-8" style="">
+                 <!-- main content - central content -->
+            	   <div id="centralContent" class="central_text text-center" style="transform: translate(-50%, -50%)">
+
+                    <!-- header - before start -->
+                    <div id="header" style="display: block;">
+
+                        <!-- title -->
+                        <div class="row justify-content-center">
+                          <div class="col-10">
+                              <h4 class="lead text-secondary">Juego Pasapalabra</h4>
+                          </div>
+                        </div>
+                        <!-- /.title-->
+
+                        <!-- Instructions before start -->
+                        <div class="mt-3 row justify-content-center">
+                            <div class="col-12 mt-3">
+                                <p class="lead text-secondary" id="instructions">Deberás adivinar la palabra relativa a cada letra en función de la definición ofrecida. Tendrás 120 segundos para acertar todo el rosco. La respuesta puede empezar con la letra o contenerla.</p>
+                            </div>
+                        </div>
+                        <!-- /. Instructions before start -->
+
+                        <!-- start game and ranking buttons before start -->
+                        <div class="mt-lg-3 mt-md-1 row justify-content-center">
+                            <div class="col-xl-6 col-lg-6 col-md-12 mt-1" align="center">
+                                <button id="rankingButton" onclick="toggleRanking()" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#rankingModal">Mostrar Ranking</button>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-12 mt-1" align="center">
+                                <button id="startGame" onclick="startGame()" type="button" class="btn btn-success btn-sm">Empezar a Jugar</button>
+                            </div>
+                        </div>
+                        <!-- /.start game and ranking buttons before start -->
+
+                    </div><!-- /.header - before start -->
+
+
+                    <!-- questions area, alerts, results -->
+                    <div id="questionsArea" class="questionsArea invisible">
+                      <div id="endgame">
+                          <!--With the A section-->
+                          <div class="row mt-2 justify-content-center">
+                            <div class="col-12">
+                                <span id="withThe"></span><span id="letter"></span>
+                            </div>
+                          </div>
+                          <!-- /.With the A section -->
+
+                          <!--Question-->
+                          <div class="row mt-3 justify-content-center">
+                            <div class="col-12 questionbox">
+                                <p id="question"></p>
+                            </div>
+                          </div>
+                          <!-- /.Question -->
+
+                          <!--Form and buttons-->
+                          <div class="row justify-content-center">
+                            <div class="col-12">
+                                <form id="formPasapalabra" class="form">
+                                  <input type="text" class="form-control mb-2 mr-sm-2" id="response" placeholder="" autocomplete="off">
+                                  <button id="responderButton" type="submit" onclick="checkResponse()" class="btn btn-primary mb-2 btn-sm" disabled>Responder</button>
+                                  <button id="pasapalabraButton" type="button" onclick="pasapalabra()" class="btn btn-warning mb-2 ml-2 btn-sm">Pasapalabra</button>
+                                </form>
+                            </div>
+                          </div>
+                          <!-- /.Form and buttons -->
+
+                          <!-- Progress Bar tempo -->
+                          <div id="progressTempo" class="row progressTempo invisible">
+                            <div class="col-12">
+                                <div class="mt-3 progress">
+                                    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 100%" aria-valuemin="0" aria-valuemax="120"></div>
+                                    <p class="lead" id="tempo"></p>
+                                </div>
+                            </div>
+                          </div>
+                          <!-- /.Progress Bar tempo -->
+                        </div><!-- /.endgame -->
+
+                        <!-- Alerts and Result section -->
+                        <div id="resultsArea" class="mt-3 resultsArea invisible">
+                          <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div id="resultAlert" class="alert" role="alert"></div>
+                            </div>
+                            <div id="nextQuestion" class="col-8">
+                                <button type="submit" onclick="nextQuestion()" class="btn btn-link">Continuar</button>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /.Alerts and Result section -->
+
+                        <!-- Final Results end game -->
+                        <div id="finalResults" class="mt-3 row justify-content-center invisible">
+                          <div class="col-12">
+                              <div id="finalResultAlert" class="alert" role="alert"></div>
+                          </div>
+                        </div>
+                        <!-- /.Final Results end game -->
+                    </div><!-- /.questions area, alerts, results -->
+
+            	</div><!-- /.main content - central content -->
+
+                <!-- letters in circle -->
+                <div class="letters">
+                  	<div class="moon_container moon1">
+                      <span class="moon moon1 roscol"><div class="l la">A</div></span>
+                    </div>
+                  	<div class="moon_container moon2">
+                      <span class="moon moon2 roscol letter2"><div class="l lb">B</div></span>
+                    </div>
+                  	<div class="moon_container moon3">
+                      <span class="moon moon3 roscol"><div class="l lc">C</div></span>
+                    </div>
+                  	<div class="moon_container moon4">
+                      <span class="moon moon4 roscol"><div class="l ld">D</div></span>
+                    </div>
+                  	<div class="moon_container moon5">
+                      <span class="moon moon5 roscol"><div class="l le">E</div></span>
+                    </div>
+                  	<div class="moon_container moon6">
+                      <span class="moon moon6 roscol"><div class="l lf">F</div></span>
+                    </div>
+                  	<div class="moon_container moon7">
+                      <span class="moon moon7 roscol"><div class="l lg">G</div></span>
+                    </div>
+                  	<div class="moon_container moon8">
+                      <span class="moon moon8 roscol"><div class="l lh">H</div></span>
+                    </div>
+                  	<div class="moon_container moon9">
+                      <span class="moon moon9 roscol"><div class="l li">I</div></span>
+                    </div>
+                  	<div class="moon_container moon10">
+                      <span class="moon moon10 roscol"><div class="l lj">J</div></span>
+                    </div>
+                  	<div class="moon_container moon11">
+                      <span class="moon moon11 roscol"><div class="l lk">K</div></span>
+                    </div>
+                  	<div class="moon_container moon12">
+                      <span class="moon moon12 roscol"><div class="l ll">L</div></span>
+                    </div>
+                  	<div class="moon_container moon13">
+                      <span class="moon moon13 roscol"><div class="l lm">M</div></span>
+                    </div>
+                  	<div class="moon_container moon14">
+                      <span class="moon moon14 roscol"><div class="l ln">N</div></span>
+                    </div>
+                  	<div class="moon_container moon15">
+                      <span class="moon moon15 roscol"><div class="l lñ">Ñ</div></span>
+                    </div>
+                  	<div class="moon_container moon16">
+                      <span class="moon moon16 roscol"><div class="l lo">O</div></span>
+                    </div>
+                  	<div class="moon_container moon17">
+                      <span class="moon moon17 roscol"><div class="l lp">P</div></span>
+                    </div>
+                  	<div class="moon_container moon18">
+                      <span class="moon moon18 roscol"><div class="l lq">Q</div></span>
+                    </div>
+                  	<div class="moon_container moon19">
+                      <span class="moon moon19 roscol"><div class="l lr">R</div></span>
+                    </div>
+                  	<div class="moon_container moon20">
+                      <span class="moon moon20 roscol"><div class="l ls">S</div></span>
+                    </div>
+                  	<div class="moon_container moon21">
+                      <span class="moon moon21 roscol"><div class="l lt">T</div></span>
+                    </div>
+                  	<div class="moon_container moon22">
+                      <span class="moon moon22 roscol"><div class="l lu">U</div></span>
+                    </div>
+                  	<div class="moon_container moon23">
+                      <span class="moon moon23 roscol"><div class="l lv">V</div></span>
+                    </div>
+                  	<div class="moon_container moon24">
+                      <span class="moon moon24 roscol"><div class="l lw">W</div></span>
+                    </div>
+                  	<div class="moon_container moon25">
+                      <span class="moon moon25 roscol"><div class="l lx">X</div></span>
+                    </div>
+                  	<div class="moon_container moon26">
+                      <span class="moon moon26 roscol"><div class="l ly">Y</div></span>
+                    </div>
+                    <div class="moon_container moon27">
+                      <span class="moon moon27 roscol"><div class="l lz">Z</div></span>
+                    </div>
+                </div><!-- letters in circle -->
+
+              </div><!-- /. main & central content -->
+
+
+              <!-- ranking table -->
+              <div class="modal fade" id="rankingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Ranking - TOP 10</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div id="rankingTable" class="row justify-content-center">
+                      <div class="col-8">
+                        <table id="ranking" class="table-sm table table-bordered">
+                            <thead>
+                              <tr>
+                                <th scope="col">Posición</th>
+                                <th scope="col">Aciertos</th>
+                                <th scope="col">Nombre</th>
+                              </tr>
+                            </thead>
+                            <tbody id="bodyRanking">
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /. ranking table -->
+
+              <!--sidebaright-->
+              <div class="sidebaright col-2"></div>
+              <!--sidebaright end-->
+
+        </div><!-- /. main content + left sidebar + rigth sidebar  -->
+
+        <!-- empty footer -->
+        <div class="footer row">
+          <p></p>
+        </div><!-- /. empty header -->
+
+    </div><!-- /. container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="app/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- <script src="app/popper.min.js"></script> -->
+    <script src="app/bootstrap.min.js"></script>
+    <script src="app/app.js"></script>
+  </body>
+</html>
