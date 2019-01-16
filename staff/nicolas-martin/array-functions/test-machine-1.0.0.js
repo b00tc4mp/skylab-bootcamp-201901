@@ -13,14 +13,13 @@ function test(useCaseDescription, useCaseExpression) {
 }
 
 /**
- * Asserts a condition
+ * Asserts a condition.
  * 
- * @param {boolean} condition 
- * @param {string} description 
+ * @param {boolean} condition - The condition to be checked.
+ * @param {string} description - Description of the condition to be accomplished.
  * 
- * @throws {Error} - If condition is not satisfied
+ * @throws {Error} - If condition is not satisfied.
  */
-
-function assert(condition, description){
-
+function assert(condition, description) {
+    if (!condition) throw Error(description);
 }
