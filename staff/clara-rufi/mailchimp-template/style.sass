@@ -7,10 +7,20 @@ ul, li
 header
     background: #46BDD4
     position: fixed
+    flex-flow: column
+    align-items: flex-start
     display: flex
     padding: 20px 10px
     top: 0px
 
+.headerchimptop
+    display: flex
+    flex-direction: row
+    flex-flow: row
+
+.mailchimplogo
+    display: flex
+    align-items: flex-start
 
 body 
     font-family: 'Roboto', sans-serif
@@ -21,17 +31,11 @@ body
 
 .logomonkey
     width: 50%
+    margin: 4rem
 
 .logoceasymail
     width: 40%
     height: 20%
-
-.logosignup_black
-    background: #465255
-
-
-.logosignup_red
-    background: #DF7045
 
 .login
     display: flex
@@ -41,20 +45,35 @@ body
     font-size: 1.2rem
 
 .navmenu
+    display: inline-flex
+
+    li 
+        margin: 0 0.6rem
+       
+    a
+        color: #494646
+        text-decoration: none
+        font-weight: 600
+    
+.logosignup_red
+
+    wide: 3rem
+    background: #DF7045
+
+.logosignup_black
+    background: #465255
+    width: 8rem
+    height: 3rem
+    border-radius: 2rem
+    color: white
+
+.navmenuitems
     display: flex
-    justify-content: flex-end
+    align-items: center
     font-size: 1rem
     border: 2rem solid #a3cddf
     background: #9ecadc
     margin-left: 19.2rem
     width: 34rem
     border-radius: 1.5rem
-
-    li 
-        margin: 0 0.6rem
-    a
-        display: flex
-        color: #494646
-        text-decoration: none
-        font-weight: 600
-       
+    margin-top: -2rem
