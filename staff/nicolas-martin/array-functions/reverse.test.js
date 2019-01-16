@@ -19,11 +19,13 @@ test('use a number instead of an array', function () {
     if (!(err instanceof TypeError)) throw Error('error should be of type TypeError');
 });
 
-// test('succed on change the original array', function () {
-//     var arr = ['a', 'b', 'c'];
-//     var res = reverse(arr);
-//     var expected = ['c', 'b', 'a'];
+test('succeed on change the original array', function () {
+    var arr = ['a', 'b', 'c'];
+    var res = reverse(arr);
+    var expected = ['c', 'b', 'a'];
 
-//     if (expected.toString() !== res.toString()) throw Error('Expected value: ' + expected + ' does not match the result' + res);
-// });
+    if (arr !== res ) throw Error('Expected value: ' + expected + ' does not match the result' + res);
+    if (expected.toString() !== arr.toString()) throw Error('Expected array ' + expected + ' does not match the result' + res);
+
+});
 

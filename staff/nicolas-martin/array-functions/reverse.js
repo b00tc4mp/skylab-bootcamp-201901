@@ -1,20 +1,24 @@
 /**
  * Abstracting of reverse
  * 
- * @param {Array} arr - the array to reverse it
+ * The reverse() method reverses an array in place. 
+ * The first array element becomes the last, and 
+ * the last array element becomes the first.
+ * 
+ * @param {Array} array - the array to reverse it
  * 
  * @returns {Array} - the array reversed
  */
 
- function reverse(arr){
-     if (!(arr instanceof Array)) throw TypeError(arr + ' is not an Array');
+ function reverse(array){
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an Array');
 
-     var res = [];
-     for (var i = arr.length; i > 0; i--) res[arr.length - i] = arr[i-1];
-
-     arr = res;
-     return arr;
+    var end = array.length - 1;
+    for (var i = 0; i < Math.floor(array.length / 2); i++) {
+        var safe = array[i];
+        array[i] = array[end];
+        array[end] = safe;
+        end--;
+    }
+    return array;
  }
-
-//  var arr = [1, 2, 3, 4];
-//  reverse(arr);
