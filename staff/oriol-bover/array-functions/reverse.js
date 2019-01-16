@@ -14,9 +14,11 @@ function reverse(array){
     if (!(array instanceof Array))
         throw new TypeError(array + ' is not an array');
 
+    var array2 = Object.assign([], array);
+
     for (let i = 0; i < array.length; i++) {
-        var value = array[i];
-        
-        console.log(value)
+        array[i] = array2[array.length-1-i];
     }
+    
+    return array;
 }
