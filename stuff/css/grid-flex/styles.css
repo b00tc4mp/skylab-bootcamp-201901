@@ -1,0 +1,175 @@
+/*=============================================
+=            Basic Configuration            =
+=============================================*/
+
+* {
+  font-family: 'Titillium Web', sans-serif;
+  text-align: center;
+}
+html, body{
+  margin:0px;
+  padding: 0px;
+  background-color: #EAEAEA;
+  color:#001F3F;
+}
+.first-container,.second-container, .third-container, .fourth-container {
+  display: grid;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  justify-content: center;
+}
+
+.first-grid,
+.second-grid,
+.third-grid,
+.fourth-grid {
+  background-color: #08B6CE;
+  display: flex;
+}
+
+.felx-element {
+  font-size: 35px;
+  color: #fff;
+  margin: 5px;
+  width: 15%;
+  height: 2em;
+  background: #001f3f;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-element{
+  font-size: 35px;
+  color: #fff;
+  margin: 5px;
+  width: 100px;
+  height: 100px;
+  background: red;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/*=====  End of Containers Configuration  ======*/
+
+
+
+
+/*=============================================
+=            Flex Configuration            =
+=============================================*/
+
+/*----------  First Grid  ----------*/
+.first-grid {
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/*----------  Second Grid  ----------*/
+.second-grid {
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.elementE {
+  flex-basis: 10%;
+  align-self: stretch;
+  height: auto !important;
+}
+
+.elementF {
+  flex-basis: 20%;
+  align-self: stretch;
+  height: 30% !important;
+}
+
+.elementG {
+  flex-basis: 30%;
+  align-self: stretch;
+  height: 50% !important;
+}
+
+/*----------  Third Grid  ----------*/
+.third-grid {
+  flex-flow: column wrap;
+}
+
+/*----------  Fourth Grid  ----------*/
+.fourth-grid {
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.elementM,
+.elementO,
+.elementQ {
+  align-self: center;
+}
+
+.elementN {
+  align-items: flex-start;
+}
+
+/*=====  End of Flex Configuration  ======*/
+
+
+/*=============================================
+=            Grid Configuration            =
+=============================================*/
+
+/*----------  First Container  ----------*/
+.first-container{
+  grid-template-columns: 49% 49%;
+  grid-template-rows: 220px 450px;
+  grid-auto-columns: 50%;
+  grid-auto-rows: 450px;
+  grid-gap: 10px 10px;
+  grid-auto-flow: row;
+}
+
+/*----------  Second Container  ----------*/
+.second-container{
+  grid-template-columns: 19% 79%;
+  grid-template-rows: 220px 450px;
+  grid-auto-columns: 50%;
+  grid-auto-rows: 450px;
+  grid-gap: 10px 10px;
+  grid-auto-flow: row;
+  
+}
+
+
+/*----------  Third Container  ----------*/
+.third-container{
+  grid-template-columns: 69% 19% 9.5%;
+  grid-template-rows: 250px 450px;
+  grid-auto-columns: 50%;
+  grid-auto-rows: 450px;
+  grid-gap: 9px 9px;
+  grid-auto-flow: row;
+}
+
+
+/*----------  Fourth container  ----------*/
+.fourth-container{
+  grid-template-columns: 69% 29%;
+  grid-template-rows: 450px 250px;
+
+  grid-auto-columns: 50%;
+  grid-auto-rows: 450px;
+  grid-gap: 10px 10px;
+
+  grid-auto-flow: column;
+
+}
+
+/*=====  End of Grid Configuration  ======*/
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+html {
+	box-sizing: border-box;
+}
+
+.container {
+	max-width: 402px;
+	margin: auto;
+	box-shadow: 4px 4px 20px 1px rgba(0,0,0,0.75);
+	background-image: linear-gradient(190deg, #ff3300 , #ff8c1a);
+}
+
+body {
+	align-items: center;
+	background-image: linear-gradient(90deg, #ff8c1a , #ff531a);
+	font-family: 'Open Sans';
+	font-size: 22px;
+}
+
+.keys {
+	display: grid;
+	grid-gap: 0px;
+	grid-template-columns: repeat(4, 100px);
+	border: 1px solid rgba(255, 214, 153,0.3);
+}
+
+#igual {
+	grid-column: 3 / span 2;
+}
+
+button {
+	height: 100px;
+	color: white;
+	font-size: 130%;
+	background-color:rgba(0,0,0,0);
+	border: 1px solid rgba(255, 214, 153,0.3);
+}
+
+button:hover {
+	background-color:rgba(0,0,0,0.25)!important;
+}
+
+#displayText {
+	text-align: right;
+	color: white;
+	font-size: 220%;
+	padding: 80px 20px 0px;
+}
