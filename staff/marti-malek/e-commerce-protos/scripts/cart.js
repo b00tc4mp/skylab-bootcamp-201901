@@ -103,12 +103,12 @@ function Cart(cartList) {
      * 
      * @throws {Error} - If too many arguments
      */
-    this.productsByPriceRange = function () {
-        if (arguments.length > 0) throw Error ('too many arguments');
+    this.productsByPriceRange = function (minV, maxV) {
+        if (arguments.length > 2) throw Error ('too many arguments');
 
         var products = [];
         for (var i = 0; i < this.cartList.length; i++) {
-            if (30 < this.cartList[i].price && this.cartList[i].price < 120) {
+            if (minV < this.cartList[i].price && this.cartList[i].price < maxV) {
                 products.push(this.cartList[i]);
             }
         }
