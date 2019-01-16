@@ -9,6 +9,8 @@
  * 
  * @throws {Error}
  * @throws {TypeError} - If array is not an array
+ * 
+ * @returns {*} Returns the deleted element
  */
 
 function pop(arr){

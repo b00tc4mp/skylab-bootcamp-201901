@@ -8,6 +8,8 @@
  * @param {*} separator
  * 
  * @throws {Error} If array is not an array
+ * 
+ * @returns {Number} The new length property of the object upon which the method was called.
  */
 
 function join (arr, separator){
