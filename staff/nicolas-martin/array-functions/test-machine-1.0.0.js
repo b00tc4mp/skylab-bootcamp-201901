@@ -11,3 +11,16 @@ function test(useCaseDescription, useCaseExpression) {
         console.error(err);
     }
 }
+
+/**
+ * Asserts a condition
+ * 
+ * @param {boolean} condition 
+ * @param {string} description 
+ * 
+ * @throws {Error} - If condition is not satisfied
+ */
+
+function assert(condition, description){
+
+}

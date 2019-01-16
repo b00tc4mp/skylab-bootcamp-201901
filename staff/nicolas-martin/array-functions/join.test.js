@@ -1,3 +1,5 @@
+suite('join');
+
 test('succed on joining elements without parameter', function (){
     var arr = [1, 2, 3];
     var res = join(arr);
