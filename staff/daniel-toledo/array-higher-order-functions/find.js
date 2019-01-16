@@ -5,21 +5,21 @@
  * The result is back in a new array
  *
  * @param {Array} arr - The array to find.
- * @param {Function} func - testing funtion
+ * @param {Function} callback - testing funtion
  * 
  *@return {*} - The found value. Undefined if value is not found
  */
-function find(arr, func) {
+function find(arr, callback) {
 
     if(arguments.length >2) throw Error('too many arguments')
 
     if(!(arr instanceof Array)) throw TypeError(arr+' should be an Array')
 
-    if (!(func instanceof Function)) throw TypeError(func + ' should be a function')
+    if (!(callback instanceof Function)) throw TypeError(func + ' should be a function')
 
     for (var i=0; i<arr.length; i++){
         var value = arr[i]
-        if (func(value)) return value
+        if (callback(value)) return value
     }
     
 }

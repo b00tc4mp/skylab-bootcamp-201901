@@ -50,7 +50,7 @@ test('test arr is not an Array', function(){
     
 });
 
-test('test func is not a Function', function(){
+test('test callback is not a Function', function(){
     var error
 
     try{
