@@ -30,13 +30,13 @@ cart.add(cap);
 cart.add(shorts);
 cart.add(sweater);
 
-console.log('total', cart.totalPrice());
-console.log('number of items', cart.numberOfItems());
-console.log('most expensive', cart.mostExpensive());
-console.log('cheapest', cart.cheapest());
-console.log('number of clothing items', cart.numberOf(Clothing));
-console.log('number of electronics items', cart.numberOf(Electronics));
-console.log('products in between prices', cart.productsByPriceRange(30, 120));
+console.log('The total price of all the products in the cart is:', cart.totalPrice(), 'USD.');
+console.log('The total number of items in added to cart is:', cart.numberOfItems());
+console.log('The most expensive number in the cart:', cart.mostExpensive());
+console.log('The cheapest item in the cart:', cart.cheapest());
+console.log('The total number of clothing items is:', cart.numberOf(Clothing));
+console.log('The total number of electronics items is:', cart.numberOf(Electronics));
+console.log('These are the products between prices of 30USD and 120USD:', cart.productsByPriceRange(30, 120));
 
 
 
