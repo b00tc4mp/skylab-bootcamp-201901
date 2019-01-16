@@ -1,23 +1,32 @@
 
 
+function indexof(array, value) {
 
-function fill(arr,func) {
 
-    var res =[];
-    
-    for (var i = 0; i < arr.length; i++) 
-    
-    res[i] = func(arr[i]);
-    return res;
-    
+
+    var indexes = [];
+    for (var i = 0; i < array.length; i++) {
+
+
+
+        if (value === array[i]) indexes[indexes.length] = i;
+
+
+
+    }
+
+    if (indexes.length == 1) { indexes = indexes[0] }
+    if (indexes.length == 0) {
+
+        if (value!==undefined) {
+            indexes = -1;
+        }else{
+            indexes = undefined;
+        }
+
+    }
+
+    return indexes;
+
+
 }
-
-
-var cars = ['ferrari', 'porsche', 'mercedes'];
-
-console.log(cars);
-
-cars = fill(cars,function(v){ return v='ferrari'  });
-
-console.log(cars);
-
