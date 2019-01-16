@@ -10,7 +10,16 @@ function Cart(cartList) {
     this.add = function (product) {
         this.cartList.push(product);
     };
+    /**
+     * Function that calculates the summed prices of all the products in the cart.
+     * 
+     * @returns {number} 
+     * 
+     * @throws {Error} - If too many arguments
+     */
     this.totalPrice = function () {
+        if (arguments.length > 0) throw Error ('too many arguments')
+
         price2 = 0;
         for(var i = 0; i < this.cartList.length; i++) {
             price2 += this.cartList[i].price;
