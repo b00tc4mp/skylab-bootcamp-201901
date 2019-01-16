@@ -36,11 +36,9 @@ var arr = [1, 2, 3, 4, 5];
 
 var res = fill(arr, 0, 0, 2);
 
-var expected = [0, 0, 3, 4, 5];
+console.log(res); // [0, 0, 3, 4, 5]
+console.log(arr); // [0, 0, 3, 4, 5]
 
-console.assert(res === arr, 'array and result should be the same');
-console.assert(res.toString() === expected.toString(), 'result should be the one expected');
-console.assert(arr.toString() === expected.toString(), 'array should have been changed to the one expected');
 
 // use case 2
 
