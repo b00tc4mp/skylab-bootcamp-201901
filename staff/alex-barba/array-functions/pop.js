@@ -1,20 +1,20 @@
 /**
  * Abstraction of pop.
  * 
- * Removes the last element of an Array.
+ * removes the last element from an array and returns that element. This method changes the length of the array.
  * 
  * @param {Array} arr - The array to remove the last element.
- * @param {Function} func - The expression to evaluate.
  * 
+ * @throws {TypeError} - If array is not an array.
+ * @throws {TypeError} - If array is not defined.
+ * 
+ * @returns {*}
  */
-function pop(arr) {
-    var last = arr[arr.length-1]
-    arr.length = arr.length-1
+function pop(array) {
+    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
+    if (array.length === 0) return undefined
+    var last = array[array.length-1]
+    array.length = array.length-1
     return last
-}
-
-// use case 1
-
-var a = [1, 2, 3, 4];
-
-pop(a); // output: 1, 2, 3
+};
