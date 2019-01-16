@@ -1,0 +1,354 @@
+/*STARTER TEMPLATE*/
+body{
+  margin-top:220px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+#questionsArea{
+  margin-top:50px;
+  width: 280px;
+}
+.questionbox{
+  height: 80px;
+}
+.bg-danger, .bg-success{
+  color: #fff;
+}
+
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+#rankingButton, #startGame{
+  font-size:13px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-weight: 300;
+}
+
+#resultAlert, #finalResultAlert{
+  font-size:14px;
+  padding:8px 0px;
+}
+
+#rankingTable{
+  font-size:13px;
+}
+
+#header h4{
+  text-transform: uppercase;
+}
+
+#header{
+  margin-top: 350px;
+}
+
+#letter {
+  height: 40px;
+  width: 40px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 25px;
+}
+
+#tempo{
+  font-size:13px;
+}
+
+.progressTempo{
+   display:flex;
+   align-items:center;
+   justify-content:center;
+}
+
+/*ROSCO*/
+.roscol{
+  border-radius: 50%;
+  font-size: 25px;
+}
+
+.transparent_square{
+  width: 100%;
+  height: auto;
+}
+
+.central_text{
+	left: 50%;
+	top: 50%;
+	position: absolute;
+  z-index: 1;
+}
+
+.moon_container{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 30%;
+	transform: translate(-50%, -50%);
+}
+
+.moon{
+	width: 100%;
+	height: auto;
+	position: relative;
+	left: 175%;
+  font-size: 19px;
+  padding: 10px;
+  font-weight: 300;
+}
+.l{
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  margin: 0px;
+  text-align: center;
+  border-radius: 50%;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  background-color: #0585ff;
+  color: #FFF;
+}
+
+.letteractive{
+  background-color: #bbb;
+}
+.container1{
+  transform: rotate(13.3deg);
+}
+.moon_container.moon1{
+	transform: translate(-50%, -50%);
+}
+.moon_container.moon2{
+	transform: translate(-50%, -50%) rotate(13.3deg);
+}
+.lb{
+  transform: rotate(-13.3deg);
+}
+.moon_container.moon3{
+	transform: translate(-50%, -50%) rotate(26.6deg);
+}
+.lc{
+  transform: rotate(-26.6deg);
+}
+.moon_container.moon4{
+	transform: translate(-50%, -50%) rotate(39.9deg);
+}
+.ld{
+  transform: rotate(-39.9deg);
+}
+.moon_container.moon5{
+	transform: translate(-50%, -50%) rotate(53.3deg);
+}
+.le{
+  transform: rotate(-53.3deg);
+}
+.moon_container.moon6{
+	transform: translate(-50%, -50%) rotate(66.6deg);
+}
+.lf{
+  transform: rotate(-66.6deg);
+}
+.moon_container.moon7{
+	transform: translate(-50%, -50%) rotate(79.95deg);
+}
+.lg{
+  transform: rotate(-79.95deg);
+}
+.moon_container.moon8{
+	transform: translate(-50%, -50%) rotate(93.2deg);
+}
+.lh{
+  transform: rotate(-93.2deg);
+}
+.moon_container.moon9{
+	transform: translate(-50%, -50%) rotate(106.6deg);
+}
+.li{
+  transform: rotate(-106.6deg);
+}
+.moon_container.moon10{
+	transform: translate(-50%, -50%) rotate(119.9deg);
+}
+.lj{
+  transform: rotate(-119.9deg);
+}
+.moon_container.moon11{
+	transform: translate(-50%, -50%) rotate(133.2deg);
+}
+.lk{
+  transform: rotate(-133.2deg);
+}
+.moon_container.moon12{
+	transform: translate(-50%, -50%) rotate(146.6deg);
+}
+.ll{
+  transform: rotate(-146.6deg);
+}
+.moon_container.moon13{
+	transform: translate(-50%, -50%) rotate(159.9deg);
+}
+.lm{
+  transform: rotate(-159.9deg);
+}
+.moon_container.moon14{
+	transform: translate(-50%, -50%) rotate(173.2deg);
+}
+.ln{
+  transform: rotate(-173.2deg);
+}
+.moon_container.moon15{
+	transform: translate(-50%, -50%) rotate(186.6deg);
+}
+.lñ{
+  transform: rotate(-186.6deg);
+}
+.moon_container.moon16{
+	transform: translate(-50%, -50%) rotate(200deg);
+}
+.lo{
+  transform: rotate(-200deg);
+}
+.moon_container.moon17{
+	transform: translate(-50%, -50%) rotate(213.25deg);
+}
+.lp{
+  transform: rotate(-213.25deg);
+}
+.moon_container.moon18{
+	transform: translate(-50%, -50%) rotate(226.5deg);
+}
+.lq{
+  transform: rotate(-226.5deg);
+}
+.moon_container.moon19{
+	transform: translate(-50%, -50%) rotate(239.9deg);
+}
+.lr{
+  transform: rotate(-239.9deg);
+}
+.moon_container.moon20{
+	transform: translate(-50%, -50%) rotate(253.2deg);
+}
+.ls{
+  transform: rotate(-253.2deg);
+}
+.moon_container.moon21{
+	transform: translate(-50%, -50%) rotate(266.5deg);
+}
+.lt{
+  transform: rotate(-266.5deg);
+}
+.moon_container.moon22{
+	transform: translate(-50%, -50%) rotate(279.9deg);
+}
+.lu{
+  transform: rotate(-279.9deg);
+}
+.moon_container.moon23{
+	transform: translate(-50%, -50%) rotate(293.2deg);
+}
+.lv{
+  transform: rotate(-293.2deg);
+}
+.moon_container.moon24{
+	transform: translate(-50%, -50%) rotate(306.5deg);
+}
+.lw{
+  transform: rotate(-306.5deg);
+}
+.moon_container.moon25{
+	transform: translate(-50%, -50%) rotate(319.8deg);
+}
+.lx{
+  transform: rotate(-319.8deg);
+}
+.moon_container.moon26{
+	transform: translate(-50%, -50%) rotate(333.2deg);
+}
+.ly{
+  transform: rotate(-333.2deg);
+}
+.moon_container.moon27{
+	transform: translate(-50%, -50%) rotate(346.5deg);
+}
+.lz{
+  transform: rotate(-346.5deg);
+}
+
+
+/* Extra small devices (portrait phones, less than 576px)
+ No media query since this is the default in Bootstrap */
+
+#instructions{
+ font-size: 12px;
+ line-height: 15px;
+}
+
+#instructions{
+  display:none;
+}
+
+#header h4{
+ font-size:15px;
+}
+
+
+/* Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+  #instructions{
+    font-size: 12px;
+    line-height: 15px;
+    display:block;
+  }
+  #header h4{
+    font-size:17px;
+  }
+  body{
+    margin-top:200px;
+  }
+}
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+  #header h4{
+    font-size:17px;
+  }
+  p#instructions, p#question{
+    font-size: 13px;
+    line-height: 15px;
+  }
+  body{
+    margin-top:269px;
+  }
+}
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+  #header h4{
+    font-size:24px;
+  }
+
+  p#instructions{
+    font-size: 14px;
+    line-height: 18px;
+  }
+  body{
+    margin-top:350px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+  #header h4{
+    font-size:24px;
+  }
+
+  #instructions{
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  body{
+    margin-top:400px;
+  }
+
+}
