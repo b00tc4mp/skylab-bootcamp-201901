@@ -10,7 +10,8 @@ function Being(species, age, type) {
     this.type = type;
 }
 
-Being.prototype = new Thing; // Object.create(Thing.prototype);
+Being.prototype = new Thing;
+// Being.prototype = Object.create(Thing.prototype);
 Being.prototype.constructor = Being;
 
 Being.prototype.feed = function () { return 'sgfffhhhh'; };
@@ -25,7 +26,8 @@ function Vegetal(species, age, type) {
     Being.call(this, species, age, type);
 }
 
-Vegetal.prototype = Object.create(Being.prototype); // new Being;
+// Vegetal.prototype = new Being;
+Vegetal.prototype = Object.create(Being.prototype);
 Vegetal.prototype.constructor = Vegetal;
 
 //
@@ -34,7 +36,8 @@ function Animal(species, age, type) {
     Being.call(this, species, age, type);
 }
 
-Animal.prototype = Object.create(Being.prototype); // new Being;
+// Animal.prototype = new Being;
+Animal.prototype = Object.create(Being.prototype);
 Animal.prototype.constructor = Animal;
 
 Animal.prototype.eat = function () { return 'ñan ñam'; };
@@ -47,7 +50,8 @@ function Pet(name, species, age, type) {
     Animal.call(this, species, age, type);
 }
 
-Pet.prototype = Object.create(Animal.prototype); // new Animal;
+// Pet.prototype = new Animal;
+Pet.prototype = Object.create(Animal.prototype);
 Pet.prototype.constructor = Pet;
 
 Pet.prototype.info = function() {
