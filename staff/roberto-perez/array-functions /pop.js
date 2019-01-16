@@ -9,6 +9,8 @@ function pop(arr) {
   if (!(arr instanceof Array)) {
     throw new TypeError(arr + " is not an array");
   }
-  var lastItem = arr.splice(-1, 1);
-  return lastItem[0];
+  //var lastItem = arr.splice(-1, 1);
+  var lastItem = arr[arr.length-1];
+  arr.length = arr.length - 1;
+  return lastItem;
 }

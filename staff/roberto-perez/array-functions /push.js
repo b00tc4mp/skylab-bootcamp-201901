@@ -10,17 +10,10 @@ function push(arr) {
     throw new TypeError(arr + " is not an array");
   }
 
-  var newArr = [];
-  for (var i = 0; i < arr.length; i++) {
-    newArr[i] = arr[i];
-  }
-
-  for (var j = 1; j < arguments.length; j++) {
-    newArr[j + 1] = arguments[j];
+  for (var i = 1; i < arguments.length; i++) {
+    arr[arr.length] = arguments[i];
   }
   
-  a = newArr;
-  
-  return newArr.length;
+  return arr.length;
 }
 

@@ -1,4 +1,14 @@
-suite("TEST pop");
+suite("pop");
+
+test('Pop element from array', function () {
+  var arr = ['angel', 'clown', 'mandarin', 'sturgeon'];
+
+  var popped = pop(arr);
+
+  var expected = 'sturgeon';
+  
+  if (popped !== expected) throw Error('Joined value ' + popped + ' does not match expected ' + expected);
+});
 
 test("First argument is not array", function() {
   var error;
