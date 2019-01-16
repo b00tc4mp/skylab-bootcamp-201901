@@ -1,8 +1,14 @@
 /**
  * 
+ * Abstraction of indexOf.
+ * 
+ * Returns the first position in the array where the searched item is found.
+ * 
  * @param {Array} arr 
  * @param {*} value 
  * @param {Number} start
+ * 
+ * @returns {Number}
  * 
  * @throws {Error} - If too many arguments
  * @throws {TypeError} - If arr is not an array
