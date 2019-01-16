@@ -1,5 +1,9 @@
 /**
  * 
+ * Abstraction of filter.
+ * 
+ * Returns the elements of an array that are validated througha function.
+ * 
  * @param {Array} arr 
  * @param {Function} func 
  * 

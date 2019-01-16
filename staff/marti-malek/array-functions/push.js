@@ -1,5 +1,9 @@
 /**
  * 
+ * Abstraction of push.
+ * 
+ * Adds an element at the last position of an array.
+ * 
  * @param {Array} arr 
  * @param {*} value 
  * 
