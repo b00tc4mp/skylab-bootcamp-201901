@@ -45,5 +45,5 @@ test('Not passing an array' , function(){
     }
 
     assert(error, 'Should be an error');
-    assert(error instanceof Error, 'Error should be an Error type');
+    assert(error instanceof TypeError, 'Error should be an Error type');
 });

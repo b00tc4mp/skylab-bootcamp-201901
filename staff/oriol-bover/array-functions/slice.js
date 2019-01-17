@@ -11,7 +11,7 @@
  */
 
 function slice(array, begin, end) {
-    if(!(array instanceof Array)) throw Error('array must be an Array');
+    if(!(array instanceof Array)) throw TypeError(array+' must be an Array');
 
     begin = typeof begin === 'undefined' ? 0 : (typeof begin === 'number' ? begin: 0);
     end = typeof end === 'undefined' ? array.length : end;
