@@ -44,6 +44,25 @@ suite('Cart', function () {
 
         });
 
+        it('should sum all the prices even the ones that has no price', function () {
+            var cart = new Cart;
+
+            var socks = new Socks('Calvin Klein', 42, 'black', 10);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 20);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
+
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
+
+            res = cart.totalPrice()
+
+            expected = 30
+
+            expect(res === expected, 'Unexpected value')
+
+        });
+
     });
 
     describe('function number of products', function () {
@@ -99,98 +118,189 @@ suite('Cart', function () {
             expect(res === expected, 'Unexpected value')
         });
 
-        // it('should fail when the product has no price in mostExpensive', function () {
-        //     var cart = new Cart;
+        it('should show the most expensive even if there is products without price', function () {
+            var cart = new Cart;
 
-        //     var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
-        //     var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
-        //     var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
+            var socks = new Socks('Calvin Klein', 42, 'black', 10);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 20);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
 
-        //     cart.add(socks);
-        //     cart.add(tanga);
-        //     cart.add(bra);
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
 
-        //     var error;
+            res = cart.mostExpensive()
 
-        //     try {
-        //         cart.mostExpensive()
-        //     } catch (err) {
-        //         error = err
-        //     }
+            expected = {size: 32, color: "red", brand: "Wicked Weasel", price: 20}
 
+            expect(res.toString() === expected.toString(), 'Unexpected value')
 
-        //     expect(error, 'it should throw an error')
-        // });
+        });
 
-        // it('should fail when the product has no price in cheapest', function () {
-        //     var cart = new Cart;
+        
+        it('should show the cheapest even if there is products without price', function () {
+            var cart = new Cart;
 
-        //     var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
-        //     var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
-        //     var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
+            var socks = new Socks('Calvin Klein', 42, 'black', 10);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 20);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
 
-        //     cart.add(socks);
-        //     cart.add(tanga);
-        //     cart.add(bra);
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
 
-        //     var error;
+            res = cart.cheapest()
 
-        //     try {
-        //         cart.cheapest()
-        //     } catch (err) {
-        //         error = err
-        //     }
+            expected = {size: 42, color: "black", brand: "Calvin Klein", price: 10}
 
+            expect(res.toString() === expected.toString(), 'Unexpected value')
 
-        //     expect(error, 'it should throw an error')
-        // });
+        });
     });
 
+    describe('products by price range', function(){
+        it('should show products inside the range', function () {
+            var cart = new Cart;
+    
+            var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream', 39);
+    
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
+    
+            res = cart.productsByPriceRange(9, 30)
+    
+            expected = [{ size: 42, color: "black", brand: "Calvin Klein", price: 9.99 },
+            { size: 32, color: "red", brand: "Wicked Weasel", price: 29.95 }]
+    
+            expect(res.toString() === expected.toString(), 'Unexpected value')
+        });
 
-    test('product by price range', function () {
-        var cart = new Cart;
+        it('should fail when min is not a number', function () {
+            var cart = new Cart;
 
-        var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
-        var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
-        var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream', 39);
+            var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
 
-        cart.add(socks);
-        cart.add(tanga);
-        cart.add(bra);
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
 
-        res = cart.productsByPriceRange(9, 30)
+            var error;
 
-        expected = [{ size: 42, color: "black", brand: "Calvin Klein", price: 9.99 },
-        { size: 32, color: "red", brand: "Wicked Weasel", price: 29.95 }]
+            try {
+                cart.productsByPriceRange(true, 30)
+            } catch (err) {
+                error = err
+            }
 
-        assert(res.toString() === expected.toString(), 'Unexpected value')
 
+            expect(error, 'it should throw an error');
+            expect(error instanceof TypeError, 'the error shoyld be TypeError');
+        });
+
+        
+        it('should fail when max is not a number', function () {
+            var cart = new Cart;
+
+            var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
+
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
+
+            var error;
+
+            try {
+                cart.productsByPriceRange(9, 'hello')
+            } catch (err) {
+                error = err
+            }
+
+
+            expect(error, 'it should throw an error');
+            expect(error instanceof TypeError, 'the error shoyld be TypeError');
+        });
     });
 
-    test('number of same type', function () {
-        var cart = new Cart;
+    describe('function number of same type', function(){
+        it('should show how many products are in the same type', function () {
+            var cart = new Cart;
+    
+            var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream', 39);
+            var laptop = new Laptop('Apple', 'MacBook Pro', 15, 1599);
+            var desktop = new Desktop('HP', '1800', 20, 420);
+    
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
+            cart.add(laptop);
+            cart.add(desktop);
+    
+            res1 = cart.numberOf(Electronics)
+            res2 = cart.numberOf(Clothing)
+    
+            var expected1 = 2
+            var expected2 = 3
+    
+            expect(res1 === expected1, 'Unexpected value')
+            expect(res2 === expected2, 'Unexpected value')
+        });
 
-        var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
-        var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
-        var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream', 39);
-        var laptop = new Laptop('Apple', 'MacBook Pro', 15, 1599);
-        var desktop = new Desktop('HP', '1800', 20, 420);
+        it('should fail when type is not a Function', function () {
+            var cart = new Cart;
 
-        cart.add(socks);
-        cart.add(tanga);
-        cart.add(bra);
-        cart.add(laptop);
-        cart.add(desktop);
+            var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
 
-        res1 = cart.numberOf(Electronics)
-        res2 = cart.numberOf(Clothing)
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
 
-        var expected1 = 2
-        var expected2 = 3
+            var error;
 
-        assert(res1 === expected1, 'Unexpected value')
-        assert(res2 === expected2, 'Unexpected value')
+            try {
+                cart.numberOf('Electronics')
+            } catch (err) {
+                error = err
+            }
 
+
+            expect(error, 'it should throw an error');
+            expect(error instanceof TypeError, 'the error shoyld be TypeError');
+        });
+
+        it('should fail when type is not inside Products', function () {
+            var cart = new Cart;
+
+            var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
+            var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
+            var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream');
+
+            cart.add(socks);
+            cart.add(tanga);
+            cart.add(bra);
+
+            var error;
+
+            try {
+                cart.numberOf(Array)
+            } catch (err) {
+                error = err
+            }
+
+
+            expect(error, 'it should throw an error');
+            expect(error instanceof TypeError, 'the error shoyld be TypeError');
+        });
     });
 
 });
