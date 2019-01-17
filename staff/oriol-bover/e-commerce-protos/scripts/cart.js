@@ -53,10 +53,9 @@ function Cart(){
     }
 
     this.productsByPriceRange = function(min, max){
-        //if(!(min instanceof Number)) throw TypeError('min is not a number');
-        //if(!(max instanceof Number)) throw TypeError('min is not a number');
-        if(min > max) 
-            min = [max, max = min][0];
+        if(typeof min !== 'number') throw TypeError('min is not a number');
+        if(typeof max !== 'number') throw TypeError('min is not a number');
+        if(min > max) min = [max, max = min][0];
             
         var products = [];
         
