@@ -1,9 +1,10 @@
 function Horroy() {
-    this.length = 0;
+    this.length = arguments.length;
 
     if (arguments.length)
         for(var i = 0; i < arguments.length; i++)
-            this.push(arguments[i]);
+            // this.push(arguments[i]); // WARN should avoid (if possible) calling member methods in a constructor (push)
+            this[i] = arguments[i];
 }
 
 Horroy.prototype.push = function(value) {
