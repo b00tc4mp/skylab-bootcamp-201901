@@ -1,8 +1,23 @@
+/**
+ * Abstraction of cart.
+ * 
+ * Manages cart and filtering options.
+ *  
+ * @method add()
+ *      @param {Object} object
+ *      @throws {TypeError} - If object is not object
+ *      @returns {number} - Products in cart
+ * 
+ */
+
 function Cart() {
     this.cartItems = [];
 
     this.add = function(item) {
+        if(!(item instanceof Object)) throw TypeError();
         this.cartItems.push(item);
+
+        return this.cartItems.length;
     };
 
     this.totalPrice = function() {
@@ -18,6 +33,7 @@ function Cart() {
     };
 
     this.mostExpensive = function() {
+        // Use reduce
         var higher = this.cartItems[0];
         for(var i = 0; i<this.cartItems.length - 1; i++) {
             if(higher.price < this.cartItems[i+1].price) {
@@ -30,6 +46,7 @@ function Cart() {
     };
 
     this.cheapest = function() {
+        // Use reduce
         var lower = this.cartItems[0];
         for(var i = 0; i<this.cartItems.length - 1; i++) {
             if(lower.price > this.cartItems[i+1].price) {
@@ -42,6 +59,7 @@ function Cart() {
     };
 
     this.numberOf = function(productType) {
+        // Use reduce()
         var counter = 0;
         for(var i = 0; i<this.cartItems.length; i++) {
             if(this.cartItems[i] instanceof productType) {
@@ -52,6 +70,7 @@ function Cart() {
     };
 
     this.productsByPriceRange = function(min,max) {
+        // Use filter()
         var result = [];
         for(var i = 0; i<this.cartItems.length; i++) {
             if((this.cartItems[i].price > min) && (this.cartItems[i].price < max)){
