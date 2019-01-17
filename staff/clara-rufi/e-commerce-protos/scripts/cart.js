@@ -38,16 +38,26 @@ Cart.prototype.mostExpensive = function(){
 }
 
 no fem servir el map, pq el map canvia l'array original
-*/
 
-Cart.prototype.mostExpensive = function(){
+ /*amb el sort, es canvia l'ordre, millor fer un reduce*/
+
+
+/*Cart.prototype.mostExpensive = function(){
     var items = this.products //fem copia array x no modificar
     var expensive = items.sort(function(a, b){return a.price-b.price}).pop();
     console.log(expensive)
   
-    /*amb el sort, es canvia l'ordre, millor fer un reduce*/
+   
     return expensive
 }
+/*
+mostExpensive amb reduce:
+
+Cart.prototype.mostExpensive = function(){
+   return this.products.reduce(function(accum, product){
+       return accum.price < product.price? product:accum;
+   });
+});
 
 
 Cart.prototype.cheapest = function(){
@@ -69,6 +79,7 @@ Cart.prototype.numberOf= function(type){
     } return counter
 
 }
+
 /* recorrem array per saber num de clothes i d'electronics 
 q formen part de products amb el instanceof. li passem el parametre type
 pq aixi ens val per clothes i electronics*/ 
@@ -88,7 +99,7 @@ Cart.prototype.productsByPriceRange= function(){
 
 }*/
 
-
+/*
 Cart.prototype.productsByPriceRange = function(){
     var btw = this.products.reduce(function (total, amount) {
         if (amount.price > 30 && amount.price < 120) {
@@ -98,4 +109,36 @@ Cart.prototype.productsByPriceRange = function(){
     }, []);
     return btw
 }
+*/
+
+
+Cart.prototype.mostExpensive = function () {
+    return this.products.reduce(function (accum, product) {
+        return accum.price < product.price ? product : accum;
+    });
+};
+
+Cart.prototype.cheapest = function () {
+    return this.products.reduce(function (accum, product) {
+        return accum.price > product.price ? product : accum;
+    });
+};
+
+Cart.prototype.numberOf = function (type) {
+    if (typeof type !== 'function') throw TypeError(type + ' is not a function');
+    if (type !== Product && !(type.prototype instanceof Product)) throw TypeError(type + ' is not a product type');
+
+    return this.products.reduce(function (accum, product) {
+        return product instanceof type ? ++accum : accum;
+    }, 0);
+};
+
+Cart.prototype.productsByPriceRange = function(min, max) {
+    if (typeof min !== 'number') throw TypeError(min + ' is not a number');
+    if (typeof max !== 'number') throw TypeError(max + ' is not a number');
+
+    return this.products.filter(function(product) {
+        return product.price >= min && product.price <= max;
+    })
+};
 
