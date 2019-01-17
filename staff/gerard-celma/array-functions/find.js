@@ -1,27 +1,23 @@
 /**
  * Abstraction of find.
  * 
- * Fills an array from one position to other.
+ * Finds an element in an array satisfying an expression.
  * 
- * @param {Array} array 
- * @param {*} value 
- * @param {number} start 
- * @param {number} end 
+ * @param {Array} array - The array to search an item in.
+ * @param {Function} callback - The expression to evaluate.
  * 
- * @throws {Error} - If too many arguments (> 4)
- * @throws {TypeError} - If array is not an array
+ * @returns {*} - An item if found, otherwise undefined.
  */
-function fill(array, value, start, end) {
-    if (arguments.length > 4) throw Error('too many arguments');
+function find(array, callback) {
+    if (arguments.length > 2) throw Error('too many arguments');
 
-    if (!(array instanceof Array))
-        throw new TypeError(array + ' is not an array');
+    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
-    start = start === undefined ? 0 : (start < 0 ? array.length + start : start);
-    end = end === undefined ? array.length : (end < 0 ? array.length + end : end);
+    if(!(callback instanceof Function)) throw TypeError(callback + ' is not a function');
 
-    for (var i = start; i < end; i++)
-        array[i] = value;
+    for (var i = 0; i < array.length; i++) {
+        var value = array[i];
 
-    return array;
+        if(callback(value)) return value;
+    }
 }
