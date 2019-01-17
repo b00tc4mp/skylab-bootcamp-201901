@@ -1,5 +1,4 @@
-function Electronics() {
-    brand, model, size, price) {
+function Electronics(brand, model, size, price) {
         this.brand = brand;
         this.model = model;
         this.size = size;
@@ -7,4 +6,4 @@ function Electronics() {
 }
 
 Electronics.prototype = Object.create(Product.prototype);
-Electronics.prototype.constructor = Electronics;
+Electronics.prototype.constructor = Electronics

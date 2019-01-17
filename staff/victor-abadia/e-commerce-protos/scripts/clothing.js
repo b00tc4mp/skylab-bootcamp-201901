@@ -1,4 +1,9 @@
-function Clothing() {
+function Clothing(brand, model, color, price) {
+    this.price = model
+    this.color = color;
+    
+   
+    Clothing.call(brand, model);
 
 }
 
