@@ -46,7 +46,7 @@ h3{
     z-index: 1;
 }
 
-#contenidorhamburger:hover .linkshamburger{
+#contenthamburger:hover .linkshamburger{
     display: list-item;
     flex-direction: column;
     justify-content: center;
@@ -77,13 +77,13 @@ p{
     background-color: lightgreen;
 }
 
-.cabecera{
+.uppertitle{
     position: relative;
     display: flex;
     justify-content: center;
 }
 
-.cabecera:hover .Tooltip{
+.uppertitle:hover .Tooltip{
     display: inline-block;
     position: relative;
     background-color: black;
@@ -99,7 +99,7 @@ p{
     position: relative;
 }
 
-.imagen{
+.image{
     display: flex;
     align-content: center;
     flex-direction: row;
