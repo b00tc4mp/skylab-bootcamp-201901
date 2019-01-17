@@ -5,7 +5,7 @@ function Cart(){
      */
 }
 Cart.prototype.add = function (item){
-    if(!item instanceof Object) throw new Error ('Item not a object!')
+    if(!(item instanceof Object)) throw new Error ('Item not a object!')
     this.arraybuy.push(item)
 }
 /**
@@ -32,6 +32,7 @@ Cart.prototype.numberOfItems = function(){
  * returns the item with the highest item price
  */
 Cart.prototype.mostExpensive = function(){
+    if(arguments.length !== 0) throw new Error('Too Many Arguments')
     return this.arraybuy.reduce(function(accum, product){
         return accum.price < product.price? product: accum
     })
@@ -57,16 +58,15 @@ Cart.prototype.cheapest = function(){
  * returns the number of items that matches the type in the parameter
  */
 Cart.prototype.numberOf = function(type){
-    if(type !=='function') throw new Error('Not a function')
+    if(typeof type !== 'function') throw new TypeError('Not a function')
     // var total = 0
     // for(var i = 0; i < this.arraybuy.length; i++){
     //     if (this.arraybuy[i] instanceof type) total++
     // }
     // return total
-
     return this.arraybuy.reduce(function(accum, product){
         return product instanceof type ? ++accum: accum;
-    })
+    },0);
 }
 /**
  * returns the number of items that his price is between min and max
@@ -79,10 +79,12 @@ Cart.prototype.productsByPriceRange = function(min, max){
     return arrayreturn
 }
 
-Cart.prototype.filterby(type){
-    var result = this.arraybuy.filter(function(product){
-        return product instanceof type
-    })
+Cart.prototype.filterby = function(type){
+    var result = this.arraybuy.filter(function(item) {
+        if (item.price >= minA && item.price <= maxA) {
+            return item
+        }
+    });
 }
 
     /*
