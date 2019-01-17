@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css?family=Bangers');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color:black;
+}
+
+.header{
+    background-image: url('https://spacenews.com/wp-content/uploads/2018/04/SST-Trifid-Nebula-879x485.png');
+    width: 100%;
+    height: 100px;
+    z-index:1;
+    position:fixed;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+    align-items: center;
+    top:0;
+
+
+}
+
+
+.logo{
+    height: 80px;
+    width: 80px;
+    margin-right:20px;
+    margin-left:5%;
+
+}
+
+.logo-text{
+    display:none;
+    color:rgb(30,182,230);
+    font-family: 'Bangers', cursive;
+    line-height: 30px;
+}
+
+
+.search{
+    width:70%;
+    display: flex;
+    justify-content: center;
+    margin-right:10px;
+}
+
+.search input{
+    text-align: center;
+    font-size: 20px;
+    height: 30px;
+    width:70%;
+    margin-right:10px;
+}
+
+.search button{
+    height: 30px;
+    width: 30px;
+}
+
+.burguer{
+    margin-right:10px;
+
+}
+
+.nav {
+    display:none;
+}
+
+
+main{
+    
+    
+    padding-top:100px;
+
+}
+
+article{
+    margin:20px;
+    border: 2px white solid;
+}
+
+article h1{
+    color:white;
+    margin:0;
+    text-align: center;
+}
+
+article img{
+    width: 60%;
+    display:block;
+    margin:10px auto;
+    animation: rotation 10s linear infinite;
+}
+
+article p{
+    color:white;
+    padding:5%;
+    text-align: center;
+}
+
+@keyframes rotation {
+    from {transform: rotateY(0deg);}
+    to {transform: rotateY(360deg);}
+  }
+
+/*---------------------------- TABLET----------------*/
+
+@media screen and (min-width: 760px) {
+
+    .header{
+        height: 150px;
+    }
+    
+    .logo{
+        height: 100px;
+        width: 100px;
+  
+    }
+
+    .search input{
+        height: 50px;
+        font-size: 30px;
+    }
+
+    
+    .search button{
+        height: 50px;
+        width: 50px;
+    }
+
+    .burguer{
+        display:none;
+    
+    }
+
+    .nav {
+        display:flex;
+        margin-right:5%;
+        color:white;
+        padding:20px;
+    }
+
+    .nav a{
+        padding:20px;
+        font-size: 20px;
+        text-decoration: none;
+    }
+
+   
+    main{
+
+        padding-top:150px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+/*---------------------------- DESKTOP----------------*/
+
+@media screen and (min-width: 992px) {
+
+    .header{
+        height: 180px;
+    }
+    
+    .logo{
+        height: 120px;
+        width: 120px;
+  
+    }
+
+    .logo-text{
+        display:block;
+    }
+
+    .search input{
+        height: 50px;
+        font-size: 30px;
+    }
+
+    
+    .search button{
+        height: 50px;
+        width: 50px;
+    }
+
+    .burguer{
+        display:none;
+    
+    }
+
+    .nav {
+        display:flex;
+        margin-right:10px;
+        color:white;
+        padding:20px;
+    }
+
+    .nav a{
+        padding:20px;
+        font-size: 20px;
+        text-decoration: none;
+    }
+
+   
+    main{
+    
+        padding-top:180px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+
+    }
+}
