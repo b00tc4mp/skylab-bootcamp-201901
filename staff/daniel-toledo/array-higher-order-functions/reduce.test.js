@@ -1,4 +1,4 @@
-suite('test Reduce');
+suite('Reduce');
 
 // test('reduces into value', function () {
 //     var products = [

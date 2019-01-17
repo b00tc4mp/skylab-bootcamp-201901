@@ -7,6 +7,9 @@
  * @param {Function} callback  - The expression to evaluate
  * @param {*} accumulator - the accumulator of the reduction value
  * 
+ * @throws {TypeError} - when array is not an Array
+ * @throws {TypeError} - when callback is not an Function
+ * 
  * @return {*} - The reduction value
  */
 function reduce(array, callback, accumulator) {

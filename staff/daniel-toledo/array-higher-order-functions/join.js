@@ -8,22 +8,22 @@
  * @param {Array} arr - The array to join.
  * @param {String} separator - static value to separate the string
  * 
- *
+ * @throws {TypeError} - array is not an Array
+ * 
+ *@returns {string} - string joining the array compoennts
  */
-function join(arr, separator) {
+function join(array, separator) {
     var res = ''
 
-    if (arguments.length > 2) throw Error('too many arguments');
-
-    if (!(arr instanceof Array))
-        throw new TypeError(arr + ' is not an array');
+    if (!(array instanceof Array))
+        throw new TypeError(array + ' is not an array');
 
     separator = separator === undefined? ',' : separator + ''
 
-    for (var i = 0; i < arr.length - 1; i++) {
-        res += arr[i] + separator
+    for (var i = 0; i < array.length - 1; i++) {
+        res += array[i] + separator
     }
     
-    res += arr[arr.length - 1]
+    res += array[array.length - 1]
     return res
 }

@@ -1,4 +1,4 @@
-suite('TEST fill');
+suite('fill');
 
 // use case 1
 
@@ -9,9 +9,9 @@ test('use case 1', function () {
 
     var expected = [0, 0, 3, 4, 5];
 
-    if (res !== arr) throw Error('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
+    assert (res === arr,'array and result should be the same');
+    assert (res.toString() === expected.toString(),'result should be the one expected');
+    assert (arr.toString() === expected.toString(),'array should have been changed to the one expected');
 });
 
 // use case 2
@@ -23,9 +23,9 @@ test('use case 2', function () {
 
     var expected = [1, 2, 0, 0, 0];
 
-    if (res !== arr) throw Error('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
+    assert (res === arr,'array and result should be the same');
+    assert (res.toString() === expected.toString(),'result should be the one expected');
+    assert (arr.toString() === expected.toString(),'array should have been changed to the one expected');
 });
 
 //use case 3
@@ -37,9 +37,9 @@ test('use case 3', function() {
 
     var expected = [0, 0, 0, 0, 0];
 
-    if (res !== arr) throw Error('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
+    assert (res === arr,'array and result should be the same');
+    assert (res.toString() === expected.toString(),'result should be the one expected');
+    assert (arr.toString() === expected.toString(),'array should have been changed to the one expected');
 });
 
 
@@ -52,9 +52,9 @@ test('use case 4', function() {
 
     var expected = [1, 2, 0, 4, 5];
 
-    if (res !== arr) throw Error ('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error ('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error ('array should have been changed to the one expected');
+    assert (res === arr,'array and result should be the same');
+    assert (res.toString() === expected.toString(), 'result should be the one expected');
+    assert (arr.toString() === expected.toString(), 'array should have been changed to the one expected');
 });
 
 
@@ -67,9 +67,9 @@ test('use case 5', function() {
 
     var expected = [1, 2, 0, 0, 5];
 
-    if (res !== arr) throw Error('array and result should be the same');
-    if (res.toString() !== expected.toString()) throw Error('result should be the one expected');
-    if (arr.toString() !== expected.toString()) throw Error('array should have been changed to the one expected');
+    assert (res === arr,'array and result should be the same');
+    assert (res.toString() === expected.toString(),'result should be the one expected');
+    assert (arr.toString() === expected.toString(),'array should have been changed to the one expected');
 });
 
 
@@ -85,8 +85,8 @@ test ('use case 6', function() {
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
+    assert (error,'should have thrown an error');
+    assert (error instanceof TypeError,'should have thrown TypeError');
 });
 
 
@@ -101,8 +101,8 @@ test('user case 6', function() {
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
+    assert (error,'should have thrown an error');
+    assert (error instanceof TypeError,'should have thrown TypeError');
 });
 
 // use case 8
@@ -116,8 +116,8 @@ test('use case 8',function() {
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
+    assert (error,'should have thrown an error');
+    assert (error instanceof TypeError,'should have thrown TypeError');
 });
 
 // use case 9
@@ -133,6 +133,6 @@ test('use case 9', function () {
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!(error instanceof Error)) throw Error('should have thrown TypeError');
+    assert (error,'should have thrown an error');
+    assert (error instanceof Error,'should have thrown TypeError');
 });

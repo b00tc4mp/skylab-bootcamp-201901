@@ -7,6 +7,9 @@
  * @param {Array} array - Array to filter
  * @param {Function} callback - function to satisfy to filter
  * 
+ * @throws {TypeError} - when array is not an array
+ * @throws {TypeError} - when callback is not a function
+ * 
  * @return {Array} - new array with filtered results
  */
 

@@ -1,24 +1,24 @@
-suite('test Reverse')
+suite('Reverse')
 
-test('test array of 3 items', function(){
+test('array of 3 items', function(){
     var arr=[1,2,3];
 
     res=reverse(arr);
 
-    if(res.toString()!==[3,2,1].toString()) throw Error('Unexpected value')
+    assert(res.toString()===[3,2,1].toString(),'Unexpected value')
 
 });
 
-test('test array of 6 items', function(){
+test('array of 6 items', function(){
     var arr=[1,2,3,4,5,6];
 
     res=reverse(arr);
 
-    if(res.toString()!==[6,5,4,3,2,1].toString()) throw Error('Unexpected value')
+    assert(res.toString()===[6,5,4,3,2,1].toString(),'Unexpected value')
 
 });
 
-test('test arr is not an Array', function(){
+test('arr is not an Array', function(){
     var error;
 
     try{
@@ -27,7 +27,7 @@ test('test arr is not an Array', function(){
         error=err
     }
 
-    if(!error) throw Error('it should show an error');
-    if(!(error instanceof TypeError)) throw Error('error shoud be typeError')
+    assert(error,'it should show an error');
+    assert(error instanceof TypeError,'error shoud be typeError')
 
 });

@@ -15,7 +15,7 @@ function find(arr, callback) {
 
     if(!(arr instanceof Array)) throw TypeError(arr+' should be an Array')
 
-    if (!(callback instanceof Function)) throw TypeError(func + ' should be a function')
+    if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function')
 
     for (var i=0; i<arr.length; i++){
         var value = arr[i]

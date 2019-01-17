@@ -1,26 +1,26 @@
-suite('test Unshift');
+suite('Unshift');
 
-test('test adding text to the array', function(){
+test('adding text to the array', function(){
     var arr=[1,2,3,4,5];
 
     res=unshift(arr, 'hola', 'josep');
 
-    if(res !== 7) throw Error('Unexpected value');
-    if(arr.toString() !== ['hola','josep',1,2,3,4,5].toString()) throw Error('Unexpetec arr value');
+    assert(res === 7,'Unexpected value');
+    assert(arr.toString() === ['hola','josep',1,2,3,4,5].toString(),'Unexpetec arr value');
 
 });
 
-test('test adding 10 value to the array', function(){
+test('adding 10 value to the array', function(){
     var arr=[1,2,3,4,5];
 
     res=unshift(arr, 'hola', 'josep',6,7,8,'middle',9,10,'adeu', 'adria');
 
-    if(res !== 15) throw Error('Unexpected value');
-    if(arr.toString() !== ['hola', 'josep',6,7,8,'middle',9,10,'adeu', 'adria',1,2,3,4,5].toString()) throw Error('Unexpetec arr value');
+    assert(res === 15,'Unexpected value');
+    assert(arr.toString() === ['hola', 'josep',6,7,8,'middle',9,10,'adeu', 'adria',1,2,3,4,5].toString(),'Unexpetec arr value');
 
 });
 
-test('test arr is not an Array', function(){
+test('arr is not an Array', function(){
     var error;
 
     try{
@@ -29,7 +29,7 @@ test('test arr is not an Array', function(){
         error=err;
     }
 
-    if(!error) throw Error('sould throw an error');
-    if(!(error instanceof TypeError)) throw Error('error should be TypeError')
+    assert(error,'sould throw an error');
+    assert(error instanceof TypeError,'error should be TypeError')
 
 });

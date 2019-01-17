@@ -1,15 +1,15 @@
-suite('TEST pop')
+suite('pop')
 
-test('test delating last item of array', function(){
+test('delating last item of array', function(){
     var arr=[1,2,3,4,5];
     
     pop(arr)
 
-    if(arr.toString()!==[1,2,3,4].toString()) throw Error('Unexpected value')
+    assert(arr.toString()===[1,2,3,4].toString(),'Unexpected value')
 
 });
 
-test('test arr is not Array', function(){
+test('arr is not Array', function(){
     var error;
 
     try{
@@ -18,6 +18,7 @@ test('test arr is not Array', function(){
         error=err
     }
 
-    if(!error) throw Error('Should show an error')
+    assert(error,'Should show an error')
+    assert (error instanceof TypeError,'should have thrown TypeError');
 
 });

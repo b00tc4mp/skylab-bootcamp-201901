@@ -5,15 +5,17 @@
  * This method removes the last element of an array and returns that element.
  * This method changes the length of the array
  *
- * @param {Array} arr - The array to join.
+ * @param {Array} array - The array to join.
+ * 
+ * @throws {TypeError} - when array is not an Array
  *  
  *@return {*} - Delated item from the array
  */
-function pop(arr) {
+function pop(array) {
     
-    if (!(arr instanceof Array)) throw Error('arr is not Array')
+    if (!(array instanceof Array)) throw TypeError(array+' is not Array')
 
-    var last=arr[arr.length-1]
-    arr.length=arr.length-1
+    var last=array[array.length-1]
+    array.length=array.length-1
     return last
 }

@@ -1,6 +1,6 @@
-suite('TEST Find')
+suite('Find')
 
-test('test with function that return boolean', function () {
+test(' with function that return boolean', function () {
     var arr = [1, 2, 3, 4, 5];
     var products=[
         {product:'T-shirt', price: 12},
@@ -14,14 +14,14 @@ test('test with function that return boolean', function () {
     res3 = find(arr, function(element){ return element > 6})
     res4=find(products, function(product){return product.price>5 && product.price<10})
 
-    if (res !== 4) throw Error('Unexpected value with values bigger than')
-    if (res2 !== 3) throw Error('unexpected value with values *2 bigger than')
-    if (res3 !== undefined) throw Error ('Unexpected value that are not found')
-    if (res4 !== products[1]) throw Error ('Unexpected value in products')
+    assert (res === 4,'Unexpected value with values bigger than')
+    assert (res2 === 3,'unexpected value with values *2 bigger than')
+    assert (res3 === undefined, 'Unexpected value that are not found')
+    assert (res4 === products[1], 'Unexpected value in products')
 
 });
 
-test('test with a function that return different than boolean', function(){
+test(' with a function that return different than boolean', function(){
     var arr = [1, 2, 3, 4, 5];
 
 
@@ -29,13 +29,13 @@ test('test with a function that return different than boolean', function(){
     res2 = find(arr, function (element) { return element*0})
 
 
-    if (res !== 1) throw Error('Unexpected value of true solution')
-    if (res2 !== undefined) throw Error('unexpected value of false solution')
+    assert (res === 1,'Unexpected value of true solution')
+    assert (res2 === undefined,'unexpected value of false solution')
 
 
 });
 
-test('test arr is not an Array', function(){
+test(' arr is not an Array', function(){
 
     var error
 
@@ -45,12 +45,12 @@ test('test arr is not an Array', function(){
         error=err
     }
 
-    if(!error) throw Error('it should show an error');
-    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
+    assert(error,'it should show an error');
+    assert (error instanceof TypeError,'should have thrown TypeError');
     
 });
 
-test('test callback is not a Function', function(){
+test(' callback is not a Function', function(){
     var error
 
     try{
@@ -59,12 +59,12 @@ test('test callback is not a Function', function(){
         error=err
     }
 
-    if(!error) throw Error('it should show an error');
-    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
+    assert(error,'it should show an error');
+    assert (error instanceof TypeError,'should have thrown TypeError');
 
 });
 
-test('test too many arguments', function(){
+test(' too many arguments', function(){
     var error
     var arr = [1, 2, 3, 4, 5];
 
@@ -74,7 +74,7 @@ test('test too many arguments', function(){
         error=err
     }
 
-    if(!error) throw Error('it should show an error');
+    assert(error,'it should show an error');
 
 
 });
