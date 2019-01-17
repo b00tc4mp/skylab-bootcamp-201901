@@ -1,5 +1,6 @@
-function Socks() {
-    Clothing.call(This, brand, model, size, price);
+function Socks(brand, size, color, price) {
+    this.size = size
+    Clothing.call(this, brand, color, price);
 }
 
 Socks.prototype = Object.create(Clothing.prototype)

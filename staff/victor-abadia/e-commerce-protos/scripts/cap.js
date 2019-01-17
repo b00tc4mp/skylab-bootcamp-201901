@@ -1,5 +1,6 @@
-function Cap() {
-    Clothing.call(This, brand, model, size, price);
+function Cap(brand, size, color, price) {
+    this.size = size
+    Clothing.call(this, brand, color, price);
 }
 
 Cap.prototype = Object.create(Clothing.prototype)

@@ -1,6 +1,6 @@
-function Slips() {
+function Slips(brand, size, color, price) {
 
-    Underwear.call(This, brand, model, size, price);
+    Underwear.call(this, brand, size, color, price);
 
 }
 

@@ -1,10 +1,7 @@
-function Clothing(brand, model, color, price) {
-    this.price = model
+function Clothing(brand, color, price) {
     this.color = color;
-    
-   
-    Clothing.call(brand, model);
 
+    Product.call(this, brand, price);
 }
 
 Clothing.prototype = Object.create(Product.prototype)

@@ -1,8 +1,6 @@
-function Electronics(brand, model, size, price) {
-        this.brand = brand;
-        this.model = model;
-        this.size = size;
-        this.price = price;
+function Electronics(brand, model, price) {
+        this.model = model
+        Product.call(this, brand, price);
 }
 
 Electronics.prototype = Object.create(Product.prototype);
