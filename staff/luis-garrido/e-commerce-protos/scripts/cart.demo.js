@@ -13,7 +13,7 @@ var slips = new Slips(13.99, "Abanderado", "purple", 42);
 var jeans = new Jeans(199, "Diesel", "denim", 42, "regular");
 var shorts = new Shorts(35, "Adidas", "blue", 42, "Sport");
 var cap = new Cap(29, "Obey", "black", "M");
-var hat = new Hat(44.99, "Jack & Jones", "red", undefined, "Cup");
+var hat = new Hat(44.99, "Jack & Jones", "red", "Cup");
 /**/
 cart.add(socks);
 cart.add(tanga);
