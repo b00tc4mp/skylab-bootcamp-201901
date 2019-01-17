@@ -9,6 +9,7 @@
  * 
  * @returns {*} - The reduction value.
  */
+
 function reduce(array, callback, accumulator) {
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     if (!(callback instanceof Function)) throw TypeError(callback + ' is not an function');
@@ -26,6 +27,5 @@ function reduce(array, callback, accumulator) {
 
         accumulator = callback(accumulator, item);
     }
-
     return accumulator;
 };

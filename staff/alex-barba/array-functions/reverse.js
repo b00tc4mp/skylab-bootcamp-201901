@@ -1,7 +1,7 @@
 /**
  * Abstraction of reverse.
  * 
- * Reverses an array in place. The first array element becomes the last, and the last       array element becomes the first.
+ * Reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
  * 
  * @param {Array} array 
  * 
@@ -20,10 +20,3 @@ function reverse (array) {
     }
     return array
 };
-
-   
-
-    var array = [1,2,3];
-
-
-   reverse(array);

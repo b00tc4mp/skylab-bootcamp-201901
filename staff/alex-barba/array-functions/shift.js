@@ -1,7 +1,7 @@
 /**
  * Abstraction of shift.
  * 
- * Removes the first element from an array and returns that removed element. This method    changes the length of the array.
+ * Removes the first element from an array and returns that removed element. This method changes the length of the array.
  * 
  * @param {Array} arr - The array to remove the last element.
  * 
@@ -27,9 +27,5 @@ function shift(array) {
     for (var i = 0; i < copy.length; i++) {
         array[i] = copy[i];
     }
-    return res
+    return res;
 };
-
-var a = [1,2,3];
-
-shift(a);

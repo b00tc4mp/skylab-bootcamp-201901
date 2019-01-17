@@ -12,6 +12,7 @@
  * 
  * @returns {Array} - A new array with the resulting values.
  */
+
 function map(array, callback) {
 
     if(!(array instanceof Array)) throw TypeError(array + ' is not an array');

@@ -9,7 +9,7 @@ test('passing all arguments', function (){
     if (found.toString() !== expected.toString()) throw Error('found value ' + found + ' does not match expected ' + expected);
 });
 
-test('fail on number instead of array', function () {
+test('fail on passing number instead of array', function () {
     var error;
     var a = 1;
 
@@ -23,7 +23,7 @@ test('fail on number instead of array', function () {
     if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
 });
 
-test('fail on boolean instead of array', function () {
+test('fail on passing boolean instead of array', function () {
     var error;
     var a = true;
 
@@ -37,9 +37,23 @@ test('fail on boolean instead of array', function () {
     if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
 });
 
-test('fail on string instead of array', function () {
+test('fail on passing string instead of array', function () {
     var error;
     var a = 'hello world';
+
+    try {
+        reverse(a);;
+    } catch (err) {
+        error = err;
+    };
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
+});
+
+test('fail on passing object instead of array', function () {
+    var error;
+    var a = {};
 
     try {
         reverse(a);;

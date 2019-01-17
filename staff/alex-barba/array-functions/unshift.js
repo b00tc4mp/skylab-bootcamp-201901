@@ -39,7 +39,3 @@ function unshift(array, element) {
 
     return array.length
 };
-
-var a = [1]
-
-unshift(a, 2);

@@ -29,4 +29,50 @@ test('reduces into value without initial accumulator', function () {
     assert(res === expected, 'result must match the expected one');
 });
 
-// TODO more test cases
+test('fails on passing boolean as an array', function() {
+    var error;
+    var numbers = true;
+
+    try {
+        reduce(numbers, function (accumulator, number) {
+            return accumulator + number;
+        });
+    } catch(err) {
+        error = err;
+    }
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof Error)) throw Error('error should be of type Error');
+});
+
+test('fails on passing object as an array', function() {
+    var error;
+    var numbers = {};
+
+    try {
+        reduce(numbers, function (accumulator, number) {
+            return accumulator + number;
+        });
+    } catch(err) {
+        error = err;
+    }
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof Error)) throw Error('error should be of type Error');
+});
+
+test('fails on passing string as an array', function() {
+    var error;
+    var numbers = 'àlex';
+
+    try {
+        reduce(numbers, function (accumulator, number) {
+            return accumulator + number;
+        });
+    } catch(err) {
+        error = err;
+    }
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof Error)) throw Error('error should be of type Error');
+});

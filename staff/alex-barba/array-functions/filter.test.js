@@ -42,10 +42,29 @@ test('does not mutate array on which it is called ', function () {
     if (words.toString() !== expected.toString()) throw Error('res' + res + 'and expected ' + expected + 'should be the same');
 });
 
-test('fail on object instead of array', function () {
+test('fail on passing object instead of array', function () {
     var error;
 
     var words = {name: 'àlex'};
+
+    function isBigEnough(value) {
+    return value >= 10;
+    };
+
+    try {
+        filter(words, isBigEnough);
+    } catch (err) {
+        error = err;
+    }
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof TypeError)) throw Error('should have thrown TypeError');
+});
+
+test('fail on passing boolean instead of array', function () {
+    var error;
+
+    var words = true;
 
     function isBigEnough(value) {
     return value >= 10;

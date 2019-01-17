@@ -39,3 +39,17 @@ test('passing > 3 items to be added to the array', function(){
 
     if (array.toString() !== expected.toString()) throw Error('found value ' + found + ' does not match expected ' + expected);
 });
+
+test('fail on passing object instead of array', function () {
+    var error;
+    var array = {};
+
+    try {
+        splice(array, 2, 0, 3);
+    } catch (err) {
+        error = err;
+    };
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
+});

@@ -43,3 +43,18 @@ test('fail on passing number instead of an array', function() {
     if (!error) throw Error('should have thrown an error');
     if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
 });
+
+test('fail on passing boolean instead of an array', function() {
+    var error;
+
+    var a = true;
+    
+    try {
+        unshift(a, 2,3,4);
+    } catch (err) {
+        error = err;
+    };
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
+});
