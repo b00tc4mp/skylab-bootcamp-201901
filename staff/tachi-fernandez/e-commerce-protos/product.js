@@ -1,4 +1,4 @@
-function Product(brand,model,price) {
+function Product(brand,model,size,color,price) {
     this.brand = brand
     this.model = model
     this.price = price
