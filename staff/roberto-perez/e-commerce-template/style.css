@@ -40,7 +40,7 @@ body {
         display: block;
     } 
 }
-button.bars {
+.bars {
     color: rgb(255, 255, 255);
     font-size: 1.2em;
     background: none;
@@ -50,7 +50,7 @@ button.bars {
     padding: 1px 7px 2px;
 }
 @media (min-width: 768px) {
-    button.bars {
+    .bars {
         display: none;
     } 
 }
@@ -115,12 +115,13 @@ article:last-child {
 }
 @media (min-width: 768px) {
     article {
-        flex: 0 0 50%;
+        flex: 0 0 45.94%;
+        padding: 15px;
     }
 }
 @media (min-width: 992px) {
     article {
-        flex: 0 0 33.33333%;
+        flex: 0 0 30.2%;
     }
 }
 article img {
@@ -130,8 +131,8 @@ article img {
 article a {
     display: block;
 }
-article .article-content {            
-    padding: 15px;
+.article-content {            
+    padding-bottom: 25px;
 }
 article header {
     box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px -6px;
