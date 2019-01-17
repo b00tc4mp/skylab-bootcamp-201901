@@ -18,11 +18,11 @@ function finder(array, callback) {
 
     for (var i = 0; i < array.length; i++) {
         if (callback(array[i])) {
+            
             return array[i];
         }
-
     }
 };
 
-
+// finder(arr, function(element){ return element > 4 })
 
