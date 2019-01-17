@@ -1,6 +1,6 @@
 function Laptop(brand, model, size, price) {
-    Electronics.apply(this, [brand, model, null, size, price]);
+    Computer.apply(this, [brand, model, size, price]);
 }
 
-Laptop.prototype = Object.create(Electronics.prototype)
+Laptop.prototype = Object.create(Computer.prototype)
 Laptop.prototype.constructor = Laptop;

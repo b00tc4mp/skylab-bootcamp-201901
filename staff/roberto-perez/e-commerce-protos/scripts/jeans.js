@@ -5,3 +5,4 @@ function Jeans(brand, type, size, color, price) {
 
 Jeans.prototype = Object.create(Clothing.prototype);
 Jeans.prototype.constructor = Jeans;
+

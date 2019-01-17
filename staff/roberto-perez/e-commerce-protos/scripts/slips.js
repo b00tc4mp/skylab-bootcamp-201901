@@ -1,7 +1,6 @@
 function Slips(brand, size, color, price) {
-    Clothing.apply(this, [brand, size, color, price]);
+    Underwear.apply(this, [brand, size, color, price]);
 }
 
-Slips.prototype = Object.create(Clothing.prototype);
+Slips.prototype = Object.create(Underwear.prototype);
 Slips.prototype.constructor = Slips;
-
