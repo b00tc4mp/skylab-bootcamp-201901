@@ -27,13 +27,16 @@ Cart.prototype.add = function (product) {
  * @throws {Error} - If too many arguments
  */
 Cart.prototype.totalPrice = function () {
-    if (arguments.length > 0) throw Error ('too many arguments');
+    return this.cartList.reduce(function (accum, product){
+        return accum + product.price;
+    }, 0);
+    /* if (arguments.length > 0) throw Error ('too many arguments');
 
     price2 = 0;
     for(var i = 0; i < this.cartList.length; i++) {
         price2 += this.cartList[i].price;
     }
-    return price2;
+    return price2; */
 };
 
 /**
@@ -61,13 +64,16 @@ Cart.prototype.numberOfItems = function () {
 Cart.prototype.mostExpensive = function () {
     if (arguments.length > 0) throw Error ('too many arguments');
 
-    var item = 0;
+    return this.cartList.reduce(function (accum, product) {
+        return accum.price < product.price ? product : accum;
+    });
+   /*  var item = 0;
     for (var i = 0; i < this.cartList.length; i++) {
         if (this.cartList[i].price > this.cartList[item].price) {
             item = i;
         }
     }
-    return this.cartList[item];
+    return this.cartList[item]; */
 };
 
 /**
@@ -80,13 +86,16 @@ Cart.prototype.mostExpensive = function () {
 Cart.prototype.cheapest = function () {
     if (arguments.length > 0) throw Error ('too many arguments');
 
-    var item = 0;
+    return this.cartList.reduce(function (accum, product) {
+        return accum.price > product.price ? product : accum;
+    });
+    /* var item = 0;
     for (var i = 0; i < this.cartList.length; i++) {
         if (this.cartList[i].price < this.cartList[item].price) {
             item = i;
         }
     }
-    return this.cartList[item];
+    return this.cartList[item]; */
 }; 
 
 /**
@@ -101,13 +110,16 @@ Cart.prototype.cheapest = function () {
 Cart.prototype.numberOf = function (type) {
     if (arguments.length > 1) throw Error ('too many arguments');
 
-    var num = 0;
+    return this.cartList.reduce(function (accum, product) {
+        return product instanceof type ? ++accum : accum;
+    }, 0);
+    /* var num = 0;
     for (var i = 0; i < this.cartList.length; i++) {
         if (this.cartList[i] instanceof type) {
             num++;
         }
     }
-    return num;
+    return num; */
 };
 
 /**
@@ -116,9 +128,18 @@ Cart.prototype.numberOf = function (type) {
  * @returns {Array} 
  * 
  * @throws {Error} - If too many arguments
+ * @throws {TypeError} - If minV / maxV are not numbers
  */
 Cart.prototype.productsByPriceRange = function (minV, maxV) {
     if (arguments.length > 2) throw Error ('too many arguments');
+    /* if (typeof minV !== 'number') throw TypeError (minV + ' is not a number');
+    if (typeof maxV !== 'number') throw TypeError (maxV + ' is not a number');
+
+    return this.cartList.filter(function(item) {
+        if (item.price >= minV && item.price <= maxV) {
+            return item;
+        }
+    }); */
 
     var products = [];
     for (var i = 0; i < this.cartList.length; i++) {
