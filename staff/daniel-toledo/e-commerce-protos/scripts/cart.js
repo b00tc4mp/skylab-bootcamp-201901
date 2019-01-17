@@ -11,6 +11,7 @@ Cart.prototype.add=function(object){
 Cart.prototype.totalPrice=function(){
     
     var sum=this.cartList.reduce(function(acum,product){
+        // if(product.price===undefined) throw Error('The product has no price')
         return acum+product.price
     },0);
     
@@ -29,6 +30,7 @@ Cart.prototype.numberOfItems=function(){
 
 Cart.prototype.mostExpensive=function(){
     return this.cartList.reduce(function(acum,product){
+        //if(product.price===undefined) throw Error('The product has no price')
         return acum.price<product.price? product:acum
    
     });
@@ -44,6 +46,7 @@ Cart.prototype.mostExpensive=function(){
 
 Cart.prototype.cheapest=function(){
     return this.cartList.reduce(function(acum,product){
+        // if(product.price===undefined) throw Error('The product has no price')
         return acum.price>product.price? product:acum
     });
     // var cheap=0;
