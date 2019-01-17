@@ -14,11 +14,19 @@ h1, h2, h3, h4, h5, h6, p, ul {
   margin: 0;
 }
 
-/* Mixins */
-/* Header in Home/About/Contact*/
+/* Extends */
 .menu {
   display: flex;
   justify-content: space-between;
+}
+
+.footer, .ad2, .card, .title__img, .title, .ad, main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header in Home/About/Contact*/
+.menu {
   align-items: center;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -51,15 +59,8 @@ h1, h2, h3, h4, h5, h6, p, ul {
 }
 
 /* Main */
-main {
-  display: flex;
-  flex-direction: column;
-}
-
 /* First ad in Home*/
 .ad {
-  display: flex;
-  flex-direction: column;
   background-color: #1B222A;
   padding-bottom: 2rem;
   padding-top: 1.5rem;
@@ -69,8 +70,6 @@ main {
 }
 
 .title {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
 }
 .title--white {
@@ -87,10 +86,6 @@ main {
   text-align: center;
   padding: 1.5rem;
   font-size: 1.2rem;
-}
-.title__img {
-  display: flex;
-  flex-direction: column;
 }
 .title__img img {
   width: 55%;
@@ -109,6 +104,7 @@ main {
 .content__about p {
   padding-bottom: 0.5rem;
 }
+
 .collapsible {
   font-size: 0.9rem;
   border: 0.01rem solid #999999;
@@ -171,8 +167,6 @@ main {
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
   background-color: #ffffff;
 }
 .card__img {
@@ -201,8 +195,6 @@ main {
 
 /* Last Ad in Home/Contact/About */
 .ad2 {
-  display: flex;
-  flex-direction: column;
   background-color: #1baa98;
   margin-top: 3rem;
   padding-left: 4rem;
@@ -231,8 +223,6 @@ main {
 
 /* Footer in Home/Contact/About */
 .footer {
-  display: flex;
-  flex-direction: column;
   background-color: #333333;
   padding: 0.4rem;
   color: white;
@@ -257,8 +247,6 @@ main {
 /* @media for min width 580px just for Home*/
 @media only screen and (min-width: 580px) {
   .ad {
-    display: flex;
-    flex-direction: column;
     background-image: url("./site_showcase_bg.jpg");
     background-position: center;
     background-size: cover;
@@ -333,7 +321,7 @@ main {
     font-size: 0.8rem;
     justify-content: space-around;
   }
-  .nav li {
+  .nav a {
     text-align: center;
     justify-content: center;
     padding: 0.6rem;
@@ -444,8 +432,6 @@ main {
   }
 
   .title {
-    display: flex;
-    flex-direction: column;
     justify-content: end;
     width: 50%;
   }
@@ -560,7 +546,8 @@ main {
     padding-left: 9.6rem;
     padding-right: 0rem;
   }
-  .content__card {
+
+  .card {
     width: 30%;
   }
 

@@ -14,20 +14,20 @@ html, body, header, main, section, footer, button
 h1, h2, h3, h4, h5, h6, p, ul  
     margin: 0
 
-/* Mixins */
+/* Extends */
 
-@mixin flex-space-bt
+%flex-space-bt
     display: flex
     justify-content: space-between
 
-@mixin flex-col
+%flex-col
     display: flex
     flex-direction: column
 
 /* Header in Home/About/Contact*/
 
 .menu
-    +flex-space-bt
+    @extend %flex-space-bt
     align-items: center
     padding-left:1rem
     padding-right:1rem
@@ -61,12 +61,12 @@ h1, h2, h3, h4, h5, h6, p, ul
 /* Main */
 
 main 
-    +flex-col
+    @extend %flex-col
 
 /* First ad in Home*/
 
 .ad
-    +flex-col
+    @extend %flex-col
     background-color: #1B222A
     padding-bottom: 2rem
     padding-top: 1.5rem
@@ -75,7 +75,7 @@ main
         display: none
 
 .title
-    +flex-col
+    @extend %flex-col
     justify-content: center
 
     &--white
@@ -94,7 +94,7 @@ main
         font-size: 1.2rem
 
     &__img
-        +flex-col
+        @extend %flex-col
 
     &__img img
         width: 55%
@@ -111,8 +111,6 @@ main
     
     &__about p
         padding-bottom: 0.5rem
-
-    &__card
 
 .collapsible
     font-size: 0.9rem
@@ -175,7 +173,7 @@ main
     padding-right:1rem 
 
 .card
-    +flex-col
+    @extend %flex-col
     background-color: #ffffff
 
     &__img 
@@ -203,7 +201,7 @@ main
 /* Last Ad in Home/Contact/About */
 
 .ad2
-    +flex-col
+    @extend %flex-col
     background-color: #1baa98
     margin-top: 3rem
     padding-left: 4rem
@@ -231,7 +229,7 @@ main
 /* Footer in Home/Contact/About */
 
 .footer
-    +flex-col
+    @extend %flex-col
     background-color: #333333
     padding: 0.4rem
     color: white
@@ -256,7 +254,7 @@ main
 @media only screen and (min-width: 580px )
 
     .ad
-        +flex-col
+        @extend %flex-col
         background-image: url('./site_showcase_bg.jpg')
         background-position: center
         background-size: cover
@@ -329,7 +327,7 @@ main
         font-size: 0.8rem
         justify-content: space-around
         
-        & li
+        & a
             text-align: center
             justify-content: center
             padding: 0.6rem
@@ -432,7 +430,7 @@ main
             width: 352px
 
     .title
-        +flex-col
+        @extend %flex-col
         justify-content: end
         width: 50%
 
@@ -539,7 +537,7 @@ main
             padding-left: 9.6rem
             padding-right: 0rem
         
-        &__card
+    .card
             width: 30%
     
     /* Form  */     
