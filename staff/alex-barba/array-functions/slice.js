@@ -1,7 +1,7 @@
 /**
  * Abstraction of slice.
  * 
- * Returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included). The original array will not be modified.
+ * Returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included).   The original array will not be modified.
  * 
  * @param {Array} array
  * @param {Number} start
@@ -26,6 +26,5 @@
     for (var i = start; i < end; i++) {
         res[res.length]= array[i]
     }
-
     return res;
  };

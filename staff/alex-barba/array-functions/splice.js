@@ -8,7 +8,7 @@
  * @param {Number} deleteCount
  * @param {+} item
  * 
- * 
+ * @throws {TypeError} - if array is not an array.
  * 
  * @returns {Array} 
  * 
@@ -17,6 +17,7 @@
 
 function splice(array, start, deleteCount, item) {
     if (deleteCount > (array.length-start) || deleteCount === undefined) { deleteCount = array.length-start};
+    if (!(array instanceof Array)) throw new TypeError(array + ' is not an array');
 
     var original = [];
     var items = [];
@@ -59,5 +60,5 @@ function splice(array, start, deleteCount, item) {
         array[i] = final[i];
     }
 
-    return res
+    return res;
 };

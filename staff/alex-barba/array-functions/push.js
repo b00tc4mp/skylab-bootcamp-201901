@@ -1,7 +1,7 @@
 /**
  * Abstraction of push.
  * 
- *  adds one or more elements to the end of an array and returns the new length of the array.
+ * Adds one or more elements to the end of an array and returns the new length of the array.
  * 
  * @param {Element} element 
  * @param {Array} arr 
@@ -21,6 +21,5 @@ function push(array, element) {
             array[array.length] = arguments[i];
         }
     };
-
-    return array.length
+    return array.length;
 };

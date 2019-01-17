@@ -48,3 +48,34 @@ test('fails on passing object as a function', function() {
     if (!(error instanceof Error)) throw Error('error should be of type Error');
 });
 
+test('fails on passing string as a function', function() {
+    var error;
+    var array = [1,2,3];
+
+    var even = 'àlex';
+
+    try {
+        some(array, even)
+    } catch(err) {
+        error = err;
+    }
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof Error)) throw Error('error should be of type Error');
+});
+
+test('fails on passing boolean as a function', function() {
+    var error;
+    var array = [1,2,3];
+
+    var even = true;
+
+    try {
+        some(array, even)
+    } catch(err) {
+        error = err;
+    }
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof Error)) throw Error('error should be of type Error');
+});

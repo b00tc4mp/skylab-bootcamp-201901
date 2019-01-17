@@ -23,13 +23,5 @@ function filter(array, callback) {
             res[res.length] = array[i];
         }
     }
-    return res
+    return res;
 };
-
-var words = [12, 5, 8, 130, 44]
-
-function isBigEnough(value) {
-return value >= 10;
-};
-
-var res = filter(words, isBigEnough);

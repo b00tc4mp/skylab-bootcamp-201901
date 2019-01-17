@@ -1,7 +1,7 @@
 /**
  * Abstraction of indexOf.
  * 
- *  returns the first index at which a given element can be found in the array, or -1 if it is not present.
+ * Returns the first index at which a given element can be found in the array, or -1 if it is not present.
  * 
  * @param {Value} value
  * @param {Array} array
@@ -20,14 +20,8 @@ function indexOf (value, array, start) {
     start = start? start : 0;
     for(var i=start; i<array.length; i++) {
         if (array[i] === value){
-            return i
+            return i;
         }
     }
-    return -1
+    return -1;
 };
-
-var a = ['alex', 'barba', 'massana', 'barba'];
-var b = 'alex';
-var start = 2;
-var expected = 3;
-indexOf(b,a, start, b);

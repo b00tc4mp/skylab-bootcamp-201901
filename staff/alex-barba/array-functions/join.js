@@ -1,7 +1,7 @@
 /**
  * Abstraction of join.
  * 
- * Creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string.
+ * Creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated   by commas or a specified separator string.
  * 
  * @param {*} array
  * @param {*} separator 
@@ -25,7 +25,7 @@ function join (array, separator) {
         if (i == array.length-1) {
             return result
         }
-        result += separator
+        result += separator;
     }
-    return result
+    return result;
 };

@@ -39,3 +39,17 @@ test('missing end and start arguments', function(){
 
     if (found.toString() !== expected.toString()) throw Error('found value ' + found + ' does not match expected ' + expected);
 });
+
+test('fail on passing object instead of array', function () {
+    var error;
+    var array = {};
+
+    try {
+        slice(array);
+    } catch (err) {
+        error = err;
+    };
+
+    if (!error) throw Error('should have thrown an error');
+    if (!(error instanceof TypeError)) throw Error('error should be of type TypeError');
+});
