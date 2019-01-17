@@ -35,7 +35,7 @@ function Cart(){
         for(var i = 1 ;i < this.arraybuy.length; i++){
             if (this.arraybuy[i].price > this.arraybuy[most].price) most = i      
         }
-        return this.arraybuy[most].brand + ' and price ' + this.arraybuy[most].price
+        return this.arraybuy[most]
 
     }
     /**
@@ -63,10 +63,10 @@ function Cart(){
      * returns the number of items that his price is between min and max
      */
     this.productsByPriceRange = function(min, max){
+        if(arguments.length !== 2) throw new Error('Too Many Arguments!')
         var arrayreturn = this.arraybuy.filter(function(element){
             return ((element.price >= min) && (element.price <= max))
         });
-        
         return arrayreturn
     }
 
