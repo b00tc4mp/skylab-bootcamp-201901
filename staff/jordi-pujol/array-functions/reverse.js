@@ -3,17 +3,22 @@
  * 
  * Reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
  * 
- * @param {*} arr
+ * @param {Array} arr
  * 
  * @returns {Array} a reference to the array.
  */
 
-function (arr){
+function reverse (arr){
 
-    var rev = [];
+    if (arguments.length > 1) throw TypeError ('There should be just one parameter (array)')
+    if (!(arr instanceof Array)) throw TypeError (arr + ' should be an array')
 
-    for (var i=0; i< arr.length; i++){
-        
+    var rev;
+
+    for (var i=0; i< (arr.length/2); i++){
+        rev = arr[i]
+        arr[i] = arr[arr.length-1-i]
+        arr[arr.length-1-i] = rev
     }
-
+    return arr
 }
