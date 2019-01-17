@@ -38,35 +38,3 @@ function test(description, expression) {
 function assert(condition, description) {
     if (!condition) throw Error(description);
 }
-
-
-
-/**
- * 
- * @param {Cart} - Object to create the products in 
- */
-
-function createSetOfProducts() {
-
-    var cart = new Cart();
-
-    var tshirt = new TShirt(120, "Supreme", "white", "M");
-    cart.add(tshirt);
-
-    var sweater = new Sweater(120, "Diesel", "black", "M");
-    cart.add(sweater);
-
-    var laptop = new Laptop(120, "Apple", "MacBook Pro", 15);
-    cart.add(laptop);
-
-    var desktop = new Desktop(120, "HP", "1800", 20);
-    cart.add(desktop);
-
-    var mobile = new Mobile(120, "Apple", "iPhone X", "space-gray");
-    cart.add(mobile);
-
-    var mobile2 = new Mobile(120, "Xiaomi", "5X", "space-rose");
-    cart.add(mobile2);
-
-    return cart;
-}
