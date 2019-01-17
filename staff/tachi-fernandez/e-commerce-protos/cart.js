@@ -1,3 +1,6 @@
+
+
+
 function Cart(){
     this.products = []
 
@@ -19,14 +22,14 @@ Cart.prototype.numberOfItems = function (){
 }
 
 Cart.prototype.mostExpensive = function(){
-    var mostExp = this.products[0]
-    for (var i = 0 ; i<this.products.length;i++){
-        if (this.products[i].price > mostExp.price)
-            mostExp = this.products[i]
-    }
-    return mostExp
-}
-
+    return this.products.reduce(function(a,product){
+       if(product.price > a.price){
+       return product
+       }else {
+           return a
+       }  
+    })
+};
 Cart.prototype.cheapest = function(){
     var cheap = this.products[0]
     for (var i = 0 ; i<this.products.length;i++){
