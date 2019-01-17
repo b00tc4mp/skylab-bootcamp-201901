@@ -19,14 +19,14 @@ function juntar(arr, separador) {
     for (var i = 0; i < arr.length; i++) {
 		var res1 = arr[i]
         
-    if(i < 4){
-        console.log('this is' + i)
+    if(i < arr.length -1){
+
         res = res + res1 + separador
         res1 = ''
-            } else {
+            } else {  
                 res = res + res1
                 res1 = ''
-                console.log('2')
+
         }
     } 
 
@@ -34,3 +34,4 @@ function juntar(arr, separador) {
 }
 
 // juntar(arr) 
+

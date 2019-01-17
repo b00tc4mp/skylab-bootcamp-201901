@@ -8,12 +8,13 @@
  * @throws {TypeError} - If array is not an array
  */
 
-var arr = ["1", "2", "3", "4", "5"];
-var res = []
 
-function reverse(ele) {
+
+function reverser(ele) {
     if (!(ele instanceof Array))
-        throw new TypeError(ele + ' is not an array');
+    throw new TypeError(ele + ' is not an array');
+
+    var res = []
 
     for (var i = ele.length; i > 0; i--) {
         var res1 = []
@@ -26,5 +27,3 @@ function reverse(ele) {
 
 }
 
-reverse(arr)
-console.log(res)
