@@ -13,13 +13,3 @@ function some(arr, callback) {
   }
   return false;
 }
-
-
-var array = [];
-
-var even = function(element) {
-  // checks whether an element is even
-  return element % 2 === 0;
-};
-
-console.log(array.some(even));

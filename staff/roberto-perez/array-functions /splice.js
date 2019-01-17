@@ -81,12 +81,12 @@ function splice(arr, start, deleteCount) {
   return deleteArray;
 }
 
-var myFish = ["angel", "clown", "drum", "mandarin", "sturgeon"];
-console.log("ORIGINAL: ", myFish);
-var removed = myFish.splice(2, 0, "drum");
-console.log("DELETED: ", removed);
-console.log("MUTATED", myFish);
-console.log("-----------------");
+// var myFish = ["angel", "clown", "drum", "mandarin", "sturgeon"];
+// console.log("ORIGINAL: ", myFish);
+// var removed = myFish.splice(2, 0, "drum");
+// console.log("DELETED: ", removed);
+// console.log("MUTATED", myFish);
+// console.log("-----------------");
 
 // function splice(arr, start, deleteCount) {
 
