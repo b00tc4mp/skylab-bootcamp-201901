@@ -1,1 +1,0 @@
-[Github nicopixel](https://github.com/nicopixel)

@@ -1,0 +1,205 @@
+$size: 0.5em
+    
+html
+    font-family: 'PT Sans', sans-serif
+    background-color: black
+    box-sizing: border-box
+body
+    widht: 100%
+    margin: 0
+    
+.uppersection
+    width: 100%
+    height: 50%
+    background-repeat: no-repeat
+    background-color: #44bdd5
+    display: block
+
+    &__header
+        display: flex
+        flex-direction: column
+        justify-content: center
+        
+        &-login
+            display: flex
+            justify-content: center
+            a
+                color: white
+                position: relative
+                left: 21.5rem
+    
+        &-nav
+            display: flex
+            justify-content: center
+            flex-direction: row
+
+        &-buttons
+            display: flex
+            flex-direction: row
+            align-items: center
+            background-color: inherit
+            margin-left: 30px
+
+            & div
+                background-color: ceil
+                display: flex
+                flex-direction: row
+                align-items: center
+                height: 100%
+
+            .formulario
+                background-color: #44bdd5
+                border-radius: 3px solid grey
+                display: flex
+                flex-direction: row
+
+                & input
+                    height: 80%
+
+                img
+                    background: none
+                    position: relative
+                    right: 2rem
+
+            button
+                height: 80%
+                margin:0
+                background-color: ceil
+                border: 1px solid grey
+                padding: 0
+
+            button:nth-child(2)
+                margin-left: 30px
+                border-top-left-radius: 5px
+                border-bottom-left-radius: 5px
+            button:nth-last-child
+                border-top-right-radius: 5px
+                border-bottom-right-radius: 5px
+
+    .subuppersection
+        display: grid
+        grid-template-columns: 1fr 1fr
+        justify-content: space-around
+        padding-left: 2%
+        padding-right: 2%
+        
+        div
+            padding-bottom: 1%
+            p
+                max-width: 50%
+            h1
+                font-size: 4em
+                color: white
+                max-width: 50%
+                margin-top: 1%
+                margin-bottom: 1%
+
+        &__rightside
+            display: flex
+            flex-direction: column
+            justify-content: center
+            margin: auto
+    
+.botobasic
+    background-color: black
+    color: white
+    width: 10em
+    height: 4em
+    border-radius: 8px
+
+.botobasic--red
+    background-color: red
+
+.boto--black
+    border-radius: 8px
+    margin-left: 30px
+
+/*Hasta aqui la zona azul*/
+main
+    background-color: grey
+
+.cuadro
+    width: 90%
+    margin-left: 5%
+    margin-right: 5%
+    background-color: white
+    display: flex
+    flex-direction: column
+    position: relative
+    bottom: 1.0em
+    border-top-left-radius: 10px
+    border-top-right-radius: 10px
+
+    .cuadro__Whatsnew
+        height: 10%
+        color: black
+        padding: $size
+
+    .cuadro__fourcolcontainer
+        display: grid
+        grid-template-columns: 1fr 1fr 1fr 1fr
+        padding: 0%
+
+        .eachcolumn
+            padding: 0
+            display: flex
+            flex-direction: column
+            justify-content: center
+
+            h5
+                padding: $size
+            h3
+                padding: $size
+            p
+                padding: $size
+
+            img
+                padding: $size
+                width: 80%
+                height: 35%
+
+        .boto--little
+            height: 1.5em
+            margin: $size
+            margin-bottom: 2*$size
+
+/*A partir de aquí footer/
+footer
+    background-color: black
+    color: white
+    position: relative
+    bottom: 1.5em
+    display: block
+    margin-left: 0
+    margin-right: 0
+    padding-left: 5%
+    padding-right: 5%
+
+    .fourcolumns
+        display: grid
+        grid-template-columns: 1fr 1fr 1fr 1fr
+
+        &__footercolumn
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+
+            & p:first-child
+                font-weight: bold
+                
+            & p
+                margin-left: $size
+
+    .allRights
+        display: flex
+        flex-direction: column
+        justify-content: center
+
+        p
+            text-align: center
+
+            
+
+
+
+    
