@@ -1,7 +1,6 @@
-function Short(brand,size,color,price){
-    Clothing.call(this,brand,size,color,price);
-    
+function Shorts(brand,model,size,color,price){
+    Trousers.call(this,brand,model,size,color,price);
 }
 
-Short.prototype = Object.create(Trousers.prototype);
-Short.prototype.constructor = Short;
+Shorts.prototype = Object.create(Trousers.prototype);
+Shorts.prototype.constructor = Shorts;

@@ -1,7 +1,7 @@
-function Tshirt(brand,size,color,price){
+function TShirt(brand,size,color,price){
     Clothing.call(this,brand,size,color,price);
     
 }
 
-Tshirt.prototype = Object.create(Clothing.prototype);
-Tshirt.prototype.constructor = Tshirt;
+TShirt.prototype = Object.create(Clothing.prototype);
+TShirt.prototype.constructor = TShirt;

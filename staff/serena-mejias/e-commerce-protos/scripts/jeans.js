@@ -1,6 +1,5 @@
-function Jeans(brand,size,color,price){
-    Clothing.call(this,brand,size,color,price);
-    
+function Jeans(brand, model, size, color, price){
+    Trousers.call(this,brand,model,size,color,price);
 }
 
 Jeans.prototype = Object.create(Trousers.prototype);
