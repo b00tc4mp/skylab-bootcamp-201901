@@ -3,8 +3,10 @@ function Cart(){
     this.cartList=[];
 };
 
-Cart.prototype.add=function(object){
-    this.cartList.push(object);
+Cart.prototype.add=function(){
+    for (var i=0; i<arguments.length; i++){
+        this.cartList.push(arguments[i]);
+    }
     return this.cartList
 }
 
