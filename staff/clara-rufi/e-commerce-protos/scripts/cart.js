@@ -4,7 +4,8 @@ function Cart (){
 }
 
 Cart.prototype.add = function(product){  
-    /* prototype es para q la función se pueda utilizar a Cart,
+    if (!(product instanceof Product)) throw TypeError(product + ' is not a product');
+    /* prototype es para q la función se pueda utTypeErrorilizar a Cart,
     pq totes les instancies de cart quedin lligades
     creem la funció add, pq es vagin afegint els elements
     a Cart.*/
