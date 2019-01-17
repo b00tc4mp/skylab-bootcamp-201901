@@ -37,9 +37,3 @@ console.log('cheapest', cart.cheapest());
 console.log('number of clothing items', cart.numberOf(Clothing));
 console.log('number of electronics items', cart.numberOf(Electronics));
 console.log('products in between prices', cart.productsByPriceRange(30, 120));
-
-
-
-
-
-

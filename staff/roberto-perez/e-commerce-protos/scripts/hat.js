@@ -1,6 +1,5 @@
-function Hat(brand, type, color, price) {
-    this.type = type;
-    Clothing.apply(this, [brand, null, color, price]);
+function Hat(brand, model, color, price) {
+    Clothing.apply(this, [brand, model, null, color, price]);
 }
 
 Hat.prototype = Object.create(Clothing.prototype);
