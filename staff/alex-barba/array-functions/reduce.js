@@ -1,24 +1,31 @@
 /**
  * Abstraction of reduce.
  * 
- * executes a reducer function (that you provide) on each member of the array resulting in a single output value.
+ * Reduces an array into a value.
  * 
+ * @param {Array} array - The array to operate on.
+ * @param {Function} callback - The expression to evaluate.
+ * @param {*} accumulator - The accumulator of the reduction value.
+ * 
+ * @returns {*} - The reduction value.
  */
+function reduce(array, callback, accumulator) {
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (!(callback instanceof Function)) throw TypeError(callback + ' is not an function');
 
- function reduce(callback) {
-     var res = 0;
+    var i = 0;
 
-        callback (initial, currentValue, currentIndex, array); {
-            res = initial;
-            for (let i = 0; i < array-length; i++) {
-                res = Number(res) + Number(array[i]);
-            }
-        }
-     return res;
+    if (accumulator === undefined) {
+        accumulator = array[0];
 
- };
+        i = 1;
+    }
 
-const array1 = [1, 2, 3, 4];
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    for (; i < array.length; i++) {
+        var item = array[i];
 
-reduce(array1, reducer);
+        accumulator = callback(accumulator, item);
+    }
+
+    return accumulator;
+};
