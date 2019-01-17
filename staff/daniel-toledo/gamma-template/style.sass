@@ -3,8 +3,7 @@
     padding: 0
     box-sizing: border-box
 
-%green
-    color: rgb(28,170,152)
+$green: rgb(28,170,152)
 
 .header
     background-color: rgb(27,34,42)
@@ -21,7 +20,7 @@
 
     &__logo
         padding: 10px
-        @extend %green
+        color: $green
 
     &__nav
         display: none
@@ -48,7 +47,7 @@
         color: white
     
     &__title--green
-        @extend %green
+        color: $green
     
     &__text
         margin: 1em
@@ -98,7 +97,6 @@
 .content--contact
     margin-left: 20px
     margin-right: 20px
-    paddin-top: 0
     padding-bottom: 50px
     padding-right: 10px
     padding-left: 10px
