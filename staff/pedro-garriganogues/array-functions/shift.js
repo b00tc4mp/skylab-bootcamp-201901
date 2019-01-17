@@ -8,7 +8,6 @@
  * @throws {TypeError} - If array is not an array
  */
 
-var arr = [1, 2, 3, 4, 5];
 
 function shifter(ele) {
 
@@ -19,5 +18,3 @@ function shifter(ele) {
 
 	return res
 }
-
-shifter(arr)

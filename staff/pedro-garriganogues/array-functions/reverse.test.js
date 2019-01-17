@@ -1,14 +1,13 @@
-suite('join', function () {
+suite('reverse', function () {
 
     describe('casos de exito', function () {
 
         it(' should coincide expected and arr', function () {
             var arr = [1, 2, 3, 4, 5];
-            var separador = ','
-            var expected = '1,2,3,4,5';
-            var res = juntar(arr, separador);
+            var expected = [5,4,3,2,1];
+            var res = reverser(arr);
 
-            expect(res !== expected, 'parameter and result should be the same')
+            expect(res === expected, 'parameter and result should be the same')
 
         });
     
@@ -17,7 +16,7 @@ suite('join', function () {
                 var error;
             
                 try {
-                    juntar(arr, function (element) {
+                    reverser(arr, function (element) {
                         return element;
                     });     
                 } catch (err) {
@@ -33,7 +32,7 @@ suite('join', function () {
         var error;
     
         try {
-            juntar(arr, function (element) {
+            reverser(arr, function (element) {
                 return element;
             });     
         } catch (err) {
