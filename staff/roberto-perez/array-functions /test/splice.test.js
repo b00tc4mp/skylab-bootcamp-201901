@@ -4,7 +4,7 @@ suite("splice");
     
 //     var arr = ['angel', 'clown', 'drum', 'mandarin', 'sturgeon'];
 
-//     var expected = ["angel", "clown"];
+//     var expected = ["clown", "drum"];
 
 //     var removed = splice(arr, 1, 2);
 
@@ -63,7 +63,7 @@ test('Slice arr - ADD', function() {
 
     var expected = [];
 
-    var removed = splice(arr, 1, 0,"drum");
+    var removed = splice(arr, 2, 0,"drum");
 
     console.log("DELETED: ", removed);
     console.log("MUTATED", arr);
