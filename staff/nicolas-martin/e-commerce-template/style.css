@@ -82,7 +82,7 @@ button:hover{
     color: white;
 }
 
-nav.menu ul{
+.menu ul{
     display: none;
     list-style: none; 
     text-transform: uppercase;
