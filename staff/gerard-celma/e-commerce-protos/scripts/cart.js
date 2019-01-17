@@ -14,7 +14,7 @@ function Cart() {
     this.cartItems = [];
 
     this.add = function(item) {
-        if(!(item instanceof Object)) throw TypeError();
+        if(!(item instanceof Product)) throw TypeError();
         this.cartItems.push(item);
 
         return this.cartItems.length;
