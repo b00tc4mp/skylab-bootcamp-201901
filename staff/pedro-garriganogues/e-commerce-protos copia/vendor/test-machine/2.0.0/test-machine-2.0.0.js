@@ -46,7 +46,7 @@ function it(description, expression) {
  * Asserts a condition.
  * 
  * @param {boolean} condition - The condition to be checked.
- * @param {string} description - Description of the condition to be accomplished.
+ * @param {string} description - Description of the condition to be ºomplished.
  * 
  * @throws {Error} - If condition is not satisfied.
  */
