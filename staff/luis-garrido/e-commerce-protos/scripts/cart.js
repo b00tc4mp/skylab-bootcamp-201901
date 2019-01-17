@@ -1,46 +1,46 @@
 function Cart() {
   this.products = [];
 
-  this.add = function(product) {
+  Cart.prototype.add = function(product) {
     this.products.push(product);
   };
 
-  this.totalPrice = function() {
+  Cart.prototype.totalPrice = function() {
     return this.products.reduce(function(a, b) {
       return a + b.price;
     }, 0);
   };
 
-  this.numberOfItems = function(string) {
+  Cart.prototype.numberOfItems = function(string) {
     return this.products.length;
   };
 
-  this.mostExpensive = function() {
+  Cart.prototype.mostExpensive = function() {
     return this.products.reduce(function(a, b) {
-      a = a.price > b.price ? a : b;
-      return a;
+      return a.price > b.price ? a : b;
     });
   };
 
-  this.cheapest = function() {
+  Cart.prototype.cheapest = function() {
     return this.products.reduce(function(a, b) {
-      a = a.price < b.price ? a : b;
-      return a;
+      return a.price < b.price ? a : b;
     });
   };
 
-  this.numberOf = function(familyProduct) {
+  Cart.prototype.numberOf = function(familyProduct) {
     return this.products.reduce(function(a, b){
-      a = (b instanceof familyProduct) ? a+1 : a;
-      return a;
+      return (b instanceof familyProduct) ? a+1 : a;
     },0);
   };
 
-  this.productsByPriceRange = function(lowestPrice, highestPrice) {
+  Cart.prototype.productsByPriceRange = function(lowestPrice, highestPrice) {
+    if (lowestPrice>highestPrice) {
+      var temp = lowestPrice;
+      lowestPrice = highestPrice;
+      highestPrice = lowestPrice;
+    }
     return this.products.reduce(function(a,b){
-      debugger;
-      a = (b.price >= lowestPrice && b.price <= highestPrice) ? a.concat([b]) : a;
-      return a;
+      return (b.price >= lowestPrice && b.price <= highestPrice) ? a.concat([b]) : a;
     },[]);
   };
 }

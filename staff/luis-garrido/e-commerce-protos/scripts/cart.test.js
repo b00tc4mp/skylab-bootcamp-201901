@@ -1,5 +1,41 @@
 suite("cart");
 
+function getReadyToTest() {
+
+  var cart = new Cart();
+  
+  var tshirt = new TShirt(399, "Supreme", "white", "M");
+  var sweater = new Sweater(149, "Diesel", "black", "M");
+  var laptop = new Laptop(1599, "Apple", "MacBook Pro", 15);
+  var desktop = new Desktop(420, "HP", "1800", 20);
+  var mobile = new Mobile(999, "Apple", "iPhone X", "space-gray");
+  var mobile2 = new Mobile(119, "Xiaomi", "5X", "space-rose");
+  var socks = new Socks(9.99, "Calvin Klein", "black", 42);
+  var tanga = new Tanga(29.95, "Wicked Weasel", "red", 32);
+  var bra = new Bra(39, "Calvin Klein", "cream", 80, "push-up");
+  var slips = new Slips(13.99, "Abanderado", "purple", 42);
+  var jeans = new Jeans(199, "Diesel", "denim", 42, "regular");
+  var shorts = new Shorts(35, "Adidas", "blue", 42, "Sport");
+  var cap = new Cap(29, "Obey", "black", "M");
+  var hat = new Hat(44.99, "Jack & Jones", "red", undefined, "Cup");
+
+  cart.add(socks);
+  cart.add(tanga);
+  cart.add(bra);
+  cart.add(slips);
+  cart.add(mobile);
+  cart.add(mobile2);
+  cart.add(laptop);
+  cart.add(desktop);
+  cart.add(hat);
+  cart.add(jeans);
+  cart.add(tshirt);
+  cart.add(cap);
+  cart.add(shorts);
+  cart.add(sweater);
+
+  return cart;
+}
 // use case 1
 
 test("cart should add 1 product expected", function() {
@@ -19,27 +55,10 @@ test("cart should add 1 product expected", function() {
 // use case 2
 
 test("succeed on get the total price of the cart", function() {
-  var cart = new Cart();
 
-  var tshirt = new TShirt(120, "Supreme", "white", "M");
-  cart.add(tshirt);
-
-  var sweater = new Sweater(120, "Diesel", "black", "M");
-  cart.add(sweater);
-
-  var laptop = new Laptop(120, "Apple", "MacBook Pro", 15);
-  cart.add(laptop);
-
-  var desktop = new Desktop(120, "HP", "1800", 20);
-  cart.add(desktop);
-
-  var mobile = new Mobile(120, "Apple", "iPhone X", "space-gray");
-  cart.add(mobile);
-
-  var mobile2 = new Mobile(120, "Xiaomi", "5X", "space-rose");
-  cart.add(mobile2);
-
-  var expectedValue = 720;
+  var cart = getReadyToTest();
+  
+  var expectedValue = 4085.92;
 
   var totalPrice = cart.totalPrice();
 
@@ -54,37 +73,8 @@ test("succeed on get the total price of the cart", function() {
 // use case 3
 
 test("calculate total number of items in cart", function() {
-  var cart = new Cart();
-  
-  var tshirt = new TShirt(399, "Supreme", "white", "M");
-  var sweater = new Sweater(149, "Diesel", "black", "M");
-  var laptop = new Laptop(1599, "Apple", "MacBook Pro", 15);
-  var desktop = new Desktop(420, "HP", "1800", 20);
-  var mobile = new Mobile(999, "Apple", "iPhone X", "space-gray");
-  var mobile2 = new Mobile(119, "Xiaomi", "5X", "space-rose");
-  var socks = new Socks(9.99, "Calvin Klein", "black", 42);
-  var tanga = new Tanga(29.95, "Wicked Weasel", "red", 32);
-  var bra = new Bra(39, "Calvin Klein", "cream", 80, "push-up");
-  var slips = new Slips(13.99, "Abanderado", "purple", 42);
-  var jeans = new Jeans(199, "Diesel", "denim", 42, "regular");
-  var shorts = new Shorts(35, "Adidas", "blue", 42, "Sport");
-  var cap = new Cap(29, "Obey", "black", "M");
-  var hat = new Hat(44.99, "Jack & Jones", "red", undefined, "Cup");
-  
-  cart.add(socks);
-  cart.add(tanga);
-  cart.add(bra);
-  cart.add(slips);
-  cart.add(mobile);
-  cart.add(mobile2);
-  cart.add(laptop);
-  cart.add(desktop);
-  cart.add(hat);
-  cart.add(jeans);
-  cart.add(tshirt);
-  cart.add(cap);
-  cart.add(shorts);
-  cart.add(sweater);
+
+  var cart = getReadyToTest();
   
   var expectedValue = 14;
 
@@ -99,6 +89,7 @@ test("calculate total number of items in cart", function() {
 // use case 4
 
 test("most expensive item in cart", function() {
+
   var cart = new Cart();
   
   var tshirt = new TShirt(399, "Supreme", "white", "M");
@@ -115,7 +106,7 @@ test("most expensive item in cart", function() {
   var shorts = new Shorts(35, "Adidas", "blue", 42, "Sport");
   var cap = new Cap(29, "Obey", "black", "M");
   var hat = new Hat(44.99, "Jack & Jones", "red", undefined, "Cup");
-  
+
   cart.add(socks);
   cart.add(tanga);
   cart.add(bra);
@@ -130,7 +121,7 @@ test("most expensive item in cart", function() {
   cart.add(cap);
   cart.add(shorts);
   cart.add(sweater);
-
+  
   expectedValue = laptop;
 
   mostExpensiveItem = cart.mostExpensive();
@@ -161,7 +152,7 @@ test("cheapest item in cart", function() {
   var shorts = new Shorts(35, "Adidas", "blue", 42, "Sport");
   var cap = new Cap(29, "Obey", "black", "M");
   var hat = new Hat(44.99, "Jack & Jones", "red", undefined, "Cup");
-  
+
   cart.add(socks);
   cart.add(tanga);
   cart.add(bra);
@@ -191,37 +182,7 @@ test("cheapest item in cart", function() {
 
 test("counting clothing items", function() {
 
-  var cart = new Cart();
-  
-  var tshirt = new TShirt(399, "Supreme", "white", "M");
-  var sweater = new Sweater(149, "Diesel", "black", "M");
-  var laptop = new Laptop(1599, "Apple", "MacBook Pro", 15);
-  var desktop = new Desktop(420, "HP", "1800", 20);
-  var mobile = new Mobile(999, "Apple", "iPhone X", "space-gray");
-  var mobile2 = new Mobile(119, "Xiaomi", "5X", "space-rose");
-  var socks = new Socks(9.99, "Calvin Klein", "black", 42);
-  var tanga = new Tanga(29.95, "Wicked Weasel", "red", 32);
-  var bra = new Bra(39, "Calvin Klein", "cream", 80, "push-up");
-  var slips = new Slips(13.99, "Abanderado", "purple", 42);
-  var jeans = new Jeans(199, "Diesel", "denim", 42, "regular");
-  var shorts = new Shorts(35, "Adidas", "blue", 42, "Sport");
-  var cap = new Cap(29, "Obey", "black", "M");
-  var hat = new Hat(44.99, "Jack & Jones", "red", undefined, "Cup");
-  
-  cart.add(socks);
-  cart.add(tanga);
-  cart.add(bra);
-  cart.add(slips);
-  cart.add(mobile);
-  cart.add(mobile2);
-  cart.add(laptop);
-  cart.add(desktop);
-  cart.add(hat);
-  cart.add(jeans);
-  cart.add(tshirt);
-  cart.add(cap);
-  cart.add(shorts);
-  cart.add(sweater);
+  var cart = getReadyToTest();
 
   expectedValue = 10;
   var category = Clothing;
@@ -238,37 +199,7 @@ test("counting clothing items", function() {
 
 test("counting electronics items", function() {
 
-  var cart = new Cart();
-  
-  var tshirt = new TShirt(399, "Supreme", "white", "M");
-  var sweater = new Sweater(149, "Diesel", "black", "M");
-  var laptop = new Laptop(1599, "Apple", "MacBook Pro", 15);
-  var desktop = new Desktop(420, "HP", "1800", 20);
-  var mobile = new Mobile(999, "Apple", "iPhone X", "space-gray");
-  var mobile2 = new Mobile(119, "Xiaomi", "5X", "space-rose");
-  var socks = new Socks(9.99, "Calvin Klein", "black", 42);
-  var tanga = new Tanga(29.95, "Wicked Weasel", "red", 32);
-  var bra = new Bra(39, "Calvin Klein", "cream", 80, "push-up");
-  var slips = new Slips(13.99, "Abanderado", "purple", 42);
-  var jeans = new Jeans(199, "Diesel", "denim", 42, "regular");
-  var shorts = new Shorts(35, "Adidas", "blue", 42, "Sport");
-  var cap = new Cap(29, "Obey", "black", "M");
-  var hat = new Hat(44.99, "Jack & Jones", "red", undefined, "Cup");
-  
-  cart.add(socks);
-  cart.add(tanga);
-  cart.add(bra);
-  cart.add(slips);
-  cart.add(mobile);
-  cart.add(mobile2);
-  cart.add(laptop);
-  cart.add(desktop);
-  cart.add(hat);
-  cart.add(jeans);
-  cart.add(tshirt);
-  cart.add(cap);
-  cart.add(shorts);
-  cart.add(sweater);
+  var cart = getReadyToTest();
 
   expectedValue = 4;
   var category = Electronics;
@@ -316,10 +247,9 @@ test("products in between prices", function() {
   cart.add(shorts);
   cart.add(sweater);
 
-  expectedValue = 4;
+  expectedValue = [bra, mobile2, hat, shorts];
   productsInBetween = cart.productsByPriceRange(30, 120);
-  console.log(productsInBetween);
 
-  assert(productsInBetween === expectedValue, "number of products between 30 and 120 prices must be 4");
+  assert(productsInBetween.toString() === expectedValue.toString(), "number of products between 30 and 120 prices must be 4");
 
 });
