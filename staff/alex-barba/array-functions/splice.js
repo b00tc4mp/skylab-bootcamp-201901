@@ -16,7 +16,7 @@
  */
 
 function splice(array, start, deleteCount, item) {
-    if (deleteCount > (array.length-start) || deleteCount === undefined) { deleteCount = array.length};
+    if (deleteCount > (array.length-start) || deleteCount === undefined) { deleteCount = array.length-start};
 
     var original = [];
     var items = [];
