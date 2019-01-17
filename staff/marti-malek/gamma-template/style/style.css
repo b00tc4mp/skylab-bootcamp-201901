@@ -1,13 +1,5 @@
 @charset "UTF-8";
-.same img {
-  width: 80%;
-  align-self: center;
-  border: 1px solid lightgray;
-  margin: auto;
-  margin-top: 1rem;
-}
-
-.about-first, .first, .about-col, .same {
+.about-first, .first, main, .about-col, .same {
   display: flex;
   flex-wrap: wrap;
 }
@@ -17,6 +9,13 @@
   align-content: center;
   justify-content: center;
   /* margin: auto */
+}
+.same img {
+  width: 80%;
+  align-self: center;
+  border: 1px solid lightgray;
+  margin: auto;
+  margin-top: 1rem;
 }
 .same div {
   width: 80%;
@@ -108,8 +107,6 @@ html, body {
 
 main {
   box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
   align-content: center;
   justify-content: center;
 }
