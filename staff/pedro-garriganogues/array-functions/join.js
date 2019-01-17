@@ -18,12 +18,15 @@ function juntar(arr, separador) {
 
     for (var i = 0; i < arr.length; i++) {
 		var res1 = arr[i]
+        
+    if(i < 4){
+        console.log('this is' + i)
         res = res + res1 + separador
         res1 = ''
-        
-    if(res.length === arr.length){
-        console.log('3')
-    
+            } else {
+                res = res + res1
+                res1 = ''
+                console.log('2')
         }
     } 
 
