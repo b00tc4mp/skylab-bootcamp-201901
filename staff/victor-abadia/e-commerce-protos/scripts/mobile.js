@@ -1,5 +1,6 @@
-function Mobile() {
-    Electronics.call(This, brand, model, size, price);
+function Mobile(brand, model, color, price) {
+    this.color = color
+    Electronics.call(this, brand, model, price);
 }
 
 Mobile.prototype = Object.create(Electronics.prototype)

@@ -1,6 +1,6 @@
 function Boxer() {
-    Underwear.call(This, brand, model, size, price);
+    Underwear.call(this, brand, model, size, price);
 }
 
-Tanga.prototype = Object.create(Underwear.prototype)
-Tanga.prototype.constructor = Tanga
+Boxer.prototype = Object.create(Underwear.prototype)
+Boxer.prototype.constructor = Boxer

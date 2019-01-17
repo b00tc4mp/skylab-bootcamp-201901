@@ -1,6 +1,8 @@
-function Trousers() {
-    Clothing.call(This, brand, model, size, price);
+function Trousers(brand, model, size, color, price) {
+    this.model = model
+    this.size = size
+    Clothing.call(this, brand, color, price);
 }
 
-Tanga.prototype = Object.create(Clothing.prototype)
-Tanga.prototype.constructor = Tanga
+Trousers.prototype = Object.create(Clothing.prototype)
+Trousers.prototype.constructor = Trousers
