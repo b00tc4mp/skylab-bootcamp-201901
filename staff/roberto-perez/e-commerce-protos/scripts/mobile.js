@@ -1,5 +1,6 @@
 function Mobile(brand, model, color, price) {
-    Electronics.apply(this, [brand, model, color, null, price]);
+    this.color = color;
+    Electronics.apply(this, [brand, model, price]);
 }
 
 Mobile.prototype = Object.create(Electronics.prototype)

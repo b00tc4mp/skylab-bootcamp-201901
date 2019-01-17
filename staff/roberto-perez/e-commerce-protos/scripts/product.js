@@ -1,6 +1,4 @@
-function Product(brand, size, color, price) {
+function Product(brand, price) {
     this.brand = brand;
-    this.size = size;
-    this.color = color;
     this.price = price;
 }
