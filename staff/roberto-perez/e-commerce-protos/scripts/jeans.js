@@ -1,8 +1,7 @@
-function Jeans(brand, type, size, color, price) {
-    this.type = type;
-    Clothing.apply(this, [brand, size, color, price]);
+function Jeans(brand, model, size, color, price) {
+    Clothing.apply(this, [brand, model, size, color, price]);
 }
 
-Jeans.prototype = Object.create(Clothing.prototype);
+Jeans.prototype = Object.create(Trousers.prototype);
 Jeans.prototype.constructor = Jeans;
 

@@ -1,7 +1,5 @@
-function Clothing(brand, size, color, price) {
-    this.size = size;
-    this.color = color;
-    Product.apply(this, [brand, price]);
+function Clothing(brand, model, size, color, price) {
+    Product.apply(this, [brand, model, size, color, price]);
 }
 
 Clothing.prototype = Object.create(Product.prototype);
