@@ -242,7 +242,7 @@ suite("cart", function () {
 
       expectedValue = [bra, mobile2, hat, shorts];
       productsInBetween = cart.productsByPriceRange(30, 120);
-
+      console.log(cart);
       expect(productsInBetween.toString() === expectedValue.toString(), "number of products between 30 and 120 prices must be 4");
     });
   });
