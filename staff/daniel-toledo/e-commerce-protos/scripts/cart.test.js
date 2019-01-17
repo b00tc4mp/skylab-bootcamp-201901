@@ -9,7 +9,7 @@ suite('Cart', function () {
 
         });
 
-        it('should creat a Cart and add strings', function () {
+        it('should creat a Cart and add strings one by one', function () {
             var cart = new Cart;
 
             cart.add('mobile');
@@ -18,6 +18,15 @@ suite('Cart', function () {
             cart.add('desktop');
 
 
+            expect(cart.cartList.toString() === ['mobile', 'mobile2', 'laptop', 'desktop'].toString(), 'Unexpected value')
+
+        });
+
+        it('should creat a Cart and add things with more than one argument', function () {
+            var cart = new Cart;
+
+            cart.add('mobile','mobile2','laptop','desktop');
+          
             expect(cart.cartList.toString() === ['mobile', 'mobile2', 'laptop', 'desktop'].toString(), 'Unexpected value')
 
         });
