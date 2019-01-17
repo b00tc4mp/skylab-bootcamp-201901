@@ -1,4 +1,4 @@
-function Shorts() {
+function Shorts(brand, model, size, price) {
     Trousers.call(this, brand, model, size, price);
 }
 
