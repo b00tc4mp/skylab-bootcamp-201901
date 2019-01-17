@@ -3,7 +3,7 @@
 
 function reverse(array) {
 
-    if(!(array instanceof Array)) throw TypeError (array + 'is not an array');
+    if(!(array instanceof Array)) throw TypeError (array + ' is not an array');
 
     var res;
     

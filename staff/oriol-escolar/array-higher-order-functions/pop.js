@@ -1,23 +1,13 @@
+function pop(arr){
 
+    if(!(arr instanceof Array)) throw TypeError('arr should be an Array');
 
+    if(arr.length == 0){
+        return undefined;
+    }
 
-function fill(arr,func) {
-
-    var res =[];
-    
-    for (var i = 0; i < arr.length; i++) 
-    
-    res[i] = func(arr[i]);
-    return res;
+    var value=arr[arr.length-1] ;
+    arr.length=arr.length-1;
+    return value;
     
 }
-
-
-var cars = ['ferrari', 'porsche', 'mercedes'];
-
-console.log(cars);
-
-cars = fill(cars,function(v){ return v='ferrari'  });
-
-console.log(cars);
-
