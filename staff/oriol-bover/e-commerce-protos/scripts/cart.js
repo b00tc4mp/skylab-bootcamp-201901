@@ -1,69 +1,52 @@
-function Cart(){
+function Cart() {
     this.cartList = [];
+}
 
-    this.add = function(product) {
-        if(!(product instanceof Product)) throw TypeError('The item is not a product');
-        this.cartList.push(product);
-    };
+Cart.prototype.add = function (product) {
+    if (!(product instanceof Product)) throw TypeError('The item is not a product');
+    this.cartList.push(product);
+};
 
-    this.totalPrice = function() {
-        var totalPrice =  this.cartList.reduce(function(accumulator,product){
-            return accumulator + product.price;
-        },0);
+Cart.prototype.totalPrice = function () {
+    return this.cartList.reduce(function (accumulator, product) {
+        return accumulator + product.price;
+    }, 0);
+};
 
-        return totalPrice;
-    };
+Cart.prototype.numberOfItems = function () {
+    return this.cartList.length;
+}
 
-    this.numberOfItems = function(){
-        return this.cartList.length;
-    }
+Cart.prototype.mostExpensive = function () {
+    if(this.cartList.length == 0 ) return undefined;
 
-    this.mostExpensive = function(){
-        var res = this.cartList[0];
-        for (var i = 0; i < this.cartList.length; i++) {
-            
-            var value = this.cartList[i];
-            
-            if(value.price > res.price) res = value;
-        }
+    return this.cartList.reduce(function(accumulator, product) {
+        return accumulator.price > product.price ? accumulator : product;
+    });
+}
 
-        return res;
-    }
+Cart.prototype.cheapest = function () {
+    if(this.cartList.length == 0 ) return undefined;
 
-    this.cheapest = function(){
-        var res = this.cartList[0];
-        for (var i = 0; i < this.cartList.length; i++) {
-            var value = this.cartList[i];
-            
-            if(value.price < res.price) res = value;
-        }
+    return this.cartList.reduce(function(accumulator, product) {
+        return accumulator.price < product.price ? accumulator : product;
+    });
+}
 
-        return res;
-    }
+Cart.prototype.numberOf = function (type) {
+    if (!(type instanceof Function)) throw TypeError('the type is not a Function type');
 
-    this.numberOf = function(type){
-        if(!(type instanceof Object)) throw TypeError('the type is not and object type');
-        var num = 0;
-        for (var i = 0; i < this.cartList.length; i++) {
-            var value = this.cartList[i];
-            if(value instanceof type) num ++;
-        }
+    return this.cartList.reduce(function(accumulator, product){
+        return product instanceof type ? ++accumulator: accumulator;
+    }, 0);
+}
 
-        return num;
-    }
+Cart.prototype.productsByPriceRange = function (min, max) {
+    if (typeof min !== 'number') throw TypeError('min is not a number');
+    if (typeof max !== 'number') throw TypeError('min is not a number');
+    if (min > max) min = [max, max = min][0];
 
-    this.productsByPriceRange = function(min, max){
-        if(typeof min !== 'number') throw TypeError('min is not a number');
-        if(typeof max !== 'number') throw TypeError('min is not a number');
-        if(min > max) min = [max, max = min][0];
-            
-        var products = [];
-        
-        for (var i = 0; i < this.cartList.length; i++) {
-            var value = this.cartList[i];
-            if(value.price >= min && value.price <= max) products.push(value);   
-        }
-        
-        return products;
-    }
+    return this.cartList.filter(function(product){
+        return product.price >= min && product.price <= max; 
+    });
 }
