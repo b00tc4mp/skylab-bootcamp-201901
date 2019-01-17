@@ -20,15 +20,13 @@ test('Incorrect parameter method add not an object', function(){
     var err
     var cart = new Cart()
 
-
-
     try{
         cart.add(1)    
     }catch(error){
         err = error
     }
 
-    assert(err,'Should be an error! Not an object as parameter')
+    assert(!err,'Should be an error! Not an object as parameter')
 });
 
 

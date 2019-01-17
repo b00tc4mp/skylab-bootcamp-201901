@@ -4,7 +4,7 @@ function Cart(){
      * add an item to the array
      */
     this.add = function (item){
-        if(item instanceof Object) throw new Error ('Item not a object!')
+        if(!item instanceof Object) throw new Error ('Item not a object!')
         this.arraybuy.push(item)
     }
     /**
@@ -63,10 +63,15 @@ function Cart(){
      * returns the number of items that his price is between min and max
      */
     this.productsByPriceRange = function(min, max){
-        var count = 0
-        for(var i = 0 ;i < this.arraybuy.length; i++){
-            if ((this.arraybuy[i].price > min) && (this.arraybuy[i].price < max)) count++ 
-        }
-        return count
+        var arrayreturn = this.arraybuy.filter(function(element){
+            return ((element.price >= min) && (element.price <= max))
+        });
+        
+        return arrayreturn
     }
+
+    /*
+    const result = words.filter(function(word){
+  return word.length > 6
+    }*/
 }
