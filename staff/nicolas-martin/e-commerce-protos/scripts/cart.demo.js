@@ -1,4 +1,5 @@
 var cart = new Cart();
+
 /**/
 var tshirt = new TShirt(399, "Supreme", "white", "M");
 var sweater = new Sweater(149, "Diesel", "black", "M");
@@ -15,6 +16,7 @@ var shorts = new Shorts(35, "Adidas", "blue", 42, "Sport");
 var cap = new Cap(29, "Obey", "black", "M");
 var hat = new Hat(44.99, "Jack & Jones", "red", undefined, "Cup");
 /**/
+
 cart.add(socks);
 cart.add(tanga);
 cart.add(bra);
@@ -30,11 +32,11 @@ cart.add(cap);
 cart.add(shorts);
 cart.add(sweater);
 /**/
-console.log("total", cart.totalPrice());
-console.log("number of items", cart.numberOfItems());
-console.log("most expensive", cart.mostExpensive());
-console.log("cheapest", cart.cheapest());
-console.log("number of clothing items", cart.numberOf(Clothing));
-console.log("number of electronics items", cart.numberOf(Electronics));
-console.log("products in between prices", cart.productsByPriceRange(30, 120));
+console.log("Total", cart.totalPrice());
+console.log("Number of products in cart: ", cart.numberOfItems());
+console.log("Most expensive: ", cart.mostExpensive());
+console.log("Cheapest one: ", cart.cheapest());
+console.log("Nº of clothing items: ", cart.numberOf(Clothing));
+console.log("Nº of electronics items: ", cart.numberOf(Electronics));
+console.log("Products in between prices: ", cart.productsByPriceRange(30, 120));
 /**/
