@@ -3,7 +3,7 @@ function Cart() {
     
     this.add = function (item){
 
-        if (!(item instanceof Object)) throw TypeError ('Should be an object');
+        if (!(item instanceof Product)) throw TypeError ('Should be an object');
 
         this.cartItems.push(item)
         return this.cartItems.length

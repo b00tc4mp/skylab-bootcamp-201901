@@ -12,7 +12,7 @@ var cart = new Cart;
 
 suite('cart')
 
-// .Add
+// .Add()
 
 test('adding one element', function(){
     var socks = new Socks('Calvin Klein', 42, 'black', 9.99);
@@ -24,7 +24,8 @@ test('adding one element', function(){
     assert (res === expected,'expected and result should be the same')
 });
 
-test ('adding an item that is not an object', function (){
+
+test ('adding an item that is not an instance of product & when no param is passed', function (){
     
     var error;
 
@@ -35,3 +36,11 @@ test ('adding an item that is not an object', function (){
     }
     assert (error,'expected and result should be the same')
 })
+
+// .totalPrice()
+
+test('calculating total price ', function(){
+
+
+
+});
