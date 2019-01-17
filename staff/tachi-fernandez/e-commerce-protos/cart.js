@@ -8,11 +8,9 @@ function Cart(){
 }
 
 Cart.prototype.totalPrice = function(){
-    var sum = 0
-    for (var i = 0;i<this.products.length;i++){
-        sum += this.products[i].price
-    }
-    return sum
+    return this.products.reduce(function(a,product){
+    return a + product.price 
+    },0)
 }
 
 
