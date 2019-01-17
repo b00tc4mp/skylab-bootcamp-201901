@@ -2,18 +2,16 @@ function Cart() {
   this.products = [];
 }
 
-Cart.prototype.add = function(Product) {
-  return this.products.push(Product);
+Cart.prototype.add = function(product) {
+  if (!product instanceof Product)
+    throw new TypeError(product + " is not a product");
+
+  return this.products.push(product);
 };
 
 Cart.prototype.totalPrice = function() {
-  // var total = 0;
-  // for (product of this.products) {
-  //   total += product.price;
-  // }
-  // return total;
-  return this.products.reduce(function(valorAnterior, valorActual) {
-    return valorAnterior + valorActual.price;
+  return this.products.reduce(function(accum, product) {
+    return accum + product.price;
   }, 0);
 };
 
@@ -22,55 +20,37 @@ Cart.prototype.numberOfItems = function() {
 };
 
 Cart.prototype.mostExpensive = function() {
-  // var mostExpensiveProduct = this.products[0];
-  // for (product of this.products) {
-  //   if (product.price > mostExpensiveProduct.price) {
-  //     mostExpensiveProduct = product;
-  //   }
-  // }
-  // return mostExpensiveProduct;
-
-  return this.products.sort(function(a, b){
-    return b.price - a.price;
-  })[0];
+  return this.products.reduce(function(accum, product) {
+    return accum.price < product.price ? product : accum;
+  });
 };
 
 Cart.prototype.cheapest = function() {
-  // var cheapestProduct = this.products[0];
-  // for (product of this.products) {
-  //   if (product.price < cheapestProduct.price) {
-  //     cheapestProduct = product;
-  //   }
-  // }
-  // return cheapestProduct;
-  return this.products.sort(function(a, b){
-    return a.price - b.price;
-  })[0];
+  return this.products.reduce(function(accum, product) {
+    return accum.price > product.price ? product : accum;
+  });
 };
 
-Cart.prototype.productsByPriceRange = function(start, end) {
-  // var productsByPriceRange = [];
-  // var i = 0;
-  // for (product of this.products) {
-  //   if (product.price >= start && product.price <= end) {
-  //     productsByPriceRange[i++] = product;
-  //   }
-  // }
-  // return productsByPriceRange;
+Cart.prototype.productsByPriceRange = function(min, max) {
+  if (typeof min !== "number")
+    throw new TypeError(product + " is not a number");
+
+  if (typeof max !== "number")
+    throw new TypeError(product + " is not a number");
+
   return this.products.filter(function(product) {
-    return product.price >= start && product.price <= end;
+    return product.price >= min && product.price <= max;
   });
 };
 
 Cart.prototype.numberOf = function(type) {
-  // var numberOf = 0;
-  // for (product of this.products) {
-  //   if (product instanceof type) {
-  //     numberOf++;
-  //   }
-  // }
-  // return numberOf;
-  return this.products.filter(function(product) {
-    return product instanceof type;
-  }).length;
+  if (typeof type !== "function")
+    throw new TypeError(product + " is not a function");
+
+  if (type !== Product && !type instanceof Product)
+    throw new TypeError(product + " is not a product");
+
+  return this.products.reduce(function(accum, product) {
+    return product instanceof type ? ++accum : accum;
+  }, 0);
 };
