@@ -8,6 +8,7 @@ function Horroy() {
 }
 
 Horroy.prototype.push = function(value) {
+    if (!value) throw Error('undefined element to push')
     this[this.length++] = value;
 };
 
