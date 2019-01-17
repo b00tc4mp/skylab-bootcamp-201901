@@ -3,33 +3,26 @@
 
 function reverse(array) {
 
-    var res = [];
+    var res;
     
     
-    for (var i = 0; i < array.length; i++){
+    for (var i = 0; i < array.length/2; i++){
 
         
-        res[i] = array[array.length -i-1];
+        res = array[array.length -i-1];
+
+        array[array.length -1-i] = array[i];
+        array[i] = res;
 
 
     } 
 
-    for(var i=0; i<array.length;i++)
-    {
-
-        array[i]=res[i];
-
-
-    }
-    
-    
-    
-    //return array;
 }
 
 
 var cars = ['ferrari', 'porsche', 'mercedes','patata'];
 
 reverse(cars);
+console.log(cars)
 
 
