@@ -2,8 +2,11 @@ function Cart() {
     this.cartItems = [];
     
     this.add = function (item){
+
+        if (!(item instanceof Object)) throw TypeError ('Should be an object');
+
         this.cartItems.push(item)
-        console.log(this.cartItems)
+        return this.cartItems.length
     };
 
     this.totalPrice = function(){
