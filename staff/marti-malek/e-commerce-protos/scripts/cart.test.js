@@ -1,3 +1,34 @@
+suite('add');
+
+test('Correct', function () {
+    var cart = new Cart;
+
+    var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
+
+    cart.add(tanga);
+
+    var res = cart.cartList.length;
+
+    var expected = 1;
+
+    assert(res.toString() === expected.toString(), 'should return the correct value')
+});
+
+test('Fail on too many arguments', function () {
+    var error;
+    var cart = new Cart;
+
+    var tanga = new Tanga('Wicked Weasel', 32, 'red', 29.95);
+
+    try {
+        cart.add(tanga,true);
+    } catch (err) {
+        error = err;
+    }
+
+    assert(Error, 'should throw an error');
+});
+
 suite('totalPrice');
 
 test('Correct', function () {
