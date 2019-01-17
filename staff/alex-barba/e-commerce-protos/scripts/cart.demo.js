@@ -1,7 +1,7 @@
 var cart = new Cart;
 
-var socks = new Slips('Calvin Klein', 42, 'black', 9.99); // brand, size, color, price
-var tanga = new Slips('Wicked Weasel', 32, 'red', 29.95); // brand, size, color, price
+var socks = new Socks('Calvin Klein', 42, 'black', 9.99); // brand, size, color, price
+var thong = new Thong('Wicked Weasel', 32, 'red', 29.95); // brand, size, color, price
 var bra = new Bra('Calvin Klein', 'push-up', 80, 'cream', 39); // brand, type, size, color, price
 var slips = new Slips('Abanderado', 42, 'purple', 13.99);// brand, size, color, price
 var mobile = new Mobile('Apple', 'iPhone X', 'space-gray', 999); // brand, type, color, price
@@ -16,7 +16,7 @@ var shorts = new Shorts('Adidas', 'Sport', 42, 'blue', 35); // brand, type, size
 var sweater = new Sweater('Diesel', 'M', 'black', 149); // brand, size, color, price
 
 cart.add(socks);
-cart.add(tanga);
+cart.add(thong);
 cart.add(bra);
 cart.add(slips);
 cart.add(mobile);

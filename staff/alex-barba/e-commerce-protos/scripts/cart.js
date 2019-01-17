@@ -5,76 +5,75 @@
  * 
  * @returns {Array}
  * 
- * Then, 8 following functions are created to iterate over the object.
+ * Then, the 8 following functions are created to iterate over the object.
  * 
  */
 
 function Cart() {
+
+ /* A cart list is created to add all the products */ 
+
     this.cartList = [];
 
-    this.add = function(item) {
-        if(!(item instanceof Object)) throw new TypeError(item + ' is not an object');
+ /* Function to add products in your cart */   
+
+    Cart.prototype.add = function(item) {
+        if(!(item instanceof Object)) throw new TypeError(item + ' is not a product');
         this.cartList.push(item)
     };
 
-    this.totalPrice = function() {
- 
-       var result = this.cartList.reduce(function(accumulator, currentValue) {
-            return accumulator + currentValue.price;
-       }, 0)
-       
-       return result
+ /* Function to calculate the total price of your cart */   
+
+    Cart.prototype.totalPrice = function() {
+       return this.cartList.reduce(function(accumulator, item) {
+            return accumulator + item.price;
+       }, 0);
     };
 
-    this.numberOfItems = function(array) {
+ /* Function to calculate the total number of products in your cart */ 
+
+    Cart.prototype.numberOfItems = function() {
         var num = this.cartList.length;
-        return 'The total number of items is: ' + num + '.'
-    }
+        return 'The total number of items is: ' + num + '.';
+    };
 
-    this.mostExpensive = function(array) {
-        var index = 0;
-        for (var i = 0; i < this.cartList.length; i++){
-            if (this.cartList[i].price > this.cartList[index].price) {
-                index = i
+ /* Function to find out the most expensive product in your cart */ 
+
+    Cart.prototype.mostExpensive = function() {
+        return this.cartList.reduce(function(accum, item) {
+            return accum.price < item.price ? item : accum;
+        })
+    };
+
+ /* Function to find out the cheapest product in your cart */ 
+
+    Cart.prototype.cheapest = function() {
+        return this.cartList.reduce(function(accum, item) {
+            return accum.price > item.price ? item : accum;
+        })
+    };
+
+ /* Function to find out the number of products of the type chosen in your cart */ 
+ 
+    Cart.prototype.numberOf = function(type) {
+        if(typeof type !== 'function') throw TypeError(type + ' is not a function');
+        // if(type !== Product && (type.prototype instanceof Product)) throw TypeError (type + ' is not a product');
+
+        return this.cartList.reduce(function(accum, item) {
+            return item instanceof type ? ++accum : accum;
+        }, 0);
+    };
+
+ /* Function to find out the number of products in your cart in between a price range */ 
+
+    Cart.prototype.productsByPriceRange = function(min, max) {
+        if(typeof min !== 'number' || typeof max !== 'number') throw TypeError(min)
+        
+        return this.cartList.filter(function(item) {
+            if (item.price >= min && item.price <= max) {
+                return item
             }
-        }
-
-        return 'The most expensive item is : ' + this.cartList[index].brand + ' ' + this.cartList[index].type + '. Price: ' + this.cartList[index].price + '.'
-    }
-
-    this.cheapest = function(array) {
-        var index = 0;
-        for (var i = 0; i < this.cartList.length; i++){
-            if (this.cartList[i].price < this.cartList[index].price) {
-                index = i
-            }
-        }
-
-        return 'The cheapest products is : ' + this.cartList[index].brand + '. Price: ' + this.cartList[index].price + '.'
-    }
-
-    this.numberOf = function(type) {
-        var num = 0;
-        for (var i = 0; i < this.cartList.length; i++){
-            if (this.cartList[i] instanceof type) {
-                num++
-            }
-        }
-
-        return 'The total number of products is : ' + num + '.'
-    }
-
-    this.productsByPriceRange = function(min, max) {
-        var products = [];
-        for (var i = 0; i < this.cartList.length; i++){
-            var value = this. cartList[i];
-            if (value.price >= min && value.price <= max) {
-                products.push(value)
-            }
-        }
-
-        return products
-
+        });
     };
 
 };
