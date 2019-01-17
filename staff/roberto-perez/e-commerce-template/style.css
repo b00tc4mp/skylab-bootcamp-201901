@@ -115,13 +115,12 @@ article:last-child {
 }
 @media (min-width: 768px) {
     article {
-        flex: 0 0 45.94%;
-        padding: 15px;
+        flex: 0 0 50%;
     }
 }
 @media (min-width: 992px) {
     article {
-        flex: 0 0 30.2%;
+        flex: 0 0 33.333%;
     }
 }
 article img {
@@ -131,17 +130,22 @@ article img {
 article a {
     display: block;
 }
-.article-content {            
-    padding-bottom: 25px;
+.article-content {
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px -6px;
+    overflow: hidden;        
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
 }
 article header {
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px -6px;
-    overflow: hidden;
     padding: 15px;
+    display: flex;
+    flex-direction: column;
 }
 article h2 {
-    margin-top: 0px;
+    margin-bottom: 0px;
 }
 article p {
     margin: 0px;
+    padding: 15px;
 }
