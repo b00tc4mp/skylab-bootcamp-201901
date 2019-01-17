@@ -15,13 +15,40 @@ function splice(arr, start, deleteCount) {
   if (deleteCount === undefined || deleteCount > arr.length - start)
     deleteCount = arr.length - start;
 
-
-  for(var i = 0; i < arr.length, i++) {
-    
-  }
-  /*var newArray = [];
+  var newArray = [];
   var deleteArray = [];
   var indexNewArray = 0;
+  var k = 0;
+
+  for (var i = 0; i < arr.length; i++) {
+    if (i <= start) {
+      newArray[indexNewArray++] = arr[i];
+    }
+    if (i >= start && i < newArray.length + deleteCount && deleteCount > 0) {
+      deleteArray[k++] = arr[i];
+    }
+
+    if (arguments[3] && i == start) {
+      console.log('xDDD', newArray);
+      for (var j = 3; j < arguments.length; j++) {
+        newArray[indexNewArray++] = arguments[j];
+      }
+      console.log('xDDD', newArray);
+    }
+
+    if (i >= newArray.length + deleteCount && i < arr.length) {
+      newArray[indexNewArray++] = arr[i];
+    }
+  }
+
+  for (var i = 0; i < newArray.length; i++) {
+    var element = newArray[i];
+    arr[i] = element;
+  }
+
+  arr.length = newArray.length;
+
+  /*
 
   for (var i = 0; i < start; i++) {
     newArray[indexNewArray++] = arr[i];
@@ -56,7 +83,7 @@ function splice(arr, start, deleteCount) {
 
 var myFish = ["angel", "clown", "drum", "mandarin", "sturgeon"];
 console.log("ORIGINAL: ", myFish);
-var removed = myFish.splice(1, 0, "drum");
+var removed = myFish.splice(2, 0, "drum");
 console.log("DELETED: ", removed);
 console.log("MUTATED", myFish);
 console.log("-----------------");
