@@ -32,7 +32,7 @@ main {
     width: 80px;
     grid-column-start: 1;
     grid-row-start: 1;
-    background-color: greenyellow;
+    background-color: rgb(204,204,204);
 }
 
 #searchBar {
@@ -45,13 +45,14 @@ main {
 
 #searchBar > input {
     grid-column-start: 1;
+    padding-left: 1em;
     grid-row-start: 1;
     grid-column-end: span 3;
 }
 #searchBar > button {
     grid-column-start: 3;
     grid-row-start: 2;
-    background-color: greenyellow;
+    background-color: rgb(204,204,204);
     width: 100%;
 }
 
@@ -61,7 +62,7 @@ main {
 
 #burguer {
     height: 100%;
-    background-color: greenyellow;
+    background-color: rgb(204,204,204);
 }
 
 #twoItemsNav {
@@ -70,16 +71,20 @@ main {
 
 .product {
     width: 100%;
-    background-color: red;
+    background-color: white;
     display: grid;
     grid-gap: 10px;
     grid-template-rows: 50px 300px 1fr;
+    border: 4px solid rgb(204,204,204);
+    border-radius: 14px;
 }
 
 #productName {
     grid-row-start: 1;
     background-color: plum;
     padding-left: 10px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
 }
 
 #productImage {
@@ -89,8 +94,10 @@ main {
 
 #productDescription {
     grid-row-start: 3;
-    background-color: peru;
+    background-color: plum;
     padding: 10px;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
 }
 
 
@@ -130,13 +137,13 @@ main {
     #about {
         height: 100%;
         grid-column-start: 1;
-        background-color: coral;
+        background-color: rgb(204,204,204);
     }
 
     #contact {
         height: 100%;
         grid-column-start: 2;
-        background-color: crimson;
+        background-color: rgb(204,204,204);
     }
 
 }
@@ -181,7 +188,7 @@ main {
         width: 300px;
         grid-column-start: 1;
         grid-row-start: 1;
-        background-color: greenyellow;
+        background-color: rgb(204,204,204);
     }
 
 }
