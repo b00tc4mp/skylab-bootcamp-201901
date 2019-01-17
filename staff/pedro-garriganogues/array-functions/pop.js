@@ -2,8 +2,8 @@
  * Abstraction of fill.
  * 
  * 
- * 
- * @param {Array} arr
+ * @param {Res} - result
+ * @param {Array} - array
  * 
  * @throws {TypeError} - If array is not an array
  */
