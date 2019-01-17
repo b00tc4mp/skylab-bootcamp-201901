@@ -19,14 +19,20 @@ function Cart() {
 
     Cart.prototype.add = function(item) {
         if(!(item instanceof Object)) throw new TypeError(item + ' is not a product');
-        this.cartList.push(item)
+        for(var i = 0; i < arguments.length; i++){
+            this.cartList.push(item)
+        }
     };
 
  /* Function to calculate the total price of your cart */   
 
     Cart.prototype.totalPrice = function() {
-       return this.cartList.reduce(function(accumulator, item) {
-            return accumulator + item.price;
+        return this.cartList.reduce(function(accumulator, item) {
+            if(item.price === undefined) {
+                return accumulator 
+            } else{
+                return accumulator + item.price;
+            }
        }, 0);
     };
 
@@ -34,30 +40,37 @@ function Cart() {
 
     Cart.prototype.numberOfItems = function() {
         var num = this.cartList.length;
-        return 'The total number of items is: ' + num + '.';
+        return num
     };
 
  /* Function to find out the most expensive product in your cart */ 
 
     Cart.prototype.mostExpensive = function() {
-        return this.cartList.reduce(function(accum, item) {
-            return accum.price < item.price ? item : accum;
-        })
+        if(this.cartList.length === 0){
+            return undefined
+        } else {
+            return this.cartList.reduce(function(accum, item) {
+                return accum.price < item.price ? item : accum;
+            })
+        }  
     };
 
  /* Function to find out the cheapest product in your cart */ 
 
     Cart.prototype.cheapest = function() {
-        return this.cartList.reduce(function(accum, item) {
-            return accum.price > item.price ? item : accum;
-        })
+        if(this.cartList.length === 0){
+            return undefined
+        } else {
+            return this.cartList.reduce(function(accum, item) {
+                return accum.price > item.price ? item : accum;
+            })
+        }
     };
 
  /* Function to find out the number of products of the type chosen in your cart */ 
  
     Cart.prototype.numberOf = function(type) {
         if(typeof type !== 'function') throw TypeError(type + ' is not a function');
-        // if(type !== Product && (type.prototype instanceof Product)) throw TypeError (type + ' is not a product');
 
         return this.cartList.reduce(function(accum, item) {
             return item instanceof type ? ++accum : accum;
@@ -69,8 +82,19 @@ function Cart() {
     Cart.prototype.productsByPriceRange = function(min, max) {
         if(typeof min !== 'number' || typeof max !== 'number') throw TypeError(min)
         
+        var minA = 0;
+        var maxA = 0;
+
+        if(min > max){
+            maxA = min;
+            minA = max;
+        } else {
+            minA = min;
+            maxA = max;
+        };
+
         return this.cartList.filter(function(item) {
-            if (item.price >= min && item.price <= max) {
+            if (item.price >= minA && item.price <= maxA) {
                 return item
             }
         });
