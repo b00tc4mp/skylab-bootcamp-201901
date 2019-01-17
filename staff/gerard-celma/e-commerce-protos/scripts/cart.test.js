@@ -15,11 +15,11 @@ test('add 1 product to cart', function() {
     assert(res === expected, 'expected and result should be the same');
 });
 
-test('fail on number instead of object', function() {
+test('fail on everything except Product', function() {
     var error;
 
     try{
-        cart.add(1);
+        cart.add({});
     } catch(err) {
         error = err;
     }
