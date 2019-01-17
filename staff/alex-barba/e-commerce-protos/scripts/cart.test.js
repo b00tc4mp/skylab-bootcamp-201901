@@ -77,9 +77,9 @@ test('evaluates that .totalPrice provides the right result ', function() {
     cart.add(sweater);
 
     var found = cart.totalPrice();
-    var expected = 'Total: 4085.92.';
+    var expected = 4085.92;
 
-    assert((found.toString() === expected), 'result does not match')
+    assert((found === expected), 'result does not match')
 
 });
 
@@ -276,10 +276,10 @@ test('evaluates that .productsByPriceRange provides the right result ', function
     cart.add(shorts);
     cart.add(sweater);
 
-    var found = cart.productsByPriceRange(30, 120);
-    var expected = 'The total number of products is : 4.';
+    var found = cart.productsByPriceRange(30, 120).length;
+    var expected = 4;
 
-    assert((found.toString() === expected), 'result does not match')
+    assert((found === expected), 'result does not match')
 
 });
 
