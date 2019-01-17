@@ -1,0 +1,219 @@
+$fbotonsize: 0.75em
+    
+*
+    font-family: 'PT Sans', serif
+
+
+    
+//CABECERAS
+//-------------------------------//  
+
+@media screen and (min-width: 100px)
+    .headerprincipal
+        padding-left: 0.5em
+        background-color: white
+        display: flex
+        justify-content: space-between
+        align-items: center
+        width: 100%
+
+    .headerprincipal__title
+        color: #42f49e
+
+    .headerprincipal__burger
+
+        .menudesplegableburger a
+            visibility: none
+            display: none
+
+        .imageburger
+            visibility: visible
+            width: 50px
+            height: 50px
+            justify-content: flex-end
+
+    .subheader
+        padding-left: 0.5em
+        background-color: #42f49e
+        height: 100px
+        display: flex
+        align-items: center
+        width: 100%
+
+        .subheader__title
+            color: white
+
+
+        //MAIN
+            //-------------------------------//  
+    .sectionmain
+        display: flex
+        flex-direction: column
+        align-items: center
+        margin-top: 2em
+        margin-bottom: 2em
+        padding: 0.25em
+
+        .sectionmain__formulario
+            width: 100%
+            margin-bottom: 1em
+            font-style: inherit
+
+        .sectionmain__formulario form
+            width: 100%
+            display: flex
+            flex-direction: column
+
+            input[type=submit]
+                border-radius: 6px
+
+            input[type=text]
+                border-radius: 6px
+
+
+        .sectionmain__contenido img
+            max-width: 100%
+    //FOOTER
+    //-------------------------------//  
+    .GammaFeatures
+        padding-left: 0.5em
+        display: block
+        background-color: #42f49e
+        color: white
+        padding-bottom: 0
+        
+        ul
+            list-style: none
+            
+            li:before
+                content: '✓ '
+
+    .footer1
+        background-color: black
+        color: white
+        display: flex
+        flex-direction: column
+        justify-content: center
+        min-height: 50px
+
+        .footer1_firstrow
+            display: flex
+            flex-direction: row
+            justify-content: space-around
+            
+
+            h5
+                margin:0
+                a
+                    color: inherit
+                    font-style: none
+
+        .footer1_secondrow
+            display: flex
+            flex-direction: row
+            justify-content: center
+            
+            h5 a
+                color: inherit
+                font-style: none
+
+//A PARTIR DE 900PX
+//----------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------------//
+
+
+@media screen and (min-width: 900px)
+
+    .headerprincipal   
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        padding-left: 5%
+        padding-right: 5%
+        padding: 0
+
+        .headerprincipal__burger
+
+            .menudesplegableburger
+                justify-content: flex-start
+
+            .menudesplegableburger a
+                visibility: visible
+                display: inline
+                color: black
+                margin: 1em
+                font-size: 1.2em
+                text-decoration: none
+            .imageburger
+                visibility: hidden
+                display: none
+    .subheader
+        padding-left: 5%
+        width: 95%
+    .sectionmain
+        padding-left: 5%
+        padding-right: 5%
+    .GammaFeatures
+        padding-left: 5%
+        padding-right: 5%
+
+
+//A PARTIR DE 1400PX
+//----------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------------//
+
+@media screen and (min-width: 1400px)
+
+    .headerprincipal
+
+        .headerprincipal__title
+            font-size: $fbotonsize * 5
+        
+        .headerprincipal__burger
+            .menudesplegableburger
+                a
+                        font-size: $fbotonsize * 2.5
+
+
+    .sectionmain
+        display: grid
+        grid-template-columns: 2fr 1.2fr
+        column-gap: 3em
+    
+        .sectionmain__formulario
+            font-size: 2em
+
+            input
+                font-size: $fbotonsize
+
+            input[type=submit]
+                font-size: $fbotonsize
+                width: 25%
+                justify-content: center
+
+            .input[type=text]
+                resize: both
+                overflow: auto
+
+        .sectionmain__contenido
+
+            .sectionmain__texto button
+                font-size: $fbotonsize*1.5
+            .sectionmain__texto
+                font-size: $fbotonsize*1.5
+    
+    .GammaFeatures
+        font-size: $fbotonsize*2
+        display: flex
+        flex-direction: row
+        justify-content: space-around
+
+    .footer1
+        font-size: $fbotonsize*2
+
+
+               
