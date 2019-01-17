@@ -58,7 +58,7 @@ body {
   }
 
   .normal_menu{
-    visibility: hidden;
+    display: none;
   }
 
   .menu{
@@ -139,11 +139,11 @@ body {
     }
 
     .mobile_menu{
-      visibility: hidden;
+      display: none;
     }
 
     .normal_menu{
-      visibility: visible;
+      display: block;
       margin-right: 0.5rem;
     }
 
