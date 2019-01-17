@@ -24,7 +24,7 @@ test('succeed on change the original array', function () {
     var res = reverse(arr);
     var expected = ['c', 'b', 'a'];
 
-    if (arr !== res ) throw Error('Expected value: ' + expected + ' does not match the result' + res);
+    if (arr !== res) throw Error('Expected value: ' + expected + ' does not match the result' + res);
     if (expected.toString() !== arr.toString()) throw Error('Expected array ' + expected + ' does not match the result' + res);
 
 });

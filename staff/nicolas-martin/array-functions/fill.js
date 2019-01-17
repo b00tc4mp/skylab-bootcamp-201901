@@ -11,6 +11,7 @@
  * @throws {Error} - If too many arguments (> 4)
  * @throws {TypeError} - If array is not an array
  */
+
 function fill(array, value, start, end) {
     if (arguments.length > 4) throw Error('too many arguments');
 

@@ -1,13 +1,13 @@
 suite('join');
 
-test('succed on joining elements without parameter', function (){
+test('succeed on joining elements without parameter', function (){
     var arr = [1, 2, 3];
     var res = join(arr);
     var expected = '1,2,3';
     if (res !== expected) throw Error('return value from join: ' + res + ' does not match expected: ' + expected);
 });
 
-test('succed on joining elements with a string separator ', function (){
+test('succeed on joining elements with a string separator ', function (){
     var arr = ['a', 'c'];
     var res = join(arr, 'b');
     var expected = 'abc';
@@ -16,7 +16,7 @@ test('succed on joining elements with a string separator ', function (){
 
 });
 
-test('fail on number instead of array', function (){
+test('fail on object instead of array', function (){
     var err;
     var arr = {};
 
