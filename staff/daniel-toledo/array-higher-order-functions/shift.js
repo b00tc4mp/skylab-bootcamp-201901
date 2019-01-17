@@ -6,19 +6,21 @@
  * 
  * @param {Array} arr - Array to be shifted
  * 
+ * @throws {TypeError} - when array is not an Array
+ * 
  * @return {Array} - Array shifted
  */
 
-function shift(arr){
+function shift(array){
 
-    if(!(arr instanceof Array)) throw TypeError(arr+' should be an Array.')
+    if(!(array instanceof Array)) throw TypeError(array+' should be an Array.')
 
-    var first=arr[0];
-    var copy=Object.assign([],arr)
+    var first=array[0];
+    var copy=Object.assign([],array)
 
-    arr.length=arr.length-1
-    for (var i=0; i<arr.length; i++){
-        arr[i]=copy[i+1]
+    array.length=array.length-1
+    for (var i=0; i<array.length; i++){
+        array[i]=copy[i+1]
     }
 
     return first

@@ -1,40 +1,40 @@
-suite('test SLICE')
+suite('Slice');
 
-test('test cutting one argument diffining start and end', function(){
+test('cutting one argument diffining start and end', function(){
     var arr=[1,2,3,4,5];
 
     res=slice(arr,2,3)
 
-    if(res.toString()!==[3].toString()) throw Error('Unexpected value')
+    assert(res.toString()===[3].toString(),'Unexpected value')
 
 });
 
-test('test cutting arguments without ending', function(){
+test('cutting arguments without ending', function(){
     var arr=[1,2,3,4,5];
 
     res=slice(arr,2);
 
-    if(res.toString()!==[3,4,5].toString()) throw Error('Unexpected value');
-    if(arr.toString()!==[1,2,3,4,5].toString()) throw Error('The arr should not be modified')
+    assert(res.toString()===[3,4,5].toString(),'Unexpected value');
+    assert(arr.toString()===[1,2,3,4,5].toString(),'The arr should not be modified')
 });
 
-test('test cutting arguments without start and ending', function(){
+test('cutting arguments without start and ending', function(){
     var arr=[1,2,3,4,5];
 
     res=slice(arr, undefined, 5);
 
-    if(res.toString()!==[1,2,3,4,5].toString()) throw Error('Unexpected value')
+    assert(res.toString()===[1,2,3,4,5].toString(),'Unexpected value')
 });
 
-test('test cutting arguments with start higher than end', function(){
+test('cutting arguments with start higher than end', function(){
     var arr=[1,2,3,4,5];
 
     res=slice(arr, 3, 2);
 
-    if(res.toString()!==[].toString()) throw Error('Unexpected value')
+    assert(res.toString()===[].toString(),'Unexpected value')
 });
 
-test('test arr is not an Array', function(){
+test('arr is not an Array', function(){
     var error;
 
     try{
@@ -43,8 +43,8 @@ test('test arr is not an Array', function(){
         error=err
     }
 
-    if(!error) throw Error('Should shown an error');
-    if(!(error instanceof TypeError)) throw Error('error type should be TypeError');
+    assert(error,'Should shown an error');
+    assert(error instanceof TypeError,'error type should be TypeError');
 
 });
 

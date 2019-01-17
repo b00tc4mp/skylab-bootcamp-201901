@@ -1,15 +1,15 @@
-suite('Test Shift');
+suite('Shift');
 
-test('test delating first element', function () {
+test('delating first element', function () {
     arr = ['hola', 'mundo']
 
     res = shift(arr);
 
-    if (res !== 'hola') throw Error('Unexpected value')
-    if (arr.toString() !== ['mundo'].toString()) throw Error('Unexpected arr value')
+    assert(res === 'hola','Unexpected value')
+    assert(arr.toString() === ['mundo'].toString(),'Unexpected arr value')
 });
 
-test('test arr is not an Array', function(){
+test('arr is not an Array', function(){
     var error;
 
     try{
@@ -18,7 +18,7 @@ test('test arr is not an Array', function(){
         error=err;
     }
 
-    if(!error) throw Error('sould throw an error');
-    if(!(error instanceof TypeError)) throw Error('error should be TypeError')
+    assert(error,'sould throw an error');
+    assert(error instanceof TypeError,'error should be TypeError')
 
 });

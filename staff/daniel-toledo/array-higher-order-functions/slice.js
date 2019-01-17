@@ -6,21 +6,24 @@
  * from begin to end (end not included). 
  * The original array will not be modified.
  * 
+ * @param {Array} arr - array to slice
  * @param {number} start - start value to cut.
  * @param {number} end - end value to cut
+ * 
+ * @throws {TypeError} - when array is not an Array
  * 
  * @return {Array} - cut array
  */
 
-function slice(arr, start, end){
-    if(!(arr instanceof Array)) throw TypeError(arr+' should be an array');
+function slice(array, start, end){
+    if(!(array instanceof Array)) throw TypeError(array+' should be an array');
 
     start = start===undefined? 0 : start;
-    end = end===undefined? arr.length : end;
+    end = end===undefined? array.length : end;
 
     var res=[]
     for (var i=start; i<end; i++){
-        res[res.length]=arr[i]
+        res[res.length]=array[i]
     }
     
     return res

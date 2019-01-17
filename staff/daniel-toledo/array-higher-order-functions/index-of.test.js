@@ -1,41 +1,41 @@
 
-suite('TEST indexOf');
+suite('indexOf');
 
 //use case 1
 
-test('test with value inside array', function(){
+test('value inside array', function(){
     var arr=[1,2,3,4,5]
     var find=5
 
     res=indexOf(arr,find)
 
-    if (res!=4) throw Error ('it should give the expected index')
+    assert(res===4,'it should give the expected index')
 
 });
 
-test('test with value outside array', function(){
+test('value outside array', function(){
     var arr=[1,2,3,4,5];
     var find=8;
 
     res=indexOf(arr,find)
 
-    if (res!=-1) throw Error ('it should give the expected index')
+    assert(res===-1,'it should give the expected index')
 
 
 });
 
-test ('test different start', function(){
+test ('different start', function(){
     var arr=[1,8,3,8,5];
     var find=8;
     var start=2
 
     res=indexOf(arr,find,start)
 
-    if (res!=3) throw Error ('Unexpected value')
+    assert(res===3,'Unexpected value')
 
 });
 
-test('test arr is not an Array', function(){
+test('arr is not an Array', function(){
     
     var error;
 
@@ -45,12 +45,12 @@ test('test arr is not an Array', function(){
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
-    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
+    assert(error,'should have thrown an error');
+    assert(error instanceof TypeError,'should have thrown TypeError');
 
 });
 
-test('test too many arguments', function(){
+test('too many arguments', function(){
     var arr=[1,2,3,4,5];
     var error;
 
@@ -60,7 +60,7 @@ test('test too many arguments', function(){
         error = err;
     }
 
-    if (!error) throw Error('should have thrown an error');
+    assert(error,'should have thrown an error');
 
 });
 

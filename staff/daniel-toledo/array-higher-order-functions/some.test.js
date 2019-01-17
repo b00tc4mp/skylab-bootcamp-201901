@@ -1,24 +1,24 @@
-suite('Test SOME');
+suite('Some');
 
-test('test with a function that satisfies', function(){
+test('with a function that satisfies', function(){
     var arr=[1,2,3,4,5,6]
 
     res=some(arr, function(element) {return element%2===0})
 
-    if(res!=true) throw Error('Unexpected value')
+    assert(res===true,'Unexpected value')
 
 });
 
-test('test with a function that not satisfies', function(){
+test('with a function that not satisfies', function(){
     var arr=[1,2,3,4,5,6]
 
     res=some(arr, function(element) {return element>10})
 
-    if(res!=false) throw Error('Unexpected value')
+    assert(res===false,'Unexpected value')
 
 });
 
-test('test arr is not an Array', function(){
+test('arr is not an Array', function(){
 
     var error
 
@@ -28,12 +28,12 @@ test('test arr is not an Array', function(){
         error=err
     }
 
-    if(!error) throw Error('it should show an error');
-    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
+    assert(error,'it should show an error');
+    assert(error instanceof TypeError,'should have thrown TypeError');
     
 });
 
-test('test callback is not a Function', function(){
+test('callback is not a Function', function(){
     var error
 
     try{
@@ -42,22 +42,7 @@ test('test callback is not a Function', function(){
         error=err
     }
 
-    if(!error) throw Error('it should show an error');
-    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
-
-});
-
-test('test too many arguments', function(){
-    var error
-    var arr = [1, 2, 3, 4, 5];
-
-    try{
-        some(arr, function(){}, function(){})
-    } catch(err){
-        error=err
-    }
-
-    if(!error) throw Error('it should show an error');
-
+    assert(error,'it should show an error');
+    assert(error instanceof TypeError,'should have thrown TypeError');
 
 });

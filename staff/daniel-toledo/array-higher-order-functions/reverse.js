@@ -5,17 +5,19 @@
  * and the last array element becomes the first
  *
  * @param {Array} arr - The array to reverse.
+ * 
+ * @throws {TypeError} - when array is not an Array
  *
  *@return {Array} - Array revertida
  */
-function reverse(arr) {
-    if(!(arr instanceof Array)) throw TypeError(arr+' should be an Array')
+function reverse(array) {
+    if(!(array instanceof Array)) throw TypeError(array+' should be an Array')
 
-    var res=Object.assign([],arr)
+    var res=Object.assign([],array)
 
-    for (var i=0; i<arr.length; i++){
-        arr[i]=res[res.length-1-i]
+    for (var i=0; i<array.length; i++){
+        array[i]=res[res.length-1-i]
     }
 
-    return arr
+    return array
 }

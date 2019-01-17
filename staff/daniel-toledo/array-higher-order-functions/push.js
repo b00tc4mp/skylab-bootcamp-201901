@@ -8,13 +8,15 @@
  * @param {Array} arr - The array to join.
  * @param {} value - static value to push. It can have infinite arguments
  *
+ * @throws {TypeError} - when array is not an Array
+ * 
  * @return {Number} - The length od the new arr
  */
-function push(arr) {
-    if(!(arr instanceof Array)) throw TypeError('arr'+ ' is not an Array')
+function push(array) {
+    if(!(array instanceof Array)) throw TypeError(array+ ' is not an Array')
 
-    var l=arr.length
+    var l=array.length
     for (var i=0; i<arguments.length-1; i++)
-        arr[l+i]=arguments[1+i]
-    return arr.length
+        array[l+i]=arguments[1+i]
+    return array.length
 }

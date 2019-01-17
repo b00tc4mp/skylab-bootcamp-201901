@@ -4,18 +4,22 @@
  * this method changes the contents of an array by removing or replacing existing 
  * elements and/or adding new elements.
  * 
- * @param {Array} arr -array to splice
+ * @param {Array} array -array to splice
  * @param {number} start -number to start to splice
- * @param {number} del - number of elements to delate
+ * @param {number} delated - number of elements to delate
  * @param {*} items - items that I want to add. The number of items can be infinit.
  * 
+ * @throws {TypeError} - when array is not an Array
+ * @throws {TypeError} - when del or start are not numbers
+ * 
+ * @return {Array} - cut array
  */
 
-function splice(arr, start, del) {
-    if(!(arr instanceof Array)) throw TypeError(arr+' should be an Array');
+function splice(array, start, delated) {
+    if(!(array instanceof Array)) throw TypeError(array+' should be an Array');
     if ( typeof start!=="number") throw TypeError(start+' is not a number');
 
-    del = del===undefined? arr.length : del
+    delated = delated===undefined? array.length : delated
 
     var res = [];
     var orig = [];
@@ -37,34 +41,34 @@ function splice(arr, start, del) {
         }
     }
 
-    for (var i = 0; i < arr.length; i++) {
-        if (i >= start && i < (del + start)) {
-            res[res.length] = arr[i];
+    for (var i = 0; i < array.length; i++) {
+        if (i >= start && i < (delated + start)) {
+            res[res.length] = array[i];
 
-        } else if (i >= (del + start)) {
-            final[final.length] = arr[i];
+        } else if (i >= (delated + start)) {
+            final[final.length] = array[i];
 
         } else {
-            orig[orig.length] = arr[i];
+            orig[orig.length] = array[i];
         }
     }
 
 
 
-    arr.length = orig.length + items.length + final.length;
+    array.length = orig.length + items.length + final.length;
 
 
-    for (var i = 0; i < arr.length; i++) {
+    for (var i = 0; i < array.length; i++) {
         if (i >= start && countItems < items.length) {
-            arr[i] = items[countItems];
+            array[i] = items[countItems];
             countItems++;
 
         } else if (i >= start && countItems === items.length) {
-            arr[i] = final[countFinal];
+            array[i] = final[countFinal];
             countFinal++;
 
         } else {
-            arr[i] = orig[i];
+            array[i] = orig[i];
         }
 
 
