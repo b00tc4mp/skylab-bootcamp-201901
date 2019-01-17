@@ -9,22 +9,22 @@
  * 
  */
 
-
 function Cart() {
     this.cartList = [];
 
     this.add = function(item) {
         if(!(item instanceof Object)) throw new TypeError(item + ' is not an object');
         this.cartList.push(item)
-    }
+    };
 
-    this.totalPrice = function(array) {
-        var total = 0;
-        for (var i = 0; i < this.cartList.length; i++){
-            total += this.cartList[i].price
-        }
-        return 'Total: ' + total + '.'
-    }
+    this.totalPrice = function() {
+ 
+       var result = this.cartList.reduce(function(accumulator, currentValue) {
+            return accumulator + currentValue.price;
+       }, 0)
+       
+       return result
+    };
 
     this.numberOfItems = function(array) {
         var num = this.cartList.length;
@@ -65,16 +65,16 @@ function Cart() {
     }
 
     this.productsByPriceRange = function(min, max) {
-        var num = 0;
+        var products = [];
         for (var i = 0; i < this.cartList.length; i++){
-            if (this.cartList[i].price >= min && this.cartList[i].price <= max) {
-                num++
+            var value = this. cartList[i];
+            if (value.price >= min && value.price <= max) {
+                products.push(value)
             }
         }
 
-        return 'The total number of products is : ' + num + '.'
+        return products
 
-    }
-
+    };
 
 };
