@@ -1,7 +1,9 @@
 /**
  * Abstraction of reduce
  * 
- * TO DO
+ * this method method executes a reducer function 
+ * (that you provide) on each member of the array resulting 
+ * in a single output value.
  * 
  * @param {Array} array  -The array to operate on
  * @param {Function} callback  - The expression to evaluate
@@ -20,10 +22,10 @@ function reduce(array, callback, accumulator) {
     var i;
 
     if(accumulator===undefined){
-        accumulator=[0];
+        accumulator=array[0];
         i=1;
 
-    }
+    } else{i=0}
     
     for(; i<array.length; i++){
         var item=array[i];
