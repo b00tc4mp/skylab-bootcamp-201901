@@ -1,12 +1,10 @@
 suite('Cart', function () {
-
     describe('card creation and adding products', function () {
         it('should creats a Cart', function () {
             var cart = new Cart;
 
             expect(cart instanceof Cart, 'Unexpected value');
             expect(cart.cartList.toString() === [].toString(), 'cardList undefined')
-
         });
 
         it('should creat a Cart and add strings one by one', function () {
@@ -19,7 +17,6 @@ suite('Cart', function () {
 
 
             expect(cart.cartList.toString() === ['mobile', 'mobile2', 'laptop', 'desktop'].toString(), 'Unexpected value')
-
         });
 
         it('should creat a Cart and add things with more than one argument', function () {
@@ -28,9 +25,7 @@ suite('Cart', function () {
             cart.add('mobile','mobile2','laptop','desktop');
           
             expect(cart.cartList.toString() === ['mobile', 'mobile2', 'laptop', 'desktop'].toString(), 'Unexpected value')
-
         });
-
     });
 
     describe('function total price', function () {
@@ -50,7 +45,6 @@ suite('Cart', function () {
             expected = 78.94
 
             expect(res === expected, 'Unexpected value')
-
         });
 
         it('should sum all the prices even the ones that has no price', function () {
@@ -69,9 +63,7 @@ suite('Cart', function () {
             expected = 30
 
             expect(res === expected, 'Unexpected value')
-
         });
-
     });
 
     describe('function number of products', function () {
@@ -311,7 +303,6 @@ suite('Cart', function () {
             expect(error instanceof TypeError, 'the error shoyld be TypeError');
         });
     });
-
 });
 
 
