@@ -1,14 +1,19 @@
 function slice(array,begin,end){
 
 if(!(array instanceof Array)) throw TypeError (array + ' is not an array')
-begin =  typeof begin === Number ? (begin >= 0 ? begin:arr.length+begin):0 
-end =  typeof end === Number ? (end >= 0 ? end-1:arr.length+end):arr.length
+begin =  typeof begin === 'number' ? (begin >= 0 ? (begin > array.length? 0: begin): arr.length+begin):0 
+end =  typeof end === 'number' ? (end>=0 ? (end>array.length?array.length:end ): array.length+end ): array.length;
 
 var sliced = [];
 
 for(i=begin;i<end;i++){
 
-    sliced[i]=array[i];
+    if(sliced.length == 0)
+    {
+        sliced[0]= array[i];
+    }else{
+        sliced[sliced.length] = array[i]
+    }
 }
 
 return sliced;
@@ -16,6 +21,3 @@ return sliced;
 }
 
 
-var arr =[1,2,3,4]
-
-slice(arr);
