@@ -4,7 +4,7 @@ function Horroy() {
     if (arguments.length)
         for(var i = 0; i < arguments.length; i++)
             this.push(arguments[i]);
-}
+};
 
 Horroy.prototype.push = function(value) {
     this[this.length++] = value;
