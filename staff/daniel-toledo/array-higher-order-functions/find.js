@@ -7,18 +7,22 @@
  * @param {Array} arr - The array to find.
  * @param {Function} callback - testing funtion
  * 
+ * @throws {TypeError} - when array is not an Array
+ * @throws {TypeError} - when callback is not a Function
+ * @throws {Error} - when there is too much arguments
+ * 
+ * 
  *@return {*} - The found value. Undefined if value is not found
  */
-function find(arr, callback) {
+function find(array, callback) {
 
     if(arguments.length >2) throw Error('too many arguments')
 
-    if(!(arr instanceof Array)) throw TypeError(arr+' should be an Array')
-
+    if(!(array instanceof Array)) throw TypeError(array+' should be an Array')
     if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function')
 
-    for (var i=0; i<arr.length; i++){
-        var value = arr[i]
+    for (var i=0; i<array.length; i++){
+        var value = array[i]
         if (callback(value)) return value
     }
     
