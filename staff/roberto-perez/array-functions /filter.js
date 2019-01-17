@@ -22,11 +22,3 @@ function filter(arr, callback) {
 
   return newArr;
 }
-
-var words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
-
-const result = words.filter(word => word.length > 6);
-
-console.log('@', result);
-
-console.log("----------------");
