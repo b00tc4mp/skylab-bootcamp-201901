@@ -5,6 +5,8 @@ test('array as parameter, all ok', function() {
 
     var res = reverse(arr);
 
+    console.log(res);
+
     var expected = [3,2,1];
 
     if(res.toString() !== expected.toString()) throw Error ("Expected result '" + expected + "' not matched");
