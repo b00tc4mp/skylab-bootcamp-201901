@@ -15,7 +15,7 @@ function splice(array, start, end, element){
     if(arguments.length > 3){
         var element = []
         for(var i = 3; i < arguments.length; i++){
-            element[i-3] = argument[i]
+            element[i-3] = arguments[i]
         }
     }
 

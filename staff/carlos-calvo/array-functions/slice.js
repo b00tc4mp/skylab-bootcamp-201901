@@ -32,9 +32,3 @@ function slice(array, start, end){
     }
     return arrayreturn
 }
-
-var array1= [0,1,2,3,4,5,6,7,8,9,10]
-console.log(array1)
-
-var arraymodified = slice(array1)
-console.log(arraymodified)
