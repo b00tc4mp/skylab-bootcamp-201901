@@ -9,13 +9,33 @@
 
 function slice(array, a, b) {
     var newArray = [];
+    if (a === undefined) {
+        a = 0;
+    }
     if (b === undefined) {
         b = (array.length - 1);
     };
-    for (var i = a; i < (b + 1); i++) {
+    if (a < 0) {
+        a = (array.length + a);
+    }
+    if (b < 0) {
+        b = ((array.length - 1) + b);
+    }
+    if (b > array.length) {
+        b = (array.length - 1)
+    }
+    if (a > array.length) {
+        newArray = [];
+        return newArray;
+    } else {
+        for (var i = a; i < (b + 1); i++) {
         newArray[i - a] = array[i];
+        };
+        return newArray;
     };
-    return newArray;
+    
 };
+
+slice([2, 3, 4, 5, 6, 7], -2);
 
 slice([2, 3, 4, 5, 6, 7], 2, 4);
