@@ -2,16 +2,10 @@ function Horroy() {
     this.length = arguments.length;
 
     if (arguments.length)
-<<<<<<< HEAD
-        for(var i = 0; i < arguments.length; i++)
-            this.push(arguments[i]);
-};
-=======
         for (var i = 0; i < arguments.length; i++)
             // this.push(arguments[i]); // WARN should avoid (if possible) calling member methods in a constructor (push)
             this[i] = arguments[i];
 }
->>>>>>> develop
 
 Horroy.from = function (value) {
     var horr = new Horroy

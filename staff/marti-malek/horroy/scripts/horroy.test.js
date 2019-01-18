@@ -100,9 +100,9 @@ suite('isHorroy', function () {
 suite('of', function () {
     describe('Correct of', function () {
         it('should return correct', function () {
-            var res = Horroy.of(7);
+            var res = Horroy.of(7,8);
 
-            var expected = new Horroy(7);
+            var expected = new Horroy(7,8);
             
             expect(res.toString() === expected.toString(), 'should return the correct answer');
         });
@@ -559,15 +559,15 @@ suite('shift', function () {
         });
     });
 });
-//TODO
+
 suite('slice', function () {
     describe('Correct slice', function () {
         it('should return correct', function () {
             var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
 
-            var res = a.slice(2,3);
+            var res = a.slice(2,4);
 
-            var expected = new Horroy(3);
+            var expected = new Horroy(3,4);
         
             expect(res.toString() === expected.toString(), 'should return the correct value');
         
@@ -594,7 +594,7 @@ suite('some', function () {
 suite('splice', function () {
     describe('Correct splice', function () {
         it('should return correct', function () {
-            var a = new Horroy(1, 2, 3, 4, 5, 6); // ~ [1, 2, 3]
+            var a = new Horroy(1, 2, 3, 4, 5, 6);
 
             var res = a.splice(1,2,'hola');
             var expected = new Horroy(2,3);
