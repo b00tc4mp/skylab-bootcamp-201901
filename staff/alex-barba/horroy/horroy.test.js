@@ -315,4 +315,145 @@ suite('horroy', function(){
             expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected);     
         });
     });
+
+    describe('.from function', function(){
+        it('argument is a string', function () {
+            
+            var found = Horroy.from('hola');
+        
+            var expected = ["h","o","l","a"];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
+            expect(found.length === expected.length, 'horroy and result should be the same');    
+        });
+
+        it('argument is a horroy', function () {
+            var hor= new Horroy(1,2,3);
+
+            var found = Horroy.from(hor);
+        
+            var expected = [1,2,3];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
+            expect(found.length === expected.length, 'horroy and result should be the same');    
+        });
+
+        it('argument is an array', function () {
+            var hor= [1,2,3];
+
+            var found = Horroy.from(hor);
+        
+            var expected = [1,2,3];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
+            expect(found.length === expected.length, 'horroy and result should be the same');    
+        });
+
+        it('argument is not iterable, returns empty horroy', function () {
+            var hor= {num:1};
+
+            var found = Horroy.from(hor);
+        
+            var expected = [];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
+            expect(found.length === expected.length, 'horroy and result should be the same');    
+        });
+
+        it('fails on null argument', function () {
+            var error;
+         
+            try {
+                Horroy.from(null);
+            } catch (err) {
+                error = err;
+            }
+        
+            expect(error, 'should have thrown an error');
+            expect((error instanceof Error) ,'error should be of type Error');
+        });
+    });
+
+    describe('.from function', function(){
+        it('argument is a string', function () {
+            
+            var found = Horroy.from('hola');
+        
+            var expected = ["h","o","l","a"];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
+            expect(found.length === expected.length, 'horroy and result should be the same');    
+        });
+
+        it('argument is a horroy', function () {
+            var hor= new Horroy(1,2,3);
+
+            var found = Horroy.from(hor);
+        
+            var expected = [1,2,3];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
+            expect(found.length === expected.length, 'horroy and result should be the same');    
+        });
+
+        it('argument is an array', function () {
+            var hor= [1,2,3];
+
+            var found = Horroy.from(hor);
+        
+            var expected = [1,2,3];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
+            expect(found.length === expected.length, 'horroy and result should be the same');    
+        });
+
+        it('argument is not iterable, returns empty horroy', function () {
+            var hor= {num:1};
+
+            var found = Horroy.from(hor);
+        
+            var expected = [];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
+            expect(found.length === expected.length, 'horroy and result should be the same');    
+        });
+
+        it('fails on null argument', function () {
+            var error;
+         
+            try {
+                Horroy.from(null);
+            } catch (err) {
+                error = err;
+            }
+        
+            expect(error, 'should have thrown an error');
+            expect((error instanceof Error) ,'error should be of type Error');
+        });
+    });
+
+    describe('.isHorroy function', function(){
+        it('all arguments', function () {
+            var hor = new Horroy(1,2,3);
+            
+            var found = Horroy.isHorroy(hor);
+        
+            var expected = true;
+        
+            expect(found === expected, 'found value ' + found + ' does not match expected ' + expected);     
+        });
+
+        it('returns false when value is null', function () {
+            var hor = {};
+            
+            var found = Horroy.isHorroy(hor);
+        
+            var expected = false;
+        
+            expect(found === expected, 'found value ' + found + ' does not match expected ' + expected);     
+        });
+
+    });
+
+
 });
