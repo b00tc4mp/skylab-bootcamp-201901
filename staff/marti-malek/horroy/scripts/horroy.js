@@ -400,6 +400,23 @@ Horroy.prototype.join = function(elem) {
     }
     return res;
 };
+// KEYS???
+/**
+ * Abstraction of lastIndexOf.
+ * 
+ * Returns the last index at which a given element can be found in the horroy, or -1 if not present.
+ * 
+ * @param {*} elem
+ * 
+ * @returns {number}
+ */
+Horroy.prototype.lastIndexOf = function (elem) {
+    if (elem === undefined) return -1;
+    for (var i = this.length; i > 0; i--) {
+        if (this[i] === elem) return i;
+    };
+    return -1;
+}
 /**
  * Abstraction of map.
  * 
@@ -447,6 +464,9 @@ Horroy.prototype.push = function(value) {
     this[this.length++] = value;
 };
 /**
+ * 
+ * Abstraction of reduce.
+ * 
  * Reduces an array into a value.
  * 
  * @param {Function} callback - The expression to evaluate.
@@ -473,12 +493,43 @@ Horroy.prototype.reduce = function(callback, accumulator) {
     return accumulator;
 };
 /**
+ * Abstraction of reduceRight.
+ * 
+ * Reduces an horroy from rigth to left into a value;
+ * 
+ * @param {function} callback
+ * @param {*} accumulator
+ * 
+ * @returns {*}
+ */
+Horroy.prototype.reduceRight = function(callback, accumulator) {
+
+    if (accumulator === undefined) {
+        accumulator = this[this.length-1];
+        for (var i = this.length-2; i >= 0; i--) {
+            var item = this[i];
+    
+            accumulator = callback(accumulator, item);
+        }
+    
+        return accumulator;
+    } 
+
+    for (var i = this.length-1; i >= 0; i--) {
+        var item = this[i];
+
+        accumulator = callback(accumulator, item);
+    }
+
+    return accumulator;
+};
+/**
  * 
  * Abstraction of reverse.
  * 
  * Reverses the elements of an thisay (modifying it!).
  * 
- * @returns {thisay}
+ * @returns {horroy}
  * 
  */
 Horroy.prototype.reverse = function() {
@@ -619,6 +670,35 @@ Horroy.prototype.splice = function(start, deleteCount, item) {
     return res;
 };
 /**
+ * Abstraction of toSource.
+ * 
+ * Return a string representing the source code of the horroy.
+ * 
+ */
+/* Horroy.prototype.toSource = function () {
+    var hor = new Horroy();
+
+    for (var i = 0; i < this.length; i++) {
+        hor[hor.length] = this[i].toString();
+        hor.length++;
+    }
+} */
+/**
+ * Abstraction of toString.
+ * 
+ * Converts a horroy to string.
+ */
+Horroy.prototype.toString = function() {
+    var string = '';
+
+    for(var i = 0; i < this.length - 1; i++)
+        string += this[i] + ',';
+    
+    string += this[this.length - 1];
+
+    return string;
+};
+/**
  * Abstraction of unshift.
  * 
  * Puts the desired elements at the beginning of the array.
@@ -648,18 +728,4 @@ Horroy.prototype.unshift = function (element) {
 
     return this.length;
 };  
-/**
- * Abstraction of toString.
- * 
- * Converts a horroy to string.
- */
-Horroy.prototype.toString = function() {
-    var string = '';
-
-    for(var i = 0; i < this.length - 1; i++)
-        string += this[i] + ',';
-    
-    string += this[this.length - 1];
-
-    return string;
-};
+//VALUES???
