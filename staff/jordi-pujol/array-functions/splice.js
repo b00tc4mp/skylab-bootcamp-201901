@@ -18,6 +18,16 @@ function splice(arr, start, countDel, item) {
     splice(arr, "1", "2", "3", "4")
 
     if (!(arr instanceof Array)) throw TypeError (arr + ' should be an array')
+    if (typeof arguments[1] !== "number") return []
+
+    
+
+
+
+
+
+
+
     if (typeof start !== "number"){
         for (var i = 1; i< arguments.length; i++){
             arguments[i] = arguments[i+1]
