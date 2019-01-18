@@ -1,5 +1,128 @@
 suite('horroy', function () {});
 
+suite('from', function () {
+    describe('Correct from', function () {
+        it('should return correct', function () {
+            var s = Horroy.from('hola mundo');
+
+            var res = s.length;
+
+            var expected = 10;
+
+            expect(res.toString() === expected.toString(), 'should return correct');
+
+        });
+        it('should return a horroy', function () {
+            var s = Horroy.from(new Horroy(1,2,3));
+
+            var res = s;
+
+            expect(s instanceof Horroy, 'should return correct');
+        });
+    });
+    describe('fail on arguments', function () {
+        it('should fail on too many arguments', function () {
+            var error;
+            try {
+                Horroy.from('hola mundo',4);
+            } catch (err) {
+                error = err;
+            }
+
+            expect(error, 'should have thrown an error');
+        });
+        it('should fail on too few arguments', function () {
+            var error;
+            try {
+                Horroy.from();
+            } catch (err) {
+                error = err;
+            }
+
+            expect(error, 'should have thrown an error');
+        });
+    });
+    describe('fail on x instead of horroy', function () {
+        it('should fail on undefined instead of horroy', function () {
+            var error;
+
+            try {
+                Horroy.from(undefined);
+            } catch (err) {
+                error = err;
+            }
+            expect(error, 'should throw an error');
+        });
+        it('should fail on null instead of horroy', function () {
+            var error;
+
+            try {
+                Horroy.from(null);
+            } catch (err) {
+                error = err;
+            }
+            expect(error,'should throw an error');
+        });
+    });
+});
+
+suite('isHorroy', function () {
+    describe('Correct isHorroy', function () {
+        it('should return correct', function () {
+            var h = new Horroy;
+
+            var res = Horroy.isHorroy(h);
+
+            var expected = true;
+
+            expect(res.toString() === expected.toString(), 'should return correct');
+
+        });
+        it('should retuun correct with several arguments', function () {
+            var h = new Horroy;
+
+            var res = Horroy.isHorroy(h,'hola',true);
+
+            var expected = true;
+
+            expect(res.toString() === expected.toString(), 'should return correct');
+        });
+        it('should return empty horroy', function () {
+            var res = Horroy.isHorroy();
+
+            var expected = false;
+
+            expect(res.toString() === expected.toString(), 'should return correct'); 
+        });
+    });
+});
+
+suite('of', function () {
+    describe('Correct of', function () {
+        it('should return correct', function () {
+            var res = Horroy.of(7);
+
+            var expected = new Horroy(7);
+            
+            expect(res.toString() === expected.toString(), 'should return the correct answer');
+        });
+        it('should return empty horroy', function () {
+            var res = Horroy.of();
+
+            var expected = new Horroy();
+
+            expect(res.toString() === expected.toString(), 'should return the correct value');
+        });
+        it('should return horroy with undefined', function () {
+            var res = Horroy.of(undefined);
+
+            var expected = new Horroy(undefined);
+
+            expect(res.toString() === expected.toString(), 'should return the correct value');
+        });
+    });
+});
+
 suite('fill', function () {
     describe('Correct fill', function () {
         it('should return correct', function () {
@@ -188,6 +311,41 @@ suite('find', function () {
             var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
             try {
                 a.find();    
+            } catch (err) {
+                error = err;
+            }
+            expect(error, 'should return the correct value');
+        });
+    });
+    describe('fail on x instead of horroy', function () {
+        it('should fail on object instead of horroy', function () {
+            var a = {};
+            try {
+                a.find(function(x) {
+                    return x > 3
+                });    
+            } catch (err) {
+                error = err;
+            }
+            expect(error, 'should return the correct value');
+        });
+        it('should fail on boolean instead of horroy', function () {
+            var a = true;
+            try {
+                a.find(function(x) {
+                    return x > 3
+                });    
+            } catch (err) {
+                error = err;
+            }
+            expect(error, 'should return the correct value');
+        });
+        it('should fail on number instead of horroy', function () {
+            var a = 4;
+            try {
+                a.find(function(x) {
+                    return x > 3
+                });    
             } catch (err) {
                 error = err;
             }

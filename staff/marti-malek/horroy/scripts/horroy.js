@@ -4,6 +4,10 @@
 function Horroy() {
     this.length = arguments.length;
 
+/*     if (arguments.length === 1) {
+        this = new Horroy(this.arguments);
+    } */
+
     if (arguments.length)
         for(var i = 0; i < arguments.length; i++)
             /* this.push(arguments[i]); */
@@ -17,20 +21,62 @@ function Horroy() {
  * @param {string} value
  * 
  * @returns {horroy} 
+ * 
+ * @throws {Error} -If too many/few arguments
  */
 Horroy.from = function(value) {
+    if (arguments.length > 1) throw Error ('too many arguments');
+    if (arguments.length < 1) throw Error ('too few arguments');
+    if (value === undefined || value === null) throw Error (value + ' is not an object');
+
     var horr = new Horroy;
    
     horr.length = value.length
 
-    if (typeof value === 'string') {
+    if (typeof value === 'string' || value instanceof Horroy) {
         for (var i = 0; i < value.length; i++) {
             horr[i] = value[i]
         }
         return horr;
+    } else {
+        return new Horroy();
     }
 
 };
+/**
+ * Abstraction of isArray.
+ * 
+ * Validates if a passed value is an horroy.
+ * 
+ * @param {*} value
+ * 
+ * @returns {boolean}
+ * 
+ */
+Horroy.isHorroy = function() {
+    if (arguments[0] instanceof Horroy) {
+        return true;
+    } else {
+        return false;
+    }
+};
+/**
+ * Abstraction of of.
+ * 
+ * Creates an horroy from the arguments passed.
+ * 
+ * @returns {horroy}
+ * 
+ */
+Horroy.of = function() {
+    var horr = new Horroy;
+
+    if (arguments.length === 0) return new Horroy();
+    for(var i = 0; i < arguments.length; i++) {
+        horr[i] = arguments[i];
+    }
+    return horr;
+}
 /**
  * Abstraction of fill.
  * 
