@@ -1,27 +1,31 @@
 /**
- * Abstraction of fill.
+ * Abstraction of indexOf.
+ * 
  * 
  * 
  * 
  * @param {Array} arr
+ * @param {resInterno} 
+ * @param {respuesta} 
  * 
  * @throws {TypeError} - If array is not an array
  */
-var arr = ["1", "2", "3", "4", "5"];
-var res = []
 
-function juntar(ele) {
-    
-    if (!(ele instanceof Array))
-    throw new TypeError(ele + ' is not an array');
 
-    for (var i = 0; i < ele.length + 1; i++) {
-		var res1 = i
-        res = res +  res1
+function indexio(arr, data) {
+    var respuesta = [];
+
+    for (var i = 0; i < arr.length; i++) {
+        if (data === arr[i]) {
+
+            respuesta[respuesta.length] = i
+
+        }
     }
-	res1 = ''
+    return (respuesta.length) ? respuesta : -1
 
 }
 
-juntar(arr)
-	console.log(res)
+
+
+
