@@ -73,6 +73,14 @@ Horroy.prototype.toString = function() {
 //     end = end || this.length;
 // };
 
+/**
+ * Create a new instance of Horroy from other iterable object
+ * 
+ * @param {Function} value
+ * @param {Array-Like} callback
+ * 
+ * @returns {Horroy} - The string of characters
+ */
 Horroy.from = function(value, callback) {
   if (callback && !(callback instanceof Function))
     throw new TypeError(callback + " is not a function");
@@ -89,6 +97,13 @@ Horroy.from = function(value, callback) {
   return array;
 };
 
+/**
+ * Determines if the argument is a Horroy
+ * 
+ * @param {*} value - The object to evaluate
+ * 
+ * @returns {Boolean} - If the argument is a Horroy
+ */
 Horroy.isHorroy = function(value) {
-
+    return value instanceof Horroy;
 }
