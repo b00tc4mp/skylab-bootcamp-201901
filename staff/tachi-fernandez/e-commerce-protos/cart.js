@@ -41,6 +41,10 @@ Cart.prototype.cheapest = function(){
 }
 
 Cart.prototype.numberOf=function(productType){
+    if (typeof productType !== 'function') throw TypeError(productType + ' is not a function');
+    if (productType !== Product && !(productType.prototype instanceof Product)) throw TypeError(productType + ' is not a product type');
+            
+    
     var num = 0
     for (var i = 0;i<this.products.length;i++){
         if(this.products[i] instanceof productType){
