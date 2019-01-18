@@ -8,7 +8,6 @@ suite("indexOf", function(){
             var result;
             try {
                 result = indexOf(fruits, keysearch, startingposition)
-                console.log(result)
                 debugger
             } catch (error) {
                 err= error;
@@ -30,7 +29,6 @@ suite("indexOf", function(){
                 indexOf(fruits)
             } catch (error) {
                 err= error;
-                console.log(error)
             }
 
             expect(err, 'Error should appear')
@@ -48,7 +46,6 @@ suite("indexOf", function(){
                 indexOf(fruits, keysearch, startingposition, err)
             } catch (error) {
                 err= error;
-                console.log(error)
             }
             expect(err, 'should have been an error')
         })
