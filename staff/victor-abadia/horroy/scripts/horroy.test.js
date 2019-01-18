@@ -37,14 +37,17 @@ suite('horroy', function () {
 
     describe('Pop success cases', function () {
 
-        it('should add an element to the horroy', function () {
+        it('should delete the last element in the horroy', function () {
 
-            var horroy = new Horroy();
+            var horroy = new Horroy('a', 'b', 'c');
 
-            horroy.push(7) // [7]
+            horroy.pop() // horroy = Horroy {0: "a", 1: "b", length: 2}
 
-            expect(horroy[0] == 7, 'not expected result')
-            expect(horroy.length === 1, 'not expect result')
+            var expect = new Horroy(a,b)
+
+            if (expect.toString !== horroy.toString) 
+            
+            expect(horroy, 'not expected result')
 
         });
 

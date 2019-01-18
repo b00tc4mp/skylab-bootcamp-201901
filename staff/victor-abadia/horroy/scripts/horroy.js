@@ -39,3 +39,29 @@ Horroy.from = function (value) {
     }
 
 };
+
+Horroy.prototype.toString = function () {
+
+    var string = '';
+
+    for (var i = 0; i < this.length; i++) {
+        if (i === this.length - 1) {
+            string += this[i]
+        } else {
+            string += this[i] + ','
+        }
+    }
+    return string
+};
+
+Horroy.prototype.filter = function (callback) {
+    if (typeof callback !== 'function') throw Error('callback is not a function');
+
+    var result = [];
+    for (var i = 0; i < this.length; i++) {
+        if (callback(this[i], i, this)) {
+            result[result.length] = this[i];
+        }
+    }
+    return result ? result : -1;
+};
