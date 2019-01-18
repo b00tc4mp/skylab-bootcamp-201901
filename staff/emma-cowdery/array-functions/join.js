@@ -1,15 +1,31 @@
 /**
  * 
  * @param {array} array1 
- * @param {array} array2 
+ * @param {string} separator
  */
+
+
+
+
+function join(array, separator) {
+    var newString = '';
+    if (separator === undefined) {
+        //separator = ',';
+        for (var i = 0; i < array1.length; i++) {
+            newString += ',' + array1[i];
+        };
+    };
+
+}
+
+join([1, 2, 3])
 
 function join(array1, array2) {
     var newArray = '';
     for (var i = 0; i < array1.length; i++) {
         newArray += array1[i];
     };
-    for (var i = (array1.length); i < (array1.length + array2.length); i++) {
+    for (var i = 0; i < array2.length; i++) {
         newArray += array2[i];
     };
     return newArray;
