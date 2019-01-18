@@ -74,6 +74,7 @@ Horroy.of = function() {
     if (arguments.length === 0) return new Horroy();
     for(var i = 0; i < arguments.length; i++) {
         horr[i] = arguments[i];
+        horr.length++;
     }
     return horr;
 };
@@ -114,8 +115,70 @@ Horroy.prototype.concat = function(horr) {
         hor[hor.length] = arguments[0];
         hor.length++;
         return hor;
+    };
+};
+/**
+ * Abstraction of copyWithin.
+ * 
+ * Copies part of an horroy to the desires position of the same horroy without changing his length.
+ * @param {number} target
+ * @param {number} start
+ * @param {number} end
+ * 
+ * @returns {horroy}
+ * 
+ */
+Horroy.prototype.copyWithin = function (target, start, end) {
+    var j = 0;
+    end = end === undefined ? this.length : end;
+    for (var i = start; i < end; i++) {
+        this[target+j] = this[start+j];
+        j++;
     }
-}
+    return this;
+};
+//ENTRIES???
+/**
+ * Abstraction of every.
+ * 
+ * Evaluates if all the elements of an horroy pass a provided test.
+ * 
+ * @param {function} func
+ * 
+ * @returns {boolean}
+ * 
+ * @throws {Error} - If func is not a function
+ */
+Horroy.prototype.every = function (func, horroy) {
+    if (typeof arguments[0] !== 'function' || arguments.length < 1) throw Error (func + ' is not a function')
+
+    var j = 0;
+    for (var i = 0; i < this.length; i++) {
+        if (!(func(this[i]))) {
+            return false;
+        } else {
+            j++;
+        }
+    };
+    if (j === this.length) return true;
+    /* if (arguments[1] === undefined) {
+        for (var i = 0; i < this.length; i++) {
+            if (!(func(this[i]))) {
+                return false;
+            } else {
+                return true;
+            }
+        };
+    } else {
+        for (var i = 0; i < horroy.length; i++) {
+            if (!(func(horroy[i]))) {
+                return false;
+            } else {
+                return true;
+            }
+        };
+    }; */
+};
 /**
  * Abstraction of fill.
  * 
@@ -160,6 +223,7 @@ Horroy.prototype.filter = function(func) {
         if (func(this[i])) {
             res[j] = this[i]
             j++;
+            res.length++;
         }
     }
     return res;
@@ -183,6 +247,9 @@ Horroy.prototype.find = function(callback) {
         if(callback(value)) return value;
     }
 };
+Horroy.prototype.findIndex= function () {
+
+}
 /**
  * 
  * Abstraction of push
@@ -279,8 +346,10 @@ Horroy.prototype.join = function(elem) {
 Horroy.prototype.map = function(func) {
     var res = new Horroy();
 
-    for (var i = 0; i < this.length; i++) res[i] = func(this[i]);
-
+    for (var i = 0; i < this.length; i++) {
+        res[i] = func(this[i]);
+        res.length++;
+    }
     return res;
 };
 /**
@@ -365,6 +434,7 @@ Horroy.prototype.slice = function(start, end) {
     for (var i = start; i < end; i++) {
         if (j === res.length) {
             res[j] =  this[i];
+            res.length++;
             j++;
         }
     }
@@ -412,6 +482,7 @@ Horroy.prototype.splice = function(start, deleteCount, item) {
     if (arguments.length > 3) {
         for (var i = 3; i < arguments.length; i++) {
             items[items.length] = arguments[i];
+            items.length++;
         }
     }
 
@@ -419,24 +490,30 @@ Horroy.prototype.splice = function(start, deleteCount, item) {
 
     for (var i = 0; i < start; i++) {
         initial[initial.length] = this[i];
+        initial.length++;
     };
     for (var i = start; i < start+deleteCount; i++) {
         res[res.length] = this[i];
+        res.length++;
     };
     for (var i = initial.length+res.length; i < this.length; i++) {
         final[final.length] = this[i];
+        final.length++;
     };
 
     //Building def
 
     for (var i = 0; i < initial.length; i++) {
         def[def.length] = initial[i];
+        def.length++;
     };
     for (var i = 0; i < items.length; i++) {
         def[def.length] = items[i];
+        def.length++;
     };
     for (var i = 0; i < final.length; i++) {
         def[def.length] = final[i];
+        def.length++;
     };
 
     //Copying def into this
@@ -477,3 +554,18 @@ Horroy.prototype.unshift = function (element) {
 
     return this.length;
 };  
+/**
+ * Abstraction of toString.
+ * 
+ * Converts a horroy to string.
+ */
+Horroy.prototype.toString = function() {
+    var string = '';
+
+    for(var i = 0; i < this.length - 1; i++)
+        string += this[i] + ',';
+    
+    string += this[this.length - 1];
+
+    return string;
+};
