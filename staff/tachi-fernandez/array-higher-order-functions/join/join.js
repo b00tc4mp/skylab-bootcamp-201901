@@ -1,3 +1,15 @@
+/**
+ * separator for Join.
+ * 
+ * Separte items from an array .
+ * 
+ * @param {Array} array 
+ * @param {*} separator
+ *
+ * @throws {Error} - If too many arguments (> 3)
+ * @throws {TypeError} - If array is not an array
+ */
+
 function join(array, separator) {
     if (!(array instanceof Array)) throw new typeError("array in not an array")
 
@@ -15,4 +27,4 @@ function join(array, separator) {
 
 var numbers = [1, 2, 3, 4, 5, 7]
 
-join(numbers,null) 
+join(numbers,"-") 
