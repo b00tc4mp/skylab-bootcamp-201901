@@ -3,28 +3,30 @@
  * 
  * 
  * 
- * @param {Array} arr
+ * @param {Array} array
  * 
  * @throws {TypeError} - If array is not an array
  */
 
-var arr = ["1", "2", "3", "4", "5"];
-var res = []
-
-function empujar(ele) {
-    if (!(ele instanceof Array))
-        throw new TypeError(ele + ' is not an array');
-
-    for (var i = 0; i < ele.length+1; i++) {
-        var res1 = []
-        res1 = i
-        res.push(res1)
+var arr = ['soccer', 'baseball'];
+var pushme = ['football', 'swimming'];
+var expected = ['soccer', 'baseball', 'football', 'swimming'];
 
 
+function empujar(array, data) {
+    var respuesta = []
+
+    if (!(array instanceof Array))
+    throw new TypeError(ele + ' is not an array');
+
+    for (var i = 0; i < array.length; i++) {
+        if (i > array.length) {
+          
+            respuesta[respuesta.length] = i
+        }
     }
-    res1 = ''
-
 }
 
-empujar(arr)
-console.log(res)
+
+
+empujar(arr, pushme)
