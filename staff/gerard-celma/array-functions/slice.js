@@ -14,7 +14,7 @@
     var result = [];
     var loop = array.length - start;
     var j = 0;
-    for(var i = start; i< loop; i++) {
+    for(var i = start; i< end; i++) {
         result[j] = array[i];
         j++;
     }
