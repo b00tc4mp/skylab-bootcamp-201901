@@ -14,15 +14,16 @@ suite("cart-methods", function() {
       expect(expected === result, "do not match correct value");
     });
 
-    it("it should fail if product is not instanceof Product ", function() {"it should fail if product is not instanceof Product"
-        var error;
-        try{
-            cart.add("desk")
-        } catch(err) {
-            error=err;
-        }
-      
-        expect(error, "should be an error");
+    it("it should fail if product is not instanceof Product ", function() {
+      "it should fail if product is not instanceof Product";
+      var error;
+      try {
+        cart.add("desk");
+      } catch (err) {
+        error = err;
+      }
+
+      expect(error, "should be an error");
     });
   });
 
@@ -59,8 +60,6 @@ suite("cart-methods", function() {
 
   describe("mostExpensive", function() {
     it("succed in expected result", function() {
-        console.log('serena');
-        
       var cart = new Cart();
 
       var socks = new Socks("Calvin Klein", 42, "black", 9.99);
@@ -70,8 +69,11 @@ suite("cart-methods", function() {
       cart.add(tanga);
       var result = cart.mostExpensive();
       var expected = tanga;
-        
-      expect(JSON.stringify(result) === JSON.stringify(expected), "do not match correct value");
+
+      expect(
+        JSON.stringify(result) === JSON.stringify(expected),
+        "do not match correct value"
+      );
     });
   });
 
@@ -97,7 +99,7 @@ suite("cart-methods", function() {
 
       var socks = new Socks("Calvin Klein", 42, "black", 9.99);
       var tanga = new Tanga("Wicked Weasel", 32, "red", 29.95);
-      
+
       cart.add(socks);
       cart.add(tanga);
       var result = cart.numberOf(Clothing);
@@ -106,15 +108,16 @@ suite("cart-methods", function() {
       expect(result === expected, "do not match correct value");
     });
 
-    it("it should fail if item is not instanceof Product ", function() {"it should fail if item is not instanceof Product"
-        var error;
-        try{
-            cart.numberOf("forniture")
-        } catch(err) {
-            error=err;
-        }
+    it("it should fail if item is not instanceof Product ", function() {
       
-        expect(error, "should be an error");
+      var error;
+      try {
+        cart.numberOf("forniture");
+      } catch (err) {
+        error = err;
+      }
+
+      expect(error, "should be an error");
     });
   });
 
@@ -125,16 +128,37 @@ suite("cart-methods", function() {
       var socks = new Socks("Calvin Klein", 42, "black", 9.99);
       var tanga = new Tanga("Wicked Weasel", 32, "red", 29.95);
 
-      cart.productsByPriceRange(socks);
-      cart.productsByPriceRange(tanga);
-      console.log('SERENA');
-      
-      var result = cart.productsByPriceRange(5, 11);
-      var expected = socks;
-    
-    console.log(result);
-    
+      cart.add(socks);
+      cart.add(tanga);
+
+      var result = toString(cart.productsByPriceRange(5, 11));
+      var expected = toString([socks]);
+
       expect(result === expected, "do not match correct value");
     });
+
+    it("should fail if item is not instanceof Product", function() {
+      var error;
+
+      try {
+        (cart.productsByPriceRange('min', 11));
+      } catch (err) {
+        error = err;
+      }
+
+      expect(error, "should be an error");
+    });
+
+    it("should fail if item is not instanceof Product", function() {
+        var error;
+  
+        try {
+          (cart.productsByPriceRange(5, max));
+        } catch (err) {
+          error = err;
+        }
+  
+        expect(error, "should be an error");
+      });
   });
 });
