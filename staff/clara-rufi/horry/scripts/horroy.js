@@ -9,11 +9,12 @@ function Horroy() {
 
 Horroy.prototype.push = function(value) {
     this[this.length++] = value;
+    return value;
 };
 
 Horroy.prototype.forEach = function(callback) {
     for(var i = 0; i < this.length; i++)
-        callback(this[i]);
+        callback(this[i]);   
 };
 
 //
@@ -34,7 +35,6 @@ Horroy.prototype.find = function(callback) {
 Horroy.prototype.join = function(array){
     var result = [];
     for (var i=0; i<array.length; i++){
-      
         result[i] = array[i]
     }
 }

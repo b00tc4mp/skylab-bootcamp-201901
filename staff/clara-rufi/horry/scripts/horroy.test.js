@@ -15,12 +15,11 @@ suite("horroy", function () {
 
         it ("failing adding values", function(){
 
+            var error;
             var horroy1 = new Horroy();
-            try {
-   
-               
-                var error;
-                horroy1.push("")
+          debugger
+            try {   
+                horroy1.push(paper);
                     
                 } catch (err) {
                     error = err;
@@ -28,7 +27,6 @@ suite("horroy", function () {
     
         expect(error, 'should have thrown an error');
         expect(error instanceof TypeError, 'should have thrown TypeError');
-        //if (!error) throw Error('should have thrown TypeError');
         });
 
     });
@@ -36,11 +34,14 @@ suite("horroy", function () {
     describe("successful aplying forEach method", function () {
 
         it("succesful looping", function () {
-
+          
             var horroy1 = new Horroy();
-
-            horroy1.push(7, 77, "hello", 4)
+            horroy1 = [7, 77, "hello", 4]
+            console.log(horroy1)
             result = horroy1.forEach()
+            console.log(result)
+            console.log(horroy1)
+
 
             expect = [7, 77, "hello", 4]
               
@@ -51,7 +52,6 @@ suite("horroy", function () {
 
             var horroy1 = new Horroy();
 
-            var horroy1 = new Horroy
             horroy1.push(7, 77, "hello", 4)
             horroy1.forEach()
 
