@@ -38,7 +38,7 @@ body
             flex-direction: row
             align-items: center
             background-color: inherit
-            margin-left: 30px
+            
 
             & div
                 background-color: ceil
@@ -46,12 +46,22 @@ body
                 flex-direction: row
                 align-items: center
                 height: 100%
+                margin-left: 30px
+                border-radius: 5px
+
+                & div
+                    background-color: silver
+                    border-radius: 5px
 
             .formulario
+                margin-left: 0px
                 background-color: #44bdd5
-                border-radius: 3px solid grey
+                border-radius: 5px
                 display: flex
                 flex-direction: row
+                background-color: silver
+                border-top-right-radius: 30px solid silver
+                border-bottom-right-radius: 2px solid silver
 
                 & input
                     height: 80%
@@ -68,8 +78,7 @@ body
                 border: 1px solid grey
                 padding: 0
 
-            button:nth-child(2)
-                margin-left: 30px
+            button:nth-child(1)
                 border-top-left-radius: 5px
                 border-bottom-left-radius: 5px
             button:nth-last-child
@@ -109,6 +118,8 @@ body
 
 .botobasic--red
     background-color: red
+    position: relative
+    bottom: 15px
 
 .boto--black
     border-radius: 8px
