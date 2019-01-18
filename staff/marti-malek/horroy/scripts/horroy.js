@@ -10,6 +10,95 @@ function Horroy() {
             this[i] = arguments[i];
 }
 /**
+ * Abstraction of from.
+ * 
+ * Converts a string into an horroy.
+ * 
+ * @param {string} value
+ * 
+ * @returns {horroy} 
+ */
+Horroy.from = function(value) {
+    var horr = new Horroy;
+   
+    horr.length = value.length
+
+    if (typeof value === 'string') {
+        for (var i = 0; i < value.length; i++) {
+            horr[i] = value[i]
+        }
+        return horr;
+    }
+
+};
+/**
+ * Abstraction of fill.
+ * 
+ * Fills an horroy from one position to other.
+ * 
+ * @param {*} value 
+ * @param {number} start 
+ * @param {number} end 
+ *
+ */
+Horroy.prototype.fill = function(value, start, end) {
+
+    if (arguments.length > 3) throw Error ('too many arguments');
+    if (arguments.length < 1) throw Error ('too few arguments');
+
+    start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
+    end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
+
+    for (var i = start; i < end; i++)
+        this[i] = value;
+
+    return this;
+};
+/**
+ * 
+ * Abstraction of filter.
+ * 
+ * Returns the elements of an horroy that are validated througha function.
+ * 
+ * @param {Function} func 
+ * 
+ * @returns {thisay}
+ */
+Horroy.prototype.filter = function(func) {
+    var res = new Horroy();
+    var j = 0;
+
+    if (arguments.length > 2) throw Error ('too many arguments');
+    if (arguments.length < 1) throw Error ('too few arguments');
+
+    for (var i = 0; i < this.length; i++) {
+        if (func(this[i])) {
+            res[j] = this[i]
+            j++;
+        }
+    }
+    return res;
+};
+/**
+ * Abstraction of find.
+ * 
+ * Finds an element in an horroy satisfying an expression.
+ * 
+ * @param {Function} callback - The expression to evaluate.
+ * 
+ * @returns {*} - An item if found, otherwise undefined.
+ */
+Horroy.prototype.find = function(callback) {
+    if (arguments.length > 1) throw Error ('too many arguments');
+    if (arguments.length < 1) throw Error ('too few arguments');
+
+    for (var i = 0; i < this.length; i++) {
+        var value = this[i];
+
+        if(callback(value)) return value;
+    }
+};
+/**
  * 
  * Abstraction of push
  * 
@@ -48,67 +137,6 @@ Horroy.prototype.pop = function() {
     delete this[this.length-1];
     this.length = this.length-1;
     return res;
-};
-/**
- * Abstraction of fill.
- * 
- * Fills an horroy from one position to other.
- * 
- * @param {*} value 
- * @param {number} start 
- * @param {number} end 
- *
- */
-Horroy.prototype.fill = function(value, start, end) {
-
-    start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
-    end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
-
-    for (var i = start; i < end; i++)
-        this[i] = value;
-
-    return this;
-};
-/**
- * 
- * Abstraction of filter.
- * 
- * Returns the elements of an horroy that are validated througha function.
- * 
- * @param {Function} func 
- * 
- * @returns {thisay}
- */
-Horroy.prototype.filter = function(func) {
-    var res = new Horroy();
-    var j = 0;
-
-    if (arguments.length > 2) throw Error ('too many arguments');
-
-    for (var i = 0; i < this.length; i++) {
-        if (func(this[i])) {
-            res[j] = this[i]
-            j++;
-        }
-    }
-    return res;
-};
-/**
- * Abstraction of find.
- * 
- * Finds an element in an horroy satisfying an expression.
- * 
- * @param {Function} callback - The expression to evaluate.
- * 
- * @returns {*} - An item if found, otherwise undefined.
- */
-Horroy.prototype.find = function(callback) {
-
-    for (var i = 0; i < this.length; i++) {
-        var value = this[i];
-
-        if(callback(value)) return value;
-    }
 };
 /**
  * 

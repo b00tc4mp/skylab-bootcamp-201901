@@ -1,3 +1,5 @@
+suite('horroy', function () {});
+
 suite('fill', function () {
     describe('Correct fill', function () {
         it('should return correct', function () {
@@ -10,6 +12,70 @@ suite('fill', function () {
             expect(res.toString() == expected.toString(), 'should return the correct value');
         
         });
+    describe('fail on arguments', function () {
+        it('should fail on too many arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            try {
+                a.fill(0,0,2,4);
+            } catch (err) {
+                error = err
+            }
+        
+            expect(error, 'should return the correct value');
+        
+        });
+        it('should fail on too few arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            try {
+                a.fill();
+            } catch (err) {
+                error = err
+            }
+        
+            expect(error, 'should return the correct value');
+        
+        });
+    }); 
+    describe('fail on x instead of horroy', function () {
+        it('should fail on object instead of horroy', function () {
+            var a = {};
+            
+            try {
+                a.fill(0,0,2);
+            } catch (err) {
+                error = err
+            }
+        
+            expect(error, 'should return the correct value');
+        
+        });
+        it('should fail on boolean instead of horroy', function () {
+            var a = true;
+            
+            try {
+                a.fill(0,0,2);
+            } catch (err) {
+                error = err
+            }
+        
+            expect(error, 'should return the correct value');
+        
+        });
+        it('should fail on number instead of horroy', function () {
+            var a = 4;
+            
+            try {
+                a.fill(0,0,2);
+            } catch (err) {
+                error = err
+            }
+        
+            expect(error, 'should return the correct value');
+        
+        });
+    });
     });
 });
 
@@ -28,6 +94,68 @@ suite('filter', function () {
         
         });
     });
+    describe('fail on arguments', function () {
+        it('should fail on too many arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            try {
+                a.filter(3,function(x) {
+                    return x > 3
+                });
+            } catch (err) {
+                error = err;
+            };
+            expect(error, 'should return the correct value');
+        });
+        it('should fail on too few arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            try {
+                a.filter();
+            } catch (err) {
+                error = err;
+            };
+            expect(error, 'should return the correct value');
+        });
+        describe('fail on x instead of horroy', function () {
+            it('should fail on object instead of horroy', function () {
+                var a = {};
+                
+                try {
+                    a.filter(function(x) {
+                        return x > 3
+                    });
+                } catch (err) {
+                    error = err;
+                };
+                expect(error, 'should return the correct value');
+            });
+            it('should fail on boolean instead of horroy', function () {
+                var a = true; 
+                
+                try {
+                    a.filter(function(x) {
+                        return x > 3
+                    });
+                } catch (err) {
+                    error = err;
+                };
+                expect(error, 'should return the correct value');
+            });
+            it('should fail on number instead of horroy', function () {
+                var a = 4; 
+                
+                try {
+                    a.filter(function(x) {
+                        return x > 3
+                    });
+                } catch (err) {
+                    error = err;
+                };
+                expect(error, 'should return the correct value');
+            });
+        });
+    });
 });
 
 suite('find', function () {
@@ -42,7 +170,28 @@ suite('find', function () {
             var expected = 4;
         
             expect(res.toString() == expected.toString(), 'should return the correct value');
-        
+        });
+    });
+    describe('should fail on arguments', function () {
+        it('should fail on too many arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            try {
+                a.find(3,function(x) {
+                    return x > 3
+                });    
+            } catch (err) {
+                error = err;
+            }
+            expect(error, 'should return the correct value');
+        });
+        it('should fail on too few arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            try {
+                a.find();    
+            } catch (err) {
+                error = err;
+            }
+            expect(error, 'should return the correct value');
         });
     });
 });
