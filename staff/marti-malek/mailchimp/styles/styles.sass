@@ -1,13 +1,58 @@
 /*1200px*/
-    
+
+%middle
+    display: grid
+    grid-template-columns: 1fr
+    grid-template-rows: 1fr
+    justify-items: center
+    position: relative
+    img 
+        width: 88%
+        position: relative
+        bottom: 3rem
+        right: -1rem
+
+    h3 
+        font-size: 1.5rem
+        align-self: end
+        position: relative
+        top: 16rem
+        margin-right: 0.5rem
+    h4 
+        position: relative
+        bottom: 2.5rem
+        justify-self: left
+        margin-left: 1.9rem
+    p 
+        margin-left: 2rem
+        position: relative
+        bottom: 2rem
+    a 
+        position: relative
+        right: -1rem
+        text-decoration: none
+        color: white
+        background-color: #323232
+        padding: 0.3rem
+        padding-right: 8.1rem
+        border: 1px solid #323232
+        border-radius: 5px
+    .arrow
+        position: absolute
+        width: 7%
+        
+
 %ul
     p
         color: white
+        margin-bottom: 0.2rem
     ul
         color: gray
         list-style-type: none
         padding: 0
         margin: 0
+        li 
+            padding-top: 0.3rem
 
 body
     width: 100%
@@ -15,7 +60,7 @@ body
     margin: 0
     padding: 0
     background: linear-gradient(180deg, #44bdd5 50%, lightgray 50%)
-    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif
+    font-family: Helvetica Neue, sans-serif
 .header
     display: grid
     grid-template-rows: 1fr 1fr
@@ -130,51 +175,100 @@ body
             margin: 0
             padding-left: 0.5rem
             align-self: end
+            justify-self: center
+            position: relative
+            top: 0.5rem
         .one
+            @extend %middle
             grid-column: 1 / 2
             grid-row: 2 / 4
-            display: grid
-            grid-template-columns: 1fr
-            grid-template-rows: 1fr
-            img 
-                width: 90%
-
-            h3 
-                font-size: 1.5rem
+            .arrow
+                top: 31.5rem
+                right: 1rem
         .two
             grid-column: 2 / 3
             grid-row: 2 / 4
+            @extend %middle
+            h3 
+                right: 0.5rem
+            a 
+                right: -0.9rem
+            .arrow
+                top: 31.5rem
+                right: 1.3rem
         .three
             grid-column: 3 / 4
             grid-row: 2 / 4
+            @extend %middle
+            img 
+                top: -30px
+                right: -0.2rem
+            h4 
+                top: -25px
+                right: 1rem
+            h3 
+                right: 4.3rem
+                top: 17.2rem
+            p 
+                bottom: 1rem
+                right: 1rem
+            a 
+                right: -0.2rem
+            .arrow
+                top: 31.5rem
+                right: 1.9rem
         .four
             grid-column: 4 / 5
             grid-row: 2 / 4
+            @extend %middle
+            img 
+                right: 0.5rem
+            h4 
+                right: 1.5rem
+            h3 
+                right: 1.4rem
+            p 
+                right: 1.5rem
+            a 
+                right: 0.5rem
+            .arrow
+                top: 31.5rem
+                right: 2.3rem
 footer
     background-color: rgb(24,24,21)
     display: grid
     grid-template-columns: 1fr 1fr 1fr 1fr
-    grid-template-rows: 1fr 1fr
+    grid-template-rows: 350px 350px
     justify-items: center
+    height: 40%
     .one
         grid-column: 1 / 2
         grid-row: 1 / 2
+        position: relative
+        right: -2rem
         @extend %ul
     .two
         grid-column: 2 / 3
         grid-row: 1 / 2
+        position: relative
+        right: -0.5rem
         @extend %ul
     .three
         grid-column: 3 / 4
         grid-row: 1 / 2
+        position: relative
+        right: 3.4rem
         @extend %ul
     .four
         grid-column: 4 / 5
         grid-row: 1 / 2
+        position: relative
+        right: 7rem
         @extend %ul
     p
         grid-column: 1 / 5
         grid-row: 2 / 3 
+        position: relative
         color: gray
 
         
