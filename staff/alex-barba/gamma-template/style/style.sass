@@ -1,0 +1,562 @@
+/* Fonts */
+
+@import url('https://fonts.googleapis.com/css?family=PT+Sans')
+
+/* General Rules */
+
+html, body, header, main, section, footer, button
+    margin: 0
+    box-sizing: border-box
+    width: 100%
+    font-family: "Helvetica Neue"
+    color: #333333
+
+h1, h2, h3, h4, h5, h6, p, ul  
+    margin: 0
+
+/* Extends */
+
+%flex-space-bt
+    display: flex
+    justify-content: space-between
+
+%flex-col
+    display: flex
+    flex-direction: column
+
+/* Header in Home/About/Contact*/
+
+.menu
+    @extend %flex-space-bt
+    align-items: center
+    padding-left:1rem
+    padding-right:1rem
+    padding-top: 0.5rem
+    padding-bottom: 0.5rem
+    
+
+    &__title
+        font-size: 0.8rem
+        color: #1baa98
+
+    &__button
+        display: flex
+        width: 2rem
+        height: 1rem
+        border: 0.01rem solid #999999
+        padding: 0.5rem
+
+.nav
+    display: none
+
+/* Head in About/Contact */
+
+.head
+    background-color: #1baa98
+    font-size: 1.2rem
+    color: white
+    padding: 1rem
+    margin-bottom: 2rem
+
+/* Main */
+
+main 
+    @extend %flex-col
+
+/* First ad in Home*/
+
+.ad
+    @extend %flex-col
+    background-color: #1B222A
+    padding-bottom: 2rem
+    padding-top: 1.5rem
+    
+    &__img
+        display: none
+
+.title
+    @extend %flex-col
+    justify-content: center
+
+    &--white
+        color: #ffffff
+        text-align: center
+        padding-top: 1rem
+        font-size: 2rem
+    
+    &--green
+        color: #1baa98
+
+    &__body
+        color: white
+        text-align: center
+        padding: 1.5rem
+        font-size: 1.2rem
+
+    &__img
+        @extend %flex-col
+
+    &__img img
+        width: 55%
+        align-self: center
+        padding-bottom: 1rem
+
+/* About in About */
+.content
+    padding-left:1rem
+    padding-right:1rem 
+
+    &__about h3
+        padding-bottom: 0.5rem 
+    
+    &__about p
+        padding-bottom: 0.5rem
+
+.collapsible
+    font-size: 0.9rem
+    border: 0.01rem solid #999999
+    background-color: #F0F0F2
+    padding: 0.3rem
+    padding-left: 0.5rem
+    text-align: start 
+    font-weight: bold 
+    margin-top: 0.3rem
+
+    &__content
+        font-size: 0.8rem
+        padding-left: 0.5rem
+        border: 0.01rem solid #999999
+        border-top: 0
+
+/* Form in Contact */
+
+.content
+    &__form
+        padding-right: 1rem
+
+    &__form p 
+        font-weight: bold
+        font-size: 0.8rem
+    
+    &__form input
+        font-size: 0.8rem
+        padding-top: 0.3rem
+        padding-bottom: 0.3rem
+        padding-left: 0.5rem
+        border: 0.01rem solid #999999
+        width: 100%
+        color: #999999
+        margin-bottom: 0.5rem
+
+    &__form textarea
+        font-size: 0.8rem
+        padding-top: 0.3rem
+        padding-bottom: 0.3rem
+        padding-left: 0.5rem
+        border: 0.01rem solid #999999
+        width: 100%
+        color: #999999
+        margin-bottom: 0.5rem
+    
+.btn__submit 
+    border: 0.01rem solid #999999 !important
+    width: 15% !important
+    color: #333333 !important
+    background: white !important
+    margin-bottom: 0 !important
+
+/* Articles in Home/Contact/About*/
+
+.cards
+    margin-top: 3rem
+    padding-left: 1rem
+    padding-right:1rem 
+
+.card
+    @extend %flex-col
+    background-color: #ffffff
+
+    &__img 
+        width: 99.5%
+        align-self: center
+        border: 0.07rem solid #999999
+        margin-top: 1rem
+    
+    &__title
+        text-align: left
+        padding-top: 0.5rem
+
+    &__body
+        text-align: left
+        padding-top: 0.5rem
+    
+.btncontaniner__btn
+        border: 0.01rem solid #999999
+        background-color: white
+        width: 20%
+        padding: 0.4rem
+        margin-top: 0.4rem
+        font-size: 0.8rem
+
+/* Last Ad in Home/Contact/About */
+
+.ad2
+    @extend %flex-col
+    background-color: #1baa98
+    margin-top: 3rem
+    padding-left: 4rem
+    padding-top: 3rem 
+
+    &__img 
+        width: 50%
+        margin-bottom: 0.5rem
+
+.features
+    &__title
+        color: #ffffff
+        text-align: left
+        font-size: 2rem
+        
+.featureslist 
+    color: white
+    list-style: none
+    padding-left: 0
+    
+    & li:before
+       content: '✓ '
+       line-height: 30px
+
+/* Footer in Home/Contact/About */
+
+.footer
+    @extend %flex-col
+    background-color: #333333
+    padding: 0.4rem
+    color: white
+    font-size: 0.7rem
+    text-align: center
+
+    &__text
+        padding: 0.5rem
+
+.nav2
+    color: white
+    list-style: none
+    display: flex
+    justify-content: center
+    padding: 0.2rem
+    
+    & li
+        padding: 0.5rem
+
+/* @media for min width 580px just for Home*/
+
+@media only screen and (min-width: 580px )
+
+    .ad
+        @extend %flex-col
+        background-image: url('./site_showcase_bg.jpg')
+        background-position: center
+        background-size: cover
+        margin-bottom: 3rem
+        padding-top: 1rem
+        padding-bottom: 0.5rem
+
+    .title
+        
+        &--white
+            text-align: left
+            padding-top: 1rem
+            padding-left: 0.8rem
+            font-size: 2rem
+
+        &__body
+            text-align: left
+            padding: 1.2rem
+            padding-left: 0.8rem
+            font-size: 1.3rem
+
+        &__img
+            flex-direction: row
+            justify-content: space-around
+
+        &__img img
+            width: 35%
+            padding-bottom: 1rem
+    
+    .cards
+        margin-top: 1.5rem
+
+    .card
+        &__img 
+            width: 94.5%
+            align-self: center
+            padding: 0.95rem
+            border: 0.01rem solid #999999
+            margin-top: 0.4rem
+        
+        &__title
+            font-size: 2rem
+
+    .footer
+        &__text
+            text-align: right
+            padding-top: 0rem
+            padding-bottom: 0.3rem
+    .nav2
+        justify-content: left
+
+/* @media for min width 900px */
+
+@media only screen and (min-width: 900px )
+
+    .menu
+        justify-content: flex-start
+
+        &__title
+            padding-left: 4.4rem
+            align-self: center
+            font-size: 1rem 
+
+        &__button
+            display: none 
+
+    .nav
+        display: flex
+        list-style: none
+        font-size: 0.8rem
+        justify-content: space-around
+        
+        & a
+            text-align: center
+            justify-content: center
+            padding: 0.6rem
+
+    .ad 
+        height: 25rem
+        padding-left: 5.5rem
+
+    .title
+        
+        &--white
+            padding-top: 2rem
+            font-size: 4rem
+            
+        &__body
+            font-size: 1.3rem
+
+        &__img
+            display: flex
+
+        &__img img 
+            width: 30%
+        
+        &__img :nth-child(2)
+            margin-right: 290px
+        
+    .card
+        &__img 
+            width: 80%
+        
+        &__title
+            margin-left: 4.4rem
+        
+        &__body
+            margin-left: 4.4rem
+        
+    .btncontaniner__btn
+            margin-left: 4.4rem
+            width: 10%
+            
+    .ad2
+        padding-top: 1.5rem
+        padding-left: 6rem
+
+        &__img
+            width: 25%
+            margin-bottom: 3rem
+    .features
+        &__title
+            margin-top: 2rem
+    
+    .footer
+        &__text
+            padding-right: 5rem 
+    
+    .nav2 
+        padding-left: 5rem
+
+    /* About  */
+
+    .head
+        padding-left: 5.4rem
+    
+    .content__about
+        padding-left: 4.4rem
+        padding-right: 4.4rem
+
+    /* Contact  */
+    
+    .content__form
+        padding-left: 4.4rem
+        padding-right: 4.4rem
+        width: 82.5%
+    
+    .btn__submit 
+        width: 10% !important
+
+/* @media for min width 1400px */          
+
+@media only screen and (min-width: 1400px )
+    
+    .menu
+        padding-left: 6rem
+        
+        &__title
+            font-size: 1.2rem
+        
+    .nav
+        font-size: 1rem
+
+    .ad
+        padding-left: 0
+        height: 30rem
+        flex-direction: row
+        
+        &__img
+            display: block
+        
+        &__img img
+            width: 352px
+
+    .title
+        @extend %flex-col
+        justify-content: end
+        width: 50%
+
+        &--white
+            padding-top: 5rem
+            font-size: 2.9rem
+            padding-left: 10.4rem
+
+        &__body
+            font-size: 1.2rem
+            padding-left: 10.4rem
+            
+        &__img
+            justify-content: start
+            width: 60%
+            padding-left: 10rem
+
+        &__img img 
+            width: 50%
+        
+        &__img :nth-child(2)
+            margin-left: 1.5rem
+            margin-right: 0
+    
+    .cards
+        display: flex
+        justify-content: center
+        margin-left: 4rem
+        margin-right: 4rem
+    
+    .card
+        padding: 0
+
+        &__img 
+            width: 90%
+            padding: 0
+        
+        &__title
+            font-size: 2rem
+            width: 50%
+            margin-left: 0
+            padding-left: 1.2rem
+
+        &__body
+            font-size: 0.9rem
+            width: 70%
+            margin-left: 0
+            padding-left: 1.2rem
+
+    .btncontaniner__btn
+            width: 21%
+            margin-left: 1.2rem
+            padding-left: 0
+            
+    .ad2
+        flex-direction: row
+        justify-content: space-around
+        margin-top: 1.5rem
+        padding-top: 3rem
+        padding-left: 0rem
+        padding-right: 3rem
+
+        &__img
+            width: 18%
+            top: 0
+            
+    .features  
+        &__title
+            padding-left: 0rem
+            font-size: 2.5rem
+            margin-top: 0rem
+        
+    .featureslist
+            padding-left: 0rem
+            font-size: 1.5rem
+
+    .footer
+        flex-direction: row
+        height: 4rem
+
+        &__text
+            padding-left: 50rem
+            padding-top: 0.9rem
+            padding-bottom: 0rem
+
+    .nav2
+        padding-top: 0.9rem
+        
+        & li
+            padding: 0rem  
+            padding-right: 0.6rem
+
+    /* About  */
+
+    .head
+        padding-left:10.6rem      
+    
+    .content
+        display: flex
+        flex-direction: row
+
+        &__about
+            width: 65%
+            padding-left: 9.6rem
+            padding-right: 0rem
+        
+    .card
+            width: 30%
+    
+    /* Form  */     
+
+    .content
+        &__form
+            width: 65%
+            padding-left: 9.6rem
+            padding-right: 0rem
+            width: 54%
+    
+        &__form input
+            width: 96%
+
+        &__form textarea
+            width: 96%
+
+    .btn__submit 
+        width: 8% !important
+
+
+
