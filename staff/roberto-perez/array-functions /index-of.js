@@ -6,8 +6,12 @@
  * @param {Array} arr - The array to fill.
  * @param {*} searchElement - Element to find in the array.
  * @param {Number} [fromIndex] - The index by which the search is started.
+ * 
+ * @throws {TypeError} - arr is not an Array
+ * @throws {Error} - The second argument is necessary
+ * 
+ *@return {number} - The index of the finded value or -1 if the value is not found
  */
-
 function indexOf(arr, searchElement, fromIndex) {
   if (arguments.length <= 0) return -1;
 

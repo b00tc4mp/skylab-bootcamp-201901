@@ -1,8 +1,15 @@
 /**
+ * Abstraction of filter.
  *
- * @param {Array} arr - The array to reverse.
+ * Create a new array with all the elements that meet the condition implemented by the given function
  *
- * @returns {Array} - Array reverse
+ * @param {Array} array - array to check
+ * @param {Function} callback - The expresion to evaluate
+ *
+ * @throws {TypeError} - when array is not an Array
+ * @throws {TypeError} - when callback is not a function
+ *
+ * @return {boolean} - A new array with the elements that meet the condition. If no element meets the condition, an empty array will be returned.
  */
 function filter(arr, callback) {
   if (!(arr instanceof Array)) {

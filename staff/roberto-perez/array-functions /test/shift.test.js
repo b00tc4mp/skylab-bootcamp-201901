@@ -11,6 +11,17 @@ test("Shift elements array", function() {
     throw Error("result should be the one expected");
 });
 
+test("Shift elements empty array", function() {
+  var arr = [];
+
+  var expected = undefined;
+
+  var result = shift(arr);
+
+  if (result !== expected)
+    throw Error("result should be the one expected");
+});
+
 test("Not array", function() {
   var obj = {};
 
