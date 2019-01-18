@@ -17,8 +17,13 @@ function unshift (arr, elem){
     
     if (!(arr instanceof Array)) throw TypeError (arr + ' should be an array')
 
-    for (var i =1; arguments.length-1; i++){
-        arr.push(arguments[i])
+    for (var i =0; i< arguments.length -1; i++){
+        
+        for (var k =0; k< arr.length; k ++){
+            arr[arr.length-k] = arr[arr.length -1 -k]
+        
+        }
+        arr[0] = (arguments[arguments.length-i-1])
     }
     return arr.length
 

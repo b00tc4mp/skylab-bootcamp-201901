@@ -17,7 +17,6 @@ test('should return the same reverse array', function(){
     var a = [1, 2, 3, 4, 5, 6, 7];
 
     var res = reverse(a);
-    console.log(a)
 
     var expected = [7, 6, 5, 4, 3, 2, 1];
 
