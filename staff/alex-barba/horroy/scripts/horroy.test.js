@@ -244,7 +244,7 @@ suite('horroy', function(){
         it('all arguments', function () {
             var hor = new Horroy(1,2,3,4);
 
-            var found = hor.shift(a);
+            var found = hor.shift(hor);
         
             var expected = 1;
         
