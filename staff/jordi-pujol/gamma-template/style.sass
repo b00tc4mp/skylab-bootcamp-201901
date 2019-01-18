@@ -1,0 +1,565 @@
+=flexin($display, $direction, $justify)
+    display: $display
+    flex-direction: $direction
+    justify-content: $justify
+    
+    
+html
+    margin: 0px
+    padding: 0px
+    box-sizing: border-box
+
+.home
+    display: grid
+    grid-template-columns: 1fr
+    grid-template-rows: 15% 66% 19%
+    margin: 0
+
+    .hheader
+        background-color: #12283d
+
+        &__menu
+            +flexin(flex,row,space-around)
+            width:100%
+            background-color: lightgray
+            align-items: center
+
+            &--display
+                display: none
+
+        &__phone
+            display: none
+
+        &__intro
+            +flexin(flex,column,space-evenly)
+            color: white
+            align-items: center
+            height: 82%
+            padding-right: 5%
+
+            div
+                +flexin(flex,column,space-evenly)
+            
+            img
+                flex-wrap: wrap
+            
+            h3
+                padding: 0 1em
+                margin: 0
+                text-align: center
+            
+        &__title
+            +flexin(flex,row,center)
+
+            &--green
+                color: lightgreen
+
+    .products
+        padding: 3% 3%
+        font-family: Arial, Helvetica, sans-serif
+    
+        section 
+            width: 100%
+            display: flex
+            flex-direction: column
+            padding-bottom: 5%
+
+            button
+                width: 100px
+                height: 30px
+                border-radius: 10%
+                margin-left: 1em
+                margin-bottom: 2%
+                margin: 1px solid gray
+                background-color: white
+
+            p
+                margin-left: 1em
+                margin-top: 2%
+                margin-bottom: 2%
+
+            h2
+                margin: 2%
+            
+            img
+                max-width: 100%
+
+    .hfooter
+        background-color: #29bc9f
+        color: white
+
+        h2
+            padding: 0 10%
+
+        ul
+            padding: 0 15%
+            list-style: none
+
+            i
+                margin-right: 5px
+
+        img
+            padding: 0 10%
+            margin-bottom: 2%
+
+        nav
+            +flexin(flex,row,space-evenly)
+            background-color: black
+
+        p
+            background-color: black
+            margin: 0
+            padding: 5%
+            text-align: center
+
+
+@media (min-width: 580px)
+    .home    
+        grid-template-columns: 1fr
+        grid-template-rows: 13% 68% 19%
+
+        .hheader
+
+            &__intro
+                align-items: flex-start
+
+                div
+                    +flexin(flex,row,flex-start)
+                    width: 100%
+                    padding-left: 5%
+
+                .title 
+                    justify-content: flex-start
+                    padding-left: 5%
+
+                h3
+                    padding-left: 5%
+
+        .hfooter
+
+            h2
+                padding-top: 5%
+
+            img
+                padding: 3.5% 10%
+
+
+@media (min-width: 700px)
+    .home    
+        grid-template-columns: 1fr
+        grid-template-rows: 13% 68% 19%
+
+        .hheader
+
+            &__menu
+                justify-content: unset
+
+                &--display
+                    display: initial
+
+                p
+                    padding-left: 5%
+
+                #burger
+                    display: none
+            
+
+@media (min-width: 1100px)
+    .home    
+        grid-template-columns: 1fr
+        grid-template-rows: 29% 55% 34%
+
+        .hheader
+            
+            &__phone
+                display: flex
+                align-self: flex-end
+                position: absolute
+                max-height: 300px
+                padding-right: 10%
+                padding-top: 4.5%
+
+            &__intro
+                height: 100%
+                background-image: url("img/site_showcase_bg.jpg")
+  
+        .products
+            display: flex
+            flex-direction: row
+            align-items: center
+
+            section 
+                width: 100%
+                padding-bottom: 0%
+        
+        .hfooter
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows: 80% 20%
+
+            &__features
+                width:200px
+                padding-left: 25%
+                font-size: 20px
+                
+                li
+                    padding-bottom: 10%
+
+/* ABOUT______________________________________________________*/
+
+.about
+    display: grid
+    grid-template-columns: 100%
+    grid-template-rows: 6% 30% 33% 30%
+    margin: 0
+    padding: 0
+    font-family: Arial, Helvetica, sans-serif
+
+    .aheader
+        grid-row-start: 1
+        grid-row-end: 2
+
+
+        &__menu
+            +flexin(flex,row,space-around)
+            background-color: lightgray
+            align-items: center
+
+            &--display
+                display: none
+        
+        &__title
+            background-color: #29bc9f
+            margin: 0
+            padding: 1rem
+            color: white
+    
+    .amain
+        grid-row-start: 2
+        grid-row-end: 3
+        padding: 0 5%
+
+        &__items--title
+            border: 2px solid gray
+            background-color: lightgray
+            padding: 5px
+
+        &__description
+            border: 1px solid gray
+            padding: 5px
+
+        &__product
+
+            &--button
+                width: 100px
+                height: 30px
+                border-radius: 10%
+                margin-left: 1em
+                margin-bottom: 2%
+                margin: 1px solid gray
+                background-color: white
+
+            &--img
+                max-width: 100%
+                border: 1px solid gray
+
+    .afooter
+        background-color: #29bc9f
+        color: white
+        grid-row-start: 4
+        grid-row-end: 4
+
+        h2
+            padding: 0 10%
+
+        ul
+            padding: 0 15%
+            list-style: none
+
+            i
+                margin-right: 5px
+
+        img
+            padding: 0 10%
+            margin-bottom: 2%
+
+        nav
+            +flexin(flex,row,space-evenly)
+            background-color: black
+
+        p
+            background-color: black
+            margin: 0
+            padding: 5%
+            text-align: center
+
+@media (min-width: 900px)
+
+    .about
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 7% 31% 37% 28%
+
+        .aheader
+            &__title
+                padding: 1rem 6rem
+
+            &__menu
+                padding:0 6rem
+                justify-content: flex-start
+
+                &--display
+                    display: initial
+                    padding: 0 1em
+
+                #burger
+                    display: none
+
+        .amain
+            padding: 0 10%
+
+            &__product
+                &--img
+                    width: 100%
+
+        .afooter
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows:30% 50% 20%
+            
+            &__features
+                padding-left: 3rem
+
+                h2 
+                    padding-left: 4rem
+            img
+                align-self: flex-start
+                grid-column-start: 1
+                grid-row-start: 2
+                padding-left: 6rem
+            nav
+                grid-column-start: 1
+                grid-row-start: 3
+        
+            p
+                grid-column-start: 2
+                grid-row-start: 3
+
+@media (min-width: 1100px)
+
+    .about
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 15% 55% 30%
+
+        .amain
+            display: grid
+            grid-template-columns: 60% 40%
+            grid-template-row: 100%
+            padding: 0% 8%
+            grid-gap: 5%
+
+
+        .afooter
+            grid-row-start: 3
+            grid-row-end: 4
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows: 80% 20%
+            
+            &__features
+                width:250px
+                padding-left: 25%
+                font-size: 20px
+                
+                li
+                    padding-bottom: 10%
+
+            img
+                grid-column-start: 2
+                grid-row-start: 1
+                padding-top: 10%
+
+
+/* CONTACT______________________________________________________*/
+.contact
+    display: grid
+    grid-template-columns: 100%
+    grid-template-rows: 9% 30% 26% 34%
+    margin: 0
+    padding: 0
+    font-family: Arial, Helvetica, sans-serif
+
+    .cheader
+        grid-row-start: 1
+        grid-row-end: 2
+
+        &__menu
+            +flexin(flex,row,space-around)
+            background-color: lightgray
+            align-items: center
+
+            &--display
+                display: none
+            
+        &__title
+            background-color: #29bc9f
+            margin: 0
+            padding: 1rem
+            color: white
+
+    .cmain
+        grid-row-start: 2
+        grid-row-end: 3
+        padding: 0 5%
+
+        &__form
+            &--item
+                margin: 2% 0
+            
+            &--text
+                width: 99%
+                border: 1px solid gray
+                border-radius: 0.3em 
+
+        button
+            width: 100px
+            height: 30px
+            border-radius: 0.5em
+            margin: 1px solid gray
+            background-color: white
+        
+        &__product
+            &--img
+                width: 100%
+                border: 1px solid gray
+
+    .cfooter
+        background-color: #29bc9f
+        color: white
+        grid-row-start: 4
+        grid-row-end: 4
+
+        h2
+            padding: 0 10%
+
+        ul
+            padding: 0 15%
+            list-style: none
+
+            i
+                margin-right: 5px
+
+        img
+            padding: 0 10%
+            margin-bottom: 2%
+
+        nav
+            +flexin(flex,row,space-evenly)
+            background-color: black
+
+        p
+            background-color: black
+            margin: 0
+            padding: 5%
+            text-align: center
+
+@media (min-width: 900px)
+
+    .contact
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 8% 25% 39% 31%
+
+        .cheader
+            &__title
+                padding: 1rem 9rem
+
+            &__menu
+                padding:0 9rem
+                justify-content: flex-start
+
+                &--display
+                    display: initial
+                    padding: 0 1em
+
+                #burger
+                    display: none
+
+        .cmain
+            padding: 0 9em
+
+            &__product
+                &--img
+                    width: 100%
+
+        .cfooter
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows:30% 50% 20% 
+            
+            &__features
+                padding-left: 6em
+                h2
+                    padding-left: 2em
+
+            img
+                align-self: flex-start
+                grid-column-start: 1
+                grid-row-start: 2
+                padding-left: 9em
+
+            nav
+                grid-column-start: 1
+                grid-row-start: 3 
+            p
+                grid-column-start: 2
+                grid-row-start: 3
+
+@media (min-width: 1100px)
+    .contact
+        display: grid
+        grid-template-columns: 100%
+        grid-template-rows: 13% 50% 37%
+        
+        .cheader
+            grid-row-start: 1
+            grid-row-end: 2
+
+        .cmain
+            display: grid
+            grid-template-columns: 60% 40%
+            grid-template-row: 100%
+            padding: 0% 15%
+            grid-gap: 5%
+
+
+            &__form
+                grid-column-start: 1
+                grid-column-end: 2
+
+            &__product
+                grid-column-start: 2
+                grid-column-end: 3
+
+                
+        .cfooter
+            grid-row-start: 3
+            grid-row-end: 4
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows: 80% 20%
+            
+            &__features
+                width:250px
+                padding-left: 25%
+                font-size: 20px
+                
+                li
+                    padding-bottom: 10%
+
+            img
+                grid-column-start: 2
+                grid-row-start: 1
+                padding-top: 10%
+
