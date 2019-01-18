@@ -19,7 +19,7 @@ function filter(array, callback) {
     var res = [];
     
     for (var i = 0; i < array.length; i++) {
-        if(callback(array[i]) === true) {
+        if(callback(array[i])) {
             res[res.length] = array[i];
         }
     }
