@@ -1,30 +1,21 @@
-function splice(array,begin,end){
+function splice(parameters) {
 
-if(!(array instanceof Array)) throw TypeError (array + ' is not an array')
-begin =  typeof begin === 'number' ? (begin >= 0 ? (begin > array.length? 0: begin): arr.length+begin):0 
-end =  typeof end === 'number' ? (end>=0 ? (end>array.length?array.length:end ): array.length+end ): array.length;
+    var start = arguments[1];
+    var deletecount = arguments[2];
+    var deleteDestiny = arguments[1] + arguments[2];
+    var newArray;
+    var deleted = [];
+    newArray.length = arguments.length - deletecount;
 
-var sliced = [];
-
-for(i=begin;i<end;i++){
-
-    if(sliced.length == 0)
+    for (i = 0; i < deleteDestiny; i++) 
     {
-        sliced[0]= array[i];
-    }else{
-        sliced[sliced.length] = array[i]
+
+        newArray[i]= arguments[0][i+start]
+
     }
-}
 
-array.length = sliced.length;
-for(i=0;i<array.length;i++){
+    return newArray;
 
-array[i]=sliced[i]
-
-
-}
-
-return array;
 
 }
 

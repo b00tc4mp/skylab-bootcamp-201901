@@ -1,35 +1,24 @@
-function unshift(array,values){
+function unshift(parameters) {
+   
+   
+    if(!(arguments[0] instanceof Array)) throw TypeError('parameter should be an array');
+    
+    var valuesAdd = arguments.length -1;
+    var newLength = arguments[0].length + valuesAdd;
+    arguments[0].length = newLength;
 
-    if(!(array instanceof Array)) throw TypeError (array + ' is not an array')
-    
-    var offset = values.length;
-    var newArray=[0];
+    for(var i = newLength - 1; i >  valuesAdd -1; i--) {
+        arguments[0][i] = arguments[0][i-valuesAdd];
+    }
 
-    
-    
-    for(i=0; i<values.length; i++){
-    
-        
-        newArray[i] = values[i];
-        
-    
+    for(var i = 0; i < valuesAdd; i++) {
+        arguments[0][i] = arguments[i+1];
     }
-    
-    
-    
-    
-    for(i=0;i<newArray.length;i++){
-    
-    array[i]=newArray[i];
-    
-    }
-    
-    
-    return firstValue;
-    
-    }
-    
-  
-    
-    
-    
+    return arguments[0].length;
+}
+
+
+
+var array = [1,2]
+
+unshift(array,1)
