@@ -456,3 +456,107 @@ suite('some', function(){
         });
     });
 });
+
+suite('Unshift', function(){
+    describe('add elements in the beggining of a Horroy', function(){
+        it('should add one item', function(){
+            var h= new Horroy(1,2,3);
+
+            res=h.unshift('Començem')
+            var expectedh= new Horroy('Començem',1,2,3);
+            var expectedres= 4
+
+            expect(h.toString()===expectedh.toString(),'Horroy should not change');
+            expect(res.toString()===expectedres.toString(),'Unexpected value');
+
+        });
+
+        it('should add more than one item', function(){
+            var h= new Horroy(1,2,3,4,5,6);
+
+            res=h.unshift('Començem','a','contar',true,{})
+            var expectedh= new Horroy('Començem','a','contar',true,{},1,2,3,4,5,6);
+            var expectedres= 11
+
+            expect(h.toString()===expectedh.toString(),'Horroy should not change');
+            expect(res.toString()===expectedres.toString(),'Unexpected value');
+
+        });
+    });
+});
+
+suite('splice', function(){
+    describe('Slice the Horroy without items', function(){
+        it('should cut the Horroy from start to end', function(){
+            var h= new Horroy(1,2,3,4,5,6);
+
+            var res=h.splice(1,3)
+        
+
+            var expectedh= new Horroy(1,5,6)
+            var expectedres= new Horroy(2,3,4)
+        
+           expect(res.toString()===expectedres.toString(), 'Unexpected value');
+           expect(h.toString()===expectedh.toString(),'Horroy should not change');
+
+        });
+
+        it('should cut the Horroy without end', function(){
+            var h= new Horroy(1,2,3,4,5,6);
+
+            var res=h.splice(1)
+        
+
+            var expectedh= new Horroy(1)
+            var expectedres= new Horroy(2,3,4,5,6)
+        
+           expect(res.toString()===expectedres.toString(), 'Unexpected value');
+           expect(h.toString()===expectedh.toString(),'Horroy should not change');
+
+        });
+
+        it('should return empty Horroy when start and end are undefined', function(){
+            var h= new Horroy(1,2,3,4,5,6);
+
+            var res=h.splice()
+        
+
+            var expectedres= new Horroy()
+            var expectedh= new Horroy(1,2,3,4,5,6)
+        
+           expect(res.toString()===expectedres.toString(), 'Unexpected value');
+           expect(h.toString()===expectedh.toString(),'Horroy should not change');
+
+        });
+    });
+
+    describe('Splice Horroy with items', function(){  
+        it('should cut the Horroy from start to end and add the items (less items than delated)', function(){
+            var h= new Horroy(1,2,3,4,5,6);
+
+            var res=h.splice(1,3, 'FUNCIONA1','FUNCIONA2')
+        
+
+            var expectedh= new Horroy(1,'FUNCIONA1','FUNCIONA2',5,6)
+            var expectedres= new Horroy(2,3,4)
+        
+           expect(res.toString()===expectedres.toString(), 'Unexpected value');
+           expect(h.toString()===expectedh.toString(),'Horroy should not change');
+
+        });
+
+        it('should cut the Horroy from start to end and add the items (more items than delated)', function(){
+            var h= new Horroy(1,2,3,4,5,6);
+
+            var res=h.splice(1,1, 'FUNCIONA1','FUNCIONA2')
+        
+
+            var expectedh= new Horroy(1,'FUNCIONA1','FUNCIONA2',3,4,5,6)
+            var expectedres= new Horroy(2)
+        
+           expect(res.toString()===expectedres.toString(), 'Unexpected value');
+           expect(h.toString()===expectedh.toString(),'Horroy should not change');
+
+        });
+    });
+});

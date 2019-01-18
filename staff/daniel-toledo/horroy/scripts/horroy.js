@@ -364,3 +364,115 @@ Horroy.prototype.some=function(callback){
 
     return false
 }
+
+//-----------------------UNSHIFT-------------------------//
+/**
+ * Abstraction of Unshift
+ * 
+ * This method adds one or more items in the begggining of a horroy
+ * and returns the length of the new horroy
+ * 
+ * 
+ * 
+ * @return {number} - new length of the array
+ */
+
+Horroy.prototype.unshift=function(){
+
+    
+    var copy=Object.assign([],this);
+    countCopy=0;
+
+    this.length += arguments.length;
+    var i;
+
+    for (i=0; i<arguments.length; i++){
+        this[i]=arguments[i];
+    }
+    
+    for( i=arguments.length; i<this.length; i++){
+        this[i]=copy[countCopy];
+        countCopy++
+    }
+
+    return this.length
+
+}
+
+//------------------------SPLICE------------------------//
+
+/**
+ * Abstraction of splice.
+ * 
+ * this method changes the contents of a Horroy by removing or replacing existing 
+ * elements and/or adding new elements.
+ * 
+ * @param {number} start -number to start to splice
+ * @param {number} delated - number of elements to delate
+ * @param {*} items - items that I want to add. The number of items can be infinit.
+ * 
+ * @throws {TypeError} - when del or start are not numbers
+ * 
+ * @return {Horroy} - cut Horroy
+ */
+
+Horroy.prototype.splice=function(start, delated) {
+   
+    //WARN: The original does not detect if its a number (exemple: start=true is taken as start=1)
+    // if (  start !== undefined && typeof start!=="number") throw TypeError(start+' is not a number');
+    // if ( delated !== undefined && typeof delated!=="number") throw TypeError(delated+' is not a number');
+
+    delated = delated===undefined? this.length : delated
+
+    var res = new Horroy;
+    var orig = [];
+    var final = [];
+    var items = [];
+
+    var countFinal = 0;
+    var countItems = 0;
+    var horroyLength=this.length
+
+
+    //Look how maney items I have
+    if (arguments.length > 2) {
+        items.length = arguments.length - 2;
+
+        for (var i = 0; i < arguments.length - 2; i++) {
+            items[i] = arguments[i + 2];
+
+        }
+    }
+
+    //Separation of the input Horray
+    for (var i = 0; i < this.length; i++) {
+        if (i >= start && i < (delated + start)) {
+            res[res.length++] = this[i];
+
+        } else if (i >= (delated + start)) {
+            final[final.length] = this[i];
+
+        } else {
+            orig[orig.length] = this[i];
+        }
+    }
+
+    // Creation of the Horroy
+    this.length = orig.length + items.length + final.length;
+    for (var i=this.length; i<horroyLength; i++) delete this[i]
+    
+    for (var i = 0; i < this.length; i++) {
+        if (i >= start && countItems < items.length) {
+            this[i] = items[countItems];
+            countItems++;
+            
+
+        } else if (i >= start && countItems === items.length) {
+            this[i] = final[countFinal];
+            countFinal++;
+        } else {
+            this[i] = orig[i];
+        }
+    }
+    return res
+};
