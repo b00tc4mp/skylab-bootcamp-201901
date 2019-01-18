@@ -16,7 +16,8 @@ test('succeed on change the original array', function (){
                 {name: 'cheo feliciano'}, 
                 {name: 'hector lavoe'}
             ];
-    var newArray = [
+
+    var expectedArray = [
                 {name: 'nico'}, 
                 {name: 'ismael rivera'}, 
                 {name: 'cheo feliciano'}
@@ -25,7 +26,7 @@ test('succeed on change the original array', function (){
     var elementRemoved = pop(array);
 
     assert(JSON.stringify(elementRemoved) === JSON.stringify({name: 'hector lavoe'}), 'the element removed from array was not the expected one');
-    assert(newArray !== array, 'the original array was not change');
+    assert(expectedArray !== array, 'the original array was not change');
 });
 
 test('fail on use a number instead of array', function (){
@@ -40,6 +41,18 @@ test('fail on use a number instead of array', function (){
 
     assert(error, 'should have thrown TypeError');
     assert(error instanceof TypeError, 'should have thrown TypeError');
+});
+
+test('too many arguments', function (){
+    var error;
+
+    try {
+        var elementRemoved = pop([1, 2, 3, 4, 5], 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    } catch (err) {
+        error = err;
+    }
+
+    assert(error, 'should have thrown Error');
 });
 
 
