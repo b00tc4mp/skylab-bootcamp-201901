@@ -106,6 +106,13 @@ suite('of', function () {
             
             expect(res.toString() === expected.toString(), 'should return the correct answer');
         });
+        it('should return correct with several arguments', function () {
+            var res = Horroy.of(7,8,9);
+
+            var expected = new Horroy(7,8,9);
+            
+            expect(res.toString() === expected.toString(), 'should return the correct answer');
+        });
         it('should return empty horroy', function () {
             var res = Horroy.of();
 
@@ -119,6 +126,60 @@ suite('of', function () {
             var expected = new Horroy(undefined);
 
             expect(res.toString() === expected.toString(), 'should return the correct value');
+        });
+    });
+});
+
+suite('concat', function () {
+    describe('Correct concat', function () {
+        it('should return correct with an argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var b = new Horroy(4,5,6);
+
+            var res = a.concat(b);
+
+            var expected = 6;
+
+            expect(res.length === expected, 'should return correct');
+        });
+        it('should return correct with no argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var res = a.concat();
+
+            var expected = 3;
+
+            expect(res.length === expected, 'should return correct');
+        });
+    });    
+    describe('should return correct with else than horroy', function () {
+        it('should return correct with object argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var res = a.concat({});
+
+            var expected = 4;
+
+            expect(res.length === expected, 'should return correct');
+        });
+        it('should return correct with boolean argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var res = a.concat(true);
+
+            var expected = 4;
+
+            expect(res.length === expected, 'should return correct');
+        });
+        it('should return correct with number argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var res = a.concat(4);
+
+            var expected = 4;
+
+            expect(res.length === expected, 'should return correct');
         });
     });
 });
@@ -357,7 +418,7 @@ suite('find', function () {
 suite('forEach', function () {
     describe('Correct forEach', function () {
         it('should return correct', function () {
-            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+            var a = new Horroy(1, 2, 3); 
             var sum = 0;
             
             a.forEach(function(x) {
