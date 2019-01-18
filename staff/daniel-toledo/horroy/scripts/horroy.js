@@ -2,7 +2,7 @@ function Horroy() {
     this.length = arguments.length;
 
     if (arguments.length)
-        for(var i = 0; i < arguments.length; i++)
+        for (var i = 0; i < arguments.length; i++)
             // this.push(arguments[i]); // WARN should avoid (if possible) calling member methods in a constructor (push)
             this[i] = arguments[i];
 }
@@ -11,11 +11,11 @@ function Horroy() {
 //-------------------TO-STRING--------------------//
 /* Abstraction of toString */
 
-Horroy.prototype.toString = function() {
+Horroy.prototype.toString = function () {
     var string = '';
-    
+
     for (var i = 0; i < this.length; i++) {
-        if (i === this.length-1) {
+        if (i === this.length - 1) {
             string += this[i]
         } else {
             string += this[i] + ','
@@ -38,9 +38,9 @@ Horroy.prototype.toString = function() {
  * @return {Horroy} - new horroy filled
  */
 
-Horroy.prototype.fill= function(value, start, end) {
- 
-//TODO!!! if start and end are not vallues
+Horroy.prototype.fill = function (value, start, end) {
+
+    //TODO!!! if start and end are not vallues
 
     start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
     end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
@@ -66,7 +66,7 @@ Horroy.prototype.fill= function(value, start, end) {
  * @return {Horroy} - new array with filtered results
  */
 
-Horroy.prototype.filter = function(callback) {
+Horroy.prototype.filter = function (callback) {
 
     if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function ')
 
@@ -92,11 +92,11 @@ Horroy.prototype.filter = function(callback) {
  * @throws {TypeError} - when callback is not a Function
  * 
  */
-Horroy.prototype.forEach = function(callback) {
+Horroy.prototype.forEach = function (callback) {
     if (typeof callback !== 'function')
         throw new TypeError(callback + ' is not a function');
 
-    for(var i = 0; i < this.length; i++)
+    for (var i = 0; i < this.length; i++)
         callback(this[i]);
 };
 
@@ -112,17 +112,17 @@ Horroy.prototype.forEach = function(callback) {
  *@return {number} - The index of the finded value or -1 if the value is not found
  */
 
-Horroy.prototype.indexOf=function(value, start) {
-    
-    start = start ===undefined? 0 : start
+Horroy.prototype.indexOf = function (value, start) {
 
-    for (var i=start; i<this.length; i++){
-        if (this[i]===value){
+    start = start === undefined ? 0 : start
+
+    for (var i = start; i < this.length; i++) {
+        if (this[i] === value) {
             return i
         }
     }
     return -1
-    
+
 }
 
 //----------------------------JOIN-----------------------//
@@ -139,15 +139,15 @@ Horroy.prototype.indexOf=function(value, start) {
  *@returns {string} - string joining the array compoennts
  */
 
-Horroy.prototype.join=function(separator) {
+Horroy.prototype.join = function (separator) {
     var res = ''
 
-    separator = separator === undefined? ',' : separator + ''
+    separator = separator === undefined ? ',' : separator + ''
 
     for (var i = 0; i < this.length - 1; i++) {
         res += this[i] + separator
     }
-    
+
     res += this[this.length - 1]
     return res
 }
@@ -167,12 +167,12 @@ Horroy.prototype.join=function(separator) {
  * @returns {Array} - A new array with the resulting values.
  */
 
-Horroy.prototype.map=function(callback) {
+Horroy.prototype.map = function (callback) {
 
     if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function')
-    
+
     var res = new Horroy;
-    for (var i = 0; i < this.length; i++) 
+    for (var i = 0; i < this.length; i++)
         res[res.length++] = callback(this[i]);
 
     return res;
@@ -191,11 +191,11 @@ Horroy.prototype.map=function(callback) {
  *@return {*} - Delated item from the array
  */
 
-Horroy.prototype.pop=function() {
+Horroy.prototype.pop = function () {
 
-    var last=this[this.length-1]
-    
-    delete this[this.length-1]
+    var last = this[this.length - 1]
+
+    delete this[this.length - 1]
     this.length--
     return last
 }
@@ -214,11 +214,11 @@ Horroy.prototype.pop=function() {
  * @return {Number} - The length od the new horroy
  */
 
-Horroy.prototype.push = function(value) {
+Horroy.prototype.push = function (value) {
 
-    for (var i=0; i<arguments.length; i++)
-        this[this.length++]=arguments[i]
-        
+    for (var i = 0; i < arguments.length; i++)
+        this[this.length++] = arguments[i]
+
     return this.length
 
 };
@@ -238,22 +238,22 @@ Horroy.prototype.push = function(value) {
  * @return {*} - The reduction value
  */
 
-Horroy.prototype.reduce=function(callback, accumulator) {
+Horroy.prototype.reduce = function (callback, accumulator) {
 
     if (!(callback instanceof Function)) throw TypeError(callback + 'should be a function ')
 
     var i;
 
-    if(accumulator===undefined){
-        accumulator=this[0];
-        i=1;
+    if (accumulator === undefined) {
+        accumulator = this[0];
+        i = 1;
 
-    } else{i=0}
-    
-    for(; i<this.length; i++){
-        var item=this[i];
+    } else { i = 0 }
 
-        accumulator=callback(accumulator,item);
+    for (; i < this.length; i++) {
+        var item = this[i];
+
+        accumulator = callback(accumulator, item);
     }
     return accumulator
 }
@@ -271,12 +271,12 @@ Horroy.prototype.reduce=function(callback, accumulator) {
 
  */
 
-Horroy.prototype.reverse=function(){
+Horroy.prototype.reverse = function () {
 
-    var res=Object.assign([],this)
+    var res = Object.assign([], this)
 
-    for (var i=0; i<this.length; i++){
-        this[i]=res[res.length-1-i]
+    for (var i = 0; i < this.length; i++) {
+        this[i] = res[res.length - 1 - i]
     }
 
     return this
@@ -294,14 +294,14 @@ Horroy.prototype.reverse=function(){
  * @return {Array} - Array shifted
  */
 
-Horroy.prototype.shift=function(array){
+Horroy.prototype.shift = function (array) {
 
-    var first=this[0];
-    var copy=Object.assign([],this)
+    var first = this[0];
+    var copy = Object.assign([], this)
 
     this.length--
-    for (var i=0; i<this.length; i++){
-        this[i]=copy[i+1]
+    for (var i = 0; i < this.length; i++) {
+        this[i] = copy[i + 1]
     }
 
     return first
@@ -324,16 +324,16 @@ Horroy.prototype.shift=function(array){
  * @return {Horroy} - cut horroy
  */
 
-Horroy.prototype.slice=function(start, end){
-   
-    start = start===undefined? 0 : start;
-    end = end===undefined? this.length : end;
+Horroy.prototype.slice = function (start, end) {
 
-    var res= new Horroy
-    for (var i=start; i<end; i++){
-        res[res.length++]=this[i]
+    start = start === undefined ? 0 : start;
+    end = end === undefined ? this.length : end;
+
+    var res = new Horroy
+    for (var i = start; i < end; i++) {
+        res[res.length++] = this[i]
     }
-    
+
     return res
 }
 
@@ -353,11 +353,11 @@ Horroy.prototype.slice=function(start, end){
  * @returns {Boolean} - true is there is some, false if theres is any
  */
 
-Horroy.prototype.some=function(callback){
+Horroy.prototype.some = function (callback) {
 
     if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function')
 
-    for (var i=0; i<this.length; i++){
+    for (var i = 0; i < this.length; i++) {
         var value = this[i]
         if (callback(value)) return true
     }
@@ -377,21 +377,21 @@ Horroy.prototype.some=function(callback){
  * @return {number} - new length of the array
  */
 
-Horroy.prototype.unshift=function(){
+Horroy.prototype.unshift = function () {
 
-    
-    var copy=Object.assign([],this);
-    countCopy=0;
+
+    var copy = Object.assign([], this);
+    countCopy = 0;
 
     this.length += arguments.length;
     var i;
 
-    for (i=0; i<arguments.length; i++){
-        this[i]=arguments[i];
+    for (i = 0; i < arguments.length; i++) {
+        this[i] = arguments[i];
     }
-    
-    for( i=arguments.length; i<this.length; i++){
-        this[i]=copy[countCopy];
+
+    for (i = arguments.length; i < this.length; i++) {
+        this[i] = copy[countCopy];
         countCopy++
     }
 
@@ -416,13 +416,13 @@ Horroy.prototype.unshift=function(){
  * @return {Horroy} - cut Horroy
  */
 
-Horroy.prototype.splice=function(start, delated) {
-   
+Horroy.prototype.splice = function (start, delated) {
+
     //WARN: The original does not detect if its a number (exemple: start=true is taken as start=1)
     // if (  start !== undefined && typeof start!=="number") throw TypeError(start+' is not a number');
     // if ( delated !== undefined && typeof delated!=="number") throw TypeError(delated+' is not a number');
 
-    delated = delated===undefined? this.length : delated
+    delated = delated === undefined ? this.length : delated
 
     var res = new Horroy;
     var orig = [];
@@ -431,7 +431,7 @@ Horroy.prototype.splice=function(start, delated) {
 
     var countFinal = 0;
     var countItems = 0;
-    var horroyLength=this.length
+    var horroyLength = this.length
 
 
     //Look how maney items I have
@@ -459,13 +459,13 @@ Horroy.prototype.splice=function(start, delated) {
 
     // Creation of the Horroy
     this.length = orig.length + items.length + final.length;
-    for (var i=this.length; i<horroyLength; i++) delete this[i]
-    
+    for (var i = this.length; i < horroyLength; i++) delete this[i]
+
     for (var i = 0; i < this.length; i++) {
         if (i >= start && countItems < items.length) {
             this[i] = items[countItems];
             countItems++;
-            
+
 
         } else if (i >= start && countItems === items.length) {
             this[i] = final[countFinal];
