@@ -321,5 +321,3 @@ Horroy.prototype.toString = function() {
     }
     return string
 };
-
-var a = new Horroy(1,2,3);

@@ -98,4 +98,5 @@ suite('horroy', function(){
             expect(found === expected, 'found value ' + found + ' does not match expected ' + expected);     
         });
     });
+    
 });
