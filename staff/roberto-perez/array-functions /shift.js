@@ -1,8 +1,13 @@
 /**
+ * Abstraction of shift.
  *
- * @param {Array} arr - The array to reverse.
+ * Removes the first element of the array.
  *
- * @returns {Array} - Array reverse
+ * @param {Array} arr - array to shift
+ *
+ * @throws {TypeError} - when arr is not an Array
+ *
+ * @return {boolean} - returns the element
  */
 function shift(arr) {
   if (!(arr instanceof Array)) {

@@ -1,8 +1,7 @@
-/**
+ /**
  * Abstraction of fill.
  *
  * Fills all the elements of an array from the start index to the end index, with the static value.
- * The result modified the current array.
  *
  * @param {Array} arr - The array to fill.
  * @param {*} value - Value with which you will fill the array.

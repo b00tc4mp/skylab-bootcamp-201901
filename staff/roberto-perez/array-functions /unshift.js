@@ -1,8 +1,13 @@
 /**
+ * Abstraction of unshift.
  *
- * @param {Array} arr - The array to reverse.
+ * Add one or more elements to the beginning of the array.
  *
- * @returns {Array} - Array reverse
+ * @param {Array} arr - array to shift
+ *
+ * @throws {TypeError} - when arr is not an Array
+ *
+ * @return {boolean} - returns the new length of the array.
  */
 function unshift(arr) {
   if (!(arr instanceof Array)) {

@@ -35,47 +35,19 @@ test('Find element negative index', function () {
 
   var found = indexOf(array, 2, -3);
 
-  var expected = -1;
+  var expected = 0;
 
   if (found !== expected) throw Error('found index ' + found + ' does not match expected ' + expected);
 });
 
-// test("First argument is not array", function() {
-//   var error;
 
-//   var arr = [2, 9, 9];
+test('Find non existent element', function () {
+  var array = [2, 9, 9];
 
-//   var found;
+  var found = indexOf(array, 7);
 
-//   try {
-//     found = indexOf(2, 2);
-//   } catch (err) {
-//     error = err;
-//   }
+  var expected = -1;
 
-//   if (!error) throw Error("should have thrown an error");
-//   if (!(error instanceof Error)) throw Error("should have thrown TypeError");
-// });
-
-// test("Second argument is necessary", function() {
-//   var error;
-
-//   var arr = [2, 9, 9];
-
-//   var found;
-
-//   try {
-//     found = indexOf(arr);
-//   } catch (err) {
-//     error = err;
-//   }
-
-//   if (!error) throw Error("should have thrown an error");
-//   if (!(error instanceof Error)) throw Error("should have thrown TypeError");
-// });
-
-
-
-
-
+  if (found !== expected) throw Error('found index ' + found + ' does not match expected ' + expected);
+});
 
