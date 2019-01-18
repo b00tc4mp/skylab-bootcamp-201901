@@ -1,4 +1,4 @@
-suite('indexOf()');
+suite('indexOf');
 
 test('not found with 1 argument', function () {
     var arr = [1, 2, 3, 4, 5];
