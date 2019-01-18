@@ -560,3 +560,145 @@ suite('splice', function () {
         });
     });
 });
+
+suite('Find', function () {
+    describe('Find the element', function () {
+        it('should show the element taht satisfies the callback', function () {
+            var h = new Horroy(1, 2, 3);
+
+            res = h.find(function(el){
+                return el>2});
+            
+            var expectedh = new Horroy(1, 2, 3);
+            var expectedres = 3
+
+            expect(h.toString() === expectedh.toString(), 'Horroy should not change');
+            expect(res=== expectedres, 'Unexpected value');
+
+        });
+
+        it('should return undefined when the value is not found', function () {
+            var h = new Horroy(1, 2, 3);
+
+            res = h.find(function(el){
+                return el>3});
+            
+            var expectedh = new Horroy(1, 2, 3);
+            var expectedres = undefined
+
+            expect(h.toString() === expectedh.toString(), 'Horroy should not change');
+            expect(res=== expectedres, 'Unexpected value');
+
+        });
+    });
+});
+
+suite('From', function () {
+    describe('Creates a Horroy when enters a value', function () {
+        it('should creates a horroy when enters a string', function () {
+            var h = Horroy.from('Daniel');
+            
+            var expected = new Horroy('D','a','n','i','e','l');
+
+            expect(h.toString() === expected.toString(), 'Horroy is not created as expected');
+            expect(h instanceof Horroy, 'Horroy is not a Horroy');
+
+        });
+
+        it('should creates a horroy when enters an array', function () {
+            var h = Horroy.from([1,2,3]);
+            
+            var expected = new Horroy(1,2,3);
+
+            expect(h.toString() === expected.toString(), 'Horroy is not created as expected');
+            expect(h instanceof Horroy, 'Horroy is not a Horroy');
+
+        });
+
+        it('should creates a horroy when enters a horroy', function () {
+            var h0= new Horroy(1,2,3)
+            var h = Horroy.from(h0);
+            
+            var expected = new Horroy(1,2,3);
+
+            expect(h.toString() === expected.toString(), 'Horroy is not created as expected');
+            expect(h instanceof Horroy, 'Horroy is not a Horroy');
+
+        });
+
+        it('should creates an empty horroy when enters not iterable value', function () {
+            var hnum = Horroy.from(123);
+            var hbool = Horroy.from(true);
+            var hobj = Horroy.from({});
+            var hfunc = Horroy.from(function(){});
+            
+            var expected = new Horroy();
+
+            expect(hnum.toString() === expected.toString(), 'Horroy is not created as expected');
+            expect(hbool.toString() === expected.toString(), 'Horroy is not created as expected');
+            expect(hobj.toString() === expected.toString(), 'Horroy is not created as expected');
+            expect(hfunc.toString() === expected.toString(), 'Horroy is not created as expected');
+
+            expect(hnum instanceof Horroy, 'Horroy is not a Horroy');
+            expect(hbool instanceof Horroy, 'Horroy is not a Horroy');
+            expect(hobj instanceof Horroy, 'Horroy is not a Horroy');
+            expect(hfunc instanceof Horroy, 'Horroy is not a Horroy');
+
+
+        });
+    });
+
+    describe('Throw Error', function () {
+        it('should throw typeError when value is undefined', function () {
+            var error;
+            
+
+            try {
+                Horroy.from(undefined);
+            } catch (err) {
+                error = err;
+            }
+
+            expect(error, 'it should throw an Error')
+            expect(error instanceof TypeError, 'error should be TypeError')
+
+        });
+
+        it('should throw typeError when value is null', function () {
+            var error;
+            
+
+            try {
+                Horroy.from(null);
+            } catch (err) {
+                error = err;
+            }
+
+            expect(error, 'it should throw an Error')
+            expect(error instanceof TypeError, 'error should be TypeError')
+
+        });
+    });
+});
+
+suite('isHorroy', function () {
+    describe('Evaluates the function', function () {
+        it('should show true when value is Horroy', function () {
+            var h = new Horroy(1, 2, 3);
+
+            expected= Horroy.isHorroy(h)
+
+            expect(expected, 'Unexpected value');
+
+        });
+
+        it('should show true when value is Horroy', function () {
+            var h = [1,2,3,4,5];
+
+            expected= Horroy.isHorroy(h)
+
+            expect(!expected, 'Unexpected value');
+
+        });
+    });
+});
