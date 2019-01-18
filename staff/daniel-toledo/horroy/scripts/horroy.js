@@ -7,9 +7,70 @@ function Horroy() {
             this[i] = arguments[i];
 }
 
+//-------------------HORROY.FROM-------------------//
+/**
+ * Abstraction of from
+ * 
+ * it creates a Horroy from a iterable value
+ * 
+ * @param {string} value - string made by horroy parameters
+ * 
+ * @return {Horroy} - created horroy
+ */
+Horroy.from=function(value){
+    h=new Horroy
+
+    if((typeof value === 'undefined')) throw TypeError('Cannot convert undefined or null to object')
+    if((value === null)) throw TypeError('Cannot convert undefined or null to object')
+
+    if(typeof value === 'string' || value instanceof Array || value instanceof Horroy){
+        h.length=value.length
+        for(var i=0; i<value.length; i++){
+            h[i]=value[i];
+        }
+    }
+    return h
+}
+
+//------------------------HORROY.IS HORROY---------------//
+
+/**
+ * Abstraction of ishorroy
+ * 
+ * it says true if is horry or false if its not
+ * 
+ * @param {Horroy} value - horroy to evaluate
+ * 
+ * @return {Boolean} - true is is horroy, false if its not
+ */
+Horroy.isHorroy=function(value){
+    return value instanceof Horroy? true:false
+}
+
+//------------------------HORROY.OF------------------------//
+/**
+ * Abstraction of of
+ * 
+ * it says true if is horry or false if its not
+ * 
+ * @param {Horroy} value - horroy to evaluate
+ * 
+ * @return {Boolean} - true is is horroy, false if its not
+ */
+
+Horroy.of=function(value){
+    return value instanceof Horroy? true:false
+}
 
 //-------------------TO-STRING--------------------//
-/* Abstraction of toString */
+/**
+ * Abstraction of string.
+ * 
+ * Converts the horroy in a string
+ * 
+ * 
+ * @return {string} - string made by horroy parameters
+ */
 
 Horroy.prototype.toString = function () {
     var string = '';
@@ -476,3 +537,31 @@ Horroy.prototype.splice = function (start, delated) {
     }
     return res
 };
+
+//-------------------------------FIND---------------------//
+
+/**
+ * Abstraction of find.
+ *
+ * This metod return the value of the first element in the Horroy that satisfies the provided testing function.
+ * The result is the found value
+ *
+ * @param {Function} callback - testing funtion
+ * 
+ * @throws {TypeError} - when callback is not a Function
+ * 
+ * 
+ *@return {*} - The found value. Undefined if value is not found
+ */
+
+Horroy.prototype.find=function(callback) {
+
+
+    if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function')
+
+    for (var i=0; i<this.length; i++){
+        var value = this[i]
+        if (callback(value)) return value
+    }
+    
+}
