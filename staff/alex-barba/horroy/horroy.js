@@ -9,9 +9,10 @@
  */
 
 function Horroy(){
-    this.length = arguments.length;
-    
-    if(arguments.length){
+   if (arguments.length = 1 && typeof argument === 'number'){
+        this.length = argument[0]
+    } else {
+        this.length = arguments.length;
         for (var i = 0; i < arguments.length; i++) {
             this[i] = arguments[i];
         }
@@ -325,5 +326,31 @@ Horroy.prototype.toString = function() {
 Horroy.prototype.toRainbow = function(){
     console.log('%c ' + this.join(), 'font-weight: bold; font-size: 50px; color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)');
 };
+
+/* Abstraction of .from() */
+
+Horroy.from = function(value) {
+    if(value === undefined || value === null) throw new TypeError (value + ' is not an Object')
+    var hor = new Horroy();
+
+    if (typeof value === 'string' || value instanceof Array || value instanceof Horroy) {
+        hor.length = value.length;
+        for(var i = 0; i < value.length; i++){
+            hor[i] = value[i];
+        }
+        return hor
+    };
+    return hor
+};
+
+/* Abstraction of .isArray()) */
+
+Horroy.isHorroy = function(value){
+    return value instanceof Horroy ? true : false;
+};
+
+
+
+
 
 var a = new Horroy(1,2,3);
