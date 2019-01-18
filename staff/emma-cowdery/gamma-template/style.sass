@@ -2,9 +2,8 @@
 
 
 .body-home
-    margin: 0em
+    margin: 0
     font-family: 'Roboto', sans-serif
-    //width: 100%
 
     .nav-bar
         display: flex
@@ -27,10 +26,8 @@
             color: gray
             padding: 0.4em
             margin-right: 1em
-            border-style: solid
-            border-color: grey
             border-radius: 0.4em
-            border-width: 0.1em
+            border: 0.1em solid grey
 
     a:hover
         color: #149983
@@ -51,10 +48,10 @@
             padding: 1em
             margin: 0em
 
-            .page-title__header__1
+            .page-title__header-1
                 color: white
 
-            .page-title__header__2
+            .page-title__header-2
                 color:  rgb(20, 153, 131)
 
         .page-title__quote
@@ -132,12 +129,15 @@
         .features-container__list
             color: white
             padding: 1em
+            list-style-type: none
 
-            .features-container__flexbox2__title
+            .features-container__list-title
+                padding-bottom: 1em
+                font-weight: 900
+                font-size: 1.5em
+
+            .features-container__flexbox2-title
                 font-size: 1em
-
-            //.features-container__flexbox2__list
-                //list-style: none
 
         .features-container__img
             align-self: flex-start
@@ -155,11 +155,9 @@
     @media (min-width: 580px)
         .page-title
             background-image: url("./images/site_showcase_bg.jpg")
-            //width: 100%
             display: flex
             flex-direction: column
             align-items: flex-start
-            //padding: 2em
     
     
             .page-title__header
@@ -196,13 +194,12 @@
             .nav-bar__components
                 padding: 0em
                 margin: 0em
-                display: inline //!important
+                display: inline
                 padding: 1em
     
-            .nav-bar__components__home
+            .nav-bar__components-home
                 background-color: rgb(202, 202, 202)
-                //padding: 1em
-
+                
             .nav-bar__hamburguer
                 display: none
 
@@ -231,13 +228,11 @@
             display: grid
             grid-template-columns: 1fr 1fr 1fr
             margin-top: 5em
-            //max-width: 100%
 
         .features-container
             background-color:  rgb(20, 153, 131)
             display: grid
             grid-template-columns: 1fr 1fr
-            //width: 100%
 
             .features-container__list
                 color: white
@@ -245,11 +240,8 @@
                 margin-left: 14em
                 
 
-                .features-container__flexbox2__title
+                .features-container__flexbox2-title
                     font-size: 1em
-
-                //.features-container__flexbox2__list
-                    //list-style: none
 
             .features-container__img
                 align-self: flex-start
@@ -260,7 +252,6 @@
 .body-contact
     margin: 0em
     font-family: 'Roboto', sans-serif
-    //width: 100%
 
     .nav-bar
         display: flex
@@ -315,22 +306,21 @@
         .main-grid-container__messages
             margin: 1em
 
-            .main-grid-container__messages__text
+            .main-grid-container__messages-text
                 width: 100%
                 padding: 0.5em
                 margin: 0em
             
-            .main-grid-container__messages__input
+            .main-grid-container__messages-input
                 color: rgb(36, 39, 49)
                 width: 98%
-                //padding: 0.5em
                 margin-left: 0.5em
                 border-style: solid
                 border-color: grey
                 border-radius: 0.3em
                 border-width: 0.1em
 
-            .main-grid-container__messages__button
+            .main-grid-container__messages-button
                 background-color: white
                 border-style: solid
                 border-color: grey
@@ -345,11 +335,9 @@
             display: flex
             flex-direction: column
             justify-content: center
-            //padding: 1em
-            //width: 100%
             margin: 1em
 
-            .main-grid-container__article__image
+            .main-grid-container__article-image
                 align-self: center
                 padding: 0.25em
                 border-style: solid
@@ -359,19 +347,19 @@
                 max-width:100%
                 padding: 0.5em
 
-            .main-grid-container__article__title
+            .main-grid-container__article-title
                 color: rgb(36, 39, 49)
                 max-width:100%
                 padding: 0.5em
                 margin: 0em
 
-            .main-grid-container__article__text
+            .main-grid-container__article-text
                 color: rgb(36, 39, 49)
                 max-width: 100%
                 padding: 0.5em
                 margin: 0em
 
-            .main-grid-container__article__button
+            .main-grid-container__article-button
                 background-color: white
                 border-style: solid
                 border-color: grey
@@ -391,13 +379,16 @@
         .features-container__list
             color: white
             padding: 1em
+            list-style-type: none
 
-            .features-container__flexbox2__title
+            .features-container__list-title
+                padding-bottom: 1em
+                font-weight: 900
+                font-size: 1.5em
+
+            .features-container__flexbox2-title
                 font-size: 1em
-
-            //.features-container__flexbox2__list
-                //list-style: none
-
+            
         .features-container__img
             align-self: flex-start
             padding: 1em
@@ -438,7 +429,7 @@
                 margin: 0em
                 display: inline //!important
     
-            .nav-bar__components__contact
+            .nav-bar__components-contact
                 margin: 0em
                 background-color: rgb(202, 202, 202)
                 //padding: 1em
@@ -462,7 +453,6 @@
             background-color:  rgb(20, 153, 131)
             display: grid
             grid-template-columns: 1fr 1fr
-            //width: 100%
 
             .features-container__list
                 color: white
@@ -470,11 +460,8 @@
                 margin-left: 14em
                 
 
-                .features-container__flexbox2__title
+                .features-container__flexbox2-title
                     font-size: 1em
-
-                //.features-container__flexbox2__list
-                    //list-style: none
 
             .features-container__img
                 align-self: flex-start
@@ -486,7 +473,6 @@
 .body-about
     margin: 0em
     font-family: 'Roboto', sans-serif
-    //width: 100%
 
     .nav-bar
         display: flex
@@ -541,38 +527,33 @@
         .main-grid-container__about
             margin: 0.5em
             max-width: 98%
-            //padding: 0.5em
 
-            .main-grid-container__about__title
-                //max-width: 100%
+            .main-grid-container__about-title
                 padding: 0.4em
                 margin: 0em
 
-            .main-grid-container__about__text
-                //max-width: 100%
+            .main-grid-container__about-text
                 padding: 0.5em
                 margin-bottom: 0.5em
                 font-size: 0.9em
 
-            .main-grid-container__about__group
+            .main-grid-container__about-group
                 font-weight: normal
                 border-style: solid
                 border-color: rgb(180, 178, 178)
                 border-radius: 0.1em
                 border-width: 0.05em
-                //width: 98%
                 background-color: rgb(238, 238, 238)
                 padding: 0.3em
                 margin: 0.1em
                 font-size: 0.9em
             
-            .main-grid-container__about__item
+            .main-grid-container__about-item
                 font-size: 0.75em
                 border-style: solid
                 border-color: rgb(180, 178, 178)
                 border-radius: 0.3em
                 border-width: 0.05em
-                //width: 98%
                 padding: 0.5em
                 margin: 0.1em
 
@@ -580,11 +561,9 @@
             display: flex
             flex-direction: column
             justify-content: center
-            //padding: 1em
-            //width: 100%
             margin: 1em
 
-            .main-grid-container__article__image
+            .main-grid-container__article-image
                 align-self: center
                 padding: 0.25em
                 border-style: solid
@@ -594,19 +573,19 @@
                 max-width:100%
                 padding: 0.5em
 
-            .main-grid-container__article__title
+            .main-grid-container__article-title
                 color: rgb(36, 39, 49)
                 max-width:100%
                 padding: 0.5em
                 margin: 0em
 
-            .main-grid-container__article__text
+            .main-grid-container__article-text
                 color: rgb(36, 39, 49)
                 max-width: 100%
                 padding: 0.5em
                 margin: 0em
 
-            .main-grid-container__article__button
+            .main-grid-container__article-button
                 background-color: white
                 border-style: solid
                 border-color: grey
@@ -626,12 +605,15 @@
         .features-container__list
             color: white
             padding: 1em
+            list-style-type: none
 
-            .features-container__flexbox2__title
+            .features-container__list-title
+                padding-bottom: 1em
+                font-weight: 900
+                font-size: 1.5em
+
+            .features-container__flexbox2-title
                 font-size: 1em
-
-            //.features-container__flexbox2__list
-                //list-style: none
 
         .features-container__img
             align-self: flex-start
@@ -671,13 +653,12 @@
             .nav-bar__components
                 padding: 1em
                 margin: 0em
-                display: inline //!important
+                display: inline
     
-            .nav-bar__components__about
+            .nav-bar__components-about
                 margin: 0em
                 background-color: rgb(202, 202, 202)
-                //padding: 1em
-            
+                       
             .nav-bar__hamburguer
                 display: none
             
@@ -697,7 +678,6 @@
             background-color:  rgb(20, 153, 131)
             display: grid
             grid-template-columns: 1fr 1fr
-            //width: 100%
 
             .features-container__list
                 color: white
@@ -705,11 +685,8 @@
                 margin-left: 14em
                 
 
-                .features-container__flexbox2__title
+                .features-container__flexbox2-title
                     font-size: 1em
-
-                //.features-container__flexbox2__list
-                    //list-style: none
 
             .features-container__img
                 align-self: flex-start
