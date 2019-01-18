@@ -22,10 +22,11 @@ function Horroy(){
 
 Horroy.prototype.fill = function(value, start, end) {
     if (arguments.length > 4) throw Error('too many arguments');
-    if (typeof start !== 'number' || typeof end !== 'number'  ) throw TypeError (start + ' or ' + end + ' is not a number');
-    
+
     start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
     end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
+
+    if (typeof start !== 'number' || typeof end !== 'number'  ) throw TypeError (start + ' or ' + end + ' is not a number');
     
         for (var i = start; i < end; i++) {
             this[i] = value;
@@ -110,10 +111,10 @@ Horroy.prototype.map = function(callback) {
 
     var res = new Horroy();
 
-    debugger;
-
-    for (var i = 0; i < this.length; i++) res[i] = callback(this[i]) + res.length++ ;
-    
+    for (var i = 0; i < this.length; i++) {
+        res[i] = callback(this[i]) 
+        res.length++ ;
+    }
     return res;
 };
 
@@ -129,15 +130,12 @@ Horroy.prototype.pop = function(){
 
 /* Abstraction of push */
 
-Horroy.prototype.push = function(element) {
-    this[this.length]=element;
-
-    if (arguments.length>2) {
-        for (var i = 2; i<arguments.length; i++) {
-            this[this.length] = arguments[i];
-            this.length++
-        }
-    };
+Horroy.prototype.push = function() {
+    
+    for (var i = 0; i<arguments.length; i++) {
+        this[this.length] = arguments[i];
+        this.length++;
+    }
     return this.length;
 };
 
@@ -230,7 +228,7 @@ Horroy.prototype.some = function(callback){
 /* Abstraction of splice */
 
 Horroy.prototype.splice = function(start, deleteCount, item){
-    if (deleteCount > (array.length-start) || deleteCount === undefined) { deleteCount = array.length-start};
+    if (deleteCount > (this.length-start) || deleteCount === undefined) { deleteCount = this.length-start};
 
     
     var original = new Horroy();
@@ -248,17 +246,17 @@ Horroy.prototype.splice = function(start, deleteCount, item){
     }
     
     for (let i = 0; i < start; i++) {
-        initial[initial.length] = array[i]
+        initial[initial.length] = this[i]
         initial.length++;
     };
 
-    for (let i = (start + deleteCount); i < array.length; i++) {
-        end[end.length] = array[i]
+    for (let i = (start + deleteCount); i < this.length; i++) {
+        end[end.length] = this[i]
         end.length++;
     };
 
     for (let i = start; i < (start+deleteCount); i++){
-        res[res.length] = array[i]
+        res[res.length] = this[i]
         res.length++;
     };
 
@@ -321,3 +319,11 @@ Horroy.prototype.toString = function() {
     }
     return string
 };
+
+/* Joins Horroy and prints console.log in Rainbow format */
+
+Horroy.prototype.toRainbow = function(){
+    console.log('%c ' + this.join(), 'font-weight: bold; font-size: 50px; color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)');
+};
+
+var a = new Horroy(1,2,3);
