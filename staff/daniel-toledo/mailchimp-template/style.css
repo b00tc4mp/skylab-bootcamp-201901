@@ -1,0 +1,169 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  background-color: #44bbd3;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+.header__login {
+  padding: 20px;
+  display: flex;
+  flex-direction: row-reverse;
+  text-decoration: none;
+  color: white;
+}
+.header__menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.header__logo {
+  margin-right: 20px;
+}
+.header__signup {
+  padding: 20px;
+  margin-right: 20px;
+  color: white;
+  background-color: black;
+  border: 0px solid black;
+  border-radius: 1em;
+}
+.header__nav {
+  border-radius: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: rgba(225, 225, 225, 0.8);
+}
+.header__nav a {
+  color: black;
+  text-decoration: none;
+  padding: 20px;
+}
+.header__nav-search {
+  margin: 0px 15px;
+  padding: 5px 10px;
+  border-radius: 0.5em;
+  background-color: white;
+}
+.header__nav-search input {
+  border-width: 0;
+  border-radius: 0.5em;
+}
+.header__banner {
+  margin-top: 20px;
+  display: flex;
+}
+.header__info {
+  margin-left: 30px;
+  margin-top: 30px;
+}
+.header__title {
+  color: white;
+  font-size: 7em;
+  line-height: 0.85em;
+}
+.header__text {
+  margin: 20px 0;
+}
+.header__signup--red {
+  background-color: #e95c41;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.header__background-bottom {
+  height: 50px;
+}
+
+.main {
+  background-color: #cdd1d0;
+}
+.main__board {
+  position: relative;
+  top: -50px;
+  background-color: #f0f0f0;
+  margin-left: 5%;
+  margin-right: 5%;
+  border-radius: 1em 1em 0 0;
+}
+.main__sections {
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 30px;
+}
+.main__title {
+  padding: 30px;
+  padding-bottom: 0;
+  font-size: 200%;
+}
+.main__card {
+  display: flex;
+  flex-direction: column;
+}
+.main__card img {
+  margin-bottom: 40px;
+  width: 100%;
+}
+.main__card h4 {
+  font-size: 15px;
+}
+.main__card h3 {
+  font-size: 24px;
+}
+.main__card p {
+  margin: 20px 0px;
+  height: 5em;
+}
+.main__card button {
+  justify-self: end;
+  width: 100%;
+  background-color: #3f3f37;
+  color: white;
+  text-align: left;
+  padding: 7px 15px;
+  border-width: 0;
+  border-radius: 0.5em;
+}
+
+.footer {
+  background-color: black;
+  position: relative;
+  top: -50px;
+}
+.footer__menu {
+  margin-left: 5%;
+  margin-right: 5%;
+  padding-top: 20px;
+}
+.footer__board {
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-bottom: 100px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 30px;
+}
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+}
+.footer__nav a {
+  color: white;
+  text-decoration: none;
+  line-height: 25px;
+}
+.footer__bold {
+  font-weight: 900;
+}
+.footer__copy {
+  color: white;
+  padding-bottom: 50px;
+  text-align: center;
+}
+
+/*# sourceMappingURL=style.css.map */
