@@ -113,6 +113,88 @@ suite('Horroy', function() {
 
     });
 
+    describe('Function from()', function() {
+            
+        it('should return a new instance of Array from a string', function() {
+            var horroy = Horroy.from('Hola mundo');
+            
+            var arrString = horroy.toString();
+            
+            var expected = 'H,o,l,a, ,m,u,n,d,o';
+            
+            expect(arrString === expected, 'Unexpected value.')
+        });
+
+        it('should return a new instance of Array from a array', function() {
+            var horroy = Horroy.from([[1, 2], [2, 4], [4, 8]]);
+            
+            var arrString = horroy.toString();
+            
+            var expected = '1,2,2,4,4,8';
+            
+            expect(arrString === expected, 'Unexpected value.')
+        });
+
+        it('should return a new instance of Array from a array', function() {
+            var horroy = Horroy.from([[1, 2], [2, 4], [4, 8]]);
+            
+            var arrString = horroy.toString();
+            
+            var expected = '1,2,2,4,4,8';
+            
+            expect(arrString === expected, 'Unexpected value.')
+        });
+
+        it('should return a new instance of Array when pass a callback function', function() {
+            var horroy = Horroy.from([1, 2, 3], function(x) {
+                return x + x;
+            });
+            
+            var arrString = horroy.toString();
+            
+            var expected = '2,4,6';
+            
+            expect(arrString === expected, 'Unexpected value.')
+        });
+
+        it('should return a new empty instance of Array from not iterable object', function() {
+            var horroy = Horroy.from(true);
+            
+            var arrString = horroy.toString();
+            
+            var expected = '';
+            
+            expect(arrString === expected, 'Unexpected value.')
+        });
+
+        it('LOOOOOOL', function() {
+            var horroy = Horroy.from({length: 5}, function(v, i) {
+                return i;
+            });
+            
+            var arrString = horroy.toString();
+            
+            var expected = '0,1,2,3,4';
+            
+            expect(arrString === expected, 'Unexpected value.');
+        });
+
+    });
+
+    describe('Function isHorrory()', function() {
+        
+        it('should return true if the argument is an array', function() {
+            var horroy = Horroy.isHorrory([1, 2, 3]);
+            
+            var arrString = horroy.toString();
+            
+            var expected = true;
+            
+            expect(arrString === expected, 'Unexpected value.')
+        });
+
+    });
+
 });
 
 // var horroy = new Horroy(1, 2, 3); // ~ [1, 2, 3]
