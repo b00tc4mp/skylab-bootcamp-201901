@@ -12,3 +12,4 @@ horroy.forEach(function (value) { console.log(value); }); // 1, 2, 3, 4, 5
 var horr = Horroy.from('hola mundo')
 
 console.log(horr)
+
