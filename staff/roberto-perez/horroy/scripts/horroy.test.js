@@ -167,30 +167,40 @@ suite('Horroy', function() {
             expect(arrString === expected, 'Unexpected value.')
         });
 
-        it('LOOOOOOL', function() {
-            var horroy = Horroy.from({length: 5}, function(v, i) {
-                return i;
-            });
+        // it('LOOOOOOL', function() {
+        //     var horroy = Horroy.from({length: 5}, function(v, i) {
+        //         return i;
+        //     });
             
-            var arrString = horroy.toString();
+        //     var arrString = horroy.toString();
             
-            var expected = '0,1,2,3,4';
+        //     var expected = '0,1,2,3,4';
             
-            expect(arrString === expected, 'Unexpected value.');
-        });
+        //     expect(arrString === expected, 'Unexpected value.');
+        // });
 
     });
 
     describe('Function isHorrory()', function() {
         
-        it('should return true if the argument is an array', function() {
-            var horroy = Horroy.isHorrory([1, 2, 3]);
+        it('should return true if the argument is an Horroy', function() {
+            var horroy = new Horroy(1, 2, 3);
             
-            var arrString = horroy.toString();
+            var isHorrory = Horroy.isHorroy(horroy);
             
             var expected = true;
             
-            expect(arrString === expected, 'Unexpected value.')
+            expect(isHorrory === expected, 'Unexpected value.')
+        });
+
+        it('should return true if the argument is not an Horroy', function() {
+            var horroy = [1, 2, 3];
+            
+            var isHorrory = Horroy.isHorroy(horroy);
+            
+            var expected = false;
+            
+            expect(isHorrory === expected, 'Unexpected value.')
         });
 
     });
