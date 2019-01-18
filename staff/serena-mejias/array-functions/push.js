@@ -6,4 +6,4 @@ function push(array,value){
     }
     return array.length;
 }
-push(animals,"cows");
+push(animals,"cows","horse");
