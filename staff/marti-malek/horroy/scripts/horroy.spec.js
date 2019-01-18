@@ -216,4 +216,70 @@ describe('Horroy', function() {
             expect(res.toString()).toBe(expected.toString());
         });
     });
+    describe('lastIndexOf', function () {
+        it('should return correct with 1 occurrence', function () {
+            var res = horroy1.lastIndexOf('d');
+
+            var expected = 3;
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct with various occurrence', function () {
+            var a = new Horroy(1,2,5,1,7,1);
+
+            var res = a.lastIndexOf(1);
+
+            var expected = 5;
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct with no occurrence', function () {
+            var a = new Horroy(1,2,5,1,7,1);
+
+            var res = a.lastIndexOf();
+
+            var expected = -1;
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+    });
+    describe('reduceRight', function () {
+        it('should return correct without accumulator', function () {
+            var a = new Horroy(1,2,3,4,5);
+
+            var res = a.reduceRight(function (accumulator, product) {
+                return accumulator + product;
+            });
+            var expected = 15;
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct with accumulator', function () {
+            var a = new Horroy(1,2,3,4,5);
+
+            var res = a.reduceRight(function (accumulator, product) {
+                return accumulator + product;
+            }, 0);
+            var expected = 15;
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct with string accumulator', function () {
+            var a = new Horroy(1,2,3,4,5);
+
+            var res = a.reduceRight(function (accumulator, product) {
+                return accumulator + product;
+            }, 's');
+            var expected = 's54321';
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+    });
+/*     describe('toSource', function () {
+        it('should return correct', function () {
+            var res = numHorroy.toSource();
+
+            console.log(res);
+        });
+    }); */
 });
