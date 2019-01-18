@@ -1,56 +1,60 @@
+suite("Shift", function(){
+    describe('.Shift Function', function(){
+        it('base case I', function () {
+            var error;
+            var array =[1,2,3]
+            try {
+                array = shift(array)
+            } catch (err) {
+                error = err;
+            }
+            console.log(array)
+            expect(!error, 'shouldnt be any error')
+        });
+    });
+    
+    describe('.Shift Function', function(){
+        it('base case array.length=1', function () {
+            var error;
+            var array =[1]
 
+            try {
+                shift(array)
+            } catch (err) {
+                error = err;
+            }
+        
+            expect(error, 'shouldnt be any error')
+        });
+    });
 
-test('base case', function () {
-    var error;
-    var array =[1,2,3]
-    debugger
-    try {
-        array = shift(array)
-    } catch (err) {
-        error = err;
-    }
-    console.log(array)
-    if(error) throw new Error ('There shouldnt be any error')
+    describe('.Shift Function', function(){
+        it('parameter is not an array I', function () {
+            var error;
+            var array = false;
+
+            try {
+                shift(array)
+            } catch (err) {
+                error = err;
+            }
+        
+            expect(error, 'should be error, parameter not an array')
+        });
+    });
+    
+    describe('.Shift Function', function(){
+        it('parameter is not an array II', function () {
+            var error;
+            var array = false;
+
+            try {
+                shift(array)
+            } catch (err) {
+                error = err;
+            }
+        
+            expect(error, 'Error should appear parameter = false')
+        });
+    });
 });
-
-
-test('base case array.length=1', function () {
-    var error;
-    var array =[1]
-    debugger
-    try {
-        shift(array)
-    } catch (err) {
-        error = err;
-    }
-
-    if(!(error.message == 'Array of only one item!')) throw new Error ('There shouldnt be any error')
-});
-
-test('parameter is not an array', function () {
-    var error;
-    var array = false;
-    debugger
-    try {
-        shift(array)
-    } catch (err) {
-        error = err;
-    }
-
-    if(!(error)) throw new Error("there should be an error when passing false as paramter")
-});
-
-
-test('parameter is not an array', function () {
-    var error;
-    var array = false;
-    debugger
-    try {
-        shift(array)
-    } catch (err) {
-        error = err;
-    }
-
-    if(!(error)) throw new Error("there should be an error when passing false as paramter")
-});
-
