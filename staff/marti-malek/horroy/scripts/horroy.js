@@ -247,21 +247,87 @@ Horroy.prototype.find = function(callback) {
         if(callback(value)) return value;
     }
 };
-Horroy.prototype.findIndex= function () {
-
-}
 /**
+ * Abstraction of findindex.
  * 
- * Abstraction of push
+ * Returns the index of the first item in an horroy that evaluates true when the callback function is passed.
  * 
- * Adds the value to the end of the horroy
+ * @param {function} func
  * 
- * @param {*} value
+ * @returns {number}
  */
-Horroy.prototype.push = function(value) {
-    this[this.length++] = value;
-};
+Horroy.prototype.findIndex= function (func) {
+    if (typeof arguments[0] !== 'function') throw Error (func + ' is not a function');
 
+    var j = 0;
+    for (var i = 0; i < this.length; i++) {
+        if(func(this[i])) {
+            return i;
+        } else {
+            j++;
+        }
+    }
+    if (j === this.length) return -1;
+};
+/**
+ * Abstraction of flat.
+ * 
+ * Flattens an horroy which has horroys inside into one larger horroy.
+ * 
+ * @param {number} depth - If not defined defaults to 1
+ * 
+ * @returns {horroy} 
+ */
+Horroy.prototype.flat = function (depth) {
+    var hor = new Horroy;
+    depth = depth === undefined ? 1 : depth;
+
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] instanceof Horroy) {
+            for (var k = 0; k < this[i].length; k++) {
+                hor[hor.length] = this[i][k];
+                hor.length++;
+            };
+        } else {
+            hor[hor.length] = this[i];
+            hor.length++;
+        }
+    }
+    return hor;
+};
+/**
+ * Abstraction of flatMap.
+ * 
+ * Returns an horroy which has been mapped and then flattened.
+ * 
+ * @param {function} func
+ * 
+ * @returns {horroy} 
+ * 
+ * @throws {Error} - If func is not a function
+ */
+Horroy.prototype.flatMap = function (func) {
+    if(typeof func !== 'function') throw Error (func + 'should be a function');
+    var hor = new Horroy();
+    var res = new Horroy();
+
+    for (var i = 0; i < this.length; i++) {
+        res[i] = func(this[i]);
+        res.length++;
+    }
+    for (var i = 0; i < res.length; i++) {
+        if (res[i] instanceof Horroy) {
+            for (var k = 0; k < res[i].length; k++) {
+                hor[hor.length] = res[i][k];
+                hor.length++;
+            };
+        } else {
+            hor[hor.length] = res[i];
+            hor.length++;
+        }
+    }
+    return hor;
+}
 /**
  * Abstraction of forEach
  * 
@@ -274,21 +340,23 @@ Horroy.prototype.forEach = function(callback) {
     for(var i = 0; i < this.length; i++)
         callback(this[i]);
 };
-
 /**
- * Abstraction of pop.
+ * Abstraction of includes.
  * 
- * Deletes the last element of an horroy.
+ * Determines whether an horroy includes a value or not.
  * 
+ * @param {*} value
+ * @param {number} index (0 by default)
+ * 
+ * @return {boolean}
  */
-Horroy.prototype.pop = function() {
-    if (this.length === 0) return undefined;
-
-    var res = this[this.length-1];
-
-    delete this[this.length-1];
-    this.length = this.length-1;
-    return res;
+Horroy.prototype.includes = function (value, index) {
+    index = index === undefined ? 0 : index;
+    
+    for (var i = index; i < this.length; i++) {
+        if (this[i] === value) return true;
+    }
+    return false;
 };
 /**
  * 
@@ -351,6 +419,32 @@ Horroy.prototype.map = function(func) {
         res.length++;
     }
     return res;
+};
+/**
+ * Abstraction of pop.
+ * 
+ * Deletes the last element of an horroy.
+ * 
+ */
+Horroy.prototype.pop = function() {
+    if (this.length === 0) return undefined;
+
+    var res = this[this.length-1];
+
+    delete this[this.length-1];
+    this.length = this.length-1;
+    return res;
+};
+/**
+ * 
+ * Abstraction of push
+ * 
+ * Adds the value to the end of the horroy
+ * 
+ * @param {*} value
+ */
+Horroy.prototype.push = function(value) {
+    this[this.length++] = value;
 };
 /**
  * Reduces an array into a value.
