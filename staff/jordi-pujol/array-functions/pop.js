@@ -15,7 +15,8 @@
 
 function pop(arr){
 
-    if (!(arr instanceof Array)) throw TypeError (arr + " is not an array")
+	if (!(arr instanceof Array)) throw TypeError (arr + " is not an array")
+	if (arr.length < 1) return undefined
 	
 	var length = arr.length
 	var lastElem = arr[arr.length-1]

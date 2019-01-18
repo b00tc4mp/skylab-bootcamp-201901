@@ -69,4 +69,15 @@ test('separator empty string', function(){
 if (res !== expected) throw Error ('result should be the expected')
 });
 
-// failssssssssssssssssss
+test('should fail when it is not an array', function(){
+
+    var error;
+    try {
+        var res = join(245);
+    } catch (err) {
+        error = err;
+    };
+
+    if (!error) throw Error ('should throw an error when the first param is not an array')
+    if (!(error instanceof TypeError)) throw Error ('should be a typeError error')
+})

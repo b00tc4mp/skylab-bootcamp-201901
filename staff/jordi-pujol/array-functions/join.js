@@ -14,9 +14,10 @@
 
 function join (arr, separator){
 
-    var str=""
-
+    if (!(arr instanceof Array)) throw TypeError (arr + ' should be an array')
     if (arguments.length > 2) throw Error('too many arguments');
+
+    var str=""
 
     if (!separator && separator !=="") separator = ",";
 
