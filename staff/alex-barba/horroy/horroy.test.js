@@ -133,15 +133,15 @@ suite('horroy', function(){
 
     describe('.forEach function', function(){
         it('all arguments', function () {
-            var hor = new Horroy(5);
+            var hor = new Horroy(5, 5);
 
-            var found;
+            var found = 0;
             
             hor.forEach(function(x) {
-                return found = x + 10;
+                return found += 1;
             });
 
-            var expected = [15];
+            var expected = 2;
         
             expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected);     
         });
@@ -374,64 +374,6 @@ suite('horroy', function(){
         });
     });
 
-    describe('.from function', function(){
-        it('argument is a string', function () {
-            
-            var found = Horroy.from('hola');
-        
-            var expected = ["h","o","l","a"];
-        
-            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
-            expect(found.length === expected.length, 'horroy and result should be the same');    
-        });
-
-        it('argument is a horroy', function () {
-            var hor= new Horroy(1,2,3);
-
-            var found = Horroy.from(hor);
-        
-            var expected = [1,2,3];
-        
-            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
-            expect(found.length === expected.length, 'horroy and result should be the same');    
-        });
-
-        it('argument is an array', function () {
-            var hor= [1,2,3];
-
-            var found = Horroy.from(hor);
-        
-            var expected = [1,2,3];
-        
-            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
-            expect(found.length === expected.length, 'horroy and result should be the same');    
-        });
-
-        it('argument is not iterable, returns empty horroy', function () {
-            var hor= {num:1};
-
-            var found = Horroy.from(hor);
-        
-            var expected = [];
-        
-            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected); 
-            expect(found.length === expected.length, 'horroy and result should be the same');    
-        });
-
-        it('fails on null argument', function () {
-            var error;
-         
-            try {
-                Horroy.from(null);
-            } catch (err) {
-                error = err;
-            }
-        
-            expect(error, 'should have thrown an error');
-            expect((error instanceof Error) ,'error should be of type Error');
-        });
-    });
-
     describe('.isHorroy function', function(){
         it('all arguments', function () {
             var hor = new Horroy(1,2,3);
@@ -452,7 +394,24 @@ suite('horroy', function(){
         
             expect(found === expected, 'found value ' + found + ' does not match expected ' + expected);     
         });
+    });
 
+    describe('.of function', function(){
+        it('all arguments', function () {
+            var found = Horroy.of(1,2,3);
+        
+            var expected = [1,2,3];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected);     
+        });
+
+        it('arguments === 1 return horroy with 1 element', function () {
+            var found = Horroy.of(1);
+        
+            var expected = [1];
+        
+            expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected);     
+        });
     });
 
 

@@ -5,12 +5,15 @@
  * 
  * @param {*} - Optional
  * 
+ * @throws {RangeError} - If arguments.length === 1; checks that number entered is integer.
+ * 
  * @returns {Horroy}
  */
 
 function Horroy(){
-   if (arguments.length = 1 && typeof argument === 'number'){
-        this.length = argument[0]
+    if (arguments.length === 1 && typeof arguments[0] === 'number' && arguments ){
+    if(!(Number.isInteger(arguments[0]))) throw new RangeError('invalid horroy length');
+       this.length = arguments[0]
     } else {
         this.length = arguments.length;
         for (var i = 0; i < arguments.length; i++) {
@@ -347,6 +350,18 @@ Horroy.from = function(value) {
 
 Horroy.isHorroy = function(value){
     return value instanceof Horroy ? true : false;
+};
+
+/* Abstraction of .of()) */
+
+Horroy.of = function(value) {
+    var hor = new Horroy;
+    hor.length = arguments.length;
+
+    for (var i = 0; i < arguments.length; i++) {
+        hor[i] = arguments[i];
+    }
+    return hor;
 };
 
 
