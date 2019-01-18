@@ -1,10 +1,15 @@
 function Horroy() {
-    this.length = arguments.length;
+    if (arguments.length === 1 && typeof arguments[0] === 'number') {
+        if (!(Number.isInteger(arguments[0]))) throw RangeError('Invaled Horroy length')
 
-    if (arguments.length)
+        this.length = arguments[0]
+    } else {
+        this.length = arguments.length;
         for (var i = 0; i < arguments.length; i++)
             // this.push(arguments[i]); // WARN should avoid (if possible) calling member methods in a constructor (push)
             this[i] = arguments[i];
+    }
+
 }
 
 //-------------------HORROY.FROM-------------------//
@@ -17,16 +22,16 @@ function Horroy() {
  * 
  * @return {Horroy} - created horroy
  */
-Horroy.from=function(value){
-    h=new Horroy
+Horroy.from = function (value) {
+    h = new Horroy
 
-    if((typeof value === 'undefined')) throw TypeError('Cannot convert undefined or null to object')
-    if((value === null)) throw TypeError('Cannot convert undefined or null to object')
+    if ((typeof value === 'undefined')) throw TypeError('Cannot convert undefined or null to object')
+    if ((value === null)) throw TypeError('Cannot convert undefined or null to object')
 
-    if(typeof value === 'string' || value instanceof Array || value instanceof Horroy){
-        h.length=value.length
-        for(var i=0; i<value.length; i++){
-            h[i]=value[i];
+    if (typeof value === 'string' || value instanceof Array || value instanceof Horroy) {
+        h.length = value.length
+        for (var i = 0; i < value.length; i++) {
+            h[i] = value[i];
         }
     }
     return h
@@ -43,23 +48,27 @@ Horroy.from=function(value){
  * 
  * @return {Boolean} - true is is horroy, false if its not
  */
-Horroy.isHorroy=function(value){
-    return value instanceof Horroy? true:false
+Horroy.isHorroy = function (value) {
+    return value instanceof Horroy ? true : false
 }
 
 //------------------------HORROY.OF------------------------//
 /**
  * Abstraction of of
  * 
- * it says true if is horry or false if its not
+ * it creates a Horroy with input values
  * 
- * @param {Horroy} value - horroy to evaluate
  * 
- * @return {Boolean} - true is is horroy, false if its not
+ * @return {Horroy} - New horroy created with the value iputs
  */
 
-Horroy.of=function(value){
-    return value instanceof Horroy? true:false
+Horroy.of = function () {
+    h = new Horroy
+    h.length = arguments.length;
+    for (var i = 0; i < arguments.length; i++)
+        // this.push(arguments[i]); // WARN should avoid (if possible) calling member methods in a constructor (push)
+        h[i] = arguments[i];
+    return h
 }
 
 //-------------------TO-STRING--------------------//
@@ -554,14 +563,14 @@ Horroy.prototype.splice = function (start, delated) {
  *@return {*} - The found value. Undefined if value is not found
  */
 
-Horroy.prototype.find=function(callback) {
+Horroy.prototype.find = function (callback) {
 
 
     if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function')
 
-    for (var i=0; i<this.length; i++){
+    for (var i = 0; i < this.length; i++) {
         var value = this[i]
         if (callback(value)) return value
     }
-    
+
 }

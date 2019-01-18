@@ -17,6 +17,28 @@ suite('HORROY', function () {
             expect(h instanceof Horroy, 'Horroy is not Horroy type')
 
         });
+        it('should create an empty Horroy with length', function () {
+            var h = new Horroy(5);
+
+            expect(h.length === 5, 'Horror is not filled')
+            expect(h instanceof Object, 'Horroy is not created')
+            expect(h instanceof Horroy, 'Horroy is not Horroy type')
+
+        });
+    });
+    describe('Error test', function(){
+        it('should show an error with invalid length', function () {
+            var error;
+
+            try {
+                var h = new Horroy(2.1);
+            } catch (err) {
+                error = err;
+            }
+
+            expect(error, 'it should throw an Error')
+            expect(error instanceof RangeError, 'error should be TypeError')
+        });
     });
 });
 
@@ -504,11 +526,11 @@ suite('splice', function () {
         it('should cut the Horroy without end', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            var res = h.splice(1)
+            var res = h.splice(2)
 
 
-            var expectedh = new Horroy(1)
-            var expectedres = new Horroy(2, 3, 4, 5, 6)
+            var expectedh = new Horroy(1,2)
+            var expectedres = new Horroy(3, 4, 5, 6)
 
             expect(res.toString() === expectedres.toString(), 'Unexpected value');
             expect(h.toString() === expectedh.toString(), 'Horroy should not change');
@@ -548,11 +570,11 @@ suite('splice', function () {
         it('should cut the Horroy from start to end and add the items (more items than delated)', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            var res = h.splice(1, 1, 'FUNCIONA1', 'FUNCIONA2')
+            var res = h.splice(1, 2, 'FUNCIONA1', 'FUNCIONA2')
 
 
-            var expectedh = new Horroy(1, 'FUNCIONA1', 'FUNCIONA2', 3, 4, 5, 6)
-            var expectedres = new Horroy(2)
+            var expectedh = new Horroy(1, 'FUNCIONA1', 'FUNCIONA2', 4, 5, 6)
+            var expectedres = new Horroy(2,3)
 
             expect(res.toString() === expectedres.toString(), 'Unexpected value');
             expect(h.toString() === expectedh.toString(), 'Horroy should not change');
@@ -698,6 +720,34 @@ suite('isHorroy', function () {
             expected= Horroy.isHorroy(h)
 
             expect(!expected, 'Unexpected value');
+
+        });
+    });
+});
+
+suite('Of', function () {
+    describe('Create an Horroy', function () {
+        it('should create an empty Horroy', function () {
+            var h = Horroy.of();
+
+            expect(h instanceof Object, 'Horroy is not created')
+            expect(h instanceof Horroy, 'Horroy is not Horroy type')
+
+        });
+        it('should create a Horroy with items', function () {
+            var h = Horroy.of(1, 2, 3);
+
+            expect(h[2] === 3, 'Horror is not filled')
+            expect(h instanceof Object, 'Horroy is not created')
+            expect(h instanceof Horroy, 'Horroy is not Horroy type')
+
+        });
+        it('should create a Horroy with one item', function () {
+            var h = Horroy.of(5);
+
+            expect(h.toString()===[5].toString(), 'Horror is not filled')
+            expect(h instanceof Object, 'Horroy is not created')
+            expect(h instanceof Horroy, 'Horroy is not Horroy type')
 
         });
     });
