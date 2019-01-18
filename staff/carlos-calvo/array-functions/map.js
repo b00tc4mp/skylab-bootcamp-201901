@@ -17,14 +17,3 @@ function map(arr, func) {
     return res;
 }
 
-console.log('TEST map');
-
-// use case 1
-
-console.log('use case 1');
-
-var a = [1, 2, 3]
-
-var res = map(a, function (v) { return v + 10; });
-
-console.log(res); // output: [11, 12, 13]
