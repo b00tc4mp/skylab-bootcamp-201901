@@ -13,5 +13,18 @@
  */
 
  function slice(array, begin, end){
-    return ['eyyyy!'];
+   // debugger;
+   var res = [], cont = 0;
+
+   if (arguments.length > 3) throw Error('too many arguments');
+
+   if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+   begin = (begin === undefined) ? 0 : begin < 0 ? array.length + begin : begin;
+   end = (end === undefined) ? array.length : end < 0 ? array.length + end : end;
+
+   for (var i = begin; i < end; i++) {
+      res[cont] = array[i];
+      cont++;
+   }
+   return res;
  }
