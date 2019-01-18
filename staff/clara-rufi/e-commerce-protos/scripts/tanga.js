@@ -1,7 +1,7 @@
 function Tanga(brand, size, color, price) {
-    Underwear.call(this, brand, color, size, price);
+    Underwear.call(this, brand, size, color, price);
 
 }
 
-Underwear.prototype = Object.create(Clothing.prototype);
+Tanga.prototype = Object.create(Underwear.prototype);
 Tanga.prototype.constructor = Tanga;
