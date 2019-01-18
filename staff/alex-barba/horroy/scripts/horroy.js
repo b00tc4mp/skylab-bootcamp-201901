@@ -11,7 +11,7 @@
  */
 
 function Horroy(){
-    if (arguments.length === 1 && typeof arguments[0] === 'number' && arguments ){
+    if (arguments.length === 1 && typeof arguments[0] === 'number'){
     if(!(Number.isInteger(arguments[0]))) throw new RangeError('invalid horroy length');
        this.length = arguments[0]
     } else {
@@ -364,8 +364,62 @@ Horroy.of = function(value) {
     return hor;
 };
 
+/* Abstraction of .concat() */
+
+Horroy.prototype.concat = function () {
+    var hor = new Horroy;
+
+    for(var i = 0; i<this.length; i++){
+        hor[hor.length++] = this[i];
+    }
+
+    for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i] instanceof Array || arguments[i] instanceof Horroy) {
+            for (var j = 0; j<arguments[i].length; j++) {
+                hor[hor.length++] = arguments[i][j];
+            }
+        } else {
+            hor[hor.length++] = arguments[i];
+        }
+    }
+    return hor;
+};
+
+/* Abstraction of .copyWithin() */
+
+Horroy.prototype.copyWithin = function(target, start, end){
+    if (target >= this.length-1) return this;
+    start = start ? start : 0;
+
+    var copy = new Horroy;
+
+    var index = 0;
+
+    if (arguments.length === 1) {
+        for (var i = 0; i < target; i++) {
+            copy[copy.length++] = this[i]
+        }
+        for (var i = target; i < (target+copy.length); i++){
+            this[i]=copy[index++]
+        }
+        
+        return this
+
+    } else if (arguments.length === 2) {
+        for (var i = start; i < this.length; i++) {
+            copy[copy.length++] = this[i]
+        }
+        for (var i = target; i < (target+copy.length); i++){
+            this[i]=copy[index++]
+        }
+        return this
+    }
+};
 
 
 
+var test = new Horroy(1,2,3,4,5);
 
-var a = new Horroy(1,2,3);
+var horr = test.copyWithin(1,2);
+
+var expected = new Horroy(1,3,4,5,5);
