@@ -6,7 +6,7 @@
  */
 
 function slice(array, start, end){
-    if(!array instanceof Array) throw new Error('Not an array!')
+    if(!(array instanceof Array)) throw new Error('Not an array!')
     if(arguments.length==1) {
         start = 0
         end = array.length
