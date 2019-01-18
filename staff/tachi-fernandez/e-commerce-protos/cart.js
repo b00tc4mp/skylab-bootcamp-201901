@@ -3,11 +3,12 @@
 
 function Cart(){
     this.products = []
+};
 
-    this.add = function(items){
-        this.products.push(items);
-    };
+Cart.prototype.add = function (product) {
+    if (!(product instanceof Product)) throw TypeError(product + ' is not a product');
 
+    this.products.push(product);
 }
 
 Cart.prototype.totalPrice = function(){
