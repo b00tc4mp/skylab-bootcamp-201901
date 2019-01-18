@@ -27,3 +27,14 @@ Horroy.prototype.forEach = function (callback) {
     for (var i = 0; i < this.length; i++)
         callback(this[i]);
 };
+
+Horroy.prototype.toString = function() {
+    var string = '';
+
+    for(var i = 0; i < this.length - 1; i++)
+        string += this[i] + ',';
+    
+    string += this[this.length - 1];
+
+    return string;
+};
