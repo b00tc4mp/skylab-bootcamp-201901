@@ -2,17 +2,17 @@
  *Constructor function for an abstraction of an this
  */
 function Horroy() {
-    this.length = arguments.length;
 
-/*     if (arguments.length === 1) {
-        this = new Horroy(this.arguments);
-    } */
-
-    if (arguments.length)
+    if (arguments.length === 1 && typeof arguments[0] === 'number') {
+        if (!(Number.isInteger(arguments[0]))) throw Error ('invalid horroy length');
+        this.length = arguments[0];
+    } else {
+        this.length = arguments.length;
         for(var i = 0; i < arguments.length; i++)
-            /* this.push(arguments[i]); */
             this[i] = arguments[i];
-}
+    };
+        
+};
 /**
  * Abstraction of from.
  * 
@@ -76,6 +76,45 @@ Horroy.of = function() {
         horr[i] = arguments[i];
     }
     return horr;
+};
+/**
+ * Abstraction of concat.
+ * 
+ * Concats two horroys into one new horroy (does not transform the two previous).
+ * 
+ * @param {horroy} 
+ * 
+ * @returns {horroy}
+ * 
+ */
+Horroy.prototype.concat = function(horr) {
+    var hor = new Horroy();
+
+    if (arguments.length === 0) {
+        for (var i = 0; i < this.length; i++) {
+            hor[i] = this[i];
+            hor.length++;
+        };
+        return hor;
+    } else if (arguments[0] instanceof Horroy) {
+         for (var i = 0; i < this.length; i++) {
+            hor[i] = this[i];
+            hor.length++;
+        };
+        for (var i = 0; i < this.length; i++) {
+            hor[hor.length] = horr[i];
+            hor.length++;
+        }
+        return hor;
+    } else {
+        for (var i = 0; i < this.length; i++) {
+            hor[i] = this[i];
+            hor.length++;
+        };
+        hor[hor.length] = arguments[0];
+        hor.length++;
+        return hor;
+    }
 }
 /**
  * Abstraction of fill.
