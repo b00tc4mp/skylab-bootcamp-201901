@@ -99,6 +99,55 @@ describe('Horroy', function() {
             expect(res.toString()).toBe(expected.toString());
         });
     });
+    describe('concat', function () {
+        it('should return correct with an argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var b = new Horroy(4,5,6);
+
+            var res = a.concat(b);
+
+            var expected = 6;
+
+            expect(res.length).toBe(expected);
+        });
+        it('should return correct with no argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var res = a.concat();
+
+            var expected = 3;
+
+            expect(res.length).toBe(expected);
+        });
+        it('should return correct with object argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var res = a.concat({});
+
+            var expected = 4;
+
+            expect(res.length).toBe(expected);
+        });
+        it('should return correct with boolean argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var res = a.concat(true);
+
+            var expected = 4;
+
+            expect(res.length).toBe(expected);
+        });
+        it('should return correct with number argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var res = a.concat(4);
+
+            var expected = 4;
+
+            expect(res.length).toBe(expected);
+        });
+    });
     describe('copyWithin', function () {
         it('should return correct with all arguments', function () {
 
@@ -119,11 +168,7 @@ describe('Horroy', function() {
 
         });
     });
-/*     describe('entries', function () {
-        it('should return correct', function () {
-
-        });
-    }); */
+//ENTRIES???
     describe('every', function () {
         it('should return true with 1 argument', function () {
             function belowFour(v) {
@@ -172,6 +217,140 @@ describe('Horroy', function() {
 
             expect(res.toString()).toBe(expected.toString());
         }); */
+    });
+    describe('fill', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            a.fill(0,0,2);
+            var res = a[0];
+            var expected = 0;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+        it('should fail on too many arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+        
+            expect(function () {a.fill(0,0,2,4)}).toThrow();
+        
+        });
+        it('should fail on too few arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+        
+            expect(function () {a.fill()}).toThrow();
+        
+        });
+        it('should fail on object instead of horroy', function () {
+            var a = {};
+        
+            expect(function () {a.fill(0,0,2)}).toThrow();
+        });
+        it('should fail on boolean instead of horroy', function () {
+            var a = true;
+        
+            expect(function () {a.fill(0,0,2)}).toThrow();
+        
+        });
+        it('should fail on number instead of horroy', function () {
+            var a = 4;
+
+            expect(function () {a.fill(0,0,2)}).toThrow();
+        
+        });
+    });
+    describe('filter', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            var res = a.filter(function(x) {
+                return x > 3
+            });
+
+            var expected = new Horroy(4,5);
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+        it('should fail on too many arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            expect(function () {a.filter(3,function(x) {
+                return x > 3
+            });}).toThrow();
+        });
+        it('should fail on too few arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            expect(function () {a.filter()}).toThrow();
+        });
+        it('should fail on object instead of horroy', function () {
+            var a = {};
+        
+            expect(function () {a.filter(function(x) {
+                return x > 3
+            });}).toThrow();
+        });
+        it('should fail on boolean instead of horroy', function () {
+            var a = true; 
+            
+            expect(function () {a.filter(function(x) {
+                return x > 3
+            });}).toThrow();
+        });
+        it('should fail on number instead of horroy', function () {
+            var a = 4; 
+            
+            expect(function () {a.filter(function(x) {
+                return x > 3
+            });}).toThrow();
+        });
+    });
+    describe('find', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5);
+            
+            var res = a.find(function(x) {
+                return x > 3
+            });
+
+            var expected = 4;
+        
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should fail on too many arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5);
+
+            expect(function () {a.find(3,function(x) {
+                return x > 3
+            });  }).toThrow();
+        });
+        it('should fail on too few arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5);
+
+            expect(function () {a.find();}).toThrow();
+        });
+        it('should fail on object instead of horroy', function () {
+            var a = {};
+
+            expect(function () {a.find(function(x) {
+                return x > 3
+            });    }).toThrow();
+        });
+        it('should fail on boolean instead of horroy', function () {
+            var a = true;
+            
+            expect(function () {a.find(function(x) {
+                return x > 3
+            });    }).toThrow();
+        });
+        it('should fail on number instead of horroy', function () {
+            var a = 4;
+            
+            expect(function () {a.find(function(x) {
+                return x > 3
+            });    }).toThrow();
+        });
     });
     describe('findIndex', function () {
         it('should return correct with matching number', function () {
@@ -275,6 +454,21 @@ describe('Horroy', function() {
             expect(function () {numHorroy.flatMap(4)}).toThrow();
         });
     });
+    describe('forEach', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3); 
+            var sum = 0;
+            
+            a.forEach(function(x) {
+                return sum +=x;
+            });
+
+            var expected = 6;
+        
+            expect(sum.toString()).toBe(expected.toString());
+        
+        });
+    });
     describe('includes', function () {
         it('should return correct with 1 argument', function () {
             var res = numHorroy.includes(1);
@@ -296,6 +490,29 @@ describe('Horroy', function() {
             var expected = false;
 
             expect(res.toString()).toBe(expected.toString());
+        });
+    });
+    describe('indexOf', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            var res = a.indexOf(1);
+
+            var expected = 0;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
+    describe('join', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            var res = a.join('');
+            var expected = 12345;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
         });
     });
     describe('lastIndexOf', function () {
@@ -323,6 +540,57 @@ describe('Horroy', function() {
             var expected = -1;
 
             expect(res.toString()).toBe(expected.toString());
+        });
+    });
+    describe('map', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            
+            var res = a.map(function (x) {
+                return x * 2;
+            });
+            var expected = new Horroy(2,4,6,8,10);
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
+    describe('pop', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3);
+            
+            a.pop();
+            var res = a.length;
+            var expected = 2;
+        
+            expect(res.toString()).toBe(expected.toString());
+        });
+    });
+    describe('push', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+            
+            a.push(4);
+
+            var res = a.length;
+            var expected = 4;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
+    describe('reduce', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+            
+            var res = a.reduce(function (accumulator, product) {
+                return accumulator + product;
+            }, 0);
+
+            var expected = 6;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
         });
     });
     describe('reduceRight', function () {
@@ -357,6 +625,70 @@ describe('Horroy', function() {
             expect(res.toString()).toBe(expected.toString());
         });
     });
+    describe('reverse', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+            
+            a.reverse();
+
+            var res = a[0];
+
+            var expected = 3;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
+    describe('shift', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+            
+            a.shift();
+
+            var res = a[0];
+
+            var expected = 2;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
+    describe('slice', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+
+            var res = a.slice(2,4);
+
+            var expected = new Horroy(3,4);
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
+    describe('some', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+
+            var res = a.some(function(x) {
+                return x > 3;
+            });
+            var expected = true;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
+    describe('splice', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5, 6);
+
+            var res = a.splice(1,2,'hola');
+            var expected = new Horroy(2,3);
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
 /*     describe('toSource', function () {
         it('should return correct', function () {
             var res = numHorroy.toSource();
@@ -364,4 +696,16 @@ describe('Horroy', function() {
             console.log(res);
         });
     }); */
+    describe('unshift', function () {
+        it('should return correct', function () {
+            var a = new Horroy(1, 2, 3, 4, 5, 6); // ~ [1, 2, 3]
+
+            var res = a.unshift(1,2);
+
+            var expected = 7;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+    });
 });
