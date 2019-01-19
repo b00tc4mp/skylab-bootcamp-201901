@@ -1,17 +1,23 @@
 /**
- * Abstracting of slice
+ * Abstracting of unshift
  * 
- * The shift() method removes the first 
- * element from an array and returns that removed element. 
- * This method changes the length of the array.
+ * Adds one or more elements to the beginning of an array 
+ * this method change the original array
  * 
- * @param {Array} array - the array to create the segment copy
- * @param {number} begin - Zero-based index to start or undefined to start in 0
- * @param {number} end - Zero-based index to end the copy segment. Not included
+ * @param {Array} array - array to working with
+ * @param {*} element - element to add at the beggining of the array
  * 
- * @returns {*} - new Array with the elements from array
+ * @returns {*} - returns the new length of the array 
  */
 
  function unshift(array){
-   // debugger;
+  if (!(array instanceof Array)) 
+    throw TypeError(array + ' is not an array');
+  for (var j = arguments.length - 1; j > 0; j--) {
+      for (var i = array.length; i > 0; i--) {
+        array[i] = array[i-1];
+      }
+      array[0] = arguments[j];
+  }
+  return array.length;
  }

@@ -1,129 +1,62 @@
-suite('slice');
+suite('shift');
 
-test('succeed on create the array without begin', function () {
-    var array = ['on1', 'on2', 'mambo', 'danzon'];
-    var resultArray = slice(array);
-    var expectedArray = array;
+test('succeed on return the first element', function () {
+    var array = [1, 2, 3, 4, 5];
+    var result = shift(array);
+    var expectedResult = 1;
 
-    if (JSON.stringify(resultArray) !== JSON.stringify(expectedArray))
-        throw Error('expected value ' + expectedArray + ' is different than result array ' + resultArray);
+    if (expectedResult !== result) throw Error('expected value ' + expectedResult + ' is different from result ' + result);
 });
 
-test('succeed on create the array with begin only', function () {
-    var array = ['on1', 'on2', 'mambo', 'danzon'];
-    var resultArray = slice(array, 3);
-    var expectedArray = ['danzon'];
 
-    if (JSON.stringify(resultArray) !== JSON.stringify(expectedArray))
-        throw Error('expected value ' + expectedArray + ' is different than result array ' + resultArray);
+test('succeed on change length of the original array', function () {
+    var array = [{ name: 'salsa' },
+    { name: 'rumba' },
+    { name: 'bomba' },
+    { name: 'plena' }];
+
+    var result = shift(array);
+    var expectedResult = { name: 'salsa' };
+
+    var expectedLength = 3;
+
+    if (expectedResult.toString() !== result.toString())
+        throw Error('expected value ' + expectedResult + ' is different from result ' + result);
+
+    if (array.length !== expectedLength)
+        throw Error('the length of array should be ' + expectedLength + ' and is ' + array.length);
 });
 
-test('succeed on create the array with end only', function () {
-    var array = ['on1', 'on2', 'mambo', 'danzon'];
-    var resultArray = slice(array, undefined, 3);
-    var expectedArray = ['on1', 'on2', 'mambo'];
-
-    if (JSON.stringify(resultArray) !== JSON.stringify(expectedArray))
-        throw Error('expected value ' + expectedArray + ' is different than result array ' + resultArray);
-});
-
-test('succeed on create the array with begin higher than end', function () {
-    var array = ['on1', 'on2', 'mambo', 'danzon'];
-    var resultArray = slice(array, 3, 2);
-    var expectedArray = [];
-
-    if (JSON.stringify(resultArray) !== JSON.stringify(expectedArray))
-        throw Error('expected value ' + expectedArray + ' is different than result array ' + resultArray);
-});
-
-test('succeed on create the array with empty array', function () {
+test('succeed on returns undefined working with empty array', function () {
     var array = [];
-    var resultArray = slice(array, 3, 2);
-    var expectedArray = [];
+    var result = shift(array);
+    var expectedResult = undefined;
+    var expectedLength = 0;
 
-    if (JSON.stringify(resultArray) !== JSON.stringify(expectedArray))
-        throw Error('expected value ' + expectedArray + ' is different than result array ' + resultArray);
+    if (expectedResult !== result)
+        throw Error('expected value ' + expectedResult + ' is different from result ' + result);
+
+    if (array.length !== expectedLength)
+        throw Error('the length of array should be ' + expectedLength + ' and is ' + array.length);
 });
 
-test('succeed on create the array with negative begin', function () {
-    var array = ['0', '1', '2', '3', '4', '5'];
-    var resultArray = slice(array, -5, 2);
-    var expectedArray = ['1'];
-
-    if (JSON.stringify(resultArray) !== JSON.stringify(expectedArray))
-        throw Error('expected value ' + expectedArray + ' is different than result array ' + resultArray);    
-});
-
-test('succeed on create the array with negative end', function () {
-    var array = ['0', '1', '2', '3', '4', '5'];
-    var resultArray = slice(array, 2, -2);
-    var expectedArray = ['2', '3'];
-
-    if (JSON.stringify(resultArray) !== JSON.stringify(expectedArray))
-        throw Error('expected value ' + expectedArray + ' is different than result array ' + resultArray); 
-});
-
-test('succeed on create the array with negative begin and negative end', function () {
-    var array = ['0', '1', '2', '3', '4', '5'];
-    var resultArray = slice(array, -2, -1);
-    var expectedArray = ['4'];
-
-    if (JSON.stringify(resultArray) !== JSON.stringify(expectedArray))
-        throw Error('expected value ' + expectedArray + ' is different than result array ' + resultArray); 
-});
-
-test('fails on create the array using a object instead of array', function () {
-    var array = {};
+test('fails on working with string instead of array', function () {
+    var array = '';
     var error;
 
     try {
-        var resultArray = slice(array, -2, -1);
+        var result = shift(array);
     } catch (err) {
-        error = err;
+        error = err
     }
     
-    var expectedArray = ['4'];
+    var expectedResult = undefined;
+    var expectedLength = 0;
 
-    if (!error) throw Error('it should thrown an Error');
-    if (!(error instanceof TypeError)) throw Error('it should thrown an Error');
-});
+    if (!error) throw Error('should thrown an Error');
+    if (expectedResult !== result)
+        throw Error('expected value ' + expectedResult + ' is different from result ' + result);
 
-test('fails on create the array using a string in begin instead of a number', function () {
-    var array = '';
-    var error;
-
-    try {
-        var resultArray = slice(array, -2, -1);
-    } catch (err) {
-        error = err;
-    }
-
-    if (!error) throw Error('it should thrown an Error');
-    if (!(error instanceof TypeError)) throw Error('it should thrown an Error');
-});
-
-test('fails on too many arguments', function () {
-    var array = '';
-    var error;
-
-    try {
-        var resultArray = slice(array, -2, -1, {}, 'test', 'hola');
-    } catch (err) {
-        error = err;
-    }
-
-    if (!error) throw Error('it should thrown an Error');
-});
-
-test('fails without arguments', function () {
-    var array = '';
-    var error;
-
-    try {
-        var resultArray = slice();
-    } catch (err) {
-        error = err;
-    }
-
-    if (!error) throw Error('it should thrown an Error');
+    if (array.length !== expectedLength)
+        throw Error('the length of array should be ' + expectedLength + ' and is ' + array.length);
 });

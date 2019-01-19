@@ -13,7 +13,6 @@
  */
 
  function slice(array, begin, end){
-   // debugger;
    var res = [], cont = 0;
 
    if (arguments.length > 3) throw Error('too many arguments');
