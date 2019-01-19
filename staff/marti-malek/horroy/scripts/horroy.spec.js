@@ -1,6 +1,6 @@
 describe('Horroy', function() {
 
-    var horroy;
+    var numHorroy;
     var horroy1;
 
     beforeEach(function() {
@@ -15,7 +15,31 @@ describe('Horroy', function() {
             var horr = Horroy.from(string);
 
             expect(horr.toString()).toBe(string.split('').toString()); // h,o,l,a, ,m,u,n,d,o
-        })
+        });
+        it('should return a horroy', function () {
+            var s = Horroy.from(new Horroy(1,2,3));
+
+            var res = s;
+
+            expect(s instanceof Horroy).toBe(true);
+        });
+        it('should fail on too many arguments', function () {
+
+            expect(function () {
+                Horroy.from('hola mundo',4)}).toThrow();
+        });
+        it('should fail on too few arguments', function () {
+
+            expect(function () {Horroy.from()}).toThrow();
+        });
+        it('should fail on undefined instead of horroy', function () {
+
+            expect(function () {Horroy.from(undefined)}).toThrow();
+        });
+        it('should fail on null instead of horroy', function () {
+
+            expect(function () {Horroy.from(null)}).toThrow();
+        });
     });
     describe('copyWithin', function () {
         it('should return correct with all arguments', function () {
