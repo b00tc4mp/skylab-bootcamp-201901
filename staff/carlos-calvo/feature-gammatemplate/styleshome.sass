@@ -1,0 +1,237 @@
+
+    
+*
+    font-family: 'PT Sans', serif
+    max-width: 100%
+
+
+    
+//CABECERAS MEDIDA MINIMA
+//-------------------------------//  
+
+body
+    max-width: 100%
+    margin: 0
+.headerprincipal
+    background-color: white
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 100%
+
+.headerprincipal__title
+    padding-left: 1rem
+    color: #42f49e
+
+.headerprincipal__burger
+    position: relative
+    right: 20px
+    .menudesplegableburger a
+        visibility: none
+        display: none
+
+    .imageburger
+        visibility: visible
+        justify-content: flex-end
+        position: relative
+        max-width: 50px
+        max-height: 50px
+        right: 20px
+
+//--------------ZONA NEGRA-----------------//  
+.subheader
+    width: 100%
+    display: flex
+    justify-content: center
+    .blackzone
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        width: 100%
+        background-color: #2F4F4F
+        color: white
+        &__capturelife
+            display: flex
+            flex-direction: row
+            justify-content: center
+            p
+                margin: 1rem
+                font-size: 3rem 
+            .life
+                color: #42f49e
+        &__text
+            display: flex
+            justify-content: center
+            text-align: center
+            font-size: 1rem
+        &__play
+            width: 100%
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            margin-bottom: 1rem
+            img
+                width: 60%
+                margin: 0.25rem
+
+    .mobilezone
+        img
+            display: none
+
+//-------------ZONA MAIN SECTIONS------------------// 
+
+main
+    width: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
+    .same
+        width: 90%
+        display: flex
+        flex-direction: column
+        flex-wrap: wrap
+        margin-top: 1rem
+        img
+            width: 100%
+            border: 1px solid grey
+        div
+            display: flex
+            flex-direction: row
+            justify-content: left
+            button
+                border-radius: 5px
+                background-color: #FFFAF0
+
+//---------ZONA GAMMA FEATURES Y FOOTER ----//
+
+.GammaFeatures
+    
+    display: block
+    background-color: #42f49e
+    color: white
+    padding-bottom: 0
+    h1
+        padding-left: 0.5em
+        margin: 1rem
+    img
+        padding-left: 0.5em
+        margin: 1rem
+    
+    ul
+        padding-left: 0.5em
+        list-style: none
+        
+        li:before
+            content: '✓ '
+
+.footer1
+    background-color: black
+    color: white
+    display: flex
+    flex-direction: column
+    justify-content: center
+    min-height: 50px
+
+    .footer1_firstrow
+        display: flex
+        flex-direction: row
+        justify-content: space-around
+        
+
+        h5
+            margin:0
+            a
+                color: inherit
+                font-style: none
+
+    .footer1_secondrow
+        display: flex
+        flex-direction: row
+        justify-content: center
+        
+        h5 a
+            color: inherit
+            font-style: none
+
+
+
+@media screen and (min-width: 580px)
+    
+    .subheader
+        background-image: url("./image/site_showcase_bg.jpg")
+        background-position: center
+        background-size: cover
+        
+        .blackzone
+            background-color: inherit
+            &__play
+                display: flex
+                flex-direction: row
+                justify-content: center
+                flex-wrap: wrap
+                img
+                    max-width: 40%
+
+@media screen and (min-width: 900px)
+
+    .headerprincipal   
+        display: flex
+        justify-content: flex-start
+        align-items: center
+
+    .headerprincipal__burger
+        width: 100%
+        .menudesplegableburger
+            justify-content: flex-start
+
+        .menudesplegableburger a
+            visibility: visible
+            display: inline
+            color: black
+            margin-left: 3rem
+            font-size: 1.2em
+            text-decoration: none
+
+            
+        .imageburger
+            visibility: hidden
+            display: none
+
+
+@media screen and (min-width: 1580px)
+    .subheader
+        display: flex
+        flex-direction: row
+        justify-content: center
+        .blackzone
+            width: 45%
+            margin: 1rem
+            background-color: inherit
+        .mobilezone
+            width: 45%
+            margin: 1rem
+            img
+                display: block 
+    main
+        display: grid
+        grid-auto-columns: 33% 33% 33%
+        grid-template-areas: "div1 div2 div3"
+
+    .GammaFeatures
+        display: grid
+        grid-auto-columns: 50% 50%
+        grid-template-areas: "div1 div2"
+
+        div:first-child
+            font-size: 2rem
+            position: relative
+            left: 25%
+
+            
+
+
+
+
+
