@@ -41,6 +41,64 @@ describe('Horroy', function() {
             expect(function () {Horroy.from(null)}).toThrow();
         });
     });
+    describe('isHorroy', function () {
+        it('should return correct with 1 argument', function () {
+            var h = new Horroy;
+
+            var res = Horroy.isHorroy(h);
+
+            var expected = true;
+
+            expect(res.toString()).toBe(expected.toString());
+
+        });
+        it('should retuun correct with several arguments', function () {
+            var h = new Horroy;
+
+            var res = Horroy.isHorroy(h,'hola',true);
+
+            var expected = true;
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return empty horroy', function () {
+            var res = Horroy.isHorroy();
+
+            var expected = false;
+
+            expect(res.toString()).toBe(expected.toString()); 
+        });
+    });
+    describe('of', function () {
+        it('should return correct', function () {
+            var res = Horroy.of(7,8);
+
+            var expected = new Horroy(7,8);
+            
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct with several arguments', function () {
+            var res = Horroy.of(7,8,9);
+
+            var expected = new Horroy(7,8,9);
+            
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return empty horroy', function () {
+            var res = Horroy.of();
+
+            var expected = new Horroy();
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return horroy with undefined', function () {
+            var res = Horroy.of(undefined);
+
+            var expected = new Horroy(undefined);
+
+            expect(res.toString()).toBe(expected.toString());
+        });
+    });
     describe('copyWithin', function () {
         it('should return correct with all arguments', function () {
 
