@@ -1,0 +1,72 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 1em;
+  line-height: 1.15;
+}
+
+body {
+  line-height: 1.35;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  background-color: #45BCD2;
+}
+
+.l-wrapper {
+  display: grid;
+  grid-template-areas: "header" "main" "footer";
+}
+
+.l-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  padding: 15px;
+}
+
+main {
+  grid-area: main;
+}
+
+.b-footer {
+  grid-area: footer;
+}
+
+.b-header {
+  grid-area: header;
+}
+.b-header__top {
+  text-align: right;
+}
+.b-header__bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.b-button {
+  border-radius: 15px;
+  padding: 20px 15px;
+  text-align: center;
+  display: block;
+  background: #f85032;
+  background: -moz-linear-gradient(top, #f85032 0%, #f16f5c 50%, #f6290c 51%, #f02f17 71%, #e73827 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, #f85032), color-stop(50%, #f16f5c), color-stop(51%, #f6290c), color-stop(71%, #f02f17), color-stop(100%, #e73827));
+  background: -webkit-linear-gradient(top, #f85032 0%, #f16f5c 50%, #f6290c 51%, #f02f17 71%, #e73827 100%);
+  background: -o-linear-gradient(top, #f85032 0%, #f16f5c 50%, #f6290c 51%, #f02f17 71%, #e73827 100%);
+  background: -ms-linear-gradient(top, #f85032 0%, #f16f5c 50%, #f6290c 51%, #f02f17 71%, #e73827 100%);
+  background: linear-gradient(to bottom, #f85032 0%, #f16f5c 50%, #f6290c 51%, #f02f17 71%, #e73827 100%);
+}
+
+/*# sourceMappingURL=style.css.map */
