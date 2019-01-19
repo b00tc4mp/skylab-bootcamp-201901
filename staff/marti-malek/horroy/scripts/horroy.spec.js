@@ -678,6 +678,38 @@ describe('Horroy', function() {
         
         });
     });
+    describe('sort', function () {
+        it('should return correct from smaller to bigger', function () {
+            var a = new Horroy(9,4,7,3,8,2,5,1,6);
+            function compare(a, b) {
+                var comparison = 0;
+                if (a > b) {
+                    comparison = 1;
+                } else if (a < b) {
+                    comparison = -1;
+                }
+                return comparison * 1;
+            };
+            var res = a.sort(compare);
+            var expected = new Horroy(1,2,3,4,5,6,7,8,9);
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct from bigger to smaller', function () {
+            var a = new Horroy(9,4,7,3,8,2,5,1,6);
+            function compare(a, b) {
+                var comparison = 0;
+                if (a > b) {
+                    comparison = 1;
+                } else if (a < b) {
+                    comparison = -1;
+                }
+                return comparison * -1;
+            };
+            var res = a.sort(compare);
+            var expected = new Horroy(9,8,7,6,5,4,3,2,1);
+            expect(res.toString()).toBe(expected.toString());
+        });
+    });
     describe('splice', function () {
         it('should return correct', function () {
             var a = new Horroy(1, 2, 3, 4, 5, 6);
