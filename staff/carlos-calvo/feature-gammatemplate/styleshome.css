@@ -223,17 +223,23 @@ main .same div button {
     background-color: inherit;
   }
   .subheader .mobilezone {
+    margin: 0;
     width: 45%;
     margin: 1rem;
+    display: flex;
+    align-items: baseline;
   }
   .subheader .mobilezone img {
-    display: block;
+    display: inline;
   }
 
   main {
     display: grid;
     grid-auto-columns: 33% 33% 33%;
     grid-template-areas: "div1 div2 div3";
+  }
+  main .same {
+    margin-bottom: 1rem;
   }
 
   .GammaFeatures {
