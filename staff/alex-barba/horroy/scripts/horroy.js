@@ -226,7 +226,6 @@ Horroy.prototype.pop = function(){
  */
 
 Horroy.prototype.push = function(element) {
-    
     for (var i = 0; i<arguments.length; i++) {
         this[this.length] = arguments[i];
         this.length++;
@@ -272,7 +271,6 @@ Horroy.prototype.reduce = function(callback, accumulator) {
  */
 
 Horroy.prototype.reverse = function() {
-    
     var duplicate = new Horroy();
 
     for (var i = 0; i < this.length; i++) {
@@ -502,7 +500,7 @@ Horroy.prototype.toRainbow = function(){
  */
 
 Horroy.from = function(value) {
-if(value === undefined || value === null) throw new TypeError (value + ' is not an Object');
+    if(value === undefined || value === null) throw new TypeError (value + ' is not an Object');
     var hor = new Horroy();
 
     if (typeof value === 'string' || value instanceof Array || value instanceof Horroy) {
