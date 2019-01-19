@@ -1,5 +1,5 @@
 /**
- *Constructor function for an abstraction of an this
+ *Constructor function for an abstraction of an horroy
  */
 function Horroy() {
 
@@ -604,6 +604,30 @@ Horroy.prototype.some = function(func) {
         }
     }
     return false;
+};
+/**
+ * Abstraction of sort.
+ * 
+ * Sorts an horroy with the expressed callback.
+ * Callback must return values between 1 and -1 for sort to work.
+ * 
+ * @param {function} func
+ * 
+ * @returns {horroy}
+ */
+Horroy.prototype.sort = function (func) {
+    var copy = new Horroy(this.length);
+    for (var i = 0; i < this.length; i++) {
+        var k = this.length-1;
+        for (var j = 0; j < this.length; j++) {
+            if (func(this[i], this[j]) < 0) k--;
+        }
+        copy[k] = this[i];
+    }
+    for (var i = 0; i < this.length; i++) {
+        this[i] = copy[i];
+    }
+    return this;
 };
 /**
  * Abstraction of splice.
