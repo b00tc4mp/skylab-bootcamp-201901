@@ -14,11 +14,12 @@ suite("horroy", function () {
 
         it ("failing adding values", function(){
 
+        
             var error;
             var horroy1 = new Horroy();
           
             try {   
-                horroy1.push();
+                horroy1.push()
                     
                 } catch (err) {
                     error = err;
@@ -34,13 +35,9 @@ suite("horroy", function () {
 
         it("succesful looping", function () {
           
-            var horroy1 = new Horroy();
-            horroy1 = [7, 77, "hello", 4]
-            console.log(horroy1)
+            var horroy1 = new Horroy(7, 77, "hello", 4);
+            
             result = horroy1.forEach()
-            console.log(result)
-            console.log(horroy1)
-
 
             expect = [7, 77, "hello", 4]
               
@@ -49,17 +46,13 @@ suite("horroy", function () {
             
         it("unsuccesful looping", function () {
 
-            var horroy1 = new Horroy();
-
-            horroy1.push(7, 77, "hello", 4)
-            horroy1.forEach()
+            var horroy1 = new Horroy(7, 77, "hello", 4);
 
             result = horroy1.forEach()
             expect = [7, 77, "hello", 4]
             
-            
+            var error;
             try {
-                var error;
                 horroy1.forEach()
                 } catch (err) {
                     error = err;
@@ -134,6 +127,4 @@ suite("horroy", function () {
         expect(result.toString() !== expect.toString(), "result must match the expected one") 
         });
     });
-
-  
-})
+});

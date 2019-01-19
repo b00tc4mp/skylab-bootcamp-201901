@@ -110,11 +110,11 @@ Horroy.prototype.reverse= function(array){
     return result
 }
 
-Horroy.prototype.shift= function(array){
+Horroy.prototype.shift= function(){
 
-    var result = array[0]
-    for (var i = 0; i < array.length; i += 1) {
-        array[i] = array[i + 1] || 0;
+    var result = this[0]
+    for (var i = 0; i < this.length; i += 1) {
+        this[i] = this[i + 1] || 0;
     }
     return result
  }
@@ -129,3 +129,14 @@ Horroy.prototype.shift= function(array){
 
     return string;
 };
+
+Horroy.prototype.concat = function(arg1, arg2){
+
+    result = []
+    for (i = 0; i < this[0].length; i++) {
+        result.push(this[0][i]);
+    }
+    for (j = 0; j < this[1].length; j++) {
+        result.push(this[1][j]);
+    }
+}

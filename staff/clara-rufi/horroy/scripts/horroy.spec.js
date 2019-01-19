@@ -24,13 +24,19 @@ describe('Horroy', function() {
             horroy = new Horroy(1,2,3,4,5);
         });
 
-        it('should change the elements of horroy for the argument',function(){
+        it('should insert the elements argument for the argument',function(){
             
             var result = horroy.fill(5,1,3);
             var expected = {0: 1, 1: 5, 2: 5, 3: 4, 4: 5, length: 5}
             expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
         });
 
+        it("the results object must be defined" ,function(){
+
+            var result = horroy.fill(5,1,3);
+     
+            expect(result).toBeDefined();
+        });
         it('end is an optional argument',function(){
              
             var result = horroy.fill(5,1);
@@ -226,10 +232,81 @@ describe('Horroy', function() {
                 result = horroy.reverse()
             
                 expect(horroy).toBeDefined();    
-        })
+        });
+    });
+        describe('shift', function(){
 
-        
-        
-})
-})
+            beforeEach(function(){
+                horroy = new Horroy(1,2,3,4);
+            });
+           
+            it('should delete first item of the object',function(){
+                
+                result = horroy.shift()
+                expected = 1
+    
+                expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+    
+            });
+            it('should an object to heve more than one item',function(){
+                         
+                    result = horroy.shift()
+                    expected = 2              
+                    expect(horroy).toBeDefined();    
+            });
+        });
 
+        describe('toString', function(){
+
+            beforeEach(function(){
+                horroy = new Horroy(44,55,66);
+            });
+           
+            it('should convert items to an string',function(){
+                
+                result = horroy.toString()
+                expected = "44,55,66"
+    
+                expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+            });
+        });
+
+        describe('concat', function(){
+
+            beforeEach(function(){
+                horroy = new Horroy([44,55],[66,77]);
+            });
+           
+            it('should concat two arrays in one',function(){
+                
+                var result = [];
+
+                var result = horroy[0].concat(horroy[1]);
+
+                var expected = [44,55,66,77]
+                expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+            });
+
+            it('should concat array of numbers with array of strings',function(){
+                
+                horroy = new Horroy(["sun"],[66,77]);
+
+                var result = [];
+
+                var result = horroy[0].concat(horroy[1]);
+
+                var expected = ["sun",66,77]
+
+                expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+            });
+        
+        });
+        
+    });
+   
+ 
+   
+
+
+
+  
