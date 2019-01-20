@@ -1,2 +1,9 @@
+.gitignore
 .DS_Store
 .sass-cache
+
+# Gamma template
+staff/nicolas-martin/gamma-template/home-2.html
+staff/nicolas-martin/gamma-template/style-2.css
+staff/nicolas-martin/gamma-template/style-2.sass
+staff/nicolas-martin/gamma-template/style.css-2.map
