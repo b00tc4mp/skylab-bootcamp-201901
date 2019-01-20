@@ -13,7 +13,8 @@
  */
 
  function some(array, callback){
-   //debugger;
+   if (arguments.length > 2) throw Error('too many arguments');
+   if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
    for (var i = 0; i < array.length; i++) {
      var result = callback(array[i]);
      if (result) return result;

@@ -27,6 +27,7 @@
           start < 0 ? array.length + start :
           typeof start !== 'number' ? 0 : start;
   var from = start;
+  
   // deleteCount = deleteCount > array.length - start ? array.length :
   //               deleteCount === undefined ? 0 : deleteCount;
 
