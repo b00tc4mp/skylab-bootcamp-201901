@@ -31,6 +31,7 @@ cart.add(tshirt);
 cart.add(cap);
 cart.add(shorts);
 cart.add(sweater);
+
 /**/
 console.log("Total", cart.totalPrice());
 console.log("Number of products in cart: ", cart.numberOfItems());
