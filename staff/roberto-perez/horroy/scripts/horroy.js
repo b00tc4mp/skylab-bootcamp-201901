@@ -244,7 +244,109 @@ Horroy.prototype.findIndex = function(callback) {
   }
 };
 
+// Horroy.prototype.flat = function() {
 
-Horroy.prototype.flat = function() {
+//   var newHorroy = arguments[0] || new Horroy;
 
+//   for(var i = 0; i < this.length; i++) {
+//     if (!(this[i] instanceof Horroy)) {
+//       newHorroy[newHorroy.length++] = this[i];
+//     } else {
+//       this[i].flat(newHorroy);
+//     }
+//   }
+
+//   if(arguments[0]) {
+//     return newHorroy;
+//   }
+
+//   this.length = newHorroy.length;
+
+//   for(var j = 0; j < newHorroy.length; j++) {
+//     this[j] = newHorroy[j];
+//   }
+
+// };
+
+// Horroy.prototype.flat = function() {
+//   for (var i = 0; i < this.length; i++) {
+//     if (this[i] instanceof Horroy) {
+//       this.length--;
+//       this[i].flat(this);
+//     } else {
+//       if (arguments[0]) {
+//         arguments[0][arguments[0].length++] = this[i];
+//       } else {
+//         this[i] = this[i];
+//       }
+//     }
+//   }
+// };
+
+//[1, 2, [3, 4, [5, 6]]]
+
+/*
+    [i] -> length -> value
+    [0]       3       1
+    [1]       3       2
+    [2]       +3      [3, 4, [5, 6]]
+*/
+// Horroy.prototype.flat = function(depth) {
+//   depth = depth === undefined ? 1 : depth;
+
+//   for (var i = 0; i < this.length; i++) {
+
+//     if (this[i] instanceof Horroy && depth > 0) {
+//       this.length = i + this[i].length;
+//       this[i].flat(--depth, this);
+//     } else if ((this[i] instanceof Horroy && depth < 1) || arguments[1]) {
+//       // arguments[1][arguments[1].length] = this[i];
+//       this[i] = this[i];
+//       // 
+//       //arguments[1][arguments[1].length + i] = this[i];
+
+//       // console.log(arguments[1][2]);
+//     }
+
+//   }
+// };
+
+
+/**
+ * Determines whether an array includes a certain value among its entries
+ * 
+ * @param {*} - The value to search for.
+ * @param {Number} - The position in this array at which to begin searching
+ * 
+ * @returns {Boolean} - true or false as appropriate
+ * 
+ * 
+ */
+Horroy.prototype.includes = function(searchElement, fromIndex) {
+
+  if (fromIndex !== undefined && !(typeof fromIndex === "number")) {
+    throw new TypeError(fromIndex + " is not a number");
+  }
+
+  if(fromIndex >= this.length) return false;
+
+  fromIndex = (fromIndex < 0) ? this.length + fromIndex : 0;
+  
+  for(var i = fromIndex; i < this.length; i++) {
+    if(searchElement === this[i]) return true;
+  }
+
+  return false;
+};
+
+
+Horroy.prototype.keys = function() {
+
+  var newHorroy = new Horroy;
+
+  newHorroy.length = this.length;
+
+  for(var i = 0; i < this.length; i++) newHorroy[i] = i;
+
+  return newHorroy;
 };
