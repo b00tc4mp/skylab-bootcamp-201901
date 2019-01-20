@@ -23,7 +23,7 @@ function Horroy(){
 
     Horroy.prototype.concat = function(horroy2){
 
-        if(!(horroy2 instanceof Horroy)) throw new TypeError('Not an horroy')
+        if(!(horroy2 instanceof Horroy)) throw new Error('Not an horroy')
 
         var horroyreturn = new Horroy
 
@@ -35,14 +35,59 @@ function Horroy(){
         }
         return horroyreturn
     }
-}
 
 
+    Horroy.prototype.every = function(func){
+        if(!(func instanceof Function)) throw new TypeError('Not a function')
 
+        for(var i = 0; i < this.length; i ++){
+            if(!func(this[i])) return false
+        }
+        return true
+    }
 
-
+    Horroy.prototype.fill = function(value, start, end) {
+        if (arguments.length > 4) throw Error('too many arguments');
     
+        start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
+        end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
+    
+        if (typeof start !== 'number' || typeof end !== 'number'  ) throw TypeError ('Not a number');
+    
+        for (var i = start; i < end; i++) {
+            this[i] = value;
+        }
+        return this;
+    }
 
-var x = new Horroy('a','b','c','d')
+    Horroy.prototype.toString = function(){
+        var stringReturn = '';
+        for(var i = 0; i < this.length; i++){
+            if(i == this.length-1){
+                stringReturn = stringReturn.concat(this[i])
+            } else {
+                stringReturn = stringReturn.concat(this[i])
+                stringReturn = stringReturn.concat(',')
+            }
+        }
+        return stringReturn
+    }
 
-console.log(x)
+    Horroy.prototype.shift = function(){
+        if(this.length == 0){
+            throw new Error('No items in this array')
+        } else {
+            var b = new Horroy()
+            for(var i = 0; i < this.length; i++){
+                b[i] = this[i]
+            } //copio array
+            i = 1
+            while (i < b.length){
+                this[i-1] = b[i]
+                i++
+            }
+            this.length = b.length -1 
+            return b[0]
+        }
+    }
+}
