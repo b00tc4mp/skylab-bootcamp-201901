@@ -3,6 +3,10 @@ ul, li {
   list-style: none;
 }
 
+body {
+  font-family: "Roboto", sans-serif;
+}
+
 header {
   background: #46BDD4;
   flex-flow: column;
@@ -35,13 +39,10 @@ body {
 }
 
 .logomonkey {
-  margin-left: 8rem;
+  margin-left: 6rem;
   margin-top: 1rem;
-}
-
-.logoceasymail {
-  width: 40%;
-  height: 20%;
+  margin-right: 2rem;
+  width: 90%;
 }
 
 .login {
@@ -71,8 +72,15 @@ body {
 }
 
 .logosignup_red {
-  wide: 3rem;
   background: #DF7045;
+  width: 14rem;
+  height: 4rem;
+  border-radius: 0.6rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
 }
 
 .logosignup_black {
@@ -104,34 +112,143 @@ body {
 }
 
 .searchBar {
-  width: 12rem;
+  width: 15rem;
   height: 2rem;
   border-radius: 0.5rem;
+  margin-left: 1rem;
+  background-color: white;
+}
+
+.fas .lent {
+  width: 2%;
+  color: grey;
+}
+
+.lent {
+  margin-left: 13.5rem;
+  margin-top: 0.3rem;
 }
 
 main {
-  background: #46BDD4;
-  flex-flow: column;
-  align-items: center;
-  display: flex;
   top: 0px;
 }
 
 .easymail {
   display: flex;
-  justify-content: space-evenly;
+  background: #46BDD4;
+  height: 33rem;
+}
+
+.logoceasymail {
+  width: 100%;
 }
 
 .textmail {
   display: flex;
 }
 
-.easymail_left {
-  display: flex;
+.easymail_right {
+  width: 40%;
+  margin-top: 4rem;
+  margin-left: 3rem;
 }
 
-.easymail_right {
+.whatsnew {
   display: flex;
+  background-color: grey;
+}
+
+.container {
+  display: flex;
+  background-color: blue;
+  margin: -2rem 4rem;
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  color: black;
+  width: 90%;
+}
+
+.title {
+  display: flex;
+  background-color: red;
+}
+
+.section_title {
+  display: flex;
+  flex-direction: column;
+}
+
+.section1 {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+
+.section2 {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+
+.section3 {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+
+.section4 {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+
+.section_title {
+  font-size: 2rem;
+  color: black;
+  text-indent: 2.3rem;
+  font-weight: 600;
+}
+
+.title1 {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.title2 {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.info {
+  font-size: 1rem;
+  font-weight: 100;
+  text-align: start;
+  text-indent: 0;
+}
+
+.logolearn {
+  background: #465255;
+  height: 2rem;
+  border-radius: 0.6rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  margin-top: 1.3rem;
+  margin-bottom: 4rem;
+  padding: 0 1rem;
+  font-weight: 300;
 }
 
 /*# sourceMappingURL=style.css.map */
