@@ -337,6 +337,8 @@ Horroy.prototype.flatMap = function (func) {
  * 
  */
 Horroy.prototype.forEach = function(callback) {
+    if (callback === undefined) throw Error(callback + 'is not a function');
+    
     for(var i = 0; i < this.length; i++)
         callback(this[i]);
 };
@@ -608,26 +610,55 @@ Horroy.prototype.some = function(func) {
 /**
  * Abstraction of sort.
  * 
- * Sorts an horroy with the expressed callback.
+ * Sorts an horroy with the expressed callback. 
+ * Conditions:
  * Callback must return values between 1 and -1 for sort to work.
+ * Sort will not work with objects unless specified in callback.
+ * 
  * 
  * @param {function} func
  * 
  * @returns {horroy}
  */
 Horroy.prototype.sort = function (func) {
-    var copy = new Horroy(this.length);
-    for (var i = 0; i < this.length; i++) {
-        var k = this.length-1;
-        for (var j = 0; j < this.length; j++) {
-            if (func(this[i], this[j]) < 0) k--;
+    if (func === undefined) {
+        var copy = new Horroy(this.length);
+        for (var i = 0; i < this.length; i++) {
+            var k = this.length-1;
+            if (typeof this[i] === 'string') {
+                for (var j = 0; j < this.length; j++) {
+                    if (this[i].localeCompare(this[j]) < 0) {
+                        k--;  
+                    } 
+                }
+                copy[k] = this[i];
+            } else {
+                for (var j = 0; j < this.length; j++) {
+                    if (this[i].toString().localeCompare(this[j]) < 0) {
+                        k--;  
+                    } 
+                }
+                copy[k] = this[i];
+            }
         }
-        copy[k] = this[i];
+        for (var i = 0; i < this.length; i++) {
+            this[i] = copy[i];
+        }
+        return this;
+    } else {
+        var copy = new Horroy(this.length);
+        for (var i = 0; i < this.length; i++) {
+            var k = this.length-1;
+            for (var j = 0; j < this.length; j++) {
+                if (func(this[i], this[j]) < 0) k--;
+            }
+            copy[k] = this[i];
+        }
+        for (var i = 0; i < this.length; i++) {
+            this[i] = copy[i];
+        }
+        return this;
     }
-    for (var i = 0; i < this.length; i++) {
-        this[i] = copy[i];
-    }
-    return this;
 };
 /**
  * Abstraction of splice.
