@@ -7,6 +7,8 @@ html,
 body 
     margin: 0
     padding: 0
+    width: 100%
+    height: 100%
 
 html 
     font-size: 1em
@@ -22,31 +24,237 @@ body
     background-color: $backGroundColor
 
 .l-wrapper
+    min-height: 100%
+    display: grid
+    grid-template-rows: auto 1fr auto
+    grid-template-columns: 100%
 
 .l-content
     max-width: 1200px
-    padding: 15px
-
-main
-
-.b-footer
-
-.b-header 
-
-    &__top
-        text-align: right
-    &__bottom
-
+    padding: 0px 15px
+    margin-left: auto
+    margin-right: auto
+    width: 990px
 
 .b-button
-    border-radius: 15px
-    padding: 20px 15px
+    border-radius: 7px
     text-align: center
-    background: rgba(248,80,50,1)
-    background: -moz-linear-gradient(top, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
-    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,1)), color-stop(50%, rgba(241,111,92,1)), color-stop(51%, rgba(246,41,12,1)), color-stop(71%, rgba(240,47,23,1)), color-stop(100%, rgba(231,56,39,1)))
-    background: -webkit-linear-gradient(top, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
-    background: -o-linear-gradient(top, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
-    background: -ms-linear-gradient(top, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
-    background: linear-gradient(to bottom, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
+    text-decoration: none
+    font-size: 14px
+    color: #fff
+    &:hover
+        -webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75)
+        -moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75)
+        box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75)
+    &--red 
+        background: rgba(248,80,50,1)
+        background: -moz-linear-gradient(top, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
+        background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,1)), color-stop(50%, rgba(241,111,92,1)), color-stop(51%, rgba(246,41,12,1)), color-stop(71%, rgba(240,47,23,1)), color-stop(100%, rgba(231,56,39,1)))
+        background: -webkit-linear-gradient(top, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
+        background: -o-linear-gradient(top, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
+        background: -ms-linear-gradient(top, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
+        background: linear-gradient(to bottom, rgba(248,80,50,1) 0%, rgba(241,111,92,1) 50%, rgba(246,41,12,1) 51%, rgba(240,47,23,1) 71%, rgba(231,56,39,1) 100%)
+    &--black
+        background: rgba(76,76,76,1)
+        background: -moz-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 12%, rgba(102,102,102,1) 25%, rgba(71,71,71,1) 39%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(17,17,17,1) 60%, rgba(43,43,43,1) 76%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%)
+        background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(76,76,76,1)), color-stop(12%, rgba(89,89,89,1)), color-stop(25%, rgba(102,102,102,1)), color-stop(39%, rgba(71,71,71,1)), color-stop(50%, rgba(44,44,44,1)), color-stop(51%, rgba(0,0,0,1)), color-stop(60%, rgba(17,17,17,1)), color-stop(76%, rgba(43,43,43,1)), color-stop(91%, rgba(28,28,28,1)), color-stop(100%, rgba(19,19,19,1)))
+        background: -webkit-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 12%, rgba(102,102,102,1) 25%, rgba(71,71,71,1) 39%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(17,17,17,1) 60%, rgba(43,43,43,1) 76%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%)
+        background: -o-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 12%, rgba(102,102,102,1) 25%, rgba(71,71,71,1) 39%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(17,17,17,1) 60%, rgba(43,43,43,1) 76%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%)
+        background: -ms-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 12%, rgba(102,102,102,1) 25%, rgba(71,71,71,1) 39%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(17,17,17,1) 60%, rgba(43,43,43,1) 76%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%)
+        background: linear-gradient(to bottom, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 12%, rgba(102,102,102,1) 25%, rgba(71,71,71,1) 39%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(17,17,17,1) 60%, rgba(43,43,43,1) 76%, rgba(28,28,28,1) 91%, rgba(19,19,19,1) 100%)
+
+
+.b-header 
+    &__top
+        text-align: right
+        padding: 15px 0px
+        & a 
+            color: #ffffff
+            font-weight: bold
+            text-decoration: none
+            &:hover
+                text-decoration: underline
+    &__bottom
+        display: flex
+        align-items: center
+        justify-content: space-between
+        & .b-button
+            padding: 15px 20px
+
+    &__logo 
+        display: inline-block
+
+.b-menu 
+    overflow: hidden
+    border-radius: 7px
+    background-color: #D4F1F7
+    display: flex
+    justify-content: space-between
+    float: right
+    &__navigation
+        display: flex
+        height: 50px
+        justify-content: space-between
+        list-style: none
+        padding: 0
+        margin: 0
+        & li
+            border-left: 1px solid #d2d2d1
+            border-right: 1px solid #fff
+            height: 100%
+            &:first-child
+                border-left: 0px
+            &:last-child
+                
+            & a
+                display: flex
+                align-items: center
+                height: 100%
+                text-decoration: none
+                color: #191814
+                font-size: 14px
+                padding: 0px 15px
+                &:hover 
+                    background: #e6faff
+                    
+
+.b-search
+    border-left: 1px solid #d2d2d1
+    padding: 8px 15px
+    display: flex
+    align-items: center
+    & fieldset 
+        display: inline
+        background-color: #fff
+        border: 1px solid #ccc
+        border-radius: 7px
+        padding: 0px
+        margin: 0px
+    &__input
+        background-color: transparent
+        border: 0px
+        color: #ccc
+        outline: none
+        padding: 7px 10px
+    &__button
+        border: 0px
+        background-color: transparent
+        background-image: url(images/search.png)
+        background-repeat: no-repeat
+        background-position: center
+        text-indent: -9999px
+        height: 22px
+        width: 30px
+
+
+main
+    border-top: 1px solid #fff
+    background-image: url(images/noisepattern.png)
+    background-repeat: repeat
+    & .l-content
+        margin-top: -60px
+
+.b-banner
+    padding: 20px 0px 58px 0px
+    border-bottom: 1px solid #949494 
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+.b-banner__title 
+    color: #fff
+    font-size: 40px
+    font-size: 80px
+    line-height: 80px
+    margin: 30px 0px 0px 0px
+.b-banner__button
+    display: inline-block
+    padding: 15px 50px
+    margin-top: 10px
+    font-size: 18px
+    border-top: 1px solid #a22424
+
+
+.b-news
+    background-color: #F0F0F0
+    padding: 25px 40px
+    border-radius: 10px 10px 0px 0px
+    -moz-border-radius: 10px 10px 0px 0px
+    -webkit-border-radius: 10px 10px 0px 0px
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3)
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3)
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3)
+    &__title-top 
+        color: #191814
+        font-family: 'Fjalla One', sans-serif
+        font-size: 26px
+        margin: 0px 0px 20px 0px
     
+    &__block
+        display: grid
+        grid-template-columns: repeat(12, 1fr)
+        grid-column-gap: 1rem
+        grid-row-gap: 1rem
+    &__post 
+        grid-column: span 3
+    &__header
+        padding: 15px 0px
+    &__subtitle
+        margin: 0
+        font-size: 14px
+    &__title
+        margin: 0
+        font-size: 20px
+    &__text
+        margin: 0
+        color: #868686
+        font-size: 14px
+    &__learn-more
+        background-image: url(images/bg_home.png)
+        display: block
+        color: #ffffff
+        padding: 5px 15px
+        border-radius: 7px
+        font-size: 12px
+        text-decoration: none
+        margin-top: 20px
+        border: 1px solid black
+        &:hover 
+            background-image: none
+            background-color: #3d3d3e
+    &__learn-more span 
+        float: right
+        background-image: url(images/arrows.png)
+        background-repeat: no-repeat
+        width: 12px
+        height: 13px
+        margin-top: 2px
+.b-footer
+    background-color: #191814
+    color: #fff
+    &__block
+        padding: 25px 40px
+        display: grid
+        grid-template-columns: repeat(12, 1fr)
+        grid-column-gap: 1rem
+        grid-row-gap: 1rem
+        align-items: baseline
+    &__column
+        grid-column: span 3
+    &__title
+        margin: 0px 0px 10px 0px
+        font-size: 14px
+    &__list-block
+        list-style: none
+        margin: 0
+        padding: 0
+    &__link
+        color: #a7a5a5
+        text-decoration: none
+        font-size: 12px
+        font-weight: normal
+        &:hover
+            text-decoration: underline
+    &__copy
+        padding: 15px 0px
+        text-align: center
+        color: #a7a5a5
+        font-size: 12px
