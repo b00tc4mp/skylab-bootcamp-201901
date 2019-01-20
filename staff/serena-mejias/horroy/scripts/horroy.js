@@ -19,7 +19,6 @@ Horroy.from = function(value) {
 };
 
 Horroy.prototype.push = function(value) {
-  
   this[this.length++] = value;
   return this.length;
 };
@@ -67,7 +66,7 @@ Horroy.prototype.find = function(callback) {
 Horroy.prototype.indexof = function(value) {
   if (arguments.length > 1) throw Error("too many arguments");
 
-  if (!(typeof value === "string" || typeof value ==="number"))
+  if (!(typeof value === "string" || typeof value === "number"))
     throw TypeError("the argument must be a string or a number");
 
   for (var i in this) {
@@ -92,14 +91,65 @@ Horroy.prototype.join = function join(separator) {
     string += this[i] + separator;
   }
   return string;
-}
+};
 
 Horroy.prototype.reverse = function reverse() {
-  for (var i = 0; i < Math.floor(this.length/2); i++) {
+  for (var i = 0; i < Math.floor(this.length / 2); i++) {
     var n = this[i];
     this[i] = this[this.length - 1 - i];
     this[this.length - 1 - i] = n;
-    
   }
   return this;
+};
+
+Horroy.prototype.pop = function pop() {
+  var value = this[this.length - 1];
+  delete this[this.length - 1];
+
+  return value;
+};
+
+Horroy.prototype.reduce = function reduce() {
+  //if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+  //if (!(callback instanceof Function)) throw TypeError(callback + ' is not an function');
+
+  var i = 0;
+
+  if (accumulator === undefined) {
+    accumulator = this[0];
+    i = 1;
+  }
+
+  for (; i < this.length; i++) {
+    var item = this[i];
+
+    accumulator = callback(accumulator, item);
+  }
+
+  return accumulator;
+};
+
+Horroy.prototype.slice = function slice(start,end) {
+  start === 'undefined'? 0 : start;
+  end === 'undefined'? this.length : end;
+  var newHorroy = {};
+  var index = 0
+  
+for (var i = start; i<end; i++){
+  newHorroy[index] = this[i];
+  index++;
+}
+return newHorroy;
+};
+
+Horroy.prototype.some = function(method){
+  if (!(typeof method === "function"))
+    throw TypeError("the argument must be a function");
+
+  for (var i = 0; i < this.length; i++) {
+    if (method(this[i])) {
+      return true;
+    }
+  }
+  return false;
 }
