@@ -4,7 +4,7 @@
  * @param {Array} array 
  * @param {*} element 
  * 
- * @returns {number} - the new length of the array or undefined if the array is empty
+ * @returns {*} - The removed element from the array; undefined if the array is empty.
  */
 
 function pop(array) {
