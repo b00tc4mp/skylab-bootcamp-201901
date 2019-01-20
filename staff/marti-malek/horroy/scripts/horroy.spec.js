@@ -455,7 +455,7 @@ describe('Horroy', function() {
         });
     });
     describe('forEach', function () {
-        it('should return correct', function () {
+        it('should return correct with callback', function () {
             var a = new Horroy(1, 2, 3); 
             var sum = 0;
             
@@ -466,6 +466,12 @@ describe('Horroy', function() {
             var expected = 6;
         
             expect(sum.toString()).toBe(expected.toString());
+        
+        });
+        it('should fail without callback', function () {
+            var a = new Horroy(1, 2, 3); 
+        
+            expect(function () {a.forEach()}).toThrow();
         
         });
     });
@@ -493,8 +499,8 @@ describe('Horroy', function() {
         });
     });
     describe('indexOf', function () {
-        it('should return correct', function () {
-            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+        it('should return correct with numbers', function () {
+            var a = new Horroy(1, 2, 3, 4, 5);
             
             var res = a.indexOf(1);
 
@@ -503,13 +509,50 @@ describe('Horroy', function() {
             expect(res.toString()).toBe(expected.toString());
         
         });
+        it('should return correct with strings', function () {
+            
+            var res = horroy1.indexOf('c');
+
+            var expected = 2;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+        it('should return correct with full arguments', function () {
+            var horr = new Horroy(1,2,3,7,8,5,3)
+
+            var res = horr.indexOf(3,4);
+
+            var expected = 6;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+        it('should return -1 without params', function () {
+            
+            var res = horroy1.indexOf();
+
+            var expected = -1;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
     });
     describe('join', function () {
-        it('should return correct', function () {
-            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+        it('should return correct with 1 argument', function () {
+            var a = new Horroy(1, 2, 3, 4, 5);
             
             var res = a.join('');
             var expected = 12345;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+        it('should return correct with no arguments', function () {
+            var a = new Horroy(1, 2, 3, 4, 5);
+            
+            var res = a.join();
+            var expected = '1,2,3,4,5';
         
             expect(res.toString()).toBe(expected.toString());
         
@@ -543,7 +586,7 @@ describe('Horroy', function() {
         });
     });
     describe('map', function () {
-        it('should return correct', function () {
+        it('should return correct with callback', function () {
             var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
             
             var res = a.map(function (x) {
@@ -556,7 +599,7 @@ describe('Horroy', function() {
         });
     });
     describe('pop', function () {
-        it('should return correct', function () {
+        it('should return correct without arguments', function () {
             var a = new Horroy(1, 2, 3);
             
             a.pop();
@@ -564,6 +607,22 @@ describe('Horroy', function() {
             var expected = 2;
         
             expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct with arguments', function () {
+            var a = new Horroy(1,2,3);
+            
+            var res = a.pop(1);
+            var expected = 3;
+        
+            expect(res).toBe(expected);
+        });
+        it('should return correct without length', function () {
+            var a = new Horroy();
+            
+            var res = a.pop();
+            var expected = undefined;
+        
+            expect(res).toBe(expected);
         });
     });
     describe('push', function () {
@@ -707,6 +766,27 @@ describe('Horroy', function() {
             };
             var res = a.sort(compare);
             var expected = new Horroy(9,8,7,6,5,4,3,2,1);
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct without callback all numbers', function () {
+            var a = new Horroy(9,2,6,1,0);
+            
+            var res = a.sort();
+            var expected = new Horroy(0,1,2,6,9);
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct without callback all string', function () {
+            var a = new Horroy('March','Jan','Feb','Dec');
+            
+            var res = a.sort();
+            var expected = new Horroy('Dec','Feb','Jan','March');
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct without callback numbers + strings', function () {
+            var a = new Horroy(9,3,27,'98','1');
+            
+            var res = a.sort();
+            var expected = new Horroy('1',27,3,9,'98');
             expect(res.toString()).toBe(expected.toString());
         });
     });
