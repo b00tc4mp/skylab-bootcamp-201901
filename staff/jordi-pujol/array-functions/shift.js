@@ -24,7 +24,7 @@ function shift (arr){
         arr[i] = arr[i+1]
     }
     arr.length --
-    console.log(arr)
+
     return re
 }
 

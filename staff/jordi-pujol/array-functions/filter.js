@@ -1,5 +1,9 @@
 /**
  * 
+ * Abstraction of filter
+ * 
+ * Creates a new array with all elements that pass the test implemented by the provided function.
+ * 
  * @param {Array} arr 
  * @param {Function} callback 
  * @param {*} thisArg
@@ -9,15 +13,19 @@
  * @returns {Array} new array
  */
 
-function filter(arr, callback, thisArg){
+function filter(arr, callback){
     
-    if (arguments.length > 2) throw Error('too many arguments');
+    if (!(arr instanceof Array)) throw TypeError (arr + ' should be an array')
+    if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function') 
 
-    if(!(arr instanceof Array)) throw TypeError(arr + ' is not an array');
+    var ret = [];
 
-    if(!(callback instanceof Function)) throw TypeError(callback + ' is not a function');
+    for (var i = 0; i < arr.length; i++) {
+        if (callback(arr[i]) === true){
 
+            ret[ret.length] = arr[i]
+        }
+    }
 
-
-
+    return ret
 }
