@@ -1,3 +1,5 @@
+'use strict';
+
 //#region Element polyfills
 
 Element.prototype.show = function () {
