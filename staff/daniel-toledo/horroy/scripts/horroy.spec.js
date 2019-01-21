@@ -38,34 +38,24 @@ describe('copywithin', function(){
     });
     
     
-    it('sould concatenate an array', function(){
-        res=h.copyWithin(2)
-        res2=h.copyWithin(3)
-
-        expect(res.toString()).toBe([1,2,3,1,2,3,1,2,3].toString())
-        expect(res2.toString()).toBe([1,2,3,4,1,2,3,4,1].toString())
+    it('sould copy with defined target, start and end', function(){
+        res=h.copyWithin(3,5,7)
+    
+        expect(res.toString()).toBe([1,2,3,6,7,6,7,8,9].toString())
+    
     });
 
-    // it('sould concatenate a Horroy', function(){
-    //     var h2=new Horroy(5,6,7);
-    //     res=h.concat(h2)
-
-    //     expect(res.toString()).toBe([1,2,3,4,5,6,7].toString())
-    // });
+    it('sould copy with defining only target and start', function(){
+        res=h.copyWithin(3,5)
     
-    // it('sould concatenate more than one input', function(){
-    
-    //     res=h.concat(5,6,7)
+        expect(res.toString()).toBe([1,2,3,6,7,8,9,8,9].toString())
+    });
 
-    //     expect(res.toString()).toBe([1,2,3,4,5,6,7].toString())
-    // });
-    // it('sould concatenate more than one input with Horroy in the middle', function(){
-    //     var h2=new Horroy('this is a', 'Horroy');
-    //     res=h.concat(5,6,h2,7)
-
-    //     expect(res.toString()).toBe([1,2,3,4,5,6,'this is a', 'Horroy',7].toString())
-    // });
+    it('sould copy with defining only target', function(){
+        res=h.copyWithin(2)
     
+        expect(res.toString()).toBe([1,2,1,2,3,4,5,6,7].toString())
+    }); 
 });
 
 describe('every', function(){
