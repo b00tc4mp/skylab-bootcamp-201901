@@ -134,5 +134,80 @@ function Horroy(){
         }
         return false
     }
+
+    Horroy.prototype.filter = function(func){
+        if(!(func instanceof Function)) throw new TypeError('Not a Function')
+        var arrayreturn = new Horroy()
+        for(var i = 0; i < this.length; i++){
+            if(func(this[i])) arrayreturn.push(this[i])
+        }
+        return arrayreturn
+    }
+
+    Horroy.prototype.reverse = function(){
+        var copy = new Horroy
+        for (var i = 0; i < this.length; i++){
+            copy.push(this[i])
+        }
+        var longitud = this.length-1
+        for(var i = 0; i <= longitud; i++){
+            this[i] = copy[longitud-i]
+        }  
+    }
+
+    Horroy.prototype.unshift = function(){
+        var copy = new Horroy
+        for (var i = 0; i < arguments.length; i++){
+            copy.push(arguments[i])
+        }
+        var longitud = arguments.length
+
+        for(var i = 0; i < this.length; i++){
+            copy[i + longitud] = this[i]
+            copy.length++
+        }
+        this.length = copy.length
+        for(var i = 0; i < copy.length; i ++){
+            this[i] = copy[i]
+        }
+
+        return this.length
+    }
+
+    
+    Horroy.prototype.pop = function(){
+        var lastitem = this[this.length-1]
+        this.length--
+        delete this[this.length -1]
+        
+
+        return lastitem
+    }
+
+    Horroy.of = function(){ //Static method
+        var hor = new Horroy()
+        for(var i = 0; i < arguments.length; i++){
+            hor.push(arguments[i])
+        }
+        return hor
+    }
+    
+    Horroy.prototype.copywithin = function(target, start, end){
+
+        if(arguments.length > 3) throw new Error('Too many args')
+        start = start === undefined ? 0: start
+        end = end === undefined ? this.length: end
+        var copia = new Horroy
+        for (var i = 0; i < end - start; i++){
+            copia[i] = this[start + i]
+            copia.length++
+        }
+        for(i = 0 ; i< copia.length; i++){
+            this[target + i] = copia[i]
+        }
+
+    }
+    
+
     
 }

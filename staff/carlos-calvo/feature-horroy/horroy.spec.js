@@ -93,7 +93,6 @@ describe("Horroy - Every", function() {
     it("Throws Error when parameter not a function", function() {
         var hor = new Horroy(4,-5,6)
         var result = true
-        debugger
         expect(function(){hor.every(result)}).toThrow();
     });
     
@@ -165,14 +164,15 @@ describe("Horroy - Shift", function() {
 
 });
 
-
-it("Case no arrays inside", function() {
-    describe("Horroy - Flat", function() {
+describe("Horroy - Flat", function() {
+    it("Case no arrays inside", function() {       
         var hor = new Horroy(1,2,3,4)
         var expectedresult = [1,2,3,4]
         expect(hor.flat().toString()).toEqual(expectedresult.toString())
     });
 });
+
+
 
 describe("Horroy - For Each", function() {
     it("Case no arrays inside", function() {
@@ -199,10 +199,97 @@ describe("Horroy - For Each", function() {
 
 
 describe("Horroy - includes", function() {
+    it("Case Not Found", function() {
+        var hor = new Horroy(1,2,3,4)
+        var itemtosearch = -1
+        expect(hor.includes(itemtosearch)).toBe(false)
+    });
+
     it("Case Found", function() {
         var hor = new Horroy(1,2,3,4)
-        expect(hor.forEach(function(item){
-            console.log(item)
-        })).toBe(undefined)
+        var itemtosearch = 1
+        expect(hor.includes((itemtosearch))).toBe(true)
     });
+})
+
+
+describe("Horroy - Filter", function() {
+    it("Case filter ok", function() {
+        var hor = new Horroy(1,2,3,4)
+        var result = new Horroy(1,2,3,4)
+        expect(hor.filter(function(item){
+            return item > 0
+        })).toEqual(result)
+    });
+
+    it("Parameter not a function", function() {
+        var hor = new Horroy(1,2,3,4)
+        var result = new Horroy(1,2,3,4)
+        expect(function(){hor.filter(result)}).toThrow(TypeError('Not a Function'))
+    });
+});
+
+
+describe("Horroy - Reverse", function() {
+    it("Case reverse ok", function() {
+        var hor = new Horroy(1,2,3,4)
+        var result = new Horroy(4,3,2,1)
+        hor.reverse()
+        expect(hor.toString()).toEqual(result.toString())
+    });
+    it("Case empty Horroy", function() {
+        var hor = new Horroy
+        var result = new Horroy
+        hor.reverse()
+        expect(hor.toString()).toEqual(result.toString())
+    });
+});
+
+describe("Horroy - UnShift", function() {
+    it("Case added I item", function() {
+        var hor = new Horroy(1,2,3,4)
+        hor.unshift(5)
+        expect(hor.length).toBe(5)
+    });
+    it("Case added II items", function() {
+        var hor = new Horroy(1,2,3,4)
+        hor.unshift(5,9)
+        expect(hor.length).toBe(6)
+    });
+
+});
+
+describe("Horroy - POp", function() {
+    it("Removal of las item ok", function() {
+        var hor = new Horroy(1,2,3,4)
+        var result = hor.pop()
+        expect(result).toBe(4)
+    });
+
+    it("Length is decreased by 1", function() {
+        var hor = new Horroy(1,2,3,4)
+        var result = hor.length-1;
+        hor.pop();
+        expect(hor.length).toBe(result)
+    });
+});
+
+describe("Horroy - Of", function() {
+    it("Adds four items", function() {
+        var hor = Horroy.of(1,2,3,4)
+        expect(hor.length).toBe(4)
+    });
+    it("Adds 0 items", function() {
+        var hor = Horroy.of()
+        expect(hor.length).toBe(0)
+    });
+});
+describe("Horroy - copywithin", function() {
+    it("Copy items", function() {
+        var hor = new Horroy('a', 'b', 'c', 'd', 'e')
+        hor.copywithin(0,3,4)
+        var result = new Horroy('d', 'b', 'c', 'd', 'e')
+        expect(hor).toEqual(result)
+    });
+});
 
