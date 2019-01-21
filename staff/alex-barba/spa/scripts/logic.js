@@ -1,34 +1,51 @@
 //#region (business) logic
 
 function login(email, password, callback) {
-    // TODO validate fields!
-    
+    if (typeof email !== 'string') throw TypeError(email + ' is not a string');
+    if (!email.trim().length) throw Error('email cannot be empty');
+
+    if (typeof password !== 'string') throw TypeError(password + ' is not a string');
+    if (!password.trim().length) throw Error('password cannot be empty');
+
     var user = users.find(function (user) {
         return user.email === email;
     });
 
     if (!user) throw Error('user ' + email + ' not found');
-
     if (user.password !== password) throw Error('wrong password');
 
-    callback(user);
+    var loggedInUser = {
+        name: user.name,
+        surname: user.surname,
+        email: user.email
+    };
+
+    callback(loggedInUser);
 }
 
 function register(name, surname, email, password, passwordConfirmation, callback) {
-    // TODO validate fields!
-    if (!(name.trim())) throw new Error ('Name is mandatory');
-    if (!(surname.trim())) throw new Error ('Surname is mandatory');
-    if (!(email.trim())) throw new Error ('Email is mandatory');
-    if (!(password.trim())) throw new Error ('Password is mandatory');
-    if (!(passwordConfirmation.trim())) throw new Error ('Password confirmation is mandatory');
+    if (typeof name !== 'string') throw TypeError(name + ' is not a string');
+    if (!name.trim().length) throw Error('name cannot be empty');
+
+    if (typeof surname !== 'string') throw TypeError(surname + ' is not a string');
+    if (!surname.trim().length) throw Error('surname cannot be empty');
+
+    if (typeof email !== 'string') throw TypeError(email + ' is not a string');
+    if (!email.trim().length) throw Error('email cannot be empty');
+
+    if (typeof password !== 'string') throw TypeError(password + ' is not a string');
+    if (!password.trim().length) throw Error('password cannot be empty');
+
+    if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string');
+    if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty');
 
     var user = users.find(function (user) {
         return user.email === email;
     });
-    
-    if (user) throw Error('User ' + email + ' already exists');
+
+    if (user) throw Error('user ' + email + ' already exists');
     if (password.length < 8) throw Error('Minimum password length: 8 characters')
-    if (password !== passwordConfirmation) throw Error('Passwords do not match');
+    if (password !== passwordConfirmation) throw Error('passwords do not match');
 
     users.push({
         name: name,
