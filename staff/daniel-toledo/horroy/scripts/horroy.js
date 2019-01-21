@@ -619,14 +619,21 @@ Horroy.prototype.concat = function () {
  */
 Horroy.prototype.copyWithin = function (target, start, end) {
 
-    var copy = new Horroy()
-    for (var i=start; i<end; i++)
-        copy[copy.length++]=this[i]
+    end = end === undefined ? this.length : end;
+    start = start === undefined ? 0 : start;
 
-    var copyCount=0
-    for (var i=target; i<this.length; i++)
-        this[ì]=copy[copyCount++]
-    
+    var copy = new Horroy()
+    // debugger
+    for (var i = start; i < end; i++)
+        copy[copy.length++] = this[i];
+
+    var copyCount = 0
+    for (var i = target; i < this.length; i++) {
+        if (copyCount < copy.length) this[i] = copy[copyCount++];
+        this[i] = this[i]
+    }
+
+    return this
 }
 
 //---------------------EVERY------------------//
@@ -835,17 +842,17 @@ Horroy.prototype.sort = function () {
     var horrCode = new Horroy()
     // debugger
     for (var i = 0; i < this.length; i++) {
-        type= typeof this[i]
+        type = typeof this[i]
         string = this[i].toString()
         var horr = new Horroy()
         for (var j = 0; j < string.length; j++) {
             horr[horr.length++] = string.charCodeAt(j)
         }
-        Object.defineProperty(horr,'type',{value:type});
+        Object.defineProperty(horr, 'type', { value: type });
         horrCode[horrCode.length++] = horr
     }
 
- 
+
 
     // organize the coded values
     var index;
@@ -866,7 +873,7 @@ Horroy.prototype.sort = function () {
                     var tmp = horrCode[i - 1];
                     horrCode[i - 1] = horrCode[i];
                     horrCode[i] = tmp;
-                } else if (horrCode[i - 1][index] < horrCode[i][index]){
+                } else if (horrCode[i - 1][index] < horrCode[i][index]) {
                     donetemp = true
                 }
             }
@@ -876,24 +883,24 @@ Horroy.prototype.sort = function () {
 
     //Code to string
 
-    var res= new Horroy
-    for (var i=0; i<horrCode.length; i++){
-        var string='';
-        for (var j=0; j<horrCode[i].length; j++){
+    var res = new Horroy
+    for (var i = 0; i < horrCode.length; i++) {
+        var string = '';
+        for (var j = 0; j < horrCode[i].length; j++) {
             string += String.fromCharCode(horrCode[i][j])
         }
 
-        if (horrCode[i].type==='number'){
-            res[res.length++]=Number(string)
+        if (horrCode[i].type === 'number') {
+            res[res.length++] = Number(string)
         }
 
-        if (horrCode[i].type==='boolean'){
-            if (string==='true') res[res.length++]=true;
-            else res[resr.length++]=false;
+        if (horrCode[i].type === 'boolean') {
+            if (string === 'true') res[res.length++] = true;
+            else res[resr.length++] = false;
         }
 
-        if (horrCode[i].type==='string'){
-            res[res.length++]=string
+        if (horrCode[i].type === 'string') {
+            res[res.length++] = string
         }
     }
 
