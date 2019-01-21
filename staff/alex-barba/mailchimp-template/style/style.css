@@ -1,0 +1,260 @@
+/* Set to all Document */    
+html, body, header, main, footer, div, nav, section, article, h5, h3, ul {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Helvetica Neue, sans-serif;
+  width: 100%;
+}
+
+/* Mixins */
+/* Header */
+.header {
+  height: 7%;
+  background-color: #44bdd5;
+  padding-right: 2rem;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-areas: "login" "navigationbar";
+  padding-bottom: 1rem;
+}
+.header__login {
+  height: 30%;
+  grid-area: login;
+  justify-self: end;
+  color: white;
+  padding-right: 7rem;
+  font-size: 0.9rem;
+}
+.header__navigationbar {
+  height: 70%;
+  grid-area: navigationbar;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-areas: "logo logo btn nav nav nav nav empty";
+}
+.header__navigationbar-logo {
+  grid-area: logo;
+  justify-self: end;
+}
+.header__navigationbar-btn {
+  color: white;
+  background-color: #4f524c;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 51%);
+  border-radius: 0.4rem;
+  border: none;
+  width: 75%;
+  grid-area: btn;
+  justify-self: center;
+}
+.header__navigationbar-nav {
+  grid-area: nav;
+  background-color: #d6edf4;
+  border-radius: 0.4rem;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-areas: "pricing features resources support blog search search";
+}
+.header__navigationbar-nav-pricing {
+  grid-area: pricing;
+  align-self: center;
+  justify-self: center;
+  font-size: 0.85rem;
+  border-right: 1px solid grey;
+  padding-right: 2rem;
+}
+.header__navigationbar-nav-features {
+  grid-area: features;
+  align-self: center;
+  justify-self: center;
+  font-size: 0.85rem;
+}
+.header__navigationbar-nav-resources {
+  grid-area: resources;
+  align-self: center;
+  justify-self: center;
+  font-size: 0.85rem;
+}
+.header__navigationbar-nav-support {
+  grid-area: support;
+  align-self: center;
+  justify-self: center;
+  font-size: 0.85rem;
+}
+.header__navigationbar-nav-blog {
+  grid-area: blog;
+  align-self: center;
+  justify-self: center;
+  font-size: 0.85rem;
+}
+.header__navigationbar-nav-search {
+  grid-area: search;
+  align-self: center;
+  justify-self: center;
+  font-size: 0.85rem;
+  box-shadow: inset 0 0 0.2rem #959594;
+  border-radius: 0.2rem;
+  background-color: white;
+  width: 90%;
+}
+.header__navigationbar-nav-search input {
+  border-style: none;
+  color: #959594;
+  padding-left: 0.2rem;
+  margin: 0.2rem;
+}
+.header__navigationbar-nav-search img {
+  position: relative;
+  left: 3rem;
+}
+
+/* Main content*/
+.content {
+  height: 55%;
+  width: 100%;
+  padding-right: 2rem;
+  background-image: linear-gradient(to bottom, #44bdd5 50%, black 50.03%, white 50.1%, #cdd1d1 50.3%);
+}
+.content__header {
+  height: 45%;
+  display: grid;
+  grid-auto-columns: 50% 50%;
+  grid-template-areas: "img content";
+}
+.content__header-img_container {
+  grid-area: img;
+}
+.content__header-img_container img {
+  display: block;
+  justify-self: end;
+  padding-left: 16rem;
+}
+.content__header-text_container {
+  grid-area: content;
+  width: 50%;
+  align-self: center;
+  justify-self: start;
+  margin-bottom: 3rem;
+}
+.content__header-text_container img {
+  position: relative;
+  width: 170%;
+}
+.content__header-text_container p {
+  width: 32.5rem;
+  color: #2a677d;
+  text-align: justify;
+  font-size: 0.9rem;
+}
+.content__header-text_container button {
+  color: white;
+  background-color: #4f524c;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 51%);
+  border-radius: 0.4rem;
+  border: none;
+  width: 75%;
+  background-color: #d8654b;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  font-size: 1.1rem;
+}
+
+/* Main Content Features */
+.content__features {
+  margin-top: 0;
+  margin-left: 2.8rem;
+  width: 95%;
+  height: 55%;
+  background-color: #eff0f1;
+  border: 0.04rem solid #959594;
+  border-bottom: none;
+  border-top-left-radius: 0.4rem;
+  border-top-right-radius: 0.4rem;
+  display: grid;
+  grid-template-rows: 15% 85%;
+}
+.content__features-title {
+  padding-left: 3.7rem;
+  font-size: 2rem;
+}
+.content__features-articles {
+  padding-left: 1.5rem;
+  display: grid;
+  grid-template-columns: 19.8rem 19.8rem 19.8rem 19.8rem;
+  grid-template-rows: 100%;
+  justify-self: center;
+  width: 95%;
+}
+.content__features-articles article {
+  width: 90%;
+}
+.content__features-articles article img {
+  width: 100%;
+}
+.content__features-articles article h5 {
+  padding-top: 1rem;
+}
+.content__features-articles article p {
+  font-size: 0.9rem;
+  width: 100%;
+}
+.content__features-articles article button {
+  color: white;
+  background: #323232;
+  border-radius: 0.2rem;
+  border: none;
+  width: 100%;
+  font-size: 0.8rem;
+  text-align: left;
+  padding-left: 1rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+.content__features-articles article button img {
+  width: 0.6rem;
+  padding-left: 11.5rem;
+}
+
+/* Footer */
+.footer {
+  height: 38%;
+  background-color: #181815;
+  display: grid;
+  grid-template-areas: "nav" "cr";
+  width: 100%;
+  color: grey;
+  font-size: 0.8rem;
+  padding-left: 2.8rem;
+}
+.footer__nav {
+  grid-area: nav;
+  display: grid;
+  grid-template-columns: 19.8rem 19.8rem 19.8rem 19.8rem 4rem;
+  grid-template-rows: 100%;
+  justify-self: center;
+  width: 95%;
+  padding-left: 1.5rem;
+  padding-top: 1rem;
+}
+.footer__nav ul {
+  width: 78%;
+  list-style: none;
+}
+.footer__nav ul :first-child {
+  width: 78%;
+  list-style: none;
+  color: white;
+}
+.footer__nav li {
+  padding-bottom: 0.4rem;
+  font-size: 0.8rem;
+}
+.footer__cr {
+  grid-area: cr;
+  text-align: center;
+  padding-top: 10rem;
+}
+
+/*# sourceMappingURL=style.css.map */
