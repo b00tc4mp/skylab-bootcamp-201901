@@ -275,8 +275,112 @@ describe('Horroy', function () {
                 expect(res).toBe(3)
             })
 
+            it('should return undefined when horroy is empty or no results satisfy the condition', function(){
+
+                var horr = new Horroy
+
+                var res = horr.find(function(value){
+                    if (value > 2) return true
+                })
+
+                expect(res).toBe(undefined)
+            })
+        })
+
+        describe('FAILS', function(){
+
+            it ('should fail when more than 1 paramater is passed as an argument', function(){
+
+                var error;
+
+                try{
+                    var horr = new Horroy(0, 1, 2, 3)
+
+                    var res = horr.find(function(value){
+                        if (value > 2) return true
+                    }, 'potato')    
+                } catch (err) {
+                    error = err
+                }
+                
+                expect(error.toString()).toBe('Error: too many arguments')
+            })
+        })
+    })
+
+    describe('indexOF', function(){
+
+        describe('SUCCESS', function(){
+
+            it('should return the index of the first element found', function(){
+
+                var horr = new Horroy(0, 1, 2, 3, 'potato', 5)
+
+                var res = horr.indexOf('potato')
+
+                expect(res).toEqual(4)
+            })
+
+            it('should return the index of the correct element', function(){
+
+                var horr = new Horroy(0, 1, 2, 3, 'potato', 5)
+
+                var res = horr.indexOf('potato')
+
+                expect(horr[4]).toEqual('potato')
+            })
+            
+            it('should return "-1" when the parameter is not found', function(){
+
+                var horr = new Horroy(0, 1, 2, 3, 'potato', 5)
+
+                var res = horr.indexOf('house')
+
+                expect(res).toEqual(-1)
+            })
+        })
+    })
+
+    describe ('join', function(){
+
+        describe ('SUCCESS', function(){
+
+            it ('should join all the elements with the separator choosen', function(){
+
+                var horr = new Horroy(0, 1, 2, 3, 4, 5)
+
+                var res = horr.join('--')
+
+                expect(res).toBe('0--1--2--3--4--5')
+            })
+
+            it ('should join all the elements with "," when no separator choosen', function(){
+
+                var horr = new Horroy(0, 1, 2, 3, 4, 5)
+
+                var res = horr.join()
+
+                expect(res).toBe('0,1,2,3,4,5')
+            })
+        })
+
+        describe('FAILS', function(){
+
+            it ('should fail when more than one parmeter is passed', function(){
+
+                var error;
+
+                try {
+                    var horr = new Horroy(0, 1, 2, 3, 4)
+
+                    var res = horr.join('potato', 3)
+                } catch (err) {
+                    error = err
+                }
+
+                expect (error.toString()).toBe('Error: too many arguments')
+            })
         })
 
     })
-
 })
