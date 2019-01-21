@@ -90,4 +90,41 @@ function Horroy(){
             return b[0]
         }
     }
+
+
+    Horroy.prototype.flat = function(depth){
+        
+        if(arguments.length < 1){
+            depth = 1
+        } 
+        if(arguments.length == 1 && isNaN(depth)) throw new TypeError('Not a number')
+        if(arguments.length > 1) throw new Error('Too many arguments')
+
+        var stringReturn = ''
+        var i = 0
+        while (i < this.length){
+            var recursive
+            if(this[i] instanceof Array && depth > 0){
+                recursive = this[i].flat[depth-1]
+            } else {
+                recursive = this[i]
+            }
+            stringReturn = stringReturn.concat(recursive)
+            if(i == this.length -1){
+            } else {
+                stringReturn = stringReturn.concat(',')
+            }
+            i++
+        }
+        stringReturn.trim(',')
+        return stringReturn
+    }
+
+    Horroy.prototype.forEach = function(func){
+        if(arguments.length !== 1) throw new Error('Incorrect number of parameters')
+        if(!(func instanceof Function)) throw new TypeError('Parameter not a function')
+        for(var i = 0; i < this.length; i++){
+            func(this[i])
+        }
+    }
 }
