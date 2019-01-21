@@ -10,7 +10,6 @@
 function join(array, separator) {
     var newString = '';
     if (separator === undefined) {
-        //separator = ',';
         for (var i = 0; i < array1.length; i++) {
             newString += ',' + array1[i];
         };
