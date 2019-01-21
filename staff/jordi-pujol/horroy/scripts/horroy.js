@@ -101,10 +101,64 @@ Horroy.prototype.find = function (callback) {
 
     if(!(callback instanceof Function)) throw TypeError(callback + ' is not a function');
 
+    if (this.length === 0) return undefined
+
     for (var i = 0; i < this.length; i++) {
 
         if(callback(this[i]) === true) return this[i]
 
-        else return undefined
     }
+}
+
+Horroy.prototype.indexOf = function (elem, posI) {
+
+    var pos = 0;
+    
+    if (posI === undefined) posI =0;
+    
+    for (let i=posI; i< this.length; i++){
+
+		if (this[i] === elem){
+		pos = i
+        return pos
+        }
+    }
+
+    if (pos === 0) pos = -1;
+
+    return pos
+}
+
+Horroy.prototype.join = function(separator){
+
+    if (arguments.length > 1) throw Error('too many arguments');
+
+    var str=""
+
+    if (!separator && separator !=="") separator = ",";
+
+    if (this.length === 1) str = this[0].toString()
+
+    else if (this.length>1){
+        for (var i =0; i< this.length; i++){
+            if (i === this.length-1) str += this[i].toString()
+            else str += (this[i].toString() + separator);
+        };
+    }
+
+    return str;
+}
+
+Horroy.prototype.reverse = function(){
+
+    if (arguments.length) throw TypeError ('There should be just one parameter (array)')
+
+    var rev;
+
+    for (var i=0; i< (this.length/2); i++){
+        rev = this[i]
+        this[i] = this[this.length-1-i]
+        this[this.length-1-i] = rev
+    }
+    return this
 }
