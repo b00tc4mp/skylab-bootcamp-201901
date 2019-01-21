@@ -19,10 +19,16 @@ function splice(array, start, deleteCount) {
     start = start > array.length ? array.length : (start >= 0 ? start : Math.max(0, array.length + start));
     deleteCount = typeof deleteCount === 'undefined' || deleteCount > array.length ? array.length : (deleteCount > 0 ? deleteCount : 0);
     
-    var array2 = Object.assign([], array);    
+    var array2 = [];// Object.assign([], array);    
     var elements = [];
     var res = [];
 
+    //copy array
+    for (var i = 0; i < array.length; i++) {
+        var element = array[i];
+        array2[i] = element;
+    }
+    
     //array of new elements
     for (var a = 3; a < arguments.length; a++) {
         elements[elements.length] = arguments[a];
