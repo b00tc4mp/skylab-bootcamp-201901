@@ -60,10 +60,4 @@ function splice(arr, start, deleteCount, item) {
     return res;
 };
 
-var a = [1,2,3,4,5,6];
-
-console.log(splice(a,1,2,'hola'));
-
-console.log(a);
-
 

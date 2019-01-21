@@ -19,7 +19,7 @@ function push(arr, value) {
     if(!(arr instanceof Array)) throw TypeError ('arr is not an array')
 
     for (var i = 0; i < arr.length; i++) {
-        if (i == arr.length-1) {
+        if (i === arr.length-1) {
             arr[i+1] = value;
             return arr.length;
         }
