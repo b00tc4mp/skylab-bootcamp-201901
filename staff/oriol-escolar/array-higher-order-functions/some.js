@@ -3,7 +3,7 @@ function some(array,callback) {
     for(i=0;i<array.length;i++)
     {
 
-        if( array [i] === callback)
+        if(callback(array[i]))
         {
             
             return true;
