@@ -29,6 +29,13 @@ html body .menu__items {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  display: inline-block;
+}
+html body .menu__items__tt {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 html body .menu__items--title {
   display: flex;
