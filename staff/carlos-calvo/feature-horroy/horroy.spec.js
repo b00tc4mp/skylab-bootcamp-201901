@@ -74,13 +74,6 @@ describe("Horroy - Concat", function() {
         expect(JSON.stringify(this.hor3)).toEqual(JSON.stringify(new Horroy(1,2,3,4,5,6)))
     });
 
-    it("Not an array, throw an error", function() {
-        expect(function(){
-            this.hor.concat(x)
-        }).toThrow(new Error('Not an horroy'))
-        //expect(function (){hor.isHorroy(1,2,3)}).toThrow(new Error('too many arguments'))
-    });
-
 });
 
 
@@ -171,6 +164,38 @@ describe("Horroy - Shift", function() {
     });
 
 });
+
+
+describe("Horroy - Flat", function() {
+    it("Case no arrays inside", function() {
+        var hor = new Horroy(1,2,3,4)
+        var expectedresult = [1,2,3,4]
+        expect(hor.flat().toString()).toEqual(expectedresult.toString())
+    });
+});
+
+describe("Horroy - For Each", function() {
+    it("Case no arrays inside", function() {
+        var hor = new Horroy(1,2,3,4)
+        expect(hor.forEach(function(item){
+            console.log(item)
+        })).toBe(undefined)
+    });
+    it("Case too much parameters", function() {
+        var hor = new Horroy(1,2,3,4)
+        expect(function(){
+            hor.forEach(function(item){
+            console.log(item)
+        }, false)}).toThrow()
+    });
+
+    it("Case too much parameters", function() {
+        var hor = new Horroy(1,2,3,4)
+        expect(function(){
+            hor.forEach(false)}).toThrow()
+    });
+});
+
 
 
 
