@@ -423,14 +423,15 @@ Horroy.prototype.lastIndexOf = function (elem) {
  * Abstraction of map.
  * 
  * Iterates an horroy evaluating an expression on each of its values. 
- * The result is located and returned in a new thisay.
+ * The result is located and returned in a new horroy.
  * 
  * @param {Function} func - The expression to evaluate.
  * 
- * @returns {thisay} - A new thisay with the resulting values.
+ * @returns {horroy} - A new horroy with the resulting values.
  * 
  */
 Horroy.prototype.map = function(func) {
+    if (typeof func !== 'function') throw Error (func + ' is not a function');
     var res = new Horroy();
 
     for (var i = 0; i < this.length; i++) {
@@ -533,8 +534,12 @@ Horroy.prototype.reduceRight = function(callback, accumulator) {
  * 
  * @returns {horroy}
  * 
+ * @throws {TypeError} - If this is not an horroy
+ * 
  */
 Horroy.prototype.reverse = function() {
+
+    if (!(this instanceof Horroy)) throw TypeError(this.reverse + 'is not a function');
 
     var res = Object.assign([], this);;
     for (var i = this.length; i > 0; i--) {
@@ -551,8 +556,12 @@ Horroy.prototype.reverse = function() {
  * 
  * @returns {*}
  * 
+ * @throws {TypeError} - If this is not an horroy
+ * 
  */
 Horroy.prototype.shift = function() {
+
+    if(!(this instanceof Horroy)) throw TypeError (this + '.shift is not a function');
 
     var res = this[0];
     var this2 = Object.assign(this);

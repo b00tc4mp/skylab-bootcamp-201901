@@ -597,6 +597,12 @@ describe('Horroy', function() {
             expect(res.toString()).toBe(expected.toString());
         
         });
+        it('should fail without callback', function () {
+            var a = new Horroy(1, 2, 3, 4, 5);
+        
+            expect( function () {a.map()}).toThrow();
+        
+        });
     });
     describe('pop', function () {
         it('should return correct without arguments', function () {
@@ -626,10 +632,21 @@ describe('Horroy', function() {
         });
     });
     describe('push', function () {
-        it('should return correct', function () {
-            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+        it('should return correct with numbers', function () {
+            var a = new Horroy(1, 2, 3);
             
             a.push(4);
+
+            var res = a.length;
+            var expected = 4;
+        
+            expect(res.toString()).toBe(expected.toString());
+        
+        });
+        it('should return correct with strings', function () {
+            var a = new Horroy('a','b','c');
+            
+            a.push('d');
 
             var res = a.length;
             var expected = 4;
@@ -640,7 +657,7 @@ describe('Horroy', function() {
     });
     describe('reduce', function () {
         it('should return correct', function () {
-            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+            var a = new Horroy(1, 2, 3);
             
             var res = a.reduce(function (accumulator, product) {
                 return accumulator + product;
@@ -685,36 +702,85 @@ describe('Horroy', function() {
         });
     });
     describe('reverse', function () {
-        it('should return correct', function () {
-            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+        it('should return correct without arguments', function () {
+            var a = new Horroy(1, 2, 3);
             
             a.reverse();
 
-            var res = a[0];
+            var res = a;
 
-            var expected = 3;
+            var expected = new Horroy(3,2,1);
         
             expect(res.toString()).toBe(expected.toString());
+        });
+        it('should return correct with arguments', function () {
+            var a = new Horroy(1, 2, 3);
+            
+            a.reverse(787);
+
+            var res = a;
+
+            var expected = new Horroy(3,2,1);
         
+            expect(res.toString()).toBe(expected.toString());
+        });
+        it('should fail with object instead of horrot', function () {
+            var a = {};
+        
+            expect(function () {a.reverse()}).toThrow();
+        });
+        it('should fail with number instead of horrot', function () {
+            var a = 4;
+        
+            expect(function () {a.reverse()}).toThrow();
+        });
+        it('should fail with boolean instead of horrot', function () {
+            var a = true;
+        
+            expect(function () {a.reverse()}).toThrow();
+        });
+        it('should fail with string instead of horrot', function () {
+            var a = 'hello';
+        
+            expect(function () {a.reverse()}).toThrow();
         });
     });
     describe('shift', function () {
         it('should return correct', function () {
-            var a = new Horroy(1, 2, 3); // ~ [1, 2, 3]
+            var a = new Horroy(1, 2, 3);
             
             a.shift();
 
-            var res = a[0];
+            var res = a;
 
-            var expected = 2;
+            var expected = new Horroy(2,3);
         
             expect(res.toString()).toBe(expected.toString());
+        });
+        it('should fail with object instead of horroy', function () {
+            var a = {};
         
+            expect(function () {a.shift()}).toThrow();
+        });
+        it('should fail with boolean instead of horroy', function () {
+            var a = true;
+        
+            expect(function () {a.shift()}).toThrow();
+        });
+        it('should fail with number instead of horroy', function () {
+            var a = 4;
+        
+            expect(function () {a.shift()}).toThrow();
+        });
+        it('should fail with string instead of horroy', function () {
+            var a = 'hello';
+        
+            expect(function () {a.shift()}).toThrow();
         });
     });
     describe('slice', function () {
         it('should return correct', function () {
-            var a = new Horroy(1, 2, 3, 4, 5); // ~ [1, 2, 3]
+            var a = new Horroy(1, 2, 3, 4, 5);
 
             var res = a.slice(2,4);
 
