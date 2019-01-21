@@ -1,6 +1,6 @@
 suite('Filter');
 
-test('returns array when function find items', function(){
+test('it should return an array when function find items', function(){
     var arr=[1,2,3,4,5];
 
     res=filter(arr,function(el) {return el%2===0});
@@ -10,7 +10,7 @@ test('returns array when function find items', function(){
 
 });
 
-test('returns array when function does not find', function(){
+test('it should return an array when the callback does not find any value', function(){
     var arr=[1,2,3,4,5];
 
     res=filter(arr,function(el) {return el>10});
@@ -20,7 +20,7 @@ test('returns array when function does not find', function(){
 
 });
 
-test('array is not an Array', function(){
+test('it should throw an error when array is not an Array', function(){
 var error;
 
 try{
@@ -35,7 +35,7 @@ assert(error instanceof TypeError,'error should be TypeError')
 
 });
 
-test('callback is not a Function', function(){
+test('it should thorw an error when callback is not a Function', function(){
     var error;
     
     try{
