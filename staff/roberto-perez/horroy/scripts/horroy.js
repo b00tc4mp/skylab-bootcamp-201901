@@ -38,29 +38,29 @@ Horroy.prototype.forEach = function(callback) {
 };
 
 /**
- * Creates a new array with the results of the call to the indicated function applied to each of its elements.
+ * Creates a new horroy with the results of the call to the indicated function applied to each of its elements.
  *
  * @param {Function} callback - The expression to evaluate.
  *
- * @returns {Array} - The new generated array
+ * @returns {Horroy} - The new generated horroy
  */
 Horroy.prototype.map = function(callback) {
   if (!(callback instanceof Function))
     throw new TypeError(callback + " is not a function");
 
-  var arrayMaped = new Horroy();
+  var res = new Horroy();
 
   for (var i = 0; i < this.length; i++) {
-    arrayMaped[i] = callback(this[i]);
+    res[i] = callback(this[i]);
   }
 
-  arrayMaped.length = this.length;
+  res.length = this.length;
 
-  return arrayMaped;
+  return res;
 };
 
 /**
- * Creates a string of characters representing the array
+ * Creates a string of characters representing the horroy
  *
  * @returns {String} - The string of characters
  */
@@ -91,16 +91,16 @@ Horroy.from = function(value, callback) {
   if (callback && !(callback instanceof Function))
     throw new TypeError(callback + " is not a function");
 
-  var array = new Horroy();
+  var res = new Horroy();
 
-  array.length = !value.length ? 0 : value.length;
+  res.length = !value.length ? 0 : value.length;
 
   for (var i = 0; i < value.length; i++) {
-    if (callback) array[i] = callback(value[i]);
-    else array[i] = value[i];
+    if (callback) res[i] = callback(value[i]);
+    else res[i] = value[i];
   }
 
-  return array;
+  return res;
 };
 
 /**
@@ -120,12 +120,12 @@ Horroy.isHorroy = function(value) {
  * @returns {Boolean} - A new Horroy instance
  */
 Horroy.of = function() {
-  var newHorroy = new Horroy();
+  var res = new Horroy();
 
-  for (var i = 0; i < arguments.length; i++) newHorroy[i] = arguments[i];
-  newHorroy.length = arguments.length;
+  for (var i = 0; i < arguments.length; i++) res[i] = arguments[i];
+  res.length = arguments.length;
 
-  return newHorroy;
+  return res;
 };
 
 /**
@@ -138,24 +138,24 @@ Horroy.of = function() {
 Horroy.prototype.concat = function() {
   if (arguments.length === 1 && arguments[0].length === 0) return this;
 
-  var newHorroy = new Horroy();
+  var res = new Horroy();
 
-  for (var i = 0; i < this.length; i++) newHorroy[i] = this[i];
+  for (var i = 0; i < this.length; i++) res[i] = this[i];
 
-  newHorroy.length = this.length;
+  res.length = this.length;
 
   for (var i = 0; i < arguments.length; i++) {
     if (arguments[i] instanceof Horroy)
       for (var j = 0; j < arguments[i].length; j++)
-        newHorroy[newHorroy.length++] = arguments[i][j];
-    else newHorroy[newHorroy.length++] = arguments[i];
+        res[res.length++] = arguments[i][j];
+    else res[res.length++] = arguments[i];
   }
 
-  return newHorroy;
+  return res;
 };
 
 /**
- * Transfer a flat copy from one section to another within the same array
+ * Transfer a flat copy from one section to another within the same horroy
  *
  * @param {number} target - Index that establishes where the copied sequence will be inserted.
  * @param {number} [start] - Index from which to start the copy of elements.
@@ -187,7 +187,7 @@ Horroy.prototype.copyWithin = function(target, start, end) {
 };
 
 /**
- * Returns a new Array Iterator object that contains the key/value pairs for each index in the array.
+ * Returns a new Horroy Iterator object that contains the key/value pairs for each index in the horroy.
  *
  * @returns {Horroy iterator} - A new Horroy Iterator object.
  */
@@ -203,11 +203,11 @@ Horroy.prototype.entries = function() {
 };
 
 /**
- * Tests whether all elements in the array pass the test implemented by the provided function.
+ * Tests whether all elements in the horroy pass the test implemented by the provided function.
  *
  * @param {Function} callback - The expression to evaluate.
  *
- * @returns {Boolean} - True if whether all elements in the array pass the test.
+ * @returns {Boolean} - True if whether all elements in the horroy pass the test.
  */
 Horroy.prototype.every = function(callback) {
   if (!(callback instanceof Function))
@@ -223,7 +223,7 @@ Horroy.prototype.every = function(callback) {
 
 /**
  *
- *  Returns the last index at which a given element can be found in the array, or -1 if it is not present
+ *  Returns the last index at which a given element can be found in the horroy, or -1 if it is not present
  *
  * @param {Function} callback - The expression to evaluate.
  *
@@ -244,79 +244,58 @@ Horroy.prototype.findIndex = function(callback) {
   }
 };
 
-// Horroy.prototype.flat = function() {
-
-//   var newHorroy = arguments[0] || new Horroy;
-
-//   for(var i = 0; i < this.length; i++) {
-//     if (!(this[i] instanceof Horroy)) {
-//       newHorroy[newHorroy.length++] = this[i];
-//     } else {
-//       this[i].flat(newHorroy);
-//     }
-//   }
-
-//   if(arguments[0]) {
-//     return newHorroy;
-//   }
-
-//   this.length = newHorroy.length;
-
-//   for(var j = 0; j < newHorroy.length; j++) {
-//     this[j] = newHorroy[j];
-//   }
-
-// };
-
-// Horroy.prototype.flat = function() {
-//   for (var i = 0; i < this.length; i++) {
-//     if (this[i] instanceof Horroy) {
-//       this.length--;
-//       this[i].flat(this);
-//     } else {
-//       if (arguments[0]) {
-//         arguments[0][arguments[0].length++] = this[i];
-//       } else {
-//         this[i] = this[i];
-//       }
-//     }
-//   }
-// };
-
-//[1, 2, [3, 4, [5, 6]]]
-
 /*
     [i] -> length -> value
     [0]       3       1
     [1]       3       2
     [2]       +3      [3, 4, [5, 6]]
 */
-// Horroy.prototype.flat = function(depth) {
-//   depth = depth === undefined ? 1 : depth;
+// [1, 2, [3, 4, [5, 6], [7, 8]]]
+Horroy.prototype.flat = function(depth) {
+  depth = depth === undefined ? 1 : depth;
 
-//   for (var i = 0; i < this.length; i++) {
+  var result = new Horroy;
 
-//     if (this[i] instanceof Horroy && depth > 0) {
-//       this.length = i + this[i].length;
-//       this[i].flat(--depth, this);
-//     } else if ((this[i] instanceof Horroy && depth < 1) || arguments[1]) {
-//       // arguments[1][arguments[1].length] = this[i];
-//       this[i] = this[i];
-//       // 
-//       //arguments[1][arguments[1].length + i] = this[i];
+  var recursive = function(arr) {
+    var currentDepth = 1;
+    if(arr instanceof Horroy && currentDepth < depth) {
+      currentDepth++;
+      for (var i = 0; i < arr.length; i++) {
+        recursive(arr[i]);
+      }
+    } else {
+      result[result.length++] = arr;
+    }
+    console.log('currentDepth', currentDepth);
+  }
 
-//       // console.log(arguments[1][2]);
-//     }
+  recursive(this);
+  
+  for (var i = 0; i < result.length; i++) {
+    this[i] = result[i];
+  }
 
-//   }
-// };
+  this.length = result.length;
+
+
+  // var horroyIteration = arguments[2] || 0;
+
+  // for (var i = 0; i < this.length; i++) {
+  //   if(this[i] instanceof Horroy && depth > 0) {
+  //     this[i].flat(depth--);
+  //   } else {
+  //     this[i] = this[i];
+  //   }
+  // }
+  // console.log('RES', res);
+};
 
 
 /**
- * Determines whether an array includes a certain value among its entries
+ * Determines whether an horroy includes a certain value among its entries
  * 
  * @param {*} - The value to search for.
- * @param {Number} - The position in this array at which to begin searching
+ * @param {Number} - The position in this horroy at which to begin searching
  * 
  * @returns {Boolean} - true or false as appropriate
  * 
@@ -328,10 +307,8 @@ Horroy.prototype.includes = function(searchElement, fromIndex) {
     throw new TypeError(fromIndex + " is not a number");
   }
 
-  if(fromIndex >= this.length) return false;
+  fromIndex = fromIndex || 0;
 
-  fromIndex = (fromIndex < 0) ? this.length + fromIndex : 0;
-  
   for(var i = fromIndex; i < this.length; i++) {
     if(searchElement === this[i]) return true;
   }
