@@ -2,9 +2,16 @@
  * Abstraction of Cart
  * 
  * @method (add)
- *  @param {Object} object
- *  @throws {TypeError}
- *  @returns {Number} Array length
+ * @method (totalPrice)
+ * @method (numberOfItems)
+ * @method (mostExpensive)
+ * @method (cheapest)
+ * @method (numberOf)
+ * @method (productsByPriceRange)
+ * 
+ * @param {Object} object
+ * @throws {TypeError}
+ * @returns {Number} Array length
  * 
  */
 
@@ -21,19 +28,17 @@ function Cart() {
     };
 
     Cart.prototype.totalPrice = function(){
-        var sumP = 0;
-        for (let i = 0; i< this.cartItems.length; i++){
-           sumP += this.cartItems[i].price
-        };
-        return sumP
+
+        var a = this.cartItems.reduce (function(accum, item){
+            return accum + item.price
+        }, 0)
+        
+        return a.toFixed(2)
     };
 
     Cart.prototype.numberOfItems = function (){
-        sumItems = 0;
-        for (let i =0; i< this.cartItems.length; i++){
-            sumItems ++
-        }
-        return sumItems
+        
+        return this.cartItems.length
     }
 
     Cart.prototype.mostExpensive = function() {
@@ -51,11 +56,12 @@ function Cart() {
     Cart.prototype.cheapest = function (){
 
         var cheap = this.cartItems[0].price;
-        var pro = this.cartItems[0].constructor.name
+        var pro = this.cartItems[0]
+
         for (let i=0; i< this.cartItems.length; i++){
             if (cheap > this.cartItems[i].price) {
                 cheap = this.cartItems[i].price
-                pro = this.cartItems[i].constructor.name
+                pro = this.cartItems[i]
             }
         }
         return pro
