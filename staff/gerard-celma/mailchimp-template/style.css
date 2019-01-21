@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro|Raleway");
 * {
   box-sizing: border-box;
 }
@@ -27,32 +27,56 @@ html {
 .header {
   grid-area: header;
   background-color: #46BDD5;
-  display: flex;
   width: 100%;
-  padding: 0px 10px;
+  padding: 0px 10px 15px 10px;
+  display: flex;
   flex-direction: column;
 }
 .header__login {
   align-self: flex-end;
+  color: white;
 }
 .header__body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
-.header__body__menu {
-  background-color: #000000;
+.header__body button {
+  background-color: #3F3F37;
+  color: white;
+  font-size: 0.9em;
+  padding: 15px 20px;
+  border-radius: 5px;
+  background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.2) 51%);
 }
-.header__body__menu__links {
+.header__links {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  background-color: #F0F0F0;
+  border-radius: 5px;
 }
-.header__body__menu__links__search {
+.header__links a {
+  text-decoration: none;
+  color: #181a1c;
+  padding: 0px 10px;
+}
+.header__search {
   background-color: white;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  margin: 0px 10px;
+}
+.header__search p {
+  margin: 0px 50px 0px 10px;
+}
+.header__search img {
+  max-height: 12px;
+  margin: 0px 10px 0px 50px;
 }
 
 .asidetop {
@@ -73,24 +97,27 @@ html {
 }
 .asidetop__signup h2 {
   color: white;
-  font-weight: bolder;
+  font-weight: dark;
   font-size: 6em;
 }
 .asidetop__signup h2:first-of-type {
   margin-top: 5px;
   margin-bottom: 0px;
+  font-family: "Raleway", sans-serif;
 }
 .asidetop__signup h2:last-of-type {
-  margin-top: -40px;
+  margin-top: -30px;
   margin-bottom: 5px;
+  font-family: "Raleway", sans-serif;
 }
 .asidetop__button--orange {
   background-color: #3F3F37;
   color: white;
+  font-size: 0.9em;
   padding: 15px 20px;
   border-radius: 5px;
-  background-image: linear-gr;
-  padding: 15px 50px;
+  background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.2) 51%);
+  padding: 18px 60px;
   background-color: #FF664D;
 }
 
@@ -104,7 +131,9 @@ html {
   margin: -50px 50px 0px 50px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  z-index: 1;
+}
+.section__title {
+  margin-left: 20px;
 }
 .section__articles {
   display: flex;

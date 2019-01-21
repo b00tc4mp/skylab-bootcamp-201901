@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro')
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro|Raleway')
 
 // Color Palette
 $blue: #46BDD5
@@ -16,9 +16,10 @@ $light-orange: #ff8668
 @mixin button
     background-color: $mid-dark-grey
     color: white
+    font-size: 0.9em
     padding: 15px 20px
     border-radius: 5px
-    background-image: linear-gr
+    background-image: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.2) 51%)
 
 @mixin darkbutton
     background-color: $mid-dark-grey
@@ -54,33 +55,54 @@ html
 .header
     grid-area: header
     background-color: $blue
-    display: flex
     width: 100%
-    padding: 0px 10px
+    padding: 0px 10px 15px 10px
+    display: flex
     flex-direction: column
 
     &__login
         align-self: flex-end
+        color: white
 
     &__body
         display: flex
         flex-direction: row 
         justify-content: space-around
 
-        &__menu
-            background-color: #000000
+        // &__logo
+        //     max-height: 47px
 
-            &__links
-                display: flex
-                flex-direction: row
-                justify-content: space-between
+        & button
+            @include button  
 
-                &__search
-                    background-color: white
-                    display: flex
-                    flex-direction: row
-                    justify-content: space-between
+    &__links
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+        background-color: $light-grey
+        border-radius: 5px
 
+        & a
+            @include link--nodefaultstyle
+            color: $dark-grey
+            padding: 0px 10px
+
+    &__search
+        background-color: white
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+        border-radius: 5px
+        margin: 0px 10px
+
+        & p
+            margin: 0px 50px 0px 10px
+
+        & img
+            max-height: 12px
+            margin: 0px 10px 0px 50px
 
 
 .asidetop
@@ -101,20 +123,22 @@ html
 
         & h2 
             color: white
-            font-weight: bolder
+            font-weight: dark
             font-size: 6em
         
         & h2:first-of-type 
             margin-top: 5px
             margin-bottom: 0px
+            font-family: 'Raleway', sans-serif
 
         & h2:last-of-type 
-            margin-top: -40px
+            margin-top: -30px
             margin-bottom: 5px
+            font-family: 'Raleway', sans-serif
 
     &__button--orange
         @include button   
-        padding: 15px 50px  
+        padding: 18px 60px  
         background-color: $orange
         
 
@@ -128,8 +152,9 @@ html
     margin: -50px 50px 0px 50px
     border-top-left-radius: 10px
     border-top-right-radius: 10px
-    z-index: 1
 
+    &__title
+        margin-left: 20px
 
     &__articles
         display: flex
