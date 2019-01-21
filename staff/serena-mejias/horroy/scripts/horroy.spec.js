@@ -70,7 +70,9 @@ describe("Horroy", function() {
     });
 
     it("callback argument has to be a function", function() {
-      expect(function(){horroy.find("find")}).toThrowError("callback is not a function");
+      expect(function() {
+        horroy.find("find");
+      }).toThrowError("callback is not a function");
     });
   });
 
@@ -96,76 +98,78 @@ describe("Horroy", function() {
     });
 
     it("the argument must be a string or a number", function() {
-      expect(function(){horroy.indexof([2])}).toThrowError('the argument must be a string or a number');
+      expect(function() {
+        horroy.indexof([2]);
+      }).toThrowError("the argument must be a string or a number");
     });
   });
 
-  describe("join", function(){
-    beforeEach(function(){
-      horroy = new Horroy('Fire', 'Wind', 'Rain');
-    })
+  describe("join", function() {
+    beforeEach(function() {
+      horroy = new Horroy("Fire", "Wind", "Rain");
+    });
 
-    it("should join the elements of an horroy by ,", function(){
+    it("should join the elements of an horroy by ,", function() {
       var result = horroy.join();
-      var expected = 'Fire,Wind,Rain';
+      var expected = "Fire,Wind,Rain";
 
       expect(result).toBe(expected);
-    })
-    
-    it("should join the elements of an horroy by +", function(){
-      var result = horroy.join('+');
-      var expected = 'Fire+Wind+Rain';
+    });
+
+    it("should join the elements of an horroy by +", function() {
+      var result = horroy.join("+");
+      var expected = "Fire+Wind+Rain";
 
       expect(result).toBe(expected);
-    })
-    
-    it("should join the elements of an horroy by nothing", function(){
-      var result = horroy.join('');
-      var expected = 'FireWindRain';
+    });
+
+    it("should join the elements of an horroy by nothing", function() {
+      var result = horroy.join("");
+      var expected = "FireWindRain";
 
       expect(result).toBe(expected);
-    })
-  })
+    });
+  });
 
-  describe("reverse", function(){
-    beforeEach(function(){
-      horroy = new Horroy('Fire', 'Wind', 'Rain');
-    })
+  describe("reverse", function() {
+    beforeEach(function() {
+      horroy = new Horroy("Fire", "Wind", "Rain");
+    });
 
-    it("should change the order of the elements of the horroy", function(){
+    it("should change the order of the elements of the horroy", function() {
       var result = horroy.reverse();
-      var expected = new Horroy('Rain', 'Wind', 'Fire');
+      var expected = new Horroy("Rain", "Wind", "Fire");
 
       expect(result).toEqual(expected);
-    })
-  })
+    });
+  });
 
   describe("push", function() {
-    beforeEach(function(){
-      horroy = new Horroy('Fire', 'Wind', 'Rain');
-    })
+    beforeEach(function() {
+      horroy = new Horroy("Fire", "Wind", "Rain");
+    });
 
-    it("should add new elements to the horroy and return the new lenght", function(){
-      var result = horroy.push('Snow');
+    it("should add new elements to the horroy and return the new lenght", function() {
+      var result = horroy.push("Snow");
       var expected = 4;
 
       expect(result).toEqual(expected);
-    })
-  })
-  
-  describe("pop", function() {
-    beforeEach(function(){
-      horroy = new Horroy('Fire', 'Wind', 'Rain');
-    })
+    });
+  });
 
-    it("should add new elements to the horroy and return the new lenght", function(){
+  describe("pop", function() {
+    beforeEach(function() {
+      horroy = new Horroy("Fire", "Wind", "Rain");
+    });
+
+    it("should add new elements to the horroy and return the new lenght", function() {
       var result = horroy.pop();
-      var expected = 'Rain';
+      var expected = "Rain";
 
       expect(result).toEqual(expected);
-    })
-  })
-  
+    });
+  });
+
   /*describe("pop", function() {
     beforeEach(function(){
       horroy = new Horroy(1, 2, 3, 4);
@@ -181,33 +185,75 @@ describe("Horroy", function() {
   })*/
 
   describe("slice", function() {
-    beforeEach(function(){
+    beforeEach(function() {
       horroy = new Horroy(1, 2, 3, 4);
-    })
-    
-    it("returns a shallow copy of a portion of an array into a new array object selected from begin to end", function(){
-      var result = horroy.slice(1,3);
-      var expected = {0:2, 1:3};
+    });
+
+    it("returns a shallow copy of a portion of an array into a new array object selected from begin to end", function() {
+      var result = horroy.slice(1, 3);
+      var expected = { 0: 2, 1: 3 };
 
       expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
-    })
-  })
+    });
+  });
 
   describe("some", function() {
-    beforeEach(function(){
+    beforeEach(function() {
       horroy = new Horroy(1, 2, 3, 4);
-    })
-    
-    it("tests whether at least one element in the array passes the test implemented by the provided function", function(){
-      var result = horroy.some(function(value){return value === 2});
+    });
+
+    it("tests whether at least one element in the array passes the test implemented by the provided function", function() {
+      var result = horroy.some(function(value) {
+        return value === 2;
+      });
       var expected = true;
 
       expect(result).toEqual(expected);
-    })
-    
-    it("the argument must be a function", function() {
-      expect(function(){horroy.some(2)} ).toThrowError('the argument must be a function');
     });
-  })
 
+    it("the argument must be a function", function() {
+      expect(function() {
+        horroy.some(2);
+      }).toThrowError("the argument must be a function");
+    });
+  });
+
+  describe("filter", function() {
+    beforeEach(function() {
+      horroy = new Horroy(1, 2, 3, 4);
+    });
+
+    it("creates a new array with all elements that pass the test implemented by the provided function", function() {
+      var result = horroy.filter(function(value) {
+        return value < 2;
+      });
+      var expected = new Horroy(1);
+
+      expect(result).toEqual(expected);
+    });
+
+    it("the argument must be a function", function() {
+      expect(function() {
+        horroy.filter(2);
+      }).toThrowError("the argument must be a function");
+    });
+  });
+
+  describe("shift", function() {
+    beforeEach(function() {
+      horroy = new Horroy(1, 2, 3, 4);
+    });
+
+    it("removes the first element from an array and returns that removed element. This method changes the length of the array", function() {
+      console.log(horroy[0]);
+      
+      var result = horroy.shift();
+      console.log(result);
+
+      var expected = new Horroy(1);
+      console.log(expected);
+
+      expect(result).toEqual(expected);
+    });
+  }); 
 });

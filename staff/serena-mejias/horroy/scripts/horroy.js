@@ -153,3 +153,38 @@ Horroy.prototype.some = function(method){
   }
   return false;
 }
+
+
+Horroy.prototype.filter = function filter(method) {
+  if (!(typeof method === "function"))
+    throw TypeError("the argument must be a function");
+    var newHorroy = new Horroy();
+    var index = 0;
+    for(var i = 0; i<this.length; i++){
+      if(method(this[i])){
+        newHorroy[index] = this[i];
+        newHorroy.length++
+            index++
+        }
+    }
+    return newHorroy;
+}
+
+Horroy.prototype.shift = function shift() {
+
+  var firstElem = this[0];
+  var temp = new Horroy();
+  
+  for (var i = 1; i < this.length; i++) {
+    temp[i - 1] = this[i];
+    temp.length++;
+    console.log(temp);
+  }
+
+  for (var j = 0; j < temp.length; j++) {
+    this[j] = temp[j];
+  }
+  this.length--;
+  return firstElem;
+};
+
