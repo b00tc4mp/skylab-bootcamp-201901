@@ -28,9 +28,7 @@ suite('cart', function(){
         });
     })
 
-    describe ('fails adding', function() {
-
-        it ('should add an item that is not an instance of product & when no param is passed', function (){
+        it ('should fail when adding an item that is not an instance of product & when no param is passed', function (){
             
             var error;
 
@@ -40,8 +38,8 @@ suite('cart', function(){
                 error = err
             }
             expect (error,'expected and result should be the same')
+            expect (error instanceof TypeError, 'should be a TypeError error ')
         })
-    });
 
         // .totalPrice()
 
@@ -50,9 +48,10 @@ suite('cart', function(){
         it ('should calculate total price ', function(){
 
             var res = cart.totalPrice()
-            var expected = 102.91999999999999
 
-            expect (res === expected), 'expected and result should be the same'
+            var expected = 102.92
+
+            expect (res === expected.toString()), 'expected and result should be the same'
         });
 
     })
@@ -87,10 +86,9 @@ suite('cart', function(){
 
             var res = cart.cheapest();
 
-            var expected = "Socks";
+            var expected = cart.cartItems[0];
 
-            expect (res === expected), 'expected and result should be the same'
-
+            expect (res.toString() === expected.toString()), 'expected and result should be the same'
         })
     })
 
