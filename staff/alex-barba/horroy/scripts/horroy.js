@@ -210,7 +210,7 @@ Horroy.prototype.pop = function(){
 
     delete this[this.length-1];
 
-    this.length = this.length--;
+    this.length--;
 
     return res;
 };
