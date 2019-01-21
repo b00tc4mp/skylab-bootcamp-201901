@@ -166,8 +166,8 @@ describe("Horroy - Shift", function() {
 });
 
 
-describe("Horroy - Flat", function() {
-    it("Case no arrays inside", function() {
+it("Case no arrays inside", function() {
+    describe("Horroy - Flat", function() {
         var hor = new Horroy(1,2,3,4)
         var expectedresult = [1,2,3,4]
         expect(hor.flat().toString()).toEqual(expectedresult.toString())
@@ -198,4 +198,11 @@ describe("Horroy - For Each", function() {
 
 
 
+describe("Horroy - includes", function() {
+    it("Case Found", function() {
+        var hor = new Horroy(1,2,3,4)
+        expect(hor.forEach(function(item){
+            console.log(item)
+        })).toBe(undefined)
+    });
 
