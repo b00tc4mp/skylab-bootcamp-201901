@@ -429,23 +429,23 @@ suite("Horroy", function() {
 
   // });
 
-  describe("Function flat()", function() {
+  // describe("Function flat()", function() {
 
-    it("should return length 3", function() {
-      var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
-      horroy.flat(0);
-      var expected = 3;
-      expect(horroy.length === expected, "Unexpected value");
-    });
+  //   it("should return length 3", function() {
+  //     var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
+  //     horroy.flat(0);
+  //     var expected = 3;
+  //     expect(horroy.length === expected, "Unexpected value");
+  //   });
 
-    it("should return length 5", function() {
-      var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
-      var hooryFlat = horroy.flat();
-      var expected = 5;
-      expect(hooryFlat.length === expected, "Unexpected value");
-    });
-    
-  });
+  //   it("should return length 5", function() {
+  //     var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
+  //     var hooryFlat = horroy.flat();
+  //     var expected = 5;
+  //     expect(hooryFlat.length === expected, "Unexpected value");
+  //   });
+
+  // });
 
   // describe("Function includes()", function() {
 
@@ -501,4 +501,19 @@ suite("Horroy", function() {
   //   });
 
   // });
+
+  describe("Function flatMap()", function() {
+
+    it("should return a new horry", function() {
+      var horroy = new Horroy(1, 2, 3, 4);
+      var horroyFlatMap = horroy.flatMap(function(x) {
+        return x * 2;
+      });
+      console.log(horroyFlatMap);
+      var expected = '2,4,6,8';
+      expect(horroyFlatMap.toString() === expected, "Unexpected value");
+    });
+
+  });
+
 });

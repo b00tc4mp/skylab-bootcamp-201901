@@ -307,7 +307,11 @@ Horroy.prototype.includes = function(searchElement, fromIndex) {
   return false;
 };
 
-
+/**
+ * Returns a new Horroy Iterator object that contains the keys for each index in the array.
+ * 
+ * @returns {Horroy} - A new Horroy iterator object.
+ */
 Horroy.prototype.keys = function() {
 
   var newHorroy = new Horroy;
@@ -317,4 +321,12 @@ Horroy.prototype.keys = function() {
   for(var i = 0; i < this.length; i++) newHorroy[i] = i;
 
   return newHorroy;
+};
+
+
+Horroy.prototype.flatMap = function(callback) {
+  if (!(callback instanceof Function))
+    throw new TypeError(callback + " is not a function");
+
+  return this.map(callback).flat();
 };
