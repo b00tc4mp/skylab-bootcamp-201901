@@ -321,6 +321,22 @@ describe('sort', function(){
     });   
 });
 
+describe('toSource', function(){
+    
+    beforeEach(function(){
+        h=new Horroy(1,2,3,4,5,6,7,8,9)
+    });
+    
+    
+    it('sould return a string with the source', function(){
+                
+        res=h.toSource()
+
+        expect(res).toBe('[1,2,3,4,5,6,7,8,9]')
+    
+    });    
+});
+
 // describe('title', function(){
     
 //     beforeEach(function(){

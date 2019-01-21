@@ -906,3 +906,23 @@ Horroy.prototype.sort = function () {
 
     return res
 }
+
+//----------------------TO-SOURCE-----------------------//
+
+/**
+ * Abstract of tosource
+ *
+ * The toSource() method returns a string representing the source code of the Horroy.
+ *  
+ * @return {string} - string of the source code
+ * 
+ */
+Horroy.prototype.toSource = function () {
+
+    var string='['
+    for (var i = 0; i<this.length-1; i++)
+        string+=this[i]+',';
+    string+=this[this.length-1]+']'
+
+    return string
+}
