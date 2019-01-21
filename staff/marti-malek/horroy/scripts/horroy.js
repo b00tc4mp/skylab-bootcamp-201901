@@ -739,18 +739,21 @@ Horroy.prototype.splice = function(start, deleteCount, item) {
  * Return a string representing the source code of the horroy.
  * 
  */
-/* Horroy.prototype.toSource = function () {
+Horroy.prototype.toSource = function () {
     var hor = new Horroy();
 
     for (var i = 0; i < this.length; i++) {
         hor[hor.length] = this[i].toString();
         hor.length++;
     }
-} */
+    return hor;
+};
 /**
  * Abstraction of toString.
  * 
  * Converts a horroy to string.
+ * 
+ * @returns {string}
  */
 Horroy.prototype.toString = function() {
     var string = '';
