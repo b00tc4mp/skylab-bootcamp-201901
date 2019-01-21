@@ -1,2 +1,6 @@
 // TODO do it nice!
-suite('TEST horroy');
+describe('Horroy TEST', function() {});
+
+interface('from', function() {
+    
+})
