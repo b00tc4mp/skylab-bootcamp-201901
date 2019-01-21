@@ -37,7 +37,6 @@ Horroy.from = function (value) {
             horr[i] = value[i]
         return horr
     }
-
 };
 
 Horroy.prototype.toString = function () {
@@ -64,4 +63,25 @@ Horroy.prototype.filter = function (callback) {
         }
     }
     return result ? result : -1;
+};
+
+Horroy.prototype.find = function (callback) {
+
+    if (typeof callback !== 'function') throw new Error(callback + ' is not a function');
+
+    for (var i = 0; i < this.length; i++) {
+        if (callback(this[i])) { return this[i]; }
+    }
+    return undefined;
+}
+
+Horroy.prototype.map = function (callback) {
+    if (typeof callback !== 'function') throw new TypeError('callback is not a function');
+
+    var result = new Horroy();
+    for (var i = 0; i < this.length; i++) {
+        result[i] = callback(this[i], i, this);
+        result.length++;
+    }
+    return result;
 };
