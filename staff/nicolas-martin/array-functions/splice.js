@@ -21,6 +21,7 @@
   if (!(array instanceof Array)) 
     throw TypeError(array + ' is not an array');
 
+  debugger;
   var result = [], cont = 0;
   start = start > array.length ? array.length : 
           start === undefined ? array.length : 

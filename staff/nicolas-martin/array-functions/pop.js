@@ -15,3 +15,6 @@ function pop(array) {
     return lastElement;
 }
 
+
+var var = 3; ///3
+
