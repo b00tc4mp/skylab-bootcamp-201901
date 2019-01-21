@@ -15,7 +15,7 @@
 
 function filter(array, callback) {
 
-    if (!(array instanceof Array)) throw TypeError(array + ' should be an error');
+    if (!(array instanceof Array)) throw TypeError(array + ' should be an array');
     if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function ')
 
     var res = []
