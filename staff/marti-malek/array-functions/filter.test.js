@@ -1,6 +1,6 @@
 suite('filter');
 
-test('Correct full arguments', function () {
+test('Correct with all the arguments', function () {
     var a = [1,2,3,4];
 
     var res = filter(a, function (v) {return v > 2});
@@ -8,6 +8,16 @@ test('Correct full arguments', function () {
     var expected = [3,4];
 
     assert(res.toString() === expected.toString(), 'should return correct output');
+});
+
+test('Correct without changing the original array', function () {
+    var a = [1,2,3,4];
+
+    filter(a, function (v) {return v > 2});
+
+    var expected = [1,2,3,4];
+
+    assert(a.toString() === expected.toString(), 'should return correct output');
 });
 
 test('Fail too many arguments', function () {
@@ -31,7 +41,7 @@ test('Fail on object instead of array', function () {
         error = err;
     }
 
-    assert(Error, 'should have thrown an error');
+    assert(TypeError, 'should have thrown an error');
 });
 
 test('Fail on boolean instead of array', function () {
@@ -43,7 +53,7 @@ test('Fail on boolean instead of array', function () {
         error = err;
     }
 
-    assert(Error, 'should have thrown an error');
+    assert(TypeError, 'should have thrown an error');
 });
 
 test('Fail on number instead of array', function () {
@@ -55,6 +65,6 @@ test('Fail on number instead of array', function () {
         error = err;
     }
 
-    assert(Error, 'should have thrown an error');
+    assert(TypeError, 'should have thrown an error');
 });
 

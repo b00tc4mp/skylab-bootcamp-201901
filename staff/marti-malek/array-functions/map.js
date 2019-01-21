@@ -13,12 +13,12 @@
  * @throws {TypeError} - If arr is not an array
  */
 function map(arr, func) {
-    var res = [];
-
+    
     if (arguments.length < 2) throw Error ('more arguments are needed');
-
     if (!(arr instanceof Array)) throw new TypeError(arr + ' is not an array');
-
+    
+    var res = [];
+    
     for (var i = 0; i < arr.length; i++) res[i] = func(arr[i]);
 
     return res;
