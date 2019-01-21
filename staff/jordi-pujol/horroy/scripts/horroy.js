@@ -24,8 +24,7 @@ function Horroy() {
     }
 }
 
-Horroy.prototype.push = function (item){
-
+Horroy.prototype.push = function (value){
 
     for (var i = 0; i< arguments.length; i++){
 
@@ -62,4 +61,50 @@ Horroy.prototype.shift = function(){
     this.length --
     delete this[this.length]
     return re
+}
+
+Horroy.prototype.unshift = function(){
+    
+    for (var i =0; i< arguments.length; i++){
+
+        for (var k =0; k< this.length; k ++){
+            this[this.length-k] = this[this.length -1 -k]
+            
+        }
+        this[0] = (arguments[arguments.length-i-1])
+        this.length ++
+    }
+    return this.length
+}
+
+Horroy.prototype.filter = function(callback){
+
+    if (!(callback instanceof Function)) throw TypeError(callback + ' should be a function') 
+
+    var ret = new Horroy;
+    count = 0
+
+    for (var i = 0; i < this.length; i++) {
+        if (callback(this[i]) === true){
+
+            ret[count] = this[i]
+            count ++
+        }
+    }
+
+    return ret
+}
+
+Horroy.prototype.find = function (callback) {
+
+    if (arguments.length > 1) throw Error('too many arguments');
+
+    if(!(callback instanceof Function)) throw TypeError(callback + ' is not a function');
+
+    for (var i = 0; i < this.length; i++) {
+
+        if(callback(this[i]) === true) return this[i]
+
+        else return undefined
+    }
 }
