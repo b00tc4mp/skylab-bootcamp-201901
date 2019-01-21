@@ -1,3 +1,5 @@
+'use strict';
+
 //#region data
 
 var users = [
