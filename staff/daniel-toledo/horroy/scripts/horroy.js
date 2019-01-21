@@ -535,8 +535,6 @@ Horroy.prototype.splice = function (start, delated) {
         if (i >= start && countItems < items.length) {
             this[i] = items[countItems];
             countItems++;
-
-
         } else if (i >= start && countItems === items.length) {
             this[i] = final[countFinal];
             countFinal++;
@@ -573,4 +571,331 @@ Horroy.prototype.find = function (callback) {
         if (callback(value)) return value
     }
 
+}
+
+//-------------------------CONCAT-----------------------------//
+/**
+ * Abstract of Concat
+ * 
+ * The concat() method is used to merge two or more Horroys. 
+ * This method does not change the existing Horroys, but instead 
+ * returns a new Horroy.
+ * 
+ * @param {*} - Anything you want to add to the Horroy
+ * 
+ * @return {Horroy} - New Horroy with concatenated values
+ */
+Horroy.prototype.concat = function () {
+
+    res = new Horroy;
+    for (var i = 0; i < this.length; i++) {
+        res[res.length++] = this[i];
+    }
+
+    for (var i = 0; i < arguments.length; i++) {
+        if (arguments[0] instanceof Array || arguments[0] instanceof Horroy) {
+            for (var j = 0; j < arguments[i].length; j++) {
+                res[res.length++] = arguments[i][j];
+            }
+        } else {
+            res[res.length++] = arguments[i];
+        }
+    }
+    return res
+}
+
+//---------------------COPYWITHIN------------------//
+/**
+ * Abstract of copyWithin
+ * 
+ * The copyWithin() method shallow copies part of a horroy
+ * to another location in the same horroy and returns it, 
+ * without modifying its size.
+ * 
+ * @param {number} target - Element to start to copy
+ * @param {number} start - First element to copy
+ * @param {number} end - last element to copy
+ * 
+ */
+Horroy.prototype.copyWithin = function (target, start, end) {
+
+    var copy = new Horroy()
+    for (var i=start; i<end; i++)
+        copy[copy.length++]=this[i]
+
+    var copyCount=0
+    for (var i=target; i<this.length; i++)
+        this[ì]=copy[copyCount++]
+    
+}
+
+//---------------------EVERY------------------//
+/**
+ * Abstract of every
+ * 
+ * The every() method tests whether all elements in the Horroy 
+ * pass the test implemented by the provided function.
+ * 
+ * @param {Function} callback - callback to evaluate
+ *
+ * 
+ * @return {Boolean} - true if every elelemtn satisfies the callback. False if not
+ * 
+ */
+Horroy.prototype.every = function (callback) {
+
+    if (!(callback instanceof Function)) throw TypeError(callback + ' is not a function')
+
+    for (var i = 0; i < this.length; i++)
+        if (callback(this[i]) === false) return false
+
+    return true
+
+
+}
+
+//---------------------FIND INDEX------------------//
+/**
+ * Abstract of findIndex
+ * 
+ *The findIndex() method returns the index of the first element in the horroy
+  that satisfies the provided testing function. 
+  Otherwise, it returns -1, indicating no element passed the test.
+
+ * @param {number} target - Element to start to copy
+ *
+ * 
+ * @return {number} - index of the fund element or -1 if element is not found
+ * 
+ */
+Horroy.prototype.findIndex = function (callback) {
+
+    if (!(callback instanceof Function)) throw TypeError(callback + ' is not a function')
+
+    for (var i = 0; i < this.length; i++)
+        if (callback(this[i]) === true) return i
+
+    return -1
+}
+
+//---------------------FLAT------------------//
+/**
+ * Abstract of flat
+ *
+ * The flat() method creates a new horroy with all sub-array elements concatenated 
+ * into it recursively up to the specified depth. 
+ *
+ * @param {number} depth - depth of concatenating elements
+ *
+ * 
+ * @return {Horroy} - new Horroy with concatenated eleements
+ * 
+ */
+Horroy.prototype.flat = function (depth) {
+
+    depth = depth === undefined ? 0 : depth
+    var res = new Horroy()
+
+    for (var i = 0; i < this.length; i++) {
+        if ((this[i] instanceof Array || this[i] instanceof Horroy) && depth != 0) {
+            depth = depth - 1
+            var concat = this[i].flat(depth)
+            for (var j = 0; j < concat.length; j++) res[res.length++] = concat[j]
+        } else {
+            res[res.length++] = this[i]
+        }
+    }
+
+    return res
+}
+
+//---------------------FLAT-MAP-----------------//
+/**
+ * Abstract of flatMap
+ *
+ * Fist map each element usign mapping function, and then
+ * it flattens the result into a new Horroy
+ *
+ * @param {Function} callback - callback to map
+ *
+ * 
+ * @return {Horroy} - new Horroy with mapped and concatenated elements
+ * 
+ */
+Horroy.prototype.flatMap = function (callback) {
+
+    var map = this.map(callback);
+    var res = new Horroy
+
+    for (var i = 0; i < map.length; i++) {
+        if ((map[i] instanceof Array || map[i] instanceof Horroy)) {
+            for (var j = 0; j < map[i].length; j++) res[res.length++] = map[i][j]
+        } else {
+            res[res.length++] = map[i]
+        }
+    }
+
+    return res
+}
+
+//---------------------INCLUDES-----------------//
+/**
+ * Abstract of includes
+ *
+ * The includes() method determines whether a horroy includes a certain value 
+ * among its entries, returning true or false as appropriate.
+ * 
+ *  
+ * @return {Boolean} - true if includes, false if not.
+ * 
+ */
+Horroy.prototype.includes = function (value) {
+
+    for (var i = 0; i < this.length; i++)
+        if (this[i] === value) return true
+
+    return false
+}
+
+//---------------------LAST INDEXOF-----------------//
+/**
+ * Abstract of lastIndexOf
+ *
+ * this methos returns the last index ath which a given element can be found in the array,
+ * or -1 if it is not present. Th horroy is searched backwards, starting fromIndex
+ * 
+ * @param {*} searchElement - element to search
+ * @param {number} fromIndex - Index to start to search bakwards
+ *  
+ * @return {number} - index found
+ * 
+ */
+Horroy.prototype.lastIndexOf = function (searchElement, fromIndex) {
+
+    fromIndex = fromIndex === undefined ? this.length - 1 : fromIndex
+
+    for (var i = fromIndex; i >= 0; i--)
+        if (this[i] === searchElement) return i
+
+    return -1
+}
+
+//---------------------REDUCE RIGTH-----------------//
+/**
+ * Abstraction of reduceRight
+ * 
+ * this method method executes a reducer function 
+ * (that you provide) on each member of the horroy resulting 
+ * in a single output value starting from right-to left
+ * 
+ * @param {Function} callback  - The expression to evaluate
+ * @param {*} accumulator - the accumulator of the reduction value
+ * 
+ * @throws {TypeError} - when callback is not an Function
+ * 
+ * @return {*} - The reduction value
+ */
+
+Horroy.prototype.reduceRigth = function (callback, accumulator) {
+
+    if (!(callback instanceof Function)) throw TypeError(callback + ' is not a function')
+
+    var i;
+
+    if (accumulator === undefined) {
+        accumulator = this[this.length - 1];
+        i = this.length - 2;
+
+    } else { i = this.length - 1 }
+
+    for (; i >= 0; i--) {
+        var item = this[i];
+
+        accumulator = callback(accumulator, item);
+    }
+    return accumulator
+}
+
+//---------------------SORT-----------------//
+/**
+ * Abstraction of sort
+ * 
+ * this method sorts the elements of a horroy in place and returns the horroy. 
+ * The default sort order is built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
+ * 
+ * 
+ * @return {Horroy} - Sort horroy
+ */
+
+Horroy.prototype.sort = function () {
+
+    //Convert each element in a horroy of coded UTF-16
+    var string
+    var type
+    var horrCode = new Horroy()
+    // debugger
+    for (var i = 0; i < this.length; i++) {
+        type= typeof this[i]
+        string = this[i].toString()
+        var horr = new Horroy()
+        for (var j = 0; j < string.length; j++) {
+            horr[horr.length++] = string.charCodeAt(j)
+        }
+        Object.defineProperty(horr,'type',{value:type});
+        horrCode[horrCode.length++] = horr
+    }
+
+ 
+
+    // organize the coded values
+    var index;
+    var done = false;
+    while (!done) {
+        // debugger
+        done = true;
+        for (var i = 1; i < horrCode.length; i++) {
+            donetemp = false;
+            index = 0;
+            while (!donetemp) {
+                // debugger
+                if (horrCode[i - 1][index] === horrCode[i][index]) {
+                    index++;
+                } else if (horrCode[i - 1][index] > horrCode[i][index]) {
+                    done = false
+                    donetemp = true
+                    var tmp = horrCode[i - 1];
+                    horrCode[i - 1] = horrCode[i];
+                    horrCode[i] = tmp;
+                } else if (horrCode[i - 1][index] < horrCode[i][index]){
+                    donetemp = true
+                }
+            }
+        }
+    }
+
+
+    //Code to string
+
+    var res= new Horroy
+    for (var i=0; i<horrCode.length; i++){
+        var string='';
+        for (var j=0; j<horrCode[i].length; j++){
+            string += String.fromCharCode(horrCode[i][j])
+        }
+
+        if (horrCode[i].type==='number'){
+            res[res.length++]=Number(string)
+        }
+
+        if (horrCode[i].type==='boolean'){
+            if (string==='true') res[res.length++]=true;
+            else res[resr.length++]=false;
+        }
+
+        if (horrCode[i].type==='string'){
+            res[res.length++]=string
+        }
+    }
+
+    return res
 }
