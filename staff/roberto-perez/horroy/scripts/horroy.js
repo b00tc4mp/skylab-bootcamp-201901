@@ -244,50 +244,41 @@ Horroy.prototype.findIndex = function(callback) {
   }
 };
 
-/*
-    [i] -> length -> value
-    [0]       3       1
-    [1]       3       2
-    [2]       +3      [3, 4, [5, 6]]
-*/
-// [1, 2, [3, 4, [5, 6], [7, 8]]]
+
+/**
+ * Creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+ * 
+ * @param {Number} [depth] - The depth level specifying how deep a nested array structure should be flattened. Defaults to 1.
+ * 
+ * @returns {Horroy} - A new horry with the sub-array elements concatenated into it.
+ */
 Horroy.prototype.flat = function(depth) {
   depth = depth === undefined ? 1 : depth;
 
   var result = new Horroy;
 
-  var recursive = function(arr) {
-    var currentDepth = 1;
-    if(arr instanceof Horroy && currentDepth < depth) {
+  var recursive = function(arr, currentDepth) {
+
+    var currentDepth = currentDepth || 0;
+    
+    if(arr instanceof Horroy && currentDepth <= depth) {
+      
       currentDepth++;
+
       for (var i = 0; i < arr.length; i++) {
-        recursive(arr[i]);
+        recursive(arr[i], currentDepth);
       }
+
     } else {
+      
       result[result.length++] = arr;
+    
     }
-    console.log('currentDepth', currentDepth);
   }
 
   recursive(this);
   
-  for (var i = 0; i < result.length; i++) {
-    this[i] = result[i];
-  }
-
-  this.length = result.length;
-
-
-  // var horroyIteration = arguments[2] || 0;
-
-  // for (var i = 0; i < this.length; i++) {
-  //   if(this[i] instanceof Horroy && depth > 0) {
-  //     this[i].flat(depth--);
-  //   } else {
-  //     this[i] = this[i];
-  //   }
-  // }
-  // console.log('RES', res);
+  return result;
 };
 
 

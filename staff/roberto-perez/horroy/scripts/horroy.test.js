@@ -429,35 +429,26 @@ suite("Horroy", function() {
 
   // });
 
-    describe("Function flat()", function() {
-      // it("should return true", function() {
-      //   var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
-      //   horroy.flat(0);
-      //   var expected = 3;
-      //   expect(horroy.length === expected, 'Unexpected value')
-      // });
-      it("should return true", function() {
-        var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6), new Horroy(7, 8)));
-        console.log('\n');
-        console.log('\n');
-        console.log("#######ORIGINAL#######");
-        console.log(horroy);
-        console.log('\n');
-        horroy.flat();
-        var expected = 5;
-        var expectedString = '1,2,3,4';
-        console.log('\n');
-        console.log('\n');
-        console.log("#######RESULTADO#######");
-        console.log(horroy);
-        console.log('\n');
-        expect(horroy.length === expected, 'Unexpected value')
-        //expect(horroy.toString() === expectedString, 'Unexpected value')
-      });
+  describe("Function flat()", function() {
+
+    it("should return length 3", function() {
+      var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
+      horroy.flat(0);
+      var expected = 3;
+      expect(horroy.length === expected, "Unexpected value");
     });
 
+    it("should return length 5", function() {
+      var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
+      var hooryFlat = horroy.flat();
+      var expected = 5;
+      expect(hooryFlat.length === expected, "Unexpected value");
+    });
+    
+  });
+
   // describe("Function includes()", function() {
-      
+
   //   it("should return true", function() {
   //     var horroy = new Horroy(1, 2, 3);
   //     var boolean = horroy.includes(2);
@@ -500,15 +491,14 @@ suite("Horroy", function() {
   // });
 
   // describe("Function keys()", function() {
-      
+
   //   it("should return all keys form Horroy iterator", function() {
   //     var horroy = new Horroy(1, 2, 3);
   //     var keys = horroy.keys();
-      
+
   //     var expected = '0,1,2';
   //     expect(keys.toString() === expected, "Unexpected value");
   //   });
 
   // });
-
 });
