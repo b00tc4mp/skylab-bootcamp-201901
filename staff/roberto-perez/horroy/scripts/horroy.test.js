@@ -429,75 +429,86 @@ suite("Horroy", function() {
 
   // });
 
-  //   describe("Function flat()", function() {
-  //     it("should return true", function() {
-  //       var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
-  //       horroy.flat();
-  //       var expected = 6;
-  //       var expectedString = '1,2,3,4';
-  //       console.log('\n');
-  //       console.log('\n');
-  //       console.log("#######RESULTADO#######");
-  //       console.log(horroy);
-  //       console.log('\n');
-  //       expect(horroy.length === expected, 'Unexpected value')
-  //       //expect(horroy.toString() === expectedString, 'Unexpected value')
-  //     });
-  //   });
-
-//   describe("Function includes()", function() {
-      
-//     it("should return true", function() {
-//       var horroy = new Horroy(1, 2, 3);
-//       var boolean = horroy.includes(2);
-//       expect(boolean, "Unexpected value");
-//     });
-
-//     it("should return false", function() {
-//       var horroy = new Horroy(1, 2, 3);
-//       var boolean = horroy.includes(4);
-//       expect(!boolean, "Unexpected value");
-//     });
-
-//     it("should return false when we pass 100 like second argument", function() {
-//       var horroy = new Horroy("a", "b", "c");
-//       var boolean = horroy.includes("c", 100);
-//       expect(!boolean, "Unexpected value");
-//     });
-
-//     it("should return false when we pass -100 like second argument", function() {
-//       var horroy = new Horroy("a", "b", "c");
-//       var boolean = horroy.includes("a", -100);
-//       expect(boolean, "Unexpected value");
-//     });
-
-//     it("should fail if the second argument is not a number", function() {
-//       var horroy = new Horroy("a", "b", "c");
-
-//       var error;
-
-//       try {
-//         var boolean = horroy.includes("a", 's');
-//       } catch (err) {
-//         error = err;
-//       }
-
-//       expect(error, "It should throw an error");
-//       expect(error instanceof TypeError, "The error should be TypeError");
-//     });
-
-//   });
-
-  describe("Function keys()", function() {
-      
-    it("should return all keys form Horroy iterator", function() {
-      var horroy = new Horroy(1, 2, 3);
-      var keys = horroy.keys();
-      
-      var expected = '0,1,2';
-      expect(keys.toString() === expected, "Unexpected value");
+    describe("Function flat()", function() {
+      // it("should return true", function() {
+      //   var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6)));
+      //   horroy.flat(0);
+      //   var expected = 3;
+      //   expect(horroy.length === expected, 'Unexpected value')
+      // });
+      it("should return true", function() {
+        var horroy = new Horroy(1, 2, new Horroy(3, 4, new Horroy(5, 6), new Horroy(7, 8)));
+        console.log('\n');
+        console.log('\n');
+        console.log("#######ORIGINAL#######");
+        console.log(horroy);
+        console.log('\n');
+        horroy.flat();
+        var expected = 5;
+        var expectedString = '1,2,3,4';
+        console.log('\n');
+        console.log('\n');
+        console.log("#######RESULTADO#######");
+        console.log(horroy);
+        console.log('\n');
+        expect(horroy.length === expected, 'Unexpected value')
+        //expect(horroy.toString() === expectedString, 'Unexpected value')
+      });
     });
 
-  });
+  // describe("Function includes()", function() {
+      
+  //   it("should return true", function() {
+  //     var horroy = new Horroy(1, 2, 3);
+  //     var boolean = horroy.includes(2);
+  //     expect(boolean, "Unexpected value");
+  //   });
+
+  //   it("should return false", function() {
+  //     var horroy = new Horroy(1, 2, 3);
+  //     var boolean = horroy.includes(4);
+  //     expect(!boolean, "Unexpected value");
+  //   });
+
+  //   it("should return false when we pass 100 like second argument", function() {
+  //     var horroy = new Horroy("a", "b", "c");
+  //     var boolean = horroy.includes("c", 100);
+  //     expect(!boolean, "Unexpected value");
+  //   });
+
+  //   it("should return false when we pass -100 like second argument", function() {
+  //     var horroy = new Horroy("a", "b", "c");
+  //     var boolean = horroy.includes("a", -100);
+  //     expect(boolean, "Unexpected value");
+  //   });
+
+  //   it("should fail if the second argument is not a number", function() {
+  //     var horroy = new Horroy("a", "b", "c");
+
+  //     var error;
+
+  //     try {
+  //       var boolean = horroy.includes("a", 's');
+  //     } catch (err) {
+  //       error = err;
+  //     }
+
+  //     expect(error, "It should throw an error");
+  //     expect(error instanceof TypeError, "The error should be TypeError");
+  //   });
+
+  // });
+
+  // describe("Function keys()", function() {
+      
+  //   it("should return all keys form Horroy iterator", function() {
+  //     var horroy = new Horroy(1, 2, 3);
+  //     var keys = horroy.keys();
+      
+  //     var expected = '0,1,2';
+  //     expect(keys.toString() === expected, "Unexpected value");
+  //   });
+
+  // });
 
 });
