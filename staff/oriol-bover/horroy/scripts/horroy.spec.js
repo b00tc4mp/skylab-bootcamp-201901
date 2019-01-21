@@ -379,10 +379,69 @@ describe('Horroy', function () {
     });
 
     describe('some',function(){
-        it('should test value of horroy elements', function(){
+        it('should return true when find an element into the horroy that satisfies the callback', function(){
             var horr = new Horroy(12,5,8,1,4);
 
-            expect(horr.some(function(elem){return elem > 10})).toBe(true);
+            expect(horr.some(function(elem){return elem > 10})).toBeTruthy();
+        });
+
+        it('should return false when find an element into the horroy that satisfies the callback', function(){
+            var horr = new Horroy(12,5,8,1,4);
+
+            expect(horr.some(function(elem){return elem > 30})).toBe(false);
+        });
+    });
+
+    describe('filter', function(){
+        it('should filter elements from an horroy', function(){
+            function isBigEnough(value) {
+                return value >= 10;
+              }
+              
+              var filtered = new Horroy(12, 5, 8, 130, 44).filter(isBigEnough);
+              var e_filtered = new Horroy(12, 130, 44);
+
+              expect(filtered).toEqual(e_filtered);
+        });
+
+        it('should return empty horroy when no elements satisfies the callback', function(){
+            function isBigEnough(value) {
+                return value >= 2000;
+              }
+              
+              var filtered = new Horroy(12, 5, 8, 130, 44).filter(isBigEnough);
+              var e_filtered = new Horroy();
+
+              expect(filtered).toEqual(e_filtered);
+        });
+    });
+
+    describe('shift', function(){
+        it('should remove the first element', function(){
+            var horr = new Horroy(1, 2, 3);
+            var firstElement = horr.shift();
+
+            expect(firstElement).toEqual(1);
+            expect(horr).toEqual(new Horroy(2,3));
+            expect(horr.length).toEqual(2);
+        });
+    });
+
+    describe('unshift', function(){
+        it('should add an element to the start of the horroy', function(){
+            var horr = new Horroy(1, 2, 3);
+            var length = horr.unshift(4);
+
+            expect(horr).toEqual(new Horroy(4,1,2,3));
+            expect(horr.length).toEqual(length);
+        });
+
+        it('should add more than one element and different type', function(){
+            var horr = new Horroy(1, 2, 3);
+            var length = horr.unshift(4,'five');
+
+            expect(horr).toEqual(new Horroy(4,'five',1,2,3));
+            expect(horr.length).toEqual(length);
         });
     });
 });
