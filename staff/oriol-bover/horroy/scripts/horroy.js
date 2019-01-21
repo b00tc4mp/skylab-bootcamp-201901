@@ -20,6 +20,18 @@ Horroy.prototype.toString = function() {
     return string
 };
 
+Horroy.from = function (value) {
+    var horr = new Horroy
+
+    horr.length = value.length
+
+    if (typeof value === 'string')
+        for (var i = 0; i < value.length; i++)
+            horr[i] = value[i]
+
+    return horr
+};
+
 Horroy.prototype.push = function () {
     for (var i = 0; i < arguments.length; i++) {
         var element = arguments[i];
@@ -139,6 +151,8 @@ Horroy.prototype.slice = function (begin, end) {
     end = typeof end === 'undefined' ? this.length : (end > 0 ? end : this.length + end);
     var shallow_horroy = new Horroy;
 
+    if(begin < 0 ) begin = this.length + begin;
+
     for (var i = begin; i < end; i++) {
         var element = this[i];
         if (element !== undefined) {
@@ -181,7 +195,7 @@ Horroy.prototype.splice = function (start, deleteCount) {
     //get elements deleted
     if (deleteCount > 0)
         for (var d = start; d < start + deleteCount; d++) {
-            res[res.length] = array[d];
+            res[res.length] = this[d];
             res.length++;
         }
 
@@ -199,8 +213,8 @@ Horroy.prototype.splice = function (start, deleteCount) {
     }
 
     //give old values
-    for (var z = start + deleteCount; z < horroy.length; z++) {
-        var value = horroy[z];
+    for (var z = start + deleteCount; z < this.length; z++) {
+        var value = this[z];
         horroy2[horroy2.length] = value;
         horroy2.length++;
     }
@@ -208,14 +222,14 @@ Horroy.prototype.splice = function (start, deleteCount) {
     //reboot original array
     for (var i = 0; i < horroy2.length; i++) {
         var value = horroy2[i];
-        horroy[i] = value;
+        this[i] = value;
     }
 
     //delete extra elements
-    for (let i = horroy2.length; i < horroy.length; i++) {
-        delete horroy[i];
+    for (let i = horroy2.length; i < this.length; i++) {
+        delete this[i];
     }
-    horroy.length = horroy2.length;
+    this.length = horroy2.length;
 
     //return deleted elemetns
     return res;
