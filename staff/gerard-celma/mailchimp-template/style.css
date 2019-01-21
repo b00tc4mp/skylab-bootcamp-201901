@@ -35,19 +35,25 @@ html {
 .header__login {
   align-self: flex-end;
   color: white;
+  margin-right: 150px;
 }
 .header__body {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+}
+.header__body__logo {
+  max-height: 47px;
+  margin-right: 20px;
 }
 .header__body button {
   background-color: #3F3F37;
   color: white;
   font-size: 0.9em;
-  padding: 15px 20px;
+  padding: 15px 30px;
   border-radius: 5px;
   background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.2) 51%);
+  margin: 0px 30px 0px 30px;
 }
 .header__links {
   display: flex;
@@ -60,7 +66,7 @@ html {
 .header__links a {
   text-decoration: none;
   color: #181a1c;
-  padding: 0px 10px;
+  padding: 0px 30px;
 }
 .header__search {
   background-color: white;
@@ -70,13 +76,15 @@ html {
   align-items: center;
   border-radius: 5px;
   margin: 0px 10px;
+  padding: 0px 40px 0px 40px;
 }
 .header__search p {
-  margin: 0px 50px 0px 10px;
+  margin: 0px 50px 0px -30px;
+  color: #CCD0CF;
 }
 .header__search img {
   max-height: 12px;
-  margin: 0px 10px 0px 50px;
+  margin-right: -30px;
 }
 
 .asidetop {
@@ -114,7 +122,7 @@ html {
   background-color: #3F3F37;
   color: white;
   font-size: 0.9em;
-  padding: 15px 20px;
+  padding: 15px 30px;
   border-radius: 5px;
   background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.2) 51%);
   padding: 18px 60px;
@@ -173,6 +181,7 @@ html {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  padding-bottom: 50px;
 }
 .footer__section {
   display: flex;

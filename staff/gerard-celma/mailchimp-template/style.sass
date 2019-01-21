@@ -17,7 +17,7 @@ $light-orange: #ff8668
     background-color: $mid-dark-grey
     color: white
     font-size: 0.9em
-    padding: 15px 20px
+    padding: 15px 30px
     border-radius: 5px
     background-image: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.2) 51%)
 
@@ -63,17 +63,20 @@ html
     &__login
         align-self: flex-end
         color: white
+        margin-right: 150px
 
     &__body
         display: flex
         flex-direction: row 
-        justify-content: space-around
+        justify-content: center
 
-        // &__logo
-        //     max-height: 47px
+        &__logo
+            max-height: 47px
+            margin-right: 20px
 
         & button
-            @include button  
+            @include button 
+            margin: 0px 30px 0px 30px 
 
     &__links
         display: flex
@@ -86,7 +89,7 @@ html
         & a
             @include link--nodefaultstyle
             color: $dark-grey
-            padding: 0px 10px
+            padding: 0px 30px
 
     &__search
         background-color: white
@@ -96,13 +99,15 @@ html
         align-items: center
         border-radius: 5px
         margin: 0px 10px
+        padding: 0px 40px 0px 40px
 
         & p
-            margin: 0px 50px 0px 10px
+            margin: 0px 50px 0px -30px
+            color: $mid-grey
 
         & img
             max-height: 12px
-            margin: 0px 10px 0px 50px
+            margin-right: -30px
 
 
 .asidetop
@@ -189,6 +194,7 @@ html
     display: flex
     flex-direction: row
     justify-content: space-around
+    padding-bottom: 50px
 
     &__section
         display: flex
