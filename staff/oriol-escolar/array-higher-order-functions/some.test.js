@@ -9,9 +9,9 @@ test('Use Case1', function () {
 
     var array = [1,2,3,4,5];
 
-    var expected = ['pepino','piedra','tomate'];
+    var expected = true;
 
-    some(array,function(item){
+    var res = some(array,function(item){
 
     return item % 2 ===0;
 
@@ -20,8 +20,30 @@ test('Use Case1', function () {
 
     
 
-    if (array.toString() !== expected.toString()) { throw Error('Indexes is no what it is expected') }
+    if (expected!== res) { throw Error('Indexes is no what it is expected') }
 
 
 });
+
+
+test('Use Case2', function () {
+
+    var array = [3,5];
+
+    var expected = false;
+
+    var res = some(array,function(item){
+
+    return item % 2 ===0;
+
+
+    });
+
+    
+
+    if (expected!== res) { throw Error('Indexes is no what it is expected') }
+
+
+});
+
 
