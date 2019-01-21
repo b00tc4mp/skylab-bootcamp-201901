@@ -2,7 +2,7 @@
 
 function login(email, password, callback) {
     // TODO validate fields!
-    if (!email.includes('@') throw Error(email + 'is not an email.');
+    //if (!email.includes('@') throw Error(email + 'is not an email.');
     
     var user = users.find(function (user) {
         return user.email === email;
