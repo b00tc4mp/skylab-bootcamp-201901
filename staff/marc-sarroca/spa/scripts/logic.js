@@ -2,6 +2,9 @@
 
 function login(email, password, callback) {
   // TODO validate fields!
+  if (!email || !password) {
+    throw Error("Email and password is required");
+  }
 
   var user = users.find(function(user) {
     return user.email === email;
@@ -11,7 +14,13 @@ function login(email, password, callback) {
 
   if (user.password !== password) throw Error("wrong password");
 
-  callback(user);
+  var logged = {
+    name: user.name,
+    surname: user.surname,
+    email: user.email
+  };
+
+  callback(logged);
 }
 
 function register(
@@ -24,6 +33,9 @@ function register(
 ) {
   // TODO validate fields!
 
+  if (name == "" || surname == "" || email == "" || password == "") {
+    throw Error("All values are required");
+  }
   var user = users.find(function(user) {
     return user.email === email;
   });
