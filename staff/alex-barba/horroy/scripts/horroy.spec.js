@@ -1,7 +1,7 @@
 describe('Horroy', function() {
 
     describe('.concat', function() {
-        it('should create a new Horroy with an Horroy as an argument', function() {
+        it('should create a new Horroy with a Horroy as an argument', function() {
             var test = new Horroy(1,2,3);
 
             var testb = new Horroy(4,5,6);
