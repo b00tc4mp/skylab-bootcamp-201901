@@ -1,4 +1,5 @@
 describe('concatenate', function(){
+    var h;
     
     beforeEach(function(){
         h=new Horroy(1,2,3,4)
@@ -6,25 +7,25 @@ describe('concatenate', function(){
     
     
     it('sould concatenate an array', function(){
-        res=h.concat([5,6,7])
+        var res=h.concat([5,6,7])
 
         expect(res.toString()).toBe([1,2,3,4,5,6,7].toString())
     });
     it('sould concatenate a Horroy', function(){
         var h2=new Horroy(5,6,7);
-        res=h.concat(h2)
+        var res=h.concat(h2)
 
         expect(res.toString()).toBe([1,2,3,4,5,6,7].toString())
     });
     it('sould concatenate more than one input', function(){
     
-        res=h.concat(5,6,7)
+        var res=h.concat(5,6,7)
 
         expect(res.toString()).toBe([1,2,3,4,5,6,7].toString())
     });
     it('sould concatenate more than one input with Horroy in the middle', function(){
         var h2=new Horroy('this is a', 'Horroy');
-        res=h.concat(5,6,h2,7)
+        var res=h.concat(5,6,h2,7)
 
         expect(res.toString()).toBe([1,2,3,4,5,6,'this is a', 'Horroy',7].toString())
     });
@@ -32,34 +33,36 @@ describe('concatenate', function(){
 });
 
 describe('copywithin', function(){
-    
+    var h;
+
     beforeEach(function(){
         h=new Horroy(1,2,3,4,5,6,7,8,9)
     });
     
     
     it('sould copy with defined target, start and end', function(){
-        res=h.copyWithin(3,5,7)
+        var res=h.copyWithin(3,5,7)
     
         expect(res.toString()).toBe([1,2,3,6,7,6,7,8,9].toString())
     
     });
 
     it('sould copy with defining only target and start', function(){
-        res=h.copyWithin(3,5)
+        var res=h.copyWithin(3,5)
     
         expect(res.toString()).toBe([1,2,3,6,7,8,9,8,9].toString())
     });
 
     it('sould copy with defining only target', function(){
-        res=h.copyWithin(2)
+        var res=h.copyWithin(2)
     
         expect(res.toString()).toBe([1,2,1,2,3,4,5,6,7].toString())
     }); 
 });
 
 describe('every', function(){
-    
+    var h;
+
     beforeEach(function(){
         h=new Horroy(1,2,3,4,5,6,7,8,9)
     });
@@ -70,7 +73,7 @@ describe('every', function(){
             return currentValue < 10;
           }
         
-        res=h.every(callback)
+        var res=h.every(callback)
 
         expect(res).toBe(true)
     
@@ -81,7 +84,7 @@ describe('every', function(){
             return currentValue < 5;
           }
         
-        res=h.every(callback)
+        var res=h.every(callback)
 
         expect(res).toBe(false)
     
@@ -97,7 +100,8 @@ describe('every', function(){
 });
 
 describe('findIndex', function(){
-    
+    var h;
+
     beforeEach(function(){
         h=new Horroy(1,2,3,4,5,6,7,8,9)
     });
@@ -108,7 +112,7 @@ describe('findIndex', function(){
             return currentValue > 6;
           }
         
-        res=h.findIndex(callback)
+        var res=h.findIndex(callback)
 
         expect(res).toBe(6)
     
@@ -119,7 +123,7 @@ describe('findIndex', function(){
             return currentValue > 10;
           }
         
-        res=h.findIndex(callback)
+        var res=h.findIndex(callback)
 
         expect(res).toBe(-1)
     
@@ -134,7 +138,10 @@ describe('findIndex', function(){
 });
 
 describe('flat', function(){
-    
+    var h1;
+    var h2;
+    var h3;
+
     beforeEach(function(){
         h1=new Horroy(1,2,[3,4,5,6,7],8,9)
         h2=new Horroy(1,2,[3,4,[[5],6],7],8,9)
@@ -144,7 +151,7 @@ describe('flat', function(){
     
     it('sould return the flated value with depth 1', function(){
         
-        res=h1.flat(1);
+        var res=h1.flat(1);
 
         expect(res.toString()).toBe([1,2,3,4,5,6,7,8,9].toString())
     
@@ -152,8 +159,8 @@ describe('flat', function(){
     
     it('sould return the flated value with depth higher than 1', function(){
         
-        res2=h2.flat(2);
-        res3=h3.flat(3);
+        var res2=h2.flat(2);
+        var res3=h3.flat(3);
 
         expect(res2.toString()).toBe([1,2,3,4,5,6,7,8,9].toString())
         expect(res3.toString()).toBe([1,2,3,4,5,6,7,8,9].toString())
@@ -161,7 +168,7 @@ describe('flat', function(){
     });  
     it('sould return the same horroy with undefined depth', function(){
         
-        res=h1.flat();
+        var res=h1.flat();
 
         expect(res.toString()).toBe([1,2,[3,4,5,6,7],8,9].toString())
     
@@ -169,7 +176,8 @@ describe('flat', function(){
 });
 
 describe('flatMap', function(){
-    
+    var h;
+
     beforeEach(function(){
         h=new Horroy(1,2,3,4)
     });
@@ -180,7 +188,7 @@ describe('flatMap', function(){
             return [el*2];
           }
         
-        res=h.flatMap(callback)
+        var res=h.flatMap(callback)
 
         expect(res.toString()).toBe([2,4,6,8].toString())
     
@@ -190,7 +198,7 @@ describe('flatMap', function(){
             return [[el*2]];
           }
         
-        res=h.flatMap(callback)
+        var res=h.flatMap(callback)
 
         expect(res[2]).toEqual([6])
     
@@ -199,7 +207,8 @@ describe('flatMap', function(){
 
 
 describe('includes', function(){
-    
+    var h;
+
     beforeEach(function(){
         h=new Horroy(1,2,3,4,5,6,7,8,9)
     });
@@ -207,7 +216,7 @@ describe('includes', function(){
     
     it('sould return true since is included', function(){
 
-        res=h.includes(5)
+        var res=h.includes(5)
 
         expect(res).toBe(true)
     
@@ -215,7 +224,7 @@ describe('includes', function(){
         
     it('sould return false since is not included', function(){
 
-        res=h.includes(15)
+        var res=h.includes(15)
 
         expect(res).toBe(false)
     
@@ -224,7 +233,8 @@ describe('includes', function(){
 
 
 describe('last index of', function(){
-    
+    var h;
+
     beforeEach(function(){
         h=new Horroy(1,5,3,4,5,6,7,5,9)
     });
@@ -232,7 +242,7 @@ describe('last index of', function(){
     
     it('sould return last index without specifiend fromIndex', function(){
               
-        res=h.lastIndexOf(5)
+        var res=h.lastIndexOf(5)
 
         expect(res).toBe(7)
     
@@ -240,7 +250,7 @@ describe('last index of', function(){
 
     it('sould return last index specifying fromIndex', function(){
               
-        res=h.lastIndexOf(5,5)
+        var res=h.lastIndexOf(5,5)
 
         expect(res).toBe(4)
     
@@ -248,7 +258,8 @@ describe('last index of', function(){
 });
 
 describe('reduceRigth', function(){
-    
+    var h;
+
     beforeEach(function(){
         h=new Horroy(1,2,3,4)
     });
@@ -256,7 +267,7 @@ describe('reduceRigth', function(){
     
     it('sould reduce withou accumulator', function(){
                
-        res=h.reduceRigth(function(accumulator, currentValue) {
+        var res=h.reduceRigth(function(accumulator, currentValue) {
             return accumulator + currentValue;
         });
 
@@ -266,7 +277,7 @@ describe('reduceRigth', function(){
     
     it('sould reduce with accumulator', function(){
                
-        res=h.reduceRigth(function(accumulator, currentValue) {
+        var res=h.reduceRigth(function(accumulator, currentValue) {
             return accumulator + currentValue;
         }, 5);
 
@@ -276,9 +287,9 @@ describe('reduceRigth', function(){
 
     it('sould reduce from the end', function(){
         
-        h=new Horroy([0, 1], [2, 3], [4, 5])
+        var h=new Horroy([0, 1], [2, 3], [4, 5])
        
-        res=h.reduceRigth(function(accumulator, currentValue) {
+        var res=h.reduceRigth(function(accumulator, currentValue) {
             return accumulator.concat(currentValue);
         });
 
@@ -295,7 +306,8 @@ describe('reduceRigth', function(){
 });
 
 describe('sort', function(){
-    
+    var hnum;
+    var hany;
     beforeEach(function(){
         hnum=new Horroy(1567,154,2,1222)
         hany=new Horroy(1567,154,2,1222,true,'gili','abuela')
@@ -304,7 +316,7 @@ describe('sort', function(){
     
     it('sould organize numbers', function(){
                
-        res=hnum.sort()
+        var res=hnum.sort()
 
         expect(res.toString()).toBe([1222, 154, 1567, 2].toString())
     
@@ -312,7 +324,7 @@ describe('sort', function(){
         
     it('sould organize any', function(){
                
-        res=hany.sort()
+        var res=hany.sort()
 
         expect(res.toString()).toBe([1222, 154, 1567, 2, "abuela", "gili", true].toString())
         expect(typeof res[6]).toBe('boolean')
@@ -322,7 +334,8 @@ describe('sort', function(){
 });
 
 describe('toSource', function(){
-    
+     var h;
+
     beforeEach(function(){
         h=new Horroy(1,2,3,4,5,6,7,8,9)
     });
@@ -330,7 +343,7 @@ describe('toSource', function(){
     
     it('sould return a string with the source', function(){
                 
-        res=h.toSource()
+        var res=h.toSource()
 
         expect(res).toBe('[1,2,3,4,5,6,7,8,9]')
     

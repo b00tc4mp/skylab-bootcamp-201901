@@ -49,7 +49,7 @@ suite('fill', function () {
 
             h.fill('hola', 2, 5)
 
-            expected = { 0: 1, 1: 2, 2: "hola", 3: "hola", 4: "hola", 5: 6, 6: 7, 7: 8, length: 8 }
+            var expected = { 0: 1, 1: 2, 2: "hola", 3: "hola", 4: "hola", 5: 6, 6: 7, 7: 8, length: 8 }
 
             expect(JSON.stringify(h) === JSON.stringify(expected), 'Unexpected value');
 
@@ -59,7 +59,7 @@ suite('fill', function () {
 
             h.fill('hola', 2)
 
-            expected = { 0: 1, 1: 2, 2: "hola", 3: "hola", 4: "hola", length: 5 }
+            var expected = { 0: 1, 1: 2, 2: "hola", 3: "hola", 4: "hola", length: 5 }
 
             expect(JSON.stringify(h) === JSON.stringify(expected), 'Unexpected value');
 
@@ -69,7 +69,7 @@ suite('fill', function () {
 
             h.fill('hola')
 
-            expected = { 0: "hola", 1: "hola", 2: "hola", 3: "hola", 4: "hola", length: 5 }
+            var expected = { 0: "hola", 1: "hola", 2: "hola", 3: "hola", 4: "hola", length: 5 }
 
             expect(JSON.stringify(h) === JSON.stringify(expected), 'Unexpected value');
 
@@ -82,20 +82,20 @@ suite('filter', function () {
         it('should create a new horror that satisfies the callbacks', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            res = h.filter(function (el) {
+            var res = h.filter(function (el) {
                 return el > 3
             });
 
             var h2 = new Horroy(1, 2, 3, 4, 5, 6);
 
             expect(res.toString() === res.toString(), 'Unexpected value');
-            expect(h.toString() === h.toString(), 'Horroy should not change');
+            expect(h.toString() === h2.toString(), 'Horroy should not change');
 
         });
         it('should returns empty horror when function does not find', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            res = h.filter(function (el) {
+            var res = h.filter(function (el) {
                 return el > 7
             });
 
@@ -160,7 +160,7 @@ suite('Index Of', function () {
         it('should find a value of the Horror', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            res = h.indexOf(4)
+            var res = h.indexOf(4)
 
             expect(res === 3, 'Unexpected value');
 
@@ -168,7 +168,7 @@ suite('Index Of', function () {
         it('should find a value of the Horror starting from different than 0', function () {
             var h = new Horroy(1, 'hola', 3, 4, 5, 'hola');
 
-            res = h.indexOf('hola', 2)
+            var res = h.indexOf('hola', 2)
 
             expect(res === 5, 'Unexpected value');
 
@@ -176,7 +176,7 @@ suite('Index Of', function () {
         it('should shown -1, when value is not found', function () {
             var h = new Horroy(1, 'hola', 3, 4, 5, 'hola');
 
-            res = h.indexOf('adeu', 2)
+            var res = h.indexOf('adeu', 2)
 
             expect(res === -1, 'Unexpected value');
 
@@ -190,7 +190,7 @@ suite('Join', function () {
         it('should join the horroy elements separated with coma, when not specifying', function () {
             var h = new Horroy(1, 2, 3, 4);
 
-            res = h.join()
+            var res = h.join()
 
             expect(res === '1,2,3,4', 'Unexpected value');
 
@@ -198,7 +198,7 @@ suite('Join', function () {
         it('should join with specified separator', function () {
             var h = new Horroy(1, 2, 3, 4);
 
-            res = h.join('/')
+            var res = h.join('/')
 
             expect(res === '1/2/3/4', 'Unexpected value');
 
@@ -206,7 +206,7 @@ suite('Join', function () {
         it('should shown -1, when value is not found', function () {
             var h = new Horroy(1, 'hola', 3, 4, 5, 'hola');
 
-            res = h.indexOf('adeu', 2)
+            var res = h.indexOf('adeu', 2)
 
             expect(res === -1, 'Unexpected value');
 
@@ -344,7 +344,7 @@ suite('Reverse', function () {
         it('should reverse for 4 Horroy items', function () {
             var h = new Horroy(1, 2, 3, 4);
 
-            res = h.reverse()
+            var res = h.reverse()
             var expected = new Horroy(1, 2, 3, 4)
 
             expect(res.toString() === '4,3,2,1', 'Unexpected value');
@@ -353,7 +353,7 @@ suite('Reverse', function () {
         it('should reverse for 5 Horroy items', function () {
             var h = new Horroy(1, 2, 3, 4, 5);
 
-            res = h.reverse()
+            var res = h.reverse()
             var expected = new Horroy(1, 2, 3, 4, 5)
 
             expect(res.toString() === '5,4,3,2,1', 'Unexpected value');
@@ -367,7 +367,7 @@ suite('Shift', function () {
         it('should delate the first element and return it', function () {
             var h = new Horroy(1, 2, 3, 4);
 
-            res = h.shift()
+            var res = h.shift()
             var expected = new Horroy(2, 3, 4)
 
             expect(h.toString() === expected.toString(), 'Horroy should not change');
@@ -382,7 +382,7 @@ suite('Slice', function () {
         it('should cut the horroy defining start and end', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            res = h.slice(1, 4)
+            var res = h.slice(1, 4)
             var expectedh = new Horroy(1, 2, 3, 4, 5, 6);
             var expectedres = new Horroy(2, 3, 4)
 
@@ -394,7 +394,7 @@ suite('Slice', function () {
         it('should cut the horroy defining only start', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            res = h.slice(4)
+            var res = h.slice(4)
             var expectedh = new Horroy(1, 2, 3, 4, 5, 6);
             var expectedres = new Horroy(5, 6)
 
@@ -406,7 +406,7 @@ suite('Slice', function () {
         it('should cut the horroy without defining start nor edn', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            res = h.slice()
+            var res = h.slice()
             var expectedh = new Horroy(1, 2, 3, 4, 5, 6);
             var expectedres = new Horroy(1, 2, 3, 4, 5, 6)
 
@@ -418,7 +418,7 @@ suite('Slice', function () {
         it('should return empty Horroy when end is higher than start', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            res = h.slice(5, 2)
+            var res = h.slice(5, 2)
             var expectedh = new Horroy(1, 2, 3, 4, 5, 6);
             var expectedres = new Horroy()
 
@@ -484,7 +484,7 @@ suite('Unshift', function () {
         it('should add one item', function () {
             var h = new Horroy(1, 2, 3);
 
-            res = h.unshift('Començem')
+            var res = h.unshift('Començem')
             var expectedh = new Horroy('Començem', 1, 2, 3);
             var expectedres = 4
 
@@ -496,7 +496,7 @@ suite('Unshift', function () {
         it('should add more than one item', function () {
             var h = new Horroy(1, 2, 3, 4, 5, 6);
 
-            res = h.unshift('Començem', 'a', 'contar', true, {})
+            var res = h.unshift('Començem', 'a', 'contar', true, {})
             var expectedh = new Horroy('Començem', 'a', 'contar', true, {}, 1, 2, 3, 4, 5, 6);
             var expectedres = 11
 
@@ -588,7 +588,7 @@ suite('Find', function () {
         it('should show the element taht satisfies the callback', function () {
             var h = new Horroy(1, 2, 3);
 
-            res = h.find(function(el){
+            var res = h.find(function(el){
                 return el>2});
             
             var expectedh = new Horroy(1, 2, 3);
@@ -602,7 +602,7 @@ suite('Find', function () {
         it('should return undefined when the value is not found', function () {
             var h = new Horroy(1, 2, 3);
 
-            res = h.find(function(el){
+            var res = h.find(function(el){
                 return el>3});
             
             var expectedh = new Horroy(1, 2, 3);
@@ -708,7 +708,7 @@ suite('isHorroy', function () {
         it('should show true when value is Horroy', function () {
             var h = new Horroy(1, 2, 3);
 
-            expected= Horroy.isHorroy(h)
+            var expected= Horroy.isHorroy(h)
 
             expect(expected, 'Unexpected value');
 
@@ -717,7 +717,7 @@ suite('isHorroy', function () {
         it('should show true when value is Horroy', function () {
             var h = [1,2,3,4,5];
 
-            expected= Horroy.isHorroy(h)
+            var expected= Horroy.isHorroy(h)
 
             expect(!expected, 'Unexpected value');
 
