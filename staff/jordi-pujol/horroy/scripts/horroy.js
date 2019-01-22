@@ -231,7 +231,8 @@ Horroy.prototype.splice = function (start, countDel, item) {
                             countA++
                         }
                         else {
-                            this[i] = this[i + countDel - countA + 2]
+                            this[i] = this[i + countDel - countA +2]
+                            delete this[i + countDel - countA +2]
                         }
                     }
                     this.length -= start
