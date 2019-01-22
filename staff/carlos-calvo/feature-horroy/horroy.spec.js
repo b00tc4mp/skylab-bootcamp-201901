@@ -410,3 +410,79 @@ describe("Horroy - Reduce", function() {
     });
 });
 
+describe("Horroy - From", function() {
+    it("Returns expected Horroy", function() {
+        var result = Horroy.from('foo')
+        var expectedresult = new Horroy("f", "o", "o")
+        expect(result).toEqual(expectedresult)
+    });
+
+    it("Invalida parameter throws Error", function() {
+        
+        expect(function(){
+            Horroy.from(false)
+        }).toThrow()
+    });
+
+});
+
+describe("Horroy - Map", function() {
+    it("Returns expected Horroy", function() {
+        var hor = new Horroy(1,2,3,4)
+        var expectedresult = new Horroy(2,4,6,8)
+        expect(hor.map(function(item){
+            return item * 2
+        })).toEqual(expectedresult)
+    });
+
+    it("Invalida parameter (not a function) throws Error", function() {
+        var hor = new Horroy(1,2,3,4)
+        expect(function(){hor.map(false)}).toThrow();
+    });
+
+});
+
+describe("Horroy - Some", function() {
+    it("Returns expected result true", function() {
+        var hor = new Horroy(1,2,3,4)
+        var expectedresult = true
+        expect(hor.some(function(item){
+            return item > 0
+        })).toEqual(expectedresult)
+    });
+
+    it("Returns expected result false", function() {
+        var hor = new Horroy(1,2,3,4)
+        var expectedresult = false
+        expect(hor.some(function(item){
+            return item > 10
+        })).toEqual(expectedresult)
+    });
+
+    it("Invalida parameter (not a function) throws Error", function() {
+        var hor = new Horroy(1,2,3,4)
+        expect(function(){hor.some(false)}).toThrow();
+    });
+
+});
+
+
+describe("Horroy - Slice", function() {
+    it("Returns expected result true", function() {
+        var h = new Horroy(1, 2, 3, 4, 5, 6);
+        var result = h.slice(1, 4)
+        var expectedresult = new Horroy(2, 3, 4)
+        
+        expect(result).toEqual(expectedresult)
+    });
+
+    it("Too many args", function() {
+    
+        expect(function(){
+            var x = new Horroy(1,2,3,4)
+            x.slice(1,2,3,4)
+        }).toThrow()
+    });
+});
+
+
