@@ -1,3 +1,7 @@
+/**
+ * Horroy is class that implements all methods from Array
+ */
+
 function Horroy(){
 
     for(var i = 0; i < arguments.length; i++){
@@ -6,7 +10,7 @@ function Horroy(){
     this.length = arguments.length
 
     Horroy.prototype.constructor = Object.create(Object.prototype);
-
+    
     Horroy.prototype.push = function(element){
         var llarg = this.length
         for(var i = 0; i < arguments.length; i++){
@@ -299,4 +303,68 @@ function Horroy(){
         return accumulator
     }
 
+
+    Horroy.from = function(value){
+        var horroyresult = new Horroy()
+        if((typeof value !== 'string')&&(!(value instanceof Array))) throw new Error('Not a valid parameter')
+        horroyresult.length = value.length
+        for (var i = 0; i < value.length; i++) {
+            horroyresult[i] = value[i];
+        }
+        return horroyresult
+    }
+
+    
+    Horroy.prototype.map = function (callback) {
+        
+        if (!(callback instanceof Function)) throw new TypeError('Incorrect parameter')
+    
+        var result = new Horroy;
+        for (var i = 0; i < this.length; i++)
+            result[result.length++] = callback(this[i]);
+    
+        return result;
+    }
+
+    Horroy.prototype.flatMap = function (callback) {
+
+        var map = this.map(callback);
+        var result = new Horroy
+    
+        for (var i = 0; i < map.length; i++) {
+            if (map[i] instanceof Horroy) {
+                for (var j = 0; j < map[i].length; j++) result[result.length++] = map[i][j]
+            } else {
+                result[result.length++] = map[i]
+            }
+        }
+    
+        return result
+    }
+
+    Horroy.prototype.some = function (callback) {
+
+        if (!(callback instanceof Function)) throw TypeError('Parameter should be a function')
+    
+        for (var i = 0; i < this.length; i++) {
+            if (callback(this[i])) return true
+        }
+    
+        return false
+    }
+
+    Horroy.prototype.slice = function (start, end) {
+
+        var start = start === undefined ? 0 : start;
+        var end = end === undefined ? this.length : end;
+
+        if(arguments.length > 2) throw new Error('Too many args')
+    
+        var result = new Horroy
+        for (var i = start; i < end; i++) {
+            result[result.length++] = this[i]
+        }
+    
+        return result
+    }
 }
