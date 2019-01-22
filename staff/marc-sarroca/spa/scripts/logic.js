@@ -1,10 +1,9 @@
+"use strict";
+
 //#region (business) logic
 
 function login(email, password, callback) {
   // TODO validate fields!
-  if (!email || !password) {
-    throw Error("Email and password is required");
-  }
 
   var user = users.find(function(user) {
     return user.email === email;
@@ -14,13 +13,13 @@ function login(email, password, callback) {
 
   if (user.password !== password) throw Error("wrong password");
 
-  var logged = {
+  var loggedInUser = {
     name: user.name,
     surname: user.surname,
     email: user.email
   };
-
-  callback(logged);
+  debugger;
+  callback(loggedInUser);
 }
 
 function register(
@@ -31,16 +30,38 @@ function register(
   passwordConfirmation,
   callback
 ) {
+  debugger;
+  if (typeof name !== "string") throw TypeError(name + " is not a string");
+
+  if (!name.trim().length) throw Error("name cannot be empty");
+
+  if (typeof surname !== "string")
+    throw TypeError(surname + " is not a string");
+
+  if (!surname.trim().length) throw Error("surname cannot be empty");
+
+  if (typeof email !== "string") throw TypeError(email + " is not a string");
+
+  if (!email.trim().length) throw Error("email cannot be empty");
+
+  if (typeof password !== "string")
+    throw TypeError(password + " is not a string");
+
+  if (!password.trim().length) throw Error("password cannot be empty");
+
+  if (typeof passwordConfirmation !== "string")
+    throw TypeError(passwordConfirmation + " is not a string");
+
+  if (!passwordConfirmation.trim().length)
+    throw Error("password confirmation cannot be empty");
+
   // TODO validate fields!
 
-  if (name == "" || surname == "" || email == "" || password == "") {
-    throw Error("All values are required");
-  }
   var user = users.find(function(user) {
     return user.email === email;
   });
 
-  if (user) throw Error("user " + email + " already exists");
+  if (user) throw Error(email + " already exists");
 
   if (password !== passwordConfirmation) throw Error("passwords do not match");
 
