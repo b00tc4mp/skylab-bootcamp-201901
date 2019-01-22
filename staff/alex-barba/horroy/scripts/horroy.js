@@ -151,10 +151,14 @@ Horroy.prototype.indexOf = function(element, start) {
  * 
  * @param {*} - Optional. Specifies a string to separate each pair of adjacent elements of the array. The separator is converted to a string if necessary.
  * 
+ * @throws {TypeError} - If separator is not a string.
+ * 
  * @returns {*} - A string with all horroy elements joined.
  */
 
 Horroy.prototype.join = function(separator) {
+    if (!(typeof separator === 'string')) throw TypeError ('separator is not a string');
+    
     var result = '';
 
     for (let i=0; i<this.length; i++) {

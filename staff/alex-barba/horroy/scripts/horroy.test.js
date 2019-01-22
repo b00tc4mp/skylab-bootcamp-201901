@@ -171,6 +171,22 @@ suite('horroy', function(){
         
             expect(found.toString() === expected.toString(), 'found value ' + found + ' does not match expected ' + expected);     
         });
+
+        it('fails on passing number as a separator', function () {
+            var error;
+            
+            var separator = 4;
+
+            var hor = new Horroy(1,2);
+
+            try {
+                hor.join(separator);
+            } catch(err) {
+                error = err;
+            }
+        
+            expect(TypeError, 'separator is not a string');
+        });
     });
 
     describe('.map function', function(){
