@@ -1,36 +1,704 @@
-describe('logic', function(){
+'use strict';
 
-    describe("login" , function(){
-
-        it("should login with all the parameters well executed" , function(){
-
-            var expected = users.find(function(user) {return user.email === "jhondoe@MediaList.com"; });
+describe('logic', function () {
+    describe('login', function () {
+        it('should succeed on correct credentials', function () {
+            var expected = users.find(function (user) { return user.email === 'johndoe@mail.com'; });
 
             var loggedInUser;
 
-            login(expected.email,expected.password , function(users){
-                loggedInUser = user
-
-                expected(loggedInUser).toBeDefined();
-                expected(loggedInUser.name).toEqual(expected.name);
-                expected(loggedInUser.surname).toEqual(expected.surname);
-                expected(loggedInUser.email).toEqual(expected.email);
-                expected(loggedInUser.password).toBeUndefined();
-                expected(loggedInUser).not.toEqual(expected);
-
-                    
-                
-
+            login(expected.email, expected.password, function (user) {
+                loggedInUser = user;
             });
 
+            expect(loggedInUser).toBeDefined();
+            expect(loggedInUser.name).toEqual(expected.name);
+            expect(loggedInUser.surname).toEqual(expected.surname);
+            expect(loggedInUser.email).toEqual(expected.email);
+            expect(loggedInUser.password).toBeUndefined();
+            expect(loggedInUser).not.toEqual(expected);
+        });
+
+        it('should fail on wrong email', function () {
+            var inventedEmail = 'invented@mail.com';
+
+            // var error;
+
+            // try {
+            //     login(inventedEmail, '123', function() {});
+            // } catch(err) {
+            //     error = err;
+            // }
+
+            // expect(error).toBeDefined();
+            // expect(error.message).toBe('user ' + inventedEmail + ' not found');
+
+            // ALT jasmine
+
+            expect(function () {
+                login(inventedEmail, '123', function () { });
+            }).toThrow(Error('user ' + inventedEmail + ' not found'));
+        });
+
+        it('should fail on wrong password', function () {
+            expect(function () {
+                login('johndoe@mail.com', '123', function () { });
+            }).toThrow(Error('wrong password'));
+       
+        });
+    
+        it('should fail undefined email' , function(){
+
+            var isLogined;
+
+            var logingEmail = undefined;
+            var logingPassword = 'vivaerbetih';
+
+            expect(function () {
+                login(logingEmail,logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingEmail + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });
+        
+        it('should fail numeric email' , function(){
+
+            var isLogined;
+
+            var logingEmail = 123;
+            var logingPassword = 'vivaerbetih';
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingEmail + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });    
+    
+        it('should fail boolean email' , function(){
+
+            var isLogined;
+
+            var logingEmail = true;
+            var logingPassword = 'vivaerbetih';
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingEmail + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });    
+        
+        it('should fail object email' , function(){
+
+            var isLogined;
+
+            var logingEmail = {};
+            var logingPassword = 'vivaerbetih';
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingEmail + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });    
+
+        it('should fail array email' , function(){
+
+            var isLogined;
+
+            var logingEmail = [];
+            var logingPassword = 'vivaerbetih';
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingEmail + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });
+
+        it('should fail on empty email', function () {
+            var isLogined;
+
+            var logingEmail = '' ;
+            var logingPassword = 'vivaerbetih';
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error('email cannot be empty'));
+
+            expect(isLogined).toBeUndefined();
+        });
+
+   
+        
+        
+        it('should fail undefined password' , function(){
+
+            var isLogined;
+
+            var logingEmail = 'Hulio@mail.com';
+            var logingPassword = undefined;
+
+            expect(function () {
+                login(logingEmail,logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingPassword + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });
+        
+        it('should fail numeric password' , function(){
+
+            var isLogined;
+
+            var logingEmail = 'Hulio@mail.com';
+            var logingPassword = 123;
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingPassword + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });    
+    
+        it('should fail boolean password' , function(){
+
+            var isLogined;
+
+            var logingEmail = 'Hulio@mail.com';
+            var logingPassword = false;
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingPassword + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });    
+        
+        it('should fail object password' , function(){
+
+            var isLogined;
+
+            var logingEmail = 'Hulio@mail.com';
+            var logingPassword = {};
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingPassword + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });    
+
+        it('should fail array password' , function(){
+
+            var isLogined;
+
+            var logingEmail = 'Hulio@mail.com';
+            var logingPassword = [];
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error(logingPassword + ' is not a string'));
+
+            expect(isLogined).toBeUndefined();
+       
+        });
+
+        it('should fail on empty password', function () {
+            var isLogined;
+
+            var logingEmail = "Hulio@mail.com" ;
+            var logingPassword = '';
+
+            expect(function () {
+                login(logingEmail, logingPassword, function () {
+                    isLogined = true;
+                });
+            }).toThrow(Error('password cannot be empty'));
+
+            expect(isLogined).toBeUndefined();
         });
 
 
 
+    });
 
+    describe('register', function () {
+        var registeringEmail = 'jw@mail.com';
+
+        beforeEach(function () {
+            var userIndex = users.findIndex(function (user) { return user.email === registeringEmail; });
+
+            if (userIndex > -1)
+                users.splice(userIndex, 1);
+        });
+
+        it('should succeed on valid data', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wayne';
+            var registeringPassword = 'p4ssw0rd';
+
+            register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                isRegistered = true;
+            });
+
+            expect(isRegistered).toBeTruthy();
+
+            var registeredUser = users.find(function (user) { return user.email === registeringEmail; });
+
+            expect(registeredUser).toBeDefined();
+            expect(registeredUser.email).toEqual(registeringEmail);
+            expect(registeredUser.name).toEqual(registeringName);
+            expect(registeredUser.surname).toEqual(registeringSurname);
+            expect(registeredUser.password).toEqual(registeringPassword);
+        });
+
+        it('should fail on undefined name', function () {
+            var isRegistered;
+
+            var registeringName = undefined;
+            var registeringSurname = 'Wayne';
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringName + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on numeric name', function () {
+            var isRegistered;
+
+            var registeringName = 10;
+            var registeringSurname = 'Wayne';
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringName + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
         });
 
 
+        it('should fail on boolean name', function () {
+            var isRegistered;
+
+            var registeringName = true;
+            var registeringSurname = 'Wayne';
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringName + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on object name', function () {
+            var isRegistered;
+
+            var registeringName = {};
+            var registeringSurname = 'Wayne';
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringName + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on array name', function () {
+            var isRegistered;
+
+            var registeringName = [];
+            var registeringSurname = 'Wayne';
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringName + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
 
 
+        it('should fail on empty name', function () {
+            var isRegistered;
+
+            var registeringName = '';
+            var registeringSurname = 'Wayne';
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(Error('name cannot be empty'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on undefined surname', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = undefined;
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringSurname + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on numeric surname', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 10;
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringSurname + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+
+        it('should fail on boolean surname', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = false;
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringSurname + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on object surname', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = {};
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringSurname + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on array surname', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = [];
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringSurname + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on empty surname', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = '';
+            var registeringEmail = 'jw@mail.com';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(Error('surname cannot be empty'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+   
+        it('should fail on undefined Email', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = undefined;
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringEmail + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on numeric Email', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = 11;
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringEmail + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+
+        it('should fail on boolean Email', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = true;
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringEmail + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on object Email', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = {};
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringEmail + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on array Email', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = [];
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringEmail + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on empty Email', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = '';
+            var registeringPassword = 'p4ssw0rd';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(Error('email cannot be empty'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+        
+        it('should fail on undefined Password', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = "jw@mail.com" ;
+            var registeringPassword = undefined;
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringPassword + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on numeric Password', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = "jw@mail.com" ;
+            var registeringPassword = 23;
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringPassword + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+
+        it('should fail on boolean Password', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = "jw@mail.com";
+            var registeringPassword = true;
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringPassword + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on object Password', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = "jw@mail.com" ;
+            var registeringPassword = {};
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringPassword + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on array Password', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = "jw@mail.com" ;
+            var registeringPassword = [];
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(TypeError(registeringPassword + ' is not a string'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+
+        it('should fail on empty Password', function () {
+            var isRegistered;
+
+            var registeringName = 'John';
+            var registeringSurname = 'Wick';
+            var registeringEmail = "jw@mail.com" ;
+            var registeringPassword = '';
+
+            expect(function () {
+                register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+                    isRegistered = true;
+                });
+            }).toThrow(Error('password cannot be empty'));
+
+            expect(isRegistered).toBeUndefined();
+        });
+   
+        
+    });
 });
