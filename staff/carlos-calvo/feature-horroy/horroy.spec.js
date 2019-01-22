@@ -355,3 +355,23 @@ describe("Horroy - IndexOf", function() {
         expect(result).toEqual(0)
     });
 });
+
+describe("Horroy - LastIndexOf", function() {
+    it("Not found return -1", function() {
+        var hor = new Horroy(11,21,31,41)
+        var result = hor.lastIndexOf(10)
+        expect(result).toEqual(-1)
+    });
+    it("Found second element from end", function() {
+        var hor = new Horroy(31,21,31,41)
+        var result = hor.lastIndexOf(31)
+        expect(result).toEqual(2)
+    });
+    it("Too many args", function() {
+        var hor = new Horroy(31,21,31,41)
+        
+        expect(function(){
+            hor.lastIndexOf(31, true, true)
+        }).toThrow()
+    });
+});    

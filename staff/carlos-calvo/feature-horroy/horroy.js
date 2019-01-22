@@ -240,5 +240,13 @@ function Horroy(){
         return -1
     }
 
-    
+    Horroy.prototype.lastIndexOf = function(item){
+        if(arguments.length !== 1) throw new Error('Incorrect number of args')
+        for(i= this.length-1; i >=0; i--){
+            if(this[i] == item) return i
+        }
+
+        return -1
+    }
+
 }
