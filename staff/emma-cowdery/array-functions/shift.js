@@ -11,12 +11,12 @@ function shift(array) {
         return undefined;
     };
     firstElement = array[0];
-    for (var i = 0; i < array.length; i++) {
-        array[i] = array[i - 1];
+    counter = 0;
+    for (var i = 1; i < array.length; i++) {
+        array[counter] = array[i];
+        counter++;
     };
-    //return firstElement;
-    //console.log(firstElement);
-    return array;
+    array.length = array.length -1;
+    return firstElement;
 };
-//shift();
 shift([1, 2, 3, 4]);

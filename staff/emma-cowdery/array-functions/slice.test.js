@@ -44,4 +44,13 @@ test('negative end value', function() {
     if (arr === res) throw Error("array shouldn't be modified");
 })
 
-test()
+test('fail on object instead of array', function () {
+    var error;
+    try {
+        slice({}, 0);
+    } catch (err) {
+        error = err;
+    }
+    if (!error) throw Error('should have thrown an error');
+    if (!error instanceof TypeError) throw Error('should have thrown TypeError');
+})

@@ -7,6 +7,7 @@
  */
 
 function filter(array, callback) {
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     newArray = [];
     var count = 0;
     for (var i = 0; i < array.length; i++) {

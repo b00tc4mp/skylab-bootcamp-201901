@@ -8,6 +8,7 @@
  */
 
 function slice(array, a, b) {
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     var newArray = [];
     if (a === undefined) {
         a = 0;
