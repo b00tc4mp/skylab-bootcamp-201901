@@ -3,12 +3,14 @@
 //#region (business) logic
 
 function login(email, password, callback) {
-    if(typeof email !== 'string')TypeError("is not a string");
-
-    /*if (!email.trim().length) throw Error('email cannot be empty');*/
+    if(typeof email !== 'string')throw TypeError("is not a string");
+    
+    if (!email.trim().length) throw Error('email cannot be empty');
 
     
-    if(typeof password !== 'string')TypeError(password + " is not a string");
+    if(typeof password !== 'string')throw TypeError(password + " is not a string");
+
+    if (!password.trim().length) throw Error('password cannot be empty');
     
     var user = users.find(function (user) {
         return user.email === email;
