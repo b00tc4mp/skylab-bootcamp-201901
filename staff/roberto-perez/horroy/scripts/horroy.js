@@ -244,64 +244,56 @@ Horroy.prototype.findIndex = function(callback) {
   }
 };
 
-
 /**
  * Creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
- * 
+ *
  * @param {Number} [depth] - The depth level specifying how deep a nested array structure should be flattened. Defaults to 1.
- * 
+ *
  * @returns {Horroy} - A new horry with the sub-array elements concatenated into it.
  */
 Horroy.prototype.flat = function(depth) {
   depth = depth === undefined ? 1 : depth;
 
-  var result = new Horroy;
+  var result = new Horroy();
 
   var recursive = function(arr, currentDepth) {
-
     var currentDepth = currentDepth || 0;
-    
-    if(arr instanceof Horroy && currentDepth <= depth) {
-      
+
+    if (arr instanceof Horroy && currentDepth <= depth) {
       currentDepth++;
 
       for (var i = 0; i < arr.length; i++) {
         recursive(arr[i], currentDepth);
       }
-
     } else {
-      
       result[result.length++] = arr;
-    
     }
-  }
+  };
 
   recursive(this);
-  
+
   return result;
 };
 
-
 /**
  * Determines whether an horroy includes a certain value among its entries
- * 
- * @param {*} - The value to search for.
- * @param {Number} - The position in this horroy at which to begin searching
- * 
+ *
+ * @param {*} searchElement - The value to search for.
+ * @param {Number} fromIndex - The position in this horroy at which to begin searching
+ *
  * @returns {Boolean} - true or false as appropriate
- * 
- * 
+ *
+ *
  */
 Horroy.prototype.includes = function(searchElement, fromIndex) {
-
   if (fromIndex !== undefined && !(typeof fromIndex === "number")) {
     throw new TypeError(fromIndex + " is not a number");
   }
 
   fromIndex = fromIndex || 0;
 
-  for(var i = fromIndex; i < this.length; i++) {
-    if(searchElement === this[i]) return true;
+  for (var i = fromIndex; i < this.length; i++) {
+    if (searchElement === this[i]) return true;
   }
 
   return false;
@@ -309,24 +301,50 @@ Horroy.prototype.includes = function(searchElement, fromIndex) {
 
 /**
  * Returns a new Horroy Iterator object that contains the keys for each index in the array.
- * 
+ *
  * @returns {Horroy} - A new Horroy iterator object.
  */
 Horroy.prototype.keys = function() {
-
-  var newHorroy = new Horroy;
+  var newHorroy = new Horroy();
 
   newHorroy.length = this.length;
 
-  for(var i = 0; i < this.length; i++) newHorroy[i] = i;
+  for (var i = 0; i < this.length; i++) newHorroy[i] = i;
 
   return newHorroy;
 };
 
-
+/**
+ * Maps each element using a mapping function, then flattens the result into a new array
+ * 
+ * @param {Function} callback - Function that produces an element of the new Horry
+ * 
+ * @returns {Horroy} - A new array with each element being the result of the callback function and flattened to a depth of 1.
+ */
 Horroy.prototype.flatMap = function(callback) {
-  if (!(callback instanceof Function))
-    throw new TypeError(callback + " is not a function");
-
   return this.map(callback).flat();
+};
+
+//2,2
+//[2, 5, 9, 2]
+// 0  1   2  3
+Horroy.prototype.lastIndexOf = function(searchElement, fromIndex) {
+  
+  if (fromIndex !== undefined && !(typeof fromIndex === "number")) {
+    throw new TypeError(fromIndex + " is not a number");
+  }
+
+  if(fromIndex < 0) fromIndex = this.length + fromIndex;
+
+  fromIndex = fromIndex - 1 || this.length;
+
+  
+
+  for( var i = fromIndex; i > 0; i--) {
+    console.log(fromIndex, this[i], searchElement);
+    if(this[i] === searchElement) return i;
+  }
+
+  return -1;
+
 };

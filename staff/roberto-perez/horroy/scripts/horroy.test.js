@@ -502,18 +502,59 @@ suite("Horroy", function() {
 
   // });
 
-  describe("Function flatMap()", function() {
+  // describe("Function flatMap()", function() {
+  //   it("should return a new horry", function() {
+  //     var horroy = new Horroy(1, 2, 3, 4);
+  //     var horroyFlatMap = horroy.flatMap(function(x) {
+  //       return x * 2;
+  //     });
+  //     var expected = "2,4,6,8";
+  //     expect(horroyFlatMap.toString() === expected, "Unexpected value");
+  //   });
 
-    it("should return a new horry", function() {
-      var horroy = new Horroy(1, 2, 3, 4);
-      var horroyFlatMap = horroy.flatMap(function(x) {
-        return x * 2;
-      });
-      console.log(horroyFlatMap);
-      var expected = '2,4,6,8';
-      expect(horroyFlatMap.toString() === expected, "Unexpected value");
+  //   it("hould fail if the argument is not a function", function() {
+  //     var error;
+  //     var horroy = new Horroy(1, 2, 3, 4);
+
+  //     try {
+  //       horroy.flatMap('function');
+  //     } catch (err) {
+  //       error = err;
+  //     }
+
+  //     expect(error, "It should throw an error");
+  //     expect(error instanceof TypeError, "The error should be TypeError");
+  //   });
+  // });
+
+  describe("Function lastIndexOf()", function() {
+    it("should return the last index of the element in the array", function() {
+      var horroy = new Horroy(2, 5, 9, 2);
+      var horroyIndex = horroy.lastIndexOf(2);
+      var expected = 3;
+      expect(horroyIndex === expected, "Unexpected value");
     });
 
-  });
+    it("should return the last index of the element in the array passing a second argument", function() {
+      var horroy = new Horroy(2, 5, 9, 2);
+      var horroyIndex = horroy.lastIndexOf(2, 2);
+      var expected = 0;
+      expect(horroyIndex === expected, "Unexpected value");
+    });
 
+    it("should fail if the second argument is not a number", function() {
+      var horroy = new Horroy(2, 5, 9, 2);
+
+      var error;
+
+      try {
+        var index = horroy.lastIndexOf(2, "s");
+      } catch (err) {
+        error = err;
+      }
+
+      expect(error, "It should throw an error");
+      expect(error instanceof TypeError, "The error should be TypeError");
+    });
+  });
 });
