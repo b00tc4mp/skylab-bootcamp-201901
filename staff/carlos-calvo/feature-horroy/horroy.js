@@ -207,7 +207,35 @@ function Horroy(){
         }
 
     }
+    Horroy.prototype.find = function(func){
+
+        if(!(func instanceof Function)) throw new Error('Not a funciton')
+
+        for(var i = 0; i < this.length; i++){
+            if(func(this[i])) return this[i]
+        }
+
+        return undefined
+
+    }
     
+    Horroy.prototype.findIndex = function(func){
+
+        if(!(func instanceof Function)) throw new Error('Not a funciton')
+
+        for(var i = 0; i < this.length; i++){
+            if(func(this[i])) return i
+        }
+
+        return -1
+
+    }
+
+    Horroy.prototype.IndexOf = function(func){
+
+       //Pdte
+
+    }
 
     
 }
