@@ -94,11 +94,12 @@ suite('Cart', function () {
             cart.add(tanga);
             cart.add(bra);
     
-            res = cart.mostExpensive().price
+            var res = cart.mostExpensive()
     
-            expected = 39
-    
-            expect(res === expected, 'Unexpected value')
+            var expected= {type: "push-up", size: 80, color: "cream", brand: "Calvin Klein", price: 39};
+           
+            expect (res instanceof Bra, 'res should have right instanceof')
+            expect(res.toString() === expected.toString(), 'Unexpected value')
         });
         
         it('should show the cheapest', function () {
@@ -112,11 +113,12 @@ suite('Cart', function () {
             cart.add(tanga);
             cart.add(bra);
     
-            res = cart.cheapest().price
+            res = cart.cheapest()
     
-            expected = 9.99
+            expected = {size: 42, color: "black", brand: "Calvin Klein", price: 9.99}
     
-            expect(res === expected, 'Unexpected value')
+            expect (res instanceof Socks, 'res should have right instanceof')
+            expect(res.toString() === expected.toString(), 'Unexpected value')
         });
 
         it('should show the most expensive even if there is products without price', function () {
@@ -134,6 +136,7 @@ suite('Cart', function () {
 
             expected = {size: 32, color: "red", brand: "Wicked Weasel", price: 20}
 
+            expect (res instanceof Tanga, 'res should have right instanceof')
             expect(res.toString() === expected.toString(), 'Unexpected value')
 
         });
@@ -154,6 +157,7 @@ suite('Cart', function () {
 
             expected = {size: 42, color: "black", brand: "Calvin Klein", price: 10}
 
+            expect (res instanceof Socks, 'res should have right instanceof')
             expect(res.toString() === expected.toString(), 'Unexpected value')
 
         });
@@ -175,7 +179,9 @@ suite('Cart', function () {
     
             expected = [{ size: 42, color: "black", brand: "Calvin Klein", price: 9.99 },
             { size: 32, color: "red", brand: "Wicked Weasel", price: 29.95 }]
-    
+            
+            expect (res[0] instanceof Socks, 'res should have right instanceof')
+            expect (res[1] instanceof Tanga, 'res should have right instanceof')
             expect(res.toString() === expected.toString(), 'Unexpected value')
         });
 
