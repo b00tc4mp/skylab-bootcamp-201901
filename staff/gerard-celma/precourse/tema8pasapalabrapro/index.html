@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PASAPALABRA</title>
+    <link rel="stylesheet" href="styles.css" type="text/css" media="all">
+    <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:700" rel="stylesheet">
+    <script src="./script.js" async></script>
+</head>
+
+<body>
+    <div class="maincontainer">
+        <div class="left">
+            <div id="circle">
+                <div id="row1">
+                    <p id="A-circle">A</p>
+                </div>
+                <div id="row2">
+                    <p id="Z-circle">Z</p>
+                    <p id="B-circle">B</p>
+                </div>
+                <div id="row3">
+                    <p id="Y-circle">Y</p>
+                    <p id="C-circle">C</p>
+                </div>
+                <div id="row4">
+                    <p id="X-circle">X</p>
+                    <p id="D-circle">D</p>
+                </div>
+                <div id="row5">
+                    <p id="V-circle">V</p>
+                    <p id="E-circle">E</p>
+                </div>
+                <div id="row6">
+                    <p id="U-circle">U</p>
+                    <p id="F-circle">F</p>
+                </div>
+                <div id="row7">
+                    <p id="T-circle">T</p>
+                    <p id="G-circle">G</p>
+                </div>
+                <div id="row8">
+                    <p id="S-circle">S</p>
+                    <p id="H-circle">H</p>
+                </div>
+                <div id="row9">
+                    <p id="R-circle">R</p>
+                    <p id="I-circle">I</p>
+                </div>
+                <div id="row10">
+                    <p id="Q-circle">Q</p>
+                    <p id="J-circle">J</p>
+                </div>  
+                <div id="row11">
+                    <p id="P-circle">P</p>
+                    <p id="L-circle">L</p>
+                </div>
+                <div id="row12">
+                    <p id="O-circle">O</p>
+                    <p id="M-circle">M</p>
+                </div>
+                <div id="row13">
+                    <p id="Ñ-circle">Ñ</p>
+                    <p id="N-circle">N</p>
+                </div>
+            </div>
+            <div id="row14">
+                <p></p>
+            </div>
+        </div>
+        <div class="right">
+            <p id="instructions">
+               ¡BIENVENIDOS AL JUEGO DEL PASAPALABRA! </br></br>
+               Basado en el exitoso concurso de televisión, las normas son muy sencillas: </br></br>
+               Se mostraran unas definiciones por pantalla y el usuario deberá responder con la palabra a la que corresponden. El usuario tiene la opción de decir PASAPALABRA y dejar esa definición para mas adelante. </br></br>
+               El programa es sensible a la acentuación y a las mayusculas, asi que se debe introducir la palabra sin tilde y en minusculas.
+            </p>
+            <button id="start">&#9658 JUGAR</button>
+            <p id="screen" class="hide">ENUNCIADOS</p>
+            <div id="answer" class="form-style-6 hide">
+                <input id="reply" name="field3" onfocus="this.value=''" placeholder="¡Escribe aqui tu respuesta!"/>
+                <button id="submitText" class="submit">ACEPTAR</button>
+                <button id="submitPasa" class="submit2">PASAPALABRA</button>
+            </div>
+            <div id="replay" class="hide">
+                <button id="repButton" class="submit">JUGAR OTRA VEZ</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

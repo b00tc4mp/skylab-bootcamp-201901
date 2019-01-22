@@ -1,0 +1,309 @@
+@font-face {
+  font-family: "Caesar";
+  src: url("Caesar.ttf");
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("Helvetica.ttf");
+}
+
+*{
+    margin:0;
+    padding: 0;
+}
+
+body{   
+    
+        background: url(../img/pared2.jpg) no-repeat center center fixed;
+        background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+
+}
+.main{
+
+    margin:auto;
+    width: 920px;
+    margin-top:20vh;
+
+
+    display: flex;
+    
+}
+
+.presentador{
+    width: 500px;
+    margin-right:20px;
+}
+
+/*----------------BIENVENIDA------------------*/
+
+.bienvenida, .final{
+    width: 500px;
+    height: 320px;
+    margin-right:20px;
+}
+
+.bienvenida p{
+    text-align:center;
+    color:rgb(11,54,129);
+    font-size:15px;
+    padding: 5px;
+    font-family:'Helvetica';
+}
+
+.bienvenida h1{
+    text-align:center;
+    color:rgb(11,54,129);
+    font-size:15px;
+    font-family:'Helvetica';
+}
+
+.name{
+    background-color:transparent;
+    width: 450px;
+    height: 46px;
+    border:rgb(11,54,129) 2px solid;
+    font-size:30px;
+    text-align:center;
+    font-family:'Helvetica';
+
+    color:rgb(11,54,129);
+
+}
+
+.newCarton{
+
+    display: flex;
+    margin:auto;
+
+    width: 400px;
+    margin-top:10px;
+}
+
+.botonesInicio{
+    display: flex;
+    margin:auto;
+
+    width: 500px;
+    margin-top:35px;
+    height: 50px;
+}
+
+.enviarNombre{
+    border:2px solid rgb(11,54,129);
+    width: 300px;
+    height: 50px;
+
+    margin-left:10px;
+
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:20px;
+    padding-right:20px;
+
+    color:rgb(11,54,129);
+    font-size:20px;
+    background-color: transparent;
+
+}
+
+
+.salir{
+    border:2px solid rgb(11,54,129);
+    width: 60px;
+
+    padding-top:10px;
+    padding-bottom:10px;
+
+    color:rgb(11,54,129);
+
+    font-size:20px;
+    background-color: transparent;
+
+}
+
+/*----------------JUEGO------------------*/
+
+
+.ventana{
+    float:right;
+    display:none;
+    width: 240px;
+    height: 240px;
+    margin-right:20px;
+    background: url(../img/tiempo2.jpg);
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.ruleta{
+    
+    position:relative;
+
+    top:50px;
+    left:50px;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    color:rgb(11,54,129);
+
+    font-size:120px;
+    text-align:center;
+    font-family:'Caesar';
+}
+
+.botones{
+     
+    margin:auto;
+    width: 400px;
+    margin-top:10px;
+    display:flex;
+
+}
+
+.siguiente{
+    display: none;
+}
+
+
+
+.siguiente, .otroCarton, .volverJugar{
+    border:2px solid rgb(11,54,129);
+    width: 320px;
+
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:20px;
+    padding-right:20px;
+
+    color:rgb(11,54,129);
+    font-size:20px;
+    background-color: transparent;
+    margin-right:7px;
+
+}
+
+.salir:hover, .siguiente:hover, .enviarNombre:hover, .volverJugar:hover, .otroCarton:hover{
+    border:2px solid white;
+    color:white;
+}
+
+.carton{
+    height: 320px;
+}
+
+.row{
+    display: flex;
+}
+
+.numero{
+    width: 80px;
+    height: 80px;
+    background-image: url('../img/azuleijo.jpg');
+    background-size: cover;
+
+    color:rgb(24,57,126);
+    font-size:30px;
+    text-align: center;
+    line-height:75px;
+     font-family:'Helvetica';
+
+}
+
+.acierto{
+    background-image: url('../img/acierto.jpg');
+    color: rgb(149,172,102);
+}
+
+.linea{
+    display:none;
+    background-image: url('../img/linea.jpg');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 360px;
+    height: 240px;
+}
+
+.bingo{
+    display:none;
+    background-image: url('../img/bingo.jpg');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 360px;
+    height: 240px;
+}
+
+
+/*----------------FINAL------------------*/
+
+.volverJugar{
+    display: none;
+}
+
+.volverJugar{
+    border:2px solid rgb(11,54,129);
+    width: 410px;
+
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:20px;
+    padding-right:20px;
+
+    color:rgb(11,54,129);
+    font-size:20px;
+    background-color: transparent;
+
+}
+
+
+.final{
+    display:none;
+
+}
+
+.final p{
+    text-align:center;
+    color:rgb(11,54,129);
+    padding: 5px;
+     font-family:'Helvetica';
+
+}
+
+.final h1{
+    text-align:center;
+    color:rgb(11,54,129);
+    font-size:25px;
+     font-family:'Helvetica';
+
+}
+
+.ranking{
+     font-family:'Caesar';
+     font:bold;
+    font-size:18px;
+
+}
+
+.puntos{
+    font-family:'Caesar';
+    font-size:50px;
+    text-align: center;
+    color:rgb(11,54,129);
+}
+
+
+
+
+

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proyecto 2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Welcome,  <span id="name"></span>
+      </h1>
+      <!-- Info flights -->
+      <div class="columns">
+            <div class="column">
+               <article class="message">
+                   <div class="message-header">
+                       <p>RESUME</p>
+                   </div>
+                   <div class="message-body" id="resume">
+                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+                   </div>
+               </article>
+            </div>
+            <div class="column">
+               <article class="message">
+                   <div class="message-header">
+                       <p>SCALES</p>
+                   </div>
+                   <div class="message-body" id="scales">
+                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+                   </div>
+               </article>
+            </div>
+       </div>
+       <div class="columns">
+            <div class="column is-pulled-left" id="role_section">
+
+            </div>
+       </div>
+       <!-- Table flights -->
+       <div class="columns">
+           <div class="column">
+                <table class="table is-fullwidth is-striped" id="table">
+                    <thead id="table_head">
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Departure <i class="fas fa-plane-departure"></i>
+                            </th>
+                            <th>
+                                Arrival <i class="fas fa-plane-arrival"></i>
+                            </th>
+                            <th>
+                                Cost
+                            </th>
+                            <th>
+                                Scale
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="flight_register">
+
+                    </tbody>
+                </table>
+           </div>
+       </div>
+    </div>
+  </section>
+
+  <!-- Modal Admin -->
+    <div class="modal" id="admin_modal">
+        <div class="modal-background"></div>
+            <div class="modal-content">
+                <section class="modal-card-body">
+                        What kind of user are you?
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" id="admin_check" name="role">
+                            Admin
+                        </label>
+                        <label class="radio">
+                            <input type="radio" id="user_check" name="role" checked>
+                            User
+                        </label>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success" onclick="set_role()">Accept</button>
+                </footer>
+            </div>
+        <!--<button class="modal-close is-large" aria-label="close" onclick="removeModal()"></button> -->
+    </div>
+  <!-- End modal Admin-->
+
+  <!-- Modal add flight -->
+  <div class="modal" id="add_flight_modal">
+        <div class="modal-background"></div>
+            <div class="modal-content">
+                <section class="modal-card-body">
+                        <h1>Add flight</h1>
+                        <hr>
+                        <div class="field">
+                            <label class="label">Departure</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Departure" id="departure">
+                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Arrival</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Arrival" id="arrival">
+                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Cost</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Cost" id="cost">
+                                </div>
+                        </div>
+                        <div class="control">
+                            Have Scale? &nbsp;&nbsp;
+                            <label class="radio">
+                                <input type="radio" id="yes_scale" name="scale_check">
+                                Yes
+                            </label>
+                            <label class="radio">
+                                <input type="radio" id="no_scale" name="scale_check" checked>
+                                No
+                            </label>
+                        </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success" onclick="add_flight()">Add flight</button>
+                </footer>
+            </div>
+        <button class="modal-close is-large" aria-label="close" onclick="removeModal()"></button>
+    </div>
+  <!-- End modal add flight -->
+    <script src="./app.js"></script>
+  </body>
+</html>
