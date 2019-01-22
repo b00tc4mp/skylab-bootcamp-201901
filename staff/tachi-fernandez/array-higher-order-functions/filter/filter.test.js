@@ -14,14 +14,14 @@ suite("filter",function(){
             
 
         
-        )};
+        });
         
 
 
 
 
 
-    )};
+    });
 
     
 
@@ -29,4 +29,4 @@ suite("filter",function(){
 
 
 
-)};
+});
