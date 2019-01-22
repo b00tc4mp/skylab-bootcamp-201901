@@ -21,7 +21,7 @@ test('Use Case1', function () {
 });
 
 
-test('Use Case1', function () {
+test('Use Case2', function () {
 
     var array = ['pepino', 'piedra', 'tomate'];
 
