@@ -15,16 +15,13 @@ function login(email, password, callback) {
 
     if (user.password !== password) throw Error('wrong password');
 
-    var testUser = {
-        name: 'John',
-        surname: 'Doe',
-        email: 'johndoe@mail.com',
-        password: '12345'
+    var loggedInUser = {
+        name: user.name,
+        surname: user.surname,
+        email: user.email
     }
 
-    delete testUser.password;
-
-    callback(testUser);
+    callback(loggedInUser);
 }
 
 function register(name, surname, email, password, passwordConfirmation, callback) {
