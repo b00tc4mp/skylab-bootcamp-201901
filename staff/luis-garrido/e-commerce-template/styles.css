@@ -1,0 +1,194 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin : 0px;
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#header {
+    padding: 10px;
+    position: fixed;
+    top: 0px;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 80px 1fr 80px;
+    background-color: blueviolet;
+    height: 100px;
+    width: 100%;
+}                                                          
+
+main {
+    margin-top: 100px;
+}
+
+#logo {
+    
+    height: 80px;
+    width: 80px;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    background-color: rgb(204,204,204);
+}
+
+#searchBar {
+    grid-column-start: 2;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+#searchBar > input {
+    grid-column-start: 1;
+    padding-left: 1em;
+    grid-row-start: 1;
+    grid-column-end: span 3;
+}
+#searchBar > button {
+    grid-column-start: 3;
+    grid-row-start: 2;
+    background-color: rgb(204,204,204);
+    width: 100%;
+}
+
+#navHeader {
+    grid-column-start: 3;
+}
+
+#burguer {
+    height: 100%;
+    background-color: rgb(204,204,204);
+}
+
+#twoItemsNav {
+    display: none;
+}
+
+.product {
+    width: 100%;
+    background-color: white;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-rows: 50px 300px 1fr;
+    border: 4px solid rgb(204,204,204);
+    border-radius: 14px;
+}
+
+#productName {
+    grid-row-start: 1;
+    background-color: plum;
+    padding-left: 10px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+#productImage {
+    grid-row-start: 2;
+    background-color: purple;
+}
+
+#productDescription {
+    grid-row-start: 3;
+    background-color: plum;
+    padding: 10px;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+
+    main {
+        padding: 20px;
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #header {
+        grid-template-columns: 80px 1fr 80px 80px;
+    }
+    
+    
+    #navHeader {
+        grid-column-start: 3;
+        grid-column-end: span 2;
+    }
+
+    #burguer {
+        display: none;
+    }
+
+    #twoItemsNav {
+        height: 100%;
+        grid-row-start: 1;
+        grid-row-end: span 2;
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #about {
+        height: 100%;
+        grid-column-start: 1;
+        background-color: rgb(204,204,204);
+    }
+
+    #contact {
+        height: 100%;
+        grid-column-start: 2;
+        background-color: rgb(204,204,204);
+    }
+
+}
+
+@media only screen and (min-width: 992px) {
+
+    #header {
+        padding: 10px;
+        position: fixed;
+        top: 0px;
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: 300px 1fr 80px 80px;
+        box-sizing: border-box;
+        background-color: blueviolet;
+        height: 100px;
+        width: 100%;
+    }
+    
+    main {
+        padding: 20px;
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    #navHeader {
+        grid-column-start: 3;
+        grid-column-end: span 2;
+        
+    }
+
+    #searchBar > input {
+        grid-column-start: 1;
+        grid-row-start: 2;
+        grid-column-end: span 2;
+    }
+
+    #logo {
+    
+        height: 80px;
+        width: 300px;
+        grid-column-start: 1;
+        grid-row-start: 1;
+        background-color: rgb(204,204,204);
+    }
+
+}
