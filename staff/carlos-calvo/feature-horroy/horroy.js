@@ -249,4 +249,54 @@ function Horroy(){
         return -1
     }
 
+    Horroy.prototype.join = function(){
+        if(arguments.length !== 0) throw new Error('Too many args!')
+        var result =''
+        for(var i=0 ; i < this.length; i++){
+            if(i !== this.length-1){
+                result = result.concat(this[i].toString(), ',')
+            } else {
+                result = result.concat(this[i].toString())
+            }
+        }
+        return result
+    }
+
+
+    Horroy.prototype.toSource = function(){
+        if(arguments.length !== 0) throw new Error('Too many args!')
+        var result ='['
+        for(var i=0 ; i < this.length; i++){
+            if(i !== this.length-1){
+                result = result.concat(this[i].toString(), ',')
+            } else {
+                result = result.concat(this[i].toString())
+            }
+        }
+
+        result = result.concat(']')
+        return result
+    }
+
+
+    Horroy.prototype.reduce = function(callback, accumulator){
+        
+        if (!(callback instanceof Function)) throw TypeError(callback + ' is not an function');
+        if((arguments.length < 1)||(arguments.length > 3)) throw new Error ('Incorrect number of arguments')
+
+        var i = 0;
+
+        if (arguments.length == 1) {
+            accumulator = this[0]
+        }
+        
+        for (i; i < this.length; i++) {
+            var item = this[i];
+
+            accumulator = callback(accumulator, item);
+        }
+
+        return accumulator
+    }
+
 }
