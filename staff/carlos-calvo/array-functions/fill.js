@@ -19,11 +19,11 @@ function fill (array, value, beg, end){
     
     //Comprobación de tipos
     if(!Array.isArray(array))
-        return console.log("MTF no has puesto un array!")
+        // return console.log("MTF no has puesto un array!")
     if(!("number"==(typeof beg)==(typeof end)))
-    return console.log("MTF no has puesto números!")
+    // return console.log("MTF no has puesto números!")
     if(beg > end)
-    return console.log("MTF no has puesto")
+    // return console.log("MTF no has puesto")
     //Algoritmo de cambio
 }
 fill([1,2,3,4],2,2,"s")

@@ -17,7 +17,7 @@ function fill(array, value, start, end) {
     if (!(array instanceof Array))
         throw new TypeError(array + ' is not an array');
 
-    start = start === undefined ? 0 : (start < 0 ? array.length + start : start);
+    start = !start ? 0 : (start < 0 ? array.length + start : start);
     end = end === undefined ? array.length : (end < 0 ? array.length + end : end);
 
     for (var i = start; i < end; i++)
