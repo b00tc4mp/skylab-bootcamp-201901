@@ -1,13 +1,56 @@
+/**
+ * Array.from() - ok
+Array.isArray() --> Horroy.isHorroy()
+Array.of()
+Array.prototype.concat()
+Array.prototype.copyWithin()
+Array.prototype.every()
+Array.prototype.fill()
+Array.prototype.filter()
+Array.prototype.find()
+Array.prototype.findIndex()
+Array.prototype.flat()
+Array.prototype.flatMap()
+Array.prototype.forEach()
+Array.prototype.includes()
+Array.prototype.indexOf()
+Array.prototype.join()
+Array.prototype.lastIndexOf()
+Array.prototype.map()
+Array.prototype.pop()
+Array.prototype.push()
+Array.prototype.reduce()
+Array.prototype.reduceRight()
+Array.prototype.reverse()
+Array.prototype.shift()
+Array.prototype.slice()
+Array.prototype.some()
+Array.prototype.sort()
+Array.prototype.splice()
+Array.prototype.toSource()
+Array.prototype.toString()
+Array.prototype.unshift()
+ */
+
 function Horroy() {
     this.length = arguments.length;
-
-    if (arguments.length) //xq necesito este if
-        for (var i = 0; i < arguments.length; i++)
-            // this.push(arguments[i]); // WARN should avoid (if possible) calling member methods in a constructor (push)
-            this[i] = arguments[i];
+    for (var i = 0; i < arguments.length; i++)
+        this[i] = arguments[i];
 }
 
-Horroy.from = function (value) { // Entiendo que se crea
+Horroy.isHorroy = function (horr) {
+    debugger;
+    return (horr instanceof Horroy);
+}
+
+Horroy.of = function () {
+    // for (var i = 0; i < arguments.length; i++) {
+        
+    // }
+    // return (horr instanceof Horroy);
+}
+
+Horroy.from = function (value) {
     var horr = new Horroy
     horr.length = value.length
     if (typeof value === 'string')
