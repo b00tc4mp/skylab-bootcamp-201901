@@ -374,4 +374,39 @@ describe("Horroy - LastIndexOf", function() {
             hor.lastIndexOf(31, true, true)
         }).toThrow()
     });
-});    
+}); 
+
+describe("Horroy - Join", function() {
+    it("Not Join successfull", function() {
+        var hor = new Horroy(1,2,3,4)
+        var result = hor.join()
+        var expectedresult = '1,2,3,4'
+        expect(result).toEqual(expectedresult)
+    });
+    it("Error on too many arguments", function() {
+        var hor = new Horroy(1,2,3,4)
+        
+        expect(function(){hor.join(true)}).toThrow()
+    });
+});
+
+describe("Horroy - Reduce", function() {
+    it("Result sucessfull acc = 0", function() {
+        var hor = new Horroy(1,2,3,4)
+        var result = hor.reduce(function (accumulator, currentValue) {
+            return accumulator + currentValue;
+          }, 0);
+          var expectedresult = 10
+        expect(result).toEqual(expectedresult)
+    });
+
+    it("Result sucessfull acc!==0", function() {
+        var hor = new Horroy(1,2,3,4)
+        var result = hor.reduce(function (accumulator, currentValue) {
+            return accumulator + currentValue;
+          }, 4);
+          var expectedresult = 14
+        expect(result).toEqual(expectedresult)
+    });
+});
+
