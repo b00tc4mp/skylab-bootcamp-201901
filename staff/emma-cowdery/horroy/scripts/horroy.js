@@ -23,6 +23,14 @@ Horroy.prototype.push = function (value) {
     this[this.length++] = value;
 };
 
+Horroy.prototype.pop = function () {
+    if (!(this instanceof Horroy)) throw TypeError(this + ' is not an horroy');  
+    if (arguments.length > 1) throw Error('too many arguments');
+    var popped = this[this.length-1];
+    this.length = this.length - 1;
+    return popped;
+}
+
 Horroy.prototype.forEach = function (callback) {
     for (var i = 0; i < this.length; i++)
         callback(this[i]);
@@ -37,17 +45,6 @@ Horroy.prototype.toString = function() {
     string += this[this.length - 1];
 
     return string;
-};
-
-Horroy.prototype.pop = function(variable) {
-    var variable
-    if (this.length === 0) {
-        return undefined;
-    } else {
-        var variable = this[this.length -1];
-        this.length = this.length -1;
-        return variable;
-    };
 };
 
 Horroy.prototype.slice = function(a, b) {
@@ -88,12 +85,108 @@ Horroy.prototype.fill = function(value, start, end) {
         throw new TypeError(this + ' is not an horroy');
 
     start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
-    end = end === undefined ? horroy.length : (end < 0 ? array.length + end : end);
+    end = end === undefined ? horroy.length : (end < 0 ? this.length + end : end);
 
     for (var i = start; i < end; i++)
-        array[i] = value;
+        this[i] = value;
 
-    return array;
+    return this;
 };
+
+Horroy.prototype.filter = function(callback) {
+    if (!(this instanceof Horroy)) throw TypeError(this + ' is not an horroy');
+    var newHorroy = new Horroy;
+    var count = 0;
+    for (var i = 0; i < this.length; i++) {
+        if (callback(this[i])) {
+            newHorroy[count] = this[i];
+            count++;
+        }
+    }
+    return newHorroy;
+}
+
+Horroy.prototype.find = function (callback) {
+    if (!(this instanceof Horroy)) throw TypeError(this + ' is not an horroy');
+    for (var i = 0; i < this.length; i++) {
+        if (callback(this[i])) {
+            return this[i];
+        };
+    };
+}
+
+Horroy.prototype.findIndex = function (callback) {
+    if (!(this instanceof Horroy)) throw TypeError(this + ' is not an horroy');
+    for (var i = 0; i < this.length; i++) {
+        if (callback(this[i])) {
+            return i;
+        };
+    };
+    return -1;
+}
+
+Horroy.prototype.join = function (separator) {
+    var result = '';
+    if (!(this instanceof Horroy)) throw TypeError(this + 'is not an horroy');
+    separator = (separator === undefined) ? ',': separator;
+    for (var i = 0; i < this.length; i++) {
+        var element = this[i];
+        result += (i !== this.length - 1) ? element + separator : element; 
+    }
+    return result;
+}
+
+Horroy.prototype.reduce = function (callback, counter) {
+    if (!(this instanceof Horroy)) throw TypeError(this + ' is not an horroy');
+    if (!(callback instanceof Function)) throw TypeError(callback + ' is not an function');
+    var i = 0;
+    if (counter === undefined) {
+        counter = this[0];
+        i = 1;
+    };
+    for (; i < this.length; i++) {
+        var item = this[i];
+        counter = callback(counter, item);
+    };
+    return counter;
+}
+
+Horroy.prototype.reverse = function () {
+    if (!(this instanceof Horroy)) throw TypeError(this + ' is not an horroy');
+    var reversed = [];
+    counter = this.length - 1
+    for (var i = 0; i < this.length; i++) {
+        reversed[counter] = this[i];
+        counter--;
+    };
+    return reversed;
+}
+
+Horroy.prototype.shift = function () {
+    var firstElement = "";
+    if (this === undefined) {
+        return undefined;
+    };
+    firstElement = this[0];
+    counter = 0;
+    for (var i = 1; i < this.length; i++) {
+        this[counter] = this[i];
+        counter++;
+    };
+    this.length = this.length -1;
+    return firstElement;
+}
+
+Horroy.prototype.some = function (callback) {
+    for (var i = 0; i < this.length; i++) {
+        if (callback(this[i])) {
+            return true;
+        };
+    };
+    return false;
+
+}
+
+Horroy.prototype.unshift ()
 
 
