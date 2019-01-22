@@ -7,15 +7,12 @@
  */
 
 function some(array, callback) {
-    callback(element)
     for (var i = 0; i < array.length; i++) {
-        if (callback(array[i]) === true) {
+        if (callback(array[i])) {
             return true;
-            break;
-        } else {
-            return false;
         };
     };
+    return false;
 };
 
-some([1, 2, 3, 4, 5], element < 3);
+some([1, 2, 3, 4, 5], function(element) {return element > 3});

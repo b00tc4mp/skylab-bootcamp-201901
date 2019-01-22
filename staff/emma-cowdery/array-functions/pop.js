@@ -13,20 +13,15 @@ We can save the last element of the array in a variable:
 
     console.log(popped); // 'sturgeon'
 */
-array = []
-var variable
 
-function pop(array, variable) {
-    if (array.length === 0) {
-        return undefined;
-    } else {
-        var variable = array[array.length -1];
-        array.length = array.length -1;
-        console.log(array);
-        console.log(variable);
-    };
-};
+function pop(array) {
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');  
+    if (arguments.length > 1) throw Error('too many arguments');
+    var popped = array[array.length-1];
+    array.length = array.length - 1;
+    return popped;
+}
 
-pop([1, 2, 3, 4], variable);
+pop([1, 2, 3, 4]);
 
 

@@ -7,13 +7,14 @@
  */
 
 function reverse(array) {
-    //array = [];
-    //debugger
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    var reversed = [];
+    counter = array.length - 1
     for (var i = 0; i < array.length; i++) {
-        i = (array.length - (i + 1));
-        array[i] += array;
+        reversed[counter] = array[i];
+        counter--;
     };
-    return array;
+    return reversed;
 };
 
 reverse([1, 2, 3]);
