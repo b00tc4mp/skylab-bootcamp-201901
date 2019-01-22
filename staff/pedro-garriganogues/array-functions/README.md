@@ -2,9 +2,9 @@
 
 #Getting Started:
 
-Trying to recreate some of js methods effects without using the methoda itself.
+Trying to recreate some of js methods effects without using the method in question.
 
-It's should be FULL of bugs and mistakes, but these were learning exercises and mistakes are expected when learning.
+There's probably mistakes all over the place, but since it's a learning exercise it's something to be expected.
 
 #Built With:
 
