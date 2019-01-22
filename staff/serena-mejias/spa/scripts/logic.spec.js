@@ -59,8 +59,8 @@ describe("logic", function() {
 
       expect(loggedInEmail).toBeUndefined();
     });
-  })
-    /*it("should fail on numeric email", function() {
+  
+    it("should fail on numeric email", function() {
       var loggedInUser;
 
       var loggedInEmail = 10;
@@ -68,20 +68,20 @@ describe("logic", function() {
 
       expect(function() {
         login(loggedInEmail, loggedInPassword);
-      }).toThrow(TypeError(loggedInEmail + " is not a string"));
+      }).toThrow(TypeError("is not a string"));
 
       expect(loggedInUser).toBeUndefined();
     });
 
     it("should fail on boolean email", function() {
-      var loggedInUser;
 
+      var loggedInUser;
       var loggedInEmail = false;
       var loggedInPassword = "12345";
 
       expect(function() {
         login(loggedInEmail, loggedInPassword);
-      }).toThrow(TypeError(loggedInEmail + " is not a string"));
+      }).toThrow(TypeError("is not a string"));
 
       expect(loggedInUser).toBeUndefined();
     });
@@ -94,7 +94,7 @@ describe("logic", function() {
 
       expect(function() {
         login(loggedInEmail, loggedInPassword);
-      }).toThrow(TypeError(loggedInEmail + " is not a string"));
+      }).toThrow(TypeError("is not a string"));
 
       expect(loggedInUser).toBeUndefined();
     });
@@ -107,7 +107,7 @@ describe("logic", function() {
 
       expect(function() {
         login(loggedInEmail, loggedInPassword);
-      }).toThrow(TypeError(loggedInEmail + " is not a string"));
+      }).toThrow(TypeError("is not a string"));
 
       expect(loggedInUser).toBeUndefined();
     });
@@ -198,10 +198,10 @@ describe("logic", function() {
 
       expect(function() {
         login(loggedInEmail, loggedInPassword);
-      }).toThrow(Error(loggedInEmail + " is not a string"));
+      }).toThrow(Error('password cannot be empty'));
 
       expect(loggedInUser).toBeUndefined();
-    });*/
+    });
   });
 
   describe("register", function() {
@@ -823,4 +823,4 @@ describe("logic", function() {
       expect(registered).toBeUndefined();
     });
   });
-
+});
