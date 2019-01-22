@@ -325,23 +325,28 @@ Horroy.prototype.flatMap = function(callback) {
   return this.map(callback).flat();
 };
 
-//2,2
-//[2, 5, 9, 2]
-// 0  1   2  3
+
+/**
+ * Returns the last index at which a given element can be found in the array, or -1 if it is not present.
+ * 
+ * @param {Number} searchElement - Element to locate in the array.
+ * @param {Number} [fromIndex] - The index at which to start searching backwards.
+ * 
+ * @returns {Number} - The last index of the element in the array; -1 if not found.
+ */
 Horroy.prototype.lastIndexOf = function(searchElement, fromIndex) {
   
   if (fromIndex !== undefined && !(typeof fromIndex === "number")) {
     throw new TypeError(fromIndex + " is not a number");
   }
 
-  if(fromIndex < 0) fromIndex = this.length + fromIndex;
+  if(fromIndex < 0) {
+    fromIndex = this.length + fromIndex;
+  } else if(typeof fromIndex === 'undefined') {
+    fromIndex = this.length - 1;
+  }
 
-  fromIndex = fromIndex - 1 || this.length;
-
-  
-
-  for( var i = fromIndex; i > 0; i--) {
-    console.log(fromIndex, this[i], searchElement);
+  for (var i = fromIndex; i >= 0; i--){
     if(this[i] === searchElement) return i;
   }
 

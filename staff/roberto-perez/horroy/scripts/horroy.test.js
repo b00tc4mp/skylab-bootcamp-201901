@@ -556,5 +556,12 @@ suite("Horroy", function() {
       expect(error, "It should throw an error");
       expect(error instanceof TypeError, "The error should be TypeError");
     });
+
+    it("should fail if the second argument is a negative number", function() {
+      var horroy = new Horroy(2, 5, 9, 2);
+      var horroyIndex = horroy.lastIndexOf(2, -1);
+      var expected = 3;
+      expect(horroyIndex === expected, "Unexpected value");
+    });
   });
 });
