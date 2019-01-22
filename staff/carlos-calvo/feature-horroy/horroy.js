@@ -231,10 +231,13 @@ function Horroy(){
 
     }
 
-    Horroy.prototype.IndexOf = function(func){
+    Horroy.prototype.IndexOf = function(item){
+        if(arguments.length !== 1) throw new Error('Incorrect number of args')
 
-       //Pdte
-
+        for(var i = 0; i < this.length; i++){
+            if(this[i] == item) return i
+        }
+        return -1
     }
 
     

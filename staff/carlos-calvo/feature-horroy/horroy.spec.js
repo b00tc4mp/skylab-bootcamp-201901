@@ -339,3 +339,19 @@ describe("Horroy - findIndex", function() {
     });
 });
 
+describe("Horroy - IndexOf", function() {
+    it("Not found return -1", function() {
+        var hor = new Horroy(11,21,31,41)
+        var result = hor.IndexOf(10)
+        expect(result).toEqual(-1)
+    });
+    it("Too many arguments", function() {
+        var hor = new Horroy(11,21,31,41)
+        expect(function(){hor.IndexOf(10, true)}).toThrow()
+    });
+    it("Too many arguments", function() {
+        var hor = new Horroy(11,21,31,41)
+        var result = hor.IndexOf(11)
+        expect(result).toEqual(0)
+    });
+});
