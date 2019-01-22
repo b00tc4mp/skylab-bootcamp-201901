@@ -23,7 +23,7 @@ function Horroy() {
  * @return {Horroy} - created horroy
  */
 Horroy.from = function (value) {
-    h = new Horroy
+    var h = new Horroy
 
     if ((typeof value === 'undefined')) throw TypeError('Cannot convert undefined or null to object')
     if ((value === null)) throw TypeError('Cannot convert undefined or null to object')
@@ -63,7 +63,7 @@ Horroy.isHorroy = function (value) {
  */
 
 Horroy.of = function () {
-    h = new Horroy
+    var h = new Horroy
     h.length = arguments.length;
     for (var i = 0; i < arguments.length; i++)
         // this.push(arguments[i]); // WARN should avoid (if possible) calling member methods in a constructor (push)
@@ -112,8 +112,8 @@ Horroy.prototype.fill = function (value, start, end) {
 
     //TODO!!! if start and end are not vallues
 
-    start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
-    end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
+    var start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
+    var end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
 
     for (var i = start; i < end; i++)
         this[i] = value;
@@ -184,7 +184,7 @@ Horroy.prototype.forEach = function (callback) {
 
 Horroy.prototype.indexOf = function (value, start) {
 
-    start = start === undefined ? 0 : start
+    var start = start === undefined ? 0 : start
 
     for (var i = start; i < this.length; i++) {
         if (this[i] === value) {
@@ -212,7 +212,7 @@ Horroy.prototype.indexOf = function (value, start) {
 Horroy.prototype.join = function (separator) {
     var res = ''
 
-    separator = separator === undefined ? ',' : separator + ''
+    var separator = separator === undefined ? ',' : separator + ''
 
     for (var i = 0; i < this.length - 1; i++) {
         res += this[i] + separator
@@ -396,8 +396,8 @@ Horroy.prototype.shift = function (array) {
 
 Horroy.prototype.slice = function (start, end) {
 
-    start = start === undefined ? 0 : start;
-    end = end === undefined ? this.length : end;
+    var start = start === undefined ? 0 : start;
+    var end = end === undefined ? this.length : end;
 
     var res = new Horroy
     for (var i = start; i < end; i++) {
@@ -451,7 +451,7 @@ Horroy.prototype.unshift = function () {
 
 
     var copy = Object.assign([], this);
-    countCopy = 0;
+    var countCopy = 0;
 
     this.length += arguments.length;
     var i;
@@ -492,7 +492,7 @@ Horroy.prototype.splice = function (start, delated) {
     // if (  start !== undefined && typeof start!=="number") throw TypeError(start+' is not a number');
     // if ( delated !== undefined && typeof delated!=="number") throw TypeError(delated+' is not a number');
 
-    delated = delated === undefined ? this.length : delated
+    var delated = delated === undefined ? this.length : delated
 
     var res = new Horroy;
     var orig = [];
@@ -587,7 +587,7 @@ Horroy.prototype.find = function (callback) {
  */
 Horroy.prototype.concat = function () {
 
-    res = new Horroy;
+    var res = new Horroy;
     for (var i = 0; i < this.length; i++) {
         res[res.length++] = this[i];
     }
@@ -619,8 +619,8 @@ Horroy.prototype.concat = function () {
  */
 Horroy.prototype.copyWithin = function (target, start, end) {
 
-    end = end === undefined ? this.length : end;
-    start = start === undefined ? 0 : start;
+    var end = end === undefined ? this.length : end;
+    var start = start === undefined ? 0 : start;
 
     var copy = new Horroy()
     // debugger
@@ -700,7 +700,7 @@ Horroy.prototype.findIndex = function (callback) {
  */
 Horroy.prototype.flat = function (depth) {
 
-    depth = depth === undefined ? 0 : depth
+    var depth = depth === undefined ? 0 : depth
     var res = new Horroy()
 
     for (var i = 0; i < this.length; i++) {
@@ -779,7 +779,7 @@ Horroy.prototype.includes = function (value) {
  */
 Horroy.prototype.lastIndexOf = function (searchElement, fromIndex) {
 
-    fromIndex = fromIndex === undefined ? this.length - 1 : fromIndex
+    var fromIndex = fromIndex === undefined ? this.length - 1 : fromIndex
 
     for (var i = fromIndex; i >= 0; i--)
         if (this[i] === searchElement) return i
