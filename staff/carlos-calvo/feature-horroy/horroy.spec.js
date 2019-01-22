@@ -293,3 +293,49 @@ describe("Horroy - copywithin", function() {
     });
 });
 
+describe("Horroy - find", function() {
+    it("Find item sucessful", function() {
+        var hor = new Horroy(10,21,31,41)
+        var result = hor.find(function(item){
+            return item > 10
+        })
+
+        expect(result).toEqual(21)
+    });
+
+    it("Throw error, not a function parameter", function() {
+        var hor = new Horroy(10,21,31,41)
+        expect(function(){hor.find(true)}).toThrow()
+    });
+
+    it("Not find item, result undefined", function() {
+        var hor = new Horroy(10,21,31,41)
+        var result = hor.find(function(item){
+            return item > 100
+        })
+
+        expect(result).toEqual(undefined)
+    });
+});
+
+describe("Horroy - findIndex", function() {
+    it("FindIndex item sucessful", function() {
+        var hor = new Horroy(11,21,31,41)
+        var result = hor.findIndex(function(item){
+            return item > 10
+        })
+        expect(result).toEqual(0)
+    });
+    it("Item not found, result -1", function() {
+        var hor = new Horroy(11,21,31,41)
+        var result = hor.findIndex(function(item){
+            return item > 100
+        })
+        expect(result).toEqual(-1)
+    });
+    it("Throw error, not a function parameter", function() {
+        var hor = new Horroy(10,21,31,41)
+        expect(function(){hor.findIndex(true)}).toThrow()
+    });
+});
+
