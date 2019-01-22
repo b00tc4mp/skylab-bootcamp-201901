@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500|Source+Sans+Pro");
+.alert, .confirm {
+  border-radius: 1rem;
+  border: 0.3rem solid skyblue;
+  padding: 0.2rem;
+  background-color: lightblue;
+  max-width: 20rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+}
+
+.alert__title {
+  color: dodgerblue;
+  font-family: 'Roboto';
+}
+
+.alert__body {
+  font-family: 'Source Sans Pro';
+}
+
+.alert--danger {
+  background-color: pink;
+  border-color: red;
+}
+
+.alert--danger :nth-child(1) {
+  color: red;
+}
+
+.alert__ok {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background-color: lightgray;
+}
+
+.confirm__title {
+  color: dodgerblue;
+  font-family: 'Roboto';
+}
+
+.confirm__body {
+  font-family: 'Source Sans Pro';
+}
+
+.confirm--danger {
+  background-color: pink;
+  border-color: red;
+}
+
+.confirm--danger :nth-child(1) {
+  color: red;
+}
+
+.confirm__ok {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background-color: lightgray;
+}
+
+.confirm__cancel {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+/*# sourceMappingURL=style.css.map */

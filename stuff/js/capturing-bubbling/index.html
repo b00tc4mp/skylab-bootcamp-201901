@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .inner {
+            background-color: plum;
+            width: 100px;
+            height: 100px;
+        }
+
+        .outer {
+            background-color: skyblue;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <div class="inner"></div>
+    </div>
+
+    <script>
+        var inner = document.getElementsByClassName('inner')[0];
+
+        inner.addEventListener('click', function(event) {
+            // event.stopPropagation();
+
+            console.log('inner');
+        }, !true);
+
+        var outer = document.getElementsByClassName('outer')[0];
+
+        outer.addEventListener('click', function(event) {
+            event.stopPropagation();
+
+            console.log('outer');
+        }, true);
+    </script>
+</body>
+</html>

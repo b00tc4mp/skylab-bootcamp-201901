@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title>CalculatorJS</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+  </head>
+  <body>
+    <div id="calculator" class="container text-center">
+
+      <div class="header row">
+        <p></p>
+      </div>
+
+      <div class="row">
+        <!--sidebarleft-->
+        <div class="sidebarleft col-md-3"></div>
+        <!--sidebarleft end-->
+
+        <!--main content-->
+        <div class="main-content col-md-6">
+          <div class="keyrow">
+            <h1 id="result" class="text-muted text-right">0</h1>
+          </div>
+          <div class="row keyrow">
+            <div class="col key">
+              <button onclick="getKey(7)" type="button" class="btn btn-secondary">7</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey(8)" type="button" class="btn btn-secondary">8</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey(9)" type="button" class="btn btn-secondary">9</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey('div')" type="button" class="btn btn-secondary">&divide;</button>
+            </div>
+          </div>
+          <div class="row keyrow">
+            <div class="col key">
+              <button onclick="getKey(4)" type="button" class="btn btn-secondary">4</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey(5)" type="button" class="btn btn-secondary">5</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey(6)" type="button" class="btn btn-secondary">6</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey('mul')" type="button" class="btn btn-secondary">&times;</button>
+            </div>
+          </div>
+          <div class="row keyrow">
+            <div class="col key">
+              <button onclick="getKey(1)" type="button" class="btn btn-secondary">1</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey(2)" type="button" class="btn btn-secondary">2</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey(3)" type="button" class="btn btn-secondary">3</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey('res')" type="button" class="btn btn-secondary">-</button>
+            </div>
+          </div>
+          <div class="row keyrow">
+            <div class="col key">
+              <button onclick="getKey(0)" type="button" class="btn btn-secondary">0</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey('poi')" type="button" class="btn btn-secondary">,</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey('add')" type="button" class="btn btn-secondary">+</button>
+            </div>
+            <div class="col key">
+              <button onclick="getKey('equ')" type="button" class="btn btn-warning">=</button>
+            </div>
+          </div>
+        </div>
+        <!--main content end-->
+
+        <!--sidebaright-->
+        <div class="sidebaright col-md-3"></div>
+        <!--sidebaright end-->
+      </div>
+
+      <div class="footer row">
+        <p></p>
+      </div>
+
+    </div>
+
+    <script src="app/app.js"></script>
+  </body>
+</html>
