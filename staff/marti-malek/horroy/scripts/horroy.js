@@ -740,13 +740,14 @@ Horroy.prototype.splice = function(start, deleteCount, item) {
  * 
  */
 Horroy.prototype.toSource = function () {
-    var hor = new Horroy();
+    /* var hor = new Horroy();
 
     for (var i = 0; i < this.length; i++) {
         hor[hor.length] = this[i].toString();
         hor.length++;
     }
-    return hor;
+    return hor; */
+    return this.toString();
 };
 /**
  * Abstraction of toString.

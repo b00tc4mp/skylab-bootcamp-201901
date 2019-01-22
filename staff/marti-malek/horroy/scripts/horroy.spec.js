@@ -867,16 +867,17 @@ describe('Horroy', function() {
         
         });
     });
-/*     describe('toSource', function () {
+    describe('toSource', function () {
         it('should return correct', function () {
             var res = numHorroy.toSource();
+            var expected = new Horroy(1,2,3);
 
-            console.log(res);
+            expect(res.toString()).toBe(expected.toString());
         });
-    }); */
+    });
     describe('unshift', function () {
         it('should return correct', function () {
-            var a = new Horroy(1, 2, 3, 4, 5, 6); // ~ [1, 2, 3]
+            var a = new Horroy(1, 2, 3, 4, 5, 6);
 
             var res = a.unshift(1,2);
 
