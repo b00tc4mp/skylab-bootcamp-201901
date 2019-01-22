@@ -74,6 +74,7 @@ function LoginPanel() {
     registerLink.innerText = 'Register'
     registerLink.className = 'login__register-link';
     container.appendChild(registerLink);
+    this.__registerLink__ = registerLink;
 }
 
 LoginPanel.prototype = Object.create(Panel.prototype);
@@ -97,6 +98,12 @@ Object.defineProperty(LoginPanel.prototype, 'error', {
         this.__error__.innerText = message;
         this.__error__.show();
     } 
+});
+
+Object.defineProperty(LoginPanel.prototype, 'clickRegister', {
+    set: function(callback) {
+        this.__registerLink__.addEventListener('click', callback);
+    }
 });
 
 LoginPanel.prototype.clear = function() {
@@ -158,66 +165,143 @@ Object.defineProperty(WelcomePanel.prototype, 'onLogout', {
 
 function RegisterPanel() {
     // TODO
+    Panel.call(this, document.createElement('section'));
+    
+    var container = this.element;
+    container.className = 'register';
+
+    var title = document.createElement('h2');
+    title.innerText = 'Register';
+    container.appendChild(title);
+
+    var form = document.createElement('form');
+    form.className = 'register_form';
+    container.appendChild(form);
+    this.__form__=form
+
+    var registerName = document.createElement('label');
+    registerName.setAttribute('for', 'name');
+    registerName.innerText = 'Name:';
+    form.appendChild(registerName);
+
+    var inputName = document.createElement('input');
+    inputName.type = 'name';
+    inputName.name = 'name';
+    inputName.placeholder = 'name';
+    inputName.required = true;
+    form.appendChild(inputName);
+    this.__inputName__ = inputName;
+
+    var registerSurname = document.createElement('label');
+    registerSurname.setAttribute('for', 'surname');
+    registerSurname.innerText = 'Surname:';
+    form.appendChild(registerSurname);
+
+    var inputSurname = document.createElement('input');
+    inputSurname.type = 'surname';
+    inputSurname.name = 'surname';
+    inputSurname.placeholder = 'surname';
+    inputSurname.required = true;
+    form.appendChild(inputSurname);
+    this.__inputSurname__ = inputSurname
+
+    var registerEmail = document.createElement('label');
+    registerEmail.setAttribute('for', 'email');
+    registerEmail.innerText = 'E-mail:';
+    form.appendChild(registerEmail);
+
+    var inputEmail = document.createElement('input');
+    inputEmail.type = 'email';
+    inputEmail.name = 'email';
+    inputEmail.placeholder = 'email';
+    inputEmail.required = true;
+    form.appendChild(inputEmail);
+    this.__inputEmail__ = inputEmail
+
+    var registerPassword = document.createElement('label');
+    registerPassword.setAttribute('for', 'password');
+    registerPassword.innerText = 'Password:';
+    form.appendChild(registerPassword);
+
+    var inputPassword = document.createElement('input');
+    inputPassword.type = 'password';
+    inputPassword.name = 'password';
+    inputPassword.placeholder = 'password';
+    inputPassword.required = true;
+    form.appendChild(inputPassword);
+    this.__inputPassword__ = inputPassword
+
+    var registerConfirmPassword = document.createElement('label');
+    registerConfirmPassword.setAttribute('for', 'password');
+    registerConfirmPassword.innerText = 'Confirm Password:';
+    form.appendChild(registerConfirmPassword);
+
+    var inputConfirmPassword = document.createElement('input');
+    inputConfirmPassword.type = 'password';
+    inputConfirmPassword.name = 'password.confirmation';
+    inputConfirmPassword.placeholder = 'password';
+    inputConfirmPassword.required = true;
+    form.appendChild(inputConfirmPassword);
+    this.__inputConfirmPassword__ = inputConfirmPassword
+
+    var registerButton = document.createElement('button');
+    registerButton.type = 'submit';
+    registerButton.innerText = 'Register';
+    form.appendChild(registerButton);
+
+    var error = document.createElement('section');
+    error.className = 'register_error';
+    container.appendChild(error);
+    this.__error__ = error;
+
+    var loginLink = document.createElement('a');
+    loginLink.href = '#';
+    loginLink.className = 'register__login-link';
+    loginLink.innerText = 'Login';
+    container.appendChild(loginLink);
+    this.__loginLink__ = loginLink;
 }
 
-//#endregion
+RegisterPanel.prototype = Object.create(Panel.prototype);
+RegisterPanel.prototype.constructor = RegisterPanel;
 
-// TODO remove following old code when register panel already implemented
+Object.defineProperty(RegisterPanel.prototype, 'clickLogin', {
+    set: function(callback) {
+        this.__loginLink__.addEventListener('click', callback)
+    }
+});
 
-//#region view (presentation logic)
+Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
+    set: function(callback) {
+        this.__form__.addEventListener('submit', function (event) {
+            event.preventDefault();
 
-(function () {
-    var registerSection = document.getElementsByClassName('register')[0];
+            var name = this.__inputName__.value
+            var surname = this.__inputSurname__.value
+            var email = this.__inputEmail__.value
+            var password = this.__inputPassword__.value
+            var passwordConfirmation = this.__inputConfirmPassword__.value
 
-    var loginLink = document.getElementsByClassName('register__login-link')[0];
+            callback(name, surname, email, password, passwordConfirmation);
+        }.bind(this))
+    }
+})
 
-    var registerForm = document.getElementsByClassName('register__form')[0];
+Object.defineProperty(RegisterPanel.prototype, 'error', {
+    set: function(message) {
+        this.__error__.innerText = message;
+        this.__error__.show();
+    }
+})
 
-    loginLink.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        registerSection.hide();
-        loginSection.show();
-    });
-
-    registerForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        var inputs = this.getElementsByTagName('input');
-
-        var nameInput = inputs[0];
-        var surnameInput = inputs[1];
-        var emailInput = inputs[2];
-        var passwordInput = inputs[3];
-        var passwordConfirmationInput = inputs[4];
-
-        var name = nameInput.value;
-        var surname = surnameInput.value;
-        var email = emailInput.value;
-        var password = passwordInput.value;
-        var passwordConfirmation = passwordConfirmationInput.value;
-
-        var errorPanel = document.getElementsByClassName('register__error')[0];
-
-        try {
-            register(name, surname, email, password, passwordConfirmation, function () {
-                nameInput.value = '';
-                surnameInput.value = '';
-                emailInput.value = '';
-                passwordInput.value = '';
-                passwordConfirmationInput.value = '';
-
-                errorPanel.style.display = 'none';
-                errorPanel.innerText = '';
-
-                registerSection.hide();
-                loginSection.show();
-            });
-        } catch (err) {
-            errorPanel.show();
-            errorPanel.innerText = err.message;
-        }
-    });
-});//();
+RegisterPanel.prototype.clear = function() {
+    this.__inputName__.value = '';
+    this.__inputSurname__.value = '';
+    this.__inputEmail__.value = '';
+    this.__inputPassword__.value = '';
+    this.__inputConfirmPassword__.value = '';
+    this.__error__.innerText = '';
+    this.__error__.hide();
+}
 
 //#endregion
