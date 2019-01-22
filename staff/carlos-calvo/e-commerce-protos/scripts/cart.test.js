@@ -1,6 +1,6 @@
 suite("Cart", function(){
     describe('.add function', function(){
-        it('Base Case I - Result Ok', function(){
+        it('Add a product to the cart sucessfully', function(){
             var err
             var cart = new Cart()
             var obj = {}
@@ -29,7 +29,7 @@ suite("Cart", function(){
             }catch(error){
                 err = error
             }
-            expect(err,'Should be an error! Not an object as parameter') //Si hi ha error is OK
+            expect(TypeError ('Item not a object!'),'Should be an error! Not an object as parameter') //Si hi ha error is OK
         });
     });
 

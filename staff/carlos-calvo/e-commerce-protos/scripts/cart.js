@@ -1,11 +1,12 @@
+/**
+ * add an item to the array
+ */
 function Cart(){
     this.arraybuy = []
-    /**
-     * add an item to the array
-     */
+
 }
 Cart.prototype.add = function (item){
-    if(!(item instanceof Object)) throw new Error ('Item not a object!')
+    if(!(item instanceof Product)) throw new TypeError ('Item not a object!')
     this.arraybuy.push(item)
 }
 /**
@@ -79,13 +80,6 @@ Cart.prototype.productsByPriceRange = function(min, max){
     return arrayreturn
 }
 
-Cart.prototype.filterby = function(type){
-    var result = this.arraybuy.filter(function(item) {
-        if (item.price >= minA && item.price <= maxA) {
-            return item
-        }
-    });
-}
 
     /*
     const result = words.filter(function(word){
