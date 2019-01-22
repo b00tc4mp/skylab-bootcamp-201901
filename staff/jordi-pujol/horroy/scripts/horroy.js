@@ -151,7 +151,7 @@ Horroy.prototype.join = function(separator){
 
 Horroy.prototype.reverse = function(){
 
-    if (arguments.length) throw TypeError ('There should be just one parameter (array)')
+    if (arguments.length) throw TypeError ('There should be no parameters')
 
     var rev;
 
@@ -161,4 +161,21 @@ Horroy.prototype.reverse = function(){
         this[this.length-1-i] = rev
     }
     return this
+}
+
+Horroy.prototype.slice = function(beg, end){
+
+    if (typeof beg !== "number" ) throw TypeError (beg + ' and ' + end + ' should be a number')
+
+    if (typeof beg === undefined) beg = 0;
+    if (beg > this.length) return [];
+    if (beg < 0) beg = this.length + beg;
+    if (end < 0) end = this.length + end
+
+    var a ={};
+
+    for (var i = beg; i<end; i++ ){
+        a[i-beg] = this[i]
+    }
+    return a
 }

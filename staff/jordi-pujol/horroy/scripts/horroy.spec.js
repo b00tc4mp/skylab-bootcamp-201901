@@ -383,4 +383,77 @@ describe('Horroy', function () {
         })
 
     })
+
+    describe('reverse', function(){
+
+        describe ('SUCCESS', function(){
+
+            it ('should return the horroy reversed', function(){
+
+                var horr = new Horroy(0, 1, 2, 3, 4)
+
+                var res = horr.reverse()
+
+                expect(res).toEqual(jasmine.objectContaining({0: 4, 1: 3, 2: 2, 3: 1, 4: 0}))
+            })
+        })
+        describe('FAILS', function(){
+
+            it ('should fail when paramaters are introduced', function(){
+
+                var error;
+
+                try {
+                    var horr = new Horroy(0, 1, 2, 3)
+
+                    var res = horr.reverse(3)
+                } catch (err) {
+                    error = err
+                }
+
+                expect(error.toString()).toEqual('TypeError: There should be no parameters')
+            })
+        })
+    })
+
+    describe('slice', function(){
+
+        describe('SUCCESS', function(){
+
+            it('should return a portion of the horroy in a new horroy', function(){
+
+                var horr = new Horroy(0, 1, 2, 3, 4, 5, 6, 7, 8)
+
+                var res = horr.slice(2, 5)
+
+                expect(res).toEqual(jasmine.objectContaining({0: 2, 1: 3, 2: 4}))
+            })
+
+            it('should not modify the horroy', function(){
+
+                var horr = new Horroy(0, 1, 2, 3, 4)
+
+                var res = horr.slice(2, 5)
+
+                expect(horr).toEqual(jasmine.objectContaining({0: 0, 1: 1, 2: 2, 3: 3, 4: 4}))
+            })
+        })
+        describe('FAILS', function(){
+
+            it('should fail when the start index is not a number', function(){
+
+                var error;
+
+                try {
+                    var horr = new Horroy(0, 1, 2, 3, 4)
+
+                    var res = horr.slice('potato', 4)
+                } catch (err){
+                    error = err
+                }
+
+                expect(error).toString()
+            })
+        })
+    })
 })
