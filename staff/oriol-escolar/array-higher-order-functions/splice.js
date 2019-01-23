@@ -38,7 +38,7 @@ function splice(array, start, end) {
 
     }
 
-    console.log(deleted)
+    
 
     newArray.length = begining.length + ending.length + items.length;
 
@@ -62,8 +62,7 @@ function splice(array, start, end) {
 
     }
 
-    console.log(newArray)
-
+  
     array=newArray;
 
 
@@ -71,6 +70,3 @@ function splice(array, start, end) {
 }
 
 
-var arr = [1, 2, 3, 4, 5];
-
-splice(arr, 1, 1, 'pepino', 'patata');
