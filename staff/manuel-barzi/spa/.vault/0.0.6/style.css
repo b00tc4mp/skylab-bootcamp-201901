@@ -7,13 +7,10 @@
     color: white;
 }
 
-.error {
+.login__error {
     display: none;
     background-color: red;
     color: white;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: white;
 }
 
 .register {
@@ -25,7 +22,13 @@
     border-color: gray;
 }
 
-.home {
+.register__error {
+    display: none;
+    background-color: red;
+    color: white;
+}
+
+.welcome {
     display: none;
     background-color: green;
     color: white;
