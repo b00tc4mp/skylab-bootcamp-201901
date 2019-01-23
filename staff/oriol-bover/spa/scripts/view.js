@@ -115,7 +115,7 @@ LoginPanel.prototype.clear = function() {
 
 //#endregion
 
-//#region welcome panel
+//#region Home panel
 
 function HomePanel() {
     Panel.call(this, document.createElement('section'));
@@ -200,6 +200,7 @@ Object.defineProperty(HomePanel.prototype, 'onSearch', {
 
 Object.defineProperty(HomePanel.prototype, 'error', {
     set: function(message){
+        this.__duckList__.innerText = '';
         this.__error__.innerText = message;
         this.__error__.show();
     }
@@ -207,6 +208,10 @@ Object.defineProperty(HomePanel.prototype, 'error', {
 
 Object.defineProperty(HomePanel.prototype, 'listResults', {
     set: function(ducklings){
+        this.__duckList__.innerText = '';
+        this.__error__.innerText = '';
+        this.__error__.hide();
+
         ducklings.forEach(function (duckling) {
             var item = document.createElement('li');
     
@@ -228,7 +233,7 @@ HomePanel.prototype.clear = function(){
     this.__duckList__.innerText = '';
     this.__error__.innerText = '';
     this.__error__.hide();
-    //this.__queryInput__.value = '';
+    this.__queryInput__.value = '';
 }
 
 //#endregion

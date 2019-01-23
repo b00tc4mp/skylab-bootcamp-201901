@@ -8,7 +8,7 @@ document.body.appendChild(registerPanel.element);
 
 loginPanel.onLogin = function(email, password) {
     try {
-        login(email, password, function(user) {
+        logic.login(email, password, function(user) {
             loginPanel.hide();
 
             homePanel.user = user;
@@ -26,13 +26,14 @@ loginPanel.onRegisterPanel = function(){
 
 homePanel.onLogout = function() {
     homePanel.hide();
+    homePanel.clear();
     loginPanel.clear();
     loginPanel.show();
 };
 
 homePanel.onSearch = function(query) {
-    search(query, function(error, ducklings) { 
-        homePanel.clear();
+    ducklingApi.search(query, function(error, ducklings) { 
+        //homePanel.clear();
 
         if (error)  homePanel.error = error;
         else homePanel.listResults = ducklings;
@@ -47,7 +48,7 @@ registerPanel.onLoginPanel = function(){
 
 registerPanel.onRegister = function(name, surname, email, password, passwordConfirmation){
     try {
-        register(name, surname, email, password, passwordConfirmation, function(){
+        logic.register(name, surname, email, password, passwordConfirmation, function(){
             registerPanel.hide();
             registerPanel.clear();
             loginPanel.show();
