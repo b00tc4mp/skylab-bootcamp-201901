@@ -47,14 +47,14 @@ Horroy.of = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (typeof arguments[i] === 'number') horr.push(arguments[i]); 
     }
-    return (horr instanceof Horroy);
+    return horr;
 }
 
 Horroy.from = function (value) {
     var horr = new Horroy;
     horr.length = value.length;
     if (typeof value === 'string')
-        for (var i = 0; i < value.length; i++);
+        for (var i = 0; i < value.length; i++)
             horr[i] = value[i];
     return horr;
 };
