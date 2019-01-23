@@ -354,7 +354,14 @@ Horroy.prototype.lastIndexOf = function(searchElement, fromIndex) {
 
 };
 
-
+/**
+ * Executes a reducer function (that you provide) on each member of the array resulting in a single output value.
+ * 
+ * @param {Function} callback- Function to execute on each element in the horroy.
+ * @param {*} valorInicial - Value to use as the first argument to the first call of the callback
+ * 
+ * @returns {*} - The value that results from the reduction.
+ */
 Horroy.prototype.reduce = function(callback, valorInicial) {
   if (!(this instanceof Array)) {
     throw new TypeError(this + " is not an array");
@@ -388,6 +395,14 @@ Horroy.prototype.reduce = function(callback, valorInicial) {
 };
 
 
+/**
+ * applies a function against an accumulator and each value of the horroy (from right-to-left) to reduce it to a single value.
+ * 
+ * @param {Function} callback - Function to execute on each value in the horroy
+ * @param {*} valorInicial - Object to use as the first argument to the first call of the callback
+ * 
+ * @returns {*} - The value that results from the reduction.
+ */
 Horroy.prototype.reduceRight = function(callback, valorInicial) {
   if (!(this instanceof Horroy)) {
     throw new TypeError(this + " is not an array");
@@ -401,8 +416,8 @@ Horroy.prototype.reduceRight = function(callback, valorInicial) {
     throw new TypeError("Reduce of empty array with no initial value");
   }
 
-  var valorAnterior = 0;
-  var indice = this.length - 1;
+  var valorAnterior = this[this.length - 1];
+  var indice = this.length - 2;
   var vector = this;
 
   if (valorInicial) {
@@ -411,9 +426,6 @@ Horroy.prototype.reduceRight = function(callback, valorInicial) {
   } else {
     valorInicial = this[this.length - 1];
   }
-  
-
-  console.log('@', indice, valorActual);
 
   for (var i = indice; i >= 0; i--) {
     valorActual = this[i];
@@ -421,4 +433,17 @@ Horroy.prototype.reduceRight = function(callback, valorInicial) {
   }
 
   return valorAnterior;
+};
+
+Horroy.prototype.sort = function(compareFunction) {
+
+  for(var i = 0; i < this.length; i++) {
+    // console.log(this.toString().charCodeAt(i) > this.toString().charCodeAt(i + 1));
+    if(this[i + 1] && (this.toString().charCodeAt(i) > this.toString().charCodeAt(i + 1))) {
+      var value = this[i + 1];
+      this[i + 1] = this[i];
+      this[i] = value;
+    }
+  }
+
 };

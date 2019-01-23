@@ -565,36 +565,35 @@ suite("Horroy", function() {
   //   });
   // });
 
+  // describe("Function reduceRight()", function() {
+  //   it("should reduce array with all arguments", function() {
+  //     var horroy = new Horroy(0,1,2,3,4);
+  //     var horroyReduceRight = horroy.reduceRight(function(valorPrevio, valorActual){
+  //       return valorPrevio + valorActual;
+  //     });
+  //     var expected = 10;
+  //     console.log('#', horroyReduceRight);
+  //     expect(horroyReduceRight === expected, "Unexpected value");
+  //   });
 
-  describe("Function reduceRight()", function() {
-    it("should reduce array with all arguments", function() {
-      var horroy = new Horroy(0,1,2,3,4);
-      var horroyReduceRight = horroy.reduceRight(function(valorPrevio, valorActual){
-        return valorPrevio + valorActual;
-      });
-      var expected = 10;
-      console.log('#', horroyReduceRight);
-      expect(horroyReduceRight === expected, "Unexpected value");
+  //   it("should reduce array with all arguments and initial value", function() {
+  //     var horroy = new Horroy(0,1,2,3,4);
+  //     var horroyReduceRight = horroy.reduceRight(function(valorPrevio, valorActual){
+  //       return valorPrevio + valorActual;
+  //     }, 10);
+  //     var expected = 20;
+  //     expect(horroyReduceRight === expected, "Unexpected value");
+  //   });
+  // });
+
+  describe("Function sort()", function() {
+    it("should sort horry of numbers without  compareFunction", function() {
+      var horroy = new Horroy(40, 1, 5, 200);
+      horroy.sort();
+      console.log(horroy);
+      var expected = '1,200,40,5';
+      expect(horroy.toString() === expected, "Unexpected value");
     });
-
-    it("should reduce array with all arguments and initial value", function() {
-      var horroy = new Horroy(0,1,2,3,4);
-      var horroyReduceRight = horroy.reduceRight(function(valorPrevio, valorActual){
-        return valorPrevio + valorActual;
-      }, 10);
-      var expected = 20;
-      expect(horroyReduceRight === expected, "Unexpected value");
-    });
-
-    it("should reduce array with all arguments", function() {
-      var horroy = new Horroy(1,2,3,4);
-      var horroyReduceRight = horroy.reduceRight(function(valorPrevio, valorActual){
-        return valorPrevio * valorActual;
-      });
-      var expected = 24;
-      console.log('#', horroyReduceRight);
-      expect(horroyReduceRight === expected, "Unexpected value");
-    });
-
   });
+
 });
