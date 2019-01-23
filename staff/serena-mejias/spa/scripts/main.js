@@ -49,21 +49,27 @@ loginPanel.onRegisterPanel = function() {
 
 homePanel.onLogout = function() {
   homePanel.hide();
+  searchPanel.clear();
   loginPanel.clear();
   loginPanel.show();
 };
 
 searchPanel.onSearch = function(query) {
-    search(query, function(error,results){
+    try{
+      logic.search(query, function(error,results){
         if(error) searchPanel.error = error;
-        else searchPanel.results = results.map(function(){
+        else searchPanel.results = results.map(function(result){
             return {
                 text: resultList.title,
                 image: resultList.imageUrl
             }
         });
     });
+    catch(err){
+      searchPanel.error = err.message;
+    }
 };
+
 
 registerPanel.onLoginPanel = function() {
   registerPanel.hide();
