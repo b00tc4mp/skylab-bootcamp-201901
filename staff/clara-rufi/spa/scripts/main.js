@@ -10,20 +10,27 @@ loginPanel.onLogin = function(email, password) {
     try {
         login(email, password, function(user) {
             loginPanel.hide();
+            loginPanel.clear();
 
             welcomePanel.user = user;
             welcomePanel.show();
         });
     } catch(err) {
-        loginPanel.error = err.message; //el missatge d'error esta definit a la logica(logic.js)
+        loginPanel.error = err.message;
+        //el missatge d'error esta definit a la logica(logic.js)
     }
 };
 
 
 loginPanel.onRegisterPanel = function (){
-    
-    registerPanel.show();
+    loginPanel.clear();
     loginPanel.hide();
+
+    registerPanel.show();
+    
+    ///
+    // loginPanel.hide();
+    // registerPanel.show();
 }
 
 welcomePanel.onLogout = function() {
@@ -34,24 +41,29 @@ welcomePanel.onLogout = function() {
 };
 
 
-registerPanel.register = function(name, surname, email, password, confirmpassword) {
+registerPanel.register = function(name, surname, email, password, passwordConfirmation) {
     try {
-        register(name, surname, email, password,confirmpassword, function(user) {
+        register(name, surname, email, password,passwordConfirmation, function(user) {
            
-            loginPanel.show();
+            
             registerPanel.hide();
             registerPanel.clear();
+            loginPanel.show();
         });
     } catch(err) {
         registerPanel.error = err.message; //el missatge d'error esta definit a la logica(logic.js)
+       
     }
 };
 
-debugger
+
 registerPanel.register = function() {
 
     loginPanel.show();
     registerPanel.hide();
+    // registerPanel.hide();
+    // loginPanel.show();
+    // registerPanel.clear();
 };
 
 

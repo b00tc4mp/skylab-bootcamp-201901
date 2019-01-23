@@ -29,6 +29,7 @@ function login(email, password, callback) {
 
     callback(loggedInUser);
 }
+debugger
 
 function register(name, surname, email, password, passwordConfirmation, callback) {
     if (typeof name !== 'string') throw TypeError(name + ' is not a string');
@@ -51,7 +52,9 @@ function register(name, surname, email, password, passwordConfirmation, callback
 
     if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty');
 
-    // TODO validate fields!
+    if (passwordConfirmation !== password) throw Error('password must match password confirmation');
+
+   
 
     var user = users.find(function (user) {
         return user.email === email;

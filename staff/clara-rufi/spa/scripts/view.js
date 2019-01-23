@@ -239,18 +239,18 @@ function RegisterPanel() {
     form.appendChild(passwordInput);
     this.__passwordInput__ = passwordInput; 
 
-    var confirmpasswordLabel = document.createElement('label');
-    confirmpasswordLabel.setAttribute('for', 'confirmpassword');
-    confirmpasswordLabel.innerText = 'Confirm Password:';
-    form.appendChild(confirmpasswordLabel);
+    var passwordConfirmationlabel = document.createElement('label');
+    passwordConfirmationlabel.setAttribute('for', 'confirmpassword');
+    passwordConfirmationlabel.innerText = 'Confirm Password:';
+    form.appendChild(passwordConfirmationlabel);
 
-    var confirmpasswordInput = document.createElement('input');
-    confirmpasswordInput.type = 'confirmpassword';
-    confirmpasswordInput.name = 'confirmpassword';
-    confirmpasswordInput.placeholder = 'confirmpassword';
-    confirmpasswordInput.required = true;
-    form.appendChild(confirmpasswordInput);
-    this.__confirmpasswordInput__ = confirmpasswordInput; 
+    var passwordConfirmationInput = document.createElement('input');
+    passwordConfirmationInput.type = 'confirmpassword';
+    passwordConfirmationInput.name = 'confirmpassword';
+    passwordConfirmationInput.placeholder = 'confirmpassword';
+    passwordConfirmationInput.required = true;
+    form.appendChild(passwordConfirmationInput);
+    this.__passwordConfirmationInput__ = passwordConfirmationInput; 
 
     var submitButton = document.createElement('button');
     submitButton.type = 'submit';
@@ -274,7 +274,7 @@ function RegisterPanel() {
 
 RegisterPanel.prototype = Object.create(Panel.prototype); //creem el loguinpanel a partir de panel i li afegim les prop de panel
 RegisterPanel.prototype.constructor = RegisterPanel;
-
+debugger
 Object.defineProperty(RegisterPanel.prototype, 'register', { 
     set: function(callback) { 
         this.__form__.addEventListener('submit', function (event) {//this fa ref a loguinpannel
@@ -284,8 +284,8 @@ Object.defineProperty(RegisterPanel.prototype, 'register', {
             var surname = this.__surnameInput__.value;
             var email = this.__emailInput__.value; //this assenyala a loguinpanel, pq hi ha el bind definit
             var password = this.__passwordInput__.value;
-            var confirmpassword = this.__confirmpasswordInput__.value;
-            callback(name, surname, email, password, confirmpassword);
+            var passwordConfirmation = this.__passwordConfirmationInput__.value;
+            callback(name, surname, email, password, passwordConfirmation);
         }.bind(this));
     } 
 });
@@ -302,7 +302,7 @@ RegisterPanel.prototype.clear = function() {
     this.__nameInput__.value = '';
     this.__surnameInput__.value;
     this.__emailInput__.value = '';
-    this.__passwordInput__.value = '';
+    this.__passwordConfirmationImput__.value = '';
     this.__error__.innerText = '';
     this.__error__.hide(); 
 };
@@ -313,8 +313,6 @@ Object.defineProperty(RegisterPanel.prototype, 'Register', {
         this.__register__login-link__.addEventListener('click', callback);
     } 
 });
-
-
 
 
 
