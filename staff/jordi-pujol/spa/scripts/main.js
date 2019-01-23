@@ -51,6 +51,11 @@ registerPanel.onRegister = function(name, surname, email, password, passwordConf
     }
 };
 
+registerPanel.onSearch = function (query) {
+
+    // try {search()}
+}
+
 
 // var loginPanel2 = new LoginPanel
 
