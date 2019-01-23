@@ -115,9 +115,9 @@ Object.defineProperty(LoginPanel.prototype, 'onRegister', {
 
 //#endregion
 
-//#region welcome panel
+//#region home panel
 
-function WelcomePanel() {
+function HomePanel() {
     Panel.call(this, document.createElement('section'));
 
     var container = this.element;
@@ -137,6 +137,30 @@ function WelcomePanel() {
     var exclamationText = document.createTextNode('!');
     title.appendChild(exclamationText);
 
+    var searchForm = document.createElement('form');
+    container.appendChild(searchForm);
+    this.__searchForm__ = searchForm;
+
+    var formInput = document.createElement('input');
+    formInput.type = 'text';
+    formInput.name = 'q';
+    searchForm.appendChild(formInput);
+    this.__formInput__ = formInput;
+
+    var buttonInput = document.createElement('button');
+    buttonInput.type = 'submit';
+    buttonInput.innerText = 'Search';
+    searchForm.appendChild(buttonInput);
+
+    var duckList = document.createElement('ul');
+    container.appendChild(duckList);
+    this.__duckList__= duckList;
+
+    var error = document.createElement('section');
+    error.className = 'register__error';
+    container.appendChild(error);
+    this.__error__ = error;
+
     var logoutButton = document.createElement('button');
     logoutButton.className = 'welcome__logout';
     logoutButton.innerText = 'Logout';
@@ -144,16 +168,41 @@ function WelcomePanel() {
     this.__logoutButton__ = logoutButton;
 }
 
-WelcomePanel.prototype = Object.create(Panel.prototype);
-WelcomePanel.prototype.constructor = WelcomePanel;
+HomePanel.prototype = Object.create(Panel.prototype);
+HomePanel.prototype.constructor = HomePanel;
 
-Object.defineProperty(WelcomePanel.prototype, 'user', { 
+Object.defineProperty(HomePanel.prototype, 'user', { 
     set: function(user) { 
         this.__userSpan__.innerText = user.name;
     } 
 });
 
-Object.defineProperty(WelcomePanel.prototype, 'onLogout', { 
+Object.defineProperty(HomePanel.prototype, 'onSearch', { 
+    set: function(callback) { 
+        this.__searchForm__.addEventListener('submit', function (event) {
+            this.__duckList__.innerText= '';
+            event.preventDefault();
+
+            var query = this.__formInput__.value;
+    
+            callback(query);
+        }.bind(this));
+    } 
+});
+
+Object.defineProperty(HomePanel.prototype, 'error', { 
+    set: function(message) { 
+        this.__error__.innerText = message;
+        this.__error__.show();
+    } 
+});
+
+HomePanel.prototype.clear = function() {
+        this.__error__.innerText = '';
+        this.__error__.hide();
+};
+
+Object.defineProperty(HomePanel.prototype, 'onLogout', { 
     set: function(callback) { 
         this.__logoutButton__.addEventListener('click', callback);
     } 
@@ -186,7 +235,7 @@ function RegisterPanel() {
     registerForm.appendChild(nameLabel);
 
     var nameInput = document.createElement('input');
-    nameInput.type = 'name';
+    nameInput.type = 'text';
     nameInput.name = 'name';
     nameInput.placeholder = 'name';
     nameInput.required = true;
@@ -199,7 +248,7 @@ function RegisterPanel() {
     registerForm.appendChild(surnameLabel);
 
     var surnameInput = document.createElement('input');
-    surnameInput.type = 'surname';
+    surnameInput.type = 'text';
     surnameInput.name = 'surname';
     surnameInput.placeholder= 'surname';
     surnameInput.required = true;
