@@ -163,7 +163,7 @@ Object.defineProperty(WelcomePanel.prototype, 'onLogout', {
 
 //#region register panel
 
-function RegisterPanel() {
+/*function RegisterPanel() {
     Panel.call(this, document.createElement('section'));
 
     var container = this.element;
@@ -190,16 +190,7 @@ function RegisterPanel() {
     nameInput.placeholder = 'name';
     nameInput.required = true;
     form.appendChild(nameInput);
-}
-
-/*RegisterPanel.prototype = Object.create(Panel.prototype);
-RegisterPanel.prototype.constructor = RegisterPanel;
-
-Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
-    set: function(callback) {
-        this.__registerLink__.addEventListener('click', callback);
-    };
-})*/
+}*/
 
 //#endregion
 
@@ -207,7 +198,7 @@ Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
 
 //#region view (presentation logic)
 
-/*(function () {
+(function () {
     var registerSection = document.getElementsByClassName('register')[0];
 
     var loginLink = document.getElementsByClassName('register__login-link')[0];
@@ -259,6 +250,6 @@ Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
             errorPanel.innerText = err.message;
         }
     });
-});*///();
+})///();
 
 //#endregion

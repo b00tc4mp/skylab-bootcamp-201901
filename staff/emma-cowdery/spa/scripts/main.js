@@ -1,6 +1,6 @@
 var loginPanel = new LoginPanel
 var welcomePanel = new WelcomePanel
-var registerPanel = new RegisterPanel
+//var registerPanel = new RegisterPanel
 
 document.body.appendChild(loginPanel.element);
 document.body.appendChild(welcomePanel.element);
@@ -25,11 +25,11 @@ welcomePanel.onLogout = function() {
     loginPanel.show();
 };
 
-registerPanel.onRegister = function() {
+/*registerPanel.onRegister = function() {
     loginPanel.hide();
-    welcomePanel.hide();
+    //welcomePanel.hide();
     registerPanel.show();
-};
+};*/
 
 
 // var loginPanel2 = new LoginPanel
