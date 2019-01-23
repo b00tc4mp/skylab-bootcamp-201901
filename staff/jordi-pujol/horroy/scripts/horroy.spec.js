@@ -446,14 +446,86 @@ describe('Horroy', function () {
         it('should work when we introduce all the parameters & there are more elements to delete than to add', function(){
 
             var horr = new Horroy(0, 1, 2, 3, 4, 5, 6, 7)
-            console.log(horr)
 
             var res = horr.splice(2, 4, 'house', 'potato')
+
+            expect(res).toEqual(jasmine.objectContaining({ 0: 2, 1: 3, 2: 4, 3: 5 }))
+        })
+
+        it('should work when we introduce all the parameters', function(){
+
+            var horr = new Horroy(0, 1, 2, 3, 4, 5, 6, 7)
+            console.log(horr)
+
+            var res = horr.splice(2, 2, 'house', 'potato')
             console.log(res)
             console.log(horr)
 
 
-            expect(res).toEqual(jasmine.objectContaining({ 0: 2, 1: 3, 2: 4, 3: 5 }))
+            expect(res).toEqual(jasmine.objectContaining({ 0: 2, 1: 3}))
+        })
+
+        it('should work when we do not introduce any element to add nor deletecount', function(){
+
+            var horr = new Horroy(0, 1, 2, 3, 4, 5)
+
+            var res = horr.splice(2)
+
+            expect(res).toEqual(jasmine.objectContaining({ 0: 2, 1: 3, 2: 4, 3: 5}))
+        })
+
+        it('should work when we do not introduce any element but start and deletcount', function(){
+
+            var horr = new Horroy(0, 1, 2, 3, 4, 5)
+
+            var res = horr.splice(2, 3)
+
+            expect(res).toEqual(jasmine.objectContaining({ 0: 2, 1: 3, 2: 4}))
+        })
+
+        it('should return empty horroy if no start nor deletcount introduced', function(){
+
+            var horr = new Horroy(0, 1, 2, 3, 4, 5)
+
+            var res = horr.splice("home", "casa")
+
+            expect(res).toEqual(jasmine.objectContaining({ }))
+        })
+    })
+
+    describe ('fill', function(){
+
+        it ('should work when we introduce all the parameters', function(){
+
+            var horr = new Horroy(0, 1, 2, 3, 4, 5, 6)
+
+            var res = horr.fill(15, 2, 5)
+
+            expect(horr).toEqual(jasmine.objectContaining({ 0: 0, 1: 1, 2: 15, 3: 15, 4: 15, 5: 5, 6: 6}))
+        })
+
+        it ('should work when we introduce just one parameter', function(){
+
+            var horr = new Horroy(0, 1, 2, 3, 4, 5, 6)
+
+            var res = horr.fill(15)
+
+            expect(horr).toEqual(jasmine.objectContaining({ 0: 15, 1: 15, 2: 15, 3: 15, 4: 15, 5: 15, 6: 15}))
+        })
+
+        it ('should fail when more than 3 paramaters introduced', function(){
+
+            var error;
+
+            try {
+                var horr = new Horroy(0, 1, 2, 3, 4, 5, 6)
+
+                var res = horr.fill(15, 2, 5, 5)
+            } catch (err) {
+                error = err
+            }
+
+            expect(error.toString()).toBe('Error: too many arguments')
         })
     })
 })
