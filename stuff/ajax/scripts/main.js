@@ -9,6 +9,10 @@ form.addEventListener('submit', function (event) {
 
     search(query, function(error, ducklings) {
         list.innerHTML = '';
+<<<<<<< HEAD
+=======
+        
+>>>>>>> develop
         if (error) listNoResults(error);
         else listResults(ducklings);
     });
