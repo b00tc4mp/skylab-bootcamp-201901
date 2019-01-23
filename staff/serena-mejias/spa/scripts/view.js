@@ -103,10 +103,10 @@ Object.defineProperty(LoginPanel.prototype, "error", {
   }
 });
 
-Object.defineProperty(LoginPanel.prototype, 'onRegisterPanel', { 
-    set: function(callback) { 
-        this.__registerLink__.addEventListener('click', callback);
-    } 
+Object.defineProperty(LoginPanel.prototype, "onRegisterPanel", {
+  set: function(callback) {
+    this.__registerLink__.addEventListener("click", callback);
+  }
 });
 
 LoginPanel.prototype.clear = function() {
@@ -118,51 +118,7 @@ LoginPanel.prototype.clear = function() {
 
 //#endregion
 
-//#region welcome panel
 
-function WelcomePanel() {
-  Panel.call(this, document.createElement("section"));
-
-  var container = this.element;
-  container.className = "welcome";
-
-  var title = document.createElement("h2");
-  container.appendChild(title);
-
-  var welcomeText = document.createTextNode("Welcome, ");
-  title.appendChild(welcomeText);
-
-  var userSpan = document.createElement("span");
-  userSpan.className = "welcome__name";
-  title.appendChild(userSpan);
-  this.__userSpan__ = userSpan;
-
-  var exclamationText = document.createTextNode("!");
-  title.appendChild(exclamationText);
-
-  var logoutButton = document.createElement("button");
-  logoutButton.className = "welcome__logout";
-  logoutButton.innerText = "Logout";
-  container.appendChild(logoutButton);
-  this.__logoutButton__ = logoutButton;
-}
-
-WelcomePanel.prototype = Object.create(Panel.prototype);
-WelcomePanel.prototype.constructor = WelcomePanel;
-
-Object.defineProperty(WelcomePanel.prototype, "user", {
-  set: function(user) {
-    this.__userSpan__.innerText = user.name;
-  }
-});
-
-Object.defineProperty(WelcomePanel.prototype, "onLogout", {
-  set: function(callback) {
-    this.__logoutButton__.addEventListener("click", callback);
-  }
-});
-
-//#endregion
 
 //#region register panel
 
@@ -293,80 +249,137 @@ Object.defineProperty(RegisterPanel.prototype, "error", {
   }
 });
 
-Object.defineProperty(RegisterPanel.prototype, 'onLoginPanel', { 
-    set: function(callback) { 
-        this.__loginLink__.addEventListener('click', callback);
-    } 
+Object.defineProperty(RegisterPanel.prototype, "onLoginPanel", {
+  set: function(callback) {
+    this.__loginLink__.addEventListener("click", callback);
+  }
 });
 
 RegisterPanel.prototype.clear = function() {
-  this.__inputName__.value = '';
-  this.__inputSurname__.value = '';
-  this.__emailInput__.value = '';
-  this.__passwordInput__.value = '';
-  this.__passwordInputConfirmation__.value = '';
+  this.__inputName__.value = "";
+  this.__inputSurname__.value = "";
+  this.__emailInput__.value = "";
+  this.__passwordInput__.value = "";
+  this.__passwordInputConfirmation__.value = "";
   this.__error__.innerText = "";
   this.__error__.hide();
 };
 
-//#endregion
+//#region welcome panel
 
-// TODO remove following old code when register panel already implemented
+function HomePanel() {
+    Panel.call(this, document.createElement("section"));
+  
+    var container = this.element;
+    container.className = "welcome";
+  
+    var title = document.createElement("h4");
+    container.appendChild(title);
+  
+    var welcomeText = document.createTextNode("Welcome, ");
+    title.appendChild(welcomeText);
+  
+    var userSpan = document.createElement("span");
+    userSpan.className = "welcome__name";
+    title.appendChild(userSpan);
+    this.__userSpan__ = userSpan;
+  
+    var exclamationText = document.createTextNode("!");
+    title.appendChild(exclamationText);
+  
+    var logoutButton = document.createElement("button");
+    logoutButton.className = "welcome__logout";
+    logoutButton.innerText = "Logout";
+    container.appendChild(logoutButton);
+    this.__logoutButton__ = logoutButton;
+  }
 
-//#region view (presentation logic)
+    function SearchPanel() {
 
-/*(function () {
-    var registerSection = document.getElementsByClassName('register')[0];
+    Panel.call(this, document.createElement("section"));
+    var container = this.element;
+    container.className = 'duckling';
+  
+    var form = document.createElement('form');
+    container.appendChild(form);
+    this.__form__ = form;
 
-    var loginLink = document.getElementsByClassName('register__login-link')[0];
+    var queryInput = document.createElement('input');
+    queryInput.type = 'text';
+    queryInput.name = 'query';
+    queryInput.placeholder = '...';
+    form.appendChild(queryInput);
+    this.__queryInput__ = queryInput; 
 
-    var registerForm = document.getElementsByClassName('register__form')[0];
+    var searchButton = document.createElement('button');
+    searchButton.type = 'submit';
+    searchButton.innerText = 'Search';
+    form.appendChild(searchButton);
 
-    loginLink.addEventListener('click', function (event) {
-        event.preventDefault();
+    var resultList = document.createElement('ul');
+    container.appendChild(resultList);
+    this.__resultList__ = resultList;
+    }
 
-        registerSection.hide();
-        loginSection.show();
-    });
-
-    registerForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        var inputs = this.getElementsByTagName('input');
-
-        var nameInput = inputs[0];
-        var surnameInput = inputs[1];
-        var emailInput = inputs[2];
-        var passwordInput = inputs[3];
-        var passwordConfirmationInput = inputs[4];
-
-        var name = nameInput.value;
-        var surname = surnameInput.value;
-        var email = emailInput.value;
-        var password = passwordInput.value;
-        var passwordConfirmation = passwordConfirmationInput.value;
-
-        var errorPanel = document.getElementsByClassName('register__error')[0];
-
-        try {
-            register(name, surname, email, password, passwordConfirmation, function () {
-                nameInput.value = '';
-                surnameInput.value = '';
-                emailInput.value = '';
-                passwordInput.value = '';
-                passwordConfirmationInput.value = '';
-
-                errorPanel.style.display = 'none';
-                errorPanel.innerText = '';
-
-                registerSection.hide();
-                loginSection.show();
-            });
-        } catch (err) {
-            errorPanel.show();
-            errorPanel.innerText = err.message;
+    SearchPanel.prototype = Object.create(Panel.prototype)
+    SearchPanel.prototype.constructor = SearchPanel;
+    
+    Object.defineProperty(SearchPanel.prototype, 'onSearch', {
+        set: function(callback){
+            this.__form__.addEventListener('submit', function(event){
+                event.preventDefault();
+        
+                var query = this.__queryInput__.value;
+        
+                callback(query);
+            }.bind(this));
         }
     });
-});//();*/
+
+    Object.defineProperty(SearchPanel.prototype, 'error', {
+        set: function(message){
+            this.__resultList__.innerHTML = '';
+
+            var errorItem = document.createElement('li');
+            errorItem.innerText = message;
+            this.__resultList__.appendChild(errorItem);
+        }
+    });
+
+    Object.defineProperty(SearchPanel.prototype, 'results', {
+        set: function(results) {
+            this.__resultList__.innerHTML = '';
+
+            results.forEach(function(result){
+                var item = document.createElement('li');
+                this.__resultList__.appendChild(item);
+
+                var text = document.createTextNode(result.text);
+                item.appendChild(text);
+
+                var image = document.createElement('img');
+                image.src = result.image;
+                image.style.width = '100px';
+                item.appendChild(image);
+            }).bind(this);
+        }
+    })
+
+  HomePanel.prototype = Object.create(Panel.prototype);
+  HomePanel.prototype.constructor = HomePanel;
+  
+  Object.defineProperty(HomePanel.prototype, "user", {
+    set: function(user) {
+      this.__userSpan__.innerText = user.name;
+    }
+  });
+  
+  Object.defineProperty(HomePanel.prototype, "onLogout", {
+    set: function(callback) {
+      this.__logoutButton__.addEventListener("click", callback);
+    }
+  });
+  
+  //#endregion
 
 //#endregion

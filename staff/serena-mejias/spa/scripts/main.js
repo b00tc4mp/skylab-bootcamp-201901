@@ -1,18 +1,21 @@
 var loginPanel = new LoginPanel();
-var welcomePanel = new WelcomePanel();
+var homePanel = new HomePanel();
 var registerPanel = new RegisterPanel();
+var searchPanel = new SearchPanel();
 
 document.body.appendChild(loginPanel.element);
-document.body.appendChild(welcomePanel.element);
+document.body.appendChild(homePanel.element);
 document.body.appendChild(registerPanel.element);
+
+homePanel.element.appendChild(searchPanel.element);
 
 loginPanel.onLogin = function(email, password) {
   try {
     login(email, password, function(user) {
       loginPanel.hide();
 
-      welcomePanel.user = user;
-      welcomePanel.show();
+      homePanel.user = user;
+      homePanel.show();
     });
   } catch (err) {
     loginPanel.error = err.message;
@@ -27,10 +30,12 @@ registerPanel.registration = function(
   passwordConfirmation
 ) {
   try {
-    register(name, surname, email, password, passwordConfirmation, function(user) {
-      loginPanel.show();
+    register(name, surname, email, password, passwordConfirmation, function(
+      user
+    ) {
       registerPanel.hide();
       registerPanel.clear();
+      loginPanel.show();
     });
   } catch (err) {
     registerPanel.error = err.message;
@@ -42,10 +47,22 @@ loginPanel.onRegisterPanel = function() {
   registerPanel.show();
 };
 
-welcomePanel.onLogout = function() {
-  welcomePanel.hide();
+homePanel.onLogout = function() {
+  homePanel.hide();
   loginPanel.clear();
   loginPanel.show();
+};
+
+searchPanel.onSearch = function(query) {
+    search(query, function(error,results){
+        if(error) searchPanel.error = error;
+        else searchPanel.results = results.map(function(){
+            return {
+                text: resultList.title,
+                image: resultList.imageUrl
+            }
+        });
+    });
 };
 
 registerPanel.onLoginPanel = function() {
