@@ -358,7 +358,7 @@ Object.defineProperty(SearchPanel.prototype, 'error', {
 Object.defineProperty(SearchPanel.prototype, 'results', {
     set: function(results) {
         this.__resultList__.innerHTML = '';
-        this.__error__.hide();
+        this.__errorPanel__.hide();
 
         results.forEach(function(result) {
             var item = document.createElement('li');
@@ -376,10 +376,14 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
 });
 
 SearchPanel.prototype.clear = function() {
-    this.__resultList__.innerHTML = '';
+    this.clearResults();
     this.__queryInput__.value = '';
     this.__errorPanel__.message = '';
     this.__errorPanel__.hide();
+};
+
+SearchPanel.prototype.clearResults = function() {
+    this.__resultList__.innerHTML = '';
 };
 
 //#endregion
