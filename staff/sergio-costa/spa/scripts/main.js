@@ -25,6 +25,22 @@ welcomePanel.onLogout = function() {
     loginPanel.show();
 };
 
+welcomePanel.onSearch = function(query){
+    try {
+        search(query, function(error, results){
+            if(error)welcomePanel.error = error;
+            else welcomePanel.results = results.map(function(result){
+                return {
+                    text: result.title,
+                    image: result.imageUrl
+                    }
+            });
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 loginPanel.loadPageRegister = function(){
     loginPanel.hide();
     registerPanel.show();
