@@ -14,8 +14,6 @@ function search(query, callback) {
     xhr.onload = function () {
         var res = JSON.parse(xhr.responseText);
 
-        list.innerHTML = '';
-
         if (res.error)
             callback(res.error);
         else
