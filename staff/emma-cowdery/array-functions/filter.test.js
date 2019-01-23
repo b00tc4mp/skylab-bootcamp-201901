@@ -4,7 +4,7 @@ test('all arguments are correct', function() {
     var arr = [1, 2, 3, 4, 5];
     var res = filter(arr, function(element) {return element > 2});
     var exp = [3, 4, 5];
-    if (arr === res) throw Error("array and result shouldn't be the same");
+    if (arr.toString === res.toString) throw Error("array and result shouldn't be the same");
     if (res.toString() !== exp.toString()) throw Error('expected and result should be the same');
 });
 
