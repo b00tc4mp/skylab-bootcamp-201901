@@ -8,6 +8,7 @@ form.addEventListener('submit', function (event) {
     var query = input.value;
 
     search(query, function(error, ducklings) {
+        list.innerHTML = '';
         if (error) listNoResults(error);
         else listResults(ducklings);
     });

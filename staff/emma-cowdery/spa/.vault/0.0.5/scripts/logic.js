@@ -63,6 +63,4 @@ function register(name, surname, email, password, passwordConfirmation, callback
     callback();
 }
 
-
-
 //#endregion
