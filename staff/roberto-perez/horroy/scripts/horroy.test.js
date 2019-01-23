@@ -594,6 +594,25 @@ suite("Horroy", function() {
       var expected = '1,200,40,5';
       expect(horroy.toString() === expected, "Unexpected value");
     });
+
+    it("should sort horry of numbers without  compareFunction", function() {
+      var horroy = new Horroy('word', 'Word', '1 Word', '2 Words');
+      horroy.sort();
+      console.log(horroy);
+      var expected = '1 Word,2 Words,Word,word';
+      expect(horroy.toString() === expected, "Unexpected value");
+    });
+
+    it("should sort horry of numbers without  compareFunction", function() {
+      var horroy = new Horroy(4, 2, 5, 1, 3);
+      horroy.sort(function(a, b) {
+        return b - a;
+      });
+      console.log(horroy);
+      var expected = '1 Word,2 Words,Word,word';
+      expect(horroy.toString() === expected, "Unexpected value");
+    });
+
   });
 
 });

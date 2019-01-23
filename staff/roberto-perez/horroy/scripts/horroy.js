@@ -437,12 +437,19 @@ Horroy.prototype.reduceRight = function(callback, valorInicial) {
 
 Horroy.prototype.sort = function(compareFunction) {
 
+  if(typeof compareFunction === 'undefined') {
+    compareFunction = function(a, b) {
+      return a - b;
+    };
+  }
+
   for(var i = 0; i < this.length; i++) {
-    // console.log(this.toString().charCodeAt(i) > this.toString().charCodeAt(i + 1));
-    if(this[i + 1] && (this.toString().charCodeAt(i) > this.toString().charCodeAt(i + 1))) {
-      var value = this[i + 1];
-      this[i + 1] = this[i];
-      this[i] = value;
+    for(var j = 0; j < this.length; j++) {
+      if(compareFunction(this[j].toString().charCodeAt(), this[i].toString().charCodeAt())) {
+        var tmp = this[i];
+        this[i] = this[j];
+        this[j] = tmp;
+      }
     }
   }
 
