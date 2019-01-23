@@ -1,13 +1,14 @@
 'use strict';
 
 var loginPanel = new LoginPanel
-// var registerPanel = new RegisterPanel
+var registerPanel = new RegisterPanel
 // var homePanel = new HomePanel
 // var searchPanel = new SearchPanel
 
 var $body = $(document.body);
 
 $body.append(loginPanel.$element);
+$body.append(registerPanel.$element);
 // document.body.appendChild(registerPanel.element)
 // document.body.appendChild(homePanel.element);
 
@@ -27,25 +28,25 @@ loginPanel.onLogin = function(email, password) {
     }
 };
 
-// loginPanel.onGoToRegister = function() {
-//     loginPanel.hide();
-//     loginPanel.clear();
+loginPanel.onGoToRegister = function() {
+    loginPanel.hide();
+    loginPanel.clear();
 
-//     registerPanel.show();
-// };
+    registerPanel.show();
+};
 
-// registerPanel.onRegister = function(name, surname, email, password, passwordConfirmation) {
-//     try {
-//         logic.register(name, surname, email, password, passwordConfirmation, function() {
-//             registerPanel.hide();
-//             registerPanel.clear();
+registerPanel.onRegister = function(name, surname, email, password, passwordConfirmation) {
+    try {
+        logic.register(name, surname, email, password, passwordConfirmation, function() {
+            registerPanel.hide();
+            registerPanel.clear();
 
-//             loginPanel.show();
-//         });
-//     } catch(err) {
-//         registerPanel.error = err.message;
-//     }
-// };
+            loginPanel.show();
+        });
+    } catch(err) {
+        registerPanel.error = err.message;
+    }
+};
 
 // registerPanel.onGoToLogin = function() {
 //     registerPanel.hide();

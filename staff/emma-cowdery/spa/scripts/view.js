@@ -92,7 +92,49 @@ Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
 //#region register panel
 
 function RegisterPanel() {
-    Panel.call(this, document.createElement('section'));
+    Panel.call(this, $('<section class="register"'
+    + '<h2>Register</h2>'
+    + '<form class="register__form">'
+    + '<label for="name">Name</label>'
+    + '<input type="text" name="name" placeholder="name" required>'
+    + '<label for="surname">Surname</label>'
+    + '<input type="text" surname="surname" placeholder="surname" required'
+    + '<label for="email">E-mail</label>'
+    + '<input type="email" name="email" placeholder="email" required>'
+    + '<label for="password">Password</label>'
+    + '<input type="password" name="password" placeholder="password" required>'
+    + '<label for="passwordConfirmation">confirm password</label>'
+    + '<input type="password" name="passwordConfirmation" placeholder="confirm password" required>'
+    + '<button type="submit">Register</button>'));
+
+    var $container = this.$element;
+
+    var $form = $container.children('form');
+    this.__$form__ = $form;
+
+    var $inputs = $form.children('input');
+
+    this.__$nameInput = $($inputs[0]);
+
+    this.__$surnameInput = $($inputs[1]);
+
+    this.__$emailInput = $($inputs[2]);
+
+    this.__$passwordInput__ = $($inputs[3]);
+
+    this.__$passwordConfirmationInput__ = $($inputs[4]);
+
+    var errorPanel = new ErrorPanel;
+    $container.append(errorPanel.$element);
+    this.__errorPanel__ = errorPanel;
+
+    var $loginLink = $('<a href="#" class="register__login-link">Login</a>');
+
+
+
+
+
+    /*Panel.call(this, document.createElement('section'));
 
     var container = this.element;
     container.className = 'register';
@@ -185,7 +227,7 @@ function RegisterPanel() {
     loginLink.innerText = 'Login'
     loginLink.className = 'register__login-link';
     container.appendChild(loginLink);
-    this.__loginLink__ = loginLink;
+    this.__loginLink__ = loginLink;*/
 }
 
 RegisterPanel.prototype = Object.create(Panel.prototype);
@@ -193,14 +235,14 @@ RegisterPanel.prototype.constructor = RegisterPanel;
 
 Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
     set: function (callback) {
-        this.__form__.addEventListener('submit', function (event) {
+        this.__$form__.on('submit', function (event) {
             event.preventDefault();
 
-            var name = this.__nameInput__.value;
-            var surname = this.__surnameInput__.value;
-            var email = this.__emailInput__.value;
-            var password = this.__passwordInput__.value;
-            var passwordConfirmation = this.__passwordConfirmationInput__.value;
+            var name = this.__$nameInput__.val();
+            var surname = this.__$surnameInput__.val();
+            var email = this.__$emailInput__.val();
+            var password = this.__$passwordInput__.val();
+            var passwordConfirmation = this.__$passwordConfirmationInput__.val();
 
             callback(name, surname, email, password, passwordConfirmation);
         }.bind(this));
@@ -215,18 +257,18 @@ Object.defineProperty(RegisterPanel.prototype, 'error', {
 });
 
 RegisterPanel.prototype.clear = function () {
-    this.__nameInput__.value = '';
-    this.__surnameInput__.value = '';
-    this.__emailInput__.value = '';
-    this.__passwordInput__.value = '';
-    this.__passwordConfirmationInput__.value = '';
+    this.__$nameInput__.val('');
+    this.__$surnameInput__.val('');
+    this.__$emailInput__.val('');
+    this.__$passwordInput__.val('');
+    this.__$passwordConfirmationInput__.val('');
     this.__errorPanel__.message = '';
     this.__errorPanel__.hide();
 };
 
 Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
     set: function (callback) {
-        this.__loginLink__.addEventListener('click', callback);
+        this.__$loginLink__.addEventListener('click', callback);
     }
 });
 
