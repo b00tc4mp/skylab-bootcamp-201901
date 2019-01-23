@@ -2,9 +2,10 @@ var loginPanel = new LoginPanel
 var homePanel = new HomePanel
 var registerPanel = new RegisterPanel;
 
-document.body.appendChild(loginPanel.element);
-document.body.appendChild(homePanel.element);
-document.body.appendChild(registerPanel.element);
+$body = $(document.body);
+$body.append(loginPanel.$element);
+$body.append(homePanel.$element);
+$body.append(registerPanel.$element);
 
 loginPanel.onLogin = function(email, password) {
     try {
@@ -26,18 +27,26 @@ loginPanel.onRegisterPanel = function(){
 
 homePanel.onLogout = function() {
     homePanel.hide();
-    homePanel.clear();
+    homePanel.clear(true);
     loginPanel.clear();
     loginPanel.show();
 };
 
 homePanel.onSearch = function(query) {
-    ducklingApi.search(query, function(error, ducklings) { 
-        //homePanel.clear();
-
-        if (error)  homePanel.error = error;
-        else homePanel.listResults = ducklings;
-    });
+    try{
+        logic.search(query, function(error, ducklings){
+            homePanel.clear();
+            if (error)  homePanel.error = error;
+            else homePanel.listResults = ducklings.map(function(duckling){
+                return {
+                    text: duckling.title,
+                    image: duckling.imageUrl
+                }
+            });
+        });
+    }catch(err){
+        homePanel.error = err.message;
+    }
 }
 
 registerPanel.onLoginPanel = function(){
