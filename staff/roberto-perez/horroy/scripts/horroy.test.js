@@ -527,41 +527,74 @@ suite("Horroy", function() {
   //   });
   // });
 
-  describe("Function lastIndexOf()", function() {
-    it("should return the last index of the element in the array", function() {
-      var horroy = new Horroy(2, 5, 9, 2);
-      var horroyIndex = horroy.lastIndexOf(2);
-      var expected = 3;
-      expect(horroyIndex === expected, "Unexpected value");
+  // describe("Function lastIndexOf()", function() {
+  //   it("should return the last index of the element in the array", function() {
+  //     var horroy = new Horroy(2, 5, 9, 2);
+  //     var horroyIndex = horroy.lastIndexOf(2);
+  //     var expected = 3;
+  //     expect(horroyIndex === expected, "Unexpected value");
+  //   });
+
+  //   it("should return the last index of the element in the array passing a second argument", function() {
+  //     var horroy = new Horroy(2, 5, 9, 2);
+  //     var horroyIndex = horroy.lastIndexOf(2, 2);
+  //     var expected = 0;
+  //     expect(horroyIndex === expected, "Unexpected value");
+  //   });
+
+  //   it("should fail if the second argument is not a number", function() {
+  //     var horroy = new Horroy(2, 5, 9, 2);
+
+  //     var error;
+
+  //     try {
+  //       var index = horroy.lastIndexOf(2, "s");
+  //     } catch (err) {
+  //       error = err;
+  //     }
+
+  //     expect(error, "It should throw an error");
+  //     expect(error instanceof TypeError, "The error should be TypeError");
+  //   });
+
+  //   it("should fail if the second argument is a negative number", function() {
+  //     var horroy = new Horroy(2, 5, 9, 2);
+  //     var horroyIndex = horroy.lastIndexOf(2, -1);
+  //     var expected = 3;
+  //     expect(horroyIndex === expected, "Unexpected value");
+  //   });
+  // });
+
+
+  describe("Function reduceRight()", function() {
+    it("should reduce array with all arguments", function() {
+      var horroy = new Horroy(0,1,2,3,4);
+      var horroyReduceRight = horroy.reduceRight(function(valorPrevio, valorActual){
+        return valorPrevio + valorActual;
+      });
+      var expected = 10;
+      console.log('#', horroyReduceRight);
+      expect(horroyReduceRight === expected, "Unexpected value");
     });
 
-    it("should return the last index of the element in the array passing a second argument", function() {
-      var horroy = new Horroy(2, 5, 9, 2);
-      var horroyIndex = horroy.lastIndexOf(2, 2);
-      var expected = 0;
-      expect(horroyIndex === expected, "Unexpected value");
+    it("should reduce array with all arguments and initial value", function() {
+      var horroy = new Horroy(0,1,2,3,4);
+      var horroyReduceRight = horroy.reduceRight(function(valorPrevio, valorActual){
+        return valorPrevio + valorActual;
+      }, 10);
+      var expected = 20;
+      expect(horroyReduceRight === expected, "Unexpected value");
     });
 
-    it("should fail if the second argument is not a number", function() {
-      var horroy = new Horroy(2, 5, 9, 2);
-
-      var error;
-
-      try {
-        var index = horroy.lastIndexOf(2, "s");
-      } catch (err) {
-        error = err;
-      }
-
-      expect(error, "It should throw an error");
-      expect(error instanceof TypeError, "The error should be TypeError");
+    it("should reduce array with all arguments", function() {
+      var horroy = new Horroy(1,2,3,4);
+      var horroyReduceRight = horroy.reduceRight(function(valorPrevio, valorActual){
+        return valorPrevio * valorActual;
+      });
+      var expected = 24;
+      console.log('#', horroyReduceRight);
+      expect(horroyReduceRight === expected, "Unexpected value");
     });
 
-    it("should fail if the second argument is a negative number", function() {
-      var horroy = new Horroy(2, 5, 9, 2);
-      var horroyIndex = horroy.lastIndexOf(2, -1);
-      var expected = 3;
-      expect(horroyIndex === expected, "Unexpected value");
-    });
   });
 });

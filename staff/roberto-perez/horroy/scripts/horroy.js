@@ -353,3 +353,72 @@ Horroy.prototype.lastIndexOf = function(searchElement, fromIndex) {
   return -1;
 
 };
+
+
+Horroy.prototype.reduce = function(callback, valorInicial) {
+  if (!(this instanceof Array)) {
+    throw new TypeError(this + " is not an array");
+  }
+
+  if (!(callback instanceof Function)) {
+    throw new TypeError(this + " is not a function");
+  }
+
+  if (this.length <= 0) {
+    throw new TypeError("Reduce of empty array with no initial value");
+  }
+
+  var valorAnterior = 0;
+  var indice = 1;
+  var valorActual = this[indice];
+  var vector = this;
+
+  if (valorInicial) {
+    valorAnterior = valorInicial;
+    indice = 0;
+    valorActual = this[indice];
+  }
+
+  for (var i = indice; i < this.length; i++) {
+    valorActual = this[i];
+    valorAnterior = callback(valorAnterior, valorActual, i, vector);
+  }
+
+  return valorAnterior;
+};
+
+
+Horroy.prototype.reduceRight = function(callback, valorInicial) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an array");
+  }
+
+  if (!(callback instanceof Function)) {
+    throw new TypeError(this + " is not a function");
+  }
+
+  if (this.length <= 0) {
+    throw new TypeError("Reduce of empty array with no initial value");
+  }
+
+  var valorAnterior = 0;
+  var indice = this.length - 1;
+  var vector = this;
+
+  if (valorInicial) {
+    valorAnterior = valorInicial;
+    indice = this.length - 1;
+  } else {
+    valorInicial = this[this.length - 1];
+  }
+  
+
+  console.log('@', indice, valorActual);
+
+  for (var i = indice; i >= 0; i--) {
+    valorActual = this[i];
+    valorAnterior = callback(valorAnterior, valorActual, i, vector);
+  }
+
+  return valorAnterior;
+};
