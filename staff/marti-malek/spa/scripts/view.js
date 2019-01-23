@@ -183,7 +183,7 @@ function RegisterPanel() {
     form.appendChild(nameLabel);
 
     var nameInput = document.createElement('input');
-    nameInput.type = 'name';
+    nameInput.type = 'text';
     nameInput.name = 'name';
     nameInput.placeholder = 'name';
     nameInput.required = true;
@@ -196,7 +196,7 @@ function RegisterPanel() {
     form.appendChild(surnameLabel);
 
     var surnameInput = document.createElement('input');
-    surnameInput.type = 'surname';
+    surnameInput.type = 'text';
     surnameInput.name = 'surname';
     surnameInput.placeholder = 'surname';
     surnameInput.required = true;
