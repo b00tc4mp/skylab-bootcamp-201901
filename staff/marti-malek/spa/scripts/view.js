@@ -114,9 +114,9 @@ LoginPanel.prototype.clear = function() {
 
 //#endregion
 
-//#region welcome panel
+//#region home panel
 
-function WelcomePanel() {
+function HomePanel() {
     Panel.call(this, document.createElement('section'));
 
     var container = this.element;
@@ -125,8 +125,8 @@ function WelcomePanel() {
     var title = document.createElement('h2');
     container.appendChild(title);
 
-    var welcomeText = document.createTextNode('Welcome, ');
-    title.appendChild(welcomeText);
+    var homeText = document.createTextNode('Welcome, ');
+    title.appendChild(homeText);
 
     var userSpan = document.createElement('span');
     userSpan.className = 'welcome__name';
@@ -136,6 +136,34 @@ function WelcomePanel() {
     var exclamationText = document.createTextNode('!');
     title.appendChild(exclamationText);
 
+    
+    var form = document.createElement('form');
+/*     form.action = 'https://duckling-api.herokuapp.com/api/search';
+    form.method = 'get'; */
+    container.appendChild(form);
+    this.__form__ = form;
+    
+    var duckInput = document.createElement('input');
+    duckInput.type = 'text';
+    duckInput.name = 'q';
+    duckInput.placeholder = 'search something';
+    form.appendChild(duckInput);
+    this.__duckInput__ = duckInput;
+    
+    var duckButton = document.createElement('button');
+    duckButton.type = 'submit';
+    duckButton.innerText = 'Search';
+    form.appendChild(duckButton); 
+
+    var duckList = document.createElement('ul');
+    container.appendChild(duckList);
+    this.__duckList__ = duckList;
+
+    var error = document.createElement('section');
+    error.className = 'register__error';
+    container.appendChild(error);
+    this.__error__ = error;
+
     var logoutButton = document.createElement('button');
     logoutButton.className = 'welcome__logout';
     logoutButton.innerText = 'Logout';
@@ -143,16 +171,37 @@ function WelcomePanel() {
     this.__logoutButton__ = logoutButton;
 }
 
-WelcomePanel.prototype = Object.create(Panel.prototype);
-WelcomePanel.prototype.constructor = WelcomePanel;
+HomePanel.prototype = Object.create(Panel.prototype);
+HomePanel.prototype.constructor = HomePanel;
 
-Object.defineProperty(WelcomePanel.prototype, 'user', { 
+Object.defineProperty(HomePanel.prototype, 'user', { 
     set: function(user) { 
         this.__userSpan__.innerText = user.name;
     } 
 });
 
-Object.defineProperty(WelcomePanel.prototype, 'onLogout', { 
+Object.defineProperty(HomePanel.prototype, 'onSearch', {
+    set: function(callback) {
+        this.__form__.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            this.__duckList__.innerText = '';
+            this.__error__.hide();
+            
+            var query = this.__duckInput__.value;
+            callback(query);
+        }.bind(this));
+    }
+});
+
+Object.defineProperty(HomePanel.prototype, 'error', {
+    set: function(message) {
+        this.__error__.innerText = message;
+        this.__error__.show();
+    }
+});
+
+Object.defineProperty(HomePanel.prototype, 'onLogout', { 
     set: function(callback) { 
         this.__logoutButton__.addEventListener('click', callback);
     } 
