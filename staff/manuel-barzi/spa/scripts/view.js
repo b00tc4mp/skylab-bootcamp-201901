@@ -6,7 +6,6 @@ function Panel($element) {
     this.$element = $element;
 }
 
-
 Panel.prototype.hide = function () {
     this.$element.hide();
 };
@@ -83,7 +82,7 @@ LoginPanel.prototype.clear = function () {
 
 Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
     set: function (callback) {
-        this.__$registerLink__.addEventListener('click', callback);
+        this.__$registerLink__.on('click', callback);
     }
 });
 
