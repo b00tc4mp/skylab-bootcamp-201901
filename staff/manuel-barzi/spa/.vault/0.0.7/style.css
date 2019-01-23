@@ -1,0 +1,41 @@
+.login {
+    background-color: skyblue;
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: gray;
+    color: white;
+}
+
+.login__error {
+    display: none;
+    background-color: red;
+    color: white;
+}
+
+.register {
+    display: none;
+    background-color: yellow;
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: gray;
+}
+
+.register__error {
+    display: none;
+    background-color: red;
+    color: white;
+}
+
+.home {
+    display: none;
+    background-color: green;
+    color: white;
+}
+
+.search__error {
+    display: none;
+    background-color: red;
+    color: white;
+}
