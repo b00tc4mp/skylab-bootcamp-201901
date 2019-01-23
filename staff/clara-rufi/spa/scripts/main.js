@@ -1,25 +1,29 @@
+'use strict';
+
 var loginPanel = new LoginPanel
 var registerPanel = new RegisterPanel
-var welcomePanel = new WelcomePanel
+var homePanel = new HomePanel
+var searchPanel = new SearchPanel
 
 
 document.body.appendChild(loginPanel.element); //posem el loguinpanel a dins del body
 document.body.appendChild(registerPanel.element);
-document.body.appendChild(welcomePanel.element);
+document.body.appendChild(homePanel.element);
 
+homePanel.element.appendChild(searchPanel.element);
 
 loginPanel.onLogin = function(email, password) {
     try {
-        login(email, password, function(user) {
+        logic.login(email, password, function(user) {
             loginPanel.hide();
             loginPanel.clear();
 
-            welcomePanel.user = user;
-            welcomePanel.show();
-        
+            homePanel.user = user;
+            homePanel.show();
         });
     } catch(err) {
         loginPanel.error = err.message;
+  
         //el missatge d'error esta definit a la logica(logic.js)
     }
 };
@@ -44,32 +48,41 @@ welcomePanel.onLogout = function() {
 };
 
 
-registerPanel.register = function(name, surname, email, password, passwordConfirmation) {
-    try {
-        register(name, surname, email, password,passwordConfirmation, function(user) {
-           
-            
-            registerPanel.hide();
-            registerPanel.clear();
-            loginPanel.show();
-        });
-    } catch(err) {
-        registerPanel.error = err.message; //el missatge d'error esta definit a la logica(logic.js)
-       
-    }
-};
-
-
-registerPanel.register = function() {
-
-    loginPanel.show();
+registerPanel.onGoToLogin = function() {
     registerPanel.hide();
     registerPanel.clear();
-    
+
+    loginPanel.show();
+};
+
+homePanel.onLogout = function() {
+    homePanel.hide();
+
+    searchPanel.clear();
+
+    loginPanel.clear();
+    loginPanel.show();
+};
+
+searchPanel.onSearch = function(query) {
+    try {
+        logic.search(query, function(error, results) {
+            if (error) searchPanel.error = error;
+            else searchPanel.results = results.map(function(result) {
+                return {
+                    text: result.title,
+                    image: result.imageUrl
+                }
+            });
+        });
+    } catch(err) {
+        searchPanel.error = err.message;
+    } 
+};
     // registerPanel.hide();
     // loginPanel.show();
     // registerPanel.clear();
-};
+
 
 
 // var loginPanel2 = new LoginPanel
