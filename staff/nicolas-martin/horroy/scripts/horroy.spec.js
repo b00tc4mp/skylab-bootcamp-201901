@@ -1,7 +1,4 @@
 describe('Horroy', function() {
-    // WARN is this initializaton necessary?
-
-    // var horroy;
 
     // beforeEach(function() {
     //     horroy = new Horroy;
@@ -24,7 +21,6 @@ describe('Horroy', function() {
     describe('ishorroy', function() {
         it('should returns true if is a Horroy', function() {   
             var horr = new Horroy;
-            debugger;
             var isHorroy2 = Horroy.isHorroy(horr);
             expect(isHorroy2).toBe(true);
         });
@@ -32,19 +28,24 @@ describe('Horroy', function() {
         it('should returns false if is not a Horroy', function() {   
             var arr = new Array;
             var isHorroy2 = Horroy.isHorroy(arr);
-            // expect(isHorroy2).toBe(false);
             expect(isHorroy2).toBeFalsy();
         });
     });
 
     describe('of', function() {
         it('should returns a Horroy from a number', function() {   
-            //var horr = new Horroy;
-            var horr = Horroy.of(7);
+            var horr = Horroy.of(7);  
 
-            expect(horr)
+            expect(horr);
             expect(horr.length).toBe(1);
             expect(horr[0]).toBe(7);
+        });
+
+        it('should return a Horroy creating a Horroy from a string', function() {   
+            var horr = Horroy.of('322');  
+            expect(horr);
+            expect(horr.length).toBe(1);
+            expect(horr[0]).toBe('322');
         });
     });
 });
