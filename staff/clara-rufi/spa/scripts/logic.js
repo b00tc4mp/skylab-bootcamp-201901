@@ -29,7 +29,7 @@ function login(email, password, callback) {
 
     callback(loggedInUser);
 }
-debugger
+
 
 function register(name, surname, email, password, passwordConfirmation, callback) {
     if (typeof name !== 'string') throw TypeError(name + ' is not a string');

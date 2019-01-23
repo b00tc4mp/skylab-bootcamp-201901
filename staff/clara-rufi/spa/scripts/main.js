@@ -1,10 +1,12 @@
 var loginPanel = new LoginPanel
-var welcomePanel = new WelcomePanel
 var registerPanel = new RegisterPanel
+var welcomePanel = new WelcomePanel
+
 
 document.body.appendChild(loginPanel.element); //posem el loguinpanel a dins del body
-document.body.appendChild(welcomePanel.element);
 document.body.appendChild(registerPanel.element);
+document.body.appendChild(welcomePanel.element);
+
 
 loginPanel.onLogin = function(email, password) {
     try {
@@ -14,6 +16,7 @@ loginPanel.onLogin = function(email, password) {
 
             welcomePanel.user = user;
             welcomePanel.show();
+        
         });
     } catch(err) {
         loginPanel.error = err.message;
@@ -61,6 +64,8 @@ registerPanel.register = function() {
 
     loginPanel.show();
     registerPanel.hide();
+    registerPanel.clear();
+    
     // registerPanel.hide();
     // loginPanel.show();
     // registerPanel.clear();

@@ -274,7 +274,7 @@ function RegisterPanel() {
 
 RegisterPanel.prototype = Object.create(Panel.prototype); //creem el loguinpanel a partir de panel i li afegim les prop de panel
 RegisterPanel.prototype.constructor = RegisterPanel;
-debugger
+
 Object.defineProperty(RegisterPanel.prototype, 'register', { 
     set: function(callback) { 
         this.__form__.addEventListener('submit', function (event) {//this fa ref a loguinpannel
@@ -377,3 +377,83 @@ Object.defineProperty(RegisterPanel.prototype, 'Register', {
 });//();
 
 //#endregion
+
+// ///////////////////////////////////////////////////////////////////// duck panel /////////////////////
+
+// function SearchPanel() {
+
+//     /*executem funcio panel amb el call, x crear section a dins de panel
+//     */
+//         Panel.call(this, document.createElement('section')); //cridem al pare i li posem una section
+    
+//         var container = this.element; /*el this fa referencia a panel*/
+//         container.className = 'ducks';
+    
+//         // var title = document.createElement('h2');
+//         // title.innerText = 'Welcome to ducks app!';
+//         // container.appendChild(title); //container es el pare, title el fill
+    
+//         var form = document.createElement('form');
+//         containerduck.appendChild(form);
+    
+//         var queryInput = document.createElement('input');
+//         queryInput.type = 'text';
+//         queryInput.name = 'name duck:';
+//         queryInput.placeholder = 'search duck';
+//         ducksearchInput.required = true;
+//         form.appendChild(queryInput);
+//         this.__ducksearchInput__ = ducksearchInput; //per poder fer el clear dp del buscador
+    
+//         var searchButton = document.createElement('button');
+//         searchButton .type = 'submit';
+//         searchButton .innerText = 'Search';
+//         form.appendChild(searchButton);
+//         this.__searchButton__ = searchButton;
+
+//         var resultList = document.createElement("ul");
+//         container.appendChild(resultList);
+//         this.__resultList__ = resultList; // x poder accedir a aquestes variables fora del constructor
+//     }
+    
+//     SearchPanel.prototype = Object.create(Panel.prototype); //creem el loguinpanel a partir de panel i li afegim les prop de panel
+//     SearchPanel.prototype.constructor = SearchPanel;
+
+
+    
+    // Object.defineProperty(DuckPanel.prototype, 'onDuck', { ??????????????????
+    //     set: function(callback) { 
+    //         this.__form__.addEventListener('submit', function (event) {//this fa ref a loguinpannel
+    //             event.preventDefault(); //x aturar el fluxe, en aquest cas, del submit
+        
+    //             var email = this.__emailInput__.value; //this assenyala a loguinpanel, pq hi ha el bind definit
+    //             var password = this.__passwordInput__.value;
+        
+    //             callback(email, password);
+    //         }.bind(this));
+    //     } 
+    // });
+    // s'executa amb el submit
+    //set propietat q hem posat a loguin Panel, xo q no queda guardada i amb el callback, executes onloguin (amagarà loguin panel, q mostrarà el welcomepanel amb el user)
+    //al loguin panel, li definim la propietat de onloguin
+    //bind window, sempre els this apuntaran a window.
+    
+    // Object.defineProperty(LoginPanel.prototype, 'error', { 
+    //     set: function(message) { 
+    //         this.__error__.innerText = message;
+    //         this.__error__.show();
+    //     } 
+    // });
+    
+    // Object.defineProperty(LoginPanel.prototype, 'onRegisterPanel', { 
+    //     set: function(callback) { 
+    //         this.__registerLink__.addEventListener('click', callback);
+    //     } 
+    // });
+    
+    // LoginPanel.prototype.clear = function() {
+    //     this.__emailInput__.value = '';
+    //     this.__passwordInput__.value = '';
+    //     this.__error__.innerText = '';
+    //     this.__error__.hide(); 
+    // };
+    
