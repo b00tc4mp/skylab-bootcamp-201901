@@ -1,9 +1,9 @@
 var loginPanel = new LoginPanel
-var welcomePanel = new WelcomePanel
+var homePanel = new HomePanel
 var registerPanel = new RegisterPanel;
 
 document.body.appendChild(loginPanel.element);
-document.body.appendChild(welcomePanel.element);
+document.body.appendChild(homePanel.element);
 document.body.appendChild(registerPanel.element);
 
 loginPanel.onLogin = function(email, password) {
@@ -11,8 +11,8 @@ loginPanel.onLogin = function(email, password) {
         login(email, password, function(user) {
             loginPanel.hide();
 
-            welcomePanel.user = user;
-            welcomePanel.show();
+            homePanel.user = user;
+            homePanel.show();
         });
     } catch(err) {
         loginPanel.error = err.message;
@@ -24,11 +24,20 @@ loginPanel.onRegisterPanel = function(){
     registerPanel.show();
 }
 
-welcomePanel.onLogout = function() {
-    welcomePanel.hide();
+homePanel.onLogout = function() {
+    homePanel.hide();
     loginPanel.clear();
     loginPanel.show();
 };
+
+homePanel.onSearch = function(query) {
+    search(query, function(error, ducklings) { 
+        homePanel.clear();
+
+        if (error)  homePanel.error = error;
+        else homePanel.listResults = ducklings;
+    });
+}
 
 registerPanel.onLoginPanel = function(){
     registerPanel.hide();

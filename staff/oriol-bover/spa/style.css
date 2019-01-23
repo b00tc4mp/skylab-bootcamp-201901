@@ -33,3 +33,9 @@
     background-color: green;
     color: white;
 }
+
+.list__error {
+    display: none;
+    background-color: red;
+    color: white;
+}
