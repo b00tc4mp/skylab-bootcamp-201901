@@ -49,25 +49,3 @@ registerPanel.submitFormRegister = function (name, surname, email, password, pas
     }
 };
 
-
-// var loginPanel2 = new LoginPanel
-
-// document.body.appendChild(loginPanel2.element);
-
-// loginPanel2.onLogin = function(email, password) {
-//     console.log('llama a otra logica', email, password);
-// };
-
-
-// var mainPanel = new Panel
-
-// var registerPanel = new RegisterPanel
-// var welcomePanel = new WelcomePanel
-
-// mainPanel.add(loginPanel)
-// mainPanel.add(registerPanel)
-// mainPanel.add(welcomePanel)
-
-// loginPanel.onLogin = function() {}
-
-// ...
