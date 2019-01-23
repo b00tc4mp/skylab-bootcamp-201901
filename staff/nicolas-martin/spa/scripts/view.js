@@ -142,10 +142,40 @@ function WelcomePanel() {
     logoutButton.innerText = 'Logout';
     container.appendChild(logoutButton);
     this.__logoutButton__ = logoutButton;
+
+    var form = document.createElement('form');
+    form.className = 'welcome__form';
+    form.action = 'https://duckling-api.herokuapp.com/api/search';
+    form.method = 'get';
+    container.appendChild(form);
+    this.__form__ = form;
+
+    var inputSearch = document.createElement('input');
+    inputSearch.type = 'text';
+    inputSearch.name = 'q';
+    inputSearch.placeholder = 'Search'
+    form.appendChild(inputSearch);
+
+    var searchButton = document.createElement('button');
+    searchButton.type = 'submit';
+    searchButton.innerText = 'Search';
+    form.appendChild(searchButton);
+
+    var duckingList = document.createElement('ul');
+    container.appendChild(duckingList);
 }
 
 WelcomePanel.prototype = Object.create(Panel.prototype);
 WelcomePanel.prototype.constructor = WelcomePanel;
+
+
+Object.defineProperty(WelcomePanel.prototype, 'onSearch', {
+    set: function() {
+        var item = document.createElement('li');
+        item.innerText = message;
+        list.appendChild(item);
+    }
+});
 
 Object.defineProperty(WelcomePanel.prototype, 'user', { 
     set: function(user) { 
