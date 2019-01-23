@@ -117,7 +117,7 @@ LoginPanel.prototype.clear = function() {
 
 //#region welcome panel
 
-function WelcomePanel() {
+function HomePanel() {
     Panel.call(this, document.createElement('section'));
 
     var container = this.element;
@@ -142,22 +142,94 @@ function WelcomePanel() {
     logoutButton.innerText = 'Logout';
     container.appendChild(logoutButton);
     this.__logoutButton__ = logoutButton;
+
+    var duckForm = document.createElement('form');
+    duckForm.action = 'https://duckling-api.herokuapp.com/api/search';
+    duckForm.method = 'get';
+    container.append(duckForm);
+    this.__duckForm__ = duckForm;
+
+    var queryInput = document.createElement('input');
+    queryInput.type = 'text';
+    queryInput.name = 'q';
+    duckForm.appendChild(queryInput);
+    this.__queryInput__ = queryInput;
+
+    var submitButton = document.createElement('button');
+    submitButton.type = 'submit';
+    submitButton.innerText = 'Search';
+    duckForm.appendChild(submitButton);
+    this.__submitButton__ = submitButton;
+
+    var error = document.createElement('section');
+    error.className = 'list__error';
+    container.appendChild(error);
+    this.__error__ = error;
+
+    var duckList = document.createElement('ul');
+    container.appendChild(duckList);
+    this.__duckList__ = duckList;
 }
 
-WelcomePanel.prototype = Object.create(Panel.prototype);
-WelcomePanel.prototype.constructor = WelcomePanel;
+HomePanel.prototype = Object.create(Panel.prototype);
+HomePanel.prototype.constructor = HomePanel;
 
-Object.defineProperty(WelcomePanel.prototype, 'user', { 
+Object.defineProperty(HomePanel.prototype, 'user', { 
     set: function(user) { 
         this.__userSpan__.innerText = user.name;
     } 
 });
 
-Object.defineProperty(WelcomePanel.prototype, 'onLogout', { 
+Object.defineProperty(HomePanel.prototype, 'onLogout', { 
     set: function(callback) { 
         this.__logoutButton__.addEventListener('click', callback);
     } 
 });
+
+Object.defineProperty(HomePanel.prototype, 'onSearch', {
+    set: function(callback) {
+        this.__duckForm__.addEventListener('submit', function(event){
+            event.preventDefault();
+
+            var searchVal = this.__queryInput__.value;
+
+            callback(searchVal);
+        }.bind(this));
+    }
+});
+
+Object.defineProperty(HomePanel.prototype, 'error', {
+    set: function(message){
+        this.__error__.innerText = message;
+        this.__error__.show();
+    }
+});
+
+Object.defineProperty(HomePanel.prototype, 'listResults', {
+    set: function(ducklings){
+        ducklings.forEach(function (duckling) {
+            var item = document.createElement('li');
+    
+            item.innerText = duckling.title;
+    
+            var image = document.createElement('img');
+    
+            image.src = duckling.imageUrl;
+            image.style.width = '100px';
+    
+            item.appendChild(image);
+    
+            this.__duckList__.appendChild(item);
+        }.bind(this));
+    }
+});
+
+HomePanel.prototype.clear = function(){
+    this.__duckList__.innerText = '';
+    this.__error__.innerText = '';
+    this.__error__.hide();
+    //this.__queryInput__.value = '';
+}
 
 //#endregion
 
