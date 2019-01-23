@@ -64,8 +64,10 @@ homePanel.onLogout = function() {
 searchPanel.onSearch = function(query) {
     try {
         logic.search(query, function(error, results) {
-            if (error) searchPanel.error = error;
-            else searchPanel.results = results.map(function(result) {
+            if (error) {
+                searchPanel.error = error
+                searchPanel.clearResults();
+            } else searchPanel.results = results.map(function(result) {
                 return {
                     text: result.title,
                     image: result.imageUrl
