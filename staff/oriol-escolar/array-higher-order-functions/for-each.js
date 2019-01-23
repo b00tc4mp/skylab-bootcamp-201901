@@ -17,36 +17,4 @@ function forEach(array, callback) {
     for (var i = 0; i < array.length; i++) callback(array[i]);
 }
 
-console.log('TEST forEach');
 
-// use case 1
-
-console.log('use case 1');
-
-var a = [1, 2, 3];
-
-forEach(a, function (v) { console.log(v) }); // output: 1, 2, 3
-
-// use case 2
-
-console.log('use case 2');
-
-var sum = 0;
-
-forEach(a, function (v) { sum += v; });
-
-console.log(sum); // output: 6
-
-// use case 3
-
-console.log('use case 3');
-
-var error;
-
-try {
-    forEach({}, function() {});
-} catch(err) {
-    error = err;
-}
-
-console.log(error);
