@@ -342,7 +342,7 @@ function SearchPanel() {
     form.appendChild(searchButton);
     this.__searchButton__=searchButton;
 
-    var resultList=document.createElelemtn('ul');
+    var resultList=document.createElement('ul');
     container.appendChild(resultList);
     this.__resultList__=resultList
 
