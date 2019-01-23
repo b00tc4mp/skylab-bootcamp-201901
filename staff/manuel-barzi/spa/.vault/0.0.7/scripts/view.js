@@ -64,9 +64,10 @@ function LoginPanel() {
     submitButton.innerText = 'Login';
     form.appendChild(submitButton);
 
-    var errorPanel = new ErrorPanel;
-    container.appendChild(errorPanel.element);
-    this.__errorPanel__ = errorPanel;
+    var error = document.createElement('section');
+    error.className = 'login__error';
+    container.appendChild(error);
+    this.__error__ = error;
 
     var registerLink = document.createElement('a');
     registerLink.href = '#';
@@ -94,16 +95,16 @@ Object.defineProperty(LoginPanel.prototype, 'onLogin', {
 
 Object.defineProperty(LoginPanel.prototype, 'error', { 
     set: function(message) { 
-        this.__errorPanel__.message = message;
-        this.__errorPanel__.show();
+        this.__error__.innerText = message;
+        this.__error__.show();
     } 
 });
 
 LoginPanel.prototype.clear = function() {
     this.__emailInput__.value = '';
     this.__passwordInput__.value = '';
-    this.__errorPanel__.message = '';
-    this.__errorPanel__.hide();
+    this.__error__.innerText = '';
+    this.__error__.hide();
 };
 
 Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', { 
@@ -201,9 +202,10 @@ function RegisterPanel() {
     submitButton.innerText = 'Register';
     form.appendChild(submitButton);
 
-    var errorPanel = new ErrorPanel;
-    container.appendChild(errorPanel.element);
-    this.__errorPanel__ = errorPanel;
+    var error = document.createElement('section');
+    error.className = 'register__error';
+    container.appendChild(error);
+    this.__error__ = error;
 
     var loginLink = document.createElement('a');
     loginLink.href = '#';
@@ -234,8 +236,8 @@ Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
 
 Object.defineProperty(RegisterPanel.prototype, 'error', { 
     set: function(message) { 
-        this.__errorPanel__.message = message;
-        this.__errorPanel__.show();
+        this.__error__.innerText = message;
+        this.__error__.show();
     } 
 });
 
@@ -245,8 +247,8 @@ RegisterPanel.prototype.clear = function() {
     this.__emailInput__.value = '';
     this.__passwordInput__.value = '';
     this.__passwordConfirmationInput__.value = '';
-    this.__errorPanel__.message = '';
-    this.__errorPanel__.hide();
+    this.__error__.innerText = '';
+    this.__error__.hide();
 };
 
 Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', { 
@@ -257,7 +259,7 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 
 //#endregion
 
-//#region home panel
+//#region welcome panel
 
 function HomePanel() {
     Panel.call(this, document.createElement('section'));
@@ -324,9 +326,10 @@ function SearchPanel() {
     searchButton.innerText = 'Search';
     form.appendChild(searchButton);
 
-    var errorPanel = new ErrorPanel;
-    container.appendChild(errorPanel.element);
-    this.__errorPanel__ = errorPanel;
+    var error = document.createElement('section');
+    error.className = 'search__error';
+    container.appendChild(error);
+    this.__error__ = error;
 
     var resultList = document.createElement('ul');
     container.appendChild(resultList);
@@ -348,11 +351,11 @@ Object.defineProperty(SearchPanel.prototype, 'onSearch', {
     }
 });
 
-Object.defineProperty(SearchPanel.prototype, 'error', { 
-    set: function(message) { 
-        this.__errorPanel__.message = message;
-        this.__errorPanel__.show();
-    } 
+Object.defineProperty(SearchPanel.prototype, 'error', {
+    set: function(message) {
+        this.__error__.innerText = message;
+        this.__error__.show();
+    }
 });
 
 Object.defineProperty(SearchPanel.prototype, 'results', {
@@ -378,28 +381,7 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
 SearchPanel.prototype.clear = function() {
     this.__resultList__.innerHTML = '';
     this.__queryInput__.value = '';
-    this.__errorPanel__.message = '';
-    this.__errorPanel__.hide();
+    this.__error__.hide();
 };
-
-//#endregion
-
-//#region error panel
-
-function ErrorPanel() {
-    Panel.call(this, document.createElement('section'));
-
-    var container = this.element;
-    container.className = 'error';
-}
-
-ErrorPanel.prototype = Object.create(Panel.prototype);
-ErrorPanel.prototype.constructor = ErrorPanel;
-
-Object.defineProperty(ErrorPanel.prototype, 'message', { 
-    set: function(message) { 
-        this.element.innerText = message;
-    } 
-});
 
 //#endregion
