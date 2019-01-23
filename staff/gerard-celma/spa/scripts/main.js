@@ -1,19 +1,21 @@
 var loginPanel = new LoginPanel
-var welcomePanel = new WelcomePanel
-var registerPanel = new RegisterPanel
+// var welcomePanel = new WelcomePanel
+// var registerPanel = new RegisterPanel
 
-document.body.appendChild(loginPanel.element);
-document.body.appendChild(welcomePanel.element);
-document.body.appendChild(registerPanel.element);
+var $body = $(document.body);
 
-loginPanel.clickRegister = function() {
-    loginPanel.hide();
-    registerPanel.show();
-};
+$body.append(loginPanel.$element);
+// document.body.appendChild(welcomePanel.element);
+// document.body.appendChild(registerPanel.element);
+
+// loginPanel.clickRegister = function() {
+//     loginPanel.hide();
+//     registerPanel.show();
+// };
 
 loginPanel.onLogin = function(email, password) {
     try {
-        login(email, password, function(user) {
+        logic.login(email, password, function(user) {
             loginPanel.hide();
 
             welcomePanel.user = user;
@@ -24,30 +26,30 @@ loginPanel.onLogin = function(email, password) {
     }
 };
 
-welcomePanel.onLogout = function() {
-    welcomePanel.hide();
-    loginPanel.clear();
-    loginPanel.show();
-};
+// welcomePanel.onLogout = function() {
+//     welcomePanel.hide();
+//     loginPanel.clear();
+//     loginPanel.show();
+// };
 
-registerPanel.clickLogin = function() {
-    registerPanel.hide();
-    loginPanel.show();
-    loginPanel.clear();
-};
+// registerPanel.clickLogin = function() {
+//     registerPanel.hide();
+//     loginPanel.show();
+//     loginPanel.clear();
+// };
 
-registerPanel.onRegister = function(name,surname,email,password,passwordConf) {
-    debugger
-    try {
-        register(name,surname,email,password,passwordConf, function() {
-            registerPanel.hide();
-            loginPanel.show();
-            registerPanel.clear();
-        });
-    } catch(err) {
-        registerPanel.error = err.message;
-    }
-};
+// registerPanel.onRegister = function(name,surname,email,password,passwordConf) {
+//     debugger
+//     try {
+//         register(name,surname,email,password,passwordConf, function() {
+//             registerPanel.hide();
+//             loginPanel.show();
+//             registerPanel.clear();
+//         });
+//     } catch(err) {
+//         registerPanel.error = err.message;
+//     }
+// };
 
 
 // var loginPanel2 = new LoginPanel
