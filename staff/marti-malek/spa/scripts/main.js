@@ -12,7 +12,6 @@ $body.append(registerPanel.$element);
 $body.append(homePanel.$element);
 
 homePanel.$element.append(searchPanel.$element);
-homePanel.hide();
 
 loginPanel.onLogin = function(email, password) {
     try {

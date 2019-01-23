@@ -7,7 +7,7 @@
     color: white;
 }
 
-.login__error {
+.error {
     display: none;
     background-color: red;
     color: white;
@@ -20,12 +20,6 @@
     border-radius: 0.5em;
     border-style: solid;
     border-color: gray;
-}
-
-.register__error {
-    display: none;
-    background-color: red;
-    color: white;
 }
 
 .home {

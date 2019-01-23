@@ -229,7 +229,6 @@ Object.defineProperty(SearchPanel.prototype, 'onSearch', {
     set: function (callback) {
         this.__$form__.on('submit', function (event) {
             event.preventDefault();
-
             var query = this.__$queryInput__.val();
 
             callback(query);
