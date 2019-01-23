@@ -2,17 +2,16 @@
 
 //#region panel
 
-function Panel($element) {
-    this.$element = $element;
+function Panel(element) {
+    this.element = element;
 }
 
-
 Panel.prototype.hide = function () {
-    this.$element.hide();
+    this.element.hide();
 };
 
 Panel.prototype.show = function () {
-    this.$element.show();
+    this.element.show();
 };
 
 //#endregion
@@ -20,35 +19,40 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login">'
-    + '<h2>Login</h2>'
-    + '<form class="login__form" >'
-    + '<label for="email">E-mail:</label>'
-    + '<input type="email" name="email" placeholder="email" required>'
-    + '<label for="password">Password:</label>'
-    + '<input type="password" name="password" placeholder="password" required>'
-    + '<button type="submit">Login</button>'
-    + '</form>'
-    + '</section>'));
+    Panel.call(this, document.createElement('section'));
 
-    var $container = this.$element;
+    var container = this.element;
+    container.className = 'login';
 
-    var $form = $container.children('form');
-    this.__$form__ = $form;
+    var content = '<h2>Login</h2>'
+        + '<form class="login__form" >'
+        + '<label for="email">E-mail:</label>'
+        + '<input type="email" name="email" placeholder="email" required>'
+        + '<label for="password">Password:</label>'
+        + '<input type="password" name="password" placeholder="password" required>'
+        + '<button type="submit">Login</button>'
+        + '</form>';
 
-    var $inputs = $form.children('input');
+    container.innerHTML = content;
 
-    this.__$emailInput__ = $($inputs[0]);
+    this.__form__ = container.getElementsByClassName('login__form')[0];
 
-    this.__$passwordInput__ = $($inputs[1]);
+    var inputs = container.getElementsByTagName('input');
+
+    this.__emailInput__ = inputs[0];
+
+    this.__passwordInput__ = inputs[1];
 
     var errorPanel = new ErrorPanel;
-    $container.append(errorPanel.$element);
+    container.appendChild(errorPanel.element);
     this.__errorPanel__ = errorPanel;
 
-    var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
-    $container.append($registerLink);
-    this.__$registerLink__ = $registerLink;
+    var registerLink = document.createElement('a');
+    registerLink.href = '#';
+    registerLink.innerText = 'Register'
+    registerLink.className = 'login__register-link';
+    container.appendChild(registerLink);
+    this.__registerLink__ = registerLink;
 }
 
 LoginPanel.prototype = Object.create(Panel.prototype);
@@ -56,11 +60,11 @@ LoginPanel.prototype.constructor = LoginPanel;
 
 Object.defineProperty(LoginPanel.prototype, 'onLogin', {
     set: function (callback) {
-        this.__$form__.on('submit', function (event) {
+        this.__form__.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            var email = this.__$emailInput__.val();
-            var password = this.__$passwordInput__.val();
+            var email = this.__emailInput__.value;
+            var password = this.__passwordInput__.value;
 
             callback(email, password);
         }.bind(this));
@@ -75,15 +79,15 @@ Object.defineProperty(LoginPanel.prototype, 'error', {
 });
 
 LoginPanel.prototype.clear = function () {
-    this.__$emailInput__.val('');
-    this.__$passwordInput__.val('');
+    this.__emailInput__.value = '';
+    this.__passwordInput__.value = '';
     this.__errorPanel__.message = '';
     this.__errorPanel__.hide();
 };
 
 Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
     set: function (callback) {
-        this.__$registerLink__.addEventListener('click', callback);
+        this.__registerLink__.addEventListener('click', callback);
     }
 });
 
@@ -366,7 +370,10 @@ SearchPanel.prototype.clearResults = function () {
 //#region error panel
 
 function ErrorPanel() {
-    Panel.call(this, $('<section class="error"></section>'));
+    Panel.call(this, document.createElement('section'));
+
+    var container = this.element;
+    container.className = 'error';
 }
 
 ErrorPanel.prototype = Object.create(Panel.prototype);
@@ -374,7 +381,7 @@ ErrorPanel.prototype.constructor = ErrorPanel;
 
 Object.defineProperty(ErrorPanel.prototype, 'message', {
     set: function (message) {
-        this.$element.text(message);
+        this.element.innerText = message;
     }
 });
 
