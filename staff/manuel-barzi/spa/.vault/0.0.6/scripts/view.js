@@ -64,9 +64,10 @@ function LoginPanel() {
     submitButton.innerText = 'Login';
     form.appendChild(submitButton);
 
-    var errorPanel = new ErrorPanel;
-    container.appendChild(errorPanel.element);
-    this.__errorPanel__ = errorPanel;
+    var error = document.createElement('section');
+    error.className = 'login__error';
+    container.appendChild(error);
+    this.__error__ = error;
 
     var registerLink = document.createElement('a');
     registerLink.href = '#';
@@ -94,21 +95,67 @@ Object.defineProperty(LoginPanel.prototype, 'onLogin', {
 
 Object.defineProperty(LoginPanel.prototype, 'error', { 
     set: function(message) { 
-        this.__errorPanel__.message = message;
-        this.__errorPanel__.show();
+        this.__error__.innerText = message;
+        this.__error__.show();
     } 
 });
 
 LoginPanel.prototype.clear = function() {
     this.__emailInput__.value = '';
     this.__passwordInput__.value = '';
-    this.__errorPanel__.message = '';
-    this.__errorPanel__.hide();
+    this.__error__.innerText = '';
+    this.__error__.hide();
 };
 
 Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', { 
     set: function(callback) { 
         this.__registerLink__.addEventListener('click', callback);
+    } 
+});
+
+//#endregion
+
+//#region welcome panel
+
+function WelcomePanel() {
+    Panel.call(this, document.createElement('section'));
+
+    var container = this.element;
+    container.className = 'welcome';
+
+    var title = document.createElement('h2');
+    container.appendChild(title);
+
+    var welcomeText = document.createTextNode('Welcome, ');
+    title.appendChild(welcomeText);
+
+    var userSpan = document.createElement('span');
+    userSpan.className = 'welcome__name';
+    title.appendChild(userSpan);
+    this.__userSpan__ = userSpan;
+
+    var exclamationText = document.createTextNode('!');
+    title.appendChild(exclamationText);
+
+    var logoutButton = document.createElement('button');
+    logoutButton.className = 'welcome__logout';
+    logoutButton.innerText = 'Logout';
+    container.appendChild(logoutButton);
+    this.__logoutButton__ = logoutButton;
+}
+
+WelcomePanel.prototype = Object.create(Panel.prototype);
+WelcomePanel.prototype.constructor = WelcomePanel;
+
+Object.defineProperty(WelcomePanel.prototype, 'user', { 
+    set: function(user) { 
+        this.__userSpan__.innerText = user.name;
+    } 
+});
+
+Object.defineProperty(WelcomePanel.prototype, 'onLogout', { 
+    set: function(callback) { 
+        this.__logoutButton__.addEventListener('click', callback);
     } 
 });
 
@@ -201,9 +248,10 @@ function RegisterPanel() {
     submitButton.innerText = 'Register';
     form.appendChild(submitButton);
 
-    var errorPanel = new ErrorPanel;
-    container.appendChild(errorPanel.element);
-    this.__errorPanel__ = errorPanel;
+    var error = document.createElement('section');
+    error.className = 'register__error';
+    container.appendChild(error);
+    this.__error__ = error;
 
     var loginLink = document.createElement('a');
     loginLink.href = '#';
@@ -234,8 +282,8 @@ Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
 
 Object.defineProperty(RegisterPanel.prototype, 'error', { 
     set: function(message) { 
-        this.__errorPanel__.message = message;
-        this.__errorPanel__.show();
+        this.__error__.innerText = message;
+        this.__error__.show();
     } 
 });
 
@@ -245,160 +293,13 @@ RegisterPanel.prototype.clear = function() {
     this.__emailInput__.value = '';
     this.__passwordInput__.value = '';
     this.__passwordConfirmationInput__.value = '';
-    this.__errorPanel__.message = '';
-    this.__errorPanel__.hide();
+    this.__error__.innerText = '';
+    this.__error__.hide();
 };
 
 Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', { 
     set: function(callback) { 
         this.__loginLink__.addEventListener('click', callback);
-    } 
-});
-
-//#endregion
-
-//#region home panel
-
-function HomePanel() {
-    Panel.call(this, document.createElement('section'));
-
-    var container = this.element;
-    container.className = 'home';
-
-    var title = document.createElement('h2');
-    container.appendChild(title);
-
-    var welcomeText = document.createTextNode('Welcome, ');
-    title.appendChild(welcomeText);
-
-    var userSpan = document.createElement('span');
-    title.appendChild(userSpan);
-    this.__userSpan__ = userSpan;
-
-    var exclamationText = document.createTextNode('!');
-    title.appendChild(exclamationText);
-
-    var logoutButton = document.createElement('button');
-    logoutButton.innerText = 'Logout';
-    container.appendChild(logoutButton);
-    this.__logoutButton__ = logoutButton;
-}
-
-HomePanel.prototype = Object.create(Panel.prototype);
-HomePanel.prototype.constructor = HomePanel;
-
-Object.defineProperty(HomePanel.prototype, 'user', { 
-    set: function(user) { 
-        this.__userSpan__.innerText = user.name;
-    } 
-});
-
-Object.defineProperty(HomePanel.prototype, 'onLogout', { 
-    set: function(callback) { 
-        this.__logoutButton__.addEventListener('click', callback);
-    } 
-});
-
-//#endregion
-
-//#region search panel
-
-function SearchPanel() {
-    Panel.call(this, document.createElement('section'));
-
-    var container = this.element;
-
-    var form = document.createElement('form');
-    container.appendChild(form);
-    this.__form__ = form;
-
-    var queryInput = document.createElement('input');
-    queryInput.type = 'text';
-    queryInput.name = 'query';
-    queryInput.placeholder = '...';
-    form.appendChild(queryInput);
-    this.__queryInput__ = queryInput;
-
-    var searchButton = document.createElement('button');
-    searchButton.type = 'submit';
-    searchButton.innerText = 'Search';
-    form.appendChild(searchButton);
-
-    var errorPanel = new ErrorPanel;
-    container.appendChild(errorPanel.element);
-    this.__errorPanel__ = errorPanel;
-
-    var resultList = document.createElement('ul');
-    container.appendChild(resultList);
-    this.__resultList__ = resultList;
-}
-
-SearchPanel.prototype = Object.create(Panel.prototype);
-SearchPanel.prototype.constructor = SearchPanel;
-
-Object.defineProperty(SearchPanel.prototype, 'onSearch', {
-    set: function(callback) {
-        this.__form__.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            var query = this.__queryInput__.value;
-
-            callback(query);
-        }.bind(this));
-    }
-});
-
-Object.defineProperty(SearchPanel.prototype, 'error', { 
-    set: function(message) { 
-        this.__errorPanel__.message = message;
-        this.__errorPanel__.show();
-    } 
-});
-
-Object.defineProperty(SearchPanel.prototype, 'results', {
-    set: function(results) {
-        this.__resultList__.innerHTML = '';
-        this.__error__.hide();
-
-        results.forEach(function(result) {
-            var item = document.createElement('li');
-            this.__resultList__.appendChild(item);
-
-            var text = document.createTextNode(result.text);
-            item.appendChild(text);
-            
-            var image = document.createElement('img');
-            image.src = result.image;
-            image.style.width = '100px';
-            item.appendChild(image);
-        }.bind(this));
-    }
-});
-
-SearchPanel.prototype.clear = function() {
-    this.__resultList__.innerHTML = '';
-    this.__queryInput__.value = '';
-    this.__errorPanel__.message = '';
-    this.__errorPanel__.hide();
-};
-
-//#endregion
-
-//#region error panel
-
-function ErrorPanel() {
-    Panel.call(this, document.createElement('section'));
-
-    var container = this.element;
-    container.className = 'error';
-}
-
-ErrorPanel.prototype = Object.create(Panel.prototype);
-ErrorPanel.prototype.constructor = ErrorPanel;
-
-Object.defineProperty(ErrorPanel.prototype, 'message', { 
-    set: function(message) { 
-        this.element.innerText = message;
     } 
 });
 
