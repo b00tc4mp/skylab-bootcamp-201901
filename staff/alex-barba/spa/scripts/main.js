@@ -1,18 +1,19 @@
 var loginPanel = new LoginPanel
-var welcomePanel = new WelcomePanel
+var homePanel = new HomePanel
 var registerPanel = new RegisterPanel
 
 document.body.appendChild(loginPanel.element);
-document.body.appendChild(welcomePanel.element);
+document.body.appendChild(homePanel.element);
 document.body.appendChild(registerPanel.element);
 
 loginPanel.onLogin = function(email, password) {
     try {
         login(email, password, function(user) {
             loginPanel.hide();
+            loginPanel.clear();
 
-            welcomePanel.user = user;
-            welcomePanel.show();
+            homePanel.user = user;
+            homePanel.show();
         });
     } catch(err) {
         loginPanel.error = err.message;
@@ -21,8 +22,33 @@ loginPanel.onLogin = function(email, password) {
 
 loginPanel.onRegister = function() {
     loginPanel.hide();
+    loginPanel.clear();
     registerPanel.show();
 }
+
+homePanel.onSearch = function(query) {
+    search(query, function(error,ducklings){
+        if (error) {
+            homePanel.error = error;
+        } else{ 
+            ducklings.forEach(function (duckling) {
+                var item = document.createElement('li');
+        
+                item.innerText = duckling.title;
+        
+                var image = document.createElement('img');
+        
+                image.src = duckling.imageUrl;
+                image.style.width = '100px';
+        
+                item.appendChild(image);
+        
+                homePanel.__duckList__.appendChild(item);
+            });
+        }
+    });
+    homePanel.clear();
+};
 
 registerPanel.onRegister = function (name, surname, email, password, passwordConf) {
     try {
@@ -36,14 +62,14 @@ registerPanel.onRegister = function (name, surname, email, password, passwordCon
     }
 }; 
 
-welcomePanel.onLogout = function() {
-    welcomePanel.hide();
-    loginPanel.clear();
+homePanel.onLogout = function() {
+    homePanel.hide();
     loginPanel.show();
 };
 
 registerPanel.onLogin = function() {
     registerPanel.hide();
+    registerPanel.clear();
     loginPanel.show();
 };
 
