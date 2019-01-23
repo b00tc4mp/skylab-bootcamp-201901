@@ -231,8 +231,8 @@ Horroy.prototype.splice = function (start, countDel, item) {
                             countA++
                         }
                         else {
-                            this[i] = this[i + countDel - countA +2]
-                            delete this[i + countDel - countA +2]
+                            this[i] = this[i + countDel - countA + 2]
+                            delete this[i + countDel - countA + 2]
                         }
                     }
                     this.length -= start
@@ -260,9 +260,9 @@ Horroy.prototype.splice = function (start, countDel, item) {
             }
         }
 
-        else if (typeof arguments[1] === "number") {
+        // else if (typeof arguments[1] === "number") {
 
-        }
+        // }
         if (arguments.length < 2) {
             var ret = {}
             for (var i = start; i < this.length; i++) {
@@ -273,3 +273,14 @@ Horroy.prototype.splice = function (start, countDel, item) {
         }
     }
 }
+    Horroy.prototype.fill = function (value, start, end) {
+        if (arguments.length > 3) throw Error('too many arguments');
+
+        start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
+        end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
+
+        for (var i = start; i < end; i++)
+            this[i] = value;
+
+        return this;
+    }
