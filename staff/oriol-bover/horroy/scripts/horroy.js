@@ -7,6 +7,15 @@ function Horroy() {
             this[i] = arguments[i];
 }
 
+/**
+ *  To String
+ * 
+ * Converts an horroy object to String. Their elements will be printed seperated by commas.
+ * 
+ * @returns {String} 
+ * 
+ */
+
 Horroy.prototype.toString = function() {
     var string = '';
     
@@ -19,6 +28,17 @@ Horroy.prototype.toString = function() {
     }
     return string
 };
+
+
+/**
+ * 
+ * From
+ * 
+ * Creates a new shallow-copied horroy from another horroy
+ * 
+ * @param {*} value - 
+ * 
+ */
 
 Horroy.from = function (value) {
     var horr = new Horroy
