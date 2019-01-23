@@ -144,6 +144,25 @@ function WelcomePanel() {
     logoutButton.innerText = 'Logout';
     container.appendChild(logoutButton);
     this.__logoutButton__ = logoutButton;
+
+    var titleDuckling = document.createElement('h2');
+    titleDuckling.innerText = 'Duckling Search Engine 🐥🐣';
+    container.appendChild(titleDuckling);
+
+    var form = document.createElement('form');
+    form.action = 'https://duckling-api.herokuapp.com/api/search';
+    form.method = 'get';
+    container.appendChild(form);
+
+    var search = document.createElement('input');
+    search.type = 'text';
+    search.name = 'q';
+    form.appendChild(search);
+
+    var submit = document.createElement('button');
+    submit.type = 'submit';
+    submit.innerText = 'Search';
+    form.appendChild(submit);
 }
 
 WelcomePanel.prototype = Object.create(Panel.prototype);
