@@ -137,6 +137,28 @@ function WelcomePanel() {
     var exclamationText = document.createTextNode('!');
     title.appendChild(exclamationText);
 
+    var titleDuck = document.createElement('h3');
+    titleDuck.innerText = 'Duckling Search Engine'
+    container.appendChild(titleDuck);
+
+    var form = document.createElement('form');
+    container.appendChild(form);
+    this.__form__ = form;
+
+    var searchInput = document.createElement('input');
+    searchInput.name = 'q';
+    form.appendChild(searchInput);
+    this.__searchInput__ = searchInput;
+
+    var button = document.createElement('button');
+    button.type = 'submit';
+    button.innerText = 'Search';
+    form.appendChild(button);
+
+    var list = document.createElement('ul');
+    container.appendChild(list);
+    this.__list__ = list;
+
     var logoutButton = document.createElement('button');
     logoutButton.className = 'welcome__logout';
     logoutButton.innerText = 'Logout';
@@ -158,6 +180,48 @@ Object.defineProperty(WelcomePanel.prototype, 'onLogout', {
         this.__logoutButton__.addEventListener('click', callback);
     } 
 });
+
+Object.defineProperty(WelcomePanel.prototype, 'onSearch', {
+    set: function(callback){
+        this.__form__.addEventListener('submit', function(event){
+            event.preventDefault();
+
+            var query = this.__searchInput__.value;
+
+            callback(query);
+        }.bind(this));
+    }
+});
+
+Object.defineProperty(WelcomePanel.prototype, 'error', {
+    set: function(message){
+        this.__list__.innerHTML = '';
+
+        var errorItem = document.createElement('li');
+        errorItem.innerText = message;
+
+        this.__list__.appendChild(errorItem);
+    }
+})
+
+Object.defineProperty(WelcomePanel.prototype, 'results', {
+    set: function(results){
+        this.__list__.innerHTML = '';
+
+        results.forEach(function(result){
+            var item  = document.createElement('li');
+            this.__list__.appendChild(item);
+
+            var text = document.createTextNode(result.text);
+            item.append(text);
+
+            var image = document.createElement('img');
+            image.src = result.image;
+            image.style.width = '100px';
+            item.appendChild(image);
+        }.bind(this));
+    }
+})
 
 //#endregion
 
