@@ -1,18 +1,20 @@
 var loginPanel = new LoginPanel
-var welcomePanel = new WelcomePanel
+var homePanel = new HomePanel
 var registerPanel = new RegisterPanel
+var searchPanel=new SearchPanel
 
 document.body.appendChild(loginPanel.element);
-document.body.appendChild(welcomePanel.element);
+document.body.appendChild(homePanel.element);
 document.body.appendChild(registerPanel.element);
+homePanel.element.appendChild(searchPanel.element);
 
 loginPanel.onLogin = function(email, password) {
     try {
         login(email, password, function(user) {
             loginPanel.hide();
 
-            welcomePanel.user = user;
-            welcomePanel.show();
+            homePanel.user = user;
+            homePanel.show();
         });
     } catch(err) {
         loginPanel.error = err.message;
@@ -24,11 +26,6 @@ loginPanel.linkRegister= function(){
     registerPanel.show();
 }
 
-welcomePanel.onLogout = function() {
-    welcomePanel.hide();
-    loginPanel.clear();
-    loginPanel.show();
-};
 
 registerPanel.linkLogin = function(){
     loginPanel.show();
@@ -49,24 +46,43 @@ registerPanel.onRegister=function(name, surname, email, password, passwordConfir
 };
 
 
-// var loginPanel2 = new LoginPanel
+homePanel.onLogout = function() {
+    homePanel.hide();
+    loginPanel.clear();
+    loginPanel.show();
+};
 
-// document.body.appendChild(loginPanel2.element);
+searchPanel.onSearch=function(query){
+  
+    search(query, function(error,ducklings){
 
-// loginPanel2.onLogin = function(email, password) {
-//     console.log('llama a otra logica', email, password);
-// };
+        if (error) searchPanel.error=error;
+        else searchPanel.results=results;
+    });
+}
 
+function listNoResults(message) {
+    var item = document.createElement('li');
 
-// var mainPanel = new Panel
+    item.innerText = message;
 
-// var registerPanel = new RegisterPanel
-// var welcomePanel = new WelcomePanel
+    list.appendChild(item);
+}
 
-// mainPanel.add(loginPanel)
-// mainPanel.add(registerPanel)
-// mainPanel.add(welcomePanel)
+function listResults(ducklings) {
+    ducklings.forEach(function (duckling) {
+        var item = document.createElement('li');
 
-// loginPanel.onLogin = function() {}
+        item.innerText = duckling.title;
 
-// ...
+        var image = document.createElement('img');
+
+        image.src = duckling.imageUrl;
+        image.style.width = '100px';
+
+        item.appendChild(image);
+
+        list.appendChild(item);
+    });
+}
+
