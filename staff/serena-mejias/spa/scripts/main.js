@@ -24,10 +24,10 @@ registerPanel.registration = function(
   surname,
   email,
   password,
-  passwordConfirm
+  passwordConfirmation
 ) {
   try {
-    register(name, surname, email, password, passwordConfirm, function(user) {
+    register(name, surname, email, password, passwordConfirmation, function(user) {
       loginPanel.show();
       registerPanel.hide();
       registerPanel.clear();
@@ -51,6 +51,7 @@ welcomePanel.onLogout = function() {
 registerPanel.onLoginPanel = function() {
   registerPanel.hide();
   loginPanel.show();
+  registerPanel.clear();
 };
 
 // var loginPanel2 = new LoginPanel

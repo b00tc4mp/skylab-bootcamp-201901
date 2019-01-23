@@ -233,18 +233,18 @@ function RegisterPanel() {
   form.appendChild(passwordInput);
   this.__passwordInput__ = passwordInput;
 
-  var passwordLabelConfirm = document.createElement("label");
-  passwordLabelConfirm.setAttribute("for", "password");
-  passwordLabelConfirm.innerText = "Password:";
-  form.appendChild(passwordLabelConfirm);
+  var passwordLabelConfirmation = document.createElement("label");
+  passwordLabelConfirmation.setAttribute("for", "passwordConfirmation");
+  passwordLabelConfirmation.innerText = "Password confirmation:";
+  form.appendChild(passwordLabelConfirmation);
 
-  var passwordInputConfirm = document.createElement("input");
-  passwordInputConfirm.type = "password";
-  passwordInputConfirm.name = "password";
-  passwordInputConfirm.placeholder = "password";
-  passwordInputConfirm.required = true;
-  form.appendChild(passwordInputConfirm);
-  this.__passwordInputConfirm__ = passwordInputConfirm;
+  var passwordInputConfirmation = document.createElement("input");
+  passwordInputConfirmation.type = "passwordConfirmation";
+  passwordInputConfirmation.name = "passwordConfirmation";
+  passwordInputConfirmation.placeholder = "passwordConfirmation";
+  passwordInputConfirmation.required = true;
+  form.appendChild(passwordInputConfirmation);
+  this.__passwordInputConfirmation__ = passwordInputConfirmation;
 
   var submitButton = document.createElement("button");
   submitButton.type = "submit";
@@ -278,9 +278,9 @@ Object.defineProperty(RegisterPanel.prototype, "registration", {
         var surname = this.__inputSurname__.value;
         var email = this.__emailInput__.value;
         var password = this.__passwordInput__.value;
-        var passwordConfirm = this.__passwordInputConfirm__.value;
+        var passwordConfirmation = this.__passwordInputConfirmation__.value;
 
-        callback(name, surname, email, password, passwordConfirm);
+        callback(name, surname, email, password, passwordConfirmation);
       }.bind(this)
     );
   }
@@ -304,7 +304,7 @@ RegisterPanel.prototype.clear = function() {
   this.__inputSurname__.value = '';
   this.__emailInput__.value = '';
   this.__passwordInput__.value = '';
-  this.__passwordInputConfirm__.value = '';
+  this.__passwordInputConfirmation__.value = '';
   this.__error__.innerText = "";
   this.__error__.hide();
 };
