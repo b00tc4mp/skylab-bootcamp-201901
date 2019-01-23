@@ -19,6 +19,14 @@ loginPanel.onLogin = function(email, password) {
     }
 };
 
+welcomePanel.onSearch = function (title, image){
+    try {
+        
+    } catch (error) {
+        
+    }
+};
+
 welcomePanel.onLogout = function () {
     welcomePanel.hide();
     loginPanel.clear();
