@@ -126,9 +126,6 @@ function WelcomePanel() {
     var title = document.createElement('h2');
     container.appendChild(title);
 
-    // var welcomTitle = document.createTextNode('Al agua patos');
-    // title.appendChild(welcomTitle);
-
     var welcomTitle = document.createElement('h2');
     welcomTitle.innerText = 'Al agua patos!!';
     title.appendChild(welcomTitle);
@@ -151,14 +148,12 @@ function WelcomePanel() {
     this.__logoutButton__ = logoutButton;
 
     var form = document.createElement('form');
-    form.action = 'https://duckling-api.herokuapp.com/api/search';
-    form.method = 'get';
-    title.appendChild(form)
+    container.appendChild(form)
     this.__form__ = form
 
     var searchInput = document.createElement('input');
     searchInput.type = 'text';
-    searchInput.name = 'q';
+    searchInput.name = 'query';
     title.appendChild(searchInput);
     this.__searchInput__ = searchInput
 
@@ -167,8 +162,13 @@ function WelcomePanel() {
     searchButton.innerText = 'Search';
     title.appendChild(searchButton)
 
-    var listResults = document.createElement('ul');
-    title.appendChild(listResults);
+    // var errorPanel = new ErrorPanel;
+    // container.appendChild(errorPanel);
+    // this.__errorPanel__ = errorPanel;
+
+    var resultList = document.createElement('ul');
+    title.appendChild(resultList);
+    this.__resultList__ = resultList;
 }
 
 WelcomePanel.prototype = Object.create(Panel.prototype);
@@ -186,7 +186,7 @@ Object.defineProperty(WelcomePanel.prototype, 'onLogout', {
     } 
 });
 
-Object.defineProperty(WelcomePanel, 'onSearch', {
+Object.defineProperty(WelcomePanel.prototype, 'onSearch', {
     set: function(callback) {
         this.__form__.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -198,12 +198,40 @@ Object.defineProperty(WelcomePanel, 'onSearch', {
     }
 } )
 
+Object.defineProperty(WelcomePanel.prototype, 'error', {
+    set: function(message) {
+        this.__errorPanel__.message = message;
+        this.__errorPanel__.show();
+    }
+});
+
+Object.defineProperty(WelcomePanel.prototype, 'results', {
+    set: function (results) {
+        this.__resultList__.innerHTML = '';
+        this.__errorPanel__.hide();
+
+        results.forEach(function(result){
+
+            var item = document.createElement('li');
+            this.__resultList__.appendChild(item);
+
+            var text = document.createTextNode(result.text);
+            item.appendChild(text);
+
+            var image = document.createElement('img');
+            image.src = result.image;
+            image.style.width = '100px';
+            item.appendChild(image);
+        }.bind(this))
+    }
+})
+
 //#endregion
 
 //#region register panel
 
 function RegisterPanel() {
-    // TODO
+
     Panel.call(this, document.createElement('section'));
     
     var container = this.element;
@@ -342,5 +370,22 @@ RegisterPanel.prototype.clear = function() {
     this.__error__.innerText = '';
     this.__error__.hide();
 }
+
+//#endregion
+
+//#region error panel
+
+function ErrorPanel() {
+    Panel.call(this, $('<section class="error"></section>'));
+}
+
+ErrorPanel.prototype = Object.create(Panel.prototype);
+ErrorPanel.prototype.constructor = ErrorPanel;
+
+Object.defineProperty(ErrorPanel.prototype, 'message', {
+    set: function (message) {
+        this.$element.text(message);
+    }
+});
 
 //#endregion
