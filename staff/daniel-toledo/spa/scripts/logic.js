@@ -1,73 +1,98 @@
 'use strict';
 
-//#region (business) logic
+/**
+ * Abstraction of business logic.
+ */
+var logic = {
+    /**
+     * Logins a user by its credentials.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {function} callback 
+     */
+    login: function (email, password, callback) {
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string');
 
-function login(email, password, callback) {
-    if (typeof email !== 'string') throw TypeError(email + ' is not a string');
-
-    if (!email.trim().length) throw Error('email cannot be empty');
-
-    if (typeof password !== 'string') throw TypeError(password + ' is not a string');
-
-    if (!password.trim().length) throw Error('password cannot be empty');
+        if (!email.trim().length) throw Error('email cannot be empty');
     
-    var user = users.find(function (user) {
-        return user.email === email;
-    });
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string');
+    
+        if (!password.trim().length) throw Error('password cannot be empty');
 
-    if (!user) throw Error('user ' + email + ' not found');
+        var user = users.find(function (user) {
+            return user.email === email;
+        });
 
-    if (user.password !== password) throw Error('wrong password');
+        if (!user) throw Error('user ' + email + ' not found');
 
-    var loggedInUser = {
-        name: user.name,
-        surname: user.surname,
-        email: user.email
-    };
+        if (user.password !== password) throw Error('wrong password');
 
-    callback(loggedInUser);
-}
+        var loggedInUser = {
+            name: user.name,
+            surname: user.surname,
+            email: user.email
+        };
 
-function register(name, surname, email, password, passwordConfirmation, callback) {
-    if (typeof name !== 'string') throw TypeError(name + ' is not a string');
+        callback(loggedInUser);
+    },
 
-    if (!name.trim().length) throw Error('name cannot be empty');
+    /**
+     * Registers a user.
+     * 
+     * @param {string} name 
+     * @param {string} surname 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {string} passwordConfirmation 
+     * @param {function} callback 
+     */
+    register: function (name, surname, email, password, passwordConfirmation, callback) {
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string');
 
-    if (typeof surname !== 'string') throw TypeError(surname + ' is not a string');
+        if (!name.trim().length) throw Error('name cannot be empty');
 
-    if (!surname.trim().length) throw Error('surname cannot be empty');
+        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string');
 
-    if (typeof email !== 'string') throw TypeError(email + ' is not a string');
+        if (!surname.trim().length) throw Error('surname cannot be empty');
 
-    if (!email.trim().length) throw Error('email cannot be empty');
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string');
 
-    if (typeof password !== 'string') throw TypeError(password + ' is not a string');
+        if (!email.trim().length) throw Error('email cannot be empty');
 
-    if (!password.trim().length) throw Error('password cannot be empty');
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string');
 
-    if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string');
+        if (!password.trim().length) throw Error('password cannot be empty');
 
-    if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty');
+        if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string');
 
-    // TODO validate fields!
+        if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty');
 
-    var user = users.find(function (user) {
-        return user.email === email;
-    });
+        // TODO validate fields!
 
-    if (user) throw Error('user ' + email + ' already exists');
+        var user = users.find(function (user) {
+            return user.email === email;
+        });
 
-    if (password !== passwordConfirmation) throw Error('passwords do not match');
+        if (user) throw Error('user ' + email + ' already exists');
 
-    users.push({
-        name: name,
-        surname: surname,
-        email: email,
-        password: password
-    });
+        if (password !== passwordConfirmation) throw Error('passwords do not match');
 
-    callback();
-}
+        users.push({
+            name: name,
+            surname: surname,
+            email: email,
+            password: password
+        });
 
+        callback();
+    },
 
-//#endregion
+    search: function(query, callback) {
+        if (typeof query !== 'string') throw TypeError(query + ' is not a string');
+
+        if (!query.trim().length) throw Error('query cannot be empty');
+
+        ducklingApi.search(query, callback);
+    }
+};
