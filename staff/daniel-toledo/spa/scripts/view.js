@@ -115,52 +115,6 @@ LoginPanel.prototype.clear = function () {
 
 //#endregion
 
-//#region welcome panel
-
-function WelcomePanel() {
-    Panel.call(this, document.createElement('section'));
-
-    var container = this.element;
-    container.className = 'welcome';
-
-    var title = document.createElement('h2');
-    container.appendChild(title);
-
-    var welcomeText = document.createTextNode('Welcome, ');
-    title.appendChild(welcomeText);
-
-    var userSpan = document.createElement('span');
-    userSpan.className = 'welcome__name';
-    title.appendChild(userSpan);
-    this.__userSpan__ = userSpan;
-
-    var exclamationText = document.createTextNode('!');
-    title.appendChild(exclamationText);
-
-    var logoutButton = document.createElement('button');
-    logoutButton.className = 'welcome__logout';
-    logoutButton.innerText = 'Logout';
-    container.appendChild(logoutButton);
-    this.__logoutButton__ = logoutButton;
-}
-
-WelcomePanel.prototype = Object.create(Panel.prototype);
-WelcomePanel.prototype.constructor = WelcomePanel;
-
-Object.defineProperty(WelcomePanel.prototype, 'user', {
-    set: function (user) {
-        this.__userSpan__.innerText = user.name;
-    }
-});
-
-Object.defineProperty(WelcomePanel.prototype, 'onLogout', {
-    set: function (callback) {
-        this.__logoutButton__.addEventListener('click', callback);
-    }
-});
-
-//#endregion
-
 //#region register panel
 
 function RegisterPanel() {
@@ -313,62 +267,130 @@ RegisterPanel.prototype.clear = function () {
 
 //#endregion
 
-// TODO remove following old code when register panel already implemented
+//#region home panel
 
-//#region view (presentation logic)
+function HomePanel() {
+    Panel.call(this, document.createElement('section'));
 
-// (function () {
-//     var registerSection = document.getElementsByClassName('register')[0];
+    var container = this.element;
+    container.className = 'welcome';
 
-//     var loginLink = document.getElementsByClassName('register__login-link')[0];
+    var title = document.createElement('h2');
+    container.appendChild(title);
 
-//     var registerForm = document.getElementsByClassName('register__form')[0];
+    var welcomeText = document.createTextNode('Welcome, ');
+    title.appendChild(welcomeText);
 
-//     loginLink.addEventListener('click', function (event) {
-//         event.preventDefault();
+    var userSpan = document.createElement('span');
+    userSpan.className = 'welcome__name';
+    title.appendChild(userSpan);
+    this.__userSpan__ = userSpan;
 
-//         registerSection.hide();
-//         loginSection.show();
-//     });
+    var exclamationText = document.createTextNode('!');
+    title.appendChild(exclamationText);
 
-//     registerForm.addEventListener('submit', function (event) {
-//         event.preventDefault();
+    var logoutButton = document.createElement('button');
+    logoutButton.className = 'welcome__logout';
+    logoutButton.innerText = 'Logout';
+    container.appendChild(logoutButton);
+    this.__logoutButton__ = logoutButton;
 
-//         var inputs = this.getElementsByTagName('input');
+}
 
-//         var nameInput = inputs[0];
-//         var surnameInput = inputs[1];
-//         var emailInput = inputs[2];
-//         var passwordInput = inputs[3];
-//         var passwordConfirmationInput = inputs[4];
+HomePanel.prototype = Object.create(Panel.prototype);
+HomePanel.prototype.constructor = HomePanel;
 
-//         var name = nameInput.value;
-//         var surname = surnameInput.value;
-//         var email = emailInput.value;
-//         var password = passwordInput.value;
-//         var passwordConfirmation = passwordConfirmationInput.value;
+Object.defineProperty(HomePanel.prototype, 'user', {
+    set: function (user) {
+        this.__userSpan__.innerText = user.name;
+    }
+});
 
-//         var errorPanel = document.getElementsByClassName('register__error')[0];
+Object.defineProperty(HomePanel.prototype, 'onLogout', {
+    set: function (callback) {
+        this.__logoutButton__.addEventListener('click', callback);
+        
+    }
+});
 
-//         try {
-//             register(name, surname, email, password, passwordConfirmation, function () {
-//                 nameInput.value = '';
-//                 surnameInput.value = '';
-//                 emailInput.value = '';
-//                 passwordInput.value = '';
-//                 passwordConfirmationInput.value = '';
 
-//                 errorPanel.style.display = 'none';
-//                 errorPanel.innerText = '';
+//#endregion
 
-//                 registerSection.hide();
-//                 loginSection.show();
-//             });
-//         } catch (err) {
-//             errorPanel.show();
-//             errorPanel.innerText = err.message;
-//         }
-//     });
-// });//();
+//#region searchpanel
+
+function SearchPanel() {
+
+    Panel.call(this, document.createElement('section'))
+
+    var container=this.element
+
+    var form=document.createElement('form');
+    // form.action="https://duckling-api.herokuapp.com/api/search";
+    // form.method='get';
+    container.appendChild(form);
+    this.__form__=form
+
+    var duckInput=document.createElement('input');
+    duckInput.type='text';
+    duckInput.name='q';
+    form.appendChild(duckInput);
+    this.__duckInput__=duckInput
+
+    var searchButton=document.createElement('button');
+    searchButton.type='submit';
+    searchButton.innerText='Search'
+    form.appendChild(searchButton);
+    this.__searchButton__=searchButton;
+
+    var resultList=document.createElelemtn('ul');
+    container.appendChild(resultList);
+    this.__resultList__=resultList
+
+}
+
+SearchPanel.prototype=Object.create(Panel.prototype);
+SearchPanel.prototype.constructor=SearchPanel
+
+Object.defineProperty(SearchPanel.prototype, 'onSearch',{
+    set :function(callback){
+        this.__form__.addEventListener('submit', function(){
+            event.preventDefault();
+            var query=this.__duckInput__.value;
+        
+            callback(query);
+        }.bind(this));
+
+    }
+})
+
+Object.defineProperty(SearchPanel.prototype,'error',{
+    set: function(message){
+        this.resultList.innerHTML='';
+
+        var errorItem=document.createElement('li');
+        errorItem.innerText=message;
+        this.__resultList__.appendChild(errorItem)
+
+    }
+})
+
+Object.defineProperty(SearchPanel.prototype,'results',{
+    set: function(results){
+        this.resultList.innerHTML='';
+
+        results.forEach(function(result){
+            var item=document.createElement('li');
+            this.__resultList.appendchild(item);
+
+            var text=document.createTextNode(result.text);
+            item.appendChild(text);
+
+            var image=document.createElement('img');
+            image.src=result.image;
+            image,style.width='100px';
+            item.appendChild(image);
+        }.bind(this))
+    }
+})
 
 //#endregion

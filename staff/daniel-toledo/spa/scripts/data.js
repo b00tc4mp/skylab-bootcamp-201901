@@ -6,7 +6,8 @@ var users = [
     { name: 'Jane', surname: 'Doe', email: 'janedoe@mail.com', password: '54321' },
     { name: 'Cama', surname: 'Ron', email: 'camaron@mail.com', password: 'delaisla' },
     { name: 'Rain', surname: 'Bow', email: 'rainbow@mail.com', password: 'arcoiris' },
-    { name: 'Hul', surname: 'Io', email: 'hulio@mail.com', password: 'vivaerbetih' }
+    { name: 'Hul', surname: 'Io', email: 'hulio@mail.com', password: 'vivaerbetih' },
+    { name: 'Daniel', surname: 'Toledo', email: 'dt@mail.com', password: 'r' }
 ];
 
 //#endregion
