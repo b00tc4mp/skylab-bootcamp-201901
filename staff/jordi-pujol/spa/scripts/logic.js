@@ -65,4 +65,12 @@ function register(name, surname, email, password, passwordConfirmation, callback
     callback();
 }
 
+function search (query, callback) {
+    if (typeof query !== 'string') throw TypeError(query + ' is not a string');
+
+    if (!query.trim().length) throw Error('query cannot be empty');
+
+    ducklingApi.search(query, callback);
+}
+
 //#endregion
