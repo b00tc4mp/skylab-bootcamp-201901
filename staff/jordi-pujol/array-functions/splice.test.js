@@ -24,9 +24,15 @@ test('should work when we introduce all the parameters', function(){
     if(a.toString() !== [0, 1, "house", "casa", "tomato", "tomaquet", 4, 5, 6, 7, 8, 9].toString()) throw Error ('the result should be the expected (deleted elements)')
 })
 
-test('should work when we do not introduce the deletecount', function(){
-
+test('should return an empty array when we do not introduce the deletecount but other elements', function(){
     
+    var a = [0, 1, 2, 3]
+
+    var res = splice(a, 2, 'home')
+
+    var exp = [];
+
+    if(res.toString() !== exp.toString()) throw Error ('the result should be the expected (deleted elements)')
 })
 
 test('should work when we do not introduce any element to add nor deletecount', function(){
@@ -38,7 +44,6 @@ test('should work when we do not introduce any element to add nor deletecount', 
     var exp = [2, 3];
 
     if(res.toString() !== exp.toString()) throw Error ('the result should be the expected (deleted elements)')
-    
 })
 
 test('should work when we do not introduce any element but start and deletcount', function(){
@@ -50,7 +55,6 @@ test('should work when we do not introduce any element but start and deletcount'
     var exp = [2, 3];
 
     if(res.toString() !== exp.toString()) throw Error ('the result should be the expected (deleted elements)')
-
 })
 
 test('should return empty array if no start nor deletcount introduced', function(){

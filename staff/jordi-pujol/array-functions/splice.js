@@ -15,8 +15,10 @@
 
 function splice(arr, start, countDel, item) {
 
-
     if (!(arr instanceof Array)) throw TypeError(arr + ' should be an array')
+
+    var ret = []
+
     if (typeof arguments[1] !== "number") return [];
 
     else if (typeof arguments[1] === "number") {
@@ -25,7 +27,6 @@ function splice(arr, start, countDel, item) {
 
             if (arguments.length === 3) {
 
-                var ret = []
                 for (var i = start; i < (start + countDel); i++) {
                     ret[i - start] = arr[i]
                 }
@@ -40,8 +41,6 @@ function splice(arr, start, countDel, item) {
             else {
 
                 var countA = 3;
-
-                var ret = []
 
                 for (var i = start; i < (start + countDel); i++) {
                     ret[i - start] = arr[i]
@@ -65,18 +64,6 @@ function splice(arr, start, countDel, item) {
 
                 else if (arguments.length - 3 > countDel) {
 
-                    // for (var i = start; i < (start + countDel); i++){
-
-                    //     arr[i] = arguments[countA]
-                    //     countA ++
-                    // }
-                    // var len = arr.length
-                    // for (var k = (start + countDel); k < len; k ++){
-                    //     arr[arr.length] = arr[k]
-                    //     arr[k] = arguments[countA]
-                    //     countA ++
-                    // }
-
                     let leng = arr.length
 
                     for (var i = 0; i < (arguments.length - 3 - countDel); i++) {
@@ -97,30 +84,16 @@ function splice(arr, start, countDel, item) {
             }
         }
 
-        else if (typeof arguments[2] === "number") {
-
-        }
-        if (arguments.length < 3) {
-            var ret = []
+        else if (arguments.length === 2) {
             for (var i = start; i < arr.length; i++) {
                 ret[i - start] = arr[i]
             }
             arr.length -= start
             return ret
         }
+
+        else if (typeof arguments[2] !== "number") {
+            return ret
+        }
     }
-
-
-
-
-
-
-
-    // if (typeof start !== "number"){
-    //     for (var i = 1; i< arguments.length; i++){
-    //         arguments[i] = arguments[i+1]
-    //     }
-    // }
-
-
 }
