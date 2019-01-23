@@ -4,7 +4,7 @@ var registerPanel = new RegisterPanel
 
 document.body.appendChild(loginPanel.element);
 document.body.appendChild(welcomePanel.element);
-document.body.appendChild(registerPanel.element)
+document.body.appendChild(registerPanel.element);
 
 loginPanel.onLogin = function(email, password) {
     try {
@@ -16,7 +16,7 @@ loginPanel.onLogin = function(email, password) {
         });
     } catch(err) {
         loginPanel.error = err.message;
-    }
+    };
 };
 
 registerPanel.onRegister = function(name,surname, email, password, confirmPassword) {
@@ -31,9 +31,9 @@ registerPanel.onRegister = function(name,surname, email, password, confirmPasswo
         });
     } catch(err) {
         registerPanel.error = err.message;
-    }
+    };
 
-}
+};
 
 welcomePanel.onLogout = function() {
     welcomePanel.hide();
@@ -42,16 +42,14 @@ welcomePanel.onLogout = function() {
 };
 
 loginPanel.signUp = function(){
-    loginPanel.hide()
-    loginPanel.clear()
-    registerPanel.show()
-
-}
+    loginPanel.hide();
+    loginPanel.clear();
+    registerPanel.show();
+};
 
 registerPanel.signIn = function(){
-    registerPanel.hide()
-    registerPanel.clear()
-    loginPanel.show()
-
-}
+    registerPanel.hide();
+    registerPanel.clear();
+    loginPanel.show();
+};
 

@@ -167,18 +167,20 @@ Object.defineProperty(WelcomePanel.prototype, 'onLogout', {
 function RegisterPanel() {
     Panel.call(this, document.createElement('section'));
     
+
     var container = this.element;
     container.className = 'register';
+
 
     var title2 = document.createElement('h2');
     title2.innerText = 'Register';
     container.appendChild(title2);
 
+
     var form = document.createElement('form');
     form.className = 'register__form';
     container.appendChild(form);
     this.__form__ = form
-
 
     var nameLabel = document.createElement('label');
     nameLabel.setAttribute('for' , 'name');
@@ -193,14 +195,11 @@ function RegisterPanel() {
     form.appendChild(nameInput);
     this.__nameInput__ = nameInput
 
-    
-
     var surnameLabel = document.createElement('label');
     surnameLabel.setAttribute('for' , 'surname');
     surnameLabel.innerText = 'Surname:';
     form.appendChild(surnameLabel);
     
-
     var surnameInput = document.createElement('input');
     surnameInput.type = 'surname';
     surnameInput.name = 'surname';
@@ -209,14 +208,11 @@ function RegisterPanel() {
     form.appendChild(surnameInput);
     this.__surnameInput__ = surnameInput
 
-
-    
     var emailLabel = document.createElement('label');
     emailLabel.setAttribute('for' , 'email');
     emailLabel.innerText = 'E-mail:';
     form.appendChild(emailLabel);
     
-
     var emailInput = document.createElement('input');
     emailInput.type = 'email';
     emailInput.name = 'email';
@@ -224,14 +220,12 @@ function RegisterPanel() {
     emailInput.required = true;
     form.appendChild(emailInput)
     this.__emailInput__ = emailInput
-
     
     var passwordLabel = document.createElement('label');
     passwordLabel.setAttribute('for' , 'Password');
     passwordLabel.innerText = 'Password:';
     form.appendChild(passwordLabel);
     
-
     var passwordInput = document.createElement('input');
     passwordInput.type = 'password';
     passwordInput.name = 'password';
@@ -240,14 +234,11 @@ function RegisterPanel() {
     form.appendChild(passwordInput);
     this.__passwordInput__ = passwordInput
 
-    
-
     var confirmPasswordLabel = document.createElement('label');
     confirmPasswordLabel.setAttribute('for' , 'password');
     confirmPasswordLabel.innerText = 'Confirm Password:';
     form.appendChild(confirmPasswordLabel);
     
-
     var confirmPasswordInput = document.createElement('input');
     confirmPasswordInput.type = 'password';
     confirmPasswordInput.name = 'password-confirmation';
@@ -268,13 +259,13 @@ function RegisterPanel() {
     container.appendChild(error);
     this.__error__ = error
 
+
     var link = document.createElement('a');
     link.href = '#';
     link.className = 'register__login-link';
     link.innerText = 'Login';
     container.appendChild(link);
     this.__link__ = link
-
 
 }
 
