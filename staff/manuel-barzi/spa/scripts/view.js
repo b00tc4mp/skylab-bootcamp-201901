@@ -2,16 +2,17 @@
 
 //#region panel
 
-function Panel(element) {
-    this.element = element;
+function Panel($element) {
+    this.$element = $element;
 }
 
-Panel.prototype.hide = function() {
-    this.element.hide();
+
+Panel.prototype.hide = function () {
+    this.$element.hide();
 };
 
-Panel.prototype.show = function() {
-    this.element.show();
+Panel.prototype.show = function () {
+    this.$element.show();
 };
 
 //#endregion
@@ -19,19 +20,117 @@ Panel.prototype.show = function() {
 //#region login panel
 
 function LoginPanel() {
+    Panel.call(this, $('<section class="login">'
+    + '<h2>Login</h2>'
+    + '<form class="login__form" >'
+    + '<label for="email">E-mail:</label>'
+    + '<input type="email" name="email" placeholder="email" required>'
+    + '<label for="password">Password:</label>'
+    + '<input type="password" name="password" placeholder="password" required>'
+    + '<button type="submit">Login</button>'
+    + '</form>'
+    + '</section>'));
+
+    var $container = this.$element;
+
+    var $form = $container.children('form');
+    this.__$form__ = $form;
+
+    var $inputs = $form.children('input');
+
+    this.__$emailInput__ = $($inputs[0]);
+
+    this.__$passwordInput__ = $($inputs[1]);
+
+    var errorPanel = new ErrorPanel;
+    $container.append(errorPanel.$element);
+    this.__errorPanel__ = errorPanel;
+
+    var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
+    $container.append($registerLink);
+    this.__$registerLink__ = $registerLink;
+}
+
+LoginPanel.prototype = Object.create(Panel.prototype);
+LoginPanel.prototype.constructor = LoginPanel;
+
+Object.defineProperty(LoginPanel.prototype, 'onLogin', {
+    set: function (callback) {
+        this.__$form__.on('submit', function (event) {
+            event.preventDefault();
+
+            var email = this.__$emailInput__.val();
+            var password = this.__$passwordInput__.val();
+
+            callback(email, password);
+        }.bind(this));
+    }
+});
+
+Object.defineProperty(LoginPanel.prototype, 'error', {
+    set: function (message) {
+        this.__errorPanel__.message = message;
+        this.__errorPanel__.show();
+    }
+});
+
+LoginPanel.prototype.clear = function () {
+    this.__$emailInput__.val('');
+    this.__$passwordInput__.val('');
+    this.__errorPanel__.message = '';
+    this.__errorPanel__.hide();
+};
+
+Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
+    set: function (callback) {
+        this.__$registerLink__.addEventListener('click', callback);
+    }
+});
+
+//#endregion
+
+//#region register panel
+
+function RegisterPanel() {
     Panel.call(this, document.createElement('section'));
 
     var container = this.element;
-    container.className = 'login';
+    container.className = 'register';
 
     var title = document.createElement('h2');
-    title.innerText = 'Login';
+    title.innerText = 'Register';
     container.appendChild(title);
 
     var form = document.createElement('form');
-    form.className = 'login__form';
+    form.className = 'register__form';
     container.appendChild(form);
     this.__form__ = form;
+
+    var nameLabel = document.createElement('label');
+    nameLabel.setAttribute('for', 'name');
+    nameLabel.innerText = 'Name:';
+    form.appendChild(nameLabel);
+
+    var nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.name = 'name';
+    nameInput.placeholder = 'name';
+    nameInput.required = true;
+    form.appendChild(nameInput);
+    this.__nameInput__ = nameInput;
+
+    var surnameLabel = document.createElement('label');
+    surnameLabel.setAttribute('for', 'surname');
+    surnameLabel.innerText = 'Surname:';
+    form.appendChild(surnameLabel);
+
+    var surnameInput = document.createElement('input');
+    surnameInput.type = 'text';
+    surnameInput.surname = 'surname';
+    surnameInput.placeholder = 'surname';
+    surnameInput.required = true;
+    form.appendChild(surnameInput);
+    this.__surnameInput__ = surnameInput;
 
     var emailLabel = document.createElement('label');
     emailLabel.setAttribute('for', 'email');
@@ -59,62 +158,87 @@ function LoginPanel() {
     form.appendChild(passwordInput);
     this.__passwordInput__ = passwordInput;
 
+    var passwordConfirmationLabel = document.createElement('label');
+    passwordConfirmationLabel.setAttribute('for', 'passwordConfirmation');
+    passwordConfirmationLabel.innerText = 'Confirm password:';
+    form.appendChild(passwordConfirmationLabel);
+
+    var passwordConfirmationInput = document.createElement('input');
+    passwordConfirmationInput.type = 'password';
+    passwordConfirmationInput.name = 'passwordConfirmation';
+    passwordConfirmationInput.placeholder = 'confirm password';
+    passwordConfirmationInput.required = true;
+    form.appendChild(passwordConfirmationInput);
+    this.__passwordConfirmationInput__ = passwordConfirmationInput;
+
     var submitButton = document.createElement('button');
     submitButton.type = 'submit';
-    submitButton.innerText = 'Login';
+    submitButton.innerText = 'Register';
     form.appendChild(submitButton);
 
-    var error = document.createElement('section');
-    error.className = 'login__error';
-    container.appendChild(error);
-    this.__error__ = error;
+    var errorPanel = new ErrorPanel;
+    container.appendChild(errorPanel.element);
+    this.__errorPanel__ = errorPanel;
 
-    var registerLink = document.createElement('a');
-    registerLink.href = '#';
-    registerLink.innerText = 'Register'
-    registerLink.className = 'login__register-link';
-    container.appendChild(registerLink);
+    var loginLink = document.createElement('a');
+    loginLink.href = '#';
+    loginLink.innerText = 'Login'
+    loginLink.className = 'register__login-link';
+    container.appendChild(loginLink);
+    this.__loginLink__ = loginLink;
 }
 
-LoginPanel.prototype = Object.create(Panel.prototype);
-LoginPanel.prototype.constructor = LoginPanel;
+RegisterPanel.prototype = Object.create(Panel.prototype);
+RegisterPanel.prototype.constructor = RegisterPanel;
 
-Object.defineProperty(LoginPanel.prototype, 'onLogin', { 
-    set: function(callback) { 
+Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
+    set: function (callback) {
         this.__form__.addEventListener('submit', function (event) {
             event.preventDefault();
-    
+
+            var name = this.__nameInput__.value;
+            var surname = this.__surnameInput__.value;
             var email = this.__emailInput__.value;
             var password = this.__passwordInput__.value;
-    
-            callback(email, password);
+            var passwordConfirmation = this.__passwordConfirmationInput__.value;
+
+            callback(name, surname, email, password, passwordConfirmation);
         }.bind(this));
-    } 
+    }
 });
 
-Object.defineProperty(LoginPanel.prototype, 'error', { 
-    set: function(message) { 
-        this.__error__.innerText = message;
-        this.__error__.show();
-    } 
+Object.defineProperty(RegisterPanel.prototype, 'error', {
+    set: function (message) {
+        this.__errorPanel__.message = message;
+        this.__errorPanel__.show();
+    }
 });
 
-LoginPanel.prototype.clear = function() {
+RegisterPanel.prototype.clear = function () {
+    this.__nameInput__.value = '';
+    this.__surnameInput__.value = '';
     this.__emailInput__.value = '';
     this.__passwordInput__.value = '';
-    this.__error__.innerText = '';
-    this.__error__.hide();
+    this.__passwordConfirmationInput__.value = '';
+    this.__errorPanel__.message = '';
+    this.__errorPanel__.hide();
 };
+
+Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
+    set: function (callback) {
+        this.__loginLink__.addEventListener('click', callback);
+    }
+});
 
 //#endregion
 
-//#region welcome panel
+//#region home panel
 
-function WelcomePanel() {
+function HomePanel() {
     Panel.call(this, document.createElement('section'));
 
     var container = this.element;
-    container.className = 'welcome';
+    container.className = 'home';
 
     var title = document.createElement('h2');
     container.appendChild(title);
@@ -123,7 +247,6 @@ function WelcomePanel() {
     title.appendChild(welcomeText);
 
     var userSpan = document.createElement('span');
-    userSpan.className = 'welcome__name';
     title.appendChild(userSpan);
     this.__userSpan__ = userSpan;
 
@@ -131,93 +254,128 @@ function WelcomePanel() {
     title.appendChild(exclamationText);
 
     var logoutButton = document.createElement('button');
-    logoutButton.className = 'welcome__logout';
     logoutButton.innerText = 'Logout';
     container.appendChild(logoutButton);
     this.__logoutButton__ = logoutButton;
 }
 
-WelcomePanel.prototype = Object.create(Panel.prototype);
-WelcomePanel.prototype.constructor = WelcomePanel;
+HomePanel.prototype = Object.create(Panel.prototype);
+HomePanel.prototype.constructor = HomePanel;
 
-Object.defineProperty(WelcomePanel.prototype, 'user', { 
-    set: function(user) { 
+Object.defineProperty(HomePanel.prototype, 'user', {
+    set: function (user) {
         this.__userSpan__.innerText = user.name;
-    } 
+    }
 });
 
-Object.defineProperty(WelcomePanel.prototype, 'onLogout', { 
-    set: function(callback) { 
+Object.defineProperty(HomePanel.prototype, 'onLogout', {
+    set: function (callback) {
         this.__logoutButton__.addEventListener('click', callback);
-    } 
+    }
 });
 
 //#endregion
 
-//#region register panel
+//#region search panel
 
-function RegisterPanel() {
-    // TODO
+function SearchPanel() {
+    Panel.call(this, document.createElement('section'));
+
+    var container = this.element;
+
+    var form = document.createElement('form');
+    container.appendChild(form);
+    this.__form__ = form;
+
+    var queryInput = document.createElement('input');
+    queryInput.type = 'text';
+    queryInput.name = 'query';
+    queryInput.placeholder = '...';
+    form.appendChild(queryInput);
+    this.__queryInput__ = queryInput;
+
+    var searchButton = document.createElement('button');
+    searchButton.type = 'submit';
+    searchButton.innerText = 'Search';
+    form.appendChild(searchButton);
+
+    var errorPanel = new ErrorPanel;
+    container.appendChild(errorPanel.element);
+    this.__errorPanel__ = errorPanel;
+
+    var resultList = document.createElement('ul');
+    container.appendChild(resultList);
+    this.__resultList__ = resultList;
 }
 
+SearchPanel.prototype = Object.create(Panel.prototype);
+SearchPanel.prototype.constructor = SearchPanel;
+
+Object.defineProperty(SearchPanel.prototype, 'onSearch', {
+    set: function (callback) {
+        this.__form__.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var query = this.__queryInput__.value;
+
+            callback(query);
+        }.bind(this));
+    }
+});
+
+Object.defineProperty(SearchPanel.prototype, 'error', {
+    set: function (message) {
+        this.__errorPanel__.message = message;
+        this.__errorPanel__.show();
+    }
+});
+
+Object.defineProperty(SearchPanel.prototype, 'results', {
+    set: function (results) {
+        this.__resultList__.innerHTML = '';
+        this.__errorPanel__.hide();
+
+        results.forEach(function (result) {
+            var item = document.createElement('li');
+            this.__resultList__.appendChild(item);
+
+            var text = document.createTextNode(result.text);
+            item.appendChild(text);
+
+            var image = document.createElement('img');
+            image.src = result.image;
+            image.style.width = '100px';
+            item.appendChild(image);
+        }.bind(this));
+    }
+});
+
+SearchPanel.prototype.clear = function () {
+    this.clearResults();
+    this.__queryInput__.value = '';
+    this.__errorPanel__.message = '';
+    this.__errorPanel__.hide();
+};
+
+SearchPanel.prototype.clearResults = function () {
+    this.__resultList__.innerHTML = '';
+};
+
 //#endregion
 
-// TODO remove following old code when register panel already implemented
+//#region error panel
 
-//#region view (presentation logic)
+function ErrorPanel() {
+    Panel.call(this, $('<section class="error"></section>'));
+}
 
-(function () {
-    var registerSection = document.getElementsByClassName('register')[0];
+ErrorPanel.prototype = Object.create(Panel.prototype);
+ErrorPanel.prototype.constructor = ErrorPanel;
 
-    var loginLink = document.getElementsByClassName('register__login-link')[0];
-
-    var registerForm = document.getElementsByClassName('register__form')[0];
-
-    loginLink.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        registerSection.hide();
-        loginSection.show();
-    });
-
-    registerForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        var inputs = this.getElementsByTagName('input');
-
-        var nameInput = inputs[0];
-        var surnameInput = inputs[1];
-        var emailInput = inputs[2];
-        var passwordInput = inputs[3];
-        var passwordConfirmationInput = inputs[4];
-
-        var name = nameInput.value;
-        var surname = surnameInput.value;
-        var email = emailInput.value;
-        var password = passwordInput.value;
-        var passwordConfirmation = passwordConfirmationInput.value;
-
-        var errorPanel = document.getElementsByClassName('register__error')[0];
-
-        try {
-            register(name, surname, email, password, passwordConfirmation, function () {
-                nameInput.value = '';
-                surnameInput.value = '';
-                emailInput.value = '';
-                passwordInput.value = '';
-                passwordConfirmationInput.value = '';
-
-                errorPanel.style.display = 'none';
-                errorPanel.innerText = '';
-
-                registerSection.hide();
-                loginSection.show();
-            });
-        } catch (err) {
-            errorPanel.show();
-            errorPanel.innerText = err.message;
-        }
-    });
-});//();
+Object.defineProperty(ErrorPanel.prototype, 'message', {
+    set: function (message) {
+        this.$element.text(message);
+    }
+});
 
 //#endregion
