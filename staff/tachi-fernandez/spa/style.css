@@ -5,6 +5,7 @@
     border-style: solid;
     border-color: gray;
     color: white;
+    margin-right: 60%;
 }
 
 .login__error {
@@ -20,16 +21,19 @@
     border-radius: 0.5em;
     border-style: solid;
     border-color: gray;
+    margin-right: 60%;
 }
 
 .register__error {
     display: none;
     background-color: red;
     color: white;
+    
 }
 
 .welcome {
     display: none;
     background-color: green;
     color: white;
+    margin-right: 60%
 }
