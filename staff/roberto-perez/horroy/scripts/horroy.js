@@ -435,17 +435,22 @@ Horroy.prototype.reduceRight = function(callback, valorInicial) {
   return valorAnterior;
 };
 
+/**
+ * Sorts the elements of an horroy in place and returns the array.
+ * 
+ * @param {Function} [compareFunction] - Specifies a function that defines the sort order.
+ * 
+ * @returns {Horroy} - The sorted horroy.
+ */
 Horroy.prototype.sort = function(compareFunction) {
 
-  if(typeof compareFunction === 'undefined') {
-    compareFunction = function(a, b) {
-      return a - b;
-    };
-  }
+  compareFunction = !!compareFunction ? compareFunction : function(a, b) {
+    return a - b;
+  };
 
   for(var i = 0; i < this.length; i++) {
-    for(var j = 0; j < this.length; j++) {
-      if(compareFunction(this[j].toString().charCodeAt(), this[i].toString().charCodeAt())) {
+    for(var j = 1; j < this.length; j++) {
+      if(compareFunction(this[j].toString().charCodeAt(), this[i].toString().charCodeAt()) > 0) {
         var tmp = this[i];
         this[i] = this[j];
         this[j] = tmp;
@@ -453,4 +458,20 @@ Horroy.prototype.sort = function(compareFunction) {
     }
   }
 
+};
+
+/**
+ * Returns a string representing the source code of the array
+ * 
+ * @returns {String} - A string representing the source code of the horroy.
+ */
+Horroy.prototype.toSource = function() {
+  var string = '[' 
+  
+  for (var i = 0; i < this.length; i++) {
+    if (i === this.length - 1) string += '\'' + this[this.length-1] + '\']';
+    else string += '\'' + this[i] + '\', ';
+  }
+
+  return string
 };
