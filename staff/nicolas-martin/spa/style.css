@@ -1,32 +1,36 @@
+.body{
+    background-color: #edeff0;
+}
 .login {
-    background-color: skyblue;
-    padding: 2em;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: gray;
-    color: white;
+    background-color: rgba(153, 153, 153, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 6px;
+    color: #4b5658;
 }
 
-.error {
+.alert {
     display: none;
-    background-color: red;
-    color: white;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: white;
 }
 
 .register {
     display: none;
-    background-color: yellow;
-    padding: 2em;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: gray;
+    background-color: rgba(153, 153, 153, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 6px;
+    color: #4b5658;
 }
 
 .home {
     display: none;
-    background-color: green;
-    color: white;
+    background-color: rgba(153, 153, 153, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 6px;
+}
+
+button.btn-secondary{
+    width: 80px;
+}
+
+.card{
+    width: 33.33%
 }
