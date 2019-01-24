@@ -208,11 +208,13 @@ footer .fourcolumns__footercolumn {
   flex-direction: column;
   align-items: flex-start;
 }
-footer .fourcolumns__footercolumn p:first-child {
+footer .fourcolumns__footercolumn li:first-child {
   font-weight: bold;
+  list-style-type: none;
 }
-footer .fourcolumns__footercolumn p {
+footer .fourcolumns__footercolumn li {
   margin-left: 0.5em;
+  list-style-type: none;
 }
 footer .allRights {
   display: flex;
