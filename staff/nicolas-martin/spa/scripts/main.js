@@ -19,6 +19,7 @@ loginPanel.onLogin = function(email, password) {
             loginPanel.clear();
             homePanel.user = user;
             homePanel.show();
+            homePanel.$element.addClass('d-flex flex-column');
         });
     } catch(err) {
         loginPanel.error = err.message;
@@ -46,15 +47,14 @@ registerPanel.onRegister = function(name, surname, email, password, passwordConf
 registerPanel.onGoToLogin = function() {
     registerPanel.hide();
     registerPanel.clear();
-
     loginPanel.show();
 };
 
 homePanel.onLogout = function() {
     homePanel.hide();
+    homePanel.$element.removeClass('d-flex flex-column');
 
     searchPanel.clear();
-
     loginPanel.clear();
     loginPanel.show();
 };
@@ -67,8 +67,10 @@ searchPanel.onSearch = function(query) {
                 searchPanel.clearResults();
             } else searchPanel.results = results.map(function(result) {
                 return {
-                    text: result.title,
-                    image: result.imageUrl
+                    title: result.title,
+                    image: result.imageUrl,
+                    price: result.price,
+                    description: result.description
                 }
             });
         });
