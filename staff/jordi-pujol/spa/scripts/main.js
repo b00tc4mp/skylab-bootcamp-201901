@@ -1,73 +1,82 @@
-var loginPanel = new LoginPanel
-var welcomePanel = new WelcomePanel
-var registerPanel = new RegisterPanel
+'use strict';
 
-document.body.appendChild(loginPanel.element);
-document.body.appendChild(welcomePanel.element);
-document.body.appendChild(registerPanel.element);
+var loginPanel = new LoginPanel
+var registerPanel = new RegisterPanel
+var homePanel = new HomePanel
+var searchPanel = new SearchPanel
+
+var $body = $(document.body);
+
+$body.append(loginPanel.$element);
+$body.append(registerPanel.$element)
+$body.append(homePanel.$element);
+
+homePanel.$element.append(searchPanel.$element);
 
 loginPanel.onLogin = function (email, password) {
     try {
-        login(email, password, function (user) {
+        logic.login(email, password, function (user) {
             loginPanel.hide();
+            loginPanel.clear();
 
-            welcomePanel.user = user;
-            welcomePanel.show();
+            homePanel.user = user;
+            homePanel.show();
         });
     } catch (err) {
         loginPanel.error = err.message;
     }
 };
 
-loginPanel.clickRegister = function () {
+loginPanel.onGoToRegister = function () {
     loginPanel.hide();
-    registerPanel.show()
-    registerPanel.clear()
-};
-
-welcomePanel.onLogout = function () {
-    welcomePanel.hide();
     loginPanel.clear();
-    loginPanel.show();
-};
 
-registerPanel.clickLogin = function () {
-    registerPanel.hide()
-    loginPanel.clear()
-    loginPanel.show()
-}
+    registerPanel.show();
+};
 
 registerPanel.onRegister = function (name, surname, email, password, passwordConfirmation) {
-
     try {
-        register(name, surname, email, password, passwordConfirmation, function (user) {
+        logic.register(name, surname, email, password, passwordConfirmation, function () {
             registerPanel.hide();
+            registerPanel.clear();
 
-            loginPanel.show()
-
-        })
+            loginPanel.show();
+        });
     } catch (err) {
         registerPanel.error = err.message;
     }
 };
 
-welcomePanel.onSearch = function (query) {
+registerPanel.onGoToLogin = function () {
+    registerPanel.hide();
+    registerPanel.clear();
 
+    loginPanel.show();
+};
+
+homePanel.onLogout = function () {
+    homePanel.hide();
+
+    searchPanel.clear();
+
+    loginPanel.clear();
+    loginPanel.show();
+};
+
+searchPanel.onSearch = function (query) {
     try {
-        search(query, function (error, results) {
+        logic.search(query, function (error, results) {
             if (error) {
-                registerPanel.error = error
-            }
-            else {
-                registerPanel.results = results.map(function (result) {
-                    return {
-                        text: result.title,
-                        image: result.imageUrl
-                    }
-                })
-            }
-        })
+                searchPanel.error = error
+                searchPanel.clearResults();
+            } else searchPanel.results = results.map(function (result) {
+                return {
+                    text: result.title,
+                    image: result.imageUrl
+                }
+            });
+        });
     } catch (err) {
-        registerPanel.error = err.message;
+        searchPanel.error = err.message;
     }
 };
