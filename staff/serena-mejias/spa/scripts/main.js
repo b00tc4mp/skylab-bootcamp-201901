@@ -1,13 +1,16 @@
-var loginPanel = new LoginPanel();
-var homePanel = new HomePanel();
-var registerPanel = new RegisterPanel();
-var searchPanel = new SearchPanel();
+var loginPanel = new LoginPanel;
+var homePanel = new HomePanel;
+var registerPanel = new RegisterPanel;
+var searchPanel = new SearchPanel;
 
-document.body.appendChild(loginPanel.element);
-document.body.appendChild(homePanel.element);
-document.body.appendChild(registerPanel.element);
+var $body = $(document.body);
 
-homePanel.element.appendChild(searchPanel.element);
+
+$body.append(loginPanel.$element);
+$body.append(homePanel.$element);
+$body.append(registerPanel.$element);
+
+homePanel.$element.append(searchPanel.$element);
 
 loginPanel.onLogin = function(email, password) {
   try {
@@ -65,6 +68,7 @@ searchPanel.onSearch = function(query) {
             }
         });
     });
+  }
     catch(err){
       searchPanel.error = err.message;
     }
