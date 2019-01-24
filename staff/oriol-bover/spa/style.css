@@ -1,32 +1,30 @@
 .login {
-    background-color: skyblue;
     padding: 2em;
+    border: 0.5px solid lightgray;
     border-radius: 0.5em;
-    border-style: solid;
-    border-color: gray;
-    color: white;
+    margin-top: 2rem;
 }
 
-.error {
+.alert-danger {
     display: none;
-    background-color: red;
-    color: white;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: white;
+    margin-top: 1em;
+}
+
+.title{
+    margin-top: 1em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 .register {
     display: none;
-    background-color: yellow;
     padding: 2em;
+    border: 0.5px solid lightgray;
     border-radius: 0.5em;
-    border-style: solid;
-    border-color: gray;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .welcome {
     display: none;
-    background-color: green;
-    color: white;
 }

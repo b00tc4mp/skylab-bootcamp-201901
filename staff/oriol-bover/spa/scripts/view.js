@@ -19,26 +19,30 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login">'
+    Panel.call(this, $('<section class="login container col-md-6">'
         + '<h2>Login</h2>'
         + '<form class="login__form">'
+        + '<div class="row">'
+        + '<div class="col-sm-12 form-group">'
         + '<label for="email">E-mail:</label>'
-        + '<input type="email" name="email" placeholder="email" required>'
+        + '<input type="email" class="form-control" name="email" placeholder="email" required>'
+        + '</div>'
+        + '<div class="col-sm-12 form-group">'
         + '<label for="password">Password:</label>'
-        + '<input type="password" name="password" placeholder="password" required>'
-        + '<button type="submit">Login</button>'
+        + '<input type="password" class="form-control" name="password" placeholder="password" required>'
+        + '</div>'
+        + '<div class="col-sm-12">'
+        + '<button type="submit" class="btn btn-primary">Login</button>'
+        + '</div>'
+        + '</div>'
         + '</form>'
         + '</section>'));
-
-
 
     var $container = this.$element;
     var $form = $container.children('form');
     this.__$form__ = $form;
-
-    var $inputs = $form.children('input');
-    this.__$emailInput__ = $($inputs[0]);
-    this.__$passwordInput__ = $($inputs[1]);
+    this.__$emailInput__ = $form.children('div').children('div').children('input[type=email]');
+    this.__$passwordInput__ = $form.children('div').children('div').children('input[type=password]');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
@@ -90,30 +94,39 @@ LoginPanel.prototype.clear = function () {
 //#region Home panel
 
 function HomePanel() {
-    Panel.call(this, $('<section class="welcome">'
-    + '<h2>Welcome, <span class="welcome__name"></span></h2>'
-    +  '<button class="welcome__logout">Logout</button>'
-    +   '<form action="https://duckling-api.herokuapp.com/api/search" method="get">'
-    +   '<input type="text" name="q"></input>'
-    +   '<button type="submit">Search</button>'
-    +   '</form>'
-    + '</section>'));
+    Panel.call(this, $('<section class="welcome container">'
+        + '<div class="row">'
+        + '<div class="col-sm-6">'
+        + '<h2>Welcome, <span class="welcome__name"></span></h2>'
+        + '</div>'
+        + '<div class="col-sm-6 text-right">'
+        + '<button class="welcome__logout btn btn-primary">Logout</button>'
+        + '</div>'
+        + '</div>'
+        + '<form action="https://duckling-api.herokuapp.com/api/search" method="get">'
+        + '<div class="row">'
+        + '<div class="col-md-12 input-group mb-3">'
+        + '<input type="text" class="form-control" name="q" aria-describedby="basic-addon1"></input>'
+        + '<div class="input-group-prepend">'
+        + '<button type="submit" class="btn btn-outline-secondary">Search</button>'
+        + '</div>'
+        + '</div>'
+        + '</form>'
+        + '</section>'));
 
     var $container = this.$element;
-    this.__$userSpan__ = $container.children('h2').children('span');
-    this.__$logoutButton__ =  $container.children('button')
+    this.__$userSpan__ = $container.children('div').children('div').children('h2').children('span');
+    this.__$logoutButton__ = $container.children('div').children('div').children('button');
     var $form = $container.children('form');
     this.__$duckForm__ = $form;
-    var $inputs = $form.children('input');
-    this.__$queryInput__ = $($inputs[0]);
+    this.__$queryInput__ = $form.children('div').children('div').children('input[type=text]');
     var $button = $form.children('button');
     this.__$submitButton__ = $button;
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
-
-    var $duckList = $('<ul></ul>');
+    var $duckList = $('<div class="row"></div>');
     $container.append($duckList);
     this.__$duckList__ = $duckList;
 }
@@ -123,7 +136,7 @@ HomePanel.prototype.constructor = HomePanel;
 
 Object.defineProperty(HomePanel.prototype, 'user', {
     set: function (user) {
-        
+
         this.__$userSpan__.text(user.name + '!');
     }
 });
@@ -148,8 +161,8 @@ Object.defineProperty(HomePanel.prototype, 'onSearch', {
 
 Object.defineProperty(HomePanel.prototype, 'error', {
     set: function (message) {
-       this.__errorPanel__.message = message;
-       this.__errorPanel__.show();
+        this.__errorPanel__.message = message;
+        this.__errorPanel__.show();
     }
 });
 
@@ -160,17 +173,27 @@ Object.defineProperty(HomePanel.prototype, 'listResults', {
         this.__errorPanel__.hide();
 
         ducklings.forEach(function (duckling) {
-            var $item = $('<li>'+duckling.text+'<img src="'+duckling.image+'" width="100px"></li>');
+            //var $item = $('<li>' + duckling.text + '<img src="' + duckling.image + '" width="100px"></li>');
+            var $item = $('<div class="card col-md-6 col-lg-4">'
+                + '<img class="card-img-top" src="' + duckling.image + '" alt="Card image cap">'
+                + '<div class="card-body">'
+                + '<h5 class="card-title">' + duckling.text + '</h5>'
+                //+ '<p class="card-text">Some quick example text</p>'
+                + '<a href="#" class="btn btn-primary">Show Info</a>'
+                + '</div>'
+                + '</div>');
             this.__$duckList__.append($item);
         }.bind(this));
     }
 });
 
+
+
 HomePanel.prototype.clear = function (all) {
     this.__$duckList__.text('');
     this.__errorPanel__.message = '';
     this.__errorPanel__.hide();
-    if(all) this.__$queryInput__.val('');
+    if (all) this.__$queryInput__.val('');
 }
 
 //#endregion
@@ -178,33 +201,45 @@ HomePanel.prototype.clear = function (all) {
 //#region register panel
 
 function RegisterPanel() {
-    Panel.call(this,$('<section class="register">'
+    Panel.call(this, $('<section class="register col-lg-6 container">'
         + '<h2>Register</h2>'
         + '<form class="register__form">'
+        + '<div class="row">'
+        + '<div class="col-sm-12 form-group">'
         + '<label for="name">Name:</label>'
-        + '<input type="text" name="name" placeholder="name" required>'
+        + '<input type="text" name="name" placeholder="name" required class="form-control">'
+        + '</div>'
+        + '<div class="col-sm-12 form-group">'
         + '<label for="surname">Surname:</label>'
-        + '<input type="text" name="surname" placeholder="surname" required>'
+        + '<input type="text" name="surname" placeholder="surname" required class="form-control">'
+        + '</div>'
+        + '<div class="col-sm-12 form-group">'
         + '<label for="email">E-mail:</label>'
-        + '<input type="email" name="email" placeholder="email" required>'
+        + '<input type="email" name="email" placeholder="email" required class="form-control">'
+        + '</div>'
+        + '<div class="col-sm-12 form-group">'
         + '<label for="password">Password:</label>'
-        + '<input type="password" name="password" placeholder="password" required>'
+        + '<input type="password" name="password" placeholder="password" required class="form-control">'
+        + '</div>'
+        + '<div class="col-sm-12 form-group">'
         + '<label for="password">Confirm Password:</label>'
-        + '<input type="password" name="password-confirmation" placeholder="password" required>'
-        + '<button type="submit">Register</button>'
+        + '<input type="password" name="password-confirmation" placeholder="password" required class="form-control">'
+        + '</div>'
+        + '<div class="col-md-12">'
+        + '<button type="submit" class="btn btn-primary">Register</button>'
+        + '</div>'
+        + '</div>'
         + '</form>'
         + '</section>'));
 
     var $container = this.$element;
     var $form = $container.children('form');
     this.__$form__ = $form;
-
-    var $inputs = $form.children('input');
-    this.__$nameInput__ = $($inputs[0]);
-    this.__$surnameInput__ = $($inputs[1]);
-    this.__$emailInput__ = $($inputs[2]);
-    this.__$passwordInput__ = $($inputs[3]);
-    this.__$passwordConfirmationInput__ = $($inputs[4]);
+    this.__$nameInput__ = $form.children('div').children('div').children('input[name=name]');
+    this.__$surnameInput__ = $form.children('div').children('div').children('input[name=surname]');
+    this.__$emailInput__ = $form.children('div').children('div').children('input[type=email]');
+    this.__$passwordInput__ = $form.children('div').children('div').children('input[name=password]');
+    this.__$passwordConfirmationInput__ = $form.children('div').children('div').children('input[name=password-confirmation]');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
@@ -263,7 +298,7 @@ RegisterPanel.prototype.clear = function () {
 //#region error panel
 
 function ErrorPanel() {
-    Panel.call(this, $('<section class="error"></section>'));
+    Panel.call(this, $('<section class="alert alert-danger" role="alert"></section>'));
 }
 
 ErrorPanel.prototype = Object.create(Panel.prototype);
