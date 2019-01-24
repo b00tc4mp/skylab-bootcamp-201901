@@ -1,5 +1,4 @@
 'use strict';
-
 var loginPanel = new LoginPanel
 var registerPanel = new RegisterPanel
 var homePanel = new HomePanel
@@ -21,6 +20,7 @@ loginPanel.onLogin = function (email, password) {
 
             homePanel.user = user;
             homePanel.show();
+
         });
     } catch (err) {
         loginPanel.error = err.message;
