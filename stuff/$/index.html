@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .grandpa {
+            background-color: plum;
+            padding: 1em;
+        }
+
+        .daddy {
+            background-color: skyblue;
+            padding: 1em;
+        }
+
+        .text-1 {
+            color: yellow;
+        }
+
+        .text-2 {
+            color: orange;
+        }
+
+        input[type=email] {
+            background-color: aquamarine;
+        }
+
+        input[type=password][name=password] {
+            background-color: blueviolet;
+        }
+
+        input[type=password][name=password-confirmation] {
+            background-color:chartreuse;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grandpa">
+        <div class="daddy">
+            <div class="child">
+                <span class="text-1">hola</span>
+                <span class="text-2">mundo</span>!
+
+                <form>
+                    <input type="email" name="email">
+                    <input type="password" name="password">
+                    <input type="password" name="password-confirmation">
+                    <button type="submit">Go</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="vendor/jquery/3.3.1/jquery-3.3.1.js"></script>
+    <script>
+        $('input[type=email]').val('hola mundo');
+        $('input[type=password][name=password-confirmation]').val('hola mundo');
+    </script>
+</body>
+
+</html>
