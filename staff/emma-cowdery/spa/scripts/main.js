@@ -2,26 +2,26 @@
 
 var loginPanel = new LoginPanel
 var registerPanel = new RegisterPanel
-// var homePanel = new HomePanel
-// var searchPanel = new SearchPanel
+var homePanel = new HomePanel
+var searchPanel = new SearchPanel
 
 var $body = $(document.body);
 
 $body.append(loginPanel.$element);
 $body.append(registerPanel.$element);
-// document.body.appendChild(registerPanel.element)
-// document.body.appendChild(homePanel.element);
+$body.append(registerPanel.$element);
+$body.append(homePanel.$element);
 
-// homePanel.element.appendChild(searchPanel.element);
+homePanel.$element.append(searchPanel.$element);
 
 loginPanel.onLogin = function(email, password) {
     try {
         logic.login(email, password, function(user) {
-            // loginPanel.hide();
-            // loginPanel.clear();
+            loginPanel.hide();
+            loginPanel.clear();
 
-            // homePanel.user = user;
-            // homePanel.show();
+            homePanel.user = user;
+            homePanel.show();
         });
     } catch(err) {
         loginPanel.error = err.message;
@@ -48,36 +48,36 @@ registerPanel.onRegister = function(name, surname, email, password, passwordConf
     }
 };
 
-// registerPanel.onGoToLogin = function() {
-//     registerPanel.hide();
-//     registerPanel.clear();
+registerPanel.onGoToLogin = function() {
+    registerPanel.hide();
+    registerPanel.clear();
 
-//     loginPanel.show();
-// };
+    loginPanel.show();
+};
 
-// homePanel.onLogout = function() {
-//     homePanel.hide();
+homePanel.onLogout = function() {
+    homePanel.hide();
 
-//     searchPanel.clear();
+    searchPanel.clear();
 
-//     loginPanel.clear();
-//     loginPanel.show();
-// };
+    loginPanel.clear();
+    loginPanel.show();
+};
 
-// searchPanel.onSearch = function(query) {
-//     try {
-//         logic.search(query, function(error, results) {
-//             if (error) {
-//                 searchPanel.error = error
-//                 searchPanel.clearResults();
-//             } else searchPanel.results = results.map(function(result) {
-//                 return {
-//                     text: result.title,
-//                     image: result.imageUrl
-//                 }
-//             });
-//         });
-//     } catch(err) {
-//         searchPanel.error = err.message;
-//     } 
-// };
+searchPanel.onSearch = function(query) {
+    try {
+        logic.search(query, function(error, results) {
+            if (error) {
+                searchPanel.error = error
+                searchPanel.clearResults();
+            } else searchPanel.results = results.map(function(result) {
+                return {
+                    text: result.title,
+                    image: result.imageUrl
+                }
+            });
+        });
+    } catch(err) {
+        searchPanel.error = err.message;
+    } 
+};
