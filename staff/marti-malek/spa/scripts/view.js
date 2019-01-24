@@ -249,16 +249,15 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var item = document.createElement('li');
-            this.__$resultList__.append(item);
+            var $item = $('<li></li>');
+            this.__$resultList__.append($item);
 
-            var text = document.createTextNode(result.text);
-            item.appendChild(text);
+            var $text = $(document.createTextNode(result.text));
+            $item.append($text);
 
-            var image = document.createElement('img');
-            image.src = result.image;
-            image.style.width = '100px';
-            item.appendChild(image);
+            var $image = $('<img>');
+            $image.attr({'src': result.image, 'width': '100px'});
+            $item.append($image);
         }.bind(this));
     }
 });
