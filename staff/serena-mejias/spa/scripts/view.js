@@ -22,16 +22,16 @@ function LoginPanel() {
   Panel.call(
     this,
     $(
-      '<section class="container login col">' +
+      '<section class="login col">' +
         '<div class="header row">' +
         '<h3 class="col-sm-5">Login</h3>' +
         "</div>" +
         '<form class="container login__form col">' +
-        '<div class="form__email col-sm-5">' +
+        '<div class="form-group form__email col-sm-5">' +
         '<label for="email">E-mail:</label>' +
         '<input type="email" name="email" placeholder="email" class="form-control" required>' +
         "</div>" +
-        '<div class="form__password col-sm-5">' +
+        '<div class="form-group form__password col-sm-5">' +
         '<label for="password">Password:</label>' +
         '<input type="password" name="password" placeholder="password" class="form-control" required>' +
         '<button type="submit" class="col-xs-2 btn btn-secondary btn-sm">Login</button>' +
@@ -85,7 +85,6 @@ Object.defineProperty(LoginPanel.prototype, "error", {
     this.__errorPanel__.show();
   }
 });
-
 LoginPanel.prototype.clear = function() {
   this.__$emailInput__.val("");
   this.__$passwordInput__.val("");
@@ -176,8 +175,8 @@ Object.defineProperty(RegisterPanel.prototype, "onRegister", {
 
 Object.defineProperty(RegisterPanel.prototype, "error", {
   set: function(message) {
-    this.__error__.message = message;
-    this.__error__.show();
+    this.__errorPanel__.message = message;
+    this.__errorPanel__.show();
   }
 });
 
@@ -204,7 +203,7 @@ function HomePanel() {
     this,
     $(
       '<section class="home">' +
-        '<h4>Welcome,<span class = "home__name></span>!</h4>' +
+        '<h4>Welcome,<span class = "home__name"></span>!</h4>' +
         '<button class = "home__logout">Logout</button>'
     )
   );
@@ -240,11 +239,10 @@ function SearchPanel() {
       '<section class="search">' +
         "<form>" +
         '<label for="name">Name:</label>' +
-        '<input type="text" name="query" placeholder="query">' +
+        '<input id="queryInput" type="text" name="query" placeholder="query">' +
         '<button type="submit">Search</button>' +
         "</form>" +
-        "<ul></ul>" +
-        '<button class = "home__logout">Logout</button>'
+        '<div id="resultsList"></div>'
     )
   );
 
@@ -253,11 +251,15 @@ function SearchPanel() {
   var $form = $container.find("form");
   this.__$form__ = $form;
 
-  var $queryInput = $form.find("queryInput");
+  var $queryInput = $form.find("#queryInput");
   this.__$queryInput__ = $queryInput;
 
-  var $resultList = $container.find("resultList");
+  var $resultList = $container.find("#resultsList");
   this.__$resultList__ = $resultList;
+
+  var errorPanel = new ErrorPanel();
+  $container.append(errorPanel.$element);
+  this.__errorPanel__ = errorPanel;
 }
 
 SearchPanel.prototype = Object.create(Panel.prototype);
@@ -280,6 +282,7 @@ Object.defineProperty(SearchPanel.prototype, "onSearch", {
 
 Object.defineProperty(SearchPanel.prototype, "error", {
   set: function(message) {
+    console.log(message);
     this.__errorPanel__.message = message;
     this.__errorPanel__.show();
   }
@@ -291,28 +294,10 @@ Object.defineProperty(SearchPanel.prototype, "results", {
 
     results
       .forEach(function(result) {
-        var $item = $('<li>' + result.text + ' <img src="' + result.image + '" width="100px"></li>');
+        var $item = $('<div class="card">' + '<img src="' + result.image + '" width="100px"><div class="card-body "><p class="card-text">'+result.text+'</p></div>' + '</div>');
             this.__$resultList__.append($item);
-      })
-      .bind(this);
-  }
-});
+      }.bind(this))
 
-SearchPanel.prototype = Object.create(Panel.prototype);
-SearchPanel.prototype.constructor = SearchPanel;
-
-Object.defineProperty(SearchPanel.prototype, "onSearch", {
-  set: function(callback) {
-    this.__$form__.on(
-      "submit",
-      function(event) {
-        event.preventDefault();
-
-        var query = this.__$queryInput__.val();
-
-        callback(query);
-      }.bind(this)
-    );
   }
 });
 
@@ -328,7 +313,7 @@ SearchPanel.prototype.clearResults = function () {
 };
 
 function ErrorPanel() {
-  Panel.call(this, $('<section class="error"></section>'));
+  Panel.call(this, $('<section class="alert alert-danger"></section>'));
 }
 
 ErrorPanel.prototype = Object.create(Panel.prototype);
