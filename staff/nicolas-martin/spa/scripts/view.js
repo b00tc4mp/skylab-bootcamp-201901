@@ -180,7 +180,6 @@ function HomePanel() {
         + '<h2>Welcome, <span></span>!</h2>'
         +  '<button>Logout</button>'
     ));
-
     var $container = this.$element;
     this.__$userSpan__ = $container.children('h2').children('span');
     this.__$logoutButton__ = $container.children('button');
@@ -191,7 +190,7 @@ HomePanel.prototype.constructor = HomePanel;
 
 Object.defineProperty(HomePanel.prototype, 'user', {
     set: function (user) {
-        this.__$userSpan__.val(user.name);
+        this.__$userSpan__.text(user.name);
     }
 });
 
@@ -238,6 +237,7 @@ Object.defineProperty(SearchPanel.prototype, 'onSearch', {
     set: function (callback) {
         this.__$form__.on('submit', function (event) {
             event.preventDefault();
+            this.__$resultList__.empty();
             var query = this.__$queryInput__.val();
             callback(query);
         }.bind(this));
@@ -253,7 +253,6 @@ Object.defineProperty(SearchPanel.prototype, 'error', {
 
 Object.defineProperty(SearchPanel.prototype, 'results', {
     set: function (results) {
-        // this.__$resultList__.val('');
         this.__$resultList__.empty();
         this.__errorPanel__.hide();
 
