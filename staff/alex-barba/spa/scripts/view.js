@@ -19,8 +19,8 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login container">'
-    + '<form class="login__form" >'
+    Panel.call(this, $('<section class="login container col-4">'
+    + '<form class="login__form margin-top" >'
     + '<h4 class="font-weight-light-normal text-secondary">Login</h4>'
     + '<div class="form-group">'
     + '<label class="small" for="email">E-mail:</label>'
@@ -95,8 +95,8 @@ Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
 //#region register panel
 
 function RegisterPanel() {
-    Panel.call(this, $('<section class="register container">'
-    + '<form class="register__form">'
+    Panel.call(this, $('<section class="register container col-6">'
+    + '<form class="register__form margin-top">'
     +    '<h4 class="font-weight-light-normal text-secondary">Register</h4>'
     +    '<div class="input-group input-group-sm mb-3">'
     +    '<div class="input-group-prepend">'
@@ -206,9 +206,15 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 //#region home panel
 
 function HomePanel() {
-    Panel.call(this, $('<section class="home container">'
+    Panel.call(this, $('<section class="home container margin-top">'
+    + '<div class="row">'
+    + '<div class="col-6">'
     + '<h3 class="text-secondary">Welcome, <span class="home__name"></span>!</h3>'
+    + '</div>'
+    + '<div class="col-6 text-right">'
     + '<button class="home__logout btn btn-dark btn-small">Logout</button>'
+    + '</div>'
+    + '</div>'
     + '</section>'));
 
     var $container = this.$element;
@@ -296,9 +302,12 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<li class="list-group-item d-flex justify-content-center align-items-center">'+ result.text + ' <img src="'+result.image+'" width="100px"></li>');
+            var $item = $('<li class="list-group-item d-flex justify-content-between align-items-center">'+ result.text + ' <img src="'+result.image+'" width="100px"><button class="btn-sm btn btn-info button" type="submit" data-container="body" data-toggle="popover" data-placement="left" data-content="'+result.description+'" >More info</button></li>');
             this.__$resultList__.append($item);
-
+            this.__$item__ = $item
+            var $infoDuck = '<section class="info"><p>'+result.text+'</p></section>'
+            this.__$item__.append($infoDuck);
+            $item.children('button').popover();
         }.bind(this));
     }
 });
