@@ -25,9 +25,24 @@ body{
     margin: 0.5em auto;
 }
 
+.login__register-link{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.login label {
+    font-size:1.5em;
+    
+}
+
 .login input{
     border: black 2px solid;
     border-radius: 0.2em;
+}
+
+.link{
+    display:flex;
+    justify-content: center; 
 }
 
 .flex{
@@ -40,12 +55,15 @@ body{
 
 .error {
     display: none;
-    background-color: red;
+    background-color: rosybrown;
     color: white;
     border-radius: 0.5em;
     border-style: solid;
     border-color: black;
     text-align: center;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    font-size: 1.2em;
 }
 
 .register {
@@ -57,12 +75,40 @@ body{
     border-color: gray;
 }
 
-.register label, input, button{
+.register label, input, button, .register__login-link{
     margin: 0.5em auto;
 } 
+.register__login-link{
+    padding-left: 50px;
+    padding-right: 50px;
+}
 
 .home {
     display: none;
-    background-color: green;
-    color: white;
+    background-color: white;
+    padding: 4em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: gray;
+    color:black;
+}
+
+.home h2{
+    padding: 0;
+}
+
+.card{
+    border: 2px solid black;
+    border-radius: 0.2em;
+       width: 120px;
+}
+
+.card-title{
+    padding:10px;
+    text-justify: center;
+    font-size: 1em;
+}
+
+.search__input{
+    margin-bottom:2em;
 }
