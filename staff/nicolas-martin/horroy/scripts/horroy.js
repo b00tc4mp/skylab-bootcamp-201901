@@ -45,7 +45,7 @@ Horroy.isHorroy = function (horr) {
 Horroy.of = function () {
     var horr = new Horroy;
     for (var i = 0; i < arguments.length; i++) {
-        if (typeof arguments[i] === 'number') horr.push(arguments[i]); 
+        horr.push(arguments[i]); 
     }
     return horr;
 }
@@ -70,7 +70,6 @@ Horroy.prototype.forEach = function (callback) {
 
 Horroy.prototype.toString = function() {
     var string = '';
-
     for(var i = 0; i < this.length - 1; i++) 
         string += this[i] + ',';
     

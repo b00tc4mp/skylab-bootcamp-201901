@@ -1,9 +1,5 @@
 describe('Horroy', function() {
 
-    // beforeEach(function() {
-    //     horroy = new Horroy;
-    // });
-
     describe('from', function() {
         it('should create a Horroy from string', function() {
             var string = 'hola mundo';
@@ -33,7 +29,7 @@ describe('Horroy', function() {
     });
 
     describe('of', function() {
-        it('should returns a Horroy from a number', function() {   
+        it('should returns a Horroy from a number with one digit', function() {   
             var horr = Horroy.of(7);  
 
             expect(horr);
@@ -41,11 +37,39 @@ describe('Horroy', function() {
             expect(horr[0]).toBe(7);
         });
 
-        it('should return a Horroy creating a Horroy from a string', function() {   
-            var horr = Horroy.of('322');  
+        it('should returns a Horroy from a number with nine digits', function() {   
+            var horr = Horroy.of(123456789);  
+
             expect(horr);
             expect(horr.length).toBe(1);
-            expect(horr[0]).toBe('322');
+            expect(horr[0]).toBe(123456789);
+        });
+
+        it('should returns a Horroy from an empty object', function() {   
+            var horr = Horroy.of({});  
+
+            expect(horr);
+            expect(horr.length).toBe(1);
+            expect(horr[0]).toEqual({});
+        });
+
+        it('should returns a Horroy from an empty array', function() {   
+            var horr = Horroy.of([]);  
+
+            expect(horr);
+            expect(horr.length).toBe(1);
+            expect(horr[0]).toEqual([]);
+        });
+
+        it('should return a Horroy from four arguments', function() {   
+            var horr = Horroy.of('1', '2', '3', '4');  
+
+            expect(horr);
+            expect(horr.length).toBe(4);
+            expect(horr[0]).toBe('1');
+            expect(horr[1]).toBe('2');
+            expect(horr[2]).toBe('3');
+            expect(horr[3]).toBe('4');
         });
     });
 });
