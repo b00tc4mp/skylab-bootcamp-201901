@@ -22,14 +22,28 @@ Panel.prototype.show = function () {
 function LoginPanel() {                                                    //1er li diem com serà l'html
     Panel.call(this, $('<section class="login">'
     + '<h2>Login</h2>'
-    + '<form class="login__form" >'
-    + '<label for="email">E-mail:</label>'
-    + '<input type="email" name="email" placeholder="email" required>'
-    + '<label for="password">Password:</label>'
-    + '<input type="password" name="password" placeholder="password" required>'
-    + '<button type="submit">Login</button>'
+    + '<form class="login__form">'
+    + '<label for="email" class="input-group mb-3">E-mail:</label>'   
+    + '<input type="email" class="form-control" id="basic-addon2" name="email" placeholder="@mail" aria-label="Recipients username" aria-describedby="basic-addon2" required>'
+    + '<label for="password" class="input-group mb-3">Password:</label>'
+    + '<input type="password" class="form-control" id="basic-addon2" name="password" placeholder="password"  aria-label="Recipients username" aria-describedby="basic-addon2" required required>'
+    + '<button type="submit" class="btn btn-info">Login</button>' 
     + '</form>'
     + '</section>'));
+
+/*
+function LoginPanel() {                                                    //1er li diem com serà l'html
+    Panel.call(this, $('<section class="login">'
+    + '<h2>Login</h2>'
+    + '<form class="login__form" >'
+
+    + '<label for="email" class="input-group mb-3">E-mail:</label>'   
+    + '<input type="email" class="form-control-lg input-group-text" id="basic-addon2"name="email" placeholder="@example.com" required>'
+    + '<label for="password">Password:</label>'
+    + '<input type="password" class="form-control-lg" name="password" placeholder="password" required>'
+    + '<button type="submit" class="btn btn-info">Login</button>' 
+    + '</form>'
+    + '</section>'));*/
 
     var $container = this.$element;
 
@@ -46,9 +60,10 @@ function LoginPanel() {                                                    //1er
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
+    var $registerLink = $('<a href="#" class="badge badge-danger login__register-link">Register</a>');
     $container.append($registerLink);
     this.__$registerLink__ = $registerLink;
+   
 }
 
 LoginPanel.prototype = Object.create(Panel.prototype);
@@ -91,9 +106,9 @@ Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
 
 //#region register panel
 function RegisterPanel() { 
-    Panel.call(this, $('<section class="register">'
+    Panel.call(this, $('<section class="container register">'
     + '<h2>Register</h2>'
-    + '<form class="register__form">'
+    + '<form class="container register__form">'
     +    '<label for="name">Name:</label>'
     +    '<input type="text" name="name" placeholder="name" required>'
     +    '<label for="surname">Surname:</label>'
@@ -104,11 +119,10 @@ function RegisterPanel() {
     +    '<input type="password" name="password" placeholder="password" required>'
     +    '<label for="password">Confirm Password:</label>'
     +    '<input type="password" name="password-confirmation" placeholder="password" required>'
-    +    '<button type="submit">Register</button>'
+    +    '<button type="submit" class="btn btn-info">Register</button>' 
     + '</form>'
     + '</section>'));
-  
-    debugger
+
     var $container = this.$element;
 
     var $form = $container.children('form');
@@ -126,9 +140,10 @@ function RegisterPanel() {
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $loginLink = $('<a href="#" class="register__login-link">Login</a>')
+    var $loginLink = $('<a href="#" class="badge badge-danger register__login-link">Login</a>')
     $container.append($loginLink)
     this.__$loginLink__ = $loginLink;
+   
 }
 
 RegisterPanel.prototype = Object.create(Panel.prototype);
@@ -181,7 +196,7 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 function HomePanel() {
     Panel.call(this, $('<section class="home">'
     + '<h2>Welcome, <span class="home__name"></span>!</h2>'
-    + '<button class="home__logout">Logout</button>'
+    + '<button type="submit" class="btn btn-info">Logout</button>' 
     + '</section>'));
 
 
