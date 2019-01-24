@@ -47,11 +47,9 @@ var logic = {
      */
     register: function (name, surname, email, password, passwordConfirmation, callback) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string');
-
         if (!name.trim().length) throw Error('name cannot be empty');
 
         if (typeof surname !== 'string') throw TypeError(surname + ' is not a string');
-
         if (!surname.trim().length) throw Error('surname cannot be empty');
 
         if (typeof email !== 'string') throw TypeError(email + ' is not a string');
@@ -62,7 +60,6 @@ var logic = {
 
         if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string');
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty');
-
 
         var user = users.find(function (user) {
             return user.email === email;
