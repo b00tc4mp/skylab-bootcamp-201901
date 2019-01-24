@@ -21,7 +21,7 @@ Panel.prototype.show = function () {
 
 function LoginPanel() {
     Panel.call(this, $('<section class="login container col-lg-8">'
-        + '<h2>Login</h2>'
+        + '<h2 class="col-2">Login</h2>'
         + '<form class="login__form form-group container " >'
 
         + '<div class="row">'
