@@ -1,9 +1,7 @@
 .login {
-    background-color: skyblue;
-    padding: 2em;
-    border-radius: 0.5em;
+    background-color: #dedede;
+    padding: 1em;
     border-style: solid;
-    border-color: gray;
     color: white;
 }
 
@@ -16,19 +14,17 @@
 .register {
     display: none;
     background-color: yellow;
-    padding: 2em;
-    border-radius: 0.5em;
+    padding: 1em;
     border-style: solid;
-    border-color: gray;
+    
 }
-
 .register__error {
     display: none;
     background-color: red;
     color: white;
 }
 
-.welcome {
+.home {
     display: none;
     background-color: green;
     color: white;
