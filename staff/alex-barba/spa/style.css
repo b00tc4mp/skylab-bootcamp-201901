@@ -1,32 +1,24 @@
-.login {
+/* .login {
     background-color: skyblue;
     padding: 2em;
     border-radius: 0.5em;
     border-style: solid;
     border-color: gray;
     color: white;
+} */
+
+.margin-top {
+    margin-top: 1em
 }
 
 .error {
     display: none;
-    background-color: red;
-    color: white;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: white;
 }
 
 .register {
     display: none;
-    background-color: yellow;
-    padding: 2em;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: gray;
 }
 
 .home {
     display: none;
-    background-color: green;
-    color: white;
 }
