@@ -111,6 +111,23 @@ describe('Horroy', function() {
 
             expect(res.length).toBe(expected);
         });
+        it('should return correct with multiple argument', function () {
+            var a = new Horroy(1,2,3);
+
+            var b = new Horroy(4,5,6);
+
+            var c = new Horroy(7,8,9);
+
+            var d = new Horroy(10,11,12);
+
+            var res = a.concat(b,c,d);
+            console.log(res)
+
+            var expected = new Horroy(1,2,3,4,5,6,7,8,9,10,11,12);
+            console.log(expected)
+
+            expect(res.toString).toBe(expected.toString);
+        });
         it('should return correct with no argument', function () {
             var a = new Horroy(1,2,3);
 
@@ -133,6 +150,7 @@ describe('Horroy', function() {
             var a = new Horroy(1,2,3);
 
             var res = a.concat(true);
+            console.log(res)
 
             var expected = 4;
 

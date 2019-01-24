@@ -27,7 +27,7 @@ function Horroy() {
 Horroy.from = function(value) {
     if (arguments.length > 1) throw Error ('too many arguments');
     if (arguments.length < 1) throw Error ('too few arguments');
-    if (value === undefined || value === null) throw Error (value + ' is not an object');
+    if (value === undefined || value === null) throw Error ('A callback should be provided');
 
     var horr = new Horroy;
    
@@ -91,6 +91,28 @@ Horroy.of = function() {
 Horroy.prototype.concat = function(horr) {
     var hor = new Horroy();
 
+    if (arguments.length > 1) {
+        for (var i = 0; i < this.length; i++) {
+            hor[i] = this[i];
+            hor.length++;
+        }
+        for (var j = 0;j < arguments.length; j++) {
+            if (arguments[j] instanceof Horroy) {
+                for (var i = 0; i < arguments[j].length; i++) {
+                    hor[hor.length] = arguments[j][i];
+                    hor.length++;
+                }
+            } else {
+                for (var i = 0; i < arguments.length; i++) {
+                    hor[hor.length] = arguments[i];
+                    hor.lenght++;
+                }
+            }
+        }
+        return hor;
+        
+    }
+
     if (arguments.length === 0) {
         for (var i = 0; i < this.length; i++) {
             hor[i] = this[i];
@@ -152,32 +174,12 @@ Horroy.prototype.copyWithin = function (target, start, end) {
 Horroy.prototype.every = function (func, horroy) {
     if (typeof arguments[0] !== 'function' || arguments.length < 1) throw Error (func + ' is not a function')
 
-    var j = 0;
     for (var i = 0; i < this.length; i++) {
         if (!(func(this[i]))) {
             return false;
-        } else {
-            j++;
-        }
+        };
     };
-    if (j === this.length) return true;
-    /* if (arguments[1] === undefined) {
-        for (var i = 0; i < this.length; i++) {
-            if (!(func(this[i]))) {
-                return false;
-            } else {
-                return true;
-            }
-        };
-    } else {
-        for (var i = 0; i < horroy.length; i++) {
-            if (!(func(horroy[i]))) {
-                return false;
-            } else {
-                return true;
-            }
-        };
-    }; */
+    return true;
 };
 /**
  * Abstraction of fill.
@@ -259,15 +261,12 @@ Horroy.prototype.find = function(callback) {
 Horroy.prototype.findIndex= function (func) {
     if (typeof arguments[0] !== 'function') throw Error (func + ' is not a function');
 
-    var j = 0;
     for (var i = 0; i < this.length; i++) {
         if(func(this[i])) {
             return i;
-        } else {
-            j++;
         }
     }
-    if (j === this.length) return -1;
+    return -1;
 };
 /**
  * Abstraction of flat.
