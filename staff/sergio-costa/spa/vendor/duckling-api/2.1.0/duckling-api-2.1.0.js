@@ -15,23 +15,14 @@ var ducklingApi = {
      * results.
      */
     search: function (query, callback) {
-        var xhr = new XMLHttpRequest;
 
-        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
-
-        xhr.onload = function () {
-            var res = JSON.parse(xhr.responseText);
-
-            if (res.error)
-                callback(res.error);
-            else
-                callback(undefined, res.data);
-        };
-
-        xhr.onerror = function (error) {
-            callback('network error');
-        };
-
-        xhr.send();
+        $.getJSON('https://duckling-api.herokuapp.com/api/search?q=' + query, function(res){
+            callback(undefined, res.data);
+        })
+            .fail(function(res){
+                if(res.responseJSON && res.responseJSON.error)
+                    callback(res.responseJSON.error);
+                else callback('network error');
+            })
     }
 };
