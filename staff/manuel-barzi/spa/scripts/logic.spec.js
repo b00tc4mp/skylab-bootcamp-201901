@@ -7,7 +7,11 @@ describe('logic', function () {
 
             var loggedInUser;
 
+<<<<<<< HEAD
             login(expected.email, expected.password, function (user) {
+=======
+            logic.login(expected.email, expected.password, function (user) {
+>>>>>>> develop
                 loggedInUser = user;
             });
 
@@ -25,7 +29,11 @@ describe('logic', function () {
             // var error;
 
             // try {
+<<<<<<< HEAD
             //     login(inventedEmail, '123', function() {});
+=======
+            //     logic.login(inventedEmail, '123', function() {});
+>>>>>>> develop
             // } catch(err) {
             //     error = err;
             // }
@@ -36,13 +44,21 @@ describe('logic', function () {
             // ALT jasmine
 
             expect(function () {
+<<<<<<< HEAD
                 login(inventedEmail, '123', function () { });
+=======
+                logic.login(inventedEmail, '123', function () { });
+>>>>>>> develop
             }).toThrow(Error('user ' + inventedEmail + ' not found'));
         });
 
         it('should fail on wrong password', function () {
             expect(function () {
+<<<<<<< HEAD
                 login('johndoe@mail.com', '123', function () { });
+=======
+                logic.login('johndoe@mail.com', '123', function () { });
+>>>>>>> develop
             }).toThrow(Error('wrong password'));
         });
     });
@@ -64,7 +80,11 @@ describe('logic', function () {
             var registeringSurname = 'Wayne';
             var registeringPassword = 'p4ssw0rd';
 
+<<<<<<< HEAD
             register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+            logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                 registered = true;
             });
 
@@ -88,7 +108,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringName + ' is not a string'));
@@ -105,7 +129,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringName + ' is not a string'));
@@ -123,7 +151,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringName + ' is not a string'));
@@ -140,7 +172,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringName + ' is not a string'));
@@ -157,7 +193,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringName + ' is not a string'));
@@ -174,7 +214,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(Error('name cannot be empty'));
@@ -191,7 +235,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringSurname + ' is not a string'));
@@ -208,7 +256,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringSurname + ' is not a string'));
@@ -226,7 +278,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringSurname + ' is not a string'));
@@ -243,7 +299,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringSurname + ' is not a string'));
@@ -260,7 +320,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(TypeError(registeringSurname + ' is not a string'));
@@ -277,7 +341,11 @@ describe('logic', function () {
             var registeringPassword = 'p4ssw0rd';
 
             expect(function () {
+<<<<<<< HEAD
                 register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+=======
+                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
+>>>>>>> develop
                     registered = true;
                 });
             }).toThrow(Error('surname cannot be empty'));

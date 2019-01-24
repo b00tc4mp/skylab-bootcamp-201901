@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css?family=Sarabun:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i')
+
+$gamma-green: rgb(28,170,152)
+$border-gray: solid 1px rgb(204,204,204)
+
+html, 
+body
+    margin: 0
+    padding: 0
+    height: 100%
+    font-size: 16px
+    font-family: Sarabun
+    color: rgb(51,51,51)
+    box-sizing: border-box
+
+ul,
+li
+    margin: 0px
+    padding: 0px
+    
+.header
+    position: fixed
+    z-index: 1
+    top: 0px
+    background-color: rgb(248,248,248)
+    height: 3em
+    width: 100%
+    padding-bottom: 0.5em
+    display: flex
+    justify-content: space-between
+    align-items: center
+    @media only screen and (min-width: 900px)
+        justify-content: left
+    &__logo
+        letter-spacing: -0.03em
+        font-size: 1.3em
+        padding-left: 1em
+        color: $gamma-green
+        font-weight: bolder
+        @media only screen and (min-width: 900px)
+            padding-left: 4.4em
+            padding-right: 0.5em
+    &__nav-burguer
+        padding-right: 1em
+        height: 1.2em
+        width: 1.2em
+        @media only screen and (min-width: 900px)
+            display: none
+    &__nav-list
+        display: none
+        @media only screen and (min-width: 900px)
+            display: block
+            padding-top: 0.25em
+        &-item
+            display: inline-block
+            padding: 1.2em 0
+            &:hover
+                background-color: rgb(231,231,231)
+                color: rgb(85,85,85)
+            & a
+                color: rgb(119,119,119)
+                text-decoration: none
+                font-size: 0.9em
+                font-weight: 600
+                letter-spacing: -0.02em
+                padding: 0 1em
+
+main
+    display: flex
+    flex-direction: column
+    
+.downloadApps
+    background-color: rgb(27,34,42)
+    @media only screen and (min-width: 580px)
+        background-image: url("img/site_showcase_bg.jpg")
+        background-size: auto 100%
+        background-position-y: 3em
+        background-position-x: center
+    &__left
+        padding: 3em 1.5em
+        color: white
+        display: flex
+        flex-direction: column
+        align-items: center
+        @media only screen and (min-width: 580px)
+            align-items: flex-start
+            padding: 3.8em 1em 2.4em 1em
+        @media only screen and (min-width: 900px)
+            padding: 3.8em 5.6em 6em 5.6em 
+    &__title
+        letter-spacing: -0.04em
+        font-size: 2.3em
+        font-weight: 700
+        @media only screen and (min-width: 900px)
+            font-size: 4.4em
+        &--green
+            color: $gamma-green
+    &__text
+        letter-spacing: -0.03em
+        margin-top: 0em
+        text-align: center
+        line-height: 1.3
+        font-weight: bold
+        font-size: 1.3em
+        @media only screen and (min-width: 580px)
+            font-weight: 500
+            text-align: justify
+        @media only screen and (min-width: 900px)
+            font-size: 1.35em
+            margin-top: -1em    
+    &__images
+        display: flex
+        flex-direction: column
+        align-items: center
+        &--imageWidth
+            width: 15em
+            height: auto
+            @media only screen and (min-width: 580px)
+                width: 14em
+                height: auto
+                padding-right: 2em         
+            @media only screen and (min-width: 580px)
+                flex-direction: row
+                justify-items: space-between
+            &--second
+            margin-top: 0.65em
+                
+    &__right
+        display: none
+        @media only screen and (min-width: 1150px)
+            display: block
+    &__phone
+        height: 28em
+        position: relative
+        bottom: -6.75em
+        padding-right: 3em
+    @media only screen and (min-width: 1150px)
+        display: flex
+        justify-content: space-between
+
+
+.news
+    margin-top: 1.5em
+    display: flex
+    flex-direction: column
+    padding: 2em 0.8em 4em 0.8em
+    @media only screen and (min-width: 900px)
+        padding: 0 4.6em 4em 6em
+    @media only screen and (min-width: 1150px)
+        flex-direction: row
+
+.article
+    margin: 0.9em 0
+    @media only screen and (min-width: 1150px)
+        padding-right: 1.4em
+    &__image
+        box-sizing: border-box
+        width: 100%
+        padding: 0.2em
+        border: $border-gray
+        @media only screen and (min-width: 1150px)
+            height: auto
+            width: 100%
+    &__title
+        font-size: 1.9em
+        line-height: 0.06em
+        font-weight: 700
+        letter-spacing: -0.03em
+    &__text
+        font-size: 1em
+        font-weight: 500
+        letter-spacing: -0.03em
+        padding-bottom: 0.5em
+        @media only screen and (min-width: 900px)
+            font-size: 0.9em
+    &__link
+        border: $border-gray
+        border-radius: 0.3em
+        padding: 0.5em 0.9em
+        font-weight: 600
+        font-size: 1em
+        color: rgb(51,51,51)
+        text-decoration: none
+        @media only screen and (min-width: 900px)
+            font-size: 0.9em
+
+.features
+    background-color: $gamma-green
+    color: white
+    padding: 0.7em 2.7em 2.5em 2.7em
+    display: flex
+    flex-direction: column
+    @media only screen and (min-width: 900px)
+        padding: 0.7em 5.6em 2.5em 5.6em
+    @media only screen and (min-width: 1150px)
+        flex-direction: row
+        justify-content: space-around
+    &__title
+        letter-spacing: -0.05em
+        font-size: 2.5em
+        font-weight: 700
+    &__list
+        letter-spacing: -0.03em
+        margin-top: -1.1em
+        line-height: 1.8
+        font-weight: 600 
+        list-style: none inside
+        font-size: 1.2em
+        @media only screen and (min-width: 580px)
+            font-size: 1.4em
+        & li
+            position: relative
+            padding-left: 1em
+        & li:before
+            position: absolute
+            top: 0.45em
+            left: 0
+            content: ' '
+            width: 0.8em
+            height: 0.8em
+            display: inline-block
+            background: url("img/checkmark-256.png") no-repeat
+            background-size: contain
+    &__image
+        padding: 1em 0
+        width: 16.5em
+        @media only screen and (min-width: 580px)
+            width: 15.7em
+        @media only screen and (min-width: 1150px)
+            width: 14em
+            margin-top: 1em
+
+.footer
+    background-color: rgb(51,51,51)
+    color: white
+    font-size: 0.9em
+    padding: 2.4em 1em 1em 1em
+    text-align: center
+    letter-spacing: -0.04em
+    font-weight: 600
+    @media only screen and (min-width: 580px)
+        font-weight: 700
+        text-align: left
+    @media only screen and (min-width: 900px)
+        padding: 2.4em 5.6em 1em 5.6em
+    @media only screen and (min-width: 1150px)
+        display: flex
+        align-items: baseline
+        justify-content: space-between
+    & li
+        display: inline-block
+        padding: 0 0.3em 1em 0.3em
+        @media only screen and (min-width: 580px)
+            padding: 0 0.8em 0 0
+        & a
+            color: white
+            text-decoration: none
+    &__copyright
+        @media only screen and (min-width: 580px)
+            text-align: right
+        @media only screen and (min-width: 1150px)
+
+.green-header
+    padding: 1.8em 1em 0.6em 0.5em
+    color: white
+    font-size: 2.3em
+    font-weight: 800
+    background-color: $gamma-green
+
+.intrigue
+    margin-top: 0.8em
+    display: flex
+    flex-direction: column
+    padding: 2em 0.8em 4em 0.8em
+    &__collapsible
+        background-color: rgb(245,245,245)
+        border: $border-gray
+        border-radius: 0.3em
+
