@@ -1,6 +1,7 @@
 body{
     background-color: lightgray;
     height: 100%;
+    padding-bottom: 10%;
 }
 
 .title{
@@ -68,7 +69,7 @@ body{
 
 .register {
     display: none;
-    background-color: bisque;
+    background-color: white;
     padding: 4em;
     border-radius: 0.5em;
     border-style: solid;
@@ -78,6 +79,14 @@ body{
 .register label, input, button, .register__login-link{
     margin: 0.5em auto;
 } 
+
+.input-group-text{
+    background-color: lightgray;
+    border-radius: 0px;
+    color: black;
+
+}
+
 .register__login-link{
     padding-left: 50px;
     padding-right: 50px;
@@ -100,7 +109,6 @@ body{
 .card{
     border: 2px solid black;
     border-radius: 0.2em;
-       width: 120px;
 }
 
 .card-title{
@@ -111,4 +119,8 @@ body{
 
 .search__input{
     margin-bottom:2em;
+}
+
+.results__title{
+    margin-top:0.5em;
 }
