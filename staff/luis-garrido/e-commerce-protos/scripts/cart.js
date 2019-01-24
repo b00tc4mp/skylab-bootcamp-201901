@@ -30,7 +30,7 @@ Cart.prototype.cheapest = function () {
 
 Cart.prototype.numberOf = function (familyProduct) {
   return this.products.reduce(function (a, b) {
-    return (b instanceof familyProduct) ? a++ : a;
+    return (b instanceof familyProduct) ? ++a : a;
   }, 0);
 };
 

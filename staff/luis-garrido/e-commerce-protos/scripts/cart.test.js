@@ -132,7 +132,7 @@ suite("cart", function () {
     it("should count electronics items", function () {
 
       var cart = getReadyToTest();
-
+debugger
       expectedValue = 4;
       var category = Electronics;
       numberOfElectronics = cart.numberOf(category);
