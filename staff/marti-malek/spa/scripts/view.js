@@ -224,23 +224,27 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 
 function HomePanel() {
     Panel.call(this, $('<section class="home container-fluid">'
-    +   '<h2>Welcome, <span></span>!</h2>'
-    +   '<button class="btn">Logout</button>'
-    +   '<section>'
-    +       '<section class="error"></section>'
-    +       '<ul></ul>'
-    +   '</section>'
+    +'<div class="row">'
+    +   '<div class="col-6 sm-col-4 margin-top">'
+    +       '<h3>Welcome, <span></span>!</h3>'
+    +   '</div>'
+    +   '<div class="col-4 sm-col-4 text-right">'
+    +       '<button class="btn btn-xs margin-top margin-bottom">Logout</button>'
+    +   '</div>'
+    +'</div>'
     +'</section>'));
 
     var $container = this.$element;
 
-    var $title = $container.find('h2');
+    var $title = $container.find('h3');
+
+    var $div = $container.children('div');
 
     var $userSpan = $title.find('span');
     this.__$userSpan__ = $userSpan;
 
     var $logoutButton = $container.find('button');
-    $container.append($logoutButton);
+    $div.append($logoutButton);
     this.__$logoutButton__ = $logoutButton;
 }
 
@@ -264,7 +268,15 @@ Object.defineProperty(HomePanel.prototype, 'onLogout', {
 //#region search panel
 
 function SearchPanel() {
-    Panel.call(this, $('<section><form><input type="text" name="query" placeholder="..."><button type="submit">Search</button></form><ul></ul></section>'));
+    Panel.call(this, $('<section>'
+    +'<form class="form-row margin-bottom">'
+    +   '<input class="form-control col-11" type="text" name="query" placeholder="...">'
+    +   '<button class="btn btn-basic col-1" type="submit">Search</button>'
+    +'</form>'
+    +'<div class="">'
+    +'<ul class="row" id="list"></ul>'
+    +'</div>'
+    +'</section>'));
 
     var $container = this.$element;
 
@@ -280,7 +292,7 @@ function SearchPanel() {
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $resultList = $container.children('ul');
+    var $resultList = $container.find('ul');
     $container.append($resultList);
     this.__$resultList__ = $resultList;
 }
@@ -312,15 +324,8 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<li></li>');
+            var $item = $('<li class="col-12 card row" style="text-decoration:none;">'+'<p class="col-4" style="top:4rem;font-size:2vh">'+result.text+'</p>'+'<div class="text-right">'+'<img class="img-fluid rounded float-left center margin-top" style="margin-top:2rem" src="'+result.image+'" width="100px">'+'</div>'+'</li>');
             this.__$resultList__.append($item);
-
-            var $text = $(document.createTextNode(result.text));
-            $item.append($text);
-
-            var $image = $('<img>');
-            $image.attr({'src': result.image, 'width': '100px'});
-            $item.append($image);
         }.bind(this));
     }
 });

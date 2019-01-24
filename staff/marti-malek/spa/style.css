@@ -32,3 +32,27 @@
 .card-header {
     border-bottom: 0;
 }
+
+li {
+    text-decoration: none;
+}
+
+.margin-top {
+    margin-top: 1rem;
+}
+
+.margin-bottom {
+    margin-bottom: 1rem;
+}
+
+.card {
+    background-color: green;
+}
+
+#list {
+    padding: 0;
+}
+
+img:hover {
+    width:150px;
+}
