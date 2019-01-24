@@ -586,33 +586,62 @@ suite("Horroy", function() {
   //   });
   // });
 
-  describe("Function sort()", function() {
-    it("should sort horry of numbers without  compareFunction", function() {
-      var horroy = new Horroy(40, 1, 5, 200);
-      horroy.sort();
-      console.log(horroy);
-      var expected = '1,200,40,5';
-      expect(horroy.toString() === expected, "Unexpected value");
-    });
+  // describe("Function sort()", function() {
+    // it("should sort horry of numbers without compareFunction", function() {
+    //   var horroy = new Horroy(40, 1, 5, 200);
+    //   horroy.sort();
+    //   var expected = '1,200,40,5';
+    //   expect(horroy.toString() === expected, "Unexpected value");
+    // });
 
-    it("should sort horry of numbers without  compareFunction", function() {
-      var horroy = new Horroy('word', 'Word', '1 Word', '2 Words');
-      horroy.sort();
-      console.log(horroy);
-      var expected = '1 Word,2 Words,Word,word';
-      expect(horroy.toString() === expected, "Unexpected value");
-    });
+    // it("should sort horry of strings without compareFunction", function() {
+    //   var horroy = new Horroy('word', 'Word', '1 Word', '2 Words');
+    //   horroy.sort();
+    //   var expected = '1 Word,2 Words,Word,word';
+    //   expect(horroy.toString() === expected, "Unexpected value");
+    // });
 
-    it("should sort horry of numbers without  compareFunction", function() {
-      var horroy = new Horroy(4, 2, 5, 1, 3);
-      horroy.sort(function(a, b) {
-        return b - a;
-      });
-      console.log(horroy);
-      var expected = '1 Word,2 Words,Word,word';
-      expect(horroy.toString() === expected, "Unexpected value");
-    });
+    // it("should sort horry of numbers with compareFunction", function() {
+    //   var horroy = new Horroy(4, 2, 5, 1, 3);
+    //   horroy.sort(function(a, b) {
+    //     return b - a;
+    //   });
+    //   var expected = '5,4,3,2,1';
+    //   expect(horroy.toString() === expected, "Unexpected value");
+    // });
 
-  });
+    // //Not working
+    // it("should sort horry of object with compareFunction", function() {
+    //   var horroy = new Horroy(
+    //     { name: 'Edward', value: 21 },
+    //     { name: 'Sharpe', value: 37 },
+    //     { name: 'And', value: 45 },
+    //     { name: 'The', value: -12 },
+    //     { name: 'Magnetic' },
+    //     { name: 'Zeros', value: 37 }
+    //   );
+    //   horroy.sort(function(a, b) {
+    //     if (a.name > b.name) {
+    //       return 1;
+    //     }
+    //     if (a.name < b.name) {
+    //       return -1;
+    //     }
+    //     return 0;
+    //   });
+    //   console.log(horroy);
+    //   var expected = '5,4,3,2,1';
+    //   expect(horroy.toString() === expected, "Unexpected value");
+    // });
+
+  // });
+
+  // describe("Function toSource()", function() {
+  //   it("should examine the source code of horroy", function() {
+  //     var horroy = new Horroy('a', 'b', 'c');
+  //     var expected = "['a', 'b', 'c']";      
+  //     expect(horroy.toSource() === expected, "Unexpected value");
+  //   });
+  // });
 
 });
