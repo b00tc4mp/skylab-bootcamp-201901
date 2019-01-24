@@ -5,12 +5,28 @@
     color: white;
 }
 
-.login__error {
-    display: none;
-    background-color: red;
-    color: white;
+.btn {
+    margin-top: 1em;
 }
+.alert-danger {
+    display: none;
+    margin-top: 1em;
+}
+#resultsList {
+    width: 1100px;
+}
+.card {
+    float: left;
+    color: #333;
+    width: 275px;
+    text-align: center;
+    margin: 25px;
 
+}
+.card img {
+    border-radius: 5px;
+    margin: 0 auto;
+}
 .register {
     display: none;
     background-color: yellow;

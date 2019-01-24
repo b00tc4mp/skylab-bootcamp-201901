@@ -1,14 +1,14 @@
 'use strict';
 
-var loginPanel = new LoginPanel
-var registerPanel = new RegisterPanel
-var homePanel = new HomePanel
-var searchPanel = new SearchPanel
+var loginPanel = new LoginPanel;
+var registerPanel = new RegisterPanel;
+var homePanel = new HomePanel;
+var searchPanel = new SearchPanel;
 
 var $body = $(document.body);
 
 $body.append(loginPanel.$element);
-$body.append(registerPanel.$element)
+$body.append(registerPanel.$element);
 $body.append(homePanel.$element);
 
 homePanel.$element.append(searchPanel.$element);
@@ -43,6 +43,7 @@ registerPanel.onRegister = function (name, surname, email, password, passwordCon
             loginPanel.show();
         });
     } catch (err) {
+        console.log(err);
         registerPanel.error = err.message;
     }
 };
@@ -67,7 +68,7 @@ searchPanel.onSearch = function (query) {
     try {
         logic.search(query, function (error, results) {
             if (error) {
-                searchPanel.error = error
+                searchPanel.error = error;
                 searchPanel.clearResults();
             } else searchPanel.results = results.map(function (result) {
                 return {
