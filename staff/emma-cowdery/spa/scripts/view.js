@@ -120,15 +120,15 @@ function RegisterPanel() {
     + '<div class="form-row">'
     + '<div class="form-group col-md-6">'
     + '<label for="password">Password</label>'
-    + '<input class="form-control register" type="password" name="password" placeholder="password" required>'
+    + '<input class="form-control" type="password" name="password" placeholder="password" required>'
     + '</div>'
     + '<div class="form-group col-md-6">'
-    + '<label for="passwordConfirmation">confirm password</label>'
-    + '<input class="form-control register" type="password" name="passwordConfirmation" placeholder="Confirm Password" required>'
+    + '<label for="passwordConfirmation">Confirm Password</label>'
+    + '<input class="form-control" type="password" name="passwordConfirmation" placeholder="confirm password" required>'
     + '</div>'
     + '<div class="form-row">'
     + '<div class="form-group">'
-    + '<button type="submit" class="btn btn-outline-primary">Register</button>'
+    + '<button type="submit" class="btn btn-outline-primary margin">Register</button>'
     + '</div>'
     + '</div>'
     + '</form>'
@@ -299,11 +299,11 @@ Object.defineProperty(SearchPanel.prototype, 'error', {
 
 Object.defineProperty(SearchPanel.prototype, 'results', {
     set: function (results) {
-        this.__$resultList__.innerHTML = '';
+        this.__$resultList__.html('');
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<li class="col-sm"></li>');
+            var $item = $('<li class="col-sm list"></li>');
             this.__$resultList__.append($item);
 
             $item.append(result.text);
@@ -323,7 +323,8 @@ SearchPanel.prototype.clear = function () {
 };
 
 SearchPanel.prototype.clearResults = function () {
-    this.__$resultList__.innerHTML = '';
+    this.__$resultList__.html('');
+    //this.__$resultList__.innerHTML = '';
 };
 
 //#endregion
