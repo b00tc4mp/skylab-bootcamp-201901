@@ -19,23 +19,31 @@ Panel.prototype.show = function() {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login">'
-    + '<h2>Login</h2>'
+    Panel.call(this, $('<section class="login container">'
+    + '<h2 class="text-center mb-5">Login</h2>'
     + '<form class="login__form" >'
+    +'<div class="row">'
+    +'<div class="col text-center">'
     + '<label for="email">E-mail:</label>'
-    + '<input type="email" name="email" placeholder="email" required>'
+    + '<input class="form-control" type="email" name="email" placeholder="email" required>'
+    +'</div>'
+    +'<div class="col text-center">'
     + '<label for="password">Password:</label>'
-    + '<input type="password" name="password" placeholder="password" required>'
-    + '<button type="submit">Login</button>'
+    + '<input class="form-control" type="password" name="password" placeholder="password" required>'
+    +'</div>'
+    +'</div>'
+    +'<div class="col text-center">'
+    + '<button type="submit" class="btn btn-primary mt-5">Login</button>'
+    +'</div>'
     + '</form>'
     + '</section>'));
 
     var $container = this.$element;
 
-    var $form = $container.children('form'); 
+    var $form = $container.find('form'); 
     this.__$form__ = $form;
 
-    var $inputs = $form.children('input');
+    var $inputs = $form.find('input');
 
     this.__$emailInput__ = $($inputs[0]);
 
@@ -91,29 +99,52 @@ Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
 //#region register panel
 
 function RegisterPanel() {
-    Panel.call(this, $('<section class="register">'
-    +'<h2>Register</h2>'
+    Panel.call(this, $('<section class="register container">'
+    +'<h2 class="text-center mb-5">Register</h2>'
     + '<form class="register__form">'
-    + '<label for="name">Name:</label>'
-    + '<input type="text" name="name" placeholder="name" required>'
-    + '<label for="surname">Surname:</label>'
-    + '<input type="text" name="surname" placeholder="surname" required>'
-    + '<label for="email">E-mail:</label>'
-    + '<input type="email" name="email" placeholder="email" required>'
-    + '<label for="password">Password:</label>'
-    + '<input type="password" name="password" placeholder="password" required>'
-    + '<label for="password">Confirm Password:</label>'
-    + '<input type="password" name="password-confirmation" placeholder="password" required>'
-    + '<button type="submit">Register</button>'
+    +'<div class=row>'
+    +'<div class="col mb-3">'   
+    + '<label font-weight-bold for="name">Name:</label>'
+    + '<input class="form-control" type="text" name="name" placeholder="name" required>'
+    +'</div>'
+    +'</div>'
+    +'</div>'
+    +'<div class=row>'
+    +'<div class="col mb-3">'
+    + '<label font-weight-bold for="surname">Surname:</label>'
+    + '<input class="form-control" type="text" name="surname" placeholder="surname" required>'
+    +'</div>'
+    +'</div>'
+    +'<div class=row>'
+    +'<div class="col mb-3">'
+    + '<label font-weight-bold for="email">E-mail:</label>'
+    + '<input class="form-control" type="email" name="email" placeholder="email" required>'
+    +'</div>'
+    +'</div>'
+    +'<div class=row>'
+    +'<div class="col mb-3">'
+    + '<label font-weight-bold for="password">Password:</label>'
+    + '<input class="form-control" type="password" name="password" placeholder="password" required>'
+    +'</div>'
+    +'</div>'
+    +'<div class=row>'
+    +'<div class="col mb-3">'
+    + '<label font-weight-bold for="password">Confirm Password:</label>'
+    + '<input class="form-control" type="password" name="password-confirmation" placeholder="password" required>'
+    +'</div>'
+    +'</div>'
+    +'<div class="col text-center">'
+    + '<button type="submit" class="btn btn-primary">Register</button>'
+    +'</div>'
     + '</form>'
     + '</section>'));
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
-    var $inputs = $form.children('input');
+    var $inputs = $form.find('input');
     
     this.__$nameInput__ = $($inputs[0]);
 
@@ -181,7 +212,8 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 //#region home panel
 
 function HomePanel() {
-    Panel.call(this, $('<section class="home">'
+    Panel.call(this, $('<section class="home" class="container">'
+    +'<div class="row">'
     + '<h2>Welcome,<span></span>!</h2>'
     + '<button>Logout</button>'));
 
