@@ -19,33 +19,52 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login">'
-    + '<h2>Login</h2>'
-    + '<form class="login__form" >'
-    + '<label for="email">E-mail:</label>'
-    + '<input type="email" name="email" placeholder="email" required>'
-    + '<label for="password">Password:</label>'
-    + '<input type="password" name="password" placeholder="password" required>'
-    + '<button type="submit">Login</button>'
-    + '</form>'
-    + '</section>'));
+    Panel.call(this, $('<section class="login container">'
+        + '<h2>Login</h2>'
+        + '<form class="login__form" >'
+
+        + '<div class="row">'
+        + '<div class="col-xs-12 col-sm-12 col-md-7">'
+        + '<label for="email">E-mail:</label>'
+        + '<div class="input-group flex-nowrap">'
+        + '<div class="input-group-prepend">'
+        + '<span class="input-group-text" id="addon-wrapping">@</span>'
+        + '</div>'
+        + '<input type="email" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" required>'
+        + '</div>'
+        + '</div>'
+        + '<div class="col-xs-12 col-sm-12 col-md-5">'
+        + '<label for="password">Password:</label>'
+        + '<div class="input-group mb-3">'
+        + '<div class="input-group-prepend">'
+        + '<span class="input-group-text" id="inputGroup-sizing-default">PSWD</span>'
+        + '</div>'
+        + '<input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+        + '<div class="row">'
+        + '<div class = "col-12">'
+        + '<button type="submit" class="btn btn-outline-primary btn-lg">Login</button>'
+        + '</div>'
+        + '</div>'
+        + '</form>'
+        + '</section>'));
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
-    var $inputs = $form.children('input');
+    this.__$emailInput__ = $form.find('input[type=email]');
 
-    this.__$emailInput__ = $($inputs[0]);
-
-    this.__$passwordInput__ = $($inputs[1]);
+    this.__$passwordInput__ = $form.find('input[type=password]');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
+    var $registerLink = $('<a href="#" class="login__register-link"><span class="badge badge-dark">Register</a>');
     $container.append($registerLink);
     this.__$registerLink__ = $registerLink;
 }
@@ -91,45 +110,67 @@ Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
 //#region register panel
 
 function RegisterPanel() {
-    Panel.call(this, $('<section class="register">'
-    + '<h2>Register</h2>'
-    + '<form class="register__form">'
-    +    '<label for="name">Name:</label>'
-    +    '<input type="text" name="name" placeholder="name" required>'
-    +    '<label for="surname">Surname:</label>'
-    +    '<input type="text" name="surname" placeholder="surname" required>'
-    +    '<label for="email">E-mail:</label>'
-    +    '<input type="email" name="email" placeholder="email" required>'
-    +    '<label for="password">Password:</label>'
-    +    '<input type="password" name="password" placeholder="password" required>'
-    +    '<label for="password">Confirm Password:</label>'
-    +    '<input type="password" name="password-confirmation" placeholder="password" required>'
-    +    '<button type="submit">Register</button>'
-    + '</form>'
-    + '</section>'));
+    Panel.call(this, $('<section class="register container">'
+        + '<h2>Register</h2>'
+        + '<form class="register__form">'
+        + '<div class = "row">'
+        + '<div class="input-group mb-3 col-md-7">'
+        + '<div class="input-group-prepend">'
+        + '<span class="input-group-text" id="basic-addon1">Name</span>'
+        + '</div>'
+        + '<input type="text" name="name" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>'
+        + '</div>'
+        + '<div class="input-group mb-3 col-md-5">'
+        + '<div class="input-group-prepend">'
+        + '<span class="input-group-text" id="basic-addon1">Surname</span>'
+        + '</div>'
+        + '<input type="text" name="surname" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>'
+        + '</div>'
+        + '</div>'
+        + '<div class="input-group mb-3">'
+        + '<div class="input-group-prepend">'
+        + '<span class="input-group-text" id="basic-addon3">https://example.com/users/</span>'
+        + '</div>'
+        + ' <input type="email" name="email" class="form-control" id="basic-url" placeholder="E-mail" aria-describedby="basic-addon3" required>'
+        + '</div>'
+        + '<div class = "row">'
+        + '<div class="input-group mb-3 col-md-6">'
+        + '<div class="input-group-prepend">'
+        + '<span class="input-group-text" id="basic-addon1">Password</span>'
+        + '</div>'
+        + '<input type="password" name="password" placeholder="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>'
+        + '</div>'
+        + '<div class="input-group mb-3 col-md-6">'
+        + '<div class="input-group-prepend">'
+        + '<span class="input-group-text" id="basic-addon1">Password confirmation</span>'
+        + '</div>'
+        + '<input type="password" name="password-confirmation" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" required>'
+        + '</div>'
+        + '</div>'
+        + '<button class="btn btn-outline-primary btn-lg" type="submit">Register</button>'
+        + '</form>'
+        + '</section>'));
 
     var $container = this.$element;
 
-    this.__$form__ = $container.children('form');
+    this.__$form__ = $container.find('form');
     var $form = this.__$form__;
 
-    var $inputs = $form.children('input');
+    this.__$nameInput__ = $form.find('input[name=name]');
 
-    this.__$nameInput__ = $($inputs[0]);
+    this.__$surnameInput__ = $form.find('input[name=surname]');
 
-    this.__$surnameInput__ = $($inputs[1]);
+    this.__$emailInput__ = $form.find('input[type=email]');
 
-    this.__$emailInput__ = $($inputs[2]);
+    this.__$passwordInput__ = $form.find('input[name=password]');
 
-    this.__$passwordInput__ = $($inputs[3]);
-
-    this.__$passwordConfirmationInput__ = $($inputs[4]);
+    this.__$passwordConfirmationInput__ = $form.find('input[name=password-confirmation]');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $loginLink = $('<a href="#" class="register__login-link">Login</a>');
+    var $loginLink = $('<a href="#" class="register__login-link"><span class="badge badge-info">Return to Login page</a>');
     $container.append($loginLink)
     this.__$loginLink__ = $loginLink;
 }
@@ -181,10 +222,12 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 //#region home panel
 
 function HomePanel() {
-    Panel.call(this, $('<section class="home">'
-    + '<h2>Welcome, <span class="home__name"></span>!</h2>'
-    + '<button class="home__logout">Logout</button>'
-    + '</section>'));
+    Panel.call(this, $('<section class="home container">'
+        + '<div class = "row">'
+        + '<h2 class = "col-md-10">Welcome, <span class="home__name"></span>!</h2>'
+        + '<button class="home__logout col-md-2 btn btn-warning btn-lg">Logout</button>'
+        + '</div>'
+        + '</section>'));
 
     var $container = this.$element;
 
@@ -194,6 +237,7 @@ function HomePanel() {
     this.__$userSpan__ = $userSpan;
 
     this.__$logoutButton__ = $container.children('button');
+
 }
 
 HomePanel.prototype = Object.create(Panel.prototype);
@@ -217,25 +261,30 @@ Object.defineProperty(HomePanel.prototype, 'onLogout', {
 
 function SearchPanel() {
     Panel.call(this, $('<section>'
-    + '<form>'
-    +   '<input type="text" placeholder="..." name ="query">'
-    +   '<button type="submit">Search</button>'
-    + '</form>'
-    + '</section>'));
+        + '<form>'
+        + '<div class="input-group mb-3 col-6">'
+        + '<div class="input-group-prepend">'
+        + '<span class="input-group-text" id="inputGroup-sizing-default">Default</span>'
+        + '</div>'
+        + '<input type="text" name ="query" class="form-control" placeholder="introduce your search" aria-label="Default" aria-describedby="inputGroup-sizing-default">'
+        + '<button type="submit" class="btn btn-danger">Search</button>'
+        + '</div>'
+        + '</form>'
+        + '</section>'));
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
-    var $queryInput = $form.children('input');
+    var $queryInput = $form.find('input');
     this.__$queryInput__ = $queryInput;
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $resultList = $('<ul></ul>');
+    var $resultList = $('<ul class="row"></ul>');
     $container.append($resultList);
     this.__$resultList__ = $resultList;
 }
@@ -269,7 +318,7 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<li>'+ result.text + ' <img src="'+result.image+'" width="100px"></li>');
+            var $item = $('<div class="card" style="width: 18rem;"><img class="card-img-top" alt="Card image cap" img src="' + result.image + '" width="100px"><h5 class="card-title">' + result.text + '</h5><a href="#" class="btn btn-primary">Go somewhere</a></div></div></li>');
             this.__$resultList__.append($item);
 
         }.bind(this));
