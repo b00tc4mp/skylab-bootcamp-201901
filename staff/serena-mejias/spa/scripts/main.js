@@ -1,85 +1,87 @@
-var loginPanel = new LoginPanel;
-var homePanel = new HomePanel;
-var registerPanel = new RegisterPanel;
-var searchPanel = new SearchPanel;
+'use strict';
+
+var loginPanel = new LoginPanel
+var registerPanel = new RegisterPanel
+var homePanel = new HomePanel
+var searchPanel = new SearchPanel
 
 var $body = $(document.body);
 
-
 $body.append(loginPanel.$element);
+$body.append(registerPanel.$element)
 $body.append(homePanel.$element);
-$body.append(registerPanel.$element);
 
 homePanel.$element.append(searchPanel.$element);
 
-loginPanel.onLogin = function(email, password) {
-  try {
-    login(email, password, function(user) {
-      loginPanel.hide();
+loginPanel.onLogin = function (email, password) {
+    try {
+        logic.login(email, password, function (user) {
+            loginPanel.hide();
+            loginPanel.clear();
 
-      homePanel.user = user;
-      homePanel.show();
-    });
-  } catch (err) {
-    loginPanel.error = err.message;
-  }
-};
-
-registerPanel.registration = function(
-  name,
-  surname,
-  email,
-  password,
-  passwordConfirmation
-) {
-  try {
-    register(name, surname, email, password, passwordConfirmation, function(
-      user
-    ) {
-      registerPanel.hide();
-      registerPanel.clear();
-      loginPanel.show();
-    });
-  } catch (err) {
-    registerPanel.error = err.message;
-  }
-};
-
-loginPanel.onRegisterPanel = function() {
-  loginPanel.hide();
-  registerPanel.show();
-};
-
-homePanel.onLogout = function() {
-  homePanel.hide();
-  searchPanel.clear();
-  loginPanel.clear();
-  loginPanel.show();
-};
-
-searchPanel.onSearch = function(query) {
-    try{
-      logic.search(query, function(error,results){
-        if(error) searchPanel.error = error;
-        else searchPanel.results = results.map(function(result){
-            return {
-                text: resultList.title,
-                image: resultList.imageUrl
-            }
+            homePanel.user = user;
+            homePanel.show();
         });
-    });
-  }
-    catch(err){
-      searchPanel.error = err.message;
+    } catch (err) {
+        loginPanel.error = err.message;
+    }
+};
+
+loginPanel.onRegisterPanel = function () {
+    loginPanel.hide();
+    loginPanel.clear();
+
+    registerPanel.show();
+};
+
+registerPanel.onRegister = function (name, surname, email, password, passwordConfirmation) {
+    try {
+        logic.register(name, surname, email, password, passwordConfirmation, function () {
+            registerPanel.hide();
+            registerPanel.clear();
+
+            loginPanel.show();
+        });
+    } catch (err) {
+        registerPanel.error = err.message;
+    }
+};
+
+registerPanel.onLoginPanel = function () {
+    registerPanel.hide();
+    registerPanel.clear();
+
+    loginPanel.show();
+};
+
+homePanel.onLogout = function () {
+    homePanel.hide();
+
+    searchPanel.clear();
+
+    loginPanel.clear();
+    loginPanel.show();
+};
+
+searchPanel.onSearch = function (query) {
+    try {
+        logic.search(query, function (error, results) {
+            if (error) {
+                searchPanel.error = error
+                searchPanel.clearResults();
+            } else searchPanel.results = results.map(function (result) {
+                return {
+                    text: result.title,
+                    image: result.imageUrl
+                }
+            });
+        });
+    } catch (err) {
+        searchPanel.error = err.message;
     }
 };
 
 
-registerPanel.onLoginPanel = function() {
-  registerPanel.hide();
-  loginPanel.show();
-  registerPanel.clear();
-};
 
 // var loginPanel2 = new LoginPanel
 
