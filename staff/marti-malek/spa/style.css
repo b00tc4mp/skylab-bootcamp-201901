@@ -9,7 +9,7 @@
 
 .error {
     display: none;
-    background-color: red;
+    background-color: rgba(255, 97, 97, 0.952);
     color: white;
 }
 
@@ -26,4 +26,9 @@
     display: none;
     background-color: green;
     color: white;
+    border-top: 1px solid gray;
+}
+
+.card-header {
+    border-bottom: 0;
 }

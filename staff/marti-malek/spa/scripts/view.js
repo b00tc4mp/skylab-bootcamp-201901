@@ -23,14 +23,18 @@ function LoginPanel() {
     Panel.call(this, $('<section class="login container-fluid">'
     + '<h2>Login</h2>'
     + '<form class="login__form" >'
-    +   '<div class="row">'
-    +       '<div class="col-sm-12 form-group">'
-    +           '<label for="email">E-mail:</label>'
-    +           '<input class="form-control" type="email" name="email" placeholder="Email" required>'
+    +   '<div class="form-row">'
+    +       '<div class="col-sm-12 input-group form-group">'
+    +           '<div class="input-group-prepend">'
+    +               '<div class="input-group-text">Email</div>'
+    +           '</div>'
+    +           '<input class="form-control" type="email" name="email" placeholder="something@example.com" required>'
     +       '</div>'
-    +       '<div class="col-sm-12 form-group">'
-    +           '<label for="password">Password:</label>'
-    +           '<input class="form-control" type="password" name="password" placeholder="Password" required>'
+    +       '<div class="col-sm-12 input-group form-group">'
+    +           '<div class="input-group-prepend">'
+    +               '<div class="input-group-text">Password</div>'
+    +           '</div>'
+    +           '<input class="form-control" type="password" name="password" placeholder="example" required>'
     +       '</div>'
     +   '</div>'
     +   '<div class="row">'
@@ -107,41 +111,51 @@ function RegisterPanel() {
     Panel.call(this, $('<section class="register container-fluid" style="display: none;">'
     +'<h2>Register</h2>'
     +'<form class="register__form">'
-    +'<div class="row">'
-    +'<div class="col-sm-12 form-group">'
-    +'<label for="name">Name:</label>'
-    +'<input class="form-control" type="text" name="name" placeholder="name" required="">'
-    +'</div>'
-    +'<div class="col-sm-12 form-group">'
-    +'<label for="surname">Surname:</label>'
-    +'<input class="form-control" type="text" placeholder="surname" required="">'
-    +'</div>'
-    +'<div class="col-sm-12 form-group">'
-    +'<label for="email">E-mail:</label>'
-    +'<input class="form-control" type="email" name="email" placeholder="email" required="">'
-    +'</div>'
-    +'<div class="col-sm-12 form-group">'
-    +'<label for="password">Password:</label>'
-    +'<input class="form-control" type="password" name="password" placeholder="password" required="">'
-    +'</div>'
-    +'<div class="col-sm-12 form-group">'
-    +'<label for="passwordConfirmation">Confirm password:</label>'
-    +'<input class="form-control" type="password" name="passwordConfirmation" placeholder="confirm password" required="">'
-    +'</div>'
-    +'<div class="col-sm-12 form-group">'
-    +'<button class="btn btn-default" type="submit">Register</button>'
-    +'</div>'
-    + '</div>'
+    +   '<div class="row">'
+    +       '<div class="col-sm-12 col-lg-6 input-group form-group">'
+    +           '<div class="input-group-prepend">'
+    +               '<div class="input-group-text">Name</div>'
+    +           '</div>'
+    +           '<input class="form-control" type="text" name="name" placeholder="John" required="">'
+    +       '</div>'
+    +   '<div class="col-sm-12 col-lg-6 form-group input-group">'
+    +       '<div class="input-group-prepend">'
+    +               '<div class="input-group-text">Surname</div>'
+    +       '</div>'
+    +       '<input class="form-control" type="text" placeholder="Doe" required="">'
+    +   '</div>'
+    +   '<div class="col-sm-12 form-group input-group">'
+    +           '<div class="input-group-prepend">'
+    +               '<div class="input-group-text">Email</div>'
+    +           '</div>'
+    +       '<input class="form-control" type="email" name="email" placeholder="something@example.com" required="">'
+    +   '</div>'
+    +   '<div class="col-sm-12 col-lg-6 form-group input-group">'
+    +       '<div class="input-group-prepend">'
+    +          '<div class="input-group-text">Password</div>'
+    +       '</div>'
+    +       '<input class="form-control" type="password" name="password" placeholder="example" required="">'
+    +   '</div>'
+    +   '<div class="col-sm-12 col-lg-6 form-group input-group">'
+    +       '<div class="input-group-prepend">'
+    +          '<div class="input-group-text">Confirm Password</div>'
+    +       '</div>'
+    +       '<input class="form-control" type="password" name="passwordConfirmation" placeholder="example" required="">'
+    +   '</div>'
+    +   '<div class="col-sm-12 form-group">'
+    +       '<button class="btn btn-default" type="submit">Register</button>'
+    +   '</div>'
+    +   '</div>'
     +'</form>'
     +'<section class="error" style="display: none;"></section>'
     +'</section>'));
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
-    var $inputs = $form.children('input');
+    var $inputs = $form.find('input');
 
     this.__$nameInput__ = $($inputs[0]);
 
@@ -209,16 +223,23 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 //#region home panel
 
 function HomePanel() {
-    Panel.call(this, $('<section class="home"><h2>Welcome, <span></span>!</h2><button>Logout</button><section><section class="error"></section><ul></ul></section></section>'));
+    Panel.call(this, $('<section class="home container-fluid">'
+    +   '<h2>Welcome, <span></span>!</h2>'
+    +   '<button class="btn">Logout</button>'
+    +   '<section>'
+    +       '<section class="error"></section>'
+    +       '<ul></ul>'
+    +   '</section>'
+    +'</section>'));
 
     var $container = this.$element;
 
-    var $title = $container.children('h2');
+    var $title = $container.find('h2');
 
-    var $userSpan = $title.children('span');
+    var $userSpan = $title.find('span');
     this.__$userSpan__ = $userSpan;
 
-    var $logoutButton = $container.children('button');
+    var $logoutButton = $container.find('button');
     $container.append($logoutButton);
     this.__$logoutButton__ = $logoutButton;
 }
@@ -320,7 +341,7 @@ SearchPanel.prototype.clearResults = function () {
 //#region error panel
 
 function ErrorPanel() {
-    Panel.call(this, $('<section class="error"></section>'));
+    Panel.call(this, $('<section class="error alert alert-danger"></section>'));
 }
 
 ErrorPanel.prototype = Object.create(Panel.prototype);
