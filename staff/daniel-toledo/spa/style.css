@@ -1,11 +1,42 @@
+body{
+    background-color: lightgray;
+    height: 100%;
+}
+
+.title{
+    margin: 5% auto;
+    font-size: 3em;
+}
 .login {
-    background-color: skyblue;
-    padding: 2em;
+    background-color: white;
+    padding: 4em;
     border-radius: 0.5em;
     border-style: solid;
     border-color: gray;
-    color: white;
+    color:black;
 }
+
+.login h2{
+    margin: 0.5em auto;
+    margin-bottom: 1em;
+}
+
+.login input, button, .login__register-link{
+    margin: 0.5em auto;
+}
+
+.login input{
+    border: black 2px solid;
+    border-radius: 0.2em;
+}
+
+.flex{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 
 .error {
     display: none;
@@ -13,17 +44,22 @@
     color: white;
     border-radius: 0.5em;
     border-style: solid;
-    border-color: white;
+    border-color: black;
+    text-align: center;
 }
 
 .register {
     display: none;
-    background-color: yellow;
-    padding: 2em;
+    background-color: bisque;
+    padding: 4em;
     border-radius: 0.5em;
     border-style: solid;
     border-color: gray;
 }
+
+.register label, input, button{
+    margin: 0.5em auto;
+} 
 
 .home {
     display: none;
