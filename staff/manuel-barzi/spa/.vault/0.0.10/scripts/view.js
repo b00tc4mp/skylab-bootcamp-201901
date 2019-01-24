@@ -19,22 +19,14 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login container">'
+    Panel.call(this, $('<section class="login">'
         + '<h2>Login</h2>'
         + '<form class="login__form" >'
-        + '<div class="row">'
-        + '<div class="col text-center">'
         + '<label for="email">E-mail:</label>'
         + '<input type="email" name="email" placeholder="email" required>'
-        + '</div>'
-        + '<div class="col">'
         + '<label for="password">Password:</label>'
         + '<input type="password" name="password" placeholder="password" required>'
-        + '</div>'
-        + '<div class="col">'
         + '<button type="submit">Login</button>'
-        + '</div>'
-        + '</div>'
         + '</form>'
         + '</section>'));
 
