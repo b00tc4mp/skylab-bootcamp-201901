@@ -19,39 +19,35 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login container">'
+    Panel.call(this, $('<section class="login container-fluid col-sm-6 col-md-4 text-center">'
         + '<h2>Login</h2>'
         + '<form class="login__form" >'
-        + '<div class="row">'
-        + '<div class="col text-center">'
+        + '<div class="form-group">'
         + '<label for="email">E-mail:</label>'
-        + '<input type="email" name="email" placeholder="email" required>'
+        + '<input type="email" name="email" placeholder="email" class="form-control" required>'
         + '</div>'
-        + '<div class="col">'
+        + '<div class="form-group">'
         + '<label for="password">Password:</label>'
-        + '<input type="password" name="password" placeholder="password" required>'
+        + '<input type="password" name="password" placeholder="password" class="form-control" required>'
         + '</div>'
-        + '<div class="col">'
-        + '<button type="submit">Login</button>'
-        + '</div>'
-        + '</div>'
+        + '<button type="submit" class="btn btn-success">Login</button>'
         + '</form>'
         + '</section>'));
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
-    this.__$emailInput__ = $form.children('input[type=email]');
+    this.__$emailInput__ = $form.find('input[type=email]');
 
-    this.__$passwordInput__ = $form.children('input[type=password]');
+    this.__$passwordInput__ = $form.find('input[type=password]');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
+    var $registerLink = $('<a href="#" class="login__register-link btn btn-link">Register</a>');
     $container.append($registerLink);
     this.__$registerLink__ = $registerLink;
 }
@@ -97,9 +93,10 @@ Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
 //#region register panel
 
 function RegisterPanel() {
-    Panel.call(this, $('<section class="register">'
+    Panel.call(this, $('<section class="register containerv col-sm-6 col-md-3 text-center">'
         + '<h2>Register</h2>'
         + '<form class="register__form">'
+        + '<div class=form-group">'
         + '<label for="name">Name:</label>'
         + '<input type="text" name="name" placeholder="name" required>'
         + '<label for="surname">Surname:</label>'
@@ -110,24 +107,25 @@ function RegisterPanel() {
         + '<input type="password" name="password" placeholder="password" required>'
         + '<label for="password">Confirm Password:</label>'
         + '<input type="password" name="password-confirmation" placeholder="password" required>'
-        + '<button type="submit">Register</button>'
+        + '</div>'
+        + '<button type="submit" class="btn btn-success">Register</button>'
         + '</form>'
         + '</section>'));
 
     var $container = this.$element;
 
-    this.__$form__ = $container.children('form');
+    this.__$form__ = $container.find('form');
     var $form = this.__$form__;
 
-    this.__$nameInput__ = $form.children('input[name=name]');
+    this.__$nameInput__ = $form.find('input[name=name]');
 
-    this.__$surnameInput__ = $form.children('input[name=surname]');
+    this.__$surnameInput__ = $form.find('input[name=surname]');
 
-    this.__$emailInput__ = $form.children('input[type=email]');
+    this.__$emailInput__ = $form.find('input[type=email]');
 
-    this.__$passwordInput__ = $form.children('input[name=password]');
+    this.__$passwordInput__ = $form.find('input[name=password]');
 
-    this.__$passwordConfirmationInput__ = $form.children('input[name=password-confirmation]');
+    this.__$passwordConfirmationInput__ = $form.find('input[name=password-confirmation]');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
