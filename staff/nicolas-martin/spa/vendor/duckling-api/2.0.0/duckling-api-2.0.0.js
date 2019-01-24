@@ -15,6 +15,17 @@ var ducklingApi = {
      * results.
      */
     search: function (query, callback) {
+
+        $.ajax({
+            url: "https://duckling-api.herokuapp.com/api/search?q='",
+            context: document.body,
+            method: 'GET',
+        }).done(function() {
+            
+            $( this ).addClass( "done" );
+        });
+
+
         var xhr = new XMLHttpRequest;
 
         xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
