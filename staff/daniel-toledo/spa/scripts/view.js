@@ -20,23 +20,24 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login container">'
+    Panel.call(this, $('<section class="login container col-lg-8">'
         + '<h2>Login</h2>'
-        + '<form class="login__form form-group container" >'
+        + '<form class="login__form form-group container " >'
 
         + '<div class="row">'
-        + '<label for="email" class="col col-md-3 col-sm-3 flex">E-mail</label>'
-        + '<input type="email" class="col col-md-9 col-sm-9 form-control" name="email" placeholder="Email" required>'
+        + '<label for="email" class="col col-md-3 col-sm-12 flex">Email</label>'
+        + '<input type="email" class="col col-md-9 col-12 form-control" name="email" placeholder="Email" required>'
   
-        + '<label for="password" class="col col-md-3 col-sm-3 flex">Password</label>'
-        + '<input type="password" class="col col-md-9 col-sm-9 form-control" name="password" placeholder="Password" required>'
+        + '<label for="password" class="col col-md-3 col-sm-12 flex">Password</label>'
+        + '<input type="password" class="col col-md-9 col-12 form-control" name="password" placeholder="Password" required>'
         + '</div>'
 
         + '<div class="row flex">'
+        + '<div class="col-md-3 col-0"></div>'
+        + '<button type="submit" class="btn btn-dark col-md-6 col-12">Login</button>'
         + '<div class="link col-3">'
         + '<a href="#" class="btn btn-outline-secondary login__register-link ">Register</a>'
         + '</div>'
-        + '<button type="submit" class="btn btn-dark col-9">Login</button>'
         + '</div>'
 
         + '</form>'
@@ -142,11 +143,11 @@ function RegisterPanel() {
         + '</div>'
         + '</div>'
 
-        + '<div class="row">'
+        + '<div class="row flex">'
+        + '<button type="submit" class="btn btn-dark col-12 col-md-9">Register</button>'
         + '<div class="link col-3">'
         + '<a href="#" class="register__login-link btn btn-outline-secondary flex">Login</a>'
         + '</div>'
-        + '<button type="submit" class="btn btn-dark col-9">Register</button>'
         + '</div>'
         + '</form>'));
 
@@ -220,9 +221,9 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 
 function HomePanel() {
     Panel.call(this, $('<section class="home container">'
-        + '<div class="row container">'
-        + '<h2 class="col col-10">Welcome, <span></span>!</h2>'
-        + '<button class="btn btn-dark col col-2">Logout</button>'
+        + '<div class="row">'
+        + '<h2 class="col col-12 col-sm-9 col-md-10">Welcome, <span></span>!</h2>'
+        + '<button class="btn btn-dark col-6 col-sm-3 col-md-2">Logout</button>'
         +'</div>'
         + '</section>'));
 
@@ -257,11 +258,11 @@ Object.defineProperty(HomePanel.prototype, 'onLogout', {
 //#region search panel
 
 function SearchPanel() {
-    Panel.call(this, $('<section>'
+    Panel.call(this, $('<section class="row">'
     + '<form class="input-group search__input">'
 
-        + '<input type="text" class="form-control input-group-text col-10 " name="query" placeholder="...">'
-        + '<button type="submit" class="input-group-text col-2" innerText="search">Search</button>'
+        + '<input type="text" class="form-control input-group-text col-8 col-sm-10" name="query" placeholder="...">'
+        + '<button type="submit" class="input-group-text col-4 col-sm-2 text-center" innerText="search">Search</button>'
 
         + '</form>'
         + '</section>'
@@ -314,11 +315,11 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<div class="card col-md-4 col-sm-6 "></div>');
+            
+            var $item = $('<div class="card col-12 col-sm-6 col-md-4"></div>');
             this.__$resultList__.append($item);
 
-            var $text = $(document.createTextNode(result.text));
-            $text.addClass('class="card-title"')
+            var $text = $('<h2 class="card-title text-center results__title">'+result.text+'</h2>');
             $item.append($text);
 
             var $image = $('<img class="card-img-top" src ="'+result.image+'" width="100px">');
@@ -344,7 +345,7 @@ SearchPanel.prototype.clearResults = function () {
 //#region error panel
 
 function ErrorPanel() {
-    Panel.call(this, $('<section class="error"></section>'));
+    Panel.call(this, $('<section class="error col-12"></section>'));
 }
 
 ErrorPanel.prototype = Object.create(Panel.prototype);
