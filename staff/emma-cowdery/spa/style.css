@@ -1,32 +1,59 @@
+body {
+    background-color: rgb(77, 77, 77);
+    color: white;
+    margin: 2em;
+}
+
 .login {
-    background-color: skyblue;
+    background-color: rgb(150, 152, 153);
     padding: 2em;
     border-radius: 0.5em;
     border-style: solid;
-    border-color: gray;
+    border-color: yellow;
     color: white;
 }
 
-.error {
+.alert.alert-warning {
     display: none;
-    background-color: red;
-    color: white;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: white;
+    background-color: rgb(255, 255, 98);
+}
+
+.btn.btn-primary {
+    background-color: rgb(150, 152, 153);
+    border-color:  rgb(255, 187, 0);
+    border-width: 0.2em;
+    color: rgb(255, 187, 0);
+    width: 7em;
+}
+
+.btn.btn-outline-primary {
+    border-color: yellow;
+    border-width: 0.2em;
+    color: yellow;
+    width: 7em;
+    margin-bottom: 0.5em;
 }
 
 .register {
     display: none;
-    background-color: yellow;
+    background-color: rgb(150, 152, 153);
     padding: 2em;
     border-radius: 0.5em;
     border-style: solid;
-    border-color: gray;
+    border-color: yellow;
+    color: white;
 }
 
 .home {
     display: none;
-    background-color: green;
+    background-color: rgb(150, 152, 153);
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: yellow;
     color: white;
 }
+
+/* .form-control.register {
+    margin-left: 1em;
+} */
