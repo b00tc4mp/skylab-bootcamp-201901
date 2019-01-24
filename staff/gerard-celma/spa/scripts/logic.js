@@ -1,12 +1,19 @@
 'use strict';
 
-//#region (business) logic
-
+/**
+ * Abstraction of business logic.
+ */
 var logic = {
-
+    /**
+     * Logins a user by its credentials.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {function} callback 
+     */
     login: function (email, password, callback) {
         // TODO validate fields!
-        
+
         var user = users.find(function (user) {
             return user.email === email;
         });
@@ -22,8 +29,18 @@ var logic = {
         };
 
         callback(loggedInUser);
-    }
+    },
 
+    /**
+     * Registers a user.
+     * 
+     * @param {string} name 
+     * @param {string} surname 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {string} passwordConfirmation 
+     * @param {function} callback 
+     */
     register: function (name, surname, email, password, passwordConfirmation, callback) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string');
 
@@ -45,8 +62,6 @@ var logic = {
 
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty');
 
-        if (!callback instanceof Function) throw TypeError ('callback is not a function');
-
         // TODO validate fields!
 
         var user = users.find(function (user) {
@@ -65,8 +80,13 @@ var logic = {
         });
 
         callback();
+    },
+
+    search: function(query, callback) {
+        if (typeof query !== 'string') throw TypeError(query + ' is not a string');
+
+        if (!query.trim().length) throw Error('query cannot be empty');
+
+        ducklingApi.search(query, callback);
     }
-
 };
-
-//#endregion
