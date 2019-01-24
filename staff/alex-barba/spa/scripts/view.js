@@ -19,14 +19,18 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login">'
-    + '<h2>Login</h2>'
+    Panel.call(this, $('<section class="login container">'
     + '<form class="login__form" >'
-    + '<label for="email">E-mail:</label>'
-    + '<input type="email" name="email" placeholder="email" required>'
-    + '<label for="password">Password:</label>'
-    + '<input type="password" name="password" placeholder="password" required>'
-    + '<button type="submit">Login</button>'
+    + '<h4 class="font-weight-light-normal text-secondary">Login</h4>'
+    + '<div class="form-group">'
+    + '<label class="small" for="email">E-mail:</label>'
+    + '<input class="form-control input-sm" type="email" name="email" placeholder="example@gmail.com" required>'
+    + '</div>'
+    + '<div class="form-group">'
+    + '<label class="small" for="password">Password:</label>'
+    + '<input class="form-control" type="password" name="password" placeholder="password" required>'
+    + '</div>'
+    + '<button type="submit" class="btn btn-primary btn-sm active" tab>Login</button>'
     + '</form>'
     + '</section>'));
 
@@ -35,17 +39,17 @@ function LoginPanel() {
     var $form = $container.children('form');
     this.__$form__ = $form;
 
-    var $inputs = $form.children('input');
+    var $div = $form.children('div');
 
-    this.__$emailInput__ = $($inputs[0]);
+    this.__$emailInput__ = $($div[0]).children('input');
 
-    this.__$passwordInput__ = $($inputs[1]);
+    this.__$passwordInput__ = $($div[1]).children('input');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
+    var $registerLink = $('<a href="#" class="btn btn-secondary btn-sm active margin-top">Register</a>');
     $container.append($registerLink);
     this.__$registerLink__ = $registerLink;
 }
@@ -91,20 +95,40 @@ Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
 //#region register panel
 
 function RegisterPanel() {
-    Panel.call(this, $('<section class="register">'
-    + '<h2>Register</h2>'
+    Panel.call(this, $('<section class="register container">'
     + '<form class="register__form">'
-    +    '<label for="name">Name:</label>'
-    +    '<input type="text" name="name" placeholder="name" required>'
-    +    '<label for="surname">Surname:</label>'
-    +    '<input type="text" name="surname" placeholder="surname" required>'
-    +    '<label for="email">E-mail:</label>'
-    +    '<input type="email" name="email" placeholder="email" required>'
-    +    '<label for="password">Password:</label>'
-    +    '<input type="password" name="password" placeholder="password" required>'
-    +    '<label for="password">Confirm Password:</label>'
-    +    '<input type="password" name="password-confirmation" placeholder="password" required>'
-    +    '<button type="submit">Register</button>'
+    +    '<h4 class="font-weight-light-normal text-secondary">Register</h4>'
+    +    '<div class="input-group input-group-sm mb-3">'
+    +    '<div class="input-group-prepend">'
+    +    '<label for="name" class="input-group-text" id="inputGroup-sizing-sm">Name</label>'
+    +    '</div>'
+    +    '<input class="form-control" type="text" name="name" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>'
+    +    '</div>'
+    +    '<div class="input-group input-group-sm mb-3">'
+    +    '<div class="input-group-prepend">'
+    +    '<label for="surname" class="input-group-text" id="inputGroup-sizing-sm">Surame</label>'
+    +    '</div>'
+    +    '<input class="form-control" type="text" name="surname" required>'
+    +    '</div>'
+    +    '<div class="input-group input-group-sm mb-3">'
+    +    '<div class="input-group-prepend">'
+    +    '<label for="email" class="input-group-text" id="inputGroup-sizing-sm">Email</label>'
+    +    '</div>'
+    +    '<input class="form-control" type="text" name="email" required>'
+    +    '</div>'
+    +    '<div class="input-group input-group-sm mb-3">'
+    +    '<div class="input-group-prepend">'
+    +    '<label for="password" class="input-group-text" id="inputGroup-sizing-sm">Password</label>'
+    +    '</div>'
+    +    '<input class="form-control" type="text" name="password" required>'
+    +    '</div>'
+    +    '<div class="input-group input-group-sm mb-3">'
+    +    '<div class="input-group-prepend">'
+    +    '<label for="password" class="input-group-text" id="inputGroup-sizing-sm">Confirm password</label>'
+    +    '</div>'
+    +    '<input class="form-control" type="text" name="password-confirmation" required>'
+    +    '</div>'
+    +    '<button type="submit"class="btn btn-primary btn-sm active">Register</button>'
     + '</form>'
     + '</section>'));
 
@@ -114,23 +138,23 @@ function RegisterPanel() {
     var $form = this.__$form__;
     
 
-    var $inputs = $form.children('input');
+    var $div = $form.children('div');
 
-    this.__$nameInput__ = $($inputs[0]);
+    this.__$nameInput__ = $($div[0]).children('input');
 
-    this.__$surnameInput__ = $($inputs[1]);
+    this.__$surnameInput__ = $($div[1]).children('input');
 
-    this.__$emailInput__ = $($inputs[2]);
+    this.__$emailInput__ = $($div[2]).children('input');
 
-    this.__$passwordInput__ = $($inputs[3]);
+    this.__$passwordInput__ = $($div[3]).children('input');
 
-    this.__$passwordConfirmationInput__ = $($inputs[4]);
+    this.__$passwordConfirmationInput__ = $($div[4]).children('input');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $loginLink = $('<a href="#" class="register__login-link">Login</a>');
+    var $loginLink = $('<a href="#" class="btn btn-secondary btn-sm active margin-top register__login-link">Login</a>');
     $container.append($loginLink)
     this.__$loginLink__ = $loginLink;
 }
@@ -182,14 +206,14 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 //#region home panel
 
 function HomePanel() {
-    Panel.call(this, $('<section class="home">'
-    + '<h2>Welcome, <span class="home__name"></span>!</h2>'
-    + '<button class="home__logout">Logout</button>'
+    Panel.call(this, $('<section class="home container">'
+    + '<h3 class="text-secondary">Welcome, <span class="home__name"></span>!</h3>'
+    + '<button class="home__logout btn btn-dark btn-small">Logout</button>'
     + '</section>'));
 
     var $container = this.$element;
 
-    var $title = $container.children('h2');
+    var $title = $container.find('h3');
 
     var $userSpan = $title.children('span');
     this.__$userSpan__ = $userSpan;
@@ -218,9 +242,11 @@ Object.defineProperty(HomePanel.prototype, 'onLogout', {
 
 function SearchPanel() {
     Panel.call(this, $('<section>'
-    + '<form>'
-    +   '<input type="text" placeholder="..." name ="query">'
-    +   '<button type="submit">Search</button>'
+    + '<form class="input-group mb-3 margin-top">'
+    +   '<input type="text" class="form-control" placeholder="..." name ="query">'
+    +   '<div class="input-group-append">'
+    +   '<button type="submit" class="btn btn-outline-dark">Search</button>'
+    +   '</div>'
     + '</form>'
     + '</section>'));
 
@@ -236,7 +262,7 @@ function SearchPanel() {
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $resultList = $('<ul></ul>');
+    var $resultList = $('<ul class="list-group"></ul>');
     $container.append($resultList);
     this.__$resultList__ = $resultList;
 }
@@ -270,7 +296,7 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<li>'+ result.text + ' <img src="'+result.image+'" width="100px"></li>');
+            var $item = $('<li class="list-group-item d-flex justify-content-center align-items-center">'+ result.text + ' <img src="'+result.image+'" width="100px"></li>');
             this.__$resultList__.append($item);
 
         }.bind(this));
@@ -293,7 +319,7 @@ SearchPanel.prototype.clearResults = function () {
 //#region error panel
 
 function ErrorPanel() {
-    Panel.call(this, $('<section class="error"></section>'));
+    Panel.call(this, $('<section class="error alert alert-danger margin-top");></section>'));
 }
 
 ErrorPanel.prototype = Object.create(Panel.prototype);
