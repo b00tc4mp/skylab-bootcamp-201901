@@ -25,16 +25,18 @@ function LoginPanel() {
         + '<form class="login__form form-group container" >'
 
         + '<div class="row">'
-        + '<label for="email" class="col col-md-2 col-sm-2 flex">E-mail</label>'
-        + '<input type="email" class="col col-md-10 col-sm-10 form-control" name="email" placeholder="email" required>'
+        + '<label for="email" class="col col-md-3 col-sm-3 flex">E-mail</label>'
+        + '<input type="email" class="col col-md-9 col-sm-9 form-control" name="email" placeholder="Email" required>'
   
-        + '<label for="password" class="col col-md-2 col-sm-2 flex">Password</label>'
-        + '<input type="password" class="col col-md-10 col-sm-10 form-control" name="password" placeholder="password" required>'
+        + '<label for="password" class="col col-md-3 col-sm-3 flex">Password</label>'
+        + '<input type="password" class="col col-md-9 col-sm-9 form-control" name="password" placeholder="Password" required>'
         + '</div>'
 
         + '<div class="row flex">'
-        + '<a href="#" class="login__register-link col-2">Register</a>'
-        + '<button type="submit" class="btn btn-dark col-10">Login</button>'
+        + '<div class="link col-3">'
+        + '<a href="#" class="btn btn-outline-secondary login__register-link ">Register</a>'
+        + '</div>'
+        + '<button type="submit" class="btn btn-dark col-9">Login</button>'
         + '</div>'
 
         + '</form>'
@@ -108,40 +110,42 @@ function RegisterPanel() {
         + '<div class="row">'
         + '<div class="input-group">'
         + '<label for="name" class="input-group-text col-3">Name</label>'
-        + '<input type="text" class="form-control" name="name" placeholder="name" required>'
+        + '<input type="text" class="form-control" name="name" placeholder="Name" required>'
         + '</div>'
         + '</div>'
  
         + '<div class="row">'
         + '<div class="input-group">'
         + '<label for="surname" class="input-group-text col-3">Surname</label>'
-        + '<input type="text"  class="form-control" name="surname" placeholder="surname" required>'
+        + '<input type="text"  class="form-control" name="surname" placeholder="Surname" required>'
         + '</div>'
         + '</div>'
 
         + '<div class="row">'
         + '<div class="input-group">'
         + '<label for="email" class="input-group-text col-3">E-mail</label>'
-        + '<input type="email"  class="form-control" name="email" placeholder="email" required>'
+        + '<input type="email"  class="form-control" name="email" placeholder="Email" required>'
         + '</div>'
         + '</div>'
 
         + '<div class="row">'
         + '<div class="input-group">'
         + '<label for="password" class="input-group-text col-3">Password</label>'
-        + '<input type="password"  class="form-control" name="password" placeholder="password" required>'
+        + '<input type="password"  class="form-control" name="password" placeholder="Password" required>'
         + '</div>'
         + '</div>'
 
         + '<div class="row">'
         + '<div class="input-group">'
         + '<label for="password" class="input-group-text col-3">Confirm Password</label>'
-        + '<input type="password"  class="form-control" name="password-confirmation" placeholder="password" required>'
+        + '<input type="password"  class="form-control" name="password-confirmation" placeholder="Password" required>'
         + '</div>'
         + '</div>'
 
         + '<div class="row">'
-        + '<a href="#" class="register__login-link col-3 flex">Login</a>'
+        + '<div class="link col-3">'
+        + '<a href="#" class="register__login-link btn btn-outline-secondary flex">Login</a>'
+        + '</div>'
         + '<button type="submit" class="btn btn-dark col-9">Register</button>'
         + '</div>'
         + '</form>'));
@@ -215,19 +219,21 @@ Object.defineProperty(RegisterPanel.prototype, 'onGoToLogin', {
 //#region home panel
 
 function HomePanel() {
-    Panel.call(this, $('<section class="home">'
-        + '<h2>Welcome, <span></span>!</h2>'
-        + '<button>Logout</button>'
+    Panel.call(this, $('<section class="home container">'
+        + '<div class="row container">'
+        + '<h2 class="col col-10">Welcome, <span></span>!</h2>'
+        + '<button class="btn btn-dark col col-2">Logout</button>'
+        +'</div>'
         + '</section>'));
 
     var $container = this.$element;
 
-    var $title = $container.children('h2')
+    var $title = $container.find('h2')
 
-    var $userSpan = $title.children('span')
+    var $userSpan = $title.find('span')
     this.__$userSpan__ = $userSpan;
 
-    var $logoutButton = $container.children('button')
+    var $logoutButton = $container.find('button')
     this.__$logoutButton__ = $logoutButton;
 }
 
@@ -252,9 +258,10 @@ Object.defineProperty(HomePanel.prototype, 'onLogout', {
 
 function SearchPanel() {
     Panel.call(this, $('<section>'
-    + '<form>'
-        + '<input type="text" name="query" placeholder="...">'
-        + '<button type="submit" innerText="search">Search</button>'
+    + '<form class="input-group search__input">'
+
+        + '<input type="text" class="form-control input-group-text col-10 " name="query" placeholder="...">'
+        + '<button type="submit" class="input-group-text col-2" innerText="search">Search</button>'
 
         + '</form>'
         + '</section>'
@@ -263,10 +270,10 @@ function SearchPanel() {
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
-    var $queryInput = $form.children('input');
+    var $queryInput = $form.find('input');
     this.__$queryInput__ = $queryInput;
 
 
@@ -274,7 +281,7 @@ function SearchPanel() {
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $resultList = $('<ul></ul>');
+    var $resultList = $('<div class="row"></div>');
     $container.append($resultList);
     this.__$resultList__ = $resultList;
 }
@@ -307,13 +314,14 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<li></li>');
+            var $item = $('<div class="card col-md-4 col-sm-6 "></div>');
             this.__$resultList__.append($item);
 
             var $text = $(document.createTextNode(result.text));
+            $text.addClass('class="card-title"')
             $item.append($text);
 
-            var $image = $('<img src ="'+result.image+'" width="100px">');
+            var $image = $('<img class="card-img-top" src ="'+result.image+'" width="100px">');
             // $image.attr("src", result.image);
             $item.append($image);
         }.bind(this));
