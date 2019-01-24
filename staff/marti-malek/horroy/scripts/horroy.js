@@ -81,7 +81,7 @@ Horroy.of = function() {
 /**
  * Abstraction of concat.
  * 
- * Concats two horroys into one new horroy (does not transform the two previous).
+ * Concats the arguments into one new horroy (does not transform the arguments).
  * 
  * @param {horroy} 
  * 
