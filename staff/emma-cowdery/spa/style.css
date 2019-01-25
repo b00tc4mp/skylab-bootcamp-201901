@@ -60,9 +60,6 @@ body {
 
 .list {
     list-style-type: none;
-}
-
-.duckTitle {
     border-style: solid;
     border-width: 0.3em;
     border-color: yellow;
@@ -74,3 +71,16 @@ body {
     align-items: center;
     padding: 0.5em
 }
+
+/* .duckTitle {
+    border-style: solid;
+    border-width: 0.3em;
+    border-color: yellow;
+    color: yellow;
+    border-radius: 0.3em;
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5em
+} */
