@@ -94,5 +94,9 @@ var logic = {
         if (!query.trim().length) throw Error('query cannot be empty');
 
         ducklingApi.search(query, callback);
+    }, 
+
+    retrieve: function(id, callback){
+        ducklingApi.retrieve(id, callback);
     }
 };
