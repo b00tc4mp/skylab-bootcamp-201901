@@ -310,45 +310,6 @@ class SearchPanel extends Panel{
 
 //#region results panel
 
-// class ResultsPanel extends Panel{
-//     constructor(){
-//         super($(`<section class="row"></section>`))
-
-//         var $container = this.$element;
-
-//         var $resultList = $container.find('section')
-//         this.__$resultList__ = $resultList;
-//     }
-
-    
-
-//     set results(results) {
-//         this.__$resultList__.html('');
-
-//         results.forEach(result => {
-            
-//             var $item = $('<div class="card col-12 col-sm-6 col-md-4"></div>');
-//             this.__$resultList__.append($item);
-
-//             var $text = $('<h2 class="card-title text-center results__title">'+result.text+'</h2>');
-//             $item.append($text);
-
-//             var $image = $('<img class="card-img-top" src ="'+result.image+'" width="100px">');
-//             // $image.attr("src", result.image);
-//             $item.append($image);
-
-//             var $buttonCard =$('<button class="btn btn-dark" id="'+result.id+'">See More...</button>');
-//             $item.append($buttonCard);
-//             this.__$buttonCard__=$buttonCard;
-
-//         });
-//     }
-
-//     clear(){
-//         this.__$resultList__.html('');
-//     }
-// }
-
 class ResultsPanel extends Panel {
     constructor() {
         super($(`<section class="results">
@@ -371,15 +332,11 @@ class ResultsPanel extends Panel {
             </div>
         </div>`);
             
-            $item.click(function(event) {
-                // console.log(this.getAttribute('data-id'));
-
-                // console.log(event.target.getAttribute('data-id')); // WARN event propagation!
-
-                console.log($item.data('id'));
-
-                // console.log($(this).data('id')); // WARN add new $ object into mem, but $item is already there
-            });
+            $item.click(()=>{
+               const id=$item.data('id')
+               
+               this.__onItemSelectedCallBack__(id)
+            })
 
             this.__$resultList__.append($item);
         });
@@ -388,6 +345,59 @@ class ResultsPanel extends Panel {
     clear() {
         this.__$resultList__.html('');
     }
+
+    set onItemSelected(callback){
+        this.__onItemSelectedCallBack__=callback
+    }
+}
+
+//#region detail panel
+
+class DetailPanel extends Panel{
+    constructor(){
+        super($(`<section class="results">
+        <h3 class="card-title text-center results__title"></h3> 
+        <div class="row">
+            <img class="card-img-top" width="100px">
+            <p></p>
+            <span class="price"></span>
+        </div>
+            <a href="#">
+            <button>Go back</button>
+    </div>
+    </section>`))
+
+    const $container=this.$element
+
+    const $image=$container.find('img')
+    this.__$image__=$image
+
+    const $title = $container.find('h2')
+    this.__$title__ = $title
+
+    const $description=$container.find('p')
+    this.__$description__=$description
+
+    const $price = $container.find('span')
+    this.__$price__ = $price
+
+    const $externalLink = $container.find('a')
+    this.__$externalLink__ = $externalLink
+
+    const $goBackButton = $container.find('button')
+    this.__$goBackButton__ = $goBackButton
+
+    }
+
+    set item({image,title,description,price,externalLink}){
+        this.__$image__.attr('src', image)
+        this.__$title__.text(title)
+        this.__$description__.text(description)
+        this.__$price__.text(price)
+        this.__$externalLink__.attr('href', externalLink)
+    }
+
+
 }
 
 //#region error panel
