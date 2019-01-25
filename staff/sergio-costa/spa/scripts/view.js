@@ -47,51 +47,49 @@ class  LoginPanel extends Panel {
         + '</form>'
         + '</section>'));
 
-        this.$container = this.$element;
+        var $container = this.$element;
 
-        this.$form = this.$container.find('form'); 
-        this.__$form__ = this.$form;
+        var $form = $container.find('form');
+        this.__$form__ = $form;
 
-        this.$inputs = this.$form.find('input');
-    
-        this.__$emailInput__ = $(this.$inputs[0]);
-    
-        this.__$passwordInput__ = $(this.$inputs[1]);
-    
-        this.errorPanel = new ErrorPanel;
-        this.$container.append(this.errorPanel.$element);
-        this.__errorPanel__ = this.errorPanel;
-    
-        this.$registerLink = $('<a href="#" class="login__register-link">Register</a>');
-        this.$container.append(this.$registerLink);
-        this.__$registerLink__ = this.$registerLink;
+        this.__$emailInput__ = $form.find('input[type=email]');
+
+        this.__$passwordInput__ = $form.find('input[type=password]');
+
+        var errorPanel = new ErrorPanel;
+        $container.append(errorPanel.$element);
+        this.__errorPanel__ = errorPanel;
+
+        var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
+        $container.append($registerLink);
+        this.__$registerLink__ = $registerLink;
     }
 
      
-    set onLogin (callback) { 
-        this.__$form__.on('submit', function (event) {
+    set onLogin(callback) {
+        this.__$form__.on('submit', event => {
             event.preventDefault();
-    
+
             var email = this.__$emailInput__.val();
             var password = this.__$passwordInput__.val();
-    
+
             callback(email, password);
-        }.bind(this));
-    } 
-     
-    set error(message) { 
+        });
+    }
+
+    set error(message) {
         this.__errorPanel__.message = message;
         this.__errorPanel__.show();
-    } 
-    
+    }
+
     clear() {
         this.__$emailInput__.val('');
         this.__$passwordInput__.val('');
         this.__errorPanel__.message = '';
         this.__errorPanel__.hide();
     }
-    
-    set onGoToRegister(callback) { 
+
+    set onGoToRegister(callback) {
         this.__$registerLink__.on('click', callback);
     } 
 }
@@ -142,63 +140,62 @@ class RegisterPanel extends Panel{
         + '</form>'
         + '</section>'));
 
-        this.$container = this.$element;
-    
-        this.$form = this.$container.find('form');
-        this.__$form__ = this.$form;
-    
-        this.$inputs = this.$form.find('input');
-        
-        this.__$nameInput__ = $(this.$inputs[0]);
-    
-        this.__$surnameInput__ = $(this.$inputs[1]);
-    
-        this.__$emailInput__ = $(this.$inputs[2]);
-    
-        this.__$passwordInput__= $(this.$inputs[3]);
-        
-        this.__$passwordConfirmationInput__ = $(this.$inputs[4]);
-    
-        this.errorPanel = new ErrorPanel;
-        this.$container.append(this.errorPanel.$element);
-        this.__errorPanel__ = this.errorPanel;
-    
-        this.$loginLink = $('<a href="#" class="register__login-link">Login</a>');
-        this.$container.append(this.$loginLink);
-        this.__$loginLink__ = this.$loginLink;
+
+        var $container = this.$element;
+
+        this.__$form__ = $container.find('form');
+        var $form = this.__$form__;
+
+        this.__$nameInput__ = $form.find('input[name=name]');
+
+        this.__$surnameInput__ = $form.find('input[name=surname]');
+
+        this.__$emailInput__ = $form.find('input[type=email]');
+
+        this.__$passwordInput__ = $form.find('input[name=password]');
+
+        this.__$passwordConfirmationInput__ = $form.find('input[name=password-confirmation]');
+
+        var errorPanel = new ErrorPanel;
+        $container.append(errorPanel.$element);
+        this.__errorPanel__ = errorPanel;
+
+        var $loginLink = $('<a href="#" class="register__login-link">Login</a>');
+        $container.append($loginLink)
+        this.__$loginLink__ = $loginLink;
     }
 
  
     set onRegister(callback) {
         this.__$form__.on('submit', event => {
             event.preventDefault();
-    
+
             var name = this.__$nameInput__.val();
             var surname = this.__$surnameInput__.val();
             var email = this.__$emailInput__.val();
             var password = this.__$passwordInput__.val();
             var passwordConfirmation = this.__$passwordConfirmationInput__.val();
-    
+
             callback(name, surname, email, password, passwordConfirmation);
         });
-    } 
-    
-    set error(message) { 
+    }
+
+    set error(message) {
         this.__errorPanel__.message = message;
         this.__errorPanel__.show();
     }
-    
+
     clear() {
         this.__$nameInput__.val('');
         this.__$surnameInput__.val('');
         this.__$emailInput__.val('');
         this.__$passwordInput__.val('');
         this.__$passwordConfirmationInput__.val('');
-        this.__errorPanel__.message;
+        this.__errorPanel__.message = '';
         this.__errorPanel__.hide();
-    };
-     
-    set onGoToLogin(callback) { 
+    }
+
+    set onGoToLogin(callback) {
         this.__$loginLink__.on('click', callback);
     }
 }
@@ -216,25 +213,23 @@ class HomePanel extends Panel {
         + '<h2>Welcome,<span></span>!</h2>'
         + '<button>Logout</button>'));
 
-        this.$container = this.$element;
-    
-        this.$title = this.$container.find('h2');
-    
-        this.$userSpan = this.$title.find('span');
-        this.__$userSpan__ = this.$userSpan;
-    
-        this.$logoutButton = this.$container.find('button');
-        this.__$logoutButton__ = this.$logoutButton;
+        var $container = this.$element;
 
+        var $title = $container.find('h2');
+
+        var $userSpan = $title.find('span');
+        this.__$userSpan__ = $userSpan;
+
+        this.__$logoutButton__ = $container.find('button');
     }
-     
-    set user (user) { 
+
+    set user(user) {
         this.__$userSpan__.text(user.name);
-    } 
-    
-    set onLogout (callback) { 
+    }
+
+    set onLogout(callback) {
         this.__$logoutButton__.on('click', callback);
-    } 
+    }
 }
 
 //#endregion
@@ -253,56 +248,44 @@ class SearchPanel extends Panel {
         +'</section>'
         ));
 
-        this.$container = this.$element;
-    
-        this.$form = this.$container.children('form');
-        this.__$form__ = this.$form;
-    
-        this.$queryInput = this.$form.children('input');
-        this.__$queryInput__ = this.$queryInput;
-    
-        this.errorPanel = new ErrorPanel;
-        this.$container.append(this.errorPanel.$element);
-        this.__errorPanel__ = this.errorPanel;
-    
-        this.__$resultList__ = this.$container.children('ul');
+        var $container = this.$element;
+
+        var $form = $container.find('form');
+        this.__$form__ = $form;
+
+        var $queryInput = $form.find('input');
+        this.__$queryInput__ = $queryInput;
+
+        var errorPanel = new ErrorPanel;
+        $container.append(errorPanel.$element);
+        this.__errorPanel__ = errorPanel;
     }
     
     set onSearch(callback) {
         this.__$form__.on('submit', event => {
+
             event.preventDefault();
 
             var query = this.__$queryInput__.val();
-            this.clear();
 
             callback(query);
         });
     }
- 
-    set error(message) { 
+
+    set error(message) {
         this.__errorPanel__.message = message;
         this.__errorPanel__.show();
-    } 
-    
-    set results(results) {
-        this.__$resultList__.text('');
-        this.__errorPanel__.hide();
-
-        results.forEach(function(result) {
-            var $item = $('<li>'+result.text +'<img src="'+result.image+'" width ="100px"><button class="btn btn-primary">Read More</button></li>');
-            this.__$resultList__.append($item);
-            $item.find('button').on('click', function(){
-                console.log('hey');
-            })
-        }.bind(this));
     }
-    
+
     clear() {
-        this.__$resultList__.text('');
         this.__$queryInput__.val('');
+        this.clearError();
+    }
+
+    clearError() {
         this.__errorPanel__.message = '';
         this.__errorPanel__.hide();
-    };
+    }
 }
 
 //#endregion
@@ -310,15 +293,52 @@ class SearchPanel extends Panel {
 //#region error panel
 
 class ErrorPanel extends Panel {
-    constructor(){
+    constructor() {
         super($('<section class="error"></section>'));
     }
-     
-    set message(message) { 
+
+    set message(message) {
         this.$element.text(message);
     }
 }
 
+//#endregion
+
+//#region results panel
+
+class ResultsPanel extends Panel {
+    constructor() {
+        super($(`<section class="results">
+            <ul></ul>
+        </section>`));
+
+        var $resultList = this.$element.find('ul');
+        this.__$resultList__ = $resultList;
+    }
+
+    set results(results) {
+        this.__$resultList__.html('');
+
+        results.forEach(result => {
+            var $item = $(`<li data-id=${result.id}>${result.text} <img src="${result.image}" width="100px"></li>`);
+            
+            $item.click(function(event) {
+
+                this.onItemClicked = function(callback){
+                    callback(result.id);
+                }
+
+            }.bind(this));
+
+            this.__$resultList__.append($item);
+        });
+    }
+
+    clear() {
+        this.__$resultList__.html('');
+    }
+}
+ 
 //#endregion
 
 //#region detail panel
@@ -326,9 +346,12 @@ class ErrorPanel extends Panel {
 class DetailPanel extends Panel{
     constructor(){
         super($('<section class="detail">'
+        +'<img>'
+        +'<p></p>'
         +'<button>Back</button>'
-        
         ));
+
+        var $container = this.$element;
 
     }
 }
