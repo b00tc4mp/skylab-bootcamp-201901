@@ -33,7 +33,18 @@ var ducklingApi = {
 
         // ALT 2
         $.getJSON('https://duckling-api.herokuapp.com/api/search?q=' + query, function (res) {
-            callback(undefined, res.data);
+            callback(undefined, res);
+        })
+            .fail(function (res) {
+                if (res.responseJSON && res.responseJSON.error)
+                    callback(res.responseJSON.error);
+                else callback('network error');
+            })
+    },
+
+    details: function (query, callback) {
+        $.getJSON('https://duckling-api.herokuapp.com/api/search?q=' + query, function (res) {
+            callback(undefined, res);
         })
             .fail(function (res) {
                 if (res.responseJSON && res.responseJSON.error)

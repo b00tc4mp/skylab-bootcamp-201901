@@ -77,8 +77,11 @@ Object.defineProperty(LoginPanel.prototype, 'onLogin', {
         this.__$form__.on('submit', function (event) {
             event.preventDefault();
 
+
             var email = this.__$emailInput__.val();
             var password = this.__$passwordInput__.val();
+            document.body.style.backgroundColor = '#737989';
+            document.body.style.backgroundImage = 'none';
 
             callback(email, password);
         }.bind(this));
@@ -231,12 +234,12 @@ function HomePanel() {
 
     var $container = this.$element;
 
-    var $title = $container.children('h2');
+    var $title = $container.find('h2');
 
-    var $userSpan = $title.children('span');
+    var $userSpan = $title.find('span');
     this.__$userSpan__ = $userSpan;
 
-    this.__$logoutButton__ = $container.children('button');
+    this.__$logoutButton__ = $container.find('button');
 
 }
 
@@ -298,6 +301,8 @@ Object.defineProperty(SearchPanel.prototype, 'onSearch', {
 
             event.preventDefault();
 
+            this.__errorPanel__.hide();
+
             var query = this.__$queryInput__.val();
 
             callback(query);
@@ -312,18 +317,6 @@ Object.defineProperty(SearchPanel.prototype, 'error', {
     }
 });
 
-Object.defineProperty(SearchPanel.prototype, 'results', {
-    set: function (results) {
-        this.__$resultList__.html('');
-        this.__errorPanel__.hide();
-
-        results.forEach(function (result) {
-            var $item = $('<div class="card" style="width: 18rem;"><img class="card-img-top" alt="Card image cap" img src="' + result.image + '" width="100px"><h5 class="card-title">' + result.text + '</h5><a href="#" class="btn btn-primary">Go somewhere</a></div></div></li>');
-            this.__$resultList__.append($item);
-
-        }.bind(this));
-    }
-});
 
 SearchPanel.prototype.clear = function () {
     this.clearResults();
@@ -332,9 +325,6 @@ SearchPanel.prototype.clear = function () {
     this.__errorPanel__.hide();
 };
 
-SearchPanel.prototype.clearResults = function () {
-    this.__$resultList__.html('');
-};
 
 //#endregion
 
@@ -350,6 +340,71 @@ ErrorPanel.prototype.constructor = ErrorPanel;
 Object.defineProperty(ErrorPanel.prototype, 'message', {
     set: function (message) {
         this.$element.text(message);
+    }
+});
+
+//#endregion 
+
+
+function ListPanel () {
+    Panel.call(this, $('<section><ul class="row"></ul></section>'))
+    
+    var $container = this.$element;
+
+    var $resultList = $container.find('ul');
+    this.__$resultList__ = $resultList;
+}
+
+Object.defineProperty(ListPanel.prototype, 'results', {
+    set: function (results) {
+        this.__$resultList__.html('');
+
+        results.forEach(function (result) {
+            var $item = $('<li data-id=' + result.id + '><div class="card" style="width: 18rem;"><img class="card-img-top" alt="Card image cap" img src="' + result.image + '" width="100px"><h5 class="card-title">' + result.text + '</h5><a href="#" class="btn btn-success">Details</a></div></div></li>');
+            this.__$resultList__.append($item);
+
+        }.bind(this));
+    }
+});
+
+ListPanel.prototype.clearResults = function () {
+    this.__$resultList__.html('');
+};
+
+
+//#region details panel
+
+function DetailsPanel () {
+
+    Panel.call(this, $('<div class="card" style="width: 18rem;">'
+    + '<img class="card-img-top" src="" alt="Card image cap">'
+    + '<div class="card-body">'
+    + '<h5 class="card-title">Card title</h5>'
+    + '<p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p>'
+    + '<a href="#" class="btn btn-primary">Details</a>'
+    + '</div>'
+    + '</div>'));
+
+    var $container = this.$element;
+
+    var $detailsButton = $container.find('a');
+    this.__$detailsButton__ = $detailsButton;
+    this.hide()
+}
+
+DetailsPanel.prototype = Object.create(Panel.prototype);
+DetailsPanel.prototype.constructor = DetailsPanel;
+
+Object.defineProperty(DetailsPanel.prototype, 'details', {
+    set: function (details) {
+
+        this.__$detailsButton__.on('click', function(callback){
+
+            searchPanel.hide();
+
+            callback()
+
+        })
     }
 });
 
