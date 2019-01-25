@@ -5,6 +5,7 @@ var registerPanel = new RegisterPanel
 var homePanel = new HomePanel
 var searchPanel = new SearchPanel
 var resultsPanel = new ResultsPanel
+var detailPanel = new DetailPanel
 
 var $body = $(document.body);
 
@@ -15,6 +16,7 @@ $body.append(homePanel.$element);
 
 homePanel.$element.append(searchPanel.$element);
 homePanel.$element.append(resultsPanel.$element);
+homePanel.$element.append(detailPanel.$element);
 
 loginPanel.onLogin = function(email, password) {
     try {
@@ -76,7 +78,7 @@ searchPanel.onSearch = function(query) {
                 resultsPanel.clear();
             } else {
                 searchPanel.clearError();
-                
+
                 resultsPanel.results = results.map(function(result) {
                     return {
                         text: result.title,
