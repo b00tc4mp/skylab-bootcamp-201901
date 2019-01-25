@@ -25,6 +25,14 @@
     margin-bottom: 2rem;
 }
 
-.welcome {
+.home {
     display: none;
+}
+
+.detail {
+    display: none;
+    padding: 2em;
+    border: 0.5px solid lightgray;
+    border-radius: 0.5em;
+    margin-bottom: 2em;
 }
