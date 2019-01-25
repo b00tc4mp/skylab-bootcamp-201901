@@ -4,6 +4,8 @@ var loginPanel = new LoginPanel;
 var registerPanel = new RegisterPanel;
 var homePanel = new HomePanel;
 var searchPanel = new SearchPanel;
+var resultPanel = new ResultPanel;
+
 
 var $body = $(document.body);
 
@@ -12,6 +14,7 @@ $body.append(registerPanel.$element);
 $body.append(homePanel.$element);
 
 homePanel.$element.append(searchPanel.$element);
+homePanel.$element.append(resultPanel.$element);
 
 loginPanel.onLogin = function (email, password) {
     try {
