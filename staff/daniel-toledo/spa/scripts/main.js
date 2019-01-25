@@ -72,9 +72,11 @@ searchPanel.onSearch = function(query) {
                 searchPanel.error = error
                 searchPanel.clearResults();
             } else searchPanel.results = results.map(function(result) {
+                console.log(result)
                 return {
                     text: result.title,
-                    image: result.imageUrl
+                    image: result.imageUrl,
+                    id: result.id
                 }
             });
         });

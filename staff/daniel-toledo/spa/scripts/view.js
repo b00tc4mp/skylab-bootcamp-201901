@@ -282,9 +282,6 @@ function SearchPanel() {
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $resultList = $('<div class="row"></div>');
-    $container.append($resultList);
-    this.__$resultList__ = $resultList;
 }
 
 SearchPanel.prototype = Object.create(Panel.prototype);
@@ -325,6 +322,23 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
             var $image = $('<img class="card-img-top" src ="'+result.image+'" width="100px">');
             // $image.attr("src", result.image);
             $item.append($image);
+
+            var $buttonCard =$('<button class="btn btn-dark" id="'+result.id+'">See More...</button>');
+            $item.append($buttonCard);
+            this.__$buttonCard__=$buttonCard;
+
+        }.bind(this));
+    }
+});
+
+Object.defineProperty(SearchPanel.prototype, 'onId', {
+    set: function (callback) {
+        this.__$buttoncard__.on('click', function (event) {
+            event.preventDefault();
+
+            var id = this.__$buttonCard__.id(value);
+          
+            callback(query);
         }.bind(this));
     }
 });
@@ -340,7 +354,29 @@ SearchPanel.prototype.clearResults = function () {
     this.__$resultList__.html('');
 };
 
+
 //#endregion
+
+//#region InfoPanel
+
+function ResultsPanel(){
+    Panel.call(this, $('<section class="results row">'
+        + '</section>'
+
+    ));
+
+
+}
+
+InfoPanel.prototype = Object.create(Panel.prototype);
+InfoPanel.prototype.constructor = InfoPanel;
+
+//endregion
+
+
+
+
+
 
 //#region error panel
 
@@ -358,3 +394,5 @@ Object.defineProperty(ErrorPanel.prototype, 'message', {
 });
 
 //#endregion
+
+
