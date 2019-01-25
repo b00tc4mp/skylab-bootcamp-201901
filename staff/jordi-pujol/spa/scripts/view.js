@@ -395,17 +395,33 @@ function DetailsPanel () {
 DetailsPanel.prototype = Object.create(Panel.prototype);
 DetailsPanel.prototype.constructor = DetailsPanel;
 
-Object.defineProperty(DetailsPanel.prototype, 'details', {
-    set: function (details) {
+Object.defineProperty(DetailsPanel.prototype, 'onClickITem', {
+    set: function (callback) {
 
-        this.__$detailsButton__.on('click', function(callback){
+        this.__$detailsButton__.on('click', function(event){
+
+            event.preventDefault();
 
             searchPanel.hide();
 
             callback()
 
-        })
+        }.bind(this));
     }
 });
 
+Object.defineProperty(SearchPanel.prototype, 'onSearch', {
+    set: function (callback) {
+        this.__$form__.on('submit', function (event) {
+
+            event.preventDefault();
+
+            this.__errorPanel__.hide();
+
+            var query = this.__$queryInput__.val();
+
+            callback(query);
+        }.bind(this));
+    }
+});
 //#endregion 
