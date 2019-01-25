@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQBJnFlW8u4ObcanE2Fb05uwssZW8WX-hcjt-_UNvX7vk0ujUCRyEA3gx7aPSF84ItL9h4W3Ze9JerORv51twT5matpvdtZ4aVBd_CqIVxzg9w8IFI1A_ED3fILC76aGdvfRwLt6keHY1rlvxeg'
+spotifyApi.token = 'BQA2ldT8wBhwPN6FoHbQfGLnd7hcr8AiwU3rUnAbzqfikKgn7qSzFfXtjfk546-_Ciu7XdQeEho6PGwKpyEMahx3gCTaSbT-gqemYB4J-FFmfXxJb6_R1rUNlq9ft92YyMMQ8cwjuQbRL4360QA'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel

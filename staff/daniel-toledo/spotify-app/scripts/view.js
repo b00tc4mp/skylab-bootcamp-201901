@@ -60,11 +60,18 @@ class ArtistsPanel extends Panel {
 
         this.__$listArtists__=this.$container.find('ul')
 
+        var errorPanel = new ErrorPanel;
+        this.$container.append(errorPanel.$container);
+        this.__errorPanel__ = errorPanel;
+
     }
 
     set artists(artists){
-        artists.forEach (({id, name}) => {
-            const $item=$(`<li data-id=${id}>${name}</li>`)
+        artists.forEach (({id, name, images}) => {
+            const image = images[0] ? images[0].url :  'https://cdn.pixabay.com/photo/2016/06/01/09/21/music-1428660_960_720.jpg'
+            const $item=$(`<li data-id=${id}>${name}
+            <img src=${image} width="100px">
+            </li>`)
 
 
             $item.click(() => {
@@ -75,9 +82,7 @@ class ArtistsPanel extends Panel {
 
             this.__$listArtists__.append($item)
 
-        })
-
-        
+        })  
   
     }
 
@@ -87,6 +92,11 @@ class ArtistsPanel extends Panel {
 
     set onItemSelected(callback) {
         this.__onItemSelected__ = callback
+    }
+
+    set error(message){
+        this.__errorPanel__.message=message
+        this.__errorPanel__.show()
     }
     
 }
@@ -99,6 +109,10 @@ class AlbumsPanel extends Panel{
     </section>`))
 
     this.__$listAlbums__=this.$container.find('ul')
+
+    var errorPanel = new ErrorPanel;
+    this.$container.append(errorPanel.$container);
+    this.__errorPanel__ = errorPanel;
     }
 
     set albums(albums){
@@ -122,6 +136,11 @@ class AlbumsPanel extends Panel{
     set onItemSelected(callback) {
         this.__onItemSelected__ = callback
     }
+
+    set error(message){
+        this.__errorPanel__.message=message
+        this.__errorPanel__.show()
+    }
 }
 
 class TracksPanel extends Panel{
@@ -132,6 +151,10 @@ class TracksPanel extends Panel{
     </section>`))
     
     this.__$listTracks__=this.$container.find('ul')
+
+    var errorPanel = new ErrorPanel;
+    this.$container.append(errorPanel.$container);
+    this.__errorPanel__ = errorPanel;
 
     }
 
@@ -153,6 +176,11 @@ class TracksPanel extends Panel{
     set onItemSelected(callback) {
         this.__onItemSelected__ = callback
     }
+
+    set error(message){
+        this.__errorPanel__.message=message
+        this.__errorPanel__.show()
+    }
 }
 
 class PlayPanel extends Panel{
@@ -164,6 +192,10 @@ class PlayPanel extends Panel{
     
     this.__$listSong__=this.$container.find('ul')
 
+    var errorPanel = new ErrorPanel;
+    this.$container.append(errorPanel.$container);
+    this.__errorPanel__ = errorPanel;
+
     }
 
     set song(song){
@@ -173,6 +205,11 @@ class PlayPanel extends Panel{
             </audio>
         </li>`)
         this.__$listSong__.append($item)
+    }
+
+    set error(message){
+        this.__errorPanel__.message=message
+        this.__errorPanel__.show()
     }
 
 }
