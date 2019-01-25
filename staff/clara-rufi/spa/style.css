@@ -39,3 +39,12 @@
 .marginLeft {
     margin-left: 1rem;
 }
+
+.margin {
+    margin: 1rem;
+}
+
+.title{
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
