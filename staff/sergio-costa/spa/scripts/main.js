@@ -92,6 +92,27 @@ searchPanel.onSearch = function (query) {
     }
 };
 
-resultsPanel.onItemClicked = function(id){
-    console.log(id);
+resultsPanel.onItemSelected = function (id) {
+    try {
+        logic.retrieve(id, function (error, duckling) {
+            if (error) console.error(error) // ?
+            else {
+                resultsPanel.hide()
+
+                const { id, title, description, imageUrl: image, link: externalLink, price } = duckling
+
+                detailPanel.item = { id, title, description, image, externalLink, price }
+
+                detailPanel.show()
+            }
+        })
+    } catch (err) {
+        console.error(err) // ?
+    }
+}
+
+detailPanel.onGoBack = function() {
+    detailPanel.hide()
+
+    resultsPanel.show()
 }
