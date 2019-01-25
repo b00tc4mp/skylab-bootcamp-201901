@@ -14,6 +14,7 @@ $body.append(homePanel.$element);
 homePanel.$element.append(searchPanel.$element);
 
 loginPanel.onLogin = function(email, password) {
+
     try {
         logic.login(email, password, function(user) {
             loginPanel.hide();
