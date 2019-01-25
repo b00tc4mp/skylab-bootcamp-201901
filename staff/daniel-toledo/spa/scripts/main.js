@@ -21,6 +21,7 @@ loginPanel.onLogin = function(email, password) {
 
             homePanel.user = user;
             homePanel.show();
+            searchPanel.clearResults();
         });
     } catch(err) {
         loginPanel.error = err.message;
@@ -41,6 +42,7 @@ registerPanel.onRegister = function(name, surname, email, password, passwordConf
             registerPanel.clear();
 
             loginPanel.show();
+
         });
     } catch(err) {
         registerPanel.error = err.message;
