@@ -279,18 +279,6 @@ class SearchPanel extends Panel {
         this.__errorPanel__.message = message;
         this.__errorPanel__.show();
     }
-
-/* Object.defineProperty(SearchPanel.prototype, 'results', {
-    set: function (results) {
-        this.__$resultList__.html('');
-        this.__errorPanel__.hide();
-
-        results.forEach(function (result) {
-            var $item = $('<li class="col-12 card row" style="text-decoration:none;">'+'<p class="col-4" style="top:4rem;font-size:2vh">'+result.text+'</p>'+'<div class="text-right">'+'<img class="img-fluid rounded float-left center margin-top" style="margin-top:2rem" src="'+result.image+'" width="100px">'+'</div>'+'</li>');
-            this.__$resultList__.append($item);
-        }.bind(this));
-    }
-}); */
     clear() {
         this.clearResults();
         this.__$queryInput__.val('');
