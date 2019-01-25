@@ -94,8 +94,10 @@ searchPanel.onSearch = function (query) {
 resultsPanel.onItemSelected = function (id) {
     try {
         logic.retrieve(id, function (error, duckling) {
-            if (error) console.error(error) // ?
-            else {
+            if (error)  {
+                detailPanel.error = error;
+                detailPanel.clearResults();
+            } else {
                 resultsPanel.hide()
 
                 const { id, title, description, imageUrl: image, link: externalLink, price } = duckling

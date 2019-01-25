@@ -93,14 +93,14 @@ searchPanel.onSearch = function(query) {
 
 resultsPanel.onItemSelected = function(id) {
     try {
-        logic.retrieve(id, function(error, results) {
+        logic.retrieve(id, function(error, duckling) {
             if (error) {
                 detailPanel.error = error;
                 detailPanel.clearResults();
             } else {
                 resultsPanel.hide()
 
-                const { id, title, description, imageUrl: image, link: externalLink, price} = detail
+                const { id, title, description, imageUrl: image, link: externalLink, price} = duckling
 
                 detailPanel.item = { id, title, description, image, externalLink, price }
 
@@ -108,7 +108,13 @@ resultsPanel.onItemSelected = function(id) {
             }
         })
     } catch(err) {
-        console.error(err.message);
+        console.error(err);
         /* detailPanel.error = err.message; */
     }
-};
+}
+
+detailPanel.onGoBack = function() {
+    detailPanel.hide()
+
+    resultsPanel.show()
+}

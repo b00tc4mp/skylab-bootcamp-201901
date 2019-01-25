@@ -24,9 +24,13 @@
 
 .home {
     display: none;
-    background-color: green;
+    background-color: rgb(178, 223, 178);
     color: white;
     border-top: 1px solid gray;
+}
+
+.row {
+    margin: 0;
 }
 
 .card-header {
@@ -46,7 +50,7 @@ li {
 }
 
 .card {
-    background-color: green;
+    color: black;
 }
 
 #list {
@@ -55,4 +59,10 @@ li {
 
 img:hover {
     width:150px;
+}
+
+.detail {
+    display: none;
+    background-color: white;
+    color: black;
 }
