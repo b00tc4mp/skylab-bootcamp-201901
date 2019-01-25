@@ -18,7 +18,7 @@
 .card {
     float: left;
     color: #333;
-    width: 275px;
+    width: 300px;
     text-align: center;
     margin: 25px;
 
@@ -29,7 +29,7 @@
 }
 .register {
     display: none;
-    background-color: yellow;
+    background-color:  #dedede
     padding: 1em;
     border-style: solid;
     
@@ -42,6 +42,6 @@
 
 .home {
     display: none;
-    background-color: green;
+    background-color:  #dedede
     color: white;
 }
