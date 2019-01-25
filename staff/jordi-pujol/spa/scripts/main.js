@@ -3,6 +3,8 @@ var loginPanel = new LoginPanel
 var registerPanel = new RegisterPanel
 var homePanel = new HomePanel
 var searchPanel = new SearchPanel
+var listPanel = new ListPanel
+var detailsPanel = new DetailsPanel
 
 var $body = $(document.body);
 
@@ -11,6 +13,8 @@ $body.append(registerPanel.$element)
 $body.append(homePanel.$element);
 
 homePanel.$element.append(searchPanel.$element);
+homePanel.$element.append(listPanel.$element);
+homePanel.$element.append(detailsPanel.$element);
 
 loginPanel.onLogin = function (email, password) {
     try {
@@ -19,7 +23,7 @@ loginPanel.onLogin = function (email, password) {
             loginPanel.clear();
 
             homePanel.user = user;
-            homePanel.show();
+            homePanel.show();            
 
         });
     } catch (err) {
@@ -64,12 +68,14 @@ homePanel.onLogout = function () {
 };
 
 searchPanel.onSearch = function (query) {
+    
     try {
         logic.search(query, function (error, results) {
+
             if (error) {
                 searchPanel.error = error
-                searchPanel.clearResults();
-            } else searchPanel.results = results.map(function (result) {
+                listPanel.clearResults();
+            } else listPanel.results = results.map(function (result) {
                 return {
                     text: result.title,
                     image: result.imageUrl
@@ -80,3 +86,5 @@ searchPanel.onSearch = function (query) {
         searchPanel.error = err.message;
     }
 };
+
+// detailsPanel.onDetails = function (){}
