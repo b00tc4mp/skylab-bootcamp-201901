@@ -71,6 +71,7 @@ searchPanel.onSearch = function (query) {
                 searchPanel.clearResults();
             } else searchPanel.results = results.map(function (result) {
                 return {
+                    id: result.id,
                     text: result.title,
                     image: result.imageUrl
                 }
