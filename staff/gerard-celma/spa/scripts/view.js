@@ -19,18 +19,22 @@ Panel.prototype.show = function () {
 //#region login panel
 
 function LoginPanel() {
-    Panel.call(this, $('<section class="login container-fluid col-sm-6 col-md-4 text-center">'
+    Panel.call(this, $('<section class="login container">'
         + '<h2>Login</h2>'
         + '<form class="login__form" >'
-        + '<div class="form-group">'
+        + '<div class="row">'
+        + '<div class="col text-center">'
         + '<label for="email">E-mail:</label>'
-        + '<input type="email" name="email" placeholder="email" class="form-control" required>'
+        + '<input type="email" name="email" placeholder="email" required>'
         + '</div>'
-        + '<div class="form-group">'
+        + '<div class="col">'
         + '<label for="password">Password:</label>'
-        + '<input type="password" name="password" placeholder="password" class="form-control" required>'
+        + '<input type="password" name="password" placeholder="password" required>'
         + '</div>'
-        + '<button type="submit" class="btn btn-success">Login</button>'
+        + '<div class="col">'
+        + '<button type="submit">Login</button>'
+        + '</div>'
+        + '</div>'
         + '</form>'
         + '</section>'));
 
@@ -47,7 +51,7 @@ function LoginPanel() {
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $registerLink = $('<a href="#" class="login__register-link btn btn-link">Register</a>');
+    var $registerLink = $('<a href="#" class="login__register-link">Register</a>');
     $container.append($registerLink);
     this.__$registerLink__ = $registerLink;
 }
@@ -93,10 +97,9 @@ Object.defineProperty(LoginPanel.prototype, 'onGoToRegister', {
 //#region register panel
 
 function RegisterPanel() {
-    Panel.call(this, $('<section class="register containerv col-sm-6 col-md-3 text-center">'
+    Panel.call(this, $('<section class="register">'
         + '<h2>Register</h2>'
         + '<form class="register__form">'
-        + '<div class=form-group">'
         + '<label for="name">Name:</label>'
         + '<input type="text" name="name" placeholder="name" required>'
         + '<label for="surname">Surname:</label>'
@@ -107,8 +110,7 @@ function RegisterPanel() {
         + '<input type="password" name="password" placeholder="password" required>'
         + '<label for="password">Confirm Password:</label>'
         + '<input type="password" name="password-confirmation" placeholder="password" required>'
-        + '</div>'
-        + '<button type="submit" class="btn btn-success">Register</button>'
+        + '<button type="submit">Register</button>'
         + '</form>'
         + '</section>'));
 
@@ -190,12 +192,12 @@ function HomePanel() {
 
     var $container = this.$element;
 
-    var $title = $container.children('h2');
+    var $title = $container.find('h2');
 
-    var $userSpan = $title.children('span');
+    var $userSpan = $title.find('span');
     this.__$userSpan__ = $userSpan;
 
-    this.__$logoutButton__ = $container.children('button');
+    this.__$logoutButton__ = $container.find('button');
 }
 
 HomePanel.prototype = Object.create(Panel.prototype);
@@ -227,10 +229,10 @@ function SearchPanel() {
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
-    var $queryInput = $form.children('input');
+    var $queryInput = $form.find('input');
     this.__$queryInput__ = $queryInput;
 
     var errorPanel = new ErrorPanel;
@@ -271,10 +273,21 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<li>' + result.text + ' <img src="' + result.image + '" width="100px"></li>');
+            var $item = $('<li data-id = '+ result.id +'>' + result.text + ' <img src="' + result.image + '" width="100px"></li>');
             this.__$resultList__.append($item);
 
         }.bind(this));
+    }
+});
+
+Object.defineProperty(SearchPanel.prototype, 'onRetrieve', {
+    set: function (callback) {
+        var $ducks = this.__$resultList__.find('li');
+        $ducks.on('click', function(event) {
+
+        });
+
+        callback(id);
     }
 });
 

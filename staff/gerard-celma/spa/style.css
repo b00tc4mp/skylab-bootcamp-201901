@@ -1,33 +1,10 @@
-body {
-  background-image: url("https://media.giphy.com/media/b9QBHfcNpvqDK/giphy.gif");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-h1 {
-    margin-top: 25px;
-    margin-bottom: 50px;
-    text-align: center;
-    color: white;
-    /* background-color: lightgrey */
-}
-
 .login {
-    background-color: lightgray;
-    padding: 2em;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: white;
-    color: black;
-}
-
-.form {
-    background-color: lightgoldenrodyellow;
+    background-color: skyblue;
     padding: 2em;
     border-radius: 0.5em;
     border-style: solid;
     border-color: gray;
-    color: rgb(150, 80, 80);
+    color: white;
 }
 
 .error {
@@ -41,7 +18,7 @@ h1 {
 
 .register {
     display: none;
-    background-color: lightblue;
+    background-color: yellow;
     padding: 2em;
     border-radius: 0.5em;
     border-style: solid;
