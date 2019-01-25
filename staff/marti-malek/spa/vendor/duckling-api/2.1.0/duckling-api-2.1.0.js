@@ -15,25 +15,18 @@ var ducklingApi = {
      * results.
      */
     search: function (query, callback) {
-        // $.ajax({
-        //     method: 'GET',
-        //     url: 'https://duckling-api.herokuapp.com/api/search',
-        //     data: {
-        //         q: query
-        //     },
-        //     success: function (res) {
-        //         callback(undefined, res.data);
-        //     },
-        //     error: function (res) {
-        //         if (res.responseJSON && res.responseJSON.error)
-        //             callback(res.responseJSON.error);
-        //         else callback('network error');
-        //     }
-        // });
-
-        // ALT 2
         $.getJSON('https://duckling-api.herokuapp.com/api/search?q=' + query, function (res) {
-            callback(undefined, res.data);
+            callback(undefined, res);
+        })
+            .fail(function (res) {
+                if (res.responseJSON && res.responseJSON.error)
+                    callback(res.responseJSON.error);
+                else callback('network error');
+            })
+    },
+    retrieve: function(id, callback) {
+        $.getJSON('https://duckling-api.herokuapp.com/api/ducks/' + id, function (res) {
+            callback(undefined, res);
         })
             .fail(function (res) {
                 if (res.responseJSON && res.responseJSON.error)
