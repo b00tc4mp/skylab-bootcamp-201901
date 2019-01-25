@@ -87,4 +87,13 @@ searchPanel.onSearch = function (query) {
     }
 };
 
-// detailsPanel.onDetails = function (){}
+detailsPanel.onClickItem = function (error, id){
+
+    if (error) {
+        searchPanel.error = error}
+    
+    else {
+
+    }
+
+}
