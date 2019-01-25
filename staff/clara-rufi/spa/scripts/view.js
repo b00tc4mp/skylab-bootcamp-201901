@@ -2,30 +2,36 @@
 
 //#region panel
 
-function Panel($element) {
-    this.$element = $element;
-};
+class Panel {   //panel es una funció
+
+}
 
 
-Panel.prototype.hide = function () {
-    this.$element.hide();
+class Panel {   // en js5 seria com fer: Panel.prototype.show
+    hide();
 };
 
-Panel.prototype.show = function () {
-    this.$element.show();
+class Panel {
+    show();
 };
+
+// Panel.prototype.show = function () {  //JS 5
+//     this.$element.show();
+// };
 
 //#endregion
 
 //#region login panel
 
 function LoginPanel() {                                                    //1er li diem com serà l'html
-    Panel.call(this, $('<section class="container login marginTop">'
+    Panel.call(this, $('<section class="container login marginTop col-md-6 col-sm-9">' // en small s'han de posar més columnes pq ocupi més la pantalla, pq es mes petita
 
-    + '<form class="container login__form">'
+    + '<form class="container login__form ">'
     + '<h3 class= "marginTop">Login</h3>'
-    + '<label for="email" class="input-group mb-3">E-mail:</label>'   
-    + '<input type="email" class="form-control marginTop" id="basic-addon2" name="email" placeholder="@mail" aria-label="Recipients username" aria-describedby="basic-addon2" required>'
+
+    + '<label for="email" class="input-group mb-3 row">E-mail:</label>'   
+    + '<input type="email" class="form-control marginTop col" id="basic-addon2" name="email" placeholder="@mail" aria-label="Recipients username" aria-describedby="basic-addon2" required>1 of 2'
+    + 
     + '<label for="password" class="input-group mb-3 marginTop">Password:</label>'
     + '<input type="password" class="form-control" id="basic-addon2" name="password" placeholder="password"  aria-label="Recipients username" aria-describedby="basic-addon2" required required>'
     + '<button type="submit" class="btn btn-info marginTop">Login</button>' 
@@ -48,14 +54,22 @@ function LoginPanel() {                                                    //1er
     $container.append(errorPanel.$element);
     this.__errorPanel__ = errorPanel;
 
-    var $registerLink = $('<a href="#" class="badge badge-danger login__register-link marginTop marginLeft">Register</a>');
+    var $registerLink = $('<a href="#" class="badge badge-danger btn-lg login__register-link marginTop marginLeft ">Register</a>');
     $container.append($registerLink);
     this.__$registerLink__ = $registerLink;
    
 }
+// LoginPanel.prototype = Object.create(Panel.prototype)
+// LoginPanel.prototype.constructor = LoginPanel
 
-LoginPanel.prototype = Object.create(Panel.prototype);
-LoginPanel.prototype.constructor = LoginPanel;
+class LoginPanel extends Panel {  // per dir q LoginPanel serà fill de Panel
+    constructor(){    //el Panel fa de prototype
+        super();
+    }
+}
+
+let loginPanel = new LoginPanel();   
+//si fem console.log(loguinPanel instanceof LoguinPanel, loguinPanel ara és un objecte)
 
 Object.defineProperty(LoginPanel.prototype, 'onLogin', {
     set: function (callback) {
@@ -134,8 +148,10 @@ function RegisterPanel() {
    
 }
 
-RegisterPanel.prototype = Object.create(Panel.prototype);
-RegisterPanel.prototype.constructor = RegisterPanel;
+class RegisterPanel extends Panel {
+}
+
+var registerPanel = new RegisterPanel
 
 Object.defineProperty(RegisterPanel.prototype, 'onRegister', {
     set: function (callback) {
@@ -198,8 +214,10 @@ function HomePanel() {
 
 };
 
-HomePanel.prototype = Object.create(Panel.prototype);
-HomePanel.prototype.constructor = HomePanel;
+class HomePanel extends Panel {
+}
+
+var homePanel = new HomePanel
 
 Object.defineProperty(HomePanel.prototype, 'user', {
     set: function (user) {
@@ -255,8 +273,10 @@ Object.defineProperty(HomePanel.prototype, 'onLogout', {
     this.__$resultList__ = $resultList;
 }
 
-SearchPanel.prototype = Object.create(Panel.prototype);
-SearchPanel.prototype.constructor = SearchPanel;
+class SearchPanel extends Panel {
+}
+
+var searchPanel = new SearchPanel
 
 Object.defineProperty(SearchPanel.prototype, 'onSearch', {
     set: function (callback) {
@@ -295,13 +315,19 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         //     image.style.width = '100px';
         //     item.appendChild(image);
 
-        results.forEach(function (result) {
-            var $item = $('<li>'+ result.text + ' <img src="'+result.image+'" width="100px"></li>');
-            this.__$resultList__.append($item);
-        }.bind(this));
-    }
-});
+//         results.forEach(function (result) {
+//             var $item = $('<li>'+ result.text + ' <img src="'+result.image+'" width="100px"></li>');
+//             this.__$resultList__.append($item);
+//         }.bind(this));
+//     }
+// });
 
+results.forEach(function (result) {
+    var $item = $('<div class="card">' + '<img src="' + result.image + '" width="100px"><div class="card-body "><p class="card-text">'+result.text+'</p></div>' + '</div>');
+                this.__$resultList__.append($item);
+            }.bind(this));
+        }
+    });
 SearchPanel.prototype.clear = function () {
     this.clearResults();
     this.__$queryInput__.val('');
