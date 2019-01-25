@@ -97,6 +97,9 @@ var logic = {
     }, 
 
     retrieve: function(id, callback){
+        if(typeof id !== 'string')throw TypeError(id +' is not a string');
+        if(!id.trim().length)throw Error('id cannot be empty');
+        
         ducklingApi.retrieve(id, callback);
     }
 };

@@ -244,7 +244,6 @@ class SearchPanel extends Panel {
         +'<input type="text" name="query" placeholder="...">'
         +'<button type="submit">Search</button>'
         +'</form>'
-        +'<ul></ul>'
         +'</section>'
         ));
 
@@ -322,20 +321,23 @@ class ResultsPanel extends Panel {
         results.forEach(result => {
             var $item = $(`<li data-id=${result.id}>${result.text} <img src="${result.image}" width="100px"></li>`);
             
-            $item.click(function(event) {
+            $item.click(() => {
 
-                this.onItemClicked = function(callback){
-                    callback(result.id);
-                }
+                const id = $item.data('id');
 
-            }.bind(this));
+                this.__onItemSelectedCallback__(id)
 
+            });
             this.__$resultList__.append($item);
         });
     }
 
     clear() {
         this.__$resultList__.html('');
+    }
+
+    set onItemSelected(callback){
+        this.__onItemSelectedCallback__=callback
     }
 }
  
