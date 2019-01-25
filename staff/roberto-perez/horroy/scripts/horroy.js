@@ -74,10 +74,59 @@ Horroy.prototype.toString = function() {
   return string;
 };
 
-// Horroy.prototype.fill = function(value, start, end) {
-//     start = start || 0;
-//     end = end || this.length;
-// };
+/**
+ *
+ * Fills all the elements of an horroy from the start index to the end index, with the static value.
+ *
+ * @param {*} value - Value with which you will fill the horroy.
+ * @param {number} [start] - Initial index, by default is 0.
+ * @param {number} [end] - Final index, by default is horroy.length.
+ *
+ * @throws {TypeError} - If horroy is not a array
+ */
+Horroy.prototype.fill = function(value, start, end) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+  start = Math.floor(start) || 0;
+  end = Math.floor(end) || this.length;
+
+  start = start < 0 ? this.length + start : start;
+  end = end < 0 ? this.length + end : end;
+
+  for (var i = start; i < end; i++) this[i] = value;
+
+  return this;
+};
+
+/**
+ *
+ * Create a new horroy with all the elements that meet the condition implemented by the given function
+ *
+ * @param {Function} callback - The expresion to evaluate
+ *
+ * @throws {TypeError} - when horroy is not an Horroy
+ * @throws {TypeError} - when callback is not a function
+ *
+ * @return {boolean} - A new horroy with the elements that meet the condition. If no element meets the condition, an empty horroy will be returned.
+ */
+Horroy.prototype.filter = function(callback) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+
+  if (!(typeof callback === "function")) {
+    throw new TypeError(callback + " is not a function");
+  }
+
+  var newArr = [];
+  var k = 0;
+  for (var i = 0; i < this.length; i++) {
+    if (callback(this[i])) newArr[k++] = this[i];
+  }
+
+  return newArr;
+};
 
 /**
  * Create a new instance of Horroy from other iterable object
@@ -223,6 +272,29 @@ Horroy.prototype.every = function(callback) {
 
 /**
  *
+ * Returns the value of the first element of the horroy that fulfills the test function provided
+ *
+ * @param {Function} callback - The expression to evaluate.
+ *
+ * @returns {*} - An item if found, otherwise undefined
+ */
+Horroy.prototype.find = function(callback) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+
+  if (!(typeof callback === "function")) {
+    throw new TypeError(callback + " is not a function");
+  }
+
+  for (var i = 0; i < this.length; i++) {
+    var value = this[i];
+    if (callback(value)) return value;
+  }
+};
+
+/**
+ *
  *  Returns the last index at which a given element can be found in the horroy, or -1 if it is not present
  *
  * @param {Function} callback - The expression to evaluate.
@@ -276,6 +348,22 @@ Horroy.prototype.flat = function(depth) {
 };
 
 /**
+ * Abstraction of pop.
+ *
+ * Removes the last element of an array and returns it
+ *
+ * @returns {Number} - The removed element from the horroy; undefined if the horroy is empty.
+ */
+Horroy.prototype.pop = function(arr) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an array");
+  }
+  var lastItem = this[this.length - 1];
+  this.length = this.length - 1;
+  return lastItem;
+};
+
+/**
  * Determines whether an horroy includes a certain value among its entries
  *
  * @param {*} searchElement - The value to search for.
@@ -316,50 +404,199 @@ Horroy.prototype.keys = function() {
 
 /**
  * Maps each element using a mapping function, then flattens the result into a new array
- * 
+ *
  * @param {Function} callback - Function that produces an element of the new Horry
- * 
+ *
  * @returns {Horroy} - A new array with each element being the result of the callback function and flattened to a depth of 1.
  */
 Horroy.prototype.flatMap = function(callback) {
   return this.map(callback).flat();
 };
 
+/**
+ *
+ * Returns the first index in which a given element can be found in the horroy
+ *
+ * @param {*} searchElement - Element to find in the horroy.
+ * @param {Number} [fromIndex] - The index by which the search is started.
+ *
+ * @throws {TypeError} - arr is not an Horroy
+ * @throws {Error} - The second argument is necessary
+ *
+ *@return {number} - The index of the finded value or -1 if the value is not found
+ */
+Horroy.prototype.indexOf = function(searchElement, fromIndex) {
+  if (arguments.length <= 0) return -1;
+
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+
+  if (!searchElement) {
+    throw new Error("The second argument is necessary");
+  }
+
+  if (fromIndex >= this.length) return -1;
+  if (this == null) return -1;
+
+  fromIndex = fromIndex || 0;
+
+  var i = fromIndex < 0 ? this.length + fromIndex : fromIndex;
+
+  if (i >= this.length) {
+    return -1;
+  }
+
+  while (i < this.length) {
+    if (this[i] === searchElement) {
+      return i;
+    }
+    i++;
+  }
+
+  return -1;
+};
+
+/**
+ *
+ * Joins all the elements of a array
+ *
+ * @param {String} [separator] - String used to separate each of the horroy elements
+ */
+Horroy.prototype.join = function(separator) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+  if (this.length <= 0) {
+    return "";
+  }
+  var stringJoined = "";
+  separator = separator || "";
+  for (var i = 0; i < this.length - 1; i++) {
+    stringJoined += this[i] + separator;
+  }
+  return stringJoined + this[this.length - 1];
+};
 
 /**
  * Returns the last index at which a given element can be found in the array, or -1 if it is not present.
- * 
+ *
  * @param {Number} searchElement - Element to locate in the array.
  * @param {Number} [fromIndex] - The index at which to start searching backwards.
- * 
+ *
  * @returns {Number} - The last index of the element in the array; -1 if not found.
  */
 Horroy.prototype.lastIndexOf = function(searchElement, fromIndex) {
-  
   if (fromIndex !== undefined && !(typeof fromIndex === "number")) {
     throw new TypeError(fromIndex + " is not a number");
   }
 
-  if(fromIndex < 0) {
+  if (fromIndex < 0) {
     fromIndex = this.length + fromIndex;
-  } else if(typeof fromIndex === 'undefined') {
+  } else if (typeof fromIndex === "undefined") {
     fromIndex = this.length - 1;
   }
 
-  for (var i = fromIndex; i >= 0; i--){
-    if(this[i] === searchElement) return i;
+  for (var i = fromIndex; i >= 0; i--) {
+    if (this[i] === searchElement) return i;
   }
 
   return -1;
+};
 
+/**
+ * Reverses an array
+ *
+ * @returns {Array} - Array reverse
+ */
+Horroy.prototype.reverse = function(arr) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an array");
+  }
+
+  var start = 0;
+  var end = this.length - 1;
+
+  while (start < end) {
+    var temp = this[start];
+    this[start] = this[end];
+    this[end] = temp;
+    start++;
+    end--;
+  }
+
+  return arr;
+};
+
+/**
+ *
+ * Removes the first element of the horroy.
+ *
+ *
+ * @throws {TypeError} - when arr is not an Horroy
+ *
+ * @return {boolean} - returns the element
+ */
+Horroy.prototype.shift = function(arr) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+
+  var newArr = [];
+  var result = this[0];
+
+  var k = 0;
+  for (var i = 1; i < this.length; i++) {
+    newArr[k++] = this[i];
+  }
+  this.length = newArr.length;
+
+  for (var i = 0; i < newArr.length; i++) {
+    var element = newArr[i];
+    this[i] = element;
+  }
+
+  this.length = newArr.length;
+
+  return result;
+};
+
+Horroy.prototype.slice = function(start, end) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+
+  if (start >= this.length) return new Horroy();
+
+  if (!start) {
+    start = 0;
+  } else if (start < 0) {
+    start = this.length + start;
+  }
+
+  if (!end || end > this.length) {
+    end = this.length;
+  } else if (end < 0) {
+    end = this.length + end;
+  }
+
+  var newArr = [];
+  var j = 0;
+
+  for (var i = start; i < end; i++) {
+    newArr[j] = this[i];
+    j++;
+  }
+
+  return newArr;
 };
 
 /**
  * Executes a reducer function (that you provide) on each member of the array resulting in a single output value.
- * 
+ *
  * @param {Function} callback- Function to execute on each element in the horroy.
  * @param {*} valorInicial - Value to use as the first argument to the first call of the callback
- * 
+ *
  * @returns {*} - The value that results from the reduction.
  */
 Horroy.prototype.reduce = function(callback, valorInicial) {
@@ -394,13 +631,12 @@ Horroy.prototype.reduce = function(callback, valorInicial) {
   return valorAnterior;
 };
 
-
 /**
  * applies a function against an accumulator and each value of the horroy (from right-to-left) to reduce it to a single value.
- * 
+ *
  * @param {Function} callback - Function to execute on each value in the horroy
  * @param {*} valorInicial - Object to use as the first argument to the first call of the callback
- * 
+ *
  * @returns {*} - The value that results from the reduction.
  */
 Horroy.prototype.reduceRight = function(callback, valorInicial) {
@@ -436,42 +672,174 @@ Horroy.prototype.reduceRight = function(callback, valorInicial) {
 };
 
 /**
+ *
+ * Check if at least one element of the horroy complies with the condition implemented by the provided function.
+ *
+ * @param {Function} callback - The expresion to evaluate
+ *
+ * @throws {TypeError} - when array is not an Horroy
+ * @throws {TypeError} - when callback is not a function
+ *
+ * @return {boolean} - true if the callback function returns a truthy value for any element in the horroy; otherwise, false.
+ */
+Horroy.prototype.some = function(callback) {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+
+  if (!(typeof callback === "function")) {
+    throw new TypeError(callback + " is not a function");
+  }
+
+  for (var i = 0; i < this.length; i++) {
+    var value = this[i];
+    if (callback(value)) return true;
+  }
+  return false;
+};
+
+/**
  * Sorts the elements of an horroy in place and returns the array.
- * 
+ *
  * @param {Function} [compareFunction] - Specifies a function that defines the sort order.
- * 
+ *
  * @returns {Horroy} - The sorted horroy.
  */
 Horroy.prototype.sort = function(compareFunction) {
+  compareFunction = !!compareFunction
+    ? compareFunction
+    : function(a, b) {
+        return a - b;
+      };
 
-  compareFunction = !!compareFunction ? compareFunction : function(a, b) {
-    return a - b;
-  };
-
-  for(var i = 0; i < this.length; i++) {
-    for(var j = 1; j < this.length; j++) {
-      if(compareFunction(this[j].toString().charCodeAt(), this[i].toString().charCodeAt()) > 0) {
+  for (var i = 0; i < this.length; i++) {
+    for (var j = 0; j < this.length; j++) {
+      if (
+        compareFunction(
+          this[j].toString().charCodeAt(),
+          this[i].toString().charCodeAt()
+        ) > 0
+      ) {
         var tmp = this[i];
         this[i] = this[j];
         this[j] = tmp;
       }
     }
   }
-
 };
 
 /**
  * Returns a string representing the source code of the array
- * 
+ *
  * @returns {String} - A string representing the source code of the horroy.
  */
 Horroy.prototype.toSource = function() {
-  var string = '[' 
-  
+  var string = "[";
+
   for (var i = 0; i < this.length; i++) {
-    if (i === this.length - 1) string += '\'' + this[this.length-1] + '\']';
-    else string += '\'' + this[i] + '\', ';
+    if (i === this.length - 1) string += "'" + this[this.length - 1] + "']";
+    else string += "'" + this[i] + "', ";
   }
 
-  return string
+  return string;
+};
+
+/**
+ *
+ * Changes the contents of an horroy by removing or replacing existing
+ * elements and/or adding new elements.
+ *
+ * @param {number} start -number to start to splice
+ * @param {number} delated - number of elements to delate
+ * @param {*} items - items that I want to add. The number of items can be infinit.
+ *
+ * @throws {TypeError} - when horroy is not an Horroy
+ * @throws {TypeError} - when del or start are not numbers
+ *
+ * @return {Array} - cut horroy
+ */
+
+Horroy.prototype.splice = function(start, deleteCount) {
+  if (!(this instanceof Horroy)) throw TypeError(this + " should be an Horroy");
+  if (typeof start !== "number") throw TypeError(start + " is not a number");
+
+  deleteCount =
+    deleteCount === undefined || deleteCount > this.length - start
+      ? this.length - start
+      : deleteCount;
+
+  start = start > this.length ? this.length : start;
+  start = start < 0 ? this.length + start : start;
+
+  var itemsToAdd = [];
+  var itemsDeleted = [];
+  var itemsEnd = [];
+  var itemsIni = [];
+  var finalArr = [];
+
+  if (arguments.length > 2) {
+    for (var i = 0; i < arguments.length - 2; i++) {
+      itemsToAdd[i] = arguments[i + 2];
+    }
+  }
+
+  var indexIni = 0;
+  var indexDeleted = 0;
+  var indexEnd = 0;
+
+  for (var i = 0; i < this.length; i++) {
+    if (i < start) {
+      itemsIni[indexIni++] = this[i];
+    } else if (i >= start && i < deleteCount + start) {
+      itemsDeleted[indexDeleted++] = this[i];
+    } else {
+      itemsEnd[indexEnd++] = this[i];
+    }
+  }
+
+  var index = 0;
+
+  this.length = itemsIni.length + itemsEnd.length + itemsToAdd.length;
+
+  for (var j = 0; j < itemsToAdd.length; j++) {
+    this[j + start] = itemsToAdd[j];
+  }
+  for (var j = 0; j < itemsEnd.length; j++) {
+    this[j + start + itemsToAdd.length] = itemsEnd[j];
+  }
+
+  return itemsDeleted;
+};
+
+/**
+ *
+ * Add one or more elements to the beginning of the horroy.
+ *
+ *
+ * @throws {TypeError} - when arr is not an Horroy
+ *
+ * @return {boolean} - returns the new length of the horroy.
+ */
+Horroy.prototype.unshift = function() {
+  if (!(this instanceof Horroy)) {
+    throw new TypeError(this + " is not an horroy");
+  }
+
+  var newArr = new Horroy(0);
+
+  for (var i = 0; i < arguments.length; i++) {
+    newArr[newArr.length++] = arguments[i];
+  }
+
+  for (var i = 0; i < this.length; i++) {
+    newArr[newArr.length++] = this[i];
+  }
+
+  for (var i = 0; i < newArr.length; i++) {
+    var element = newArr[i];
+    this[i] = element;
+  }
+  this.length = newArr.length;
+
+  return this.length;
 };
