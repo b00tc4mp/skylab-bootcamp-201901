@@ -222,6 +222,10 @@ class SearchPanel extends Panel {
         var errorPanel = new ErrorPanel;
         $container.append(errorPanel.$element);
         this.__errorPanel__ = errorPanel;
+
+        var $resultList = $('<ul></ul>');
+        $container.append($resultList);
+        this.__$resultList__ = $resultList;
     }
 
     set onSearch(callback) {
@@ -240,56 +244,29 @@ class SearchPanel extends Panel {
         this.__errorPanel__.show();
     }
 
-    clear() {
-        this.__$queryInput__.val('');
-        this.clearError();
-    }
-
-    clearError() {
-        this.__errorPanel__.message = '';
-        this.__errorPanel__.hide();
-    }
-}
-
-//#endregion
-
-//#region results panel
-
-class ResultsPanel extends Panel {
-    constructor() {
-        super($(`<section class="results">
-            <ul></ul>
-        </section>`));
-
-        var $resultList = this.$element.find('ul');
-        this.__$resultList__ = $resultList;
-    }
-
     set results(results) {
         this.__$resultList__.html('');
+        this.__errorPanel__.hide();
 
         results.forEach(result => {
-            var $item = $(`<li data-id=${result.id}>${result.text} <img src="${result.image}" width="100px"></li>`);
-            
-            $item.click(function(event) {
-                // console.log(this.getAttribute('data-id'));
-
-                // console.log(event.target.getAttribute('data-id')); // WARN event propagation!
-
-                console.log($item.data('id'));
-
-                // console.log($(this).data('id')); // WARN add new $ object into mem, but $item is already there
-            });
-
+            var $item = $('<li>' + result.text + ' <img src="' + result.image + '" width="100px"></li>');
             this.__$resultList__.append($item);
+
         });
     }
 
     clear() {
+        this.clearResults();
+        this.__$queryInput__.val('');
+        this.__errorPanel__.message = '';
+        this.__errorPanel__.hide();
+    }
+
+    clearResults() {
         this.__$resultList__.html('');
     }
 }
- 
+
 //#endregion
 
 //#region error panel
