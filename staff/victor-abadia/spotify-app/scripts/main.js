@@ -1,24 +1,27 @@
+spotifyApi.token = 'BQABxK23aIs1xin6CeUb_jF1GleCX4MgdKwB9XeNt91VQQ5li-IxDyeSYtqRmgzy6pjlV_PSkYWrB1NzIf-Dbt7Z5HrxqmYwje1OYeI7wPy2P1vlAnn_qBMZDuYTMo7av_JknyNH_dS1KZIJ9H0'
+
 const searchPanel = new SearchPanel
-const artistPanel = new ArtistPanel
+const artistsPanel = new ArtistsPanel
 
 const $root = $('#root')
 
-artistPanel.hide()
+artistsPanel.hide()
 
 $root.append(searchPanel.$container)
-$root.append(artistPanel.$container)
+$root.append(artistsPanel.$container)
 
-searchPanel.onSearch = function (query) {
+searchPanel.onSearch = function(query) {
     try {
-        logic.searchArtist(query, function (error, artist) {
-            if (error) searchPanel.error = error
+        logic.searchArtists(query, function(error, artists) {
+            if (error) searchPanel.error = error.message
             else {
-                artistPanel.artist = artist
+                artistsPanel.artists = artists
 
-                artistPanel.show()
+                artistsPanel.show()
             }
         })
-    } catch (err) {
+    } catch(err) {
 
     }
-};
+}
+
