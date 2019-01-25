@@ -276,14 +276,11 @@ class SearchPanel extends Panel{
         $container.append(errorPanel.$element);
         this.__errorPanel__ = errorPanel;
 
-        var $resultList = $('<div class="row"></div>');
-    $container.append($resultList);
-    this.__$resultList__ = $resultList;
-
     }
 
     set onSearch(callback) {
         this.__$form__.on('submit', event =>{
+
             event.preventDefault();
 
             var query = this.__$queryInput__.val();
@@ -297,44 +294,101 @@ class SearchPanel extends Panel{
         this.__errorPanel__.message = message;
         this.__errorPanel__.show();
     }
-
-    
-   set results(results) {
-        this.__$resultList__.html('');
-        this.__errorPanel__.hide();
-
-        results.forEach(result => {
-            
-            var $item = $('<div class="card col-12 col-sm-6 col-md-4"></div>');
-            this.__$resultList__.append($item);
-
-            var $text = $('<h2 class="card-title text-center results__title">'+result.text+'</h2>');
-            $item.append($text);
-
-            var $image = $('<img class="card-img-top" src ="'+result.image+'" width="100px">');
-            // $image.attr("src", result.image);
-            $item.append($image);
-
-            var $buttonCard =$('<button class="btn btn-dark" id="'+result.id+'">See More...</button>');
-            $item.append($buttonCard);
-            this.__$buttonCard__=$buttonCard;
-
-        });
-    }
-        
+       
     clear() {
-        this.clearResults();
         this.__$queryInput__.val('');
+        this.clearError();
+    }
+
+    clearError(){
         this.__errorPanel__.message = '';
         this.__errorPanel__.hide();
     }
     
-    clearResults() {
-        this.__$resultList__.html('');
-    }
 }
 //#endregion
 
+//#region results panel
+
+// class ResultsPanel extends Panel{
+//     constructor(){
+//         super($(`<section class="row"></section>`))
+
+//         var $container = this.$element;
+
+//         var $resultList = $container.find('section')
+//         this.__$resultList__ = $resultList;
+//     }
+
+    
+
+//     set results(results) {
+//         this.__$resultList__.html('');
+
+//         results.forEach(result => {
+            
+//             var $item = $('<div class="card col-12 col-sm-6 col-md-4"></div>');
+//             this.__$resultList__.append($item);
+
+//             var $text = $('<h2 class="card-title text-center results__title">'+result.text+'</h2>');
+//             $item.append($text);
+
+//             var $image = $('<img class="card-img-top" src ="'+result.image+'" width="100px">');
+//             // $image.attr("src", result.image);
+//             $item.append($image);
+
+//             var $buttonCard =$('<button class="btn btn-dark" id="'+result.id+'">See More...</button>');
+//             $item.append($buttonCard);
+//             this.__$buttonCard__=$buttonCard;
+
+//         });
+//     }
+
+//     clear(){
+//         this.__$resultList__.html('');
+//     }
+// }
+
+class ResultsPanel extends Panel {
+    constructor() {
+        super($(`<section class="results">
+            <div class="row"></div>
+        </section>`));
+
+        var $resultList = this.$element.find('div');
+        this.__$resultList__ = $resultList;
+    }
+
+    set results(results) {
+        this.__$resultList__.html('');
+
+        results.forEach(result => {
+            var $item = $(`<div class="separator col-12 col-sm-6 col-md-4">
+            <div data-id=${result.id} class="card">
+                <h2 class="card-title text-center results__title">${result.text}</h2> 
+                <img class="card-img-top" src =${result.image} width="100px">
+                <button class="btn btn-black">More info...</button>
+            </div>
+        </div>`);
+            
+            $item.click(function(event) {
+                // console.log(this.getAttribute('data-id'));
+
+                // console.log(event.target.getAttribute('data-id')); // WARN event propagation!
+
+                console.log($item.data('id'));
+
+                // console.log($(this).data('id')); // WARN add new $ object into mem, but $item is already there
+            });
+
+            this.__$resultList__.append($item);
+        });
+    }
+
+    clear() {
+        this.__$resultList__.html('');
+    }
+}
 
 //#region error panel
 
