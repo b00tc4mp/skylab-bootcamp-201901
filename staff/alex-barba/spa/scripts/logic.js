@@ -90,10 +90,19 @@ var logic = {
     },
 
     search: function(query, callback) {
+    
         if (typeof query !== 'string') throw TypeError(query + ' is not a string');
 
         if (!query.trim().length) throw Error('query cannot be empty');
 
         ducklingApi.search(query, callback);
+    },
+
+    retrieve: function(id, callback) {
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string');
+
+        if (!id.trim().length) throw Error('id cannot be empty');
+
+        ducklingApi.retrieve(id, callback);
     }
 };
