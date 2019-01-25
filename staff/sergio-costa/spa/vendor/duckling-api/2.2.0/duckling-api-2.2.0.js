@@ -17,12 +17,23 @@ var ducklingApi = {
     search: function (query, callback) {
 
         $.getJSON('https://duckling-api.herokuapp.com/api/search?q=' + query, function(res){
-            callback(undefined, res.data);
+            callback(undefined, res);
         })
             .fail(function(res){
                 if(res.responseJSON && res.responseJSON.error)
                     callback(res.responseJSON.error);
                 else callback('network error');
             })
+    },
+
+    retrieve: function(id, callback){
+        $.getJSON('https://duckling-api.herokuapp.com/api/ducks/' + id, function (res){
+            callback(undefined, res);
+        })
+            .fail(function(res){
+                if(res.responseJSON && res.responseJSON.error)
+                    callback(res.responseJSON.error);
+                else callback('network error');
+            });
     }
 };

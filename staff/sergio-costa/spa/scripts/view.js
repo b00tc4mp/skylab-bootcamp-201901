@@ -170,7 +170,7 @@ class RegisterPanel extends Panel{
 
  
     set onRegister(callback) {
-        this.__$form__.on('submit', function (event) {
+        this.__$form__.on('submit', event => {
             event.preventDefault();
     
             var name = this.__$nameInput__.val();
@@ -180,7 +180,7 @@ class RegisterPanel extends Panel{
             var passwordConfirmation = this.__$passwordConfirmationInput__.val();
     
             callback(name, surname, email, password, passwordConfirmation);
-        }.bind(this));
+        });
     } 
     
     set error(message) { 
@@ -269,14 +269,14 @@ class SearchPanel extends Panel {
     }
     
     set onSearch(callback) {
-        this.__$form__.on('submit', function(event) {
+        this.__$form__.on('submit', event => {
             event.preventDefault();
 
             var query = this.__$queryInput__.val();
             this.clear();
 
             callback(query);
-        }.bind(this));
+        });
     }
  
     set error(message) { 
@@ -289,8 +289,11 @@ class SearchPanel extends Panel {
         this.__errorPanel__.hide();
 
         results.forEach(function(result) {
-            var $item = $('<li>'+result.text +'<img src="'+result.image+'" width ="100px"></li>');
+            var $item = $('<li>'+result.text +'<img src="'+result.image+'" width ="100px"><button class="btn btn-primary">Read More</button></li>');
             this.__$resultList__.append($item);
+            $item.find('button').on('click', function(){
+                console.log('hey');
+            })
         }.bind(this));
     }
     
@@ -313,6 +316,20 @@ class ErrorPanel extends Panel {
      
     set message(message) { 
         this.$element.text(message);
+    }
+}
+
+//#endregion
+
+//#region detail panel
+
+class DetailPanel extends Panel{
+    constructor(){
+        super($('<section class="detail">'
+        +'<button>Back</button>'
+        
+        ));
+
     }
 }
 
