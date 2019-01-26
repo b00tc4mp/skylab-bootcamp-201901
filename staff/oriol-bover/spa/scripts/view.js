@@ -273,7 +273,6 @@ class ResultsPanel extends  Panel{
                 + '<img class="card-img-top" src="' + duckling.image + '" alt="Card image cap">'
                 + '<div class="card-body">'
                 + '<h5 class="card-title">' + duckling.text + '</h5>'
-                //+ '<p class="card-text">Some quick example text</p>'
                 + '<a href="#" class="btn btn-primary" data-id = "'+duckling.id+'">Show Info</a>'
                 + '</div>'
                 + '</div>');
@@ -302,32 +301,49 @@ class ResultsPanel extends  Panel{
 class DetailPanel extends Panel {
     
     constructor(){
-        super($(`<section class="detail"></section>`))
-        this.__$duckDetail__ = this.$element;
+       super($(`<section class="detail">
+       <div class="row">
+           <div class="col-lg-6 text-center">
+               <img src="#" alt="duckling img" width="300px">
+           </div>
+           <div class="col-md-6">
+               <h3></h3>
+               <span></span>
+               <h5>Description</h5>
+               <p></p>
+               <a href="#" target="_blank" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
+               <button class="btn btn-lg btn-outline-primary text-uppercase">Go back</button>
+           </div>
+       </div>
+   </section>`))
+
+        const $container = this.$element
+        const $image = $container.find('img')
+        this.__$image__ = $image
+        const $title = $container.find('h3')
+        this.__$title__ = $title
+        const $price = $container.find('span')
+        this.__$price__ = $price
+        const $description = $container.find('p')
+        this.__$description__ = $description
+        const $externalLink = $container.find('a')
+        this.__$externalLink__ = $externalLink
+        const $backButton = $container.find('button')
+        this.__$backButton__ = $backButton
+        
     }
 
 
-    set item(item) {
-       var $item = $(`<div class="row">
-        <div class="col-lg-6 text-center">
-            <img src="${item.image}" alt="duckling img" width="300px">
-        </div>
-        <div class="col-md-6">
-            <h3>${item.title}</h3>
-            <span>${item.price}</span>
-            <h5>Description</h5>
-            <p>${item.description}</p>
-            <a href="${item.externalLink}" target="_blank" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
-            <a href="#" class="btn btn-lg btn-outline-primary text-uppercase">Go back</a>
-        </div>
-    </div>`);
-
-       this.__$duckDetail__.append($item);
-       this.__$buttonBack__ = this.__$duckDetail__.find('a:last-child');
+    set item({ image, title, description, price, externalLink }) {
+       this.__$image__.attr('src', image)
+       this.__$title__.text(title)
+       this.__$description__.text(description)
+       this.__$price__.text(price)
+       this.__$externalLink__.attr('href', externalLink)
     }
 
     set goBack(callback) {
-        this.__$buttonBack__.on('click', callback);
+        this.__$backButton__.on('click', callback);
     }
 }
 
