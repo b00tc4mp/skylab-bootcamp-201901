@@ -25,7 +25,7 @@ const spotifyApi = {
             
         })
             .then (res => res.json())
-            .then(({artists: { items }})=> callback(undefined, items))
+            .then(({ artists: { items }})=> callback(undefined, items))
             .catch(callback)
     },
 
