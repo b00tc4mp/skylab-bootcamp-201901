@@ -5,6 +5,7 @@
  */
 const spotifyApi = {
     token: 'NO-TOKEN',
+
     /**
      * Searches music on Spotify.
      * 
@@ -13,6 +14,7 @@ const spotifyApi = {
      * argument informs the error message, othwerwise first argument is undefined and second argument provides the matching 
      * results.
      */
+    
     searchArtists(query, callback) {
         
         fetch(`https://api.spotify.com/v1/search?q=${query}&type=artist`, {
