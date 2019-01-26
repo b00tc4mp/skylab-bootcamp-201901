@@ -1,69 +1,71 @@
-'use strict';
+'use strict'
 
 var loginPanel = new LoginPanel
 var registerPanel = new RegisterPanel
 var homePanel = new HomePanel
 var searchPanel = new SearchPanel
 var resultsPanel = new ResultsPanel
+var detailPanel = new DetailPanel
 
-var $body = $(document.body);
+var $body = $(document.body)
 
-$body.append(loginPanel.$element);
+$body.append(loginPanel.$element)
 $body.append(registerPanel.$element)
-$body.append(homePanel.$element);
+$body.append(homePanel.$element)
 
-homePanel.$element.append(searchPanel.$element);
-homePanel.$element.append(resultsPanel.$element);
+homePanel.$element.append(searchPanel.$element)
+homePanel.$element.append(resultsPanel.$element)
+homePanel.$element.append(detailPanel.$element)
 
 loginPanel.onLogin = function (email, password) {
     try {
         logic.login(email, password, function (user) {
-            loginPanel.hide();
-            loginPanel.clear();
+            loginPanel.hide()
+            loginPanel.clear()
 
-            homePanel.user = user;
-            homePanel.show();
-        });
+            homePanel.user = user
+            homePanel.show()
+        })
     } catch (err) {
-        loginPanel.error = err.message;
+        loginPanel.error = err.message
     }
-};
+}
 
 loginPanel.onGoToRegister = function () {
-    loginPanel.hide();
-    loginPanel.clear();
+    loginPanel.hide()
+    loginPanel.clear()
 
-    registerPanel.show();
-};
+    registerPanel.show()
+}
 
 registerPanel.onRegister = function (name, surname, email, password, passwordConfirmation) {
     try {
         logic.register(name, surname, email, password, passwordConfirmation, function () {
-            registerPanel.hide();
-            registerPanel.clear();
+            registerPanel.hide()
+            registerPanel.clear()
 
-            loginPanel.show();
-        });
+            loginPanel.show()
+        })
     } catch (err) {
-        registerPanel.error = err.message;
+        registerPanel.error = err.message
     }
-};
+}
 
 registerPanel.onGoToLogin = function () {
-    registerPanel.hide();
-    registerPanel.clear();
+    registerPanel.hide()
+    registerPanel.clear()
 
-    loginPanel.show();
-};
+    loginPanel.show()
+}
 
 homePanel.onLogout = function () {
-    homePanel.hide();
+    homePanel.hide()
 
-    searchPanel.clear();
+    searchPanel.clear()
 
-    loginPanel.clear();
-    loginPanel.show();
-};
+    loginPanel.clear()
+    loginPanel.show()
+}
 
 searchPanel.onSearch = function (query) {
     try {
@@ -71,9 +73,9 @@ searchPanel.onSearch = function (query) {
             if (error) {
                 searchPanel.error = error
 
-                resultsPanel.clear();
+                resultsPanel.clear()
             } else {
-                searchPanel.clearError();
+                searchPanel.clearError()
 
                 resultsPanel.results = results.map(function (result) {
                     return {
@@ -81,10 +83,35 @@ searchPanel.onSearch = function (query) {
                         text: result.title,
                         image: result.imageUrl
                     }
-                });
+                })
             }
-        });
+        })
     } catch (err) {
-        searchPanel.error = err.message;
+        searchPanel.error = err.message
     }
-};
+}
+
+resultsPanel.onItemSelected = function (id) {
+    try {
+        logic.retrieve(id, function (error, duckling) {
+            if (error) console.error(error) // ?
+            else {
+                resultsPanel.hide()
+
+                const { id, title, description, imageUrl: image, link: externalLink, price } = duckling
+
+                detailPanel.item = { id, title, description, image, externalLink, price }
+
+                detailPanel.show()
+            }
+        })
+    } catch (err) {
+        console.error(err) // ?
+    }
+}
+
+detailPanel.onGoBack = function() {
+    detailPanel.hide()
+
+    resultsPanel.show()
+}

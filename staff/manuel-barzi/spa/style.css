@@ -30,3 +30,12 @@
     background-color: green;
     color: white;
 }
+
+.results {
+    background-color: salmon;
+}
+
+.detail {
+    display: none;
+    background-color: plum;
+}
