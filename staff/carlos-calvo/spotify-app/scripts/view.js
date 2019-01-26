@@ -57,7 +57,7 @@ class SearchPanel extends Panel {
 
 class ArtistsPanel extends Panel {
     constructor() {
-        super($(`<section class=" rounded results artistpanel text-dark container col-6 rounded-right bg-primary text-white">
+        super($(`<section class=" rounded results artistpanel container col-6 rounded-right card text-white bg-dark mb-3">
     <h3>Artists</h3>
     <ul class="list-group list-group-flush"></ul>
 </section`))
@@ -67,7 +67,7 @@ class ArtistsPanel extends Panel {
 
     set artists(artists) {
         artists.forEach(({ id, name }) => {
-            const $item = $(`<li class="artist list-group-item" data-id=${id}>${name}</li>`)
+            const $item = $(`<li class="artist list-group-item list-group-item-primary" data-id=${id}>${name}</li>`)
             this.__$list__.append($item)
 
 
@@ -122,7 +122,7 @@ class ArtistsPanel extends Panel {
 
 class AlbumPanel extends Panel {
     constructor(){
-        super($(`<section class=" rounded results container text-dark albumpanel justify-content-between col-6 bg-primary text-white">
+        super($(`<section class=" rounded results container text-dark albumpanel justify-content-between col-6 bg-info text-white">
     <h3>Albums</h3>
     <ul class="list-group list-group-flush"></ul>
 </section`))
@@ -132,7 +132,7 @@ class AlbumPanel extends Panel {
 
     set albums(albums){
         albums.forEach(({ id, name }) => {
-            const $item = $(`<li class="album list-group-item" data-id=${id}>${name}</li>`)
+            const $item = $(`<li class="album list-group-item list-group-item-success" data-id=${id}>${name}</li>`)
             this.__$list__.append($item)
 
             $item.click(() => {
@@ -176,7 +176,7 @@ class AlbumPanel extends Panel {
 
 class SongPanel extends Panel{
     constructor(){
-        super($(`<section class="rounded results container songPanel col-6 bg-primary text-white text-dark justify-content-md-center align-items-center">
+        super($(`<section class="rounded results container songPanel col-6 bg-info text-white text-dark justify-content-md-center align-items-center">
             <h3>Songs</h3>
             <ul class="list-group list-group-flush"></ul>
         </section`))
@@ -185,7 +185,7 @@ class SongPanel extends Panel{
 
     set songs(songs){
         songs.forEach(({ id, name }) => {
-            const $item = $(`<li class="song list-group-item" data-id=${id}>${name}</li>`)
+            const $item = $(`<li class="song list-group-item list-group-item-warning" data-id=${id}>${name}</li>`)
             this.__$list__.append($item)
 
             $item.click(() => {
@@ -205,7 +205,7 @@ class SongPanel extends Panel{
 
         for(var i = 0; i < this.__$listli__.length; i++){
             if($(this.__$listli__.eq(i)).data('id') == id){
-                $(this.__$listli__.eq(i)).css({"color": "yellow", "border": "2px solid yellow"})
+                $(this.__$listli__.eq(i)).css({"color": "orange", "border": "2px solid orange"})
             }
         }
     }
@@ -231,7 +231,7 @@ class SongPanel extends Panel{
 
 class Mp3Player extends Panel{
     constructor(){
-        super($(`<section class="results container mp3Panel col-6 bg-transparent text-dark">
+        super($(`<section class="results container mp3Panel col-6 bg-info text-dark">
             <h2 class="tituloamarillo">Player</h2>
             <img width="50%" height ="40%">
             <audio controls autoplay></audio>
@@ -260,7 +260,7 @@ class Mp3Player extends Panel{
 class ErrorPanel extends Panel{
 
     constructor(){
-        super($(`<section class="p-1 alert alert-warning"></section>`))
+        super($(`<section class="p-1 alert alert-warning card-text"></section>`))
     }
     set message(message) {
         this.$container.text(message)
