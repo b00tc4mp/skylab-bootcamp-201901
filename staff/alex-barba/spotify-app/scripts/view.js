@@ -229,7 +229,7 @@ class SearchPanel extends Panel {
 class ArtistPanel extends Panel {
     constructor() {
         super($(`<section class="resultsArtist container">
-    <h3>Artists</h3>
+    <h4>Artists</h4>
     <div class="card-columns"></div>    
 </section>`))
 
@@ -247,7 +247,7 @@ class ArtistPanel extends Panel {
     <img src="${image}" class="card-img-top">
     <div class="card-body">
         <h5 class="card-title">${name}</h5>
-        <p class="card-text">Rank #${popularity}</p>
+        <p class="card-text">Popularity Index :#${popularity}</p>
     </div>
     <div class="card-footer">
         <small class="text-muted">Genre: ${genre}</small>
@@ -280,7 +280,7 @@ class AlbumPanel extends Panel {
     constructor() {
         super($(`<section class="resultsAlbum container">
     <div class="row">
-        <h3 class="col">Albums</h3>
+        <h4 class="col">Albums</h4>
         <div class="col text-right">
             <button class="btn btn-light btn-sm">Back to Artists</button>
         </div>
@@ -338,15 +338,15 @@ class TracksPanel extends Panel {
     constructor(){
         super($(`<section class="tracksAlbum container">
     <div class="row">
-        <h3 class="col">Tracks</h3>
+        <h4 class="col">Tracks</h4>
         <div class="col text-right">
             <button class="btn btn-light btn-sm">Back to Albums</button>
         </div>
     </div>
-    <ul class="list-group"></ul>    
+    <div class="list-group track"></div>    
 </section>`))
 
-    this.__$list__ = this.$container.find('ul')
+    this.__$list__ = this.$container.find('.track')
 
     this.__$backBtn__ = this.$container.find('button')
 
@@ -357,7 +357,7 @@ class TracksPanel extends Panel {
 
     set tracks (tracks) {
         tracks.forEach(({id, name}) => {
-            const $item = $(`<li data-id=${id} class="list-group-item list-group-item-action list-group-item-light">${name}</li>`)
+            const $item = $(`<div data-id=${id} class="list-group-item list-group-item-action list-group-item-light">${name}</div>`)
 
             $item.click(() => {
                 const id = $item.data('id')
