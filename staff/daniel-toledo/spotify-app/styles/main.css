@@ -2,4 +2,22 @@ main {
   background-color: #1CD760;
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+ul .card {
+  padding: 0;
+}
+ul .card li {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
+ul .card li img {
+  margin: 1em auto;
+}
+
 /*# sourceMappingURL=main.css.map */

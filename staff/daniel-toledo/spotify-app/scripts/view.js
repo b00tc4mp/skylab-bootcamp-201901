@@ -39,6 +39,13 @@ class SearchPanel extends Panel {
             const query = this.__$query__.val()
 
             artistsPanel.clear()
+            albumsPanel.clear()
+            tracksPanel.clear()
+            playPanel.clear()
+
+            albumsPanel.hide()
+            tracksPanel.hide()
+            playPanel.hide()
 
             callback(query)
         })
@@ -53,9 +60,9 @@ class SearchPanel extends Panel {
 
 class ArtistsPanel extends Panel {
     constructor(){
-        super($(`<section class="results container">
+        super($(`<section class="results container p-3">
     <h3>Artists</h3>
-    <ul></ul>
+    <ul class="row container"></ul>
 </section>`))
 
         this.__$listArtists__=this.$container.find('ul')
@@ -69,9 +76,12 @@ class ArtistsPanel extends Panel {
     set artists(artists){
         artists.forEach (({id, name, images}) => {
             const image = images[0] ? images[0].url :  'https://cdn.pixabay.com/photo/2016/06/01/09/21/music-1428660_960_720.jpg'
-            const $item=$(`<li data-id=${id}>${name}
-            <img src=${image} width="100px">
-            </li>`)
+            const $item=$(`<div  data-id=${id} class="card col-12 col-sm-6 col-md-4">
+            <li>
+                <img "card-img-top" src=${image} width="150px">
+                <p "card-title">${name}</p>
+            </li>
+        </div>`)
 
 
             $item.click(() => {
@@ -105,7 +115,7 @@ class AlbumsPanel extends Panel{
     constructor(){
         super($(`<section class="results container">
         <h3>Albums</h3>
-        <ul></ul>
+        <ul class="row container"></ul>
     </section>`))
 
     this.__$listAlbums__=this.$container.find('ul')
@@ -116,8 +126,14 @@ class AlbumsPanel extends Panel{
     }
 
     set albums(albums){
-        albums.forEach (({id, name}) => {
-            const $item=$(`<li data-id=${id}>${name}</li>`)
+        albums.forEach (({id, name, images}) => {
+            const image = images[0] ? images[0].url :  'https://www.tunefind.com/i/album-art-empty.png'
+            const $item=$(`<div  data-id=${id} class="card col-12 col-sm-6 col-md-4">
+            <li>
+                <img "card-img-top" src=${image} width="150px">
+                <p "card-title">${name}</p>
+            </li>
+        </div>`)
 
             $item.click(() => {
                 const id = $item.data('id')
@@ -177,6 +193,10 @@ class TracksPanel extends Panel{
         this.__onItemSelected__ = callback
     }
 
+    clear(){
+        this.__$listTracks__.html('')
+    }
+
     set error(message){
         this.__errorPanel__.message=message
         this.__errorPanel__.show()
@@ -190,7 +210,7 @@ class PlayPanel extends Panel{
         <ul></ul>
     </section>`))
     
-    this.__$listSong__=this.$container.find('ul')
+    this.__$song__=this.$container.find('ul')
 
     var errorPanel = new ErrorPanel;
     this.$container.append(errorPanel.$container);
@@ -204,12 +224,16 @@ class PlayPanel extends Panel{
                 <source src=${song.preview_url} type="audio/mpeg">${song.preview_url}
             </audio>
         </li>`)
-        this.__$listSong__.append($item)
+        this.__$song__.append($item)
     }
 
     set error(message){
         this.__errorPanel__.message=message
         this.__errorPanel__.show()
+    }
+
+    clear(){
+        this.__$song__.html('')
     }
 
 }

@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQA2ldT8wBhwPN6FoHbQfGLnd7hcr8AiwU3rUnAbzqfikKgn7qSzFfXtjfk546-_Ciu7XdQeEho6PGwKpyEMahx3gCTaSbT-gqemYB4J-FFmfXxJb6_R1rUNlq9ft92YyMMQ8cwjuQbRL4360QA'
+spotifyApi.token = 'BQCiE5uL_sJGlENzZylNL1SSOGamImZG_Tro9anF6gda2t8q3XZvEPpL7LR40GkP_TdrG2XQ_mfMbL4v9z0QRDnWeHv7jhDM-JZRyk2NhvRzLfRCHmNb2Xly7_s43XRi_TlyRtcWEiE_TKDzjG8'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
@@ -10,6 +10,9 @@ const errorPanel = new ErrorPanel
 const $root = $('#root')
 
 artistsPanel.hide()
+albumsPanel.hide()
+tracksPanel.hide()
+playPanel.hide()
 
 $root.append(searchPanel.$container)
 $root.append(artistsPanel.$container)
