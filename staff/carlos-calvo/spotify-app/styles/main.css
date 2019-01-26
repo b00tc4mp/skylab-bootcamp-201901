@@ -23,7 +23,14 @@ header {
 }
 
 body {
-  background-color: #1CD760;
+  background-image: #1CD760;
+}
+
+.welcomepanel {
+  display: flex;
+}
+.welcomepanel h6 {
+  justify-items: end;
 }
 
 /*# sourceMappingURL=main.css.map */

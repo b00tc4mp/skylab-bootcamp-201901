@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDSnrALp2IY3rHFFT55t25nERzBwtfuSrtz8-MVv-tOEbyAcr_oXt-mcZFU5or_C91Qnstiuqr11PY1rdDMAHcdBfvF3-AL3tkK5uN3m1xX5-RT2Z-koRkU0D0wxItjMG-zhu3L0xBRxw'
+spotifyApi.token = 'BQBpB2beC_CxgOX78j9UUJvnu_o8vYY5BFfz9Ix2PfofcOr_Xf76vQpRs6Q2TLbbPCtJM4ceK5QsfeFxYzMIWOO1SHY221Bd9tOPsOByoEilbJ5w1t_7YUiTtBAjqbvTDpl3AQBk1Y-owQ'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
@@ -6,9 +6,11 @@ const albumPanel = new AlbumPanel
 const songPanel = new SongPanel
 const mp3Player = new Mp3Player
 const errorPanel = new ErrorPanel
+const registerPanel = new RegisterPanel
+const loginPanel = new LoginPanel
 
 const $root = $('#rootsection')
-const $rootupper = $('#root')
+const $rootupper = $('#rootheader')
 const $rootbottom = $('#rootsection2')
 
 //Escondemos las instancias de los paneles inferiores
@@ -17,16 +19,92 @@ albumPanel.hide()
 songPanel.hide()
 mp3Player.hide()
 errorPanel.hide()
-//Aunque las añadimos al cntainer principal
+searchPanel.hide()
+registerPanel.hide()
+loginPanel.show()
+
+//Upper section for login and search
+$rootupper.append(loginPanel.$container)
 $rootupper.append(searchPanel.$container)
 $rootupper.append(errorPanel.$container)
+$rootupper.append(registerPanel.$container)
+//Main content
 $root.append(artistsPanel.$container)
 $root.append(albumPanel.$container)
+//Down section
 $rootbottom.append(songPanel.$container)
 $rootbottom.append(mp3Player.$container)
 
+//global variables for storing URL for image and sound to play
 let previewURL;
 var artistURL;
+
+//login
+loginPanel.onLogin = function (email, password) {
+    try {
+        logic.login(email, password, function (user) {
+            loginPanel.hide()
+            loginPanel.clear()
+            searchPanel.show()
+        })
+    } catch (err) {
+        loginPanel.error = err.message
+    }
+}
+
+//login --> register
+loginPanel.onGoToRegister = function () {
+    loginPanel.hide()
+    loginPanel.clear()
+    registerPanel.show()
+}
+
+//Registering
+registerPanel.onRegister = function (name, surname, email, password, passwordConfirmation) {
+    try {
+        logic.register(name, surname, email, password, passwordConfirmation, function () {
+            registerPanel.hide()
+            registerPanel.clear()
+
+            loginPanel.show()
+        })
+    } catch (err) {
+        registerPanel.error = err.message
+    }
+}
+
+registerPanel.onGoToLogin = function () {
+    registerPanel.hide()
+    registerPanel.clear()
+
+    loginPanel.show()
+}
+
+// homePanel.onLogout = function () {
+//     homePanel.hide()
+
+//     searchPanel.clear()
+
+//     loginPanel.clear()
+//     loginPanel.show()
+// }
+
+
+searchPanel.onLogOut = function(){
+    searchPanel.hide()
+    searchPanel.clear()
+    artistsPanel.clear()
+    artistsPanel.hide()
+    albumPanel.clear()
+    albumPanel.hide()
+    songPanel.clear()
+    songPanel.hide()
+    mp3Player.stopAudio()
+    mp3Player.hide()
+    loginPanel.show()
+
+}
+
 
 searchPanel.onSearch = function(query) {
     try {
