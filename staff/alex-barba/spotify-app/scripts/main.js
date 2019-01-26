@@ -4,7 +4,7 @@
 
  /* Token is set in global scope so that it can always be accesed. Has to be updated every hour */
 
-spotifyApi.token ='BQDSJsB8buM1rjKoch_nV2SIwB2nDD7QV4kGQOEUoggcWAllbYzD30tbO8EePWE3YVkcQj8oeB9cmeAAKXk2gAr17cA-bQTlQCfXuZUmbePdZer5vc6CXjdI0UY0-1iLzXNVc57IKpyeQfFRyw'
+spotifyApi.token ='BQDYL4SBxu1BaQbg4sgga_xG8ttMybdd7gTgKSh76UqwbOAd9o3vgD3QzvCbOckKfauSLtP4Pdto0IjrWfgODY3D4q2tYoAZCZ7LlWQW10GsBRyZlWB9KE60Eu0DZmsqYF86K9jB53UhHhVZoQ'
 
 /*  All the panels are decalred */
 
@@ -33,7 +33,7 @@ $root.append(albumPanel.$container)
 $root.append(tracksPanel.$container)
 $root.append(trackPanel.$container)
 
-/* onSearch function is declared at the searchPanel. All panels are cleared everytime a search is made. searchArtists function is called in logic.js to contact API and get the error or the artists data. If error, the errorPanel shows the error. If data is obtained, the data is sent to function artists to be properly displayed and the artistPanel is shown */
+/* onSearch function is declared at the searchPanel. All panels are cleared and hidden everytime a search is made. searchArtists function is called in logic.js to contact API and get the error or the artists data. If error, the errorPanel shows the error. If data is obtained, the data is sent to function artists to be properly displayed and the artistPanel is shown */
 
 searchPanel.onSearch = function (query) {
     artistPanel.clear()
@@ -41,6 +41,11 @@ searchPanel.onSearch = function (query) {
     tracksPanel.clear()
     trackPanel.clear()
     searchPanel.errorClear()
+
+    artistPanel.hide()
+    albumPanel.hide()
+    tracksPanel.hide()
+    trackPanel.hide()
     try {
         logic.searchArtists (query, function (error, artists){
             if (error) searchPanel.error = error.message
