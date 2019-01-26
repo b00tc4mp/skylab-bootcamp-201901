@@ -1,10 +1,11 @@
-spotifyApi.token = 'BQA2ER18SpSXpb6Ldsev1SOZVRKMoCG8NT237XsgBKKIhpHXkTUvKCBmj4Za-Dr0sef66W5hGtjbPmwOdMcgdwSDkBcUzsTcBH6AbGKmFjxPv9Dznu7UkZcafkNZNOmYb9e3gQgfKEg0lg'
+spotifyApi.token = 'BQAEIrL8B2wLOWfFMyg6rBKPZA9PuPZH3LUaFAtNFPFExOG_dMzIWn9vgIsb2iDQ6Phs4qXWV-vEa8UKZbQK0rqmnOpsJqBzuwrgxsmkwO2EMGdMJqbWJc8GbpHv0kM7UQjDT47TAyJjtQ'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
 const albumPanel = new AlbumPanel
 const songPanel = new SongPanel
 const mp3Player = new Mp3Player
+const errorPanel = new ErrorPanel
 
 const $root = $('#rootsection')
 const $rootupper = $('#root')
@@ -15,8 +16,10 @@ artistsPanel.hide()
 albumPanel.hide()
 songPanel.hide()
 mp3Player.hide()
+errorPanel.hide()
 //Aunque las añadimos al cntainer principal
 $rootupper.append(searchPanel.$container)
+$rootupper.append(errorPanel.$container)
 $root.append(artistsPanel.$container)
 $root.append(albumPanel.$container)
 $rootbottom.append(songPanel.$container)
@@ -28,11 +31,23 @@ var artistURL;
 searchPanel.onSearch = function(query) {
     try {
         logic.searchArtists(query, function(error, artists) {
-            if (error) searchPanel.error = error.message
+            if (error){
+                errorPanel.show()
+                errorPanel.message = 'Ups something went wrong. The search did not retrieve any result.'
+                artistsPanel.clear()
+                artistsPanel.hide()
+                albumPanel.clear()
+                albumPanel.hide()
+                songPanel.clear()
+                songPanel.hide()
+                mp3Player.stopAudio()
+                mp3Player.hide()
+                
+            } 
             else {
                 console.log(artists)
                 console.log(artists[0].genres)
-
+                errorPanel.hide()
                 artistsPanel.clear()
                 artistsPanel.artists = artists
                 artistsPanel.show()
@@ -41,14 +56,14 @@ searchPanel.onSearch = function(query) {
                 albumPanel.hide()
                 songPanel.clear()
                 songPanel.hide()
-                mp3Player.hide()
                 mp3Player.stopAudio()
                 mp3Player.hide()
                 artistURL = artists
             }
         })
     } catch(err) {
-
+        errorPanel.show()
+        errorPanel.message = err.message
     }
 }
 
