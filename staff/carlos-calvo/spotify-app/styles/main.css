@@ -1,4 +1,22 @@
-main {
-  background-color: #1CD760; }
+main .artistpanel {
+  border: 1px solid red;
+}
+main .albumpanel {
+  border: 1px solid blue;
+}
+main .songPanel {
+  border: 1px solid black;
+}
+main .mp3Panel {
+  border: 1px solid pruple;
+}
+
+#root {
+  background-color: #1CD760;
+}
+
+header {
+  background-color: #1CD760;
+}
 
 /*# sourceMappingURL=main.css.map */

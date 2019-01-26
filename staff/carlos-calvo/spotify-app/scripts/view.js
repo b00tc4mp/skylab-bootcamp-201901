@@ -12,14 +12,25 @@ class Panel {
     }
 }
 
+
+//Class prefix	.col-	.col-sm-	.col-md-	.col-lg-	.col-xl-
 class SearchPanel extends Panel {
     constructor() {
-        super($(`<section class="search container">
+        super($(`<section class="search container .col-sm-12 .col-md-10 .col-lg-8 .col-xl-6 justify-content-center">
         <h2>Search</h2>
-    <form>
-        <input type="text" name="query" placeholder="Search an artist...">
-        <button type="submit">Search</button>
-    </form>
+        <form>
+            <div class= "row justify-content-center">
+                <div class="input-group mb-1 .col-sm-8 .col-md-8 .col-lg-6 .col-xl-6">
+                    <div class="input-group-prepend .col-sm-5 .col-md-5 .col-lg-5 .col-xl-5 ">
+                        <span class="input-group-text col-12" id="basic-addon1">Spotify</span>
+                    </div>
+                    <input type="text" class="form-control .col-sm-5 .col-md-5 .col-lg-5 .col-xl-5" placeholder="Search on Spotify" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <button type="submit" class="btn btn-primary .col-sm-5">Search</button>
+            </div>
+
+            
+        </form>
 </section>`))
 
         this.__$form__ = this.$container.find('form')
@@ -46,7 +57,7 @@ class SearchPanel extends Panel {
 
 class ArtistsPanel extends Panel {
     constructor() {
-        super($(`<section class="results container">
+        super($(`<section class="results artistpanel container col-6 rounded-right bg-primary text-white">
     <h3>Artists</h3>
     <ul></ul>
 </section`))
@@ -62,7 +73,6 @@ class ArtistsPanel extends Panel {
 
             $item.click(() => {
                 const id = $item.data('id')
-                $item.css({"color": "red"})
                 this.__onArtistSelectedCallback__(id)
             })
         })
@@ -77,12 +87,13 @@ class ArtistsPanel extends Panel {
 
         for(var i = 0; i < this.__$listli__.length; i++){
             if($(this.__$listli__.eq(i)).data('id') == id){
-                $(this.__$listli__.eq(i)).css({"color": "red"})
+                $(this.__$listli__.eq(i)).css({"color": "red", "border": "2px solid red"})
             }
         }
     }
     clearstyles(){
         $('.artist').css('color', 'black')
+        $('.artist').css('border', '0')
     }
     clear(){
         this.__$list__.html('')
@@ -92,7 +103,7 @@ class ArtistsPanel extends Panel {
         //return array[i]['preview_url']
         for(var i = 0; i < array.length; i++){
             if(array[i]['id'] == id){
-                return array[i]['images'][0]
+                return array[i]['images'][0]['url']
              }
         }
     }
@@ -111,7 +122,7 @@ class ArtistsPanel extends Panel {
 
 class AlbumPanel extends Panel {
     constructor(){
-        super($(`<section class="results container album">
+        super($(`<section class="results container albumpanel justify-content-between col-6 bg-secondary text-white">
     <h3>Albums</h3>
     <ul></ul>
 </section`))
@@ -140,13 +151,14 @@ class AlbumPanel extends Panel {
 
         for(var i = 0; i < this.__$listli__.length; i++){
             if($(this.__$listli__.eq(i)).data('id') == id){
-                $(this.__$listli__.eq(i)).css({"color": "blue"})
+                $(this.__$listli__.eq(i)).css({"color": "blue", "border": "2px solid blue"})
             }
         }
     }
 
     clearstyles(){
         $('.album').css('color', 'black')
+        $('.album').css('border', 'none')
     }
 
     clear(){
@@ -164,7 +176,7 @@ class AlbumPanel extends Panel {
 
 class SongPanel extends Panel{
     constructor(){
-        super($(`<section class="results container songs">
+        super($(`<section class="results container songPanel col-6 bg-warning text-dark">
             <h3>Songs</h3>
             <ul></ul>
         </section`))
@@ -193,7 +205,7 @@ class SongPanel extends Panel{
 
         for(var i = 0; i < this.__$listli__.length; i++){
             if($(this.__$listli__.eq(i)).data('id') == id){
-                $(this.__$listli__.eq(i)).css({"color": "yellow"})
+                $(this.__$listli__.eq(i)).css({"color": "yellow", "border": "2px solid yellow"})
             }
         }
     }
@@ -204,6 +216,7 @@ class SongPanel extends Panel{
 
     clearstyles(){
         $('.song').css('color', 'black')
+        $('.song').css('border', 'none')
     }
 
     retrievesongId(array, id){
@@ -218,8 +231,9 @@ class SongPanel extends Panel{
 
 class Mp3Player extends Panel{
     constructor(){
-        super($(`<section class="results container mp3">
-            <img>
+        super($(`<section class="results container mp3Panel col-6 bg-transparent text-dark">
+            <h3>Player</h3>
+            <img width="150em" height = "150em">
             <audio controls autoplay></audio>
         </section`))
     }
@@ -232,6 +246,11 @@ class Mp3Player extends Panel{
     stopAudio(){
         const audiotrack = document.getElementsByTagName('audio')[0]
         audiotrack.pause()
+    }
+
+    set setImageAlbum(source){
+        const image = document.getElementsByTagName('img')[0]
+        image.setAttribute("src", source);
     }
 
 
