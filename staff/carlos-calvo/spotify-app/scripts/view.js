@@ -260,6 +260,10 @@ class Mp3Player extends Panel{
 class ErrorPanel extends Panel{
 
     constructor(){
-
+        super($(`<section class="p-1 alert alert-warning"></section>`))
     }
+    set message(message) {
+        this.$container.text(message)
+    }
+
 }
