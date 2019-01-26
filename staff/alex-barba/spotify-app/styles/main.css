@@ -1,5 +1,18 @@
-main {
+.green {
   background-color: #1CD760;
+  color: black;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: #1CD760;
+  text-align: center;
+}
+
+.error {
+  color: #E50745;
 }
 
 /*# sourceMappingURL=main.css.map */
