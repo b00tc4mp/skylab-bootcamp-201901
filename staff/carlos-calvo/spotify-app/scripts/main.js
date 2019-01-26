@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQCxEY8it_1s0OsvkzmeAlaDAGVBRTSUaziQU1-du3vo1ssdtaJ1qy45-F4DKCkw5nu7CKlf79fPf4XZe9ZKXZu8F_0eln7PykPypJZczZP-qMV7hwUJvLWfqb35bgjvuAx67YRNhciJrQ'
+spotifyApi.token = 'BQA2ER18SpSXpb6Ldsev1SOZVRKMoCG8NT237XsgBKKIhpHXkTUvKCBmj4Za-Dr0sef66W5hGtjbPmwOdMcgdwSDkBcUzsTcBH6AbGKmFjxPv9Dznu7UkZcafkNZNOmYb9e3gQgfKEg0lg'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
@@ -6,7 +6,9 @@ const albumPanel = new AlbumPanel
 const songPanel = new SongPanel
 const mp3Player = new Mp3Player
 
-const $root = $('#root')
+const $root = $('#rootsection')
+const $rootupper = $('#root')
+const $rootbottom = $('#rootsection2')
 
 //Escondemos las instancias de los paneles inferiores
 artistsPanel.hide()
@@ -14,13 +16,14 @@ albumPanel.hide()
 songPanel.hide()
 mp3Player.hide()
 //Aunque las añadimos al cntainer principal
-$root.append(searchPanel.$container)
+$rootupper.append(searchPanel.$container)
 $root.append(artistsPanel.$container)
 $root.append(albumPanel.$container)
-$root.append(songPanel.$container)
-$root.append(mp3Player.$container)
+$rootbottom.append(songPanel.$container)
+$rootbottom.append(mp3Player.$container)
 
-let preview;
+let previewURL;
+var artistURL;
 
 searchPanel.onSearch = function(query) {
     try {
@@ -41,6 +44,7 @@ searchPanel.onSearch = function(query) {
                 mp3Player.hide()
                 mp3Player.stopAudio()
                 mp3Player.hide()
+                artistURL = artists
             }
         })
     } catch(err) {
@@ -63,7 +67,7 @@ artistsPanel.onArtistClicked = function(id){
                 console.log(albums)
                 mp3Player.stopAudio()
                 mp3Player.hide()
-                imageURL = artistsPanel.getImageURL(albums, id)
+                imageURL = artistsPanel.getImageURL(artistURL, id)
             }
         })
     } catch (error) {
@@ -82,11 +86,12 @@ albumPanel.onAlbumClicked =  function(id){
                 songPanel.clear()
                 songPanel.songs = songs
                 songPanel.show()
-                //preview = songs[0]['preview_url']
-                preview = songs
-                console.log(preview)
+                //previewURL = songs[0]['previewURL_url']
+                previewURL = songs
+                console.log(previewURL)
                 mp3Player.stopAudio()
                 mp3Player.hide()
+                
 
             }
         })
@@ -101,9 +106,10 @@ songPanel.onSongClicked = function(id){
     try {
         songPanel.clearstyles()
         songPanel.focusOnItem(id)
-        let songURL = songPanel.retrievesongId(preview, id)
+        let songURL = songPanel.retrievesongId(previewURL, id)
         mp3Player.show()
         mp3Player.Song = songURL
+        mp3Player.setImageAlbum = imageURL
 
     } catch (error) {
         
