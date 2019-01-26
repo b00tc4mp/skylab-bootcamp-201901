@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDve0IV8MW45zzHmPmLN1mFMQy_GFbfLbyhGtl84SGElLeR5a_emy4PARtyNMSuvMOHG3hjedXvRZCkfLd8XEqNErnb71s3MzWo3tLFxLF79YqK09Ttp34JQ-zWoPfRc4eKwZtYcocxDg2smccoCadu1zRCHg'
+spotifyApi.token = 'BQAKOM1rSQSCRhZIS4iTxA0HGPH2HPH-Qfzgoc5sFK52-9o3rWmgNuW3aNKgZHC36TXHbQRRmM1XxzDaQSfdJEHUUy4CSalhqzArtkJQ0Quyt2kmbdeqxhYyCD98bOChP6v_hSzohVADVvJGu9gx-tDZhpms0Q'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
@@ -20,18 +20,11 @@ $root.append(tracksPanel.$container)
 $root.append(trackPanel.$container)
 
 searchPanel.onSearch = function(query) {
-    
     artistsPanel.clear()
-    albumsPanel.clear()
-    tracksPanel.clear()
-    trackPanel.clear()
     try {
         logic.searchArtists(query, function(error, artists) {
             if (error) searchPanel.error = error.message
             else {
-                albumsPanel.hide()
-                tracksPanel.hide()
-                trackPanel.hide()
                 artistsPanel.artists = artists
                 artistsPanel.show()
             }
@@ -42,18 +35,12 @@ searchPanel.onSearch = function(query) {
 }
 
 artistsPanel.onArtistSelected = function (artistId) {
-    artistsPanel.clear()
-    albumsPanel.clear()
-    tracksPanel.clear()
-    trackPanel.clear()
     try {
         logic.retrieveAlbums(artistId, function (error, albums) {
             if (error) console.error(error)
             else {
                 
                 artistsPanel.hide()
-                tracksPanel.hide()
-                trackPanel.hide()
 
                 albumsPanel.albums = albums
 
@@ -66,18 +53,12 @@ artistsPanel.onArtistSelected = function (artistId) {
 }
 
 albumsPanel.onAlbumSelected = function (albumId) {
-    artistsPanel.clear()
-    albumsPanel.clear()
-    tracksPanel.clear()
-    trackPanel.clear()
     try {
         logic.retrieveTracks(albumId, function (error, tracks) {
             if (error) console.error(error)
             else {
                 
                 albumsPanel.hide()
-                artistsPanel.hide()
-                trackPanel.hide()
 
                 tracksPanel.tracks = tracks
 
@@ -90,18 +71,12 @@ albumsPanel.onAlbumSelected = function (albumId) {
 }
 
 tracksPanel.onTrackSelected = function (trackId) {
-    artistsPanel.clear()
-    albumsPanel.clear()
-    tracksPanel.clear()
-    trackPanel.clear()
     try {
         logic.retrieveTrack(trackId, function (error, track) {
             if (error) console.error(error)
             else {
                 
                 tracksPanel.hide()
-                artistsPanel.hide()
-                albumsPanel.hide()
 
                 trackPanel.track = track
 

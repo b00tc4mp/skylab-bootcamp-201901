@@ -16,8 +16,8 @@ class SearchPanel extends Panel {
     constructor() {
         super($(`<section class="search container">
     <form class="searchingForm">
+        <span class="searchingForm__headphones">🎧</span><input type="text" name="query" class="searchingForm__input" placeholder="Search an artist...">
         <button type="submit" class="searchingForm__button">Search</button>
-        <input type="text" name="query" class="searchingForm__input" placeholder="an artist...">
     </form>
 </section>`))
 
@@ -40,25 +40,15 @@ class ArtistsPanel extends Panel {
     constructor() {
         super($(`<section class="results container">
     <h3>Artists</h3>
-    <ul class="artistsList"></ul>
+    <ul></ul>
 </section`))
 
         this.__$list__ = this.$container.find('ul')
     }
 
     set artists(artists) {
-        artists.forEach(({ id, name, images }) => {
-            const image = images.length!==0?images[0].url:"styles/no-image.png"
-            const $artist = $(`<li data-id=${id}>
-    <div class="artistsCard">
-        <div class="artistsCard__image">
-            <img src="${image}" height="100%" width="100%">
-        </div>
-        <div class="artistsCard__name">
-            <p>${name}</p>
-        </div>
-    </div>
-</li>`)
+        artists.forEach(({ id, name }) => {
+            const $artist = $(`<li data-id=${id}>${name}</li>`)
 
             $artist.click(() => {
                 const id = $artist.data('id')
