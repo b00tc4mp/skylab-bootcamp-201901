@@ -8,7 +8,10 @@ main .songPanel {
   border: 1px solid black;
 }
 main .mp3Panel {
-  border: 1px solid pruple;
+  border: 1px solid purple;
+}
+main .tituloamarillo {
+  color: yellow;
 }
 
 #root {
@@ -17,6 +20,10 @@ main .mp3Panel {
 
 header {
   background-color: #1CD760;
+}
+
+body {
+  background-image: url(https://wallpapercave.com/wp/3DXSNF4.jpg);
 }
 
 /*# sourceMappingURL=main.css.map */
