@@ -16,26 +16,189 @@ class Panel {
     }
 }
 
-/* SearchPanel defined from Panel. Constructor defined creating and HTML snippet. Two sets defined: onSearch to send the query value to the callback function  when clicking on the search button and error to send the error message to the error panel and display it. errorClear function created to hide errorPanel when needed. */
+/* LoginPanel defined from Panel. Constructor defined creating and HTML snippet. Three sets defined: onLogin to send the inputs value to the callback function when clicking on the login button, error to send the error message to the error panel and display it and onGoToRegister to trigger callback function when register button is clicked . clear function created to empty inputs of the panel when needed. */
+
+class LoginPanel extends Panel {
+    constructor() {
+        super($(`<section class="login container col-4">
+    <form class="login__form p-2" >
+        <h4 class="font-weight-light-normal">Login</h4>
+        <div class="form-group">
+            <label class="small" for="email">E-mail:</label>
+            <input class="form-control input-sm" type="email" name="email" placeholder="example@gmail.com" required>
+        </div>
+        <div class="form-group">
+            <label class="small" for="password">Password:</label>
+            <input class="form-control" type="password" name="password" placeholder="password" required>
+        </div>
+        <button type="submit" class="btn btn-sm active green"><strong>Login</strong></button>
+    </form>
+</section>`))
+
+        this.__$form__ = this.$container.find('form')
+
+        this.__$emailInput__ = this.$container.find('input[type=email]')
+
+        this.__$passwordInput__ = this.$container.find('input[type=password]')
+
+        var errorPanel = new ErrorPanel
+        this.$container.append(errorPanel.$container)
+        this.__errorPanel__ = errorPanel
+
+        var $registerLink = $('<a href="#" class="btn btn-secondary btn-sm active margin-top">Register</a>');
+        this.__$form__.append($registerLink);
+        this.__$registerLink__ = $registerLink;
+    }
+    set onLogin(callback) {
+        this.__$form__.on('submit', event => {
+            event.preventDefault()
+
+            var email = this.__$emailInput__.val()
+            var password = this.__$passwordInput__.val()
+
+            callback(email, password)
+        });
+    }
+    set error(message) {
+        this.__errorPanel__.message = message
+        this.__errorPanel__.show()
+    }
+    clear() {
+        this.__$emailInput__.val('')
+        this.__$passwordInput__.val('')
+        this.__errorPanel__.message = ''
+        this.__errorPanel__.hide()
+    }
+    set onGoToRegister(callback) {
+        this.__$registerLink__.on('click', callback)
+    }
+}
+
+/* RegisterPanel defined from Panel. Constructor defined creating and HTML snippet. Three sets defined: onRegister to send the inputs value to the callback function when clicking on the register button, error to send the error message to the error panel and display it and onGoToLogin to trigger callback function when register button is clicked. clear function created to empty inputs of the panel when needed. */
+
+class RegisterPanel extends Panel {
+    constructor() {
+        super($(`<section class="register container col-6">
+    <form class="register__form p-2">
+        <h4 class="font-weight-light-normal">Register</h4>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <label for="name" class="input-group-text" id="inputGroup-sizing-sm">Name</label>
+            </div>
+            <input class="form-control" type="text" name="name" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <label for="surname" class="input-group-text" id="inputGroup-sizing-sm">Surame</label>
+            </div>
+            <input class="form-control" type="text" name="surname" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <label for="email" class="input-group-text" id="inputGroup-sizing-sm">Email</label>
+            </div>
+            <input class="form-control" type="email" name="email" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <label for="password" class="input-group-text" id="inputGroup-sizing-sm">Password</label>
+            </div>
+            <input class="form-control" type="text" name="password" required>
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <label for="password" class="input-group-text" id="inputGroup-sizing-sm">Confirm password</label>
+            </div>
+            <input class="form-control" type="text" name="password-confirmation" required>
+        </div>
+        <button type="submit"class="btn btn-sm active green"><strong>Register</strong></button>
+    </form>
+</section>`))
+
+        this.__$form__ = this.$container.find('form')
+
+        this.__$nameInput__ = this.__$form__.find('input[name=name]')
+
+        this.__$surnameInput__ = this.__$form__.find('input[name=surname]')
+
+        this.__$emailInput__ = this.__$form__.find('input[type=email]')
+
+        this.__$passwordInput__ = this.__$form__.find('input[name=password]')
+
+        this.__$passwordConfirmationInput__ = this.__$form__.find('input[name=password-confirmation]')
+
+        var errorPanel = new ErrorPanel
+        this.$container.append(errorPanel.$container)
+        this.__errorPanel__ = errorPanel
+
+        var $loginLink = $('<a href="#" class="btn btn-secondary btn-sm active margin-top">Login</a>')
+        this.__$form__.append($loginLink)
+        this.__$loginLink__ = $loginLink
+    }
+    set onRegister(callback) {
+        this.__$form__.on('submit', event => {
+            event.preventDefault()
+
+            var name = this.__$nameInput__.val()
+            var surname = this.__$surnameInput__.val()
+            var email = this.__$emailInput__.val()
+            var password = this.__$passwordInput__.val()
+            var passwordConfirmation = this.__$passwordConfirmationInput__.val()
+
+            callback(name, surname, email, password, passwordConfirmation)
+        })
+    }
+    set error(message) {
+        this.__errorPanel__.message = message
+        this.__errorPanel__.show()
+    }
+    clear() {
+        this.__$nameInput__.val('')
+        this.__$surnameInput__.val('')
+        this.__$emailInput__.val('')
+        this.__$passwordInput__.val('')
+        this.__$passwordConfirmationInput__.val('')
+        this.__errorPanel__.message = ''
+        this.__errorPanel__.hide()
+    }
+    set onGoToLogin(callback) {
+        this.__$loginLink__.on('click', callback)
+    }
+}
+
+/* SearchPanel defined from Panel. Constructor defined creating and HTML snippet. Four sets defined: onSearch to send the query value to the callback function  when clicking on the search button, user to get and send the username, onLogout to trigger callback function when logout button is clicked error to send the error message to the error panel and display it. errorClear function created to hide errorPanel when needed. */
 
 class SearchPanel extends Panel {
     constructor(){
         super($(`<section class="search">
-    <form class="input-group input-group-sm mb-3">
+    <div class="row p-2">
+        <div class="col-6">
+            <h3>Welcome, <span class="search__name"></span>!</h3>
+        </div>
+        <div class="col-6 text-right">
+            <button class="btn btn-secondary btn-sm active search__logout">Logout</button>
+        </div>
+    </div>    
+    <form class="input-group input-group-sm mb-3 p-2">
         <input class="form-control" id="inputGroup-sizing-sm" placeholder="Search an artist" aria-describedby="button-addon2" type="text" name="query"></input>
         <div class="input-group-append">
-            <button class="btn btn-sm btn-outline-secondary green" id="button-addon2" type="submit">Search</button>
+            <button class="btn btn-sm active green" id="button-addon2" type="submit">Search</button>
         </div>
     <form>
 </section>`))
         
         this.__$form__ = this.$container.find('form')
+        this.__$title__ = this.$container.find('h3')
 
         this.__$query__ = this.__$form__.find('input')
 
+        this.__$userSpan__ = this.__$title__.find('span')
+
+        this.__$logoutButton__ = this.$container.find('.search__logout')
+
         var errorPanel = new ErrorPanel;
-        this.$container.append(errorPanel.$container);
-        this.__errorPanel__ = errorPanel;
+        this.$container.append(errorPanel.$container)
+        this.__errorPanel__ = errorPanel
     }
     set onSearch(callback) {
         this.__$form__.on('submit',  event => {
@@ -53,7 +216,12 @@ class SearchPanel extends Panel {
     errorClear(){
         this.__errorPanel__.hide()
     } 
-    
+    set user(user) {
+        this.__$userSpan__.text(user.name)
+    }
+    set onLogout(callback) {
+        this.__$logoutButton__.on('click', callback)
+    }    
 }
 
 /* ArtistPanel defined from Panel. Constructor defined creating and HTML snippet. Three sets defined: artists to get artists data to be displayed, add a click function to each of them with another set to get the id from the artist to know which one has been chosen. Error to send the error message to the error panel and display it. clear function created to empty the results list when needed. */
