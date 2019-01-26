@@ -106,11 +106,15 @@ describe('Horroy', function() {
     describe('indexOf', function () {
         it('should throw an error when arguments are bigger than 2', function () {
             var horr = new Horroy;
-            expect(horr.indexOf('f', 3, 45, 5)).toThrowError('too many arguments', Error);
-            expect(horr.indexOf('f', 3, 45, 5)).toThrow('too many arguments');
+
+            expect(function(){
+                horr.indexOf('f', 3, 45, 5);
+            }).toThrowError(Error, 'too many arguments');
         });
 
         it('should succeed and returns the position 2 for the letter "c"', function () {
+            
+            debugger;
             var horr = new Horroy('a', 'b', 'c', 'd');
             var indexOf = horr.indexOf('c');
 
@@ -157,5 +161,111 @@ describe('Horroy', function() {
             expect(horr.length).toEqual(5);
             expect(resultHorr).toEqual(expectedResult);
         });
+
+        it('should returns an empty string from an empty array', function () {
+            var horr = new Horroy;
+            var resultHorr = horr.toString();
+            expectedResult = '';
+
+            expect(horr.length).toEqual(0);
+            expect(resultHorr).toEqual(expectedResult);
+            expect(typeof resultHorr === 'string').toBeTruthy();
+        });
     });
+
+    describe(('filter'), function () {
+        it('should create a new array only with odd numbers only', function () {
+            var horr = new Horroy(1, 2, 3, 4);
+            var newHorr = horr.filter(function (item) {
+                return item % 2 !== 0;
+            });
+            var expectedHorr = [1, 3];
+
+            expect(newHorr.length).toEqual(2);
+            expect(newHorr[0]).toEqual(1);
+            expect(newHorr[1]).toEqual(3);
+            expect(newHorr.toString()).toEqual(expectedHorr.toString());
+            expect(newHorr instanceof Horroy).toBe(true); //equal to:
+            expect(newHorr instanceof Horroy).toBeTruthy();
+        });
+
+        it('should create an empty array if not found any element that match the condition', function () {
+            var horr = new Horroy(1, 3, 5, 7);
+            var newHorr = horr.filter(function (item) {
+                return item % 2 === 0;
+            });
+            var expectedHorr = [];
+
+            expect(newHorr.length).toEqual(0);
+            expect(newHorr[0]).toBeUndefined();
+            expect(newHorr instanceof Horroy).toBe(true); //equal to:
+            expect(newHorr instanceof Horroy).toBeTruthy();
+        });
+
+        it('should thrown a TypeError using a string instead a function callback', function(){
+            var horr = new Horroy('hola', 'adios');
+            var callback = '';
+            expect(function(){
+              var newHorr = horr.filter(callback);  
+            }).toThrowError(TypeError, callback + ' is not a function');
+        });
+    });
+
+    describe(('find'), function () {
+        it('should thrown a TypeError using a string instead a function callback', function(){
+            var horr = new Horroy('hola', 'adios');
+            var callback = '';
+            
+            expect(function() {
+            
+              var newHorr = horr.find(callback);  
+              console.log(newHorr);
+            })
+            .toThrowError(Error, callback + ' is not a function');
+            //duda: me falta comprobar el tipo de error
+
+        });
+    });
+
+    describe(('join'), function () {
+        it('should concatenate every item in the horroy without separator ', function(){
+            var horr = new Horroy('hola', 'adios');
+            var resultString = horr.join();
+
+            expect(resultString).toBe('hola,adios');
+            expect(resultString.length).toBe(10);
+            expect(typeof resultString === 'string').toBeTruthy();
+        });
+
+        it('should concatenate every item in the horroy with comma separator', function(){
+            var horr = new Horroy('hola', 'adios');
+            var separator = ',';
+            var resultString = horr.join(separator);
+
+            expect(resultString).toBe('hola,adios');
+            expect(resultString.length).toBe(10);
+            expect(typeof resultString === 'string').toBeTruthy();
+        });
+
+        it('should concatenate every item in the horroy with empty string separator', function(){
+            var horr = new Horroy('hola', 'adios');
+            var separator = '';
+            var resultString = horr.join(separator);
+
+            expect(resultString).toBe('holaadios');
+            expect(resultString.length).toBe(9);
+            expect(typeof resultString === 'string').toBeTruthy();
+        });
+
+        it('should returns empty string if receiving an empty horroy', function(){
+            var horr = new Horroy;
+            var resultString = horr.join();
+            var separator = '';
+
+            expect(resultString).toBe(separator);
+            expect(resultString.length).toBe(0);
+            expect(typeof resultString === 'string').toBeTruthy();
+        });
+    });
+
 });
