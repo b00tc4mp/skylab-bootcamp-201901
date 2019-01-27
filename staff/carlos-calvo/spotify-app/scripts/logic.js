@@ -62,9 +62,23 @@ const logic = {
 
         spotifyApi.retrieveTrack(trackId, callback)
     },
-
+    /**
+     * Checks email and password matching. If matches callback is executed.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {function} callback 
+     */
     login: function (email, password, callback) {
-        // TODO validate fields!
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string');
+
+        if (!email.trim().length) throw Error('email cannot be empty');
+
+        if(!(callback instanceof Function)) throw new TypeError ('callback not a function')
+
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string');
+
+        if (!password.trim().length) throw Error('password cannot be empty');
 
         var user = users.find(function (user) {
             return user.email === email;
@@ -73,6 +87,7 @@ const logic = {
         if (!user) throw Error('user ' + email + ' not found');
 
         if (user.password !== password) throw Error('wrong password');
+
 
         var loggedInUser = {
             name: user.name,
@@ -114,7 +129,7 @@ const logic = {
 
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty');
 
-        // TODO validate fields!
+        if(!(callback instanceof Function)) throw new TypeError ('callback not a function')
 
         var user = users.find(function (user) {
             return user.email === email;

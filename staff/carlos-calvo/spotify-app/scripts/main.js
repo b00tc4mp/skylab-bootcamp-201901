@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQBpB2beC_CxgOX78j9UUJvnu_o8vYY5BFfz9Ix2PfofcOr_Xf76vQpRs6Q2TLbbPCtJM4ceK5QsfeFxYzMIWOO1SHY221Bd9tOPsOByoEilbJ5w1t_7YUiTtBAjqbvTDpl3AQBk1Y-owQ'
+spotifyApi.token = 'BQD8zTxO9mV-A8Aztkl7hiZmwk85yqmWGB9SoPKe3DcIPD1EAso18uAvwr7xdxWbCWBRbPOr5xcvT2a6pCTZfssYBlPn0Ba3fnbU_3rbal5WMkzXqKY5Q79CGgzJnPkh3v7RQpWPjmoQtw'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
@@ -8,6 +8,7 @@ const mp3Player = new Mp3Player
 const errorPanel = new ErrorPanel
 const registerPanel = new RegisterPanel
 const loginPanel = new LoginPanel
+const errorPanelMp3 = new ErrorPanel
 
 const $root = $('#rootsection')
 const $rootupper = $('#rootheader')
@@ -22,6 +23,7 @@ errorPanel.hide()
 searchPanel.hide()
 registerPanel.hide()
 loginPanel.show()
+errorPanelMp3.hide()
 
 //Upper section for login and search
 $rootupper.append(loginPanel.$container)
@@ -34,7 +36,7 @@ $root.append(albumPanel.$container)
 //Down section
 $rootbottom.append(songPanel.$container)
 $rootbottom.append(mp3Player.$container)
-
+mp3Player.$container.append(errorPanelMp3.$container)
 //global variables for storing URL for image and sound to play
 let previewURL;
 var artistURL;
@@ -73,6 +75,8 @@ registerPanel.onRegister = function (name, surname, email, password, passwordCon
     }
 }
 
+//back to login
+
 registerPanel.onGoToLogin = function () {
     registerPanel.hide()
     registerPanel.clear()
@@ -80,17 +84,10 @@ registerPanel.onGoToLogin = function () {
     loginPanel.show()
 }
 
-// homePanel.onLogout = function () {
-//     homePanel.hide()
-
-//     searchPanel.clear()
-
-//     loginPanel.clear()
-//     loginPanel.show()
-// }
 
 
 searchPanel.onLogOut = function(){
+    errorPanelMp3.hide()
     searchPanel.hide()
     searchPanel.clear()
     artistsPanel.clear()
@@ -110,6 +107,7 @@ searchPanel.onSearch = function(query) {
     try {
         logic.searchArtists(query, function(error, artists) {
             if (error){
+                errorPanelMp3.hide()
                 errorPanel.show()
                 errorPanel.message = 'Ups something went wrong. The search did not retrieve any result.'
                 artistsPanel.clear()
@@ -123,6 +121,7 @@ searchPanel.onSearch = function(query) {
                 
             } 
             else {
+                errorPanelMp3.hide()
                 console.log(artists)
                 console.log(artists[0].genres)
                 errorPanel.hide()
@@ -147,6 +146,7 @@ searchPanel.onSearch = function(query) {
 
 artistsPanel.onArtistClicked = function(id){
     try {
+        errorPanelMp3.hide()
         artistsPanel.clearstyles()
         artistsPanel.focusOnItem(id)                
         logic.retrieveAlbums(id, function(error, albums){
@@ -170,6 +170,7 @@ artistsPanel.onArtistClicked = function(id){
 
 albumPanel.onAlbumClicked =  function(id){
     try {
+        errorPanelMp3.hide()
         albumPanel.clearstyles()
         albumPanel.focusOnItem(id)
         logic.retrieveSongs(id, function(error, songs){
@@ -197,11 +198,18 @@ albumPanel.onAlbumClicked =  function(id){
 
 songPanel.onSongClicked = function(id){
     try {
+        errorPanelMp3.hide()
         songPanel.clearstyles()
         songPanel.focusOnItem(id)
         let songURL = songPanel.retrievesongId(previewURL, id)
         mp3Player.show()
-        mp3Player.Song = songURL
+        if(songURL !== null){
+            mp3Player.Song = songURL
+        } else{
+            mp3Player.Song = undefined
+            errorPanelMp3.message = 'No preview for this song!'
+            errorPanelMp3.show()
+        }
         mp3Player.setImageAlbum = imageURL
 
     } catch (error) {
