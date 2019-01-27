@@ -14,7 +14,7 @@ function Horroy() {
         }
     }
 
-    else if ((arguments.length > 1) || ((arguments.length === 1) && (typeof arguments[0] !== "number"))) {
+    else {
 
         this.length = arguments.length
 
@@ -30,8 +30,7 @@ Horroy.prototype.push = function (value) {
 
         // if((typeof arguments[i] !== "number") && (!(arguments[i] instanceof Function)) && (!(arguments[i] instanceof Object)) && (!(arguments[i] instanceof Horroy)) && (typeof arguments[i] !== "undefined") && (!(typeof arguments[i] !== null))) throw TypeError ('not recognized param')
 
-        this[this.length] = arguments[i];
-        this.length++
+        this[this.length++] = arguments[i];
     }
     return this.length
 }
