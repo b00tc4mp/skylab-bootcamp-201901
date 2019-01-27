@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQD8zTxO9mV-A8Aztkl7hiZmwk85yqmWGB9SoPKe3DcIPD1EAso18uAvwr7xdxWbCWBRbPOr5xcvT2a6pCTZfssYBlPn0Ba3fnbU_3rbal5WMkzXqKY5Q79CGgzJnPkh3v7RQpWPjmoQtw'
+spotifyApi.token = 'BQBjz84czw_buHVlKLVC2YablHy0HtmlOBAvZ1bzBTMJMH3b-uxCxfPfxHPUya-Y1nK7ox5cvzoziV6R5zsKJ7vLFjqMvO1qzko-WHJofj9DmRU2P_0TfWSTW2DW1WxJGEWz4rWvm63juw'
 
 const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
@@ -185,6 +185,7 @@ albumPanel.onAlbumClicked =  function(id){
                 console.log(previewURL)
                 mp3Player.stopAudio()
                 mp3Player.hide()
+                window.scrollTo(0,document.body.scrollHeight);
                 
 
             }
