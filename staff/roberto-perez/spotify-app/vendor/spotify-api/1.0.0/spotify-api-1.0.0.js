@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * Spotify API client.
@@ -6,33 +6,88 @@
  * @version 1.0.0
  */
 const spotifyApi = {
+    token: 'NO-TOKEN',
+
     /**
      * Searches ducklings.
      * 
-     * @param {string} query - The text to match on search.
+     * @param {string} query - The text to match on artists search.
      * @param {function} callback - The expression to evaluate on response. If error first 
      * argument informs the error message, othwerwise first argument is undefined and second argument provides the matching 
      * results.
      */
     searchArtists(query, callback) {
-        fetch(`https://api.spotify.com/v1/search?q=${query}&type=artist`, {
+        fetch(`https://api.spotify.com/v1/search?q=${query}&type=artist`, {
             method: 'GET',
             headers: {
-                authorization: 'Bearer BQC-T4hfmnSpwrSqxs5ZZZ80paTE_FzEDXMNPyS9qgtovv1SQJ_8UM8wH4YFt9nc-RvQ74a96_RNJ_PCgWiH3MYPdSRQolINuK2J7BExG1qetezXE47h7zrqiqBhtKsGPU2-KEc4oG46BQ'
+                authorization: `Bearer ${this.token}`
             }
         })
             .then(res => res.json())
-            .then(({ artists : {items}}) => callback(undefined, items));
+            .then(({ artists: { items } }) => callback(undefined, items))
+            .catch(callback)
     },
 
-    retieveAlbums(artistId, callback) {
-        fetch(`https://api.spotify.com/v1/artist/${artistId}/search?q=${query}&type=albums`, {
+    /**
+     * Retrieves albums from artist.
+     * 
+     * @param {string} artistId - The artist to retrieve from albums.
+     * @param {*} callback - callback - The expression to evaluate on response. If error first 
+     * argument informs the error message, othwerwise first argument is undefined and second argument provides the matching 
+     * results.
+     */
+    retrieveAlbums(artistId, callback) {
+        fetch(`https://api.spotify.com/v1/artists/${artistId}/albums`, {
             method: 'GET',
             headers: {
-                authorization: 'Bearer BQC-T4hfmnSpwrSqxs5ZZZ80paTE_FzEDXMNPyS9qgtovv1SQJ_8UM8wH4YFt9nc-RvQ74a96_RNJ_PCgWiH3MYPdSRQolINuK2J7BExG1qetezXE47h7zrqiqBhtKsGPU2-KEc4oG46BQ'
+                authorization: `Bearer ${this.token}`
             }
         })
-            .then(res => res.json())
-            .then(({ artists : {items}}) => callback(undefined, items));
-    }
-};
+            .then (res => res.json())
+            .then(({ items })=> callback(undefined, items))
+            .catch(callback)
+    },
+
+    /**
+     * Retrieves tracks from album.
+     * 
+     * @param {string} albumId - The album to retrieve from albums.
+     * @param {*} callback - callback - The expression to evaluate on response. If error first 
+     * argument informs the error message, othwerwise first argument is undefined and second argument provides the matching 
+     * results.
+     */
+    retrieveTracks(albumId, callback) {
+        fetch(`https://api.spotify.com/v1/albums/${albumId}/tracks`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${this.token}`
+            }
+        })
+            .then (res => res.json())
+            .then(({ items })=> callback(undefined, items))
+            .catch(callback)
+    },
+
+    /**
+     * Retrieves track from tracks.
+     * 
+     * @param {string} albutrackIdmId - The track to retrieve from tracks.
+     * @param {*} callback - callback - The expression to evaluate on response. If error first 
+     * argument informs the error message, othwerwise first argument is undefined and second argument provides the matching 
+     * results.
+     */
+    retrieveTrack(trackId, callback) {
+        fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${this.token}`
+            }
+        })
+            .then (res => res.json())
+            .then((items)=> callback(undefined, items))
+            .catch(callback)
+    },
+
+
+    
+}
