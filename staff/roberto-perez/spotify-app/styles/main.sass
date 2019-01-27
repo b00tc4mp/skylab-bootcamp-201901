@@ -1,4 +1,233 @@
+$green: #1db954
+    
+html 
+    font-size: 100%
+
+html, body 
+    width: 100%
+    height: 100%
+
+body 
+    font-family: 'Montserrat', sans-serif
+    background: #C04848
+    background: -webkit-linear-gradient(to left, #C04848, #480048)
+    background: linear-gradient(to left, #C04848, #480048)
+    color: #222326
+
+.wrapper
+    min-height: 100%
+    display: grid
+    grid-template-rows: 1fr auto
+    grid-template-columns: 100%
+
+main#root 
+    color: #FFF
+
+.footer 
+    background-color: #000
+    color: #fff
+    padding: 20px 0px
+    font-size: 0.77em
+    &__heart
+        color: #c11313
+    &__github-link
+        color: #fff
+        &:hover
+            color: #fff
+            text-decoration: underline
+
+.header 
+    padding: 100px 0px
+    text-align: center
+    &__title
+        font-size: 1.69em
+    &__subtitle
+        font-size: 0.77em
+        color: #989898
+
+.search
+    background-color: #000
+    &__query 
+        width: 100%
+        background-color: #000
+        color: #fff
+        padding: 15px 0px
+        border: 0px
+        font-size: 2.197em
+        outline: none
+        &:focus
+            background-color: #000
+
+.search-section
+    &__header
+        padding: 50px 0px
+    &__title
+        font-size: 1.69em
+        padding: 15px
+    &__back
+        font-size: 0.77em
+        text-decoration: none
+        color: #fff
+        position: relative
+        top: 6px
+        &:hover
+            color: $green
+            text-decoration: none
+
+.artist
+    cursor: pointer
+    display: none
+    &__header
+        text-align: center
+        padding: 20px 0px
+    &__img-container 
+        margin: 0
+        display: block
+        border: 0
+        outline: 0
+        position: relative
+        background-color: #282828
+        padding-top: 100%
+        border-radius: 50%
+        box-shadow: 0 0 10px rgba(0,0,0,.3)
+        width: auto
+        height: auto
+    &__icon
+        position: absolute
+        top: 35%
+        bottom: 35%
+        left: 35%
+        right: 35%
+        & svg
+            width: 100%
+            height: 100%
+    &__image
+        border-radius: 50%
+        position: absolute
+        top: 0
+        width: 100%
+        height: 100%
+        background-size: cover!important
+        background-position: 50%
+    &__name
+        font-size: 0.77em
+
+.album
+    cursor: pointer
+    display: none
+    &__header
+        text-align: center
+        padding: 20px 0px
+    &__img-container 
+        margin: 0
+        display: block
+        border: 0
+        outline: 0
+        position: relative
+        background-color: #282828
+        padding-top: 100%
+        border-radius: 50%
+        box-shadow: 0 0 10px rgba(0,0,0,.3)
+        width: auto
+        height: auto
+    &__image
+        position: absolute
+        top: 0
+        width: 100%
+        height: 100%
+        background-size: cover!important
+        background-position: 50%
+    &__name
+        font-size: 0.77em
+    &__artist
+        font-size: 0.77em
+        color: #989898
 
 
-main 
-    background-color: #1CD760
+.tracks-list
+    margin: 0px
+    padding: 0px
+    list-style: none
+    &__track
+        display: grid
+        grid-template-columns: 40px 1fr 40px
+        padding: 20px 15px
+        color: #fff
+        &:hover,
+        &--selected
+            background: rgba(0, 0, 0, 0.3)
+        &--selected
+            color: $green
+        &:hover .tracks-list__play,
+        &--selected .tracks-list__play
+            visibility: visible
+        &:hover .tracks-list__music,
+        &--selected .tracks-list__music
+            visibility: hidden
+    &__icons
+        position: relative
+    &__icons i
+        color: inherit
+    &__music,
+    &__pause
+        color: inherit
+        outline: none
+        border: 0px
+        background: none
+    &__pause
+        cursor: pointer
+        display: none
+        &:focus
+            outline: none
+    &__play
+        cursor: pointer
+        color: inherit
+        outline: none
+        border: 0px
+        background: none
+        visibility: hidden
+        position: absolute
+        left: 0px
+        top: 0px
+        &:focus
+            outline: none
+    &__icons,
+    &__name,
+    &__time 
+        align-self: center
+    &__name
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+.results
+    padding-bottom: 40px
+
+.error 
+    display: none
+    color: #721c24
+    background-color: #f8d7da
+    border-color: #f5c6cb
+    position: absolute
+    top: 20px
+    right: 20px
+    z-index: 10
+    padding: 20px
+    border-radius: 6px
+    @media screen and (max-width: 675px) 
+        bottom: 0px
+        top: auto
+        left: 0
+        right: 0
+        border-radius: 0px
+    &__text
+        margin: 0px
+    &__close
+        color: #721c24
+        font-size: 0.7em
+        position: absolute
+        right: 10px
+        top: 5px
+        &:hover
+            color: #721c24
+            text-decoration: none
