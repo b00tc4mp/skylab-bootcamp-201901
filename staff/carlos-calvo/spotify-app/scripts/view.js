@@ -1,3 +1,5 @@
+//Panel
+
 class Panel {
     constructor($container) {
         this.$container = $container
@@ -60,13 +62,7 @@ class SearchPanel extends Panel {
 }
 
 
-
-
-
-
-
-
-
+//class for the artists retrieved from a search
 
 class ArtistsPanel extends Panel {
     constructor() {
@@ -94,7 +90,7 @@ class ArtistsPanel extends Panel {
     set onArtistClicked(callback){
         this.__onArtistSelectedCallback__ = callback
     }
-
+    //Method for 
     focusOnItem(id){
         this.__$listli__ = $('li')
 
@@ -122,16 +118,7 @@ class ArtistsPanel extends Panel {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
+//class for albums from a artist.
 
 class AlbumPanel extends Panel {
     constructor(){
@@ -181,12 +168,7 @@ class AlbumPanel extends Panel {
 
 
 
-
-
-
-
-
-
+//Class for the list of songs from a album
 class SongPanel extends Panel{
     constructor(){
         super($(`<section class="rounded results container songPanel col-6 bg-info text-white text-dark justify-content-md-center align-items-center">
@@ -211,7 +193,6 @@ class SongPanel extends Panel{
     set onSongClicked (callback){
         this.__onSongselectedCallback__ = callback
     }
-
 
     focusOnItem(id){
         this.__$listli__ = $('li')
@@ -239,12 +220,13 @@ class SongPanel extends Panel{
              }
         }
     }
-
 }
 
+
+//Class for the container and audio player.
 class Mp3Player extends Panel{
     constructor(){
-        super($(`<section class="results container mp3Panel col-6 bg-info text-dark">
+        super($(`<section class="results container mp3Panel justify-content-center col-6 bg-info text-dark">
             <h2 class="tituloamarillo">Player</h2>
             <img width="50%" height ="40%">
             <audio controls autoplay></audio>
