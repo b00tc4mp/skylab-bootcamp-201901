@@ -1,3 +1,4 @@
+//const numberResults = 4
 class Panel {
     constructor($container) {
         this.$container = $container
@@ -48,15 +49,15 @@ class ArtistsPanel extends Panel {
     set artists(artists) {
         let pageNumber
         artists.forEach((artist, index) => {
-            pageNumber = (Math.floor(index/4))
-            let $item = $(`<div class="results__list__artist col-6 d-flex flex-column justify-content-center" data-id="${artist.id}" data-page="${pageNumber+1}" style="background-image: url('${artist.images[1].url}')">
-            <h4 class="results__list__artist-title">${artist.name}</h4>
-<span class="results__list__artist-followers">${artist.followers.total}</span>
-<span class="results__list__artist-popularity">${artist.popularity}</span><div class="layer"></div>`)
-            
-            //$item.find('img').attr('src', artist.images[1].url)
-            this.__$list__.find('[data-page="1"]').show()
-            this.__$layer__ = this.__$list__.find('.layer') 
+            let artistImage = artist.images.length ? artist.images[1].url : ''
+            pageNumber = Math.floor(index/4)
+            let $item = $(`
+                <div class="results__list__artist col-6 d-flex flex-column justify-content-center" data-id="${artist.id}" data-page="${pageNumber+1}" style="background-image: url('${artistImage}')">
+                    <h4 class="results__list__artist-title">${artist.name}</h4>
+                    <span class="results__list__artist-followers">${artist.followers.total}</span>
+                    <span class="results__list__artist-popularity">${artist.popularity}</span>
+                    <div class="layer"></div>
+                </div>`)
             this.__$list__.append($item)
         })
     }
@@ -64,47 +65,58 @@ class ArtistsPanel extends Panel {
 
 class PaginationPanel extends Panel {
     constructor() {
-        
         super($(`
-    <nav class="results__list__artist-nav">
-        <ul class="pagination justify-content-center">
-        </ul>
-    </nav>`))
+            <nav class="results__list__artist-nav">
+                <ul class="pagination justify-content-center">
+                </ul>
+            </nav>
+        `))
 
-    this.__$pagination__ = this.$container.find('.pagination')
-
+        this.numberResults = 4 // number of result per page
+        this.activePage = 1
     }
 
-    set init(numResults) { // vhange name a result, cambiar a len o algo así
+    set setPage(pageNumber) {
+        this.activePage = pageNumber
+    }
 
-        this.__$pagination__.empty() // empty nav from li
+    set onClickPage(callback) {
+        this.$container.find('a').each( (index, pageLink) => {
+            $(pageLink).on('click', function(event){
+                event.preventDefault()
+                //callback($(this).data('page'))
+                callback(this.text)
+            })
+        })       
+    }
+
+    set createNavBody(numResults) { // vhange name a result, cambiar a len o algo así
+
+        this.$container.empty() // empty nav from li
         
         let numPages = numResults / 4
         for (let i = 0; i < numPages; i++) {
-            var $item = $(`<li class="page-item"><a class="page-link" data-page="${i+1}" href="#">${i+1}</a></li>`)
+            var $item = $(`<li class="page-item"><a class="page-link" href="#">${i+1}</a></li>`)
             if (!i) { // first load - page 1
                 $item.attr('disabled', 'disabled')
                 $item.find('.page-link').attr('aria-disabled', 'true')
             }
-            this.__$pagination__.append($item)     
+            this.$container.append($item)
         }
     }
 
-    set setPage(pageNumber) {
+    disablePageActive() {
+        console.log(this.activePage)
+        let pageClicked = this.activePage
+
         // removing attr from li and aria-disabled from a
-        this.__$pagination__.find('li').removeAttr('disabled')
-        this.__$pagination__.find('a').removeAttr('aria-disabled')
+        this.$container.find('li').removeAttr('disabled')
+        this.$container.find('a').removeAttr('aria-disabled')
         
         // adding attr to li and aria-disabled to a
-        $(this.__$pagination__.find('li')[pageNumber-1]).attr('disabled', 'disabled')
-        $(this.__$pagination__.find('li')[pageNumber-1]).children('a').attr('aria-disabled', 'true')
+        $(this.$container.find('li')[pageClicked-1]).attr('disabled', 'disabled')
+        $(this.$container.find('li')[pageClicked-1]).children('a').attr('aria-disabled', 'true')
+
     }
 
-    set onClickPage(callback) {
-        this.__$pagination__.find('a').each( (index, pageLink) => {
-            $(pageLink).on('click', function(event){
-                callback($(this).data('page'))
-            })
-        })       
-    }
 }

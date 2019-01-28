@@ -1,7 +1,7 @@
-spotifyApi.token = 'BQCzx7AAmNZSSxWotXoPOv7V2kHbKLEaMkaP-dpdhmjCMdTt29amPQVO3d2a3KNS-HMW16Fy9Ud-VhHzOy4WRiM0FzuPKXNoOz_JEO7qVwbLQMTL0XpCFQPtHeg-uG4u-8BH0wPEeKPxUw'
+spotifyApi.token = 'BQDS3HW63570BAaNeKqHxbgVU6FxvdZXN5E-0k4PSSNVAeLstOR-MaLUu81K6mqKruMslNkQRwvldEeJ_unwdzbx_PmL7bD57gasiJBPQ-PdAktZYnjKtxNTyTqJiSA9Wae_nTk0BVuCtg'
 
-const searchPanel = new SearchPanel
 const artistsPanel = new ArtistsPanel
+const searchPanel = new SearchPanel
 const paginationPanel = new PaginationPanel
 
 const $root = $('#root')
@@ -9,25 +9,32 @@ const $root = $('#root')
 $root.append(searchPanel.$container)
 $root.append(artistsPanel.$container)
 
-artistsPanel.hide()
-
 searchPanel.onSearch = function(query) {
     try {
         logic.searchArtists(query, function(error, artists) {
             if (error) searchPanel.error = error.message
             else {
-                artistsPanel.artists = artists
-                artistsPanel.show()
+                paginationPanel.hide()
+                artistsPanel.__$list__.empty() 
+                artistsPanel.artists =  artists 
 
-                paginationPanel.init = artists.length // we call init on every search
-                artistsPanel.$container.append(paginationPanel.__$pagination__) // append at the end of results
-                
-                paginationPanel.onClickPage = function (pageClicked) {
-                    artistsPanel.$container.find('.results__list__artist').hide() // hide all artists container
-                    artistsPanel.$container.find(`[data-page="${pageClicked}"]`).show() // show only the page clicked
-                    paginationPanel.setPage = pageClicked
+                //mostramos la navegación únicamente si artists.lentgh > paginationPanel.length
+                if (artists.length > paginationPanel.numberResults){
+                    // creamos los li dentro de la paginación
+                    paginationPanel.createNavBody = artists.length
+                    paginationPanel.show()
+                    artistsPanel.$container.append(paginationPanel.$container)
+
                 }
-                     
+
+                paginationPanel.onClickPage = function (pageClicked) { 
+                    paginationPanel.setPage = pageClicked
+                    paginationPanel.disablePageActive()
+
+                    artistsPanel.$container.find(`div[data-page]`).removeClass('mostrar esconder')
+                    artistsPanel.$container.find(`div[data-page!="${pageClicked}"]`).addClass('esconder')
+                    artistsPanel.$container.find(`div[data-page="${pageClicked}"]`).addClass('mostrar')
+                } 
             }
         })
     } catch(err) {

@@ -344,6 +344,12 @@ h1, h2, h3, h4, h5 {
   color: #ffffff;
   font-weight: 700; }
 
+.esconder {
+  display: none !important; }
+
+.mostrar {
+  display: flex !important; }
+
 #root {
   max-width: 740px; }
   #root div img {
