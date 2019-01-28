@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function search(query, callback) {
+            var xhr = new XMLHttpRequest;
+
+            xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
+
+            xhr.onload = function () {
+                var res = JSON.parse(xhr.responseText);
+
+                if (res.error)
+                    callback(res.error);
+                else
+                    callback(undefined, res);
+            };
+
+            xhr.onerror = function (error) {
+                callback('network error');
+            };
+
+            xhr.send();
+        }
+
+        const ducks = [];
+
+        const darkDucksSearch = new Promise(function (resolve, reject) {
+            search('dark', function (error, results) {
+                if (error) reject(error)
+                else resolve(results)
+            })
+        })
+
+        const redDucksSearch = new Promise(function (resolve, reject) {
+            search('red', function (error, results) {
+                if (error) reject(error)
+                else resolve(results)
+            })
+        })
+
+        const greenDucksSearch = new Promise(function (resolve, reject) {
+            search('green', function (error, results) {
+                if (error) reject(error)
+                else resolve(results)
+            })
+        })
+
+        darkDucksSearch
+            .then(function (results) {
+                ducks.push(results)
+
+                return redDucksSearch
+            })
+            .then(function (results) {
+                ducks.push(results)
+
+                return greenDucksSearch
+            })
+            .then(function(results) {
+                ducks.push(results)
+                
+                console.log(ducks)
+            })
+            .catch(function(error) {
+                console.error(error)
+            })
+    </script>
+</body>
+
+</html>
