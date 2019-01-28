@@ -12,7 +12,7 @@ function reduce(array, callback, accumulator) {
     if (!(callback instanceof Function)) throw TypeError(callback + ' is not an function');
 
     var i = 0;
-    if (accumulator === undefined) {
+    if (!accumulator) {
         accumulator = array[0];
         i = 1;
     }
