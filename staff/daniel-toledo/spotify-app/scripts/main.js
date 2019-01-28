@@ -1,5 +1,4 @@
-spotifyApi.token = 'BQAmjihYZgA4wqh_L8nO5r3wwTJ1FalVEAH0KHUYOqZhe9VWin2Mm6S2-9s-yiKvbYPRw_-6YjSk5axkC5OdTJIyn04fPi0T9vAIiJNMrUXqrfm-ATaPuDM5lSXM_FO9VvAUWfo2LS7wie5RJ7k'
-
+spotifyApi.token = 'BQALZoGSP5F1wc_HO7kKHtOYF9PLrE24ttG7Di5b0lQAcFLw8zLLkawMDj-g1aXpi7JGexTZImq3HUhDSbvN5NC3cwN7-TeV7f7nKmP3thTn1CXGejvmGy8aWIoeHfqcFBGQS1QXzet8TuZNGo0'
 const searchPanel = new SearchPanel
 const navPanel = new NavPanel
 const artistsPanel = new ArtistsPanel
@@ -21,6 +20,7 @@ playPanel.hide()
 loginPanel.hide()
 homePanel.hide()
 navPanel.hide()
+errorPanel.hide()
 
 $root.append(searchPanel.$container)
 $root.append(navPanel.$container)
@@ -43,16 +43,33 @@ searchPanel.onSearch = function (query) {
                 artistsPanel.artists = artists
                 homePanel.hide()
                 artistsPanel.show()
+
+                artistsPanel.clear()
+                albumsPanel.clear()
+                tracksPanel.clear()
+                playPanel.clear()
+                navPanel.show()
+                searchPanel.__$form__.show()
+
+                albumsPanel.hide()
+                tracksPanel.hide()
+                playPanel.hide()
+
+                navPanel.__$artistLink__.show()
+                navPanel.__$albumLink__.hide()
+                navPanel.__$trackLink__.hide()
+
             }
         })
 
     } catch (err) {
-
+        searchPanel.error=err.message
     }
 }
 
 searchPanel.onLogout = function() {
     homePanel.hide()
+    searchPanel.__$logoutButton__.hide()
 
     loginPanel.clear()
     welcomePanel.show()
@@ -86,9 +103,6 @@ navPanel.onAlbum = function() {
     albumsPanel.show()
 };
 
-
-
-
 homePanel.onSearch = function (query) {
     try {
         logic.searchArtists(query, function (error, artists) {
@@ -98,11 +112,23 @@ homePanel.onSearch = function (query) {
                 homePanel.hide()
                 artistsPanel.show()
 
+                artistsPanel.clear()
+                albumsPanel.clear()
+                tracksPanel.clear()
+                playPanel.clear()
+                searchPanel.__$form__.show()
+                navPanel.show()
+                navPanel.__$artistLink__.show()
+
+                albumsPanel.hide()
+                tracksPanel.hide()
+                playPanel.hide()
+
             }
         })
 
     } catch (err) {
-
+        homePanel.error=err.message
     }
 }
 
@@ -120,7 +146,7 @@ artistsPanel.onItemSelected = function (id) {
             }
         })
     } catch (err) {
-        console.error(err) // ?
+        artistsPanel.error=err.message
     }
 }
 
@@ -139,7 +165,7 @@ albumsPanel.onItemSelected = function (id,image) {
             }
         })
     } catch (err) {
-        console.error(err) // ?
+        albumsPanel.error=err.message
     }
 }
 
@@ -155,7 +181,7 @@ tracksPanel.onItemSelected = function (id) {
             }
         })
     } catch (err) {
-        console.error(err) // ?
+        tracksPanel.error=err.message
     }
 }
 
@@ -177,6 +203,6 @@ loginPanel.onLogin = function(email,password) {
         })
 
     } catch(err) {
-        console.log(err) //?
+        loginPanel.error=err.message
     }
 }

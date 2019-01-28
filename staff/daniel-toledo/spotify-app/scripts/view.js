@@ -12,14 +12,13 @@ class Panel {
     }
 }
 
-
 class SearchPanel extends Panel {
     constructor() {
         super($(`<nav class="navbar navbar-light bg-light searchPanel">
     <img src="images/logo.png" width="200px">
-    <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search Artist..." aria-label="Search">
-        <button class="btn btn-outline-info" type="submit">Search</button>
+    <form class="form-inline my-2 my-lg-0 row">
+        <input class="form-control mr-sm-2 col-sm-8 col-12" type="search" name="query" placeholder="Search Artist..." aria-label="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0 col-sm-3 col-12" type="submit">Search</button>
     </form>
     <button class="btn btn-outline-dark" id="logout">Logout</button> </a> 
     </div>
@@ -31,21 +30,14 @@ class SearchPanel extends Panel {
         this.__$query__ = this.__$form__.find('input')
         this.__$form__.hide()
 
-        this.__$artistLink__=this.$container.find('li[id=artist]')
-        this.__$artistLink__.hide()
-
-        this.__$albumLink__=this.$container.find('li[id=album]')
-        this.__$albumLink__.hide()
-
-        this.__$trackLink__=this.$container.find('li[id=tracks]')
-        this.__$trackLink__.hide()
-
         this.__$logoutButton__=this.$container.find('button[id=logout]')
         this.__$logoutButton__.hide()
 
         var errorPanel = new ErrorPanel;
-        this.$container.append(errorPanel.$container);
+        this.__$form__.append(errorPanel.$container);
         this.__errorPanel__ = errorPanel;
+        errorPanel.hide()
+
     }
 
 
@@ -54,22 +46,6 @@ class SearchPanel extends Panel {
             event.preventDefault()
 
             const query = this.__$query__.val()
-
-            artistsPanel.clear()
-            albumsPanel.clear()
-            tracksPanel.clear()
-            playPanel.clear()
-            navPanel.show()
-            searchPanel.__$form__.show()
-
-            albumsPanel.hide()
-            tracksPanel.hide()
-            playPanel.hide()
-
-            navPanel.__$artistLink__.show()
-            navPanel.__$albumLink__.hide()
-            navPanel.__$trackLink__.hide()
-
 
             callback(query)
         })
@@ -150,7 +126,7 @@ class ArtistsPanel extends Panel {
         var errorPanel = new ErrorPanel;
         this.$container.append(errorPanel.$container);
         this.__errorPanel__ = errorPanel;
-
+        errorPanel.hide()
     }
 
     set artists(artists){
@@ -158,8 +134,8 @@ class ArtistsPanel extends Panel {
             const image = images[0] ? images[0].url :  'https://cdn.pixabay.com/photo/2016/06/01/09/21/music-1428660_960_720.jpg'
             const $item=$(`<div  data-id=${id} class="card col-12 col-sm-6 col-md-4">
             <li>
-                <img "card-img-top" src=${image} width="150px">
-                <p "card-title">${name}</p>
+                <img class="card-img-top" src=${image} width="150px">
+                <p class="card-title text-center">${name}</p>
             </li>
         </div>`)
 
@@ -182,13 +158,12 @@ class ArtistsPanel extends Panel {
 
     set onItemSelected(callback) {
         this.__onItemSelected__ = callback
-    }
+    } 
 
     set error(message){
         this.__errorPanel__.message=message
         this.__errorPanel__.show()
     }
-    
 }
 
 class AlbumsPanel extends Panel{
@@ -202,6 +177,7 @@ class AlbumsPanel extends Panel{
     var errorPanel = new ErrorPanel;
     this.$container.append(errorPanel.$container);
     this.__errorPanel__ = errorPanel;
+    errorPanel.hide()
     }
 
     set albums(albums){
@@ -209,8 +185,8 @@ class AlbumsPanel extends Panel{
             const image = images[0] ? images[0].url :  'https://www.tunefind.com/i/album-art-empty.png'
             const $item=$(`<div  data-id=${id} class="card col-12 col-sm-6 col-md-4">
             <li>
-                <img "card-img-top" src=${image} width="150px">
-                <p "card-title">${name}</p>
+                <img class="card-img-top" src=${image} width="150px">
+                <p class="card-title text-center">${name}</p>
             </li>
         </div>`)
 
@@ -249,11 +225,12 @@ class TracksPanel extends Panel{
     
     this.__$listTracks__=this.$container.find('ul')
     this.__$image__=this.$container.find('img')
-   
 
+    
     var errorPanel = new ErrorPanel;
     this.$container.append(errorPanel.$container);
     this.__errorPanel__ = errorPanel;
+    errorPanel.hide()
 
     }
 
@@ -280,13 +257,13 @@ class TracksPanel extends Panel{
         this.__onItemSelected__ = callback
     }
 
-    clear(){
-        this.__$listTracks__.html('')
-    }
-
     set error(message){
         this.__errorPanel__.message=message
         this.__errorPanel__.show()
+    }
+
+    clear(){
+        this.__$listTracks__.html('')
     }
 }
 
@@ -297,11 +274,6 @@ class PlayPanel extends Panel{
     </section>`))
     
     this.__$song__=this.$container.find('ul')
-
-    var errorPanel = new ErrorPanel;
-    this.$container.append(errorPanel.$container);
-    this.__errorPanel__ = errorPanel;
-
     }
 
     set song(song){
@@ -312,11 +284,6 @@ class PlayPanel extends Panel{
             </audio>
         </li>`)
         this.__$song__.append($item)
-    }
-
-    set error(message){
-        this.__errorPanel__.message=message
-        this.__errorPanel__.show()
     }
 
     clear(){
@@ -354,7 +321,6 @@ class WelcomePanel extends Panel{
     }
 }
 
-
 class LoginPanel extends Panel{
     constructor(){
         super($(`<section class="welcome">
@@ -366,7 +332,7 @@ class LoginPanel extends Panel{
                 <label for="email" class="col col-md-3 col-sm-12 flex mt-1">Email</label>
                 <input type="email" class="col col-md-9 col-12 form-control mt-1" name="email" placeholder="Email" required>
                 <label for="password" class="col col-md-3 col-sm-12 flex mt-1">Password</label>
-                <input type="text" class="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required>
+                <input type="password" class="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required>
             </div>
             <div class="row login-flex mt-3">
                 <div class="col-md-3 col-0"></div>
@@ -390,8 +356,9 @@ class LoginPanel extends Panel{
         this.__$passwordInput__ = $($inputs[1]);
 
         var errorPanel = new ErrorPanel;
-        this.$container.append(errorPanel.$element);
+        this.__$form__.append(errorPanel.$container);
         this.__errorPanel__ = errorPanel;
+        errorPanel.hide()
 
         var $registerLink = $form.find('a')
         this.__$registerLink__ = $registerLink;
@@ -415,6 +382,11 @@ class LoginPanel extends Panel{
         this.__errorPanel__.hide();
     };
 
+    set error(message){
+        this.__errorPanel__.message=message
+        this.__errorPanel__.show()
+    }
+
 }
 
 class HomePanel extends Panel{
@@ -423,9 +395,9 @@ class HomePanel extends Panel{
     <div class="welcome__banner">
         <h2 class="text-center pt-5 display-2"> Welcome, <span></span>!</h2>
         <p class="text-center mt-2 display-5">Search for an Artist to listen its music. </p>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search Artist..." aria-label="Search">
-            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+        <form class="my-2 my-lg-0 row">
+            <input class="form-control mr-sm-2 col-sm-8 col-12" type="search" name="query" placeholder="Search Artist..." aria-label="Search">
+            <button class="btn btn-outline-info my-2 my-sm-0 col-sm-3 col-12" type="submit">Search</button>
         </form>
     </div>
     
@@ -438,6 +410,11 @@ class HomePanel extends Panel{
 
         this.__$form__ = this.$container.find('form')
         this.__$query__ = this.__$form__.find('input')
+
+        var errorPanel = new ErrorPanel;
+        this.__$form__.append(errorPanel.$container);
+        this.__errorPanel__ = errorPanel;
+        errorPanel.hide()
     }
 
     set onSearch(callback) {
@@ -445,18 +422,6 @@ class HomePanel extends Panel{
             event.preventDefault()
 
             const query = this.__$query__.val()
-
-            artistsPanel.clear()
-            albumsPanel.clear()
-            tracksPanel.clear()
-            playPanel.clear()
-            searchPanel.__$form__.show()
-            navPanel.show()
-            navPanel.__$artistLink__.show()
-
-            albumsPanel.hide()
-            tracksPanel.hide()
-            playPanel.hide()
 
             callback(query)
         })
@@ -472,12 +437,16 @@ class HomePanel extends Panel{
     set onLogout(callback) {
         this.__$logoutButton__.on('click', callback);
     }
-}
 
+    set error(message){
+        this.__errorPanel__.message=message
+        this.__errorPanel__.show()
+    }
+}
 
 class ErrorPanel extends Panel{
     constructor(){
-        super($(`<section class="error"></section>`))
+        super($(`<section class="error mt-2 col-12"></section>`))
     }
 
     set message(message){

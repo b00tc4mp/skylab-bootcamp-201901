@@ -25,6 +25,9 @@ ul .card li {
 ul .card li img {
   margin: 1em auto;
 }
+ul .card li p {
+  text-align: center;
+}
 
 .welcome {
   background-image: url("https://www.beon.com/wp-content/uploads/2018/03/conciertos.width-1200.jpg");
@@ -85,6 +88,15 @@ ul .card li img {
     flex-direction: column;
     justify-content: center;
   }
+}
+.error {
+  background-color: salmon;
+  border: 2px black solid;
+  border-radius: 0.2em;
+  color: white;
+  padding: 0.7em;
+  display: block;
+  text-align: center;
 }
 
 /*# sourceMappingURL=main.css.map */
