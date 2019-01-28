@@ -14,7 +14,7 @@ class Panel {
 
 class SearchPanel extends Panel {
     constructor() {
-        super($(`<section class="search">
+        super($(`<section class="search container">
     <form class="searchingForm">
         <button type="submit" class="searchingForm__button">Search</button>
         <input type="text" name="query" class="searchingForm__input" placeholder="an artist..." autofocus autocomplete="off">
@@ -38,7 +38,8 @@ class SearchPanel extends Panel {
 
 class ArtistsPanel extends Panel {
     constructor() {
-        super($(`<section class="results">
+        super($(`<section class="results container">
+    <h3>Artists</h3>
     <ul class="artistsList"></ul>
 </section`))
 
@@ -79,26 +80,17 @@ class ArtistsPanel extends Panel {
 
 class AlbumsPanel extends Panel {
     constructor() {
-        super($(`<section class="results">
-    <ul class="artistsList"></ul>
+        super($(`<section class="results container">
+    <h3>Albums</h3>
+    <ul></ul>
 </section`))
 
         this.__$list__ = this.$container.find('ul')
     }
 
     set albums(albums) {
-        albums.forEach(({ id, name, images }) => {
-            const image = images.length!==0?images[0].url:"styles/no-image.png"
-            const $album = $(`<li data-id=${id}>
-    <div class="artistsCard">
-        <div class="artistsCard__image">
-            <img src="${image}" height="100%">
-        </div>
-        <div class="artistsCard__name">
-            <p>${name}</p>
-        </div>
-    </div>
-</li>`)
+        albums.forEach(({ id, name }) => {
+            const $album = $(`<li data-id=${id}>${name}</li>`)
 
             $album.click(() => {
                 const id = $album.data('id')
@@ -131,16 +123,13 @@ class TracksPanel extends Panel {
     }
 
     set tracks(tracks) {
-        tracks.forEach(({ id, name, duration_ms, preview_url }) => {
-            const time = parseInt(duration_ms/(1000*60)%60) + ":" + (parseInt((duration_ms/1000)%60)>9?parseInt((duration_ms/1000)%60):"0"+parseInt((duration_ms/1000)%60))
-            const $track = $(`<li data-id=${id} data-preview=${preview_url}><audio controls><source src="${preview_url}" type="audio/mpeg">Your browser does not support the audio tag.</audio>`+" "+`${time} - ${name}</li>`)
+        tracks.forEach(({ id, name }) => {
+            const $track = $(`<li data-id=${id}>${name}</li>`)
 
             $track.click(() => {
                 const id = $track.data('id')
-                const preview = $track.data('preview')
-                console.log(preview)
     
-                // this.__onTrackSelectedCallback__(id)                
+                this.__onTrackSelectedCallback__(id)                
             })
 
             this.__$list__.append($track)
@@ -152,41 +141,41 @@ class TracksPanel extends Panel {
     }
 
     set onTrackSelected(callback) {
-        // this.__onTrackSelectedCallback__ = callback
+        this.__onTrackSelectedCallback__ = callback
     }
 
 }
 
-// class TrackPanel extends Panel {
-//     constructor() {
-//         super($(`<section class="results container">
-//     <h3>Track</h3>
-//     <ul></ul>
-// </section`))
+class TrackPanel extends Panel {
+    constructor() {
+        super($(`<section class="results container">
+    <h3>Track</h3>
+    <ul></ul>
+</section`))
 
-//         this.__$list__ = this.$container.find('ul')
-//     }
+        this.__$list__ = this.$container.find('ul')
+    }
 
-//     set track(track) {
-//         track.forEach(({ id, name }) => {
-//             const $track = $(`<li data-id=${id}>${name}</li>`)
+    set track(track) {
+        track.forEach(({ id, name }) => {
+            const $track = $(`<li data-id=${id}>${name}</li>`)
 
-//             // $track.click(() => {
-//             //     const id = $track.data('id')
+            // $track.click(() => {
+            //     const id = $track.data('id')
     
-//             //     this.__onTrackSelectedCallback__(id)                
-//             // })
+            //     this.__onTrackSelectedCallback__(id)                
+            // })
 
-//             this.__$list__.append($track)
-//         })
-//     }
+            this.__$list__.append($track)
+        })
+    }
 
-//     clear() {
-//         this.__$list__.html('');
-//     }
+    clear() {
+        this.__$list__.html('');
+    }
 
-//     // set onTrackSelected(callback) {
-//     //     this.__onTrackSelectedCallback__ = callback
-//     // }
+    // set onTrackSelected(callback) {
+    //     this.__onTrackSelectedCallback__ = callback
+    // }
 
-// }
+}
