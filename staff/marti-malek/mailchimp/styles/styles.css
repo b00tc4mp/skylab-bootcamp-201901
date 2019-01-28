@@ -1,0 +1,320 @@
+/*1200px*/
+.center .container .four, .center .container .three, .center .container .two, .center .container .one {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  justify-items: center;
+  position: relative;
+}
+.center .container .four img, .center .container .three img, .center .container .two img, .center .container .one img {
+  width: 88%;
+  position: relative;
+  bottom: 3rem;
+  right: -1rem;
+}
+.center .container .four h3, .center .container .three h3, .center .container .two h3, .center .container .one h3 {
+  font-size: 1.5rem;
+  align-self: end;
+  position: relative;
+  top: 16rem;
+  margin-right: 0.5rem;
+}
+.center .container .four h4, .center .container .three h4, .center .container .two h4, .center .container .one h4 {
+  position: relative;
+  bottom: 2.5rem;
+  justify-self: left;
+  margin-left: 1.9rem;
+}
+.center .container .four p, .center .container .three p, .center .container .two p, .center .container .one p {
+  margin-left: 2rem;
+  position: relative;
+  bottom: 2rem;
+}
+.center .container .four a, .center .container .three a, .center .container .two a, .center .container .one a {
+  position: relative;
+  right: -1rem;
+  text-decoration: none;
+  color: white;
+  background-color: #323232;
+  padding: 0.3rem;
+  padding-right: 8.1rem;
+  border: 1px solid #323232;
+  border-radius: 5px;
+}
+.center .container .four .arrow, .center .container .three .arrow, .center .container .two .arrow, .center .container .one .arrow {
+  position: absolute;
+  width: 7%;
+}
+
+footer .four p, footer .three p, footer .two p, footer .one p {
+  color: white;
+  margin-bottom: 0.2rem;
+}
+footer .four ul, footer .three ul, footer .two ul, footer .one ul {
+  color: gray;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+footer .four ul li, footer .three ul li, footer .two ul li, footer .one ul li {
+  padding-top: 0.3rem;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, #44bdd5 50%, lightgray 50%);
+  font-family: Helvetica Neue, sans-serif;
+}
+
+.header {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 50px 1fr 50px;
+}
+.header__log {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  justify-self: end;
+  margin-right: 2rem;
+}
+.header__log p {
+  color: white;
+}
+.header__nav {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  display: flex;
+  flex-direction: row;
+}
+.header__nav img {
+  margin-left: 2rem;
+}
+.header__nav nav {
+  background-color: #d1e5f9;
+  border: 1px solid #d1e5f9;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-content: center;
+}
+.header__nav nav a {
+  text-align: center;
+  align-self: center;
+  text-decoration: none;
+  color: black;
+  padding: 0.5rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  font-weight: bold;
+  font-size: 1.3rem;
+  border-right: 1px solid white;
+}
+.header__nav nav img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  align-self: center;
+  right: 4.5rem;
+}
+.header__nav nav input {
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.button {
+  color: white;
+  background-color: #4f524c;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 51%);
+  border-radius: 0.4rem;
+  border: none;
+  width: 75%;
+  margin: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: white;
+}
+
+.first {
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr 50px;
+  grid-template-rows: 1fr 0.5fr 0.5fr;
+}
+.first__monkey {
+  grid-column: 2/3;
+  grid-row: 1/4;
+  justify-self: right;
+  padding: 1rem;
+  padding-bottom: 0;
+}
+.first__title {
+  grid-column: 3/4;
+  grid-row: 1/2;
+  justify-self: left;
+  align-self: center;
+  width: 80%;
+  padding-top: 2rem;
+}
+.first p {
+  grid-column: 3/4;
+  grid-row: 2/3;
+  justify-self: left;
+}
+.first button {
+  grid-column: 3/4;
+  grid-row: 3/4;
+  justify-self: left;
+  height: 4rem;
+  width: 14rem;
+  background-color: #d8654b;
+  align-self: start;
+  justify-self: flex-start;
+  margin: 0;
+}
+
+.center {
+  display: grid;
+  grid-template-columns: 70px 1fr 1fr 1fr 1fr 70px;
+}
+.center .container {
+  width: 86%;
+  justify-self: center;
+  grid-column: 1/7;
+  background-color: #eff0f1;
+  border: 1px solid #959594;
+  border-top-right-radius: 0.7rem;
+  border-top-left-radius: 0.7rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 40px 1fr 1fr 40px;
+  grid-gap: 15px;
+}
+.center .container h3 {
+  grid-column: 1/2;
+  grid-row: 1/2;
+  font-size: 2rem;
+  margin: 0;
+  padding-left: 0.5rem;
+  align-self: end;
+  justify-self: center;
+  position: relative;
+  top: 0.5rem;
+}
+.center .container .one {
+  grid-column: 1/2;
+  grid-row: 2/4;
+}
+.center .container .one .arrow {
+  top: 31.5rem;
+  right: 1rem;
+}
+.center .container .two {
+  grid-column: 2/3;
+  grid-row: 2/4;
+}
+.center .container .two h3 {
+  right: 0.5rem;
+}
+.center .container .two a {
+  right: -0.9rem;
+}
+.center .container .two .arrow {
+  top: 31.5rem;
+  right: 1.3rem;
+}
+.center .container .three {
+  grid-column: 3/4;
+  grid-row: 2/4;
+}
+.center .container .three img {
+  top: -30px;
+  right: -0.2rem;
+}
+.center .container .three h4 {
+  top: -25px;
+  right: 1rem;
+}
+.center .container .three h3 {
+  right: 4.3rem;
+  top: 17.2rem;
+}
+.center .container .three p {
+  bottom: 1rem;
+  right: 1rem;
+}
+.center .container .three a {
+  right: -0.2rem;
+}
+.center .container .three .arrow {
+  top: 31.5rem;
+  right: 1.9rem;
+}
+.center .container .four {
+  grid-column: 4/5;
+  grid-row: 2/4;
+}
+.center .container .four img {
+  right: 0.5rem;
+}
+.center .container .four h4 {
+  right: 1.5rem;
+}
+.center .container .four h3 {
+  right: 1.4rem;
+}
+.center .container .four p {
+  right: 1.5rem;
+}
+.center .container .four a {
+  right: 0.5rem;
+}
+.center .container .four .arrow {
+  top: 31.5rem;
+  right: 2.3rem;
+}
+
+footer {
+  background-color: #181815;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 350px 350px;
+  justify-items: center;
+  height: 40%;
+}
+footer .one {
+  grid-column: 1/2;
+  grid-row: 1/2;
+  position: relative;
+  right: -2rem;
+}
+footer .two {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  position: relative;
+  right: -0.5rem;
+}
+footer .three {
+  grid-column: 3/4;
+  grid-row: 1/2;
+  position: relative;
+  right: 3.4rem;
+}
+footer .four {
+  grid-column: 4/5;
+  grid-row: 1/2;
+  position: relative;
+  right: 7rem;
+}
+footer p {
+  grid-column: 1/5;
+  grid-row: 2/3;
+  position: relative;
+  color: gray;
+}
+
+/*# sourceMappingURL=styles.css.map */
