@@ -1,0 +1,102 @@
+main, body, html {
+  height: 100%;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  border-radius: 1em;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+ul .card {
+  padding: 0;
+}
+ul .card li {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-content: center;
+}
+ul .card li img {
+  margin: 1em auto;
+}
+ul .card li p {
+  text-align: center;
+}
+
+.welcome {
+  background-image: url("https://www.beon.com/wp-content/uploads/2018/03/conciertos.width-1200.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
+}
+
+.welcome__banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+.login__margins {
+  padding: 10% 20%;
+}
+
+.login {
+  border: 2px black solid;
+  border: radius 0.5em;
+  background-color: rgba(215, 215, 215, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login .login-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.green {
+  color: regb(0, 141, 151);
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.searchPanel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 630px) {
+  .searchPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.error {
+  background-color: salmon;
+  border: 2px black solid;
+  border-radius: 0.2em;
+  color: white;
+  padding: 0.7em;
+  display: block;
+  text-align: center;
+}
+
+/*# sourceMappingURL=main.css.map */
