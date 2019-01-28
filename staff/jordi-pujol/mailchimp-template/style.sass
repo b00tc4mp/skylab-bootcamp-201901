@@ -1,0 +1,222 @@
+html
+    margin: 0
+    padding: 0
+    
+    body
+        margin: 0
+        padding: 0
+        display: grid
+        grid-template-columns: 1fr
+        grid-template-rows: 35% 40% 30%
+        font-family: 'Noto Sans', sans-serif
+
+        .menu
+            background-color: #41bdd3
+            grid-row-start: 1
+            grid-row-end: 1
+            display: grid
+            grid-template-columns: 50% 50%
+            grid-template-rows: 30% 70%
+            padding: 0 5em
+
+            &__items
+                margin-top: 1em
+                grid-row-start: 1
+                grid-row-end: 1 
+                grid-column-start: 1
+                grid-column-end: 3
+                display: flex
+                flex-direction: row
+                justify-content: space-evenly
+                align-items: center
+                display: inline-block
+
+                &__tt
+                    list-style: none
+                    display: flex
+                    flex-direction: row
+                    justify-content: space-between
+
+                &--title
+                    display: flex
+                    justify-content: center
+                    width: 14em
+                
+                &--sign
+                    height: 5em
+                    width: 9em
+                    background-color: #3d3838
+                    border-radius: 1em
+                    color: white
+                    border: 1px solid black
+
+                &--info
+                    display: flex
+                    flex-direction: row
+                    list-style: none
+                    align-items: center
+                    color: white
+                    font-weight: 600
+                    background-color: #a9e8f2
+                    border-radius: 1em
+                    height: 4.2em
+                    width: 43em
+                    justify-content: space-between
+                    padding: 0
+
+                    &--list
+                        color: black
+                        border-right: 1px solid #c6bebe
+                        height: 100%
+                        display: flex
+                        align-items: center
+                        padding-left:1em
+                        padding-right:1em
+
+                        input
+                            height: 1.8em
+                            border-radius: 0.3em
+
+                        img
+                            max-width: 20px
+    
+            &__img
+                grid-column-start: 1
+                grid-column-end: 2
+
+            &__description
+                grid-column-start: 2
+                grid-column-end: 3
+
+                &--sign
+                    border: 1px solid #d11d1d
+                    background-color: #ed4747
+                    border-radius: 0.7em
+                    width: 10em
+                    height: 3em
+                    font-size: 22px
+                    color: white
+
+        .main
+            background-image: url("images/noisepattern.png")
+            grid-row-start: 2
+            grid-row-end: 3
+
+            .products
+                background-color: #f2efef
+                margin: 0 5%
+                padding: 0 5%
+                display: grid
+                grid-template-rows: 15% 85%
+                justify-content: space-around
+                border: 1px solid #f2efef
+                border-radius: 1em
+                height: 100%
+
+                &__title
+                    grid-row-start: 1
+                    grid-row-end: 2
+                
+                &__item
+                    grid-row-start: 2
+                    grid-row-end: 3
+                    display: grid
+                    grid-template-columns: repeat(4, 25%)
+                    grid-template-rows: 100%
+
+                    &--1
+                        grid-column-start: 1
+                        grid-column-end: 2
+                        padding: 0 5%
+                        width: 75%
+
+                    &--2
+                        grid-column-start: 2
+                        grid-column-end: 3
+                        padding: 0 5%
+                        width: 80%
+
+                    &--3
+                        grid-column-start: 3
+                        grid-column-end: 4
+                        padding: 0 5%
+                        width: 90%
+
+                    &--4
+                        grid-column-start: 4
+                        grid-column-end: 5
+                        padding: 0 5%
+                        width: 90%
+
+                    &--butt
+                        width: 100%
+                        height: 2em
+                        color: white
+                        background-color: #333030
+                        border: 0,5px solid #333030
+                        border-radius: 0.6em
+                        display: flex
+                        padding-left: 2em
+
+                    &--text
+                        color: grey
+
+                    &--firsttitle
+                        margin-bottom: 0%
+                    
+                    &--secondtitle
+                        margin-top: 1%
+
+
+        .moreinfo
+            background-color: black
+            grid-row-start: 3
+            grid-row-end: 4
+            display: grid
+            padding: 0 5%
+            grid-template-columns: repeat(4, 25%)
+            grid-template-rows: repeat(2, 1fr)
+
+            &__list
+
+                &--1
+                    grid-row-start: 1
+                    grid-row-end: 2
+                    grid-column-start: 1
+                    grid-column-end: 2
+                    
+                &--2
+                    grid-row-start: 1
+                    grid-row-end: 2
+                    grid-column-start: 2
+                    grid-column-end: 3
+                    
+                &--3
+                    grid-row-start: 1
+                    grid-row-end: 2
+                    grid-column-start: 3
+                    grid-column-end: 4
+                    
+                &--4
+                    grid-row-start: 1
+                    grid-row-end: 2
+                    grid-column-start: 4
+                    grid-column-end: 5
+
+
+                &--title
+                    color: white
+                    list-style: none
+
+                &--item
+                    color: grey
+                    list-style: none
+                    font-size: 14px
+
+            &__rights
+                grid-row-start: 2
+                grid-row-end: 3
+                grid-column-start: 1
+                grid-column-end: 5
+                color: grey
+                justify-self: center
