@@ -221,6 +221,9 @@ class SearchPanel extends Panel {
     }
     set onLogout(callback) {
         this.__$logoutButton__.on('click', callback)
+    }
+    clear() {
+        this.__$query__.val('')
     }    
 }
 
@@ -243,7 +246,7 @@ class ArtistPanel extends Panel {
         artists.forEach(({ id, name, images, popularity, genres }) =>{
             const genre = genres[0] ? genres[0] : 'No genre defined'
             const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
-            const $item =$(`<div data-id=${id} class="card">
+            const $item =$(`<div data-id=${id} class="cursor card">
     <img src="${image}" class="card-img-top">
     <div class="card-body">
         <h5 class="card-title">${name}</h5>
@@ -299,7 +302,7 @@ class AlbumPanel extends Panel {
     set albums (albums){
         albums.forEach(({ id, name, images, release_date, total_tracks }) =>{
             const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
-            const $item =$(`<div data-id=${id} class="card">
+            const $item =$(`<div data-id=${id} class="cursor card">
     <img src="${image}" class="card-img-top">
     <div class="card-body">
         <h5 class="card-title">${name}</h5>
@@ -357,7 +360,7 @@ class TracksPanel extends Panel {
 
     set tracks (tracks) {
         tracks.forEach(({id, name}) => {
-            const $item = $(`<div data-id=${id} class="list-group-item list-group-item-action list-group-item-light">${name}</div>`)
+            const $item = $(`<div data-id=${id} class="cursor list-group-item list-group-item-action list-group-item-light">${name}</div>`)
 
             $item.click(() => {
                 const id = $item.data('id')
