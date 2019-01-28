@@ -1,0 +1,27 @@
+.app {
+    border: 1px solid blue;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.login {
+    border: 1px solid green;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.feedback {
+    border: 1px solid;
+    border-radius: 1em;
+    padding: 1em;
+    background-color: greenyellow;
+}
+
+.feedback--warn {
+    background-color: yellow;
+}
+
+.feedback--error {
+    background-color: tomato;
+    color: white;
+}
