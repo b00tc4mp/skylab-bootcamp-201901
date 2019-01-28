@@ -77,6 +77,8 @@ main#root
 .artist
     cursor: pointer
     display: none
+    &:hover .artist__image
+        background-size: 150% !important
     &__header
         text-align: center
         padding: 20px 0px
@@ -112,9 +114,17 @@ main#root
     &__name
         font-size: 0.77em
 
+aside .album 
+    cursor: default
+aside .album:hover
+        background: none!important
 .album
     cursor: pointer
     display: none
+    padding: 10px
+    height: 100%
+    &:hover 
+        background-color: rgba(0, 0, 0, 0.3)
     &__header
         text-align: center
         padding: 20px 0px

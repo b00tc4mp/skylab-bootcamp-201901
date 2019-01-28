@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQBSOP78QoDa1o8R9bYy16tqUB-waNBP8QGFFMAe23Jzvucbxk1LoVNTl0TloU4C2r1hzddpgRH9y0AmaupgtJUlFHaeLoDUicnp2G4Cwkixsi1TjFGF-p3V4SbGzCKn5y7nlVijG4YwUg';
+spotifyApi.token = 'BQDRYF_TBN6VXT72o2sSgoY0N9YKoBXW5BSBBkGITohClqoPiRe-Dczo4FgRmYiF4bwewUyLuO_SWsqbTeAvSRTjDQ9sKd8Rs2gKNWDSY1EmKhs9Sb1F06iqLSwZmxTbIl7oW462HIh3Gg';
 
 const searchPanel = new SearchPanel();
 const headerPanel = new HeaderPanel();

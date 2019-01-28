@@ -145,6 +145,7 @@ class AlbumsPanel extends Panel {
   set albums(albums) {
     // albums.forEach(({ id, name, images, artists: [{ name: artist }] }) => {
     albums.forEach((album) => {
+      console.log(album);
       const $item = $(`
                 <div data-id="${album.id}" class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2">
                     <div class="album">
@@ -153,7 +154,7 @@ class AlbumsPanel extends Panel {
                         </div>
                         <header class="album__header">
                             <h4 class="album__name">${album.name}</h4>
-                            <h5 class="album__artist">${album.artist}</h5>
+                            <h5 class="album__artist">${album.artists[0].name}</h5>
                         </header>
                     </div>
                 </div>

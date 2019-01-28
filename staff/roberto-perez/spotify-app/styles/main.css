@@ -94,6 +94,9 @@ main#root {
   cursor: pointer;
   display: none;
 }
+.artist:hover .artist__image {
+  background-size: 150% !important;
+}
 .artist__header {
   text-align: center;
   padding: 20px 0px;
@@ -135,9 +138,22 @@ main#root {
   font-size: 0.77em;
 }
 
+aside .album {
+  cursor: default;
+}
+
+aside .album:hover {
+  background: none !important;
+}
+
 .album {
   cursor: pointer;
   display: none;
+  padding: 10px;
+  height: 100%;
+}
+.album:hover {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 .album__header {
   text-align: center;
