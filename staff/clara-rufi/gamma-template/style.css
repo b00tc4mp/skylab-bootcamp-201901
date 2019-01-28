@@ -1,0 +1,343 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+/*start reset*/
+ol, ul, li {
+  list-style: none;
+}
+
+ul {
+  padding: 0;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/*end reset*/
+/*start variables*/
+/*extensions*/
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+body {
+  margin: 0px;
+  font-family: "Open Sans", sans-serif;
+}
+
+header {
+  background: #f2ece4;
+  align-items: center;
+  padding: 1rem;
+}
+
+.logo {
+  color: #1ca495;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.navmenu {
+  display: none;
+}
+
+.fas .fa-check {
+  margin-left: 0.6rem;
+}
+
+.section {
+  background-color: #1ca495;
+  font-size: 1.7rem;
+  color: white;
+  padding: 1rem 1rem;
+  margin: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.item {
+  border: 0.1rem solid #baa5a5;
+  border-radius: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+.item__picture {
+  width: calc(100% - 2rem);
+}
+
+.item__title {
+  background-color: #cfc3c3;
+  margin: 0;
+}
+
+.button {
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  background: white;
+  border: 0.1rem solid #baa5a5;
+  margin-bottom: 1rem;
+  width: 20%;
+}
+
+.gammafeatures {
+  background-color: #1ca495;
+  padding: 2rem 4rem;
+  color: white;
+}
+
+.gammainformation__information {
+  margin-left: 0.6rem;
+  text-decoration: none;
+}
+
+.features {
+  background-color: #1ca495;
+  color: white;
+}
+
+.features i {
+  margin: 0.3rem;
+}
+
+.information a {
+  color: white;
+}
+
+.gammainformationfooter {
+  color: white;
+  padding: 1rem;
+  background-color: #124c46;
+  flex-direction: column;
+  align-items: center;
+  font-size: 13px;
+  display: flex;
+}
+
+.information {
+  color: white;
+  display: flex;
+}
+
+.picture {
+  width: calc(100% - 2rem);
+  border: 0.1rem solid #baa5a5;
+}
+
+.rights {
+  display: flex;
+  justify-content: flex-end;
+}
+
+footer {
+  margin-top: 3rem;
+}
+
+.picturelogofooter {
+  font-weight: 700;
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+.formuser {
+  padding: 0 2rem;
+}
+
+input, textarea {
+  width: calc(100% - 2rem);
+  border-radius: 0.2rem;
+  border: 1px solid #baa5a5;
+}
+
+.buttonsubmit {
+  padding: 0.3rem;
+  margin-top: 1rem;
+  border-radius: 0.3rem;
+  background: white;
+  border: 0.1rem solid #baa5a5;
+  width: 4rem;
+  margin-bottom: 1rem;
+}
+
+h4 {
+  margin: 0;
+  padding-top: 0.4rem;
+}
+
+form {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 3rem;
+}
+
+::placeholder {
+  font-size: 0.7rem;
+  text-indent: 0.2rem;
+}
+
+.homemain {
+  padding: 0 1rem;
+  margin-top: 2rem;
+}
+
+.logos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logos__capture {
+  width: 30%;
+  margin: 0.3rem;
+}
+
+.capturelife {
+  background-image: url("images/site_showcase_bg.jpg");
+  text-align: center;
+  padding-bottom: 2rem;
+  margin-top: 0;
+}
+.capturelife__title {
+  font-size: 2rem;
+  color: white;
+  font-weight: 900;
+  width: 100%;
+  padding: 1rem 0;
+}
+.capturelife__content {
+  font-size: 1rem;
+}
+
+.picturegamma {
+  display: none;
+}
+
+.picturemain {
+  width: 100%;
+  border: 0.1rem solid #baa5a5;
+}
+
+.contact__picture {
+  width: 100%;
+  border: 0.1rem solid #baa5a5;
+}
+
+@media (min-width: 500px) {
+  header {
+    justify-content: flex-start;
+  }
+
+  .navmenu {
+    display: flex;
+  }
+  .navmenu a {
+    display: flex;
+    color: grey;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .navmenu li {
+    margin: 0 1rem;
+    text-decoration: none;
+  }
+
+  .hamburger {
+    display: none;
+  }
+}
+@media (min-width: 900px) {
+  header {
+    justify-content: flex-start;
+  }
+
+  .formuser {
+    display: flex;
+  }
+  .formuser form {
+    width: 60%;
+  }
+  .formuser__information {
+    width: 100%;
+  }
+
+  .navmenu {
+    display: flex;
+  }
+  .navmenu li {
+    margin: 0 1rem;
+  }
+
+  .caballistically {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+  }
+
+  .picturegamma {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  .capturelife {
+    display: flex;
+    padding: 3rem 5rem;
+  }
+
+  .capturelife__title {
+    text-align: start;
+  }
+  .capturelife__content {
+    text-align: start;
+  }
+
+  .logos {
+    display: table-row;
+  }
+
+  .content_pictures {
+    margin: 1rem;
+  }
+
+  .homemain {
+    display: flex;
+    margin-bottom: 6rem;
+  }
+
+  .picturemain {
+    width: 85%;
+    height: 66%;
+  }
+
+  .button {
+    width: 5rem;
+  }
+
+  .gammafeatures {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .gammainformationfooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .collapsible {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .collapsible__items {
+    width: 60%;
+    margin-right: 2rem;
+  }
+
+  .logos__capture {
+    width: 47%;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
