@@ -47,6 +47,22 @@ class SearchPanel extends Panel {
 
             const query = this.__$query__.val()
 
+            artistsPanel.clear()
+            albumsPanel.clear()
+            tracksPanel.clear()
+            playPanel.clear()
+            
+            navPanel.show()
+            searchPanel.__$form__.show()
+
+            albumsPanel.hide()
+            tracksPanel.hide()
+            playPanel.hide()
+
+            navPanel.__$artistLink__.show()
+            navPanel.__$albumLink__.hide()
+            navPanel.__$trackLink__.hide()
+
             callback(query)
         })
 
@@ -67,6 +83,10 @@ class SearchPanel extends Panel {
     set error(message){
         this.__errorPanel__.message=message
         this.__errorPanel__.show()
+    }
+
+    errorClear(){
+        this.__errorPanel__.hide()
     }
 }
 
@@ -422,6 +442,18 @@ class HomePanel extends Panel{
             event.preventDefault()
 
             const query = this.__$query__.val()
+
+            artistsPanel.clear()
+            albumsPanel.clear()
+            tracksPanel.clear()
+            playPanel.clear()
+            searchPanel.__$form__.show()
+            navPanel.show()
+            navPanel.__$artistLink__.show()
+
+            albumsPanel.hide()
+            tracksPanel.hide()
+            playPanel.hide()
 
             callback(query)
         })

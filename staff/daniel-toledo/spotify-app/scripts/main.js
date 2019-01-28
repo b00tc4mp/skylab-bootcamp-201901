@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQALZoGSP5F1wc_HO7kKHtOYF9PLrE24ttG7Di5b0lQAcFLw8zLLkawMDj-g1aXpi7JGexTZImq3HUhDSbvN5NC3cwN7-TeV7f7nKmP3thTn1CXGejvmGy8aWIoeHfqcFBGQS1QXzet8TuZNGo0'
+spotifyApi.token = 'BQDfom0129BfTDFtJRWNLUGyrAaGC8FbqJpvAfiMKmuQq4YRvimzKJv0ZNsgkse-4DgYREcAkZmjhZUfc7Yd4geV5-YbsnOPx5DlfUxjLORInCoZ35S8ebqaYiB8utaUVNfrXpBwIhbY-PiAccs'
 const searchPanel = new SearchPanel
 const navPanel = new NavPanel
 const artistsPanel = new ArtistsPanel
@@ -43,11 +43,12 @@ searchPanel.onSearch = function (query) {
                 artistsPanel.artists = artists
                 homePanel.hide()
                 artistsPanel.show()
+                searchPanel.errorClear()
 
-                artistsPanel.clear()
-                albumsPanel.clear()
-                tracksPanel.clear()
-                playPanel.clear()
+                // artistsPanel.clear()
+                // albumsPanel.clear()
+                // tracksPanel.clear()
+                // playPanel.clear()
                 navPanel.show()
                 searchPanel.__$form__.show()
 
@@ -69,7 +70,25 @@ searchPanel.onSearch = function (query) {
 
 searchPanel.onLogout = function() {
     homePanel.hide()
+    albumsPanel.hide()
+    albumsPanel.clear()
+    tracksPanel.hide()
+    tracksPanel.clear()
+    artistsPanel.hide()
+    artistsPanel.clear()
+    playPanel.hide()
+    playPanel.clear()
+    
+    navPanel.hide()
+    navPanel.__$artistLink__.hide()
+    navPanel.__$albumLink__.hide()
+    navPanel.__$trackLink__.hide()
+
+    searchPanel.__$form__.hide()
+    searchPanel.__$query__.val('')
+    homePanel.__$query__.val('')
     searchPanel.__$logoutButton__.hide()
+
 
     loginPanel.clear()
     welcomePanel.show()
@@ -112,10 +131,10 @@ homePanel.onSearch = function (query) {
                 homePanel.hide()
                 artistsPanel.show()
 
-                artistsPanel.clear()
-                albumsPanel.clear()
-                tracksPanel.clear()
-                playPanel.clear()
+                // artistsPanel.clear()
+                // albumsPanel.clear()
+                // tracksPanel.clear()
+                // playPanel.clear()
                 searchPanel.__$form__.show()
                 navPanel.show()
                 navPanel.__$artistLink__.show()
