@@ -41,6 +41,10 @@ Horroy.prototype.toString = function() {
  */
 
 Horroy.from = function (value) {
+    if(value instanceof Function) throw TypeError (value + 'can\'t be a function')
+    if(value instanceof Array) throw TypeError (value + 'can\'t be an Array')
+
+
     var horr = new Horroy
 
     horr.length = value.length
@@ -69,6 +73,9 @@ Horroy.prototype.forEach = function (callback) {
 
 Horroy.prototype.fill = function (value, start, end) {
     if (arguments.length > 4) throw Error('too many arguments');
+    if(typeof start !== 'number') throw TypeError(start + 'should be a number')
+    if(typeof end !== 'number') throw TypeError(end + 'should be a number')
+
 
     start = start === undefined ? 0 : (start < 0 ? this.length + start : start);
     end = end === undefined ? this.length : (end < 0 ? this.length + end : end);
