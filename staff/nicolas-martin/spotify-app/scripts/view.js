@@ -19,7 +19,7 @@ class SearchPanel extends Panel {
         <input class="search__input form-control-lg flex-grow-1" type="text" name="query" placeholder="Search an artist..." autocomplete="off">
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
-</section>`))
+</section>`)) 
 
         this.__$form__ = this.$container.find('form')
         this.__$query__ = this.__$form__.find('input')
@@ -28,9 +28,7 @@ class SearchPanel extends Panel {
     set onSearch(callback) {
         this.__$form__.on('submit', event => {
             event.preventDefault()
-
             const query = this.__$query__.val()
-
             callback(query)
         })
     }
@@ -58,10 +56,7 @@ class ArtistsPanel extends Panel {
             
             //$item.find('img').attr('src', artist.images[1].url)
             this.__$list__.find('[data-page="1"]').show()
-            
-
             this.__$layer__ = this.__$list__.find('.layer') 
-
             this.__$list__.append($item)
         })
     }
@@ -69,6 +64,7 @@ class ArtistsPanel extends Panel {
 
 class PaginationPanel extends Panel {
     constructor() {
+        
         super($(`
     <nav class="results__list__artist-nav">
         <ul class="pagination justify-content-center">
@@ -79,7 +75,8 @@ class PaginationPanel extends Panel {
 
     }
 
-    set init(numResults) {
+    set init(numResults) { // vhange name a result, cambiar a len o algo así
+
         this.__$pagination__.empty() // empty nav from li
         
         let numPages = numResults / 4
