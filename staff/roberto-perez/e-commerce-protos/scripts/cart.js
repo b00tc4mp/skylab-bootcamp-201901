@@ -11,7 +11,6 @@ Cart.prototype.add = function(product) {
 
 Cart.prototype.totalPrice = function() {
   return this.products.reduce(function(accum, product) {
-    if (!product.price) product.price = 0;
     return accum + product.price;
   }, 0);
 };
