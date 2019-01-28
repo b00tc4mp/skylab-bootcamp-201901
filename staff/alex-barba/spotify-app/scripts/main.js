@@ -120,6 +120,15 @@ searchPanel.onSearch = function (query) {
 searchPanel.onLogout = function() {
     searchPanel.hide();
     searchPanel.errorClear()
+    searchPanel.clear()
+    artistPanel.clear()
+    artistPanel.hide()
+    albumPanel.hide()
+    albumPanel.clear()
+    tracksPanel.hide()
+    tracksPanel.clear()
+    trackPanel.hide()
+    trackPanel.clear()
 
     loginPanel.clear();
     loginPanel.show();
