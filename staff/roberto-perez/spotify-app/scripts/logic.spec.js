@@ -1,4 +1,4 @@
-spotifyApi.token = 'BBQDWQ8CrNoWiITvV_KbCfZ2_Xv_SK0iE_tvl_vZZvowRnTy85lJJFmjz-ucccsbiB4Gwb5C__yM2F1VJiCgepODMeRCbqZFZXcZ3EVKzl5kMC02KwzohLp4VBdFZXVUADiBQvtcmD2f3bA'
+spotifyApi.token = 'BQAAfxdJnGEYu9ESZA_nivigiJFKl8tWlvnwGIuSerQVivv6Bp5oE6eHk_dJznLB_opOKE6yA74sGj-ZzIk9EC1_ZyX7cVX1jy6wN36UuR96zWkAIhGeM2ho5MGZt7ZcGtgMXqhnZz8pAw'
 
 describe('logic', function () {
     describe('search artists', function () {
@@ -23,5 +23,49 @@ describe('logic', function () {
 
             expect(() => logic.searchArtists(query, function (error, artists) { })).toThrowError('query is empty')
         })
-    })
+    });
+
+    describe('search album', function () {
+        it('should succeed on mathing query', function (done) {
+            const id = '6tbjWDEIzxoDsBA1FuhfPW';
+
+            logic.retrieveAlbums(id, function (error, albums) {
+                expect(error).toBeUndefined()
+
+                expect(albums).toBeDefined()
+                expect(albums instanceof Array).toBeTruthy()
+                expect(albums.length).toBeGreaterThan(0)
+
+                done()
+            })
+        })
+
+        it('should fail on empty query', function () {
+            const id = ''
+
+            expect(() => logic.retrieveAlbums(id, function (error, albums) { })).toThrowError('artistId is empty')
+        })
+    });
+
+    describe('search tracks', function () {
+        it('should succeed on mathing query', function (done) {
+            const id = '4hBA7VgOSxsWOf2N9dJv2X';
+
+            logic.retrieveTracks(id, function (error, tracks) {
+                expect(error).toBeUndefined()
+
+                expect(tracks).toBeDefined()
+                expect(tracks instanceof Array).toBeTruthy()
+                expect(tracks.length).toBeGreaterThan(0)
+
+                done()
+            })
+        })
+
+        it('should fail on empty query', function () {
+            const id = ''
+
+            expect(() => logic.retrieveTracks(id, function (error, tracks) { })).toThrowError('albumId is empty')
+        })
+    });
 })
