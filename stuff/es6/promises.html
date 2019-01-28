@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function search(query, callback) {
+            var xhr = new XMLHttpRequest;
+
+            xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
+
+            xhr.onload = function () {
+                var res = JSON.parse(xhr.responseText);
+
+                if (res.error)
+                    callback(res.error);
+                else
+                    callback(undefined, res);
+            };
+
+            xhr.onerror = function (error) {
+                callback('network error');
+            };
+
+            xhr.send();
+        }
+
+        function retrieve(id, callback) {
+            var xhr = new XMLHttpRequest;
+
+            xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
+
+            xhr.onload = function () {
+                var res = JSON.parse(xhr.responseText);
+
+                if (res.error)
+                    callback(res.error);
+                else
+                    callback(undefined, res);
+            };
+
+            xhr.onerror = function (error) {
+                callback('network error');
+            };
+
+            xhr.send();
+        }
+
+        // no promises
+
+        const all = []
+
+        // search('dark', (error, ducks) => {
+        //     if (error) console.error(error)
+        //     else ducks.forEach(({ id }, index) => {
+        //         console.log(index, id)
+
+        //         retrieve(id, (error, duck) => {
+        //             if (error) console.error(error)
+        //             else {
+        //                 console.log(index, duck)
+
+        //                 all.push(duck)
+        //             }
+        //         })
+        //     })
+        // })
+
+        // no promises with recursion
+
+        // search('dark', (error, ducks) => {
+        //     if (error) console.error(error)
+        //     else {
+        //         console.log(ducks.map(({id}) => id))
+
+        //         retrieveRecursive(ducks)
+        //     }
+        // })
+
+        // function retrieveRecursive(ducks) {
+        //     if (ducks.length) {
+        //         const id = ducks[0].id
+
+        //         console.log(id)
+
+        //         retrieve(id, (error, duck) => {
+        //             if (error) console.error(error)
+        //             else {
+        //                 console.log(duck)
+
+        //                 all.push(duck)
+
+        //                 retrieveRecursive(ducks.slice(1))
+        //             }
+        //         })
+        //     }
+        // }
+
+        // promises
+
+        // new Promise((resolve, reject) => {
+        //     search('dark', (error, ducks) => {
+        //         if (error) reject(error)
+        //         else {
+        //             console.log(ducks.map(({id}) => id))
+
+        //             resolve(ducks)
+        //         }
+        //     })
+        // })
+        //     .then(ducks => {
+        //         // let p = new Promise((resolve, reject) => resolve())
+        //         let p = Promise.resolve()
+
+        //         ducks.forEach(duck => {
+        //             p = p
+        //                 .then(() => new Promise((resolve, reject) => {
+        //                     retrieve(duck.id, (error, duck) => {
+        //                         if (error) reject(error)
+        //                         else resolve(duck)
+        //                     })
+        //                 })
+        //                     .then(duck => console.log(duck))
+        //                 )
+        //         })
+
+        //         console.log('hola mundo')
+        //     })
+        //     .catch(console.error)
+
+        // promises and fetch
+
+        fetch('https://duckling-api.herokuapp.com/api/search?q=dark')
+            .then(res => res.json())
+            .then(ducks => {
+                console.log(ducks.map(({id}) => id))
+                
+                // let p = new Promise((resolve, reject) => resolve())
+                let p = Promise.resolve()
+
+                ducks.forEach(({id}) => {
+                    p = p
+                        .then(() =>
+                            fetch(`https://duckling-api.herokuapp.com/api/ducks/${id}`)
+                                .then(res => res.json())
+                                .then(duck => console.log(duck))
+                        )
+                })
+
+                console.log('hola mundo')
+            })
+            .catch(console.error)
+    </script>
+</body>
+
+</html>
