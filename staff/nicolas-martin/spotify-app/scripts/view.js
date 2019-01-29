@@ -1,4 +1,3 @@
-//const numberResults = 4
 class Panel {
     constructor($container) {
         this.$container = $container
@@ -47,6 +46,7 @@ class ArtistsPanel extends Panel {
 
     
     set artists(artists) {
+        this.__$list__.empty()
         let pageNumber
         artists.forEach((artist, index) => {
             let artistImage = artist.images.length ? artist.images[1].url : ''
@@ -61,51 +61,52 @@ class ArtistsPanel extends Panel {
             this.__$list__.append($item)
         })
     }
+
+    hideShowPage(pageClicked = 1) {
+        artistsPanel.$container.find(`div[data-page]`).removeClass('mostrar esconder')
+        artistsPanel.$container.find(`div[data-page!="${pageClicked}"]`).addClass('esconder')
+        artistsPanel.$container.find(`div[data-page="${pageClicked}"]`).addClass('mostrar')
+    }
 }
 
 class PaginationPanel extends Panel {
     constructor() {
         super($(`
-            <nav class="results__list__artist-nav">
+            <nav class="results__list__artist-nav d-flex">
                 <ul class="pagination justify-content-center">
                 </ul>
             </nav>
         `))
 
-        this.numberResults = 4 // number of result per page
+        this.numberResults = 4
         this.activePage = 1
-    }
-
-    set setPage(pageNumber) {
-        this.activePage = pageNumber
     }
 
     set onClickPage(callback) {
         this.$container.find('a').each( (index, pageLink) => {
             $(pageLink).on('click', function(event){
                 event.preventDefault()
-                //callback($(this).data('page'))
                 callback(this.text)
             })
         })       
     }
 
-    set createNavBody(numResults) { // vhange name a result, cambiar a len o algo así
-
-        this.$container.empty() // empty nav from li
+    set createNavBody(numResults) { 
+        this.$container.empty()
         
         let numPages = numResults / 4
         for (let i = 0; i < numPages; i++) {
             var $item = $(`<li class="page-item"><a class="page-link" href="#">${i+1}</a></li>`)
-            if (!i) { // first load - page 1
+            if (!i) { 
                 $item.attr('disabled', 'disabled')
                 $item.find('.page-link').attr('aria-disabled', 'true')
             }
             this.$container.append($item)
         }
+
     }
 
-    disablePageActive() {
+    disableNav() {
         console.log(this.activePage)
         let pageClicked = this.activePage
 

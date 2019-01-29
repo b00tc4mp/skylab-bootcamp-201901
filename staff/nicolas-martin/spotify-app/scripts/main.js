@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDS3HW63570BAaNeKqHxbgVU6FxvdZXN5E-0k4PSSNVAeLstOR-MaLUu81K6mqKruMslNkQRwvldEeJ_unwdzbx_PmL7bD57gasiJBPQ-PdAktZYnjKtxNTyTqJiSA9Wae_nTk0BVuCtg'
+spotifyApi.token = 'BQBgZG3rV_7gVKIwFnqa1DLEiO0P-VpSCT-Icu1xSQkZLOmjqb258_aexrKF5Jwb-paiScqL6xyIijups5bfkkj1CjU7Ub8_cd59-lE_BkNO4BaGW8xMy-FieBTVBBucuzmzEKZYd6pBDQ'
 
 const artistsPanel = new ArtistsPanel
 const searchPanel = new SearchPanel
@@ -15,25 +15,19 @@ searchPanel.onSearch = function(query) {
             if (error) searchPanel.error = error.message
             else {
                 paginationPanel.hide()
-                artistsPanel.__$list__.empty() 
-                artistsPanel.artists =  artists 
+                artistsPanel.artists =  artists
 
-                //mostramos la navegación únicamente si artists.lentgh > paginationPanel.length
                 if (artists.length > paginationPanel.numberResults){
-                    // creamos los li dentro de la paginación
                     paginationPanel.createNavBody = artists.length
                     paginationPanel.show()
                     artistsPanel.$container.append(paginationPanel.$container)
-
+                    artistsPanel.hideShowPage()
                 }
 
                 paginationPanel.onClickPage = function (pageClicked) { 
-                    paginationPanel.setPage = pageClicked
-                    paginationPanel.disablePageActive()
-
-                    artistsPanel.$container.find(`div[data-page]`).removeClass('mostrar esconder')
-                    artistsPanel.$container.find(`div[data-page!="${pageClicked}"]`).addClass('esconder')
-                    artistsPanel.$container.find(`div[data-page="${pageClicked}"]`).addClass('mostrar')
+                    paginationPanel.activePage = pageClicked
+                    paginationPanel.disableNav()
+                    artistsPanel.hideShowPage(pageClicked)
                 } 
             }
         })
