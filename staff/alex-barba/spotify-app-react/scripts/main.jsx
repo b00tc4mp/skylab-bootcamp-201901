@@ -44,8 +44,8 @@ class Login extends React.Component {
         const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleOnRegister, props: {feedback, } } = this
         
         return <section className="login container" >
-        <div className="columns">
-            <form className="login__form column is-half is-offset-one-quarter" onSubmit={handleFormSubmit}>
+        <div className="columns is-mobile is-centered">
+            <form className="login__form column is-half-widescreen is-half-tablet is-three-quarters-mobile is-centered" onSubmit={handleFormSubmit}>
                 <h4 className="subtitle is-4">Login</h4>
                 <div className="field">
                     <p className="control has-icons-left has-icons-right">
@@ -99,8 +99,8 @@ class Register extends React.Component {
          const { handleOnLogin } = this
     
         return <section className="register container">
-        <div className="columns">
-            <form className="register__form column is-half is-offset-one-quarter">
+        <div className="columns is-mobile is-centered">
+            <form className="register__form column is-half-widescreen is-half-tablet is-three-quarters-mobile is-centered">
                 <h4 className="subtitle is-4">Register</h4>
                 <div className="field">
                     <p className="control has-icons-left has-icons-right">
@@ -166,7 +166,6 @@ class Register extends React.Component {
             </form>
         </div>
     </section>
-
     }
 }
 
@@ -211,8 +210,8 @@ class App extends React.Component {
 
         return <main>
         <Banner />
-        {loginVisible? <Login onLogin={handleLogin} feedback={loginFeedback} onToRegister={handleLoginToRegister}/> : null }
-        {registerVisible ? <Register onToLogin={handleRegisterToLogin}/>  : null }
+        {loginVisible && <Login onLogin={handleLogin} feedback={loginFeedback} onToRegister={handleLoginToRegister}/>}
+        {registerVisible && <Register onToLogin={handleRegisterToLogin}/>}
     </main>
         
     }

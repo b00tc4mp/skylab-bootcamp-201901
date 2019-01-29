@@ -21,8 +21,8 @@ class Panel {
 class LoginPanel extends Panel {
     constructor() {
         super($(`<section class="login container">
-    <div class="columns">
-        <form class="login__form column is-half is-offset-one-quarter" >
+    <div class="columns is-mobile is-centered">
+        <form class="login__form column is-one-third-widescreen is-half-tablet card is-three-quarters-mobile is-centered" >
             <h4 class="subtitle is-4">Login</h4>
             <div class="field">
                 <p class="control has-icons-left has-icons-right">
@@ -100,8 +100,8 @@ class LoginPanel extends Panel {
 class RegisterPanel extends Panel {
     constructor() {
         super($(`<section class="register container">
-    <div class="columns">
-        <form class="register__form column is-half is-offset-one-quarter">
+    <div class="columns is-mobile is-centered">
+        <form class="register__form column is-one-third-widescreen is-half-tablet card is-three-quarters-mobile is-centered">
             <h4 class="subtitle is-4">Register</h4>
             <div class="field">
                 <p class="control has-icons-left has-icons-right">
