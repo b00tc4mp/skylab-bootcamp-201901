@@ -4,8 +4,8 @@
  * @version 1.0.0
  */
 const spotifyApi = {
-    token: 'NO-TOKEN',
-
+    token: 'BQB2crOQ-r9bnRVfspSUrzbbp5GdfLMxE3h1Z68UuUCQy_ImXuD4KyadfBtO2usjZMxzLFI0ZCkH4M3edVNdeKiKxwNPS527nKuJ7XHXvk6NzCSqrXYuKZkYMXU2WQW9b0PUxn8n7U-6O6W6sg',
+    
     /**
      * Searches music on Spotify.
      * 

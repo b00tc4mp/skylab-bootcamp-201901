@@ -1,3 +1,5 @@
+
+
 class Banner extends React.Component {
 
     render() {
@@ -15,7 +17,7 @@ class Banner extends React.Component {
 
 
 class Login extends React.Component {
-    state = {email: '', password: '', loginVisibale: true}
+    state = {email: '', password: ''}
 
     handleEmailInput = event => this.setState({email: event.target.value})
 
@@ -29,21 +31,17 @@ class Login extends React.Component {
         onLogin(email, password)
     }
 
-    handleOnRegister = event => {
-        event.preventDefault()
-
+    handleOnRegister = () => {
         const { props: {onToRegister} } = this
 
         onToRegister()
     }
 
-
-
     render(){
 
-        const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleOnRegister, props: {feedback, } } = this
+        const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleOnRegister, props: {feedback} } = this
         
-        return <section className="login container" >
+        return <section className="login container margin-top" >
         <div className="columns is-mobile is-centered">
             <form className="login__form column is-half-widescreen is-half-tablet is-three-quarters-mobile is-centered" onSubmit={handleFormSubmit}>
                 <h4 className="subtitle is-4">Login</h4>
@@ -77,34 +75,51 @@ class Login extends React.Component {
                     </p>
                 </div>
             </form>
-            {feedback && <Feedback message={feedback} />}
         </div>
+        {feedback && <Feedback message={feedback} />}
     </section>
        
     }
 }
 
-class Register extends React.Component {
-    state = {registerVisible: false}
 
-    handleOnLogin = event => {
+class Register extends React.Component {
+    state = {name:'', surname:'', email:'', password:'', passwordConfirmation:''}
+
+    handleNameInput = event => this.setState({name: event.target.value})
+
+    handleSurnameInput = event => this.setState({surname: event.target.value})
+
+    handleEmailInput = event => this.setState({email: event.target.value})
+
+    handlePasswordInput = event => this.setState({password: event.target.value})
+
+    handlePasswordConfirmationInput = event => this.setState({passwordConfirmation: event.target.value})
+
+    handleOnRegistration = event => {
         event.preventDefault()
 
+        const { state: { name, surname, email, password, passwordConfirmation}, props: {onRegistration} } = this
+
+        onRegistration(name, surname, email, password, passwordConfirmation)
+    }
+
+    handleOnLogin = () => {
         const { props: {onToLogin} } = this
 
         onToLogin()
     }
 
     render() {
-         const { handleOnLogin } = this
+         const { handleOnLogin, handleOnRegistration, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback}  } = this
     
-        return <section className="register container">
+        return <section className="register container margin-top">
         <div className="columns is-mobile is-centered">
-            <form className="register__form column is-half-widescreen is-half-tablet is-three-quarters-mobile is-centered">
+            <form onSubmit={handleOnRegistration} className="register__form column is-half-widescreen is-half-tablet is-three-quarters-mobile is-centered">
                 <h4 className="subtitle is-4">Register</h4>
                 <div className="field">
                     <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small is-rounded" type="text" name="name" placeholder="Name" required />
+                        <input className="input is-small is-rounded" type="text" name="name" placeholder="Name" required onChange={handleNameInput} />
                         <span className="icon is-small is-left">
                             <i className="far fa-user"></i>
                         </span>
@@ -115,7 +130,7 @@ class Register extends React.Component {
                 </div>
                 <div className="field">
                 <p className="control has-icons-left has-icons-right">
-                    <input className="input is-small is-rounded" type="text" name="surname" placeholder="Surame" required />
+                    <input className="input is-small is-rounded" type="text" name="surname" placeholder="Surame" required onChange={handleSurnameInput} />
                     <span className="icon is-small is-left">
                         <i className="far fa-user"></i>
                     </span>
@@ -126,7 +141,7 @@ class Register extends React.Component {
                 </div>
                 <div className="field">
                     <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small is-rounded" type="email" name="email" placeholder="Email" required />
+                        <input className="input is-small is-rounded" type="email" name="email" placeholder="Email" required onChange={handleEmailInput}/>
                         <span className="icon is-small is-left">
                             <i className="fas fa-envelope"></i>
                         </span>
@@ -137,7 +152,7 @@ class Register extends React.Component {
                 </div>
                 <div className="field">
                     <p className="control has-icons-left">
-                        <input className="input is-small is-rounded" type="password" name="password"placeholder="Password" required />
+                        <input className="input is-small is-rounded" type="password" name="password"placeholder="Password" required onChange={handlePasswordInput} />
                         <span className="icon is-small is-left">
                             <i className="fas fa-lock"></i>
                         </span>
@@ -145,7 +160,7 @@ class Register extends React.Component {
                 </div>
                 <div className="field">
                     <p className="control has-icons-left">
-                        <input className="input is-small is-rounded" type="password" name="password-confirmation"placeholder="Confirm password" required />
+                        <input className="input is-small is-rounded" type="password" name="password-confirmation"placeholder="Confirm password" required onChange={handlePasswordConfirmationInput}/>
                         <span className="icon is-small is-left">
                             <i className="fas fa-lock"></i>
                         </span>
@@ -165,53 +180,390 @@ class Register extends React.Component {
                 </div>
             </form>
         </div>
+        {feedback && <Feedback message={feedback} />}
     </section>
     }
 }
 
 function Feedback( {message} ) {
-    return <div className="columns">
-    <div className="column is-half is-offset-one-quarter is-centered button is-small is-inverted is-danger">
+    return <div className="columns is-mobile is-centered">
+    <div className="column is-half is-centered button is-small is-inverted is-danger">
     {message}
     </div>
 </div>
 }
 
+class Search extends React.Component {
+
+    state = {query: ''}
+
+    handleSearchInput = event => this.setState({query: event.target.value})
+
+    handleOnSearch = (event) => {
+       
+        event.preventDefault()
+
+        const {state: {query}, props: {onToSearch, feedback}} = this
+
+        onToSearch(query, feedback)
+    }
+
+    handleOnLogout = () => {
+        const { props: {onToLogout} } = this
+
+        onToLogout()
+    }
+
+    render() {
+        const {handleOnSearch, handleSearchInput, handleOnLogout, props:{feedback, user}} = this
+
+        return <section className="search margin-top">
+        <div className="level is-mobile">
+            <div className="level-item">
+                <h4 className="subtitle is-4" >Welcome, {user} !</h4>
+            </div>
+            <div className="level-item">
+                <button onClick={handleOnLogout} className="button is-rounded is-small search__logout"><i className="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+        <div className="columns is-mobile is-centered">
+            <div className="column is-two-thirds-tablet is-three-quarters-mobile is-centered"> 
+                <form onSubmit={handleOnSearch} className="field has-addons has-addons-centered">
+                    <div className="control has-icons-left is-expanded">
+                        <input onChange={handleSearchInput}className="input is-small is-rounded" placeholder="Find an artist" type="text" name="query"></input>
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-music"></i>
+                        </span>
+                    </div>
+                    <div className="control">
+                        <button className="button is-small is-rounded is-success"type="submit">Find!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {feedback && <Feedback message={feedback} />}
+    </section>
+    }
+}
+
+class Artist extends React.Component {
+
+    handleArtist = (id) => {
+
+        const{ props: {onArtist, feedback}} = this
+
+        onArtist(id, feedback)
+    }
+
+
+    render() {  
+        const {props: { artists }, handleArtist} = this
+    
+        return <section className="resultsArtist container margin-top">
+        <div className="columns is-mobile is-multiline is-centered">
+
+        {
+        artists.map(({ id, name, images, popularity, genres }) => {
+            const genre = genres[0] ? genres[0] : 'No genre defined'
+            const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
+            
+            return <div key={id} onClick={() => handleArtist(id)} data-id={id} className="hover cursor column card is-one-third-widescreen is-two-fifths-tabletis-three-quarters-mobile is-centered">
+                <div className="card-image">
+                    <figure className="image is-centered">
+                        <img src={image} />
+                    </figure>
+                </div>
+                <div className="card-content is-centered">
+                    <h4 className="title is-4">{name}</h4>
+                    <h5 className="subtitle is-6">Popularity Index :#{popularity}</h5>
+                </div>
+                <div className="card-footer">
+                    <p className="subtitle is-6">Genre: {genre}</p>
+                </div>
+            </div>
+            })
+        }
+        </div> 
+    </section>
+    }
+}
+
+class Album extends React.Component {
+
+    handleAlbumChosen = id => {
+        const{ props: {onAlbum, feedback}} = this
+
+        onAlbum(id, feedback)
+    }
+
+    handleBackToArtists = () => {
+        const { props: {onToArtists} } = this
+
+        onToArtists()
+    }
+
+    render() {
+        const {props: {albums}, handleAlbumChosen, handleBackToArtists} = this
+
+        return <section className="resultsAlbum container margin-top">
+        <div className="level is-mobile">
+            <h4 className="level-item">Albums</h4>
+            <div className="level-item">
+                <button onClick={handleBackToArtists}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i> Back to Artists</button>
+            </div>
+        </div>
+        <div className="albums columns is-mobile is-multiline is-centered">
+
+        {
+        albums.map(({ id, name, images, release_date, total_tracks }) =>{
+            const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
+            return <div onClick={() => handleAlbumChosen(id)} data-id={id} className="cursor hover column card is-one-third-widescreen is-two-fifths-tablet is-three-quarters-mobile is-centered">
+            <div className="card-image">
+                <figure className="image is-centered">
+                    <img src={image} />
+                </figure>
+            </div>
+            <div className="card-content is-centered">
+                <h4 className="title is-4">{name}</h4>
+                <h5 className="subtitle is-6">Tracks :{total_tracks} </h5>
+            </div>
+            <div className="card-footer">
+                <p className="subtitle is-6">Released date: {release_date}</p>
+            </div>
+        </div>
+        })
+        }
+        </div> 
+        </section>
+    }
+}
+
+class Tracks extends React.Component {
+    handleTrackChosen = id => {
+        const{ props: {onTrack, feedback}} = this
+
+        onTrack(id, feedback)
+    }
+
+    handleBackToAlbums = () => {
+        const { props: {onToAlbums} } = this
+
+        onToAlbums()
+    }
+    render() {
+        const {props: {tracks}, handleTrackChosen, handleBackToAlbums} = this
+
+        return <section className="tracksAlbum container margin-top">
+        <div className="level is-mobile">
+            <h4 className="level-item">Tracks</h4>
+            <div className="level-item">
+                <button onClick={handleBackToAlbums}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i>  Back to Albums</button>
+            </div>
+        </div>
+        <nav className="panel list-group track">
+
+        {
+        tracks.map(({id, name}) => {
+            return <a onClick={() => handleTrackChosen(id)} data-id={id} className="panel-block">
+            <span className="panel-icon">
+                <i className="fas fa-music" aria-hidden="true"></i>
+            </span>
+            {name}
+        </a>   
+        })
+        }
+            </nav>
+        </section>
+    }
+}
+
+class Track extends React.Component {
+
+    handleBackToTracks = () => {
+        const { props: {onToTracks} } = this
+
+        onToTracks()
+
+    }
+
+    render() {
+        const {props: {track: {id, name, preview_url, uri} }, handleBackToTracks }= this
+        const image = 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
+        
+        return <section className="trackChosen container">
+            <div className="level is-mobile">
+                <h4 className="level-item">Track</h4>
+                <div className="level-item">
+                    <button onClick={handleBackToTracks}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i>Back to Tracks</button>
+                </div>
+            </div>
+            <div className="columns ">
+                <div className="column is-centered is-narrow card has-text-centered">
+                    {/* <div data-id={id} className="card-image">
+                        <figure className="image sm-image has-text-centered">
+                            <img src={image} />
+                        </figure>
+                    </div> */}
+                    <div className="card-content">
+                        <h4 className="title is-4">{name}</h4>
+                    </div>
+                    <div className="card-footer">
+                        <div className="field is-grouped">
+                            <audio className="control" src={preview_url} controls></audio>
+                            <p className="control">
+                                <a href={uri} className="button is-link is-small is-rounded">Listen to full song on Spotify</a>
+                            </p>
+                        </div>    
+                    </div>
+                </div>
+            </div>  
+        </section>
+        }
+}
+
+class ModalRegistration extends React.Component {
+
+    handleClose = () => {
+        const { props: { closeModal } } = this
+        closeModal()
+    }
+
+    render() {
+        const {handleClose} = this
+
+        return <div onClick={handleClose}className="modal is-active">
+        <div className="modal-background"></div>
+            <div className="modal-content has-text-centered">
+                <button className="button is-large is-light is-rounded"><i className="fas fa-check-circle"> </i> You have successfully registered!</button>
+        </div>
+      </div>
+    }
+}
+
+
 class App extends React.Component {
 
-    state = {loginFeedback: '', registerVisible: false, loginVisible: true }
+    state = {loginFeedback: '', registrationFeedback: '', searchFeedback: '', registerVisible: false, loginVisible: true, homeVisible: false, artistVisible: false , albumVisible: false, tracksVisible: false, trackVisible: false, modalVisible: false,user:'', artists: [] ,albums: [], tracks: [], track: {}}
 
     handleLogin = (email, password) =>{
         try {
-            logic.login(email, password, user => {
-                // User to be sent to search panel
-                console.log(user)
-                this.setState({loginFeedback: ''})
+            logic.login(email, password, (user) => {
+                this.setState({loginFeedback: '', loginVisible: false, searchVisible: true, user: user.name})
             })
             
         } catch ({message}) {
             this.setState({ loginFeedback: message })
-            
         }
     }
 
+    handleRegistration = (name, surname, email, password, passwordConfirmation) => {
+        this.setState ({registrationFeedback: ''})
+        try {
+            logic.register(name, surname, email, password, passwordConfirmation, () => {
+                this.setState({modalVisible: true})
+            })
+        } catch ({message}) {
+            this.setState ({registrationFeedback: message})
+        }
+    }
+
+    handleSearch = (query, searchFeedback) => {
+        this.setState({searchFeedback})
+        try {
+            logic.searchArtists(query, (error, artists) => {
+                if (error) this.setState({searchFeedback: error})
+                else {
+                    this.setState({searchFeedback:'' ,artistVisible: true, artists})
+                }
+            })
+        } catch ({message}) {
+            this.setState({searchFeedback: message})
+        }
+    }
+
+    handleAlbum = (artistId, searchFeedback) => {
+        this.setState({searchFeedback})
+        try {
+            logic.retrieveAlbums(artistId, (error, albums) => {
+                if (error) this.setState({searchFeedback: error})
+                else {
+                    this.setState({artistVisible: false, albumVisible: true, albums})
+                }
+            })
+        } catch (message) {
+            this.setState({searchFeedback: message})
+        }
+    }
+
+    handleTracks = (albumId, searchFeedback) => {
+        this.setState({searchFeedback})
+        try {
+            logic.retrieveTracks(albumId, (error, tracks) => {
+                if (error) this.setState({searchFeedback: error})
+                else {
+                    this.setState({albumVisible: false, tracksVisible:true, tracks})
+                }
+            })
+        } catch (message) {
+            this.setState({searchFeedback: message})
+        }
+    }
+
+    handleTrack = (trackId, searchFeedback) => {
+        this.setState({searchFeedback})
+        try {
+            logic.retrieveTrack(trackId, (error, track) => {
+                if (error) this.setState({searchFeedback: error})
+                else {
+                    this.setState({tracksVisible: false, trackVisible: true, track})
+                }
+            })
+        } catch (message) {
+            this.setState({searchFeedback: message})
+        }
+    }
+
+    handleToLogout = () => {
+        this.setState({query: '', loginFeedback: '', registrationFeedback: '', searchVisible: false, artistVisible: false, albumVisible: false, tracksVisible: false, trackVisible: false, registerVisible: false, loginVisible: true})
+    }
+
+    handleCloseModal = () => {
+         this.setState({modalVisible: false,registrationFeeback: '',loginVisible: true, registerVisible: false })
+    }
+
+    handleToArtists = () => {
+        this.setState({albumVisible: false, artistVisible: true})
+    }
+
+    handleToAlbums = () => {
+        this.setState({albumVisible: true, tracksVisible: false})
+    }
+
+    handleToTracks = () => {
+        this.setState({trackVisible: false, tracksVisible: true})
+    }
+
     handleLoginToRegister= () => {
-        this.setState({registerVisible : true})
-        this.setState({loginVisible : false})
+        this.setState({registerVisible : true, loginVisible : false})
     }
 
     handleRegisterToLogin = () => {
-        this.setState({registerVisible : false})
-        this.setState({loginVisible : true})
+        this.setState({registerVisible : false, loginVisible : true})
     }
 
     render() {
-        const { state: { loginFeedback, registerVisible, loginVisible}, handleLogin, handleLoginToRegister, handleRegisterToLogin } = this
+        const { state: { searchFeedback, loginFeedback, registrationFeedback, registerVisible, loginVisible, searchVisible, artistVisible, albumVisible, tracksVisible, trackVisible, modalVisible, artists, user, albums, tracks, track}, handleLogin, handleRegistration, handleLoginToRegister, handleRegisterToLogin, handleSearch, handleAlbum, handleTracks, handleTrack, handleToLogout, handleToArtists, handleToAlbums, handleToTracks, handleCloseModal } = this
 
         return <main>
         <Banner />
         {loginVisible && <Login onLogin={handleLogin} feedback={loginFeedback} onToRegister={handleLoginToRegister}/>}
-        {registerVisible && <Register onToLogin={handleRegisterToLogin}/>}
+        {registerVisible && <Register onRegistration={handleRegistration} feedback={registrationFeedback} onToLogin={handleRegisterToLogin}/>}
+        {searchVisible && <Search onToSearch={handleSearch} feedback={searchFeedback} user={user} onToLogout={handleToLogout}/>}
+        {artistVisible && <Artist artists={artists} onArtist={handleAlbum}/>}
+        {albumVisible && <Album albums={albums} onAlbum={handleTracks} onToArtists={handleToArtists}/>}
+        {tracksVisible && <Tracks tracks={tracks} onTrack={handleTrack} onToAlbums={handleToAlbums}/>}
+        {trackVisible && <Track track={track} onToTracks={handleToTracks}/>}
+        {modalVisible && <ModalRegistration closeModal={handleCloseModal}/>}
     </main>
         
     }
