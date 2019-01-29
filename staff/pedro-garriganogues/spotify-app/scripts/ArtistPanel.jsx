@@ -5,7 +5,7 @@ class ArtistPanel extends React.Component {
 			logic.retrieveAlbums(artistId, (error, albums) => {
 				if (error) console.log(error.message);
 				else {
-					// this.props.setArtists(artists)
+					this.props.setAlbums(albums)
 					console.log(albums)
 				}
 			})

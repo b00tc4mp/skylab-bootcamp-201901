@@ -1,9 +1,10 @@
 class App extends React.Component {
 
-	state = { user: null, artists: null }
+	state = { user: null, artists: null, albums: null }
 
 	setUser = user => this.setState({ user })
 	setArtists = artists => this.setState({ artists })
+	setAlbums = albums => this.setState({ albums })
 
 	state = { loginVisible: true, registerVisible: false }
 
@@ -17,7 +18,7 @@ class App extends React.Component {
 
 	render() {
 
-		const { state: { artists, loginVisible, registerVisible, user }, goToRegisterForm } = this
+		const { state: { albums, artists, loginVisible, registerVisible, user }, goToRegisterForm } = this
 		return <main className="App">
 			{!user &&
 				<div>
@@ -30,7 +31,9 @@ class App extends React.Component {
 			{user &&
 				<div>
 					<Search setArtists={this.setArtists} />
-					{artists && <ArtistPanel artists={artists} />}
+					{/* lo pasa todo abajo */}
+					{artists && !albums && <ArtistPanel setAlbums={this.setAlbums} artists={artists} />}
+					{albums && <AlbumPanel albums={albums} />}
 				</div>
 			}
 
