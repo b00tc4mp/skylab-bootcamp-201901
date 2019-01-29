@@ -25,7 +25,8 @@ const spotifyApi = {
         })
             .then(res => res.json())
             .then(({ artists: { items } }) => callback(undefined, items))
-            .catch(callback)
+            .catch(callback) // és el mateix que pasar el valor que ve del catch dins de una funcio:  .catch(callback === .catch(error => callback(error))
+
     },
 
     /**
