@@ -32,10 +32,10 @@ var users = [
 		password: "arcoiris"
 	},
 	{
-		name: "Hul",
-		surname: "Io",
-		email: "hulio@mail.com",
-		password: "vivaerbetih"
+		name: "Dev",
+		surname: "eveloper",
+		email: "q@q.com",
+		password: "q"
 	}
 ]
 
