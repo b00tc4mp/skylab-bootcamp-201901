@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQAMBZ4PQUrN3eNE0_zV9hpC68z8qZ6CGuzNqzZB8kTrX5egedwmvXHInfIkIN6mfSZIE6EFsLgf01XmSHGp0g4FqYS1v0_ebIE5NiC-cUXhIY-mt5XAk3MmmUbP_CwrBre84nifigqXgP8EI4AYr9DlXIbiepNPMg'
+spotifyApi.token = 'BQDO5RK0oF8VwTktCVAl8tJRxbgOTha4i65Tt72XAg90qPpegwz8bsL5qNYsGj1vdEeHLLhx58bh5dPyXtxZMPaI88hG3Mg_CqFL2aY9E-yTjAso2-30BtA1MKL-5hjseZINMbeCb7Qzgvme5cjxMBpYSNJem_18hg'
 
 class Search extends React.Component {
 
