@@ -144,7 +144,7 @@ class AlbumPanel extends Panel {
     }
 
     set albums(albums) {
-        albums.forEach(({ id, images, name, release_date }) => {
+        albuoms.forEach(({ id, images, name, release_date }) => {
             const image = images[0] ? images[0].url : 'https://i.pinimg.com/originals/35/87/f8/3587f8e9df02e2990b93afb9cd6d2323.jpg'
             const $item = $(`<div class="card column is-one-quarter-widescreen is-one-third-desktop is-half-tablet is-three-quarters-mobile is-centered card" data-id=${id}>
     <div class="card-image">

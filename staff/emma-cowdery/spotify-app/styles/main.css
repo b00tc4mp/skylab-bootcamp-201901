@@ -1,20 +1,26 @@
-body main {
+main {
   background-color: #1CD760;
 }
-body main header {
+
+header {
   padding: 1.5em;
 }
-body main .panel {
+
+.panel {
   background-color: gray;
 }
-body main .panel .cards {
+
+.cards {
   padding: 1em;
 }
-body main .panel .cards .card {
+
+.card {
   margin: 0.5em;
 }
-body main .panel .cards .card .audio {
-  width: 50%;
+
+audio {
+  width: 20em;
+  height: 3em;
 }
 
 /*# sourceMappingURL=main.css.map */
