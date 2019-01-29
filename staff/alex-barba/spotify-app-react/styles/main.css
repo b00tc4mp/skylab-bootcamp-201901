@@ -19,4 +19,13 @@ footer {
   cursor: pointer;
 }
 
+.margin-top {
+  margin-top: 1em;
+}
+
+.hover:hover {
+  transform: scale(0.9);
+}
+
+
 /*# sourceMappingURL=main.css.map */
