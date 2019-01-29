@@ -14,22 +14,34 @@ class Panel {
 
 class SearchPanel extends Panel {
     constructor() {
-        super($(`<section class="search container">
-    <h2>Search</h2>
-    <form>
-        <div class="input-group mb-3">
-        <input class="form-control search-input" type="text" name="query" placeholder="search artist...">
-        <div>
-            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+        super($(`<section class="section container">
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <h2 class="subtitle">Search</h2>
+            </div>
+            <div class="level-item">
+                <form class="field has-addons">
+                    <p class="control">
+                        <input class="input level-item" type="text" name="query" placeholder="search artist...">
+                    </p>
+                    <p class="control">
+                        <button class="button is-link is-inverted is-outlined level-item" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                    <p/>
+                </form>
+            </div>
         </div>
+        <div class="level-right">
+            <p class="level-item">user</p>
         </div>
-    </form>
+    </nav>
 </section>`))
 
         this.__$form__ = this.$container.find('form')
 
         this.__$query__ = this.__$form__.find('input')
 
+        
         var errorPanel = new ErrorPanel;
         this.$container.append(errorPanel.$container)
         this.__errorPanel__ = errorPanel
@@ -52,12 +64,12 @@ class SearchPanel extends Panel {
 
 class ArtistPanel extends Panel {
     constructor() {
-        super($(`<section class="container result">
+        super($(`<section class="container panel">
     <h3>Artists</h3>
-    <ul class="row center-block artistsList m-2"></ul>
+    <div class="columns is-multiline is-centered is-mobile cards"></div>
 </section>`))
 
-        this.__$list__ = this.$container.find('ul')
+        this.__$list__ = this.$container.find('div')
 
         var errorPanel = new ErrorPanel;
         this.$container.append(errorPanel.$container);
@@ -65,8 +77,27 @@ class ArtistPanel extends Panel {
     }
 
     set artists(artists) {
-        artists.forEach(({ id, name }) => {
-            let $item = $(`<li class="col-12 col-sm-6 col-md-4 col-lg-2 artists align-middle" data-id=${id}>${name}</li>`)
+        artists.forEach(({ id, images, name, genres, followers, popularity }) => {
+            const image = images[0] ? images[0].url : 'https://i.pinimg.com/originals/35/87/f8/3587f8e9df02e2990b93afb9cd6d2323.jpg'
+            let $item = $(`<div class="card column is-one-quarter-widescreen is-one-third-desktop is-half-tablet is-three-quarters-mobile is-centered card" data-id=${id}>
+    <div class="card-image">
+        <figure class="image is-128by128">
+            <img class="is-rounded" src=${image}>
+        </figure>
+    </div>
+    <div class="card-content">
+        <p class="tittle">${name}</p>
+        <p class="content">${genres}</p>
+    </div>
+    <footer class="card-footer">
+        <div class="card-footer-item">
+            <p>Followers:<br>${followers.total}</p>
+        </div>
+        <div class="card-footer-item">
+            <p>Popularity:<br>${popularity}</p>
+        </div>
+    </footer>   
+</div>`)
             
             $item.click(function(event) {
                 event.preventDefault()
@@ -97,15 +128,13 @@ class ArtistPanel extends Panel {
 
 class AlbumPanel extends Panel {
     constructor() {
-        super($(`<section class="container result">
+        super($(`<section class="container panel">
     <h3>Albums</h3>
-    <div class="col text-right">
-        <button class="btn btn-light btn-sm">Back to Artists</button>
-    </div>
-    <ul class="row center-block artistsList"></ul>
+    <button class="button">Back to Artists</button>
+    <div class="columns is-multiline is-centered is-mobile cards"></div>
 </section>`))
 
-        this.__$list__ = this.$container.find('ul')
+        this.__$list__ = this.$container.find('div')
 
         this.__$backButton__ = this.$container.find('button')
 
@@ -115,8 +144,19 @@ class AlbumPanel extends Panel {
     }
 
     set albums(albums) {
-        albums.forEach(({ id, name }) => {
-            const $item = $(`<li class="col-12 col-sm-6 col-md-4 col-lg-2 artists align-middle" data-id=${id}>${name}</li>`)
+        albums.forEach(({ id, images, name, release_date }) => {
+            const image = images[0] ? images[0].url : 'https://i.pinimg.com/originals/35/87/f8/3587f8e9df02e2990b93afb9cd6d2323.jpg'
+            const $item = $(`<div class="card column is-one-quarter-widescreen is-one-third-desktop is-half-tablet is-three-quarters-mobile is-centered card" data-id=${id}>
+    <div class="card-image">
+        <figure class="image is-128by128">
+            <img class="is-rounded" src=${image}>
+        </figure>
+    </div>
+    <div class="card-content">
+        <p class="titte">${name}</p>
+        <p class="content">${release_date}</p>
+    </div>
+</div>`)
             
             $item.click(function(event) {
                 event.preventDefault()
@@ -149,15 +189,13 @@ class AlbumPanel extends Panel {
 
 class TracksPanel extends Panel {
     constructor() {
-        super($(`<section class="container result">
-    <h2>Tracks</h2>
-    <div>
-        <button>Back to Albums</button>
-    </div>
-    <ul class="row center-block artistsList"></ul>
+        super($(`<section class="container panel">
+    <h3>Tracks</h3>
+    <button class="button">Back to Albums</button>
+    <div class="columns is-multiline is-centered is-mobile cards"></div>
 </section>`))
 
-        this.__$list__ = this.$container.find('ul')
+        this.__$list__ = this.$container.find('div')
 
         this.__$backButton__ = this.$container.find('button')
 
@@ -167,11 +205,17 @@ class TracksPanel extends Panel {
     }
 
     set tracks (tracks) {
-        tracks.forEach(({ id, name }) => {
-            const $item = $(`<li class="col-12 col-sm-6 col-md-4 col-lg-2 artists align-middle" data-id=${id}>${name}</li>`)
+        tracks.forEach(({ id, name, album, duration_ms }) => {
+            const $item = $(`<div class="card column is-one-quarter-widescreen is-one-third-desktop is-half-tablet is-three-quarters-mobile is-centered card" data-id=${id}>
+    <div class="card-content">
+        <p class="titte">${name}</p>
+        <p class="content>Album: ${album}</p>
+        <p class="content">${Math.round((duration_ms / 60000) * 100) / 100}min</p>
+    </div>
+</div>`)
             
             $item.click(function(event) {
-                //console.log($item.data('id'))
+                console.log($item.data('id'))
                 event.preventDefault()
 
                 this.__$selectedTrack__($item.data('id'))
@@ -202,11 +246,9 @@ class TracksPanel extends Panel {
 
 class TrackPanel extends Panel {    
     constructor() {
-        super($(`<section class="container result">
-    <h2>Track</h2>
-    <div>
-        <button>Back to Tracks</button>
-    </div>
+        super($(`<section class="container panel">
+    <h3>Track</h3>
+    <button class="button">Back to Tracks</button>
 </section>`))
 
         this.__$backButton__ = this.$container.find('button')
@@ -217,12 +259,12 @@ class TrackPanel extends Panel {
     }
 
     set track(track) {
-        const $track = $(`<section data-id=${track.id}>
-            <h3>${track.name}</h3>
-            <audio controls autoplay loop class="col-12 col-sm-6">
-                <source src=${track.preview_url} type="audio/mpeg">${track.preview_url}
-            </audio>
-        </section>`)
+        const $track = $(`<div data-id=${track.id}>
+    <h3>${track.name}</h3>
+    <audio controls autoplay loop class="audio">
+        <source src=${track.preview_url} type="audio/mpeg">${track.preview_url}
+    </audio>
+</div>`)
 
         this.$container.append($track)
     }
