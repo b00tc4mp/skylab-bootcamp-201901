@@ -7,6 +7,11 @@ var searchPanel = new SearchPanel
 var resultsPanel = new ResultsPanel
 var detailPanel = new DetailPanel
 
+registerPanel.hide()
+homePanel.hide()
+resultsPanel.hide()
+detailPanel.hide()
+
 var $body = $(document.body)
 
 $body.append(loginPanel.$element)
@@ -60,6 +65,8 @@ registerPanel.onGoToLogin = function () {
 
 homePanel.onLogout = function () {
     homePanel.hide()
+    resultsPanel.hide()
+    detailPanel.hide()
 
     searchPanel.clear()
 
@@ -76,6 +83,8 @@ searchPanel.onSearch = function (query) {
                 resultsPanel.clear()
             } else {
                 searchPanel.clearError()
+
+                resultsPanel.show()
 
                 resultsPanel.results = results.map(function (result) {
                     return {
