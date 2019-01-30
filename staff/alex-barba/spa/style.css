@@ -1,0 +1,29 @@
+/* .login {
+    background-color: skyblue;
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: gray;
+    color: white;
+} */
+
+.margin-top {
+    margin-top: 1em
+}
+
+.error {
+    display: none;
+}
+
+.register {
+    display: none;
+}
+
+.home {
+    display: none;
+}
+
+
+.detail {
+    display: none;
+}
