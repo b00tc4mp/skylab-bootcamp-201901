@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQBQUk6WYvUvOReOYmnmtyhwKi-dE6mWqirx8BsDJo1JFy02hhS89kV3KVFBq08O8jDgrezE1d9wuJi4bwUL8BBr6wQGDWIDau0LOBzJylOAEvAuOIc3nlfREywIGMX-LiN5Xc3FY3oD1eeWNz1OqF7wiN64Jv2IzA'
+spotifyApi.token = 'BQA10da4yhcoNu-wrQfMXEeOvCEQ5lZtyvanSYLp_Q2sMT-8pg2tWn0_H4iLyduufRLajFBl6oC8dSYQu9lg5D3Uuyl-K6oXGyNtt0M27BGotKWbFZKSd68wKMeDYwOVmpgKzCesaYpH961Mqem_uI0AxFpfEkte9A'
 
 class Search extends React.Component {
 
@@ -24,13 +24,11 @@ class Search extends React.Component {
 	render() {
 
 		return <section>
-			<h1> Welcome to Spookify</h1>
 			<form onSubmit={this.handleSubmit}>
-				<label>Buscar Artista:</label>
 				<input type="artist" name="artist" placeholder="artist" onChange={this.handleInputChange} />
-				<button type="submit">Login</button>
+				<button type="submit btn">Login</button>
 			</form>
-			<footer class="page-footer border border-black" ></footer>
+			<footer className="page-footer border border-black" ></footer>
 
 		</section>
 	}

@@ -32,7 +32,7 @@ class App extends React.Component {
 			{user &&
 				<div>
 					<Search setArtists={this.setArtists} />
-					{/* los elementos y se pasan propiedades en la sección de abajo */}
+					{/* los elementos (class App. class Search, etc) se pasan propiedades entre ellos en la sección de abajo */}
 					{artists && !albums && <ArtistPanel setAlbums={this.setAlbums} artists={artists} />}
 					{albums && !tracks && <AlbumPanel albums={albums} setTracks={this.setTracks} />}
 					{tracks && <TrackPanel tracks={tracks} />}
@@ -69,14 +69,13 @@ class Login extends React.Component {
 	render() {
 
 
-		return <section>
-			<h1> Spookify</h1>
-			<form onSubmit={this.handleSubmit}>
+		return <section className="d-flex justify-content-center">
+			<form onSubmit={this.handleSubmit} className="border-rounded col-md-1">
 				<label>Email:</label>
 				<input type="email" name="email" placeholder="email" onChange={this.handleInputChange} />
 				<label>Password:</label>
 				<input type="password" name="password" placeholder="password" onChange={this.handleInputChange} />
-				<button type="submit">Login</button>
+				<button type="submit" className="btn m-1">Login</button>
 			</form>
 
 

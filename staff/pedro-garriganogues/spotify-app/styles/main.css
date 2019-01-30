@@ -1,4 +1,35 @@
-main {
-  background-color: darkgreen }
+html, body {
+  width: 100%;
+  height: 100%;
+}
 
-/*# sourceMappingURL=main.css.map */
+.wrapper {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%;
+}
+
+header {
+  background-color: #1b222a;
+  color: white;
+  margin-bottom: -10px;
+
+}
+
+
+main {
+  background-color: darkgreen;
+  height: 100%;
+
+}
+
+
+footer {
+  background-color: #1b222a;
+  display: grid;
+  justify-content: center;
+  color: white;
+}
+
+
