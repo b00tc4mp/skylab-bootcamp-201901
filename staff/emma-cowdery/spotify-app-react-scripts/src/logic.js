@@ -1,4 +1,5 @@
-'use strict';
+import users from './data'
+import spotifyApi from './spotify-api-1.0.0'
 
 /**
  * Abstraction of business logic.
@@ -164,3 +165,5 @@ var logic = {
     //     callback();
     // }
 }
+
+export default logic
