@@ -53,6 +53,7 @@ class Login extends React.Component {
             </form>
 
             {feedback && <Feedback message={feedback} level="warn" />}
+            
         </section>
     }
 }
@@ -105,3 +106,4 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
+
