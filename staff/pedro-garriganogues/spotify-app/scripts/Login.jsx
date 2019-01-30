@@ -1,10 +1,11 @@
 class App extends React.Component {
 
-	state = { user: null, artists: null, albums: null }
+	state = { user: null, artists: null, albums: null, tracks: [] }
 
 	setUser = user => this.setState({ user })
 	setArtists = artists => this.setState({ artists })
 	setAlbums = albums => this.setState({ albums })
+	setTracks = tracks => this.setState({ tracks })
 
 	state = { loginVisible: true, registerVisible: false }
 
@@ -18,7 +19,7 @@ class App extends React.Component {
 
 	render() {
 
-		const { state: { albums, artists, loginVisible, registerVisible, user }, goToRegisterForm } = this
+		const { state: { tracks, albums, artists, loginVisible, registerVisible, user }, goToRegisterForm } = this
 		return <main className="App">
 			{!user &&
 				<div>
@@ -31,9 +32,10 @@ class App extends React.Component {
 			{user &&
 				<div>
 					<Search setArtists={this.setArtists} />
-					{/* lo pasa todo abajo */}
+					{/* los elementos y se pasan propiedades en la sección de abajo */}
 					{artists && !albums && <ArtistPanel setAlbums={this.setAlbums} artists={artists} />}
-					{albums && <AlbumPanel albums={albums} />}
+					{albums && !tracks && <AlbumPanel albums={albums} setTracks={this.setTracks} />}
+					{tracks && <TrackPanel tracks={tracks} />}
 				</div>
 			}
 

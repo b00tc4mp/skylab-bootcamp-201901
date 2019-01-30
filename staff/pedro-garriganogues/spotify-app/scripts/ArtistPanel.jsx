@@ -6,7 +6,7 @@ class ArtistPanel extends React.Component {
 				if (error) console.log(error.message);
 				else {
 					this.props.setAlbums(albums)
-					console.log(albums)
+
 				}
 			})
 		} catch (error) {

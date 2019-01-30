@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDO5RK0oF8VwTktCVAl8tJRxbgOTha4i65Tt72XAg90qPpegwz8bsL5qNYsGj1vdEeHLLhx58bh5dPyXtxZMPaI88hG3Mg_CqFL2aY9E-yTjAso2-30BtA1MKL-5hjseZINMbeCb7Qzgvme5cjxMBpYSNJem_18hg'
+spotifyApi.token = 'BQBQUk6WYvUvOReOYmnmtyhwKi-dE6mWqirx8BsDJo1JFy02hhS89kV3KVFBq08O8jDgrezE1d9wuJi4bwUL8BBr6wQGDWIDau0LOBzJylOAEvAuOIc3nlfREywIGMX-LiN5Xc3FY3oD1eeWNz1OqF7wiN64Jv2IzA'
 
 class Search extends React.Component {
 
@@ -30,7 +30,7 @@ class Search extends React.Component {
 				<input type="artist" name="artist" placeholder="artist" onChange={this.handleInputChange} />
 				<button type="submit">Login</button>
 			</form>
-
+			<footer class="page-footer border border-black" ></footer>
 
 		</section>
 	}

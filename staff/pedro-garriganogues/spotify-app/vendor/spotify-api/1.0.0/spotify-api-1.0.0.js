@@ -46,5 +46,30 @@ const spotifyApi = {
             .then(res => res.json())
             .then(({ items }) => callback(undefined, items))
             .catch(callback)
+    },
+
+    retrieveSongs(albumId, callback) {
+        fetch(`https://api.spotify.com/v1/albums/${albumId}/tracks`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${this.token}`
+            }
+        })
+            .then(res => res.json())
+            .then(({ items }) => callback(undefined, items))
+            .catch(callback)
+    },
+
+
+    retrieveTrack(trackId, callback) {
+        fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${this.token}`
+            }
+        })
+            .then(res => res.json())
+            .then(({ items }) => callback(undefined, items))
+            .catch(callback)
     }
 }
