@@ -1,41 +1,63 @@
-.login {
-    background-color: skyblue;
-    padding: 2em;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: gray;
-    color: white;
+html, body {
+  background-color: #F4D03F;
 }
 
-.error {
-    display: none;
-    background-color: red;
-    color: white;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: white;
+button {
+  border-radius: 0.5em;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+input {
+  border-radius: 0.5em;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  padding: 0.25em;
+}
+
+.error, .detail, .results, .search, .home, .register, .login {
+  background-color: silver;
+  border-radius: 0.5em;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+.login {
+  background-color: #F1C40F;
 }
 
 .register {
-    display: none;
-    background-color: yellow;
-    padding: 2em;
-    border-radius: 0.5em;
-    border-style: solid;
-    border-color: gray;
+  background-color: yellow;
 }
 
 .home {
-    display: none;
-    background-color: green;
-    color: white;
+  background-color: #D4AC0D;
+  color: white;
+}
+
+.search {
+  background-color: #F4D03F;
 }
 
 .results {
-    background-color: salmon;
+  background-color: #F4D03F;
+}
+.results__item {
+  cursor: pointer;
 }
 
 .detail {
-    display: none;
-    background-color: plum;
+  background-color: #F4D03F;
 }
+
+.error {
+  background-color: red;
+  color: white;
+}
+
+/*# sourceMappingURL=style.css.map */
