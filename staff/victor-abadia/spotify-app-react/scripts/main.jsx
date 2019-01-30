@@ -1,17 +1,37 @@
 class Search extends React.Component {
-    state = {}
 
     render() {
         return <section>
-            
+            <form className="register__form p-2" onSubmit={this.props.onSearch}>
+                <h4 className="font-weight-light-normal">Search</h4>
+                <div className="input-group input-group-sm mb-3">
+                    <div className="input-group-prepend"></div>
+                    <label className="input-group-text" id="inputGroup-sizing-sm">Name</label>
+                </div>
+                <input type="text" />
+                <button type="submit" ></button>
+            </form>
+        </section >
+    }
+}
+
+class Home extends React.Component {
+    state = { artists: [] }
+
+    handleSearch = query => logic.searchArtists(query, (error, artists) => {
+        if (error) console.error(error)
+        else this.setState({ artists: artists.map(({ id, name: title }) => ({ id, title })) })
+    })
+
+    render() {
+        return <section className="home container">
+            <Search onSearch={this.handleSearch} />
         </section>
     }
 }
 
-
-
 class Register extends React.Component {
-    state = { name, surname, email, password, passwordConfirmation }
+    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '' }
 
     handleName = (event) => {
         const name = event.target.value
@@ -34,13 +54,13 @@ class Register extends React.Component {
     }
 
     handlePasswordConfirmation = (event) => {
-        const passwrodConfirmation = event.target.value
+        const passwordConfirmation = event.target.value
         this.setState({ passwordConfirmation })
     }
 
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.onHandleSubmit(name, surname, email, password, PasswordConfirmation)
+        this.props.onHandleSubmit(this.state.name, this.state.surname, this.state.email, this.state.password, this.state.passwordConfirmation)
     }
 
     render() {
@@ -75,7 +95,7 @@ class Register extends React.Component {
                     <div className="input-group-prepend">
                         <label className="input-group-text" id="inputGroup-sizing-sm">Confirm password</label>
                     </div>
-                    <input className="form-control" type="text" name="password-confirmation" required onChange={handlePasswordConfirmation} />
+                    <input className="form-control" type="text" name="password-confirmation" required onChange={this.handlePasswordConfirmation} />
                 </div>
                 <a href="#" className="btn btn-sm active green" onClick={() => console.log('go to login')}><strong>Login</strong></a>
                 <button type="submit" className="btn btn-sm active green"><strong>Register</strong></button>
@@ -89,7 +109,7 @@ class Login extends React.Component {
 
     handleEmailChange = (event) => {
         const email = event.target.value
-        this.setState({ email }) // this.setState({ email: email })
+        this.setState({ email }) // this.setState({email: email })
     }
 
     handlePasswordChange = (event) => {
@@ -100,12 +120,12 @@ class Login extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault()
 
-        this.props.onHandleSubmit(email, password)
+        this.props.onHandleSubmit(this.state.email, this.state.password)
     }
 
     handlePageChange = (event) => {
         event.preventDefault()
-        this.props.laFuncionYea()
+        this.props.changePageFunc()
     }
 
     render() {
@@ -132,42 +152,41 @@ class Login extends React.Component {
 }
 
 class App extends React.Component {
-    state = { loginVisible: true, registerVisible: false }
+    state = { loginVisible: true, registerVisible: false, homeVisible: false }
 
     handleClickRegisterButton = () => {
         this.setState({ loginVisible: false, registerVisible: true });
     };
 
     handleLogin = (thisEmail, thisPassword) => {
-
         try {
             logic.login(thisEmail, thisPassword, (user) => {
 
-                //this.setState({ loginVisible: false searchVisible: true})
+                this.setState({ loginVisible: false, homeVisible: true })
 
             })
         } catch (error) {
-
+            console.log(error.message)
         }
 
     }
 
     handleRegister = (thisName, thisSurname, thisEmail, thisPassword, thisPasswordConfirmation) => {
-
         try {
-            logic.register(thisName, thisSurname, thisEmail, thisPassword, thisPasswordConfirmation, (user) => {
-                this.setState({ loginVisible: true, registerVisible = false })
+            logic.register(thisName, thisSurname, thisEmail, thisPassword, thisPasswordConfirmation, () => {
+                this.setState({ loginVisible: true, registerVisible: false })
             })
         } catch (error) {
-
+            console.log(error.message)
         }
 
     }
 
     render() {
         return <div>
-            {this.state.loginVisible && <Login onHandleSubmit={this.handleLogin} laFuncionYea={this.handleClickRegisterButton} />}
+            {this.state.loginVisible && <Login onHandleSubmit={this.handleLogin} changePageFunc={this.handleClickRegisterButton} />}
             {this.state.registerVisible && <Register onHandleSubmit={this.handleRegister} />}
+            {this.state.homeVisible && <Home />}
         </div>
     }
 }
