@@ -26,14 +26,20 @@ class ArtistPanel extends React.Component {
 						this.props.artists.map(artist => {
 							return (
 
-								<div key={artist.id} className="border border-black text-center border-rounded col-md-4" onClick={() => this.handleAlbums(artist.id)}>
-									{(artist.images[0]) && <img className="img-fluid" src={artist.images[0].url} />}
-									<label>Name:</label>
-									<p>{artist.name}</p>
-									<label>Genre:</label>
-									<p>{artist.genres[0]}{artist.genres[1]}</p>
-									<label>Popularity:</label>
-									<p>{artist.popularity}</p>
+								<div key={artist.id} className="border border-black text-center col-md-4" onClick={() => this.handleAlbums(artist.id)}>
+									{(artist.images[0]) && <img className="img-fluid max-height:100px" src={artist.images[0].url} />}
+									<div className="row d-flex justify-content-center">
+										<label>Name:</label>
+										<p>{artist.name}</p>
+									</div>
+									<div className="row d-flex justify-content-center">
+										<label>Genre:</label>
+										<p>{artist.genres[0]}{artist.genres[1]}</p>
+									</div>
+									<div className="row d-flex justify-content-center">
+										<label>Popularity:</label>
+										<p>{artist.popularity}</p>
+									</div>
 								</div>
 
 							);
