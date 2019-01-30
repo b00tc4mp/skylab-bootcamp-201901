@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 const spotifyApi = {
-    token: 'BQB2crOQ-r9bnRVfspSUrzbbp5GdfLMxE3h1Z68UuUCQy_ImXuD4KyadfBtO2usjZMxzLFI0ZCkH4M3edVNdeKiKxwNPS527nKuJ7XHXvk6NzCSqrXYuKZkYMXU2WQW9b0PUxn8n7U-6O6W6sg',
+    token: 'BQD0RdhbaTq67CJEQP18mxZfgvQ5Zb0rTlNJx_NiDItTacvdgJxzK1YWarSHxOk4NAheZR7mM4ahPXUwO5sn5YivHlRBKeVZqANVUIJmcTiBUWjg-pNzd6Q30sr5UiKxQ196I4EkoXgOLx7K6g',
     
     /**
      * Searches music on Spotify.
