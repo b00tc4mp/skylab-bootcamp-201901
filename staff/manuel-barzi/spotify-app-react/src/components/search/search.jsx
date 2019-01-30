@@ -14,10 +14,10 @@ class Search extends React.Component {
     }
 
     render() {
-        const { handleQueryInput, handleSearchSubmit } = this
+        const { handleQueryInput, handleSearchSubmit, props: { title } } = this
 
         return <section className="search">
-            <h2>Search</h2>
+            <h2>{title}</h2>
 
             <form onSubmit={handleSearchSubmit}>
                 <input type="text" placeholder="Search an artist..." onChange={handleQueryInput} />

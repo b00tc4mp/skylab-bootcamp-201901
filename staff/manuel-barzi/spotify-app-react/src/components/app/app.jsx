@@ -1,7 +1,7 @@
 'use strict'
 
 class App extends React.Component {
-    state = { selectedLanguage: 'en', loginFeedback: null, user: null }
+    state = { selectedLanguage: 'en', loginFeedback: null, user: { email: 'e@mail.com' } }
 
     handleLanguageSelected = event => {
         this.setState({
@@ -28,7 +28,7 @@ class App extends React.Component {
             <LanguageSelector selectedLanguage={selectedLanguage} languages={['en', 'es', 'ca', 'ga', 'fr']} onLanguageSelected={handleLanguageSelected} />
             {title}
             {!user && <Login title={i18n[selectedLanguage].loginTitle} onLogin={handleLogin} feedback={loginFeedback} />}
-            {user && <Home />}
+            {user && <Home language={selectedLanguage} />}
         </main>
     }
 }

@@ -1,12 +1,14 @@
 const i18n = {
     'en': {
         title: 'Hello, World!',
-        loginTitle: 'Login form'
+        loginTitle: 'Login form',
+        searchTitle: 'Search artists'
     },
 
     'es': {
         title: 'Hola, Mundo!',
-        loginTitle: 'Formulario de inicio de sesión'
+        loginTitle: 'Formulario de inicio de sesión',
+        searchTitle: 'Buscador artistas'
     },
 
     'ca': {

@@ -1,5 +1,5 @@
 html, body {
-  background-color: #F4D03F;
+  background-color: #1CD760;
 }
 
 button {
@@ -52,6 +52,10 @@ input {
   border-color: solid;
   border-style: plum;
   border-width: 1px;
+}
+
+.results__item {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=main.css.map */
