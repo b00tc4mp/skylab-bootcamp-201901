@@ -111,10 +111,38 @@ var logic = {
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
-        spotifyApi.searchArtists(query, callback)
+        spotifyApi.retrieveAlbums(artistId, callback)
+    },
+
+    /**
+     * Retrieves tracks from album.
+     * 
+     * @param {string} albumId 
+     * @param {function} callback 
+     */
+    retrieveTracks(albumId, callback) {
+        if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
+
+        if (!albumId.trim().length) throw Error('albumId is empty')
+
+        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
+
+        spotifyApi.retrieveTracks(albumId, callback)
+    },
+
+    /**
+     * Retrieves track.
+     * 
+     * @param {string} trackId 
+     * @param {function} callback 
+     */
+    retrieveTrack(trackId, callback) {
+        if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)
+
+        if (!trackId.trim().length) throw Error('trackId is empty')
+
+        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
+
+        spotifyApi.retrieveTrack(trackId, callback)
     }
-
-    // TODO retrieveTracks(albumId, callback) // endpoint /v1/albums/${albumId}/tracks
-
-    // TODO retrieveTrack(id, callback) // endpoint 	/v1/tracks/{id}
 };
