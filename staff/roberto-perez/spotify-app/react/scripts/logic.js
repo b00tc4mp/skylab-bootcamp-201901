@@ -21,7 +21,8 @@ const logic = {
         var loggedInUser = {
             name: user.name,
             surname: user.surname,
-            email: user.email
+            email: user.email,
+            favorites: user.favorites
         };
 
         callback(loggedInUser);
@@ -72,7 +73,8 @@ const logic = {
             name: name,
             surname: surname,
             email: email,
-            password: password
+            password: password,
+            favorites: []
         });
 
         callback();
@@ -140,5 +142,25 @@ const logic = {
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
         spotifyApi.retrieveTrack(trackId, callback)
+    },
+
+    addFavoriteToggle(trackId, user, callback) {
+        if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)
+
+        if(!trackId.trim().length) throw Error('trackId is empty')
+
+        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
+
+        const favIndex = user.favorites.findIndex( fav => fav.trackId === trackId);
+
+        if(favIndex < 0) {
+            user.favorites.push({
+                trackId: trackId
+            });
+        } else {
+            user.favorites.splice(favIndex, 1);
+        }
+
+        return user;
     }
 }

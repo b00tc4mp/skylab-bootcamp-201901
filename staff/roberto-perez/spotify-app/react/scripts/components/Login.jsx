@@ -20,14 +20,27 @@ class Login extends React.Component {
     onLogin(email, password);
   };
 
+  handleClickRegisterButton = event => {
+    const {
+      props: { onClickRegisterButton }
+    } = this;
+    onClickRegisterButton();
+  };
+
   render() {
-    const { handleLoginSubmit, handleEmailInput, handlePasswordInput } = this;
+    const {
+      handleLoginSubmit,
+      handleClickRegisterButton,
+      handleEmailInput,
+      handlePasswordInput,
+      props: { feedback }
+    } = this;
 
     return (
       <section className="login">
         <div className="login__content">
           <h3 className="login__title">
-            Para continuar, inicia sesión en Spotify.
+            Para continuar, inicia sesión en Skytify.
           </h3>
           <form onSubmit={handleLoginSubmit} className="login__form">
             <div className="login__row">
@@ -61,11 +74,15 @@ class Login extends React.Component {
               Login
             </button>
           </form>
-          <div className="divider"></div>
+          <div className="divider" />
           <p className="login__register-text">
-              No tienes cuenta? haz click <a href="#">aquí</a>
+            No tienes cuenta? haz click{" "}
+            <a href="#" onClick={handleClickRegisterButton}>
+              aquí
+            </a>
           </p>
         </div>
+        {feedback && <Feedback message={feedback} />}
       </section>
     );
   }
