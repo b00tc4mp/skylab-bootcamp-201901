@@ -28,10 +28,6 @@ const logic = {
         if (!user) throw Error('user ' + email + ' not found')
         if (user.password !== password) throw Error('wrong password')
 
-        var user = users.find(function (user) {
-            return user.email === email
-        })
-
         var loggedInUser = {
             name: user.name,
             surname: user.surname,
@@ -84,7 +80,8 @@ const logic = {
             name: name,
             surname: surname,
             email: email,
-            password: password
+            password: password,
+            favourites: []
         })
 
         callback()
@@ -159,4 +156,32 @@ const logic = {
 
         spotifyApi.retrieveTrack(trackId, callback)
     },
+
+    retrieveFavourites: function ( id, email, callback) {
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        var user = users.find(function (user) {
+            return user.email === email
+        })
+        console.log(user)
+
+        if (!user) throw Error('user ' + email + ' not found')
+
+        var exists = user.favourites.findIndex(element => element === id)
+
+        if (exists !== -1) {
+            user.favourites.splice(exists, 1)
+            callback(user.favourites)   
+            return false
+        } else {
+            user.favourites.push(id)
+            callback(user.favourites)
+            return true
+        }
+    },
+
 }

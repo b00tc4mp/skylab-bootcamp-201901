@@ -214,13 +214,22 @@ class Search extends React.Component {
         onToLogout()
     }
 
+    handleOnFavourites = () => {
+        const {props: {onToFavourites}} = this
+
+        onToFavourites()
+    }
+
     render() {
-        const {handleOnSearch, handleSearchInput, handleOnLogout, props:{feedback, user}} = this
+        const {handleOnSearch, handleSearchInput, handleOnLogout, handleOnFavourites, props:{feedback, user}} = this
 
         return <section className="search margin-top">
         <div className="level is-mobile">
             <div className="level-item">
                 <h4 className="subtitle is-4" >Welcome, {user} !</h4>
+            </div>
+            <div className="level-item">
+                <button onClick={handleOnFavourites} className="button is-rounded is-small search__logout"><i className="fas fa-heart"></i></button>
             </div>
             <div className="level-item">
                 <button onClick={handleOnLogout} className="button is-rounded is-small search__logout"><i className="fas fa-sign-out-alt"></i></button>
@@ -267,8 +276,8 @@ class Artist extends React.Component {
             const genre = genres[0] ? genres[0] : 'No genre defined'
             const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
             
-            return <div key={id} onClick={() => handleArtist(id)} data-id={id} className="hover cursor column card is-one-third-widescreen is-two-fifths-tabletis-three-quarters-mobile is-centered">
-                <div className="card-image">
+            return <div key={id} onClick={() => handleArtist(id)} data-id={id} className="column cursor card is-one-third-widescreen is-two-fifths-tablet is-three-quarters-mobile has-text-centered">
+                <div className="hover card-image">
                     <figure className="image is-centered">
                         <img src={image} />
                     </figure>
@@ -317,8 +326,8 @@ class Album extends React.Component {
         {
         albums.map(({ id, name, images, release_date, total_tracks }) =>{
             const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
-            return <div onClick={() => handleAlbumChosen(id)} data-id={id} className="cursor hover column card is-one-third-widescreen is-two-fifths-tablet is-three-quarters-mobile is-centered">
-            <div className="card-image">
+            return <div onClick={() => handleAlbumChosen(id)} data-id={id} className="cursor column card is-one-third-widescreen is-two-fifths-tablet is-three-quarters-mobile is-centered">
+            <div className="hover card-image">
                 <figure className="image is-centered">
                     <img src={image} />
                 </figure>
@@ -383,37 +392,48 @@ class Track extends React.Component {
         const { props: {onToTracks} } = this
 
         onToTracks()
+    }
 
+    handleFavourite = (id) => {
+        const {props: {onFavourite} } = this
+    
+        onFavourite(id)
     }
 
     render() {
-        const {props: {track: {id, name, preview_url, uri} }, handleBackToTracks }= this
-        const image = 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
+        const {props: {track: {id, name, preview_url, uri, album: {images}}, resultFavourite, userFavourites },handleBackToTracks, handleFavourite }= this
         
-        return <section className="trackChosen container">
+        const image = images[0] ? images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
+
+        var heart = resultFavourite ? <img className="icon" src="https://image.flaticon.com/icons/svg/148/148836.svg" />: <img className="icon" src="https://image.flaticon.com/icons/svg/149/149217.svg" />
+
+        if (userFavourites) {
+            heart = userFavourites.includes(id) ? <img className="icon" src="https://image.flaticon.com/icons/svg/148/148836.svg" /> : <img className="icon" src="https://image.flaticon.com/icons/svg/149/149217.svg" />
+        }
+        
+        return <section className="trackChosen container margin-top">
             <div className="level is-mobile">
                 <h4 className="level-item">Track</h4>
                 <div className="level-item">
                     <button onClick={handleBackToTracks}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i>Back to Tracks</button>
                 </div>
             </div>
-            <div className="columns ">
-                <div className="column is-centered is-narrow card has-text-centered">
-                    {/* <div data-id={id} className="card-image">
-                        <figure className="image sm-image has-text-centered">
-                            <img src={image} />
-                        </figure>
-                    </div> */}
-                    <div className="card-content">
-                        <h4 className="title is-4">{name}</h4>
-                    </div>
-                    <div className="card-footer">
-                        <div className="field is-grouped">
-                            <audio className="control" src={preview_url} controls></audio>
-                            <p className="control">
-                                <a href={uri} className="button is-link is-small is-rounded">Listen to full song on Spotify</a>
-                            </p>
-                        </div>    
+            <div className="columns is-centered">
+                <div data-id={id} className="column has-text-centered">
+                    <img className="sm-image"src={image} />
+                </div>
+                <div className="column has-text-centered">
+                    <div className="content">
+                        <h3 className="margin-top title is-3">{name}</h3>
+                        <button className="button is-large is-white"onClick={() => handleFavourite(id)}>
+                            {heart}
+                        </button>
+                        <p>
+                        <audio className="margin-top"src={preview_url} autoPlay controls></audio>
+                        </p>
+                        <p>
+                            <a href={uri} className="margin-top button is-link is-small is-rounded">Listen to full song on Spotify</a>
+                        </p>
                     </div>
                 </div>
             </div>  
@@ -422,6 +442,7 @@ class Track extends React.Component {
 }
 
 class ModalRegistration extends React.Component {
+    
 
     handleClose = () => {
         const { props: { closeModal } } = this
@@ -440,15 +461,56 @@ class ModalRegistration extends React.Component {
     }
 }
 
+class Favourite extends React.Component {
+
+    handleTrackChosen = id => {
+        const{ props: {onTrack, feedback}} = this
+
+        onTrack(id, feedback)
+    }
+
+    handleBackToArtists = () => {
+        const { props: {onToArtists} } = this
+
+        onToArtists()
+    }
+
+    render() {
+        const {props: {userFavourites}, handleTrackChosen, handleBackToArtist} = this
+
+        return <section className="tracksAlbum container margin-top">
+        <div className="level is-mobile">
+            <h4 className="level-item">Favourite Tracks</h4>
+            <div className="level-item">
+                <button onClick={handleBackToArtist}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i>  Back to Artists</button>
+            </div>
+        </div>
+        <nav className="panel list-group track">
+
+        {
+        userFavourites.map((id) => {
+            return <a onClick={() => handleTrackChosen(id)} data-id={id} className="panel-block">
+            <span className="panel-icon">
+                <i className="fas fa-music" aria-hidden="true"></i>
+            </span>
+            Hola!
+        </a>   
+        })
+        }
+            </nav>
+        </section>
+    }
+}
+
 
 class App extends React.Component {
 
-    state = {loginFeedback: '', registrationFeedback: '', searchFeedback: '', registerVisible: false, loginVisible: true, homeVisible: false, artistVisible: false , albumVisible: false, tracksVisible: false, trackVisible: false, modalVisible: false,user:'', artists: [] ,albums: [], tracks: [], track: {}}
+    state = {loginFeedback: '', registrationFeedback: '', searchFeedback: '', registerVisible: false, loginVisible: true, homeVisible: false, artistVisible: false , albumVisible: false, tracksVisible: false, trackVisible: false, modalVisible: false, favouritesVisible: false,user:'', userEmail:'', userFavourites: [], artists: [] ,albums: [], tracks: [], track: {}, resultFavourite: false}
 
     handleLogin = (email, password) =>{
         try {
             logic.login(email, password, (user) => {
-                this.setState({loginFeedback: '', loginVisible: false, searchVisible: true, user: user.name})
+                this.setState({loginFeedback: '', loginVisible: false, searchVisible: true, user: user.name, userEmail: user.email, userFavourites: user.favourites})
             })
             
         } catch ({message}) {
@@ -515,7 +577,7 @@ class App extends React.Component {
             logic.retrieveTrack(trackId, (error, track) => {
                 if (error) this.setState({searchFeedback: error})
                 else {
-                    this.setState({tracksVisible: false, trackVisible: true, track})
+                    this.setState({tracksVisible: false, trackVisible: true, searchVisible: true, track})
                 }
             })
         } catch (message) {
@@ -532,7 +594,7 @@ class App extends React.Component {
     }
 
     handleToArtists = () => {
-        this.setState({albumVisible: false, artistVisible: true})
+        this.setState({albumVisible: false, artistVisible: true, searchVisible: true})
     }
 
     handleToAlbums = () => {
@@ -540,7 +602,7 @@ class App extends React.Component {
     }
 
     handleToTracks = () => {
-        this.setState({trackVisible: false, tracksVisible: true})
+        this.setState({trackVisible: false, tracksVisible: true, resultFavourite: false})
     }
 
     handleLoginToRegister= () => {
@@ -551,19 +613,32 @@ class App extends React.Component {
         this.setState({registerVisible : false, loginVisible : true})
     }
 
+    handleFavourites = (id) => {
+        const {state:{userEmail}}= this
+        var result = logic.retrieveFavourites(id, userEmail, (userFavourites) => {
+            this.setState({userFavourites})
+        })
+        this.setState({resultFavourite : result})
+    }
+
+    onFavourites = () => {
+        this.setState({searchVisible : false, loginVisible : false, registerVisible: false, artistVisible: false, albumVisible: false, tracksVisible: false, trackVisible: false, favouritesVisible: true})
+    }
+
     render() {
-        const { state: { searchFeedback, loginFeedback, registrationFeedback, registerVisible, loginVisible, searchVisible, artistVisible, albumVisible, tracksVisible, trackVisible, modalVisible, artists, user, albums, tracks, track}, handleLogin, handleRegistration, handleLoginToRegister, handleRegisterToLogin, handleSearch, handleAlbum, handleTracks, handleTrack, handleToLogout, handleToArtists, handleToAlbums, handleToTracks, handleCloseModal } = this
+        const { state: { searchFeedback, loginFeedback, registrationFeedback, registerVisible, loginVisible, searchVisible, artistVisible, albumVisible, tracksVisible, trackVisible, modalVisible, favouritesVisible,artists, user, albums, tracks, track, resultFavourite, userFavourites}, handleLogin, handleRegistration, handleLoginToRegister, handleRegisterToLogin, handleSearch, handleAlbum, handleTracks, handleTrack, handleToLogout, handleToArtists, handleToAlbums, handleToTracks, handleCloseModal, handleFavourites, onFavourites } = this
 
         return <main>
         <Banner />
         {loginVisible && <Login onLogin={handleLogin} feedback={loginFeedback} onToRegister={handleLoginToRegister}/>}
         {registerVisible && <Register onRegistration={handleRegistration} feedback={registrationFeedback} onToLogin={handleRegisterToLogin}/>}
-        {searchVisible && <Search onToSearch={handleSearch} feedback={searchFeedback} user={user} onToLogout={handleToLogout}/>}
-        {artistVisible && <Artist artists={artists} onArtist={handleAlbum}/>}
+        {searchVisible && <Search onToSearch={handleSearch} feedback={searchFeedback} user={user} onToLogout={handleToLogout} onToFavourites={onFavourites}/>}
+        {artistVisible && <Artist artists={artists} onArtist={handleAlbum} />}
         {albumVisible && <Album albums={albums} onAlbum={handleTracks} onToArtists={handleToArtists}/>}
-        {tracksVisible && <Tracks tracks={tracks} onTrack={handleTrack} onToAlbums={handleToAlbums}/>}
-        {trackVisible && <Track track={track} onToTracks={handleToTracks}/>}
-        {modalVisible && <ModalRegistration closeModal={handleCloseModal}/>}
+        {tracksVisible && <Tracks tracks={tracks} onTrack={handleTrack} onToAlbums={handleToAlbums} />}
+        {trackVisible && <Track track={track} onToTracks={handleToTracks} onFavourite={handleFavourites}resultFavourite={resultFavourite} userFavourites={userFavourites}/>}
+        {modalVisible && <ModalRegistration closeModal={handleCloseModal} />}
+        {favouritesVisible && <Favourite track={track} userFavourites={userFavourites} onToArtists={handleToArtists} onTrack={handleTrack}/> }
     </main>
         
     }
