@@ -586,7 +586,7 @@ class App extends React.Component {
     }
 
     handleToLogout = () => {
-        this.setState({query: '', loginFeedback: '', registrationFeedback: '', searchVisible: false, artistVisible: false, albumVisible: false, tracksVisible: false, trackVisible: false, registerVisible: false, loginVisible: true})
+        this.setState({query: '', loginFeedback: '', registrationFeedback: '', searchVisible: false, artistVisible: false, albumVisible: false, tracksVisible: false, trackVisible: false, registerVisible: false, loginVisible: true, favouritesVisible: false})
     }
 
     handleCloseModal = () => {
