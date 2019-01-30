@@ -4,7 +4,7 @@
 
  /* Token is set in global scope so that it can always be accesed. Has to be updated every hour */
 
- spotifyApi.token ='BQDIw50siNXp71_DrOo_wkgRcBtyh2oR41jE--2AXLuxfb8NuxO6MugdmjvtIBLw5dCN6QwZTcZX23Ig9fUiwq4kgqnIvIlP-H9-rmT2nH-jBUqkflMzBTCEJwrKamXxkH7EJxlKvGh1QuoEFsg'
+ spotifyApi.token ='BQCg2AX-c8P5WiLwkXeQgQKJpeh90GhnuYRLdgkf4X3xNVDAWR5bdBjcRsLhQqTmby5d2jORPev2DLB9o-AzQ7P53UWS5nu3VHwRV5S9x0lgdDug1xeplF7GwWoNx1XWfCyN6cT7OtOfD3tijGM'
 
  
  
