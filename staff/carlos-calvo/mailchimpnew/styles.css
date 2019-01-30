@@ -1,0 +1,228 @@
+@charset "UTF-8";
+html {
+  font-family: "PT Sans", sans-serif;
+  background-color: black;
+  box-sizing: border-box;
+}
+
+body {
+  widht: 100%;
+  margin: 0;
+}
+
+.uppersection {
+  width: 100%;
+  height: 50%;
+  background-repeat: no-repeat;
+  background-color: #44bdd5;
+  display: block;
+}
+.uppersection__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.uppersection__header-login {
+  display: flex;
+  justify-content: center;
+}
+.uppersection__header-login a {
+  color: white;
+  position: relative;
+  left: 21.5rem;
+}
+.uppersection__header-nav {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+.uppersection__header-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: inherit;
+}
+.uppersection__header-buttons div {
+  background-color: ceil;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  margin-left: 30px;
+  border-radius: 5px;
+}
+.uppersection__header-buttons div div {
+  background-color: silver;
+  border-radius: 5px;
+}
+.uppersection__header-buttons .formulario {
+  margin-left: 0px;
+  background-color: #44bdd5;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  background-color: silver;
+  border-top-right-radius: 30px solid silver;
+  border-bottom-right-radius: 2px solid silver;
+}
+.uppersection__header-buttons .formulario input {
+  height: 80%;
+}
+.uppersection__header-buttons .formulario img {
+  background: none;
+  position: relative;
+  right: 2rem;
+}
+.uppersection__header-buttons button {
+  height: 80%;
+  margin: 0;
+  background-color: ceil;
+  border: 1px solid grey;
+  padding: 0;
+}
+.uppersection__header-buttons button:nth-child(1) {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.uppersection__header-buttons button:nth-last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.uppersection .subuppersection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-around;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+.uppersection .subuppersection div {
+  padding-bottom: 1%;
+}
+.uppersection .subuppersection div p {
+  max-width: 50%;
+}
+.uppersection .subuppersection div h1 {
+  font-size: 4em;
+  color: white;
+  max-width: 50%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+.uppersection .subuppersection__rightside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+.botobasic {
+  background-color: black;
+  color: white;
+  width: 10em;
+  height: 4em;
+  border-radius: 8px;
+}
+
+.botobasic--red {
+  background-color: red;
+  position: relative;
+  bottom: 15px;
+}
+
+.boto--black {
+  border-radius: 8px;
+  margin-left: 30px;
+}
+
+/*Hasta aqui la zona azul*/
+main {
+  background-color: grey;
+}
+
+.cuadro {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  bottom: 1em;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.cuadro .cuadro__Whatsnew {
+  height: 10%;
+  color: black;
+  padding: 0.5em;
+}
+.cuadro .cuadro__fourcolcontainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 0%;
+}
+.cuadro .cuadro__fourcolcontainer .eachcolumn {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cuadro .cuadro__fourcolcontainer .eachcolumn h5 {
+  padding: 0.5em;
+}
+.cuadro .cuadro__fourcolcontainer .eachcolumn h3 {
+  padding: 0.5em;
+}
+.cuadro .cuadro__fourcolcontainer .eachcolumn p {
+  padding: 0.5em;
+}
+.cuadro .cuadro__fourcolcontainer .eachcolumn img {
+  padding: 0.5em;
+  width: 80%;
+  height: 35%;
+}
+.cuadro .cuadro__fourcolcontainer .boto--little {
+  height: 1.5em;
+  margin: 0.5em;
+  margin-bottom: 1em;
+}
+
+/*A partir de aquí footer/ */
+footer {
+  background-color: black;
+  color: white;
+  position: relative;
+  bottom: 1.5em;
+  display: block;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+footer .fourcolumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+footer .fourcolumns__footercolumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+footer .fourcolumns__footercolumn li:first-child {
+  font-weight: bold;
+  list-style-type: none;
+}
+footer .fourcolumns__footercolumn li {
+  margin-left: 0.5em;
+  list-style-type: none;
+}
+footer .allRights {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+footer .allRights p {
+  text-align: center;
+}
+
+/*# sourceMappingURL=styles.css.map */
