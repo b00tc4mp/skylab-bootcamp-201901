@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDJ4IEJ1J-dKITgjmOeoMfEowGGVtbMf83c7uWPofh3Tr-k4Sv4KKSGQ2H1OvuqUAtUJI9b9UkYdPiVtbITcuoR7mYbKS6om7XUkcxD6fjvyvfXBlT8NoPTfcuRSLaPh_bVcDb-7eRJD91ycxI'
+spotifyApi.token = ''
 
 class Nav extends React.Component {
     handleLogout = event => {
@@ -35,7 +35,7 @@ class Search extends React.Component {
         return <form onSubmit={this.handleSubmit} className="form-inline my-2 my-lg-0 row">
             <input onChange={this.handleSearchInput} className="form-control mr-sm-2 col-sm-8 col-12" type="search" name="query" placeholder="Search Artist..." aria-label="Search" />
             <button className="btn btn-outline-info my-2 my-sm-0 col-sm-3 col-12" type="submit">Search</button>
-            {this.props.feedback && <Feedback message={this.props.feedback} />}
+            {/* {this.props.feedback && <Feedback message={this.props.feedback} />} */}
         </form>
        
     }
@@ -88,6 +88,7 @@ class Login extends React.Component {
         </section>
     }
 }
+
 
 class Home extends React.Component {
 
@@ -146,8 +147,37 @@ class NavResults extends React.Component {
     }
 }
 
+class NetworkFeedback extends React.Component{
+    state= {token:''}
+
+    handleTokenInput = event => this.setState({ token: event.target.value }) 
+
+    handleGetToken= event => {
+        event.preventDefault()
+
+        var token = this.state.token
+        this.props.getToken(token)
+    }
+
+    render(){
+        var link= "https://developer.spotify.com/console/get-search-item/?q=upc%3A00602537817016&type=album&market=&limit=&offset="
+        return <section className="welcome">
+        <section className="login__margins">
+            <div className="login container pl-lg-5 pr-lg-5">
+                <h2 className="mt-3">Token error</h2>
+                <a href={link} target='_blank' >Get Token</a>
+                <form onSubmit={this.handleGetToken} className="form-inline p-2 row">
+                    <input onChange={this.handleTokenInput} className="form-control mr-sm-2 col-sm-6 col-12" type="text" name="token" placeholder="Insert Token..." aria-label="Search" />
+                    <button className="btn btn-outline-info my-2 my-sm-0 col-sm-5 col-12" type="submit">Accept new Token</button>
+                </form>
+            </div>
+        </section>
+    </section> 
+    }
+}
+
 class App extends React.Component {
-    state = { searchFeedback:'', artistsVisual: false, albumsVisual: false, homeVisual: false, tracksVisual: false, songVisual: false, loginVisual: true, logoutButtonVisual: false, artistVisual: false, searchNavVisual: false, navResultsVisual: false, albumImage: '', albumButtonVisual: false, trackButtonVisual: false }
+    state = { networkFeedbackVisual: false, searchFeedback:'', artistsVisual: false, albumsVisual: false, homeVisual: false, tracksVisual: false, songVisual: false, loginVisual: true, logoutButtonVisual: false, artistVisual: false, searchNavVisual: false, navResultsVisual: false, albumImage: '', albumButtonVisual: false, trackButtonVisual: false }
 
     handleLogin = (email, password) => {
 
@@ -164,7 +194,7 @@ class App extends React.Component {
     }
 
     handleLogout = () => {
-        this.setState({ homeVisual: false, navResultsVisual: false, searchNavVisual: false, logoutButtonVisual: false, loginVisual: true, albumButtonVisual: false, trackButtonVisual: false })
+        this.setState({ networkFeedbackVisual: false, homeVisual: false, navResultsVisual: false, searchNavVisual: false, logoutButtonVisual: false, loginVisual: true, albumButtonVisual: false, trackButtonVisual: false,artistsVisual: false, albumsVisual: false, tracksVisual: false, songVisual: false })
 
     }
 
@@ -175,7 +205,11 @@ class App extends React.Component {
     handleSearchHome = query => {
         try {
             logic.searchArtists(query, (error, artists) => {
-                this.setState({ homeVisual: false, artists: artists, artistsVisual: true, searchNavVisual: true, navResultsVisual: true })
+                if(error){
+                    this.setState( {networkFeedbackVisual: true, homeVisual: false})
+                }else{
+                    this.setState({ networkFeedbackVisual:false, homeVisual: false, artists: artists, artistsVisual: true, searchNavVisual: true, navResultsVisual: true })
+                }
             })
         } catch ({message}) {
             this.setState({ searchFeedback: message })
@@ -185,8 +219,11 @@ class App extends React.Component {
     handleSearchNav = query => {
         try {
             logic.searchArtists(query, (error, artists) => {
+                if(error){
+                    this.setState( {networkFeedbackVisual: true, homeVisual: false, artistsVisual: false, albumsVisual: false, tracksVisual: false, songVisual: false, searchNavVisual: false, navResultsVisual: false})
+                }else{
                 this.setState({ artists, artistsVisual: true, albumsVisual: false, tracksVisual: false, songVisual: false, albumButtonVisual: false, trackButtonVisual: false })
-
+                }
             })
         } catch ({message}) {
             this.setState({ searchFeedback: message })
@@ -238,12 +275,18 @@ class App extends React.Component {
         }
     }
 
+    handleGetToken = (token) => {
+        this.setState({ networkFeedbackVisual:false, homeVisual: true})
+        spotifyApi.token = token       
+    }
+
     render() {
         return <main className="app">
             <Nav logoutButtonVisual={this.state.logoutButtonVisual} searchNavVisual={this.state.searchNavVisual} onLogout={this.handleLogout} onSearch={this.handleSearchNav} feedback={this.state.searchFeedback} />
             {this.state.navResultsVisual && < NavResults artistButton={this.handleArtistButton} albumButton={this.handleAlbumButton} albumButtonVisual={this.state.albumButtonVisual} trackButtonVisual={this.state.trackButtonVisual} />}
             {this.state.loginVisual && <Login onLogin={this.handleLogin} loginToRegister={this.handleLogintoRegister} feedback={this.state.loginFeedback} />}
             {this.state.homeVisual && < Home onSearch={this.handleSearchHome} feedback={this.state.searchFeedback} />}
+            {this.state.networkFeedbackVisual && <NetworkFeedback getToken={this.handleGetToken} />}
             {this.state.artistsVisual && < Artists getArtistId={this.handleArtistId} artists={this.state.artists} />}
             {this.state.albumsVisual && < Albums getAlbumId={this.handleAlbumId} albums={this.state.albums} />}
             {this.state.songVisual && < Play song={this.state.song} />}
@@ -252,6 +295,8 @@ class App extends React.Component {
         </main>
     }
 }
+
+
 
 function Artists({ artists, getArtistId }) {
 
