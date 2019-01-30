@@ -1,5 +1,4 @@
 .DS_Store
 .sass-cache
-staff/nicolas-martin/spotify-app/manu/
-staff/nicolas-martin/spotify-app/.old/
-.gitignore
+node_modules
+package-lock.json
