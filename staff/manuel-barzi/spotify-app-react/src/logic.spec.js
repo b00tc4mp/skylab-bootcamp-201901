@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDv7Apw58YO9_zvTDCrr9DcOWKh6B6_g3Xo9PFO6fhm92ZC59S8NcGs9LPRMu-jLWc5_SfjI31MbU1Gb6MlmoA8X760bx3lfMmMuBkaS2eqmrMEwUkD7WkcBB-wWgW5ylWYNo35FkvD5H8'
+spotifyApi.token = 'BQDeFty75CBqwcYfWQW2kF4JupeOHWwHHurcSuhBrXC1wBZ_-0-sXjhfUmkUPLJ9UH5nZi2p1WjJZ6bB8kcQPjAeVdRYq-kL2oDHC-KMePYlDV0kz6JkmK8ofGQeRjY5fBDY2OQzrRipx3c'
 
 describe('logic', function () {
     describe('login', function () {
