@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQD_-fyu21VU9an79tG51D0ei1N5POp4pKxizeQ6hwrZylK3Z8ORIeH1AeAlxdMhMXTmQ5mcHNEh3Sdkw7vcgb9nmHKtaYfH8u06HUEMFIuuiWDIxZreRhjrqOtcFvWacePBivZrPoq1nQXZNTs'
+spotifyApi.token = 'BQCqrDRRD8xj6JALDZP9ov3_tUV3U3eleRm_bgnlUCzIJYIcqMWzBk6edYnL3j6QWLXZQfB47CorGKamb5zXJDej-8ONIKptA7orEYXVYYrwtNfI31bOMTE53NjXSV0KyeLu-uTOcQQS8xRcEfQ'
 
 class App extends React.Component {
 

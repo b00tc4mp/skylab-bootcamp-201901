@@ -116,3 +116,17 @@ const logic = {
         spotifyApi.retrieveTrack(trackId, callback)
     }
 } 
+
+    // retrieveFavoriteTracks(trackId,callback){
+    //     if  (typeof trackId !== 'string') throw TypeError (`${trackId} is not a string`)
+
+    //     if (!trackId.trim().length) throw Error('track is empty')
+
+    //     if (typeof callback !== 'function') throw TypeErro(`${callback} is not a function`)
+
+    //         user.push ({
+    //             favoriteTracks : favoriteTracks
+    //         })
+           
+    //         retrieveFavoriteTracks(trackId,callback)
+    // }
