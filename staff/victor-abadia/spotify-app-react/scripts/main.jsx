@@ -1,4 +1,15 @@
-spotifyApi.token = 'BQBbYPfXwXlQXDKLEOhtO_kyKvnZlmBgJyvCrmy7M1UAYM3zlcm00mWDQI0rO07MzDdn_l7LVhcKxXdaXeMZ1psccH-yy2_rTisPEx9xPi9zeJhdRnKEn3ReVmuE4Au-GxzU03egoxuUBfC9FE8'
+spotifyApi.token = 'BQB85E3Wg2HjPVqIXPv4WTVuFE-pZPc2VYM_2sP4cxizOTRi4L1JWCMPPbmGjIkcRcSgLVl0qO10ToXgVNj3vHtjODLi3qTofw8vBLwKpKjdJKUlB14QuVbwjR_X8jTwE3vxCP3TkCBkWKdFGXs'
+
+class Albums extends React.Component {
+    state = { id: '' }
+
+    Render() {
+        return <section className="albums container">
+            <ul>
+            </ul>
+        </section>
+    }
+}
 
 
 function Results({ results, onItemClick }) {
@@ -7,7 +18,6 @@ function Results({ results, onItemClick }) {
             {results.map(({ id, name, images }) => <li key={id} onClick={() => onItemClick(id)}>{name}
                 <img className="images" src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="artis-image"></img>
             </li>)}
-
         </ul>
     </section>
 }
@@ -28,7 +38,8 @@ class Search extends React.Component {
     render() {
         const { handleQuery, handleSearchSubmit } = this
 
-        return <section>
+        return <section className="search container col-6">
+            <h1 className="title">Spotify App</h1>
             <form className="register__form p-2" onSubmit={handleSearchSubmit}>
                 <h4 className="font-weight-light-normal">Search</h4>
                 <div className="input-group input-group-sm mb-3">
@@ -42,7 +53,7 @@ class Search extends React.Component {
 }
 
 class Home extends React.Component {
-    state = { artists: null }
+    state = { artists: null, albums: null}
 
     handleSearch = query => logic.searchArtists(query, (error, artists) => {
         if (error) console.error(error)
@@ -50,12 +61,15 @@ class Home extends React.Component {
 
     })
 
-    handleArtistSelected = id => console.log('artist selected', id)
+    handleArtistSelected = id => logic.retrieveAlbums(id, (error, albums) => {
+        if (error) console.error(error)
+        else this.setState({ albums: albums.map(({ id, name, images }) => ({ id, name, images })) })
+        
 
     render() {
         return <section className="home container">
             <Search onSearch={this.handleSearch} />
-           {this.state.artists &&  <Results results={this.state.artists} onItemClick={this.handleArtistSelected} />}
+            {this.state.artists && <Results results={this.state.artists} onItemClick={this.handleArtistSelected} />}
         </section>
     }
 }
@@ -93,8 +107,14 @@ class Register extends React.Component {
         this.props.onHandleSubmit(this.state.name, this.state.surname, this.state.email, this.state.password, this.state.passwordConfirmation)
     }
 
+    handlePageChange = (event) => {
+        event.preventDefault()
+        this.props.changePageFunc()
+    }
+
     render() {
         return <section className="register container col-6">
+            <h1 className="title">Spotify App</h1>
             <form className="register__form p-2" onSubmit={this.handleSubmit}>
                 <h4 className="font-weight-light-normal">Register</h4>
                 <div className="input-group input-group-sm mb-3">
@@ -127,7 +147,7 @@ class Register extends React.Component {
                     </div>
                     <input className="form-control" type="text" name="password-confirmation" required onChange={this.handlePasswordConfirmation} />
                 </div>
-                <a href="#" className="btn btn-sm active green" onClick={() => console.log('go to login')}><strong>Login</strong></a>
+                <a href="#" className="btn btn-sm active green" onClick={this.handlePageChange}><strong>Login</strong></a>
                 <button type="submit" className="btn btn-sm active green"><strong>Register</strong></button>
             </form>
         </section>
@@ -189,6 +209,10 @@ class App extends React.Component {
         this.setState({ loginVisible: false, registerVisible: true });
     };
 
+    handleClickLoginButton = () => {
+        this.setState({ loginVisible: true, registerVisible: false });
+    };
+
     handleLogin = (thisEmail, thisPassword) => {
         try {
             logic.login(thisEmail, thisPassword, (user) => {
@@ -216,7 +240,7 @@ class App extends React.Component {
     render() {
         return <div>
             {this.state.loginVisible && <Login onHandleSubmit={this.handleLogin} changePageFunc={this.handleClickRegisterButton} />}
-            {this.state.registerVisible && <Register onHandleSubmit={this.handleRegister} />}
+            {this.state.registerVisible && <Register onHandleSubmit={this.handleRegister} changePageFunc={this.handleClickLoginButton} />}
             {this.state.homeVisible && <Home />}
         </div>
     }
