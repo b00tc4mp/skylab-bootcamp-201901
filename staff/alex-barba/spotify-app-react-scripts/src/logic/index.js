@@ -1,5 +1,5 @@
-import users from '../data';
-import spotifyApi from '../spotify-api-1.0.0';
+import userApi from '../user-api/index'
+import spotifyApi from '../spotify-api/index';
 
 /**
  * logic.js of the Spotify App
