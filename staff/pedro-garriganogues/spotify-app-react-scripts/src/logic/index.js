@@ -1,5 +1,5 @@
 
-import spotifyApi from '../spotify-api-1.1.0'
+import spotifyApi from '../spotify-api/spotify-api-1.1.0'
 import users from '../data/index'
 
 

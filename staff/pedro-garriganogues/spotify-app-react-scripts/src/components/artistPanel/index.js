@@ -20,7 +20,7 @@ class ArtistPanel extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.artists)
+
 
 		return <main className="App">
 			<section className="container">
