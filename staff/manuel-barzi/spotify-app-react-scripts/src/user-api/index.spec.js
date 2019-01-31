@@ -24,4 +24,18 @@ describe('user api', () => {
                 })
         )
     })
+
+    false && describe('update', () => {
+        let _token
+
+        beforeEach(() =>
+            userApi.auth(username, password)
+                .then(({ id, token }) => _token = token)
+                .then(() => console.log('TODO'))
+        )
+
+        it('should update on correct data', () => 
+            userApi.update()
+        )
+    })
 })
