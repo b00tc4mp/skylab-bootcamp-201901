@@ -1,4 +1,4 @@
-import spotifyApi from '../spotify-api-1.1.0'
+import spotifyApi from '../spotify-api'
 import users from '../data'
 import logic from '.'
 
@@ -11,9 +11,7 @@ describe('logic', function () {
 
             let loggedInUser
 
-            logic.login(expected.email, expected.password, function (user) {
-                loggedInUser = user
-            })
+            loggedInUser = logic.login(expected.email, expected.password)
 
             expect(loggedInUser).toBeDefined()
             expect(loggedInUser.name).toEqual(expected.name)
@@ -26,27 +24,14 @@ describe('logic', function () {
         it('should fail on wrong email', function () {
             const inventedEmail = 'invented@mail.com'
 
-            // const error
-
-            // try {
-            //     logic.login(inventedEmail, '123', function() {})
-            // } catch(err) {
-            //     error = err
-            // }
-
-            // expect(error).toBeDefined()
-            // expect(error.message).toBe('user ' + inventedEmail + ' not found')
-
-            // ALT jasmine
-
             expect(function () {
-                logic.login(inventedEmail, '123', function () { })
+                logic.login(inventedEmail, '123')
             }).toThrow(Error('user ' + inventedEmail + ' not found'))
         })
 
         it('should fail on wrong password', function () {
             expect(function () {
-                logic.login('johndoe@mail.com', '123', function () { })
+                logic.login('johndoe@mail.com', '123')
             }).toThrow(Error('wrong password'))
         })
     })
