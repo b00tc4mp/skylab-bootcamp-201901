@@ -1,18 +1,6 @@
-import React, { Component } from 'react';
-import './App.css';
-import logic from './Logic'
-import Albums  from './components/Albums'
-import Artist from './components/Artist'
-import Feedback from './components/Feedback'
-import Login from './components/Login'
-import Register from './components/Register'
-import Search from './components/Search'
-import Track from './components/Track'
-import Tracks from './components/Tracks'
+spotifyApi.token = 'BQCqrDRRD8xj6JALDZP9ov3_tUV3U3eleRm_bgnlUCzIJYIcqMWzBk6edYnL3j6QWLXZQfB47CorGKamb5zXJDej-8ONIKptA7orEYXVYYrwtNfI31bOMTE53NjXSV0KyeLu-uTOcQQS8xRcEfQ'
 
-
-
-class App extends Component {
+class App extends React.Component {
 
     state = {
         loginFeedback: '',
@@ -64,15 +52,12 @@ class App extends Component {
         try{
             console.log(artistId);
             logic.retrieveAlbums(artistId, (error,albums) =>{
-                if(error)console.log(error)
-                else{
-                
+                error;
                 console.log(albums)
 
                 this.setState({albums})
                 this.setState({albumsFeedback:''})
                 this.setState({artistVisible:false , albumsVisible: true})
-              }
             })
         }catch({message}){
             this.setState({albumsFeedback: message})
@@ -116,8 +101,7 @@ class App extends Component {
     onGoToAlbums = () => this.setState({artistVisible:false,albumsVisible:true})
     onGoToRegister = () => this.setState({ loginVisible: false, registerVisible: true })
     onGoToLogin = () => this.setState({ loginVisible: true, registerVisible: false })
-    onLogout = () => this.setState({ loginVisible: true, searchVisible: false, artistVisible: false,albumsVisible:false,tracksVisible:false ,searchFeedback: '',trackVisible: false })
-    onBackToSearch = () => this.setState({artistVisible:false})
+    onLogout = () => this.setState({ loginVisible: true, searchVisible: false, artistVisible: false,albumsVisible:false,tracksVisible:false ,searchFeedback: '' })
     onBackToArtist = () => this.setState({albumsVisible: false , artistVisible: true})
     onBackToAlbums = () => this.setState({tracksVisible: false , albumsVisible:true})
     onBackToTracks = () => this.setState({trackVisible: false , tracksVisible:true})
@@ -125,12 +109,12 @@ class App extends Component {
 
 
     render() {
-        const { handleLogin, handleRegister, handleSearch, onLogout, onGoToRegister, onGoToLogin,onBackToSearch,handleAlbums,onBackToArtist,handleTracks,onBackToAlbums,handleTrack,onBackToTracks,  state: { loginVisible, registerVisible, searchVisible, artistVisible, albumsVisible,tracksVisible,trackVisible, loginFeedback, registerFeedback, searchFeedback,albumsFeedback,tracksFeedback,trackFeedback, artist , albums,tracks,track} } = this
+        const { handleLogin, handleRegister, handleSearch, onLogout, onGoToRegister, onGoToLogin,handleAlbums,onBackToArtist,handleTracks,onBackToAlbums,handleTrack,onBackToTracks,  state: { loginVisible, registerVisible, searchVisible, artistVisible, albumsVisible,tracksVisible,trackVisible, loginFeedback, registerFeedback, searchFeedback,albumsFeedback,tracksFeedback,trackFeedback, artist , albums,tracks,track} } = this
         return <main>
             {loginVisible && <Login onLogin={handleLogin} feedback={loginFeedback} onGoToRegister={onGoToRegister} />}
             {registerVisible && < Register onRegister={handleRegister} feedback={registerFeedback} onGoToLogin={onGoToLogin} />}
             {searchVisible && <Search onSearch={handleSearch} onLogout={onLogout} feedback={searchFeedback} />}
-            {artistVisible && <Artist artist={artist} handleAlbums={handleAlbums} onBackToSearch={onBackToSearch} />}
+            {artistVisible && <Artist artist={artist} handleAlbums={handleAlbums}  />}
             {albumsVisible && <Albums  albums={albums} handleTracks={handleTracks} feedback={albumsFeedback} onBackToArtist={onBackToArtist}/>}
             {tracksVisible && <Tracks tracks={tracks} feedback={tracksFeedback} onBackToAlbums={onBackToAlbums} handleTrack={handleTrack} />}
             {trackVisible && <Track track={track} feedback={trackFeedback} onBackToTracks={onBackToTracks}/>}
@@ -139,5 +123,4 @@ class App extends Component {
     }
 }
 
-
-export default App;
+ReactDOM.render(<App />, document.getElementById("root"))
