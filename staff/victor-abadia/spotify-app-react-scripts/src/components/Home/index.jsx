@@ -1,48 +1,37 @@
 'use strict'
 
 class Home extends React.Component {
-    state = { artists: null, albums: null, tracks: null, track: null, searchFeedback: null, artistFeedback: null, albumFeedback: null, trackFeedback: null }
+    state = { artists: null, albums: null, songs: null, artistVisible: false, albumsVisible: false, songsVisible: false }
 
     handleSearch = query => logic.searchArtists(query, (error, artists) => {
-        if (error) this.setState({ searchFeedback: error.message })
-        else this.setState({
-            artists: artists.map(({ id, name: title }) => ({ id, title })),
-            albums: null,
-            tracks: null
-        })
+        if (error) console.error(error)
+        else this.setState({ artistVisible: true, albumsVisible: false, songsVisible: false, artists: artists.map(({ id, name, images }) => ({ id, name, images })) })
+
     })
 
     handleArtistSelected = id => logic.retrieveAlbums(id, (error, albums) => {
-        if (error) this.setState({ artistFeedback: error.message })
+        if (error) console.error(error)
         else this.setState({
-            albums: albums.map(({ id, name: title }) => ({ id, title })),
-            tracks: null
+            artistVisible: false, albumsVisible: true, songsVisible: false,
+            albums: albums.map(({ id, name, images }) => ({ id, name, images }))
         })
     })
 
     handleAlbumSelected = id => logic.retrieveTracks(id, (error, tracks) => {
-        if (error) this.setState({ albumFeedback: error.message })
+        console.log(tracks)
+        if (error) console.error(error)
         else this.setState({
-            tracks: tracks.map(({ id, name: title }) => ({ id, title }))
-        })
-    })
-
-    handleTrackSelected = id => logic.retrieveTrack(id, (error, track) => {
-        if (error) this.setState({ trackFeedback: error.message })
-        else this.setState({
-            track: { title: track.name, url: track.preview_url }
+            artistVisible: false, albumsVisible: false, songsVisible: true,
+            songs: tracks.map(({ name, preview_url }) => ({ name, preview_url }))
         })
     })
 
     render() {
-        const { handleSearch, handleArtistSelected, handleAlbumSelected, handleTrackSelected, state: { artists, albums, tracks, track, searchFeedback, artistFeedback, albumFeedback, trackFeedback }, props: { language } } = this
-
-        return <section className="home">
-            <Search title={i18n[language].searchTitle} onSearch={handleSearch} feedback={searchFeedback} />
-            {artists && <Results title="Artists" results={artists} onItemClick={handleArtistSelected} feedback={artistFeedback} />}
-            {albums && <Results title="Albums" results={albums} onItemClick={handleAlbumSelected} feedback={albumFeedback} />}
-            {tracks && <Results title="Tracks" results={tracks} onItemClick={handleTrackSelected} feedback={trackFeedback} />}
-            {track && <Player track={track} />}
-        </section >
+        return <section className="home container">
+            <Search onSearch={this.handleSearch} />
+            {this.state.artistVisible && this.state.artists && <Results results={this.state.artists} onItemClick={this.handleArtistSelected} />}
+            {this.state.albumsVisible && this.state.albums && <Results results={this.state.albums} onItemClick={this.handleAlbumSelected} />}
+            {this.state.songsVisible && this.state.songs && <Songs results={this.state.songs} />}
+        </section>
     }
 }

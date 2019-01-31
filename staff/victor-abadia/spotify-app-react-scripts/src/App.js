@@ -1,28 +1,47 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
+  state = { loginVisible: true, registerVisible: false, homeVisible: false }
+
+  handleClickRegisterButton = () => {
+      this.setState({ loginVisible: false, registerVisible: true });
+  };
+
+  handleClickLoginButton = () => {
+      this.setState({ loginVisible: true, registerVisible: false });
+  };
+
+  handleLogin = (thisEmail, thisPassword) => {
+      try {
+          logic.login(thisEmail, thisPassword, (user) => {
+
+              this.setState({ loginVisible: false, homeVisible: true })
+
+          })
+      } catch (error) {
+          console.log(error.message)
+      }
+
+  }
+
+  handleRegister = (thisName, thisSurname, thisEmail, thisPassword, thisPasswordConfirmation) => {
+      try {
+          logic.register(thisName, thisSurname, thisEmail, thisPassword, thisPasswordConfirmation, () => {
+              this.setState({ loginVisible: true, registerVisible: false })
+          })
+      } catch (error) {
+          console.log(error.message)
+      }
+
+  }
+
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-        <h1>Hola Mundo!</h1>
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      return <div>
+          {this.state.loginVisible && <Login onHandleSubmit={this.handleLogin} changePageFunc={this.handleClickRegisterButton} />}
+          {this.state.registerVisible && <Register onHandleSubmit={this.handleRegister} changePageFunc={this.handleClickLoginButton} />}
+          {this.state.homeVisible && <Home />}
       </div>
-    );
   }
 }
 

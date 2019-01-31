@@ -3,7 +3,7 @@
 class Search extends React.Component {
     state = { query: '' }
 
-    handleQueryInput = ({ target: { value: query } }) => this.setState({ query })
+    handleQuery = ({ target: { value: query } }) => this.setState({ query })
 
     handleSearchSubmit = event => {
         event.preventDefault()
@@ -14,15 +14,18 @@ class Search extends React.Component {
     }
 
     render() {
-        const { handleQueryInput, handleSearchSubmit, props: { title } } = this
+        const { handleQuery, handleSearchSubmit } = this
 
-        return <section className="search">
-            <h2>{title}</h2>
-
-            <form onSubmit={handleSearchSubmit}>
-                <input type="text" placeholder="Search an artist..." onChange={handleQueryInput} />
+        return <section className="search container col-6">
+            <h1 className="title">Spotify App</h1>
+            <form className="register__form p-2" onSubmit={handleSearchSubmit}>
+                <h4 className="font-weight-light-normal">Search</h4>
+                <div className="input-group input-group-sm mb-3">
+                    <div className="input-group-prepend"></div>
+                </div>
+                <input type="text" placeholder="Search an artist..." onChange={handleQuery} />
                 <button type="submit">Search</button>
             </form>
-        </section>
+        </section >
     }
 }

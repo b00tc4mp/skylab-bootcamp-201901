@@ -1,34 +1,45 @@
 'use strict'
 
 class App extends React.Component {
-    state = { selectedLanguage: 'en', loginFeedback: null, user: { email: 'e@mail.com' } }
+    state = { loginVisible: true, registerVisible: false, homeVisible: false }
 
-    handleLanguageSelected = event => {
-        this.setState({
-            selectedLanguage: event.target.value
-        })
+    handleClickRegisterButton = () => {
+        this.setState({ loginVisible: false, registerVisible: true });
+    };
+
+    handleClickLoginButton = () => {
+        this.setState({ loginVisible: true, registerVisible: false });
+    };
+
+    handleLogin = (thisEmail, thisPassword) => {
+        try {
+            logic.login(thisEmail, thisPassword, (user) => {
+
+                this.setState({ loginVisible: false, homeVisible: true })
+
+            })
+        } catch (error) {
+            console.log(error.message)
+        }
+
     }
 
-    handleLogin = (email, password) => {
+    handleRegister = (thisName, thisSurname, thisEmail, thisPassword, thisPasswordConfirmation) => {
         try {
-            logic.login(email, password, user => {
-                this.setState({ loginFeedback: null, user })
+            logic.register(thisName, thisSurname, thisEmail, thisPassword, thisPasswordConfirmation, () => {
+                this.setState({ loginVisible: true, registerVisible: false })
             })
-        } catch ({ message }) {
-            this.setState({ loginFeedback: message })
+        } catch (error) {
+            console.log(error.message)
         }
+
     }
 
     render() {
-        const { state: { selectedLanguage, loginFeedback, user }, handleLanguageSelected, handleLogin } = this
-
-        const title = <h1>{i18n[selectedLanguage].title}</h1>
-
-        return <main className="app">
-            <LanguageSelector selectedLanguage={selectedLanguage} languages={['en', 'es', 'ca', 'ga', 'fr']} onLanguageSelected={handleLanguageSelected} />
-            {title}
-            {!user && <Login title={i18n[selectedLanguage].loginTitle} onLogin={handleLogin} feedback={loginFeedback} />}
-            {user && <Home language={selectedLanguage} />}
-        </main>
+        return <div>
+            {this.state.loginVisible && <Login onHandleSubmit={this.handleLogin} changePageFunc={this.handleClickRegisterButton} />}
+            {this.state.registerVisible && <Register onHandleSubmit={this.handleRegister} changePageFunc={this.handleClickLoginButton} />}
+            {this.state.homeVisible && <Home />}
+        </div>
     }
 }
