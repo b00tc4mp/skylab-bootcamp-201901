@@ -4,7 +4,7 @@
 
 /* Token is set in global scope so that it can always be accesed. Has to be updated every hour */
 
-spotifyApi.token = 'BQB4Fsk3ZbkIzwmrzolAaaWbLKDr6mzo3kG4if2vYJn9blMBqlv4PMl_BEooG8EP-Xio4ZHUIxVm0b8caXWZ01VTbX3wZiR_UTbWoTDER1PXC87a9bMk04bVj57jPMdMENHJABOahuAdhDMxhv4'
+spotifyApi.token = 'BQAh8WXDmnbGCF7SGk6Y6RdgGjc1xFv6HA7GfdO9bWFe8CTRS3nsRd8CB-iNNo1I40_fJ3CCJQOy9HYyi0BV1GBQEBkOl_dhxYXh4vJKDzB4hx5uj3No9k9-sgQ3w-6vUWmF5_6WX3rcqr2nooM'
 
 /*  All the panels are decalred */
 

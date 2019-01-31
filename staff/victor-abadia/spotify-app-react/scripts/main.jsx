@@ -1,15 +1,39 @@
+
+spotifyApi.token = 'BQAh8WXDmnbGCF7SGk6Y6RdgGjc1xFv6HA7GfdO9bWFe8CTRS3nsRd8CB-iNNo1I40_fJ3CCJQOy9HYyi0BV1GBQEBkOl_dhxYXh4vJKDzB4hx5uj3No9k9-sgQ3w-6vUWmF5_6WX3rcqr2nooM'
+
+
+function Results({ results, onItemClick }) {
+    return <section className="results">
+        <ul>
+            {results.map(({ id, name }) => <li key={id} onClick={() => onItemClick(id)}>{name}</li>)}
+        </ul>
+    </section>
+}
+
 class Search extends React.Component {
+    state = { query: '' }
+
+    handleQueryInput = ({ target: { value: query } }) => this.setState({ query })
+
+    handleSearchSubmit = event => {
+        event.preventDefault()
+
+        const { state: { query }, props: { onSearch } } = this
+
+        onSearch(query)
+    }
 
     render() {
+        const { handleQueryInput, handleSearchSubmit } = this
+
         return <section>
-            <form className="register__form p-2" onSubmit={this.props.onSearch}>
+            <form className="register__form p-2" onSubmit={handleSearchSubmit}>
                 <h4 className="font-weight-light-normal">Search</h4>
                 <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend"></div>
-                    <label className="input-group-text" id="inputGroup-sizing-sm">Name</label>
                 </div>
-                <input type="text" />
-                <button type="submit" ></button>
+                <input type="text" onChange={handleQueryInput} />
+                <button type="submit">Search</button>
             </form>
         </section >
     }
@@ -19,13 +43,18 @@ class Home extends React.Component {
     state = { artists: [] }
 
     handleSearch = query => logic.searchArtists(query, (error, artists) => {
+        console.log(query)
+        console.log(artists)
         if (error) console.error(error)
-        else this.setState({ artists: artists.map(({ id, name: title }) => ({ id, title })) })
+        else this.setState({ artists: artists.map(({ id, name}) => ({ id, name })) })
     })
+
+    handleArtistSelected = id => console.log('artist selected', id)
 
     render() {
         return <section className="home container">
             <Search onSearch={this.handleSearch} />
+            <Results results={this.state.artists} onItemClick={this.handleArtistSelected} />
         </section>
     }
 }
