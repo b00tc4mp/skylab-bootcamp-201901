@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './index.sass';
+
 
 class HomePanel extends React.Component{
     state = { query: '', }

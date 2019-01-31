@@ -2,7 +2,7 @@ import users from '../data/data';
 import spotifyApi from '../vendor/spotify-api/1.0.0/spotify-api-1.0.0'
 
 
-spotifyApi.token = 'BQCAepmUebEvfuF0fgMITlSsIHk7KbMsoCbKAjXuRbWm34AbzyYcG2TbgYj7kXS7Nn0dzFVg5UDld5ZQbr2eC-66YRLWC02zsllx9L8oo6eYboZF4v8v7mrlZ8I9SexXNJtC4LBGsa6lqA'
+spotifyApi.token = 'BQA9iFx_W-wj0yEM_dciDafh1KCO0qSl0hq1SGTey89YWGhe0M0dT8WAJYREAKLJ6er70zoGj2T5LQBi8pc-LJswTGJhOhSOXvs7pFR_oB6BsdhKuwZe0t7wpEWMZ8sflnW33_Lp0iQZaQ'
 
 
 const logic = {
@@ -157,7 +157,7 @@ const logic = {
     },
 
 
-    toggleFavorite: function(email, id){
+    toggleFavorite: function(email, id, previewurl){
 
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
@@ -169,7 +169,7 @@ const logic = {
         if (!email.trim().length) throw Error('email cannot be empty');
 
         //Check that users exists
-
+        console.log(users)
         let emailindex = -1;
         let found= false;
 
@@ -192,9 +192,22 @@ const logic = {
             }
         }
         if(favindex == -1){ //case not found --> add to favorites
-            users[emailindex].favorites.push(id)
+            users[emailindex].favorites.push({id, previewurl})
         }
+        console.log(users)
+    },
 
+
+    getFavorites(email){
+        let emailindex;
+        let found= false;
+        for(let i = 0; i < users.length && !found; i++){
+            if(users[i].email == email) {
+                emailindex = i
+                found = true
+            }
+        }
+        return users[emailindex].favorites
     }
 }
 

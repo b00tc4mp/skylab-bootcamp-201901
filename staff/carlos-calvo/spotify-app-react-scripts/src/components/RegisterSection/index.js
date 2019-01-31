@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Feedback from '../Feedback';
+import './index.sass';
 
 class RegisterSection extends React.Component{
     state = { name: '', surname: '', email: '', password: '', passwordconf: '' } //Equivalente al constructor

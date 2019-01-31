@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Feedback from '../Feedback'
+import Feedback from '../Feedback';
+import './index.sass';
 
 class Login extends React.Component{
     state = { email: '', password: ''} //Equivalente al constructor
