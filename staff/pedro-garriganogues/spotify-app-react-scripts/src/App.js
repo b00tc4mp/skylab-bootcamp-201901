@@ -1,11 +1,12 @@
 import React from 'react'
-import AlbumPanel from './components/albumPanel'
-import ArtistPanel from './components/artistPanel'
-import data from './components/data/index.js'
-import logic from './components/logic'
-import Register from './components/register'
-import Search from './components/search'
-import TrackPanel from './components/trackPanel'
+import AlbumPanel from './components/albumPanel/index'
+import ArtistPanel from './components/artistPanel/index'
+import Search from './components/search/index'
+import TrackPanel from './components/trackPanel/index'
+import logic from './logic/index'
+import RegisterSection from './components/register/index'
+import ButtonRegister from './components/buttonRegister/index'
+
 
 
 class App extends React.Component {

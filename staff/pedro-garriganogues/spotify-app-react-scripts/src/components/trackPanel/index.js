@@ -1,3 +1,4 @@
+import React from 'react'
 
 class TrackPanel extends React.Component {
 
@@ -14,9 +15,10 @@ class TrackPanel extends React.Component {
 
 					{
 						this.props.tracks.map(({ name, preview_url }) => {
+							console.log(preview_url)
 							return (
 
-								<audio src={preview_url} className="border border-black text-center border-rounded col-md-4" controls>
+								<audio key={name} src={preview_url} className="border border-black text-center border-rounded col-md-4" controls>
 								</audio>
 
 							);
@@ -29,3 +31,5 @@ class TrackPanel extends React.Component {
 	}
 
 }
+
+export default TrackPanel

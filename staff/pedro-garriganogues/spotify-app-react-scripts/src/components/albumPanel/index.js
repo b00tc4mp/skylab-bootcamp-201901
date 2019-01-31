@@ -1,3 +1,5 @@
+import React from 'react'
+import logic from '../../logic/index'
 
 class AlbumPanel extends React.Component {
 
@@ -42,3 +44,5 @@ class AlbumPanel extends React.Component {
 	}
 
 }
+
+export default AlbumPanel

@@ -73,3 +73,4 @@ const spotifyApi = {
             .catch(callback)
     }
 }
+export default spotifyApi

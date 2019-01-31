@@ -1,19 +1,4 @@
-class ButtonRegister extends React.Component {
-	constructor() {
-		super()
-	}
-
-	changeToRegister = event => {
-		event.preventDefault()
-		this.props.onRegister()
-	}
-
-	render() {
-		return <section className="d-flex justify-content-center">
-			< button onClick={this.changeToRegister} className="btn"> Register</button >
-		</section >
-	}
-}
+import React from 'react'
 
 
 class RegisterSection extends React.Component {
@@ -41,6 +26,7 @@ class RegisterSection extends React.Component {
 	}
 }
 
+export default RegisterSection
 
 
 

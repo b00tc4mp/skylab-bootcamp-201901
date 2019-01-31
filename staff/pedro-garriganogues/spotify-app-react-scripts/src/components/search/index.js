@@ -1,4 +1,5 @@
-spotifyApi.token = 'BQBONhxyz1nx52roDV78XJylksoa8EtblKXvMBnw2tbY9zLmqM6yVpcS1RpTsg46x0klRGAjMLUT9cwWLdKYx4YsIwyi-2ikCaOoh3VJj-h-jKZWEKzzZYiK93e2TysjqhCF1fL7q5ghXDuEDhqXkr1bsaNWuIOmbg'
+import logic from '../../logic/index'
+import React from 'react'
 
 class Search extends React.Component {
 
@@ -34,6 +35,7 @@ class Search extends React.Component {
 	}
 }
 
+export default Search
 
 
 
