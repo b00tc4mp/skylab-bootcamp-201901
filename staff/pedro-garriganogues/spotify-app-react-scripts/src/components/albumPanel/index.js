@@ -31,7 +31,7 @@ class AlbumPanel extends React.Component {
 							return (
 
 								<div key={album.id} className="border border-black text-center border-rounded col-md-4" onClick={() => this.handleSongs(album.id)}>
-									{(album.images[0]) && <img className="img-fluid" src={album.images[0].url} />}
+									{(album.images[0]) && <img className="img-fluid" src={album.images[0].url} alt="404" />}
 								</div>
 
 							);

@@ -1,6 +1,6 @@
 
 import spotifyApi from '../spotify-api-1.1.0'
-import users from '../components/data/index'
+import users from '../data/index'
 
 
 const logic = {
