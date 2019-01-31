@@ -1,16 +1,16 @@
-spotifyApi.token = 'BQB85E3Wg2HjPVqIXPv4WTVuFE-pZPc2VYM_2sP4cxizOTRi4L1JWCMPPbmGjIkcRcSgLVl0qO10ToXgVNj3vHtjODLi3qTofw8vBLwKpKjdJKUlB14QuVbwjR_X8jTwE3vxCP3TkCBkWKdFGXs'
+spotifyApi.token = 'BQB4HcnHHEM8lYCrXfRnz_tJeisxDh_9MJyOh2Fo_WMhAx3Av85OGm8A1xLyAZggzrDa7GoDSt_oAuY5tWwzB9SqfU5dXtt_S_9mKu-i8b6i20ihumDa60ANLrAi8tZ7M1h2Qd1MMv8RqPHduU8'
 
-class Albums extends React.Component {
-    state = { id: '' }
+function Songs({ results }) {
+    return <section>
+        <ul>
+            {results.map(({ name, preview_url }) => <li>
+                {name}
+                <audio src={preview_url} controls ></audio>
+            </li>)}
+        </ul>
+    </section>
 
-    Render() {
-        return <section className="albums container">
-            <ul>
-            </ul>
-        </section>
-    }
 }
-
 
 function Results({ results, onItemClick }) {
     return <section className="results container" >
@@ -53,23 +53,37 @@ class Search extends React.Component {
 }
 
 class Home extends React.Component {
-    state = { artists: null, albums: null}
+    state = { artists: null, albums: null, songs: null, artistVisible: false, albumsVisible: false, songsVisible: false }
 
     handleSearch = query => logic.searchArtists(query, (error, artists) => {
         if (error) console.error(error)
-        else this.setState({ artists: artists.map(({ id, name, images }) => ({ id, name, images })) })
+        else this.setState({ artistVisible: true, albumsVisible: false, songsVisible: false, artists: artists.map(({ id, name, images }) => ({ id, name, images })) })
 
     })
 
     handleArtistSelected = id => logic.retrieveAlbums(id, (error, albums) => {
         if (error) console.error(error)
-        else this.setState({ albums: albums.map(({ id, name, images }) => ({ id, name, images })) })
-        
+        else this.setState({
+            artistVisible: false, albumsVisible: true, songsVisible: false,
+            albums: albums.map(({ id, name, images }) => ({ id, name, images }))
+        })
+    })
+
+    handleAlbumSelected = id => logic.retrieveTracks(id, (error, tracks) => {
+        console.log(tracks)
+        if (error) console.error(error)
+        else this.setState({
+            artistVisible: false, albumsVisible: false, songsVisible: true,
+            songs: tracks.map(({ name, preview_url }) => ({ name, preview_url }))
+        })
+    })
 
     render() {
         return <section className="home container">
             <Search onSearch={this.handleSearch} />
-            {this.state.artists && <Results results={this.state.artists} onItemClick={this.handleArtistSelected} />}
+            {this.state.artistVisible && this.state.artists && <Results results={this.state.artists} onItemClick={this.handleArtistSelected} />}
+            {this.state.albumsVisible && this.state.albums && <Results results={this.state.albums} onItemClick={this.handleAlbumSelected} />}
+            {this.state.songsVisible && this.state.songs && <Songs results={this.state.songs} />}
         </section>
     }
 }

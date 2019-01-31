@@ -3,7 +3,7 @@
 /**
  * Spotify API client.
  * 
- * @version 1.0.0
+ * @version 1.1.0
  */
 const spotifyApi = {
     token: 'NO-TOKEN',
@@ -49,9 +49,9 @@ const spotifyApi = {
     },
 
     /**
-     * Retrieves albums from artist.
+     * Retrieves tracks from album.
      * 
-     * @param {string} artistId - The artist to retrieve albums from.
+     * @param {string} albumId - The album to retrieve tracks from.
      * @param {*} callback - callback - The expression to evaluate on response. If error first 
      * argument informs the error message, othwerwise first argument is undefined and second argument provides the matching 
      * results.
@@ -66,5 +66,27 @@ const spotifyApi = {
             .then(res => res.json())
             .then(({ items }) => callback(undefined, items))
             .catch(callback)
+    },
+
+    /**
+     * Retrieves track.
+     * 
+     * @param {string} trackId - The id of the track to be retrieved.
+     * @param {*} callback - callback - The expression to evaluate on response. If error first 
+     * argument informs the error message, othwerwise first argument is undefined and second argument provides the matching 
+     * results.
+     */
+    retrieveTrack(trackId, callback) {
+        fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${this.token}`
+            }
+        })
+            .then(res => res.json())
+            .then((track) => callback(undefined, track))
+            .catch(callback)
     }
 }
+
+export default spotifyApi
