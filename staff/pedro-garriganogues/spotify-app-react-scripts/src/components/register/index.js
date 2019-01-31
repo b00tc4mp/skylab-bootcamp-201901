@@ -41,6 +41,6 @@ class RegisterSection extends React.Component {
 	}
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+
 
 
