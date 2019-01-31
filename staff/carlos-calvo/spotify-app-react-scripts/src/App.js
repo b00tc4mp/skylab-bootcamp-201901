@@ -10,8 +10,8 @@ import Login from '../src/components/Login';
 import RegisterSection from '../src/components/RegisterSection';
 import TrackListPanel from '../src/components/TrackListPanel';
 import logic from '../src/logic/logic.js';
-
 import '../src/App.sass'
+import FavoritesPanel from './components/FavoritesPanel';
 
 
 class App extends React.Component{
@@ -21,7 +21,10 @@ class App extends React.Component{
       homePanelVisible: false, 
       artistPanelVisible: false, 
       albumPanelVisible: false, 
-      trackListPanelVisible: false, 
+      trackListPanelVisible: false,
+      FavoritePanelVisible: true, 
+      albumName:'',
+      artistName:'',
       email:'',
       trackId: '', 
       previewurl: '', 
@@ -31,6 +34,7 @@ class App extends React.Component{
       audioPanelVisible: false,
       albumResults:[], 
       trackListResults:[], 
+      favoriteTracks: [],
       artistSelected:'' }
 
   handleLogin = (email, password) => {
@@ -98,13 +102,14 @@ class App extends React.Component{
   }
 
 
-  loadAlbumfromArtist = id => {
+  loadAlbumfromArtist = (id, artistName) => {
       try {
           console.log(id)
           logic.retrieveAlbums(id, (error, albumResults) => {
               if(error){
                   console.log(error.message)
               } else {
+                  this.setState({artistName})
                   this.setState({albumResults})
                   console.log(albumResults)
                   this.setState({albumPanelVisible: true})
@@ -120,7 +125,7 @@ class App extends React.Component{
   }
 
 
-  loadTracksfromAlbum = id =>{
+  loadTracksfromAlbum = (id, albumName) =>{
       try{
           console.log(id)
           logic.retrieveSongs(id, (error, trackListResults) => {
@@ -128,6 +133,7 @@ class App extends React.Component{
                   console.log(error.message)
                   console.log('no result modafoca')
               } else {
+                  this.setState({albumName})
                   this.setState({trackListResults})
                   console.log(trackListResults)
                   this.setState({trackListPanelVisible: true})
@@ -152,26 +158,31 @@ class App extends React.Component{
   }
 
 
-  AppToggleFavorite = (id) =>{
+  AppToggleFavorite = (id, previewurl) =>{
       try{
-          logic.toggleFavorite(this.state.email, id)
+          logic.toggleFavorite(this.state.email, id, previewurl)
+          const favoriteTracks =  logic.getFavorites(this.state.email)
+          this.setState({favoriteTracks})
       } catch(error){
           console.log(error)
       }
   }
 
+
+  
   //{feedback && <Feedback message={feedback} level="warn" />}
 
   render(){
-      const { state: {loginVisible, email, registerVisible, loginFeedback, homePanelVisible, artistPanelVisible, albumPanelVisible,  artistResults, albumResults, trackListPanelVisible, trackListResults, audioPanelVisible, previewurl, trackId, registerfeedback} , handleLogin, goToRegisterForm, doRegister, backToLogin, goSearch, loadAlbumfromArtist, loadTracksfromAlbum, loadTrack, AppToggleFavorite } = this
+      const { state: {loginVisible, email, favoriteTracks, registerVisible, loginFeedback, homePanelVisible, albumName, artistPanelVisible, albumPanelVisible, artistName, artistResults, albumResults, trackListPanelVisible, trackListResults, audioPanelVisible, previewurl, trackId, registerfeedback} , handleLogin, goToRegisterForm, doRegister, backToLogin, goSearch, loadAlbumfromArtist, loadTracksfromAlbum, loadTrack, AppToggleFavorite } = this
       return <main className="App">
           {loginVisible && <Login className="Login" onLogin={handleLogin} feedback={loginFeedback} /> }
           {loginVisible && <BotonRegister onRegister={goToRegisterForm} />}
           {registerVisible && <RegisterSection onRegisterUser = {doRegister} fromRegisterToLogin ={backToLogin} feedbackRegister = {registerfeedback}/>}
           {homePanelVisible && <HomePanel onSearchApp={goSearch} onLogout={backToLogin} artistResults = {this.state.artistResults}/>}
+          {favoriteTracks && homePanelVisible && <FavoritesPanel favoriteTracks={favoriteTracks}/>}
           {artistPanelVisible && <ArtistPanel artistResults = {artistResults} artistSelect = {loadAlbumfromArtist}/>}
-          {albumPanelVisible && <AlbumPanel albumResults = {albumResults} albumSelected = {loadTracksfromAlbum}/>}
-          {trackListPanelVisible && <TrackListPanel trackListResults = {trackListResults} trackSelected={loadTrack}/>}
+          {albumPanelVisible && <AlbumPanel albumResults = {albumResults} albumSelected = {loadTracksfromAlbum} artistName={artistName} />}
+          {trackListPanelVisible && <TrackListPanel trackListResults = {trackListResults} trackSelected={loadTrack} albumName={albumName}/>}
           {audioPanelVisible && <AudioPanel previewurl = {previewurl} trackId={trackId} toggleFavorite = {AppToggleFavorite}/>}
       </main>
   }

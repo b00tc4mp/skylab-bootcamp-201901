@@ -10,9 +10,9 @@ class TrackListPanel extends React.Component{
     
 
     render(){
-        const {props: {trackListResults}} = this
+        const {props: {trackListResults, albumName}} = this
         return<section>
-            <h2>Select a track</h2>
+            <h2>Select a track from {albumName}</h2>
             <div className="dropdown">
             <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Select a Track to play

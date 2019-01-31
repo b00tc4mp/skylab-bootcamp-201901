@@ -3,10 +3,10 @@ import './index.sass'
 
 class ArtistPanel extends React.Component{
 
-    onArtistSelected(id){
+    onArtistSelected(id, name){
         const artistSelect = this.props.artistSelect
         console.log(id)
-        artistSelect(id)
+        artistSelect(id, name)
     }
     
     clearStyles(){
@@ -24,7 +24,7 @@ class ArtistPanel extends React.Component{
            <h2>ARTIST LIST</h2>
            <div className="cardContainer">
                 {artistResults.map(({ id, images, name }) => {
-                    return <div className="cardContainer__Artist" id-data={id} onClick = {() => this.onArtistSelected(id)}>
+                    return <div className="cardContainer__Artist" id-data={id} onClick = {() => this.onArtistSelected(id, name)}>
                         <img className="rounded-circle" src={images[0] ? images[0].url: ""}  />
                         <h3 className="text-center">{name}</h3>
                     </div>
