@@ -19,7 +19,7 @@ class Tracks extends React.Component {
         <div className="level is-mobile">
             <h4 className="level-item">Tracks</h4>
             <div className="level-item">
-                <button onClick={handleBackToAlbums}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i>  Back to Albums</button>
+                <button onClick={handleBackToAlbums}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i>&nbsp;&nbsp;Back to Albums</button>
             </div>
         </div>
         <nav className="panel list-group track">

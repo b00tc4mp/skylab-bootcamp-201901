@@ -5,7 +5,12 @@ class Search extends React.Component {
 
     state = {query: ''}
 
-    handleSearchInput = event => this.setState({query: event.target.value})
+    handleSearchInput = event => {
+        this.setState({query: event.target.value}, ()=> {
+            const {state: {query}, props: {onToSearch, feedback}} = this
+            onToSearch(query, feedback)
+        })  
+    }
 
     handleOnSearch = (event) => {
        
@@ -33,15 +38,17 @@ class Search extends React.Component {
 
         return <section className="search margin-top">
         <div className="level is-mobile">
+        <div className="level-item"></div>
             <div className="level-item">
                 <h4 className="subtitle is-4" >Welcome, {user} !</h4>
             </div>
             <div className="level-item">
-                <button onClick={handleOnFavourites} className="button is-rounded is-small search__logout"><i className="fas fa-heart"></i></button>
+                <button onClick={handleOnFavourites} className="button is-rounded is-small search__logout">Favourites &nbsp;<i className="fas fa-heart"></i></button>
             </div>
             <div className="level-item">
                 <button onClick={handleOnLogout} className="button is-rounded is-small search__logout"><i className="fas fa-sign-out-alt"></i></button>
             </div>
+            <div className="level-item"></div>
         </div>
         <div className="columns is-mobile is-centered">
             <div className="column is-two-thirds-tablet is-three-quarters-mobile is-centered"> 
