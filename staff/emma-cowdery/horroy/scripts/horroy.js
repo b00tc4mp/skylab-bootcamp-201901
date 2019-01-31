@@ -27,9 +27,8 @@ function Horroy() {
         this[this.length++] = value;
     };
 
-    Horroy.prototype.pop = function () {
-        if (!(this instanceof Horroy)) throw TypeError(this + ' is not an horroy');
-        if (arguments.length > 1) throw Error('too many arguments');
+    Horroy.prototype.pop = function () {    
+        if (arguments.length > 0) throw Error('too many arguments');
         var popped = this[this.length - 1];
         this.length = this.length - 1;
         return popped;
