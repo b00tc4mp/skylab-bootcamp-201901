@@ -2,7 +2,9 @@ import spotifyApi from '../spotify-api'
 import users from '../data'
 import logic from '.'
 
-spotifyApi.token = 'BQCpINMO9yvMjOdALDKDNOlFz6-4r7jEt2WNnUuGnRI0kw42bCyGzUxTBirY2p93WDn1bCNPewM_LPYOpIVejON6LxVA2bmjxH8FfBlmOe_0bHLXMfNNLPz9VBJU83C0OAooKSJN1-uhJcA'
+const { env: { REACT_APP_SPOTIFY_API_TOKEN } } = process
+
+spotifyApi.token = REACT_APP_SPOTIFY_API_TOKEN
 
 describe('logic', function () {
     describe('login', function () {
@@ -275,21 +277,18 @@ describe('logic', function () {
         })
     })
 
-    describe('search artists', function () {
-        it('should succeed on mathing query', function (done) {
+    describe('search artists', () => {
+        it('should succeed on mathing query', () => {
             const query = 'madonna'
 
-            logic.searchArtists(query, function (error, artists) {
-                expect(error).toBeUndefined()
+            return logic.searchArtists(query)
+                .then(artists => {
+                    expect(artists).toBeDefined()
+                    expect(artists instanceof Array).toBeTruthy()
+                    expect(artists.length).toBeGreaterThan(0)
 
-                expect(artists).toBeDefined()
-                expect(artists instanceof Array).toBeTruthy()
-                expect(artists.length).toBeGreaterThan(0)
-
-                artists.forEach(({ name }) => expect(name.toLowerCase()).toContain(query))
-
-                done()
-            })
+                    artists.forEach(({ name }) => expect(name.toLowerCase()).toContain(query))
+                })
         })
 
         it('should fail on empty query', function () {
