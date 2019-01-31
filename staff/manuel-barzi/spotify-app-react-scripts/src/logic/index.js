@@ -1,12 +1,12 @@
 'use strict'
 
-import spotifyApi from '../spotify-api-1.1.0'
+import spotifyApi from '../spotify-api'
 import users from '../data'
 
 /**
  * Abstraction of business logic.
  */
-var logic = {
+const logic = {
     /**
      * Logins a user by its credentials.
      * 
@@ -14,10 +14,16 @@ var logic = {
      * @param {string} password 
      * @param {function} callback 
      */
-    login: function (email, password, callback) {
-        // TODO validate fields!
+    login: function (email, password) {
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
-        var user = users.find(function (user) {
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+
+        if (!password.trim().length) throw Error('password cannot be empty')
+
+        const user = users.find(function (user) {
             return user.email === email
         })
 
@@ -25,13 +31,13 @@ var logic = {
 
         if (user.password !== password) throw Error('wrong password')
 
-        var loggedInUser = {
+        const loggedInUser = {
             name: user.name,
             surname: user.surname,
             email: user.email
         }
 
-        callback(loggedInUser)
+        return loggedInUser
     },
 
     /**
@@ -67,7 +73,7 @@ var logic = {
 
         // TODO validate fields!
 
-        var user = users.find(function (user) {
+        const user = users.find(function (user) {
             return user.email === email
         })
 
