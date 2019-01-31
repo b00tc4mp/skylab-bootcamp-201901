@@ -1,4 +1,13 @@
-main {
+section {
   background-color: #1CD760; }
+
+.title{
+  text-align: center
+}
+
+.images{
+  width: 250px; 
+  height: 250px;
+}
 
 /*# sourceMappingURL=main.css.map */

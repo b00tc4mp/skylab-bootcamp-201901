@@ -1,11 +1,14 @@
+spotifyApi.token = 'BQBbYPfXwXlQXDKLEOhtO_kyKvnZlmBgJyvCrmy7M1UAYM3zlcm00mWDQI0rO07MzDdn_l7LVhcKxXdaXeMZ1psccH-yy2_rTisPEx9xPi9zeJhdRnKEn3ReVmuE4Au-GxzU03egoxuUBfC9FE8'
 
-spotifyApi.token = 'BQAh8WXDmnbGCF7SGk6Y6RdgGjc1xFv6HA7GfdO9bWFe8CTRS3nsRd8CB-iNNo1I40_fJ3CCJQOy9HYyi0BV1GBQEBkOl_dhxYXh4vJKDzB4hx5uj3No9k9-sgQ3w-6vUWmF5_6WX3rcqr2nooM'
 
 
 function Results({ results, onItemClick }) {
-    return <section className="results">
+    return <section className="results container" >
         <ul>
-            {results.map(({ id, name }) => <li key={id} onClick={() => onItemClick(id)}>{name}</li>)}
+            {results.map(({ id, name, images }) => <li key={id} onClick={() => onItemClick(id)}>{name}
+                <img className="images" src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="artis-image"></img>
+            </li>)}
+
         </ul>
     </section>
 }
@@ -13,7 +16,7 @@ function Results({ results, onItemClick }) {
 class Search extends React.Component {
     state = { query: '' }
 
-    handleQueryInput = ({ target: { value: query } }) => this.setState({ query })
+    handleQuery = ({ target: { value: query } }) => this.setState({ query })
 
     handleSearchSubmit = event => {
         event.preventDefault()
@@ -24,7 +27,7 @@ class Search extends React.Component {
     }
 
     render() {
-        const { handleQueryInput, handleSearchSubmit } = this
+        const { handleQuery, handleSearchSubmit } = this
 
         return <section>
             <form className="register__form p-2" onSubmit={handleSearchSubmit}>
@@ -32,7 +35,7 @@ class Search extends React.Component {
                 <div className="input-group input-group-sm mb-3">
                     <div className="input-group-prepend"></div>
                 </div>
-                <input type="text" onChange={handleQueryInput} />
+                <input type="text" placeholder="Search an artist..." onChange={handleQuery} />
                 <button type="submit">Search</button>
             </form>
         </section >
@@ -40,13 +43,12 @@ class Search extends React.Component {
 }
 
 class Home extends React.Component {
-    state = { artists: [] }
+    state = { artists: null }
 
     handleSearch = query => logic.searchArtists(query, (error, artists) => {
-        console.log(query)
-        console.log(artists)
         if (error) console.error(error)
-        else this.setState({ artists: artists.map(({ id, name}) => ({ id, name })) })
+        else this.setState({ artists: artists.map(({ id, name, images }) => ({ id, name, images })) })
+
     })
 
     handleArtistSelected = id => console.log('artist selected', id)
@@ -54,7 +56,7 @@ class Home extends React.Component {
     render() {
         return <section className="home container">
             <Search onSearch={this.handleSearch} />
-            <Results results={this.state.artists} onItemClick={this.handleArtistSelected} />
+           {this.state.artists &&  <Results results={this.state.artists} onItemClick={this.handleArtistSelected} />}
         </section>
     }
 }
@@ -159,6 +161,7 @@ class Login extends React.Component {
 
     render() {
         return <section className="login container col-6">
+            <h1 className="title">Spotify App</h1>
             <form className="login__form p-2" onSubmit={this.handleSubmit} >
                 <h4 className="font-weight-light-normal">Login</h4>
                 <div className="input-group input-group-sm mb-3">
