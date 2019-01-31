@@ -15,7 +15,7 @@ class TrackPanel extends React.Component {
 
 					{
 						this.props.tracks.map(({ name, preview_url }) => {
-							console.log(preview_url)
+
 							return (
 
 								<audio key={name} src={preview_url} className="border border-black text-center border-rounded col-md-4" controls>

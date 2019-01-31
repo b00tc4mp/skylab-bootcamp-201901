@@ -21,7 +21,7 @@ class AlbumPanel extends React.Component {
 
 	render() {
 
-		console.log(this.props.albums)
+
 
 		return <main className="App">
 			<section className="container">
