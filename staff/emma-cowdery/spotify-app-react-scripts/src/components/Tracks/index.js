@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import './index.sass'
 import Track from '../Track'
+import logic from '../../logic';
 
 
 class Tracks extends Component {
-    state = { id: '', track: null, trackVisual: false }
+    state = { id: '', track: null, trackVisual: false, userFavourites: null}
 
     handleToAlbums = event => {
         event.preventDefault()
@@ -24,9 +25,17 @@ class Tracks extends Component {
         this.setState({ trackVisual: true })
     }
 
-    handleAddFavourite = (id) => {
-        this.props.onAddFavourite(id)
-
+    handleAddFavourite = (trackId) => {
+        console.log('sfss')
+        try {
+            logic.favouritedSongs(this.props.user.email, trackId, (userFavourites) => {
+                debugger
+                this.setState(userFavourites)
+                console.log(userFavourites)
+            })
+        } catch(err) {
+            console.error(err)
+        }
     }
 
     render() {
@@ -60,7 +69,7 @@ class Tracks extends Component {
                 }
             </div>
             <footer>
-                {trackVisual && <Track track={this.props.track} onAddFavorite={handleAddFavourite} />}
+                {trackVisual && <Track track={this.props.track} onAddFavorite={handleAddFavourite} userFavourites={this.state.userFavourites}/>}
             </footer>
         </section>
     }

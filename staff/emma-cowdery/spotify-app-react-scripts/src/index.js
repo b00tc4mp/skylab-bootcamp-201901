@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 
+import spotifyApi from './spotify-api-1.0.0'
+
+spotifyApi.token = 'BQBETR2jfEDqHONBMt68LKijHDcZ3ftZeHcQvo7l-XGmszHPshepkKLIslfl8BKZOCb7YZdltmrcYQK3onLQLkySWYaMgcrvzz5OjNvoELvY_LzoYAUwMDZFDXeneNy-mlw_fXgDTkoX'
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

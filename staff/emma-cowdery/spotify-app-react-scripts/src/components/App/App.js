@@ -7,18 +7,15 @@ import Register from '../Register'
 import Artist from '../Artist'
 import Albums from '../Albums'
 import Tracks from '../Tracks'
-import spotifyApi from '../../spotify-api-1.0.0'
-
-spotifyApi.token = 'BQDWMZ-ubrW8r-eqbU5qlO0OplQJ_t-VQBNpzY15KoDTrvap6hhVDkeI32maDJjwQDdbaMDqqMRhgaNMigAiOzSsIbOQB7lQwDU7REJAj6yTrea_x1vrpSHP7uD8sTRS1EOF_FbV2JLa'
 
 class App extends Component {
-    state = { artists: [], albums: [], tracks: [], track: {}, image: '', loginFeedback: '', name: '', welcomeVisual: false, registerVisual: false, loginVisual: true, artistsVisual: false, albumsVisual: false, tracksVisual: false, trackVisual: false}
+    state = { user: null, artists: [], albums: [], tracks: [], track: {}, image: '', loginFeedback: '', name: '', welcomeVisual: false, registerVisual: false, loginVisual: true, artistsVisual: false, albumsVisual: false, tracksVisual: false, trackVisual: false}
 
     handleLogin = (email, password) => {
         try {
             logic.login(email, password, user => {
-                console.log(user)
-                this.setState({ loginFeedback: '', welcomeVisual: true, loginVisual: false, name: user.name })
+    
+                this.setState({ user, loginFeedback: '', welcomeVisual: true, loginVisual: false, name: user.name })
             })
         } catch ({ message }) {
             this.setState({ loginFeedback: message })
@@ -73,7 +70,6 @@ class App extends Component {
     handleToTrack = (id) => {
         try {
             logic.retrieveTrack(id, (error, track) => {
-                console.log(track)
                 this.setState({ track, registerFeedback: '', trackVisual: true })
             })
         } catch ({ message }) {
@@ -133,7 +129,7 @@ class App extends Component {
             {registerVisual && <Register onRegister={handleRegister} backToLogin={this.handleToLogin} />}
             {artistsVisual && <Artist handleArtistId={handleToAlbums} artistsList={this.state.artists} />}
             {albumsVisual && <Albums albumsList={this.state.albums} handleAlbumId={handleToTracks} toArtists={handleButtonToArtists} />}
-            {tracksVisual && <Tracks tracksList={this.state.tracks} albumCover={this.state.image} handleTracksId={handleToTrack} toArtists={handleButtonToArtists} toAlbums={handleButtonToAlbums} track={this.state.track} onAddFavourite={this.handleFavourited}/>}
+            {tracksVisual && <Tracks tracksList={this.state.tracks} albumCover={this.state.image} handleTracksId={handleToTrack} toArtists={handleButtonToArtists} toAlbums={handleButtonToAlbums} track={this.state.track} onAddFavourite={this.handleFavourited} userEmail={this.state.user.email}/>}
         </main>
     }
 }

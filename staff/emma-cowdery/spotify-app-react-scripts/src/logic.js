@@ -148,22 +148,29 @@ var logic = {
         spotifyApi.retrieveTrack(id, callback)
     },
 
-    // /**
-    //  * 
-    //  * @param {string} email 
-    //  * @param {string} songId 
-    //  * @param {function} callback 
-    //  */
-    // favouritedSongs(email, trackId, callback) {
-    //     users.find
-    //         if (email === users.email) {
-    //             users.push({
-    //                 favourites: trackId,
-    //             })
-    //         }
+    /**
+     * 
+     * @param {string} email 
+     * @param {string} songId 
+     * @param {function} callback 
+     */
+    favouritedSongs(email, trackId, callback) {
+        users.find(user => {
+            
+            if (user.email===email) {
+                var index
+                index = user.favourites.indexOf(trackId)
+                if (index === -1) {
+                    user.splice(index, 1)
+                } else {
+                    user.push(trackId)
+                }
+                return user.favourites
+            }
+            return callback(user.favourites)
+        })
 
-    //     callback();
-    // }
+    }
 }
 
 export default logic

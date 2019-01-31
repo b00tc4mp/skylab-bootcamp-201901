@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.sass'
 
-function Track({ track, onAddFavorite }) {
+function Track({ track, onAddFavorite, userFavourites }) {
     return <nav className="navbar is-fixed-bottom trackPlayer" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
             <h3 className="navbar-item">Now playing:</h3>
@@ -11,7 +11,7 @@ function Track({ track, onAddFavorite }) {
             </div>
         </div>
         <div className="navbar-end">
-            <button className="navbar-item" onClick={() => onAddFavorite(track.id)}><i className="far fa-heart"></i></button>
+            <button className={userFavourites.includes(track.id) ? `navbar-item button is-danger far fa-heart` : `navbar-item button is-light far fa-heart` } onClick={() => onAddFavorite(track.id)}></button>
         </div>
     </nav>
 }
