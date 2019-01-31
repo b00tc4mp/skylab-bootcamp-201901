@@ -9,7 +9,7 @@ import Albums from '../Albums'
 import Tracks from '../Tracks'
 import spotifyApi from '../../spotify-api-1.0.0'
 
-spotifyApi.token = 'BQBbOsJvZ-DLsQFarvuDabNWqqm21ku006oMaNXywkRkoB5ny_Hes-cL0L6cdtSUCUC7jx5jPURVYBbIdRh7W38w8RuNjzWZ8HjNuNszacQyQ1WoMF5UDaxFIrl79fDX0X7qUCO-0kY2'
+spotifyApi.token = 'BQDWMZ-ubrW8r-eqbU5qlO0OplQJ_t-VQBNpzY15KoDTrvap6hhVDkeI32maDJjwQDdbaMDqqMRhgaNMigAiOzSsIbOQB7lQwDU7REJAj6yTrea_x1vrpSHP7uD8sTRS1EOF_FbV2JLa'
 
 class App extends Component {
     state = { artists: [], albums: [], tracks: [], track: {}, image: '', loginFeedback: '', name: '', welcomeVisual: false, registerVisual: false, loginVisual: true, artistsVisual: false, albumsVisual: false, tracksVisual: false, trackVisual: false}
