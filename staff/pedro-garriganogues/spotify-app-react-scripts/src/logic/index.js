@@ -1,4 +1,8 @@
 
+import spotifyApi from '../spotify-api-1.1.0'
+import users from '../components/data/index'
+
+
 const logic = {
 
     /**
@@ -134,3 +138,5 @@ const logic = {
     }
 
 }
+
+export default logic

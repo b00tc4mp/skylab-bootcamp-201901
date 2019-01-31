@@ -39,4 +39,5 @@ var users = [
 	}
 ]
 
+export default users
 //#endregion

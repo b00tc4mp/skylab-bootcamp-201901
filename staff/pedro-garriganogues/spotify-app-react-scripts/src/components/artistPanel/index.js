@@ -1,3 +1,6 @@
+import React from 'react'
+import logic from '../../logic/index'
+
 class ArtistPanel extends React.Component {
 
 	handleAlbums = artistId => {
@@ -52,3 +55,5 @@ class ArtistPanel extends React.Component {
 	}
 
 }
+
+export default ArtistPanel
