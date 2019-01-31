@@ -30,7 +30,7 @@ class ArtistPanel extends React.Component {
 							return (
 
 								<div key={artist.id} className="border border-black text-center col-md-4" onClick={() => this.handleAlbums(artist.id)}>
-									{(artist.images[0]) && <img className="img-fluid max-height:100px" src={artist.images[0].url} />}
+									{(artist.images[0]) && <img className="img-fluid max-height:100px" alt="404" src={artist.images[0].url} />}
 									<div className="row d-flex justify-content-center">
 										<label>Name:</label>
 										<p>{artist.name}</p>

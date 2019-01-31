@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import spotifyApi from './spotify-api-1.1.0';
-import './vendor/bootstrap/4.1.3/css'
 
-spotifyApi.token = 'BQCf38W4ZZQUbuJm94L3IJ_cOamslU7Ba-rXb62xFgJP6e4Pxvmb2vtcGD2U_94dgqm_4YLlYi_9Z4pDrKf724hegG4isZSoqlgtG48FNStXcX4WmJ5wVSZOjyc6WMKASSV1S8vYDNjJ5iPFxAsSI2doLco5PBlq4A'
+
+spotifyApi.token = 'BQBYlPtvKMttPgW1wiRfzgaadhK1Wkf91MEctRQxztvdp-f5UktdWLA7kcOzoy0UfEtDwEPOV1_ozYt8XL12I3b1_IScBSPrzGSAKNby70Jx-ugJ3KnFvqlCvClej-wvBWxfHB3phk3hmOiv0f07T-0buS39Ch14FQ'
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

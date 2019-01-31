@@ -6,6 +6,8 @@ import TrackPanel from './components/TrackPanel/index'
 import logic from './logic/index'
 import RegisterSection from './components/Register/index'
 import ButtonRegister from './components/ButtonRegister/index'
+import './App.css'
+
 
 
 
