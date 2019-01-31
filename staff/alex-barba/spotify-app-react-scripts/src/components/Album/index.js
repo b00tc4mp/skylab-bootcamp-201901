@@ -21,7 +21,7 @@ class Album extends React.Component {
         <div className="level is-mobile">
             <h4 className="level-item">Albums</h4>
             <div className="level-item">
-                <button onClick={handleBackToArtists}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i> Back to Artists</button>
+                <button onClick={handleBackToArtists}className="button is-dark is-small is-rounded"><i className="fas fa-chevron-circle-left"></i>&nbsp;&nbsp;Back to Artists</button>
             </div>
         </div>
         <div className="albums columns is-mobile is-multiline is-centered">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logic from '../../logic';
+import logic from '../../logic/logic';
 import Banner from '../Banner';
 import Login from '../Login';
 import Search from '../Search';
@@ -20,7 +20,6 @@ class App extends Component {
           logic.login(email, password, (user) => {
               this.setState({loginFeedback: '', loginVisible: false, searchVisible: true, user: user.name, userEmail: user.email, userFavourites: user.favourites})
           })
-          
       } catch ({message}) {
           this.setState({ loginFeedback: message })
       }
@@ -85,7 +84,7 @@ class App extends Component {
           logic.retrieveTrack(trackId, (error, track) => {
               if (error) this.setState({searchFeedback: error})
               else {
-                  this.setState({tracksVisible: false, trackVisible: true, searchVisible: true, track})
+                  this.setState({tracksVisible: false, favouritesVisible: false, trackVisible: true, searchVisible: true, track})
               }
           })
       } catch (message) {
@@ -121,12 +120,23 @@ class App extends Component {
       this.setState({registerVisible : false, loginVisible : true})
   }
 
-  handleFavourites = (id) => {
+  handleFavourites = (id, name,) => { 
       const {state:{userEmail}}= this
-      var result = logic.retrieveFavourites(id, userEmail, (userFavourites) => {
+      console.log(this.state.userFavourites)
+
+      var result = logic.retrieveFavourites(id, name, userEmail, (userFavourites) => {
+          
           this.setState({userFavourites})
       })
+      
       this.setState({resultFavourite : result})
+
+      console.log(this.state.userFavourites)
+      console.log(this.state.resultFavourite)
+  }
+
+  handleToSearch = () => {
+      this.setState({favouritesVisible: false, searchVisible: true})
   }
 
   onFavourites = () => {
@@ -134,7 +144,7 @@ class App extends Component {
   }
 
   render() {
-      const { state: { searchFeedback, loginFeedback, registrationFeedback, registerVisible, loginVisible, searchVisible, artistVisible, albumVisible, tracksVisible, trackVisible, modalVisible, favouritesVisible,artists, user, albums, tracks, track, resultFavourite, userFavourites}, handleLogin, handleRegistration, handleLoginToRegister, handleRegisterToLogin, handleSearch, handleAlbum, handleTracks, handleTrack, handleToLogout, handleToArtists, handleToAlbums, handleToTracks, handleCloseModal, handleFavourites, onFavourites } = this
+      const { state: { searchFeedback, loginFeedback, registrationFeedback, registerVisible, loginVisible, searchVisible, artistVisible, albumVisible, tracksVisible, trackVisible, modalVisible, favouritesVisible, artists, user, albums, tracks, track, resultFavourite, userFavourites}, handleLogin, handleRegistration, handleLoginToRegister, handleRegisterToLogin, handleSearch, handleAlbum, handleTracks, handleTrack, handleToLogout, handleToArtists, handleToAlbums, handleToTracks, handleCloseModal, handleFavourites, onFavourites, handleToSearch  } = this
 
       return <main>
       <Banner />
@@ -144,9 +154,9 @@ class App extends Component {
       {artistVisible && <Artist artists={artists} onArtist={handleAlbum} />}
       {albumVisible && <Album albums={albums} onAlbum={handleTracks} onToArtists={handleToArtists}/>}
       {tracksVisible && <Tracks tracks={tracks} onTrack={handleTrack} onToAlbums={handleToAlbums} />}
-      {trackVisible && <Track track={track} onToTracks={handleToTracks} onFavourite={handleFavourites}resultFavourite={resultFavourite} userFavourites={userFavourites}/>}
+      {trackVisible && <Track track={track} onToTracks={handleToTracks} onFavourite={handleFavourites} resultFavourite={resultFavourite} userFavourites={userFavourites}/>}
       {modalVisible && <ModalRegistration closeModal={handleCloseModal} />}
-      {favouritesVisible && <Favourite track={track} userFavourites={userFavourites} onToArtists={handleToArtists} onTrack={handleTrack}/> }
+      {favouritesVisible && <Favourite track={track} userFavourites={userFavourites} onToSearch={handleToSearch} onTrack={handleTrack}/> }
   </main>
       
   }

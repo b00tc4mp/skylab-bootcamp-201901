@@ -1,5 +1,5 @@
-import users from './data';
-import spotifyApi from './spotify-api-1.0.0';
+import users from '../data';
+import spotifyApi from '../spotify-api-1.0.0';
 
 /**
  * logic.js of the Spotify App
@@ -34,7 +34,8 @@ const logic = {
         var loggedInUser = {
             name: user.name,
             surname: user.surname,
-            email: user.email
+            email: user.email,
+            favourites: user.favourites
         }
         callback(loggedInUser)
     },
@@ -92,7 +93,7 @@ const logic = {
 
     /* TO COMMENT */
 
-    retrieveFavourites: function ( id, email, callback) {
+    retrieveFavourites: function ( id, title, email, callback) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
         if (!email.trim().length) throw Error('email cannot be empty')
 
@@ -106,14 +107,15 @@ const logic = {
 
         if (!user) throw Error('user ' + email + ' not found')
 
-        var exists = user.favourites.findIndex(element => element === id)
+        var exists = user.favourites.findIndex(obj => obj.id === id)
+        let toSend = {id, title}
 
         if (exists !== -1) {
             user.favourites.splice(exists, 1)
             callback(user.favourites)   
             return false
         } else {
-            user.favourites.push(id)
+            user.favourites.push(toSend)
             callback(user.favourites)
             return true
         }
@@ -130,6 +132,8 @@ const logic = {
         if  (typeof query !== 'string') throw TypeError (`${query} is not a string`)
         
         if (query === undefined) throw Error (`No results for ${query}`)
+
+        console.log(query)
 
         if (!query.trim().length) throw Error('query is empty')
 
