@@ -1,7 +1,6 @@
 spotifyApi.token = 'BQBbYPfXwXlQXDKLEOhtO_kyKvnZlmBgJyvCrmy7M1UAYM3zlcm00mWDQI0rO07MzDdn_l7LVhcKxXdaXeMZ1psccH-yy2_rTisPEx9xPi9zeJhdRnKEn3ReVmuE4Au-GxzU03egoxuUBfC9FE8'
 
 
-
 function Results({ results, onItemClick }) {
     return <section className="results container" >
         <ul>
