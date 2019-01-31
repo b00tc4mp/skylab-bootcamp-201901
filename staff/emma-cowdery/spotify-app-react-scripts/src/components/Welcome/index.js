@@ -5,12 +5,6 @@ import './index.sass'
 class Welcome extends Component {
     state = { username: '', query: '', firstLetter: '' }
 
-    handleLogoutButton = event => {
-        event.preventDefault()
-
-        this.props.onLogout()
-    }
-
     handleSearchInput = event => this.setState({ query: event.target.value })
 
     handleSearchFormSubmit = event => {
@@ -22,7 +16,7 @@ class Welcome extends Component {
     }
 
     render() {
-        const { handleLogoutButton, handleSearchFormSubmit, props: { name } } = this
+        const { handleSearchFormSubmit } = this
 
         return <section className="welcome">
             <nav className="level">
@@ -41,12 +35,7 @@ class Welcome extends Component {
                         </form>
                     </div>
                 </div>
-                <div className="level-right">
-                    <p className="level-item">{name[0]}</p>
-                </div>
             </nav>
-
-            <button className="button" onClick={handleLogoutButton}>Logout</button>
         </section>
     }
 }

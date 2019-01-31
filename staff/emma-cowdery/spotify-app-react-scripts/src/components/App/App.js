@@ -9,7 +9,7 @@ import Albums from '../Albums'
 import Tracks from '../Tracks'
 import spotifyApi from '../../spotify-api-1.0.0'
 
-spotifyApi.token = 'BQD1wPW4rs5jQ-SDqJfeIUO0kZSEgi7HX-RmYDXe7ZtFRpvP4RMBUciwPRHa-sdpquWy1ysSFg-nF3oIiXYRtDCvUhNR77Ouigf4TZTYDtbXtVYItSj_JPd1Gvj28zLGs9YvXQ9lLgoY'
+spotifyApi.token = 'BQBbOsJvZ-DLsQFarvuDabNWqqm21ku006oMaNXywkRkoB5ny_Hes-cL0L6cdtSUCUC7jx5jPURVYBbIdRh7W38w8RuNjzWZ8HjNuNszacQyQ1WoMF5UDaxFIrl79fDX0X7qUCO-0kY2'
 
 class App extends Component {
     state = { artists: [], albums: [], tracks: [], track: {}, image: '', loginFeedback: '', name: '', welcomeVisual: false, registerVisual: false, loginVisual: true, artistsVisual: false, albumsVisual: false, tracksVisual: false, trackVisual: false}
@@ -81,28 +81,12 @@ class App extends Component {
         }
     }
 
-    handleName = (name) => {
-        try {
-            logic.retrieveName(name, (error) => {
-                console.log('dfdfds')
-                console.log(name)
-                this.setState({ name })
-            })
-        } catch ({ message }) {
-            this.setState({ registerFeedback: message })
-        }
-    }
-
     // handleFavourited = () => {
 
     // }
 
     handleGoToRegister = () => {
         this.setState({ registerVisual: true, loginVisual: false, artistsVisual: false, albumsVisual: false, tracksVisual: false, trackVisual: false })
-    }
-
-    handleGoToLogin = () => {
-        this.setState({ welcomeVisual: false, loginVisual: true, artistsVisual: false, albumsVisual: false, tracksVisual: false, trackVisual: false })
     }
 
     handleToLogin = () => {
@@ -117,17 +101,35 @@ class App extends Component {
         this.setState({ albumsVisual: true, tracksVisual: false, trackVisual: false })
     }
 
+    handleLogout = () => {
+        this.setState({ welcomeVisual: false, loginVisual: true, artistsVisual: false, albumsVisual: false, tracksVisual: false, trackVisual: false, name: '' })
+    }
+
 
 
     render() {
-        const { state: { loginFeedback, loginVisual, welcomeVisual, registerVisual, artistsVisual, albumsVisual, tracksVisual }, handleLogin, handleRegister, handleSearch, handleToAlbums, handleToTracks, handleToTrack, handleButtonToArtists, handleButtonToAlbums } = this
+        const { state: { loginFeedback, loginVisual, welcomeVisual, registerVisual, artistsVisual, albumsVisual, tracksVisual }, handleLogin, handleLogout, handleRegister, handleSearch, handleToAlbums, handleToTracks, handleToTrack, handleButtonToArtists, handleButtonToAlbums } = this
 
         return <main className="app">
             <header>
-                <h1 className="title"><i className="fas fa-headphones"></i> Spotify App</h1>
+                <nav className="navbar navigation is-fixed-top" role="navigation" aria-label="main navigation">
+                    <div className="navbar-brand">
+                        <h1 className="navbar-item"><i className="fas fa-headphones"></i> Spotify App</h1>
+                    </div>
+                    <div className="navbar-menu">
+                        <div className="navbar-end">
+                            <div className="navbar-item has-dropdown is-hoverable">
+                                <span className="navbar-link">{this.state.name ? <p className="userIcon">{this.state.name[0]}</p> : <i className="fas fa-user"></i>}</span>
+                                <div className="navbar-dropdown">
+                                <p className="navbar-item" onClick={handleLogout}>Log out</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
             </header>
             {loginVisual && <Login onLogin={handleLogin} feedback={loginFeedback} goToRegister={this.handleGoToRegister} />}
-            {welcomeVisual && <Welcome onLogout={this.handleGoToLogin} onSearch={handleSearch} name={this.state.name} />}
+            {welcomeVisual && <Welcome onSearch={handleSearch} name={this.state.name} />}
             {registerVisual && <Register onRegister={handleRegister} backToLogin={this.handleToLogin} />}
             {artistsVisual && <Artist handleArtistId={handleToAlbums} artistsList={this.state.artists} />}
             {albumsVisual && <Albums albumsList={this.state.albums} handleAlbumId={handleToTracks} toArtists={handleButtonToArtists} />}

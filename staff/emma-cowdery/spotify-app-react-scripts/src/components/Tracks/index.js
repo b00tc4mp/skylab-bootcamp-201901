@@ -30,19 +30,28 @@ class Tracks extends Component {
     }
 
     render() {
-        const { handleToAlbums, handleToArtists, handleTracksId, handleAddFavourite, props: { tracksList, albumCover }, state: { trackVisual } } = this
-        return <section className="container panel">
-            <h3>Tracks</h3>
-            <button onClick={handleToArtists} className="button">Back to Artists</button>
-            <button onClick={handleToAlbums} className="button">Back to Albums</button>
-            <div className="columns is-multiline is-centered is-mobile cards">
+        const { handleToAlbums, handleToArtists, handleTracksId, handleAddFavourite, props: { tracksList }, state: { trackVisual } } = this
+        return <section className="tracksPanel">
+            <div className="level">
+                <h3 className="title level-left tracksTitle">Tracks</h3>
+                <div className="level-right backButtons">
+                    <nav class="breadcrumb" aria-label="breadcrumbs">
+                        <ul>
+                            <li><p className="backTo" onClick={handleToArtists}>Back to Artists</p></li>
+                            <li><p className="backTo" onClick={handleToAlbums}>Back to Albums</p></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div className="container">
                 {
                     tracksList.map(tracks => {
-                        return <div key={tracks.id} onClick={() => handleTracksId(tracks.id)} className="card column is-one-quarter-widescreen is-one-third-desktop is-half-tablet is-three-quarters-mobile is-centered card" data-id={tracks.id}>
-                            <div className="card-content">
-                                <img className="is-rounded" src={albumCover} alt=''/>
+                        return <div key={tracks.id} onClick={() => handleTracksId(tracks.id)} className="level tracks" data-id={tracks.id}>
+                            <div className="level-left">
+                                <i class="fas fa-play-circle playIcon"></i>
                                 <p className="titte">{tracks.name}</p>
-                                <p className="content">Album: {tracks.album}</p>
+                            </div>
+                            <div className="level-right">
                                 <p className="content">{Math.round((tracks.duration_ms / 60000) * 100) / 100}min</p>
                                 {/* <div className="content">{trackVisual && <Track track={this.props.track}/>}</div> */}
                             </div>
