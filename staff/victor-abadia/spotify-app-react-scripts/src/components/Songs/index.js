@@ -1,4 +1,4 @@
-'use strict'
+import React, { Component } from 'react';
 
 function Songs({ results }) {
     return <section>
@@ -11,3 +11,5 @@ function Songs({ results }) {
     </section>
 
 }
+
+export default Songs;

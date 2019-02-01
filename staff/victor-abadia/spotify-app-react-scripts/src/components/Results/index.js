@@ -1,4 +1,4 @@
-'use strict'
+import React, { Component } from 'react';
 
 function Results({ results, onItemClick }) {
     return <section className="results container" >
@@ -9,3 +9,5 @@ function Results({ results, onItemClick }) {
         </ul>
     </section>
 }
+
+export default Results;

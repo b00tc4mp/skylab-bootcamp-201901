@@ -1,6 +1,6 @@
-'use strict'
+import React, { Component } from 'react';
 
-class Login extends React.Component {
+class Login extends Component {
     state = { email: '', password: '' }
 
     handleEmailChange = (event) => {
@@ -47,3 +47,5 @@ class Login extends React.Component {
         </section>
     }
 }
+
+export default Login;

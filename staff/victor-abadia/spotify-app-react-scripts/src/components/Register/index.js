@@ -1,6 +1,6 @@
-'use strict'
+import React, { Component } from 'react';
 
-class Register extends React.Component {
+class Register extends Component {
     state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '' }
 
     handleName = (event) => {
@@ -79,3 +79,5 @@ class Register extends React.Component {
         </section>
     }
 }
+
+export default Register;

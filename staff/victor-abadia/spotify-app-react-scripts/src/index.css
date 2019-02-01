@@ -12,3 +12,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+section {
+  background-color: #1CD760; }
+
+.title{
+  text-align: center;
+  background-color: #1CD760;
+}
+
+.images{
+  width: 250px; 
+  height: 250px;
+}
+
+.results{
+  grid-row: auto
+}

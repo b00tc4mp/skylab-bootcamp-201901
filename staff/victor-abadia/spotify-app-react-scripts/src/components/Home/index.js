@@ -1,6 +1,9 @@
-'use strict'
+import React, { Component } from 'react';
+import Search from './components/Search';
+import Results from './components/Results';
+import Songs from './components/Songs';
 
-class Home extends React.Component {
+class Home extends Component {
     state = { artists: null, albums: null, songs: null, artistVisible: false, albumsVisible: false, songsVisible: false }
 
     handleSearch = query => logic.searchArtists(query, (error, artists) => {
@@ -35,3 +38,5 @@ class Home extends React.Component {
         </section>
     }
 }
+
+export default Home;

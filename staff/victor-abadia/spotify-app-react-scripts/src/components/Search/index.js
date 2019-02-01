@@ -1,6 +1,6 @@
-'use strict'
+import React, { Component } from 'react';
 
-class Search extends React.Component {
+class Search extends Component {
     state = { query: '' }
 
     handleQuery = ({ target: { value: query } }) => this.setState({ query })
@@ -29,3 +29,5 @@ class Search extends React.Component {
         </section >
     }
 }
+
+export default Search;
