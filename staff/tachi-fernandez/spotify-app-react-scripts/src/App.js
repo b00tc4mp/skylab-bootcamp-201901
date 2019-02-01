@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import logic from './Logic'
-import Albums  from './components/Albums'
+import Albums from './components/Albums'
 import Artist from './components/Artist'
 import Feedback from './components/Feedback'
 import Login from './components/Login'
@@ -17,7 +17,7 @@ class App extends Component {
     state = {
         loginFeedback: '',
         registerFeedback: '',
-        searchFeedback: '', albumsFeedback: '',tracksFeedback: '',trackFeedback:'', loginVisible: true, registerVisible: false, searchVisible: false, artistVisible: false,tracksVisible : false, trackVisible : false,  artist: null, albumsVisible: false, albums: null, tracks: null, track:null
+        searchFeedback: '', albumsFeedback: '', tracksFeedback: '', trackFeedback: '', loginVisible: true, registerVisible: false, searchVisible: false, artistVisible: false, tracksVisible: false, trackVisible: false, artist: null, albumsVisible: false, albums: null, tracks: null, track: null
     }
     handleLogin = (email, password) => {
 
@@ -61,79 +61,79 @@ class App extends Component {
     }
 
     handleAlbums = (artistId) => {
-        try{
+        try {
             console.log(artistId);
-            logic.retrieveAlbums(artistId, (error,albums) =>{
-                if(error)console.log(error)
-                else{
-                
-                console.log(albums)
+            logic.retrieveAlbums(artistId, (error, albums) => {
+                if (error) console.log(error)
+                else {
 
-                this.setState({albums})
-                this.setState({albumsFeedback:''})
-                this.setState({artistVisible:false , albumsVisible: true})
-              }
+                    console.log(albums)
+
+                    this.setState({ albums })
+                    this.setState({ albumsFeedback: '' })
+                    this.setState({ artistVisible: false, albumsVisible: true })
+                }
             })
-        }catch({message}){
-            this.setState({albumsFeedback: message})
+        } catch ({ message }) {
+            this.setState({ albumsFeedback: message })
         }
     }
 
     handleTracks = (albumId) => {
-        try{
+        try {
             console.log(albumId)
-            logic.retrieveTracks(albumId , (error,tracks) =>{
+            logic.retrieveTracks(albumId, (error, tracks) => {
                 console.log(tracks)
 
-                this.setState({tracks})
-                this.setState({tracksFeedback:''})
-                this.setState({albumsVisible:false , tracksVisible: true})
+                this.setState({ tracks })
+                this.setState({ tracksFeedback: '' })
+                this.setState({ albumsVisible: false, tracksVisible: true })
             })
 
-        }catch({message}){
-            this.setState({tracksFeedback: message})
+        } catch ({ message }) {
+            this.setState({ tracksFeedback: message })
         }
     }
 
     handleTrack = (tracksId) => {
-        try{
+        try {
             console.log(tracksId)
-            logic.retrieveTrack(tracksId , (error,track) =>{
+            logic.retrieveTrack(tracksId, (error, track) => {
                 console.log(track)
 
-                this.setState({track})
-                this.setState({trackFeedback:''})
-                this.setState({tracksVisible:false , trackVisible: true})
+                this.setState({ track })
+                this.setState({ trackFeedback: '' })
+                this.setState({ tracksVisible: false, trackVisible: true })
             })
 
-        }catch({message}){
-            this.setState({trackFeedback: message})
+        } catch ({ message }) {
+            this.setState({ trackFeedback: message })
         }
     }
 
 
 
-    onGoToAlbums = () => this.setState({artistVisible:false,albumsVisible:true})
+    onGoToAlbums = () => this.setState({ artistVisible: false, albumsVisible: true })
     onGoToRegister = () => this.setState({ loginVisible: false, registerVisible: true })
     onGoToLogin = () => this.setState({ loginVisible: true, registerVisible: false })
-    onLogout = () => this.setState({ loginVisible: true, searchVisible: false, artistVisible: false,albumsVisible:false,tracksVisible:false ,searchFeedback: '',trackVisible: false })
-    onBackToSearch = () => this.setState({artistVisible:false})
-    onBackToArtist = () => this.setState({albumsVisible: false , artistVisible: true})
-    onBackToAlbums = () => this.setState({tracksVisible: false , albumsVisible:true})
-    onBackToTracks = () => this.setState({trackVisible: false , tracksVisible:true})
+    onLogout = () => this.setState({ loginVisible: true, searchVisible: false, artistVisible: false, albumsVisible: false, tracksVisible: false, searchFeedback: '', trackVisible: false })
+    onBackToSearch = () => this.setState({ artistVisible: false })
+    onBackToArtist = () => this.setState({ albumsVisible: false, artistVisible: true })
+    onBackToAlbums = () => this.setState({ tracksVisible: false, albumsVisible: true })
+    onBackToTracks = () => this.setState({ trackVisible: false, tracksVisible: true })
 
 
 
     render() {
-        const { handleLogin, handleRegister, handleSearch, onLogout, onGoToRegister, onGoToLogin,onBackToSearch,handleAlbums,onBackToArtist,handleTracks,onBackToAlbums,handleTrack,onBackToTracks,  state: { loginVisible, registerVisible, searchVisible, artistVisible, albumsVisible,tracksVisible,trackVisible, loginFeedback, registerFeedback, searchFeedback,albumsFeedback,tracksFeedback,trackFeedback, artist , albums,tracks,track} } = this
+        const { handleLogin, handleRegister, handleSearch, onLogout, onGoToRegister, onGoToLogin, onBackToSearch, handleAlbums, onBackToArtist, handleTracks, onBackToAlbums, handleTrack, onBackToTracks, state: { loginVisible, registerVisible, searchVisible, artistVisible, albumsVisible, tracksVisible, trackVisible, loginFeedback, registerFeedback, searchFeedback, albumsFeedback, tracksFeedback, trackFeedback, artist, albums, tracks, track } } = this
         return <main>
             {loginVisible && <Login onLogin={handleLogin} feedback={loginFeedback} onGoToRegister={onGoToRegister} />}
             {registerVisible && < Register onRegister={handleRegister} feedback={registerFeedback} onGoToLogin={onGoToLogin} />}
             {searchVisible && <Search onSearch={handleSearch} onLogout={onLogout} feedback={searchFeedback} />}
             {artistVisible && <Artist artist={artist} handleAlbums={handleAlbums} onBackToSearch={onBackToSearch} />}
-            {albumsVisible && <Albums  albums={albums} handleTracks={handleTracks} feedback={albumsFeedback} onBackToArtist={onBackToArtist}/>}
+            {albumsVisible && <Albums albums={albums} handleTracks={handleTracks} feedback={albumsFeedback} onBackToArtist={onBackToArtist} />}
             {tracksVisible && <Tracks tracks={tracks} feedback={tracksFeedback} onBackToAlbums={onBackToAlbums} handleTrack={handleTrack} />}
-            {trackVisible && <Track track={track} feedback={trackFeedback} onBackToTracks={onBackToTracks}/>}
+            {trackVisible && <Track track={track} feedback={trackFeedback} onBackToTracks={onBackToTracks} />}
 
         </main>
     }
