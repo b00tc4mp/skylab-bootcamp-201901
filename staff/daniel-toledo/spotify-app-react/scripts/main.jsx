@@ -1,4 +1,4 @@
-spotifyApi.token = ''
+spotifyApi.token = 'BQBo1nn_poVjpPGPAs3IkGnq9IIZ0S7H1_NZVcEDYGee6d_Mm6N8ENZo1XAm7oJZP94-MuEobZlValiHxhF9PS1wFFa78lGqnUyBnZ-v1ONWY0nHicdg-Qdw5sf2FqvUc8zP4p5iR8tu1g5yo2k'
 
 class Nav extends React.Component {
     handleLogout = event => {
@@ -69,9 +69,9 @@ class Login extends React.Component {
                     <h2 className="col-2 mt-3">Login</h2>
                     <form onSubmit={this.handleFormSubmit} className="login__form form-group container mb-3 " >
                         <div className="row">
-                            <label for="email" className="col col-md-3 col-sm-12 flex mt-1">Email</label>
-                            <input onChange={this.handleEmailInput} type="email" className="col col-md-9 col-12 form-control mt-1" name="email" placeholder="Email" required />
-                            <label for="password" className="col col-md-3 col-sm-12 flex mt-1">Password</label>
+                            <label htmlFor="email" className="col col-md-3 col-sm-12 flex mt-1">Email</label>
+                            <input onChange={this.handleEmailInput} type="email" className="col col-md-9 col-12 htmlForm-control mt-1" name="email" placeholder="Email" required />
+                            <label htmlFor="password" className="col col-md-3 col-sm-12 flex mt-1">Password</label>
                             <input onChange={this.handlePasswordInput} type="password" className="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required />
                             {this.props.feedback && <Feedback message={this.props.feedback} />}
                         </div>
@@ -89,6 +89,68 @@ class Login extends React.Component {
     }
 }
 
+class Register extends React.Component {
+
+    state = { name: '', surname: '', email: '', password: '', confirmPassword: '' }
+
+    handleNameInput = event => this.setState({ name: event.target.value })
+
+    handleSurnameInput = event => this.setState({ surname: event.target.value })
+
+    handleEmailInput = event => this.setState({ email: event.target.value })
+
+    handlePasswordInput = event => this.setState({ password: event.target.value })
+
+    handleConfirmPasswordInput = event => this.setState({ confirmPassword: event.target.value })
+
+
+    handleFormSubmit = event => {
+        event.preventDefault()
+
+        const { state: { name, surname, email, password, confirmPassword }, props: { onRegister } } = this
+
+        onRegister(name, surname, email, password, confirmPassword )
+    }
+
+    handleLoginLink = event => {
+        event.preventDefault()
+
+        this.props.registerToLogin()
+    }
+
+    render() {
+        return <section className="welcome">
+            <section className="login__margins">
+                <div className="login container pl-lg-5 pr-lg-5">
+                    <h2 className="col-2 mt-3">Register</h2>
+                    <form onSubmit={this.handleFormSubmit} className="login__form form-group container mb-3 " >
+                        <div className="row">
+                            <label htmlFor="name" className="col col-md-3 col-sm-12 flex mt-1">Name</label>
+                            <input onChange={this.handleNameInput} type="text" className="col col-md-9 col-12 htmlForm-control mt-1" name="name" placeholder="Name" required />
+                            <label htmlFor="surname" className="col col-md-3 col-sm-12 flex mt-1">Surname</label>
+                            <input onChange={this.handleSurnameInput} type="text" className="col col-md-9 col-12 htmlForm-control mt-1" name="surname" placeholder="Surname" required />
+                            <label htmlFor="email" className="col col-md-3 col-sm-12 flex mt-1">Email</label>
+                            <input onChange={this.handleEmailInput} type="email" className="col col-md-9 col-12 htmlForm-control mt-1" name="email" placeholder="Email" required />
+                            <label htmlFor="password" className="col col-md-3 col-sm-12 flex mt-1">Password</label>
+                            <input onChange={this.handlePasswordInput} type="password" className="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required />
+                            <label htmlFor="password" className="col col-md-3 col-sm-12 flex mt-1">Confirm Password</label>
+                            <input onChange={this.handleConfirmPasswordInput} type="password" className="col col-md-9 col-12 form-control mt-1" name="confirmPassword" placeholder="Confirm Password" required />
+                            {this.props.feedback && <Feedback message={this.props.feedback} />}
+                        </div>
+                        <div className="row login-flex mt-3">
+                            <div className="col-md-3 col-0"></div>
+                            <button type="submit" className="btn btn-dark col-12 col-sm-6 mr-2">Register</button>
+                            <div className="pt-2 pt-sm-0">
+                                <a onClick={this.handleLoginLink} href="#" className="btn btn-outline-secondary login__register-link ">Login</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </section>
+    }
+
+}
 
 class Home extends React.Component {
 
@@ -177,18 +239,49 @@ class NetworkFeedback extends React.Component{
 }
 
 class App extends React.Component {
-    state = { networkFeedbackVisual: false, searchFeedback:'', artistsVisual: false, albumsVisual: false, homeVisual: false, tracksVisual: false, songVisual: false, loginVisual: true, logoutButtonVisual: false, artistVisual: false, searchNavVisual: false, navResultsVisual: false, albumImage: '', albumButtonVisual: false, trackButtonVisual: false }
+    state = { registerVisual: false, 
+        userFavorite:[], 
+        favoriteIsMarked: false, 
+        userMail: '', 
+        networkFeedbackVisual: false, 
+        searchFeedback:'', 
+        artistsVisual: false, 
+        albumsVisual: false, 
+        homeVisual: false, 
+        tracksVisual: false, 
+        songVisual: false, 
+        loginVisual: true, 
+        logoutButtonVisual: false, 
+        artistVisual: false, 
+        searchNavVisual: false, 
+        navResultsVisual: false, 
+        albumImage: '', 
+        albumButtonVisual: false, 
+        trackButtonVisual: false }
 
     handleLogin = (email, password) => {
 
         try {
             logic.login(email, password, user => {
 
-                this.setState({ homeVisual: true, loginVisual: false, logoutButtonVisual: true, loginFeedback: '' })
+                this.setState({userMail:user.email,  registerVisual: false, homeVisual: true, loginVisual: false, logoutButtonVisual: true, loginFeedback: '' })
 
             })
         } catch ({ message }) {
             this.setState({ loginFeedback: message })
+        }
+
+    }
+
+    handleRegister = (name, surname, email, password, confirmPassword) => {
+        try {
+            logic.register(name, surname, email, password, confirmPassword, () => {
+
+                this.setState({homeVisual: false, loginVisual: true, logoutButtonVisual: false, registerFeedback: '' })
+
+            })
+        } catch ({ message }) {
+            this.setState({ registerFeedback: message })
         }
 
     }
@@ -198,8 +291,13 @@ class App extends React.Component {
 
     }
 
+
     handleLogintoRegister = () => {
-        this.setState({ loginVisual: false })
+        this.setState({ loginVisual: false, registerVisual: true, registerFeedback: '' })
+    }
+
+    handleRegistertoLogin = () => {
+        this.setState({ loginVisual: true, registerVisual: false, registerFeedback: '' })
     }
 
     handleSearchHome = query => {
@@ -267,9 +365,10 @@ class App extends React.Component {
     handleTrackId = (id) => {
         try {
             logic.retrieveSong(id, (error, song) => {
-                this.setState({ song, albumsVisual: false, artistsVisual: false, tracksVisual: true, songVisual: true })
+                this.setState({ song, albumsVisual: false, artistsVisual: false, tracksVisual: true, songVisual: true, favoriteIsMarked: false })
 
             })
+
         } catch (error) {
             console.error(error)
         }
@@ -280,23 +379,30 @@ class App extends React.Component {
         spotifyApi.token = token       
     }
 
+    handleFavorite= (trackId) => {
+        const {state: {userMail}} =this
+        logic.toggleFavorite(trackId, userMail, userFavorite=>{
+            this.setState({userFavorite})
+        })
+
+    }
+
     render() {
         return <main className="app">
             <Nav logoutButtonVisual={this.state.logoutButtonVisual} searchNavVisual={this.state.searchNavVisual} onLogout={this.handleLogout} onSearch={this.handleSearchNav} feedback={this.state.searchFeedback} />
             {this.state.navResultsVisual && < NavResults artistButton={this.handleArtistButton} albumButton={this.handleAlbumButton} albumButtonVisual={this.state.albumButtonVisual} trackButtonVisual={this.state.trackButtonVisual} />}
             {this.state.loginVisual && <Login onLogin={this.handleLogin} loginToRegister={this.handleLogintoRegister} feedback={this.state.loginFeedback} />}
+            {this.state.registerVisual && <Register onRegister={this.handleRegister} registerToLogin={this.handleRegistertoLogin} feedback={this.state.registerFeedback}/>}
             {this.state.homeVisual && < Home onSearch={this.handleSearchHome} feedback={this.state.searchFeedback} />}
             {this.state.networkFeedbackVisual && <NetworkFeedback getToken={this.handleGetToken} />}
             {this.state.artistsVisual && < Artists getArtistId={this.handleArtistId} artists={this.state.artists} />}
             {this.state.albumsVisual && < Albums getAlbumId={this.handleAlbumId} albums={this.state.albums} />}
-            {this.state.songVisual && < Play song={this.state.song} />}
+            {this.state.songVisual && < Play song={this.state.song} favorite={this.handleFavorite} userFavorite={this.state.userFavorite} />}
             {this.state.tracksVisual && < Tracks getTrackId={this.handleTrackId} tracks={this.state.tracks} image={this.state.albumImage} />}
 
         </main>
     }
 }
-
-
 
 function Artists({ artists, getArtistId }) {
 
@@ -305,8 +411,8 @@ function Artists({ artists, getArtistId }) {
             {
                 artists.map(artist => {
                     const image = artist.images[0] ? artist.images[0].url : 'https://cdn.pixabay.com/photo/2016/06/01/09/21/music-1428660_960_720.jpg'
-                    return <div style={{ cursor: 'pointer' }} onClick={() => getArtistId(artist.id)} data-id={artist.id} class="card col-12 col-sm-6 col-md-4">
-                        <li>
+                    return <div key={artist.id} style={{ cursor: 'pointer' }} onClick={() => getArtistId(artist.id)} data-id={artist.id} class="card col-12 col-sm-6 col-md-4">
+                        <li key={artist.id}>
                             <img class="card-img-top" src={image} width="150px" />
                             <p class="card-title text-center">{artist.name}</p>
                         </li>
@@ -324,8 +430,8 @@ function Albums({ albums, getAlbumId }) {
             {
                 albums.map(artist => {
                     const image = artist.images[0] ? artist.images[0].url : 'https://cdn.pixabay.com/photo/2016/06/01/09/21/music-1428660_960_720.jpg'
-                    return <div style={{ cursor: 'pointer' }} onClick={() => getAlbumId(artist.id, image)} data-id={artist.id} class="card col-12 col-sm-6 col-md-4">
-                        <li>
+                    return <div key={artist.id} style={{ cursor: 'pointer' }} onClick={() => getAlbumId(artist.id, image)} data-id={artist.id} class="card col-12 col-sm-6 col-md-4">
+                        <li key={artist.id}>
                             <img class="card-img-top" src={image} width="150px" />
                             <p class="card-title text-center">{artist.name}</p>
                         </li>
@@ -344,7 +450,7 @@ function Tracks({ image, tracks, getTrackId }) {
             <ul className="col-sm-6 pt-5 pl-3">
                 {
                     tracks.map(track => {
-                        return <li onClick={() => getTrackId(track.id)} data-id={track.id} style={{ cursor: 'pointer' }} className="mb-1">{track.name}</li>
+                        return <li key={track.id} onClick={() => getTrackId(track.id)} data-id={track.id} style={{ cursor: 'pointer' }} className="mb-1">{track.name}</li>
                     })
                 }
             </ul>
@@ -352,17 +458,33 @@ function Tracks({ image, tracks, getTrackId }) {
     </section>
 }
 
-function Play({ song }) {
+class Play extends React.Component{
 
-    return <section class="results container">
-        <ul>
-            <li data-id={song.id} class="row pt-5">
-                <h3 class="col-12 col-sm-6 text-center display-5">{song.name}</h3>
-                <audio controls autoPlay loop src={song.preview_url} class="col-12 col-sm-6">
-                </audio>
-            </li>
-        </ul>
-    </section>
+    handleFavorite = trackId =>{
+   
+        this.props.favorite(trackId)
+    }
+
+   
+    render(){
+
+        const {props: {song, userFavorite}} =this
+    
+        userFavorite.includes(song.id)? this.hart=" favorite btn btn-outline-danger col-1 fas fa-heart" : this.hart="favorite btn btn-outline-default col-1 fas fa-heart"
+    
+        return <section className="results container">
+            <ul>
+                <li data-id={song.id} class="row pt-5">
+                    <h3 className="col-12 col-sm-6 text-center display-5">{song.name}</h3>
+                    <audio controls autoPlay loop src={song.preview_url} className="col-11 col-sm-5">
+                    </audio>
+    
+                    <button onClick={()=>this.handleFavorite(song.id)} className={this.hart}></button>
+    
+                </li>
+            </ul>
+        </section>
+    }
 }
 
 function Feedback({ message }) {

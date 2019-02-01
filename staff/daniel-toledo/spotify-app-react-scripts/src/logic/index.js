@@ -1,3 +1,8 @@
+import users from '../data'
+import spotifyApi from '../spotify-api'
+
+spotifyApi.token='BQCv5w1yTAnHl3EaOeIlZ-4EctU4X0m9bnh9p0vIt15ZIGGgHGKoEXhtxHC4JpcnqAhYXkVUeFeSuZ8VaQbYrJZ42lzyermxy8E52Cs0IAckqCcnvoevVtxslmULKmZTk5JgtM8_RyJMGuWeevE'
+
 const logic = {
     searchArtists(query, callback) {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
@@ -6,7 +11,7 @@ const logic = {
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
-        spotifyApi.searchArtists(query, callback)
+        spotifyApi.searchArtists(query)
     },
 
     retrieveAlbums(artistId, callback) {
@@ -16,7 +21,7 @@ const logic = {
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
-        spotifyApi.retrieveAlbums(artistId, callback)
+        spotifyApi.retrieveAlbums(artistId)
     },
 
     retrieveTracks(albumId, callback) {
@@ -26,7 +31,7 @@ const logic = {
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
-        spotifyApi.retrieveTracks(albumId, callback)
+        spotifyApi.retrieveTracks(albumId)
     },
 
     retrieveSong(songId, callback) {
@@ -36,7 +41,7 @@ const logic = {
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
-        spotifyApi.retrieveSong(songId, callback)
+        spotifyApi.retrieveSong(songId)
     },
 
     login(email, password, callback) {
@@ -67,6 +72,15 @@ const logic = {
         callback(loggedInUser);
     },
 
+    /**
+     * 
+     * @param {string} name 
+     * @param {string} surname 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {string} passwordConfirm 
+     * @param {function} callback 
+     */
     register: function (name, surname, email, password, passwordConfirm, callback) {
 
         if (typeof name !== 'string') throw TypeError(name + ' is not a string');
@@ -127,36 +141,10 @@ const logic = {
                 else user.favorite.splice(index, 1)
 
                 callback(user.favorite)
-                console.log('favorites',user.name, user.favorite)
-
+               
             }
         })
     },
-
-    retrieveFavorite(trackId, email, callback) {
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string');
-
-        if (!email.trim().length) throw Error('email cannot be empty');
-
-        if (typeof trackId !== 'string') throw TypeError(trackId + ' is not a string');
-
-        if (!trackId.trim().length) throw Error('trackId cannot be empty');
-
-        var favorite
-
-        users.find(user => {
-            if (email === user.email) {
-
-                var index = user.favorite.indexOf(trackId)
-
-                if (index === -1) favorite=false
-                else favorite=true
-
-            }
-        })
-
-        callback(favorite)
-
-    }
-
 }
+
+export default logic

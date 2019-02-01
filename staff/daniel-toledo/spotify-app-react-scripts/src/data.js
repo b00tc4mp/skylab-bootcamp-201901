@@ -1,4 +1,3 @@
-'use strict';
 
 //#region data
 
@@ -13,3 +12,5 @@ var users = [
 ];
 
 //#endregion
+
+export default users
