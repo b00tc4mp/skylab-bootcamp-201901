@@ -6,7 +6,6 @@ import Login from '../Login'
 import Home from '../Home'
 import i18n from '../../i18n'
 import logic from '../../logic'
-import { BrowserRouter, Route } from 'react-router-dom'
 
 class App extends Component {
     state = { selectedLanguage: 'en', loginFeedback: null, user: { email: 'e@mail.com' } }
@@ -34,14 +33,12 @@ class App extends Component {
 
         const title = <h1>{i18n[selectedLanguage].title}</h1>
 
-        return <BrowserRouter>
-            <main className="app">
-                <LanguageSelector selectedLanguage={selectedLanguage} languages={['en', 'es', 'ca', 'ga', 'fr']} onLanguageSelected={handleLanguageSelected} />
-                {title}
-                {!user && <Login title={i18n[selectedLanguage].loginTitle} onLogin={handleLogin} feedback={loginFeedback} />}
-                {user && <Home language={selectedLanguage} />}
-            </main>
-        </BrowserRouter>
+        return <main className="app">
+            <LanguageSelector selectedLanguage={selectedLanguage} languages={['en', 'es', 'ca', 'ga', 'fr']} onLanguageSelected={handleLanguageSelected} />
+            {title}
+            {!user && <Login title={i18n[selectedLanguage].loginTitle} onLogin={handleLogin} feedback={loginFeedback} />}
+            {user && <Home language={selectedLanguage} />}
+        </main>
     }
 }
 
