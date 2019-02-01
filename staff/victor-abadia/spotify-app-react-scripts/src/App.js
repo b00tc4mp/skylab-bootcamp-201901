@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
+import logic from './logic/';
 
 class App extends Component {
     state = { loginVisible: true, registerVisible: false, homeVisible: false }
@@ -15,13 +16,15 @@ class App extends Component {
     };
 
     handleLogin = (thisEmail, thisPassword) => {
-        try {
-            logic.login(thisEmail, thisPassword, (user) => {
 
+        try {
+
+            logic.login(thisEmail, thisPassword, (user) => {
                 this.setState({ loginVisible: false, homeVisible: true })
 
             })
         } catch (error) {
+
             console.log(error.message)
         }
 

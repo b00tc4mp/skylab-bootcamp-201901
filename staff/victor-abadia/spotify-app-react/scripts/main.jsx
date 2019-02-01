@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQB4HcnHHEM8lYCrXfRnz_tJeisxDh_9MJyOh2Fo_WMhAx3Av85OGm8A1xLyAZggzrDa7GoDSt_oAuY5tWwzB9SqfU5dXtt_S_9mKu-i8b6i20ihumDa60ANLrAi8tZ7M1h2Qd1MMv8RqPHduU8'
+spotifyApi.token = 'BQA_uhq0fPeklMYtG10tEAmUS54n6mlQnQaaS14hhDviFMxz6v_SIVvqjwOblY_tkBR_jqV9r7JJFibkVfnPtn5CGa1fRbsm4YKmqE6zEvGDF_IihzEr6lSvuGEYQuYK8FQ-OQATCDmQIbz7hDs'
 
 function Songs({ results }) {
     return <section>

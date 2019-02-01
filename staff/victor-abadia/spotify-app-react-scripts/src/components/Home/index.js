@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Search from './components/Search';
-import Results from './components/Results';
-import Songs from './components/Songs';
+import Search from '../Search';
+import Results from '../Results';
+import Songs from '../Songs';
+import logic from '../../logic/';
 
 class Home extends Component {
     state = { artists: null, albums: null, songs: null, artistVisible: false, albumsVisible: false, songsVisible: false }

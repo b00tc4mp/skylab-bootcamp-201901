@@ -4,9 +4,13 @@ import spotifyApi from '../spotify-api'
 import users from '../data'
 
 /**
- * Abstraction of business logic.
+ * logic.js of the Spotify App
  */
+
+/* All fucntions declared inside a const to narrow the scope and prevent possible duplications. Sends and gets info from the API*/
+
 const logic = {
+
     /**
      * Logins a user by its credentials.
      * 
@@ -14,30 +18,31 @@ const logic = {
      * @param {string} password 
      * @param {function} callback 
      */
-    login: function (email, password) {
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
+    login: function (email, password, callback) {
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
         if (!email.trim().length) throw Error('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        const user = users.find(function (user) {
+        var user = users.find(function (user) {
             return user.email === email
         })
 
         if (!user) throw Error('user ' + email + ' not found')
-
         if (user.password !== password) throw Error('wrong password')
 
-        const loggedInUser = {
+        var user = users.find(function (user) {
+            return user.email === email
+        })
+
+        var loggedInUser = {
             name: user.name,
             surname: user.surname,
             email: user.email
         }
-
-        return loggedInUser
+        callback(loggedInUser)
     },
 
     /**
@@ -50,6 +55,7 @@ const logic = {
      * @param {string} passwordConfirmation 
      * @param {function} callback 
      */
+
     register: function (name, surname, email, password, passwordConfirmation, callback) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
@@ -71,9 +77,7 @@ const logic = {
 
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
-        // TODO validate fields!
-
-        const user = users.find(function (user) {
+        var user = users.find(function (user) {
             return user.email === email
         })
 
@@ -97,8 +101,11 @@ const logic = {
      * @param {string} query 
      * @param {function} callback 
      */
+
     searchArtists(query, callback) {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+
+        if (query === undefined) throw Error(`No results for ${query}`)
 
         if (!query.trim().length) throw Error('query is empty')
 
@@ -108,15 +115,16 @@ const logic = {
     },
 
     /**
-     * Retrieves albums from artist.
-     * 
-     * @param {string} artistId 
-     * @param {function} callback 
-     */
+    * Search albums from the previous selected artist.
+    * 
+    * @param {string} artistId
+    * @param {function} callback 
+    */
+
     retrieveAlbums(artistId, callback) {
         if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
 
-        if (!artistId.trim().length) throw Error('artistId is empty')
+        if (!artistId.trim().length) throw Error('artist is empty')
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
@@ -124,15 +132,16 @@ const logic = {
     },
 
     /**
-     * Retrieves tracks from album.
-     * 
-     * @param {string} albumId 
-     * @param {function} callback 
-     */
+    * Search tracks from the previous selected album.
+    * 
+    * @param {string} albumId
+    * @param {function} callback 
+    */
+
     retrieveTracks(albumId, callback) {
         if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
 
-        if (!albumId.trim().length) throw Error('albumId is empty')
+        if (!albumId.trim().length) throw Error('album is empty')
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
@@ -140,20 +149,21 @@ const logic = {
     },
 
     /**
-     * Retrieves track.
-     * 
-     * @param {string} trackId 
-     * @param {function} callback 
-     */
+    * Search track from the previous selected list of tracks.
+    * 
+    * @param {string} trackId
+    * @param {function} callback 
+    */
+
     retrieveTrack(trackId, callback) {
         if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)
 
-        if (!trackId.trim().length) throw Error('trackId is empty')
+        if (!trackId.trim().length) throw Error('track is empty')
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
         spotifyApi.retrieveTrack(trackId, callback)
-    }
+    },
 }
 
 export default logic

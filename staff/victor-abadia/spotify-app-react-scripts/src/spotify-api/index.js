@@ -6,7 +6,7 @@
  * @version 1.1.0
  */
 const spotifyApi = {
-    token: 'NO-TOKEN',
+    token: 'BQA_uhq0fPeklMYtG10tEAmUS54n6mlQnQaaS14hhDviFMxz6v_SIVvqjwOblY_tkBR_jqV9r7JJFibkVfnPtn5CGa1fRbsm4YKmqE6zEvGDF_IihzEr6lSvuGEYQuYK8FQ-OQATCDmQIbz7hDs',
 
     /**
      * Searches ducklings.
