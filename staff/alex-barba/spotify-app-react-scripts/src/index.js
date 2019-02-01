@@ -6,7 +6,9 @@ import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 import spotifyApi from './spotify-api-1.0.0';
 
-spotifyApi.token = 'BQBybmaSwgu7rDtTZ6mxYWGktz3vCkqSlWhcAA7vy6ROFrGbWmDBTEQct15XjZWThxN6DY4f3ccl9h8fmw0UtX-F-rjDYiZjmtt3zzqnnlGGi86mWN2dLq4dnYH1YLB044U-DfWCUeLAUjpdUg';
+const { env: { REACT_APP_SPOTIFY_API_TOKEN }} = process 
+
+spotifyApi.token = REACT_APP_SPOTIFY_API_TOKEN 
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
