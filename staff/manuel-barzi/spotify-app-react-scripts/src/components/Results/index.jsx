@@ -1,5 +1,8 @@
 'use strict'
 
+import React from 'react'
+import './index.sass'
+
 function Results({ title, results, onItemClick, feedback }) {
     return <section className="results">
         <h3>{title}</h3>
@@ -9,3 +12,5 @@ function Results({ title, results, onItemClick, feedback }) {
         </ul>
     </section>
 }
+
+export default Results

@@ -1,5 +1,7 @@
 'use strict';
 
+//#region data
+
 var users = [
     { name: 'Manuel', surname: 'Barzi', email: 'manuelbarzi@gmail.com', password: 'p' },
     { name: 'John', surname: 'Doe', email: 'johndoe@mail.com', password: '12345' },
@@ -9,4 +11,4 @@ var users = [
     { name: 'Hul', surname: 'Io', email: 'hulio@mail.com', password: 'vivaerbetih' }
 ];
 
-export default users
+//#endregion
