@@ -14,6 +14,9 @@ const spotifyApi = {
      * 
      * @param {string} query - The text to match on artists search.
      * @retuns {Promise} - Resolves with artists, otherwise rejects with error.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
      */
     searchArtists(query) {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
@@ -40,6 +43,9 @@ const spotifyApi = {
      * 
      * @param {string} artistId - The artist to retrieve albums from.
      * @returns {Promise} - Resolves with albums, otherwise rejects with error.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
      */
     retrieveAlbums(artistId) {
         if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
@@ -60,6 +66,9 @@ const spotifyApi = {
      * 
      * @param {string} albumId - The album to retrieve tracks from.
      * @preturns {Promise} - Resolves with tracks, otherwise rejects with error.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
      */
     retrieveTracks(albumId) {
         if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
@@ -80,6 +89,9 @@ const spotifyApi = {
      * 
      * @param {string} trackId - The id of the track to be retrieved.
      * @returns {Promise} Resolves with track, otherwise rejects with error.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
      */
     retrieveTrack(trackId) {
         if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)

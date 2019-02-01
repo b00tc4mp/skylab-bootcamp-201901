@@ -6,278 +6,198 @@ const { env: { REACT_APP_SPOTIFY_API_TOKEN } } = process
 
 spotifyApi.token = REACT_APP_SPOTIFY_API_TOKEN
 
-describe('logic', function () {
-    describe('login', function () {
-        it('should succeed on correct credentials', function () {
-            const expected = users.find(function (user) { return user.email === 'johndoe@mail.com' })
+describe('logic', () => {
+    describe('register', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
 
-            let loggedInUser
+        it('should succeed on valid data', () =>
+            logic.registerUser(name, surname, email, password, passwordConfirm) 
+                .then(result => expect(result).toBeUndefined())
+        )
 
-            loggedInUser = logic.login(expected.email, expected.password)
+        it('should fail on undefined name', () => {
+            const name = undefined
+            const surname = 'Barzi'
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            expect(loggedInUser).toBeDefined()
-            expect(loggedInUser.name).toEqual(expected.name)
-            expect(loggedInUser.surname).toEqual(expected.surname)
-            expect(loggedInUser.email).toEqual(expected.email)
-            expect(loggedInUser.password).toBeUndefined()
-            expect(loggedInUser).not.toEqual(expected)
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(name + ' is not a string'))
         })
 
-        it('should fail on wrong email', function () {
-            const inventedEmail = 'invented@mail.com'
+        it('should fail on numeric name', () => {
+            const name = 10
+            const surname = 'Barzi'
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            expect(function () {
-                logic.login(inventedEmail, '123')
-            }).toThrow(Error('user ' + inventedEmail + ' not found'))
-        })
-
-        it('should fail on wrong password', function () {
-            expect(function () {
-                logic.login('johndoe@mail.com', '123')
-            }).toThrow(Error('wrong password'))
-        })
-    })
-
-    describe('register', function () {
-        const registeringEmail = 'jw@mail.com'
-
-        beforeEach(function () {
-            const userIndex = users.findIndex(function (user) { return user.email === registeringEmail })
-
-            if (userIndex > -1)
-                users.splice(userIndex, 1)
-        })
-
-        it('should succeed on valid data', function () {
-            let registered
-
-            const registeringName = 'John'
-            const registeringSurname = 'Wayne'
-            const registeringPassword = 'p4ssw0rd'
-
-            logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                registered = true
-            })
-
-            expect(registered).toBeTruthy()
-
-            let registeredUser = users.find(function (user) { return user.email === registeringEmail })
-
-            expect(registeredUser).toBeDefined()
-            expect(registeredUser.email).toEqual(registeringEmail)
-            expect(registeredUser.name).toEqual(registeringName)
-            expect(registeredUser.surname).toEqual(registeringSurname)
-            expect(registeredUser.password).toEqual(registeringPassword)
-        })
-
-        it('should fail on undefined name', function () {
-            let registered
-
-            const registeringName = undefined
-            const registeringSurname = 'Wayne'
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringName + ' is not a string'))
-
-            expect(registered).toBeUndefined()
-        })
-
-        it('should fail on numeric name', function () {
-            let registered
-
-            const registeringName = 10
-            const registeringSurname = 'Wayne'
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringName + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(name + ' is not a string'))
         })
 
 
-        it('should fail on boolean name', function () {
-            let registered
+        it('should fail on boolean name', () => {
+            const name = true
+            const surname = 'Barzi'
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = true
-            const registeringSurname = 'Wayne'
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringName + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(name + ' is not a string'))
         })
 
-        it('should fail on object name', function () {
-            let registered
+        it('should fail on object name', () => {
+            const name = {}
+            const surname = 'Barzi'
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = {}
-            const registeringSurname = 'Wayne'
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringName + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(name + ' is not a string'))
         })
 
-        it('should fail on array name', function () {
-            let registered
+        it('should fail on array name', () => {
+            const name = []
+            const surname = 'Barzi'
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = []
-            const registeringSurname = 'Wayne'
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringName + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(name + ' is not a string'))
         })
 
-        it('should fail on empty name', function () {
-            let registered
+        it('should fail on empty name', () => {
+            const name = ''
+            const surname = 'Barzi'
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = ''
-            const registeringSurname = 'Wayne'
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
             }).toThrow(Error('name cannot be empty'))
-
-            expect(registered).toBeUndefined()
         })
 
-        it('should fail on undefined surname', function () {
-            let registered
+        it('should fail on undefined surname', () => {
+            const name = 'Manuel'
+            const surname = undefined
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = 'John'
-            const registeringSurname = undefined
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringSurname + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(surname + ' is not a string'))
         })
 
-        it('should fail on numeric surname', function () {
-            let registered
+        it('should fail on numeric surname', () => {
+            const name = 'Manuel'
+            const surname = 10
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = 'John'
-            const registeringSurname = 10
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringSurname + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(surname + ' is not a string'))
         })
 
 
-        it('should fail on boolean surname', function () {
-            let registered
+        it('should fail on boolean surname', () => {
+            const name = 'Manuel'
+            const surname = false
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = 'John'
-            const registeringSurname = false
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringSurname + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(surname + ' is not a string'))
         })
 
-        it('should fail on object surname', function () {
-            let registered
+        it('should fail on object surname', () => {
+            const name = 'Manuel'
+            const surname = {}
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = 'John'
-            const registeringSurname = {}
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringSurname + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(surname + ' is not a string'))
         })
 
-        it('should fail on array surname', function () {
-            let registered
+        it('should fail on array surname', () => {
+            const name = 'Manuel'
+            const surname = []
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = 'John'
-            const registeringSurname = []
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
-            }).toThrow(TypeError(registeringSurname + ' is not a string'))
-
-            expect(registered).toBeUndefined()
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(surname + ' is not a string'))
         })
 
-        it('should fail on empty surname', function () {
-            let registered
+        it('should fail on empty surname', () => {
+            const name = 'Manuel'
+            const surname = ''
+            const email = 'manuelbarzi@mail.com'
+            const password = '123'
 
-            const registeringName = 'John'
-            const registeringSurname = ''
-            const registeringEmail = 'jw@mail.com'
-            const registeringPassword = 'p4ssw0rd'
-
-            expect(function () {
-                logic.register(registeringName, registeringSurname, registeringEmail, registeringPassword, registeringPassword, function () {
-                    registered = true
-                })
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
             }).toThrow(Error('surname cannot be empty'))
-
-            expect(registered).toBeUndefined()
         })
     })
 
-    describe('search artists', () => {
+    describe('login', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
+
+        beforeEach(() => 
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+        )
+
+        it('should succeed on correct credentials', () => 
+            logic.loginUser(email, password)
+                .then(() => {
+                    expect(logic.__userId__).toBeDefined()
+                    expect(logic.__userApiToken__).toBeDefined()
+                })
+        )
+    })
+
+    describe('retrieve', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
+
+        beforeEach(() => 
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.loginUser(email, password))
+        )
+
+        it('should succeed on correct credentials', () => 
+            logic.retrieveUser()
+                .then(user => {
+                    expect(user.id).toBe(logic.__userId__)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+                })
+        )
+    })
+
+    false && describe('search artists', () => {
         it('should succeed on mathing query', () => {
             const query = 'madonna'
 
@@ -291,7 +211,7 @@ describe('logic', function () {
                 })
         })
 
-        it('should fail on empty query', function () {
+        it('should fail on empty query', () => {
             const query = ''
 
             expect(() => logic.searchArtists(query, function (error, artists) { })).toThrowError('query is empty')
