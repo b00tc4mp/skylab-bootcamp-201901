@@ -1,56 +1,25 @@
 'use strict'
 
 import spotifyApi from '../spotify-api'
-import users from '../data'
+import userApi from '../user-api'
 
 /**
  * Abstraction of business logic.
  */
 const logic = {
-    /**
-     * Logins a user by its credentials.
-     * 
-     * @param {string} email 
-     * @param {string} password 
-     * @param {function} callback 
-     */
-    login: function (email, password) {
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
-        if (!email.trim().length) throw Error('email cannot be empty')
-
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
-        if (!password.trim().length) throw Error('password cannot be empty')
-
-        const user = users.find(function (user) {
-            return user.email === email
-        })
-
-        if (!user) throw Error('user ' + email + ' not found')
-
-        if (user.password !== password) throw Error('wrong password')
-
-        const loggedInUser = {
-            name: user.name,
-            surname: user.surname,
-            email: user.email
-        }
-
-        return loggedInUser
-    },
+    __userId__: null,
+    __userApiToken__: null,
 
     /**
-     * Registers a user.
-     * 
-     * @param {string} name 
-     * @param {string} surname 
-     * @param {string} email 
-     * @param {string} password 
-     * @param {string} passwordConfirmation 
-     * @param {function} callback 
-     */
-    register: function (name, surname, email, password, passwordConfirmation, callback) {
+    * Registers a user.
+    * 
+    * @param {string} name 
+    * @param {string} surname 
+    * @param {string} email 
+    * @param {string} password 
+    * @param {string} passwordConfirmation 
+    */
+    registerUser(name, surname, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
         if (!name.trim().length) throw Error('name cannot be empty')
@@ -71,24 +40,43 @@ const logic = {
 
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
-        // TODO validate fields!
-
-        const user = users.find(function (user) {
-            return user.email === email
-        })
-
-        if (user) throw Error('user ' + email + ' already exists')
-
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        users.push({
-            name: name,
-            surname: surname,
-            email: email,
-            password: password
-        })
+        return userApi.register(name, surname, email, password)
+            .then(() => { })
+    },
 
-        callback()
+    /**
+     * Logins a user by its credentials.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     */
+    loginUser(email, password) {
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+
+        if (!password.trim().length) throw Error('password cannot be empty')
+
+        return userApi.authenticate(email, password)
+            .then(({ id, token }) => {
+                this.__userId__ = id
+                this.__userApiToken__ = token
+            })
+    },
+
+
+    retrieveUser() {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(({ id, name, surname, username }) => ({
+                id,
+                name,
+                surname,
+                email: username
+            }))
     },
 
     /**
