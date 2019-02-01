@@ -7,6 +7,7 @@
  */
 const spotifyApi = {
     token: 'NO-TOKEN',
+
     url: 'https://api.spotify.com/v1',
 
     /**
@@ -40,6 +41,9 @@ const spotifyApi = {
      * 
      * @param {string} artistId - The artist to retrieve albums from.
      * @returns {Promise} - Resolves with albums, otherwise rejects with error.
+     * 
+     * @throws {TypeError} - On worng parameter type.
+     * @throws {Error} - On empty parameter value.
      */
     retrieveAlbums(artistId) {
         if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
