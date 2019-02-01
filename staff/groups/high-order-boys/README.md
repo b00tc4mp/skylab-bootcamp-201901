@@ -1,0 +1,4 @@
+members:
+- gerard
+- pedro
+- oriol
