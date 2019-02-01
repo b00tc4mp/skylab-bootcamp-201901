@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import spotifyApi from './spotify-api/spotify-api-1.1.0';
 
 
-spotifyApi.token = 'BQBYlPtvKMttPgW1wiRfzgaadhK1Wkf91MEctRQxztvdp-f5UktdWLA7kcOzoy0UfEtDwEPOV1_ozYt8XL12I3b1_IScBSPrzGSAKNby70Jx-ugJ3KnFvqlCvClej-wvBWxfHB3phk3hmOiv0f07T-0buS39Ch14FQ'
+spotifyApi.token = 'BQAVSTyrC-XyXF8ZONG3-meaZALBHeDg7kInHenQEMXGZRhbBBgcoN0mPH-QsExFQnxEZajjqx2190UXu8CMst0IMghy0NbdzKf3F-zwk-T2OEB4OC8gUpulqAxAxBZz-9eig-S7TvvTjdtgbHeE_iAeVfXkqFQITQ'
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

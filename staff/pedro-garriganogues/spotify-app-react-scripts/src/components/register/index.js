@@ -1,14 +1,16 @@
 import React from 'react'
 
 
+
+
 class RegisterSection extends React.Component {
-	state = { name: '', surname: '', email: '', password: '', passwordconf: '', }
+	state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '', }
 
 	handleInputChange = event => this.setState({ [event.target.name]: event.target.value })
 
 	render() {
 		return <section className="d-flex justify-content-center">
-			<form className="border-rounded col-md-1">
+			<form className="border border-black border-rounded col-md-1">
 				<label>Name:</label>
 				<input type="text" name="name" placeholder="name" onChange={this.handleInputChange} />
 				<label>Surname:</label>
