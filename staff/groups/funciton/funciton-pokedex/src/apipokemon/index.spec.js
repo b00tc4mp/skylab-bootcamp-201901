@@ -46,4 +46,15 @@ describe('pokemon API', () => {
             expect(() => pokemonApi.searchPokemonByName(query).toThrowError())
         })
     })
+
+    describe('search for pokemon by type', () => {
+        it('should succeed on retrieving pokemon type', () =>{
+            let query = 'pikachu';
+            return pokemonApi.searchPokemonByName(query)
+                .then((result) => {
+                    expect(result.name).toBe(query)
+                })
+                .catch(error => expect(error).toBeUndefined())
+        })
+    })
 })

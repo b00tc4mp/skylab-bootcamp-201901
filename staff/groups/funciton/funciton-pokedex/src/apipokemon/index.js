@@ -22,10 +22,7 @@ const pokemonApi = {
         if (!query.trim().length) throw Error('query is empty')
 
         return fetch(`${this.apiURL}${searchCriteria}${query}`, {
-            // method: 'GET',
-            // headers: {
 
-            // }
         })
         .then(res => {
             if(res == null) throw Error ('This pokemon does not exist')
@@ -38,8 +35,25 @@ const pokemonApi = {
             const result = {name, image, types}
             
             return result
-        } )
+        })
+    },
 
+    searchPokemonsByType(query){
+        const searchCriteria = 'type/';
+
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw Error('query is empty')
+
+        return fetch(`${this.apiURL}${searchCriteria}${query}`, {
+
+        })
+        .then(res => {
+            if(res == null) throw Error ('This type of pokemon does not exist')
+            return res.json()})
+
+        .then(res => {            
+            return res.pokemon
+        })
 
     }
 
