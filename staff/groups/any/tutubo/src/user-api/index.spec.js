@@ -5,9 +5,9 @@ import userApi from '.'
 describe('user api', () => {
 
     describe('register', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'sergio'
+        const surname = 'costa'
+        const username = `sergio-${Math.random()}`
         const password = '123'
 
         it('should succeed on correct data', () =>
@@ -26,13 +26,86 @@ describe('user api', () => {
                 })
         )
 
-        // TODO more unit test cases
+
+        describe('fail on typeError name', () => {
+            it('should fail on name typeof number instead of string ', () =>
+                expect(() => userApi.register(12345, surname, username, password)).toThrowError(`12345 is not a string`)
+            )
+
+            it('should fail on name typeof boolean instead of string ', () =>
+                expect(() => userApi.register(true, surname, username, password)).toThrowError(`true is not a string`)
+            )
+
+            it('should fail on name typeof object instead of string ', () =>
+                expect(() => userApi.register({}, surname, username, password)).toThrowError(`[object Object] is not a string`)
+            )
+
+            it('should fail on name typeof array instead of string ', () =>
+                expect(() => userApi.register([], surname, username, password)).toThrowError(` is not a string`)
+            )
+        })
+
+        describe('fail on typeError surname', () => {
+            it('should fail on surname typeof number instead of string ', () =>
+                expect(() => userApi.register(name, 12345, username, password)).toThrowError(`12345 is not a string`)
+            )
+
+            it('should fail on surname typeof boolean instead of string ', () =>
+                expect(() => userApi.register(name, true, username, password)).toThrowError(`true is not a string`)
+            )
+
+            it('should fail on surname typeof object instead of string ', () =>
+                expect(() => userApi.register(name, {}, username, password)).toThrowError(`[object Object] is not a string`)
+            )
+
+            it('should fail on surname typeof array instead of string ', () =>
+                expect(() => userApi.register(name, [], username, password)).toThrowError(` is not a string`)
+            )
+        })
+
+        describe('fail on typeError username', () => {
+            it('should fail on username typeof number instead of string ', () =>
+                expect(() => userApi.register(name, surname, 12345, password)).toThrowError(`12345 is not a string`)
+            )
+
+            it('should fail on username typeof boolean instead of string ', () =>
+                expect(() => userApi.register(name, surname, true, password)).toThrowError(`true is not a string`)
+            )
+
+            it('should fail on username typeof object instead of string ', () =>
+                expect(() => userApi.register(name, surname, {}, password)).toThrowError(`[object Object] is not a string`)
+            )
+
+            it('should fail on username typeof array instead of string ', () =>
+                expect(() => userApi.register(name, surname, [], password)).toThrowError(` is not a string`)
+            )
+        })
+
+        describe('fail on typeError password', () => {
+            it('should fail on username typeof number instead of string ', () =>
+                expect(() => userApi.register(name, surname, username, 12345)).toThrowError(`12345 is not a string`)
+            )
+
+            it('should fail on username typeof boolean instead of string ', () =>
+                expect(() => userApi.register(name, surname, username, true)).toThrowError(`true is not a string`)
+            )
+
+            it('should fail on username typeof object instead of string ', () =>
+                expect(() => userApi.register(name, surname, username, {})).toThrowError(`[object Object] is not a string`)
+            )
+
+            it('should fail on username typeof array instead of string ', () =>
+                expect(() => userApi.register(name, surname, username, [])).toThrowError(` is not a string`)
+            )
+        })
+        
+
     })
 
     describe('authenticate', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'sergio'
+        const surname = 'costa'
+        const username = `sergio-${Math.random()}`
         const password = '123'
 
         let _id
@@ -54,9 +127,9 @@ describe('user api', () => {
     })
 
     describe('retrieve', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'sergio'
+        const surname = 'costa'
+        const username = `sergio-${Math.random()}`
         const password = '123'
 
         let _id, _token
@@ -82,9 +155,9 @@ describe('user api', () => {
     })
 
     describe('update', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'sergio'
+        const surname = 'costa'
+        const username = `sergio-${Math.random()}`
         const password = '123'
 
         let _id, _token
@@ -114,9 +187,9 @@ describe('user api', () => {
     })
 
     describe('remove', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'sergio'
+        const surname = 'costa'
+        const username = `sergio-${Math.random()}`
         const password = '123'
 
         let _id, _token
