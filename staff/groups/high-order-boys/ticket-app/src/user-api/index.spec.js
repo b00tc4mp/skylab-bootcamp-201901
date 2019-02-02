@@ -5,9 +5,9 @@ import userApi from '.'
 describe('user api', () => {
 
     describe('register', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const username = `ManoloSkywalker-${Math.random()}`
         const password = '123'
 
         it('should succeed on correct data', () =>
@@ -30,9 +30,9 @@ describe('user api', () => {
     })
 
     describe('authenticate', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const username = `ManoloSkywalker-${Math.random()}`
         const password = '123'
 
         let _id
@@ -54,9 +54,9 @@ describe('user api', () => {
     })
 
     describe('retrieve', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const username = `ManoloSkywalker-${Math.random()}`
         const password = '123'
 
         let _id, _token
@@ -82,9 +82,9 @@ describe('user api', () => {
     })
 
     describe('update', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const username = `ManoloSkywalker-${Math.random()}`
         const password = '123'
 
         let _id, _token
@@ -114,9 +114,9 @@ describe('user api', () => {
     })
 
     describe('remove', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const username = `ManoloSkywalker-${Math.random()}`
         const password = '123'
 
         let _id, _token

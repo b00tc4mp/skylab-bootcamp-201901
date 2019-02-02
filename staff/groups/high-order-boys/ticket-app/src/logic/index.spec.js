@@ -193,16 +193,4 @@ describe('logic', () => {
     })
 
     // TODO updateUser and removeUser
-
-    describe('retrieve events', () => {
-        const query = 'Barcelona'
-
-        it('should succed on correct query', () => 
-            ticketmasterApi.searchEvents(query)
-                .then(events => {
-                    expect(events).toBeDefined()
-                    expect(events[0].name).toBe(' Metallica: WorldWired Tour')
-                })
-        )   
-    })
 })
