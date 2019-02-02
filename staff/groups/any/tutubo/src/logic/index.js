@@ -9,6 +9,7 @@ import youtubeApi from '../youtube-api';
 const logic = {
     __userId__: null,
     __userApiToken__: null,
+    __videoId__:null,
 
     /**
     * Registers a user.
@@ -124,14 +125,16 @@ const logic = {
         if (!query.trim().length) throw Error('query is empty')
 
         return youtubeApi.search(query)
-            .then(({ id, snippet: { publishedAt, tittle, description, thumbnails: { default: { url } }, channelTittle } }) => ({
-                id,
-                date: publishedAt, 
-                tittle,
-                description,
-                thumbnail: url,
-                channelTittle 
-            })) /*no se si es mejor hacer el destructuring aqui o ya directamente en el componente y pillar desde ahi lo que necesitemos.
+            .then(({ id, snippet: { publishedAt, tittle, description, thumbnails: { default: { url } }, channelTittle } }) => (
+                this.__userId__= id,
+                {
+                    date: publishedAt, 
+                    tittle,
+                    description,
+                    thumbnail: url,
+                    channelTittle 
+                }
+            )) /*no se si es mejor hacer el destructuring aqui o ya directamente en el componente y pillar desde ahi lo que necesitemos.
                 tmb lo he hecho sin destructuring, pilla la mejor opcion*/
             
             // .then(items => ({   //opcion sin destructuring
@@ -155,9 +158,8 @@ const logic = {
     },
 
     watchVideo() {
-        return youtubeApi.watchVideo(id)
-            .then(({ id, snippet: { publishedAt, /* el channel id no lo ponemos aun porque no se si lo usaremos*/ tittle, description, channelTittle } }) => ({
-                id,
+        return youtubeApi.watchVideo(this.__videoId__)
+            .then(({ snippet: { publishedAt, /* el channel id no lo ponemos aun porque no se si lo usaremos*/ tittle, description, channelTittle } }) => ({
                 date: publishedAt,
                 tittle,
                 description,
