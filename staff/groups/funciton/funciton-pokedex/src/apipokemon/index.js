@@ -53,6 +53,22 @@ const pokemonApi = {
         })
         .then(res => res.pokemon)
 
+    },
+    searchPokemonsByAbility(query){
+        const searchCriteria = 'ability/';
+
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw Error('query is empty')
+
+        return fetch(`${this.apiURL}${searchCriteria}${query}`, {
+
+        })
+        .then(res => {
+            if(res == null) throw Error ('This type of pokemon does not exist')
+            return res.json()
+        })
+        .then(res => res)
+
     }
 
 }
