@@ -2,11 +2,11 @@ import React, { Component, Fragment } from "react";
 import pokemonApi from "../../apipokemon";
 
 class PokemonSearch extends Component {
-  state = { pokemons: [], searchText: "" };
+  state = { pokemons: [], searchText: "", loading: true };
 
   componentDidMount() {
     pokemonApi.searchAllPokemons().then(pokemons => {
-      this.setState({ pokemons })
+      this.setState({ pokemons, loading: false })
     });
   }
 
@@ -15,6 +15,16 @@ class PokemonSearch extends Component {
       searchText: event.target.value
     });
   };
+
+  renderList = () => (
+    <ul>
+      {
+        this.state.pokemons
+          .filter(pokemon => pokemon.name.includes(this.state.searchText))
+          .map(pokemon => <li>{pokemon.name}</li>)
+      }
+    </ul>
+  )
 
   render() {
     return (
@@ -25,11 +35,12 @@ class PokemonSearch extends Component {
           type="text"
           placeholder="Search you Pokemon"
         />
-        <ul>
-          {
-            this.state.pokemons.map(pokemon => <li>{pokemon.name}</li>)
-          }
-        </ul>
+        {
+          this.state.loading && <h1>LOADING</h1>
+        }
+        {
+          this.state.searchText !== "" && this.renderList()
+        }
       </Fragment>
     );
   }
