@@ -28,10 +28,11 @@ class Tracks extends Component {
     handleAddFavourite = (trackId) => {
         console.log('sfss')
         try {
-            logic.favouritedSongs(this.props.user.email, trackId, (userFavourites) => {
+            logic.favouritedSongs(this.props.user.email, trackId, (favourited) => {
                 debugger
-                this.setState(userFavourites)
-                console.log(userFavourites)
+                this.setState(favourited)
+                //console.log(favourited)
+                console.log('dffd')
             })
         } catch(err) {
             console.error(err)
@@ -39,12 +40,12 @@ class Tracks extends Component {
     }
 
     render() {
-        const { handleToAlbums, handleToArtists, handleTracksId, handleAddFavourite, props: { tracksList }, state: { trackVisual } } = this
+        const { handleToAlbums, handleToArtists, handleTracksId, handleAddFavourite, props: { tracksList }, state: { trackVisual, favourited } } = this
         return <section className="tracksPanel">
             <div className="level">
                 <h3 className="title level-left tracksTitle">Tracks</h3>
                 <div className="level-right backButtons">
-                    <nav class="breadcrumb" aria-label="breadcrumbs">
+                    <nav className="breadcrumb" aria-label="breadcrumbs">
                         <ul>
                             <li><p className="backTo" onClick={handleToArtists}>Back to Artists</p></li>
                             <li><p className="backTo" onClick={handleToAlbums}>Back to Albums</p></li>
@@ -57,7 +58,7 @@ class Tracks extends Component {
                     tracksList.map(tracks => {
                         return <div key={tracks.id} onClick={() => handleTracksId(tracks.id)} className="level tracks" data-id={tracks.id}>
                             <div className="level-left">
-                                <i class="fas fa-play-circle playIcon"></i>
+                                <i className="fas fa-play-circle playIcon"></i>
                                 <p className="titte">{tracks.name}</p>
                             </div>
                             <div className="level-right">
@@ -69,7 +70,7 @@ class Tracks extends Component {
                 }
             </div>
             <footer>
-                {trackVisual && <Track track={this.props.track} onAddFavorite={handleAddFavourite} userFavourites={this.state.userFavourites}/>}
+                {trackVisual && <Track track={this.props.track} onAddFavorite={handleAddFavourite} userFavourites={favourited}/>}
             </footer>
         </section>
     }

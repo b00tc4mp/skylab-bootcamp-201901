@@ -1,5 +1,6 @@
-import users from './data'
-import spotifyApi from './spotify-api-1.0.0'
+import users from '../data'
+import spotifyApi from '../spotify-api'
+import userApi from '../user-api'
 
 /**
  * Abstraction of business logic.
@@ -44,7 +45,7 @@ var logic = {
      * @param {string} passwordConfirmation 
      * @param {function} callback 
      */
-    register: function (name, surname, email, password, passwordConfirmation, callback) {
+    register: function (name, surname, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string');
 
         if (!name.trim().length) throw Error('name cannot be empty');
@@ -65,16 +66,12 @@ var logic = {
 
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty');
 
-        // TODO validate fields!
-
-        var user = users.find(function (user) {
-            return user.email === email;
-        });
-
-        if (user) throw Error('user ' + email + ' already exists');
-
         if (password !== passwordConfirmation) throw Error('passwords do not match');
 
+        
+
+        if (user) throw Error('user ' + email + ' already exists');
+        
         users.push({
             name: name,
             surname: surname,

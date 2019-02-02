@@ -1,4 +1,4 @@
-import spotifyApi from './spotify-api-1.0.0'
+import spotifyApi from './spotify-api'
 import logic from './logic'
 import users from './data'
 
