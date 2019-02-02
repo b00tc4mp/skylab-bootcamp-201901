@@ -45,12 +45,7 @@
 
                 if (data) return data
                 throw Error (response.message)
-
             })
-            // A desubrir pq no!
-            // .catch((error) => {
-            //     throw Error (error.message)
-            // })
     },
 
     /**
@@ -75,17 +70,13 @@
             .then(response => response.json())
             .then(response => {
                 if (response.code === '404') throw Error(response.status)
-                if(response.data.count === 0) throw Error('Character not found')
+                if(!response.data) throw Error('Character not found')
 
                 const { data } = response
+                
                 if(data) return data
-
-                throw Error(response.message)/* Hace argo? */
+                throw Error(response.message)
             })
-             // A desubrir pq no!
-            // .catch((error) => {
-            //     throw Error (error.message)
-            // })
     },
 
 
@@ -115,14 +106,10 @@
                
                 const { data } = response
 
-                return data
+                if(data) return data
+                throw Error(response.message)
             })
-            // A desubrir pq no!
-            // .catch((error) => {
-            //     throw Error (error.message)
-            // })
-    },
-
+    }
  }
 
  export default marvelApi;

@@ -41,9 +41,6 @@ import marvelApi from './index'
                 })
         })
         
-
-
-        
     })
 
     describe('retrieve character', () =>{
@@ -66,13 +63,16 @@ import marvelApi from './index'
             expect(()=> marvelApi.retrieveCharacter([1,2,3])).toThrowError(`1,2,3 is not a string`)
         })
 
-        // it('should fail on missmatching characterId', () =>{
-        //     return marvelAPi.retrieveCharacter('12312313123')
-        //         .then(() => {
-        //             throw Error('should not pass by here')
-        //         })
-        //         .catch(({message}) => expect(message).toBe(`We couldn't find that character`))
-        // })
+        it('should fail on missmatching characterId', () =>{
+            marvelApi.retrieveCharacter('12312313123')
+                .then(() => {
+                    throw Error('should not pass by here')
+                })
+                .catch(error => {
+                    expect(error).toBeDefined()
+                    expect(error.message).toBe(`Character not found`)
+                })
+        })
 
         it('should get a character on matching id', () =>{
             return marvelApi.retrieveCharacter(characterId)
@@ -82,10 +82,7 @@ import marvelApi from './index'
                     const {count} = data
                     expect(count).toBe(1)
                 })
-
-
         })
-    
     })
 
 
@@ -109,9 +106,16 @@ import marvelApi from './index'
             expect(()=> marvelApi.retrieveComic([1,2,3])).toThrowError(`1,2,3 is not a string`)
         })
 
-        // it('should fail on missmatching comics', () => {
-        //     expect(()=> marvelApi.retrieveComic('12312313123')).toThrowError(`We couldn't find that comic`)
-        // })
+        it('should fail on missmatching comicId', () =>{
+            marvelApi.retrieveComic('12312313123')
+                .then(() => {
+                    throw Error('should not pass by here')
+                })
+                .catch(error => {
+                    expect(error).toBeDefined()
+                    expect(error.message).toBe(`We couldn't find that comic`)
+                })
+        })
 
         it('should get a comic on matching id', () =>{
             return marvelApi.retrieveComic(comicId)
@@ -121,15 +125,7 @@ import marvelApi from './index'
                     const {count} = data
                     expect(count).toBe(1)
                 })
-
-
         })
-    
     })
-
-
-
-
-
  })
 
