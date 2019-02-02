@@ -49,10 +49,10 @@ describe('pokemon API', () => {
 
     describe('search for pokemon by type', () => {
         it('should succeed on retrieving pokemon type', () =>{
-            let query = 'pikachu';
-            return pokemonApi.searchPokemonByName(query)
+            let query = 'fire';
+            return pokemonApi.searchPokemonsByType(query)
                 .then((result) => {
-                    expect(result.name).toBe(query)
+                    expect(result.length).toBe(76)
                 })
                 .catch(error => expect(error).toBeUndefined())
         })
