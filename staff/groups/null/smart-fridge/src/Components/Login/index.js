@@ -1,4 +1,5 @@
 import React from 'react'
+import './index.sass'
 
 class Login extends React.Component {
     state = { email: '', password: '' }
@@ -15,7 +16,7 @@ class Login extends React.Component {
         onLogin(email, password)
     }
 
-    handleRegisterLink = event => {
+    handleRegisterButton = event => {
         event.preventDefault()
 
         this.props.loginToRegister()
@@ -23,13 +24,12 @@ class Login extends React.Component {
 
     render() {
         return <section className="login">
-            <section className="login__margins">
                 <div className="login__box container pl-lg-5 pr-lg-5">
                     <h2 className="col-2 mt-3">Login</h2>
                     <form onSubmit={this.handleFormSubmit} className="form-group container mb-3 " >
                         <div className="row">
                             <label htmlFor="email" className="col col-md-3 col-sm-12 flex mt-1">Email</label>
-                            <input onChange={this.handleEmailInput} type="email" className="col col-md-9 col-12 htmlForm-control mt-1" name="email" placeholder="Email" required />
+                            <input onChange={this.handleEmailInput} type="email" className="col col-md-9 col-12 form-control mt-1" name="email" placeholder="Email" required />
                             <label htmlFor="password" className="col col-md-3 col-sm-12 flex mt-1">Password</label>
                             <input onChange={this.handlePasswordInput} type="password" className="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required />
                             {/* {this.props.feedback && <Feedback message={this.props.feedback} />} */}
@@ -38,12 +38,11 @@ class Login extends React.Component {
                             <div className="col-md-3 col-0"></div>
                             <button type="submit" className="btn btn-dark col-12 col-sm-6 mr-2">Login</button>
                             <div className="pt-2 pt-sm-0">
-                                <button onClick={this.handleRegisterLink} href="#" className="btn btn-outline-secondary login__register-link ">Register</button>
+                                <button onClick={this.handleRegisterButton} href="#" className="btn btn-outline-light">Register</button>
                             </div>
                         </div>
                     </form>
                 </div>
-            </section>
         </section>
     }
 }

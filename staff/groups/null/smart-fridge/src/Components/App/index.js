@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import './index.css';
 /* import Home from '../Home' */
-/* import Welcome from '../Welcome' */
+import Welcome from '../Welcome'
 import { BrowserRouter, Route } from 'react-router-dom'
 
 class App extends Component {
@@ -10,15 +9,15 @@ class App extends Component {
 
   render() {
 
-    const { state: { user } }
+    const { state: { user } } = this
 
     return <BrowserRouter>
             <main className="app">
-                {/*!user && <Welcome /> */}
+                {!user && <Welcome />}
                 {/*user && <Home /> */}
             </main>
         </BrowserRouter>
   }
 }
 
-export default App;
+export default App
