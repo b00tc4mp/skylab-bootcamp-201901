@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import './index.css';
+/* import Home from '../Home' */
+/* import Welcome from '../Welcome' */
 import { BrowserRouter, Route } from 'react-router-dom'
 
 class App extends Component {
+
+  state = { user: null }
+
   render() {
+
+    const { state: { user } }
+
     return <BrowserRouter>
             <main className="app">
-                {/* <Welcome /> */}
-                {/* <Home /> */}
+                {/*!user && <Welcome /> */}
+                {/*user && <Home /> */}
             </main>
         </BrowserRouter>
   }
