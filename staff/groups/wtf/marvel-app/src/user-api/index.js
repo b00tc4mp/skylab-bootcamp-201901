@@ -144,7 +144,7 @@ const userApi = {
      * @throws {Error} - When any param is empty.
      * @throws {Error} - When API returns an error.
      * 
-     * @returns {String} - Returns an OK or KO result.
+     * @returns {String} - Returns an OK or KO status.
      * 
      */
 
@@ -155,6 +155,7 @@ const userApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
+        if (!data) throw Error('data is empty')
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
         return fetch(`${this.url}/user/${id}`, {
@@ -187,7 +188,7 @@ const userApi = {
      * @throws {Error} - When any param is empty.
      * @throws {Error} - When API returns an error.
      * 
-     * @returns {String} - Returns an OK or KO result.
+     * @returns {String} - Returns an OK or KO status.
      * 
      */
 

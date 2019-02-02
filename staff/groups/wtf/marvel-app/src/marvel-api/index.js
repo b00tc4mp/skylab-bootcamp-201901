@@ -44,7 +44,7 @@
                 const {data} = response
 
                 if (data) return data
-                throw Error (response.message)/* Hace argo? */
+                throw Error (response.message)
 
             })
             // A desubrir pq no!

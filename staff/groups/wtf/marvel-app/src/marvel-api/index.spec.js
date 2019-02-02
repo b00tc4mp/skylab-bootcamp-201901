@@ -39,9 +39,8 @@ import marvelApi from './index'
                     expect(count).toBe(1)
                     expect(results[0].name).toEqual(query)
                 })
-
-
         })
+        
 
 
         
@@ -67,8 +66,12 @@ import marvelApi from './index'
             expect(()=> marvelApi.retrieveCharacter([1,2,3])).toThrowError(`1,2,3 is not a string`)
         })
 
-        // it('should fail on missmatching characterId', () => {
-        //     expect(()=> marvelApi.retrieveCharacter('12312313123')).toThrowError(`We couldn't find that character`)
+        // it('should fail on missmatching characterId', () =>{
+        //     return marvelAPi.retrieveCharacter('12312313123')
+        //         .then(() => {
+        //             throw Error('should not pass by here')
+        //         })
+        //         .catch(({message}) => expect(message).toBe(`We couldn't find that character`))
         // })
 
         it('should get a character on matching id', () =>{
