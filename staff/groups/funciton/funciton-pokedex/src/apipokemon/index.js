@@ -49,11 +49,9 @@ const pokemonApi = {
         })
         .then(res => {
             if(res == null) throw Error ('This type of pokemon does not exist')
-            return res.json()})
-
-        .then(res => {            
-            return res.pokemon
+            return res.json()
         })
+        .then(res => res.pokemon)
 
     }
 
