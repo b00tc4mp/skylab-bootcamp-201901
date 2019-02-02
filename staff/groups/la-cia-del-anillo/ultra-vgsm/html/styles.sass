@@ -1,18 +1,84 @@
 @import './normalize/_normalize.scss'
 @include normalize()
+@import url('https://fonts.googleapis.com/css?family=Lato:400,900')
+
+$break-medium: 1024px
+$white: #fff
+$red: rgb(192,57,93)
+$green: rgb(39,174,96)
+
+html
+    font-size: 10px
+    height: 100%
+    width: 100%
+    
+body
+    height: 100%
+    width: 100%
+    font-size: 1.5rem
+    font-family: 'Lato', sans-serif
+    font-weight: normal
 
 main
     background-color: LightSkyBlue
+    display: grid
+    grid-template-columns: auto
+    height: 100%
+    width: 100%
+    @media screen and (min-width: $break-medium)
+        grid-template-columns: 21.5rem auto
 
-.logo
-    background-color: Khaki
+aside
+    display: none
+    @media screen and (min-width: $break-medium)
+        display: grid
+        grid-template-rows: 15rem auto
+    & .logo
+        background-color: Khaki
+
+.wrapper
+    width: 100%
+    background-color: rgb(250,250,240)
+    display: grid
+    grid-template-rows: 6rem auto
+
+.container
+    margin-top: 7rem
+    display: grid
+    grid-template-rows: auto 5rem
+    grid-template-colums: 100%
+    width: 100%
 
 .content
-    background-color: LightGreen
+    padding: 0 1.5rem
 
-header
-    background-color: MediumSeaGreen
+.header
+    position: fixed
+    height: 6rem
+    width: 95%
+    background-color: $green
+    display: flex
+    justify-content: space-between
+    &__button
+        background: none
+        border: 0
+        color: $white
+        font-size: 1.9rem
+    &__logo
+        height: 100%
 
-footer
-    background-color: gray
+
+.footer
+    display: flex
+    background-color: rgba(110,120,120,0.05)
+    text-align: center
+    font-size: 1.2rem
+    align-items: center
+    justify-content: space-around
+    &__icon
+        color: $red
+
+
     
+.card__image
+    max-width: 100%
