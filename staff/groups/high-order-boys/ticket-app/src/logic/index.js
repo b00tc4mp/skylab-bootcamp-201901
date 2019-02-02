@@ -60,9 +60,11 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return userApi.authenticate(email, password)
-            .then(({ id, token }) => {
-                this.__userId__ = id
-                this.__userApiToken__ = token
+            .then((data) => {
+                this.__userId__ = data.id
+                this.__userApiToken__ = data.token
+
+                return data
             })
     },
 
