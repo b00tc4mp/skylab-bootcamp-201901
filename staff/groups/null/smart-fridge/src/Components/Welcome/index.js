@@ -1,29 +1,45 @@
 import React from 'react'
 import Login from '../Login'
+import Register from '../Register'
 import WelcomeBanner from '../WelcomeBanner'
-import logic from '../../logic'
+// import logic from '../../logic'
+import { BrowserRouter, Route } from 'react-router-dom'
+import './index.sass'
 
 class Welcome extends React.Component {
-    state= {welcomeBannerVisual: true, loginFeedback: null}
+    state= {
+        welcomeBannerVisual: true, 
+        loginVisual: false,
+        registerVisual: false,
+        loginFeedback: null}
 
-    handleGotoLogin(){
-        this.props.history.push(`/login`)
-        this.setState({welcomeBannerVisual: false})
+    handleGotoLogin= ()=>{
+        // this.props.history.push(`/login`)
+        this.setState({
+            welcomeBannerVisual: false,
+            loginVisual:true,
+            registerVisual: false
+        })
     }
 
-    handleGotoRegister(){
+    handleGotoRegister=()=>{
         // this.props.history.push(`/register`)
-        this.setState({welcomeBannerVisual: false})
+        this.setState({
+            welcomeBannerVisual: false,
+            loginVisual: false,
+            registerVisual: true
+        })
     }
 
     handleOnLogin(email,password){
         try {
-            logic.login(email, password)
-                .then(user => {
-                    this.setState({ loginFeedback: null, user })
-                })
-                .catch(({ message }) => this.setState({ loginFeedback: message }))
-                
+            console.log(email,password)
+            // logic.login(email, password)
+            //     .then(user => {
+            //         this.setState({ loginFeedback: null, user })
+            //     })
+            //     .catch(({ message }) => this.setState({ loginFeedback: message }))
+
         } catch ({ message }) {
             this.setState({ loginFeedback: message })
         }
@@ -32,13 +48,16 @@ class Welcome extends React.Component {
 
     
     render() {
-        const {state: welcomeBannerVisual} = this
+        const {state: {welcomeBannerVisual, loginVisual, registerVisual}} = this
 
         return <section className="welcome">
-            {welcomeBannerVisual && <WelcomeBanner onLoginClick={this.handleGotoLogin} onRegisterClick={this.handleGotoRegister}/>}
-            <Route path="/login" render={() => <Login onLogin={this.handleOnLogin}/>} />
-            {/* <Route path="/register" render={() => <Register/>} /> */}
-        </section>
+                {welcomeBannerVisual && <WelcomeBanner onLoginClick={this.handleGotoLogin} onRegisterClick={this.handleGotoRegister}/>}
+                {loginVisual && <Login onLogin={this.handleOnLogin} loginToRegister={this.handleGotoRegister}/>}
+                {registerVisual && <Register onRegister={this.handleOnLogin} registerToLogin={this.handleGotoLogin}/>}
+                {/* <Route path="/login" render={props => <Login onLogin={this.handleOnLogin}/>} /> */}
+                {/* <Route path="/register" render={() => <Register/>} /> */}
+            </section>
+ 
     }
 }
 
