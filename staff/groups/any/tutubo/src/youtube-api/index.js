@@ -1,6 +1,6 @@
 'use stric'
 
-const tutuboApi = {
+const youtubeApi = {
 
     url : 'https://www.googleapis.com/youtube/v3/',
     key : 'key=AIzaSyAuXWh-zdhVotLyZHfzFnuBUUPOpj0nC8Q',
@@ -9,7 +9,18 @@ const tutuboApi = {
     maxResults : 'maxResults=20',
     chart: 'chart=mostPopular',
 
+    /**
+     * 
+     * @param {string} query 
+     * 
+     * Searches the youtube api for videos, channels and other related results to the query.
+     */
+    
     search(query){
+
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+
+        if (!query.trim().length) throw Error('query is empty')
 
         const {url, part, videoType, key, maxResults} = this
 
@@ -45,3 +56,5 @@ const tutuboApi = {
     }
     
 }
+
+export default youtubeApi
