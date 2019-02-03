@@ -6,18 +6,6 @@ import React, {Component} from 'react'
 class Login extends Component {
     state = {email: null, password: null}
 
-    componentDidMount() {
-        const { props: { artistId } } = this
-
-        this.handleArtistSelected(artistId)
-    }
-
-    componentWillReceiveProps(props) {
-        const { artistId } = props
-
-        this.handleArtistSelected(artistId)
-    }
-
     handleEmailInput = event => this.setState({email: event.target.value})
 
     handlePasswordInput = event => this.setState({password: event.target.value})
@@ -40,7 +28,7 @@ class Login extends Component {
 
         const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleOnRegister, props: {feedback} } = this
         
-        return <section className="login container margin-top" >
+        return <section className="login container" >
         <div className="columns is-mobile is-centered">
             <form className="login__form column is-half-widescreen is-half-tablet is-three-quarters-mobile is-centered" onSubmit={handleFormSubmit}>
                 <h4 className="subtitle is-4">Log in</h4>
