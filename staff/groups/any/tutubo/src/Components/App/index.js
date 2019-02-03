@@ -1,11 +1,11 @@
 'use strict'
 
 import React, {Component} from 'react'
-
 import Register from '../Register'
-
-import './index.sass'
 import logic from '../../logic';
+import header from '../Header'
+import './index.sass'
+import Header from '../Header';
 
 class App extends Component {
     state = { registerVisual: false, loginVisual: false}
@@ -29,6 +29,7 @@ class App extends Component {
     render() {
         const { state: { registerVisual }, handleRegister, handleGoToRegister } = this
         return <section>
+            <Header />
             <button onClick={handleGoToRegister}>Register</button>
             {registerVisual && <Register onRegister={handleRegister}/>}
         </section>
