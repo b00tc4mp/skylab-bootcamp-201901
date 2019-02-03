@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import logo from '../images/logo.svg';
+import omdbApi from '../../ombd-api/index'
+
+
 
 class App extends Component {
+
   render() {
     return (
       <div className="App">

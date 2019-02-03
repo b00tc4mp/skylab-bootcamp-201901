@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.sass';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import omdbApi from './ombd-api'
+
+
+const { OMDB_KEY } = process.env
+
+omdbApi.key = OMDB_KEY
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
