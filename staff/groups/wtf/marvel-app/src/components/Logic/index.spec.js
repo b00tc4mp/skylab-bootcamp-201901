@@ -126,7 +126,6 @@ describe("logic testing", () => {
     const password = "123";
     const passwordConfirm = password;
 
-
     beforeEach(() => {
       email = `manuelbarzi@mail.com-${Math.random()}`;
 
@@ -145,18 +144,47 @@ describe("logic testing", () => {
           expect(user.email).toBe(email);
         }));
 
-    it("should fail with wrong id", () =>
-      logic
-        .retrieveUser("wrongId", logic.__userApiToken__)
-        .then(()=> {
-          throw Error("should not have passed by here");
-        }) 
-        .catch(error => {
-          expect(error).toBeDefined();
-          expect(error.error).toBe(
-            `token id \"${logic.__userId__}\" does not match user \"${id}`
-          );
-        }));
+    it("should fail with wrong token", () => {
+
+        logic
+          .retrieveUser(logic.__userId__, "wrong token")
+          .then(() => {
+            throw Error("should not have passed by here");
+          })
+          .catch(error => {
+            expect(error).toBeDefined();
+            expect(error.message).toBe(`invalid token`);
+          })
+    });
+
+    it("should fail with wrong id", () => {
+        logic
+          .retrieveUser("wrongId", logic.__userApiToken__)
+          .then(() => {
+            throw Error("should not have passed by here");
+          })
+          .catch(error => {
+            expect(error).toBeDefined();
+            expect(error.message).toBe(
+              `token id \"${logic.__userId__}\" does not match user \\"wrong id\"`);
+          })
+    });
+
+    it('should fail on empty id', () => {
+        expect(()=> logic.retrieveUser('', logic.__userApiToken__)).toThrowError('id is empty')
+    })
+
+    it('should fail on empty token', () => {
+        expect(()=> logic.retrieveUser(logic.__userId__, '')).toThrowError('token is empty')
+    })
+
+    it('should fail when id is a number', () => {
+        expect(()=> logic.retrieveUser(1, logic.__userApiToken__)).toThrowError(`1 is not a string`)
+    })
+
+    it('should fail when token is a boolean', () => {
+        expect(()=> logic.retrieveUser(logic.__userId__, true)).toThrowError(`true is not a string`)
+    })
   });
 
   describe("search characters", () => {
