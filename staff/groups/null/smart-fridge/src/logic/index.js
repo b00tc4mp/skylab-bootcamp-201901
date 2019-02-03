@@ -87,6 +87,36 @@ const logic = {
         if (arguments.length > 10) throw Error('Too many arguments were introduced in the function')
 
         return userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
+    },
+    login(email, password) {
+
+        if (arguments.length < 2) throw Error('All arguments were not introduced in the function')
+
+        if (arguments.length > 2) throw Error('Too many arguments were introduced in the function')
+
+        return userApi.authenticate(email, password)
+    },
+    retrieve(id, token) {
+
+        if (arguments.length < 2) throw Error('All arguments were not introduced in the function')
+
+        if (arguments.length > 2) throw Error('Too many arguments were introduced in the function')
+
+        return userApi.retrieve(id, token)
+    },
+    update(id, token, data) {
+        if (arguments.length < 3) throw Error('All arguments were not introduced in the function')
+
+        if (arguments.length > 3) throw Error('Too many arguments were introduced in the function')
+
+        return userApi.update(id, token, data)
+    },
+    remove(id, token, username, password) {
+        if (arguments.length < 4) throw Error('All arguments were not introduced in the function')
+
+        if (arguments.length > 4) throw Error('Too many arguments were introduced in the function')
+
+        return userApi.remove(id, token, username, password)
     }
 }
 
