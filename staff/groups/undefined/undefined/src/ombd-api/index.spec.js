@@ -19,6 +19,7 @@ describe('ombd-api' , () => {
                     expect(items.length).toBe(10)
                 }) 
         })
+    
 
         it ('should fail on empty query', () => {
             const query = ''
