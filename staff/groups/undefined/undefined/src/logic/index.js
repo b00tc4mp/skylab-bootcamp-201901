@@ -86,7 +86,7 @@ const logic = {
      * @param {string} query 
      * @returns {Promise}
      */
-    searchItemsList(query) {
+    searchItems(query) {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
         if (!query.trim().length) throw Error('query is empty')
@@ -97,14 +97,14 @@ const logic = {
     /**
      * Retrieves albums from artist.
      * 
-     * @param {string} artistId 
+     * @param {string} itemId 
      */
-    retrieveItemDetail(itemId) {
+    retrieveItem(itemId) {
         if (typeof itemId !== 'string') throw TypeError(`${itemId} is not a string`)
 
-        if (!itemId.trim().length) throw Error('artistId is empty')
+        if (!itemId.trim().length) throw Error('itemId is empty')
 
-        return ombdApi.retrieveItemDetail(itemId)
+        return ombdApi.retrieveItem(itemId)
     }
     
 }
