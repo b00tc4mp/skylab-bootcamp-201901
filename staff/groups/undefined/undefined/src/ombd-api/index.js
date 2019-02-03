@@ -18,7 +18,8 @@ const omdbApi = {
      * @retuns {Promise} - Resolves with array of movies, otherwise rejects with an error.
      * 
      * @throws {TypeError} - On wrong parameters type.
-     * @throws {Error} - On empty parameters value.
+     * @throws {Array} - Array of objects related with every item
+     *                   Empty Array if there is no results
      * 
      * //http://www.omdbapi.com/?apikey=ef8a2f56&s=titanic
      /*/
@@ -52,9 +53,9 @@ const omdbApi = {
         return fetch(`${this.url}&s=${query}`)
             .then(response => response.json())
             .then(response => {
-                if (!response.Response) throw Error(response.Error)
+                if (response.Response === 'False') return [] 
                 return response.Search
-        })
+            })
     },
 
     /**
@@ -119,14 +120,11 @@ const omdbApi = {
 
         return fetch(`${this.url}&i=${itemId}`)
             .then(item => item.json())
-            .then(response => {
-                if (!response.Response) throw Error(response.Error)
+            .then(response => {                
+                if (response.Response === 'False') throw Error('Incorrect IMDb ID.')                
                 return response
             })
     }
 }
-
-omdbApi.searchItems('titanic')
-omdbApi.retrieveItem('tt0081400')
 
 export default omdbApi
