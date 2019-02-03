@@ -13,7 +13,7 @@ describe('searchItems', () => {
         return omdbApi.searchItems(query)
             .then(items => {
                 expect(items).toBeDefined()
-                expect(items instanceof 'Array').toBeTruthy()
+                expect(items instanceof Array).toBeTruthy()
                 expect(items.length).toBe(10)
             }) 
     })

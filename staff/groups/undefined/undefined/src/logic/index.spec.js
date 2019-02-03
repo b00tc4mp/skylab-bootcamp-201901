@@ -61,7 +61,7 @@ describe('logic' , () => {
 
     describe('retrieveItem' , () => {
 
-        it('should succeed on mathing query' , () => {
+        it('should retrieve an item when correct itemId is used' , () => {
             const itemId = 'tt0108778'
             //TODO
             return logic.retrieveItem(itemId)
@@ -69,7 +69,6 @@ describe('logic' , () => {
                 const {imdbID} = item
                 expect(imdbID).toBeDefined()
                 expect(imdbID).toBe(itemId)
-                
             })
 
         })
@@ -77,7 +76,7 @@ describe('logic' , () => {
         it('should fail on empty itemId', () => {
             const itemId = ''
             
-            expect(() => logic.retrieveItemDetail(itemId)).toThrowError('itemId is empty')
+            expect(() => logic.retrieveItem(itemId)).toThrowError('itemId is empty')
         })
     })
 
