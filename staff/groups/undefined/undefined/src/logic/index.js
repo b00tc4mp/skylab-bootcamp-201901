@@ -91,7 +91,7 @@ const logic = {
 
         if (!query.trim().length) throw Error('query is empty')
 
-        return ombdApi.searchItemsList(query)
+        return ombdApi.searchItems(query)
     },
 
     /**
@@ -103,8 +103,9 @@ const logic = {
         if (typeof itemId !== 'string') throw TypeError(`${itemId} is not a string`)
 
         if (!itemId.trim().length) throw Error('itemId is empty')
-
+        
         return ombdApi.retrieveItem(itemId)
+        
     }
     
 }
