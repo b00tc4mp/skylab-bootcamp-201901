@@ -29,10 +29,42 @@ describe('logic', () => {
                 logic.caloriesCounter(gender, height, weight, birthDate, activity)
             }).toThrow(TypeError(gender + ' is not a string'))
         })
-        it('should fail on object heigth instead of string', () => {
+        it('should fail on number gender instead of string', () => {
+
+            gender = 49
+            
+            expect(() => {
+                logic.caloriesCounter(gender, height, weight, birthDate, activity)
+            }).toThrow(TypeError(gender + ' is not a string'))
+        })
+        it('should fail on array gender instead of string', () => {
+
+            gender = []
+            
+            expect(() => {
+                logic.caloriesCounter(gender, height, weight, birthDate, activity)
+            }).toThrow(TypeError(gender + ' is not a string'))
+        })
+        it('should fail on object heigth instead of number', () => {
 
             gender = 'female'
             height = {}
+            
+            expect(() => {
+                logic.caloriesCounter(gender, height, weight, birthDate, activity)
+            }).toThrow(TypeError(height + ' is not a number'))
+        })
+        it('should fail on array heigth instead of number', () => {
+
+            height = []
+            
+            expect(() => {
+                logic.caloriesCounter(gender, height, weight, birthDate, activity)
+            }).toThrow(TypeError(height + ' is not a number'))
+        })
+        it('should fail on string heigth instead of number', () => {
+
+            height = 'test'
             
             expect(() => {
                 logic.caloriesCounter(gender, height, weight, birthDate, activity)
@@ -50,6 +82,14 @@ describe('logic', () => {
 
             height = 161
             weight = []
+            
+            expect(() => {
+                logic.caloriesCounter(gender, height, weight, birthDate, activity)
+            }).toThrow(TypeError(weight + ' is not a number'))
+        })
+        it('should fail on string weight instead of number', () => {
+
+            weight = 'test'
             
             expect(() => {
                 logic.caloriesCounter(gender, height, weight, birthDate, activity)
@@ -105,5 +145,31 @@ describe('logic', () => {
                 logic.caloriesCounter(gender, height, weight, birthDate, activity)
             }).toThrow(TypeError(activity + ' is not a string'))
         })
+    })
+    describe('register', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const username = `manuelbarzi-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = '123'
+        const gender = 'female'
+        const birthDate = '1985/10/15'
+        const height = 161
+        const weight = 60
+        const lifeStyle = 'sedentary'
+        it('should succeed on correct data', () =>
+            logic.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
+                .then(id => expect(id).toBeDefined())
+        )
+        it('should fail on too few arguments', () =>
+            expect(() => {
+                logic.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight)
+            }).toThrow(Error('All arguments were not introduced in the function'))
+        )
+        it('should fail on too many arguments', () =>
+            expect(() => {
+                logic.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle, 'test')
+            }).toThrow(Error('Too many arguments were introduced in the function'))
+        )
     })
 })

@@ -9,6 +9,7 @@ describe('user api', () => {
         const surname = 'Barzi'
         const username = `manuelbarzi-${Math.random()}`
         const password = '123'
+        const passwordConfirm = '123'
         const gender = 'female'
         const birthDate = '1985/10/15'
         const height = 161
@@ -16,12 +17,12 @@ describe('user api', () => {
         const lifeStyle = 'sedentary'
 
         it('should succeed on correct data', () =>
-            userApi.register(name, surname, username, password, password, gender, birthDate, height, weight, lifeStyle)
+            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
                 .then(id => expect(id).toBeDefined())
         )
 
         it('should fail on already existing user', () =>
-            userApi.register(name, surname, username, password, password, gender, birthDate, height, weight, lifeStyle)
+            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
                 .then(() => {
                     throw Error('should not have passed by here')
                 })
@@ -30,8 +31,6 @@ describe('user api', () => {
                     expect(error.message).toBe(`user with username \"${username}\" already exists`)
                 })
         )
-
-        // TODO more unit test cases
     })
 
     describe('authenticate', () => {
@@ -39,6 +38,7 @@ describe('user api', () => {
         const surname = 'Barzi'
         const username = `manuelbarzi-${Math.random()}`
         const password = '123'
+        const passwordConfirm = '123'
         const gender = 'female'
         const birthDate = '1985/10/15'
         const height = 161
@@ -48,7 +48,7 @@ describe('user api', () => {
         let _id
 
         beforeEach(() =>
-            userApi.register(name, surname, username, password, password, gender, birthDate, height, weight, lifeStyle)
+            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
                 .then(id => _id = id)
         )
 
@@ -68,6 +68,7 @@ describe('user api', () => {
         const surname = 'Barzi'
         const username = `manuelbarzi-${Math.random()}`
         const password = '123'
+        const passwordConfirm = '123'
         const gender = 'female'
         const birthDate = '1985/10/15'
         const height = 161
@@ -77,7 +78,7 @@ describe('user api', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, username, password, password, gender, birthDate, height, weight, lifeStyle)
+            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
                 .then(id => _id = id)
                 .then(() => userApi.authenticate(username, password))
                 .then(({ token }) => _token = token)
@@ -101,6 +102,7 @@ describe('user api', () => {
         const surname = 'Barzi'
         const username = `manuelbarzi-${Math.random()}`
         const password = '123'
+        const passwordConfirm = '123'
         const gender = 'female'
         const birthDate = '1985/10/15'
         const height = 161
@@ -110,7 +112,7 @@ describe('user api', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, username, password, password, gender, birthDate, height, weight, lifeStyle)
+            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
                 .then(id => _id = id)
                 .then(() => userApi.authenticate(username, password))
                 .then(({ token }) => _token = token)
@@ -138,6 +140,7 @@ describe('user api', () => {
         const surname = 'Barzi'
         const username = `manuelbarzi-${Math.random()}`
         const password = '123'
+        const passwordConfirm = '123'
         const gender = 'female'
         const birthDate = '1985/10/15'
         const height = 161
@@ -147,7 +150,7 @@ describe('user api', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, username, password, password, gender, birthDate, height, weight, lifeStyle)
+            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
                 .then(id => _id = id)
                 .then(() => userApi.authenticate(username, password))
                 .then(({ token }) => _token = token)

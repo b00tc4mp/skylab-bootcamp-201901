@@ -4,6 +4,7 @@ const userApi = {
     url: 'https://skylabcoders.herokuapp.com/api',
 
     register(name, surname, username, password, confirmPassword, gender, birthDate, height, weight, lifeStyle) {
+
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
         if (!name.trim().length) throw Error('name is empty')
 
@@ -38,6 +39,7 @@ const userApi = {
         if (typeof lifeStyle !== 'string') throw TypeError(lifeStyle + ' is not a string')
         
         if (!lifeStyle.trim().length) throw Error('lifeStyle cannot be empty')
+
 
         return fetch(`${this.url}/user`, {
             method: 'POST',

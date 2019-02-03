@@ -1,4 +1,4 @@
-/* import userApi from '../user-api' */
+import userApi from '../user-api'
 /**
  * Logic for the smart-fridge app
  */
@@ -79,7 +79,15 @@ const logic = {
             }
         }    
         return Math.floor(Math.round(totalCalories)) 
-    }   
+    },
+    register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle) {
+
+        if (arguments.length < 10) throw Error('All arguments were not introduced in the function')
+
+        if (arguments.length > 10) throw Error('Too many arguments were introduced in the function')
+
+        return userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
+    }
 }
 
 export default logic
