@@ -24,20 +24,20 @@ class LoginPanel extends Panel {
   constructor() {
     super(
       $(`<section class="login col"> 
-        <div class="header row"> 
-        <h3 class="col-sm-5">Login</h3> 
-        "</div>" 
-        <form class="container login__form col"> 
-        <div class="form-group form__email col-sm-5"> 
-        <label for="email">E-mail:</label> 
-        <input type="email" name="email" placeholder="email" class="form-control" required> 
-        "</div>" 
-        <div class="form-group form__password col-sm-5"> 
-        <label for="password">Password:</label> 
-        <input type="password" name="password" placeholder="password" class="form-control" required> 
-        <button type="submit" class="col-xs-2 btn btn-secondary btn-sm">Login</button> 
-        "</div>" 
-        "</form>" 
+            <div class="header row"> 
+                <h3 class="col-sm-5">Login</h3> 
+            "</div>" 
+            <form class="container login__form col"> 
+                <div class="form-group form__email col-sm-5"> 
+                    <label for="email">E-mail:</label> 
+                    <input type="email" name="email" placeholder="email" class="form-control" required> 
+                "</div>" 
+                <div class="form-group form__password col-sm-5"> 
+                    <label for="password">Password:</label> 
+                    <input type="password" name="password" placeholder="password" class="form-control" required> 
+                    <button type="submit" class="col-xs-2 btn btn-secondary btn-sm">Login</button> 
+                "</div>" 
+            "</form>" 
         "</section>"`)
     );
 
@@ -98,20 +98,20 @@ class RegisterPanel extends Panel {
     super(
       $(
         `<section class="register"> 
-        "<h2>Register</h2>" 
-        <form class="register__form"> 
-        <label for="name">Name:</label> 
-        <input type="name" name="name" placeholder="name" required> 
-        <label for="surname">Surname:</label> 
-        <input type="surname" name="surname" placeholder="surname" required> 
-        <label for="email">E-mail:</label> 
-        <input type="email" name="email" placeholder="email" required> 
-        <label for="password">Password:</label> 
-        <input type="password" name="password" placeholder="password" required> 
-        <label for="password">Confirm Password:</label> 
-        <input type="password" name="password-confirmation" placeholder="password" required> 
-        <button type="submit">Register</button> 
-        "</form>" 
+            "<h2>Register</h2>" 
+            <form class="register__form"> 
+                <label for="name">Name:</label> 
+                <input type="name" name="name" placeholder="name" required> 
+                <label for="surname">Surname:</label> 
+                <input type="surname" name="surname" placeholder="surname" required> 
+                <label for="email">E-mail:</label> 
+                <input type="email" name="email" placeholder="email" required> 
+                <label for="password">Password:</label> 
+                <input type="password" name="password" placeholder="password" required> 
+                <label for="password">Confirm Password:</label> 
+                <input type="password" name="password-confirmation" placeholder="password" required> 
+                <button type="submit">Register</button> 
+            "</form>" 
         <section class="register__error"></section>`
       )
     );
@@ -182,8 +182,8 @@ class HomePanel extends Panel {
   constructor() {
     super(
       $(`<section class="home">
-        <h4>Welcome,<span class = "home__name"></span>!</h4>
-        <button class = "home__logout">Logout</button>`)
+            <h4>Welcome,<span class = "home__name"></span>!</h4>
+            <button class = "home__logout">Logout</button>`)
     );
 
     var $container = this.$element;
@@ -209,11 +209,11 @@ class SearchPanel extends Panel {
     super(
       $(
         `<section class="search"> 
-        <form>
-        <label for="name">Name:</label> 
-        <input id="queryInput" type="text" name="query" placeholder="query"> 
-        <button type="submit">Search</button> 
-        </form>
+            <form>
+              <label for="name">Name:</label> 
+              <input id="queryInput" type="text" name="query" placeholder="query"> 
+              <button type="submit">Search</button> 
+            </form>
         </section>`
       )
     );
@@ -261,9 +261,9 @@ class ResultPanel extends Panel {
   constructor() {
     super(
       $(`<section class="results"> 
-                <div id="resultsList">
-                </div> 
-              </section>`)
+            <div id="resultsList">
+            </div> 
+        </section>`)
     );
 
     var $resultList = this.$element.find("#resultsList");
@@ -300,31 +300,31 @@ class DetailPanel extends Panel {
     super(
       $(
         `<section class = "detail container">
-          <div class = "row">
-            <div class = "col">
-              <img src = "" width = "100px">
+            <div class = "row">
+                <div class = "col">
+                      <img src = "" width = "100px">
+                </div>
+                <div class = "col">
+                  <h3></h3>
+                </div>
+                <div class = "col">
+                  <span class = "price"></span>
+                </div>
             </div>
-            <div class = "col">
-              <h3></h3>
+            <div class = "row">
+                <div class = "col">
+                    <p></p>
+                </div>
             </div>
-            <div class = "col">
-              <span class = "price"></span>
+            <div class="row">
+                <div class="col">
+                    <a href="#" target="_blank">External link</a>
+                </div>
+                <div class="col">
+                    <button>Go back</button>
+                </div>
             </div>
-          </div>
-          <div class = "row">
-            <div class = "col">
-              <p></p>
-            </div>
-          </div>
-          <div class="row">
-        <div class="col">
-            <a href="#" target="_blank">External link</a>
-        </div>
-        <div class="col">
-            <button>Go back</button>
-        </div>
-    </div>
-</section>`
+        </section>`
       )
     );
 
