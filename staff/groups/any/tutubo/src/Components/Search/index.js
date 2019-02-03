@@ -7,7 +7,7 @@ class Search extends Component {
     handleQueryInput = ({target : {value : query}}) => this.setState({query})
     
     handleSearchSubmit = event => {
-        event.prevenDefaul()
+        event.preventDefault()
 
         const{props:{onSearch}, state:{query}} = this
 

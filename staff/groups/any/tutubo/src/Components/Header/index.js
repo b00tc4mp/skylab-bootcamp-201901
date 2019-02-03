@@ -4,10 +4,9 @@ import Search from '../Search'
 
 class Header extends Component {
 
-
     render(){
-
-        const { handleSearch } = this
+        
+        const { props:{handleSearch} } = this
 
         return <header className="header">
             <p>Hamburguer</p>
