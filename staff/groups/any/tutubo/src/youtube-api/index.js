@@ -53,6 +53,25 @@ const youtubeApi = {
                 const {items} = response
                 return items
             })
+    },
+
+    watchVideo(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+
+        if (!id.length) throw Error('failed to load')
+
+        const {url, part, key} = this
+        
+        return fetch(`${url}videos?id=${id}&${part}&${key}`, {
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                const {items} = response
+                return items
+            })
     }
     
 }
