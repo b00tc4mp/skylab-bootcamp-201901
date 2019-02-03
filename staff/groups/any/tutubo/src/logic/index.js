@@ -1,6 +1,6 @@
 'use strict'
 
-import spotifyApi from '../spotify-api'
+
 import userApi from '../user-api'
 
 /**
