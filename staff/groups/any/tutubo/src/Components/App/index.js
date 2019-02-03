@@ -3,7 +3,6 @@
 import React, {Component} from 'react'
 import Register from '../Register'
 import logic from '../../logic';
-import header from '../Header'
 import './index.sass'
 import Header from '../Header';
 
