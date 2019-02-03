@@ -1,9 +1,6 @@
-import spotifyApi from '../spotify-api'
+import spotifyApi from '../youtube-api'
 import logic from '.'
 
-const { env: { REACT_APP_SPOTIFY_API_TOKEN } } = process
-
-spotifyApi.token = REACT_APP_SPOTIFY_API_TOKEN
 
 describe('logic', () => {
     describe('register user', () => {
@@ -194,6 +191,10 @@ describe('logic', () => {
                     expect(user.email).toBe(email)
                 })
         )
+    })
+
+    describe('update user', () => {
+        
     })
 
     // TODO updateUser and removeUser
