@@ -21,7 +21,7 @@ const omdbApi = {
      * @throws {Error} - On empty parameters value.
      * 
      * //http://www.omdbapi.com/?apikey=ef8a2f56&s=titanic
-     */
+     /*/
 
     // **** search for query with 10 results
     // {  
@@ -53,7 +53,6 @@ const omdbApi = {
             .then(response => response.json())
             .then(response => {
                 if (!response.Response) throw Error(response.Error)
-                console.log(response.Search)
                 return response.Search
         })
     },
@@ -122,7 +121,7 @@ const omdbApi = {
             .then(item => item.json())
             .then(response => {
                 if (!response.Response) throw Error(response.Error)
-                return response.Search
+                return response
             })
     }
 }
