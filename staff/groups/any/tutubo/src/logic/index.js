@@ -1,9 +1,5 @@
 'use strict'
 
-<<<<<<< HEAD
-
-=======
->>>>>>> feature/tutubo-logic
 import userApi from '../user-api'
 import youtubeApi from '../youtube-api';
 
