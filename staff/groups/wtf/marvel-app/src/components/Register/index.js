@@ -94,7 +94,7 @@ class Register extends React.Component {
                     </p>
                     <p className="control">
                         <a href="#" onClick={handleOnLogin} className="button is-outlined is-small is-rounded">
-                        Login
+                        Log in
                         </a>
                     </p>
                 </div>
