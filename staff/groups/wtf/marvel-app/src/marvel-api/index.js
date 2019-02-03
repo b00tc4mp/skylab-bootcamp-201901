@@ -16,7 +16,6 @@
    
     url : 'https://gateway.marvel.com/v1/public/',
     
-
     /**
      * 
      * Method to get character info
@@ -38,8 +37,8 @@
             .then(response => response.json())
             
             .then(response => {
-    
-                if(response.data.count === 0) throw Error('No matching characters')
+                if(!response.data) throw Error(response.status)
+                if(response.data.count === 0) throw Error ('No characters found')
 
                 const {data} = response
 
@@ -69,8 +68,7 @@
         return fetch(`${this.url}characters/${characterId}?${this.hash}`)
             .then(response => response.json())
             .then(response => {
-                if (response.code === '404') throw Error(response.status)
-                if(!response.data) throw Error('Character not found')
+                if (!response.data) throw Error(response.status)
 
                 const { data } = response
                 
@@ -78,7 +76,6 @@
                 throw Error(response.message)
             })
     },
-
 
      /**
      * 
@@ -101,8 +98,7 @@
             .then(response => response.json())
             
             .then(response => {
-                if (!response.data) throw Error(response.message)
-                if(response.data.count === 0) throw Error('No matching comics')
+                if(!response.data) throw Error(response.status)
                
                 const { data } = response
 
