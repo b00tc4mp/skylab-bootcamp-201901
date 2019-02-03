@@ -98,32 +98,74 @@ describe('user api', () => {
                 expect(() => userApi.register(name, surname, username, [])).toThrowError(` is not a string`)
             )
         })
-        
 
     })
 
     describe('authenticate', () => {
         const name = 'sergio'
         const surname = 'costa'
-        const username = `sergio-${Math.random()}`
+        const username = `any-${Math.random()}`
         const password = '123'
 
         let _id
 
-        beforeEach(() =>
-            userApi.register(name, surname, username, password)
-                .then(id => _id = id)
-        )
+        // beforeEach(() =>
+        //     userApi.register(name, surname, username, password)
+        //         .then(id => _id = id)
+        // )
 
         it('should succeed on correct data', () =>
-            userApi.authenticate(username, password)
-                .then(({ id, token }) => {
-                    expect(id).toBe(_id)
-                    expect(token).toBeDefined()
+            userApi.register(name, surname, username, password)
+                .then(id => _id = id)
+                .then(() => {
+                    return userApi.authenticate(username, password)
+                        .then(({ id, token }) => {
+                            expect(id).toBe(_id)
+                            expect(token).toBeDefined()
+                        })
                 })
+
         )
 
-        // TODO more unit test cases
+        describe('fail on TypeError username', () => {
+
+            it('should fail on username typeof number instead of string ', () =>
+                expect(() => userApi.authenticate(12345, password)).toThrowError(`12345 is not a string`)
+            )
+            it('should fail on username typeof boolean instead of string ', () =>
+                expect(() => userApi.authenticate(true, password)).toThrowError(`true is not a string`)
+            )
+            it('should fail on username typeof object instead of string ', () =>
+                expect(() => userApi.authenticate({}, password)).toThrowError(`[object Object] is not a string`)
+            )
+            it('should fail on username typeof array instead of string ', () =>
+                expect(() => userApi.authenticate([], password)).toThrowError(` is not a string`)
+            )
+            it('should fail on empty username', () =>
+                expect(() => userApi.authenticate('', password)).toThrowError(`username is empty`)
+            )
+        })
+
+        describe('fail on TypeError password', () => {
+
+            it('should fail on password typeof number instead of string ', () =>
+                expect(() => userApi.authenticate(username, 12345)).toThrowError(`12345 is not a string`)
+            )
+            it('should fail on password typeof boolean instead of string ', () =>
+                expect(() => userApi.authenticate(username, true)).toThrowError(`true is not a string`)
+            )
+            it('should fail on password typeof object instead of string ', () =>
+                expect(() => userApi.authenticate(username, {})).toThrowError(`[object Object] is not a string`)
+            )
+            it('should fail on password typeof array instead of string ', () =>
+                expect(() => userApi.authenticate(username, [])).toThrowError(` is not a string`)
+            )
+            it('should fail on empty password', () =>
+                expect(() => userApi.authenticate(username, '')).toThrowError(`password is empty`)
+            )
+        })
+
+
     })
 
     describe('retrieve', () => {
@@ -134,24 +176,63 @@ describe('user api', () => {
 
         let _id, _token
 
-        beforeEach(() =>
-            userApi.register(name, surname, username, password)
-                .then(id => _id = id)
-                .then(() => userApi.authenticate(username, password))
-                .then(({ token }) => _token = token)
-        )
+        describe('should succeed', () => {
+            beforeEach(() =>
+                userApi.register(name, surname, username, password)
+                    .then(id => _id = id)
+                    .then(() => userApi.authenticate(username, password))
+                    .then(({ token }) => _token = token)
+            )
+            it('should succeed on correct data', () =>
+                userApi.retrieve(_id, _token)
+                    .then(user => {
+                        expect(user.id).toBe(_id)
+                        expect(user.name).toBe(name)
+                        expect(user.surname).toBe(surname)
+                        expect(user.username).toBe(username)
+                    })
+            )
+        })
 
-        it('should succeed on correct data', () =>
-            userApi.retrieve(_id, _token)
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.username).toBe(username)
-                })
-        )
+        //Preguntar por el beforeEach que da error de registro al poner mas casos asincronos
 
-        // TODO more unit test cases
+        describe('fail on TypeError id', () => {
+
+            it('should fail on id typeof number instead of string ', () =>
+                expect(() => userApi.retrieve(12345, _token)).toThrowError(`12345 is not a string`)
+            )
+            it('should fail on id typeof boolean instead of string ', () =>
+                expect(() => userApi.retrieve(true, _token)).toThrowError(`true is not a string`)
+            )
+            it('should fail on id typeof object instead of string ', () =>
+                expect(() => userApi.retrieve({}, _token)).toThrowError(`[object Object] is not a string`)
+            )
+            it('should fail on id typeof array instead of string ', () =>
+                expect(() => userApi.retrieve([], _token)).toThrowError(` is not a string`)
+            )
+            it('should fail on empty id', () =>
+                expect(() => userApi.retrieve('', _token)).toThrowError(`id is empty`)
+            )
+        })
+
+        describe('fail on TypeError token', () => {
+
+            it('should fail on token typeof number instead of string ', () =>
+                expect(() => userApi.retrieve(_id, 12345)).toThrowError(`12345 is not a string`)
+            )
+            it('should fail on token typeof boolean instead of string ', () =>
+                expect(() => userApi.retrieve(_id, true)).toThrowError(`true is not a string`)
+            )
+            it('should fail on token typeof object instead of string ', () =>
+                expect(() => userApi.retrieve(_id, {})).toThrowError(`[object Object] is not a string`)
+            )
+            it('should fail on token typeof array instead of string ', () =>
+                expect(() => userApi.retrieve(_id, [])).toThrowError(` is not a string`)
+            )
+            it('should fail on empty token', () =>
+                expect(() => userApi.retrieve(_id, '')).toThrowError(`token is empty`)
+            )
+        })
     })
 
     describe('update', () => {
@@ -183,6 +264,26 @@ describe('user api', () => {
                 })
         })
 
+        // describe('fail on TypeError id', () => {
+
+        //     it('should fail on id typeof number instead of string ', () =>
+        //         expect(() => userApi.update(12345, _token)).toThrowError(`12345 is not a string`)
+        //     )
+        //     it('should fail on id typeof boolean instead of string ', () =>
+        //         expect(() => userApi.update(true, _token)).toThrowError(`true is not a string`)
+        //     )
+        //     it('should fail on id typeof object instead of string ', () =>
+        //         expect(() => userApi.update({}, _token)).toThrowError(`[object Object] is not a string`)
+        //     )
+        //     it('should fail on id typeof array instead of string ', () =>
+        //         expect(() => userApi.update([], _token)).toThrowError(` is not a string`)
+        //     )
+        //     it('should fail on empty id', () =>
+        //         expect(() => userApi.update('', _token)).toThrowError(`token is empty`)
+        //     )
+        // })
+
+
         // TODO more unit test cases
     })
 
@@ -207,7 +308,7 @@ describe('user api', () => {
                 .then(() => {
                     throw Error('should not pass by here')
                 })
-                .catch(({message}) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
+                .catch(({ message }) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
         })
 
         // TODO more unit test cases
