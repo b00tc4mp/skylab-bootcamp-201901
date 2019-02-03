@@ -25,10 +25,14 @@ class App extends Component {
         this.setState({ registerVisual: true })
     }
 
+    handleSearch = query =>{
+        console.log(query)
+    }
+
     render() {
-        const { state: { registerVisual }, handleRegister, handleGoToRegister } = this
+        const { state: { registerVisual }, handleRegister, handleGoToRegister, handleSearch } = this
         return <section>
-            <Header />
+            <Header handleSearch={handleSearch}/>
             <button onClick={handleGoToRegister}>Register</button>
             {registerVisual && <Register onRegister={handleRegister}/>}
         </section>
