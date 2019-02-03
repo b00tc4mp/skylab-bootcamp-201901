@@ -6,10 +6,13 @@ class Header extends Component {
 
 
     render(){
+
+        const { handleSearch } = this
+
         return <header className="header">
-            <p>Hambuerguer</p>
+            <p>Hamburguer</p>
             <p>Logo</p>
-            {/* <Search onSearch/> */}
+            <Search onSearch={handleSearch}/>
             <p>inciar session</p>
         </header>
     }
