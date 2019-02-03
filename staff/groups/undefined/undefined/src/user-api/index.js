@@ -74,7 +74,6 @@ const userApi = {
                 const { status } = response
 
                 if (status === 'OK') return response.data
-
                 throw Error(response.error)
             })
     },
