@@ -7,13 +7,15 @@ class App extends Component {
 
   state = { user: null }
 
+  handleUser=(user)=> this.setState(user)
+
   render() {
 
     const { state: { user } } = this
 
     return <BrowserRouter>
             <main className="app">
-                {!user && <Welcome />}
+                {!user && <Welcome getUser={this.handleUser} />}
                 {/*user && <Home /> */}
             </main>
         </BrowserRouter>
