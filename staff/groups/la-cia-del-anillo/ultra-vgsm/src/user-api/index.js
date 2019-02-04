@@ -2,6 +2,7 @@ const userApi = {
     url: 'https://skylabcoders.herokuapp.com/api',
 
     register(name, surname, username, password) {
+
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`);
         if (!name.trim().length) throw Error('name is empty');
 
@@ -23,6 +24,7 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
+
                 const { status } = response;
 
                 if (status === 'OK') return response.data.id;
@@ -38,6 +40,7 @@ const userApi = {
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`);
         if (!password.trim().length) throw Error('password is empty');
 
+
         return fetch(`${this.url}/auth`, {
             method: 'POST',
             headers: {
@@ -47,6 +50,7 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
+
                 const { status } = response;
 
                 if (status === 'OK') return response.data;
@@ -69,6 +73,7 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
+
                 const { status } = response;
 
                 if (status === 'OK') return response.data;
@@ -96,6 +101,7 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
+
                 const { status } = response;
 
                 if (status === 'OK') return;
@@ -127,6 +133,7 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
+
                 const { status } = response;
 
                 if (status === 'OK') return;
