@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { HashRouter } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
+
 import Search from '../Search'
 import logic from '../../logic'
 import Results from '../Results'
@@ -17,11 +18,15 @@ class Home extends Component {
 
     render() {
         const { handleSearch , state : { videos }} = this
+        const compVideos = () => <Results results={videos}/>
         return (
             <section className="home">
                 <Search onSearch={handleSearch} />
-
-                <Results results={videos}/>
+                <Switch>
+                    <Route exact path='/' render={compVideos} />
+                    
+                    <Route path='/video/:id' render={compVideos} />     
+                </Switch>  
             </section >
         )
     }
