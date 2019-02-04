@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import logic from '../../logic/'
 import Feedback from '../Feedback/'
+import Header from '../Header/index'
+import Footer from '../Footer/index'
 
 class Register extends Component {
 
-    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '', registerFeedback: null}
+    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '', registerFeedback: null }
 
     handleInput = event => this.setState({ [event.target.name]: event.target.value })
 
@@ -21,20 +23,26 @@ class Register extends Component {
     handleRegister = (name, surname, email, password, passwordConfirmation) => {
         try {
             logic.registerUser(name, surname, email, password, passwordConfirmation)
-                .catch(({message}) => this.setState({registerFeedback: message}))
-        } catch ({message}) {
-            this.setState({registerFeedback: message})
+                .catch(({ message }) => this.setState({ registerFeedback: message }))
+        } catch ({ message }) {
+            this.setState({ registerFeedback: message })
         }
     }
 
 
     render() {
 
-        const { handleInput, state: {registerFeedback} } = this
+        const { handleInput, state: { registerFeedback } } = this
 
         return <section>
+            <header>
+                <Header />
+            </header>
+
             <form onSubmit={this.onSubmitClick}>
+
                 <div>
+
                     <label>name: </label>
                     <input type="text" name="name" placeholder="Name" onChange={handleInput} required />
                 </div>
@@ -61,6 +69,9 @@ class Register extends Component {
             </div>
 
             {registerFeedback && < Feedback message={registerFeedback} />}
+            <footer>
+                <Footer />
+            </footer>
         </section>
     }
 }
