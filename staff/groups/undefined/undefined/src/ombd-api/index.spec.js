@@ -21,23 +21,8 @@ describe('ombd-api' , () => {
             expect(() => omdbApi.searchItems(query)).toThrowError('query is empty')
         })
 
-        it ('should returns an empty array when no results found', () => {
-            let query = 'asdfasdf'
-            return omdbApi.searchItems(query)
-            .then(items => {
-                expect(items).toBeDefined()
-                expect(items instanceof Array).toBeTruthy()
-                expect(items.length).toBe(0)
-            }) 
-        })
-
-        it ('should throw an error using an array instead of query string', () => {
-            let query = []
-            expect(() => omdbApi.searchItems(query)).toThrowError(`${query} is not a string`) 
-        })
-
-    })
-
+    // DUDA: cómo manejar estas mayúcuslas?
+    // tenemos que convertir las keys del objeto a toLowerCase()
     describe('retrieveItem', () => {
         
         const expectedResult = {
@@ -47,7 +32,7 @@ describe('ombd-api' , () => {
             imdbID: 'tt0081400',
             imdbRating: '4.8'
         }
-        var itemId = expectedResult.imdbID
+        const itemId = expectedResult.imdbID
 
         it('should retrieve a movie or serie item object with valid id', () => {
             return omdbApi.retrieveItem(itemId)
@@ -61,17 +46,17 @@ describe('ombd-api' , () => {
         })
 
         it('should fail using a space as query for itemID', () => {
-            var emptyId = ' '
+            const emptyId = ' '
             expect(() => omdbApi.retrieveItem(emptyId)).toThrowError('itemId is empty')
         })
 
         it('should fail on empty itemID', () => {
-            var emptyId = ''
-            expect(() => omdbApi.retrieveItem(emptyId)).toThrowError('itemId is empty')
+            const itemId = ''
+            expect(() => omdbApi.retrieveItem(itemId)).toThrowError('itemId is empty')
         })
 
         it('should fail on wrong itemID parameter', () => {
-            var newId = '123qdsad'
+            const newId = '123qdsad'
 
             return omdbApi.retrieveItem(newId)
                 .then(() => {
@@ -80,4 +65,6 @@ describe('ombd-api' , () => {
                 .catch(({message}) =>  expect(message).toBe('Incorrect IMDb ID.'))
         })
     })
+})
+
 })
