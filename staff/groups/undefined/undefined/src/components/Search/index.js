@@ -17,7 +17,7 @@ class Search extends Component {
         return (
             <section className="search">
                 <form onSubmit={handleSearchSubmit} >
-
+                
                     <input 
                         name="query" 
                         placeholder="Search Movies and Series"

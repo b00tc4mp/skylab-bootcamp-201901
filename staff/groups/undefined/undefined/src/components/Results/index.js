@@ -1,17 +1,29 @@
 import React, { Component } from 'react'
 import Video from '../Video'
+import Detail from '../Detail'
+import logic from '../../logic'
 
 class Results extends Component  {
     
     state = { videoSelected: null }
 
     handleVideoClick = id => {
-        //this.setState({ videoSelected: id })
+        logic.retrieveVideo(id)
+            .then(details => {
+                console.log('DDD', details)
+                this.setState({ videoSelected: details}) })
+            .catch()
+        //
         console.log('Desde Results', id)
     }
 
     render() {
-        const {props : {results}, handleVideoClick} = this
+        const {
+            props : {results}, 
+            state : {videoSelected}, 
+                    handleVideoClick
+            } = this
+
         console.log(results)
         return (
             <section className="results">
@@ -23,6 +35,9 @@ class Results extends Component  {
                        onVideoSelected={handleVideoClick}
                     /> 
                 )}
+
+                {videoSelected && <Detail detail={videoSelected} />}
+
             </section>
         )
     }
