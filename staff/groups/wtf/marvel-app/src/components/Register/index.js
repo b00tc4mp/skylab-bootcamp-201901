@@ -1,11 +1,11 @@
 'use strict'
 
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-// import Feedback from '../Feedback'
+import Modal from '../Modal'
+import Feedback from '../Feedback'
 
 class Register extends Component {
-    state = {name:'', surname:'', email:'', password:'', passwordConfirmation:''}
+    state = {name: null, surname: null, email: null, password: null, passwordConfirmation: null, feedback: null, modalVisible: false}
 
     handleNameInput = event => this.setState({name: event.target.value})
 
@@ -25,8 +25,24 @@ class Register extends Component {
         onRegistration(name, surname, email, password, passwordConfirmation)
     }
 
+    handleOnHome = event => {
+        event.preventDefault()
+
+        const { props: {onHome} } = this
+
+        onHome()
+    }
+
+    handleCloseModal = () => {
+        this.setState({modalVisible: false, registrationFeeback: null})
+        const { props: {onLogin} } = this
+        onLogin()
+   }
+
+
+
     render() {
-         const {handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback}  } = this
+         const {handleCloseModal, handleOnHome, handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback, modalVisible,}  } = this
     
         return <section className="register container">
         <div className="columns is-mobile">
@@ -84,15 +100,18 @@ class Register extends Component {
                                 </span>
                             </p>
                         </div>
+                        <div>
+                            {feedback && <Feedback message={feedback} />}
+                        </div>
                         <div className="field is-grouped btn_grp">
                             <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Sign Up</button></p>
-                            <p className="control"><Link to='/' className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</Link></p>
+                            <p className="control"><a to='/' onClick={handleOnHome} className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</a></p>
                         </div>
                     </form>
                 </div>    
             </div>
         </div>
-        {/* {feedback && <Feedback message={feedback} />} */}
+        {modalVisible && <Modal closeModal={handleCloseModal} />}
     </section>
     }
 }

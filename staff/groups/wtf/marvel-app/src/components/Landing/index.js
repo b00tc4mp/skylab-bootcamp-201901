@@ -6,6 +6,7 @@ import './index.sass'
 import logic from '../Logic'
 import Login from '../Login'
 import Register from '../Register'
+import Modal from '../Modal'
 
 
 class Landing extends Component {
@@ -19,29 +20,40 @@ class Landing extends Component {
                 this.setState({loginFeedback: null})
                 return logic.retrieveUser(logic.__userId__, logic.__userApiToken__)
                     .then(user => {
-                        console.log(user)
                         this.setState({userName : user.name, userEmail: user.username, userFavourites: user.favourites})
                     }) 
             })
+            .catch(({message}) => this.setState({ loginFeedback: message }))
         }catch (message) {
           this.setState({ loginFeedback: message })
         }
     }
 
     handleRegistration = (name, surname, email, password, passwordConfirmation) => {
-        this.setState ({registrationFeedback: null})
         try {
             logic.register(name, surname, email, password, passwordConfirmation) 
                 .then(()=>this.setState({modalVisible: true}))
-        } catch (message) {
+                .catch(({message}) => this.setState({ loginFeedback: message }))
+        } catch ({message}) {
             this.setState ({registrationFeedback: message})
         }
     }
 
+    handleHome = () => {
+        this.setState({loginFeedback: null, registrationFeedback: null})
+        this.props.history.push('/')
+    }
+
+    handleToLogin = () => {
+        this.setState({loginFeedback: null, registrationFeedback: null, modalVisible: false})
+        this.props.history.push('/login')
+    }
+
+   
 
     render() {
 
-        const {handleLogin, handleRegistration} = this
+        const {handleLogin, handleRegistration, handleHome, handleToLogin,state:{loginFeedback, registrationFeedback, modalVisible}} = this
 
         return <section className="container">
         <Route exact path="/" render={() =>
@@ -61,8 +73,8 @@ class Landing extends Component {
                     </div>
                 </div>
             </Fragment>} />
-            <Route path='/login' render={() => <Login onLogin={handleLogin}/>} />
-            <Route path='/register' render={() => <Register onRegistration={handleRegistration}/>} />
+            <Route path='/login' render={() => <Login onLogin={handleLogin} feedback={loginFeedback} onHome={handleHome}/>} />
+            <Route path='/register' render={() => <Register onRegistration={handleRegistration} feedback={registrationFeedback} onHome={handleHome} modalVisible={modalVisible} onLogin={handleToLogin}/>} />
         </section>
     }
 }
