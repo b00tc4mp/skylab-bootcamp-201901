@@ -1,4 +1,3 @@
-import spotifyApi from '../youtube-api'
 import logic from '.'
 
 
@@ -11,7 +10,7 @@ describe('logic', () => {
         const passwordConfirm = password
 
         it('should succeed on valid data', () =>
-            logic.registerUser(name, surname, email, password, passwordConfirm) 
+            logic.registerUser(name, surname, email, password, passwordConfirm)
                 .then(result => expect(result).toBeUndefined())
         )
 
@@ -157,11 +156,11 @@ describe('logic', () => {
         const password = '123'
         const passwordConfirm = password
 
-        beforeEach(() => 
+        beforeEach(() =>
             logic.registerUser(name, surname, email, password, passwordConfirm)
         )
 
-        it('should succeed on correct credentials', () => 
+        it('should succeed on correct credentials', () =>
             logic.loginUser(email, password)
                 .then(() => {
                     expect(logic.__userId__).toBeDefined()
@@ -177,12 +176,12 @@ describe('logic', () => {
         const password = '123'
         const passwordConfirm = password
 
-        beforeEach(() => 
+        beforeEach(() =>
             logic.registerUser(name, surname, email, password, passwordConfirm)
                 .then(() => logic.loginUser(email, password))
         )
 
-        it('should succeed on correct credentials', () => 
+        it('should succeed on correct credentials', () =>
             logic.retrieveUser()
                 .then(user => {
                     expect(user.id).toBe(logic.__userId__)
@@ -194,9 +193,18 @@ describe('logic', () => {
     })
 
     describe('update user', () => {
-        
+
     })
 
+    describe('searchVideos', () => {
+        it('should succed', () =>
+            logic.searchVideo('madonna')
+                .then(video => {
+                    expect(video.tittle).toBeDefined()
+                })
+
+        )
+    })
     // TODO updateUser and removeUser
 
 })
