@@ -11,6 +11,7 @@ import Login from '../Login'
 import VideoResults from '../VideoResults'
 import { withRouter, Route } from 'react-router-dom'
 import Video from '../Video'
+import Comments from '../Comments';
 
 //#endregion
 
@@ -18,7 +19,7 @@ class App extends Component {
 
     //#region STATES
 
-    state = { email: '', videoId: '' }
+    state = { email: '', videoId: '', text: '' }
 
     //#endregion
 
@@ -73,6 +74,7 @@ class App extends Component {
         )
     }
 
+
     //#endregion
 
     //#region RENDER
@@ -80,7 +82,7 @@ class App extends Component {
     render() {
         const { pathname } = this.props.location;
         console.log(pathname)
-        const { handleSelectVideo, handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton, state:{videoId} } = this
+        const { handleSelectVideo, handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, state:{videoId} } = this
         return <section>
             {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} />}
             <Route path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
