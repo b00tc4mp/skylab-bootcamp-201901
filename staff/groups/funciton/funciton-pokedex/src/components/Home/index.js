@@ -21,7 +21,7 @@ class Home extends React.Component {
             <div className="bottomContent">
                 <h3>Welcome to Pokemon Website</h3>
                 <p>You are about one click to access...</p>
-                <button className="btn btn-danger">Login</button>
+                <button className="btn btn-danger" onClick={this.props.onHandleShowLogin}>Login</button>
                 <button className="btn btn-primary">Register</button>
             </div>
         </div>

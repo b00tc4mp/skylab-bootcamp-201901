@@ -47,7 +47,7 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        return userApi.register(name, surname, email, password)
+        return userApi.register(email, username, password, passwordConfirmation)
             .then(() => { })
     },
 
