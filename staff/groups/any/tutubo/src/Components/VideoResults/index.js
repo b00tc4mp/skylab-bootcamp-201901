@@ -50,7 +50,7 @@ class VideoRasults extends Component {
         return <section className="videolist">
             <div>
                 {videos.map(({ id: { videoId }, snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
-                    return <div className="video" video-id={videoId} onClick={() => onVideoSelected(videoId)} >
+                    return <div className="video" key={videoId} onClick={() => onVideoSelected(videoId)} >
                         <img src={url} />
                         <h2>{title}</h2>
                         <p channel-id={channelId} onClick={() => console.log(channelId)}>{channelTitle}</p>
