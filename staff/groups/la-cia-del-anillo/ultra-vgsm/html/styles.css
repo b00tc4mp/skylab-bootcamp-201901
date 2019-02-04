@@ -481,12 +481,27 @@ main {
 @media screen and (min-width: 1024px) {
   .sidebar {
     display: block;
+    color: #f8f8f1;
     height: 100vh;
+    flex: 1 1 0%;
     overflow: auto;
   }
 }
 .sidebar__scrolling-content {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
   height: 100%;
+}
+.sidebar__scrolling-content-scroll {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow: auto;
+  margin-right: 0px;
+  margin-bottom: 0px;
 }
 .sidebar__fixed-logo {
   background-image: linear-gradient(to top, rgba(244, 244, 244, 0), rgba(244, 244, 244, 0.9) 15%);
@@ -504,6 +519,8 @@ main {
   display: grid;
   grid-template-rows: 6rem 1fr 5rem;
   grid-template-columns: 100%;
+  overflow-y: auto;
+  height: 100vh;
 }
 
 .container {
@@ -713,6 +730,7 @@ main {
   margin: 0px;
   font-size: 1.2rem;
   color: #cecece;
+  font-weight: 400;
 }
 
 /*# sourceMappingURL=styles.css.map */
