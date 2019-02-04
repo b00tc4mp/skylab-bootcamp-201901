@@ -6,7 +6,7 @@ import Landing from '../Landing'
 
 
 class App extends Component {
-  
+
 
 
  
@@ -14,6 +14,7 @@ class App extends Component {
     return <HashRouter>
       <main>
         <Route path='/' component={Landing}/>
+        
         {/* <Route path='/home' component={Home}/> */}
       </main>  
     </HashRouter>
