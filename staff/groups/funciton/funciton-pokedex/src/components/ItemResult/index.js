@@ -21,7 +21,7 @@ class ItemResult extends React.Component {
 
             {/* <img className="pokemonCard__pokeball" src="https://cdn4.iconfinder.com/data/icons/pokemon-go/512/Pokemon_Go-01-128.png"/> */}
             <div className="card-body">
-                <p className="card-text">{pokemonName}</p>
+                <p className="card-text">{pokemonName.toUpperCase()}</p>
                 <button onClick={this.retrieveDataFromItem} className="btn btn-danger pokemonCard__details">More</button>
             </div>
         </div>
