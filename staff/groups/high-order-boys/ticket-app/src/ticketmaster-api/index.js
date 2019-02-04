@@ -11,8 +11,8 @@ const ticketmasterApi  = {
         if (!query.trim().length) throw Error(`query is empty`)
 
 
-        const queryStart = startDate ? `&startDateTime=${startDate}`:''
-        const queryEnd = endDate ? `&endDateTime=${endDate}`: ''
+        const queryStart = startDate ? `&startDateTime=${startDate}T14:00:00Z`:''
+        const queryEnd = endDate ? `&endDateTime=${endDate}T14:00:00Z`: ''
 
         return fetch(`${this.url}events.json?apikey=${this.apiKey}&city=${query}${queryStart}${queryEnd}`, {
             method: 'GET'
