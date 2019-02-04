@@ -15,13 +15,14 @@ class Search extends Component {
         const {handleInputChange, handleSearchSubmit} = this
 
         return (
-            <section className="home">
+            <section className="search">
                 <form onSubmit={handleSearchSubmit} >
 
                     <input 
                         name="query" 
                         placeholder="Search Movies and Series"
                         onChange={handleInputChange}
+                        required 
                     />
 
                     <button type="submit">Search </button>
