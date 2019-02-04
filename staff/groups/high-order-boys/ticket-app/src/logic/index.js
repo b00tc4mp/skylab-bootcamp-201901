@@ -66,19 +66,20 @@ const logic = {
                 this.__userId__ = data.id
                 this.__userApiToken__ = data.token
 
-                userStorage.saveUserToken(data)
+                
                 return data
             })
     },
 
     retrieveUser() {
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(({ id, name, surname, username }) => ({
-                id,
-                name,
-                surname,
-                email: username
-            }))
+        .then(({ id, name, surname, username }) => ({
+            id,
+            name,
+            surname,
+            email: username
+        }))
+        .then(user => userStorage.saveUserToken(user))
     },
 
     retrieveEvents(query, startDate, endDate) {
