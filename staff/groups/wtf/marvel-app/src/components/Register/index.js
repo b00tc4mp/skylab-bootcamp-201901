@@ -88,7 +88,7 @@ class Register extends Component {
                         </div>
                         <div className="field is-grouped btn_grp">
                             <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Sign Up</button></p>
-                            <p className="control"><a href="#" onClick={handleOnLogin} className="button is-inverted is-outlined is-danger is-small is-rounded">Log in</a></p>
+                            <p className="control"><button onClick={handleOnLogin} className="button is-inverted is-outlined is-danger is-small is-rounded">Log in</button></p>
                         </div>
                     </form>
                 </div>    
