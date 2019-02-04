@@ -5,11 +5,11 @@ import ItemResult from "../ItemResult";
 
 
 class PokemonSearch extends Component {
-  state = { pokemons: [], searchText: "", loading: true };
+  state = { pokemons: [], searchText: '', loading: true };
 
   componentDidMount() {
     pokemonApi.searchAllPokemons().then(pokemons => {
-      this.setState({ pokemons, loading: false })
+      this.setState({ pokemons, loading: false, searchText:this.props.searchText })
     });
   }
 
@@ -17,6 +17,8 @@ class PokemonSearch extends Component {
     this.setState({
       searchText: event.target.value
     });
+    this.props.setSearchTextApp(event.target.value);
+
   };
 
   renderList = () => {
@@ -44,12 +46,13 @@ class PokemonSearch extends Component {
             onChange={this.handleChange}
             type="text"
             placeholder="Search your Pokemon by name"
+            value={this.state.searchText}
           />
           {
             this.state.loading && <h1>LOADING</h1>
           }
           {
-            this.state.searchText !== "" && this.renderList()
+            this.props.searchText !== "" && this.renderList()
           }
         </div>
       </div>
