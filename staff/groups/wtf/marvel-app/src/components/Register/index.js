@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { Component } from 'react'
-import { withRouter, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import Feedback from '../Feedback'
 
 class Register extends Component {
@@ -20,15 +20,13 @@ class Register extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { name, surname, email, password, passwordConfirmation}, props: {onRegistration} } = this
+        const { state: { name, surname, email, password, passwordConfirmation}, props:{onRegistration} } = this
 
         onRegistration(name, surname, email, password, passwordConfirmation)
     }
 
-    handleOnLogin = () => this.props.history.push('/login')
-
     render() {
-         const { handleOnLogin, handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback}  } = this
+         const {handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback}  } = this
     
         return <section className="register container">
         <div className="columns is-mobile">
@@ -88,7 +86,7 @@ class Register extends Component {
                         </div>
                         <div className="field is-grouped btn_grp">
                             <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Sign Up</button></p>
-                            <p className="control"><button onClick={handleOnLogin} className="button is-inverted is-outlined is-danger is-small is-rounded">Log in</button></p>
+                            <p className="control"><Link to='/' className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</Link></p>
                         </div>
                     </form>
                 </div>    
@@ -99,4 +97,4 @@ class Register extends Component {
     }
 }
 
-export default withRouter(Register)
+export default Register
