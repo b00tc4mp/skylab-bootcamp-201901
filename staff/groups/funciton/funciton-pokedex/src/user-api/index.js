@@ -30,6 +30,7 @@ const userApi = {
                 const { status } = response
 
                 if (status === 'OK') return response.data.id
+                console.log('Registrado')
 
                 throw Error(response.error) //Contempla caso de error
             })

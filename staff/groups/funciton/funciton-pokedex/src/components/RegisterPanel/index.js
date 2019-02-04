@@ -1,23 +1,23 @@
 import React, { Component, Fragment } from "react";
 import './index.sass'
-import registerTitle from '../../img/registerTitle.png'
+
 
 
 
 class RegisterPanel extends Component {
 
-    state = { email: '', username: '', password: '', confirmPassword: '' }
+    state = { email: '', username: '', password: '', retryPassword: '' }
 
     handleEmailInput = event => this.setState({ email: event.target.value })
     handleUsernameInput = event => this.setState({ username: event.target.value })
     handlePasswordInput = event => this.setState({ password: event.target.value })
-    handleConfirmPassword = event => this.setState({ confirmpassword: event.target.value })
-
+    handleConfirmPassword = event => this.setState({ retryPassword: event.target.value })
 
     handleFormSubmit = event => {
+        debugger
         event.preventDefault()
-        const { state: { email, username, password, confirmPassword }, props: { onRegister } } = this
-        onRegister(email, username, password, confirmPassword)
+        const { state: { email, username, password, retryPassword } } = this
+        this.props.onRegister(email, username, password, retryPassword)
     }
 
 
@@ -25,10 +25,11 @@ class RegisterPanel extends Component {
     render() {
 
         const { handleEmailInput, handlePasswordInput, handleUsernameInput, handleConfirmPassword, handleFormSubmit } = this
+        const showHideClassName = this.props.show ? 'containerRegister' : 'containerRegisterNone'
         return <Fragment>
-            <div>{<img className=".col-sm-8" src={registerTitle} alt="poke_title"></img>}</div>
+
             <div className='row'>
-                <div className=" container form-group register__panel col-8  col-lg-6">
+                <div className={showHideClassName}>
                     <form onSubmit={handleFormSubmit}>
                         <div className="colum">
                             <label htmlFor="exampleInputUsername1">Username</label>
@@ -46,7 +47,7 @@ class RegisterPanel extends Component {
                     </form>
                 </div>
             </div>
-        </Fragment>
+        </Fragment >
     }
 }
 
