@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { Route, withRouter } from 'react-router-dom'
+
 import Video from '../Video'
 import Detail from '../Detail'
 import logic from '../../logic'
@@ -7,7 +9,13 @@ class Results extends Component  {
     
     state = { videoSelected: null }
 
+    componentDidMount() {
+        const {match: {params: {id}}} = this.props
+        id && this.handleVideoClick(id)
+    }
+
     handleVideoClick = id => {
+        this.props.history.push(`/video/${id}`)
         logic.retrieveVideo(id)
             .then(details => {
                 console.log('DDD', details)
@@ -47,4 +55,4 @@ class Results extends Component  {
     }
 }
 
-export default Results
+export default withRouter(Results)
