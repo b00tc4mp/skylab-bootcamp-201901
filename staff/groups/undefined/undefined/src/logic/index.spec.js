@@ -4,10 +4,8 @@ import logic from "../logic/index";
 
 describe('logic' , () => {
     
-    
     describe('searchItems' , () => {
-        
-        
+                
         it('should succeed on mathing query' , () => {
             const query = 'titanic'
             
@@ -33,21 +31,21 @@ describe('logic' , () => {
     describe('retrieveItem' , () => {
 
         it('should retrieve an item when correct itemId is used' , () => {
-            const itemId = 'tt0108778'
+            const videoId = 'tt0108778'
             
-            return logic.retrieveVideo(itemId)
+            return logic.retrieveVideo(videoId)
             .then(item => {
                 const {imdbID} = item
                 expect(imdbID).toBeDefined()
-                expect(imdbID).toBe(itemId)
+                expect(imdbID).toBe(videoId)
             })
 
         })
 
-        it('should fail on empty itemId', () => {
-            const itemId = ''
+        it('should fail on empty videoId', () => {
+            const videoId = ''
             
-            expect(() => logic.retrieveVideo(itemId)).toThrowError('itemId is empty')
+            expect(() => logic.retrieveVideo(videoId)).toThrowError('videoId is empty')
         })
     })
 
