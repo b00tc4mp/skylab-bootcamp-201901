@@ -1,7 +1,26 @@
 'use strict'
 
+/**
+ * User API client.
+ * 
+ * @version 1.0.0
+ */
+
 const userApi = {
     url: 'https://skylabcoders.herokuapp.com/api',
+
+    /**
+     * 
+     * @param {string} name the user's name.
+     * @param {string} surname the user's surname.
+     * @param {string} username the user's username.
+     * @param {string} password the user's password.
+     * 
+     * @retuns {Promise} - Resolves with array of movies, otherwise rejects with an error.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     */
 
     register(name, surname, username, password) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)

@@ -27,16 +27,20 @@ describe('user api', () => {
         )
 
         it('should fail on empty name', ()=> {
-            expect( () => userApi.register('', surname, username, password).toThrowError('name is empty'))
+            expect( () => userApi.register('', surname, username, password)).toThrowError('name is empty')
         })
         it('should fail on empty surname', ()=> {
-            expect( () => userApi.register(name, '', username, password).toThrowError('surname is empty'))
+            expect( () => userApi.register(name, '', username, password)).toThrowError('surname is empty')
         })
         it('should fail on empty username', ()=> {
-            expect( () => userApi.register(name, surname, '', password).toThrowError('username is empty'))
+            expect( () => userApi.register(name, surname, '', password)).toThrowError('username is empty')
         })
         it('should fail on empty password', ()=> {
-            expect( () => userApi.register(name, surname, username, '').toThrowError('password is empty'))
+            expect( () => userApi.register(name, surname, username, '')).toThrowError('password is empty')
+        })
+        it('should fail when name is not a string', () => {
+            const name = true
+            expect( () => userApi.register(name, surname, username, password)).toThrowError(`${name} is not a string`)
         })
     })
 
@@ -84,10 +88,10 @@ describe('user api', () => {
                 })
         )
         it('should fail on empty username', ()=> {
-            expect( () => userApi.authenticate('', password).toThrowError('id is empty'))
+            expect( () => userApi.authenticate('', password)).toThrowError('username is empty')
         })
         it('should fail on empty password', ()=> {
-            expect( () => userApi.authenticate(username, '').toThrowError('token is empty'))
+            expect( () => userApi.authenticate(username, '')).toThrowError('password is empty')
         })
 
     })
@@ -140,10 +144,10 @@ describe('user api', () => {
             })        
         )
         it('should fail on empty id', ()=> {
-            expect( () => userApi.retrieve('', _token).toThrowError('id is empty'))
+            expect( () => userApi.retrieve('', _token)).toThrowError('id is empty')
         })
         it('should fail on empty token', ()=> {
-            expect( () => userApi.retrieve(_id , '').toThrowError('token is empty'))
+            expect( () => userApi.retrieve(_id , '')).toThrowError('token is empty')
         })
     })
 
@@ -204,10 +208,15 @@ describe('user api', () => {
                     })
         })
         it('should fail on empty id', () => {
-            expect(() => userApi.update('', _token, data).toThrowError('id is empty'))
+            const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
+            expect(() => userApi.update('', _token, data)).toThrowError('id is empty')
         })
-        it('should fain on empty token', () => {
-            expect( () => userApi.update(_id, 'potato', data).toThrowError('token is empty'))
+        it('should fail on empty token', () => {
+            const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
+            expect( () => userApi.update(_id, '', data)).toThrowError('token is empty')
+        })
+        it('should fail on empty data', () => {
+            expect( () => userApi.update(_id, _token, data)).toThrowError('data is not defined')
         })
     })
 
@@ -277,22 +286,18 @@ describe('user api', () => {
                 })
         )
         it('should fail on empty id', () =>{
-            expect( ()=> userApi.remove('', _token, username, password).toThrowError('id is empty'))
+            expect( ()=> userApi.remove('', _token, username, password)).toThrowError('id is empty')
         })
         it('should fail on empty token', ()=> {
-            expect( () => userApi.remove(_id, '', username, password).toThrowError('token is empty'))
+            expect( () => userApi.remove(_id, '', username, password)).toThrowError('token is empty')
         })
         it('should fail on empty username', () => {
-            expect( () => userApi.remove(_id, _token, '', password).toThrowError('username is empty'))
+            expect( () => userApi.remove(_id, _token, '', password)).toThrowError('username is empty')
         })
         it('should fail on empty password', () => {
             const password = ''
             console.log('hello world')
-            expect( () => userApi.remove(_id, _token, username, password).toThrowError('xx is empty'))    
-        })
-        it ('should fail on empty query', () => {
-            const password = ''
-            expect(() => userApi.remove(query).toThrowError('query is empty'))
+            expect( () => userApi.remove(_id, _token, username, password)).toThrowError('password is empty')    
         })
     })
 })
