@@ -9,7 +9,7 @@ import youtubeApi from '../youtube-api';
 const logic = {
     __userId__: null,
     __userApiToken__: null,
-    __videoId__:null,
+    __videoId__: null,
 
     /**
     * Registers a user.
@@ -90,7 +90,7 @@ const logic = {
         if (data.constructor !== Object) throw TypeError(data + ' is not an object')
 
         return userApi.update(data, this.__userApiToken__, this.__userId__)
-            .then(() => {})  //en este caso no se obtiene respuesta de la api
+            .then(() => { })  //en este caso no se obtiene respuesta de la api
     },
 
     /**
@@ -107,14 +107,14 @@ const logic = {
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
         if (!password.trim().length) throw Error('password cannot be empty')
-        
+
         return userApi.remove(this.__userId__, this.__userApiToken__, email, password)
-            .then(() => {}) //aqui tampoco esperamos respuesta
+            .then(() => { }) //aqui tampoco esperamos respuesta
     },
 
     //he hecho que para borrar su usuario la parsona tiene que confirmarlo con el email i el password
 
-    
+
     /**
      * 
      * @param {string} query 
@@ -134,10 +134,10 @@ const logic = {
         return youtubeApi.mostPopular(/*aqui es donde se podria meter lo de cambiar la region de los resultados populares*/)
             .then(({ id, snippet: { publishedAt, tittle, thumbnails: { default: { url } }, channelTittle } }) => ({
                 id,
-                date: publishedAt, 
+                date: publishedAt,
                 tittle,
                 thumbnail: url,
-                channelTittle 
+                channelTittle
             })) //lo mismo que el search, no se si es mejor con o sin destructuring aqui
 
         // .then(items => ({   //opcion sin destructuring
@@ -153,6 +153,56 @@ const logic = {
                 description,
                 channelTittle
             }))
+    },
+
+    commentVideo(videoId, text) {
+        if (typeof videoId === 'string') throw TypeError(videoId + ' is not a string')
+
+        if(!videoId.trim().length) throw Error('text is empty')
+
+        if (typeof text === 'string') throw TypeError(text + ' is not a string')
+
+        if(!text.trim().length) throw Error('text is empty')
+
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => {
+                const { comments } = user
+
+                const comment = {
+                    text,
+                    date: new Date()
+                }
+
+                const videoComments = comments[videoId]
+
+                if (videoComments) {
+                    videoComments.push(comment)
+                } else {
+                    comments[videoId] = [comment]
+                }
+
+                return userApi.update(this.__userId__, this.__userApiToken__, { comments })
+            })
+            .then(() => {})
+    },
+
+    showComments() {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(({coments: {comment}}) => ({
+                comment
+            }))
+    },
+
+    deleteComments(videoId, text) {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => {
+                const { comments } = user
+
+                let deletedComment = comments[videoId].comment.includes(text)
+                console.log(deletedComment)
+                //return userApi.update(this.__userId__, this.__userApiToken__,  deletedComment: '' )
+            })
+            .then(() => {})
     }
 
 }
