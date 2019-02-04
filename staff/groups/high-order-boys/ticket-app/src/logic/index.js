@@ -1,6 +1,7 @@
 'use strict'
 import userApi from '../user-api'
 import userStorage from '../localstorage'
+import ticketmasterApi from '../ticketmaster-api';
 
 /**
  * Abstraction of business logic.
@@ -88,6 +89,8 @@ const logic = {
         if (startDate != null && typeof startDate !== 'string') throw TypeError(`${startDate} instroduced is not a string`)
         if (endDate != null && typeof endDate !== 'string') throw TypeError(`${endDate} instroduced is not a string`)
 
+        return ticketmasterApi.searchEvents(query, startDate, endDate)
+            .then(events => console.log(events))
     }
 }
 
