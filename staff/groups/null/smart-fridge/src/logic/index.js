@@ -1,4 +1,5 @@
 import userApi from '../user-api'
+import edamamApi from '../edamam-api'
 /**
  * Logic for the smart-fridge app
  */
@@ -122,6 +123,24 @@ const logic = {
         if (arguments.length > 4) throw Error('Too many arguments were introduced in the function')
 
         return userApi.remove(id, token, username, password)
+    }, 
+    search(query, calA, calB, diet, health) {
+        
+        if (calA === undefined || calB === undefined) throw Error('Calories range was not input')
+
+        if (typeof calA === 'number' && typeof calB === 'number') {
+            if (calA > calB) throw Error('Cannot calculate this range of calories')
+        }
+
+        if (diet) {
+            if (typeof diet !== 'string') throw Error(diet + ' is not a string')
+        }
+
+        if (health) {
+            if (typeof health !== 'string') throw Error(health + ' is not a string')
+        }
+
+        return edamamApi.search(query, calA, calB, diet, health)
     }
 }
 

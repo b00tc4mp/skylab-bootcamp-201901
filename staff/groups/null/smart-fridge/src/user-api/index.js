@@ -87,9 +87,10 @@ const userApi = {
 
         if (!id.trim().length) throw Error('id is empty')
 
-        /* if (typeof token !== 'string') throw TypeError(`${token} is not a string`) */
+        if (!token) throw Error('token is empty')
         
-        if (!token.trim().length) throw Error('token is empty')
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        
 
         return fetch(`${this.url}/user/${id}`, {
             headers: {
@@ -110,7 +111,8 @@ const userApi = {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id is empty')
 
-        /* if (typeof token !== 'string') throw TypeError(`${token} is not a string`) */
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+
         if (!token.trim().length) throw Error('token is empty')
 
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
@@ -137,7 +139,8 @@ const userApi = {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id is empty')
 
-        /* if (typeof token !== 'string') throw TypeError(`${token} is not a string`) */
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+
         if (!token.trim().length) throw Error('token is empty')
 
         if (typeof username !== 'string') throw TypeError(`${username} is not a string`)
