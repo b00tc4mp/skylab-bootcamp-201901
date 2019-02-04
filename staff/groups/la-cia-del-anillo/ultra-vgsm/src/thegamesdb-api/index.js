@@ -4,7 +4,6 @@
  * @version 0.1.0
  */
 const thegamesDbApi = {
-
     apiKey: 'NO-API-KEY',
 
     url: 'https://api.thegamesdb.net',
@@ -259,39 +258,32 @@ const thegamesDbApi = {
                 return response;
             });
     },
-  
-  
-  retrieveGamesByPlatform(platformId) {
-    if (typeof platformId !== "string")
-      throw TypeError(`${platformId} is not a string`);
 
-    if (!platformId.trim().length) throw Error("platformId is empty");
+    retrieveGamesByPlatform(platformId) {
+        if (typeof platformId !== 'string') throw TypeError(`${platformId} is not a string`);
 
-    if (isNaN(Number(platformId)))
-      throw Error(`${platformId} should be a number`);
+        if (!platformId.trim().length) throw Error('platformId is empty');
 
-    if (!platformId.trim().length) throw Error("PlatformId is empty");
+        if (isNaN(Number(platformId))) throw Error(`${platformId} should be a number`);
 
-    if (Number(platformId) < 1)
-      throw Error(`${platformId} should be a bigger than 0`);
+        if (!platformId.trim().length) throw Error('PlatformId is empty');
 
-    if (Number(platformId) % 1 !== 0)
-      throw Error(`${platformId} should be an integer number`);
+        if (Number(platformId) < 1) throw Error(`${platformId} should be a bigger than 0`);
 
-    return fetch(
-      `${this.proxy}${this.url}/Games/ByPlatformID?apikey=${
-        this.apiKey
-      }&id=${platformId}`
-    )
-      .then(response => response.json())
-      .then(response => {
-        const { code, status, data, data: { count } = {}, pages } = response;
-        if (!status) throw Error(response.error);
-        if (status !== "Success" || code !== 200) throw Error(status);
-        if (!count) throw Error(`${platformId} doesn't exist in database`);
-        return { data, pages };
-      });
-  }
+        if (Number(platformId) % 1 !== 0) throw Error(`${platformId} should be an integer number`);
+
+        return fetch(
+            `${this.proxy}${this.url}/Games/ByPlatformID?apikey=${this.apiKey}&id=${platformId}`
+        )
+            .then(response => response.json())
+            .then(response => {
+                const { code, status, data, data: { count } = {}, pages } = response;
+                if (!status) throw Error(response.error);
+                if (status !== 'Success' || code !== 200) throw Error(status);
+                if (!count) throw Error(`${platformId} doesn't exist in database`);
+                return { data, pages };
+            });
+    }
 };
 
 export default thegamesDbApi;
