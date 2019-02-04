@@ -6,13 +6,13 @@ class Header extends Component {
 
     render(){
         
-        const { props:{handleSearch} } = this
+        const { props:{handleSearch, onGoToLogin} } = this
 
         return <header className="header">
             <p>Hamburguer</p>
             <p>Logo</p>
             <Search onSearch={handleSearch}/>
-            <p>inciar session</p>
+            <button onClick={onGoToLogin}>Login to Sesson</button>
         </header>
     }
 }
