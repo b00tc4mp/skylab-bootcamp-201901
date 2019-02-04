@@ -3,9 +3,9 @@ import ticketmasterApi from '../ticketmaster-api/'
 
 describe('logic', () => {
     describe('register user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const email = `manoloskywalker@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
 
@@ -16,8 +16,8 @@ describe('logic', () => {
 
         it('should fail on undefined name', () => {
             const name = undefined
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'Skywalker'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -27,8 +27,8 @@ describe('logic', () => {
 
         it('should fail on numeric name', () => {
             const name = 10
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'Skywalker'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -39,8 +39,8 @@ describe('logic', () => {
 
         it('should fail on boolean name', () => {
             const name = true
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'Skywalker'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -50,8 +50,8 @@ describe('logic', () => {
 
         it('should fail on object name', () => {
             const name = {}
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'Skywalker'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -61,8 +61,8 @@ describe('logic', () => {
 
         it('should fail on array name', () => {
             const name = []
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'Skywalker'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -72,8 +72,8 @@ describe('logic', () => {
 
         it('should fail on empty name', () => {
             const name = ''
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'Skywalker'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -82,9 +82,9 @@ describe('logic', () => {
         })
 
         it('should fail on undefined surname', () => {
-            const name = 'Manuel'
+            const name = 'Manolo'
             const surname = undefined
-            const email = 'manuelbarzi@mail.com'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -93,9 +93,9 @@ describe('logic', () => {
         })
 
         it('should fail on numeric surname', () => {
-            const name = 'Manuel'
+            const name = 'Manolo'
             const surname = 10
-            const email = 'manuelbarzi@mail.com'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -105,9 +105,9 @@ describe('logic', () => {
 
 
         it('should fail on boolean surname', () => {
-            const name = 'Manuel'
+            const name = 'Manolo'
             const surname = false
-            const email = 'manuelbarzi@mail.com'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -116,9 +116,9 @@ describe('logic', () => {
         })
 
         it('should fail on object surname', () => {
-            const name = 'Manuel'
+            const name = 'Manolo'
             const surname = {}
-            const email = 'manuelbarzi@mail.com'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -127,9 +127,9 @@ describe('logic', () => {
         })
 
         it('should fail on array surname', () => {
-            const name = 'Manuel'
+            const name = 'Manolo'
             const surname = []
-            const email = 'manuelbarzi@mail.com'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -138,9 +138,9 @@ describe('logic', () => {
         })
 
         it('should fail on empty surname', () => {
-            const name = 'Manuel'
+            const name = 'Manolo'
             const surname = ''
-            const email = 'manuelbarzi@mail.com'
+            const email = 'manoloskywalker@mail.com'
             const password = '123'
 
             expect(() => {
@@ -150,9 +150,9 @@ describe('logic', () => {
     })
 
     describe('login user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const email = `manoloskywalker@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
 
@@ -170,9 +170,9 @@ describe('logic', () => {
     })
 
     describe('retrieve user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const email = `manoloskywalker@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
 
