@@ -18,7 +18,7 @@ const pokemonApi = {
    */
 
   searchAllPokemons() {
-    const searchCriteria = "pokemon/?limit=151";
+    const searchCriteria = "pokemon/?limit=1000";
     return fetch(`${this.apiURL}${searchCriteria}`, {})
       .then(res => {
         if (res == null) throw Error("This pokemon does not exist");
