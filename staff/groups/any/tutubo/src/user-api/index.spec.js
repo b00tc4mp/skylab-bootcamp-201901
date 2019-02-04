@@ -1,6 +1,8 @@
 'use strict'
 
-import userApi from '.'
+import userApi from './'
+
+jest.setTimeout(300000);
 
 describe('user api', () => {
 
@@ -312,5 +314,16 @@ describe('user api', () => {
         })
 
         // TODO more unit test cases
+
+        describe('retrieveAllUsers', () => {
+            
+            it('should return all users', () => 
+                userApi.retrieveAllUsers('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTg3OGE0Y2Q0OTJhMDAwOTA2Nzg2OSIsImlhdCI6MTU0OTMwMTk5MSwiZXhwIjoxNTQ5MzA1NTkxfQ.mBkUdeA1MiCF4ttJ9rOH2EjerGQwX-WeMH0L5qiUOWE')
+                    .then(data => {
+                        debugger 
+                        expect(data).toBeDefined()  
+                    }).catch(()=> console.log('shut the fuk up'))
+            )
+        })
     })
 })

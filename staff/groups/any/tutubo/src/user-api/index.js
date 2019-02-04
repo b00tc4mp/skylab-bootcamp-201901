@@ -21,7 +21,7 @@ const userApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, username, password })
+            body: JSON.stringify({ name, surname, username, password, appId:'tutubo' })
         })
             .then(response => response.json())
             .then(response => {
@@ -135,7 +135,31 @@ const userApi = {
 
                 throw Error(response.error)
             })
+    },
+
+    retrieveAllUsers(token){
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/users/`, {
+            method: 'GET',
+            headers:{
+                authorization: `Bearer ${token}`
+            },
+
+        })
+        .then(response => response.json())
+            .then(response => {
+                const { status, data } = response
+                
+                if (status === 'OK') return data
+
+                throw Error(response.error)
+            })
+
     }
+
 }
 
 export default userApi
