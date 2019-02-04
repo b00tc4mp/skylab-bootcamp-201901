@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 
 class Video extends Component  {
     
-
     onVideoClick = id => {
-        //this.setState({ videoSelected: id })
-        console.log('Desde VIDEO', id)
         const {props: {onVideoSelected}} = this
         onVideoSelected(id)
     }
@@ -14,11 +11,11 @@ class Video extends Component  {
         const {props: {video}, onVideoClick} = this
         
         return <section onClick={() => onVideoClick(video.imdbID)}>
-                            <h3>{video.Title}</h3>
-                            <p>{video.Type}</p>
-                            <p>{video.Year}</p>
-                            <img src={video.Poster} alt={video.Title}/>
-                        </section>
+                    <h3>{video.Title}</h3>
+                    <p>{video.Type}</p>
+                    <p>{video.Year}</p>
+                    <img src={video.Poster} alt={video.Title}/>
+                </section>
             }
 }
 
