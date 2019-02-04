@@ -1,5 +1,10 @@
 import thegamesDbApi from '.';
 
+const { REACT_APP_THEGAMESDB_APIKEY } = process.env;
+
+thegamesDbApi.apiKey = REACT_APP_THEGAMESDB_APIKEY;
+const secureApiKey = thegamesDbApi.apiKey;
+
 describe('ThegamesDb API', () => {
     describe('Search games', () => {
         it('Should succeed on matching query', () => {
@@ -52,14 +57,9 @@ describe('ThegamesDb API', () => {
         });
     });
 
-    const apiKey = 'ec70893446ed73812756c3fc599bb3da6c263807fb2500265d4b675a6855aab8';
-
-    
-
     describe('ultra-vgsm api retrieve GAME DATA by GameID', () => {
-
         beforeEach(() => {
-            thegamesDbApi.apiKey = apiKey;
+            thegamesDbApi.apiKey = secureApiKey;
             thegamesDbApi.proxy = 'https://skylabcoders.herokuapp.com/proxy?url=';
         });
 
@@ -188,7 +188,6 @@ describe('ThegamesDb API', () => {
 
                 return thegamesDbApi.retrieveGame(gameId).then(gameData => {
                     expect(gameData).toBeDefined();
-                    expect(gameData.include.platform.data[`${gameId}`].name).toBe('PC');
                     expect(gameData.data.games[0].game_title).toBe(gameTitle);
                 });
             });
@@ -196,12 +195,11 @@ describe('ThegamesDb API', () => {
     });
 
     describe('ultra-vgsm api retrieve IMAGES by GameID', () => {
-
         beforeEach(() => {
-            thegamesDbApi.apiKey = apiKey;
+            thegamesDbApi.apiKey = secureApiKey;
             thegamesDbApi.proxy = 'https://skylabcoders.herokuapp.com/proxy?url=';
         });
-        
+
         describe('sync fails', () => {
             it('should throw error on number gameId', () => {
                 const gameId = 23;
@@ -322,7 +320,6 @@ describe('ThegamesDb API', () => {
 
         describe('success situation', () => {
             it('should succeed on retrieve correct game images', () => {
-                
                 const gameId = '1';
 
                 return thegamesDbApi.retrieveImages(gameId).then(imagesData => {
@@ -330,6 +327,242 @@ describe('ThegamesDb API', () => {
                     expect(imagesData.data.base_url.original).toBeDefined();
                     expect(imagesData.data.images[`${gameId}`][0].filename).toBeDefined();
                     expect(imagesData.data.images[`${gameId}`][0].resolution).toBe('1920x1080');
+                });
+            });
+        });
+    });
+
+    describe('Retrieve platform list', () => {
+        beforeEach(() => {
+            thegamesDbApi.apiKey = secureApiKey;
+            thegamesDbApi.proxy = 'https://skylabcoders.herokuapp.com/proxy?url=';
+        });
+
+        describe('sync fails', () => {
+            it('should throw error on number fields', () => {
+                const fields = 23;
+
+                expect(typeof fields).toBe('number');
+                expect(() => thegamesDbApi.retrievePlatformList(fields)).toThrowError(
+                    `${fields} is not a string`
+                );
+            });
+
+            it('should throw error on array fields', () => {
+                const fields = [1, 2, 3];
+
+                expect(fields.constructor).toBe(Array);
+                expect(() => thegamesDbApi.retrievePlatformList(fields)).toThrowError(
+                    `${fields} is not a string`
+                );
+            });
+
+            it('should throw error on object fields', () => {
+                const fields = { hello: 'world' };
+
+                expect(fields.constructor).toBe(Object);
+                expect(() => thegamesDbApi.retrievePlatformList(fields)).toThrowError(
+                    `${fields} is not a string`
+                );
+            });
+
+            it('should throw error on boolean fields', () => {
+                const fields = false;
+
+                expect(typeof fields).toBe('boolean');
+                expect(() => thegamesDbApi.retrievePlatformList(fields)).toThrowError(
+                    `${fields} is not a string`
+                );
+            });
+
+            it('should throw error on function fields', () => {
+                const fields = () => console.log('hello');
+
+                expect(typeof fields).toBe('function');
+                expect(() => thegamesDbApi.retrievePlatformList(fields)).toThrowError(
+                    `${fields} is not a string`
+                );
+            });
+        });
+
+        describe('async fails', () => {
+            it('should fail on server down', () => {
+                const fields = 'icon,console';
+                thegamesDbApi.proxy = 'https://skylabcoders.hulioapp.com/proxy?url=';
+
+                return thegamesDbApi
+                    .retrievePlatformList(fields)
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) => expect(message).toBe(`Network request failed`));
+            });
+            it('should fail on non valid API key', () => {
+                const fields = 'icon,console';
+                thegamesDbApi.apiKey = 'HULIO';
+
+                return thegamesDbApi
+                    .retrievePlatformList(fields)
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) =>
+                        expect(message).toBe(
+                            `This route requires and API key and no API key was provided.`
+                        )
+                    );
+            });
+        });
+
+        describe('success situation', () => {
+            it('should succeed on retrieve correct game images', () => {
+                const fields = 'manufacturer,media';
+
+                return thegamesDbApi.retrievePlatformList(fields).then(platformList => {
+                    expect(platformList).toBeDefined();
+                    expect(platformList.data.platforms[1]).toBeDefined();
+                    expect(platformList.data.platforms[2].name).toBe('Nintendo GameCube');
+                    expect(platformList.data.platforms[3].manufacturer).toBe('Nintendo');
+                });
+            });
+
+            it('should succeed on empty fields', () => {
+                return thegamesDbApi.retrievePlatformList().then(platformList => {
+                    expect(platformList).toBeDefined();
+                    expect(platformList.data.platforms[1]).toBeDefined();
+                    expect(platformList.data.platforms[2].name).toBe('Nintendo GameCube');
+                });
+            });
+        });
+    });
+
+    describe('Retrieve genres list', () => {
+        beforeEach(() => {
+            thegamesDbApi.apiKey = secureApiKey;
+            thegamesDbApi.proxy = 'https://skylabcoders.herokuapp.com/proxy?url=';
+        });
+
+        describe('async fails', () => {
+            it('should fail on server down', () => {
+                thegamesDbApi.proxy = 'https://skylabcoders.hulioapp.com/proxy?url=';
+
+                return thegamesDbApi
+                    .retrieveGenresList()
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) => expect(message).toBe(`Network request failed`));
+            });
+            it('should fail on non valid API key', () => {
+                thegamesDbApi.apiKey = 'HULIO';
+
+                return thegamesDbApi
+                    .retrieveGenresList()
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) =>
+                        expect(message).toBe(
+                            `This route requires and API key and no API key was provided.`
+                        )
+                    );
+            });
+        });
+
+        describe('success situation', () => {
+            it('should succeed on retrieve correct game images', () => {
+                return thegamesDbApi.retrieveGenresList().then(genresList => {
+                    expect(genresList).toBeDefined();
+                    expect(genresList.data.genres).toBeDefined();
+                    expect(genresList.data.genres[1].name).toBe('Action');
+                });
+            });
+        });
+    });
+
+    describe('Retrieve developers list', () => {
+        beforeEach(() => {
+            thegamesDbApi.apiKey = secureApiKey;
+            thegamesDbApi.proxy = 'https://skylabcoders.herokuapp.com/proxy?url=';
+        });
+
+        describe('async fails', () => {
+            it('should fail on server down', () => {
+                thegamesDbApi.proxy = 'https://skylabcoders.hulioapp.com/proxy?url=';
+
+                return thegamesDbApi
+                    .retrieveDevelopersList()
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) => expect(message).toBe(`Network request failed`));
+            });
+            it('should fail on non valid API key', () => {
+                thegamesDbApi.apiKey = 'HULIO';
+
+                return thegamesDbApi
+                    .retrieveDevelopersList()
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) =>
+                        expect(message).toBe(
+                            `This route requires and API key and no API key was provided.`
+                        )
+                    );
+            });
+        });
+
+        describe('success situation', () => {
+            it('should succeed on retrieve correct game images', () => {
+                return thegamesDbApi.retrieveDevelopersList().then(developersList => {
+                    expect(developersList).toBeDefined();
+                    expect(developersList.data.developers).toBeDefined();
+                    expect(developersList.data.developers[1].name).toBe('Atari Games');
+                });
+            });
+        });
+    });
+
+    describe('Retrieve publishers list', () => {
+        beforeEach(() => {
+            thegamesDbApi.apiKey = secureApiKey;
+            thegamesDbApi.proxy = 'https://skylabcoders.herokuapp.com/proxy?url=';
+        });
+
+        describe('async fails', () => {
+            it('should fail on server down', () => {
+                thegamesDbApi.proxy = 'https://skylabcoders.hulioapp.com/proxy?url=';
+
+                return thegamesDbApi
+                    .retrievePublishersList()
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) => expect(message).toBe(`Network request failed`));
+            });
+            it('should fail on non valid API key', () => {
+                thegamesDbApi.apiKey = 'HULIO';
+
+                return thegamesDbApi
+                    .retrievePublishersList()
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) =>
+                        expect(message).toBe(
+                            `This route requires and API key and no API key was provided.`
+                        )
+                    );
+            });
+        });
+
+        describe('success situation', () => {
+            it('should succeed on retrieve correct game images', () => {
+                return thegamesDbApi.retrievePublishersList().then(publishersList => {
+                    expect(publishersList).toBeDefined();
+                    expect(publishersList.data.publishers).toBeDefined();
+                    expect(publishersList.data.publishers[2].name).toBe('Electronic Arts');
                 });
             });
         });
