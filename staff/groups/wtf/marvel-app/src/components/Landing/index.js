@@ -21,6 +21,7 @@ class Landing extends Component {
                 return logic.retrieveUser(logic.__userId__, logic.__userApiToken__)
                     .then(user => {
                         this.setState({userName : user.name, userEmail: user.username, userFavourites: user.favourites})
+                        this.props.history.push('/home')
                     }) 
             })
             .catch(({message}) => this.setState({ loginFeedback: message }))
