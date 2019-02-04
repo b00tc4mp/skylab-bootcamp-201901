@@ -6,6 +6,8 @@ import './index.sass'
 import Login from '../Login'
 import Register from '../Register'
 import Home from '../Home'
+import Header from '../Header'
+import Footer from '../Footer'
 
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
@@ -65,10 +67,12 @@ class App extends Component {
     const { handleLogin, handleRegister, state: { loginFeedback, registerFeedback } } = this
 
     return <main className="app">
+      < Header />
       < Redirect from="/" to="/home" />
       < PrivateRoute authed={!!userStorage.auth} path='/home' component={Home} />
       < PublicRoute authed={!!userStorage.auth} path='/login' component={Login} onLogin={handleLogin} loginFeedback={loginFeedback} />
       < Route exact path="/register" render={(props) => < Register onRegister={handleRegister} registerFeedback={registerFeedback}/>} />
+      < Footer />
     </main>
   }
 }

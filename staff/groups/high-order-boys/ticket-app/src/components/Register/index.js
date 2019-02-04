@@ -16,14 +16,16 @@ class Register extends Component {
 
         onRegister(name, surname, email, password, passwordConfirmation)
     }
-
     render() {
 
         const { handleInput, props: {registerFeedback} } = this
-
         return <section>
+
+
             <form onSubmit={this.onSubmitClick}>
+
                 <div>
+
                     <label>name: </label>
                     <input type="text" name="name" placeholder="Name" onChange={handleInput} required />
                 </div>
