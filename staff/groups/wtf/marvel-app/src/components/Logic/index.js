@@ -109,7 +109,7 @@ const logic = {
                 const { name } = response
 
                 if (name) return response
-                throw Error(reponse.error)
+                throw Error(response.error)
             })
     },
 

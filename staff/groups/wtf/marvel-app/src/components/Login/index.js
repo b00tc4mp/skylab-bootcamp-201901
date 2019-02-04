@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import { withRouter, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import Feedback from '../Feedback'
 
 class Login extends Component {
@@ -13,17 +13,16 @@ class Login extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault()
+        debugger;
 
         const { state: { email, password}, props: { onLogin } } = this
 
         onLogin(email, password)
     }
-
-    handleOnRegistration = () => this.props.history.push('/register')
     
     render() {
 
-        const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleOnRegistration, props: {feedback} } = this
+        const { handleEmailInput, handlePasswordInput, handleFormSubmit, props: {feedback} } = this
         
         return <section className="login container" >
         <div className="columns is-mobile is-centered">
@@ -53,7 +52,7 @@ class Login extends Component {
                         </div>
                         <div className="field is-grouped btn_grp">
                             <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Log in</button></p>
-                            <p className="control"><button onClick={handleOnRegistration} className="button is-inverted is-outlined is-danger is-small is-rounded">Sign Up</button></p>
+                            <p className="control"><Link to='/' className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</Link></p>
                         </div>
                     </form>
                 </div>
@@ -65,4 +64,4 @@ class Login extends Component {
 
 }
 
-export default withRouter(Login)
+export default Login
