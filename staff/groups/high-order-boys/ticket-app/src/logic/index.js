@@ -79,7 +79,10 @@ const logic = {
             surname,
             email: username
         }))
-        .then(user => userStorage.saveUserToken(user))
+        .then(user => {
+            userStorage.saveUserToken(user)
+            return user
+        })
     },
 
     retrieveEvents(query, startDate, endDate) {
