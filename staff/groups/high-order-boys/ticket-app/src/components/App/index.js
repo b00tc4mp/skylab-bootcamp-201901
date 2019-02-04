@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom'
 import userStorage from '../../localstorage'
 import './index.sass'
 import Login from '../Login'
+import Register from '../Register'
 import Home from '../Home'
 
 
@@ -30,7 +31,6 @@ function PrivateRoute ({component: Component, authed, ...rest}) {
 
 
 class App extends Component {
-
     state = {isAuth: false}
     
     // componentWillMount(){
@@ -43,6 +43,7 @@ class App extends Component {
             < Redirect from="/" to="/home" />
             < PrivateRoute authed={!!userStorage.auth} path='/home' component={Home} />
             < PublicRoute authed={!!userStorage.auth} path='/login' component={Login} />
+            < Route path="/register" component={Register} />
             {/* < Route path="/login" component={Login} /> */}
         </main>
     }
