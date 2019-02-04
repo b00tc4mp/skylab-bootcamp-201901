@@ -1,18 +1,238 @@
 @import './normalize/_normalize.scss'
 @include normalize()
+@import url('https://fonts.googleapis.com/css?family=Lato:400,900|VT323')
+
+$break-medium: 1024px
+$white: #fff
+$red: rgb(192,57,93)
+$green: rgb(39,174,96)
+$seccondGreen: #2ea060
+
+html
+    font-size: 10px
+    height: 100%
+    width: 100%
+    
+body
+    height: 100%
+    width: 100%
+    font-size: 1.5rem
+    font-family: 'Lato', sans-serif
+    font-weight: normal
 
 main
-    background-color: LightSkyBlue
+    height: 100%
+    @media screen and (min-width: $break-medium)
+        display: grid
+        grid-template-columns: 21.5rem auto
 
-.logo
-    background-color: Khaki
+.sidebar
+    display: none
+    background-color: #F4F4F4
+    @media screen and (min-width: $break-medium)
+        display: block
+        height: 100vh
+        overflow: auto
+    &__scrolling-content
+        height: 100%
+    &__fixed-logo
+        background-image: linear-gradient(to top, rgba(244, 244, 244, 0), rgba(244, 244, 244, 0.9) 15%)
+        height: 6rem
+        display: flex
+        justify-content: center
+        position: sticky
+        z-index: 10
+        top: 0px
+        align-items: center
+        
+.wrapper
+    min-height: 100%
+    display: grid
+    grid-template-rows: 6rem 1fr 5rem
+    grid-template-columns: 100%
+
+.container
+    display: grid
 
 .content
-    background-color: LightGreen
+    padding: 0 1.5rem
 
-header
-    background-color: MediumSeaGreen
+.header
+    background-color: $green
+    display: flex
+    align-items: center
+    z-index: 3
+    top: 0px
+    position: sticky
+    justify-content: space-between
+    padding: 0px 10px
+    &--desktop
+        display: none
+    @media screen and (min-width: $break-medium)
+        &--mobile
+            display: none
+        &--desktop
+            display: flex
+    &__button
+        cursor: pointer
+        background: none
+        border: 0
+        color: $white
+        font-size: 1.9rem
 
-footer
-    background-color: gray
-    
+.logo
+    display: grid
+    grid-template-columns: auto auto
+    align-items: center
+    font-family: 'VT323', monospace
+    color: #fff
+    text-decoration: none
+    font-size: 2.5rem
+    &--black
+        color: #000
+    &__image
+        max-width: 35px
+        margin-right: 10px
+
+.search
+    display: flex
+    flex: 1 1 0%
+    padding: 0px 0px 0px 1.5rem
+    align-items: center
+    color: rgba(255, 255, 255, 0.4)
+    &__input
+        outline: none
+        background-color: $green
+        color: $white
+        font-size: 1.8rem
+        text-overflow: ellipsis
+        width: 100%
+        border: 0
+        padding: 15px
+        &::placeholder
+            color: rgba(255, 255, 255, 0.4)
+
+.menu
+    padding: 2rem 0px
+    &__title
+        font-size: 1.5rem
+        text-transform: uppercase
+        margin: 0px 0px 0.8rem 0px
+        padding: 0px 20px 10px 20px
+        color: #434343
+        font-weight: 900
+    &__list
+        margin: 0px
+        padding: 0px
+        list-style: none
+    &__link
+        position: relative
+        display: flex
+        color: #222
+        opacity: 0.8
+        text-decoration: none
+        align-items: center
+        font-size: 1.3rem
+        font-weight: 900
+        padding: 10px 20px
+        &:hover,
+        &--selected
+            background-color: $green
+            color: rgba(255, 255, 255, 0.8)
+            &::before
+                content: ''
+                display: block
+                background: $seccondGreen
+                width: 5px
+                height: 100%
+                position: absolute
+                right: 0px
+        & i
+            font-size: 1.5rem
+            margin-right: 24px
+
+.search-overlay
+    position: fixed
+    top: 0px
+    left: 0px
+    height: 100%
+    z-index: 900
+    background: rgba(27, 29, 30, 0.5)
+    &__search
+        position: fixed
+        z-index: 20
+        transition: transform 0.25s ease-out 0s
+        width: 100%
+        height: 6rem
+        display: flex
+        transform: translateY(-100%)
+    &__form
+        background-color: rgb(255, 255, 255)
+        display: flex
+        flex: 1 1 0%
+    &__input
+        outline: none
+        background-color: $white
+        font-size: 1.8rem
+        text-overflow: ellipsis
+        width: 100%
+        border: 0
+        padding: 15px
+        &::placeholder
+            color: rgba(0, 0, 0, 0.2)
+    &__button
+        outline: none
+        color: rgba(0, 0, 0, 0.2)
+        background: none
+        border: 0
+        width: 10rem
+
+.footer
+    display: flex
+    color: rgb(162, 164, 167)
+    text-align: center
+    font-size: 1.2rem
+    align-items: center
+    justify-content: space-around
+    &__icon
+        color: $red
+    &__link
+        text-decoration: none
+        color: rgb(56, 59, 62)
+        &:hover
+            text-decoration: underline
+
+.results
+    padding-top: 40px
+    padding-bottom: 40px
+    // display: grid
+    // grid-template-columns: repeat(12, 1fr)
+    // grid-column-gap: 1rem
+    // grid-row-gap: 1rem
+    // gap: 1.5rem
+    display: grid
+    grid-gap: 15px
+    grid-template-columns: repeat(auto-fill, minmax(240px,1fr))
+
+.card
+    grid-row-end: span 2
+    // grid-column: span 12
+    // @media screen and (min-width: 492px)
+    //     grid-column: span 6
+    // @media screen and (min-width: 768px)
+    //     grid-column: span 4
+    // @media screen and (min-width: 1200px)
+    //     grid-column: span 3
+    &__image
+        max-width: 100%
+        border-radius: 10px
+    &__title
+        margin: 10px 0px
+        &-link
+            color: #000000
+            text-decoration: none
+    &__platform
+        margin: 0px
+        font-size: 1.2rem
+        color: #cecece
+        font-weight: 400
