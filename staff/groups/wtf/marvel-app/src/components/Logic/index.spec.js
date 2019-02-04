@@ -1,7 +1,9 @@
 "use strict";
 
-import logic from ".";
+import logic from "."
+
 describe("logic testing", () => {
+
   describe("register", () => {
     let name = "Manuel";
     let surname = "Barzi";
@@ -141,13 +143,11 @@ describe("logic testing", () => {
           expect(user.id).toBe(logic.__userId__);
           expect(user.name).toBe(name);
           expect(user.surname).toBe(surname);
-          expect(user.email).toBe(email);
+          expect(user.username).toBe(email);
         }));
 
     it("should fail with wrong token", () => {
-
-        logic
-          .retrieveUser(logic.__userId__, "wrong token")
+        return logic.retrieveUser(logic.__userId__, "wrong token")
           .then(() => {
             throw Error("should not have passed by here");
           })
@@ -158,7 +158,7 @@ describe("logic testing", () => {
     });
 
     it("should fail with wrong id", () => {
-        logic
+        return logic
           .retrieveUser("wrongId", logic.__userApiToken__)
           .then(() => {
             throw Error("should not have passed by here");
@@ -166,7 +166,7 @@ describe("logic testing", () => {
           .catch(error => {
             expect(error).toBeDefined();
             expect(error.message).toBe(
-              `token id \"${logic.__userId__}\" does not match user \\"wrong id\"`);
+              `token id \"${logic.__userId__}\" does not match user \"wrongId\"`);
           })
     });
 
@@ -221,7 +221,7 @@ describe("logic testing", () => {
     });
 
     it("should fail on returning 0 characters", () => {
-      logic
+      return logic
         .searchCharacter("12312313123")
         .then(() => {
           throw Error("should not pass by here");
@@ -261,7 +261,7 @@ describe("logic testing", () => {
     });
 
     it("should fail on missmatching characterId", () => {
-      logic
+      return logic
         .retrieveCharacter("12312313123")
         .then(() => {
           throw Error("should not pass by here");
