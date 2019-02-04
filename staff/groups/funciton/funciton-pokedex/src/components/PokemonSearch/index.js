@@ -38,10 +38,10 @@ class PokemonSearch extends Component {
 
     
     return (
-      <div>
+      <div className='searchPanel'>
         {/* <img src={titleImage} alt="poke_title"></img> */}
         <h2 className='title__search'>Search Pokemon</h2>
-        <div>
+        
           <input className="input__searchPokemon"
             onChange={this.handleChange}
             type="text"
@@ -54,7 +54,7 @@ class PokemonSearch extends Component {
           {
             this.props.searchText !== "" && this.renderList()
           }
-        </div>
+
       </div>
     );
   }

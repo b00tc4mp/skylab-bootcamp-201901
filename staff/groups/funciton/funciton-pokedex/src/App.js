@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import PokemonSearch from "./components/PokemonSearch";
 import DetailedPokemonPanel from "./components/DetailPanel"
+import MainPanel from "./components/mainPanel"
 import logic from "./logic";
 
 class App extends Component {
@@ -17,13 +18,13 @@ class App extends Component {
 
   onBackButtonDetailedPokemon = () => {
 
-    this.setState({ pokemonVisible: null, searchText:this.state.searchText })
+    this.setState({ pokemonVisible: null, searchText: this.state.searchText })
 
   }
 
   setSearchTextApp = (query) => {
 
-    this.setState({ searchText:query })
+    this.setState({ searchText: query })
 
   }
 
@@ -37,6 +38,7 @@ class App extends Component {
 
     return (
       <div className="App">
+      <MainPanel></MainPanel>
         {!pokemonVisible && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
         {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}
       </div>
