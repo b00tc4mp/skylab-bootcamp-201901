@@ -1,5 +1,7 @@
 'use strict'
 
+//#region IMPORTS
+
 import React, { Component } from 'react'
 import Register from '../Register'
 import logic from '../../logic';
@@ -8,9 +10,19 @@ import Header from '../Header';
 import Login from '../Login'
 import VideoResults from '../VideoResults'
 import { withRouter, Route } from 'react-router-dom'
+import Video from '../Video'
+
+//#endregion
 
 class App extends Component {
-    state = { email: '' }
+
+    //#region STATES
+
+    state = { email: '', videoId: '' }
+
+    //#endregion
+
+    //#region HANDLES
 
     handleRegister = (name, surname, email, password, passswordConfirmation) => {
         try {
@@ -49,22 +61,36 @@ class App extends Component {
 
     isLoginOrRegister = () => {
         const pathname = this.props.location.pathname
-        return ( 
+        return (
             pathname.includes('login') || pathname.includes('register')
         )
     }
 
+    handleSelectVideo = id => {
+
+        this.setState({videoId: id}, () => 
+            this.props.history.push(`/watch/${id}`)
+        )
+    }
+
+    //#endregion
+
+    //#region RENDER
+
     render() {
-        const {pathname} = this.props.location; 
+        const { pathname } = this.props.location;
         console.log(pathname)
-        const { handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton } = this
+        const { handleSelectVideo, handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton, state:{videoId} } = this
         return <section>
             {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} />}
-            <Route path="/search/:query" render={props => <VideoResults query={props.match.params.query} />} />
+            <Route path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
+            <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} />} />
             <Route path="/login/" render={() => <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />} />
             <Route path="/register/" render={() => <Register onRegister={handleRegister} />} />
         </section>
     }
+
+    //#endregion
 }
 
 export default withRouter(App)

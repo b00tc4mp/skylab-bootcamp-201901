@@ -35,12 +35,12 @@ class VideoRasults extends Component {
         }
     }
 
-    // onVideoSelected = id => {
+    onVideoSelected = id => {
 
-    //     const {props : { selectVideo }}
+        const {props : { selectVideo }} = this
 
-    //     selectVideo(id)
-    // }
+        selectVideo(id)
+    }
 
 
     render() {
