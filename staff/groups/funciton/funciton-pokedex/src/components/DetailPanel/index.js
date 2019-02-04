@@ -4,14 +4,29 @@ import './index.sass'
 
 class DetailedPokemonPanel extends Component {
 
+    renderHeldItems = () => {
+        const { props: { pokemonToShow: { held_items } } } = this
+
+
+        return <ul>
+            <h3>HELD ITEMS</h3>
+            {held_items.map(item => <li>{item.item.name}</li>)}
+        </ul>
+
+    }
+
+    onBackButtonClicked = ()=> {
+        this.props.onBackButton()
+    }
+
     render() {
 
-        const { props: {pokemonToShow :{name, stats, abilities, moves, types,held_items,heigth,weight,id }}} = this
+        const { props: { pokemonToShow: { name, stats, abilities, moves, types, held_items, heigth, weight, id } },onBackButtonClicked} = this
         let source = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-        console.log(name)
         return <section>
-            
-            <h2>{name}</h2>
+
+            <button onClick={onBackButtonClicked}>BACK</button>
+            <h2>{name.toUpperCase()}</h2>
             <img src={source}></img>
             <p>Height: <span>{heigth}</span></p>
             <p>weight: <span>{weight}</span></p>
@@ -30,46 +45,23 @@ class DetailedPokemonPanel extends Component {
                 <h3>ABILITIES</h3>
 
                 {abilities.map(ability => <li>{ability.ability.name}</li>)}
-                
+
 
             </ul>
 
             <ul>
                 <h3>MOVES</h3>
-                {moves.map(move =><li>{move.move.name}</li>)}
+                {moves.map(move => <li>{move.move.name}</li>)}
 
             </ul>
 
             <ul>
-            {types.map(type =><li>{type.type.name}</li>)}
+                <h3>TYPES</h3>
+                {types.map(type => <li>{type.type.name}</li>)}
             </ul>
 
-            <ul>
-                <h3>HELD ITEMS</h3>
-                {held_items.map(item => <li>{item.item.name}</li>)}
+            {held_items.length>0 && this.renderHeldItems()}
 
-            </ul>
-
-            <div className="tab-content">
-                <div className="tab-pane fade show active" id="home" role="tabpanel">...</div>
-                <div className="tab-pane fade" id="profile" role="tabpanel">...</div>
-                <div className="tab-pane fade" id="messages" role="tabpanel">...</div>
-                <div className="tab-pane fade" id="settings" role="tabpanel">...</div>
-            </div>
-
-            <div className="list-group" id="myList" role="tablist">
-            <a className="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Home</a>
-            <a className="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Profile</a>
-            <a className="list-group-item list-group-item-action" data-toggle="list" href="#messages" role="tab">Messages</a>
-            <a className="list-group-item list-group-item-action" data-toggle="list" href="#settings" role="tab">Settings</a>
-            </div>
-
-            <div className="tab-content">
-            <div className="tab-pane active" id="home" role="tabpanel">...</div>
-            <div className="tab-pane" id="profile" role="tabpanel">...</div>
-            <div className="tab-pane" id="messages" role="tabpanel">...</div>
-            <div className="tab-pane" id="settings" role="tabpanel">...</div>
-            </div>
 
         </section>
 
