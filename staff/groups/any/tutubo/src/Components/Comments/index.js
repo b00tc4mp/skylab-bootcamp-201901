@@ -12,8 +12,10 @@ class Comments extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
+        
         const { state: { text }, props: { onComment } } = this
-
+        
+        console.log(text)
         onComment(text)
     }
 
@@ -27,12 +29,15 @@ class Comments extends Component {
 
     render() {
         const { handleFormSubmit, handleTextInput, handleCommentDeletion, props: { commentsList } } = this
+        console.log(commentsList)
         return <section>
             <h3>Comments:</h3>
-            <form onSubmit={handleFormSubmit} id="commentForm"></form>
-            <textarea form="commentForm" rows="5" cols="50" onChange={handleTextInput}>add a public comment...</textarea>
+            <form onSubmit={handleFormSubmit} id="commentForm">
+                <button>Send</button>
+            </form>
+            <textarea form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..."></textarea>
             <div>
-                {
+                {/* {
                     commentsList.map(comment => {
                         return <div>
                             <p>{comment.text}</p>
@@ -40,7 +45,7 @@ class Comments extends Component {
                             <button onClick={handleCommentDeletion}>X</button>
                         </div>
                     })
-                }
+                } */}
             </div>
         </section>
     }
