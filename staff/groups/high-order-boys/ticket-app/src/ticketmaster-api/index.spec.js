@@ -37,7 +37,7 @@ describe('ticketmaster-api', () => {
                 ticketmasterApi.searchEvents(query,null,endDateNew)
                     .then(events => {
                         expect(events).toBeDefined()
-                        expect(events[0].name).toBe('  Shawn Mendes: The Tour')
+                        expect(events[0].name).toBe('Ozzy Osbourne \'No More Tours 2\' - MEET & GREET')
                     })
         )
 
