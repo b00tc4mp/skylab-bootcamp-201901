@@ -8,7 +8,7 @@ class Register extends Component {
 
     handleNameInput = event => this.setState({ name: event.target.value })
 
-    handleSurnameinput = event => this.setState({ surname: event.target.value })
+    handleSurnameInput = event => this.setState({ surname: event.target.value })
 
     handleEmailInput = event => this.setState({ email: event.target.value })
 
