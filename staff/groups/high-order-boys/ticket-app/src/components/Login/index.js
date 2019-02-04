@@ -4,8 +4,6 @@ import React, { Component } from 'react'
 import Feedback from '../Feedback'
 import logic from '../../logic'
 import userStorage from '../../localstorage'
-import Header from '../Header/index'
-import Footer from '../Footer/index'
 
 class Login extends Component {
     state = { loginFeedback: null, user: { email: '' }, email: '', password: '' }
@@ -39,9 +37,7 @@ class Login extends Component {
         const { handleFormSubmit, handleInput, state: { loginFeedback } } = this
 
         return <section className="login">
-            <header>
-                <Header />
-            </header>
+
             <h2>Login</h2>
             <form onSubmit={handleFormSubmit}>
                 <input type="text" name="email" onChange={handleInput} />
@@ -49,12 +45,8 @@ class Login extends Component {
                 <button>Login</button>
             </form>
             {loginFeedback && <Feedback message={loginFeedback} />}
-            <footer>
-                <Footer />
-            </footer>
+
         </section>
-
-
     }
 }
 

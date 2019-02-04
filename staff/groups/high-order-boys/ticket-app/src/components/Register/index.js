@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import logic from '../../logic/'
 import Feedback from '../Feedback/'
-import Header from '../Header/index'
-import Footer from '../Footer/index'
 
 class Register extends Component {
 
@@ -30,14 +28,14 @@ class Register extends Component {
     }
 
 
+
     render() {
 
         const { handleInput, state: { registerFeedback } } = this
 
+
         return <section>
-            <header>
-                <Header />
-            </header>
+
 
             <form onSubmit={this.onSubmitClick}>
 
@@ -69,9 +67,6 @@ class Register extends Component {
             </div>
 
             {registerFeedback && < Feedback message={registerFeedback} />}
-            <footer>
-                <Footer />
-            </footer>
         </section>
     }
 }
