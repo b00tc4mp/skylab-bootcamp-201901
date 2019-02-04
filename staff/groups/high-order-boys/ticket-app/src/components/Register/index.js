@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import logic from '../../logic/'
+import Feedback from '../Feedback/'
 
 class Register extends Component {
 
-    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '' }
+    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '', registerFeedback: null}
 
     handleInput = event => this.setState({ [event.target.name]: event.target.value })
 
@@ -13,14 +14,23 @@ class Register extends Component {
 
         const { state: { name, surname, email, password, passwordConfirmation } } = this
 
-        logic.registerUser(name, surname, email, password, passwordConfirmation)
+        this.handleRegister(name, surname, email, password, passwordConfirmation)
     }
 
+
+    handleRegister = (name, surname, email, password, passwordConfirmation) => {
+        try {
+            logic.registerUser(name, surname, email, password, passwordConfirmation)
+                .catch(({message}) => this.setState({registerFeedback: message}))
+        } catch ({message}) {
+            this.setState({registerFeedback: message})
+        }
+    }
 
 
     render() {
 
-        const { handleInput } = this
+        const { handleInput, state: {registerFeedback} } = this
 
         return <section>
             <form onSubmit={this.onSubmitClick}>
@@ -49,6 +59,8 @@ class Register extends Component {
             <div>
                 <button> <Link to="/Login/"> To Login</Link></button>
             </div>
+
+            {registerFeedback && < Feedback message={registerFeedback} />}
         </section>
     }
 }
