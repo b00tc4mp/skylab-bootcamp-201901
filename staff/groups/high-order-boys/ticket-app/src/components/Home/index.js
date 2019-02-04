@@ -2,11 +2,8 @@ import React, { Component } from 'react'
 import Search from '../Search'
 import { Link } from 'react-router-dom'
 
-class Home extends Component {
 
-    componentDidMount(){
-        console.log('holaa')
-    }
+class Home extends Component {
 
     render(){
         return<div>
