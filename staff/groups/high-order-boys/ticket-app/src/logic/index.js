@@ -80,13 +80,13 @@ const logic = {
             }))
     },
 
-    retrieveEvents(query,startDate,endDate) {
-        if(typeof query !== 'string') throw TypeError (`${query} instroduced is not a string`)
+    retrieveEvents(query, startDate, endDate) {
+        if (typeof query !== 'string') throw TypeError(`${query} instroduced is not a string`)
         if (!query.trim().length) throw Error(`query is empty`)
 
 
-        if(startDate != null && typeof startDate !== 'string') throw TypeError (`${startDate} instroduced is not a string`)
-        if(endDate != null && typeof endDate !== 'string') throw TypeError (`${endDate} instroduced is not a string`)
+        if (startDate != null && typeof startDate !== 'string') throw TypeError(`${startDate} instroduced is not a string`)
+        if (endDate != null && typeof endDate !== 'string') throw TypeError(`${endDate} instroduced is not a string`)
 
     }
 }
