@@ -19,8 +19,9 @@ const logic = {
     * 
     * @throws {TypeError} - If any param is not a string.
     * @throws {Error} - If any param is empty.
+    * @throws {Error} - If password and password confirmation do not match.
     * 
-    * @returns {Object} - With user info.
+    * @returns {String} - User Id.
     */
 
    register(name, surname, email, password, passwordConfirm) {
@@ -56,8 +57,10 @@ const logic = {
      * @param {string} email 
      * @param {string} password 
      * 
-     * @throws {TypeError} - if any param is not a string.
-     * @throws {Error} - if any param is empty.
+     * @throws {TypeError} - If any param is not a string.
+     * @throws {Error} - If any param is empty.
+     * 
+     * @returns {Object} - Contains user Id and Token.
      */
     login(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
@@ -69,19 +72,28 @@ const logic = {
         if (!password.trim().length) throw Error('password is empty')
 
         return userApi.authenticate(email, password)
-            .then(({ id, token }) => {
-                this.__userId__ = id
-                this.__userApiToken__ = token
+            .then(response => {
+                const { data: {id, token}, status } = response
+
+                if (status === 'OK') {
+                    this.__userId__ = id
+                    this.__userApiToken__ = token
+                    return true
+                }
+                throw Error(response.error)
             })
     },
 
     /**
-     * retrieve user data.
+     * Retrieve user data.
      * 
+     * @param {string} id
+     * @param {string} token
      * 
-     * @param {string} __userId__
-     * @param {string} __userApiToken__
+     * @throws {TypeError} - If any param is not a string.
+     * @throws {Error} - If any param is empty.
      * 
+     * @returns {Object} - With all user info.
      */
 
     retrieveUser(id, token) {
@@ -92,13 +104,13 @@ const logic = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(({ id, name, surname, username }) => ({
-                id,
-                name,
-                surname,
-                email: username
-            }))
+        return userApi.retrieve(id, token)
+            .then(response => {
+                const { name } = response
+
+                if (name) return response
+                throw Error(reponse.error)
+            })
     },
 
     /**
