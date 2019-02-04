@@ -20,17 +20,14 @@ describe('ombd-api' , () => {
                 }) 
         })
     
-
         it ('should fail on empty query', () => {
             const query = ''
             expect(() => omdbApi.searchItems(query).toThrowError('query is empty'))
         })
     })
 
-
     // DUDA: cómo manejar estas mayúcuslas?
     // tenemos que convertir las keys del objeto a toLowerCase()
-
     describe('retrieveItem', () => {
         
         // expected object - test some fields
@@ -43,7 +40,8 @@ describe('ombd-api' , () => {
         }
         const itemId = expectedResult.imdbID
 
-        it('should retrieve a movie or serie item object with valid id', () => { //DUDA: xq hace un return aquí?
+        //DUDA: xq hace un return aquí?
+        it('should retrieve a movie or serie item object with valid id', () => { 
             return omdbApi.retrieveItem(itemId)
                     .then(({ Title, Actors, Runtime, imdbID, imdbRating }) => {
                         expect(Title).toBe(expectedResult.Title)
@@ -57,7 +55,7 @@ describe('ombd-api' , () => {
         // DUDA: qué es lo que hace el try catch aquí? el expect o el it?
         it('should fail on empty itemID', () => {
             const itemId = ''
-            expect(() => omdbApi.retrieveItem(itemId).toThrowError('itemId is empty'))
+            expect(() => omdbApi.retrieveItem(itemId)).toThrowError('itemId is empty')
         })
 
         it('should fail on wrong itemID parameter', () => {
