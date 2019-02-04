@@ -2,10 +2,10 @@
 
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
-// import Feedback from '../Feedback'
+import Feedback from '../Feedback'
 
 class Login extends Component {
-    state = {email: null, password: null}
+    state = {email: null, password: null, feedback: null}
 
     handleEmailInput = event => this.setState({email: event.target.value})
 
@@ -13,16 +13,23 @@ class Login extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault()
-        debugger;
 
         const { state: { email, password}, props: { onLogin } } = this
 
         onLogin(email, password)
     }
     
+    handleOnHome = event => {
+        event.preventDefault()
+
+        const { props: {onHome} } = this
+
+        onHome()
+    }
+
     render() {
 
-        const { handleEmailInput, handlePasswordInput, handleFormSubmit, props: {feedback} } = this
+        const { handleOnHome, handleEmailInput, handlePasswordInput, handleFormSubmit, props: {feedback} } = this
         
         return <section className="login container" >
         <div className="columns is-mobile is-centered">
@@ -50,15 +57,18 @@ class Login extends Component {
                                 </span>
                             </p>
                         </div>
+                        <div>
+                        {feedback && <Feedback message={feedback} />}
+                        </div>
                         <div className="field is-grouped btn_grp">
                             <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Log in</button></p>
-                            <p className="control"><Link to='/' className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</Link></p>
+                            <p className="control"><a href='/' onClick={handleOnHome} className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</a></p>
                         </div>
                     </form>
                 </div>
             </div> 
         </div>
-        {/* {feedback && <Feedback message={feedback} />} */}
+       
     </section> 
     }
 
