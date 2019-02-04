@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
 import pokemonApi from "../../apipokemon";
 import './index.sass'
-import titleImage from "../../img/title.png"
+import ItemResult from "../ItemResult";
+
 
 class PokemonSearch extends Component {
   state = { pokemons: [], searchText: "", loading: true };
@@ -24,7 +25,7 @@ class PokemonSearch extends Component {
       {
         this.state.pokemons
           .filter(pokemon => pokemon.name.includes(this.state.searchText))
-          .map(pokemon => <li className='pokemon__list'>{pokemon.name}</li>)
+          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} goToDetails='undefined' />)
       }
     </ul>
 
@@ -33,13 +34,13 @@ class PokemonSearch extends Component {
   render() {
     return (
       <Fragment>
-        <img src={titleImage} alt="poke_title"></img>
+        {/* <img src={titleImage} alt="poke_title"></img> */}
         <h2 className='title__search'>Search Pokemon</h2>
         <div>
           <input className="input__searchPokemon"
             onChange={this.handleChange}
             type="text"
-            placeholder="Search you Pokemon"
+            placeholder="Search your Pokemon by name"
           />
           {
             this.state.loading && <h1>LOADING</h1>
