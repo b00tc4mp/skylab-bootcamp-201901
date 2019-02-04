@@ -10,12 +10,12 @@ import VideoResults from '../VideoResults'
 import { withRouter, Route } from 'react-router-dom'
 
 class App extends Component {
-    state = { registerVisual: false, loginVisual: false }
+    state = { email: '' }
 
     handleRegister = (name, surname, email, password, passswordConfirmation) => {
         try {
             logic.registerUser(name, surname, email, password, passswordConfirmation)
-                .then(() => this.setState({ registerVisual: false, loginVisual: true }))
+                .then(() => this.props.history.push('/login/'))
                 .catch(/* set state of feedback message */)
         } catch {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
@@ -25,7 +25,10 @@ class App extends Component {
     handleLogin = (email, password) => {
         try {
             logic.loginUser(email, password)
-                .then(() => this.setState({ loginVisual: false, homeVisual: true }))
+                .then(user => {
+                    this.setState({ user })
+                    this.props.history.push('/')
+                })
                 .catch(/* set state of feedback message */)
         } catch {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
@@ -33,22 +36,33 @@ class App extends Component {
     }
 
     handleGoToRegister = () => {
-        this.setState({ registerVisual: true })
+        this.props.history.push('/register/')
     }
 
     handleSearch = query => {
         this.props.history.push(`/search/${query}`)
     }
 
-    handleLoginButton = () => this.setState({ loginVisual: true })
+    handleLoginButton = () => {
+        this.props.history.push('/login/')
+    }
+
+    isLoginOrRegister = () => {
+        const pathname = this.props.location.pathname
+        return ( 
+            pathname.includes('login') || pathname.includes('register')
+        )
+    }
 
     render() {
-        const { state: { registerVisual, loginVisual }, handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton } = this
+        const {pathname} = this.props.location; 
+        console.log(pathname)
+        const { handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton } = this
         return <section>
-            <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} />
+            {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} />}
             <Route path="/search/:query" render={props => <VideoResults query={props.match.params.query} />} />
-            {loginVisual && <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />}
-            {registerVisual && <Register onRegister={handleRegister} />}
+            <Route path="/login/" render={() => <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />} />
+            <Route path="/register/" render={() => <Register onRegister={handleRegister} />} />
         </section>
     }
 }
