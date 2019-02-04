@@ -18,7 +18,7 @@ const pokemonApi = {
    */
 
   searchAllPokemons() {
-    const searchCriteria = "pokemon/?limit=1000";
+    const searchCriteria = "pokemon/?limit=151";
     return fetch(`${this.apiURL}${searchCriteria}`, {})
       .then(res => {
         if (res == null) throw Error("This pokemon does not exist");
@@ -39,15 +39,20 @@ const pokemonApi = {
         if (res == null) throw Error('This pokemon does not exist')
         return res.json()
       })
-      .then(res => {
+      // .then(res => {
+      //   // const name = res.forms[0].name
+      //   // const image = res.sprites.front_default
+      //   // const types = res.types
+      //   // const stats = res.stats
+      //   // const abilities = res.abilities
+      //   // const moves = res.moves
+      //   // const helditems = res.held_items
+      //   // const height = res.height
+      //   // const weight = res.weight
+      //   // const result = { name, image, types, stats, abilities, moves, helditems, height, weight }
 
-        const name = res.forms[0].name
-        const image = res.sprites.front_default
-        const types = res.types.map(type => type.type.name)
-        const result = { name, image, types }
-
-        return result
-      })
+      //   // return result
+      // })
   },
 
   searchPokemonsByType(query) {
