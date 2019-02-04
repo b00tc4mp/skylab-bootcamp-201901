@@ -5,32 +5,21 @@ import Feedback from '../Feedback/'
 
 class Register extends Component {
 
-    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '', registerFeedback: null}
+    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: ''}
 
     handleInput = event => this.setState({ [event.target.name]: event.target.value })
 
     onSubmitClick = event => {
         event.preventDefault()
 
-        const { state: { name, surname, email, password, passwordConfirmation } } = this
+        const { state: { name, surname, email, password, passwordConfirmation }, props:{onRegister} } = this
 
-        this.handleRegister(name, surname, email, password, passwordConfirmation)
+        onRegister(name, surname, email, password, passwordConfirmation)
     }
-
-
-    handleRegister = (name, surname, email, password, passwordConfirmation) => {
-        try {
-            logic.registerUser(name, surname, email, password, passwordConfirmation)
-                .catch(({message}) => this.setState({registerFeedback: message}))
-        } catch ({message}) {
-            this.setState({registerFeedback: message})
-        }
-    }
-
 
     render() {
 
-        const { handleInput, state: {registerFeedback} } = this
+        const { handleInput, props: {registerFeedback} } = this
 
         return <section>
             <form onSubmit={this.onSubmitClick}>
