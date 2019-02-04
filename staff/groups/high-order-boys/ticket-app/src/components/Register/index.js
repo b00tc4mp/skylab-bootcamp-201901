@@ -57,7 +57,7 @@ class Register extends Component {
                 <button type="submit"><strong>Register </strong></button>
             </form>
             <div>
-                <button> <Link to="/Login/"> To Login</Link></button>
+                <button> <Link to="/login"> To Login</Link></button>
             </div>
 
             {registerFeedback && < Feedback message={registerFeedback} />}

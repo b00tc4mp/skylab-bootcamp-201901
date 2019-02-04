@@ -1,9 +1,9 @@
 'use strict'
 
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import Feedback from '../Feedback'
 import logic from '../../logic'
-import userStorage from '../../localstorage'
 
 class Login extends Component {
     state = { loginFeedback: null, user: { email: '' }, email: '', password: ''}
@@ -42,6 +42,9 @@ class Login extends Component {
                 <input type="password" name="password" onChange={handleInput} />
                 <button>Login</button> 
             </form>
+            <div>
+                <button> <Link to="/register"> To Register</Link></button>
+            </div>
             {loginFeedback && <Feedback message={loginFeedback} />}
         </section>
     }
