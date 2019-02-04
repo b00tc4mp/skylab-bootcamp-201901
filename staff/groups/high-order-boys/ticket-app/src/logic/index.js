@@ -1,5 +1,6 @@
 'use strict'
 import userApi from '../user-api'
+import userStorage from '../localstorage'
 
 /**
  * Abstraction of business logic.
@@ -64,6 +65,7 @@ const logic = {
                 this.__userId__ = data.id
                 this.__userApiToken__ = data.token
 
+                userStorage.saveUserToken(data)
                 return data
             })
     },

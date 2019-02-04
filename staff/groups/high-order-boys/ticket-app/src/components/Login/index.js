@@ -2,34 +2,47 @@
 
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
+import logic from '../../logic'
+import userStorage from '../../localstorage'
 
 class Login extends Component {
-    state = { email: '', password: ''}
+    state = { loginFeedback: null, user: { email: '' }, email: '', password: ''}
 
-    handleEmailInput = event => this.setState({ email: event.target.value })
-    handlePasswordInput = event => this.setState({ password: event.target.value })
+    handleLogin = (email,password) => {
+        try {
+            logic.loginUser(email,password)
+                .then(user => {
+                    this.setState({user})
+                })
+                .catch(({ message }) => this.setState({ loginFeedback: message }))
+        } catch ({message})  {
+                this.setState({loginFeedback: message})
+            }
+        }
+
+    handleInput = event => this.setState({ [event.target.name]: event.target.value })
     
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { email, password }, props: { onLogin } } = this
+        const { state: { email, password },handleLogin } = this
 
-        onLogin(email,password)
+        handleLogin(email,password)
     }
     
     
 
     render() {
-        const {handleFormSubmit, handleEmailInput, handlePasswordInput, props: { feedback }} = this
+        const {handleFormSubmit, handleInput, state: {loginFeedback}} = this
 
         return <section className="login">
             <h2>Login</h2>
             <form onSubmit={handleFormSubmit}>
-                <input type="text" name="email" onChange={handleEmailInput} />
-                <input type="password" name="password" onChange={handlePasswordInput} />
+                <input type="text" name="email" onChange={handleInput} />
+                <input type="password" name="password" onChange={handleInput} />
                 <button>Login</button> 
             </form>
-            {feedback && <Feedback message={feedback} />}
+            {loginFeedback && <Feedback message={loginFeedback} />}
         </section>
     }
 }
