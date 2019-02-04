@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { HashRouter } from 'react-router-dom'
 import Search from '../Search'
 import logic from '../../logic'
 import Results from '../Results'
@@ -19,6 +20,7 @@ class Home extends Component {
         return (
             <section className="home">
                 <Search onSearch={handleSearch} />
+
                 <Results results={videos}/>
             </section >
         )

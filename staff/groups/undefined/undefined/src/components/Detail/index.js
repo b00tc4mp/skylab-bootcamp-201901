@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 class Detail extends Component {
 
     render() {
-        const {Title, Year, Rated, Runtime, Plot, Genre, Actors, Poster} = this.props.detail
+        const {Title, Year, Rated, Runtime, Plot, Genre, Actors, Poster, returnVideos} = this.props.detail
         return (
             <section className="detail">
-                <button>X</button>
+                <button onClick={() =>returnVideos}>X</button>
                 <h3>{Title}</h3>
                 <p className="detail__year">{Year}</p>
                 <p className="detail__rated">{Rated}</p>

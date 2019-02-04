@@ -17,6 +17,10 @@ class Results extends Component  {
         console.log('Desde Results', id)
     }
 
+    returnVideos =() => {
+        this.setState({videoSelected: null})
+    }
+
     render() {
         const {
             props : {results}, 
@@ -36,7 +40,7 @@ class Results extends Component  {
                     /> 
                 )}
 
-                {videoSelected && <Detail detail={videoSelected} />}
+                {videoSelected && <Detail detail={videoSelected} returnVideos={videoSelected}/>}
 
             </section>
         )
