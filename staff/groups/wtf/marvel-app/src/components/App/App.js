@@ -1,34 +1,47 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { BrowserRouter, Route } from 'react-router-dom'
+import Login from '../Login'
+import Register from '../Register'
+import Landing from '../Landing'
+// import Home from '../Home'
 
-import md5 from 'blueimp-md5'
+
 
 class App extends Component {
+
+  state = {modalVisible: false, loginFeedback: null, registrationFeedback: null, userName: null, userEmail: null}
+
+  // handleLogin = (email, password) =>{
+  //   try {
+  //       logic.login(email, password)
+  //         .then(user => {
+  //           this.setState({loginFeedback: null, userName : user.name, userEmail: user.username})
+  //         })
+  //       }catch ({message}) {
+  //       this.setState({ loginFeedback: message })
+  //   }
+  // }
+
+  // handleRegistration = (name, surname, email, password, passwordConfirmation) => {
+  //     this.setState ({registrationFeedback: null})
+  //     try {
+  //         logic.register(name, surname, email, password, passwordConfirmation) 
+  //             .then(()=>this.setState({modalVisible: true}))
+  //     } catch ({message}) {
+  //         this.setState ({registrationFeedback: message})
+  //     }
+  // }
+  
   render() {
-    const result = md5('1549043538503d0b972b9b431bd6f772c7362015aac526ece63f18a010e4a3f405325dcf9504e99d7fe96')
-
-    console.log(result)
-
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    return <BrowserRouter>
+      <main>
+        <Route exact path='/' component={Landing}/>
+        <Route path='/login' component={Login}/>
+        <Route path='/register' component={Register}/>
+        {/* <Route path='/home' component={Home}/> */}
+      </main>  
+    </BrowserRouter>
   }
 }
 
-export default App;
+export default App
