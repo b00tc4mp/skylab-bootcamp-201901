@@ -19,21 +19,24 @@ class PokemonSearch extends Component {
     });
   };
 
-  renderList = () => (
-
-    <ul className='pokemon__ul'>
+  renderList = () => {
+    const {props : {onPokemonDetail}} = this
+    
+    return <ul className='pokemon__ul'>
       {
         this.state.pokemons
           .filter(pokemon => pokemon.name.includes(this.state.searchText))
-          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} goToDetails='undefined' />)
+          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} onGoToDetails={onPokemonDetail} />)
       }
     </ul>
 
-  )
+    }
 
   render() {
+
+    
     return (
-      <Fragment>
+      <div>
         {/* <img src={titleImage} alt="poke_title"></img> */}
         <h2 className='title__search'>Search Pokemon</h2>
         <div>
@@ -49,7 +52,7 @@ class PokemonSearch extends Component {
             this.state.searchText !== "" && this.renderList()
           }
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
