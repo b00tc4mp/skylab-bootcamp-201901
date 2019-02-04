@@ -4,7 +4,7 @@ import Comments from '../Comments'
 
 class Video extends Component {
 
-    state = { comment: {}, videoId: '' }
+    state = { comments: {}, videoId: '' }
 
     componentDidMount() {
 
@@ -17,21 +17,22 @@ class Video extends Component {
 
     handleComment = (videoId, text) => {
         try {
+            videoId=this.props.videoId
             logic.commentVideo(videoId, text)
-                .then(() => {})
-                .catch(console.log('bitch shut the fuck up'))
+                .catch(() => console.log('bitch shut the fuck up'))
         } catch {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
         }
     }
 
-    handleShowComments = () => {
+    handleShowComments = videoId => {
         try {
-            logic.showComments()
-                .then(comment => {
-                    this.setState(comment)
+            videoId=this.props.videoId
+            logic.showComments(videoId)
+                .then(comments => {
+                    this.setState(comments)
                 })
-                .catch(console.log('bitch shut the fuck up'))
+                .catch(() => console.log('bitch shut the fuck up'))
         } catch {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
         }
@@ -44,7 +45,7 @@ class Video extends Component {
 
         return <section>
             <iframe title={videoId} src={`https://www.youtube.com/embed/${videoId}`} width="100%" height="800"></iframe>
-            <Comments onComment={handleComment} text={this.setState.text} commentsList={this.state.comment} />
+            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.comments} />
         </section>
     }
 }

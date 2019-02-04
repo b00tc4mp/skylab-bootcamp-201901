@@ -147,26 +147,23 @@ const logic = {
 
     watchVideo() {
         return youtubeApi.watchVideo(this.__videoId__)
-            .then(({ snippet: { publishedAt, /* el channel id no lo ponemos aun porque no se si lo usaremos*/ tittle, description, channelTittle } }) => ({
-                date: publishedAt,
-                tittle,
-                description,
-                channelTittle
-            }))
+          .then(items => ({   //opcion sin destructuring
+            items
+        }))  
     },
 
     commentVideo(videoId, text) {
-        if (typeof videoId === 'string') throw TypeError(videoId + ' is not a string')
+        if (typeof videoId !== 'string') throw TypeError(videoId + ' is not a string')
 
         if(!videoId.trim().length) throw Error('text is empty')
 
-        if (typeof text === 'string') throw TypeError(text + ' is not a string')
+        if (typeof text !== 'string') throw TypeError(text + ' is not a string')
 
         if(!text.trim().length) throw Error('text is empty')
 
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
             .then(user => {
-                const { comments } = user
+                const { comments = {} } = user
 
                 const comment = {
                     text,
@@ -181,16 +178,20 @@ const logic = {
                     comments[videoId] = [comment]
                 }
 
+                console.log(comments)
+
                 return userApi.update(this.__userId__, this.__userApiToken__, { comments })
             })
             .then(() => {})
     },
 
-    showComments() {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(({coments: {comment}}) => ({
-                comment
-            }))
+    showComments(videoId) {
+        return userApi.retrieveAllUsers(this.__userApiToken__)
+            .then((data) => {
+                const myUsers = data.filter(user => !!user.appId)
+                myUsers.forEach(user => console.log(user.comments))
+                console.log(myUsers)
+            })
     },
 
     deleteComments(videoId, text) {
