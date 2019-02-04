@@ -59,7 +59,7 @@ describe('ultra-vgsm api retrieve GAME DATA by GameID', () => {
             expect(() => ultraVGSMApi.retrieveGame(gameId)).toThrowError(`${gameId} should be a number`)
         })
     
-        it('should throw error when gameId is <0', () => {
+        it('should throw error when gameId is <1', () => {
             const gameId = '0'
     
             expect(() => ultraVGSMApi.retrieveGame(gameId)).toThrowError(`${gameId} should be a bigger than 0 number`)
