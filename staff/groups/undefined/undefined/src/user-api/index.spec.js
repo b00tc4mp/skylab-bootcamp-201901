@@ -69,8 +69,8 @@ describe('user api', () => {
         )
         it ('should fail if user is not registered',() =>
             userApi.authenticate('potato', password)
-                .then ( ()=> {
-                throw Error ('should not have passed by here')    
+                .then ( () => {
+                    throw Error ('should not have passed by here')    
                 })
                 .catch(error => {
                     expect(error).toBeDefined()
@@ -296,7 +296,6 @@ describe('user api', () => {
         })
         it('should fail on empty password', () => {
             const password = ''
-            console.log('hello world')
             expect( () => userApi.remove(_id, _token, username, password)).toThrowError('password is empty')    
         })
     })
