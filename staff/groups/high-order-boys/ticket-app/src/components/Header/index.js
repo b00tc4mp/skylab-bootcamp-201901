@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+
+
 
 
 class Header extends Component {
-    render() {
 
-        return <section className="hero is-medium is-primary is-bold">
+
+    render() {
+        return <section className="hero is-small is-primary is-bold">
             <div className="hero-body">
                 <div className="container">
                     <h1 className="title">
@@ -15,13 +19,17 @@ class Header extends Component {
         </h2>
                 </div>
                 <div className="navbar-end">
-                    <a className="navbar-item is-active" name="userInfo">
+                    <a className="navbar-item" name="userInfo">
                         User Info
-            </a>
-                    <a display="none" className="navbar-item" name="logOut">
-                        LogOut
-            </a>
+            </a><div>
+
+                    </div>
+                    <a className="navbar-item" name="logOut">
+                        <Link to="/Login/">Logout</Link>
+                    </a>
+
                 </div>
+
             </div>
         </section>
 
@@ -29,4 +37,4 @@ class Header extends Component {
 
 }
 
-export default Header;
+export default Header
