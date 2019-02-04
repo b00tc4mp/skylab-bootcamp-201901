@@ -1,16 +1,17 @@
 /**
  * ThegamesDB API client.
  *
- * @version 1.0.0
+ * @version 0.1.0
  */
 const thegamesDbApi = {
-    apiKey: '387f91ccf550081f8c890fefc75982c76d309d2b215cfbefd959d520d397c72b',
+    apiKey: 'NO-API-KEY',
 
     url: 'https://api.thegamesdb.net',
 
     proxy: 'https://skylabcoders.herokuapp.com/proxy?url=',
 
     /**
+     * SEARCH GAMES
      *
      * @param {String} query - The text to match on games search.
      * @returns {Promise} - Resolves with games, otherwise rejects with error.
@@ -22,6 +23,8 @@ const thegamesDbApi = {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`);
 
         if (!query.trim().length) throw Error('query is empty');
+
+        if (typeof params !== 'string') throw TypeError(`${params} is not a string`);
 
         let url = new URL(`${this.url}/Games/ByGameName`);
 
@@ -49,7 +52,17 @@ const thegamesDbApi = {
             });
     },
 
-    retrieveGame(gameId) {
+    /**
+     * RETRIEVE GAME DATA BY GAME ID
+     *
+     * @param {String} gameId - The ID to retrieve game data.
+     * @returns {Promise} - Resolves with game profile, otherwise rejects with error.
+     *
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     *
+     */
+    retrieveGame(gameId, fields = '', include = '') {
         if (typeof gameId !== 'string') throw TypeError(`${gameId} is not a string`);
 
         if (!gameId.trim().length) throw Error('gameId is empty');
@@ -60,38 +73,44 @@ const thegamesDbApi = {
 
         if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
 
-        return fetch(
-            `${this.proxy}${this.url}/Games/ByGameID?apikey=${
-                this.apiKey
-            }&id=${gameId}&fields=overview%2Cyoutube&include=boxart%2Cplatform`,
-            {
-                method: 'GET'
-            }
-        )
+        if (typeof fields !== 'string') throw TypeError(`${fields} is not a string`);
+
+        if (typeof include !== 'string') throw TypeError(`${include} is not a string`);
+
+        let url = new URL(`${this.url}/Games/ByGameID`);
+
+        let urlParams = {};
+        urlParams.apikey = this.apiKey;
+        urlParams.id = gameId;
+        urlParams.fields = fields;
+        urlParams.include = include;
+
+        Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
+
+        return fetch(`${this.proxy + url}`)
             .then(response => response.json())
             .then(response => {
-                const status = response.status;
-                if (status) {
-                    if (status === 'Success') {
-                        const count = response.data.count;
-                        if (count !== 0) {
-                            const {
-                                code,
-                                status,
-                                data: { games },
-                                include: { boxart }
-                            } = response;
-                            return response;
-                        }
-                        if (count === 0) throw Error(`${gameId} doesn't exist in database`);
-                    } else {
-                        throw Error(status);
-                    }
-                }
-                throw Error(response.error);
+                const { status, data: { count } = {} } = response;
+
+                if (!status) throw Error(response.error);
+                if (status !== 'Success') throw Error(status);
+                if (count === 0) throw Error(`${gameId} doesn't exist in database`);
+
+                return response;
             });
     },
 
+    /**
+     * RETRIEVE GAME IMAGES BY GAME ID
+     *
+     * @param {String} gameId - The ID to retrieve game images.
+     * @returns {Promise} - Resolves with an object containing game images urls,
+     *                      otherwise rejects with error.
+     *
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     *
+     */
     retrieveImages(gameId) {
         if (typeof gameId !== 'string') throw TypeError(`${gameId} is not a string`);
 
@@ -103,29 +122,140 @@ const thegamesDbApi = {
 
         if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
 
-        return fetch(`${this.proxy}${this.url}/Games/Images?apikey=${this.apiKey}&games_id=${gameId}`, {
-            method: 'GET'
-        })
+        let url = new URL(`${this.url}/Games/Images`);
+
+        let urlParams = {};
+        urlParams.apikey = this.apiKey;
+        urlParams.games_id = gameId;
+
+        Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
+
+        return fetch(`${this.proxy + url}`)
             .then(response => response.json())
             .then(response => {
-                const status = response.status;
-                if (status) {
-                    if (status === 'Success') {
-                        const count = response.data.count;
-                        if (count !== 0) {
-                            const {
-                                code,
-                                status,
-                                data: { base_url, images }
-                            } = response;
-                            return response;
-                        }
-                        if (count === 0) throw Error(`${gameId} doesn't exist in database`);
-                    } else {
-                        throw Error(status);
-                    }
-                }
-                throw Error(response.error);
+                const { status, data: { count } = {} } = response;
+
+                if (!status) throw Error(response.error);
+                if (status !== 'Success') throw Error(status);
+                if (count === 0) throw Error(`${gameId} doesn't exist in database`);
+
+                return response;
+            });
+    },
+
+    /**
+     * RETRIEVE PLATFORM LIST
+     *
+     * @param {String} fields - The fields to get data from
+     * @returns {Promise} - Resolves with platform list, otherwise rejects with error.
+     *
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     *
+     */
+    retrievePlatformList(fields = '') {
+        if (typeof fields !== 'string') throw TypeError(`${fields} is not a string`);
+
+        let url = new URL(`${this.url}/Platforms`);
+
+        let urlParams = {};
+        urlParams.apikey = this.apiKey;
+        urlParams.fields = fields;
+
+        Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
+
+        return fetch(`${this.proxy + url}`)
+            .then(response => response.json())
+            .then(response => {
+                const { status } = response;
+
+                if (!status) throw Error(response.error);
+                if (status !== 'Success') throw Error(status);
+                return response;
+            });
+    },
+
+    /**
+     * RETRIEVE GENRES LIST
+     *
+     * @returns {Promise} - Resolves with genres list, otherwise rejects with error.
+     *
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     *
+     */
+    retrieveGenresList() {
+        let url = new URL(`${this.url}/Genres`);
+
+        let urlParams = {};
+        urlParams.apikey = this.apiKey;
+
+        Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
+
+        return fetch(`${this.proxy + url}`)
+            .then(response => response.json())
+            .then(response => {
+                const { status } = response;
+
+                if (!status) throw Error(response.error);
+                if (status !== 'Success') throw Error(status);
+                return response;
+            });
+    },
+
+    /**
+     * RETRIEVE DEVELOPERS LIST
+     *
+     * @returns {Promise} - Resolves with developers list, otherwise rejects with error.
+     *
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     *
+     */
+    retrieveDevelopersList() {
+        let url = new URL(`${this.url}/Developers`);
+
+        let urlParams = {};
+        urlParams.apikey = this.apiKey;
+
+        Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
+
+        return fetch(`${this.proxy + url}`)
+            .then(response => response.json())
+            .then(response => {
+                const { status } = response;
+
+                if (!status) throw Error(response.error);
+                if (status !== 'Success') throw Error(status);
+                return response;
+            });
+    },
+
+    /**
+     * RETRIEVE PUBLISHERS LIST
+     *
+     * @returns {Promise} - Resolves with publishers list, otherwise rejects with error.
+     *
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     *
+     */
+    retrievePublishersList() {
+        let url = new URL(`${this.url}/Publishers`);
+
+        let urlParams = {};
+        urlParams.apikey = this.apiKey;
+
+        Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
+
+        return fetch(`${this.proxy + url}`)
+            .then(response => response.json())
+            .then(response => {
+                const { status } = response;
+
+                if (!status) throw Error(response.error);
+                if (status !== 'Success') throw Error(status);
+                return response;
             });
     }
 };
