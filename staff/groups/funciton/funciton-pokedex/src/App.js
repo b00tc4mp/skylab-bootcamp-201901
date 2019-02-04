@@ -5,26 +5,40 @@ import DetailedPokemonPanel from "./components/DetailPanel"
 import logic from "./logic";
 
 class App extends Component {
-  state={
-    pokemonVisible: null
+  state = {
+    pokemonVisible: null,
+    searchText: null
   }
-  handlePokemonDetail =  (name) => {
+  handlePokemonDetail = (name) => {
     logic.retrievePokemon(name)
-      .then((pokemonVisible) => this.setState({pokemonVisible}))
-    
+      .then((pokemonVisible) => this.setState({ pokemonVisible }))
+
   }
+
+  onBackButtonDetailedPokemon = () => {
+
+    this.setState({ pokemonVisible: null, searchText:this.state.searchText })
+
+  }
+
+  setSearchTextApp = (query) => {
+
+    this.setState({ searchText:query })
+
+  }
+
   render() {
 
-    const{
-      state: {pokemonVisible}
+    const {
+      state: { pokemonVisible }
     } = this
 
 
 
     return (
       <div className="App">
-        {!pokemonVisible && <PokemonSearch onPokemonDetail = {this.handlePokemonDetail}/>}
-        {pokemonVisible && <DetailedPokemonPanel pokemonToShow = {pokemonVisible} />}
+        {!pokemonVisible && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
+        {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}
       </div>
     );
   }

@@ -4,14 +4,29 @@ import './index.sass'
 
 class DetailedPokemonPanel extends Component {
 
+    renderHeldItems = () => {
+        const { props: { pokemonToShow: { held_items } } } = this
+
+
+        return <ul>
+            <h3>HELD ITEMS</h3>
+            {held_items.map(item => <li>{item.item.name}</li>)}
+        </ul>
+
+    }
+
+    onBackButtonClicked = ()=> {
+        this.props.onBackButton()
+    }
+
     render() {
 
-        const { props: {pokemonToShow :{name, stats, abilities, moves, types,held_items,heigth,weight,id }}} = this
+        const { props: { pokemonToShow: { name, stats, abilities, moves, types, held_items, heigth, weight, id } },onBackButtonClicked} = this
         let source = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-        console.log(name)
         return <section>
-            
-            <h2>{name}</h2>
+
+            <button onClick={onBackButtonClicked}>BACK</button>
+            <h2>{name.toUpperCase()}</h2>
             <img src={source}></img>
             <p>Height: <span>{heigth}</span></p>
             <p>weight: <span>{weight}</span></p>
@@ -30,26 +45,22 @@ class DetailedPokemonPanel extends Component {
                 <h3>ABILITIES</h3>
 
                 {abilities.map(ability => <li>{ability.ability.name}</li>)}
-                
+
 
             </ul>
 
             <ul>
                 <h3>MOVES</h3>
-                {moves.map(move =><li>{move.move.name}</li>)}
+                {moves.map(move => <li>{move.move.name}</li>)}
 
             </ul>
 
             <ul>
-            {types.map(type =><li>{type.type.name}</li>)}
+                <h3>TYPES</h3>
+                {types.map(type => <li>{type.type.name}</li>)}
             </ul>
 
-            <ul>
-                <h3>HELD ITEMS</h3>
-                {held_items.map(item => <li>{item.item.name}</li>)}
-
-            </ul>
-
+            {held_items.length>0 && this.renderHeldItems()}
 
 
         </section>
