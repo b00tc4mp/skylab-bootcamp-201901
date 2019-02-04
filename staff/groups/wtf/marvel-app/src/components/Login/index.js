@@ -53,7 +53,7 @@ class Login extends Component {
                         </div>
                         <div className="field is-grouped btn_grp">
                             <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Log in</button></p>
-                            <p className="control"><a href="#" onClick={handleOnRegistration} className="button is-inverted is-outlined is-danger is-small is-rounded">Sign Up</a></p>
+                            <p className="control"><button onClick={handleOnRegistration} className="button is-inverted is-outlined is-danger is-small is-rounded">Sign Up</button></p>
                         </div>
                     </form>
                 </div>
