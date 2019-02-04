@@ -54,20 +54,24 @@ class App extends Component {
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
     try {
-      console.log(this.props)
-      // logic.registerUser(name, surname, email, password, passwordConfirmation)
-      //   then(() => this.props.history.push('/login'))
-      //   .catch(({ message }) => this.setState({ registerFeedback: message }))
+      logic.registerUser(name, surname, email, password, passwordConfirmation)
+        .then(() => this.props.history.push('/login'))
+        .catch(({ message }) => this.setState({ registerFeedback: message }))
     } catch ({ message }) {
       this.setState({ registerFeedback: message })
     }
   }
 
+  handleLogout = () =>{
+    userStorage.deleteUserToken()
+    this.props.history.push('/login')
+  }
+
   render() {
-    const { handleLogin, handleRegister, state: { loginFeedback, registerFeedback } } = this
+    const { handleLogin, handleRegister, handleLogout, state: { loginFeedback, registerFeedback } } = this
 
     return <main className="app">
-      < Header />
+      < Header user={userStorage.auth} onLogout={handleLogout}/>
       < Redirect from="/" to="/home" />
       < PrivateRoute authed={!!userStorage.auth} path='/home' component={Home} />
       < PublicRoute authed={!!userStorage.auth} path='/login' component={Login} onLogin={handleLogin} loginFeedback={loginFeedback} />
