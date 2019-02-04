@@ -1,28 +1,22 @@
 import React, { Component } from 'react'
+import { Route, Link } from 'react-router-dom'
+import userStorage from '../../localstorage'
 import './index.sass'
 import Login from '../Login'
-import logic from '../../logic'
+import Home from '../Home'
 
 class App extends Component {
-    state = { loginFeedback: null, user: { email: '' }}
 
-    handleLogin = (email,password) => {
-        try {
-            logic.loginUser(email,password)
-                .then(user => {
-                    this.setState({user})
-                })
-                .catch(({ message }) => this.setState({ loginFeedback: message }))
-        } catch ({message})  {
-                this.setState({loginFeedback: message})
-            }
-        }
+    state = {isAuth: false}
+    
+    componentWillMount(){
+        this.setState({isAuth: !!userStorage.auth})
+    }
 
     render() {
-        const { state: { loginFeedback }, handleLogin } = this
-
         return <main className = "app">
-            < Login onLogin = {handleLogin} feedback = {loginFeedback} />
+            { this.state.isAuth && <Route exact path="/" component={Home} />}
+            { !this.state.isAuth && <Route path="/login" component={Login} />}
         </main>
     }
 }
