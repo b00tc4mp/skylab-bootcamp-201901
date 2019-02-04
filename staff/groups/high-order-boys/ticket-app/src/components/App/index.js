@@ -31,7 +31,7 @@ function PrivateRoute ({component: Component, authed, ...rest}) {
 
 
 class App extends Component {
-    state = {isAuth: false}
+    //state = {isAuth: false}
     
     // componentWillMount(){
     //     this.setState({isAuth: !!userStorage.auth})
@@ -43,7 +43,7 @@ class App extends Component {
             < Redirect from="/" to="/home" />
             < PrivateRoute authed={!!userStorage.auth} path='/home' component={Home} />
             < PublicRoute authed={!!userStorage.auth} path='/login' component={Login} />
-            < Route path="/register" component={Register} />
+            < Route exact path="/register" component={Register} />
             {/* < Route path="/login" component={Login} /> */}
         </main>
     }
