@@ -12,6 +12,7 @@ class Home extends Component {
         console.log('Desde la HOME', query)
         logic.searchVideos(query)
         .then(results => {
+            console.log(results)
             this.setState({ videos: results })
         })
     }
@@ -19,14 +20,15 @@ class Home extends Component {
     render() {
         const { handleSearch , state : { videos }} = this
         const compVideos = () => <Results results={videos}/>
+        const compSearch = () => <Search onSearch={handleSearch} />
         return (
             <section className="home">
-                <Search onSearch={handleSearch} />
-                <Switch>
-                    <Route exact path='/' render={compVideos} />
+                   
+                    <Route path='/search/:query' render={compSearch} /> 
+                    <Route path='/video/:id' render={compVideos} />  
                     
-                    <Route path='/video/:id' render={compVideos} />     
-                </Switch>  
+                    <Route path='/*' render={compVideos} />
+                  
             </section >
         )
     }
