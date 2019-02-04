@@ -12,6 +12,7 @@ describe('logic' , () => {
         it('should succeed on mathing query' , () => {
             const query = 'titanic'
             
+            
             return logic.searchItems(query)
             .then(items => {
                 expect(items).toBeDefined()
@@ -22,7 +23,7 @@ describe('logic' , () => {
 
         it('should fail on empty query' , () => {
             const query = ''
-            expect(() => logic.searchItems(query).toThrowError('query is empty'))   
+            expect(() => logic.searchItems(query)).toThrowError('query is empty')
            
         })
 
