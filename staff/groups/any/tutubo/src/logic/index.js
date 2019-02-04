@@ -125,21 +125,9 @@ const logic = {
         if (!query.trim().length) throw Error('query is empty')
 
         return youtubeApi.search(query)
-            .then(({ id, snippet: { publishedAt, tittle, description, thumbnails: { default: { url } }, channelTittle } }) => (
-                this.__userId__= id,
-                {
-                    date: publishedAt, 
-                    tittle,
-                    description,
-                    thumbnail: url,
-                    channelTittle 
-                }
-            )) /*no se si es mejor hacer el destructuring aqui o ya directamente en el componente y pillar desde ahi lo que necesitemos.
-                tmb lo he hecho sin destructuring, pilla la mejor opcion*/
-            
-            // .then(items => ({   //opcion sin destructuring
-            //     items
-            // }))
+            .then(items => ({   //opcion sin destructuring
+                items
+            }))
     },
 
     popularResults(/*aqui es donde se podria meter lo de cambiar la region de los resultados populares*/) {
