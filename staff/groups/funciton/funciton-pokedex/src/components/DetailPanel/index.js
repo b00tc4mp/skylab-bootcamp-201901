@@ -6,12 +6,13 @@ class DetailedPokemonPanel extends Component {
 
     render() {
 
-        const { props: { name, stats, abilities, moves, types,heldItems,heigth,weight }} = this
-
+        const { props: {pokemonToShow :{name, stats, abilities, moves, types,held_items,heigth,weight,id }}} = this
+        let source = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+        console.log(name)
         return <section>
-
+            
             <h2>{name}</h2>
-            <img src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'></img>
+            <img src={source}></img>
             <p>Height: <span>{heigth}</span></p>
             <p>weight: <span>{weight}</span></p>
             <ul>
@@ -28,31 +29,47 @@ class DetailedPokemonPanel extends Component {
             <ul>
                 <h3>ABILITIES</h3>
 
-                <li>{abilities[0].ability.name}</li>
-                <li>{abilities[1].ability.name}</li>
-
+                {abilities.map(ability => <li>{ability.ability.name}</li>)}
+                
 
             </ul>
 
             <ul>
                 <h3>MOVES</h3>
-                <li>{moves[0].move.name}</li>
-
+                {moves.map(move =><li>{move.move.name}</li>)}
 
             </ul>
 
             <ul>
-                <h3>TYPES</h3>
-                <li>{types[0].type.name}</li>
-
+            {types.map(type =><li>{type.type.name}</li>)}
             </ul>
 
             <ul>
                 <h3>HELD ITEMS</h3>
-                <li>{heldItems[0].item.name}</li>
-                <li>{heldItems[1].item.name}</li>
+                {held_items.map(item => <li>{item.item.name}</li>)}
 
             </ul>
+
+            <div className="tab-content">
+                <div className="tab-pane fade show active" id="home" role="tabpanel">...</div>
+                <div className="tab-pane fade" id="profile" role="tabpanel">...</div>
+                <div className="tab-pane fade" id="messages" role="tabpanel">...</div>
+                <div className="tab-pane fade" id="settings" role="tabpanel">...</div>
+            </div>
+
+            <div className="list-group" id="myList" role="tablist">
+            <a className="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Home</a>
+            <a className="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Profile</a>
+            <a className="list-group-item list-group-item-action" data-toggle="list" href="#messages" role="tab">Messages</a>
+            <a className="list-group-item list-group-item-action" data-toggle="list" href="#settings" role="tab">Settings</a>
+            </div>
+
+            <div className="tab-content">
+            <div className="tab-pane active" id="home" role="tabpanel">...</div>
+            <div className="tab-pane" id="profile" role="tabpanel">...</div>
+            <div className="tab-pane" id="messages" role="tabpanel">...</div>
+            <div className="tab-pane" id="settings" role="tabpanel">...</div>
+            </div>
 
         </section>
 
