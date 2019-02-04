@@ -81,30 +81,47 @@ const logic = {
     // TODO updateUser and removeUser
 
     /**
-     * Search artists.
+     * Retrieve detail from movie or serie.
      * 
-     * @param {string} query 
-     * @returns {Promise}
-     */
-    searchItems(query) {
+     * @param {string} query - The movie query
+     * @returns {Promise} - Resolves with movies & series, otherwise rejects with error.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     * 
+     * // http://www.omdbapi.com/?apikey=ef8a2f56&i=tt1632708
+     * 
+     **/
+
+
+    searchVideo(query) {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
         if (!query.trim().length) throw Error('query is empty')
 
-        return ombdApi.searchItems(query)
+        return ombdApi.searchVideo(query)
     },
 
     /**
-     * Retrieves albums from artist.
+     * Retrieve detail from movie or serie.
      * 
-     * @param {string} itemId 
-     */
-    retrieveItem(itemId) {
-        if (typeof itemId !== 'string') throw TypeError(`${itemId} is not a string`)
+     * @param {string} videoId - The movie query
+     * @returns {Promise} - Resolves with movies & series, otherwise rejects with error.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     * 
+     * // http://www.omdbapi.com/?apikey=ef8a2f56&i=tt1632708
+     * 
+     **/
 
-        if (!itemId.trim().length) throw Error('itemId is empty')
+
+    retrieveVideo(videoId) {
+        if (typeof videoId !== 'string') throw TypeError(`${videoId} is not a string`)
+
+        if (!videoId.trim().length) throw Error('videoId is empty')
         
-        return ombdApi.retrieveItem(itemId)
+        return ombdApi.retrieveVideo(videoId)
         
     }
     
