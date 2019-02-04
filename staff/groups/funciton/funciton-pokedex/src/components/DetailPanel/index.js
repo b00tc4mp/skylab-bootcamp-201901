@@ -27,7 +27,7 @@ class DetailedPokemonPanel extends Component {
 
             <button onClick={onBackButtonClicked}>BACK</button>
             <h2>{name.toUpperCase()}</h2>
-            <img src={source}></img>
+            <img className='img'  src={source}></img>
             <p>Height: <span>{heigth}</span></p>
             <p>weight: <span>{weight}</span></p>
             <ul>

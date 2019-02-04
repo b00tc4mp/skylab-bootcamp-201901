@@ -1,20 +1,45 @@
 
-.pokemon__ul
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+*
+    box-sizing: border-box
     
+    
+.searchPanel
+    align-self: flex-start
+    justify-self: center
+    display: flex
+    align-items: center
+    justify-items: center  
+    flex-flow: column nowrap
+    height: 100%
+    width: 80%
+    margin-left: 20% 
+    margin-top: 5%
+    
+.title__search
+   
+.pokemon__ul
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    justify-items: center
+    //margin-left: 15%
+    //margin-top: 10% 
+    //padding: 0px
+    max-width: 70%
+    overflow-x: hidden
+    margin: 0
 .pokemon__list
-     list-style-type: none;
-     display: inline-block;
-     padding: 10px;
+     list-style-type: none
+     display: inline-block
+     padding: 0px
      color: white
+     
 
 
 .input__searchPokemon
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    width: 200px;
-    height: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    width: 200px
+    height: 20px
 
 h2 
     color: white
