@@ -41,7 +41,7 @@ class Welcome extends React.Component {
                     .then(user => {
                         console.log(user)
                         this.setState({ loginFeedback: null, user})
-                        this.props.getUser=user
+                        this.props.getUser(user)
                     })
                 })
                 .catch(({ message }) => this.setState({ loginFeedback: message }))
