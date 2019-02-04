@@ -12,11 +12,16 @@ const edamamApi = {
     app_key: 'a306faaee8127f42826feb7eb3083562',
     /**
      * 
+     * Searches for recipes with the desired query.
+     * 
      * @param {string} query 
      * @param {number} calA 
      * @param {number} calB 
      * @param {string} diet 
      * @param {string} health 
+     * 
+     * @throws {Error} - On non-existing required params
+     * @throws {TypeError} - On query data type different than string
      */
     search(query, calA, calB, diet, health) {
         

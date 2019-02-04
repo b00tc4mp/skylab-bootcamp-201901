@@ -5,7 +5,7 @@ import edamamApi from '../edamam-api'
  */
 const logic = {
     /**
-     * Calculate the total amount of diary calories
+     * Calculate the total amount of daily calories that the user needs based on his params.
      *
      * @param {string} gender
      * @param {number} height - cm
@@ -81,7 +81,23 @@ const logic = {
         }    
         return Math.floor(Math.round(totalCalories)) 
     },
-
+    /**
+     * 
+     * Registers a user.
+     * 
+     * @param {string} name 
+     * @param {string} surname 
+     * @param {string} username 
+     * @param {string} password 
+     * @param {string} passwordConfirm 
+     * @param {string} gender 
+     * @param {number} height 
+     * @param {number} weight 
+     * @param {string} birthDate 
+     * @param {string} lifeStyle 
+     * 
+     * @throws {Error} - When length of arguments differs from 10
+     */
     register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle) {
 
         if (arguments.length < 10) throw Error('All arguments were not introduced in the function')
@@ -90,7 +106,15 @@ const logic = {
 
         return userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
     },
-
+    /**
+     * 
+     * Logs In a user.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * 
+     * @throws {Error} - When length of arguments differs from 2
+     */
     login(email, password) {
 
         if (arguments.length < 2) throw Error('All arguments were not introduced in the function')
@@ -99,7 +123,15 @@ const logic = {
 
         return userApi.authenticate(email, password)
     },
-
+    /**
+     * 
+     * Retrieves data of a user.
+     * 
+     * @param {string} id 
+     * @param {string} token 
+     * 
+     * @throws {Error} - When length of arguments differs from 2
+     */
     retrieve(id, token) {
 
         if (arguments.length < 2) throw Error('All arguments were not introduced in the function')
@@ -108,7 +140,16 @@ const logic = {
 
         return userApi.retrieve(id, token)
     },
-
+    /**
+     * 
+     * Updates user information.
+     * 
+     * @param {string} id 
+     * @param {string} token 
+     * @param {object} data 
+     * 
+     * @throws {Error} - When length of arguments differs from 3
+     */
     update(id, token, data) {
         if (arguments.length < 3) throw Error('All arguments were not introduced in the function')
 
@@ -116,7 +157,17 @@ const logic = {
 
         return userApi.update(id, token, data)
     },
-
+    /**
+     * 
+     * Removes a user from the database.
+     * 
+     * @param {string} id 
+     * @param {string} token 
+     * @param {string} username 
+     * @param {string} password 
+     * 
+     * @throws {Error} - When length of arguments differs from 4
+     */
     remove(id, token, username, password) {
         if (arguments.length < 4) throw Error('All arguments were not introduced in the function')
 
@@ -124,6 +175,19 @@ const logic = {
 
         return userApi.remove(id, token, username, password)
     }, 
+    /**
+     * 
+     * Searches for recipes with the desired query.
+     * 
+     * @param {string} query 
+     * @param {number} calA 
+     * @param {number} calB 
+     * @param {string} diet 
+     * @param {string} health 
+     * 
+     * @throws {Error} - On non-existing required params
+     * @throws {TypeError} - On query data type different than string
+     */
     search(query, calA, calB, diet, health) {
         
         if (calA === undefined || calB === undefined) throw Error('Calories range was not input')
@@ -133,11 +197,11 @@ const logic = {
         }
 
         if (diet) {
-            if (typeof diet !== 'string') throw Error(diet + ' is not a string')
+            if (typeof diet !== 'string') throw TypeError(diet + ' is not a string')
         }
 
         if (health) {
-            if (typeof health !== 'string') throw Error(health + ' is not a string')
+            if (typeof health !== 'string') throw TypeError(health + ' is not a string')
         }
 
         return edamamApi.search(query, calA, calB, diet, health)
