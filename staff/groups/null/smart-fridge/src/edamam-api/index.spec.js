@@ -8,15 +8,17 @@ import edamamApi from '.'
 
 describe('edamam api', () => {
     describe('search recipes', () => {
+        let query = 'chicken'
+        let calA = 591
+        let calB = 722
+        let diet = 'balanced'
+        let health = 'alcohol-free'
         it('should succeed on matching query', () => {
-            const query = 'chicken'
-            const calA = 591
-            const calB = 722
             
-            return edamamApi.search(query, calA, calB)
+            return edamamApi.search(query, calA, calB, diet, health)
                 .then(recipes => {
                     expect(recipes).toBeDefined()
-                    /* expect(recipes instanceof Array).toBeTruthy() */
+                    expect(recipes instanceof Array).toBeTruthy()
                     expect(recipes.length).toBeGreaterThan(0)
                 })
         })
