@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import Home from '../Home'
 import Welcome from '../Welcome'
-import { BrowserRouter, Route } from 'react-router-dom'
+import logic from '../../logic'
+import { HashRouter, Route, Redirect } from 'react-router-dom'
 
 class App extends Component {
 
-  // state = { user: null }
-  state = { user: {name: 'Daniel', surname:'toledo', username:'daniel.toledomonfort@gmail.com', gender: 'male'} }
+  handleLogout = () => {
+    logic.logout()
 
-  handleUser=(user)=> this.setState({user})
-
-  handleLogout = () =>  this.setState({user: null})
+    this.props.history.push('/')
+}
 
   render() {
 
-    const { state: { user } } = this
-
-    return <BrowserRouter>
+    return <HashRouter>
             <main className="app">
-                {!user && <Welcome getUser={this.handleUser} />}
-                {user && <Home user={this.state.user} onLogout={this.handleLogout} />}
+                {<Route path="/home" render={() =>  logic.userLoggedIn ? <Home onLogout={this.handleLogout} /> : <Redirect to="/" />} />}
+                {<Route exactpath="/" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Welcome/>} />}
             </main>
-        </BrowserRouter>
+        </HashRouter>
   }
 }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import logic from '../../logic'
 import './index.sass'
 
 class InputsFridge extends React.Component {
@@ -95,7 +96,8 @@ class InputsFridge extends React.Component {
     render() {
         const {state: {numberInputs, calories, activeVegan, activeVegeterian, activeSugar, activePeanut}} =this
 
-
+        const user= JSON.parse(sessionStorage.getItem('user'))
+        const maxCalories=logic.caloriesCounter(user.gender, user.height, user.weight, user.birthDate, user.lifeStyle)
 
         return <section className="inputsFridge">
                  <h2 className="text-center display-2 mt-3">What's on your fridge?</h2>
@@ -121,7 +123,7 @@ class InputsFridge extends React.Component {
                         
                         <div className='row calories mt-3'>
                             <h3 className='calories__title'>Calories <span className='ml-2 calories__value'>{calories}</span></h3>
-                            <input onChange={this.handleCalories} className='calories__input col-12 p-0 ' type="range" name="points" min="0" max={this.state.userCal}/>
+                            <input onChange={this.handleCalories} className='calories__input col-12 p-0 ' type="range" name="points" min="0" max={maxCalories}/>
                         </div>
 
                         <div className='row mt-5'>
