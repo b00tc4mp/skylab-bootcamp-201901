@@ -69,7 +69,7 @@ const userApi = {
             .then(response => response.json())
             .then(response => {
                 const { status } = response
-
+    
                 if (status === 'OK') return response.data
 
                 throw Error(response.error)

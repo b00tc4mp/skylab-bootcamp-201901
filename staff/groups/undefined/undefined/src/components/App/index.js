@@ -11,17 +11,17 @@ class App extends Component {
 
   handleGoToRegister = event => {
     event.preventDefault()
-    this.setState({ registerIsVisible: true})
+    this.setState({ registerIsVisible: true, loginIsVisible: false})
   }
   
   handleGoToLogin = event => {
     event.preventDefault()
-    this.setState({ loginIsVisible: true })
+    this.setState({ loginIsVisible: true, registerIsVisible: false })
   }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
     try {
-        logic.Register(name, surname, email, password, passwordConfirmation)
+        logic.registerUser(name, surname, email, password, passwordConfirmation)
         .then( () => {
           this.setState({registerIsVisible: false})
         })
@@ -51,17 +51,19 @@ class App extends Component {
   }
   render() {
 
-    const {{handleGoToRegister, handleGoToLogin, handleRegister, handleLogin}, state: {registerIsVisible, user, loginIsVisible}} = this
+    const {handleGoToRegister, handleGoToLogin, handleRegister, handleLogin, state: {registerIsVisible, user, loginIsVisible}} = this
 
     return (
         <div className="App">
+
           {!user && <button onClick={handleGoToRegister}>Register</button>}
           {!user && <button onClick={handleGoToLogin}>Login</button>}
 
-          {registerIsVisible && <Register onRegister={handleRegister} />}
-          {loginIsVisible && <Login onLogin={handleLogin} />}
+          {registerIsVisible && !loginIsVisible && <Register onRegister={handleRegister} />}
+          {loginIsVisible && !registerIsVisible && <Login onLogin={handleLogin} />}
 
-          <Home />
+          {!loginIsVisible && !registerIsVisible && <Home /> }
+
         </div>
       )
   }

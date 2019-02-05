@@ -27,8 +27,6 @@ class Login extends Component {
                     <input type="password" name="password" onChange={handlePasswordInput}></input>
                     <button>Login</button>
                 </form>
-                <button>Register</button> 
-
             </section>
         )
 
