@@ -4,7 +4,7 @@ import Comments from '../Comments'
 
 class Video extends Component {
 
-    state = { comments: {}, videoId: '', text: '' }
+    state = { comments: [], videoId: '', text: '' }
 
     componentDidMount() {
 
@@ -28,10 +28,9 @@ class Video extends Component {
     handleShowComments = videoId => {
         try {
             videoId = this.props.videoId
-            // debugger
             logic.showComments(videoId)
-                .then(allComments => {
-                    this.setState(allComments)
+                .then(comments => {
+                    this.setState({comments})
                 })
                 .catch(() => console.log('bitch shut the fuck upeeee'))
         } catch {
@@ -46,7 +45,7 @@ class Video extends Component {
 
         return <section>
             <iframe title={videoId} src={`https://www.youtube.com/embed/${videoId}`} width="100%" height="800"></iframe>
-            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.allComments} />
+            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} />
         </section>
     }
 }

@@ -25,7 +25,7 @@ class Comments extends Component {
     }
 
     render() {
-        const { handleFormSubmit, handleTextInput, handleCommentDeletion, props: { comments } } = this
+        const { handleFormSubmit, handleTextInput, handleCommentDeletion, props: { comments, id } } = this
 
         return <section>
             <h3>Comments:</h3>
@@ -34,15 +34,17 @@ class Comments extends Component {
             </form>
             <textarea form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..."></textarea>
             <div>
-                {/* {
-                    comments.map(comment => {
-                        return <div>
-                            <p>{comment.text}</p>
-                            <p>{comment.date}</p>
-                            <button onClick={handleCommentDeletion}>X</button>
-                        </div>
+                {
+                    comments.map(({ comments }) => {
+                        if(comments[id]){
+                            return comments[id].map(comment =>  <div key={comment.date}>
+                                <p>{comment.text}</p>
+                                <p>{comment.date}</p>
+                                <button onClick={handleCommentDeletion}>X</button>
+                            </div>)
+                        }
                     })
-                } */}
+                }
             </div>
         </section>
     }
