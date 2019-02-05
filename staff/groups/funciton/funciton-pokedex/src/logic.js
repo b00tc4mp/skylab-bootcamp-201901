@@ -57,19 +57,20 @@ const logic = {
      * @param {string} username 
      * @param {string} password 
      */
-    loginUser(username, password) {
-        if (typeof username !== 'string') throw TypeError(username + ' is not a string')
+    loginUser(user, password) {
+        if (typeof user !== 'string') throw TypeError(user + ' is not a string')
 
-        if (!username.trim().length) throw Error('username cannot be empty')
+        if (!user.trim().length) throw Error('user cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        return userApi.authenticate(username, password)
+        return userApi.authenticate(user, password)
             .then(({ id, token }) => {
                 this.__userId__ = id
                 this.__userApiToken__ = token
+                return ({id, token, user})
             })
     },
 
