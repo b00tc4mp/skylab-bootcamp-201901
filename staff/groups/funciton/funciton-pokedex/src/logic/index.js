@@ -102,23 +102,36 @@ const logic = {
 
 
         return userApi.retrieve(id, token)
-            .then(({favorites}) =>{
-                if(!favorites || favorites.length==0){ //Caso sin favoritos o que el usuario los haya borrado todos
+            .then((data) =>{
+                let favorites = data.favorites
+                if(!favorites || !favorites.length){ //Caso sin favoritos o que el usuario los haya borrado todos
                     //En este caso creamos el array de favoritos, con el primer elemento el favorito clickado
-                    favorites = [pokemon]
+                    // favorites = JSON.parse(JSON.stringify(([pokemonName])))
+
+                    favorites = {
+                        'favorites': [pokemonName]
+                    }
                     return userApi.update(id, token, favorites)
                         .then(() => true)
                 } else {
-                    //Si favorito existe, hay dos opciones, que exista o no
+                    //Si favoritos existe, hay dos opciones, que exista o no
                     if(favorites.includes(pokemonName)){
                         //Quitarlo de favoritos
                         let index = favorites.indexOf(pokemonName)
-                        favorites = favorites.splice(index,1)
-                        return userApi.update(id, token, favorites)
+                        favorites.splice(index,1)
+
+                        let favorites2 = {
+                            'favorites': favorites
+                        }
+                        return userApi.update(id, token, favorites2)
                             .then(() => true)
                     } else {
                         favorites.push(pokemonName)
-                        return userApi.update(id, token, favorites)
+                        let favorites2 = {
+                            'favorites': favorites
+                        }
+
+                        return userApi.update(id, token, favorites2)
                             .then(() => true)
                         //añadirlo al array de favoritos al final
                     }
