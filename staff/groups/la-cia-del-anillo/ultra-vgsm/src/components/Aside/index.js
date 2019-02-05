@@ -72,22 +72,22 @@ class Aside extends Component {
                             <h3 className="menu__title">Platforms</h3>
                             <ul className="menu__list">
                                 <li className="menu__item">
-                                    <Link to="/games/4971" className="menu__link">
+                                    <Link to="/platform/4971" className="menu__link">
                                         Nintendo Switch
                                     </Link>
                                 </li>
                                 <li className="menu__item">
-                                    <Link to="/games/4919" className="menu__link">
+                                    <Link to="/platform/4919" className="menu__link">
                                         PlayStation 4
                                     </Link>
                                 </li>
                                 <li className="menu__item">
-                                    <Link to="/games/4920" className="menu__link">
+                                    <Link to="/platform/4920" className="menu__link">
                                         Xbox One
                                     </Link>
                                 </li>
                                 <li className="menu__item">
-                                    <Link to="/games/1" className="menu__link">
+                                    <Link to="/platform/1" className="menu__link">
                                         PC
                                     </Link>
                                 </li>
