@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
+import Feedback from '../Feedback'
 import './index.sass'
 
 class Register extends Component {
@@ -25,7 +26,7 @@ class Register extends Component {
     }
 
     render() {
-        const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, handleFromSubmit } = this
+        const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, handleFromSubmit, props:{onGoToLogin, feedback} } = this
 
         return <section>
             <h2>Register</h2>
@@ -37,6 +38,8 @@ class Register extends Component {
                 <input name='passwordConfirmation' type='password' placeholder='confirm password' onChange={handlePasswordConfirmationInput} />
                 <button>Register</button>
             </form>
+            <button onClick={onGoToLogin}>Login</button>
+            {feedback && <Feedback message={feedback}/>}
         </section> 
     }
 }
