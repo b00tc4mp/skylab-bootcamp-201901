@@ -10,6 +10,8 @@ const logic = {
     __userId__: null,
     __userApiToken__: null,
 
+    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTM1OTE5NiwiZXhwIjoxNTQ5MzYyNzk2fQ.d1AYGq4dMg6ANYmYnxR990DEUlCoEYoS8jVd48VhAPc',
+
     /**
     * Registers a user.
     * 
@@ -179,20 +181,22 @@ const logic = {
 
                 console.log(comments)
 
-                return userApi.update(this.__userId__, this.__userApiToken__, { comments })
+                return userApi.update(this.__userId__, this.__userApiToken__, {comments})
             })
             .then(() => {})
     },
 
     showComments(videoId) {
-        return userApi.retrieveAllUsers(this.__userApiToken__)
+        return userApi.retrieveAllUsers(this.__mytoken__)
             .then((data) => {
                 const myUsers = data.filter(user => !!user.appId)
       // myUsers.forEach(user => console.log(user.comments))
                 // console.log(myUsers)
                 // myUsers.forEach(user => console.log(user.comments))
                 // console.log(myUsers)
-                const allComments = myUsers.filter(user => !!user.comments.videoId)
+                const allComments = myUsers.filter(user => user.comments && !!user.comments[videoId])
+
+                console.log(allComments)
 
                 return allComments
             })
@@ -208,7 +212,57 @@ const logic = {
                 //return userApi.update(this.__userId__, this.__userApiToken__,  deletedComment: '' )
             })
             .then(() => {})
+    },
+
+    likeVideo(videoId) {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => {
+                const { likes = [] } = user
+
+                if (likes) {
+                    if (likes.includes(videoId)) {
+                        function indexOfLike(videoId, element) {
+                            return element === videoId
+                        }
+
+                        const index = likes.findIndex(indexOfLike)
+
+                        likes.splice(index, 1)
+
+                    } else {
+                        likes.push(videoId)
+                    }
+                } else {
+                    likes[0] = [videoId]
+                }
+                
+                userApi.update(this.__userId__, this.__userApiToken__, { likes })
+                return likes
+            })  
     }
+
+    // dislikeVideo(videoId) {
+    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
+    //         .then(user => {
+    //             const { dislikes = {} } = user
+
+    //             if (dislikes) {
+    //                 dislikes.push(videoId)
+    //             } else {
+    //                 dislikes[0] = [videoId]
+    //             }
+                
+    //             return userApi.update(this.__userId__, this.__userApiToken__, { dislikes })
+    //         })
+    //     .then(() => {})  
+    // },
+
+    // checkReview(videoId) {
+    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
+    //         .then(user => {
+
+    //         })
+    // }
 
 }
 

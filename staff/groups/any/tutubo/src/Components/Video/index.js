@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
 import Comments from '../Comments'
+import './index.sass'
 
 class Video extends Component {
 
-    state = { comments: {}, videoId: '', text: '', videoInfo: null }
+    state = { comments: [], videoId: '', text: '', buttonLike: '', buttonDislike: '' }
 
     componentDidMount() {
 
@@ -29,10 +30,9 @@ class Video extends Component {
     handleShowComments = videoId => {
         try {
             videoId = this.props.videoId
-            // debugger
             logic.showComments(videoId)
-                .then(allComments => {
-                    this.setState(allComments)
+                .then(comments => {
+                    this.setState({comments})
                 })
                 .catch(() => console.log('bitch shut the fuck upeeee'))
         } catch {
@@ -42,13 +42,9 @@ class Video extends Component {
 
     handleVideoInfo = videoId => {
         try {
-            //console.log('1')
             logic.watchVideo(videoId)
                 .then(({items}) => {
                     const videoInfo = items[0]
-                    //console.log('dnjdn')
-                    // let videoInfo = {}
-                    // videoInfo += items[0]
                     this.setState({videoInfo})
                     console.log(videoInfo)
                 })
@@ -58,21 +54,24 @@ class Video extends Component {
         }
     }
 
-    handleLike = id => {
+    handleLike = event => {
+        event.preventDefault()
 
+        const { props: { onLike, videoId } } = this
+
+        onLike(videoId)
     }
-    
 
     render() {
-        const { props: {videoId}, handleComment, state: { videoInfo}, handleLike, handleDislike } = this
+        const { props: {videoId, like }, handleComment, state: { videoInfo}, handleLike, handleDislike } = this
 
         return <section>
             <iframe title={videoId} src={`https://www.youtube.com/embed/${videoId}`} width="100%" height="800"></iframe>
             {videoInfo && 
                 <div>
                     <h2>{videoInfo.snippet.tittle}</h2>
-                    <button onClick={handleLike}><i class="far fa-thumbs-up"></i></button>
-                    <button onClick={handleDislike}><i class="far fa-thumbs-down"></i></button>
+                    <button onClick={handleLike}><i className={`${like? "far fa-thumbs-up blue" : "far fa-thumbs-up"}`}></i></button>
+                    <button onClick={handleDislike}><i className="far fa-thumbs-down"></i></button>
                     <div>
                         <div>
                             {/* <img alt="channel logo">ChannelIcon</img> */}
@@ -86,7 +85,7 @@ class Video extends Component {
                     </div>
                 </div>
             }
-            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.allComments} />
+            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} />
         </section>
     }
 }
