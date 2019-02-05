@@ -15,26 +15,22 @@ const edamamApi = {
      * Searches for recipes with the desired query.
      * 
      * @param {string} query 
-     * @param {number} calA 
-     * @param {number} calB 
+     * @param {string} calories
      * @param {string} diet 
      * @param {string} health 
      * 
      * @throws {Error} - On non-existing required params
      * @throws {TypeError} - On query data type different than string
      */
-    search(query, calA, calB, diet, health) {
+    search(query, calories, diet, health) {
         
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
         if (!query.trim().length) throw Error('query is empty')
 
-
-        calA = typeof calA === 'number'? calA : false
-        calB = typeof calB === 'number'? calB : false
-        let calories = calA && calB? `&calories=${calA}-${calB}` : ''
-        diet = typeof diet === 'string'? `&diet=${diet}` : ''
-        health = typeof health === 'string'? `&health=${health}` : ''
+        if (typeof calories !== 'string')throw TypeError(`${calories} is not a string`)
+        diet = typeof diet === 'string'? `${diet}` : ''
+        health = typeof health === 'string'? `${health}` : ''
 
         return fetch(`${this.url}?q=${query}&app_id=${this.app_id}&app_key=${this.app_key}&from=0&to=3${calories}${diet}${health}`, {
             method: 'GET'
