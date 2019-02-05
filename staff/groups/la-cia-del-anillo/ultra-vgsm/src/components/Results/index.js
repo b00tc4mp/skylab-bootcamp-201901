@@ -56,7 +56,7 @@ class Results extends Component {
             <section className="results content">
                 {results && (
                     results.map(game => {
-                        return <Card key={game.id} game={game} />;
+                        return <Card key={game.id} gameUrl={game.id} game={game} />;
                     })
                 )}
                 
