@@ -11,7 +11,7 @@ class App extends Component {
     return <HashRouter>
       <main>
         <Route path='/' component={Landing}/>
-        <Route path='/home' component={Home}/>
+        <Route path='/home/search' component={Home}/>
       </main>  
     </HashRouter>
   }

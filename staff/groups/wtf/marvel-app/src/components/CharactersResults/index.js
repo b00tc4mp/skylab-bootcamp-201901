@@ -2,50 +2,48 @@
 
 import React, { Component } from 'react';
 import logic from '../Logic';
+import MultipleResults from '../MultipleResults'
 
 class CharactersResults extends Component {
 
     state = { characters: null, feedback: null }
-
-    componentDidMount() {
-        console.log('mounted')
-
+    
+    componentWillMount() {
         const { props: { query } } = this
 
         this.handleSearch(query)
     }
 
-    componentWillReceiveProps(props) {
-        console.log('props changed')
-        
-        const { query } = props
+    componentWillReceiveProps(nextProps) {    
+        const { query } = nextProps
 
         this.handleSearch(query)
     }
+
 
     handleSearch = query => {
         try {
             logic.searchCharacter(query)
                 .then(characters => {
+                    const {results} = characters
+
                     this.setState({
-                        characters: characters.map(({ id, name }) => ({ id, name }))
+                        feedback: null,
+                        characters: results.map(({ id, name, thumbnail: {path,extension} }) => ({id, name, path, extension}))
                     })
                 })
-                .catch(({ message }) => this.setState({ feedback: message }))
+                .catch(({ message }) => this.setState({ feedback: message, characters: null }))
         } catch ({ message }) {
-            this.setState({ feedback: message })
+            this.setState({ feedback: message, characters: null })
         }
     }
 
     render() {
 
-        //const { state:{characters, feedback}, props: {onCharacterSelected} } = this;
+        const { state:{characters, feedback}, props: {onCharacterSelected} } = this;
 
-        return <section className='characters results'>
-                        <header>
-                            <h1>CharactersResults</h1>
-                        </header>
-                </section>
+        return  <MultipleResults results={characters} feedback={feedback} onItemClick={onCharacterSelected}/>
+
     }
 }
 

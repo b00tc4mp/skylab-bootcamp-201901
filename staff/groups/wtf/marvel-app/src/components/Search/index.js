@@ -12,7 +12,7 @@ class Search extends Component {
         event.preventDefault();
 
         const { state: { query }, props: { onSearch } } = this;
-
+        
         onSearch(query);
     }
 
