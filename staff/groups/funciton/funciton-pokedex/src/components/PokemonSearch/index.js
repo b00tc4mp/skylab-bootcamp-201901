@@ -45,7 +45,7 @@ class PokemonSearch extends Component {
           <input className="input__searchPokemon"
             onChange={this.handleChange}
             type="text"
-            placeholder="Search your Pokemon by name"
+            placeholder="Search your Pokemon"
             value={this.state.searchText}
           />
           {
