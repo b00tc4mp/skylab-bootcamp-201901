@@ -1,32 +1,35 @@
 import React, { Component } from 'react'
 import Search from '../Search'
 import Results from '../Results'
+import User from '../User'
+import { Route, withRouter } from "react-router-dom";
 import logic from '../../logic'
 
 
-
-
 class Home extends Component {
-    state = {results: null}
+    state = { results: null }
 
     handleSearch = (city, startDate, endDate) => {
         try {
             logic.retrieveEvents(city, startDate, endDate)
-            .then(data => this.setState({results: data}))
-        } catch(err) {
+                .then(data => this.setState({ results: data }))
+        } catch (err) {
             console.log(err.message)
         }
     }
 
 
-    render(){
+    render() {
+        const { location: { pathname } } = this.props
+        const isUser = (pathname.includes("home/user"))
         const { handleSearch, state: { results } } = this
 
-        return<div className='container'>
-            <Search onSearch={ handleSearch }/>
-            {results && <Results results = { results } />}
-        </div> 
+        return <div className='container'>
+            {!isUser && <Search onSearch={handleSearch} />}
+            {results && <Results results={results} />}
+            < Route exact path='/home/user' component={User} />
+        </div>
     }
 }
 
-export default Home
+export default withRouter(Home)
