@@ -15,7 +15,6 @@ class Results extends Component  {
                 console.log('DDD', details)
                 this.setState({ videoSelected: details}) })
             .catch()
-        //
         console.log('Desde Results', id)
     }
 
