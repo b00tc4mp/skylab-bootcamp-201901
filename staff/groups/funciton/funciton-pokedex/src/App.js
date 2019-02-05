@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import PokemonSearch from "./components/PokemonSearch";
 import DetailedPokemonPanel from "./components/DetailPanel"
+import MainPanel from "./components/mainPanel"
 import logic from "./logic";
 import Home from './components/Home'
 import LoginPanel from "./components/LoginPanelComponent";
@@ -74,9 +75,23 @@ class App extends Component {
         <RegisterPanel onRegister={this.onRegisterRequested} show={registerPanelVisible} />
         {/* {{!pokemonVisible && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
         {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}} */}
+
       </div>
     );
   }
 }
 
 export default App;
+
+
+
+function bindEvent(e, eventName, callback) {
+  if(e.addEventListener) // new browsers
+      e.addEventListener(eventName, callback, false);
+  else if(e.attachEvent) // IE
+      e.attachEvent('on'+ eventName, callback);
+};
+
+bindEvent(document.body, 'scroll', function(e) {
+  document.body.scrollLeft = 0;
+});
