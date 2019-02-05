@@ -22,9 +22,11 @@ class Comments extends Component {
             this.props.history.push('/login')
         }
 
-        const {props : {updateComments}} = this
+        const {props : {updateComments}, state:{text}} = this
 
         updateComments()
+
+        this.setState({text: ''})
     }
 
     handleCommentDeletion = date => {
@@ -42,7 +44,7 @@ class Comments extends Component {
             <form onSubmit={handleFormSubmit} id="commentForm">
                 <button>Send</button>
             </form>
-            <textarea form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..." clearButtonMode="always"></textarea>
+            <textarea value={this.state.text} form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..." clearButtonMode="always"></textarea>
             <div>
                 {
                     comments.map(({ name, comments }) => {
