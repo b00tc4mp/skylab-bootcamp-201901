@@ -4,6 +4,14 @@ import './index.sass'
 
 class DetailedPokemonPanel extends Component {
 
+    state = {
+
+
+
+
+    }
+
+
     renderHeldItems = () => {
         const { props: { pokemonToShow: { held_items } } } = this
 
@@ -50,7 +58,14 @@ class DetailedPokemonPanel extends Component {
                 </div>
 
                 <div className='DetailPanel-otherInfo'>
+                <div className='DetailPanel-otherInfo__buttons'>
 
+                <button>TYPES</button>
+                <button>ABILITIES</button>
+                <button>MOVES</button>
+                <button>HELD ITEMS</button>
+
+                </div>
                     <div className='DetailPanel-otherInfo__types' >
 
                         <ul>
