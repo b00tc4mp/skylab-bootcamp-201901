@@ -2,16 +2,30 @@ import React from 'react'
 import './index.sass'
 
 
-class Nav extends React.Component{
+class Nav extends React.Component {
 
+    handleOnLogout =event => {
+        event.preventDefault()
 
-    render(){
-        return <nav className="nav navbar navbar-light bg-light">
-                    <img src='./logo.png' alt='logo'className="navbar-brand" ></img>
+        this.props.onLogout()
+    }
 
-                    <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                        {this.props.user.name}
-                     </button>
+    render() {
+        return <nav className="navbar">
+                <img src='./logo.png' alt='logo' className="navbar-brand" ></img>
+                <button className="navbar-toggler btn btn-dark active p-3" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    {this.props.user.name}
+                </button>
+                <div className="collapse navbar-collapse" id="navbarText">
+                    <ul className="navbar-nav mt-3">
+                        <li className="nav-item ">
+                            <a className="nav-link text-right nav__link" href="#">Edit Profile </a>
+                        </li>
+                        <li className="nav-item">
+                            <a onClick={this.handleOnLogout} className="nav-link text-right nav__link" href="#">Logout</a>
+                        </li>
+                    </ul>
+                </div>
             </nav>
 
     }

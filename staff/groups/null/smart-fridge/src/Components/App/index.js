@@ -10,6 +10,8 @@ class App extends Component {
 
   handleUser=(user)=> this.setState({user})
 
+  handleLogout = () =>  this.setState({user: null})
+
   render() {
 
     const { state: { user } } = this
@@ -17,7 +19,7 @@ class App extends Component {
     return <BrowserRouter>
             <main className="app">
                 {!user && <Welcome getUser={this.handleUser} />}
-                {user && <Home user={this.state.user}/>}
+                {user && <Home user={this.state.user} onLogout={this.handleLogout} />}
             </main>
         </BrowserRouter>
   }

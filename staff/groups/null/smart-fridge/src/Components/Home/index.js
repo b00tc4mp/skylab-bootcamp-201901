@@ -25,11 +25,13 @@ class Home extends React.Component{
 
     }
 
+    handleLogout= () => this.props.onLogout()
+
     render(){
         const {state:{results}} =  this
         
         return <main className="home">
-                <Nav user={this.props.user} onLogout={this.handleUser} />
+                <Nav user={this.props.user} onLogout={this.handleLogout} />
                 <InputsFridge onSearch={this.handleOnSearch}/>
                 {/* {results && <Results recipes={this.state.recipes}/>} */}
             </main>

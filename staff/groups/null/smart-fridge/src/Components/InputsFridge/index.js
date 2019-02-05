@@ -22,7 +22,7 @@ class InputsFridge extends React.Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { input1, input2, input3, input4, input5, calories, diet, activeVegan, activeVegeterian, activeGluten, activePeanut }, props: { onSearch } } = this
+        const { state: { input1, input2, input3, input4, input5, calories, diet, activeVegan, activeVegeterian, activeSugar, activePeanut }, props: { onSearch } } = this
 
         let query=''
         if (input1) query+=input1+'+'
@@ -36,7 +36,7 @@ class InputsFridge extends React.Component {
         let health= []
         if(activeVegan) health.push('vegan')
         if(activeVegeterian) health.push('vegetarian')
-        if(activeGluten) health.push('gluten-free')
+        if(activeSugar) health.push('sugar-conscious')
         if(activePeanut) health.push('peanut-free')
 
         
@@ -82,9 +82,9 @@ class InputsFridge extends React.Component {
         this.setState({activeVegeterian:!this.state.activeVegeterian})
     }
 
-    handleGluten = event =>{
+    handleSugar = event =>{
         event.preventDefault()
-        this.setState({activeGluten:!this.state.activeGluten})
+        this.setState({activeSugar:!this.state.activeSugar})
     }
 
     handlePeanut = event =>{
@@ -93,7 +93,7 @@ class InputsFridge extends React.Component {
     }
 
     render() {
-        const {state: {numberInputs, calories, activeVegan, activeVegeterian, activeGluten, activePeanut}} =this
+        const {state: {numberInputs, calories, activeVegan, activeVegeterian, activeSugar, activePeanut}} =this
 
 
 
@@ -127,13 +127,11 @@ class InputsFridge extends React.Component {
                         <div className='row mt-5'>
                                 <label htmlFor="diet" className="col col-md-3 col-sm-12 flex mt-1 diet__title">Diet</label>
                                 <select onChange={this.handleDietInput} value={this.state.value} name="lifestyle" className="col col-md-9 col-12 form-control mt-1">
-                                <option value="indifferent">Indifferent</option>
+                                    <option value="indifferent">Indifferent</option>
                                     <option value="balanced">Balanced: Protein/Fat/Carb values in 15/35/50 ratio</option>
-                                    <option value="high-fiber">High-Fiber: More than 5g fiber per serving</option>
                                     <option value="high-protein">High-Protein: More than 50% of total calories from proteins</option>
                                     <option value="low-carb">Low-Carb: Less than 20% of total calories from carbs</option>
                                     <option value="low-fat">Low-Fat: Less than 15% of total calories from fat</option>
-                                    <option value="low-sodium">Low-sodium: Less than 140mg Na per serving</option>
 
                                 </select>
                         </div>
@@ -146,7 +144,7 @@ class InputsFridge extends React.Component {
                                 <button onClick={this.handleVegeterian} className={`btn btn-outline-dark col-12 ${activeVegeterian? `active`:``}`}>Vegeterian</button>
                             </div>
                             <div className="col-12 col-sm-3 pl-sm-2 p-0 mt-2">
-                                <button onClick={this.handleGluten} className={`btn btn-outline-dark col-12 ${activeGluten? `active`:``}`}>Gluten-Free</button>
+                                <button onClick={this.handleSugar} className={`btn btn-outline-dark col-12 ${activeSugar? `active`:``}`}>Low-Sugar</button>
                             </div>
                             <div className="col-12 col-sm-3 pl-sm-2 p-0 mt-2">
                                 <button onClick={this.handlePeanut} className={`btn btn-outline-dark col-12 ${activePeanut? `active`:``}`}>Peanut-Free</button>
