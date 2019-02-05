@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './index.css';
 
 // 4971 - Nintendo Switch
@@ -8,26 +8,15 @@ import './index.css';
 // 1 - PC
 
 class Aside extends Component {
+    handleId = id => {
+        //event.preventDefault()
+        console.log(id);
+    };
 
-    handleSwitch = event => {
-        event.preventDefault()
-        retrieveGamesByPlatform(4971)
-    }
-
-    handlePlayStation = (event) => {
-        event.preventDefault()
-        retrieveGamesByPlatform(4971)
-    }
-
-    handleXboxOne = (event) => {
-        event.preventDefault()
-        retrieveGamesByPlatform(4971)
-    }
-
-    handlePc = (event) => {
-        event.preventDefault()
-        retrieveGamesByPlatform(4971)
-    }
+    // handleSwitch = event => {
+    //     event.preventDefault()
+    //     logic.retrieveGamesByPlatform(4971)
+    // }
 
     // changePlatform()={this.handleChangePlatform}
 
@@ -35,9 +24,8 @@ class Aside extends Component {
     //     this.setState({ XXXVisible: false, SwitchVisible: true });
     // };
 
-    handleLol = (id) => {
-        console.log(id);
-    }
+    // event.preventDefault()
+    // logic.retrieveGamesByPlatform(id)
 
     render() {
         return (
@@ -81,27 +69,27 @@ class Aside extends Component {
                             </ul>
                         </nav>
                         <nav className="menu">
-                            <h3 className="menu__title">Plataformas</h3>
+                            <h3 className="menu__title">Platforms</h3>
                             <ul className="menu__list">
                                 <li className="menu__item">
-                                    <a href="#home" title="Home" className="menu__link" onClick={() => this.handleLol('4971')}>
+                                    <Link to="/games/4971" className="menu__link">
                                         Nintendo Switch
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li className="menu__item">
-                                    <a href="#home" title="Register" className="menu__link" onClick={() => this.handleLol('4919')}>
+                                    <Link to="/games/4919" className="menu__link">
                                         PlayStation 4
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li className="menu__item">
-                                    <a href="#home" title="Login" className="menu__link" onClick={() => this.handleLol('4920')}>
+                                    <Link to="/games/4920" className="menu__link">
                                         Xbox One
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li className="menu__item">
-                                    <a href="#home" title="Register" className="menu__link" onClick={() => this.handleLol('1')}>
+                                    <Link to="/games/1" className="menu__link">
                                         PC
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </nav>
