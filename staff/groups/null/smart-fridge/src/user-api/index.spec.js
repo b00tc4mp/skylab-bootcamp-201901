@@ -5,16 +5,16 @@ import userApi from '.'
 describe('user api', () => {
 
     describe('register', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
-        const password = '123'
-        const passwordConfirm = '123'
-        const gender = 'female'
-        const birthDate = '1985/10/15'
-        const height = 161
-        const weight = 60
-        const lifeStyle = 'sedentary'
+        let name = 'Manuel'
+        let surname = 'Barzi'
+        let username = `manuelbarzi-${Math.random()}`
+        let password = '123'
+        let passwordConfirm = '123'
+        let gender = 'female'
+        let birthDate = '1985/10/15'
+        let height = 161
+        let weight = 60
+        let lifeStyle = 'sedentary'
 
         it('should succeed on correct data', () =>
             userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
@@ -34,23 +34,21 @@ describe('user api', () => {
     })
 
     describe('authenticate', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
-        const password = '123'
-        const passwordConfirm = '123'
-        const gender = 'female'
-        const birthDate = '1985/10/15'
-        const height = 161
-        const weight = 60
-        const lifeStyle = 'sedentary'
+        let name = 'Manuel'
+        let surname = 'Barzi'
+        let username = `manuelbarzi-${Math.random()}`
+        let password = '123'
+        let passwordConfirm = '123'
+        let gender = 'female'
+        let birthDate = '1985/10/15'
+        let height = 161
+        let weight = 60
+        let lifeStyle = 'sedentary'
 
         let _id
 
-        beforeEach(() =>
-            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
-                .then(id => _id = id)
-        )
+        userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
+            .then(id => _id = id)
 
         it('should succeed on correct data', () =>
             userApi.authenticate(username, password)
@@ -59,30 +57,91 @@ describe('user api', () => {
                     expect(token).toBeDefined()
                 })
         )
+        it('should fail on number password instead of string',() => {
 
-        // TODO more unit test cases
+            password = 4
+
+            expect(() => {
+                userApi.authenticate(username, password)
+            }).toThrow(TypeError(`${password} is not a string`))
+        })
+        it('should fail on object password instead of string',() => {
+
+            password = {}
+
+            expect(() => {
+                userApi.authenticate(username, password)
+            }).toThrow(TypeError(`${password} is not a string`))
+        })
+        it('should fail on array password instead of string',() => {
+
+            password = []
+
+            expect(() => {
+                userApi.authenticate(username, password)
+            }).toThrow(TypeError(`${password} is not a string`))
+        })
+        it('should fail on number username instead of string',() => {
+
+            username = 4
+            password = '123'
+
+            expect(() => {
+                userApi.authenticate(username, password)
+            }).toThrow(TypeError(`${username} is not a string`))
+        })
+        it('should fail on boolean username instead of string',() => {
+
+            username = true
+
+            expect(() => {
+                userApi.authenticate(username, password)
+            }).toThrow(TypeError(`${username} is not a string`))
+        })
+        it('should fail on object username instead of string',() => {
+
+            username = {}
+
+            expect(() => {
+                userApi.authenticate(username, password)
+            }).toThrow(TypeError(`${username} is not a string`))
+        })
+        it('should fail on array username instead of string',() => {
+
+            username = []
+
+            expect(() => {
+                userApi.authenticate(username, password)
+            }).toThrow(TypeError(`${username} is not a string`))
+        })
+        it('should fail on null username instead of string',() => {
+
+            username = null
+
+            expect(() => {
+                userApi.authenticate(username, password)
+            }).toThrow(TypeError(`${username} is not a string`))
+        })
     })
 
     describe('retrieve', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
-        const password = '123'
-        const passwordConfirm = '123'
-        const gender = 'female'
-        const birthDate = '1985/10/15'
-        const height = 161
-        const weight = 60
-        const lifeStyle = 'sedentary'
+        let name = 'Manuel'
+        let surname = 'Barzi'
+        let username = `manuelbarzi-${Math.random()}`
+        let password = '123'
+        let passwordConfirm = '123'
+        let gender = 'female'
+        let birthDate = '1985/10/15'
+        let height = 161
+        let weight = 60
+        let lifeStyle = 'sedentary'
 
         let _id, _token
 
-        beforeEach(() =>
-            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
-                .then(id => _id = id)
-                .then(() => userApi.authenticate(username, password))
-                .then(({ token }) => _token = token)
-        )
+        userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
+            .then(id => _id = id)
+            .then(() => userApi.authenticate(username, password))
+            .then(({ token }) => _token = token)
 
         it('should succeed on correct data', () =>
             userApi.retrieve(_id, _token)
@@ -93,33 +152,28 @@ describe('user api', () => {
                     expect(user.username).toBe(username)
                 })
         )
-
-        // TODO more unit test cases
     })
 
     describe('update', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
-        const password = '123'
-        const passwordConfirm = '123'
-        const gender = 'female'
-        const birthDate = '1985/10/15'
-        const height = 161
-        const weight = 60
-        const lifeStyle = 'sedentary'
-
+        let name = 'Manuel'
+        let surname = 'Barzi'
+        let password = '123'
+        let passwordConfirm = '123'
+        let gender = 'female'
+        let birthDate = '1985/10/15'
+        let height = 161
+        let weight = 60
+        let lifeStyle = 'sedentary'
+        
         let _id, _token
-
-        beforeEach(() =>
-            userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
-                .then(id => _id = id)
-                .then(() => userApi.authenticate(username, password))
-                .then(({ token }) => _token = token)
-        )
-
+        let data = { name: 'Pepito', surname: 'Grillo', age: 32 }
+        
+        let username = `manuelbarzi-${Math.random()}`
+        userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
+            .then(id => _id = id)
+            .then(() => userApi.authenticate(username, password))
+            .then(({ token }) => _token = token)
         it('should succeed on correct data', () => {
-            const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
 
             return userApi.update(_id, _token, data)
                 .then(() => userApi.retrieve(_id, _token))
@@ -131,21 +185,50 @@ describe('user api', () => {
                     expect(user.username).toBe(username)
                 })
         })
+        it('should fail on object id instead of string',() => {
 
-        // TODO more unit test cases
+            _id = {}
+
+            expect(() => {
+                userApi.update(_id, _token, data)
+            }).toThrow(TypeError(`${_id} is not a string`))
+        })
+        it('should fail on array id instead of string',() => {
+
+            _id = []
+
+            expect(() => {
+                userApi.update(_id, _token, data)
+            }).toThrow(TypeError(`${_id} is not a string`))
+        })
+        let _id2, _token2
+        let username2 = `manuelbarzi-${Math.random()}`
+        userApi.register(name, surname, username2, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
+            .then(id => _id2 = id)
+            .then(() => userApi.authenticate(username2, password))
+            .then(({ token }) => _token2 = token)
+        it('should fail on non-object data',() => {
+
+            data = 'test'
+            
+
+            expect(() => {
+                userApi.update(_id2, _token2, data)
+            }).toThrow(TypeError(`${data} is not an object`))
+        })
     })
 
     describe('remove', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
-        const password = '123'
-        const passwordConfirm = '123'
-        const gender = 'female'
-        const birthDate = '1985/10/15'
-        const height = 161
-        const weight = 60
-        const lifeStyle = 'sedentary'
+        let name = 'Manuel'
+        let surname = 'Barzi'
+        let username = `manuelbarzi-${Math.random()}`
+        let password = '123'
+        let passwordConfirm = '123'
+        let gender = 'female'
+        let birthDate = '1985/10/15'
+        let height = 161
+        let weight = 60
+        let lifeStyle = 'sedentary'
 
         let _id, _token
 
@@ -162,9 +245,24 @@ describe('user api', () => {
                 .then(() => {
                     throw Error('should not pass by here')
                 })
-                .catch(({message}) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
+                .catch(error => expect(error.message).toBe(`user with id \"${_id}\" does not exist`))
         })
+        it('should fail on number password instead of string',() => {
+            
+            password = 123123
 
-        // TODO more unit test cases
+            expect(() => {
+                userApi.remove(_id, _token, username, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+        it('should fail on number username instead of string',() => {
+            
+            username = 4
+            password = '123'
+
+            expect(() => {
+                userApi.remove(_id, _token, username, password)
+            }).toThrow(TypeError(username + ' is not a string'))
+        }) 
     })
 })
