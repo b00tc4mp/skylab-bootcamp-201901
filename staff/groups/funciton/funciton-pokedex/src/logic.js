@@ -1,75 +1,79 @@
 'use strict'
 
 import pokemonApi from './apipokemon'
-
+import userApi from './user-api'
 /**
  * Abstraction of business logic.
  */
 const logic = {
+    //Pokemon Side
+    retrievePokemon(query){
+        return pokemonApi.searchPokemonByName(query)
+    },
+
+    retrieveAllPokemons(){
+        return pokemonApi.searchAllPokemons()
+    },
+
+
     // __userId__: null,
     // __userApiToken__: null,
 
-    // /**
-    // * Registers a user.
-    // * 
-    // * @param {string} name 
-    // * @param {string} surname 
-    // * @param {string} email 
-    // * @param {string} password 
-    // * @param {string} passwordConfirmation 
-    // */
-    // registerUser(name, surname, email, password, passwordConfirmation) {
-    //     if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+    /**
+    * Registers a user.
+    * 
+    * @param {string} name 
+    * @param {string} surname 
+    * @param {string} email 
+    * @param {string} password 
+    * @param {string} passwordConfirmation 
+    */
+    registerUser( email, username, password, passwordConfirmation) {
+        if (typeof username !== 'string') throw TypeError(username + ' is not a string')
 
-    //     if (!name.trim().length) throw Error('name cannot be empty')
+        if (!username.trim().length) throw Error('username cannot be empty')
 
-    //     if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
-    //     if (!surname.trim().length) throw Error('surname cannot be empty')
+        if (!email.trim().length) throw Error('email cannot be empty')
 
-    //     if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
-    //     if (!email.trim().length) throw Error('email cannot be empty')
+        if (!password.trim().length) throw Error('password cannot be empty')
 
-    //     if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+        if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
 
-    //     if (!password.trim().length) throw Error('password cannot be empty')
+        if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
-    //     if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
+        if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-    //     if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
+        return userApi.register(email, username, password, passwordConfirmation)
+            .then(() => { })
+    },
 
-    //     if (password !== passwordConfirmation) throw Error('passwords do not match')
+    /**
+     * Logins a user by its credentials.
+     * 
+     * @param {string} username 
+     * @param {string} password 
+     */
+    loginUser(username, password) {
+        if (typeof username !== 'string') throw TypeError(username + ' is not a string')
 
-    //     return userApi.register(name, surname, email, password)
-    //         .then(() => { })
-    // },
+        if (!username.trim().length) throw Error('username cannot be empty')
 
-    // /**
-    //  * Logins a user by its credentials.
-    //  * 
-    //  * @param {string} email 
-    //  * @param {string} password 
-    //  */
-    // loginUser(email, password) {
-    //     if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
-    //     if (!email.trim().length) throw Error('email cannot be empty')
+        if (!password.trim().length) throw Error('password cannot be empty')
 
-    //     if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+        return userApi.authenticate(username, password)
+            .then(({ id, token }) => {
+                this.__userId__ = id
+                this.__userApiToken__ = token
+            })
+    },
 
-    //     if (!password.trim().length) throw Error('password cannot be empty')
 
-    //     return userApi.authenticate(email, password)
-    //         .then(({ id, token }) => {
-    //             this.__userId__ = id
-    //             this.__userApiToken__ = token
-    //         })
-    // },
-
-    retrievePokemon(query){
-        return pokemonApi.searchPokemonByName(query)
-    }
 
     // TODO updateUser and removeUser
 
