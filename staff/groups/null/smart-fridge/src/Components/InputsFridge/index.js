@@ -6,7 +6,7 @@ class InputsFridge extends React.Component {
         numberInputs: 1, 
         userCal: 2500, 
         calories: 0,
-        diet: 'indiferent', 
+        diet: 'indifferent', 
         activeVegan: false, 
         activeVegeterian: false,
         activeGluten: false,
@@ -30,8 +30,8 @@ class InputsFridge extends React.Component {
         if (input3) query+=input3+'+'
         if (input4) query+=input4+'+'
         if (input5) query+=input5+'+'
-
-        query=query.splice(0,query.lenght-1)  //To eliminate the last +
+ 
+        query=query.slice(0,query.length-1)  //To eliminate the last +
 
         let health= []
         if(activeVegan) health.push('vegan')
@@ -41,14 +41,14 @@ class InputsFridge extends React.Component {
 
         
 
-        onSearch(query, 0, calories, diet, health)
+        onSearch(query, calories, diet, health)
     }
 
     handleSearch1Input = event => this.setState({input1: event.target.value})
-    handleSearch1Input = event => this.setState({input2: event.target.value})
-    handleSearch1Input = event => this.setState({input3: event.target.value})
-    handleSearch1Input = event => this.setState({input4: event.target.value})
-    handleSearch1Input = event => this.setState({input5: event.target.value})
+    handleSearch2Input = event => this.setState({input2: event.target.value})
+    handleSearch3Input = event => this.setState({input3: event.target.value})
+    handleSearch4Input = event => this.setState({input4: event.target.value})
+    handleSearch5Input = event => this.setState({input5: event.target.value})
 
     handleAdd = event => {
         event.preventDefault()
@@ -127,7 +127,7 @@ class InputsFridge extends React.Component {
                         <div className='row mt-5'>
                                 <label htmlFor="diet" className="col col-md-3 col-sm-12 flex mt-1 diet__title">Diet</label>
                                 <select onChange={this.handleDietInput} value={this.state.value} name="lifestyle" className="col col-md-9 col-12 form-control mt-1">
-                                <option value="indiferent">Indiferent</option>
+                                <option value="indifferent">Indifferent</option>
                                     <option value="balanced">Balanced: Protein/Fat/Carb values in 15/35/50 ratio</option>
                                     <option value="high-fiber">High-Fiber: More than 5g fiber per serving</option>
                                     <option value="high-protein">High-Protein: More than 50% of total calories from proteins</option>
