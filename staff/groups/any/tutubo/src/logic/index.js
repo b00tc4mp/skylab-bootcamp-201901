@@ -189,8 +189,9 @@ const logic = {
         return userApi.retrieveAllUsers(this.__userApiToken__)
             .then((data) => {
                 const myUsers = data.filter(user => !!user.appId)
-                myUsers.forEach(user => console.log(user.comments))
-                console.log(myUsers)
+
+                // myUsers.forEach(user => console.log(user.comments))
+                // console.log(myUsers)
             })
     },
 
