@@ -172,6 +172,26 @@ const logic = {
      */
     retrievePublishersList() {
         return thegamesDbApi.retrievePublishersList();
+    },
+
+    /**
+     * Retrieves platforms by Id.
+     *
+     * @param {string} gameId
+     */
+
+    retrieveGamesByPlatform(platformId) {
+        if (typeof platformId !== 'string') throw TypeError(`${platformId} is not a string`);
+
+        if (!platformId.trim().length) throw Error('platformId is empty');
+
+        if (isNaN(Number(platformId))) throw Error(`${platformId} should be a number`);
+
+        if (Number(platformId) < 1) throw Error(`${platformId} should be a bigger than 0`);
+
+        if (Number(platformId) % 1 !== 0) throw Error(`${platformId} should be an integer number`);
+
+        return thegamesDbApi.retrieveGamesByPlatform(platformId);
     }
 };
 

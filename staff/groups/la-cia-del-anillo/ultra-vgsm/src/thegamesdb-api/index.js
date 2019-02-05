@@ -259,7 +259,7 @@ const thegamesDbApi = {
             });
     },
 
-    retrieveGamesByPlatform(platformId) {
+    retrieveGamesByPlatform(platformId, ) {
         if (typeof platformId !== 'string') throw TypeError(`${platformId} is not a string`);
 
         if (!platformId.trim().length) throw Error('platformId is empty');
@@ -285,5 +285,6 @@ const thegamesDbApi = {
             });
     }
 };
+
 
 export default thegamesDbApi;
