@@ -1,22 +1,22 @@
 'use strict'
-
+let storage = sessionStorage
 const userStorage = {
 
-    auth: JSON.parse(localStorage.getItem('auth')) || null,
+    auth: JSON.parse(storage.getItem('auth')) || null,
     
     setUserToken(){
-        this.auth = JSON.parse(localStorage.getItem('auth'))
+        this.auth = JSON.parse(storage.getItem('auth'))
     },
     
     saveUserToken(userData) {
         if(userData.constructor !== Object) throw TypeError('userData has to be an Object instance')
 
-        localStorage.setItem('auth', JSON.stringify(userData))
+        storage.setItem('auth', JSON.stringify(userData))
         this.setUserToken()
     },  
 
     deleteUserToken(){
-        localStorage.removeItem('auth')
+        storage.removeItem('auth')
         this.auth = null
     }
 }
