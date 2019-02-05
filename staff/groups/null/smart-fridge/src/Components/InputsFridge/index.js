@@ -22,7 +22,7 @@ class InputsFridge extends React.Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { input1, input2, input3, input4, input5, calories, diet, health }, props: { onSearch } } = this
+        const { state: { input1, input2, input3, input4, input5, calories, diet, activeVegan, activeVegeterian, activeGluten, activePeanut }, props: { onSearch } } = this
 
         let query=''
         if (input1) query+=input1+'+'
@@ -32,6 +32,14 @@ class InputsFridge extends React.Component {
         if (input5) query+=input5+'+'
 
         query=query.splice(0,query.lenght-1)  //To eliminate the last +
+
+        let health= []
+        if(activeVegan) health.push('vegan')
+        if(activeVegeterian) health.push('vegetarian')
+        if(activeGluten) health.push('gluten-free')
+        if(activePeanut) health.push('peanut-free')
+
+        
 
         onSearch(query, 0, calories, diet, health)
     }
