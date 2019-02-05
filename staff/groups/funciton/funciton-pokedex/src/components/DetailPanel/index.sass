@@ -1,4 +1,22 @@
 
+body::-webkit-scrollbar,
+.DetailPanel-otherInfo__moves::-webkit-scrollbar
+  width: 0.5em
+  height: 0.4em
+
+
+body::-webkit-scrollbar-thumb,
+.DetailPanel-otherInfo__moves::-webkit-scrollbar-thumb,
+
+  background-color: rgba(0,0,0,0.2)
+
+
+.DetailPanel-otherInfo__moves
+  scrollbar-arrow-color: #009688
+  scrollbar-face-color: #eeeeee
+  scrollbar-highlight-color: #eeeeee
+  scrollbar-shadow-color: #dddddd
+    
 .DetailPanelContainer
     display: block
     align-items: center
@@ -9,6 +27,11 @@
     width: 80%
     height: 100%
     margin-left: 20% 
+    background-image:url('http://pngimg.com/uploads/pokeball/pokeball_PNG8.png')
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center
+
     .img
         margin-top: 0 
         width: 150px
@@ -24,11 +47,13 @@
     display: flex
     justify-content: space-between
 
+
     &__backButton
         margin-top: 10px 
         height: 40px
     button
         display: inline-block
+        
     .button
         width: 10px
 
@@ -42,6 +67,7 @@
         box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
         border-radius: 1.2rem
         border: 5px solid #B75F5F
+        background-color: white
 
         &__backButton
             position: relative
@@ -59,4 +85,30 @@
         box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
         border-radius: 1.2rem
         border: 5px solid #B75F5F
+        background-color: white
+        &__buttons
+            margin-bottom: 1rem
+            background-color: #EE5450
+            border-top-left-radius: .7rem
+            border-top-right-radius: .7rem
+            &-button
+                border-radius: .5rem
+                border-top-left-radius: 0rem
+                border-top-right-radius: 0rem
+                background-color: #EE5450
+                border: 0px solid #EE5450
+            
 
+        &__moves
+            ul
+                height: 400px
+                overflow: scroll
+                overflow-x: hidden
+                overflow-y: 
+
+.DetailPanel-otherInfo__buttons-button-selected
+    background-color: white
+    border: 0px solid white
+    border-radius: .1rem
+    border-top-left-radius: 0rem
+    border-top-right-radius: 0rem
