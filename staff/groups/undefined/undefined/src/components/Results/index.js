@@ -19,15 +19,17 @@ class Results extends Component  {
         console.log('Desde Results', id)
     }
 
-    returnVideos =() => {
-        this.setState({videoSelected: null})
+    handleVideoClose = () => {
+        console.log('llega aquí!')
+        this.setState({ videoSelected: null })
     }
 
     render() {
         const {
             props : {results}, 
             state : {videoSelected}, 
-                    handleVideoClick
+                    handleVideoClick,
+                    handleVideoClose
             } = this
 
         console.log(results)
@@ -42,7 +44,10 @@ class Results extends Component  {
                     /> 
                 )}
 
-                {videoSelected && <Detail detail={videoSelected} returnVideos={videoSelected}/>}
+                {videoSelected && <Detail 
+                                    detail={videoSelected} 
+                                    onVideoClose={handleVideoClose} 
+                                  />}
 
             </section>
         )

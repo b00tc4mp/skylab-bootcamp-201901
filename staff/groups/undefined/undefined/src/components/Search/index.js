@@ -9,12 +9,14 @@ class Search extends Component {
         this.props.onSearch(query)
     }
 
-    handleInputChange = event => {
-        this.setState({ query: event.target.value })
-    }
+    // handleQueryInput = event => {
+    //     this.setState({ query: event.target.value })
+    // }
+
+    handleQueryInput = ({ target: { value: query } }) => this.setState({ query })
 
     render() {
-        const {handleInputChange, handleSearchSubmit} = this
+        const {handleQueryInput, handleSearchSubmit} = this
 
         return (
             <section className="search">
@@ -23,7 +25,7 @@ class Search extends Component {
                     <input 
                         name="query" 
                         placeholder="Search Movies and Series"
-                        onChange={handleInputChange}
+                        onChange={handleQueryInput}
                         required 
                     />
 
