@@ -94,7 +94,6 @@ const logic = {
         if (endDate != null && typeof endDate !== 'string') throw TypeError(`${endDate} instroduced is not a string`)
 
         return ticketmasterApi.searchEvents(query, startDate, endDate)
-            .then(events => console.log(events))
     }
 }
 

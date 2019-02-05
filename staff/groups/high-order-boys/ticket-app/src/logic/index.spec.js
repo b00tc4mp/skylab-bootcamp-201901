@@ -19,7 +19,7 @@ describe('logic', () => {
             const surname = 'Skywalker'
             const email = 'manoloskywalker@mail.com'
             const password = '123'
-
+            debugger
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(name + ' is not a string'))
