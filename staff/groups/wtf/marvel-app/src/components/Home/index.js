@@ -7,6 +7,7 @@ import Search from '../Search';
 import CharactersResults from '../CharactersResults'
 import CharacterInfoResult from '../CharacterInfoResult'
 import ComicInfoResult from '../ComicInfoResult'
+import Favourites from '../Favourites'
 
 class Home extends Component {
 
