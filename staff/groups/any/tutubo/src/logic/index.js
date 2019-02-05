@@ -12,7 +12,7 @@ const logic = {
     __videoId__: null,
     __storage__:null,
 
-    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTM2NDc5NiwiZXhwIjoxNTQ5MzY4Mzk2fQ.z3m_qx_n-jwPWkk7xK6XEH-GHPBVDekekc0LDzq8W_M',
+    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1MDkzNTUzOTM1MDAwOWMxMzg1ZiIsImlhdCI6MTU0OTM5MTE1OCwiZXhwIjoxNTQ5Mzk0NzU4fQ.WvB9Mu3ZkcTWC6lxDn2UtV-nsux8sokFtKPpWeR1bT4',
 
     set storage(storage){
         this.__storage__=storage
@@ -245,16 +245,18 @@ const logic = {
             })
     },
 
-    deleteComments(videoId, text) {
+    deleteComments(videoId, date) {
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
             .then(user => {
                 const { comments } = user
+                if (comments) {
+                    if (comments.includes(videoId)) {
+                        const index = videoId.indexOf( element => element[date])
 
-                let deletedComment = comments[videoId].comment.includes(text)
-                console.log(deletedComment)
-                //return userApi.update(this.__userId__, this.__userApiToken__,  deletedComment: '' )
+                        videoId.splice(index, 1)
+                    }
+                }
             })
-            .then(() => {})
     },
 
     likeVideo(videoId) {
