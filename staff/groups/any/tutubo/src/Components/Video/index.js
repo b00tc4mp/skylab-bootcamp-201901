@@ -31,6 +31,7 @@ class Video extends Component {
             logic.showComments(videoId)
                 .then(comments => {
                     this.setState({comments})
+                    console.log(comments)
                 })
                 .catch(() => console.log('bitch shut the fuck upeeee'))
         } catch {

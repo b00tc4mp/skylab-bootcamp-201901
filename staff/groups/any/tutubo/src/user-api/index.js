@@ -87,7 +87,7 @@ const userApi = {
         if (!token.trim().length) throw Error('token is empty')
 
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-debugger
+        
         return fetch(`${this.url}/user/${id}`, {
             method: 'PUT',
             headers: {

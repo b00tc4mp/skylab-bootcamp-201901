@@ -11,7 +11,7 @@ const logic = {
     __userApiToken__: null,
     __videoId__: null,
 
-    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTM1OTE5NiwiZXhwIjoxNTQ5MzYyNzk2fQ.d1AYGq4dMg6ANYmYnxR990DEUlCoEYoS8jVd48VhAPc',
+    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTM2NDc5NiwiZXhwIjoxNTQ5MzY4Mzk2fQ.z3m_qx_n-jwPWkk7xK6XEH-GHPBVDekekc0LDzq8W_M',
 
     /**
     * Registers a user.
@@ -68,6 +68,24 @@ const logic = {
             .then(({ id, token }) => {
                 this.__userId__ = id
                 this.__userApiToken__ = token
+            })
+    },
+
+    authenticateUser(email, password){
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+
+        if (!password.trim().length) throw Error('password cannot be empty')
+
+        return userApi.authenticate(email, password)
+            .then((data) => {
+                this.__userId__= data.id
+                this.__userApiToken__=data.token
+                
+            return data
             })
     },
 
