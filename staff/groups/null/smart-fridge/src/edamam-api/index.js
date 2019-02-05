@@ -32,7 +32,9 @@ const edamamApi = {
         diet = typeof diet === 'string'? `${diet}` : ''
         health = typeof health === 'string'? `${health}` : ''
 
-        return fetch(`${this.url}?q=${query}&app_id=${this.app_id}&app_key=${this.app_key}&from=0&to=3${calories}${diet}${health}`, {
+        let completeUrl = `${this.url}?q=${query}&app_id=${this.app_id}&app_key=${this.app_key}&from=0&to=20${calories}${diet}${health}`
+
+        return fetch(completeUrl, {
             method: 'GET'
         })
             .then(response => response.json())
