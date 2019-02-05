@@ -7,6 +7,7 @@ class ItemResult extends React.Component {
 
 
     retrieveDataFromItem = (query) => {
+        debugger
         this.props.onGoToDetails(this.props.pokemonName)
     }
 

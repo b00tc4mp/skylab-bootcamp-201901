@@ -87,11 +87,10 @@ class App extends Component {
       <div className="App">
         {!user && <Home onHandleShowLogin = {this.toogleShowLogin}/>}
         {!user && <LoginPanel onLogin={this.onLoginRequested} show={loginPanelVisible} message={loginFeedback} />}
-        {!user && <RegisterPanel onRegister={this.onRegisterRequested} show={registerPanelVisible} message={loginFeedback} />
+        {!user && <RegisterPanel onRegister={this.onRegisterRequested} show={registerPanelVisible} message={loginFeedback} />}
         {user && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
         {user && <MainPanel />}
-        {/* {{!pokemonVisible && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
-        {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}} */}
+        {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}
 
 
       </div>
