@@ -11,8 +11,7 @@ class Comments extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault()
-
-        debugger
+        
         const { state: { text }, props: { onComment } } = this
     
         onComment(undefined ,text)
