@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Search from '../Search'
+import './index.sass'
 
 
 class Header extends Component {
@@ -9,10 +10,11 @@ class Header extends Component {
         const { props:{onSearch, onGoToLogin} } = this
 
         return <header className="header">
-            <p>Hamburguer</p>
-            <p>Logo</p>
+            <i className="fas fa-bars"></i>
+            <img className="header__logo" src="http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c545.png"/>
+            <h3 className="header__title">Youtube</h3>
             <Search onSearch={onSearch}/>
-            <button onClick={onGoToLogin}>Login to Sesson</button>
+            <a className="header__button" onClick={onGoToLogin}>Login to Sesson</a>
         </header>
     }
 }

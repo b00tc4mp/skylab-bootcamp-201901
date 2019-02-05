@@ -1,27 +1,30 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import './index.sass'
 
 class Search extends Component {
 
-    state = { query:'' }
+    state = { query: '' }
 
-    handleQueryInput = ({target : {value : query}}) => this.setState({query})
-    
+    handleQueryInput = ({ target: { value: query } }) => this.setState({ query })
+
     handleSearchSubmit = event => {
         event.preventDefault()
 
-        const{props:{onSearch}, state:{query}} = this
+        const { props: { onSearch }, state: { query } } = this
 
         onSearch(query)
     }
 
-    render(){
+    render() {
 
-        const{handleQueryInput, handleSearchSubmit} = this
+        const { handleQueryInput, handleSearchSubmit } = this
 
-        return <form className="search" onSubmit={handleSearchSubmit}>
-        <input className="search__input" type="text" placeholder="Search" onChange={handleQueryInput}/>
-        <button type="submit">Search</button>
-        </form>
+        return <section className="container__form">
+            <form className="form" onSubmit={handleSearchSubmit}>
+                <input className="form__search" type="text" placeholder="Search" onChange={handleQueryInput} />
+                <button className="form__button" type="submit"><i className="fas fa-search"></i></button>
+            </form>
+        </section>
     }
 }
 
