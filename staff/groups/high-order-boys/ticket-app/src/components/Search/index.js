@@ -12,18 +12,17 @@ class Search extends Component {
         event.preventDefault()
 
         const { state: { city, startDate, endDate }, props: { onSearch } } = this
-
         onSearch(city, startDate, endDate)
     }
 
     render() {
-        const { handleFormSubmit, handleInput } = this
+        const { handleFormSubmit, handleInput, state: {city} } = this
 
         return <section>
             <h2>Search</h2>
             <form onSubmit={ handleFormSubmit }>
                 <label>City</label>
-                <input type="text" name="city" placeholder="City" onChange={ handleInput } required />
+                <input type="text" name="city" placeholder="City" onChange={ handleInput } value={city} required />
                 <label>Start Date</label>
                 <input type="date" name="startDate" placeholder="Start Date" onChange={ handleInput } />
                 <label>End Date</label>
