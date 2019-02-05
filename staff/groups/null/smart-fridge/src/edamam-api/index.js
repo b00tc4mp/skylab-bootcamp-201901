@@ -38,6 +38,7 @@ const edamamApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error.message)
+                if (response.count === 0) throw Error('No results found')
 
                 const { hits } = response
 
