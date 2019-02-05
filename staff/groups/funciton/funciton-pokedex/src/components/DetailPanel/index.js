@@ -35,7 +35,8 @@ class DetailedPokemonPanel extends Component {
 
         const { props: { pokemonToShow: { name, stats, abilities, moves, types, held_items, height, weight, id } }, onBackButtonClicked } = this
         let source = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-        return <section className = 'Detail'>
+        
+        return <section className="DetailPanelContainer" >
             <div className='DetailPanel'>
 
                 <div className='DetailPanel-mainInfo'>
