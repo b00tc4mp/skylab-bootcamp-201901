@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Feedback from '../Feedback'
 
 class Search extends Component {
     state = { query: '' }
@@ -9,12 +10,17 @@ class Search extends Component {
         this.props.onSearch(query)
     }
 
-    handleInputChange = event => {
-        this.setState({ query: event.target.value })
-    }
+    handleQueryInput = ({ target: { value: query } }) => this.setState({ query })
+
+    // handleQueryInput = event => {
+    //     this.setState({ query: event.target.value })
+    // }
+
+
 
     render() {
-        const {handleInputChange, handleSearchSubmit} = this
+        const {handleQueryInput, handleSearchSubmit} = this
+        const {feedback} = this.props
 
         return (
             <section className="search">
@@ -23,13 +29,14 @@ class Search extends Component {
                     <input 
                         name="query" 
                         placeholder="Search Movies and Series"
-                        onChange={handleInputChange}
+                        onChange={handleQueryInput}
                         required 
                     />
 
                     <button type="submit">Search </button>
                     
                 </form>
+                { feedback && <Feedback message={feedback} level="warn" /> }
             </section>
         )
     }
