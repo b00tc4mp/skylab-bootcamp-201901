@@ -6,12 +6,14 @@ import MainPanel from "./components/mainPanel"
 import logic from "./logic";
 import Home from './components/Home'
 import LoginPanel from "./components/LoginPanelComponent";
+import RegisterPanel from "./components/RegisterPanel";
 
 class App extends Component {
   state = {
     pokemonVisible: null,
     searchText: null,
-    loginPanelVisible : false
+    loginPanelVisible: false,
+    registerPanelVisible: false
   }
   handlePokemonDetail = (name) => {
     logic.retrievePokemon(name)
@@ -21,6 +23,7 @@ class App extends Component {
 
   onBackButtonDetailedPokemon = () => {
     this.setState({ pokemonVisible: null, searchText: this.state.searchText })
+
   }
 
   setSearchTextApp = (query) => {
@@ -30,28 +33,48 @@ class App extends Component {
 
   onLoginRequested = (username, password) => {
     try {
-        logic.loginUser(username, password)
+      logic.loginUser(username, password)
     } catch (error) {
-      //Funciton de errorPanel
+
     }
   }
   toogleShowLogin = () => {
     const bool = !this.state.loginPanelVisible
-    this.setState({loginPanelVisible : bool})
+    this.setState({ loginPanelVisible: bool })
+  }
+
+  showRegister = () => {
+    (this.state.registerPanelVisible) === false ? this.setState({ registerPanelVisible: true }) : this.setState({ registerPanelVisible: false })
+
+
+  }
+
+  onRegisterRequested = (email, username, password, passwordConfirmation) => {
+    try {
+
+      logic.registerUser(email, username, password, passwordConfirmation)
+        .then(user => {
+          this.setState({ loginFeedback: '', user })
+        })
+        .catch(({ message }) => this.setState({ loginFeedback: message }))
+    } catch ({ message }) {
+      this.setState({ loginFeedback: message })
+
+    }
   }
 
   render() {
     const {
-      state: { pokemonVisible, loginPanelVisible }
+      state: { pokemonVisible, loginPanelVisible, registerPanelVisible }
     } = this
 
     return (
       <div className="App">
-        <Home onHandleShowLogin = {this.toogleShowLogin}/>
+        <Home onHandleShowLogin={this.toogleShowLogin} onHandleShowRegister={this.showRegister} />
         <LoginPanel onLogin={this.onLoginRequested} show={loginPanelVisible} />
-        <MainPanel></MainPanel>
-        {!pokemonVisible && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
-        {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}
+        <RegisterPanel onRegister={this.onRegisterRequested} show={registerPanelVisible} />
+        {/* {{!pokemonVisible && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
+        {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}} */}
 
       </div>
     );
