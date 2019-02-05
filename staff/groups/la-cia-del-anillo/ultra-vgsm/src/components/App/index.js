@@ -41,7 +41,7 @@ class App extends Component {
                             </form>
                         </header>
 
-                        <div className="container">
+                        {/* <div className="container">
                             <section className="results content">
                                 <article className="card">
                                     <a href="#">
@@ -434,7 +434,7 @@ class App extends Component {
                                     </header>
                                 </article>
                             </section>
-                        </div>
+                        </div> */}
                         <footer className="footer content">
                             <p>
                                 Build with <i className="fas fa-heart footer__icon" /> by
