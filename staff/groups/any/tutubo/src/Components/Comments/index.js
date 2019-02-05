@@ -27,12 +27,11 @@ class Comments extends Component {
         updateComments()
     }
 
-    handleCommentDeletion = event => {
-        event.preventDefault()
+    handleCommentDeletion = date => {
 
-        const { state: { text }, props: { onDelete } } = this
+        const  { props: { onDelete } } = this
 
-        onDelete(text)
+        onDelete(date)
     }
 
     render() {
@@ -52,7 +51,7 @@ class Comments extends Component {
                                 <p>{name}</p>
                                 <p>{comment.text}</p>
                                 <p>{comment.date}</p>
-                                <button onClick={handleCommentDeletion}>X</button>
+                                <button onClick={() => handleCommentDeletion(comment.date)}>X</button>
                             </div>)
                         }
                     })
