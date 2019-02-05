@@ -6,8 +6,7 @@ import {getPokemonId} from '../../utils'
 class ItemResult extends React.Component {
 
 
-    retrieveDataFromItem = (query) => {
-        debugger
+    retrieveDataFromItem = () => {
         this.props.onGoToDetails(this.props.pokemonName)
     }
 
