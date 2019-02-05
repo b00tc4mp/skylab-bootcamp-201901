@@ -284,7 +284,14 @@ const logic = {
                 userApi.update(this.__userId__, this.__userApiToken__, { likes })
                 return likes
             })  
-    }
+    },
+
+    // retrieveLikes() {
+    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
+    //         .then(user => {
+    //             const { }
+    //         })
+    // }
 
     // dislikeVideo(videoId) {
     //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
