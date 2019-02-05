@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
+import Feedback from '../Feedback'
 import './index.sass'
 
 class Login extends Component {
@@ -19,16 +20,17 @@ class Login extends Component {
     }
 
     render() {
-        const { handleEmailInput, handlePasswordInput, handleFromSubmit, props: { onGoToRegister } } = this
+        const { handleEmailInput, handlePasswordInput, handleFromSubmit, props: { onGoToRegister, feedback } } = this
 
         return <section>
             <h2>Login</h2>
             <form onSubmit={handleFromSubmit}>
-                <input name='email' type='text' placeholder='email' onChange={handleEmailInput} />
+                <input className="red" name='email' type='text' placeholder='email' onChange={handleEmailInput} />
                 <input name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
                 <button>Login</button>
             </form>
             <button onClick={onGoToRegister}>Register</button>
+            {feedback && <Feedback message = {feedback}/>}
         </section> 
     }
 }

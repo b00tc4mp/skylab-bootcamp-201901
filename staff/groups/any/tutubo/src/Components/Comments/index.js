@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 
 import './index.sass'
 import {withRouter} from 'react-router-dom'
+import logic from '../../logic'
 
 class Comments extends Component {
     state = { text: '' }
@@ -13,11 +14,14 @@ class Comments extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
         
-        //this.props.history.push('/login')
+        if(logic.userLoggedIn){
+            const { state: { text }, props: { onComment } } = this
+        
+            onComment(undefined ,text)
+        }else{
+            this.props.history.push('/login')
+        }
 
-        const { state: { text }, props: { onComment } } = this
-    
-        onComment(undefined ,text)
     }
 
     handleCommentDeletion = event => {

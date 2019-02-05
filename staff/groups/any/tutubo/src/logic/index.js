@@ -10,9 +10,33 @@ const logic = {
     __userId__: null,
     __userApiToken__: null,
     __videoId__: null,
+    __storage__:null,
 
     __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTM2NDc5NiwiZXhwIjoxNTQ5MzY4Mzk2fQ.z3m_qx_n-jwPWkk7xK6XEH-GHPBVDekekc0LDzq8W_M',
 
+    set storage(storage){
+        this.__storage__=storage
+    },
+
+    set __userId__(id){
+        if(id)this.__storage__.setItem('user-id', id)
+        else this.__storage__.removeItem('user-id')
+    },
+
+    get __userId__(){
+        return this.__storage__.getItem('user-id')
+    },
+
+    set __userApiToken__(token){
+        if(token)this.__storage__.setItem('user-token', token)
+        else this.__storage__.removeItem('user-token', token)
+    },
+
+    get __userApiToken__(){
+        return this.__storage__.getItem('user-token')
+    },
+
+    
     /**
     * Registers a user.
     * 
@@ -69,6 +93,15 @@ const logic = {
                 this.__userId__ = id
                 this.__userApiToken__ = token
             })
+    },
+
+    get userLoggedIn() {
+        return !!this.__userId__
+    },
+
+    logout() {
+        this.__userId__ = null
+        this.__userApiToken__ = null
     },
 
     authenticateUser(email, password){
