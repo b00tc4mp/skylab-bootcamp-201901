@@ -11,6 +11,7 @@ import Login from '../Login'
 import VideoResults from '../VideoResults'
 import { withRouter, Route } from 'react-router-dom'
 import Video from '../Video'
+import Home from '../Home'
 import Comments from '../Comments';
 
 //#endregion
@@ -89,6 +90,8 @@ class App extends Component {
             <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} />} />
             <Route path="/login/" render={() => <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />} />
             <Route path="/register/" render={() => <Register onRegister={handleRegister} />} />
+            {/* <Route path="/home/" render={() => <Home />} /> */}
+            {!this.isLoginOrRegister() && <Home selectVideo={handleSelectVideo}/>}
         </section>
     }
 

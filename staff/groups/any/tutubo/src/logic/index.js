@@ -134,17 +134,8 @@ const logic = {
 
     popularResults(/*aqui es donde se podria meter lo de cambiar la region de los resultados populares*/) {
         return youtubeApi.mostPopular(/*aqui es donde se podria meter lo de cambiar la region de los resultados populares*/)
-            .then(({ id, snippet: { publishedAt, tittle, thumbnails: { default: { url } }, channelTittle } }) => ({
-                id,
-                date: publishedAt,
-                tittle,
-                thumbnail: url,
-                channelTittle
-            })) //lo mismo que el search, no se si es mejor con o sin destructuring aqui
 
-        // .then(items => ({   //opcion sin destructuring
-        //     items
-        // }))
+            .then(items => items)
     },
 
     watchVideo() {

@@ -1,12 +1,62 @@
+import React, { Component } from 'react'
+import logic from '../../logic';
 
-import React, { Components } from 'react'
+class Home extends Component {
 
-class Home extends Components {
+    state = { videos: [] }
 
-    
-    render(){
-        return<section>
-            <p>hola</p>
+    componentDidMount() {
+        //console.log('monuterds')
+        try {
+            // debugger
+            logic.popularResults()
+            .then(videos => {
+                console.log(videos)
+                this.setState({videos})
+            })
+            .catch(console.log('nooooo'))
+        } catch {
+            this.setState(/* sets state of feedback messafe again in case of error beforehand */)
+        }
+        this.handleRandomVideos()
+    }
+
+    onVideoSelected = id => {
+
+        const {props : { selectVideo }} = this
+
+        selectVideo(id)
+    }
+
+    handleRandomVideos = () => {
+        try {
+            // debugger
+            logic.popularResults()
+            .then(videos => {
+                console.log(videos)
+                this.setState({videos})
+            })
+            .catch(console.log('nooooo'))
+        } catch {
+            this.setState(/* sets state of feedback messafe again in case of error beforehand */)
+        }
+    }
+
+    render() {
+        const { onVideoSelected, state: { videos } } = this
+        console.log(videos)
+        return <section className="videolist">
+            <p>dkdmd</p>
+            <div>
+                {videos.map(({ id: { videoId }, snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
+                    return <div className="video" key={videoId} onClick={() => onVideoSelected(videoId)} >
+                        <img src={url} />
+                        <h2>{title}</h2>
+                        <p channel-id={channelId} onClick={() => console.log(channelId)}>{channelTitle}</p>
+                        <p>{description}</p>
+                    </div>
+                })}
+            </div>
         </section>
     }
 }
