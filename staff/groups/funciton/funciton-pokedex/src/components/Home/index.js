@@ -5,7 +5,7 @@ import './index.sass'
 
 class Home extends React.Component {
 
-    render(){
+    render() {
 
         return <div className="login_video">
             <nav className="topContent navigationbar">
@@ -22,7 +22,7 @@ class Home extends React.Component {
                 <h3>Welcome to Pokemon Website</h3>
                 <p>You are about one click to access...</p>
                 <button className="btn btn-danger" onClick={this.props.onHandleShowLogin}>Login</button>
-                <button className="btn btn-primary">Register</button>
+                <button className="btn btn-primary" onClick={this.props.onHandleShowRegister}>Register</button>
             </div>
         </div>
     }
