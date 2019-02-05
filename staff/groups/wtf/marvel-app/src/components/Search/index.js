@@ -20,13 +20,21 @@ class Search extends Component {
 
         const { handleQueryInput, handleSearchSubmit} = this;
 
-        return <section>
-                    <h2>probando</h2>
-                    <form onSubmit={handleSearchSubmit}>
-                        <input type='text' placeholder='Search Character' onChange={handleQueryInput}/>
-                        <button type='submit'>Search</button>
-                    </form>     
-               </section>
+        return  <div className="columns is-mobile is-centered">
+        <div className="column is-two-thirds-tablet is-three-quarters-mobile is-centered"> 
+            <form onSubmit={handleSearchSubmit} className="field has-addons has-addons-centered">
+                <div className="control has-icons-left is-expanded">
+                    <input onChange={handleQueryInput} className="input is-small is-rounded" placeholder="Find a character" type="text" name="query"></input>
+                    <span className="icon is-small is-left">
+                        <i className="fab fa-searchengin"></i>
+                    </span>
+                </div>
+                <div className="control">
+                    <button className="button is-small is-rounded is-danger"type="submit">Find!</button>
+                </div>
+            </form>
+        </div>
+    </div>
     }
 
 }
