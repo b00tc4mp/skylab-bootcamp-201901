@@ -7,12 +7,15 @@ import logic from '../../logic'
 
 
 class Home extends Component {
-    state = {results: null}
+    state = {results: null, searchFeedback: ''}
 
     handleSearch = (city, startDate, endDate) => {
         try {
             logic.retrieveEvents(city, startDate, endDate)
-            .then(data => this.setState({results: data}))
+            .then(data => {
+                if (data instanceof Error) this.setState({searchFeedback: data})
+                else this.setState({results: data}) 
+            })
         } catch(err) {
             console.log(err.message)
         }
