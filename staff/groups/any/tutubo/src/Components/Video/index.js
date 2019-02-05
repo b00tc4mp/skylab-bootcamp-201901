@@ -17,10 +17,11 @@ class Video extends Component {
         this.handleVideoInfo(videoId)
     }
 
-    handleComment = (videoId, text) => {
+    handleComment = (videoId, date) => {
         try {
+            debugger
             videoId=this.props.videoId
-            logic.commentVideo(videoId, text)
+            logic.commentVideo(videoId, date)
                 .catch(() => console.log('bitch shut the fuck up'))
         } catch {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
@@ -29,7 +30,6 @@ class Video extends Component {
 
     handleShowComments = videoId => {
         try {
-            debugger
             videoId = this.props.videoId
             logic.showComments(videoId)
                 .then(comments => {
