@@ -4,10 +4,10 @@ describe('ticketmaster-api', () => {
 
     describe('searchEvents', () => {
         const query = 'Barcelona'
-        const startDate = '2019-06-01T14:00:00Z'
-        const endDate = '2019-08-01T14:00:00Z'
-        const startDateNew = '2019-10-01T14:00:00Z'
-        const endDateNew = '2019-04-01T14:00:00Z'
+        const startDate = '2019-06-01'
+        const endDate = '2019-08-01'
+        const startDateNew = '2019-10-01'
+        const endDateNew = '2019-04-01'
 
         it('should succed on correct query', () => 
             ticketmasterApi.searchEvents(query)
@@ -37,7 +37,7 @@ describe('ticketmaster-api', () => {
                 ticketmasterApi.searchEvents(query,null,endDateNew)
                     .then(events => {
                         expect(events).toBeDefined()
-                        expect(events[0].name).toBe('Ozzy Osbourne \'No More Tours 2\' - MEET & GREET')
+                        expect(events[0].name).toBe('Billie Eilish')
                     })
         )
 
