@@ -1,6 +1,7 @@
 'use strict'
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import Results from '../Results'
+import Feedback from '../Feedback'
 import logic from '../../logic'
 
 
@@ -25,18 +26,23 @@ class EventResults extends Component{
         
         try {
             logic.retrieveEvents(city, startDate, endDate)
-            .then(data => this.setState({events: data}))
-            .catch(err => console.log('errors from eventResult',err))
+            .then(data => {
+                if(data) this.setState({events:data, feedback: null})
+                else this.setState({events: null, feedback: `no results for ${city}`})
+            })
         } catch(err) {
-            console.log(err.message)
+            console.log(err)
         }
     }
 
     render(){
 
-        const {state:{events} } = this
+        const {state:{events, feedback} } = this
 
-        return < Results results = {events} />
+        return <Fragment>
+            {events &&  < Results results = {events} />}
+            {feedback && < Feedback message={feedback} />}
+        </Fragment>
     }
 
 }
