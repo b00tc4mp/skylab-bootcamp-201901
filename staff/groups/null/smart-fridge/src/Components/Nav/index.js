@@ -10,6 +10,12 @@ class Nav extends React.Component {
         this.props.onLogout()
     }
 
+    handleEditProfile =event => {
+        event.preventDefault()
+
+        this.props.editProfile()
+    }
+
     render() {
         return <nav className="navbar">
                 <img src='./logo.png' alt='logo' className="navbar-brand" ></img>
@@ -19,7 +25,7 @@ class Nav extends React.Component {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav mt-3">
                         <li className="nav-item ">
-                            <a className="nav-link text-right nav__link" href="#">Edit Profile </a>
+                            <a  onClick={this.handleEditProfile} className="nav-link text-right nav__link" href="#">Edit Profile </a>
                         </li>
                         <li className="nav-item">
                             <a onClick={this.handleOnLogout} className="nav-link text-right nav__link" href="#">Logout</a>
