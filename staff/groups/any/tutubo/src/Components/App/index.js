@@ -118,11 +118,11 @@ class App extends Component {
         const { handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleLikeVideo, state:{ videoId, loginFeedback, registerFeedback } } = this
         return <section>
             {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} />}
-            <Route path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
-            <Route path="/" render={() => <Home selectVideo={handleSelectVideo} />} /> 
+            <Route exact path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
+            <Route exact path="/" render={() => <Home selectVideo={handleSelectVideo} />} /> 
             <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} onLike={handleLikeVideo} like={this.state.likes}/>} />
-            <Route path="/login/" render={() => logic.userLoggedIn ? <Redirect to='/' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} feedback={loginFeedback} />} />
-            <Route path="/register/" render={() => logic.userLoggedIn ? <Redirect to='/'/> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} feedback={registerFeedback} />} />
+            <Route exact path="/login/" render={() => logic.userLoggedIn ? <Redirect to='/' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} feedback={loginFeedback} />} />
+            <Route exact path="/register/" render={() => logic.userLoggedIn ? <Redirect to='/'/> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} feedback={registerFeedback} />} />
         </section>
     }
 

@@ -29,6 +29,7 @@ class Video extends Component {
 
     handleShowComments = videoId => {
         try {
+            debugger
             videoId = this.props.videoId
             logic.showComments(videoId)
                 .then(comments => {
@@ -37,7 +38,7 @@ class Video extends Component {
                 })
                 .catch(() => console.log('bitch shut the fuck upeeee'))
         } catch {
-            this.setState(/* sets state of feedback messafe again in case of error beforehand */)
+            this.setState(console.log('rer'))
         }
     }
 
