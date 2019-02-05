@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {Component} from 'react'
-import { Link } from 'react-router-dom'
 import Feedback from '../Feedback'
 
 class Login extends Component {
