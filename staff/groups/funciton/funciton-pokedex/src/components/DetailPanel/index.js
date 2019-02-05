@@ -15,7 +15,7 @@ class DetailedPokemonPanel extends Component {
     renderHeldItems = () => {
         const { props: { pokemonToShow: { held_items } } } = this
 
-
+        
         return <div className='DetailPanel-otherInfo__items'>
 
 
@@ -38,10 +38,10 @@ class DetailedPokemonPanel extends Component {
         
         return <section className="DetailPanelContainer" >
             <div className='DetailPanel'>
+                    <button className='DetailPanel__backButton' onClick={onBackButtonClicked}>BACK</button>
 
                 <div className='DetailPanel-mainInfo'>
 
-                    <button onClick={onBackButtonClicked}>BACK</button>
                     <h2>{name.toUpperCase()}</h2>
                     <img className='img' src={source}></img>
                     <p>Height: <span>{height}</span></p>

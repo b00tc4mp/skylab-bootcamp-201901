@@ -24,27 +24,39 @@
     display: flex
     justify-content: space-between
 
-    
-    border: 10px solid red
-    .DetailPanel-buttons
+    &__backButton
+        margin-top: 10px 
+        height: 40px
+    button
         display: inline-block
     .button
         width: 10px
 
     
-    .DetailPanel-mainInfo
+    &-mainInfo
         border: 10px solid blue
         height: 550px
         width: 500px
         margin-top: 10rem 
         margin-left: 1rem
+        box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
+        border-radius: 1.2rem
+        border: 5px solid #B75F5F
+
+        &__backButton
+            position: relative
+            left: 0
 
         
 
 
-    .DetailPanel-otherInfo
+    &-otherInfo
         border: 10px solid green
         width: 700px
         height: 550px
         margin-top: 10rem
         margin-right: 10rem
+        box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
+        border-radius: 1.2rem
+        border: 5px solid #B75F5F
+
