@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import pokemonApi from "../../apipokemon";
+import logic from '../../logic'
 import './index.sass'
 import ItemResult from "../ItemResult";
 
@@ -8,8 +8,9 @@ class PokemonSearch extends Component {
   state = { pokemons: [], searchText: '', loading: true };
 
   componentDidMount() {
-    pokemonApi.searchAllPokemons().then(pokemons => {
-      this.setState({ pokemons, loading: false, searchText:this.props.searchText })
+    logic.retrieveAllPokemons().then(pokemons => {
+      this.setState({ pokemons, loading: false })
+
     });
   }
 

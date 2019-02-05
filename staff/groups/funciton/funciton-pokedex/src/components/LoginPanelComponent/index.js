@@ -20,20 +20,21 @@ class LoginPanel extends React.Component {
     //OnLogin tiene que ser el nombre de la propiedad que llegue desde el ente superior.
 
     render(){
-
         const { handleEmailInput, handlePasswordInput, handleFormSubmit } = this
-        return <div className="containerLogin">
+        const showHideClassName = this.props.show ? 'containerLogin' : 'containerLoginNone'
+        
+        return <div className={showHideClassName}>
         <form onSubmit={handleFormSubmit}>
             <div className="form-group">
                 <label htmlFor="exampleInputEmail1">Email address</label>
-                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" onChange={handleEmailInput}/>
+                <input type="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" onChange={handleEmailInput}/>
                 <small id="emailHelp" className="form-text text-muted">Your pokemon trainer's email!</small>
             </div>
             <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Password</label>
                 <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" onChange={handlePasswordInput}/>
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-danger">Submit</button>
         </form>
         </div>
     }

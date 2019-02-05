@@ -3,25 +3,27 @@
 const userApi = {
     url: 'https://skylabcoders.herokuapp.com/api',
 
-    register(name, surname, username, password) {
-        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
-
-        if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw Error('surname is empty')
+    register(email, username, password, passwordConf) {
+        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
+        if (!email.trim().length) throw Error('email is empty')
 
         if (typeof username !== 'string') throw TypeError(`${username} is not a string`)
-        if (!username.trim().length) throw Error('username is empty')
+        if (!username.trim().length) throw Error('surname is empty')
 
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        if (!password.trim().length) throw Error('username is empty')
+
+        if (typeof passwordConf !== 'string') throw TypeError(`${passwordConf} is not a string`)
+        if (!passwordConf.trim().length) throw Error('passwordConf is empty')
+
+        if (password !== passwordConf) throw Error('Passwords do not match')
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, username, password })
+            body: JSON.stringify({ email, username, password })
         })
             .then(response => response.json())
             .then(response => {
@@ -29,7 +31,7 @@ const userApi = {
 
                 if (status === 'OK') return response.data.id
 
-                throw Error(response.error)
+                throw Error(response.error) //Contempla caso de error
             })
     },
 
@@ -53,7 +55,7 @@ const userApi = {
 
                 if (status === 'OK') return response.data
 
-                throw Error(response.error)
+                throw Error(response.error) //Contempla el caso de mal funcionamiento de la API
             })
     },
 
@@ -75,7 +77,7 @@ const userApi = {
 
                 if (status === 'OK') return response.data
 
-                throw Error(response.error)
+                throw Error(response.error) //Contempla el caso de mal funcionamiento de la API
             })
     },
 
@@ -102,7 +104,7 @@ const userApi = {
 
                 if (status === 'OK') return
 
-                throw Error(response.error)
+                throw Error(response.error) //Contempla el caso de mal funcionamiento de la API
             })
     },
 
@@ -133,7 +135,7 @@ const userApi = {
 
                 if (status === 'OK') return
 
-                throw Error(response.error)
+                throw Error(response.error) //Contempla el caso de mal funcionamiento de la API
             })
     }
 }
