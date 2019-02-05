@@ -180,31 +180,50 @@ const logic = {
      * Searches for recipes with the desired query.
      * 
      * @param {string} query 
-     * @param {number} calA 
-     * @param {number} calB 
+     * @param {string} calories
      * @param {string} diet 
-     * @param {string} health 
+     * @param {Array} healthArray
      * 
      * @throws {Error} - On non-existing required params
      * @throws {TypeError} - On query data type different than string
      */
-    search(query, calA, calB, diet, health) {
+    search(query, calories, diet, healthArray) {
+
         
-        if (calA === undefined || calB === undefined) throw Error('Calories range was not input')
+        if (calories === undefined) throw Error('Calories range was not input')
+        
+        if (typeof calories !== 'string') throw TypeError(calories + ' is not a string')
 
-        if (typeof calA === 'number' && typeof calB === 'number') {
-            if (calA > calB) throw Error('Cannot calculate this range of calories')
-        }
-
+        let myDiet
+        
         if (diet) {
             if (typeof diet !== 'string') throw TypeError(diet + ' is not a string')
-        }
 
-        if (health) {
-            if (typeof health !== 'string') throw TypeError(health + ' is not a string')
+            else if (diet === 'indifferent') {
+                myDiet = ''
+            } else {
+                myDiet = '&diet=' + diet
+            }
         }
+        
+        let health
 
-        return edamamApi.search(query, calA, calB, diet, health)
+        if (healthArray.length > 0 || healthArray.length === undefined) {
+            if (!(healthArray instanceof Array)) throw TypeError(healthArray + ' is not an array')
+            const res = []
+            
+            healthArray.forEach(element => {
+                res.push('&health=' + element)
+            });
+            
+            health = res.join('')
+        } else {
+            health = ''
+        }
+        
+        const toCalories = '&calories=0-' + calories
+
+        return edamamApi.search(query, toCalories, myDiet, health)
     }
 }
 

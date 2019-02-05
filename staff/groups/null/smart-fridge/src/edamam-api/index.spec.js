@@ -9,13 +9,12 @@ import edamamApi from '.'
 describe('edamam api', () => {
     describe('search recipes', () => {
         let query = 'chicken'
-        let calA = 591
-        let calB = 722
-        let diet = 'balanced'
-        let health = 'alcohol-free'
+        let calories = ''
+        let diet = '&diet=balanced'
+        let health = ['vegan','vegetarian']
         it('should succeed on matching query', () => {
             
-            return edamamApi.search(query, calA, calB, diet, health)
+            return edamamApi.search(query, calories, diet, health)
                 .then(recipes => {
                     expect(recipes).toBeDefined()
                     expect(recipes instanceof Array).toBeTruthy()

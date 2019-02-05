@@ -331,55 +331,74 @@ describe('logic', () => {
     describe('edamam api', () => {
         describe('search recipes', () => {
             let query = 'chicken'
-            let calA = 591
-            let calB = 722
+            let calories = '700'
             let diet = 'balanced'
-            let health = 'alcohol-free'
+            let health = ['vegan','vegetarian']
             it('should succeed on matching query', () => {
                 
-                return logic.search(query, calA, calB, diet, health)
+                return logic.search(query, calories, diet, health)
                     .then(recipes => {
                         expect(recipes).toBeDefined()
                         expect(recipes instanceof Array).toBeTruthy()
                         expect(recipes.length).toBeGreaterThan(0)
                     })
             })
-            it('should fail on non-numeric calories', () =>  {
+            it('should fail on non-string calories', () =>  {
 
-                calA = 500
-                calB = 400
+                calories = 4
 
                 expect(() => {
-                    logic.search(query, calA, calB, diet, health)
-                }).toThrow(Error('Cannot calculate this range of calories'))
+                    logic.search(query, calories, diet, health)
+                }).toThrow(TypeError(calories + ' is not a string'))
             })
             it('should fail on non-existing calories', () =>  {
 
-                calA = undefined
-                calB = undefined
+                calories = undefined
 
                 expect(() => {
-                    logic.search(query, calA, calB, diet, health)
+                    logic.search(query, calories, diet, health)
                 }).toThrow(Error('Calories range was not input'))
             })
             it('should fail on number diet instead of string', () =>  {
 
-                calA = 591
-                calB = 722
+                calories = '700'
                 diet = 4
 
                 expect(() => {
-                    logic.search(query, calA, calB, diet, health)
+                    logic.search(query, calories, diet, health)
                 }).toThrow(Error(diet + ' is not a string'))
             })
-            it('should fail on number health instead of string', () =>  {
+            it('should fail on number health instead of array', () =>  {
 
                 diet = 'balanced'
                 health = 4
 
                 expect(() => {
-                    logic.search(query, calA, calB, diet, health)
-                }).toThrow(Error(health + ' is not a string'))
+                    logic.search(query, calories, diet, health)
+                }).toThrow(Error(health + ' is not an array'))
+            })
+            it('should succeed on empty array health', () =>  {
+
+                health = []
+
+                return logic.search(query, calories, diet, health)
+                    .then(recipes => {
+                        expect(recipes).toBeDefined()
+                        expect(recipes instanceof Array).toBeTruthy()
+                        expect(recipes.length).toBeGreaterThan(0)
+                    })
+            })
+            it('should work on empty array health', () =>  {
+
+                health = ['vegan', 'vegetarian']
+                diet = 'indifferent'
+
+                return logic.search(query, calories, diet, health)
+                    .then(recipes => {
+                        expect(recipes).toBeDefined()
+                        expect(recipes instanceof Array).toBeTruthy()
+                        expect(recipes.length).toBeGreaterThan(0)
+                    })
             })
         })
         
