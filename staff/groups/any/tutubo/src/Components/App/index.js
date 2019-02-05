@@ -9,7 +9,7 @@ import './index.sass'
 import Header from '../Header';
 import Login from '../Login'
 import VideoResults from '../VideoResults'
-import { withRouter, Route } from 'react-router-dom'
+import { withRouter, Route, Redirect } from 'react-router-dom'
 import Video from '../Video'
 import Home from '../Home'
 import Comments from '../Comments';
@@ -20,7 +20,7 @@ class App extends Component {
 
     //#region STATES
 
-    state = { email: '', pasword: '', videoId: '', text: '' }
+    state = { email: '', videoId: '', text: '', loginFeedback:'', registerFeedback:'' }
 
     //#endregion
 
@@ -30,27 +30,42 @@ class App extends Component {
         try {
             logic.registerUser(name, surname, email, password, passswordConfirmation)
                 .then(() => this.props.history.push('/login/'))
-                .catch(/* set state of feedback message */)
-        } catch {
-            this.setState(/* sets state of feedback messafe again in case of error beforehand */)
+                .catch(({message}) => {
+                    this.setState({registerFeedback: message})
+                })
+        } catch({message}){
+            this.setState({registerFeedback: message})
         }
     }
 
     handleLogin = (email, password) => {
         try {
+            debugger
             logic.loginUser(email, password)
-                .then(user => {
-                    this.setState({ user })
+                .then(() => {
                     this.props.history.push('/')
+                    return logic.authenticateUser(email, password)
+                        .then((data) => {
+                            console.log(data)
+                            // sessionStorage.setItem('myUser', JSON.stringify(data))
+                        })
                 })
-                .catch(/* set state of feedback message */)
-        } catch {
-            this.setState(/* sets state of feedback messafe again in case of error beforehand */)
+                .catch(({message}) => {
+                    this.setState({loginFeedback:message})
+                })
+        } catch({message}) {
+            this.setState({loginFeedback:message})
         }
     }
 
     handleGoToRegister = () => {
+        this.setState({loginFeedback:''})
         this.props.history.push('/register/')
+    }
+
+    handleGoToLogin= () => {
+        this.setState({registerFeedback: ''})
+        this.props.history.push('/login')
     }
 
     handleSearch = query => {
@@ -100,14 +115,13 @@ class App extends Component {
     render() {
         const { pathname } = this.props.location;
         console.log(pathname)
-        const { handleSelectVideo, handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleLikeVideo, state:{videoId} } = this
+        const { handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleLikeVideo, state:{ videoId, loginFeedback, registerFeedback } } = this
         return <section>
             {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} />}
             <Route path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
             <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} onLike={handleLikeVideo} like={this.state.likes}/>} />
-            <Route path="/login/" render={() => <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />} />
-            <Route path="/register/" render={() => <Register onRegister={handleRegister} />} />
-            {/* <Route path="/home/" render={() => <Home />} /> */}
+            <Route path="/login/" render={() => logic.userLoggedIn ? <Redirect to='/' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} feedback={loginFeedback} />} />
+            <Route path="/register/" render={() => logic.userLoggedIn ? <Redirect to='/'/> : <Register onRegister={handleRegister} feedback={registerFeedback} />} />
             {!this.isLoginOrRegister() && <Home selectVideo={handleSelectVideo}/>}
         </section>
     }

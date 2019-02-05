@@ -4,6 +4,9 @@ import './index.css';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom'
+import logic from './logic';
+
+logic.storage = sessionStorage
 
 ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
 
