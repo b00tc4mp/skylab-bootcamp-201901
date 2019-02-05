@@ -2,7 +2,38 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './index.css';
 
+// 4971 - Nintendo Switch
+// 4919 - Play Station 4
+// 4920 - Xbox One
+// 1 - PC
+
 class Aside extends Component {
+
+    handleSwitch = event => {
+        event.preventDefault()
+        retrieveGamesByPlatform(4971)
+    }
+
+    handlePlayStation = (event) => {
+        event.preventDefault()
+        retrieveGamesByPlatform(4971)
+    }
+
+    handleXboxOne = (event) => {
+        event.preventDefault()
+        retrieveGamesByPlatform(4971)
+    }
+
+    handlePc = (event) => {
+        event.preventDefault()
+        retrieveGamesByPlatform(4971)
+    }
+
+    // changePlatform()={this.handleChangePlatform}
+
+    // handlehandleChangePlatform = () => {
+    //     this.setState({ XXXVisible: false, SwitchVisible: true });
+    // };
 
     handleLol = (id) => {
         console.log(id);
@@ -20,7 +51,6 @@ class Aside extends Component {
                                     alt="Ultra-VGMS Logo"
                                     className="logo__image"
                                 />
-                                Ultra-VGMS
                             </a>
                         </div>
 
@@ -54,22 +84,22 @@ class Aside extends Component {
                             <h3 className="menu__title">Plataformas</h3>
                             <ul className="menu__list">
                                 <li className="menu__item">
-                                    <a href="#home" title="Home" className="menu__link" onClick={() => this.handleLol('1')}>
+                                    <a href="#home" title="Home" className="menu__link" onClick={() => this.handleLol('4971')}>
                                         Nintendo Switch
                                     </a>
                                 </li>
                                 <li className="menu__item">
-                                    <a href="#home" title="Login" className="menu__link" onClick={() => this.handleLol('2')}>
-                                        xBox One
-                                    </a>
-                                </li>
-                                <li className="menu__item">
-                                    <a href="#home" title="Register" className="menu__link" onClick={() => this.handleLol('3')}>
+                                    <a href="#home" title="Register" className="menu__link" onClick={() => this.handleLol('4919')}>
                                         PlayStation 4
                                     </a>
                                 </li>
                                 <li className="menu__item">
-                                    <a href="#home" title="Register" className="menu__link" onClick={() => this.handleLol('4')}>
+                                    <a href="#home" title="Login" className="menu__link" onClick={() => this.handleLol('4920')}>
+                                        Xbox One
+                                    </a>
+                                </li>
+                                <li className="menu__item">
+                                    <a href="#home" title="Register" className="menu__link" onClick={() => this.handleLol('1')}>
                                         PC
                                     </a>
                                 </li>
