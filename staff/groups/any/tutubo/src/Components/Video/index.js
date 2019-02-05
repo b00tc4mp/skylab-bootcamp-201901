@@ -65,7 +65,7 @@ class Video extends Component {
     }
 
     render() {
-        const { props: {videoId, like }, handleComment, state: { videoInfo}, handleLike, handleDislike } = this
+        const { props: {videoId, like }, handleShowComments, handleComment, state: { videoInfo}, handleLike, handleDislike } = this
 
         return <section>
             <iframe title={videoId} src={`https://www.youtube.com/embed/${videoId}`} width="100%" height="800"></iframe>
@@ -87,7 +87,7 @@ class Video extends Component {
                     </div>
                 </div>
             }
-            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} />
+            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} updateComments={handleShowComments}/>
         </section>
     }
 }

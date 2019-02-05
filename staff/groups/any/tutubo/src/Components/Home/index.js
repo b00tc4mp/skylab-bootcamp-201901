@@ -6,9 +6,8 @@ class Home extends Component {
     state = { videos: [] }
 
     componentDidMount() {
-        //console.log('monuterds')
+
         try {
-            // debugger
             logic.popularResults()
             .then(videos => {
                 console.log(videos)
@@ -30,7 +29,6 @@ class Home extends Component {
 
     handleRandomVideos = () => {
         try {
-            // debugger
             logic.popularResults()
             .then(videos => {
                 console.log(videos)
@@ -48,7 +46,7 @@ class Home extends Component {
         return <section className="videolist">
             <p>dkdmd</p>
             <div>
-                {videos.map(({ id: { videoId }, snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
+                {videos.map(({ id: videoId , snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
                     return <div className="video" key={videoId} onClick={() => onVideoSelected(videoId)} >
                         <img src={url} />
                         <h2>{title}</h2>
