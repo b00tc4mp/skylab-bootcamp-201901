@@ -19,7 +19,7 @@ class App extends Component {
 
     //#region STATES
 
-    state = { email: '', videoId: '', text: '' }
+    state = { email: '', pasword: '', videoId: '', text: '' }
 
     //#endregion
 
@@ -86,7 +86,7 @@ class App extends Component {
         return <section>
             {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} />}
             <Route path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
-            <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} />} />
+            <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id}/>} />
             <Route path="/login/" render={() => <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />} />
             <Route path="/register/" render={() => <Register onRegister={handleRegister} />} />
         </section>

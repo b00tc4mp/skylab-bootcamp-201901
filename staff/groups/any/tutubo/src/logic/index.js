@@ -9,7 +9,6 @@ import youtubeApi from '../youtube-api';
 const logic = {
     __userId__: null,
     __userApiToken__: null,
-    __videoId__: null,
 
     /**
     * Registers a user.
@@ -145,8 +144,8 @@ const logic = {
         // }))
     },
 
-    watchVideo() {
-        return youtubeApi.watchVideo(this.__videoId__)
+    watchVideo(videoId) {
+        return youtubeApi.watchVideo(videoId)
           .then(items => ({   //opcion sin destructuring
             items
         }))  
@@ -163,7 +162,7 @@ const logic = {
 
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
             .then(user => {
-                const { comments = [] } = user
+                const { comments = {} } = user
 
                 const comment = {
                     text,
