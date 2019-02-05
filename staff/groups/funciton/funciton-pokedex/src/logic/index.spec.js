@@ -271,12 +271,62 @@ describe('Logic Testing', () => {
 
     describe('Testing retrieveAllpokemon', () => {
         it('should succeed on searchingAllPokemons', () =>{
-            return logic.retrieveAllPokemons()
-                .then((result) => {
-                    expect(result.length).toBe(pokemonApi.limit)
+            return logic.registerUser()
+                .then(() => {})
+
+                .catch(error => expect(error).toBeUndefined())
+        })
+
+        it('should fail on toomany args', () =>{
+            let query = 'abc'
+            expect(() => logic.retrieveAllPokemons(query).toThrowError())
+        })
+    })
+
+
+    describe('Testing Toggle Favorites', () => {
+        it('should succeed on adding a favorite', () =>{
+            let email = 'a@a.com'
+            let username = `modafoca12`
+            let password = '123'
+            let passwordConfirmation = '123'
+            let pokemonName = 'pikachu'
+
+            return logic.registerUser(email, username, password, passwordConfirmation)
+                .then(() => {
+                    return logic.loginUser(username, password)
+                        .then(({id, token}) => {
+                            return logic.toggleFavorite(username, id, token, pokemonName)
+                                .then((result) => expect(result).toBe(true))
+                        })
                 })
                 .catch(error => expect(error).toBeUndefined())
         })
+
+        it('should succeed on adding a favorite on a existing array of favorites', () =>{
+
+            let username = `modafoca12`
+            let password = '123'
+            let pokemonName = 'charmander'
+            return logic.loginUser(username, password)
+                .then(({id, token}) => {
+                    return logic.toggleFavorite(username, id, token, pokemonName)
+                        .then((result) => expect(result).toBe(true))
+                })
+
+                .catch(error => expect(error).toBeUndefined())
+        })
+
+        // return logic.registerUser(email, username, password, passwordConf)
+        // .then( () => {
+        //     logic.loginUser(username, password)
+        //         .then(({ id, token, user }) => {
+        //             expect(id).toBeDefined()
+        //             expect(token).toBeDefined()
+        //             expect(user).toBe(username)
+        //         })
+        // })
+
 
         it('should fail on toomany args', () =>{
             let query = 'abc'

@@ -80,6 +80,74 @@ const logic = {
                 return ({id, token, user})
             })
     },
+
+    
+    toggleFavorite(user, id, token, pokemonName){
+
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string');
+
+        if (!id.trim().length) throw Error('id cannot be empty');
+
+        if (typeof user !== 'string') throw TypeError(user + ' is not a string');
+
+        if (!user.trim().length) throw Error('user cannot be empty');
+
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+
+        if (!token.trim().length) throw Error('token cannot be empty');
+
+        if (typeof pokemonName !== 'string') throw TypeError(pokemonName + ' is not a string');
+
+        if (!pokemonName.trim().length) throw Error('pokemonName cannot be empty');
+
+
+        return userApi.retrieve(id, token)
+            .then(({favorites}) =>{
+                if(!favorites || favorites.length==0){ //Caso sin favoritos o que el usuario los haya borrado todos
+                    //En este caso creamos el array de favoritos, con el primer elemento el favorito clickado
+                    favorites = [pokemon]
+                    return userApi.update(id, token, favorites)
+                        .then(() => true)
+                } else {
+                    //Si favorito existe, hay dos opciones, que exista o no
+                    if(favorites.includes(pokemonName)){
+                        //Quitarlo de favoritos
+                        let index = favorites.indexOf(pokemonName)
+                        favorites = favorites.splice(index,1)
+                        return userApi.update(id, token, favorites)
+                            .then(() => true)
+                    } else {
+                        favorites.push(pokemonName)
+                        return userApi.update(id, token, favorites)
+                            .then(() => true)
+                        //añadirlo al array de favoritos al final
+                    }
+                }
+            })
+    },
+
+    getFavorites(user, id, token){
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string');
+
+        if (!id.trim().length) throw Error('id cannot be empty');
+
+        if (typeof user !== 'string') throw TypeError(user + ' is not a string');
+
+        if (!user.trim().length) throw Error('user cannot be empty');
+
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+
+        if (!token.trim().length) throw Error('token cannot be empty');
+
+        userApi.retrieve(id, token)
+        .then(({favorites}) =>{
+            if(!favorites || favorites.length==0){
+                return null
+            } else {
+                return favorites //Devuelve un array de pokemons({name})
+            }
+        })
+    },
 }
 
 export default logic
