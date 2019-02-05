@@ -1,0 +1,20 @@
+.card {
+    grid-row-end: span 2;
+}
+.card__image {
+    max-width: 100%;
+    border-radius: 10px;
+}
+.card__title {
+    margin: 10px 0px;
+}
+.card__title-link {
+    color: #000000;
+    text-decoration: none;
+}
+.card__platform {
+    margin: 0px;
+    font-size: 1.2rem;
+    color: #cecece;
+    font-weight: 400;
+}
