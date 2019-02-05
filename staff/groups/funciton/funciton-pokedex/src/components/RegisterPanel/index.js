@@ -14,10 +14,11 @@ class RegisterPanel extends Component {
     handleConfirmPassword = event => this.setState({ retryPassword: event.target.value })
 
     handleFormSubmit = event => {
-        debugger
         event.preventDefault()
-        const { state: { email, username, password, retryPassword } } = this
-        this.props.onRegister(email, username, password, retryPassword)
+        const { state: { email, username, password, retryPassword }, props: { onRegister } } = this
+
+        onRegister(email, username, password, retryPassword)
+        //this.props.onRegister(this.state.email, this.state.username, this.state.password, this.state.retryPassword)
     }
 
 

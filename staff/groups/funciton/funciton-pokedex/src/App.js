@@ -34,7 +34,7 @@ class App extends Component {
     try {
       logic.loginUser(username, password)
     } catch (error) {
-      //Funciton de errorPanel
+
     }
   }
   toogleShowLogin = () => {
@@ -48,16 +48,19 @@ class App extends Component {
 
   }
 
-  onRegisterRequested = () => (email, username, password, passwordConfirmation) => {
+  onRegisterRequested = (email, username, password, passwordConfirmation) => {
     try {
-      logic.registerUser(email, username, password, passwordConfirmation)
 
-    } catch (error) {
-      //Feedback
+      logic.registerUser(email, username, password, passwordConfirmation)
+        .then(user => {
+          this.setState({ loginFeedback: '', user })
+        })
+        .catch(({ message }) => this.setState({ loginFeedback: message }))
+    } catch ({ message }) {
+      this.setState({ loginFeedback: message })
 
     }
   }
-
 
   render() {
     const {
