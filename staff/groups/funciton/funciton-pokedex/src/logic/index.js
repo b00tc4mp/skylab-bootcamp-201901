@@ -1,17 +1,24 @@
 'use strict'
 
-import pokemonApi from './apipokemon'
-import userApi from './user-api'
+import pokemonApi from '../apipokemon'
+import userApi from '../user-api'
 /**
  * Abstraction of business logic.
  */
 const logic = {
     //Pokemon Side
     retrievePokemon(query){
+
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw Error('query is empty')
+
         return pokemonApi.searchPokemonByName(query)
     },
 
     retrieveAllPokemons(){
+
+        if(arguments.length !== 0) throw Error('Too many args')
+
         return pokemonApi.searchAllPokemons()
     },
 
@@ -73,63 +80,6 @@ const logic = {
                 return ({id, token, user})
             })
     },
-
-
-
-    // TODO updateUser and removeUser
-
-    // /**
-    //  * Search artists.
-    //  * 
-    //  * @param {string} query 
-    //  * @returns {Promise}
-    //  */
-    // searchArtists(query) {
-    //     if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
-
-    //     if (!query.trim().length) throw Error('query is empty')
-
-    //     return spotifyApi.searchArtists(query)
-    // },
-
-    // /**
-    //  * Retrieves albums from artist.
-    //  * 
-    //  * @param {string} artistId 
-    //  */
-    // retrieveAlbums(artistId) {
-    //     if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
-
-    //     if (!artistId.trim().length) throw Error('artistId is empty')
-
-    //     return spotifyApi.retrieveAlbums(artistId)
-    // },
-
-    // /**
-    //  * Retrieves tracks from album.
-    //  * 
-    //  * @param {string} albumId 
-    //  */
-    // retrieveTracks(albumId) {
-    //     if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
-
-    //     if (!albumId.trim().length) throw Error('albumId is empty')
-
-    //     return spotifyApi.retrieveTracks(albumId)
-    // },
-
-    // /**
-    //  * Retrieves track.
-    //  * 
-    //  * @param {string} trackId 
-    //  */
-    // retrieveTrack(trackId) {
-    //     if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)
-
-    //     if (!trackId.trim().length) throw Error('trackId is empty')
-
-    //     return spotifyApi.retrieveTrack(trackId)
-    // }
 }
 
 export default logic

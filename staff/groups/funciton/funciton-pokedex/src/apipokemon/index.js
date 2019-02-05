@@ -8,6 +8,8 @@ const path = require('path');
 const pokemonApi = {
 
   apiURL: 'https://pokeapi.co/api/v2/',
+  limit : 151, //limitation for the number of results to be retrieved when searching all pokemon
+
 
   /**
    * Searches a pokemon
@@ -18,7 +20,7 @@ const pokemonApi = {
    */
 
   searchAllPokemons() {
-    const searchCriteria = "pokemon/?limit=151";
+    const searchCriteria = `pokemon/?limit=${this.limit}`;
     return fetch(`${this.apiURL}${searchCriteria}`, {})
       .then(res => {
         if (res == null) throw Error("This pokemon does not exist");
@@ -39,20 +41,6 @@ const pokemonApi = {
         if (res == null) throw Error('This pokemon does not exist')
         return res.json()
       })
-      // .then(res => {
-      //   // const name = res.forms[0].name
-      //   // const image = res.sprites.front_default
-      //   // const types = res.types
-      //   // const stats = res.stats
-      //   // const abilities = res.abilities
-      //   // const moves = res.moves
-      //   // const helditems = res.held_items
-      //   // const height = res.height
-      //   // const weight = res.weight
-      //   // const result = { name, image, types, stats, abilities, moves, helditems, height, weight }
-
-      //   // return result
-      // })
   },
 
   searchPokemonsByType(query) {
