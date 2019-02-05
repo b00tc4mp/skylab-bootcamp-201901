@@ -16,16 +16,16 @@ class DetailedPokemonPanel extends Component {
     }
 
     ShowTypesMethod = () => {
-        this.setState({ showType: true, showAbilities: false,showMoves:false,showItems:false})
+        this.setState({ showType: true, showAbilities: false, showMoves: false, showItems: false })
     }
     ShowAbilitiesMethod = () => {
-        this.setState({ showType: false, showAbilities: true,showMoves:false,showItems:false})
+        this.setState({ showType: false, showAbilities: true, showMoves: false, showItems: false })
     }
-    ShowMovessMethod = () => {
-        this.setState({ showType: false, showAbilities: false,showMoves:true,showItems:false})
+    ShowMovesMethod = () => {
+        this.setState({ showType: false, showAbilities: false, showMoves: true, showItems: false })
     }
     ShowItemsMethod = () => {
-        this.setState({ showType: false, showAbilities: false,showMoves:false,showItems:true})
+        this.setState({ showType: false, showAbilities: false, showMoves: false, showItems: true })
     }
     renderHeldItems = () => {
         const { props: { pokemonToShow: { held_items } } } = this
@@ -49,8 +49,12 @@ class DetailedPokemonPanel extends Component {
 
     render() {
 
-        const {props: { pokemonToShow: { name, stats, abilities, moves, types, held_items, height, weight, id } }, onBackButtonClicked,ShowAbilitiesMethod,ShowItemsMethod,ShowMovessMethod,ShowTypesMethod } = this
+        const { props: { pokemonToShow: { name, stats, abilities, moves, types, held_items, height, weight, id } }, onBackButtonClicked, ShowAbilitiesMethod, ShowItemsMethod, ShowMovesMethod, ShowTypesMethod } = this
         let source = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+        const selectedButtonAbilities = this.state.showAbilities ? 'DetailPanel-otherInfo__buttons-button-selected' : 'DetailPanel-otherInfo__buttons-button'
+        const selectedButtonItems = this.state.showItems ? 'DetailPanel-otherInfo__buttons-button-selected' : 'DetailPanel-otherInfo__buttons-button'
+        const selectedButtonMoves = this.state.showMoves ? 'DetailPanel-otherInfo__buttons-button-selected' : 'DetailPanel-otherInfo__buttons-button'
+        const selectedButtonType = this.state.showType ? 'DetailPanel-otherInfo__buttons-button-selected' : 'DetailPanel-otherInfo__buttons-button'
 
         return <section className="DetailPanelContainer" >
             <div className='DetailPanel'>
@@ -77,10 +81,10 @@ class DetailedPokemonPanel extends Component {
                 <div className='DetailPanel-otherInfo'>
                     <div className='DetailPanel-otherInfo__buttons'>
 
-                        <button onClick={ShowTypesMethod}>TYPES</button>
-                        <button onClick={ShowAbilitiesMethod}>ABILITIES</button>
-                        <button onClick={ShowMovessMethod}>MOVES</button>
-                        {!!held_items.length && <button onClick={ShowItemsMethod}>HELD ITEMS</button>}
+                        <button className = {selectedButtonType} onClick={ShowTypesMethod}>TYPES</button>
+                        <button className = {selectedButtonAbilities} onClick={ShowAbilitiesMethod}>ABILITIES</button>
+                        <button className = {selectedButtonMoves} onClick={ShowMovesMethod}>MOVES</button>
+                        {!!held_items.length && <button className = {selectedButtonItems} onClick={ShowItemsMethod}>HELD ITEMS</button>}
 
                     </div>
 
@@ -105,9 +109,9 @@ class DetailedPokemonPanel extends Component {
                     </div>}
 
                     {this.state.showMoves && <div className='DetailPanel-otherInfo__moves'>
+                    <h3>MOVES</h3>
 
                         <ul>
-                            <h3>MOVES</h3>
                             {moves.map(move => <li>{move.move.name}</li>)}
 
                         </ul>
