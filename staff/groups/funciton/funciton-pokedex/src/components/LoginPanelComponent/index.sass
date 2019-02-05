@@ -2,17 +2,46 @@
     box-sizing: border-box
     
 .containerLogin
-    width: 50vh
-    height: 50vh
-    border: 2px solid red
-    border-radius: 2rem
-    background-color: #F9B8B8
-    padding: 1%
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 1000
+    width: 100vw
+    height: 100vh
+    background-color: rgba(0,0,0,0.6)
+    padding: 0
+    margin: 0
+    font-size: 1rem
+
+    form
+        width: 50vw
+        height: 50vh
+        position: absolute
+        top: 25vh
+        left: 25vw
+        color: white
+        display: flex
+        flex-flow: column wrap
+
+    .form-group
+        width: 50%
+        align-self: center
+    .form-text
+        color: white
+        
     label
         font-weight: bold
-    button
-        background-image: linear-gradient(red, white)
-        border: 2px solid red
-        color: black
-        font-weight: bold
 
+    small
+        color: white
+
+    button
+        background-color: #ff5e5e
+        border: none
+        color: white
+        font-weight: bold
+        align-self: center
+
+
+.containerLoginNone
+    display: none
