@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 
 class Video extends Component  {
     
+    // componentDidMount () {
+    //     const {props:{id}, onVideoClick} = this
+
+    //     onVideoClick(id) 
+    // }
+
+
     onVideoClick = id => {
         const {props: {onVideoSelected}} = this
         onVideoSelected(id)
