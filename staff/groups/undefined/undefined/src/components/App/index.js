@@ -1,46 +1,72 @@
 import React, { Component } from 'react';
 import Home from '../Home'
+import Register from '../Register'
+import logic from '../../logic';
 import Login from '../Login'
-import logic from '../../logic'
 
 
 class App extends Component {
 
-state = { Login : false}
+  state = { user: null, registerIsVisible: false, loginIsVisible: false}
 
-
-onGoToLogin = event => {
-  event.preventDefault()
-  this.setState({Login: true})
-
-}
-
-handleLogin = (email,password) => {
-  try{
-    logic.loginUser(email,password)
-    .then(user =>{
-      this.setState({user})
-      console.log(user)
-    }).catch( ({message}) => {
-    this.setState({message})
-    })
-
-  }catch({message}){
-    this.setState({message})
+  handleGoToRegister = event => {
+    event.preventDefault()
+    this.setState({ registerIsVisible: true})
+  }
+  
+  handleGoToLogin = event => {
+    event.preventDefault()
+    this.setState({ loginIsVisible: true })
   }
 
-}
+  handleRegister = (name, surname, email, password, passwordConfirmation) => {
+    try {
+        logic.Register(name, surname, email, password, passwordConfirmation)
+        .then( () => {
+          this.setState({registerIsVisible: false})
+        })
+        .catch(error =>{
+          console.log(error)
+        })
+    }catch (error){ 
+        //sync errors
+    }
+  }
 
+  handleLogin = (email,password) => {
+    try{
+      
+      logic.loginUser(email,password)
+        .then(user =>{
+          this.setState({user})
+          console.log(user)
+        }).catch( ({message}) => {
+        this.setState({message})
+        })
+
+    }catch({message}){
+      this.setState({message})
+    }
+
+  }
   render() {
-    const {props : {onGoToLogin , handleLogin}} = this
+
+    const {{handleGoToRegister, handleGoToLogin, handleRegister, handleLogin}, state: {registerIsVisible, user, loginIsVisible}} = this
+
     return (
-      <div className="App">
-        <button onClick={onGoToLogin}>Login</button>
-        <Home /> 
-        <Login onClick={onGoToLogin} onLogin={() => handleLogin} />
-      </div>
-    )
+        <div className="App">
+          {!user && <button onClick={handleGoToRegister}>Register</button>}
+          {!user && <button onClick={handleGoToLogin}>Login</button>}
+
+          {registerIsVisible && <Register onRegister={handleRegister} />}
+          {loginIsVisible && <Login onLogin={handleLogin} />}
+
+          <Home />
+        </div>
+      )
   }
 }
-
+      
+      
 export default App;
+
