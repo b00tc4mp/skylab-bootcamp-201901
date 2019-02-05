@@ -1,5 +1,6 @@
 import React from 'react'
 import './index.sass'
+import Feedback from '../../components/Feedback'
 
 
 
@@ -22,7 +23,7 @@ class LoginPanel extends React.Component {
     render(){
         const { handleEmailInput, handlePasswordInput, handleFormSubmit } = this
         const showHideClassName = this.props.show ? 'containerLogin' : 'containerLoginNone'
-        
+            
         return <div className={showHideClassName}>
         <form onSubmit={handleFormSubmit}>
             <div className="form-group">
@@ -35,6 +36,7 @@ class LoginPanel extends React.Component {
                 <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" onChange={handlePasswordInput}/>
             </div>
             <button type="submit" className="btn btn-danger">Submit</button>
+            <Feedback message={this.props.message} level="warn" />
         </form>
         </div>
     }

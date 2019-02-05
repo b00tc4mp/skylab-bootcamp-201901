@@ -31,6 +31,7 @@ const userApi = {
 
                 if (status === 'OK') return response.data.id
 
+
                 throw Error(response.error) //Contempla caso de error
             })
     },

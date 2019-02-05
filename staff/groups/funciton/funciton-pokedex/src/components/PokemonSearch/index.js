@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import logic from '../../logic'
 import './index.sass'
 import ItemResult from "../ItemResult";

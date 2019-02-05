@@ -5,22 +5,41 @@ body
     background-color: #EE5450
     
 .containerRegister
-    width: 50vh
-    height: 50vh
-    border: 2px solid white
-    border-radius: 2rem
-    background-color: #CDCDCD
-    padding: 1%
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    padding-top: 50px;
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 1000
+    width: 100vw
+    height: 100vh
+    background-color: rgba(0,0,0,0.6)
+    padding: 0
+    margin: 0
+    padding-top: 50px
     label
         font-weight: bold
         
-button
+    button
        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
        border: 2px solid white
 
-img 
+    form
+        width: 50vw
+        height: 50vh
+        position: absolute
+        top: 25vh
+        left: 25vw
+        color: white
+        display: flex
+        flex-flow: column wrap
 
-   width: 350px;
-   height: 80px;
+    .colum
+        width: 50%
+        align-self: center
+
+    img 
+
+        width: 350px
+        height: 80px
+
+.containerRegisterNone
+    display: none
