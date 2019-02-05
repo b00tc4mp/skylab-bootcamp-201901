@@ -21,6 +21,7 @@ class App extends Component {
                         <div className="container">
                             <Route path="/search/:query" render={props => <Results query={props.match.params.query} />} />
                             <Route path="/games/:platformId" component={Games} />
+                            <Route path="/game/:gameId" component={GameInfo} />
                         </div>
                         <Footer />
                     </div>

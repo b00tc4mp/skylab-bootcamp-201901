@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './index.css';
 
 class Card extends Component {
     render() {
 
-        const { props: { game }} = this;
-
+        const { props: { game, gameUrl }} = this;
+        const linkGame = "/game/"+{gameUrl}.gameUrl
         return (
             <article className="card">
-                <a href="#home">
+                <Link to={linkGame}>
                     <div>
                         {
                             game.boxart 
@@ -26,16 +26,15 @@ class Card extends Component {
                         }
                         
                     </div>
-                </a>
+                </ Link>
                 <header>
                     <h3 className="card__title">
-                        <a
-                            href="#home"
+                        <Link to={linkGame}
                             className="card__title-link"
                             title="The Legend of Zelda: Ocarina of Time"
                         >
                             {game.game_title}
-                        </a>
+                        </Link>
                     </h3>
                     <h4 className="card__platform">{game.platform.name}</h4>
                 </header>
