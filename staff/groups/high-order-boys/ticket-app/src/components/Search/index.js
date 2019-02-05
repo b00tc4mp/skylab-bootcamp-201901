@@ -1,28 +1,19 @@
 'use strict'
 
 import React, { Component } from 'react'
-import logic from '../../logic';
+
 
 class Search extends Component {
     state = { city: '', startDate: '', endDate: '' }
-
-    handleSearch = (city, startDate, endDate) => {
-        try {
-            logic.retrieveEvents(city, startDate, endDate)
-            .then(data => console.log(data))
-        } catch(err) {
-            console.log(err.message)
-        }
-    }
 
     handleInput = event => this.setState({ [event.target.name]: event.target.value })
 
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { city, startDate, endDate }, handleSearch } = this
+        const { state: { city, startDate, endDate }, props: { onSearch } } = this
 
-        handleSearch(city, startDate, endDate)
+        onSearch(city, startDate, endDate)
     }
 
     render() {
