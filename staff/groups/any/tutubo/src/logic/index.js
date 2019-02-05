@@ -9,7 +9,6 @@ import youtubeApi from '../youtube-api';
 const logic = {
     __userId__: null,
     __userApiToken__: null,
-    __videoId__: null,
 
     __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTM1OTE5NiwiZXhwIjoxNTQ5MzYyNzk2fQ.d1AYGq4dMg6ANYmYnxR990DEUlCoEYoS8jVd48VhAPc',
 
@@ -138,8 +137,8 @@ const logic = {
             .then(items => items)
     },
 
-    watchVideo() {
-        return youtubeApi.watchVideo(this.__videoId__)
+    watchVideo(videoId) {
+        return youtubeApi.watchVideo(videoId)
           .then(items => ({   //opcion sin destructuring
             items
         }))  
@@ -204,7 +203,57 @@ const logic = {
                 //return userApi.update(this.__userId__, this.__userApiToken__,  deletedComment: '' )
             })
             .then(() => {})
+    },
+
+    likeVideo(videoId) {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => {
+                const { likes = [] } = user
+
+                if (likes) {
+                    if (likes.includes(videoId)) {
+                        function indexOfLike(videoId, element) {
+                            return element === videoId
+                        }
+
+                        const index = likes.findIndex(indexOfLike)
+
+                        likes.splice(index, 1)
+
+                    } else {
+                        likes.push(videoId)
+                    }
+                } else {
+                    likes[0] = [videoId]
+                }
+                
+                userApi.update(this.__userId__, this.__userApiToken__, { likes })
+                return likes
+            })  
     }
+
+    // dislikeVideo(videoId) {
+    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
+    //         .then(user => {
+    //             const { dislikes = {} } = user
+
+    //             if (dislikes) {
+    //                 dislikes.push(videoId)
+    //             } else {
+    //                 dislikes[0] = [videoId]
+    //             }
+                
+    //             return userApi.update(this.__userId__, this.__userApiToken__, { dislikes })
+    //         })
+    //     .then(() => {})  
+    // },
+
+    // checkReview(videoId) {
+    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
+    //         .then(user => {
+
+    //         })
+    // }
 
 }
 

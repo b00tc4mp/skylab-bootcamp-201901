@@ -20,7 +20,7 @@ class App extends Component {
 
     //#region STATES
 
-    state = { email: '', videoId: '', text: '' }
+    state = { email: '', pasword: '', videoId: '', text: '' }
 
     //#endregion
 
@@ -75,6 +75,23 @@ class App extends Component {
         )
     }
 
+    handleLikeVideo = (videoId) => {
+        try {
+
+            logic.likeVideo(videoId)
+                .then(likes => {
+                    if (likes) {
+                        if(likes.includes(videoId)) {
+                            this.setState({likes})
+                        } 
+                    }else{console.log('por nada')}
+                })
+                .catch(/* set state of feedback message */)
+        } catch {
+            this.setState(/* sets state of feedback messafe again in case of error beforehand */)
+        }
+    }
+
 
     //#endregion
 
@@ -83,11 +100,11 @@ class App extends Component {
     render() {
         const { pathname } = this.props.location;
         console.log(pathname)
-        const { handleSelectVideo, handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, state:{videoId} } = this
+        const { handleSelectVideo, handleGoToRegister, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleLikeVideo, state:{videoId} } = this
         return <section>
             {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} />}
             <Route path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
-            <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} />} />
+            <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} onLike={handleLikeVideo} like={this.state.likes}/>} />
             <Route path="/login/" render={() => <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />} />
             <Route path="/register/" render={() => <Register onRegister={handleRegister} />} />
             {/* <Route path="/home/" render={() => <Home />} /> */}
