@@ -1,26 +1,12 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
 class Search extends Component {
     state = { query: '' }
-
-    componentDidMount() {
-        const {match: {params: {query}}} = this.props
-        if (query) this.setState({ query }, ()=>  this.getUrlQuery())
-    }
-
-    getUrlQuery = () => {
-        const {query} = this.state
-        this.props.onSearch(query)
-    }
     
     handleSearchSubmit = (event) => {
         event.preventDefault()
         const {query} = this.state
-        //this.props.history.push(`/search/${query}`)
-        this.getUrlQuery()
-        // const {query} = this.state
-        // this.props.onSearch(query)
+        this.props.onSearch(query)
     }
 
     handleInputChange = event => {
@@ -48,4 +34,4 @@ class Search extends Component {
         )
     }
 }
-export default withRouter(Search)
+export default Search

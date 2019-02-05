@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
 
 import Search from '../Search'
 import logic from '../../logic'
@@ -19,16 +18,11 @@ class Home extends Component {
 
     render() {
         const { handleSearch , state : { videos }} = this
-        const compVideos = () => <Results results={videos}/>
-        const compSearch = () => <Search onSearch={handleSearch} />
+
         return (
             <section className="home">
-                   
-                    <Route path='/search/:query' render={compSearch} /> 
-                    <Route path='/video/:id' render={compVideos} />  
-                    
-                    <Route path='/*' render={compVideos} />
-                  
+                    <Search onSearch={handleSearch} />
+                    <Results results={videos}/>
             </section >
         )
     }
