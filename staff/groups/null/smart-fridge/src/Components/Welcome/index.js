@@ -3,7 +3,7 @@ import Login from '../Login'
 import Register from '../Register'
 import WelcomeBanner from '../WelcomeBanner'
 import logic from '../../logic'
-import { withRouter, Route } from 'react-router-dom'
+import { withRouter, Route, Redirect } from 'react-router-dom'
 import './index.sass'
 
 class Welcome extends React.Component {
@@ -36,12 +36,10 @@ class Welcome extends React.Component {
     handleOnLogin= (email,password)=>{
         try {
             logic.login(email, password)
-                .then (data => {
-                    return logic.retrieve(data.id,data.token)
-                    .then(user => {
-                        console.log(user)
-                        this.setState({ loginFeedback: null, user})
-                        this.props.getUser(user)
+                .then (() => {
+                    return logic.retrieve(sessionStorage.getItem('user-id'),sessionStorage.getItem('user-api-token'))
+                    .then(() => {
+                        this.setState({ loginFeedback: null})
                     })
                 })
                 .catch(({ message }) => this.setState({ loginFeedback: message }))
@@ -55,7 +53,7 @@ class Welcome extends React.Component {
         try {
             logic.register(name, surname, email, password, confirmPassword, gender, height, weigth, birthDay, lifeStyle)
                 .then ((id) => {
-                    console.log(id)
+                    this.props.history.push(`/login`)
                 })
                 .catch(({ message }) => this.setState({ registerFeedback: message }))
 
@@ -69,12 +67,9 @@ class Welcome extends React.Component {
         const {state: {welcomeBannerVisual}} = this
 
         return <section className="welcome">
-                {/* welcomeBannerVisual && <WelcomeBanner onLoginClick={this.handleGotoLogin} onRegisterClick={this.handleGotoRegister}/> */}
                 {welcomeBannerVisual && <Route exact path="/" render={() => <WelcomeBanner onLoginClick={this.handleGotoLogin} onRegisterClick={this.handleGotoRegister}/>}/>}
-                {/* loginVisual && <Login onLogin={this.handleOnLogin} loginToRegister={this.handleGotoRegister}/> */}
-                {/* registerVisual && <Register onRegister={this.handleOnLogin} registerToLogin={this.handleGotoLogin}/> */}
-                {<Route path="/login" render={() => <Login onLogin={this.handleOnLogin} loginToRegister={this.handleGotoRegister}/>} />}
-                {<Route path="/register" render={() => <Register onRegister={this.handleOnRegister} registerToLogin={this.handleGotoLogin}/>} />}
+                {<Route path="/login" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Login onLogin={this.handleOnLogin} loginToRegister={this.handleGotoRegister}/>} />}
+                {<Route path="/register" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Register onRegister={this.handleOnRegister} registerToLogin={this.handleGotoLogin}/>} />}
             </section>
  
     }

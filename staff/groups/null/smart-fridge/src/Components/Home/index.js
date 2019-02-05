@@ -3,7 +3,7 @@ import Nav from '../Nav'
 import InputsFridge from '../InputsFridge'
 import Results from '../Results'
 import logic from '../../logic'
-import { withRouter, Route } from 'react-router-dom'
+import { withRouter, Route, Redirect } from 'react-router-dom'
 import './index.sass'
 
 
@@ -25,14 +25,19 @@ class Home extends React.Component{
 
     }
 
-    handleLogout= () => this.props.onLogout()
+    handleLogout= () => {
+        logic.logout()
+
+        this.props.history.push('/')
+    }
 
     render(){
         const {state:{results}} =  this
         
         return <main className="home">
                 <Nav user={this.props.user} onLogout={this.handleLogout} />
-                <InputsFridge onSearch={this.handleOnSearch}/>
+                {<Route path="/home" render={() =>  logic.userLoggedIn ? <InputsFridge onSearch={this.handleOnSearch}/> : <Redirect to="/" />} />}
+                {/* <InputsFridge onSearch={this.handleOnSearch}/> */}
                 {/* {results && <Results recipes={this.state.recipes}/>} */}
             </main>
 

@@ -4,6 +4,64 @@ import edamamApi from '../edamam-api'
  * Logic for the smart-fridge app
  */
 const logic = {
+    setUserId(id) {
+        this.___userId___ = id
+    },
+
+    getUserId() {
+        return this.___userId___
+    },
+
+    setUserApiToken(token) {
+        this.___userApiToken___ = token
+    },
+
+    getUserApiToken() {
+        return this.___userApiToken___
+    },
+
+    setUser(user) {
+        this.___user___ = user
+    },
+
+    getUser() {
+        return this.___user___
+    },
+
+    set __userId__(id) {
+        this.setUserId(id)
+    },
+
+    get __userId__() {
+        return this.getUserId()
+    },
+
+    set __userApiToken__(token) {
+        this.setUserApiToken(token)
+    },
+
+    get __userApiToken__() {
+        return this.getUserApiToken()
+    },
+
+    set __user__(user) {
+        this.setUser(user)
+    },
+
+    get __user__() {
+        return this.getUser()
+    },
+
+    get userLoggedIn() {
+        return !!this.__userId__
+    },
+
+    logout() {
+        this.__userId__ = null
+        this.__userApiToken__ = null
+        this.__user__ = null
+    },
+
     /**
      * Calculate the total amount of daily calories that the user needs based on his params.
      *
@@ -122,6 +180,10 @@ const logic = {
         if (arguments.length > 2) throw Error('Too many arguments were introduced in the function')
 
         return userApi.authenticate(email, password)
+            .then(({ id, token }) => {
+                this.__userId__ = id
+                this.__userApiToken__ = token
+            })
     },
     /**
      * 
@@ -139,6 +201,9 @@ const logic = {
         if (arguments.length > 2) throw Error('Too many arguments were introduced in the function')
 
         return userApi.retrieve(id, token)
+            .then((user) => {
+                this.__user__ = JSON.stringify(user)
+            })
     },
     /**
      * 
