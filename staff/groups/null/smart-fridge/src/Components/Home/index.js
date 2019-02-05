@@ -31,17 +31,18 @@ class Home extends React.Component{
         this.props.history.push('/')
     }
 
-    render(){
-        const {state:{results}} =  this
+  
         
-        return <main className="home">
-                <Nav user={this.props.user} onLogout={this.handleLogout} />
-                {<Route path="/home" render={() =>  logic.userLoggedIn ? <InputsFridge onSearch={this.handleOnSearch}/> : <Redirect to="/" />} />}
-                {/* <InputsFridge onSearch={this.handleOnSearch}/> */}
-                {/* {results && <Results recipes={this.state.recipes}/>} */}
-            </main>
+        render(){
+            const {state:{recipes}} =  this
+     
+            return <main className="home">
+                    <Nav user={this.props.user} onLogout={this.handleLogout}/>
+                    {!recipes && <InputsFridge onSearch={this.handleOnSearch}/>}
+                    {recipes && <Results recipes={this.state.recipes}/>}
+                </main>
+        }
+     }
 
-    }
-}
 
 export default withRouter(Home)
