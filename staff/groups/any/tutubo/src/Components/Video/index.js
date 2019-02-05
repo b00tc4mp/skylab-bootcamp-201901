@@ -64,8 +64,6 @@ class Video extends Component {
     
 
     render() {
-        //console.log(this.state.videoInfo)
-        // videoInfo: {snippet: {tittle, channelTittle, description, tags}}
         const { props: {videoId}, handleComment, state: { videoInfo}, handleLike, handleDislike } = this
 
         return <section>
