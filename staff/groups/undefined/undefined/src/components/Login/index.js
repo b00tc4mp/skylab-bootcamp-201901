@@ -1,4 +1,5 @@
 import React,{Component} from 'react'
+import Feedback from '../Feedback'
 
 
 
@@ -14,9 +15,9 @@ class Login extends Component {
         onLogin(email, password)
     }
 
-
     render() {
         const {handleEmailInput,handlePasswordInput,handleFromSubmit} = this
+        const {feedback} = this.props
         return (
             <section>
                 <h1>Login</h1>
@@ -27,7 +28,8 @@ class Login extends Component {
                     <input type="password" name="password" onChange={handlePasswordInput}></input>
                     <button>Login</button>
                 </form>
-            </section>
+                { feedback && <Feedback message={feedback} level="warn" /> }
+            </section>            
         )
 
         
