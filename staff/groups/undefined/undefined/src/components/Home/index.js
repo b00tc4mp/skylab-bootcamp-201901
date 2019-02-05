@@ -8,7 +8,6 @@ class Home extends Component {
     state = { videos: null }
 
     handleSearch = query => {
-        console.log('Desde la HOME', query)
         logic.searchVideos(query)
         .then(results => {
             console.log(results)
