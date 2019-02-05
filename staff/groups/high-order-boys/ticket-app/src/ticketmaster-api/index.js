@@ -21,7 +21,8 @@ const ticketmasterApi  = {
         .then(response => response.json())
         .then(response => {
             if(response._embedded) return response._embedded.events
-            else throw Error ('there is no results for ' + query)
+            return null
+            // else throw Error ('there is no results for ' + query)
         })
         //.then(response => response)
         //.then(({_embedded: {events}}) => events)

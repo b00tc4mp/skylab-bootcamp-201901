@@ -93,7 +93,9 @@ const logic = {
         if (startDate != null && typeof startDate !== 'string') throw TypeError(`-->${startDate}<-- startDate introduced is not a string`)
         if (endDate != null && typeof endDate !== 'string') throw TypeError(`-->${endDate}<-- endDate introduced is not a string`)
 
-        return ticketmasterApi.searchEvents(query, startDate, endDate)
+       return ticketmasterApi.searchEvents(query, startDate, endDate)
+            .then(events => events)
+            .catch(err => console.log(err))
     },
 
     retrieveEvent(id) {
