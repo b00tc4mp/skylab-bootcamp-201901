@@ -48,7 +48,6 @@ class App extends Component {
                             <a href="" title="Github quinwacca" className="footer__link">
                                 quinwacca
                             </a>
-                            +
                             <a href="" title="Github viabadia" className="footer__link">
                                 viabadia
                             </a>
@@ -60,6 +59,7 @@ class App extends Component {
                     </footer>
                 </div>
             </main>
+
         );
     }
 }
