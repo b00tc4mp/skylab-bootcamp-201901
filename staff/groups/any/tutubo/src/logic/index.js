@@ -11,6 +11,8 @@ const logic = {
     __userApiToken__: null,
     __videoId__: null,
 
+    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTM1OTE5NiwiZXhwIjoxNTQ5MzYyNzk2fQ.d1AYGq4dMg6ANYmYnxR990DEUlCoEYoS8jVd48VhAPc',
+
     /**
     * Registers a user.
     * 
@@ -163,7 +165,7 @@ const logic = {
 
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
             .then(user => {
-                const { comments = [] } = user
+                const { comments = {} } = user
 
                 const comment = {
                     text,
@@ -180,20 +182,22 @@ const logic = {
 
                 console.log(comments)
 
-                return userApi.update(this.__userId__, this.__userApiToken__, { comments })
+                return userApi.update(this.__userId__, this.__userApiToken__, {comments})
             })
             .then(() => {})
     },
 
     showComments(videoId) {
-        return userApi.retrieveAllUsers(this.__userApiToken__)
+        return userApi.retrieveAllUsers(this.__mytoken__)
             .then((data) => {
                 const myUsers = data.filter(user => !!user.appId)
       // myUsers.forEach(user => console.log(user.comments))
                 // console.log(myUsers)
                 // myUsers.forEach(user => console.log(user.comments))
                 // console.log(myUsers)
-                const allComments = myUsers.filter(user => !!user.comments.videoId)
+                const allComments = myUsers.filter(user => user.comments && !!user.comments[videoId])
+
+                console.log(allComments)
 
                 return allComments
             })
