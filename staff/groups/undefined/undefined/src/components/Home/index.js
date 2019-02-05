@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Route, withRouter } from 'react-router-dom' 
 
 import Search from '../Search'
 import logic from '../../logic'
@@ -13,6 +14,8 @@ class Home extends Component {
                 .then(results => {
                     console.log(results)
                     this.setState({ videos: results, searchFeedback: null })                
+                    
+                    this.props.history.push(`/videos/${query}`)
                 })
                 .catch( ({message}) => { //async errors from api = Movie not fund!
                     this.setState({ videos: null, searchFeedback: message })
@@ -28,9 +31,9 @@ class Home extends Component {
         return (
             <section className="home">
                 <Search onSearch={handleSearch} feedback={searchFeedback} />
-                {videos && <Results results={videos} />}
+                <Route path='/videos/:query' render={() => videos && <Results results={videos} />} />
             </section >
         )
     }
 }
-export default Home
+export default withRouter(Home)
