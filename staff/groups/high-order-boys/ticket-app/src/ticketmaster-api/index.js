@@ -21,7 +21,7 @@ const ticketmasterApi  = {
         .then(response => response.json())
         //.then(response => response)
         .then(({_embedded: {events}}) => events)
-        .catch(error => error)
+        .catch(error => error) 
     }
 }
 
