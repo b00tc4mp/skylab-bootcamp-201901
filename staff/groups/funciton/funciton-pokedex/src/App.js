@@ -14,9 +14,10 @@ class App extends Component {
 
     searchText: null,
     pokemonVisible: null,
-    loginPanelVisible : false,
+    loginPanelVisible: false,
     user: null,
-    loginFeedback: ''
+    loginFeedback: '',
+    registerPanelVisible: false
 
   }
 
@@ -38,13 +39,13 @@ class App extends Component {
 
   onLoginRequested = (user, password) => {
     try {
-        logic.loginUser(user, password)
-          .then(({user}) => {
-            this.setState({user})
-          })
-          .catch(({ message }) => this.setState({ loginFeedback: message }))
-    } catch ({message}) {
-        this.setState({ loginFeedback: message })
+      logic.loginUser(user, password)
+        .then(({ user }) => {
+          this.setState({ user })
+        })
+        .catch(({ message }) => this.setState({ loginFeedback: message }))
+    } catch ({ message }) {
+      this.setState({ loginFeedback: message })
 
     }
   }
@@ -58,11 +59,7 @@ class App extends Component {
     this.setState({ loginPanelVisible: bool })
   }
 
-  showRegister = () => {
-    (this.state.registerPanelVisible) === false ? this.setState({ registerPanelVisible: true }) : this.setState({ registerPanelVisible: false })
-
-
-  }
+  registerPanelVisible = () => this.setState({ registerPanelVisible: !this.state.registerPanelVisible })
 
   onRegisterRequested = (email, username, password, passwordConfirmation) => {
     try {
@@ -85,7 +82,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {!user && <Home onHandleShowLogin = {this.toogleShowLogin}/>}
+        {!user && <Home onHandleShowLogin={this.toogleShowLogin} onHandleShowRegister={this.registerPanelVisible} />}
         {!user && <LoginPanel onLogin={this.onLoginRequested} show={loginPanelVisible} message={loginFeedback} />}
         {!user && <RegisterPanel onRegister={this.onRegisterRequested} show={registerPanelVisible} message={loginFeedback} />}
         {user && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
@@ -103,12 +100,13 @@ export default App;
 
 
 function bindEvent(e, eventName, callback) {
-  if(e.addEventListener) // new browsers
-      e.addEventListener(eventName, callback, false);
-  else if(e.attachEvent) // IE
-      e.attachEvent('on'+ eventName, callback);
+  if (e.addEventListener) // new browsers
+    e.addEventListener(eventName, callback, false);
+  else if (e.attachEvent) // IE
+    e.attachEvent('on' + eventName, callback);
 };
 
-bindEvent(document.body, 'scroll', function(e) {
+bindEvent(document.body, 'scroll', function (e) {
   document.body.scrollLeft = 0;
 });
+
