@@ -2,15 +2,27 @@ import pokemonApi from '.';
 const path = require('path');
 
 describe('pokemon API', () => {
+
+    describe('search AllPokemons', () => {
+        it('should succeed on retrieving allpokemons', () =>{
+            
+            let query = 'pikachu';
+            return pokemonApi.searchAllPokemons(query)
+                .then((result) => {
+                    expect(result.length).toBe(pokemonApi.limit)
+                })
+                .catch(error => expect(error).toBeUndefined())
+        })
+    })
+
     describe('search for an pokemon by name', () => {
         it('should succeed on retrieving data from a pokemon', () =>{
             
             let query = 'pikachu';
             return pokemonApi.searchPokemonByName(query)
                 .then((result) => {
-                    expect(result.name).toBe(query)
-                    expect(result.image).toBe('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png')
-                    expect(result.types[0]).toBe('electric')
+                    expect(result.name == query).toBe(true)
+                    expect(result.types[0].type.name).toBe('electric')
                 })
                 .catch(error => expect(error).toBeUndefined())
         })
