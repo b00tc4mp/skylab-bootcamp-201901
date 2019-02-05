@@ -3,6 +3,8 @@
 import React, {Component} from 'react'
 
 import './index.sass'
+import {withRouter} from 'react-router-dom'
+import logic from '../../logic'
 
 class Comments extends Component {
     state = { text: '' }
@@ -11,9 +13,15 @@ class Comments extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault()
-        const { state: { text }, props: { onComment } } = this
-    
-        onComment(undefined ,text)
+        
+        if(logic.userLoggedIn){
+            const { state: { text }, props: { onComment } } = this
+        
+            onComment(undefined ,text)
+        }else{
+            this.props.history.push('/login')
+        }
+
     }
 
     handleCommentDeletion = event => {
@@ -35,9 +43,10 @@ class Comments extends Component {
             <textarea form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..."></textarea>
             <div>
                 {
-                    comments.map(({ comments }) => {
+                    comments.map(({ name, comments }) => {
                         if(comments[id]){
                             return comments[id].map(comment =>  <div key={comment.date}>
+                                <p>{name}</p>
                                 <p>{comment.text}</p>
                                 <p>{comment.date}</p>
                                 <button onClick={handleCommentDeletion}>X</button>
@@ -50,4 +59,4 @@ class Comments extends Component {
     }
 }
 
-export default Comments
+export default withRouter(Comments)
