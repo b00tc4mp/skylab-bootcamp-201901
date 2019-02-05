@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Route, withRouter, Redirect } from 'react-router-dom' 
+
 import Home from '../Home'
 import Register from '../Register'
 import logic from '../../logic';
@@ -12,11 +14,13 @@ class App extends Component {
   handleGoToRegister = event => {
     event.preventDefault()
     this.setState({ registerIsVisible: true, loginIsVisible: false, loginFeedback: null, registerFeedback: null})
+    this.props.history.push('/register')
   }
   
   handleGoToLogin = event => {
     event.preventDefault()
     this.setState({ loginIsVisible: true, registerIsVisible: false, loginFeedback: null, registerFeedback: null})
+    this.props.history.push('/login')
   }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
@@ -39,7 +43,7 @@ class App extends Component {
       logic.loginUser(email,password)
         .then( () => {            // no devuelve nada - si hay error devuelve el mensaje de error
           this.setState({ loginFeedback: null }) //this.setState({user}) // aquí nos tenemos que guardar el ID para favoritos
-                                    //LOCAL STORAGE
+                                                //LOCAL STORAGE
         }).catch( ({message}) => {
             this.setState({ loginFeedback: message })
         })
@@ -56,19 +60,18 @@ class App extends Component {
     return (
         <div className="App">
 
-          {!user && <button onClick={handleGoToRegister}>Register</button>}
-          {!user && <button onClick={handleGoToLogin}>Login</button>}
+          <Route path='/register' render={() => registerIsVisible && !loginIsVisible && <Register onRegister={handleRegister} feedback={registerFeedback}/> }   />
+          <Route path='/login' render={() => !user? loginIsVisible && !registerIsVisible && <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/' /> } />
 
-          {registerIsVisible && !loginIsVisible && <Register onRegister={handleRegister} feedback={registerFeedback}/>}
-          {loginIsVisible && !registerIsVisible && <Login onLogin={handleLogin} feedback={loginFeedback}/>}
+          <Route path='/' render={() => !user && <button onClick={handleGoToRegister}>Register</button>} />
+          <Route path='/' render={() => !user && <button onClick={handleGoToLogin}>Login</button>} />
 
-          {!loginIsVisible && !registerIsVisible && <Home /> }
+          <Route path='/' render={() => !loginIsVisible && !registerIsVisible && <Home /> } />
 
         </div>
       )
   }
 }
-      
-      
-export default App;
+
+export default withRouter(App);
 
