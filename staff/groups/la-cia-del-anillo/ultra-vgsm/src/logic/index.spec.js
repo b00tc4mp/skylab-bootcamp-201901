@@ -755,4 +755,130 @@ describe('logic', () => {
             });
         });
     });
+
+    describe('retrive games by platform', function() {
+        beforeEach(() => {
+            thegamesDbApi.apiKey =
+                '387f91ccf550081f8c890fefc75982c76d309d2b215cfbefd959d520d397c72b';
+            thegamesDbApi.proxy = 'https://skylabcoders.herokuapp.com/proxy?url=';
+        });
+
+        describe('sync fails', () => {
+            it('should throw error if Id is a number', () => {
+                const Id = 23;
+
+                expect(typeof Id).toBe('number');
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError(
+                    `${Id} is not a string`
+                );
+            });
+
+            it('should throw error if Id is an arrray', () => {
+                const Id = [1, 2, 3];
+
+                expect(Id.constructor).toBe(Array);
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError(
+                    `${Id} is not a string`
+                );
+            });
+
+            it('should throw error if Id is an object', () => {
+                const Id = { hello: 'world' };
+
+                expect(Id.constructor).toBe(Object);
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError(
+                    `${Id} is not a string`
+                );
+            });
+
+            it('should throw error on boolean Id', () => {
+                const Id = false;
+
+                expect(typeof Id).toBe('boolean');
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError(
+                    `${Id} is not a string`
+                );
+            });
+
+            it('should throw error if Id is a function', () => {
+                const Id = () => console.log('hello');
+
+                expect(typeof Id).toBe('function');
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError(
+                    `${Id} is not a string`
+                );
+            });
+
+            it('should throw error on empty Id', () => {
+                const Id = '';
+
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError('Id is empty');
+            });
+
+            it('should throw error when Id is not a string number (isNaN(Number(Id)))', () => {
+                const Id = 'a';
+
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError(
+                    `${Id} should be a number`
+                );
+            });
+
+            it('should throw error when Id is <0', () => {
+                const Id = '0';
+
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError(
+                    `${Id} should be a bigger than 0`
+                );
+            });
+
+            it('should throw error when Id is a float number', () => {
+                const Id = '1.23';
+
+                expect(() => logic.retrieveGamesByPlatform(Id)).toThrowError(
+                    `${Id} should be an integer number`
+                );
+            });
+        });
+
+        describe('async fails', () => {
+            it("should throw error when Id doesn't exists on database", () => {
+                const Id = '9823749872394872983';
+
+                return logic
+                    .retrieveGamesByPlatform(Id)
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) =>
+                        expect(message).toBe(`${Id} doesn't exist in database`)
+                    );
+            });
+            it('should fail on server down', () => {
+                const Id = '1';
+                thegamesDbApi.proxy = 'https://skylabcoders.hulioapp.com/proxy?url=';
+
+                return logic
+                    .retrieveGamesByPlatform(Id)
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) => expect(message).toBe(`Network request failed`));
+            });
+            it('should fail on non valid API key', () => {
+                const Id = '1';
+                thegamesDbApi.apiKey = 'HULIO';
+
+                return logic
+                    .retrieveGamesByPlatform(Id)
+                    .then(() => {
+                        throw Error('should not pass by here');
+                    })
+                    .catch(({ message }) =>
+                        expect(message).toBe(
+                            `This route requires and API key and no API key was provided.`
+                        )
+                    );
+            });
+        });
+    });
 });

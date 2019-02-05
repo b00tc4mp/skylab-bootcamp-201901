@@ -505,7 +505,7 @@ main {
 }
 .sidebar__fixed-logo {
   background-image: linear-gradient(to top, rgba(244, 244, 244, 0), rgba(244, 244, 244, 0.9) 15%);
-  height: 6rem;
+  height: 11rem;
   display: flex;
   justify-content: center;
   position: sticky;
@@ -575,8 +575,8 @@ main {
   color: #000;
 }
 .logo__image {
-  max-width: 35px;
-  margin-right: 10px;
+  max-width: 190px;
+  margin-right: 5px;
 }
 
 .search {
