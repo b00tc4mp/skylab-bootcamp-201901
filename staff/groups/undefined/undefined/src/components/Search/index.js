@@ -12,12 +12,6 @@ class Search extends Component {
 
     handleQueryInput = ({ target: { value: query } }) => this.setState({ query })
 
-    // handleQueryInput = event => {
-    //     this.setState({ query: event.target.value })
-    // }
-
-
-
     render() {
         const {handleQueryInput, handleSearchSubmit} = this
         const {feedback} = this.props
