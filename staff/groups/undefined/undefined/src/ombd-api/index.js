@@ -30,7 +30,7 @@ const omdbApi = {
         return fetch(`${this.url}&s=${query}`)
             .then(response => response.json())
             .then(response => {
-                if (response.Response === 'False') return [] 
+                if (response.Response === 'False') throw Error(response.Error)
                 return response.Search
             })
     },
