@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Feedback from '../Feedback'
 
 
 class Register extends Component {
@@ -20,7 +21,7 @@ class Register extends Component {
 
     render(){
 
-        const { handleOnSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput} = this
+        const { handleOnSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, props: {feedback}} = this
 
         return <section className = "register">
             <h2>Register</h2>
@@ -42,6 +43,7 @@ class Register extends Component {
 
                     <button type="submit">Register</button>
                 </form>
+                { feedback && <Feedback message={feedback} level="warn" /> }
         </section>
 
     }

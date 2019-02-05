@@ -7,29 +7,29 @@ import Login from '../Login'
 
 class App extends Component {
 
-  state = { user: null, registerIsVisible: false, loginIsVisible: false}
+  state = { user: null, registerIsVisible: false, loginIsVisible: false, loginFeedback: null, registerFeedback: null }
 
   handleGoToRegister = event => {
     event.preventDefault()
-    this.setState({ registerIsVisible: true, loginIsVisible: false})
+    this.setState({ registerIsVisible: true, loginIsVisible: false, loginFeedback: null, registerFeedback: null})
   }
   
   handleGoToLogin = event => {
     event.preventDefault()
-    this.setState({ loginIsVisible: true, registerIsVisible: false })
+    this.setState({ loginIsVisible: true, registerIsVisible: false, loginFeedback: null, registerFeedback: null})
   }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
     try {
         logic.registerUser(name, surname, email, password, passwordConfirmation)
         .then( () => {
-          this.setState({registerIsVisible: false})
+          this.setState({registerIsVisible: false, registerFeedback: null})
         })
-        .catch(error =>{
-          console.log(error)
+        .catch(({message}) =>{
+          this.setState({registerFeedback: message})
         })
-    }catch (error){ 
-        //sync errors
+    }catch ({message}){ 
+      this.setState({registerFeedback: message})
     }
   }
 
@@ -37,21 +37,21 @@ class App extends Component {
     try{
       
       logic.loginUser(email,password)
-        .then(user =>{
-          this.setState({user})
-          console.log(user)
+        .then( () => {            // no devuelve nada - si hay error devuelve el mensaje de error
+          this.setState({ loginFeedback: null }) //this.setState({user}) // aquí nos tenemos que guardar el ID para favoritos
+                                    //LOCAL STORAGE
         }).catch( ({message}) => {
-        this.setState({message})
+            this.setState({ loginFeedback: message })
         })
 
     }catch({message}){
-      this.setState({message})
+      this.setState({ loginFeedback: message })
     }
 
   }
   render() {
 
-    const {handleGoToRegister, handleGoToLogin, handleRegister, handleLogin, state: {registerIsVisible, user, loginIsVisible}} = this
+    const {handleGoToRegister, handleGoToLogin, handleRegister, handleLogin, state: {registerIsVisible, user, loginIsVisible, loginFeedback, registerFeedback}} = this
 
     return (
         <div className="App">
@@ -59,8 +59,8 @@ class App extends Component {
           {!user && <button onClick={handleGoToRegister}>Register</button>}
           {!user && <button onClick={handleGoToLogin}>Login</button>}
 
-          {registerIsVisible && !loginIsVisible && <Register onRegister={handleRegister} />}
-          {loginIsVisible && !registerIsVisible && <Login onLogin={handleLogin} />}
+          {registerIsVisible && !loginIsVisible && <Register onRegister={handleRegister} feedback={registerFeedback}/>}
+          {loginIsVisible && !registerIsVisible && <Login onLogin={handleLogin} feedback={loginFeedback}/>}
 
           {!loginIsVisible && !registerIsVisible && <Home /> }
 

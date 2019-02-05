@@ -33,7 +33,7 @@ class Search extends Component {
                         required 
                     />
 
-                    <button type="submit">Search </button>
+                    <button type="submit">Search</button>
                     
                 </form>
                 { feedback && <Feedback message={feedback} level="warn" /> }
