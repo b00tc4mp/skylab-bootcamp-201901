@@ -163,7 +163,7 @@ const logic = {
 
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
             .then(user => {
-                const { comments = {} } = user
+                const { comments = [] } = user
 
                 const comment = {
                     text,
@@ -189,8 +189,14 @@ const logic = {
         return userApi.retrieveAllUsers(this.__userApiToken__)
             .then((data) => {
                 const myUsers = data.filter(user => !!user.appId)
-                myUsers.forEach(user => console.log(user.comments))
-                console.log(myUsers)
+                // myUsers.forEach(user => console.log(user.comments))
+                // console.log(myUsers)
+                
+                // debugger
+                const allComments = myUsers.filter(user => !!user.comments.videoId)
+                // debugger
+
+                return allComments
             })
     },
 
