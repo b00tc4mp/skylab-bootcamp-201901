@@ -12,8 +12,7 @@ class Register extends Component {
     handlePasswordConfirmInput = event => this.setState({passwordConfirmation: event.target.value})
 
     handleOnSubmit = event => {
-        event.preventDeafult()
-
+        event.preventDefault()
         const { state: {name, surname, email, password, passwordConfirmation}, props: {onRegister}} = this
 
         onRegister(name, surname, email, password, passwordConfirmation)
@@ -26,16 +25,21 @@ class Register extends Component {
         return <section className = "register">
             <h2>Register</h2>
                 <form onSubmit = {handleOnSubmit}>
-                    <label>Name</label>
-                    <input type="text" name="name" placeholder="Name" onChange={handleNameInput}></input>
-                    <label>Surname</label>
-                    <input type="text" name="surname" placeholder="Surname" onChange={handleSurnameInput}></input>
-                    <label>E-mail</label>
-                    <input type="email" name="email" placeholder="E-mail" onChange={handleEmailInput}></input>
-                    <label>Password</label>
-                    <input type="password" name="password" placeholder="Password" onChange={handlePasswordInput}></input>
-                    <label>Password Confirmation</label>
-                    <input type="password" name="passwordConfirmation" placeholder="Password confirmation" onChange={handlePasswordConfirmInput}></input>
+                    <label htmlFor="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Name" onChange={handleNameInput} required />
+
+                    <label htmlFor="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" placeholder="Surname" onChange={handleSurnameInput} required />
+
+                    <label htmlFor="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="E-mail" onChange={handleEmailInput} required />
+
+                    <label htmlFor="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" onChange={handlePasswordInput} required />
+
+                    <label htmlFor="passwordConfirmation">Password Confirmation</label>
+                    <input type="password" id="passwordConfirmation" name="passwordConfirmation" placeholder="Password confirmation" onChange={handlePasswordConfirmInput} required />
+
                     <button type="submit">Register</button>
                 </form>
         </section>
