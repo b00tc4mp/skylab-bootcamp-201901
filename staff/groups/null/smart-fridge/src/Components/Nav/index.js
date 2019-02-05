@@ -14,7 +14,7 @@ class Nav extends React.Component {
         return <nav className="navbar">
                 <img src='./logo.png' alt='logo' className="navbar-brand" ></img>
                 <button className="navbar-toggler btn btn-dark active p-3" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    {this.props.user.name}
+                    {JSON.parse(sessionStorage.getItem('user')).name}
                 </button>
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav mt-3">
