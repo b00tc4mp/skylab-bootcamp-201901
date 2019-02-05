@@ -41,7 +41,7 @@
         }
 
         componentDidUpdate(prevProps, prevState, snapshot) {
-            console.log('componentDidUpdate')
+            console.log('componentDidUpdate', prevProps, prevState)
 
             const { props: { query } } = this
 
