@@ -8,13 +8,18 @@ import Home from './components/Home'
 import LoginPanel from "./components/LoginPanelComponent";
 import RegisterPanel from "./components/RegisterPanel";
 
+
 class App extends Component {
   state = {
-    pokemonVisible: null,
+
     searchText: null,
-    loginPanelVisible: false,
-    registerPanelVisible: false
+    pokemonVisible: null,
+    loginPanelVisible : false,
+    user: null,
+    loginFeedback: ''
+
   }
+
   handlePokemonDetail = (name) => {
     logic.retrievePokemon(name)
       .then((pokemonVisible) => this.setState({ pokemonVisible }))
@@ -31,13 +36,23 @@ class App extends Component {
 
   }
 
-  onLoginRequested = (username, password) => {
+  onLoginRequested = (user, password) => {
     try {
-      logic.loginUser(username, password)
-    } catch (error) {
+        logic.loginUser(user, password)
+          .then(({user}) => {
+            this.setState({user})
+          })
+          .catch(({ message }) => this.setState({ loginFeedback: message }))
+    } catch ({message}) {
+        this.setState({ loginFeedback: message })
 
     }
   }
+
+
+
+
+
   toogleShowLogin = () => {
     const bool = !this.state.loginPanelVisible
     this.setState({ loginPanelVisible: bool })
@@ -65,16 +80,19 @@ class App extends Component {
 
   render() {
     const {
-      state: { pokemonVisible, loginPanelVisible, registerPanelVisible }
+      state: { pokemonVisible, user, loginPanelVisible, loginFeedback, registerPanelVisible }
     } = this
 
     return (
       <div className="App">
-        <Home onHandleShowLogin={this.toogleShowLogin} onHandleShowRegister={this.showRegister} />
-        <LoginPanel onLogin={this.onLoginRequested} show={loginPanelVisible} />
-        <RegisterPanel onRegister={this.onRegisterRequested} show={registerPanelVisible} />
+        {!user && <Home onHandleShowLogin = {this.toogleShowLogin}/>}
+        {!user && <LoginPanel onLogin={this.onLoginRequested} show={loginPanelVisible} message={loginFeedback} />}
+        {!user && <RegisterPanel onRegister={this.onRegisterRequested} show={registerPanelVisible} message={loginFeedback} />
+        {user && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
+        {user && <MainPanel />}
         {/* {{!pokemonVisible && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
         {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}} */}
+
 
       </div>
     );
