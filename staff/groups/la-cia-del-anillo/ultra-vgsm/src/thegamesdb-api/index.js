@@ -273,15 +273,15 @@ const thegamesDbApi = {
         if (Number(platformId) % 1 !== 0) throw Error(`${platformId} should be an integer number`);
 
         return fetch(
-            `${this.proxy}${this.url}/Games/ByPlatformID?apikey=${this.apiKey}&id=${platformId}`
+            `${this.proxy}${this.url}/Games/ByPlatformID?apikey=${this.apiKey}&id=${platformId}&include=boxart%2Cplatform`
         )
             .then(response => response.json())
             .then(response => {
-                const { code, status, data, data: { count } = {}, pages } = response;
+                const { code, status, data, include, data: { count } = {}, pages } = response;
                 if (!status) throw Error(response.error);
                 if (status !== 'Success' || code !== 200) throw Error(status);
                 if (!count) throw Error(`${platformId} doesn't exist in database`);
-                return { data, pages };
+                return { data, include, pages };
             });
     }
 };
