@@ -4,6 +4,7 @@ const path = require('path');
 describe('pokemon API', () => {
     describe('search for an pokemon by name', () => {
         it('should succeed on retrieving data from a pokemon', () =>{
+            
             let query = 'pikachu';
             return pokemonApi.searchPokemonByName(query)
                 .then((result) => {

@@ -13,7 +13,7 @@ class App extends Component {
   state = {
 
     searchText: null,
-    pokemonVisible: null,
+    pokemonVisible: "",
     loginPanelVisible: false,
     user: null,
     loginFeedback: '',
@@ -22,8 +22,14 @@ class App extends Component {
   }
 
   handlePokemonDetail = (name) => {
+    debugger
     logic.retrievePokemon(name)
-      .then((pokemonVisible) => this.setState({ pokemonVisible }))
+      .then((pokemonVisible) =>{
+      debugger
+      return this.setState({ pokemonVisible })
+      
+      }) 
+        
 
   }
 
@@ -85,7 +91,7 @@ class App extends Component {
         {!user && <Home onHandleShowLogin={this.toogleShowLogin} onHandleShowRegister={this.registerPanelVisible} />}
         {!user && <LoginPanel onLogin={this.onLoginRequested} show={loginPanelVisible} message={loginFeedback} />}
         {!user && <RegisterPanel onRegister={this.onRegisterRequested} show={registerPanelVisible} message={loginFeedback} />}
-        {user && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
+        {user && !pokemonVisible && <PokemonSearch onPokemonDetail={this.handlePokemonDetail} setSearchTextApp={this.setSearchTextApp} searchText={this.state.searchText} />}
         {user && <MainPanel />}
         {pokemonVisible && <DetailedPokemonPanel pokemonToShow={pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}
 
