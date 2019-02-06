@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import Masonry from 'react-masonry-component';
 import './index.css';
 
 import logic from '../../logic';
 import Card from '../Card';
+
+const masonryOptions = {
+    transitionDuration: 0,
+    gutter: 20
+};
 
 class Results extends Component {
     state = { results: null, feedback: null };
@@ -79,13 +85,22 @@ class Results extends Component {
             state: { results }
         } = this;
 
+        
+
         return (
-            <section className="results content">
-                {results &&
+            <Masonry
+                className={'results content'} 
+                elementType={'section'} 
+                options={masonryOptions} 
+                disableImagesLoaded={false}
+                updateOnEachImageLoad={false}
+            >
+                {results && (
                     results.map(game => {
-                        return <Card key={game.id} game={game} />;
-                    })}
-            </section>
+                        return <Card key={game.id} gameUrl={game.id} game={game} />;
+                    })
+                )}
+            </Masonry>
         );
     }
 }
