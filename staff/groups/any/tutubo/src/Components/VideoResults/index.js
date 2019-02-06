@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import logic from '../../logic';
+import logic from '../../logic'
+import './index.sass'
 
 class VideoRasults extends Component {
 
@@ -48,13 +49,17 @@ class VideoRasults extends Component {
         const { onVideoSelected, state: { videos } } = this
 
         return <section className="videolist">
-            <div>
-                {videos.map(({ id: { videoId }, snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
-                    return <div className="video" key={videoId} onClick={() => onVideoSelected(videoId)} >
-                        <img src={url} />
-                        <h2>{title}</h2>
-                        <p channel-id={channelId} onClick={() => console.log(channelId)}>{channelTitle}</p>
-                        <p>{description}</p>
+            <div className="searchVideoList">
+                {videos.map(({ id: { videoId }, snippet: { title, channelId, publishedAt, channelTitle, description, thumbnails: { medium: { url } } } }) => {
+                    return <div className="videoResults" key={videoId} onClick={() => onVideoSelected(videoId)} >
+                        <div className="resultsThumbnail"> 
+                            <img src={url} />
+                        </div>
+                        <div className="searchResultsText">
+                            <h2 className="videoSearchTitle">{title.length > 50 ? title = `${title.substr(0, 50)}...`: title}</h2>
+                            <p className="searchChannelTitle" channel-id={channelId} onClick={() => console.log(channelId)}>{channelTitle} · {publishedAt = publishedAt.substr(0, 10)}</p>
+                            <p className="searchDes">{description = description.substr(0, 100)}...</p>
+                        </div>
                     </div>
                 })}
             </div>
