@@ -1,7 +1,6 @@
 "use strict";
 
 import logic from ".";
-import userApi from "../../user-api";
 
 describe("logic testing", () => {
   describe("register", () => {
@@ -128,6 +127,7 @@ describe("logic testing", () => {
     const password = "123";
     const passwordConfirm = password;
 
+
     beforeEach(() => {
       email = `manuelbarzi@mail.com-${Math.random()}`;
 
@@ -138,12 +138,11 @@ describe("logic testing", () => {
 
     it("should succeed with correct credentials", () =>
       logic
-        .retrieveUser(logic.__userId__, logic.__userApiToken__)
+        .updateUser({favourites: [{ id: "1011334", name: "3-D Man" },{ id: "1011335", name: "Hulk" }]})
+        .then(() => logic.retrieveUser(logic.__userId__, logic.__userApiToken__))
         .then(user => {
-          expect(user.id).toBe(logic.__userId__);
-          expect(user.name).toBe(name);
-          expect(user.surname).toBe(surname);
-          expect(user.username).toBe(email);
+          expect(user.favourites).toEqual([{ id: "1011334", name: "3-D Man" },{ id: "1011335", name: "Hulk" }])
+          expect(user.favourites instanceof Array).toBeTruthy()
         }));
 
     it("should fail with wrong token", () => {
@@ -197,7 +196,7 @@ describe("logic testing", () => {
     });
   });
 
-  describe("search characters", () => {
+  false && describe("search characters", () => {
     let query = "Hulk";
 
     it("should fail on empty query", () => {
@@ -243,7 +242,7 @@ describe("logic testing", () => {
     });
   });
 
-  describe("retrieve character", () => {
+  false && describe("retrieve character", () => {
     let characterId = "1011334";
 
     it("should fail on empty characterId", () => {
@@ -292,7 +291,7 @@ describe("logic testing", () => {
     });
   });
 
-  describe("retrieve comic", () => {
+  false && describe("retrieve comic", () => {
     let comicId = "6958";
 
     it("should fail on empty comicId", () => {
@@ -343,25 +342,52 @@ describe("logic testing", () => {
     let email;
     const password = "123";
     const passwordConfirm = password;
-    const data = { name: "3-D Man", id: "1011334" };
+    const data = {favourites:[{ id: "1011334", name: "3-D Man" }]};
 
     beforeEach(() => {
       email = `manuelbarzi@mail.com-${Math.random()}`;
 
       return logic
-        .register({name, surname, email, password, passwordConfirm})
-        .then(() => logic.update(id, token, data));
+        .register(name, surname, email, password, passwordConfirm)
+        .then(()=>logic.login(email,password))
+        .then(() => logic.updateUser(data));
     });
 
     it("should succed pushing a new favourite item", () => {
-      
-      return logic
-        .retrieveFavourites(__userId__, () => {
-          if (user.favourites === data.item) {
-            true;
-          }
+      return logic.retrieveFavourites()
+        .then(data => {
+          expect(data).toBeDefined()
+          expect(data).toEqual([{ id: "1011334", name: "3-D Man" }])
         })
-        .then(data => expect(data).toBeDefined());
     });
   });
+
+  describe("updateFavourites", () => {
+    const name = "Manuel";
+    const surname = "Barzi";
+    let email;
+    const password = "123";
+    const passwordConfirm = password;
+    const data = {favourites:[{ id: "1011334", name: "3-D Man" }]};
+    const data2 = {id: "1011335", name: "Hulk" };
+
+    beforeEach(() => {
+      email = `manuelbarzi@mail.com-${Math.random()}`;
+
+      return logic
+        .register(name, surname, email, password, passwordConfirm)
+        .then(()=>logic.login(email,password))
+        .then(() => logic.updateUser(data))
+    });
+
+    it("should succed pushing a new favourite item", () => {
+        return logic.updateFavourites(data2)
+          .then(data => {
+            expect(data).toBeDefined()
+            expect(data).toEqual([{ id: "1011334", name: "3-D Man" },{ id: "1011335", name: "Hulk" }])
+        })
+    });
+  });
+
+
 });

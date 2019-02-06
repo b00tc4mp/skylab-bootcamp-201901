@@ -3,8 +3,6 @@ import { HashRouter, Route } from 'react-router-dom'
 import Landing from '../Landing'
 import Home from '../Home'
 
-
-
 class App extends Component {
 
   render() {

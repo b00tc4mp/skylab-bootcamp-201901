@@ -112,6 +112,7 @@ const userApi = {
      */
 
     retrieve(id, token) {
+        debugger
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id is empty')
 
@@ -170,7 +171,7 @@ const userApi = {
             .then(response => {
                 const { status } = response
 
-                if (status === 'OK') return
+                if (status === 'OK') return response
                 throw Error(response.error)
             })
     },

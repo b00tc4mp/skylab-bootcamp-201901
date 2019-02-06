@@ -7,11 +7,12 @@ import logic from '../Logic'
 import Login from '../Login'
 import Register from '../Register'
 import Modal from '../Modal'
+import Home from '../Home'
 
 
 class Landing extends Component {
 
-    state = {modalVisible: false, loginFeedback: null, registrationFeedback: null, userName: null, userEmail: null, userFavourites: null}
+    state = {modalVisible: false, loginFeedback: null, registrationFeedback: null, userName: null, userEmail: null}
 
     handleLogin = (email, password) =>{
         try {
@@ -20,9 +21,10 @@ class Landing extends Component {
                 this.setState({loginFeedback: null})
                 return logic.retrieveUser(logic.__userId__, logic.__userApiToken__)
                     .then(user => {
-                        this.setState({userName : user.name, userEmail: user.username, userFavourites: user.favourites})
-                        this.props.history.push('/home')
-                    }) 
+                        this.setState({userName : user.name, userEmail: user.username}, )
+                        this.props.history.push('/home/search/')
+                    })
+                 
             })
             .catch(({message}) => this.setState({ loginFeedback: message }))
         }catch (message) {
@@ -54,9 +56,9 @@ class Landing extends Component {
 
     render() {
 
-        const {handleLogin, handleRegistration, handleHome, handleToLogin,state:{loginFeedback, registrationFeedback, modalVisible}} = this
+        const {handleLogin, handleRegistration, handleHome, handleToLogin,state:{loginFeedback, registrationFeedback, modalVisible, userFavourites}} = this
 
-        return <section className="container">
+        return <section className="container foto">
         <Route exact path="/" render={() =>
             <Fragment>
                 <div className="columns is-mobile is-centered has-text-centered">
