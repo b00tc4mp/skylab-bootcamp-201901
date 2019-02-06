@@ -33,10 +33,10 @@ class Register extends Component {
                 <div className="content">
                     <div className="text">
                         <i className="fab fa-youtube fa-5x"></i>
-                        <h3 className="tittle">Create your account</h3>
+                        <h3 className="tittleregister">Create your account</h3>
                         <p>to continue to TuTubo</p>
                     </div>
-                    <form classname="form" onSubmit={handleFromSubmit}>
+                    <form classname="registerform" onSubmit={handleFromSubmit}>
                         <div className="miniForm">
                             <input className="input" name='name' type='text' placeholder='name' onChange={handleNameInput} />
                             <input className="input" name='surname' type='text' placeholder='surname' onChange={handleSurnameInput} />
