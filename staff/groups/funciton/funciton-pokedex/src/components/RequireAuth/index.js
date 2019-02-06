@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import logic from "../../logic";
 
 
@@ -27,7 +27,7 @@ export default ChildComponent => {
         }
 
         render() {
-            return <div> {this.renderChilds()} </div>
+            return <Fragment> {this.renderChilds()} </Fragment>
         }
 
     }
