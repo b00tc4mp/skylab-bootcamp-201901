@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import logic from '../../logic';
+import './index.sass'
 
 class Home extends Component {
 
@@ -43,14 +44,18 @@ class Home extends Component {
     render() {
         const { onVideoSelected, state: { videos } } = this
         console.log(videos)
-        return <section className="videolist">
-            <div>
+        return <section>
+            <div class="randomVideoList">
                 {videos.map(({ id: videoId , snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
-                    return <div className="video" key={videoId} onClick={() => onVideoSelected(videoId)} >
-                        <img src={url} />
-                        <h2>{title}</h2>
-                        <p channel-id={channelId} onClick={() => console.log(channelId)}>{channelTitle}</p>
-                        <p>{description}</p>
+                    return <div className="card randomCard" key={videoId} onClick={() => onVideoSelected(videoId)} >
+                        <div className="card-image">
+                            <figure className="image">
+                                <img src={url}/>
+                            </figure>
+                        </div>
+                        <h2 className="randomTittle">{title}</h2>
+                        <p className="randomChannel" channel-id={channelId} onClick={() => console.log(channelId)}>{channelTitle}</p>
+                        <p className="randomDes">{description = description.substr(0, 75)}...</p>
                     </div>
                 })}
             </div>
