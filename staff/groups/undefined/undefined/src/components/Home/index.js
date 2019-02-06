@@ -15,9 +15,11 @@ class Home extends Component {
         const { handleSearch , state : { searchFeedback }} = this
 
         return (
-            <section className="home">
-                <Search onSearch={handleSearch} feedback={searchFeedback} />
-                <Route path='/videos/:query' render={(props) => <Results query={props.match.params.query} />} />
+            <section className="home columns is-fullheight">
+                <div class="container column is-10">
+                    <Search onSearch={handleSearch} feedback={searchFeedback} />
+                    <Route path='/videos/:query' render={(props) => <Results query={props.match.params.query} />} />
+                </div>
             </section >
         )
     }
