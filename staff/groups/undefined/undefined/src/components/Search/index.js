@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
 
-class Search extends Component {
-    state = { query: '' }
-    
-    handleSearchSubmit = (event) => {
-        event.preventDefault()
-        const {query} = this.state
-        this.props.onSearch(query)
-    }
 
-    handleQueryInput = ({ target: { value: query } }) => this.setState({ query })
+class Search extends Component {
+    state = { query: null }
+
+    handleQueryInput = event => this.setState({ query: event.target.value })
+
+    handleSearchSubmit = event => {
+        event.preventDefault()
+        const {state: {query}, props: {onSearch}} = this
+        onSearch(query)
+    }   
 
     render() {
         const {handleQueryInput, handleSearchSubmit} = this
