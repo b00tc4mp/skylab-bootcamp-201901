@@ -37,12 +37,12 @@ class Comments extends Component {
     }
 
     render() {
-        const { handleFormSubmit, handleTextInput, handleCommentDeletion, props: { comments, id } } = this
+        const { handleFormSubmit, handleTextInput, handleCommentDeletion, props: { comments, id, mode } } = this
 
         return <section className="comments">
-            <h3 className="comments__text">Comments:</h3>
+            <h3 className={`${mode ? 'comments__text comments__text-light' : 'comments__text comments__text-dark'}`}>Comments:</h3>
             <form onSubmit={handleFormSubmit} id="commentForm" className="comments__form">
-                <textarea className="comments__textarea textarea" value={this.state.text} form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..." clearButtonMode="always"></textarea>
+                <textarea className={`${mode ? 'comments__textarea textarea comments__textarea-light': 'comments__textarea textarea comments__textarea-dark'}`} value={this.state.text} form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..." clearButtonMode="always"></textarea>
                 <button className="comments__send button is-link">Send</button>
             </form>
             <div>

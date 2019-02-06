@@ -10,17 +10,28 @@
         max-height: 160px
         min-height: 38px
         overflow-x: hidden
-        background-color: #121212
-        color: white
+
+        &-dark
+            color: white
+            background-color: #121212
+
+        &-light
+            color: black
+            background-color: white
 
     &__send
         width: 10em
         align-self: flex-end
 
     &__text
-        color: white
         margin-bottom: 0.5em
         font-size: 1.2em
+
+        &-light
+            color: black
+
+        &-dark
+            color: white
 
 .eachcomment
     margin-top: 2em
