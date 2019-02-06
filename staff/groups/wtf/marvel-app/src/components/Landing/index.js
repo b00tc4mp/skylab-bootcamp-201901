@@ -1,14 +1,11 @@
 'use strict'
 
 import React, { Component, Fragment } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Redirect } from 'react-router-dom'
 import './index.sass'
 import logic from '../Logic'
 import Login from '../Login'
 import Register from '../Register'
-import Modal from '../Modal'
-import Home from '../Home'
-
 
 class Landing extends Component {
 
@@ -27,7 +24,7 @@ class Landing extends Component {
                  
             })
             .catch(({message}) => this.setState({ loginFeedback: message }))
-        }catch (message) {
+        } catch (message) {
           this.setState({ loginFeedback: message })
         }
     }
@@ -52,8 +49,6 @@ class Landing extends Component {
         this.props.history.push('/login')
     }
 
-   
-
     render() {
 
         const {handleLogin, handleRegistration, handleHome, handleToLogin,state:{loginFeedback, registrationFeedback, modalVisible, userFavourites}} = this
@@ -76,8 +71,8 @@ class Landing extends Component {
                     </div>
                 </div>
             </Fragment>} />
-            <Route path='/login' render={() => <Login onLogin={handleLogin} feedback={loginFeedback} onHome={handleHome}/>} />
-            <Route path='/register' render={() => <Register onRegistration={handleRegistration} feedback={registrationFeedback} onHome={handleHome} modalVisible={modalVisible} onLogin={handleToLogin}/>} />
+            <Route path='/login' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Login onLogin={handleLogin} feedback={loginFeedback} onHome={handleHome}/>} />
+            <Route path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onHome={handleHome} modalVisible={modalVisible} onLogin={handleToLogin}/>} />
         </section>
     }
 }

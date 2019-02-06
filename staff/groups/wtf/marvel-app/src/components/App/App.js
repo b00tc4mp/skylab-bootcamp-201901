@@ -1,15 +1,24 @@
 import React, { Component } from 'react'
-import { HashRouter, Route } from 'react-router-dom'
+import { HashRouter, Route, Redirect } from 'react-router-dom'
 import Landing from '../Landing'
 import Home from '../Home'
+import logic from '../Logic'
 
 class App extends Component {
 
+  handleLogOut = () => {
+    logic.logout()
+
+    this.props.history.push('/')
+  }
+
   render() {
+
+    const { handleLogOut }= this
     return <HashRouter>
       <main>
-        <Route path='/' component={Landing}/>
-        <Route path='/home/search' component={Home}/>
+        <Route path='/' render={()=> logic.userLoggedIn ? <Redirect to="/home/search"/> : <Landing/>}/>
+        <Route path='/home/search' render={() => logic.userLoggedIn ? <Home onLogout={handleLogOut} /> : <Redirect to="/" />} />
       </main>  
     </HashRouter>
   }
