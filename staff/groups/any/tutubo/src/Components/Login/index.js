@@ -20,14 +20,14 @@ class Login extends Component {
     }
 
     render() {
-        const { handleEmailInput, handlePasswordInput, handleFromSubmit, props: { onGoToRegister, feedback } } = this
+        const { handleEmailInput, handlePasswordInput, handleFromSubmit, props: { onGoToRegister, feedback, mode } } = this
 
-        return <section className="login">
+        return <section className={`${mode ? 'login login-light' : 'login-dark'}`}>
             <div className="loginBox">
-                <div className="content">
+                <div className={`${mode ? 'content content-light' : 'content content-dark'}`}>
                     <div className="text">
-                        <i class="fab fa-youtube fa-5x"></i>
-                        <h3 className="title">Sign in</h3>
+                        <i className={`${mode ? 'fab fa-youtube fa-youtube-light fa-5x' : 'fab fa-youtube fa-5x'}`}></i>
+                        <h3 className={`${mode ? 'loginTitle loginTitle-light' : 'loginTitle loginTitle-dark'}`}>Sign in</h3>
                         <p>to continue to TuTubo</p>
                     </div>
                     <form className="loginform" onSubmit={handleFromSubmit}>
