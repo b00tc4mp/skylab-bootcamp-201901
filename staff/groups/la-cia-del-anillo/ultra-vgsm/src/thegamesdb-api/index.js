@@ -259,7 +259,7 @@ const thegamesDbApi = {
             });
     },
 
-    retrieveGamesByPlatform(platformId, ) {
+    retrieveGamesByPlatform(platformId, params = '') {
         if (typeof platformId !== 'string') throw TypeError(`${platformId} is not a string`);
 
         if (!platformId.trim().length) throw Error('platformId is empty');
@@ -272,9 +272,18 @@ const thegamesDbApi = {
 
         if (Number(platformId) % 1 !== 0) throw Error(`${platformId} should be an integer number`);
 
-        return fetch(
-            `${this.proxy}${this.url}/Games/ByPlatformID?apikey=${this.apiKey}&id=${platformId}&include=boxart%2Cplatform`
-        )
+        if (typeof params !== 'string') throw TypeError(`${params} is not a string`);
+
+        let url = new URL(`${this.url}/Games/ByPlatformID`);
+
+        let urlParams = {};
+        urlParams.apikey = this.apiKey;
+        urlParams.id = platformId;
+        urlParams.include = params;
+
+        Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
+
+        return fetch(`${this.proxy + url}`)
             .then(response => response.json())
             .then(response => {
                 const { code, status, data, include, data: { count } = {}, pages } = response;
