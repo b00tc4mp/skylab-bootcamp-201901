@@ -62,20 +62,21 @@ class App extends Component {
     }
   }
 
-  handleLogout = () =>{
+  handleLogout = () => {
     userStorage.deleteUserToken()
     this.props.history.push('/login')
   }
+
 
   render() {
     const { handleLogin, handleRegister, handleLogout, state: { loginFeedback, registerFeedback } } = this
 
     return <main className="app">
-      < Header user={userStorage.auth} onLogout={handleLogout}/>
+      < Header user={userStorage.auth} onLogout={handleLogout} />
       < Redirect from="/" to="/home" />
       < PrivateRoute authed={!!userStorage.auth} path='/home' component={Home} />
       < PublicRoute authed={!!userStorage.auth} path='/login' component={Login} onLogin={handleLogin} loginFeedback={loginFeedback} />
-      < Route exact path="/register" render={(props) => < Register onRegister={handleRegister} registerFeedback={registerFeedback}/>} />
+      < Route exact path="/register" render={(props) => < Register onRegister={handleRegister} registerFeedback={registerFeedback} />} />
       < Footer />
     </main>
   }
