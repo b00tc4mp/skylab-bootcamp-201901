@@ -1,4 +1,4 @@
-.searchVideoListDark
+.searchVideoList
     position: absolute 
     margin-top: 4em
     padding: 0.5em
@@ -6,14 +6,11 @@
     padding-right: 0.5em
     max-width: 100%
 
-.searchVideoListLight
-    position: absolute 
-    margin-top: 4em
-    padding: 0.5em
-    padding-left: 0.5em
-    padding-right: 0.5em
-    max-width: 100%
-    background-color: white
+    &-dark
+        background-color: #121212
+
+    &-light
+        background-color: white
 
 .videoResults
     display: flex
@@ -29,16 +26,28 @@
     margin-left: 1em
 
 .videoSearchTitle
-    color: white
     font-weight: bolder
     font-size: 1.2em
+
+    &-dark
+        color: white
+
+    &-light
+        color: black
 
 .searchChannelTitle
     color: #a5aaaa
 
+    &-light
+        color: #6E6E6E
+
+
 .searchDes
     display: none
     color: #a5aaaa
+
+    &-light
+        color: #6E6E6E
 
 
 
@@ -56,12 +65,12 @@
         width: 20%
 
 @media (min-width: 1200px)
-    .searchVideoListDark
+    .searchVideoList
         padding-left: 8em
 
 
 @media (min-width: 1400px)
-    .searchVideoListDark
+    .searchVideoList
         padding-left: 16em
 
     .resultsThumbnail
