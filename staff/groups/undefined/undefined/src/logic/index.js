@@ -98,6 +98,7 @@ const logic = {
             })
     },
 
+
     get userLoggedIn() {
         return !!this.__userId__
     },
@@ -112,6 +113,7 @@ const logic = {
                 email: username
             }))
     },
+
 
     // TODO updateUser and removeUser
 
