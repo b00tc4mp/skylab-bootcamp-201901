@@ -7,7 +7,60 @@ import userApi from '../user-api'
  */
 const logic = {
     //Pokemon Side
-    retrievePokemon(query){
+
+    __userId__: null,
+    __userApiToken__: null,
+
+    setUserId(id) {
+        debugger
+        this.___userId___ = id
+    },
+
+    getUserId() {
+        return this.___userId___
+    },
+
+    setUserApiToken(token) {
+        this.___userApiToken___ = token
+    },
+
+    getUserApiToken() {
+        return this.___userApiToken___
+    },
+
+    set __userId__(id) {
+        this.setUserId(id)
+    },
+
+    get __userId__() {
+        return this.getUserId()
+    },
+
+    set __userApiToken__(token) {
+        this.setUserApiToken(token)
+    },
+
+    get __userApiToken__() {
+        return this.getUserApiToken()
+    },
+
+    get userLoggedIn() {
+        return !!this.__userId__
+    },
+
+    logout() {
+        this.__userId__ = null
+        this.__userApiToken__ = null
+    },
+
+
+
+
+
+
+
+
+    retrievePokemon(query) {
 
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
         if (!query.trim().length) throw Error('query is empty')
@@ -15,16 +68,15 @@ const logic = {
         return pokemonApi.searchPokemonByName(query)
     },
 
-    retrieveAllPokemons(){
+    retrieveAllPokemons() {
 
-        if(arguments.length !== 0) throw Error('Too many args')
+        if (arguments.length !== 0) throw Error('Too many args')
 
         return pokemonApi.searchAllPokemons()
     },
 
 
-    // __userId__: null,
-    // __userApiToken__: null,
+
 
     /**
     * Registers a user.
@@ -35,7 +87,7 @@ const logic = {
     * @param {string} password 
     * @param {string} passwordConfirmation 
     */
-    registerUser( email, username, password, passwordConfirmation) {
+    registerUser(email, username, password, passwordConfirmation) {
         if (typeof username !== 'string') throw TypeError(username + ' is not a string')
 
         if (!username.trim().length) throw Error('username cannot be empty')
@@ -77,12 +129,14 @@ const logic = {
             .then(({ id, token }) => {
                 this.__userId__ = id
                 this.__userApiToken__ = token
-                return ({id, token, user})
+                return ({ id, token, user })
             })
     },
 
     
-    toggleFavorite(user, id, token, pokemonName){
+
+
+    toggleFavorite(user, id, token, pokemonName) {
 
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
@@ -102,44 +156,32 @@ const logic = {
 
 
         return userApi.retrieve(id, token)
-            .then((data) =>{
-                let favorites = data.favorites
-                if(!favorites || !favorites.length){ //Caso sin favoritos o que el usuario los haya borrado todos
+            .then((data) => {
+                let { favorites } = data
+
+                if (!favorites || !favorites.length) { //Caso sin favoritos o que el usuario los haya borrado todos
                     //En este caso creamos el array de favoritos, con el primer elemento el favorito clickado
                     // favorites = JSON.parse(JSON.stringify(([pokemonName])))
 
-                    favorites = {
-                        'favorites': [pokemonName]
-                    }
-                    return userApi.update(id, token, favorites)
-                        .then(() => true)
+                    favorites = [pokemonName]
                 } else {
                     //Si favoritos existe, hay dos opciones, que exista o no
-                    if(favorites.includes(pokemonName)){
+                    if (favorites.includes(pokemonName)) {
                         //Quitarlo de favoritos
-                        let index = favorites.indexOf(pokemonName)
-                        favorites.splice(index,1)
+                        const index = favorites.indexOf(pokemonName)
 
-                        let favorites2 = {
-                            'favorites': favorites
-                        }
-                        return userApi.update(id, token, favorites2)
-                            .then(() => true)
+                        favorites.splice(index, 1)
                     } else {
                         favorites.push(pokemonName)
-                        let favorites2 = {
-                            'favorites': favorites
-                        }
-
-                        return userApi.update(id, token, favorites2)
-                            .then(() => true)
-                        //añadirlo al array de favoritos al final
                     }
                 }
+
+                return userApi.update(id, token, { favorites })
             })
+            .then(() => true)
     },
 
-    getFavorites(user, id, token){
+    getFavorites(user, id, token) {
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
         if (!id.trim().length) throw Error('id cannot be empty');
@@ -153,13 +195,13 @@ const logic = {
         if (!token.trim().length) throw Error('token cannot be empty');
 
         userApi.retrieve(id, token)
-        .then(({favorites}) =>{
-            if(!favorites || favorites.length==0){
-                return null
-            } else {
-                return favorites //Devuelve un array de pokemons({name})
-            }
-        })
+            .then(({ favorites }) => {
+                if (!favorites || favorites.length == 0) {
+                    return null
+                } else {
+                    return favorites //Devuelve un array de pokemons({name})
+                }
+            })
     },
 }
 
