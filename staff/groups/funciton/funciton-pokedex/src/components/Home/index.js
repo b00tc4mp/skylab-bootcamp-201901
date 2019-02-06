@@ -5,6 +5,8 @@ import './index.sass'
 
 class Home extends React.Component {
 
+    goToRoute = name => this.props.history.push(name)
+
     render() {
 
         return <div className="login_video">
@@ -21,8 +23,8 @@ class Home extends React.Component {
             <div className="bottomContent">
                 <h3>Welcome to Pokemon Website</h3>
                 <p>You are about one click to access...</p>
-                <button className="btn btn-danger" onClick={this.props.onHandleShowLogin}>Login</button>
-                <button className="btn btn-primary" onClick={this.props.onHandleShowRegister}>Register</button>
+                <button className="btn btn-danger" onClick={() => this.goToRoute('/login')}>Login</button>
+                <button className="btn btn-primary" onClick={() => this.goToRoute('/register')}>Register</button>
             </div>
         </div>
     }

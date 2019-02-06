@@ -1,13 +1,15 @@
 import React, { Component, Fragment } from "react";
 import './index.sass'
 import Feedback from '../../components/Feedback'
+import logic from "../../logic";
+import Home from '../Home'
 
 
 
 
 class RegisterPanel extends Component {
 
-    state = { email: '', username: '', password: '', retryPassword: '' }
+    state = { email: '', username: '', password: '', retryPassword: '', registerFeedback: '' }
 
     handleEmailInput = event => this.setState({ email: event.target.value })
     handleUsernameInput = event => this.setState({ username: event.target.value })
@@ -16,27 +18,46 @@ class RegisterPanel extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault()
-        const { state: { email, username, password, retryPassword }, props: { onRegister } } = this
-        onRegister(email, username, password, retryPassword)
-        //this.props.onRegister(this.state.email, this.state.username, this.state.password, this.state.retryPassword)
+        const { state: { email, username, password, retryPassword }, register } = this
+        register(email, username, password, retryPassword)
     }
 
-    onGoBack = () => {
-        this.setState({ email: '', username: '', password: '', retryPassword: '' })
+    hideRegisterFeedback = () => this.setState({ registerFeedback: '' })
 
-        this.props.goBackHomeRegister()
+    showRegisterFeedback = message => {
+        this.setState({ registerFeedback: message })
+        setTimeout(this.hideRegisterFeedback, 2000)
     }
 
+
+
+  register = (email, username, password, passwordConfirmation) => {
+    try {
+
+      logic.registerUser(email, username, password, passwordConfirmation)
+        .then(user => {
+          this.setState({ user })
+          this.setState({ user }, () => this.props.history.push("/"))
+        })
+
+        .catch(({ message }) => this.showRegisterFeedback(message))
+    } catch ({ message }) {
+      this.showRegisterFeedback(message)
+
+    }
+  }
+
+  goBack = () => this.props.history.push("/")
 
 
     render() {
 
-        const { handleEmailInput, handlePasswordInput, handleUsernameInput, handleConfirmPassword, handleFormSubmit, onGoBack } = this
-        const showHideClassName = this.props.show ? 'containerRegister' : 'containerRegisterNone'
+        const { handleEmailInput, handlePasswordInput, handleUsernameInput, handleConfirmPassword, handleFormSubmit, goBack } = this
         return <Fragment>
+            <Home/>
 
             <div className='row'>
-                <div className={showHideClassName}>
+                <div className="containerRegister">
                     <form onSubmit={handleFormSubmit}>
                         <div>
                             <label htmlFor="Username">Username</label>
@@ -49,8 +70,8 @@ class RegisterPanel extends Component {
                             <input type="password" value={this.state.retryPassword} className="form-control" id="exampleInputPassword1" placeholder="Retry Password" onChange={handleConfirmPassword} />
                             <br></br>
                             <button type="submit" className="btn btn-info">Submit</button>
-                            <button onClick={onGoBack} type="button" className="goBack__button btn btn-light">Go Back</button>
-                            <Feedback message={this.props.message} level="warn" />
+                            <button onClick={goBack} type="button" className="goBack__button btn btn-light">Go Back</button>
+                            <Feedback message={this.state.registerFeedback} level="warn" />
 
                         </div>
                     </form>
