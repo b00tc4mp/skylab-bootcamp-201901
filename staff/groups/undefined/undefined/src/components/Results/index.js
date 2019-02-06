@@ -67,7 +67,7 @@ class Results extends Component  {
                     /> 
                 )}
 
-                <Route path='/videos/:query/detail/:id' component = {Detail}/>
+                <Route path='/videos/:query/detail/:id' component={Detail}/>
 
             </section>
         )
