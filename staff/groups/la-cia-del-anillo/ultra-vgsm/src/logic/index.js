@@ -7,8 +7,37 @@ import userApi from '../user-api';
  * Abstraction of business logic.
  */
 const logic = {
-    __userId__: null,
-    __userApiToken__: null,
+    setUserId(id) {
+        this.___userId___ = id;
+    },
+
+    getUserId() {
+        return this.___userId___;
+    },
+
+    setUserApiToken(token) {
+        this.___userApiToken___ = token;
+    },
+
+    getUserApiToken() {
+        return this.___userApiToken___;
+    },
+
+    set __userId__(id) {
+        this.setUserId(id);
+    },
+
+    get __userId__() {
+        return this.getUserId();
+    },
+
+    set __userApiToken__(token) {
+        this.setUserApiToken(token);
+    },
+
+    get __userApiToken__() {
+        return this.getUserApiToken();
+    },
 
     /**
      * Registers a user.
@@ -79,7 +108,14 @@ const logic = {
             }));
     },
 
-    // TODO updateUser and removeUser
+    get userLoggedIn() {
+        return !!this.__userId__;
+    },
+
+    logout() {
+        this.__userId__ = null;
+        this.__userApiToken__ = null;
+    },
 
     /**
      * Search games.
@@ -180,7 +216,7 @@ const logic = {
      * @param {string} gameId
      */
 
-    retrieveGamesByPlatform(platformId) {
+    retrieveGamesByPlatform(platformId, params = '') {
         if (typeof platformId !== 'string') throw TypeError(`${platformId} is not a string`);
 
         if (!platformId.trim().length) throw Error('platformId is empty');
@@ -191,7 +227,7 @@ const logic = {
 
         if (Number(platformId) % 1 !== 0) throw Error(`${platformId} should be an integer number`);
 
-        return thegamesDbApi.retrieveGamesByPlatform(platformId);
+        return thegamesDbApi.retrieveGamesByPlatform(platformId, params);
     }
 };
 
