@@ -14,8 +14,8 @@ render(){
 
     </div>
 
-    <button>Favorites</button>
-    <button>Search</button>
+    <button onClick = {this.props.enableFavorites} >Favorites</button>
+    <button onClick = {this.props.enableSearch} >Search</button>
     
     
     
