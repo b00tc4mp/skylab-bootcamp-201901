@@ -42,18 +42,18 @@ class Home extends Component {
     }
 
     render() {
-        const { onVideoSelected, state: { videos } } = this
+        const { onVideoSelected, state: { videos }, props: {mode} } = this
         console.log(videos)
         return <section>
-            <div class="randomVideoList">
+            <div class={`${mode ? 'randomVideoList randomVideoList-light' : 'randomVideoList randomVideoList-dark'}`}>
                 {videos.map(({ id: videoId , snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
-                    return <div className="card randomCard" key={videoId} onClick={() => onVideoSelected(videoId)} >
+                    return <div className={`${mode ? 'card randomCard randomCard-light' : 'card randomCard randomCard-dark'}`} key={videoId} onClick={() => onVideoSelected(videoId)} >
                         <div className="card-image">
                             <figure className="image">
                                 <img src={url}/>
                             </figure>
                         </div>
-                        <h2 className="randomTittle">{title}</h2>
+                        <h2 className={`${mode ? 'randomTittle randomTittle-light' : 'randomTittle randomTittle-dark'}`}>{title}</h2>
                         <p className="randomChannel" channel-id={channelId} onClick={() => console.log(channelId)}>{channelTitle}</p>
                         <p className="randomDes">{description = description.substr(0, 75)}...</p>
                     </div>

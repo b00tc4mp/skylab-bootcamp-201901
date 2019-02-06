@@ -2,10 +2,20 @@
     display: flex
     justify-content: space-between
     height: 4em
-    background-color: #232323
     position: fixed
     width: 100%
     z-index: 1
+
+    &-dark
+        background-color: #232323
+    &-light
+        background-color: white
+        border-style: solid
+        border-bottom-color: gray 
+        border-bottom-width: 0.05em
+        border-top-width: 0
+        border-left-width: 0
+        border-right-width: 0
 
     &__logo
         width: 3em
@@ -13,30 +23,48 @@
         align-self: center
 
     &__title
-        color: white
         align-self: center
+
+        &-dark
+            color: white
+
+        &-light
+            color: black
 
 
     &__button
         align-self: center
         font-size: 1.1em
         font-weight: bold
-        margin-right: 2vw
+        margin-right: 2em
         color: #3b96e4
 
         &:hover
             cursor: pointer
 
+.fa-youtube
+    color: red
+    align-self: center
+
+.youtubeIcon
+    align-self: center
+
 
 .fa-user
-    color: white
     font-size: 1.5em
     align-self: center
     margin: 3vw
     padding: 0.4em
-    border: 1px solid white
-    border-radius: 20px
-    background-color: #121212
+    //border: 1px solid white
+    //border-radius: 20px
+    //background-color: #121212
+
+    &-dark
+        color: white
+        background-color: #232323
+
+    &-light 
+        color: black
 
     &:hover
         cursor: pointer        
@@ -51,9 +79,15 @@
     align-self: center
     margin-right: 4em
 
-    &__button
-        background-color: #232323
-        border: none
+    // &__button
+    //     background-color: #232323
+    //     border: none
 
     &__link
         font-size: 1.2em
+
+.fa-bars-light
+    color: black
+
+.fa-bars-dark
+    color: white
