@@ -742,6 +742,18 @@ main {
     max-width: 50%;
 }
 
+.landing__title {
+    font-size: 2.6rem;
+    text-align: center;
+}
+
+.landing__image {
+    max-width: 44%;
+    display: block;
+    margin: auto;
+    padding-top: 2rem;
+}
+
 .btn {
     background-color: none;
     border: 0px;
