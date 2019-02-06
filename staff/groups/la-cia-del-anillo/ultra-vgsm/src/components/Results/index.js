@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 import Masonry from 'react-masonry-component';
 import './index.css';
 
@@ -12,7 +12,7 @@ const masonryOptions = {
 };
 
 class Results extends Component {
-    state = { results: null, feedback: null };
+    state = { results: null, favorites: [], feedback: null };
 
     handleSearch = query => {
         try {
@@ -58,6 +58,14 @@ class Results extends Component {
         }
     };
 
+    getFavorites = () => {
+        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
+            this.setState({
+                favorites
+            });
+        });
+    };
+
     componentDidMount() {
         const {
             match: {
@@ -67,6 +75,8 @@ class Results extends Component {
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
+
+        this.getFavorites();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -78,31 +88,37 @@ class Results extends Component {
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
+
+        this.getFavorites();
     }
 
     render() {
         const {
-            state: { results }
+            state: { results, favorites }
         } = this;
-
-        
 
         return (
             <Masonry
-                className={'results content'} 
-                elementType={'section'} 
-                options={masonryOptions} 
+                className={'results content'}
+                elementType={'section'}
+                options={masonryOptions}
                 disableImagesLoaded={false}
                 updateOnEachImageLoad={false}
             >
-                {results && (
+                {results &&
                     results.map(game => {
-                        return <Card key={game.id} gameUrl={game.id} game={game} />;
-                    })
-                )}
+                        return (
+                            <Card
+                                key={game.id}
+                                gameUrl={game.id}
+                                favorites={favorites}
+                                game={game}
+                            />
+                        );
+                    })}
             </Masonry>
         );
     }
 }
 
-export default Results;
+export default withRouter(Results);
