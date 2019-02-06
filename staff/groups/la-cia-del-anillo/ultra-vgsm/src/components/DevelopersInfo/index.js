@@ -27,11 +27,14 @@ class DevelopersInfo extends Component {
     }
 
     render() {
-        return (
-            <span>
-                {this.state.devName}
-            </span>
-        )
+        if (this.state.devName) {
+            return (
+               <span>
+                    // Developer: {this.state.devName}
+                </span>
+            )
+        }
+        return ( <fragment></fragment>)
     }
 }
 
