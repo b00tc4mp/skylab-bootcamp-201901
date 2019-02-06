@@ -80,10 +80,10 @@ class EditProfile extends React.Component {
 
                         <div className='mt-4 col-12 p-0'>
                             <h2 className="text-center mt-3">About you</h2>
-                            <div className='mt-2 col-12 flex'>
-                                <input onChange={this.handleGenderInput} className='mr-2' type="radio" id="male" name="gender" value="male" />
+                            <div className='mt-2 col-12 text-center'>
+                                <input onChange={this.handleGenderInput} className='mr-2' type="radio" id="male" name="gender" value="male"/>
                                 <label className='mr-5' for="male">Male</label>
-                                <input onChange={this.handleGenderInput} className='mr-2' type="radio" id="female" name="gender" value="female" />
+                                <input onChange={this.handleGenderInput} className='mr-2' type="radio" id="female" name="gender" value="female"/>
                                 <label for="female">Female</label>
                             </div>
                             <div className='row'>
