@@ -163,6 +163,21 @@ const logic = {
     },
 
     /**
+     * Search games.
+     *
+     * @param {string} query
+     * @returns {Promise}
+     */
+    searchGameByUrl(url) {
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`);
+
+        if (!url.trim().length) throw Error('query is empty');
+
+
+        return thegamesDbApi.searchGameByUrl(url);
+    },
+
+    /**
      * Retrieves data from game.
      *
      * @param {string} gameId
