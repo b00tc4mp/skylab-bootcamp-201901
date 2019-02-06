@@ -6,7 +6,7 @@ const youtubeApi = {
     key : 'key=AIzaSyD_Phc3rCtjRXqWKv4Cnm-qTFG7qvSD4aQ',
     part: 'part=snippet',
     videoType : 'type=video',
-    maxResults : 'maxResults=20',
+    maxResults : 'maxResults=50',
     chart: 'chart=mostPopular',
 
     /**
