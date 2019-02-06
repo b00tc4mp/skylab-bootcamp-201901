@@ -16,10 +16,53 @@ describe('ombd-api' , () => {
                 }) 
         })
 
+        it('should fail on query dont found', () => {
+            let query = 'sdgfdsdsf'
+            return omdbApi.searchItems(query)
+            .then(() => {
+                throw Error('should not have passed by here')
+            })
+            .catch(error => {
+                expect(error).toBeDefined()
+                expect(error.message).toBe("Movie not found!")
+            })
+        })
+
         it ('should throw an error on empty query', () => {
             let query = ''
             expect(() => omdbApi.searchItems(query)).toThrowError('query is empty')
         })
+
+        it ('should throw an error on empty undefined', () => {
+            let query = undefined
+            expect(() => omdbApi.searchItems(query)).toThrowError(`${query} is not a string`)
+        })
+
+        it ('should throw an error on empty null', () => {
+            let query = null
+            expect(() => omdbApi.searchItems(query)).toThrowError(`${query} is not a string`)
+        })
+
+        it ('should throw an error on empty number', () => {
+            let query = 123
+            expect(() => omdbApi.searchItems(query)).toThrowError(`${query} is not a string`)
+        })
+
+        it ('should throw an error on empty boolean', () => {
+            let query = true
+            expect(() => omdbApi.searchItems(query)).toThrowError(`${query} is not a string`)
+        })
+
+        it ('should throw an error on empty array', () => {
+            let query = []
+            expect(() => omdbApi.searchItems(query)).toThrowError(`${query} is not a string`)
+        })
+
+        it ('should throw an error on empty object', () => {
+            let query = {}
+            expect(() => omdbApi.searchItems(query)).toThrowError(`${query} is not a string`)
+        })
+
 
     // DUDA: cómo manejar estas mayúcuslas?
     // tenemos que convertir las keys del objeto a toLowerCase()
@@ -63,6 +106,11 @@ describe('ombd-api' , () => {
                     throw Error('should not have passed by here')
                 })
                 .catch(({message}) =>  expect(message).toBe('Incorrect IMDb ID.'))
+        })
+
+        it('should fail on undefined itemID', () => {
+            const itemId = undefined
+            expect(() => omdbApi.retrieveItem(itemId)).toThrowError(`${itemId} is not a string`)
         })
     })
 })

@@ -41,8 +41,8 @@ class App extends Component {
     try{
       
       logic.loginUser(email,password)
-        .then( () => {            // no devuelve nada - si hay error devuelve el mensaje de error
-          this.setState({ loginFeedback: null }) //this.setState({user}) // aquí nos tenemos que guardar el ID para favoritos
+        .then( () => {
+          this.setState({ loginFeedback: null, loginIsVisible: false } , () => this.props.history.push('/'))
                                                 //LOCAL STORAGE
         }).catch( ({message}) => {
             this.setState({ loginFeedback: message })
