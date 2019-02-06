@@ -5,17 +5,33 @@
     padding-left: 0.5em
     padding-right: 0.5em
     //background-color: #121212
-    color: white
     display: grid
     grid-template-columns: 1fr
 
+    &-dark
+        color: white
+
+    &-light
+        color: black
+
 .randomCard
     padding: 0.2em
-    background-color: #121212
+
+    &-dark
+        background-color: #121212
+
+    &-light
+        background-color: white
 
 .randomTittle
     color: white
     font-weight: bolder
+
+    &-dark
+        color: white
+
+    &-light
+        color: black
 
 .randomDes
     display: none

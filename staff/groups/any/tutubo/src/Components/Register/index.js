@@ -26,14 +26,14 @@ class Register extends Component {
     }
 
     render() {
-        const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, handleFromSubmit, props:{onGoToLogin, feedback} } = this
+        const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, handleFromSubmit, props:{onGoToLogin, feedback, mode} } = this
 
-        return <section className="register">
+        return <section className={`${mode ? 'register register-light' : 'register register-dark'}`}>
             <div className="registerBox">
-                <div className="content">
+                <div className={`${mode ? 'content content-light' : 'content content-dark'}`}>
                     <div className="text">
-                        <i className="fab fa-youtube fa-5x"></i>
-                        <h3 className="tittleregister">Create your account</h3>
+                        <i className={`${mode ? 'fab fa-youtube fa-youtube-light fa-5x' : 'fab fa-youtube fa-5x'}`}></i>
+                        <h3 className={`${mode ? 'tittleRegister tittleRegister-light' : 'tittleRegister tittleRegister-dark'}`}>Create your account</h3>
                         <p>to continue to TuTubo</p>
                     </div>
                     <form classname="registerform" onSubmit={handleFromSubmit}>

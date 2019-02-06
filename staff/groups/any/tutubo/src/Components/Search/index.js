@@ -17,12 +17,12 @@ class Search extends Component {
 
     render() {
 
-        const { handleQueryInput, handleSearchSubmit } = this
+        const { handleQueryInput, handleSearchSubmit, props: {mode} } = this
 
         return <section className="container__form">
             <form className="form" onSubmit={handleSearchSubmit}>
-                <input className="form__search" type="text" placeholder="Search" onChange={handleQueryInput} />
-                <button className="form__button" type="submit"><i className="fas fa-search"></i></button>
+                <input className={`${mode ? 'form__search form__search-light' : 'form__search form__search-dark'}`} type="text" placeholder="Search" onChange={handleQueryInput} />
+                <button className={`${mode? 'form__button form__button-light' : 'form__button form__button-dark'}`} type="submit"><i className={`${mode ? 'fas fa-search fa-search-light' : 'fas fa-search fa-search-dark'}`}></i></button>
             </form>
         </section>
     }
