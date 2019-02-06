@@ -18,7 +18,7 @@ class GenresInfo extends Component {
         try {
             logic.retrieveGenresList(gen)
                 .then( ({ data: { genres }}) => {
-                    const genCat = genres[this.props.devId]
+                    const genCat = genres[this.props.genId]
                     this.setState({ genName: (genCat && genCat.name) ? genCat.name : null })
                 })
             } catch ({ message }) {
@@ -27,11 +27,14 @@ class GenresInfo extends Component {
     }
 
     render() {
-        return (
-            <span>
-                {this.state.genName}
-            </span>
-        )
+        if (this.state.genName) {
+            return (
+                <span>
+                    {this.state.genName} //
+                </span>
+            )
+        }
+        return ( <fragment></fragment>)
     }
 }
 
