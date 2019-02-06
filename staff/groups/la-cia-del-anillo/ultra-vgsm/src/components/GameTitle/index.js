@@ -20,7 +20,7 @@ class GameTitle extends Component {
                 .then( ({ data : { base_url: { original }, images } }) => {
                     const imgCat = images[this.props.gamId].find(image => image.type === 'clearlogo')
                     this.setState({ baseUrl: original,
-                                    logoUrl: (imgCat ? imgCat.filename : null)
+                                    logoUrl: ((imgCat && imgCat.filename) ? imgCat.filename : null)
                     })
                 })
             } catch ({ message }) {

@@ -18,8 +18,8 @@ class DevelopersInfo extends Component {
         try {
             logic.retrieveDevelopersList(dev)
                 .then( ({ data: { developers }}) => {
-                    this.setState({ devName: developers[this.props.devId].name })
-                    console.log(developers[this.props.devId].name)
+                    const devCat = developers[this.props.devId]
+                    this.setState({ devName: (devCat && devCat.name) ? devCat.name : null })
                 })
             } catch ({ message }) {
             this.setState({ feedback: message });
