@@ -179,7 +179,7 @@ describe('logic', () => {
         
         const name = 'Manuel'
         const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        let username
         const password = '123'
         const passwordConfirm = '123'
         const gender = 'female'
@@ -187,36 +187,41 @@ describe('logic', () => {
         const height = 161
         const weight = 60
         const lifeStyle='sedentary'
-    
+        
         beforeEach(()=>{
-            logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
+            username = `manuelbarzi-${Math.random()}`
+
+            return logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
                 .then(() => _id = logic.__userId__)
         })
       
-        it('should succeed on correct data', () =>
+        it('should succeed on correct data', () => 
             logic.login(username, password)
                 .then(() => {
                     let loginId=logic.__userId__
                     _token=logic.__userApiToken__
+
                     expect(loginId).toBe(_id)
                     expect(_token).toBeDefined()
                 })
         )
-        it('should fail on too few arguments', () =>
+
+        it('should fail on too few arguments', () => {
             expect(() => {
                 logic.login(username)
             }).toThrow(Error('All arguments were not introduced in the function'))
-        )
-        it('should fail on too many arguments', () =>
+        })
+
+        it('should fail on too many arguments', () => {
             expect(() => {
                 logic.login(username, password, 'test')
             }).toThrow(Error('Too many arguments were introduced in the function'))
-        )
+        })
     })
     describe('retrieve', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        let username
         const password = '123'
         const passwordConfirm = '123'
         const gender = 'female'
@@ -227,12 +232,16 @@ describe('logic', () => {
 
         let _id, _token
 
-        logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
-            .then(() => logic.login(username, password))
-            .then(() => {
-                _id = logic.__userId__
-                _token= logic.__userApiToken__
-            } )
+        beforeEach(() => {
+            username = `manuelbarzi-${Math.random()}`
+            
+            return logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
+                .then(() => logic.login(username, password))
+                .then(() => {
+                    _id = logic.__userId__
+                    _token= logic.__userApiToken__
+                } )
+        })
 
 
         it('should succeed on correct data', () =>
@@ -261,7 +270,7 @@ describe('logic', () => {
     describe('update', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        let username
         const password = '123'
         const passwordConfirm = '123'
         const gender = 'female'
@@ -274,12 +283,18 @@ describe('logic', () => {
 
         let _id, _token
 
-        logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
-            .then(() => logic.login(username, password))
-            .then(() => {
-                _id = logic.__userId__
-                _token = logic.__userApiToken__
-            })
+
+        beforeEach(() => {
+
+            username = `manuelbarzi-${Math.random()}`
+
+            return logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
+                .then(() => logic.login(username, password))
+                .then(() => {
+                    _id = logic.__userId__
+                    _token = logic.__userApiToken__
+                })
+        })
 
         it('should succeed on correct data', () => {
             const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
@@ -306,7 +321,7 @@ describe('logic', () => {
     describe('remove', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
+        let username
         const password = '123'
         const passwordConfirm = '123'
         const gender = 'female'
@@ -317,12 +332,16 @@ describe('logic', () => {
 
         let _id, _token
 
-        logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
-            .then(() => logic.login(username, password))
-            .then(() => {
-                _id = logic.__userId__
-                _token = logic.__userApiToken__
-            })
+        beforeEach(() => {
+            username = `manuelbarzi-${Math.random()}`
+            
+            return logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
+                .then(() => logic.login(username, password))
+                .then(() => {
+                    _id = logic.__userId__
+                    _token = logic.__userApiToken__
+                })
+        })
         it('should succeed on correct data', () => {
             return logic.remove(_id, _token, username, password)
                 .then(() => logic.retrieve(_id, _token))

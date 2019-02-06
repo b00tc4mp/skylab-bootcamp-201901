@@ -29,6 +29,9 @@ const edamamApi = {
         if (!query.trim().length) throw Error('query is empty')
 
         if (typeof calories !== 'string')throw TypeError(`${calories} is not a string`)
+
+        if (!calories.trim().length) throw Error('calories is empty')
+
         diet = typeof diet === 'string'? `${diet}` : ''
         health = typeof health === 'string'? `${health}` : ''
 
