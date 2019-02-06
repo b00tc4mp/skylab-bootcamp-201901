@@ -18,7 +18,8 @@ class GenresInfo extends Component {
         try {
             logic.retrieveGenresList(gen)
                 .then( ({ data: { genres }}) => {
-                    this.setState({ genName: genres[this.props.genId].name })
+                    const genCat = genres[this.props.devId]
+                    this.setState({ genName: (genCat && genCat.name) ? genCat.name : null })
                 })
             } catch ({ message }) {
             this.setState({ feedback: message });
