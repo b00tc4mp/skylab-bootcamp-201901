@@ -23,18 +23,30 @@ class Login extends Component {
         const {handleFormSubmit, handleInput, props: {loginFeedback}} = this
 
         return <section className="login">
-
-            <h2>Login</h2>
-            <form onSubmit={handleFormSubmit}>
-                <input type="text" name="email" onChange={handleInput} />
-                <input type="password" name="password" onChange={handleInput} />
-                <button>Login</button>
-            </form>
-            <div>
-                <button> <Link to="/register"> To Register</Link></button>
+            <div className="columns is-mobile is-centered has-text-centered">
+                <p className="column is-three-quarters title">Discover the best plans in your city</p>
+            </div>
+            <div className="columns is-mobile is-tablet is-centered has-text-centered loginPanel">
+                <div className="column is-half">
+                    <form className="columns" onSubmit={handleFormSubmit}>
+                        <div className="control column">
+                            <input className="input" type="text" name="email" placeholder="email" onChange={handleInput} />
+                        </div>
+                        <div className="control column">
+                            <input className="input" type="password" name="password" placeholder="password" onChange={handleInput} />
+                        </div>
+                        <div className="column">
+                            <button className="button is-fullwidth">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div className="columns is-mobile is-centered has-text-centered register">
+                <div className="column">
+                    <p>Not a memeber? go to<Link to="/register"> register</Link></p>
+                </div>
             </div>
             {loginFeedback && <Feedback message={loginFeedback} />}
-
         </section>
     }
 }
