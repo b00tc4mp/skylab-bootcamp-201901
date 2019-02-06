@@ -29,6 +29,7 @@ describe('user api', () => {
         it('should fail on empty name', ()=> {
             expect( () => userApi.register('', surname, username, password)).toThrowError('name is empty')
         })
+
         it('should fail on empty surname', ()=> {
             expect( () => userApi.register(name, '', username, password)).toThrowError('surname is empty')
         })
@@ -203,7 +204,7 @@ describe('user api', () => {
                         throw Error ('should not have passed by here')
                     })
                     .catch(error => {
-                        expect(error).toBeDefined
+                        expect(error).toBeDefined()
                         expect(error.message).toBe('invalid token')
                     })
         })
@@ -216,7 +217,8 @@ describe('user api', () => {
             expect( () => userApi.update(_id, '', data)).toThrowError('token is empty')
         })
         it('should fail on empty data', () => {
-            expect( () => userApi.update(_id, _token, data)).toThrowError('data is not defined')
+            const data = ''
+            expect( () => userApi.update(_id, _token, data)).toThrowError(`${data} is not an object`)
         })
     })
 
@@ -291,12 +293,24 @@ describe('user api', () => {
         it('should fail on empty token', ()=> {
             expect( () => userApi.remove(_id, '', username, password)).toThrowError('token is empty')
         })
+        it('should fail on undefined token', ()=> {
+            const _token = undefined
+            expect( () => userApi.remove(_id, _token, username, password)).toThrowError(`${_token} is not a string`)
+        })
         it('should fail on empty username', () => {
             expect( () => userApi.remove(_id, _token, '', password)).toThrowError('username is empty')
+        })
+        it('should fail on undefined username', ()=> {
+            const username = undefined
+            expect( () => userApi.remove(_id, _token, username, password)).toThrowError(`${username} is not a string`)
         })
         it('should fail on empty password', () => {
             const password = ''
             expect( () => userApi.remove(_id, _token, username, password)).toThrowError('password is empty')    
+        })
+        it('should fail on undefined password', ()=> {
+            const password = undefined
+            expect( () => userApi.remove(_id, _token, username, password)).toThrowError(`${password} is not a string`)
         })
     })
 })
