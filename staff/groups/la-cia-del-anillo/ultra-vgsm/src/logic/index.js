@@ -100,12 +100,41 @@ const logic = {
     retrieveUser() {
         return userApi
             .retrieve(this.__userId__, this.__userApiToken__)
-            .then(({ id, name, surname, username }) => ({
+            .then(({ id, name, surname, username, favorites }) => ({
                 id,
                 name,
                 surname,
-                email: username
+                email: username,
+                favorites
             }));
+    },
+
+    toggleFavorite(gameId) {
+        if (typeof gameId !== 'string') throw TypeError(`${gameId} is not a string`);
+
+        if (!gameId.trim().length) throw Error('gameId is empty');
+
+        if (isNaN(Number(gameId))) throw Error(`${gameId} should be a number`);
+
+        if (Number(gameId) < 1) throw Error(`${gameId} should be a bigger than 0 number`);
+
+        if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
+        
+
+        return this.retrieveUser().then(({ favorites }) => {
+
+            const index = favorites.indexOf(gameId);
+
+            if(index < 0) {
+                favorites.push(gameId);
+            } else {
+                favorites.splice(index, 1);
+            }
+            
+            return userApi
+                .update(this.__userId__, this.__userApiToken__, {favorites})
+                .then(() => index);
+        });
     },
 
     get userLoggedIn() {

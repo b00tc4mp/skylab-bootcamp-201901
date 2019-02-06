@@ -20,7 +20,7 @@ const userApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, username, password })
+            body: JSON.stringify({ name, surname, username, password, favorites: [] })
         })
             .then(response => response.json())
             .then(response => {
