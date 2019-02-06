@@ -189,13 +189,12 @@ const logic = {
         .then((favs) => {
             return favs.favourites
         })
-    
-
-    if (!user) throw Error(`user ${email} not found`);
 
     let exists = favourites.findIndex(obj => obj.id === id);
 
     let toSend = { id, name };
+
+    console.log(toSend)
 
     if (exists !== -1) {
       user.favourites.splice(exists, 1);
