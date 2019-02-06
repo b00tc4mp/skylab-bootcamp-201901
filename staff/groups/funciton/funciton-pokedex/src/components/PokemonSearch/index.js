@@ -28,7 +28,7 @@ class PokemonSearch extends Component {
     return <ul className='pokemon__ul'>
       {
         this.state.pokemons
-          .filter(pokemon => pokemon.name.includes(this.state.searchText))
+          .filter(pokemon => pokemon.name.includes(this.props.searchText))
           .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} onGoToDetails={onPokemonDetail} />)
       }
     </ul>
@@ -48,7 +48,7 @@ class PokemonSearch extends Component {
             onChange={this.handleChange}
             type="text"
             placeholder="Search your Pokemon"
-            value={this.state.searchText}
+            value={this.props.searchText}
           />
           {
             this.state.loading && <h1>LOADING</h1>
