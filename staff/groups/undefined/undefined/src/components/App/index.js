@@ -58,7 +58,7 @@ class App extends Component {
     const {handleGoToRegister, handleGoToLogin, handleRegister, handleLogin, state: {registerIsVisible, user, loginIsVisible, loginFeedback, registerFeedback}} = this
 
     return (
-        <div className="App">
+        <div className="app">
 
           <Route path='/register' render={() => registerIsVisible && !loginIsVisible && <Register onRegister={handleRegister} feedback={registerFeedback}/> }   />
           <Route path='/login' render={() => !user? loginIsVisible && !registerIsVisible && <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/' /> } />
