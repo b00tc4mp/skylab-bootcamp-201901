@@ -74,9 +74,8 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
-                const { status } = response
-
-                if (status === 'OK') return response.data
+                
+                if (response.status === 'OK') return response.data
 
                 throw Error(response.error) //Contempla el caso de mal funcionamiento de la API
             })
@@ -89,7 +88,6 @@ const userApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
         return fetch(`${this.url}/user/${id}`, {
             method: 'PUT',
