@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom'
 
 import './index.sass';
+import './bulma/bulma.sass'
+
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import omdbApi from './ombd-api'
-
-
 
 const { OMDB_KEY } = process.env
 

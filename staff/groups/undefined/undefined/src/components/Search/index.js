@@ -24,6 +24,7 @@ class Search extends Component {
                         name="query" 
                         placeholder="Search Movies and Series"
                         onChange={handleQueryInput}
+                        className="input"
                         required 
                     />
 
