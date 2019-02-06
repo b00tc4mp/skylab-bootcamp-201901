@@ -7,6 +7,7 @@ import logic from '../Logic'
 import Login from '../Login'
 import Register from '../Register'
 import Modal from '../Modal'
+import Home from '../Home'
 
 
 class Landing extends Component {
@@ -21,7 +22,7 @@ class Landing extends Component {
                 return logic.retrieveUser(logic.__userId__, logic.__userApiToken__)
                     .then(user => {
                         this.setState({userName : user.name, userEmail: user.username, userFavourites: user.favourites})
-                        this.props.history.push('/home')
+                        this.props.history.push('/home/search/')
                     }) 
             })
             .catch(({message}) => this.setState({ loginFeedback: message }))
@@ -54,9 +55,9 @@ class Landing extends Component {
 
     render() {
 
-        const {handleLogin, handleRegistration, handleHome, handleToLogin,state:{loginFeedback, registrationFeedback, modalVisible}} = this
+        const {handleLogin, handleRegistration, handleHome, handleToLogin, onTop,state:{loginFeedback, registrationFeedback, modalVisible}} = this
 
-        return <section className="container">
+        return <section className="container foto">
         <Route exact path="/" render={() =>
             <Fragment>
                 <div className="columns is-mobile is-centered has-text-centered">

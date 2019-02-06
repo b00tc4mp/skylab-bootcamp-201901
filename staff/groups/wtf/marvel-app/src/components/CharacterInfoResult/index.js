@@ -23,16 +23,16 @@ class CharacterInfoResult extends Component {
     handleCharacterSelected = id => {
         try {
             logic.retrieveCharacter(id)
-                .then(character => {
+                .then((character) => {
+                    console.log(character)
                     this.setState({character: character.results[0], feedback: null})
                 })
+                
                 .catch(({ message }) => this.setState({ feedback: message, character: null }))
         } catch ({ message }) {
             this.setState({ feedback: message, character: null })
         }
     }
-
-
 
     render() {
         const { state:{character, feedback}, props: {onComicSelected} } = this;
