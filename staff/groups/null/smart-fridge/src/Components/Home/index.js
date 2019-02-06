@@ -27,8 +27,7 @@ class Home extends React.Component{
 
     handleLogout= () => {
         logic.logout()
-
-        this.props.history.push('/')
+       this.props.history.push('/')
     }
 
     handleEditProfileButton = () => {
@@ -64,7 +63,5 @@ class Home extends React.Component{
                 {<Route path="/home/search" render={() => recipes ? <Results recipes={recipes}/> : <Redirect to = "/home" />}/>/* {results && <Results recipes={this.state.recipes}/>} */}
             </main>
 
-    }
-}
 
 export default withRouter(Home)

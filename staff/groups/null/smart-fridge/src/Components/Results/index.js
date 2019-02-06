@@ -1,33 +1,17 @@
 import React, { Component } from 'react'
+
 // import search from '../'
 import './index.sass'
 import logic from '../../logic'
 
 
 class Results extends Component{
+state={redirect:false}
 
-    move=() => {
-        var elem = document.getElementById("progressBar");
-        var text = document.getElementById("progressText") 
-        var width = 0;
-        var id = setInterval(frame, 20);
-        function frame() {
-          if (width >= 33) {
-            clearInterval(id);
-          } else {
-            width++; 
-            elem.style.width = width + '%';
-            text.style.marginLeft = width + '%';
-            text.innerHTML = width * 1  + '%';
-          }
-        }
-    }
-    
-    follow=()=> {
-        const elem = document.getElementById("slider")
-        const follower = document.getElementById("range-follow")
-        follower.style.width = (elem.value * (elem.offsetWidth - 16)) / elem.max + 'px' 
-    }
+onDetails=event=>{
+    event.preventDefault();
+}
+  
 
     render() {
 
@@ -35,65 +19,60 @@ class Results extends Component{
         const maxCalories= logic.caloriesCounter(user.gender, user.height, user.weight, user.birthDate, user.lifeStyle)
         console.log(maxCalories)
         const { recipes } = this.props
+        const maxFats= (maxCalories*30)/100
+        const maxProtein= (maxCalories*30)/100
+        const maxCarhohidrates= (maxCalories*40)/100
+
 
         return <section className="results">
-            <h3><u>Recipes:</u></h3>
             <div className="card_columns">  
 
             {
-
-
-
-
-
                 recipes.map(recipe => (
-                    <div className= "card">
+                    <div className= "card col-lg-5">
                          <div className="card-body">       
-                            <h5 className="card-title">{recipe.recipe.label}</h5>                 
-                            <img className="card-img-top" alt="recipe" src={recipe.recipe.image}/>
-                            <div onClick={this.move.bind(this)}>
+                            <h5 className="card-title">{recipe.recipe.label}</h5>               
+                            <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img><i class="far fa-heart"></i>  
+                            <label>Total Calories:</label>
                                 <div class="progressBarContainer">
-                                    <div id="progressBar" class="progressBar">
-                                        <p class="progressText" id="progressText">60%</p>
+                                    <div id="progressBar total" ref="progressBar"class="progressBar" style={{width: ((recipe.recipe.totalNutrients.ENERC_KCAL.quantity/ recipe.recipe.yield) / maxCalories)*100 + '%'}}>
+                                    <p class="progressText" ref="progressText" id="progressText" style={{marginLeft: ((recipe.recipe.totalNutrients.ENERC_KCAL.quantity/ recipe.recipe.yield) / maxCalories)*100 + '%'}}>{(((recipe.recipe.totalNutrients.ENERC_KCAL.quantity/ recipe.recipe.yield) / maxCalories)*100).toFixed(2) + '%'}</p>
                                     </div>
                                 </div>
-
-                                <div class="progressBarContainer">
-                                    <div id="progressBar" class="progressBar">
-                                        <p class="progressText" id="progressText">60%</p>
-                                    </div>
-                                </div>
-
-                                
-                            </div>
-                            <label>Total Calories</label>
-                                <div id="range-follow" class="range-follow">
-                                    <input class="slider" id="slider" onmousemove="follow()" type="range" min="0" max="100" value={Math.round((recipe.recipe.totalNutrients.ENERC_KCAL.quantity)/recipe.recipe.yield)} />
-                                </div>
-                            <p></p>
                             <label>Total carbohydrates:</label>
-                                <div id="range-follow" class="range-follow">
-                                    <input class="slider" id="slider" onmousemove="follow()" type="range" min="0" max="100" value={Math.round((recipe.recipe.totalNutrients.CHOCDF.quantity)/recipe.recipe.yield)} />
+                                <div class="progressBarContainer">
+                                    <div id="progressBar" ref="progressBar"class="progressBar" style={{width: ((recipe.recipe.totalNutrients.CHOCDF.quantity/ recipe.recipe.yield) / maxCarhohidrates)*100 + '%'}}>
+                                    <p class="progressText" ref="progressText" id="progressText" style={{marginLeft: ((recipe.recipe.totalNutrients.CHOCDF.quantity/ recipe.recipe.yield) / maxCarhohidrates)*100 + '%'}}>{(((recipe.recipe.totalNutrients.CHOCDF.quantity/ recipe.recipe.yield) / maxCarhohidrates)*100).toFixed(2) + '%'}</p>
+                                    </div>
                                 </div>
-                            <p></p>
                             <label>Total protein:</label>
-                                <div id="range-follow" class="range-follow">
-                                    <input class="slider" id="slider" onmousemove="follow()" type="range" min="0" max="100" value={Math.round((recipe.recipe.totalNutrients.PROCNT.quantity)/recipe.recipe.yield)}/>
+                                <div class="progressBarContainer">
+                                    <div id="progressBar" ref="progressBar"class="progressBar" style={{width: ((recipe.recipe.totalNutrients.PROCNT.quantity/ recipe.recipe.yield) / maxProtein)*100 + '%'}}>
+                                    <p class="progressText" ref="progressText" id="progressText" style={{marginLeft: ((recipe.recipe.totalNutrients.PROCNT.quantity/ recipe.recipe.yield) / maxProtein)*100 + '%'}}>{(((recipe.recipe.totalNutrients.PROCNT.quantity/ recipe.recipe.yield) / maxProtein)*100).toFixed(2) + '%'}</p>
+                                    </div>
                                 </div>
                             <label>Total fats:</label>
-                                <div id="range-follow" class="range-follow">
-                                    <input class="slider" id="slider" onmousemove="follow()" type="range" min="0" max="100" value= {Math.round((recipe.recipe.totalNutrients.FAT.quantity)/recipe.recipe.yield)}/>
-                                </div>
-                    </div>
-                    </div>
+                            <div class="progressBarContainer">
+                                    <div id="progressBar" ref="progressBar"class="progressBar" style={{width: ((recipe.recipe.totalNutrients.FAT.quantity/ recipe.recipe.yield) / maxFats)*100 + '%'}}>
+                                    <p class="progressText" ref="progressText" id="progressText" style={{marginLeft: ((recipe.recipe.totalNutrients.FAT.quantity/ recipe.recipe.yield) / maxFats)*100 + '%'}}>{(((recipe.recipe.totalNutrients.FAT.quantity / recipe.recipe.yield) /maxFats)*100).toFixed(2) + '%'}</p>
+                                    </div>
+                            </div>
+                            <div className="time">Total time: {recipe.recipe.totalTime}<span>minutes</span></div>            
+                                <button className="btn btn-dark inline" onClick= {this.onDetails} type="submit">More details</button>
+                                
+                            <a className= "link_recipe" href={recipe.recipe.url}>Go to recipe</a>
+                        </div>
+                    </div>            
                 ))
-            }
-               
+                }
+                
             </div>
-        </section>
-        }
-        
-                    
+            </section>
+            }
+
+                        
     }                
 
-export default Results
+export default Results                
+                        
+        
