@@ -5,16 +5,15 @@ import './index.sass'
 
 class Video extends Component {
 
-    state = { comments: [], videoId: '', text: '', buttonLike: '', buttonDislike: '', videoInfo: '' }
+    state = { comments: [], videoId: '', text: '', buttonLike: '', buttonDislike: '', videoInfo: '', likeButton: false }
 
     componentDidMount() {
 
         const { props: { videoId } } = this
 
-        console.log(videoId)
-
         this.handleShowComments()
         this.handleVideoInfo(videoId)
+        this.handleShowLike()
     }
 
     handleComment = (videoId, date) => {
@@ -62,8 +61,22 @@ class Video extends Component {
         onLike(videoId)
     }
 
+    handleShowLike = () => {
+        try {
+            const idNow = this.props.videoId
+            logic.retrieveLikes()
+                .then(({likes}) => {
+                    //const idNow = this.props.videoId
+                    if(likes.includes(idNow)) this.setState({ likeButton: !this.state.likeButton})
+                })
+                .catch(console.log('like error'))
+        } catch {
+            this.setState(/* sets state of feedback messafe again in case of error beforehand */)
+        }
+    }
+
     render() {
-        const { props: { videoId, like }, handleShowComments, handleComment, state: { videoInfo }, handleLike, handleDislike } = this
+        const { props: { videoId }, handleShowComments, handleComment, state: { videoInfo }, handleLike, handleDislike } = this
 
         return <section className="section__video">
             <iframe className="iframe" title={videoId} src={`https://www.youtube.com/embed/${videoId}`}></iframe>
@@ -73,7 +86,7 @@ class Video extends Component {
                         <div className="title-likes">
                             <h2 className="iframe__title">{videoInfo.snippet.title}</h2>
                             <div className="likes">
-                                <i className={`${like ? "far fa-thumbs-up blue" : "far fa-thumbs-up"}`} onClick={handleLike}> 2 M</i>
+                                <i className={`${this.props.likeButton ? "far fa-thumbs-up blue" : "far fa-thumbs-up"}`} onClick={handleLike}> 2 M</i>
                                 <i className="far fa-thumbs-down" onClick={handleDislike}> 14 M</i>
                             </div>
                         </div>

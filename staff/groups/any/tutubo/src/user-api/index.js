@@ -65,6 +65,7 @@ const userApi = {
         if (!token.trim().length) throw Error('token is empty')
 
         return fetch(`${this.url}/user/${id}`, {
+            method: 'GET',
             headers: {
                 authorization: `Bearer ${token}`
             }
@@ -87,6 +88,7 @@ const userApi = {
         if (!token.trim().length) throw Error('token is empty')
 
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        
         return fetch(`${this.url}/user/${id}`, {
             method: 'PUT',
             headers: {
