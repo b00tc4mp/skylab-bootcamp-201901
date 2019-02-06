@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Feedback from '../Feedback';
 
 class Register extends Component {
     state = { name: '', surname: '', email: '', password: '', passwordConfirm: '' };
@@ -20,7 +21,11 @@ class Register extends Component {
     };
 
     render() {
-        const { handleRegisterSubmit, handleInput } = this;
+        const {
+            handleRegisterSubmit,
+            handleInput,
+            props: { feedback }
+        } = this;
 
         return (
             <section className="login animated flipInX">
@@ -99,11 +104,10 @@ class Register extends Component {
                     </form>
                     <div className="divider" />
                     <p className="login__register-text">
-                        ¿Ya tienes cuenta?  <Link to="/login">
-                          Entra
-                          </Link>
+                        ¿Ya tienes cuenta? <Link to="/login">Entra</Link>
                     </p>
                 </div>
+                {feedback && <Feedback message={feedback} />}
             </section>
         );
     }

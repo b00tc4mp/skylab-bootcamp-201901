@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Feedback from '../Feedback'
 import './index.css';
 
 class Login extends Component {
@@ -68,6 +69,7 @@ class Login extends Component {
                           </Link>
                     </p>
                 </div>
+                {feedback && <Feedback message={feedback} />}
             </section>
         );
     }
