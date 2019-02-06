@@ -170,7 +170,7 @@ const userApi = {
             .then(response => {
                 const { status } = response
 
-                if (status === 'OK') return
+                if (status === 'OK') return  
                 throw Error(response.error)
             })
     },
