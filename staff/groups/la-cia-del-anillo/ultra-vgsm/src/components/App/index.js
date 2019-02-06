@@ -12,6 +12,7 @@ import Login from '../Login';
 import Register from '../Register';
 import NotFound from '../NotFound';
 import logic from '../../logic';
+import LandingPage from '../LandingPage';
 import Feedback from '../Feedback';
 
 class App extends Component {
@@ -64,6 +65,7 @@ class App extends Component {
                     <Header />
                     <div className="container">
                         <Switch>
+                        <Route exact path="/" component={LandingPage} />
                             <Route path="/search/:query" component={Results} />
                             <Route path="/platform/:platformId" component={Results} />
                             <Route path="/game/:gameId" component={GameInfo} />
