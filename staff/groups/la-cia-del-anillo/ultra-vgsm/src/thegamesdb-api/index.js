@@ -52,6 +52,28 @@ const thegamesDbApi = {
             });
     },
 
+    searchGameByUrl(url) {
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`);
+
+        if (!url.trim().length) throw Error('query is empty');
+
+        return fetch(`${this.proxy + url}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                const { code, status, data, include, pages } = response;
+
+                if (status !== 'Success') throw Error(response.error);
+
+                if (code !== 200) throw Error(status);
+
+                return { data, include, pages };
+            });
+    },
+
     /**
      * RETRIEVE GAME DATA BY GAME ID
      *

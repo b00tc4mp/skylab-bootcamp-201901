@@ -479,9 +479,40 @@ main {
     }
 }
 
-.sidebar {
+.sidebar-overlay {
     display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    z-index: 90;
+    background: rgba(27, 29, 30, 0.5);
+    width: 100%;
+}
+.sidebar-overlay--show {
+    display: block;
+}
+
+.sidebar {
+    /* display: none; */
     background-color: #f4f4f4;
+    /* transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+    transition-delay: 0s; */
+    transition: transform 0.25s ease-out 0s;
+    transform: translateX(-100%);
+}
+.sidebar--show {
+    position: fixed;
+    z-index: 100;
+    outline: 0px;
+    left: 0px;
+    width: calc(100% - 50px);
+    height: 100vh;
+    display: flex;
+    visibility: visible;
+    background-color: #f4f4f4;
+    transform: translateX(0);
 }
 @media screen and (min-width: 1024px) {
     .sidebar {
@@ -490,6 +521,7 @@ main {
         height: 100vh;
         flex: 1 1 0%;
         overflow: auto;
+        transform: translateX(0);
     }
 }
 .sidebar__scrolling-content {
