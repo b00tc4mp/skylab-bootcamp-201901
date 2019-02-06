@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import logic from '../../logic';
+import Card from '../Card';
 
 class Games extends Component {
-    state = { games: null };
+    state = { results: null };
 
     componentDidMount() {
         const {
@@ -23,42 +24,37 @@ class Games extends Component {
     }
 
     getPlatform = platformId => {
-        logic
-            .retrieveGamesByPlatform(platformId)
-            .then(({ data }) => this.setState({ games: data.games }))
-            .catch(error => console.log(error))
+        try {
+            logic
+                // .searchGame(query, 'boxart,platform')
+                .retrieveGamesByPlatform(platformId)
+                .then(({ data: { games }, include: { boxart, platform } }) => {
+                    this.setState({
+                        results: games.map(game => {
+                            game.base_url = boxart.base_url;
+                            game.boxart = boxart.data[game.id].find(
+                                image => image.side === 'front'
+                            );
+                            game.platform = platform.data[game.platform];
+                            console.log(game);
+                            return game;
+                        })
+                    });
+                })
+                .catch(({ message }) => this.setState({ feedback: message }));
+        } catch ({ message }) {
+            this.setState({ feedback: message });
+        }
+
     };
 
     render() {
         return (
             <div className="container">
                 <section className="results content">
-                    {this.state.games &&
-                        this.state.games.map(game => {
-                            return (
-                                <article className="card" key={game.id}>
-                                    <a href="#">
-                                        <div>
-                                            <img
-                                                className="card__image"
-                                                src="https://cdn.thegamesdb.net/images/original/boxart/front/161-1.jpg"
-                                            />
-                                        </div>
-                                    </a>
-                                    <header>
-                                        <h3 className="card__title">
-                                            <a
-                                                href=""
-                                                className="card__title-link"
-                                                title="The Legend of Zelda: Ocarina of Time"
-                                            >
-                                                {game.game_title}
-                                            </a>
-                                        </h3>
-                                        <h4 className="card__platform">{game.platform}</h4>
-                                    </header>
-                                </article>
-                            );
+                    {this.state.results &&
+                        this.state.results.map(game => {
+                            return <Card key={game.id} game={game} />;
                         })}
                 </section>
             </div>

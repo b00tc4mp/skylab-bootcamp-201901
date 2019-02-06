@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
+import logic from '../../logic';
 // 4971 - Nintendo Switch
 // 4919 - Play Station 4
 // 4920 - Xbox One
@@ -54,18 +55,24 @@ class Aside extends Component {
                                         Home
                                     </a>
                                 </li>
-                                <li className="menu__item">
-                                    <a href="#home" title="Login" className="menu__link">
+                                {logic.userLoggedIn && <li className="menu__item">
+                                    <button onClick={this.props.onLogout} className="menu__link">
+                                        <i className="fas fa-lock"></i>
+                                        Logout
+                                    </button>
+                                </li>}
+                                {logic.userLoggedIn || <li className="menu__item">
+                                    <Link to="/login" title="Login" className="menu__link">
                                         <i className="fas fa-unlock-alt" />
                                         Login
-                                    </a>
-                                </li>
-                                <li className="menu__item">
-                                    <a href="#home" title="Register" className="menu__link">
+                                    </Link>
+                                </li>}
+                                {logic.userLoggedIn || <li className="menu__item">
+                                    <Link to="/register" title="Register" className="menu__link">
                                         <i className="fas fa-sign-out-alt" />
                                         Register
-                                    </a>
-                                </li>
+                                    </Link>
+                                </li>}
                             </ul>
                         </nav>
                         <nav className="menu">

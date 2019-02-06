@@ -16,7 +16,9 @@ class Results extends Component {
                     this.setState({
                         results: games.map(game => {
                             game.base_url = boxart.base_url;
-                            game.boxart = boxart.data[game.id].find(image => image.side === 'front');
+                            game.boxart = boxart.data[game.id].find(
+                                image => image.side === 'front'
+                            );
                             game.platform = platform[game.platform];
                             return game;
                         })
@@ -35,14 +37,16 @@ class Results extends Component {
 
     componentDidMount() {
         const {
-            props: { query }
-        } = this;
+            query
+        } = this.props.match.params;
 
         this.handleSearch(query);
     }
 
     componentWillReceiveProps(props) {
-        const { query } = props;
+        const {
+            query
+        } = props.match.params;
 
         this.handleSearch(query);
     }
@@ -54,17 +58,10 @@ class Results extends Component {
 
         return (
             <section className="results content">
-                {results && (
+                {results &&
                     results.map(game => {
                         return <Card key={game.id} game={game} />;
-                    })
-                )}
-                
-                    {/* <div className="animated fadeInUp">
-                        <img alt="" src="/images/thinking.svg" className="isotype" />
-                        <h4 className="sc-iRbamj cBlzCf">No videos found...</h4>
-                    </div>
-                 */}
+                    })}
             </section>
         );
     }

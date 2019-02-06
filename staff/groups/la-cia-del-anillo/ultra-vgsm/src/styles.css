@@ -450,6 +450,10 @@ template {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   font-size: 10px;
   height: 100%;
@@ -575,7 +579,7 @@ main {
   color: #000;
 }
 .logo__image {
-  max-width: 190px;
+  max-width: 140px;
   margin-right: 5px;
 }
 
@@ -617,6 +621,11 @@ main {
   list-style: none;
 }
 .menu__link {
+  cursor: pointer;
+  width: 100%;
+  border: 0px;
+  outline: none;
+  background: none;
   position: relative;
   display: flex;
   color: #222;
@@ -709,7 +718,19 @@ main {
 }
 
 
-
-
+.btn {
+  background-color: none;
+  border: 0px;
+  padding: 10px 20px;
+  cursor: pointer;
+  outline: none;
+}
+.btn__green {
+  background-color: #27ae60;
+  color: #fff;
+}
+.btn__green:hover {
+  background-color: #1d904e;
+}
 
 /*# sourceMappingURL=styles.css.map */
