@@ -136,15 +136,15 @@ const logic = {
     
 
 
-    toggleFavorite(user, id, token, pokemonName) {
+    toggleFavorite(id, token, pokemonName, pokemonId) {
 
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
         if (!id.trim().length) throw Error('id cannot be empty');
 
-        if (typeof user !== 'string') throw TypeError(user + ' is not a string');
+        // if (typeof user !== 'string') throw TypeError(user + ' is not a string');
 
-        if (!user.trim().length) throw Error('user cannot be empty');
+        // if (!user.trim().length) throw Error('user cannot be empty');
 
         if (typeof token !== 'string') throw TypeError(token + ' is not a string');
 
@@ -181,20 +181,20 @@ const logic = {
             .then(() => true)
     },
 
-    getFavorites(user, id, token) {
+    getFavorites( id, token) {
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
         if (!id.trim().length) throw Error('id cannot be empty');
 
-        if (typeof user !== 'string') throw TypeError(user + ' is not a string');
+        // if (typeof user !== 'string') throw TypeError(user + ' is not a string');
 
-        if (!user.trim().length) throw Error('user cannot be empty');
+        // if (!user.trim().length) throw Error('user cannot be empty');
 
         if (typeof token !== 'string') throw TypeError(token + ' is not a string');
 
         if (!token.trim().length) throw Error('token cannot be empty');
 
-        userApi.retrieve(id, token)
+        return userApi.retrieve(id, token)
             .then(({ favorites }) => {
                 if (!favorites || favorites.length == 0) {
                     return null
