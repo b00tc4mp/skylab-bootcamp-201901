@@ -1,6 +1,48 @@
-.videolist
+.randomVideoList
     position: absolute 
     margin-top: 4em
-    padding: 4em
-    background-color: #121212
+    padding: 0.5em
+    padding-left: 0.5em
+    padding-right: 0.5em
+    //background-color: #121212
     color: white
+    display: grid
+    grid-template-columns: 1fr
+
+.randomCard
+    padding: 0.2em
+    background-color: #121212
+
+.randomTittle
+    color: white
+    font-weight: bolder
+
+.randomDes
+    display: none
+    font-size: 0.8em
+
+@media (min-width: 600px)
+    .randomVideoList
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 
+
+@media (min-width: 768px)
+    .randomVideoList
+        grid-template-columns: 1fr 1fr 1fr
+        padding: 2em
+        padding-left: 4em
+        padding-right: 4em
+
+    .randomDes
+        display: block
+
+@media (min-width: 992px)
+    .randomVideoList
+        grid-template-columns: 1fr 1fr 1fr 1fr  
+
+@media (min-width: 1200px) 
+    .randomVideoList
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 
+
+
+
+
