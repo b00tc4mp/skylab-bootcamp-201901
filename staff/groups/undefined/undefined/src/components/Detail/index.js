@@ -32,10 +32,15 @@ class Detail extends Component {
         this.props.history.push(`/videos/${this.props.match.params.query}`)
     }
 
+    handleFavorites = () => {
+        const {props: {match: {params :{id}}}} = this
+        logic.toggleFavorties(id)
+    }
+
 
     printDetails = () => {
         if (this.state.videoSelected) {
-            const {state: {videoSelected: {Title, Year, Rated, Runtime, Plot, Genre, Actors, Poster}}} = this
+            const {handleFavorites, state: {videoSelected: {Title, Year, Rated, Runtime, Plot, Genre, Actors, Poster}}} = this
             return (
                 <section className="detail">
                 <button onClick={this.onClose}>X</button>
@@ -47,6 +52,7 @@ class Detail extends Component {
                 <p className="detail__genre">{Genre}</p>
                 <p className="detail__actors">{Actors}</p>
                 <img src={Poster} className="detail__poster" alt={Title} />
+                <button onClick={handleFavorites}>Favorites</button>
             </section>
             )
         }
