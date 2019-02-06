@@ -20,7 +20,6 @@ class CharactersResults extends Component {
         this.handleSearch(query)
     }
 
-
     handleSearch = query => {
         try {
             logic.searchCharacter(query)

@@ -1,5 +1,11 @@
 "use strict";
 
+/**
+ * 
+ * Business logic for Marvel App
+ * 
+ */
+
 import marvelApi from "../../marvel-api";
 import userApi from "../../user-api";
 
@@ -141,9 +147,9 @@ const logic = {
     retrieveUser() {
 
         return userApi.retrieve(this.__userId__, this.__userApiToken__).then(response => {
-            const { name } = response;
+            const { name } = response
 
-            if (name) return response;
+            if (name) return response
             throw Error(response.error);
         });
     },
@@ -200,15 +206,13 @@ const logic = {
     },
 
     /**
-     * Retrieve user favourites.
+     * Updates user favourites.
      *
-     * @param {string} id
-     * @param {string} email
+     * @param {Object} - New data to be added
      *
-     * @throws {TypeError} - If any param is not a string.
-     * @throws {Error} - If any param is empty.
+     * @throws {TypeError} - If the param is not an Object.
      *
-     *
+     * @returns {Array} - Array with favourites data.
      */
 
     updateFavourites(fav) {
@@ -231,29 +235,45 @@ const logic = {
                     favourites.push(temp);
                     return this.updateUser({ favourites: favourites });
                 }
-
             })
             .then(() => this.retrieveFavourites());
     },
 
+    /**
+     * 
+     * Retrieves favourites data.
+     * 
+     * @returns {Array} - Array with favourites data.
+     */
+
     retrieveFavourites() {
-        return this.retrieveUser(this.__userId__, this.__userApiToken__).then(
-            favs => {
-                debugger
+        return this.retrieveUser(this.__userId__, this.__userApiToken__)
+            .then(favs => {
                 return favs.favourites;
             }
         );
     },
 
+    /**
+     * 
+     * Updates user favourites.
+     *
+     * @param {Object} - New data to be added
+     *
+     * @throws {TypeError} - If the param is not an Object.
+     *
+     * @returns {Object} - If the update was successfull or not.
+     */
+
     updateUser(data) {
-        if (data.constructor !== Object)
-            throw TypeError(`${data} is not an object`);
-        return userApi
-            .update(this.__userId__, this.__userApiToken__, data)
+        if (data.constructor !== Object)throw TypeError(`${data} is not an object`)
+
+        return userApi.update(this.__userId__, this.__userApiToken__, data)
             .then(response => {
-                const { status } = response;
-                if (status === "OK") return response;
-                throw Error(response.error);
+                const { status } = response
+
+                if (status === "OK") return response
+                throw Error(response.error)
             });
     }
 };

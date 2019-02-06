@@ -23,21 +23,15 @@ function PaintCharacter({ onItemClick, feedback, results, handleFavourite, isFav
                 <article className="tile is-child notification">
                   <figure className="image is-4by3">
                     <img
-                      src={`${results.thumbnail.path}/detail.${
-                        results.thumbnail.extension
-                      }`}
-                    />
+                      src={`${results.thumbnail.path}/detail.${results.thumbnail.extension}`}/>
                   </figure>
                   <p className="title">{results.name}</p>
-                  <button
-                    className="button is-large is-white"
-                    onClick={() => handleFavourite({"id": results.id, "name": results.name})}
-                  >
+                  <a onClick={() => handleFavourite({"id": results.id, "name": results.name})}>
                     {heart}
-                  </button>
+                  </a>
                   <div className="content">{results.description}</div>
                   {results.urls[1].url && (
-                    <a target="_blank " href={results.urls[1].url}>
+                    <a target="_blank " className="button is-small is-outlined is-info" href={results.urls[1].url}>
                       More info
                     </a>
                   )}
@@ -65,9 +59,7 @@ function PaintCharacter({ onItemClick, feedback, results, handleFavourite, isFav
                       })}
                     {results.urls[2].url && (
                       <li>
-                        <a target="_blank " href={results.urls[2].url}>
-                          See all comics
-                        </a>
+                        <a target="_blank " className="button is-small is-outlined" href={results.urls[2].url}> See all comics</a>
                       </li>
                     )}
                   </ul>

@@ -17,8 +17,8 @@ class App extends Component {
     
     return <HashRouter>
       <main>
-        <Route path='/' render={()=> logic.userLoggedIn ? <Redirect to="/home/search"/> : <Landing/>}/>
-        <Route path='/home/search' render={() => logic.userLoggedIn ? <Home onLogout={handleLogOut} /> : <Redirect to="/" />} />
+        <Route path='/' render={()=> logic.userLoggedIn ? <Redirect to="/home/search/"/> : <Landing/>}/>
+        <Route path='/home/search/' render={() => logic.userLoggedIn ? <Home onLogout={handleLogOut} /> : <Redirect to="/" />} />
       </main>  
     </HashRouter>
   }

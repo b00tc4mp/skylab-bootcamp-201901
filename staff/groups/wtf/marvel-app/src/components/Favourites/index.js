@@ -10,48 +10,26 @@ class Favourite extends Component {
   }
 
   handleItemChosen = id => {
-    const {
-      props: { onItem }
-    } = this;
+    const {props: { onItem } } = this;
 
     onItem(id);
   };
 
   render() {
-    const {
-      state: { userFavourites }, handleItemChosen, handleToHome
-    } = this;
+    const { state: { userFavourites }, handleItemChosen, handleToHome} = this
 
     return (
       <section className="favourites container margin-top">
-        <div className="level is-mobile">
-          <h4 className="level-item">Favourites</h4>
-          <div className="level-item">
-            <button
-              onClick={handleToHome}
-              className="button is-dark is-small is-rounded"
-            >
-              <i className="fas fa-chevron-circle-left" />
-              &nbsp;&nbsp;Back to Search
-            </button>
-          </div>
-        </div>
         <nav className="panel list-group track">
           {
             userFavourites.map(({id, name}) =>  {
-              console.log(id)
-              console.log(name)
-            return (<a
-                onClick={() => handleItemChosen(id)}
-                data-id={id}
-                className="panel-block"
-              >
+
+            return (<a onClick={() => handleItemChosen(id)} data-id={id}className="panel-block">
                 <span className="panel-icon">
-                  <i className="fas fa-music" aria-hidden="true" />
+                  <i class="fas fa-bolt"></i>
                 </span>
                 {name}
-              </a>
-            );
+              </a>)
           })  
           }
         </nav>

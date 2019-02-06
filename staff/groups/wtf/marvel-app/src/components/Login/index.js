@@ -18,17 +18,17 @@ class Login extends Component {
         onLogin(email, password)
     }
     
-    handleOnHome = event => {
+    handleOnLanding = event => {
         event.preventDefault()
 
-        const { props: {onHome} } = this
+        const { props: {onLanding} } = this
 
-        onHome()
+        onLanding()
     }
 
     render() {
 
-        const { handleOnHome, handleEmailInput, handlePasswordInput, handleFormSubmit, props: {feedback} } = this
+        const { handleOnLanding, handleEmailInput, handlePasswordInput, handleFormSubmit, props: {feedback} } = this
         
         return <section className="login container" >
         <div className="columns is-mobile is-centered">
@@ -61,7 +61,7 @@ class Login extends Component {
                         </div>
                         <div className="field is-grouped btn_grp">
                             <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Log in</button></p>
-                            <p className="control"><a href='/' onClick={handleOnHome} className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</a></p>
+                            <p className="control"><a href='/' onClick={handleOnLanding} className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</a></p>
                         </div>
                     </form>
                 </div>

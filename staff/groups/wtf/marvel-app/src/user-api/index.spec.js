@@ -36,16 +36,32 @@ describe('user api', () => {
             expect(()=> userApi.register('', surname, username, password)).toThrowError('name is empty')
         })
 
+        it('should fail when name is a boolean', () => {
+            expect(()=> userApi.register(true, surname, username, password)).toThrowError('true is not a string')
+        })
+
         it('should fail when surname is a number', () => {
             expect(()=> userApi.register(name, 1, username, password)).toThrowError(`1 is not a string`)
+        })
+
+        it('should fail on empty surname', () => {
+            expect(()=> userApi.register(name, '', username, password)).toThrowError('surname is empty')
         })
 
         it('should fail when username is a boolean', () => {
             expect(()=> userApi.register(name, surname, true, password)).toThrowError(`true is not a string`)
         })
 
+        it('should fail on empty username', () => {
+            expect(()=> userApi.register(name, surname, '', password)).toThrowError('username is empty')
+        })
+
         it('should fail when password is an array', () => {
             expect(()=> userApi.register(name, surname, username, [1,2,3])).toThrowError(`1,2,3 is not a string`)
+        })
+
+        it('should fail on empty password', () => {
+            expect(()=> userApi.register(name, surname, username, '')).toThrowError('password is empty')
         })
     })
 
@@ -100,9 +116,17 @@ describe('user api', () => {
             expect(()=> userApi.authenticate(true, password)).toThrowError(`true is not a string`)
         })
 
+        it('should fail when username is empty', () => {
+            expect(()=> userApi.authenticate('', password)).toThrowError(`username is empty`)
+        })
+
         it('should fail when password is an array', () => {
             expect(()=> userApi.authenticate(username, [1,2,3])).toThrowError(`1,2,3 is not a string`)
-        })     
+        })   
+        
+        it('should fail when password is empty', () => {
+            expect(()=> userApi.authenticate(username, '')).toThrowError(`password is empty`)
+        })
 
     })
 

@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { Component, Fragment } from 'react'
-import { Route, Link, Redirect } from 'react-router-dom'
+import { Route, Link, Redirect, withRouter } from 'react-router-dom'
 import './index.sass'
 import logic from '../Logic'
 import Login from '../Login'
@@ -35,7 +35,7 @@ class Landing extends Component {
         }
     }
 
-    handleHome = () => {
+    handleLanding = () => {
         this.setState({loginFeedback: null, registrationFeedback: null})
         this.props.history.push('/')
     }
@@ -47,7 +47,7 @@ class Landing extends Component {
 
     render() {
 
-        const {handleLogin, handleRegistration, handleHome, handleToLogin, state:{loginFeedback, registrationFeedback, modalVisible, userFavourites}} = this
+        const {handleLogin, handleRegistration, handleToLogin, handleLanding, state:{loginFeedback, registrationFeedback, modalVisible}} = this
 
         return <section className="container foto">
         <Route exact path="/" render={() =>
@@ -67,10 +67,10 @@ class Landing extends Component {
                     </div>
                 </div>
             </Fragment>} />
-            <Route path='/login' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Login onLogin={handleLogin} feedback={loginFeedback} onHome={handleHome}/>} />
-            <Route path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onHome={handleHome} modalVisible={modalVisible} onLogin={handleToLogin}/>} />
+            <Route path='/login' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Login onLogin={handleLogin} feedback={loginFeedback} onLanding={handleLanding}/>} />
+            <Route path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onLanding={handleLanding} modalVisible={modalVisible} onLogin={handleToLogin}/>} />
         </section>
     }
 }
 
-export default Landing
+export default withRouter(Landing)

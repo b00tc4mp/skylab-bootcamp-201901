@@ -35,7 +35,6 @@ class CharacterInfoResult extends Component {
         })
         .then(() => {
           return logic.retrieveFavourites().then(favs => {
-            debugger
             let result = favs.some(
               obj => obj.id === this.state.character.id
             );
