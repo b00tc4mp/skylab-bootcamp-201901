@@ -10,17 +10,24 @@ class MobileHeader extends Component {
         overlaySearch.style.transform = 'translateY(0)';
     };
 
+    __showAsideMobile = () => {
+        const overlay = document.querySelector('.sidebar-overlay');
+        const aside = document.querySelector('.sidebar');
+        overlay.className = 'sidebar-overlay sidebar-overlay--show';
+        aside.className = 'sidebar sidebar--show';
+    }
+
     render() {
         const {
             props: { onSearch },
-            __hideSearchMobile
+            __hideSearchMobile,
         } = this;
 
         return (
             <Fragment>
                 <SearchOverlay onSearch={onSearch} />
                 <header className="header header--mobile content">
-                    <button className="header__button">
+                    <button className="header__button" onClick={() => this.__showAsideMobile()}>
                         <i className="fas fa-bars" />
                     </button>
                     <a href="#home" title="Ultra-VGMS" className="logo">

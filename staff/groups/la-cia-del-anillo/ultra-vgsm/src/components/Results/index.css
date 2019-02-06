@@ -2,3 +2,20 @@
     padding-top: 40px;
     padding-bottom: 40px;
 }
+
+.load-more {
+    cursor: pointer;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 12px 32px;
+    text-align: center;
+    outline: none;
+    background: #f7f7f7;
+    width: 150px;
+    margin: 0px auto 20px auto;
+}
+.load-more:hover {
+    background: #f1efef;
+}
