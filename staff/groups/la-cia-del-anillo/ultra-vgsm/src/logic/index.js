@@ -216,7 +216,7 @@ const logic = {
      * @param {string} gameId
      */
 
-    retrieveGamesByPlatform(platformId) {
+    retrieveGamesByPlatform(platformId, params = '') {
         if (typeof platformId !== 'string') throw TypeError(`${platformId} is not a string`);
 
         if (!platformId.trim().length) throw Error('platformId is empty');
@@ -227,7 +227,7 @@ const logic = {
 
         if (Number(platformId) % 1 !== 0) throw Error(`${platformId} should be an integer number`);
 
-        return thegamesDbApi.retrieveGamesByPlatform(platformId);
+        return thegamesDbApi.retrieveGamesByPlatform(platformId, params);
     }
 };
 

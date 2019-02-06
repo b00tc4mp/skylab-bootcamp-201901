@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logic from '../../logic';
 import Card from '../Card';
 
-class Games extends Component {
+class Platforms extends Component {
     state = { results: null };
 
     componentDidMount() {
@@ -26,8 +26,7 @@ class Games extends Component {
     getPlatform = platformId => {
         try {
             logic
-                // .searchGame(query, 'boxart,platform')
-                .retrieveGamesByPlatform(platformId)
+                .retrieveGamesByPlatform(platformId, 'boxart,platform')
                 .then(({ data: { games }, include: { boxart, platform } }) => {
                     this.setState({
                         results: games.map(game => {
@@ -36,7 +35,6 @@ class Games extends Component {
                                 image => image.side === 'front'
                             );
                             game.platform = platform.data[game.platform];
-                            console.log(game);
                             return game;
                         })
                     });
@@ -62,4 +60,4 @@ class Games extends Component {
     }
 }
 
-export default Games;
+export default Platforms;

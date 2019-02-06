@@ -7,7 +7,7 @@ import Header from '../Header';
 import Aside from '../Aside';
 import Results from '../Results';
 import Footer from '../Footer';
-import Games from '../Games';
+import Platforms from '../Platforms';
 import GameInfo from '../GameInfo';
 import Login from '../Login';
 import Register from '../Register';
@@ -52,7 +52,7 @@ class App extends Component {
                     <div className="container">
                         <Switch>
                             <Route path="/search/:query" component={Results} />
-                            <Route path="/platform/:platformId" component={Games} />
+                            <Route path="/platform/:platformId" component={Results} />
                             <Route
                                 exact
                                 path="/login"
