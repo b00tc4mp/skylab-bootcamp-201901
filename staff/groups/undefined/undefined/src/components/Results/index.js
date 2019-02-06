@@ -57,8 +57,7 @@ class Results extends Component  {
             } = this
             
         return (
-            <section className="results">
-                <h1>Hola</h1>
+            <section className="results section columns is-multiline">
                 {(results || []).map(video => 
                     <Video 
                        key={video.imdbID} 
