@@ -10,7 +10,7 @@ describe('logic', () => {
         const passwordConfirm = password
 
         it('should succeed on valid data', () =>
-            logic.registerUser(name, surname, email, password, passwordConfirm) 
+            logic.registerUser(name, surname, email, password, passwordConfirm)
                 .then(result => expect(result).toBeUndefined())
         )
 
@@ -149,26 +149,6 @@ describe('logic', () => {
         })
     })
 
-    describe('login user', () => {
-        const name = 'Manolo'
-        const surname = 'Skywalker'
-        const email = `manoloskywalker@mail.com-${Math.random()}`
-        const password = '123'
-        const passwordConfirm = password
-
-        beforeEach(() => 
-            logic.registerUser(name, surname, email, password, passwordConfirm)
-        )
-
-        it('should succeed on correct credentials', () => 
-            logic.loginUser(email, password)
-                .then(() => {
-                    expect(logic.__userId__).toBeDefined()
-                    expect(logic.__userApiToken__).toBeDefined()
-                })
-        )
-    })
-
     describe('retrieve user', () => {
         const name = 'Manolo'
         const surname = 'Skywalker'
@@ -176,12 +156,12 @@ describe('logic', () => {
         const password = '123'
         const passwordConfirm = password
 
-        beforeEach(() => 
+        beforeEach(() =>
             logic.registerUser(name, surname, email, password, passwordConfirm)
                 .then(() => logic.loginUser(email, password))
         )
 
-        it('should succeed on correct credentials', () => 
+        it('should succeed on correct credentials', () =>
             logic.retrieveUser()
                 .then(user => {
                     expect(user.id).toBe(logic.__userId__)
@@ -192,5 +172,183 @@ describe('logic', () => {
         )
     })
 
-    // TODO updateUser and removeUser
+    describe('login user', () => {
+
+        const name = 'Manolo'
+        const surname = 'Skywalker'
+        const email = `manoloskywalker@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on correct credentials', () => {
+
+            logic.loginUser(email, password)
+                .then(() => {
+                    expect(logic.__userId__).toBeDefined()
+                    expect(logic.__userApiToken__).toBeDefined()
+                })
+        })
+
+        it('should fail on a wrong email', () => {
+
+            const email = `wrongmail@notfake.com`
+            const password = '123'
+
+            try {
+                logic.loginUser(email, password)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+
+            }
+        })
+
+        it('should fail if email is empty', () => {
+
+            const email = ''
+            const password = '123'
+
+            try {
+                logic.loginUser(email, password)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('email cannot be empty')
+            }
+        })
+
+        it('should fail if password is empty', () => {
+
+            const email = `wrongmail@notfake.com`
+            const password = ''
+
+            try {
+                logic.loginUser(email, password)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('password cannot be empty')
+            }
+        })
+    })
+
+
+    describe('retrieveEvents', () => {
+
+        const query = 'barcelona'
+        const startDate = '2019-06-01'
+        const endDate = '2019-08-01'
+
+        it('should be defined', () =>
+            logic.retrieveEvents(query, startDate, endDate)
+                .then(events => {
+                    expect(events).toBeDefined()
+                })
+        )
+
+        it('should succeed without dates', () => {
+            const query = 'barcelona'
+            const startDate = null
+            const endDate = null
+            logic.retrieveEvents(query, startDate, endDate)
+                .then(events => {
+                    expect(events).toBeDefined()
+                })
+        })
+
+        it('should succeed with only  starDate field', () => {
+            const query = 'barcelona'
+            const startDate = '2019-06-01'
+            const endDate = null
+            logic.retrieveEvents(query, startDate, endDate)
+                .then(events => {
+                    expect(events).toBeDefined()
+                })
+        })
+
+        it('should succeed with only  endDate field', () => {
+            const query = 'barcelona'
+            const startDate = null
+            const endDate = '2019-06-01'
+            logic.retrieveEvents(query, startDate, endDate)
+                .then(events => {
+                    expect(events).toBeDefined()
+                })
+        })
+
+        it('should fail without query (city)', () => {
+            const query = null
+            const startDate = '2019-06-01'
+            const endDate = '2019-08-01'
+            try {
+                logic.retrieveEvents(query, startDate, endDate)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`-->${query}<-- query introduced is not a string`)
+            }
+        })
+
+        it('should fail with a made up query (city)', () => {
+            const query = 'Capital City the one from the Simpsons'
+            const startDate = null
+            const endDate = null
+            try {
+                logic.retrieveEvents(query, startDate, endDate)
+            } catch (error) {
+                expect(error).toBeDefined()
+            }
+        })
+
+        it('should succeed in returning a fail message', () => {
+            const query = 'Capital City the one from the Simpsons'
+            const startDate = null
+            const endDate = null
+            try {
+                logic.retrieveEvents(query, startDate, endDate)
+                    .then(events => events)
+                    .catch(err => console.log(err))
+            } catch (error) {
+                expect(error).toBeDefined()
+            }
+        })
+    })
+
+
+    describe('retrieveEvent', () => {
+
+        it('should be defined (response & event)', () => {
+
+            const id = 'Z698xZ2qZad5g'
+
+            logic.retrieveEvent(id)
+                .then(response => {
+                    expect(response).toBeDefined()
+                })
+        })
+
+        it('should fail without id', () => {
+            const id = null
+            try {
+                logic.retrieveEvent(id)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`-->${id} <-- id introduced is not a string`)
+            }
+        })
+
+        it('should fail with a made up id', () => {
+
+            const id = 'qualitymemes'
+
+            try {
+                logic.retrieveEvent(id)
+            } catch (error) {
+                expect(error).toBeDefined()
+            }
+        })
+    })
+
+
+
+    // TODO; updateUser, removeUser (métodos no creados?)
 })
