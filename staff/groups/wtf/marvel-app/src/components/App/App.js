@@ -13,8 +13,8 @@ class App extends Component {
   }
 
   render() {
-
     const { handleLogOut }= this
+    
     return <HashRouter>
       <main>
         <Route path='/' render={()=> logic.userLoggedIn ? <Redirect to="/home/search"/> : <Landing/>}/>

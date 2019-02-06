@@ -1,7 +1,7 @@
 'use strict'
 
-import React, { Component, Fragment } from 'react';
-import { HashRouter, Route} from 'react-router-dom';
+import React, { Component } from 'react';
+import { HashRouter, Route, withRouter} from 'react-router-dom';
 import './index.sass';
 import Search from '../Search';
 import CharactersResults from '../CharactersResults'
@@ -12,20 +12,7 @@ import logic from '../Logic';
 
 class Home extends Component {
 
-    state = {characterId: null, comicId: null, userFavourites: null, getFavourites: null}
-
-
-    componentDidMount() {
-        this.setState({getFavourites:true})
-    }
-
-    sendFavourites(favs) {
-        this.setState({userFavourites: favs, getFavourites:true})
-    }
-
-    // componentDidMount() {
-    //     document.html.style.backgroundImage = "none"
-    // }
+    state = {characterId: null, comicId: null}
 
     handleSearch = query => this.props.history.push(`/home/search/${query}`)
 
@@ -44,7 +31,6 @@ class Home extends Component {
     handleToHome = () => { this.props.history.push('/home/search/')}
 
     handleToFavourites = (event) => { 
-        debugger
         event.preventDefault()
         this.props.history.push('/home/search/favourites/')}
 
@@ -59,7 +45,6 @@ class Home extends Component {
             characterId: id
         }, () => this.props.history.push(`/home/search/character/${id}`))
     }
-
 
     render() {
 
@@ -94,4 +79,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default withRouter(Home);
