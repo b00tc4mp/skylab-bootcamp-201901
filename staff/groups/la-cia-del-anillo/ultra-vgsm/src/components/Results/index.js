@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import Masonry from 'react-masonry-component';
 import './index.css';
 
 import logic from '../../logic';
 import Card from '../Card';
+
+const masonryOptions = {
+    transitionDuration: 0,
+    gutter: 20
+};
 
 class Results extends Component {
     state = { results: null, feedback: null };
@@ -52,8 +58,17 @@ class Results extends Component {
             state: { results }
         } = this;
 
+        
+
         return (
-            <section className="results content">
+            <Masonry
+                className={'results content'} // default ''
+                elementType={'section'} // default 'div'
+                options={masonryOptions} // default {}
+                disableImagesLoaded={false} // default false
+                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+                //imagesLoadedOptions={imagesLoadedOptions} // default {}
+            >
                 {results && (
                     results.map(game => {
                         return <Card key={game.id} gameUrl={game.id} game={game} />;
@@ -65,7 +80,7 @@ class Results extends Component {
                         <h4 className="sc-iRbamj cBlzCf">No videos found...</h4>
                     </div>
                  */}
-            </section>
+            </Masonry>
         );
     }
 }
