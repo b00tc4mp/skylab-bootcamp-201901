@@ -24,8 +24,8 @@ class Welcome extends Component {
 
         return <Fragment>
 
-            {!this.state.pokemonVisible && this.state.pokemonSearchVisible && <PokemonSearch setSearchText={this.setSearchText} setPokemonVisible={this.setPokemonVisible} searchText={this.state.searchText} />}
             {!this.state.pokemonVisible && !this.state.pokemonSearchVisible && <FavoritesPanel  setPokemonVisible={this.setPokemonVisible}  />}
+            {!this.state.pokemonVisible && this.state.pokemonSearchVisible && <PokemonSearch setSearchText={this.setSearchText} setPokemonVisible={this.setPokemonVisible} searchText={this.state.searchText} />}
             <MainPanel enableFavorites = {this.enableFavorites} enableSearch = {this.enableSearch}/>
             {this.state.pokemonVisible && <DetailedPokemonPanel pokemonToShow={this.state.pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon}/>}
 
