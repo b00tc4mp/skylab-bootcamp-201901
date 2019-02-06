@@ -1,9 +1,9 @@
 'use strict'
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 import './index.sass'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import logic from '../../logic'
 
 class Comments extends Component {
@@ -13,25 +13,25 @@ class Comments extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault()
-        
-        if(logic.userLoggedIn){
+
+        if (logic.userLoggedIn) {
             const { state: { text }, props: { onComment } } = this
-        
-            onComment(undefined ,text)
-        }else{
+
+            onComment(undefined, text)
+        } else {
             this.props.history.push('/login')
         }
 
-        const {props : {updateComments}, state:{text}} = this
+        const { props: { updateComments }, state: { text } } = this
 
         updateComments()
 
-        this.setState({text: ''})
+        this.setState({ text: '' })
     }
 
     handleCommentDeletion = date => {
 
-        const  { props: { onDelete } } = this
+        const { props: { onDelete } } = this
 
         onDelete(date)
     }
@@ -39,21 +39,31 @@ class Comments extends Component {
     render() {
         const { handleFormSubmit, handleTextInput, handleCommentDeletion, props: { comments, id } } = this
 
-        return <section>
-            <h3>Comments:</h3>
-            <form onSubmit={handleFormSubmit} id="commentForm">
-                <button>Send</button>
+        return <section className="comments">
+            <h3 className="comments__text">Comments:</h3>
+            <form onSubmit={handleFormSubmit} id="commentForm" className="comments__form">
+                <textarea className="comments__textarea textarea" value={this.state.text} form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..." clearButtonMode="always"></textarea>
+                <button className="comments__send button is-link">Send</button>
             </form>
-            <textarea value={this.state.text} form="commentForm" rows="5" cols="50" onChange={handleTextInput} placeholder="add a public comment..." clearButtonMode="always"></textarea>
             <div>
                 {
                     comments.map(({ name, comments }) => {
-                        if(comments[id]){
-                            return comments[id].map(comment =>  <div key={comment.date}>
-                                <p>{name}</p>
+                        if (comments[id]) {
+                            return comments[id].map(comment => <div key={comment.date}>
+                                {/* <p>{name}</p>
                                 <p>{comment.text}</p>
                                 <p>{comment.date}</p>
-                                <button onClick={() => handleCommentDeletion(comment.date)}>X</button>
+                                <button onClick={() => handleCommentDeletion(comment.date)}>X</button> */}
+                                <article class="message is-dark eachcomment">
+                                    <div class="message-header eachcomment__header">
+                                        <p>{name}</p>
+                                        <button class="delete" aria-label="delete"></button>
+                                    </div>
+                                    <div class="message-body eachcomment__body">
+                                        <p className="eachcomment__text">{comment.text}</p>
+                                        <p className="eachcomment__date">{comment.date}</p>
+                                    </div>
+                                </article>
                             </div>)
                         }
                     })
