@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Route, withRouter } from 'react-router-dom'
 
 import Video from '../Video'
 import Detail from '../Detail'
@@ -8,21 +9,9 @@ class Results extends Component  {
     
     state = { videoSelected: null, results: null, query: null }
 
-    // handleVideoClick = id => {
-    //     console.log(this.props)
-    //     logic.retrieveVideo(id)
-    //         .then(details => {
-    //             console.log('DDD', details)
-    //             this.setState({ videoSelected: details}) })
-    //         .catch()
-    //     console.log('Desde Results', id)
-    // }
-
-    // handleVideoClose = () => {
-    //     console.log('llega aquí!')
-    //     this.setState({ videoSelected: null })
-    // }
-
+    handleVideoClick = id => {
+        this.props.history.push(`/videos/${this.state.query}/detail/${id}`)
+    }
 
     componentDidMount () {
         const {props:{query}, handleSearch} = this
@@ -50,11 +39,10 @@ class Results extends Component  {
             return {
                 query: props.query
             }
-
         return null
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
 
         const { props: { query } } = this
 
@@ -64,9 +52,8 @@ class Results extends Component  {
 
     render() {
         const {
-            state : {videoSelected, results},   
-                    handleVideoClick,
-                    handleVideoClose
+            state : {results},   
+                    handleVideoClick
             } = this
             
         return (
@@ -76,18 +63,16 @@ class Results extends Component  {
                     <Video 
                        key={video.imdbID} 
                        video={video} 
+                       query={this.state.query}
                        onVideoSelected={handleVideoClick}
                     /> 
                 )}
 
-                {videoSelected && <Detail 
-                                    detail={videoSelected} 
-                                    onVideoClose={handleVideoClose} 
-                                  />}
+                <Route path='/videos/:query/detail/:id' component = {Detail}/>
 
             </section>
         )
     }
 }
 
-export default Results
+export default withRouter(Results)
