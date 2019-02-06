@@ -5,7 +5,7 @@ import './index.sass'
 
 class Video extends Component {
 
-    state = { comments: [], videoId: '', text: '', buttonLike: '', buttonDislike: '' }
+    state = { comments: [], videoId: '', text: '', buttonLike: '', buttonDislike: '', videoInfo: '' }
 
     componentDidMount() {
 
@@ -19,8 +19,7 @@ class Video extends Component {
 
     handleComment = (videoId, date) => {
         try {
-            debugger
-            videoId=this.props.videoId
+            videoId = this.props.videoId
             logic.commentVideo(videoId, date)
                 .catch(() => console.log('bitch shut the fuck up'))
         } catch {
@@ -33,7 +32,7 @@ class Video extends Component {
             videoId = this.props.videoId
             logic.showComments(videoId)
                 .then(comments => {
-                    this.setState({comments})
+                    this.setState({ comments })
                     console.log(comments)
                 })
                 .catch(() => console.log('bitch shut the fuck upeeee'))
@@ -45,10 +44,9 @@ class Video extends Component {
     handleVideoInfo = videoId => {
         try {
             logic.watchVideo(videoId)
-                .then(({items}) => {
-                    const videoInfo = items[0]
-                    this.setState({videoInfo})
-                    console.log(videoInfo)
+                .then(({ items }) => {
+                    // const videoInfo = items[0]
+                    this.setState({ videoInfo: items[0] })
                 })
                 .catch(/* set state of feedback message */)
         } catch {
@@ -65,31 +63,39 @@ class Video extends Component {
     }
 
     render() {
-        const { props: {videoId, like }, handleShowComments, handleComment, state: { videoInfo}, handleLike, handleDislike } = this
+        const { props: { videoId, like }, handleShowComments, handleComment, state: { videoInfo }, handleLike, handleDislike } = this
 
-        return <section>
-            <iframe title={videoId} src={`https://www.youtube.com/embed/${videoId}`} width="100%" height="800"></iframe>
-            {videoInfo && 
-                <div>
-                    <h2>{videoInfo.snippet.tittle}</h2>
-                    <button onClick={handleLike}><i className={`${like? "far fa-thumbs-up blue" : "far fa-thumbs-up"}`}></i></button>
-                    <button onClick={handleDislike}><i className="far fa-thumbs-down"></i></button>
-                    <div>
-                        <div>
-                            {/* <img alt="channel logo">ChannelIcon</img> */}
-                            <div>
-                                <h3>{videoInfo.snippet.channelTittle}</h3>
-                                <p>published at</p>
+        return <section className="section__video">
+            <iframe className="iframe" title={videoId} src={`https://www.youtube.com/embed/${videoId}`} width="100%" height="800"></iframe>
+            <div className="panel__container">
+                {videoInfo &&
+                    <div className="video__container">
+                        <div className="title-likes">
+                            <h2 className="iframe__title">{videoInfo.snippet.title}</h2>
+                            <div className="likes">
+                                <i className={`${like ? "far fa-thumbs-up blue" : "far fa-thumbs-up"}`} onClick={handleLike}> 2 M</i>
+                                <i className="far fa-thumbs-down" onClick={handleDislike}> 14 M</i>
                             </div>
                         </div>
-                        <p>{videoInfo.snippet.description}</p>
-                        <p>{videoInfo.snippet.tags}</p>
+                        <div>
+                            <div>
+                                <figure class="image is-128x128">
+                                    <img className="is-rounded" alt="channel logo" src={videoInfo.snippet.thumbnails.default.url}></img>
+                                </figure>
+                                    <div>
+                                        <h3>{videoInfo.snippet.channelTitle}</h3>
+                                        <p>{videoInfo.snippet.publishedAt}</p>
+                                    </div>
+                            </div>
+                                <p>{videoInfo.snippet.description}</p>
+                                <p>{videoInfo.snippet.tags}</p>
+                            </div>
+                        </div>
+                        }
+            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} updateComments={handleShowComments} />
                     </div>
-                </div>
-            }
-            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} updateComments={handleShowComments}/>
         </section>
-    }
-}
-
+            }
+        }
+        
 export default Video

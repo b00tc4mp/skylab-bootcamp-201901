@@ -12,7 +12,7 @@ const logic = {
     __videoId__: null,
     __storage__:null,
 
-    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTM5NDk4MSwiZXhwIjoxNTQ5Mzk4NTgxfQ.DXIYlzwyoQIK_9DxG7eNLTFj7F-OeYFPE1qC6aB5cAI',
+    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTQ2MTg4NywiZXhwIjoxNTQ5NDY1NDg3fQ.1BwSa29Hb2RVpqsw7ywgs3tnOZ0dJGs4mbQN4oM3VAA',
 
     set storage(storage){
         this.__storage__=storage
