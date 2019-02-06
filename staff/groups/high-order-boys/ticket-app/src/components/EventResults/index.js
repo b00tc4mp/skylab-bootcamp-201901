@@ -37,10 +37,10 @@ class EventResults extends Component{
 
     render(){
 
-        const {state:{events, feedback} } = this
+        const {state:{events, feedback}, props: {onEventDetail} } = this
 
         return <Fragment>
-            {events &&  < Results results = {events} />}
+            {events &&  < Results results = {events} onEventDetail={onEventDetail} />}
             {feedback && < Feedback message={feedback} />}
         </Fragment>
     }
