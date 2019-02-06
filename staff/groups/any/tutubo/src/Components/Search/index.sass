@@ -14,10 +14,16 @@
         width: 30vw
         border: 1px solid #303030 
         justify-self: center
-        background-color: #121212
-        color: white
         font-size: 1em
         padding: 1.2em
+
+        &-dark
+            background-color: #121212
+            color: white
+
+        &-light
+            background-color: white
+            color: black
 
     &__button
         justify-self: center
@@ -25,11 +31,21 @@
         height: 66%
         z-index: 1
         width: 3vw
-        background-color: #343434
-        border: none
+
+        &-dark
+            background-color: #343434
+            border: none
+
+        &-light
+            background-color: white
 
         &:hover
             cursor: pointer
 
 .fa-search
-    color: #717171
+
+    &-dark
+        background-color: #343434
+
+    &-light
+        background-color: white

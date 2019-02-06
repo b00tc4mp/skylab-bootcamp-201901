@@ -46,10 +46,10 @@ class VideoRasults extends Component {
 
     render() {
 
-        const { onVideoSelected, state: { videos } } = this
+        const { onVideoSelected, state: { videos }, props: {mode} } = this
 
         return <section className="videolist">
-            <div className="searchVideoList">
+            <div className={`${mode ? `searchVideoListDark` : 'searchVideoListLight'}`}>
                 {videos.map(({ id: { videoId }, snippet: { title, channelId, publishedAt, channelTitle, description, thumbnails: { medium: { url } } } }) => {
                     return <div className="videoResults" key={videoId} onClick={() => onVideoSelected(videoId)} >
                         <div className="resultsThumbnail"> 

@@ -20,9 +20,17 @@ class App extends Component {
 
     //#region STATES
 
-    state = { email: '', videoId: '', text: '', loginFeedback:'', registerFeedback:'' }
+    state = { email: '', videoId: '', text: '', loginFeedback:'', registerFeedback:'', mode: false }
 
     //#endregion
+
+    componentDidMount() {
+        this.updateDocumentColor()
+    }
+
+    updateDocumentColor() {
+        document.getElementsByTagName('html')[0].style.backgroundColor = this.state.mode? 'white' : '#121212'
+    }
 
     //#region HANDLES
 
@@ -108,6 +116,10 @@ class App extends Component {
         this.props.history.push('/')
     }
 
+    handleModeSwitch = () => {
+        this.setState({ mode: !this.state.mode}, () => this.updateDocumentColor())
+    }
+
     //#endregion
 
     //#region RENDER
@@ -115,14 +127,14 @@ class App extends Component {
     render() {
         const { pathname } = this.props.location;
         console.log(pathname)
-        const { handleOnLogout, handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleLikeVideo, state:{ videoId, loginFeedback, registerFeedback, email } } = this
+        const { handleOnLogout, handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleModeSwitch, handleLikeVideo, state:{ videoId, loginFeedback, registerFeedback, email } } = this
         return <section>
-            {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} onLogout={handleOnLogout}/>}
-            <Route exact path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
-            <Route exact path="/" render={() => <Home selectVideo={handleSelectVideo} />} /> 
-            <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} onLike={handleLikeVideo} like={this.state.likes}/>} />
-            <Route exact path="/login/" render={() => logic.userLoggedIn ? <Redirect to='/' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} feedback={loginFeedback} />} />
-            <Route exact path="/register/" render={() => logic.userLoggedIn ? <Redirect to='/'/> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} feedback={registerFeedback} />} />
+            {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} onLogout={handleOnLogout} onModeSwitch={handleModeSwitch} mode={this.state.mode}/>}
+            <Route exact path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} mode={this.state.mode}/>} />
+            <Route exact path="/" render={() => <Home selectVideo={handleSelectVideo} mode={this.state.mode}/>} /> 
+            <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} onLike={handleLikeVideo} like={this.state.likes} mode={this.state.mode}/>} />
+            <Route exact path="/login/" render={() => logic.userLoggedIn ? <Redirect to='/' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} feedback={loginFeedback} mode={this.state.mode}/>} />
+            <Route exact path="/register/" render={() => logic.userLoggedIn ? <Redirect to='/'/> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} feedback={registerFeedback} mode={this.state.mode}/>} />
         </section>
     }
 
