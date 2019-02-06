@@ -28,52 +28,59 @@ class Home extends Component {
         }, () => this.props.history.push(`/home/search/comic/${id}`))
     }
 
-    handleToHome = () => { this.props.history.push('/home/search/')}
+    handleToHome = (event) => { 
+        event.preventDefault()
+        this.props.history.push('/home/search/')
+    }
 
     handleToFavourites = (event) => { 
         event.preventDefault()
-        this.props.history.push('/home/search/favourites/')}
+        this.props.history.push('/home/search/user/favourites/')}
 
-    handleToUser = () => { this.props.history.push('/home/user/')}
+    handleToUser = (event) => {
+        event.preventDefault()
+        this.props.history.push('/home/user/')
+    }
 
-    handleLogOut = () => { 
-       console.log('log out')
+    handleLogOut = (event) => {
+        event.preventDefault() 
+        logic.logout()
+        this.props.history.push('/')
     }
     
     handleItemChosen = id => {
-        this.setState({
-            characterId: id
-        }, () => this.props.history.push(`/home/search/character/${id}`))
+        this.props.history.push(`/home/search/character/${id}`)
+        this.setState({characterId: id})
     }
 
     render() {
 
-        const { handleSearch, handleCharacterSelected, handleComicSelected, handleToHome, handleToFavourites, handleToUser, handleLogOut, state: {getFavourites} } = this
+        const { handleSearch, handleCharacterSelected, handleComicSelected, handleToHome, handleToFavourites, handleLogOut, handleItemChosen} = this
 
         return <HashRouter>
-        <section>
+        <section className="margin-top">
             <nav className="header level">
                 <p className="level-item has-text-centered">
-                    <a onClick={handleToHome} href="#" className="link is-info">Home</a>
+                    <a onClick={(event) =>  handleToHome(event)} href="#" className="button is-small is-black is-rounded"><i class="fas fa-home"></i>&nbsp;&nbsp;Home</a>
                 </p>
                 <p className="level-item has-text-centered">
-                    <a onClick={(event) =>  handleToFavourites(event)} href="#" className="link is-info">Favourites</a>
+                    <a onClick={(event) =>  handleToFavourites(event)} href="#" className="button is-small is-black is-rounded"><i class="far fa-star"></i>&nbsp;&nbsp;Favourites</a>
                 </p>
                 <p className="level-item has-text-centered">
-                    <img src="http://assets.stickpng.com/thumbs/585f9333cb11b227491c3581.png" alt="" className="header__logo"/>
+                    <img src="https://images.vectorhq.com/images/previews/cd8/marvel-logo-psd-444569.png" alt="" className="header__logo"/>
                 </p>
                 <p className="level-item has-text-centered">
-                    <a onClick={handleToUser} href="#" className="link is-info">Reservations</a>
+                    <a target="_blanck "href="https://www.youtube.com/channel/UCvC4D8onUfXzvjTOM-dBfEA" className="button is-small is-black is-rounded"><i class="fab fa-youtube"></i>&nbsp;&nbsp;Youtube Channel</a>
                 </p>
                 <p className="level-item has-text-centered">
-                    <a onClick={handleLogOut} href="#" className="link is-info">Log out</a>
+                    <a onClick={(event) =>  handleLogOut(event)} href="#" className="button is-small is-black is-rounded"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Log out</a>
                 </p>
             </nav>
             <Search onSearch={handleSearch}/>
             <Route exact path="/home/search/:query" render={props => <CharactersResults query={props.match.params.query} onCharacterSelected={handleCharacterSelected} />} />
             <Route exact path="/home/search/character/:id" render={props => <CharacterInfoResult id={props.match.params.id} onComicSelected={handleComicSelected} />} />
             <Route exact path="/home/search/comic/:id" render={props => <ComicInfoResult id={props.match.params.id} onCharacterSelected={handleCharacterSelected} />} />
-            <Route exact path="/home/search/favourites/" render={props => <Favourites getFavourites={getFavourites} onClick={handleToFavourites} />} />
+            <Route exact path="/home/search/user/favourites/" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleItemChosen}/>} />
         </section>
     </HashRouter>
     }

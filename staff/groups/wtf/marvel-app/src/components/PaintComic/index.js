@@ -18,7 +18,7 @@ function PaintComic({onItemClick, feedback, results}) {
                     <p className="title">{results.title}</p>
                     <div className="content">{results.description}</div>
                     {results.prices[0].price && <p>Price: {results.prices[0].price}€</p>}
-                    {results.urls[0].url && <a target="_blank "href={results.urls[0].url}>More info</a>}
+                    {results.urls[0].url && <a target="_blank " className="button is-small is-outlined is-info" href={results.urls[0].url}>More info</a>}
             </article>
         </div>
         </div>

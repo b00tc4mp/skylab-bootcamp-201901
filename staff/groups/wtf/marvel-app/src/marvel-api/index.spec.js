@@ -6,7 +6,7 @@ import marvelApi from './index'
  * 
  */
 
- describe('marvel api testing', ()=>{
+describe('marvel api testing', ()=>{
 
     describe('search characters', () => {
 
@@ -135,5 +135,5 @@ import marvelApi from './index'
                 })
         })
     })
- })
+})
 

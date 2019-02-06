@@ -25,12 +25,11 @@ class Register extends Component {
         onRegistration(name, surname, email, password, passwordConfirmation)
     }
 
-    handleOnHome = event => {
+    handleOnLanding = event => {
         event.preventDefault()
 
-        const { props: {onHome} } = this
-
-        onHome()
+        const { props: {onLanding} } = this
+        onLanding()
     }
 
     handleCloseModal = () => {
@@ -42,9 +41,9 @@ class Register extends Component {
 
 
     render() {
-         const {handleCloseModal, handleOnHome, handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback, modalVisible,}  } = this
+         const {handleCloseModal, handleOnLanding, handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback, modalVisible,}  } = this
     
-        return <section className="register container">
+        return <section className="register container margin-top">
         <div className="columns is-mobile">
             <div className="modal is-active is-clipped ">
                 <div className="modal-background"></div>
@@ -105,7 +104,7 @@ class Register extends Component {
                         </div>
                         <div className="field is-grouped btn_grp">
                             <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Sign Up</button></p>
-                            <p className="control"><a to='/' onClick={handleOnHome} className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</a></p>
+                            <p className="control"><a to='/' onClick={handleOnLanding} className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</a></p>
                         </div>
                     </form>
                 </div>    
