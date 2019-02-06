@@ -8,6 +8,24 @@ const logic = {
     __userId__: null,
     __userApiToken__: null,
 
+    set __userId__(id) {
+        if (id) sessionStorage.setItem('user-id', id)
+        else sessionStorage.removeItem('user-id')
+    },
+
+    get __userId__() {
+        return sessionStorage.getItem('user-id')
+    },
+
+    set __userApiToken__(token) {
+        if (token) sessionStorage.setItem('user-api-token', token)
+        else sessionStorage.removeItem('user-api-token')
+    },
+
+    get __userApiToken__() {
+        sessionStorage.getItem('user-api-token')
+    },
+
     /**
     * Registers a user.
     * 
@@ -78,10 +96,19 @@ const logic = {
                 if (status === 'OK') {
                     this.__userId__ = id
                     this.__userApiToken__ = token
-                    return true
+                    return response.data
                 }
                 throw Error(response.error)
             })
+    },
+
+    get userLoggedIn() {
+        return !!this.__userId__
+    },
+
+    logout() {
+        this.__userId__ = null
+        this.__userApiToken__ = null
     },
 
     /**
