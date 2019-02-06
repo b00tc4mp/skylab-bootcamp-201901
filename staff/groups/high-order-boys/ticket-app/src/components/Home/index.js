@@ -26,10 +26,10 @@ class Home extends Component {
 
         return <div className='container'>
             {!isUser && <Search onSearch={handleSearch} />}
-            {results && <Results results={results} />}
-            < Route exact path='/home/user' component={User} />
+            {!isUser && results && <Results results={results} />}
+            < Route path='/home/user' component={User} />
         </div>
     }
 }
 
-export default withRouter(Home)
+export default Home
