@@ -101,7 +101,15 @@ const logic = {
 
     get userLoggedIn() {
         return !!this.__userId__
+
     },
+
+    logout() {
+        this.__userId__ = null
+        this.__userApiToken__ = null
+    },
+
+
 
 
     retrieveUser() {
