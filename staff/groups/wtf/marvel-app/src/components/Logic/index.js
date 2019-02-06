@@ -101,14 +101,9 @@ const logic = {
    * @returns {Object} - With all user info.
    */
 
-  retrieveUser(id, token) {
-    if (typeof id !== "string") throw TypeError(`${id} is not a string`);
-    if (!id.trim().length) throw Error("id is empty");
+  retrieveUser() {
 
-    if (typeof token !== "string") throw TypeError(`${token} is not a string`);
-    if (!token.trim().length) throw Error("token is empty");
-
-    return userApi.retrieve(id, token).then(response => {
+    return userApi.retrieve(this.__userId__, this.__userApiToken__).then(response => {
       const { name } = response;
 
       if (name) return response;
@@ -142,6 +137,7 @@ const logic = {
    */
 
   retrieveCharacter(characterId) {
+    debugger
     if (typeof characterId !== "string")
       throw TypeError(`${characterId} is not a string`);
     if (!characterId.trim().length) throw Error(`characterId is empty`);
@@ -178,33 +174,50 @@ const logic = {
    *
    */
 
-  retrieveFavourites(id) {
-    if (typeof email !== "string") throw TypeError(email + " is not a string");
-    if (!email.trim().length) throw Error("email cannot be empty");
+  updateFavourites(fav) {
+    if (fav.constructor !== Object) throw TypeError(`${fav} is not an object`);
 
-    if (typeof id !== "string") throw TypeError(id + " is not a string");
-    if (!id.trim().length) throw Error("id cannot be empty");
+    let favourites;
+    let exists;
+    let temp = fav;
+    return this.retrieveUser(this.__userId__, this.__userApiToken__) 
+      .then(data => {
+        favourites = data.favourites;
+      })
+      .then(() => {
+        exists = favourites.findIndex(obj => obj.id === temp.id);
 
-    let favourites = retrieveUser(this.__userId__, this.__userApiToken__) 
-        .then((favs) => {
-            return favs.favourites
-        })
+        if (exists !== -1) {
+          favourites.splice(exists, 1);
+          return this.updateUser({favourites:favourites});
+        } else {
+          favourites.push(temp);
+          return this.updateUser({favourites:favourites});
+        }
+        
+      })
+      .then(()=> this.retrieveFavourites());
+  },
 
-    let exists = favourites.findIndex(obj => obj.id === id);
+  retrieveFavourites() {
+     return this.retrieveUser(this.__userId__, this.__userApiToken__).then(
+      favs => {
+        debugger
+        return favs.favourites;
+      }
+    );
+  },
 
-    let toSend = { id, name };
-
-    console.log(toSend)
-
-    if (exists !== -1) {
-      user.favourites.splice(exists, 1);
-      callback(user.favourites);
-      return false;
-    } else {
-      user.favourites.push(toSend);
-      callback(user.favourites);
-      return true;
-    }
+  updateUser(data) {
+    if (data.constructor !== Object)
+      throw TypeError(`${data} is not an object`);
+    return userApi
+      .update(this.__userId__, this.__userApiToken__, data)
+      .then(response => {
+        const { status } = response;
+        if (status === "OK") return response;
+        throw Error(response.error);
+      });
   }
 };
 

@@ -1,23 +1,26 @@
 import React, { Component } from "react";
+import logic from "../Logic";
 
 class Favourite extends Component {
+  state = { userFavourites: [] };
 
-  //handleItemChosen = id => {
-   //   const { props : { onItem }} = this;
-      
-      //como pasar title como name? (({ id, name: title }) => ({ id, title }))
-     // onItem(id);
-  }  
+  componentDidMount() {
+    return logic.retrieveFavourites()
+      .then(userFavourites => this.setState({userFavourites}));
+  }
 
-  //handleBackToSearch = () => {
-   //   const { props: {onToSearch} }
-   //   onToSearch()
-//  } 
+  handleItemChosen = id => {
+    const {
+      props: { onItem }
+    } = this;
 
+    onItem(id);
+  };
 
   render() {
-    
-    const { props: {userFavourites }}
+    const {
+      state: { userFavourites }, handleItemChosen, handleToHome
+    } = this;
 
     return (
       <section className="favourites container margin-top">
@@ -25,18 +28,20 @@ class Favourite extends Component {
           <h4 className="level-item">Favourites</h4>
           <div className="level-item">
             <button
-              onClick={handleBackToSearch}
+              onClick={handleToHome}
               className="button is-dark is-small is-rounded"
             >
-              <i className="fas fa-chevron-circle-left" />&nbsp;&nbsp;Back to
-              Search
+              <i className="fas fa-chevron-circle-left" />
+              &nbsp;&nbsp;Back to Search
             </button>
           </div>
         </div>
         <nav className="panel list-group track">
-          {userFavourites.map(({ id, name }) => {
-            return (
-              <a
+          {
+            userFavourites.map(({id, name}) =>  {
+              console.log(id)
+              console.log(name)
+            return (<a
                 onClick={() => handleItemChosen(id)}
                 data-id={id}
                 className="panel-block"
@@ -47,7 +52,8 @@ class Favourite extends Component {
                 {name}
               </a>
             );
-          })}
+          })  
+          }
         </nav>
       </section>
     );
