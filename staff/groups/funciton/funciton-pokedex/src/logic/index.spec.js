@@ -286,7 +286,7 @@ describe('Logic Testing', () => {
     describe('Testing Toggle Favorites', () => {
         it('should succeed on adding a favorite', () =>{
             let email = 'a@a.com'
-            let username = `modafoca45`
+            let username = `modafoca47`
             let password = '123'
             let passwordConfirmation = '123'
             let pokemonName = 'pikachu'
@@ -304,7 +304,7 @@ describe('Logic Testing', () => {
 
         it('should succeed on adding a favorite on a existing array of favorites -blastoise', () =>{
 
-            let username = `modafoca45`
+            let username = `modafoca47`
             let password = '123'
             let pokemonName = 'blastoise'
             return logic.loginUser(username, password)
@@ -318,7 +318,7 @@ describe('Logic Testing', () => {
 
         it('should succeed on adding a favorite on a existing array of favorites-charmander', () =>{
 
-            let username = `modafoca45`
+            let username = `modafoca47`
             let password = '123'
             let pokemonName = 'charmander'
             return logic.loginUser(username, password)
@@ -333,7 +333,7 @@ describe('Logic Testing', () => {
         
         it('should succeed on deleting from the array of favorites-pikachu', () =>{
 
-            let username = `modafoca45`
+            let username = `modafoca47`
             let password = '123'
             let pokemonName = 'pikachu'
             return logic.loginUser(username, password)
