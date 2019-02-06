@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import YouTube from 'react-youtube';
 import './index.css';
-import './index.sass';
 
 import logic from '../../logic';
+import DevelopersInfo from '../DevelopersInfo'
+import GenresInfo from '../GenresInfo'
+import PublishersInfo from '../PublishersInfo'
+import GameTitle from '../GameTitle'
+
 
 class GameInfo extends Component {
     state = {
@@ -91,7 +95,7 @@ class GameInfo extends Component {
                             genres: genres,
                             publishers: publishers,
                             imageBaseUrlOriginal: original,
-                            imageFilename: data[id][0].filename,
+                            imageFilename: data[id].find(image => image.side === 'front').filename,
                             platformName: dataPlatform[platform].name
                         });
                     }
@@ -115,12 +119,8 @@ class GameInfo extends Component {
                 imageBaseUrlOriginal,
                 imageFilename,
                 platformName
-            },
-
-            handleGameInfo
+            }
         } = this;
-
-        // !id && handleGameInfo('9428');
 
         const opts = {
             height: '195',
@@ -135,16 +135,18 @@ class GameInfo extends Component {
             { imageBaseUrlOriginal }.imageBaseUrlOriginal + { imageFilename }.imageFilename;
         return (
             <section className="gameInfo">
-                <h1 className="gameInfo__titleGame">{name}</h1>
+                
+                <GameTitle gamId = {id} name = {name} />
+                
                 <img width="200px" alt="Frontboxart of game" src={imageUrl} />
                 <h3>Release date: {releaseDate}</h3>
                 <h4>Platform: {platformName}</h4>
                 <h5>Players: {players}</h5>
                 <h6>Coop: {coop}</h6>
                 <p>{overview}</p>
-                <p>
-                    Developers: {developers}, genres: {genres}, publishers: {publishers}
-                </p>
+                <p> Developers: <DevelopersInfo devId = {developers}/> </p>
+                <p>    genres: <GenresInfo genId = {genres} /> </p>
+                <p>   publishers: <PublishersInfo pubId = {publishers} />          </p>
                 <YouTube videoId={youtube} opts={opts} onReady={this._onReady} />
             </section>
         );
