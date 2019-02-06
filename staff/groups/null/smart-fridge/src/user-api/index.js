@@ -87,9 +87,9 @@ const userApi = {
 
         if (!id.trim().length) throw Error('id is empty')
 
-        if (!token) throw Error('token is empty')
-        
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        
+        if (!token.trim().length) throw Error('token is empty')
         
 
         return fetch(`${this.url}/user/${id}`, {
@@ -115,8 +115,11 @@ const userApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
 
         if (!token.trim().length) throw Error('token is empty')
+        
+        if (data === undefined || data === null) throw Error(`${data} is not an object`)
 
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
 
         return fetch(`${this.url}/user/${id}`, {
             method: 'PUT',
@@ -141,7 +144,6 @@ const userApi = {
         if (!id.trim().length) throw Error('id is empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-
         if (!token.trim().length) throw Error('token is empty')
 
         if (typeof username !== 'string') throw TypeError(`${username} is not a string`)
