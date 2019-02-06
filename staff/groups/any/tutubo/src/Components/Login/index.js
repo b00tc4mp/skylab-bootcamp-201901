@@ -30,7 +30,7 @@ class Login extends Component {
                         <h3 className="title">Sign in</h3>
                         <p>to continue to TuTubo</p>
                     </div>
-                    <form className="form" onSubmit={handleFromSubmit}>
+                    <form className="loginform" onSubmit={handleFromSubmit}>
                         <input className="input" name='email' type='text' placeholder='email' onChange={handleEmailInput} />
                         <input className="input" name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
                         <button className="loginButton">Login</button>
