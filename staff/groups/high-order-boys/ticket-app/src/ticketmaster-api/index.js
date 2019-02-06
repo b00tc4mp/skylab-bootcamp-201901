@@ -19,9 +19,27 @@ const ticketmasterApi  = {
         })
 
         .then(response => response.json())
+        .then(response => {
+            if(response._embedded) return response._embedded.events
+            return null
+            // else throw Error ('there is no results for ' + query)
+        })
         //.then(response => response)
-        .then(({_embedded: {events}}) => events)
+        //.then(({_embedded: {events}}) => events)
         .catch(error => error) 
+    },
+
+    searchEvent(id) {
+        if(typeof id !== 'string') throw TypeError(`-->${id}<-- id introduced is not a string`)
+        if(!id.trim().length) throw Error('id is empty')
+
+        return fetch(`${this.url}events/${id}?apikey=${this.apiKey}`, {
+            method: 'GET'
+        })
+
+        .then(response => response.json())
+        .then(event => event)
+        .catch(error => error)
     }
 }
 

@@ -1,35 +1,29 @@
 import React, { Component } from 'react'
+import { withRouter, Route } from 'react-router-dom'
 import Search from '../Search'
-import Results from '../Results'
 import User from '../User'
-import { Route, withRouter } from "react-router-dom";
-import logic from '../../logic'
+import EventResults from '../EventResults'
+
 
 
 class Home extends Component {
-    state = { results: null }
+    state = {startDate: null, endDate:null}
 
-    handleSearch = (city, startDate, endDate) => {
-        try {
-            logic.retrieveEvents(city, startDate, endDate)
-                .then(data => this.setState({ results: data }))
-        } catch (err) {
-            console.log(err.message)
-        }
+    handleSearch = (query, startDate, endDate) => {
+        this.setState({startDate: startDate, endDate: endDate})
+        this.props.history.push(`/home/search/${query}`)
     }
 
-
-    render() {
+    render(){
         const { location: { pathname } } = this.props
         const isUser = (pathname.includes("home/user"))
-        const { handleSearch, state: { results } } = this
-
-        return <div className='container'>
+        const { handleSearch, state: { startDate,endDate } } = this
+        return<div className='container'>
             {!isUser && <Search onSearch={handleSearch} />}
-            {!isUser && results && <Results results={results} />}
             < Route path='/home/user' component={User} />
-        </div>
+            <Route path="/home/search/:query" render={props => <EventResults query={props.match.params.query} startDate={startDate} endDate={endDate} />} />
+        </div> 
     }
 }
 
-export default Home
+export default withRouter(Home)
