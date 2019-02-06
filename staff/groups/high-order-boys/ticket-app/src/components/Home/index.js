@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { withRouter, Route } from 'react-router-dom'
 import Search from '../Search'
+import User from '../User'
 import EventResults from '../EventResults'
 import Event from '../Event'
+
 
 
 class Home extends Component {
@@ -18,10 +20,13 @@ class Home extends Component {
     }
 
     render(){
+        const { location: { pathname } } = this.props
+        const isUser = (pathname.includes("home/user"))
         const { handleSearch, handleEventDetail, state: { startDate,endDate } } = this
         return<div className='container'>
-            <Search onSearch={ handleSearch } />
-            <Route path="/home/search/:query" render={props => <EventResults query={props.match.params.query} startDate={startDate} endDate={endDate} onEventDetail={handleEventDetail} />} />
+            {!isUser && <Search onSearch={handleSearch} />}
+            < Route path='/home/user' component={User} />
+            <Route path="/home/search/:query" render={props => <EventResults query={props.match.params.query} startDate={startDate} endDate={endDate} />} />
             <Route path="/home/event/:id" render={props => <Event id={props.match.params.id} />} />
         </div> 
     }

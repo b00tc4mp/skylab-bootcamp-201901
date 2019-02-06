@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 
 
 class Header extends Component {
 
     render() {
-
-        const {props: {user, onLogout}} = this
+        const { props: { user, onLogout } } = this
 
         return <section className="hero is-small is-primary is-bold">
             <div className="hero-body">
@@ -19,18 +19,19 @@ class Header extends Component {
                     </h2>
                 </div>
                 {!!user && <div className="navbar-end">
-                    <a className="navbar-item" name="userInfo">
+                    <Link className="navbar-item" to="/home/user" name="userInfo">
                         {user.name}
-                    </a>
+                    </Link>
+
                     <a className="navbar-item" onClick={onLogout} name="logOut">
                         Logout
                     </a>
-                </div>}
+                </div>
+                }
             </div>
-        </section>
+        </section >
 
     }
-
 }
 
 export default Header
