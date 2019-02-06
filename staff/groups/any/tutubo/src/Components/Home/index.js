@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import logic from '../../logic';
+import './index.sass'
 
 class Home extends Component {
 
@@ -43,8 +44,8 @@ class Home extends Component {
     render() {
         const { onVideoSelected, state: { videos } } = this
         console.log(videos)
-        return <section className="videolist">
-            <div>
+        return <section>
+            <div class="videolist">
                 {videos.map(({ id: videoId , snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
                     return <div className="video" key={videoId} onClick={() => onVideoSelected(videoId)} >
                         <img src={url} />
