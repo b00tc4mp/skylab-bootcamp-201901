@@ -1,5 +1,7 @@
 .card {
-    grid-row-end: span 2;
+    /* grid-row-end: span 2; */
+    max-width: 30rem;
+    margin-bottom: 1.5rem;
 }
 .card__image {
     max-width: 100%;
