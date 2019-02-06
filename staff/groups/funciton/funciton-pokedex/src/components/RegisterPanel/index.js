@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import './index.sass'
+import Feedback from '../../components/Feedback'
 
 
 
@@ -16,33 +17,40 @@ class RegisterPanel extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
         const { state: { email, username, password, retryPassword }, props: { onRegister } } = this
-
         onRegister(email, username, password, retryPassword)
         //this.props.onRegister(this.state.email, this.state.username, this.state.password, this.state.retryPassword)
+    }
+
+    onGoBack = () => {
+        this.setState({ email: '', username: '', password: '', retryPassword: '' })
+
+        this.props.goBackHomeRegister()
     }
 
 
 
     render() {
 
-        const { handleEmailInput, handlePasswordInput, handleUsernameInput, handleConfirmPassword, handleFormSubmit } = this
+        const { handleEmailInput, handlePasswordInput, handleUsernameInput, handleConfirmPassword, handleFormSubmit, onGoBack } = this
         const showHideClassName = this.props.show ? 'containerRegister' : 'containerRegisterNone'
         return <Fragment>
 
             <div className='row'>
                 <div className={showHideClassName}>
                     <form onSubmit={handleFormSubmit}>
-                        <div className="colum">
-                            <label htmlFor="exampleInputUsername1">Username</label>
-                            <input type="text" className="form-control" id="exampleInputUsername1" aria-describedby="emailHelp" placeholder="Enter Pokemon Trainer Name" onChange={handleUsernameInput} />
+                        <div>
+                            <label htmlFor="Username">Username</label>
+                            <input type="text" value={this.state.username} className="form-control" id="exampleInputUsername1" aria-describedby="emailHelp" placeholder="Enter Pokemon Trainer Name" onChange={handleUsernameInput} />
                             <label htmlFor="exampleInputEmail1">Email address</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" onChange={handleEmailInput} />
+                            <input type="email" value={this.state.email} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" onChange={handleEmailInput} />
                             <label htmlFor="exampleInputPassword1">Password</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" onChange={handlePasswordInput} />
+                            <input type="password" value={this.state.password} className="form-control" id="exampleInputPassword1" placeholder="Password" onChange={handlePasswordInput} />
                             <label htmlFor="exampleInputRetryPassword1">Retry Password</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Retry Password" onChange={handleConfirmPassword} />
+                            <input type="password" value={this.state.retryPassword} className="form-control" id="exampleInputPassword1" placeholder="Retry Password" onChange={handleConfirmPassword} />
                             <br></br>
                             <button type="submit" className="btn btn-info">Submit</button>
+                            <button onClick={onGoBack} type="button" className="goBack__button btn btn-light">Go Back</button>
+                            <Feedback message={this.props.message} level="warn" />
 
                         </div>
                     </form>
