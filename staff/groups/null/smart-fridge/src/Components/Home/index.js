@@ -16,8 +16,7 @@ class Home extends React.Component{
         try {
             logic.search(query, calories, diet, health)
                 .then(recipes=> {
-                    this.setState({recipes})
-                    console.log(this.state.recipes)
+                    this.setState({recipes}, ()=> this.props.history.push('/home/search'))
                 })
 
         }catch(error){
@@ -56,14 +55,13 @@ class Home extends React.Component{
     }
 
     render(){
-        const {state:{results}} =  this
+        const {state:{ recipes }} =  this
         
         return <main className="home">
                 <Nav user={this.props.user} onLogout={this.handleLogout} editProfile={this.handleEditProfileButton} />
                 {<Route exact path="/home" render={() =>  logic.userLoggedIn ? <InputsFridge onSearch={this.handleOnSearch}/> : <Redirect to="/" />} />}
                 {<Route path="/home/profile" render={() =>  logic.userLoggedIn ? <EditProfile onEditProfile={this.handleEditProfile} cancelButton={this.handleCancelButton}/> : <Redirect to="/" />} />}
-                {/* <InputsFridge onSearch={this.handleOnSearch}/> */}
-                {/* {results && <Results recipes={this.state.recipes}/>} */}
+                {<Route path="/home/search" render={() => recipes ? <Results recipes={recipes}/> : <Redirect to = "/home" />}/>/* {results && <Results recipes={this.state.recipes}/>} */}
             </main>
 
     }
