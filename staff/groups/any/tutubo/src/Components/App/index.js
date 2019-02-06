@@ -43,11 +43,6 @@ class App extends Component {
             logic.loginUser(email, password)
                 .then(() => {
                     this.props.history.push('/')
-                    return logic.authenticateUser(email, password)
-                        .then((data) => {
-                            console.log(data)
-                            // sessionStorage.setItem('myUser', JSON.stringify(data))
-                        })
                 })
                 .catch(({message}) => {
                     this.setState({loginFeedback:message})

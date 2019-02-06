@@ -12,7 +12,7 @@ const logic = {
     __videoId__: null,
     __storage__:null,
 
-    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTQ2MTg4NywiZXhwIjoxNTQ5NDY1NDg3fQ.1BwSa29Hb2RVpqsw7ywgs3tnOZ0dJGs4mbQN4oM3VAA',
+    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTQ3MzE2MSwiZXhwIjoxNTQ5NDc2NzYxfQ.Swn2fRgd7j-FiOlyGgj7IvThcOW6zYiwF1dMQxDLpmE',
 
     set storage(storage){
         this.__storage__=storage
@@ -29,7 +29,7 @@ const logic = {
 
     set __userApiToken__(token){
         if(token)this.__storage__.setItem('user-token', token)
-        else this.__storage__.removeItem('user-token', token)
+        else this.__storage__.removeItem('user-token')
     },
 
     get __userApiToken__(){

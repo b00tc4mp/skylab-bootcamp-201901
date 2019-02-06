@@ -66,7 +66,7 @@ class Video extends Component {
         const { props: { videoId, like }, handleShowComments, handleComment, state: { videoInfo }, handleLike, handleDislike } = this
 
         return <section className="section__video">
-            <iframe className="iframe" title={videoId} src={`https://www.youtube.com/embed/${videoId}`} width="100%" height="800"></iframe>
+            <iframe className="iframe" title={videoId} src={`https://www.youtube.com/embed/${videoId}`}></iframe>
             <div className="panel__container">
                 {videoInfo &&
                     <div className="video__container">
@@ -78,17 +78,16 @@ class Video extends Component {
                             </div>
                         </div>
                         <div>
-                            <div>
-                                <figure class="image is-128x128">
+                            <div className="channel">
+                                <figure className="channelImg image is-64x64">
                                     <img className="is-rounded" alt="channel logo" src={videoInfo.snippet.thumbnails.default.url}></img>
                                 </figure>
-                                    <div>
-                                        <h3>{videoInfo.snippet.channelTitle}</h3>
-                                        <p>{videoInfo.snippet.publishedAt}</p>
+                                    <div className="channel__info">
+                                        <h3 className="channel__text">{videoInfo.snippet.channelTitle}</h3>
+                                        <p className="channel__publish">Publish At: {videoInfo.snippet.publishedAt}</p>
                                     </div>
                             </div>
-                                <p>{videoInfo.snippet.description}</p>
-                                <p>{videoInfo.snippet.tags}</p>
+                                <p className="channel__description">{videoInfo.snippet.description}</p>
                             </div>
                         </div>
                         }
