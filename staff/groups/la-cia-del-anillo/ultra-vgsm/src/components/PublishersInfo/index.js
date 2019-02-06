@@ -18,7 +18,8 @@ class PublishersInfo extends Component {
         try {
             logic.retrievePublishersList(pub)
                 .then( ({ data: { publishers }}) => {
-                    this.setState({ pubName: publishers[this.props.pubId].name })
+                    const pubCat = publishers[this.props.devId]
+                    this.setState({ pubName: (pubCat && pubCat.name) ? pubCat.name : null })
                 })
             } catch ({ message }) {
             this.setState({ feedback: message });
