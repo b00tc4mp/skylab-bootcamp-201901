@@ -68,15 +68,15 @@ const logic = {
             })
     },
 
-    retrieveUser() {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(({ id, name, surname, username }) => ({
-                id,
-                name,
-                surname,
-                email: username
-            }))
-    },
+    // retrieveUser() {
+    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
+    //         .then(({ id, name, surname, username }) => ({
+    //             id,
+    //             name,
+    //             surname,
+    //             email: username
+    //         }))
+    // },
 
     // TODO updateUser and removeUser
 
