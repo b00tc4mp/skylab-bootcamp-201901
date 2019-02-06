@@ -9,17 +9,25 @@ import LoginPanel from "./components/LoginPanelComponent";
 import RegisterPanel from "./components/RegisterPanel";
 
 
+
 class App extends Component {
   state = {
-
     searchText: null,
     pokemonVisible: "",
     loginPanelVisible: false,
     user: null,
+    token: null,
+    userId: null,
     loginFeedback: '',
     registerPanelVisible: false,
     registerFeedback: '',
+  }
 
+  componentWillMount(){
+    this.setState({
+      token : logic.getUserApiToken(),
+      userId : logic.getUserId()
+    }, () => {})
   }
 
   handlePokemonDetail = (name) => {
@@ -28,10 +36,7 @@ class App extends Component {
       .then((pokemonVisible) => {
         debugger
         return this.setState({ pokemonVisible })
-
       })
-
-
   }
 
   onBackButtonDetailedPokemon = () => {
