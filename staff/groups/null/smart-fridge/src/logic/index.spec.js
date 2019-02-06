@@ -157,9 +157,10 @@ describe('logic', () => {
         const height = 161
         const weight = 60
         const lifeStyle = 'sedentary'
+
         it('should succeed on correct data', () =>
             logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
-                .then(id => expect(id).toBeDefined())
+                .then(() => expect(logic.__userId__).toBeDefined())
         )
         it('should fail on too few arguments', () =>
             expect(() => {
@@ -173,6 +174,8 @@ describe('logic', () => {
         )
     })
     describe('login', () => {
+        let _id, _token
+        
         const name = 'Manuel'
         const surname = 'Barzi'
         const username = `manuelbarzi-${Math.random()}`
@@ -182,18 +185,20 @@ describe('logic', () => {
         const birthDate = '1985/10/15'
         const height = 161
         const weight = 60
-        const lifeStyle = 'sedentary'
-
-        let _id
-
-        logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
-            .then(id => _id = id)
-        
+        const lifeStyle='sedentary'
+    
+        beforeEach(()=>{
+            logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
+                .then(() => _id = logic.__userId__)
+        })
+      
         it('should succeed on correct data', () =>
             logic.login(username, password)
-                .then(({ id, token }) => {
-                    expect(id).toBe(_id)
-                    expect(token).toBeDefined()
+                .then(() => {
+                    let loginId=logic.__userId__
+                    _token=logic.__userApiToken__
+                    expect(loginId).toBe(_id)
+                    expect(_token).toBeDefined()
                 })
         )
         it('should fail on too few arguments', () =>
@@ -222,17 +227,23 @@ describe('logic', () => {
         let _id, _token
 
         logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
-            .then(id => _id = id)
             .then(() => logic.login(username, password))
-            .then(({ token }) => _token = token)
+            .then(() => {
+                _id = logic.__userId__
+                _token= logic.__userApiToken__
+            } )
+
 
         it('should succeed on correct data', () =>
             logic.retrieve(_id, _token)
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.username).toBe(username)
+                .then(() => {
+                    expect(logic.__user__.name).toBe(name)
+                    expect(logic.__user__.surname).toBe(surname)
+                    expect(logic.__user__.gender).toBe(gender)
+                    expect(logic.__user__.height).toBe(height)
+                    expect(logic.__user__.weight).toBe(weight)
+                    expect(logic.__user__.birthDate).toBe(birthDate)
+                    expect(logic.__user__.lifeStyle).toBe(lifeStyle)
                 })
         )
         it('should fail on too few arguments', () =>
@@ -263,21 +274,21 @@ describe('logic', () => {
         let _id, _token
 
         logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
-            .then(id => _id = id)
             .then(() => logic.login(username, password))
-            .then(({ token }) => _token = token)
+            .then(() => {
+                _id = logic.__userId__
+                _token = logic.__userApiToken__
+            })
 
         it('should succeed on correct data', () => {
             const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
 
             return logic.update(_id, _token, data)
                 .then(() => logic.retrieve(_id, _token))
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(data.name)
-                    expect(user.surname).toBe(data.surname)
-                    expect(user.age).toBe(data.age)
-                    expect(user.username).toBe(username)
+                .then(() => {
+                    expect(logic.__user__.name).toBe(data.name)
+                    expect(logic.__user__.surname).toBe(data.surname)
+                    expect(logic.__user__.age).toBe(data.age)
                 })
         })
         it('should fail on too few arguments', () =>
@@ -306,9 +317,11 @@ describe('logic', () => {
         let _id, _token
 
         logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
-            .then(id => _id = id)
             .then(() => logic.login(username, password))
-            .then(({ token }) => _token = token)
+            .then(() => {
+                _id = logic.__userId__
+                _token = logic.__userApiToken__
+            })
         it('should succeed on correct data', () => {
             return logic.remove(_id, _token, username, password)
                 .then(() => logic.retrieve(_id, _token))
@@ -402,5 +415,11 @@ describe('logic', () => {
             })
         })
         
+    })
+
+    afterEach(()=>{
+        logic.__userApiToken__=null
+        logic.__userId__=null
+        logic.__user__=null
     })
 })

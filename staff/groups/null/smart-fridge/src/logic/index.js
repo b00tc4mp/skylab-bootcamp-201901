@@ -163,6 +163,9 @@ const logic = {
         if (arguments.length > 10) throw Error('Too many arguments were introduced in the function')
 
         return userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
+            .then(id => {
+                this.__userId__ = id
+            })
     },
     /**
      * 
@@ -202,7 +205,7 @@ const logic = {
 
         return userApi.retrieve(id, token)
             .then((user) => {
-                this.__user__ = JSON.stringify(user)
+                this.__user__ = user
             })
     },
     /**
