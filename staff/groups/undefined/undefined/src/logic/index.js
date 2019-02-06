@@ -7,8 +7,38 @@ import userApi from '../user-api'
  * Abstraction of business logic.
  */
 const logic = {
-    __userId__: null,
-    __userApiToken__: null,
+
+    setUserId(id) {
+        this.___userId___ = id
+    },
+
+    getUserId() {
+        return this.___userId___
+    },
+
+    setUserApiToken(token) {
+        this.___userApiToken___ = token
+    },
+
+    getUserApiToken() {
+        return this.___userApiToken___
+    },
+
+    set __userId__(id) {
+        this.setUserId(id)
+    },
+
+    get __userId__() {
+        return this.getUserId()
+    },
+
+    set __userApiToken__(token) {
+        this.setUserApiToken(token)
+    },
+
+    get __userApiToken__() {
+        return this.getUserApiToken()
+    },
 
     /**
     * Registers a user.
@@ -67,6 +97,11 @@ const logic = {
                 this.__userApiToken__ = token
             })
     },
+
+    get userLoggedIn() {
+        return !!this.__userId__
+    },
+
 
     retrieveUser() {
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
