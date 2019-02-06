@@ -6,7 +6,13 @@ import './index.sass';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import omdbApi from './ombd-api'
+import logic from './logic'
 
+logic.setUserId = id => id? sessionStorage.setItem('user-id', id) : sessionStorage.removeItem('user-id')
+logic.getUserId = () => sessionStorage.getItem('user-id')
+
+logic.setUserApiToken = token => token? sessionStorage.setItem('user-api-token', token) : sessionStorage.removeItem('user-api-token')
+logic.getUserApiToken = () => sessionStorage.getItem('user-api-token')
 
 
 const { OMDB_KEY } = process.env
