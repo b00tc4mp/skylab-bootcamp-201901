@@ -56,6 +56,12 @@ class Aside extends Component {
                                     </a>
                                 </li>
                                 {logic.userLoggedIn && <li className="menu__item">
+                                    <Link to="/favorites" title="Favorites" className="menu__link">
+                                        <i className="fas fa-heart" />
+                                        Favorites
+                                    </Link>
+                                </li>}
+                                {logic.userLoggedIn && <li className="menu__item menu__item-logout">
                                     <button onClick={this.props.onLogout} className="menu__link">
                                         <i className="fas fa-lock"></i>
                                         Logout
