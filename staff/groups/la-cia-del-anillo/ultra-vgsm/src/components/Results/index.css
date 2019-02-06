@@ -1,7 +1,8 @@
 .results {
     padding-top: 40px;
     padding-bottom: 40px;
-    display: grid;
+    /* display: grid;
     grid-gap: 15px;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); */
+    
 }
