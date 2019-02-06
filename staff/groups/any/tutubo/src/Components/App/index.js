@@ -106,6 +106,12 @@ class App extends Component {
         }
     }
 
+    handleOnLogout = () => {
+
+        logic.logout()
+
+        this.props.history.push('/')
+    }
 
     //#endregion
 
@@ -114,9 +120,9 @@ class App extends Component {
     render() {
         const { pathname } = this.props.location;
         console.log(pathname)
-        const { handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleLikeVideo, state:{ videoId, loginFeedback, registerFeedback, email } } = this
+        const { handleOnLogout, handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleLikeVideo, state:{ videoId, loginFeedback, registerFeedback, email } } = this
         return <section>
-            {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton}/>}
+            {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} onLogout={handleOnLogout}/>}
             <Route exact path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
             <Route exact path="/" render={() => <Home selectVideo={handleSelectVideo} />} /> 
             <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} onLike={handleLikeVideo} like={this.state.likes}/>} />
