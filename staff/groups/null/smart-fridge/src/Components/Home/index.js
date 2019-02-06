@@ -6,6 +6,7 @@ import Results from '../Results'
 import logic from '../../logic'
 import { withRouter, Route, Redirect } from 'react-router-dom'
 import './index.sass'
+import Detail from '../Detail/detail';
 
 
 class Home extends React.Component{
@@ -54,14 +55,15 @@ class Home extends React.Component{
     }
 
     render(){
-        const {state:{ recipes }} =  this
+        const {state:{ recipes, onDetails }} =  this
         
         return <main className="home">
                 <Nav user={this.props.user} onLogout={this.handleLogout} editProfile={this.handleEditProfileButton} />
                 {<Route exact path="/home" render={() =>  logic.userLoggedIn ? <InputsFridge onSearch={this.handleOnSearch}/> : <Redirect to="/" />} />}
                 {<Route path="/home/profile" render={() =>  logic.userLoggedIn ? <EditProfile onEditProfile={this.handleEditProfile} cancelButton={this.handleCancelButton}/> : <Redirect to="/" />} />}
                 {<Route path="/home/search" render={() => recipes ? <Results recipes={recipes}/> : <Redirect to = "/home" />}/>/* {results && <Results recipes={this.state.recipes}/>} */}
-            </main>
-
-
+                {<Route path="/home/search/detail" render={() => onDetails ? <Detail recipes={recipes}/> : <Redirect to = "/home"/>}/>}
+            </main>}
+}
+    
 export default withRouter(Home)

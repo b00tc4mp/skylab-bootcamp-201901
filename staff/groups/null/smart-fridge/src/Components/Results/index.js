@@ -6,12 +6,10 @@ import logic from '../../logic'
 
 
 class Results extends Component{
-state={redirect:false}
 
-onDetails=event=>{
-    event.preventDefault();
+onDetails= () =>{
+    this.props.history.push('home/search/detail')
 }
-  
 
     render() {
 
