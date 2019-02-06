@@ -34,7 +34,7 @@ class Aside extends Component {
                 <div className="sidebar__scrolling-content">
                     <div className="sidebar__scrolling-content-scroll">
                         <div className="sidebar__fixed-logo">
-                            <a href="#home" title="Ultra-VGMS" className="logo logo--black">
+                            <a href="/" title="Ultra-VGMS" className="logo logo--black">
                                 <img
                                     src="./images/logo.png"
                                     alt="Ultra-VGMS Logo"
