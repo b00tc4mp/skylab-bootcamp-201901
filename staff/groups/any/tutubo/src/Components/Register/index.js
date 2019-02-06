@@ -28,17 +28,32 @@ class Register extends Component {
     render() {
         const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, handleFromSubmit, props:{onGoToLogin, feedback} } = this
 
-        return <section>
-            <h2>Register</h2>
-            <form onSubmit={handleFromSubmit}>
-                <input name='name' type='text' placeholder='name' onChange={handleNameInput} />
-                <input name='surname' type='text' placeholder='surname' onChange={handleSurnameInput} />
-                <input name='email' type='text' placeholder='email' onChange={handleEmailInput} />
-                <input name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
-                <input name='passwordConfirmation' type='password' placeholder='confirm password' onChange={handlePasswordConfirmationInput} />
-                <button>Register</button>
-            </form>
-            <button onClick={onGoToLogin}>Login</button>
+        return <section className="register">
+            <div className="registerBox">
+                <div className="content">
+                    <div className="text">
+                        <i className="fab fa-youtube fa-5x"></i>
+                        <h3 className="tittle">Create your account</h3>
+                        <p>to continue to TuTubo</p>
+                    </div>
+                    <form classname="form" onSubmit={handleFromSubmit}>
+                        <div className="miniForm">
+                            <input className="input" name='name' type='text' placeholder='name' onChange={handleNameInput} />
+                            <input className="input" name='surname' type='text' placeholder='surname' onChange={handleSurnameInput} />
+                        </div>
+                        <div className="miniForm">
+                            <input className="input" name='email' type='text' placeholder='email' onChange={handleEmailInput} />
+                            <input className="input" name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
+                        </div>
+                        <div className="miniForm">
+                            <input className="input" name='passwordConfirmation' type='password' placeholder='confirm password' onChange={handlePasswordConfirmationInput} />
+                            <button className="registerButton">Register</button>
+                        </div>
+                    </form>
+                    <a className="signIn"onClick={onGoToLogin}>Sign In</a>
+                </div>
+            </div>
+          
             {feedback && <Feedback message={feedback}/>}
         </section> 
     }
