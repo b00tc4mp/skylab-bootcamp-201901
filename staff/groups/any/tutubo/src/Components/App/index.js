@@ -115,7 +115,7 @@ class App extends Component {
         const { pathname } = this.props.location;
         console.log(pathname)
         const { handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleLikeVideo, state:{ videoId, loginFeedback, registerFeedback, email } } = this
-        return <section>
+        return <section className="">
             {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton}/>}
             <Route exact path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} />} />
             <Route exact path="/" render={() => <Home selectVideo={handleSelectVideo} />} /> 
