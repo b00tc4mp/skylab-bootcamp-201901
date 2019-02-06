@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import {Animated} from "react-animated-css";
+
 import './index.css';
 
 class Card extends Component {
@@ -8,7 +10,7 @@ class Card extends Component {
         const { props: { game }} = this;
 
         return (
-            <article className="card">
+                <article className="card">
                 <a href="#home">
                     <div>
                         {
