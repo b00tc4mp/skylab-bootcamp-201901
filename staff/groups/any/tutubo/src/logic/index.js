@@ -12,7 +12,7 @@ const logic = {
     __videoId__: null,
     __storage__:null,
 
-    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTQ4MDA0OCwiZXhwIjoxNTQ5NDgzNjQ4fQ.ayOcxkgVHOTJne1gLqY1W9mnzJ0c6SoWlHIG1rIinQE',
+    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1MDkzNTUzOTM1MDAwOWMxMzg1ZiIsImlhdCI6MTU0OTQ5MDA2OSwiZXhwIjoxNTQ5NDkzNjY5fQ.ZhoeA-3omel72Vt_QfXOYohWBvO8gMvkZ033lMd12QQ',
 
     set storage(storage){
         this.__storage__=storage
@@ -286,12 +286,10 @@ const logic = {
             })  
     },
 
-    // retrieveLikes() {
-    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
-    //         .then(user => {
-    //             const { }
-    //         })
-    // }
+    retrieveLikes() {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => user)
+    }
 
     // dislikeVideo(videoId) {
     //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
