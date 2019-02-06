@@ -10,8 +10,8 @@ render(){
     
     <img className='main__image' src = 'https://wdcolledge.com/wp-content/uploads/2018/04/placeholder.png'></img>
 
-    <button>Favorites</button>
-    <button>Search</button>
+    <button onClick = {this.props.enableFavorites} >Favorites</button>
+    <button onClick = {this.props.enableSearch} >Search</button>
     
     
     
