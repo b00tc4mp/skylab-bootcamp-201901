@@ -162,6 +162,7 @@ const logic = {
      * @param {string} gameId
      */
     retrieveImages(gameId) {
+        
         if (typeof gameId !== 'string') throw TypeError(`${gameId} is not a string`);
 
         if (!gameId.trim().length) throw Error('gameId is empty');
@@ -171,7 +172,6 @@ const logic = {
         if (Number(gameId) < 1) throw Error(`${gameId} should be a bigger than 0 number`);
 
         if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
-
         return thegamesDbApi.retrieveImages(gameId);
     },
 
