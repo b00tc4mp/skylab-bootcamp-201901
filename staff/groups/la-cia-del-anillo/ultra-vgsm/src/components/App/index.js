@@ -12,13 +12,19 @@ import Login from '../Login';
 import Register from '../Register';
 import NotFound from '../NotFound';
 import logic from '../../logic';
+import Feedback from '../Feedback';
 
 class App extends Component {
+    state = { loginFeedback: null, registerFeedback: null };
+
     handleLogin = (email, password) => {
         try {
-            logic.loginUser(email, password).then(() => {
-                this.props.history.push('/')
-            });
+            logic
+                .loginUser(email, password)
+                .then(() => {
+                    this.props.history.push('/');
+                })
+                .catch(error => {this.setState({ loginFeedback: error.message })});
         } catch ({ message }) {
             this.setState({ loginFeedback: message });
         }
@@ -28,20 +34,28 @@ class App extends Component {
         try {
             logic
                 .registerUser(name, surname, email, password, passwordConfirmation)
-                .then(() => this.setState({ registerFeedback: '' }));
+                .then(() => {
+                    this.props.history.push('/login');
+                })
+                .catch(error => {this.setState({ registerFeedback: error.message })});
         } catch ({ message }) {
             this.setState({ registerFeedback: message });
         }
     };
 
     handleLogout = () => {
-        logic.logout()
+        logic.logout();
 
-        this.props.history.push('/')
-    }
+        this.props.history.push('/');
+    };
 
     render() {
-        const { handleLogin, handleRegister, handleLogout } = this;
+        const {
+            handleLogin,
+            handleRegister,
+            handleLogout,
+            state: { loginFeedback, registerFeedback }
+        } = this;
 
         return (
             <main className="app">
@@ -60,7 +74,7 @@ class App extends Component {
                                     logic.userLoggedIn ? (
                                         <Redirect to="/" />
                                     ) : (
-                                        <Login onLogin={handleLogin} />
+                                        <Login onLogin={handleLogin} feedback={loginFeedback} />
                                     )
                                 }
                             />
@@ -71,7 +85,10 @@ class App extends Component {
                                     logic.userLoggedIn ? (
                                         <Redirect to="/" />
                                     ) : (
-                                        <Register onRegister={handleRegister} />
+                                        <Register
+                                            onRegister={handleRegister}
+                                            feedback={registerFeedback}
+                                        />
                                     )
                                 }
                             />
