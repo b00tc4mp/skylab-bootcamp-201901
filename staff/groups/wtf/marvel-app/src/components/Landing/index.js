@@ -9,19 +9,15 @@ import Register from '../Register'
 
 class Landing extends Component {
 
-    state = {modalVisible: false, loginFeedback: null, registrationFeedback: null, userName: null, userEmail: null}
+    state = {modalVisible: false, loginFeedback: null, registrationFeedback: null}
 
     handleLogin = (email, password) =>{
         try {
           logic.login(email, password)
             .then(() => {
                 this.setState({loginFeedback: null})
-                return logic.retrieveUser(logic.__userId__, logic.__userApiToken__)
-                    .then(user => {
-                        this.setState({userName : user.name, userEmail: user.username}, )
-                        this.props.history.push('/home/search/')
-                    })
-                 
+                this.props.history.push('/home/search/')
+
             })
             .catch(({message}) => this.setState({ loginFeedback: message }))
         } catch (message) {
@@ -51,7 +47,7 @@ class Landing extends Component {
 
     render() {
 
-        const {handleLogin, handleRegistration, handleHome, handleToLogin,state:{loginFeedback, registrationFeedback, modalVisible, userFavourites}} = this
+        const {handleLogin, handleRegistration, handleHome, handleToLogin, state:{loginFeedback, registrationFeedback, modalVisible, userFavourites}} = this
 
         return <section className="container foto">
         <Route exact path="/" render={() =>
