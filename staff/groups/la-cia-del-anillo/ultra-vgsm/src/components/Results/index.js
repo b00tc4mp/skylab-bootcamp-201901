@@ -30,25 +30,48 @@ class Results extends Component {
         }
     };
 
-    // shouldComponentUpdate(nextProps) {
-    //     console.log(3)
-    //     return true;
-    // }
+    getPlatform = platformId => {
+        try {
+            logic
+                .retrieveGamesByPlatform(platformId, 'boxart,platform')
+                .then(({ data: { games }, include: { boxart, platform } }) => {
+                    this.setState({
+                        results: games.map(game => {
+                            game.base_url = boxart.base_url;
+                            game.boxart = boxart.data[game.id].find(
+                                image => image.side === 'front'
+                            );
+                            game.platform = platform.data[game.platform];
+                            return game;
+                        })
+                    });
+                })
+                .catch(({ message }) => this.setState({ feedback: message }));
+        } catch ({ message }) {
+            this.setState({ feedback: message });
+        }
+    };
 
     componentDidMount() {
         const {
-            query
-        } = this.props.match.params;
+            match: {
+                params: { query = '', platformId = null }
+            }
+        } = this.props;
 
-        this.handleSearch(query);
+        if (platformId) this.getPlatform(platformId);
+        if (query !== '') this.handleSearch(query);
     }
 
-    componentWillReceiveProps(props) {
+    componentWillReceiveProps(nextProps) {
         const {
-            query
-        } = props.match.params;
+            match: {
+                params: { query = '', platformId = null }
+            }
+        } = nextProps;
 
-        this.handleSearch(query);
+        if (platformId) this.getPlatform(platformId);
+        if (query !== '') this.handleSearch(query);
     }
 
     render() {
