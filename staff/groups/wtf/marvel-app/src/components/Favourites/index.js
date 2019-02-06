@@ -2,20 +2,23 @@ import React, { Component } from "react";
 
 class Favourite extends Component {
 
-  handleItemChosen = id => {
-      const { props : { onItem }} = this;
+  //handleItemChosen = id => {
+   //   const { props : { onItem }} = this;
       
       //como pasar title como name? (({ id, name: title }) => ({ id, title }))
-      onItem(id);
+     // onItem(id);
   }  
 
-  handleBackToSearch = () => {
-      const { props: {onToSearch} }
-      onToSearch()
-  } 
+  //handleBackToSearch = () => {
+   //   const { props: {onToSearch} }
+   //   onToSearch()
+//  } 
 
 
   render() {
+    
+    const { props: {userFavourites }}
+
     return (
       <section className="favourites container margin-top">
         <div className="level is-mobile">
