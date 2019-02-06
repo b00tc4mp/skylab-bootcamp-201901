@@ -9,8 +9,8 @@ class Header extends Component {
     state = { showDescktopHeader: false };
 
     handleSearch = query => {
-        this.props.history.push(`/search/${query}`)
-    }
+        this.props.history.push(`/search/${query}`);
+    };
 
     __showHeader = () => {
         if (document.body.offsetWidth >= 1024) {
@@ -27,6 +27,10 @@ class Header extends Component {
     componentWillMount() {
         this.__showHeader();
         window.addEventListener('resize', this.__showHeader);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.__showHeader);
     }
 
     render() {

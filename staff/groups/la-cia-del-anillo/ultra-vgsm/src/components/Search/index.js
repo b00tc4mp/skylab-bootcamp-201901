@@ -5,7 +5,9 @@ import Feedback from '../Feedback';
 class Search extends Component {
     state = { query: '' };
 
-    handleQueryInput = ({ target: { value: query } }) => this.setState({ query });
+    handleQueryInput = ({ target: { value: query } }) => {
+        this.setState({ query })
+    };
 
     handleSearchSubmit = Event => {
         Event.preventDefault();

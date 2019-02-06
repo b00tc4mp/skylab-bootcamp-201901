@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 import Masonry from 'react-masonry-component';
 import './index.css';
 
@@ -12,7 +12,7 @@ const masonryOptions = {
 };
 
 class Results extends Component {
-    state = { results: null, feedback: null };
+    state = { results: null, favorites: [], feedback: null };
 
     handleSearch = query => {
         try {
@@ -58,19 +58,55 @@ class Results extends Component {
         }
     };
 
+    getFavorites = () => {
+        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
+            this.setState({
+                favorites
+            });
+        });
+    };
+
+    getFavoritesPage = () => {
+        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
+            try {
+                logic
+                    .retrieveGame(favorites.join(','), '', 'boxart,platform')
+                    .then(({ data: { games }, include: { boxart, platform } }) => {
+                        this.setState({
+                            results: games.map(game => {
+                                game.base_url = boxart.base_url;
+                                game.boxart = boxart.data[game.id].find(
+                                    image => image.side === 'front'
+                                );
+                                game.platform = platform.data[game.platform];
+                                return game;
+                            })
+                        });
+                    })
+                    .catch(({ message }) => this.setState({ feedback: message }));
+            } catch ({ message }) {
+                this.setState({ feedback: message });
+            }
+        });
+    };
+
     componentDidMount() {
         const {
+            favoritesSearch = false,
             match: {
-                params: { query = '', platformId = null }
+                params: { query = '', platformId = null,  }
             }
         } = this.props;
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
+        if(favoritesSearch) this.getFavoritesPage();
+        this.getFavorites();
     }
 
     componentWillReceiveProps(nextProps) {
         const {
+            favoritesSearch = false,
             match: {
                 params: { query = '', platformId = null }
             }
@@ -78,31 +114,37 @@ class Results extends Component {
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
+        if(favoritesSearch) this.getFavoritesPage();
+        this.getFavorites();
     }
 
     render() {
         const {
-            state: { results }
+            state: { results, favorites }
         } = this;
-
-        
 
         return (
             <Masonry
-                className={'results content'} 
-                elementType={'section'} 
-                options={masonryOptions} 
+                className={'results content'}
+                elementType={'section'}
+                options={masonryOptions}
                 disableImagesLoaded={false}
                 updateOnEachImageLoad={false}
             >
-                {results && (
+                {results &&
                     results.map(game => {
-                        return <Card key={game.id} gameUrl={game.id} game={game} />;
-                    })
-                )}
+                        return (
+                            <Card
+                                key={game.id}
+                                gameUrl={game.id}
+                                favorites={favorites}
+                                game={game}
+                            />
+                        );
+                    })}
             </Masonry>
         );
     }
 }
 
-export default Results;
+export default withRouter(Results);

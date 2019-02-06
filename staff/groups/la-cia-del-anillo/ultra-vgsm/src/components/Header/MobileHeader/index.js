@@ -24,8 +24,7 @@ class MobileHeader extends Component {
                         <i className="fas fa-bars" />
                     </button>
                     <a href="#home" title="Ultra-VGMS" className="logo">
-                        <img src="/images/logo.png" alt="Ultra-VGMS Logo" className="logo__image" />
-                        Ultra-VGMS
+                        <img src="/images/ultra_vgsm_2.png" alt="Ultra-VGMS Logo" className="logo__image" />
                     </a>
                     <button className="header__button" onClick={() => this.__showSearchMobile()}>
                         <i className="fas fa-search" />

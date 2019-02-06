@@ -66,6 +66,17 @@ class App extends Component {
                         <Switch>
                             <Route path="/search/:query" component={Results} />
                             <Route path="/platform/:platformId" component={Results} />
+                            <Route
+                                exact
+                                path="/favorites"
+                                render={() =>
+                                    !logic.userLoggedIn ? (
+                                        <Redirect to="/" />
+                                    ) : (
+                                        <Results favoritesSearch={true} />
+                                    )
+                                }
+                            />
                             <Route path="/game/:gameId" component={GameInfo} />
                             <Route
                                 exact

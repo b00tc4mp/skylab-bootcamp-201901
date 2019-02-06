@@ -637,6 +637,9 @@ main {
     font-weight: 900;
     padding: 10px 20px;
 }
+.menu__item-logout .menu__link {
+    color: #bfb7b7;
+}
 .menu__link:hover,
 .menu__link--selected {
     background-color: #27ae60;
