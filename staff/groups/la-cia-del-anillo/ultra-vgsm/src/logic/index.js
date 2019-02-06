@@ -172,11 +172,11 @@ const logic = {
 
         if (!gameId.trim().length) throw Error('gameId is empty');
 
-        if (isNaN(Number(gameId))) throw Error(`${gameId} should be a number`);
+        // if (isNaN(Number(gameId))) throw Error(`${gameId} should be a number`);
 
-        if (Number(gameId) < 1) throw Error(`${gameId} should be a bigger than 0 number`);
+        // if (Number(gameId) < 1) throw Error(`${gameId} should be a bigger than 0 number`);
 
-        if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
+        // if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
 
         if (typeof fields !== 'string') throw TypeError(`${fields} is not a string`);
 

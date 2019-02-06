@@ -4,7 +4,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 class Search extends Component {
     state = { query: '' };
 
-    handleQueryInput = ({ target: { value: query } }) => this.setState({ query });
+    handleQueryInput = ({ target: { value: query } }) => {
+        this.setState({ query })
+    };
 
     handleSearchSubmit = Event => {
         Event.preventDefault();

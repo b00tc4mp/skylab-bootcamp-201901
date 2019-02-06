@@ -67,11 +67,11 @@ const thegamesDbApi = {
 
         if (!gameId.trim().length) throw Error('gameId is empty');
 
-        if (isNaN(Number(gameId))) throw Error(`${gameId} should be a number`);
+        // if (isNaN(Number(gameId))) throw Error(`${gameId} should be a number`);
 
-        if (Number(gameId) < 1) throw Error(`${gameId} should be a bigger than 0 number`);
+        // if (Number(gameId) < 1) throw Error(`${gameId} should be a bigger than 0 number`);
 
-        if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
+        // if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
 
         if (typeof fields !== 'string') throw TypeError(`${fields} is not a string`);
 
@@ -86,17 +86,18 @@ const thegamesDbApi = {
         urlParams.include = include;
 
         Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
-
+        
         return fetch(`${this.proxy + url}`)
             .then(response => response.json())
             .then(response => {
-                const { status, data: { count } = {} } = response;
+                
+                const { status, data, data: { count } = {}, include, pages } = response;
 
                 if (!status) throw Error(response.error);
                 if (status !== 'Success') throw Error(status);
                 if (count === 0) throw Error(`${gameId} doesn't exist in database`);
 
-                return response;
+                return { data, include, pages };
             });
     },
 

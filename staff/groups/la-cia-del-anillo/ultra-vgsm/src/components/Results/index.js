@@ -66,21 +66,47 @@ class Results extends Component {
         });
     };
 
+    getFavoritesPage = () => {
+        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
+            try {
+                logic
+                    .retrieveGame(favorites.join(','), '', 'boxart,platform')
+                    .then(({ data: { games }, include: { boxart, platform } }) => {
+                        this.setState({
+                            results: games.map(game => {
+                                game.base_url = boxart.base_url;
+                                game.boxart = boxart.data[game.id].find(
+                                    image => image.side === 'front'
+                                );
+                                game.platform = platform.data[game.platform];
+                                return game;
+                            })
+                        });
+                    })
+                    .catch(({ message }) => this.setState({ feedback: message }));
+            } catch ({ message }) {
+                this.setState({ feedback: message });
+            }
+        });
+    };
+
     componentDidMount() {
         const {
+            favoritesSearch = false,
             match: {
-                params: { query = '', platformId = null }
+                params: { query = '', platformId = null,  }
             }
         } = this.props;
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-
+        if(favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
     componentWillReceiveProps(nextProps) {
         const {
+            favoritesSearch = false,
             match: {
                 params: { query = '', platformId = null }
             }
@@ -88,7 +114,7 @@ class Results extends Component {
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-
+        if(favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
