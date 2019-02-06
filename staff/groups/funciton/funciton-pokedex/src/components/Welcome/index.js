@@ -16,8 +16,8 @@ class Welcome extends Component {
 
     onBackButtonDetailedPokemon = () => this.setState({ pokemonVisible: null, searchText: this.state.searchText })
 
-    enableSearch = () => this.setState({pokemonSearchVisible: true})
-    enableFavorites = () => this.setState({pokemonSearchVisible: false})
+    enableSearch = () => this.setState({pokemonSearchVisible: true, searchText:''})
+    enableFavorites = () => this.setState({pokemonSearchVisible: false, searchText:''})
     
     
     render() {
