@@ -13,6 +13,10 @@ class Home extends Component {
 
     state = {characterId: null, comicId: null}
 
+    // componentDidMount() {
+    //     document.html.style.backgroundImage = "none"
+    // }
+
     handleSearch = query => this.props.history.push(`/home/search/${query}`)
 
     handleCharacterSelected = id => {
