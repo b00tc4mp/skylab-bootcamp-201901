@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.sass';
+import './vendor/bulma/0.7.2/bulma.sass'
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
 import {HashRouter} from 'react-router-dom'
