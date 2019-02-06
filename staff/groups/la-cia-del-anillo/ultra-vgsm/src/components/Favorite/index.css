@@ -1,0 +1,8 @@
+.favorite {
+    color: #fff;
+    font-size: 5rem;
+}
+.favorite--selected,
+.favorite:hover {
+    color: #c0395d;
+}
