@@ -34,11 +34,11 @@ class Login extends React.Component {
                             <input onChange={this.handlePasswordInput} type="password" className="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required />
                             {/* {this.props.feedback && <Feedback message={this.props.feedback} />} */}
                         </div>
-                        <div className="row flex mt-3">
+                        <div className="row mt-3">
                             <div className="col-md-3 col-0"></div>
-                            <button type="submit" className="btn btn-dark col-12 col-sm-6 mr-2">Login</button>
-                            <div className="pt-2 pt-sm-0">
-                                <button onClick={this.handleRegisterButton} href="#" className="btn btn-outline-light">Register</button>
+                            <button type="submit" className="btn btn-dark col-12 col-sm-6">Login</button>
+                            <div className="p-0 pt-2 pt-sm-0 pl-sm-2 col-12 col-sm-6 col-md-3">
+                                <button onClick={this.handleRegisterButton} href="#" className="btn btn-outline-light col-12">Register</button>
                             </div>
                         </div>
                     </form>

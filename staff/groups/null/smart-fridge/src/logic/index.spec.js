@@ -176,6 +176,7 @@ describe('logic', () => {
     describe('login', () => {
         let _id, _token
         
+        
         const name = 'Manuel'
         const surname = 'Barzi'
         const username = `manuelbarzi-${Math.random()}`
