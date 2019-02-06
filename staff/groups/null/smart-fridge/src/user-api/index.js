@@ -109,6 +109,7 @@ const userApi = {
 
     update(id, token, data) {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        
         if (!id.trim().length) throw Error('id is empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)

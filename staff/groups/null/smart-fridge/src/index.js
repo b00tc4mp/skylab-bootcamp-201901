@@ -15,7 +15,7 @@ logic.getUserId = () => sessionStorage.getItem('user-id')
 logic.setUserApiToken = token => token? sessionStorage.setItem('user-api-token', token) : sessionStorage.removeItem('user-api-token')
 logic.getUserApiToken = () => sessionStorage.getItem('user-api-token')
 
-logic.setUser = user => user? sessionStorage.setItem('user', user) : sessionStorage.removeItem('user')
+logic.setUser = user => user? sessionStorage.setItem('user', JSON.stringify(user)) : sessionStorage.removeItem('user')
 logic.getUser = () => sessionStorage.getItem('user')
 
 // ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'))
