@@ -27,11 +27,14 @@ class PublishersInfo extends Component {
     }
 
     render() {
-        return (
-            <span>
-                {this.state.pubName}
-            </span>
-        )
+        if (this.state.devName) {
+            return (
+               <span>
+                    // Publisher: {this.state.pubName}
+                </span>
+            )
+        }
+        return ( <fragment></fragment>)
     }
 }
 
