@@ -7,6 +7,7 @@ import DevelopersInfo from '../DevelopersInfo'
 import GenresInfo from '../GenresInfo'
 import PublishersInfo from '../PublishersInfo'
 import GameTitle from '../GameTitle'
+import { Link } from 'react-router-dom';
 
 
 class GameInfo extends Component {
@@ -109,6 +110,7 @@ class GameInfo extends Component {
                 id,
                 name,
                 releaseDate,
+                platform,
                 players,
                 overview,
                 coop,
@@ -123,8 +125,8 @@ class GameInfo extends Component {
         } = this;
 
         const opts = {
-            height: '195',
-            width: '320',
+            // height: '195',
+            width: '100%',
             playerVars: {
                 // https://developers.google.com/youtube/player_parameters
                 autoplay: 0
@@ -133,21 +135,32 @@ class GameInfo extends Component {
 
         const imageUrl =
             { imageBaseUrlOriginal }.imageBaseUrlOriginal + { imageFilename }.imageFilename;
+        const platformUrl = "/platform/" + platform
         return (
             <section className="gameInfo">
-                
-                <GameTitle gamId = {id} name = {name} />
-                
-                <img width="200px" alt="Frontboxart of game" src={imageUrl} />
-                <h3>Release date: {releaseDate}</h3>
-                <h4>Platform: {platformName}</h4>
-                <h5>Players: {players}</h5>
-                <h6>Coop: {coop}</h6>
-                <p>{overview}</p>
-                <p> Developers: <DevelopersInfo devId = {developers}/> </p>
-                <p>    genres: <GenresInfo genId = {genres} /> </p>
-                <p>   publishers: <PublishersInfo pubId = {publishers} />          </p>
-                <YouTube videoId={youtube} opts={opts} onReady={this._onReady} />
+                <div className="gameInfo__title">
+                    <GameTitle gamId = {id} name = {name}/>
+                </div>
+                <div className="gameInfo__details">
+                    <p>
+                    <GenresInfo genId = {genres} /> 
+                    {releaseDate ? ' '+releaseDate+' // ' : ''}
+                    <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                    {players ? ' Players : '+players+' // ' : ''}
+                    {coop ? ' Coop : '+coop+' ' : ''}
+                    <DevelopersInfo devId = {developers}/> 
+                    <PublishersInfo pubId = {publishers} />
+                    </p>
+                </div>
+                <div className="gameInfo__image">
+                    <img className="gameInfo__image--modifier" width="100%" alt="Frontboxart of game" src={imageUrl} />
+                </div>
+                <div className="gameInfo__overview">
+                    <p>{overview}</p>
+                </div>
+                <div className="gameInfo__video" >
+                    {youtube ? <YouTube videoId={youtube} opts={opts} onReady={this._onReady}/> : ''}
+                </div>
             </section>
         );
     }
