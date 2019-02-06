@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
 import YouTube from 'react-youtube';
 import './index.css';
 import './index.sass';
@@ -24,8 +23,27 @@ class GameInfo extends Component {
         platformName: null
     };
 
+
+    componentDidMount() {
+        const {
+            match: {
+                params: { gameId }
+            }
+        } = this.props;
+        if (gameId) this.handleGameInfo(gameId);
+    }
+
+    componentWillReceiveProps(nextProps){
+        const {
+            match: {
+                params: { gameId }
+            }
+        } = nextProps;
+        this.handleGameInfo(gameId)
+    }
+
     handleGameInfo = gameId => {
-        try {
+        
             logic
                 .retrieveGame(
                     gameId,
@@ -79,10 +97,7 @@ class GameInfo extends Component {
                     }
                 )
                 .catch(({ message }) => this.setState({ feedback: message }));
-        } catch ({ message }) {
-            this.setState({ feedback: message });
-        }
-    };
+        } 
 
     render() {
         const {
@@ -105,7 +120,7 @@ class GameInfo extends Component {
             handleGameInfo
         } = this;
 
-        !id && handleGameInfo('9428');
+        // !id && handleGameInfo('9428');
 
         const opts = {
             height: '195',
