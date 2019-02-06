@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter } from "react-router-dom";
 import './index.css';
 import App from './App';
 import logic from './logic'
@@ -11,7 +12,7 @@ logic.setUserApiToken = token => token? sessionStorage.setItem('user-api-token',
 logic.getUserApiToken = () => sessionStorage.getItem('user-api-token')
 
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'));
 
 
 

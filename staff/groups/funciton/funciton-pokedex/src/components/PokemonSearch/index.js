@@ -5,7 +5,7 @@ import ItemResult from "../ItemResult";
 
 
 class PokemonSearch extends Component {
-  state = { pokemons: [], searchText: '', loading: true };
+  state = { pokemons: [], searchText: this.props.searchText, loading: true };
 
   componentDidMount() {
     logic.retrieveAllPokemons().then(pokemons => {
@@ -18,18 +18,30 @@ class PokemonSearch extends Component {
     this.setState({
       searchText: event.target.value
     });
-    this.props.setSearchTextApp(event.target.value);
+    this.props.setSearchText(event.target.value);
 
   };
 
+  handlePokemonDetail = (name) => {
+    logic.retrievePokemon(name)
+      .then((pokemonVisible) => {
+        this.props.setPokemonVisible(pokemonVisible)
+        return this.setState({ pokemonVisible })
+      })
+  }
+
+  setSearchTextApp = (query) => {
+    this.setState({ searchText: query })
+
+  }
+
   renderList = () => {
-    const {props : {onPokemonDetail}} = this
     
     return <ul className='pokemon__ul'>
       {
         this.state.pokemons
-          .filter(pokemon => pokemon.name.includes(this.props.searchText))
-          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} onGoToDetails={onPokemonDetail} />)
+          .filter(pokemon => pokemon.name.includes(this.state.searchText))
+          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} onGoToDetails={this.handlePokemonDetail} />)
       }
     </ul>
 
@@ -37,7 +49,6 @@ class PokemonSearch extends Component {
 
   render() {
 
-    
     return (
       <div className='searchPanel'>
         {/* <img src={titleImage} alt="poke_title"></img> */}
@@ -48,13 +59,13 @@ class PokemonSearch extends Component {
             onChange={this.handleChange}
             type="text"
             placeholder="Search your Pokemon"
-            value={this.props.searchText}
+            value={this.state.searchText}
           />
           {
             this.state.loading && <h1>LOADING</h1>
           }
           {
-            this.props.searchText !== "" && this.renderList()
+            this.state.searchText !== "" && this.renderList()
           }
 
       </div>
