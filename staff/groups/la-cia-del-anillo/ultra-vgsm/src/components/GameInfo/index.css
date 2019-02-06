@@ -28,7 +28,7 @@
     text-transform: uppercase;
 }
 
-a:link, a:visited {
+/* a:link, a:visited {
     text-decoration: none;
     color: rgb(0, 111, 0);
     transition: background-color 0.30s;
@@ -38,7 +38,7 @@ a:hover {
     text-decoration: none;
     color: white;
     background-color:#50BC7E;
-}
+} */
 
 .gameInfo__image {
     margin-left: 1em;
