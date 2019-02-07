@@ -45,10 +45,6 @@ class Landing extends Component {
         this.props.history.push('/login')
     }
 
-    componentDidMount() {
-        console.log('did mount')
-    }
-
     render() {
 
         const {handleLogin, handleRegistration, handleToLogin, handleLanding, state:{loginFeedback, registrationFeedback, modalVisible}} = this

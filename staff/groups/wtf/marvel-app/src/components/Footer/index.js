@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import './index.sass';
 
 function Footer() {
     return <footer className="level">

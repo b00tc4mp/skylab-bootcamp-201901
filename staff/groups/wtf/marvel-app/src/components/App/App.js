@@ -9,7 +9,6 @@ class App extends Component {
 
   handleLogOut = () => {
     logic.logout()
-
     this.props.history.push('/')
   }
 

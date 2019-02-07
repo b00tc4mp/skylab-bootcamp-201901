@@ -112,7 +112,6 @@ const userApi = {
      */
 
     retrieve(id, token) {
-        debugger
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id is empty')
 

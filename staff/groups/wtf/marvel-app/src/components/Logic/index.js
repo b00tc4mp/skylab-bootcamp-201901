@@ -180,7 +180,6 @@ const logic = {
      */
 
     retrieveCharacter(characterId) {
-        debugger
         if (typeof characterId !== "string")
             throw TypeError(`${characterId} is not a string`);
         if (!characterId.trim().length) throw Error(`characterId is empty`);
@@ -278,4 +277,4 @@ const logic = {
     }
 };
 
-export default logic;
+export default logic
