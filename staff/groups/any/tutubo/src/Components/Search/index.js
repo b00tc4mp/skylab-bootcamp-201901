@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './index.sass'
+import Feedback from '../Feedback'
 
 class Search extends Component {
 
@@ -17,12 +18,13 @@ class Search extends Component {
 
     render() {
 
-        const { handleQueryInput, handleSearchSubmit, props: {mode} } = this
+        const { handleQueryInput, handleSearchSubmit, props: { mode, feedback} } = this
 
         return <section className="container__form">
             <form className="form" onSubmit={handleSearchSubmit}>
                 <input className={`${mode ? 'form__search form__search-light' : 'form__search form__search-dark'}`} type="text" placeholder="Search" onChange={handleQueryInput} />
                 <button className={`${mode? 'form__button form__button-light' : 'form__button form__button-dark'}`} type="submit"><i className={`${mode ? 'fas fa-search fa-search-light' : 'fas fa-search fa-search-dark'}`}></i></button>
+                {feedback && <Feedback message = {feedback}/>}
             </form>
         </section>
     }

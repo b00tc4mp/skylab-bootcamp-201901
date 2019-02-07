@@ -12,7 +12,7 @@ const logic = {
     __videoId__: null,
     __storage__:null,
 
-    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1MDkzNTUzOTM1MDAwOWMxMzg1ZiIsImlhdCI6MTU0OTQ5MDA2OSwiZXhwIjoxNTQ5NDkzNjY5fQ.ZhoeA-3omel72Vt_QfXOYohWBvO8gMvkZ033lMd12QQ',
+    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1MDkzNTUzOTM1MDAwOWMxMzg1ZiIsImlhdCI6MTU0OTUyNzkxNSwiZXhwIjoxNTQ5NTMxNTE1fQ.MBOv5zaNzgFaeFYsPEKUOEjRVLoSj_4wJ2ULe2Hb0E8',
 
     set storage(storage){
         this.__storage__=storage
@@ -183,10 +183,11 @@ const logic = {
             }))
     },
 
-    popularResults(/*aqui es donde se podria meter lo de cambiar la region de los resultados populares*/) {
-        return youtubeApi.mostPopular(/*aqui es donde se podria meter lo de cambiar la region de los resultados populares*/)
+    popularResults() {
+        return youtubeApi.mostPopular()
 
             .then(items => items)
+            .catch(Error)
     },
 
     watchVideo(videoId) {
