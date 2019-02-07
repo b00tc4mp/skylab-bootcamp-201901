@@ -46,7 +46,7 @@ const userApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, username, password, gender, birthDate, height, weight, lifeStyle })
+            body: JSON.stringify({ name, surname, username, password, gender, birthDate, height, weight, lifeStyle, favourites: [] })
         })
             .then(response => response.json())
             .then(response => {
@@ -118,7 +118,7 @@ const userApi = {
         
         if (data === undefined || data === null) throw Error(`${data} is not an object`)
 
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        if (data.constructor !== Object && data.constructor !== Array) throw TypeError(`${data} is not an object`)
 
 
         return fetch(`${this.url}/user/${id}`, {
