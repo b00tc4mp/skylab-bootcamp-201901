@@ -3,11 +3,8 @@ import YouTube from 'react-youtube';
 import './index.css';
 
 import logic from '../../logic';
-import DevelopersInfo from '../DevelopersInfo'
-import GenresInfo from '../GenresInfo'
-import PublishersInfo from '../PublishersInfo'
 import GameTitle from '../GameTitle'
-import { Link } from 'react-router-dom';
+import Favorite from '../Favorite'
 
 
 class GameInfo extends Component {
@@ -25,7 +22,9 @@ class GameInfo extends Component {
         publishers: null,
         imageBaseUrlOriginal: null,
         imageFilename: null,
-        platformName: null
+        platformName: null,
+        feedback: null,
+        favorites: []
     };
 
 
@@ -35,6 +34,7 @@ class GameInfo extends Component {
                 params: { gameId }
             }
         } = this.props;
+        
         if (gameId) this.handleGameInfo(gameId);
     }
 
@@ -44,6 +44,7 @@ class GameInfo extends Component {
                 params: { gameId }
             }
         } = nextProps;
+
         this.handleGameInfo(gameId)
     }
 
@@ -100,9 +101,17 @@ class GameInfo extends Component {
                             platformName: dataPlatform[platform].name
                         });
                     }
-                )
+                ).then(this.getFavorites())
                 .catch(({ message }) => this.setState({ feedback: message }));
-        } 
+        }
+
+    getFavorites = () => {
+        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
+            this.setState({
+                favorites
+            });
+        });
+    };
 
     render() {
         const {
@@ -120,7 +129,9 @@ class GameInfo extends Component {
                 publishers,
                 imageBaseUrlOriginal,
                 imageFilename,
-                platformName
+                platformName,
+                feedback,
+                favorites
             }
         } = this;
 
@@ -136,22 +147,31 @@ class GameInfo extends Component {
         const imageUrl =
             { imageBaseUrlOriginal }.imageBaseUrlOriginal + { imageFilename }.imageFilename;
         const platformUrl = "/platform/" + platform
+
+        if (feedback !== null) {
+            return (<h2>{feedback}</h2>)
+        }
+        console.log(favorites)
         return (
             <section className="gameInfo">
                 <div className="gameInfo__title">
-                    <GameTitle gamId = {id} name = {name}/>
+                    <GameTitle  gamId = {id} 
+                                name = {name}
+                                genId = {genres}
+                                releaseDate = {releaseDate}
+                                platformUrl = {platformUrl}
+                                players = {players}
+                                coop = {coop}
+                                devId = {developers}
+                                pubId = {publishers}
+                                platformName = {platformName}
+                                />
                 </div>
-                <div className="gameInfo__details">
-                    <p>
-                    <GenresInfo genId = {genres} /> 
-                    {releaseDate ? ' '+releaseDate+' // ' : ''}
-                    <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
-                    {players ? ' Players : '+players+' // ' : ''}
-                    {coop ? ' Coop : '+coop+' ' : ''}
-                    <DevelopersInfo devId = {developers}/> 
-                    <PublishersInfo pubId = {publishers} />
-                    </p>
-                </div>
+                {logic.userLoggedIn && (
+                        <div className="gameInfo__favorite">
+                            <Favorite idGame={this.props.match.params.gameId} favorites={favorites} />
+                        </div>
+                    )}
                 <div className="gameInfo__image">
                     <img className="gameInfo__image--modifier" width="100%" alt="Frontboxart of game" src={imageUrl} />
                 </div>
