@@ -68,20 +68,15 @@ class App extends Component {
           <Topbar user={user} onLogout={handleLogout}/>
 
           <Switch>
-
             <Route path='/register' render={() => !user?  <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to='/login' /> }   />
             <Route path='/login' render={() => !user? <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/home' /> } />
- 
             <Route exact path='/favorites' render={() => <Favorites /> } />
-
-            <Route  path='/home' render={() => <Home /> } />
-            
+            <Route path='/home' render={() => <Home /> } />
             <Route component={NotFound} />
-
-
           </Switch>
 
-
+          <Footer />
+          
         </div>
       )
   }
