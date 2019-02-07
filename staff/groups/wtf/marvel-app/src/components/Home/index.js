@@ -48,14 +48,9 @@ class Home extends Component {
         this.props.history.push('/')
     }
     
-    handleItemChosen = id => {
-        this.props.history.push(`/home/search/character/${id}`)
-        this.setState({characterId: id})
-    }
-
     render() {
 
-        const { handleSearch, handleCharacterSelected, handleComicSelected, handleToHome, handleToFavourites, handleLogOut, handleItemChosen} = this
+        const { handleSearch, handleCharacterSelected, handleComicSelected, handleToHome, handleToFavourites, handleLogOut} = this
 
         return <HashRouter>
         <section className="margin-top">
@@ -80,7 +75,7 @@ class Home extends Component {
             <Route exact path="/home/search/:query" render={props => <CharactersResults query={props.match.params.query} onCharacterSelected={handleCharacterSelected} />} />
             <Route exact path="/home/search/character/:id" render={props => <CharacterInfoResult id={props.match.params.id} onComicSelected={handleComicSelected} />} />
             <Route exact path="/home/search/comic/:id" render={props => <ComicInfoResult id={props.match.params.id} onCharacterSelected={handleCharacterSelected} />} />
-            <Route exact path="/home/search/user/favourites/" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleItemChosen}/>} />
+            <Route exact path="/home/search/user/favourites/" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleCharacterSelected}/>} />
         </section>
     </HashRouter>
     }
