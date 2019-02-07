@@ -8,7 +8,7 @@ import Login from '../Login'
 import Topbar from '../Topbar'
 import Favorites from '../Favorites';
 
-
+import './index.sass'
 
 class App extends Component {
 
