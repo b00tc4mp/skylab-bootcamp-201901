@@ -28,6 +28,8 @@ class Favorite extends Component {
         if (this.state.videoSelected) {
 
         const { handleFavorites, state: {videoSelected: {Title, Year, Rated, Runtime, Plot, Genre, Actors, Poster}}} = this
+
+        if (this.state.videoSelected.Poster === "N/A")  this.setState({videoSelected: ({Title, Year, Rated, Runtime, Plot, Genre, Actors, Poster : "http://www.lbsnaa.gov.in/upload/academy_souvenir/images/59031ff5e92caNo-image-available.jpg"})})
         
         return (
             <section className="detail">
