@@ -20,3 +20,13 @@
 .load-more:hover {
     background: #f1efef;
 }
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #f1efef;
+    font-size: 20rem;
+}

@@ -9,6 +9,7 @@ class MobileHeader extends Component {
         const overlaySearch = document.querySelector('.search-overlay__search');
         overlay.style.width = '100%';
         overlaySearch.style.transform = 'translateY(0)';
+        overlaySearch.childNodes[0].childNodes[1].focus();
     };
 
     __showAsideMobile = () => {
