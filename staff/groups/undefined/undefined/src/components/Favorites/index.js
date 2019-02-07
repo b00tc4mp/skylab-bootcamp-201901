@@ -25,6 +25,7 @@ class Favorites extends Component {
                      video={video}
                 /> 
             )}
+            {!this.state.favorites || [] && <h3>You have no favorites yet... Search for movies and add them to your favorites</h3> }
             
         </section>)
     }
