@@ -5,12 +5,11 @@ import './index.sass'
 import logic from '../../logic'
 
 
-class Results extends Component{
+class Results extends Component {
 
-// onDetails= () =>{
-//     this.props.history.push('home/search/detail')
-    
-// }
+    handleOnDetail = recipeUri => {
+        this.props.onDetail(recipeUri)
+    }
 
     render() {
 
@@ -21,7 +20,7 @@ class Results extends Component{
 
 
         return <section className="results">
-            
+
             <div className="card_columns row m-2 mt-5">
                 {
                     recipes.map(recipe => (
@@ -30,7 +29,8 @@ class Results extends Component{
                                 <div className="card-body">
                                     <h5 className="card-title text-center">{recipe.recipe.label}</h5>
                                     <div className='results__image-favorite'>
-                                        <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img><i class="far fa-heart"></i>
+                                        <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img>
+                                        <i class="far fa-heart"></i>
                                     </div>
 
                                     <div className='mt-4 flex'>
@@ -55,9 +55,9 @@ class Results extends Component{
                                             </div>
                                         </div>
                                         <div className='row mt-4'>
-                                            {recipe.recipe.totalTime? <div className="results__time font-weight-bold col-6 p-0 ">Cooking time <br/><span className='font-weight-normal'> {recipe.recipe.totalTime} minutes</span></div>: <div className="results__time font-weight-bold col-6 p-0 "></div>} 
+                                            {recipe.recipe.totalTime ? <div className="results__time font-weight-bold col-6 p-0 ">Cooking time <br /><span className='font-weight-normal'> {recipe.recipe.totalTime} minutes</span></div> : <div className="results__time font-weight-bold col-6 p-0 "></div>}
                                             <div className="col-6 pr-2">
-                                                <button className="btn btn-dark inline mt-2" onClick={this.onDetails} type="submit">More details</button>
+                                                <button className="btn btn-dark inline mt-2" onClick={()=>this.handleOnDetail(recipe.recipe.uri)}>More details</button>
                                             </div>
                                         </div>
                                     </div>
