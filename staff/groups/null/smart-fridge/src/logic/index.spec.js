@@ -146,6 +146,60 @@ describe('logic', () => {
             }).toThrow(TypeError(lifeStyle + ' is not a string'))
         })
     })
+    describe('toggleFavourites', () => {
+        let name = 'Manuel'
+        let surname = 'Barzi'
+        let username
+        let password = '123'
+        let passwordConfirm = '123'
+        let gender = 'female'
+        let birthDate = '1985/10/15'
+        let height = 161
+        let weight = 60
+        let lifeStyle = 'sedentary'
+        let recipe
+
+        let _id, _token
+
+        
+        beforeEach(() => {
+            username = `manuelbarzi-${Math.random()}`
+            
+            recipe = {
+                recipe: {
+                    title: 'Test Recipe',
+                    description: 'Test description',
+                    uri: 'Test uri'
+                }
+            }
+            return logic.register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle)
+                .then(() => logic.login(username, password))
+                .then(() => {
+                    _id = logic.__userId__
+                    _token = logic.__userApiToken__
+                })
+        })
+        it('should succeed with correct data', () => {
+
+            return logic.toggleFavourite(_id, _token, recipe)
+                .then(() => {
+                    return logic.retrieve(_id, _token)
+                        .then(() => {
+                            expect(logic.__user__).toBeDefined()
+                            expect(logic.__user__.favourites.length).toBe(1)
+                        })
+                })
+                .then(() =>{
+                    return logic.toggleFavourite(_id, _token, recipe)
+                        .then(() => {
+                            return logic.retrieve(_id, _token)
+                                .then(() => {
+                                    expect(logic.__user__.favourites.length).toBe(0)
+                                })
+                        })
+                })
+        })
+    })
     describe('register', () => {
         const name = 'Manuel'
         const surname = 'Barzi'

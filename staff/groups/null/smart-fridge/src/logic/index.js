@@ -62,39 +62,27 @@ const logic = {
         this.__user__ = null
     },
     /**
-     * 
-     * Toggles between pushing and deleting an id of a song to the array of favourite songs.
-     * 
-     * @param {object} recipe
-     * @param {string} email 
-     * @param {function} callback 
-     */
+    * 
+    * Toggles between pushing and deleting a song to the array of favourite songs in the property favourites of user.
+    * 
+    * @param {string} id
+    * @param {string} token 
+    * @param {object} recipe
+    * 
+    */
     toggleFavourite(id, token, recipe) {
-
-        let favArray = [recipe]
-
-        this.retrieve(id, token).bind(this) 
-            .then(user => {
-                if (!user.favourites) {
-                    let favourites = {}
-                    favourites.favArray = favArray
-                    logic.update(id, token, favourites)
-                } else {
-                    if (user.favourites.favArray) {
-                        let userFavourites = user.favourites.favArray
-                        userFavourites.push(favArray)
-                        logic.update(id, token, userFavourites)
-                    }
-                }
+        return this.retrieve(id, token)
+            .then(() => {
+            let favourites = this.__user__.favourites
+            let includeRecipe = favourites.find(r => recipe.recipe.uri === r.recipe.uri)
+            if (!includeRecipe) {
+                favourites.push(recipe)
+            } else {
+                favourites = favourites.filter(r => recipe.recipe.uri !== r.recipe.uri)
+            }
+            this.__user__.favourites = favourites
+            return this.update(id, token, this.__user__)
             })
-
-        // if (user.favourites.includes(recipe)) {
-        //     const position= user.favourites.indexOf(recipe)
-
-        //     user.favourites.splice(position, 1)
-        // } else {
-        //     user.favourites.push(recipe)
-        // }
     },
     /**
      * Calculate the total amount of daily calories that the user needs based on his params.
@@ -192,9 +180,39 @@ const logic = {
      */
     register(name, surname, username, password, passwordConfirm, gender, height, weight, birthDate, lifeStyle) {
 
+        const birthdate = new Date(birthDate);
+        const cur = new Date();
+        const diff = cur-birthdate; // This is the difference in milliseconds
+        const age = Math.floor(diff/31557600000); 
+
         if (arguments.length < 10) throw Error('All arguments were not introduced in the function')
 
         if (arguments.length > 10) throw Error('Too many arguments were introduced in the function')
+
+        if (typeof gender !== 'string') throw TypeError(gender + ' is not a string')
+
+        if (!gender.trim().length) throw Error('gender cannot be empty')
+
+        if (typeof height !== 'number') throw TypeError(height + ' is not a number')
+
+        if (!(50 < height && height < 250)) throw Error('height should be a number between 50 and 230')
+
+        if (typeof weight !== 'number') throw TypeError(weight + ' is not a number')
+
+        if (!(20 < weight && weight < 400)) throw Error('your weight should be a number between 20 and 400')
+ 
+        if (typeof birthDate !== 'string') throw TypeError(birthDate + ' is not a string')
+        
+        if (!birthDate.trim().length) throw Error('birthDate cannot be empty')
+        
+        if (typeof age !== 'number') throw TypeError(age + ' is not a number')
+
+        if (!(15 < age && age < 120)) throw Error('your age must be between 15 and 120')
+        
+        if (typeof lifeStyle !== 'string') throw TypeError(lifeStyle + ' is not a string')
+        
+        if (!lifeStyle.trim().length) throw Error('lifeStyle cannot be empty')
+ 
 
         return userApi.register(name, surname, username, password, passwordConfirm, gender, birthDate, height, weight, lifeStyle)
             .then(id => {
@@ -327,61 +345,17 @@ const logic = {
 
         return edamamApi.search(query, toCalories, myDiet, health)
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * 
- * find the recipeUri amound all the recipes
- * 
- * @param {string} recipeUri 
- * @param {array} recipes 
- * 
- * @throws {Error} wheh recipeUri is not found in recipes
- * 
- * @return {Object} - Recipe found
- */
+    /**
+     * 
+     * find the recipeUri amound all the recipes
+     * 
+     * @param {string} recipeUri 
+     * @param {array} recipes 
+     * 
+     * @throws {Error} wheh recipeUri is not found in recipes
+     * 
+     * @return {Object} - Recipe found
+     */
     detail(recipeUri, recipes){
         let recipe=null
         recipes.find( element => {
@@ -392,7 +366,6 @@ const logic = {
         if (!!recipe) return recipe
         else throw Error('Details are not found')
     },
-
     generateLists(ingredientsRecipe, ingredientsQuery){
         let fridge =[]
         let shopping=[]
