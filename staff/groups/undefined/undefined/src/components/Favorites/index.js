@@ -3,6 +3,8 @@ import logic from '../../logic'
 
 import Favorite from '../Favorite'
 
+import './index.sass'
+
 class Favorites extends Component {
 
     state = {favorites: []}
