@@ -106,8 +106,8 @@ class Register extends Component {
                     <p className="login__register-text">
                         ¿Ya tienes cuenta? <Link to="/login">Entra</Link>
                     </p>
-                </div>
                 {feedback && <Feedback message={feedback} />}
+                </div>
             </section>
         );
     }
