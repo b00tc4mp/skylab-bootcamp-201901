@@ -2,19 +2,71 @@
     box-sizing: border-box
 
 .pokemonCard
-    border: 5px solid #B75F5F
+    border: 5px solid #3B3B3B
     background-color: white
-    width: 250px
+    width: 23%
     border-radius: 1.2rem
     margin: 1rem
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
     -webkit-transition: width .5s
     transition: width .5s
-    
-.pokemonCard:hover
-    
-    width: 290px
-        
+    cursor: pointer
 
+.pokemonCard:hover
+    width: 25%
+    border-color: #FF0032
+
+
+.pokemonCard__details
+    border-radius: .8rem
+    color: white
+    background-color: #FF0032
+    border-top-left-radius: 0rem
+    border-top-right-radius: 0rem
+    border: 0px solid #EE5450
+    cursor: pointer
+.pokemonCard__details:hover
+    background-color: #4845BA
+    color: #FEDE1D
+
+
+.heart, .heart--fav
+    position: absolute
+    top: -2%
+    right: 2% 
+    font-size: 3rem
+    color: grey
+    cursor: pointer
+    text-shadow: -1px 0 grey, 0 1px grey, 1px 0 grey, 0 -1px grey
+    &--fav
+        color: #FF0032
+        text-shadow: 1px 0 #FF0032, 0 1px #FF0032, 1px 0 #FF0032, 0 1px #FF0032
 
       
+
+
+@media screen and (max-width: 640px)
+
+    .pokemonCard
+        width: 65%
+    .card-text
+        font-size: 0.9rem
+
+    .pokemonCard:hover
+        width: 68%
+    .heart, .heart--fav
+        size: 8em
+        font-size: 3rem
+
+
+@media screen and (min-width: 641px) and (max-width: 1080px)
+
+    .pokemonCard
+        width: 33%
+    .card-text
+        font-size: 1.4rem
+
+    .pokemonCard:hover
+        width: 35%
+    .heart, .heart--fav
+        font-size: 3rem

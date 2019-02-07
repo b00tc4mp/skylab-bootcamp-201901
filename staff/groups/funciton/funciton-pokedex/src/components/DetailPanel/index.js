@@ -34,9 +34,9 @@ class DetailedPokemonPanel extends Component {
             return <div className='DetailPanel-otherInfo__items'>
 
 
-                <ul>
                     <h3>HELD ITEMS</h3>
-                    {held_items.map(item => <li>{item.item.name}</li>)}
+                <ul>
+                    {held_items.map(item => <div className ='item'> <li>{item.item.name}</li></div>)}
                 </ul>
 
             </div>
@@ -64,16 +64,16 @@ class DetailedPokemonPanel extends Component {
 
                     <h2>{name.toUpperCase()}</h2>
                     <img className='img' src={source}></img>
-                    <p>Height: <span>{height}</span></p>
-                    <p>Weight: <span>{weight}</span></p>
-                    <ul>
+                    <p >Height: <span className='badge badge-primary badge-pill'>{height}</span></p>
+                    <p>Weight: <span className='badge badge-primary badge-pill'>{weight}</span></p>
                         <h3>STATS</h3>
-                        <li>Speed: <span> {stats[0].base_stat}</span></li>
-                        <li>Special Defense: <span> {stats[1].base_stat}</span></li>
-                        <li>Special Attack: <span> {stats[2].base_stat}</span></li>
-                        <li>Defense: <span> {stats[3].base_stat}</span></li>
-                        <li>Attack: <span> {stats[4].base_stat}</span></li>
-                        <li>HP: <span> {stats[5].base_stat}</span></li>
+                    <ul className='list-group'>
+                        <li>Speed:<span></span> <span className='badge badge-primary badge-pill'> {stats[0].base_stat}</span></li>
+                        <li>Special Defense: <span></span><span className='badge badge-primary badge-pill'> {stats[1].base_stat}</span></li>
+                        <li>Special Attack: <span></span><span className='badge badge-primary badge-pill'> {stats[2].base_stat}</span></li>
+                        <li>Defense:<span></span> <span className='badge badge-primary badge-pill'> {stats[3].base_stat}</span></li>
+                        <li>Attack:<span></span> <span className='badge badge-primary badge-pill'> {stats[4].base_stat}</span></li>
+                        <li>HP:<span></span> <span className='badge badge-primary badge-pill'> {stats[5].base_stat}</span></li>
 
                     </ul>
                 </div>
@@ -89,20 +89,21 @@ class DetailedPokemonPanel extends Component {
                     </div>
 
                     {this.state.showType && <div className='DetailPanel-otherInfo__types' >
+                            <h3>TYPES</h3>
 
                         <ul>
-                            <h3>TYPES</h3>
-                            {types.map(type => <li>{type.type.name}</li>)}
+                            
+                            {types.map(type => <div className ={`type type-${type.type.name}`} ><li>{type.type.name}</li></div>)}
                         </ul>
 
                     </div>}
 
                     {this.state.showAbilities && <div className='DetailPanel-otherInfo__abilities'>
 
-                        <ul>
                             <h3>ABILITIES</h3>
+                        <ul>
 
-                            {abilities.map(ability => <li>{ability.ability.name}</li>)}
+                            {abilities.map(ability => <div className ='ability'><li>{ability.ability.name}</li></div>)}
 
 
                         </ul>
@@ -112,7 +113,7 @@ class DetailedPokemonPanel extends Component {
                     <h3>MOVES</h3>
 
                         <ul>
-                            {moves.map(move => <li>{move.move.name}</li>)}
+                            {moves.map(move => <div className = 'move'><li>{move.move.name}</li></div>)}
 
                         </ul>
                     </div>}
