@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import Feedback from '../Feedback'
 
-
+import './index.sass'
 
 class Login extends Component {
     state = {email: '' , password: '' }

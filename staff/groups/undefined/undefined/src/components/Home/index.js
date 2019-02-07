@@ -4,6 +4,8 @@ import { Route, withRouter } from 'react-router-dom'
 import Search from '../Search'
 import Results from '../Results'
 
+import './index.sass'
+
 class Home extends Component {
     state = { videos: null, searchFeedback: null }
 
@@ -17,8 +19,12 @@ class Home extends Component {
         return (
             <section className="home columns is-fullheight">
                 <div class="container column is-10">
-                    <Search onSearch={handleSearch} feedback={searchFeedback} />
+
                     <Route path='/home/videos/:query' render={(props) => <Results query={props.match.params.query} />} />
+
+                    <Search onSearch={handleSearch} />
+
+
                 </div>
             </section >
         )

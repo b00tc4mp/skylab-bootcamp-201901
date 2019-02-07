@@ -4,6 +4,9 @@ import { Route, withRouter } from 'react-router-dom'
 import Video from '../Video'
 import Detail from '../Detail'
 import logic from '../../logic'
+import Feedback from '../Feedback'
+
+import './index.sass'
 
 class Results extends Component  {
     
@@ -26,6 +29,7 @@ class Results extends Component  {
                     this.setState({ results, searchFeedback: null })                
                 })
                 .catch( ({message}) => {
+                    console.log(message)
                     this.setState({ results: null, searchFeedback: message })
                 }) 
         } catch ({message}) {
@@ -68,6 +72,9 @@ class Results extends Component  {
                 )}
 
                 <Route path='/home/videos/:query/detail/:id' component={Detail}/>
+
+
+
 
             </section>
         )

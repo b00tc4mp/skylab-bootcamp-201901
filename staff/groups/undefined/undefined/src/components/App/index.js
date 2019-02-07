@@ -7,8 +7,11 @@ import logic from '../../logic';
 import Login from '../Login'
 import Topbar from '../Topbar'
 import Favorites from '../Favorites';
+
 import NotFound from '../Not-Found-404'
 import Footer from '../Footer'
+
+import './index.sass'
 
 
 class App extends Component {
@@ -65,14 +68,17 @@ class App extends Component {
           <Topbar user={user} onLogout={handleLogout}/>
 
           <Switch>
+
             <Route path='/register' render={() => !user?  <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to='/login' /> }   />
             <Route path='/login' render={() => !user? <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/home' /> } />
  
+            <Route exact path='/favorites' render={() => <Favorites /> } />
+
             <Route  path='/home' render={() => <Home /> } />
-           
-              
-            <Route path='/favorites' render={() => <Favorites /> } />
+            
             <Route component={NotFound} />
+
+
           </Switch>
 
 
