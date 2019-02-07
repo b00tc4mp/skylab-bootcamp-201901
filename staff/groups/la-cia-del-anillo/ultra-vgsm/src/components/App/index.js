@@ -6,6 +6,7 @@ import './index.css';
 import Header from '../Header';
 import Aside from '../Aside';
 import Results from '../Results';
+import Favorites from '../Results/Favorites';
 import Footer from '../Footer';
 import GameInfo from '../GameInfo';
 import Login from '../Login';
@@ -85,7 +86,7 @@ class App extends Component {
                                     !logic.userLoggedIn ? (
                                         <Redirect to="/" />
                                     ) : (
-                                        <Results favoritesSearch={true} />
+                                        <Favorites />
                                     )
                                 }
                             />
