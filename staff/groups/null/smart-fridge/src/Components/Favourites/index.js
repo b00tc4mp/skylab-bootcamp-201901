@@ -9,6 +9,10 @@ class Favourites extends Component {
         this.props.onDetail(recipeUri)
     }
 
+    handleOnFavourite = recipe => {
+        this.props.onFavouriteTrue(recipe)
+    }
+
     render() {
 
         const user = JSON.parse(sessionStorage.getItem('user'))
@@ -28,7 +32,7 @@ class Favourites extends Component {
                                     <h5 className="card-title text-center">{recipe.recipe.label}</h5>
                                     <div className='results__image-favorite'>
                                         <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img>
-                                        <i class="far fa-heart"></i>
+                                        <i onClick={() => this.handleOnFavourite(recipe)} className="far fa-heart"></i>
                                     </div>
 
                                     <div className='mt-4 flex'>

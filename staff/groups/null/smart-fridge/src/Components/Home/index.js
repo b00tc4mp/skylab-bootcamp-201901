@@ -96,21 +96,15 @@ class Home extends React.Component{
     }
 
     handleOnFavourites = recipe => {
-        debugger
         let id = sessionStorage.getItem('user-id')
         let token = sessionStorage.getItem('user-api-token')
-        return logic.retrieve(id, token)
-            .then(() => {
-                debugger
-                return logic.toggleFavourite(id, token, recipe)
-                    .then(() => {
-                        this.setState({ favourites: JSON.parse(sessionStorage.getItem('user'))})
-                    })
-            })
+        logic.retrieve(id, token)
+            .then(() => logic.toggleFavourite(id, token, recipe))
+            .then(() => this.setState({ favourites: JSON.parse(sessionStorage.getItem('user')).favourites}))
     }
 
     handleGoToFavourites = () => {
-        this.props.history.push('/home/favourites')
+        this.setState({ favourites: JSON.parse(sessionStorage.getItem('user')).favourites}, ()=> this.props.history.push('/home/favourites'))
     }
 
     render(){
@@ -123,7 +117,7 @@ class Home extends React.Component{
                 {<Route exact path="/home/recipes" render={() => (logic.userLoggedIn&& recipes) ? <Results recipes={recipes} onFavourite={this.handleOnFavourites} onDetail ={this.handleOnDetail}/> : <Redirect to = "/" />} />}
                 {<Route exact path="/home/detail" render={() => (logic.userLoggedIn && recipe)? <Detail recipe={recipe} ingredients={ingredientsList} backToRecipes={this.handleBackToRecipes} /> : <Redirect to = "/home/search" />} />}
                 {<Route path="/home/feedback" render={()=> (logic.userLoggedIn && searchFeedback)?<Feedback goBackSearch={this.handleGoBackSearch} message={searchFeedback}/>:<Redirect to="/home" /> }/>}
-                {<Route path="/home/favourites" render={() => (logic.userLoggedIn)? <Favourites favourites={favourites} goBackHome={this.handleGoBackHome} message={favouritesFeedback}/>:<Redirect to="/home"/> }/>}
+                {<Route path="/home/favourites" render={() => (logic.userLoggedIn && favourites)? <Favourites favourites={favourites} goBackHome={this.handleGoBackHome} onFavouriteTrue={this.handleOnFavourites} message={favouritesFeedback}/>:<Redirect to="/home"/> }/>}
             </main>
     }
 

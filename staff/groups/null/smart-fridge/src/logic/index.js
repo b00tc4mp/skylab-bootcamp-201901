@@ -62,29 +62,6 @@ const logic = {
         this.__user__ = null
     },
     /**
-    * 
-    * Toggles between pushing and deleting a song to the array of favourite songs in the property favourites of user.
-    * 
-    * @param {string} id
-    * @param {string} token 
-    * @param {object} recipe
-    * 
-    */
-    toggleFavourite(id, token, recipe) {
-        return this.retrieve(id, token)
-            .then(() => {
-            let favourites = this.__user__.favourites
-            let includeRecipe = favourites.find(r => recipe.recipe.uri === r.recipe.uri)
-            if (!includeRecipe) {
-                favourites.push(recipe)
-            } else {
-                favourites = favourites.filter(r => recipe.recipe.uri !== r.recipe.uri)
-            }
-            this.__user__.favourites = favourites
-            return this.update(id, token, this.__user__)
-            })
-    },
-    /**
      * Calculate the total amount of daily calories that the user needs based on his params.
      *
      * @param {string} gender
@@ -161,6 +138,32 @@ const logic = {
         }    
         return Math.floor(Math.round(totalCalories)) 
     },
+    /**
+    * 
+    * Toggles between pushing and deleting a song to the array of favourite songs in the property favourites of user.
+    * 
+    * @param {string} id
+    * @param {string} token 
+    * @param {object} recipe
+    * 
+    */
+    toggleFavourite(id, token, recipe) {
+        return this.retrieve(id, token)
+            .then(() => {
+                let favourites = JSON.parse(this.__user__).favourites
+                let includeRecipe = favourites.find(r => recipe.recipe.uri === r.recipe.uri)
+                if (!includeRecipe) {
+                    favourites.push(recipe)
+                } else {
+                    favourites = favourites.filter(r => recipe.recipe.uri !== r.recipe.uri)
+                }
+                JSON.parse(this.__user__).favourites = favourites
+                
+                return this.update(id, token, {favourites})
+                
+            })
+            .then(() => this.retrieve(id, token))
+        },
     /**
      * 
      * Registers a user.

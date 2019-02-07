@@ -6,11 +6,20 @@ import logic from '../../logic'
 
 class Results extends Component {
 
+    state={favourites: JSON.parse(sessionStorage.getItem('user')).favourites}
+
     handleOnDetail = recipeUri => {
         this.props.onDetail(recipeUri)
     }
     handleOnFavourite = recipe => {
+        this.isMarked(recipe.recipe.uri)
         this.props.onFavourite(recipe)
+    }
+
+    isMarked = uri =>{
+        return this.state.favourites.find(favorite=> {
+            return favorite.recipe.uri===uri
+        })
     }
 
     render() {
@@ -25,14 +34,14 @@ class Results extends Component {
 
             <div className="card_columns row m-2 mt-5">
                 {
-                    recipes.map(recipe => (
+                    recipes.map(recipe => (                      
                         <div className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
                             <div className="card p-2 mt-2">
                                 <div className="card-body">
                                     <h5 className="card-title text-center">{recipe.recipe.label}</h5>
                                     <div className='results__image-favorite'>
                                         <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img>
-                                        <i onClick={() => this.handleOnFavourite(recipe)} class="far fa-heart"></i>
+                                        <i onClick={() => this.handleOnFavourite(recipe)} className={this.isMarked(recipe.recipe.uri)? "far fa-heart fa-heart-red":"far fa-heart"}></i>
                                     </div>
 
                                     <div className='mt-4 flex'>
