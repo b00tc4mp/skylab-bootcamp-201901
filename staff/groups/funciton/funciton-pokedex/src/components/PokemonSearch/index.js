@@ -2,34 +2,70 @@ import React, { Component } from "react";
 import logic from '../../logic'
 import './index.sass'
 import ItemResult from "../ItemResult";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class PokemonSearch extends Component {
-  state = { pokemons: [], searchText: '', loading: true };
+  state = { pokemons: [], searchText: this.props.searchText, loading: false, favPokemons: [], toastId : null};
 
   componentDidMount() {
-    logic.retrieveAllPokemons().then(pokemons => {
-      this.setState({ pokemons, loading: false })
-
-    });
+    Promise.all([
+      logic.retrieveAllPokemons(),
+      logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
+    ])
+      .then(([pokemons, favPokemons]) => this.setState({ pokemons, favPokemons }))
   }
 
   handleChange = event => {
     this.setState({
       searchText: event.target.value
     });
-    this.props.setSearchTextApp(event.target.value);
+    this.props.setSearchText(event.target.value.toLowerCase());
 
   };
 
+  handlePokemonDetail = (name) => {
+    logic.retrievePokemon(name)
+      .then((pokemonVisible) => {
+        this.props.setPokemonVisible(pokemonVisible)
+        return this.setState({ pokemonVisible })
+      })
+  }
+
+  handleToggleFav =(userId, token, pokemonName) => {
+    this.state.toastId = toast("Favorites updated!",{
+      position: toast.POSITION.BOTTOM_RIGHT,
+      autoClose: 3000,
+      type: toast.TYPE.ERROR
+    })
+    logic.toggleFavorite(userId, token, pokemonName)
+      .then(() => this.updateOnlyFavs())
+      
+  }
+
+  updateOnlyFavs() {
+    Promise.all([
+      logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
+    ])
+      .then(([favPokemons]) => this.setState({favPokemons }))
+  }
+
+  setSearchTextApp = (query) => {
+    this.setState({ searchText: query })
+
+  }
+  forceUpdateHandler(){
+    this.forceUpdate();
+  };
+
   renderList = () => {
-    const {props : {onPokemonDetail}} = this
     
     return <ul className='pokemon__ul'>
       {
         this.state.pokemons
-          .filter(pokemon => pokemon.name.includes(this.props.searchText))
-          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} onGoToDetails={onPokemonDetail} />)
+          .filter(pokemon => pokemon.name.includes(this.state.searchText))
+          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} onGoToDetails={this.handlePokemonDetail} onToggleFav={this.handleToggleFav} isFav= { this.state.favPokemons ? (this.state.favPokemons.includes(pokemon.name) ? 'heart--fav' : 'heart'):'heart'} />)
       }
     </ul>
 
@@ -37,26 +73,27 @@ class PokemonSearch extends Component {
 
   render() {
 
-    
     return (
       <div className='searchPanel'>
         {/* <img src={titleImage} alt="poke_title"></img> */}
-        <img src='https://fontmeme.com/temporary/976c1064ba4f2fa060d1fa70fd97bf54.png'></img>
-        <h2 className='title__search'>Search Pokemon</h2>
+        <img src={require('../../funcitons-pokedex-title.png')}></img>
+        <h2 className='title__search card-subtitle mb-2'>Search Pokemon</h2>
         
-          <input className="input__searchPokemon"
+          <input className="input__searchPokemon input-group-text"
             onChange={this.handleChange}
             type="text"
-            placeholder="Search your Pokemon"
-            value={this.props.searchText}
+            placeholder="Poke-Search"
+            value={this.state.searchText}
           />
           {
             this.state.loading && <h1>LOADING</h1>
           }
+          <div className= "displayresults">
           {
-            this.props.searchText !== "" && this.renderList()
+            this.state.searchText !== "" && this.renderList()
           }
-
+          </div>
+          <ToastContainer/>
       </div>
     );
   }

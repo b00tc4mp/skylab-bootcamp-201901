@@ -280,6 +280,7 @@ describe('Logic Testing', () => {
 
     describe('Testing Toggle Favorites', () => {
 
+
         const email = 'Manuel@mail.com'
         const password = '123'
         const passwordConfirmation = '123'
@@ -300,10 +301,12 @@ describe('Logic Testing', () => {
             expect(() => logic.toggleFavorite(true, _token, data).toThrowError())
         })
 
+
         it('It should fail on a wrong id parameter - undefined', () => {
             const data = 'Bulbasur'
             expect(() => logic.toggleFavorite(undefined, _token, data).toThrowError())
         })
+
 
 
         it('It should fail on a wrong id parameter - null', () => {
@@ -322,6 +325,7 @@ describe('Logic Testing', () => {
         })
 
 
+
         it('It should fail on a wrong token parameter - null', () => {
             const data = 'Bulbasur'
             expect(() => logic.toggleFavorite(_id, null, data).toThrowError())
@@ -333,7 +337,6 @@ describe('Logic Testing', () => {
         })
 
         it('It should fail on a wrong data parameter - boolean', () => {
-
             expect(() => logic.toggleFavorite(_id, _token, true).toThrowError())
         })
 
@@ -355,6 +358,7 @@ describe('Logic Testing', () => {
         })
 
         it('should succeed on adding a favorite on a existing array of favorites -charmander', () => {
+
 
             const data = 'Charmander'
             return logic.toggleFavorite(_id, _token, data)
