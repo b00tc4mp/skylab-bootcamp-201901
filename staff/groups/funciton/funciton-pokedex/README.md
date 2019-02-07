@@ -1,68 +1,92 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Funciton Pokedex
 
-## Available Scripts
+Your pokemon application!
 
-In the project directory, you can run:
+## Getting Started
 
-### `npm start`
+You will only need a browser and creating a user to access to your pokedex.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Prerequisites
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+You don't need to install anything, just run the application on a browser.
 
-### `npm test`
+### Installing
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You don't need to install anything, just run the application on a browser.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Running the tests
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+The application has automated test, so they may be run when necessary.
+For example in case the application is evolved, test may be run.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Logic Test
 
-### `npm run eject`
+Test the application logics.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Pokemon API
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Test the data extraction from the API. The main tests are:
+* SearchAllPokemon
+* SearchPokemonByName
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+More info at: https://pokeapi.co/
+                 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### User API
 
-## Learn More
+Test the interaction between the application and user manager.The main functionalities tested are:
+* Registering a user
+* Authentication
+* Retrieving data from a user
+* Updating data from a user
+* Removing data from a user
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Application
 
-### Code Splitting
+The application welcomes the user by showing two main options, login a register.
+If the user exists, it may login. In case it does not exist, it should register previously.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Login
+As soon as the user has logged in, userId and token are stored in sessionStorage.
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Home
 
-### Making a Progressive Web App
+As soon as the user has logged in.
+The application has three main options:
+* Logout
+* Search
+* Favorites
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### Logout
 
-### Deployment
+Logouts the application. User Id and token are removed from sessionStorage.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### Search
+It allows to search a pokemon by name, the results are shown below. User may scroll if necessary.
 
-### `npm run build` fails to minify
+### Favorites
+It allows to display a list of your favorite pokemon.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+## PokemonCard
+
+PokemonCard has four main parts.
+* Card
+* Display of the pokemon
+* Pokemon Name
+* More
+    * Allows to see the detail of the pokemon (it also works clicking over card.)
+* Favorites icon
+    * Allows to add/remove to favorites.
+
+
+# Authors
+
+* Marc
+* Ury
+* Carlos
