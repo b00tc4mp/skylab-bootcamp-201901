@@ -7,9 +7,10 @@ import logic from '../../logic'
 
 class Results extends Component{
 
-onDetails= () =>{
-    this.props.history.push('home/search/detail')
-}
+// onDetails= () =>{
+//     this.props.history.push('home/search/detail')
+    
+// }
 
     render() {
 
