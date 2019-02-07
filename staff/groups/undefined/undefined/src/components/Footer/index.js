@@ -1,10 +1,15 @@
 import React from 'react'
+import './index.sass'
 
 function Footer(){
     return (
-        <section>
-            <p>Hola</p>
-        </section>
+        <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            <strong>UNDEFINED FILMS</strong>. The source code is licensed
+          </p>
+        </div>
+      </footer>
     )
 }
 
