@@ -12,9 +12,9 @@ class Register extends Component {
     onSubmitClick = event => {
         event.preventDefault()
 
-        const { state: { name, surname, email, bDate ,password, passwordConfirmation }, props:{onRegister} } = this
+        const { state: { name, surname, email ,password, passwordConfirmation }, props:{onRegister} } = this
 
-        onRegister(name, surname, email, bDate ,password, passwordConfirmation)
+        onRegister(name, surname, email ,password, passwordConfirmation)
     }
     render() {
 

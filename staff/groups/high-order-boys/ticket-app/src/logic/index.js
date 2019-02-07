@@ -1,6 +1,5 @@
 'use strict'
 import userApi from '../user-api'
-import userStorage from '../localstorage'
 import ticketmasterApi from '../ticketmaster-api';
 
 /**

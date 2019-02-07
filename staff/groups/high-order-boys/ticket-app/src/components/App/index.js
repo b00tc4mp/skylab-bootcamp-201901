@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Route, Redirect, withRouter } from 'react-router-dom'
-import userStorage from '../../localstorage'
 import logic from '../../logic'
 import './index.sass'
 import Login from '../Login'
@@ -76,7 +75,6 @@ class App extends Component {
 
   render() {
     const { handleLogin, handleRegister, handleLogout, state: { loginFeedback, registerFeedback, user } } = this
-
     return <main className="app">
       <Header user={user} onLogout={handleLogout} />
       <Redirect from="/" to="/home" />
