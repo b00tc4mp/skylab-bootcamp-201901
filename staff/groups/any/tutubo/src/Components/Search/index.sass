@@ -1,8 +1,7 @@
 .container__form
     display: flex
-    width: 70vw
+    width: 70em
     justify-content: center
-    margin-right: 8em
 
 .form
     display: flex 
@@ -11,7 +10,7 @@
         align-self: center
         justify-self: center
         height: 50%
-        width: 30vw
+        width: 10em
         border: 1px solid #303030 
         justify-self: center
         font-size: 1em
@@ -30,7 +29,7 @@
         align-self: center
         height: 66%
         z-index: 1
-        width: 3vw
+        width: 3em
 
         &-dark
             background-color: #343434
@@ -49,3 +48,8 @@
 
     &-light
         background-color: white
+
+@media (min-width: 992px)
+    .form__search
+        width: 30em
+    
