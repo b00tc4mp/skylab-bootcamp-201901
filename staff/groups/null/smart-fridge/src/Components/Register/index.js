@@ -62,7 +62,7 @@ class Register extends React.Component {
 
                         <div className='mt-4 col-12 p-0'>
                             <h2 className="text-center mt-3">About you</h2>
-                            <div className='mt-2 col-12 flex'>
+                            <div className='mt-2 col-12 text-center'>
                                 <input onChange={this.handleGenderInput} className='mr-2' type="radio" id="male" name="gender" value="male" required/>
                                 <label className='mr-5' for="male">Male</label>
                                 <input onChange={this.handleGenderInput} className='mr-2' type="radio" id="female" name="gender" value="female" required />
@@ -94,11 +94,14 @@ class Register extends React.Component {
                         </div>
 
                     </div>
-                    <div className="row login-flex mt-3">
-                        <div className="col-md-3 col-0"></div>
-                        <button type="submit" className="btn btn-dark col-12 col-md-6 mr-2">Register</button>
-                        <button onClick={this.handleLoginButton} className="btn btn-outline-light col-12 col-md-2 mt-2 mt-sm-0">Login</button>
-                    </div>
+                   
+                    <div className="row mt-3">
+                            <div className="col-md-3 col-0"></div>
+                            <button type="submit" className="btn btn-dark col-12 col-sm-6">Register</button>
+                            <div className="p-0 pt-2 pt-sm-0 pl-sm-2 col-12 col-sm-6 col-md-3">
+                                <button onClick={this.handleLoginButton} href="#" className="btn btn-outline-light col-12">Login</button>
+                            </div>
+                        </div>
                 </form>
             </div>
         </section>

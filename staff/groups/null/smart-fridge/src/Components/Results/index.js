@@ -14,64 +14,65 @@ class Results extends Component{
 
     render() {
 
-        const user= JSON.parse(sessionStorage.getItem('user'))
-        const maxCalories= logic.caloriesCounter(user.gender, user.height, user.weight, user.birthDate, user.lifeStyle)
+        const user = JSON.parse(sessionStorage.getItem('user'))
+        const maxCalories = logic.caloriesCounter(user.gender, user.height, user.weight, user.birthDate, user.lifeStyle)
         console.log(maxCalories)
         const { recipes } = this.props
-        const maxFats= (maxCalories*30)/100
-        const maxProtein= (maxCalories*30)/100
-        const maxCarhohidrates= (maxCalories*40)/100
 
 
         return <section className="results">
-            <div className="card_columns">  
+            
+            <div className="card_columns row m-2 mt-5">
+                {
+                    recipes.map(recipe => (
+                        <div className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
+                            <div className="card p-2">
+                                <div className="card-body">
+                                    <h5 className="card-title text-center">{recipe.recipe.label}</h5>
+                                    <div className='results__image-favorite'>
+                                        <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img><i class="far fa-heart"></i>
+                                    </div>
 
-            {
-                recipes.map(recipe => (
-                    <div className= "card col-lg-5">
-                         <div className="card-body">       
-                            <h5 className="card-title">{recipe.recipe.label}</h5>               
-                            <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img><i class="far fa-heart"></i>  
-                            <label>Total Calories:</label>
-                                <div class="progressBarContainer">
-                                    <div id="progressBar total" ref="progressBar"class="progressBar" style={{width: ((recipe.recipe.totalNutrients.ENERC_KCAL.quantity/ recipe.recipe.yield) / maxCalories)*100 + '%'}}>
-                                    <p class="progressText" ref="progressText" id="progressText" style={{marginLeft: ((recipe.recipe.totalNutrients.ENERC_KCAL.quantity/ recipe.recipe.yield) / maxCalories)*100 + '%'}}>{(((recipe.recipe.totalNutrients.ENERC_KCAL.quantity/ recipe.recipe.yield) / maxCalories)*100).toFixed(2) + '%'}</p>
+                                    <div className='mt-4 flex'>
+                                        <label className='font-weight-bold mb-0 results__nutrients'>Total Calories: <span className='font-weight-normal'>{(((recipe.recipe.totalNutrients.ENERC_KCAL.quantity / recipe.recipe.yield))).toFixed() + 'Kcal'}</span></label>
+                                        <div className="progressBarContainer">
+                                            <div id="progressBar total" ref="progressBar" className="progressBar" style={{ width: ((recipe.recipe.totalNutrients.ENERC_KCAL.quantity / recipe.recipe.yield) / maxCalories) * 100 + '%' }}>
+                                            </div>
+                                        </div>
+                                        <label className=' mt-3 mb-0  results__nutrients'>Carbohydrates</label>
+                                        <div className="progressBarContainer-nutrients">
+                                            <div id="progressBar" ref="progressBar" className="progressBar-nutrients" style={{ width: ((recipe.recipe.totalNutrients.CHOCDF.quantity / recipe.recipe.yield) / (recipe.recipe.totalNutrients.ENERC_KCAL.quantity / recipe.recipe.yield)) * 100 * 4 + '%' }}>
+                                            </div>
+                                        </div>
+                                        <label className=' results__nutrients  mb-0'>Proteins</label>
+                                        <div className="progressBarContainer-nutrients">
+                                            <div id="progressBar" ref="progressBar" className="progressBar-nutrients" style={{ width: ((recipe.recipe.totalNutrients.PROCNT.quantity / recipe.recipe.yield) / (recipe.recipe.totalNutrients.ENERC_KCAL.quantity / recipe.recipe.yield)) * 100 * 4 + '%' }}>
+                                            </div>
+                                        </div>
+                                        <label className='results__nutrients mb-0'>Fats</label>
+                                        <div className="progressBarContainer-nutrients">
+                                            <div id="progressBar" ref="progressBar" className="progressBar-nutrients" style={{ width: ((recipe.recipe.totalNutrients.FAT.quantity / recipe.recipe.yield) / (recipe.recipe.totalNutrients.ENERC_KCAL.quantity / recipe.recipe.yield)) * 100 * 9 + '%' }}>
+                                            </div>
+                                        </div>
+                                        <div className='row mt-4'>
+                                            {recipe.recipe.totalTime? <div className="results__time font-weight-bold col-6 p-0 ">Cooking time <br/><span className='font-weight-normal'> {recipe.recipe.totalTime} minutes</span></div>: <div className="results__time font-weight-bold col-6 p-0 "></div>} 
+                                            <div className="col-6 pr-2">
+                                                <button className="btn btn-dark inline mt-2" onClick={this.onDetails} type="submit">More details</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            <label>Total carbohydrates:</label>
-                                <div class="progressBarContainer">
-                                    <div id="progressBar" ref="progressBar"class="progressBar" style={{width: ((recipe.recipe.totalNutrients.CHOCDF.quantity/ recipe.recipe.yield) / maxCarhohidrates)*100 + '%'}}>
-                                    <p class="progressText" ref="progressText" id="progressText" style={{marginLeft: ((recipe.recipe.totalNutrients.CHOCDF.quantity/ recipe.recipe.yield) / maxCarhohidrates)*100 + '%'}}>{(((recipe.recipe.totalNutrients.CHOCDF.quantity/ recipe.recipe.yield) / maxCarhohidrates)*100).toFixed(2) + '%'}</p>
-                                    </div>
-                                </div>
-                            <label>Total protein:</label>
-                                <div class="progressBarContainer">
-                                    <div id="progressBar" ref="progressBar"class="progressBar" style={{width: ((recipe.recipe.totalNutrients.PROCNT.quantity/ recipe.recipe.yield) / maxProtein)*100 + '%'}}>
-                                    <p class="progressText" ref="progressText" id="progressText" style={{marginLeft: ((recipe.recipe.totalNutrients.PROCNT.quantity/ recipe.recipe.yield) / maxProtein)*100 + '%'}}>{(((recipe.recipe.totalNutrients.PROCNT.quantity/ recipe.recipe.yield) / maxProtein)*100).toFixed(2) + '%'}</p>
-                                    </div>
-                                </div>
-                            <label>Total fats:</label>
-                            <div class="progressBarContainer">
-                                    <div id="progressBar" ref="progressBar"class="progressBar" style={{width: ((recipe.recipe.totalNutrients.FAT.quantity/ recipe.recipe.yield) / maxFats)*100 + '%'}}>
-                                    <p class="progressText" ref="progressText" id="progressText" style={{marginLeft: ((recipe.recipe.totalNutrients.FAT.quantity/ recipe.recipe.yield) / maxFats)*100 + '%'}}>{(((recipe.recipe.totalNutrients.FAT.quantity / recipe.recipe.yield) /maxFats)*100).toFixed(2) + '%'}</p>
-                                    </div>
                             </div>
-                            <div className="time">Total time: {recipe.recipe.totalTime}<span>minutes</span></div>            
-                                <button className="btn btn-dark inline" onClick= {this.onDetails} type="submit">More details</button>
-                                
-                            <a className= "link_recipe" href={recipe.recipe.url}>Go to recipe</a>
                         </div>
-                    </div>            
-                ))
+                    ))
                 }
-                
+
             </div>
-            </section>
-            }
+        </section>
+    }
 
-                        
-    }                
 
-export default Results                
-                        
-        
+}
+
+export default Results
+

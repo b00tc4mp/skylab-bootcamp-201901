@@ -1,69 +1,76 @@
-.results
-    display: flex
-    flex-direction: row
+main
+    height: auto
 
-.card_columns 
-    display: flex
-    margin-top: 3rem
-    flex-wrap: wrap
 
-.card-body 
-    -webkit-box-flex: 1
-    -ms-flex: 1 1 auto
-    flex: 1 1 auto
-    padding: 1.25rem
-     
 .card
-    background-color: #9fa9c35e
-    width: 24rem
-    font-weight: 700
-    margin-left: 2.5rem
-    margin-bottom: 1rem
+    border: 2px black solid
+    border: radius 0.5em
+    background-color: rgba(100,100,100,0.9)
+    display: flex
     flex-direction: column
+    align-items: center
 
-.link_recipe
-    padding: 0.5rem 2.6rem
-    background-color: #202020e6
-    text-decoration: none
+    &-title
+        color: white
+    
+.results__image-favorite
+    display: flex
+    flex-direction: row-reverse
+
+.results__nutrients, .results__time
     color: white
-    font-weight: 600
-    border-radius: 0.4rem
 
+    
 .fa-heart
-    padding: 0.5rem
-    border-radius: 1rem
+    height: 60px
+    width: 60px
+    padding-top: 12px
+    margin-right: auto
+    border-radius: 50%
     font-size: 2.5rem
     position: absolute
-    // top: 0.5rem
-    top: 3.4rem
-    right: 0.5rem
-    background-color: #898383
+    background-color: rgba(0,0,0,0.3)
 
-.card-title
     color: white
-    margin-left: 2rem
+    display: flex
+    justify-content: center
+    align-content: center
 
-.card-img-top
-    margin: 0 0 1rem 1.8rem
-    width: 250px
-    height: 250px
+.fa-heart:hover
+    background-color: rgba(0,0,0,0.8)
+
+
+.flex
+    display: flex
+    flex-direction: column
+    justify-content: center
 
 
 .progressBarContainer 
     width: 250px
-    margin-left: 0.5rem
     height: 30px
-    border: 1px lightslategray solid
     border-radius: 1em
-    background-color: #b7b7b9
+    background-color: rgba(0,0,0,0.2)
 
 .progressBar 
     width: 0%
     height: 100%
     border-radius: 1em
-    padding: 0.01em 16px
     display: flex
-    background-color: tomato
+    background-color: rgb(182, 125, 143)
+
+.progressBarContainer-nutrients
+    width: 250px
+    height: 10px
+    border-radius: 1em
+    background-color: rgba(0,0,0,0.2)
+
+.progressBar-nutrients
+    width: 0%
+    height: 100%
+    border-radius: 1em
+    display: flex
+    background-color: rgb(247, 175, 157)
     
-.time
-    margin: 1rem
+// .time
+//     margin: 1rem

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Home from '../Home'
 import Welcome from '../Welcome'
 import logic from '../../logic'
+import './index.sass'
 import { HashRouter, Route, Redirect } from 'react-router-dom'
 
 class App extends Component {

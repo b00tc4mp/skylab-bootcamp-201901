@@ -61,7 +61,41 @@ const logic = {
         this.__userApiToken__ = null
         this.__user__ = null
     },
+    /**
+     * 
+     * Toggles between pushing and deleting an id of a song to the array of favourite songs.
+     * 
+     * @param {object} recipe
+     * @param {string} email 
+     * @param {function} callback 
+     */
+    toggleFavourite(id, token, recipe) {
 
+        let favArray = [recipe]
+
+        this.retrieve(id, token).bind(this) 
+            .then(user => {
+                if (!user.favourites) {
+                    let favourites = {}
+                    favourites.favArray = favArray
+                    logic.update(id, token, favourites)
+                } else {
+                    if (user.favourites.favArray) {
+                        let userFavourites = user.favourites.favArray
+                        userFavourites.push(favArray)
+                        logic.update(id, token, userFavourites)
+                    }
+                }
+            })
+
+        // if (user.favourites.includes(recipe)) {
+        //     const position= user.favourites.indexOf(recipe)
+
+        //     user.favourites.splice(position, 1)
+        // } else {
+        //     user.favourites.push(recipe)
+        // }
+    },
     /**
      * Calculate the total amount of daily calories that the user needs based on his params.
      *
@@ -289,7 +323,7 @@ const logic = {
             health = ''
         }
         
-        const toCalories = '&calories=0-' + calories
+        const toCalories = `&calories=${calories/2}-` + calories
 
         return edamamApi.search(query, toCalories, myDiet, health)
     }
