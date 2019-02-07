@@ -19,12 +19,7 @@ body::-webkit-scrollbar-thumb,
     
 .DetailPanelContainer
     display: block
-    align-items: center
-    justify-content: 
-    align-content: center   
-    justify-items: center
-    flex-flow: column wrap
-    width: 80%
+    width: 100%
     height: 100%
     background-image: url('http://pngimg.com/uploads/pokeball/pokeball_PNG8.png')
     background-size: contain
@@ -34,7 +29,7 @@ body::-webkit-scrollbar-thumb,
 
     .img
         margin-top: 0 
-        width: 150px
+        width: 30%
 
 
 
@@ -45,7 +40,7 @@ body::-webkit-scrollbar-thumb,
 
 .DetailPanel
     display: flex
-    justify-content: space-between
+    justify-content: center
     width: 100%
 
 
@@ -60,6 +55,8 @@ body::-webkit-scrollbar-thumb,
         border-radius: 1.2rem
         background-color: #FF0032
         border: 1px solid #3B3B3B
+        position: relative
+        left: -40%
     &__backButton:hover
         background-color: #4845BA
         color: #FEDE1D      
@@ -77,12 +74,12 @@ body::-webkit-scrollbar-thumb,
         border: 10px solid blue
         height: 550px
         width: 500px
-        margin-top: 10rem 
-        margin-left: 1rem
+        margin-top: 5rem 
         box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
         border-radius: 1.2rem
         border: 5px solid #3B3B3B
         background-color: white
+        margin-right: 1%
         
         h2
             background-color: #FF0032
@@ -94,15 +91,14 @@ body::-webkit-scrollbar-thumb,
 
     &-otherInfo
         border: 10px solid green
-        width: 700px
+        width: 500px
         height: 550px
-        margin-top: 10rem
-        margin-right: 10rem
+        margin-top: 5em
         box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
         border-radius: 1.2rem
         border: 5px solid #3B3B3B
         background-color: white
-       
+        margin-left: 1%
         ul
             display: flex
             justify-content: center
@@ -137,6 +133,7 @@ body::-webkit-scrollbar-thumb,
                 
 .type
     display: flex
+    margin: 10px
     align-content: center
     justify-content: center
     align-items: center
@@ -145,7 +142,6 @@ body::-webkit-scrollbar-thumb,
     height: 50px
     color: white
     background-color: black
-    margin: 10px
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 2px rgba(0, 0, 0, 0.19)
     border-radius: 1.2rem
     &-bug
@@ -238,3 +234,41 @@ span
     border-radius: .1rem
     border-top-left-radius: 0rem
     border-top-right-radius: 0rem
+
+@media screen and (max-width: 640px)
+    .DetailPanelContainer
+    
+
+        .img
+            width: 60%
+
+    .DetailPanel
+        flex-flow: row wrap
+        width: 90%
+
+    
+    .DetailPanel-otherInfo
+        margin-bottom: 1em
+        margin-left: 2em
+        margin-right: 0em
+    .DetailPanel-mainInfo
+        margin-left: 2em
+        margin-right: 0em
+
+@media screen and (min-width: 641px) and (max-width: 1080px)
+
+    .DetailPanelContainer
+    
+
+        .img
+            width: 40%
+    .DetailPanel
+        flex-flow: row wrap
+    
+    .DetailPanel-otherInfo
+        margin-bottom: 1em
+        margin-left: 0em
+        margin-right: 0em
+    .DetailPanel-mainInfo
+        margin-left: 0em
+        margin-right: 0em

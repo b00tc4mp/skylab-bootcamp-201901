@@ -29,9 +29,9 @@ class Welcome extends Component {
     render() {
 
         return <Fragment>
+        <MainPanel enableFavorites = {this.enableFavorites} enableSearch = {this.enableSearch} logout ={this.logout}/>
            {!this.state.pokemonVisible && !this.state.pokemonSearchVisible && <FavoritesPanel  setPokemonVisible={this.setPokemonVisible}  />}
             {!this.state.pokemonVisible && this.state.pokemonSearchVisible && <PokemonSearch setSearchText={this.setSearchText} setPokemonVisible={this.setPokemonVisible} searchText={this.state.searchText} />}
-            <MainPanel enableFavorites = {this.enableFavorites} enableSearch = {this.enableSearch} logout ={this.logout}/>
             {this.state.pokemonVisible && <DetailedPokemonPanel pokemonToShow={this.state.pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon}/>}
 
         </Fragment>
