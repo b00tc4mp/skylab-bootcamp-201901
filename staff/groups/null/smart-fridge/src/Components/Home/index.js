@@ -96,11 +96,16 @@ class Home extends React.Component{
     }
 
     handleOnFavourites = recipe => {
-        let id = sessionStorage.getItem('userId')
-        let token = sessionStorage.getItem('userToken')
+        debugger
+        let id = sessionStorage.getItem('user-id')
+        let token = sessionStorage.getItem('user-api-token')
         return logic.retrieve(id, token)
             .then(() => {
-                return logic.toggleFavourite(id, token, recipe)      
+                debugger
+                return logic.toggleFavourite(id, token, recipe)
+                    .then(() => {
+                        this.setState({ favourites: JSON.parse(sessionStorage.getItem('user'))})
+                    })
             })
     }
 

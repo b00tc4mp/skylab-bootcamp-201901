@@ -21,7 +21,7 @@ class Favourites extends Component {
 
             <div className="card_columns row m-2 mt-5">
                 {
-                    logic.__user__.favourites.map(recipe => (
+                    favourites.map(recipe => (
                         <div className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
                             <div className="card p-2">
                                 <div className="card-body">
