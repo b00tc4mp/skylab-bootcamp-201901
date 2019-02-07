@@ -7,7 +7,8 @@ import logic from '../../logic';
 import Login from '../Login'
 import Topbar from '../Topbar'
 import Favorites from '../Favorites';
-
+import NotFound from '../Not-Found-404'
+import Footer from '../Footer'
 
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
         .then( () => {
           this.setState( {registerFeedback: null})
           this.props.history.push('/login')
+          alert('you have successfully registered')
         })
         .catch(({message}) =>{
           this.setState({registerFeedback: message})
@@ -35,7 +37,8 @@ class App extends Component {
       logic.loginUser(email,password)
         .then( () => {
             this.setState({ loginFeedback: null, user: true})
-            this.props.history.push('/')                                     //LOCAL STORAGE
+            this.props.history.push('/home') 
+            alert('you have successfully login')
         }).catch( ({message}) => {
             this.setState({ loginFeedback: message })
         })
@@ -47,7 +50,7 @@ class App extends Component {
 
   handleLogout = () => {
     logic.logout()
-    this.props.history.push('/')
+    this.props.history.push('/home')
     this.setState( {user: null})
   }
 
@@ -62,12 +65,14 @@ class App extends Component {
           <Topbar user={user} onLogout={handleLogout}/>
 
           <Switch>
-            <Route path='/register' render={() => !user && <Register onRegister={handleRegister} feedback={registerFeedback}/> }   />
-            <Route path='/login' render={() => !user? <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/' /> } />
+            <Route path='/register' render={() => !user?  <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to='/login' /> }   />
+            <Route path='/login' render={() => !user? <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/home' /> } />
  
-            <Route path='/' render={() => <Home /> } />
+            <Route  path='/home' render={() => <Home /> } />
+           
               
             <Route path='/favorites' render={() => <Favorites /> } />
+            <Route component={NotFound} />
           </Switch>
 
 
