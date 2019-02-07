@@ -61,7 +61,7 @@ class Comments extends Component {
                                     </div>
                                     <div class={`${mode ? 'message-body eachcomment__body eachcomment__body-light' : 'message-body eachcomment__body eachcomment__body-dark'}`}>
                                         <p className={`${mode ? 'eachcomment__text eachcomment__text-light' : 'eachcomment__text eachcomment__text-dark'}`}>{comment.text}</p>
-                                        <p className={`${mode ? 'eachcomment__date eachcomment__date-light' : 'eachcomment__date eachcomment__date-dark'}`}>{comment.date.substr(0, 10)}</p>
+                                        <p className={`${mode ? 'eachcomment__date eachcomment__date-light' : 'eachcomment__date eachcomment__date-dark'}`}>{comment.date}</p>
                                     </div>
                                 </article>
                             </div>)

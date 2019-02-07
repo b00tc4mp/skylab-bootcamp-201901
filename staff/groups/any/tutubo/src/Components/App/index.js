@@ -133,7 +133,7 @@ class App extends Component {
             <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} onLike={handleLikeVideo} like={this.state.likes} mode={this.state.mode}/>} />
             <Route exact path="/login/" render={() => logic.userLoggedIn ? <Redirect to='/' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} feedback={loginFeedback} mode={this.state.mode}/>} />
             <Route exact path="/register/" render={() => logic.userLoggedIn ? <Redirect to='/'/> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} feedback={registerFeedback} mode={this.state.mode}/>} />
-            <Route exact path="/favorites" render={() => !logic.userLoggedIn ? <Redirect to='/'/>: <Favorites/>}/>
+            <Route exact path="/favorites" render={() => !logic.userLoggedIn ? <Redirect to='/'/>: <Favorites mode={this.state.mode} selectVideo={handleSelectVideo}/>}/>
         </section>
     }
 
