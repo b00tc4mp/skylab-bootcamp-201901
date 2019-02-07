@@ -34,9 +34,9 @@ class DetailedPokemonPanel extends Component {
             return <div className='DetailPanel-otherInfo__items'>
 
 
-                <ul>
                     <h3>HELD ITEMS</h3>
-                    {held_items.map(item => <li>{item.item.name}</li>)}
+                <ul>
+                    {held_items.map(item => <div className ='item'> <li>{item.item.name}</li></div>)}
                 </ul>
 
             </div>
@@ -66,14 +66,14 @@ class DetailedPokemonPanel extends Component {
                     <img className='img' src={source}></img>
                     <p>Height: <span>{height}</span></p>
                     <p>Weight: <span>{weight}</span></p>
-                    <ul>
                         <h3>STATS</h3>
-                        <li>Speed: <span> {stats[0].base_stat}</span></li>
-                        <li>Special Defense: <span> {stats[1].base_stat}</span></li>
-                        <li>Special Attack: <span> {stats[2].base_stat}</span></li>
-                        <li>Defense: <span> {stats[3].base_stat}</span></li>
-                        <li>Attack: <span> {stats[4].base_stat}</span></li>
-                        <li>HP: <span> {stats[5].base_stat}</span></li>
+                    <ul className='stats'>
+                        <li className = 'stat stat-speed'>Speed: <span> {stats[0].base_stat}</span></li>
+                        <li className = 'stat stat-specialDefense' >Special Defense: <span> {stats[1].base_stat}</span></li>
+                        <li className = 'stat stat-specialAttack' >Special Attack: <span> {stats[2].base_stat}</span></li>
+                        <li className = 'stat stat-defense' >Defense: <span> {stats[3].base_stat}</span></li>
+                        <li className = 'stat stat-attack' >Attack: <span> {stats[4].base_stat}</span></li>
+                        <li className = 'stat stat-hp' >HP: <span> {stats[5].base_stat}</span></li>
 
                     </ul>
                 </div>
@@ -89,20 +89,21 @@ class DetailedPokemonPanel extends Component {
                     </div>
 
                     {this.state.showType && <div className='DetailPanel-otherInfo__types' >
+                            <h3>TYPES</h3>
 
                         <ul>
-                            <h3>TYPES</h3>
-                            {types.map(type => <li>{type.type.name}</li>)}
+                            
+                            {types.map(type => <div className ={`type type-${type.type.name}`} ><li>{type.type.name}</li></div>)}
                         </ul>
 
                     </div>}
 
                     {this.state.showAbilities && <div className='DetailPanel-otherInfo__abilities'>
 
-                        <ul>
                             <h3>ABILITIES</h3>
+                        <ul>
 
-                            {abilities.map(ability => <li>{ability.ability.name}</li>)}
+                            {abilities.map(ability => <div className ='ability'><li>{ability.ability.name}</li></div>)}
 
 
                         </ul>
@@ -112,7 +113,7 @@ class DetailedPokemonPanel extends Component {
                     <h3>MOVES</h3>
 
                         <ul>
-                            {moves.map(move => <li>{move.move.name}</li>)}
+                            {moves.map(move => <div className = 'move'><li>{move.move.name}</li></div>)}
 
                         </ul>
                     </div>}
