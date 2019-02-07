@@ -7,8 +7,29 @@ import ticketmasterApi from '../ticketmaster-api';
  * Abstraction of business logic.
  */
 const logic = {
+    
     __userId__: null,
     __userApiToken__: null,
+    
+    setUserId(id) {
+        this.__userId__ = id
+    },
+
+    getUserId() {
+        return this.__userId__
+    },
+
+    setUserApiToken(token) {
+        this.__userApiToken__ = token
+    },
+
+    getUserApiToken() {
+        return this.__userApiToken__
+    },
+
+    get userLoggedIn() {
+        return !!this.getUserId()
+    },
 
     /**
     * Registers a user.
@@ -63,25 +84,56 @@ const logic = {
 
         return userApi.authenticate(email, password)
             .then((data) => {
-                this.__userId__ = data.id
-                this.__userApiToken__ = data.token
+                this.setUserId(data.id)
+                this.setUserApiToken(data.token)
 
-                
                 return data
             })
     },
 
     retrieveUser() {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
-        .then(({ id, name, surname, username }) => ({
+        return userApi.retrieve(this.getUserId(), this.getUserApiToken())
+        .then(({ id, name, surname, username,favourites }) => ({
             id,
             name,
             surname,
-            email: username
+            email: username,
+            favourites
         }))
-        .then(user => {
-            userStorage.saveUserToken(user)
-            return user
+    },
+
+    toggleFavourite(favouriteId) {
+        let isFav = false
+
+        return userApi.retrieve(this.getUserId(), this.getUserApiToken())
+        .then(({favourites}) => {
+
+            const hasFav = favourites.some(function(fav) {
+                return fav === favouriteId;
+            })
+
+            if(hasFav) {
+                const index = favourites.indexOf(favouriteId);
+                if (index > -1) {
+                    favourites.splice(index, 1);
+                }
+            }else{
+                isFav = true
+                favourites.push(favouriteId)
+            }
+
+            return userApi.update(this.getUserId(), this.getUserApiToken(), {favourites: favourites})
+                .then(()  => isFav)
+
+        })
+    },
+
+    checkFavourite(favouriteId){
+        return userApi.retrieve(this.getUserId(), this.getUserApiToken())
+        .then(({favourites}) => {
+            return favourites.some(function(fav) {
+                return fav === favouriteId;
+            })
         })
     },
 
@@ -95,7 +147,6 @@ const logic = {
 
        return ticketmasterApi.searchEvents(query, startDate, endDate)
             .then(events => events)
-            .catch(err => console.log(err))
     },
 
     retrieveEvent(id) {

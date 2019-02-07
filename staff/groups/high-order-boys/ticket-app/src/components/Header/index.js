@@ -1,12 +1,26 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-
+import logic from '../../logic'
 
 
 class Header extends Component {
 
+    state = {user: null}
+
+    componentDidMount(){
+        logic.getUserApiToken() && logic.retrieveUser()
+            .then(user => this.setState({user}))
+    }
+
+    componentWillReceiveProps(props){
+        
+        this.setState({user: props.user})
+    }
+
+
     render() {
-        const { props: { user, onLogout } } = this
+
+        const { props: {onLogout }, state: {user} } = this
 
         return <section className="hero is-small is-primary is-bold">
             <div className="hero-body">
