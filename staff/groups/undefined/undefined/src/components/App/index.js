@@ -16,7 +16,7 @@ import './index.sass'
 
 class App extends Component {
 
-  state = { user: null, loginFeedback: null, registerFeedback: null }
+  state = { loginFeedback: null, registerFeedback: null }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
     try {
@@ -36,10 +36,11 @@ class App extends Component {
 
   handleLogin = (email,password) => {
     try{
-      
+
       logic.loginUser(email,password)
         .then( () => {
-            this.setState({ loginFeedback: null, user: true})
+            this.setState({ loginFeedback: null })
+            
             this.props.history.push('/home') 
             alert('you have successfully login')
         }).catch( ({message}) => {
@@ -54,22 +55,21 @@ class App extends Component {
   handleLogout = () => {
     logic.logout()
     this.props.history.push('/home')
-    this.setState( {user: null})
   }
 
 
   render() {
 
-    const {handleRegister, handleLogin, handleLogout, state: {user, loginFeedback, registerFeedback}} = this
+    const {handleRegister, handleLogin, handleLogout, state: {loginFeedback, registerFeedback}} = this
 
     return (
         <div className="app">
           
-          <Topbar user={user} onLogout={handleLogout}/>
+          <Topbar user={logic.userLoggedIn} onLogout={handleLogout}/>
 
           <Switch>
-            <Route path='/register' render={() => !user?  <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to='/login' /> }   />
-            <Route path='/login' render={() => !user? <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/home' /> } />
+            <Route path='/register' render={() => !logic.userLoggedIn?  <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to='/login' /> }   />
+            <Route path='/login' render={() => !logic.userLoggedIn? <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/home' /> } />
             <Route exact path='/favorites' render={() => <Favorites /> } />
             <Route path='/home' render={() => <Home /> } />
             <Route component={NotFound} />

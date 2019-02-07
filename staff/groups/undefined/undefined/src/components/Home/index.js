@@ -14,7 +14,7 @@ class Home extends Component {
     }
 
     render() {
-        const { handleSearch , state : { searchFeedback }} = this
+        const { handleSearch } = this
 
         return (
             <section className="home columns is-fullheight">

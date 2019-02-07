@@ -27,7 +27,7 @@ class Topbar extends Component {
     }
 
     render() {
-        const {handleGoToRegister, handleGoToLogin, handleGoToFavorites, props: {onLogout, user}} = this
+        const {handleGoToRegister, handleGoToLogin, handleGoToFavorites, props: {onLogout}} = this
         return ( 
             <nav className="topbar navbar is-fullwidth" role="navigation" aria-label="main navigation">
                 <div className="topbar__inner container inner-container">
@@ -39,10 +39,10 @@ class Topbar extends Component {
                 <div className="navbar-end">
                     <div className="navbar-item">
                     <div className="buttons">
-                        <Route path='/' render={() => !user && <button className="button is-primary" onClick={handleGoToRegister}>Register</button>} />
-                        <Route path='/' render={() => !user && <button className="button is-light" onClick={handleGoToLogin}>Login</button>} /> 
-                        <Route path='/' render={() => user && <button className="button is-light" onClick={onLogout}>Logout</button>} />
-                        <Route path='/' render={() => user && <button className="button is-light" onClick={handleGoToFavorites}>Favorites</button>} />
+                        <Route path='/' render={() => !logic.userLoggedIn && <button className="button is-primary" onClick={handleGoToRegister}>Register</button>} />
+                        <Route path='/' render={() => !logic.userLoggedIn && <button className="button is-light" onClick={handleGoToLogin}>Login</button>} /> 
+                        <Route path='/' render={() => logic.userLoggedIn && <button className="button is-light" onClick={onLogout}>Logout</button>} />
+                        <Route path='/' render={() => logic.userLoggedIn && <button className="button is-light" onClick={handleGoToFavorites}>Favorites</button>} />
                     </div>
                     </div>
                 </div>
