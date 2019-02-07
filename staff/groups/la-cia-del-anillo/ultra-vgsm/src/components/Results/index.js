@@ -5,6 +5,7 @@ import './index.css';
 
 import logic from '../../logic';
 import Card from '../Card';
+import NoResults from '../NoResults';
 
 const masonryOptions = {
     transitionDuration: 0,
@@ -12,10 +13,10 @@ const masonryOptions = {
 };
 
 class Results extends Component {
-    state = { 
-        results: null, 
-        favorites: [], 
-        feedback: null ,
+    state = {
+        results: null,
+        favorites: [],
+        feedback: null,
         nextButton: false
     };
 
@@ -24,23 +25,19 @@ class Results extends Component {
             logic
                 .searchGameByUrl(nextButton)
                 .then(({ data: { games }, include: { boxart, platform }, pages }) => {
-
                     const {
                         match: {
-                            params: { query = ''}
+                            params: { query = '' }
                         }
                     } = this.props;
 
                     games.map(game => {
                         game.base_url = boxart.base_url;
-                        game.boxart = boxart.data[game.id].find(
-                            image => image.side === 'front'
-                        );
-                        game.platform = (query === '') 
-                                            ? platform.data[game.platform]
-                                            : platform[game.platform];
+                        game.boxart = boxart.data[game.id].find(image => image.side === 'front');
+                        game.platform =
+                            query === '' ? platform.data[game.platform] : platform[game.platform];
                         return game;
-                    })
+                    });
 
                     this.setState({
                         nextButton: pages.next,
@@ -81,7 +78,6 @@ class Results extends Component {
             logic
                 .retrieveGamesByPlatform(platformId, 'boxart,platform')
                 .then(({ data: { games }, include: { boxart, platform }, pages }) => {
-                    
                     this.setState({
                         nextButton: pages.next,
                         results: games.map(game => {
@@ -101,49 +97,51 @@ class Results extends Component {
     };
 
     getFavorites = () => {
-        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
-            this.setState({
-                favorites
+        logic.userLoggedIn &&
+            logic.retrieveUser().then(({ favorites }) => {
+                this.setState({
+                    favorites
+                });
             });
-        });
     };
 
     getFavoritesPage = () => {
-        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
-            try {
-                logic
-                    .retrieveGame(favorites.join(','), '', 'boxart,platform')
-                    .then(({ data: { games }, include: { boxart, platform }, pages }) => {
-                        this.setState({
-                            nextButton: pages.next,
-                            results: games.map(game => {
-                                game.base_url = boxart.base_url;
-                                game.boxart = boxart.data[game.id].find(
-                                    image => image.side === 'front'
-                                );
-                                game.platform = platform.data[game.platform];
-                                return game;
-                            })
-                        });
-                    })
-                    .catch(({ message }) => this.setState({ feedback: message }));
-            } catch ({ message }) {
-                this.setState({ feedback: message });
-            }
-        });
+        logic.userLoggedIn &&
+            logic.retrieveUser().then(({ favorites }) => {
+                try {
+                    logic
+                        .retrieveGame(favorites.join(','), '', 'boxart,platform')
+                        .then(({ data: { games }, include: { boxart, platform }, pages }) => {
+                            this.setState({
+                                nextButton: pages.next,
+                                results: games.map(game => {
+                                    game.base_url = boxart.base_url;
+                                    game.boxart = boxart.data[game.id].find(
+                                        image => image.side === 'front'
+                                    );
+                                    game.platform = platform.data[game.platform];
+                                    return game;
+                                })
+                            });
+                        })
+                        .catch(({ message }) => this.setState({ feedback: message }));
+                } catch ({ message }) {
+                    this.setState({ feedback: message });
+                }
+            });
     };
 
     componentDidMount() {
         const {
             favoritesSearch = false,
             match: {
-                params: { query = '', platformId = null,  }
+                params: { query = '', platformId = null }
             }
         } = this.props;
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-        if(favoritesSearch) this.getFavoritesPage();
+        if (favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
@@ -157,7 +155,7 @@ class Results extends Component {
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-        if(favoritesSearch) this.getFavoritesPage();
+        if (favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
@@ -165,29 +163,34 @@ class Results extends Component {
         const {
             state: { nextButton, results, favorites }
         } = this;
-        console.log("RENDER RESULS");
+        console.log(results);
         return (
             <Fragment>
-            <Masonry
-                className={'results content'}
-                elementType={'section'}
-                options={masonryOptions}
-                disableImagesLoaded={false}
-                updateOnEachImageLoad={false}
-            >
-                {results &&
-                    results.map(game => {
-                        return (
-                            <Card
-                                key={game.id}
-                                gameUrl={game.id}
-                                favorites={favorites}
-                                game={game}
-                            />
-                        );
-                    })}
-            </Masonry>
-            {nextButton && <button className="load-more" onClick={() => this.loadMoreGame(nextButton)}>Load more</button>}
+                {results === null && <NoResults />}
+                <Masonry
+                    className={'results content'}
+                    elementType={'section'}
+                    options={masonryOptions}
+                    disableImagesLoaded={false}
+                    updateOnEachImageLoad={false}
+                >
+                    {results &&
+                        results.map(game => {
+                            return (
+                                <Card
+                                    key={game.id}
+                                    gameUrl={game.id}
+                                    favorites={favorites}
+                                    game={game}
+                                />
+                            );
+                        })}
+                </Masonry>
+                {nextButton && (
+                    <button className="load-more" onClick={() => this.loadMoreGame(nextButton)}>
+                        Load more
+                    </button>
+                )}
             </Fragment>
         );
     }
