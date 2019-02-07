@@ -27,21 +27,42 @@ class Favorite extends Component {
     render(){
         if (this.state.videoSelected) {
 
-        const { handleFavorites, state: {videoSelected: {Title, Year, Rated, Runtime, Plot, Genre, Actors, Poster}}} = this
+        const { handleFavorites, 
+            state: {videoSelected: {Title, Year, Runtime, Genre, Director, Plot, Writer, Actors, Type, Country, Awards, imdbRating, BoxOffice, Production, Website, Poster}}} = this
 
-        if (this.state.videoSelected.Poster === "N/A")  this.setState({videoSelected: ({Title, Year, Rated, Runtime, Plot, Genre, Actors, Poster : "http://www.lbsnaa.gov.in/upload/academy_souvenir/images/59031ff5e92caNo-image-available.jpg"})})
+        if (this.state.videoSelected.Poster === "N/A")  this.setState({videoSelected: ({Title, Year, Runtime, Genre, Director, Plot, Writer, Actors, Type, Country, Awards, imdbRating, BoxOffice, Production, Website, Poster : "http://www.lbsnaa.gov.in/upload/academy_souvenir/images/59031ff5e92caNo-image-available.jpg"})})
         
         return (
-            <section className="detail">
-            <h3>{Title}</h3>
-            <p className="detail__year">{Year}</p>
-            <p className="detail__rated">{Rated}</p>
-            <p className="detail__runtime">{Runtime}</p>
-            <p className="detail__plot">{Plot}</p>
-            <p className="detail__genre">{Genre}</p>
-            <p className="detail__actors">{Actors}</p>
-            <img src={Poster} className="detail__poster" alt={Title} />
-            <button onClick={handleFavorites}>Delete from favorites</button>
+            <section className="fav-detail card columns is-4">
+                <div className="card-image">
+                    <figure className="image">
+                        <img src={Poster} alt={Title} />
+                    </figure>
+                </div>
+
+                <div class="card-content">
+                        <h3 className="title is-3">{Title}</h3>
+                        <p>{Plot}</p>
+
+                        <div className="content-details">
+                            <span class="tag is-success">{Type}</span>
+                            <span class="tag is-info">{Year}</span>
+                            <span class="tag is-info">{Runtime}</span>
+                            <span class="tag is-info">{Genre}</span>
+                            <span class="tag is-info">{Director}</span>
+                            <span class="tag is-info">{Website}</span>
+                        </div>
+
+                        <div className="tags-details">
+                            <span class="tag is-info">{Country}</span>
+                            <span class="tag is-info">{Awards}</span>
+                            <span class="tag is-info">{imdbRating}</span>
+                            <span class="tag is-info">{BoxOffice}</span>
+                            <span class="tag is-info">{Production}</span>
+                        </div>
+                    <button className="button" onClick={handleFavorites}>Delete</button>
+                </div>
+            
         </section>)
     }
     else return <div></div>
