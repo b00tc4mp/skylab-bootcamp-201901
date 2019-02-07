@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import Feedback from '../Feedback'
 
-
+import { withRouter } from 'react-router-dom'
 
 class Login extends Component {
     state = {email: '' , password: '' }
@@ -15,8 +15,13 @@ class Login extends Component {
         onLogin(email, password)
     }
 
+    handleGoBack = event =>{
+      event.preventDefault()
+      this.props.history.push('/')
+    }
+
     render() {
-        const {handleEmailInput,handlePasswordInput,handleFromSubmit} = this
+        const {handleEmailInput,handlePasswordInput,handleFromSubmit, handleGoBack} = this
         const {feedback} = this.props
         return (
 
@@ -48,6 +53,11 @@ class Login extends Component {
                     </p>
                   </div>
             </form>
+                  <div class="field">
+                    <p class="control">
+                      <button onClick={handleGoBack} class="button is-info">Go back Home</button>
+                    </p>
+                  </div>
             { feedback && <Feedback message={feedback} level="warn" /> }
             </div>
             </section>     
@@ -57,4 +67,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default withRouter(Login)

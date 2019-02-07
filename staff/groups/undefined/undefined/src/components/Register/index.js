@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
 
+import {withRouter} from 'react-router-dom'
 
 class Register extends Component {
 
@@ -19,9 +20,14 @@ class Register extends Component {
         onRegister(name, surname, email, password, passwordConfirmation)
     }
 
+    handleGoBack = event =>{
+      event.preventDefault()
+      this.props.history.push('/')
+    }
+
     render(){
 
-        const { handleOnSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, props: {feedback}} = this
+        const { handleGoBack, handleOnSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, props: {feedback}} = this
 
         return (
     
@@ -81,6 +87,11 @@ class Register extends Component {
                 </div>
               </div>
            </form>
+           <div class="field">
+              <p class="control">
+                <button onClick={handleGoBack} class="button is-info">Go back Home</button>
+              </p>
+            </div>
            { feedback && <Feedback message={feedback} level="warn" /> }
         </section>
 
@@ -89,4 +100,4 @@ class Register extends Component {
     }
 }
 
-export default Register
+export default withRouter(Register)

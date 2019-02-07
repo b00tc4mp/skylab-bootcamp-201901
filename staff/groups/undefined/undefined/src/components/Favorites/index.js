@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import logic from '../../logic'
+import {withRouter} from 'react-router-dom'
 
+import logic from '../../logic'
 import Favorite from '../Favorite'
 
 class Favorites extends Component {
@@ -15,6 +16,11 @@ class Favorites extends Component {
             })
     }
 
+    handleGoBack = event =>{
+        event.preventDefault()
+        this.props.history.push('/')
+      }
+
     render (){
 
         return (
@@ -26,11 +32,15 @@ class Favorites extends Component {
                 /> 
             )}
             {!this.state.favorites || [] && <h3>You have no favorites yet... Search for movies and add them to your favorites</h3> }
-            
+            <div class="field">
+              <p class="control">
+                <button onClick={this.handleGoBack} class="button is-info">Go back Home</button>
+              </p>
+            </div>
         </section>)
     }
 }
 
 
 
-export default Favorites
+export default withRouter(Favorites)

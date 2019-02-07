@@ -4,10 +4,11 @@ import { Route, withRouter } from 'react-router-dom'
 import Video from '../Video'
 import Detail from '../Detail'
 import logic from '../../logic'
+import Feedback from '../Feedback'
 
 class Results extends Component  {
     
-    state = { videoSelected: null, results: null, query: null }
+    state = { videoSelected: null, results: null, query: null, searchFeedback:null }
 
     handleVideoClick = id => {
         this.props.history.push(`/videos/${this.state.query}/detail/${id}`)
@@ -26,6 +27,7 @@ class Results extends Component  {
                     this.setState({ results, searchFeedback: null })                
                 })
                 .catch( ({message}) => {
+                    console.log(message)
                     this.setState({ results: null, searchFeedback: message })
                 }) 
         } catch ({message}) {
@@ -55,6 +57,7 @@ class Results extends Component  {
             state : {results},   
                     handleVideoClick
             } = this
+        const {searchFeedback} = this.state
             
         return (
             <section className="results section columns is-multiline">
@@ -66,7 +69,7 @@ class Results extends Component  {
                        onVideoSelected={handleVideoClick}
                     /> 
                 )}
-
+                { searchFeedback && <Feedback message={searchFeedback} level="warn" /> }
                 <Route path='/videos/:query/detail/:id' component={Detail}/>
 
             </section>
