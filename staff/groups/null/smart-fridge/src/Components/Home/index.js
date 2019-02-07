@@ -71,6 +71,7 @@ class Home extends React.Component{
                 <Nav className='fixed' user={this.props.user} onLogout={this.handleLogout} editProfile={this.handleEditProfileButton} results={this.state.recipes} editInputs = {this.handleEditInputs} />
                 {<Route exact path="/home" render={() =>  logic.userLoggedIn ? <InputsFridge onSearch={this.handleOnSearch}/> : <Redirect to="/" />} />}
                 {<Route path="/home/profile" render={() =>  logic.userLoggedIn ? <EditProfile onEditProfile={this.handleEditProfile} cancelButton={this.handleCancelButton}/> : <Redirect to="/" />} />}
+
                 {<Route path="/home/recipes" render={() => logic.userLoggedIn ? <Results recipes={recipes}/> : <Redirect to = "/" />} />/* {results && <Results recipes={this.state.recipes}/>} */}
                 {/* {<Route path="/home/search/detail" render={() => logic.userLoggedIn ? <Detail recipe={recipes}/> : <Redirect to = "/"/>}/>} */}
                 {/* {!error && <Feedback/>} */}
@@ -78,6 +79,7 @@ class Home extends React.Component{
                
             </main>
     }
+
 }
 
 export default withRouter(Home)
