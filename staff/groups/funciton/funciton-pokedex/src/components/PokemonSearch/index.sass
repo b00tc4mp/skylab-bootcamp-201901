@@ -33,7 +33,8 @@ body::-webkit-scrollbar-thumb,
     h2 
         color: white
     img
-        width: 100%
+        width: 90%
+        height: 20%
     .title__search
         color: black
 
@@ -71,3 +72,32 @@ body::-webkit-scrollbar-thumb,
     margin-bottom: 2px
     border-radius: 5%
 
+
+@media screen and (max-width: 640px)
+    .searchPanel
+        img
+            width: 70%
+            height: 8%
+    .input__searchPokemon
+        width: 50%
+        height: 30px
+        margin-bottom: 2px
+        border-radius: 5%
+        size: 4rem
+
+@media screen and (min-width: 641px) and (max-width: 1080px)
+    .searchPanel
+        img
+            width: 80%
+            height: 15%
+
+    .title__search
+        color: black
+
+    .input__searchPokemon
+        width: 50%
+        height: 40px
+        margin-bottom: 2px
+        border-radius: 5%
+        font-size: 2rem
+        
