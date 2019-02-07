@@ -3,7 +3,8 @@ import './index.sass'
 
 class Feedback extends React.Component {
 
-    onGoBackSearch =()=>{
+    handleOnGoBackSearch =event=>{
+        event.preventDefault()
         this.props.goBackSearch()
     }
 
@@ -15,7 +16,7 @@ class Feedback extends React.Component {
                 <h3>Error</h3>
 
                 <p className="error message">{this.props.message}</p>
-                <button className="btn btn-dark inline feedback" onClick={this.onGoBackSearch}>Return to search</button>
+                <button className="btn btn-dark inline feedback" onClick={this.handleOnGoBackSearch}>Return to search</button>
             </div>
 
 
