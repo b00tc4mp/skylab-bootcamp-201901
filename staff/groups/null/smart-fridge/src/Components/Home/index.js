@@ -7,12 +7,18 @@ import Detail from '../Detail'
 import logic from '../../logic'
 import { withRouter, Route, Redirect } from 'react-router-dom'
 import './index.sass'
-import Feedback from '../Feedback'
+import FeedbackSearch from '../FeedbackSearch'
 
 
 class Home extends React.Component{
 
-    state={recipes: null,  searchFeedback: null, recipe: null, queryList: null, ingredientsList: null}
+    state={recipes: null,  
+        searchFeedback: null, 
+        recipe: null, 
+        queryList: null, 
+        ingredientsList: null, 
+        sincronSearchFeedback: null, 
+        editProfileFeedback: null}
 
     handleOnSearch= (query, calories, diet, health,) => {
         let queryList=query.split('+') //To get query in array
@@ -23,12 +29,11 @@ class Home extends React.Component{
                 })
                 .catch(({message})=> {
                     this.setState({searchFeedback:message}, ()=> this.props.history.push('/home/feedback'))
-                    console.log(message)
                 })
 
         }catch(error){
-            console.error(error.message)
-    
+            this.setState({ sincronSearchFeedback: error.message })
+               
         }
     }
 
@@ -52,10 +57,10 @@ class Home extends React.Component{
                 .then (user => {
                     this.props.history.push(`/home`)
                 })
-                .catch(({ message }) => this.setState({ registerFeedback: message }))
+                .catch(error => this.setState({ editProfileFeedback: error.message }))
 
-        } catch ({ message }) {
-            this.setState({ registerFeedback: message })
+        } catch (error) {
+            this.setState({ editProfileFeedback: error.message })
         }
 
     }
@@ -91,15 +96,15 @@ class Home extends React.Component{
     }
 
     render(){
-        const {state:{ recipes, searchFeedback, recipe, ingredientsList}} =  this
+        const {state:{ recipes, searchFeedback, recipe, ingredientsList, sincronSearchFeedback}} =  this
         
         return <main className="home">
                 <Nav className='fixed' user={this.props.user} onLogout={this.handleLogout} editProfile={this.handleEditProfileButton} results={this.state.recipes} editInputs = {this.handleEditInputs} />
-                {<Route exact path="/home" render={() =>  logic.userLoggedIn ? <InputsFridge onSearch={this.handleOnSearch}/> : <Redirect to="/" />} />}
-                {<Route path="/home/profile" render={() =>  logic.userLoggedIn ? <EditProfile onEditProfile={this.handleEditProfile} cancelButton={this.handleCancelButton}/> : <Redirect to="/" />} />}
-                {<Route exact path="/home/recipes" render={() => (logic.userLoggedIn&& recipes) ? <Results recipes={recipes} onDetail ={this.handleOnDetail}/> : <Redirect to = "/" />} />}
+                {<Route exact path="/home" render={() =>  logic.userLoggedIn ? <InputsFridge onSearch={this.handleOnSearch} sincronSearchFeedback={sincronSearchFeedback}/> : <Redirect to="/" />} />}
+                {<Route path="/home/profile" render={() =>  logic.userLoggedIn ? <EditProfile onEditProfile={this.handleEditProfile} cancelButton={this.handleCancelButton} feddback={this.props.editProfileFeedback}/> : <Redirect to="/" />} />}
+                {<Route exact path="/home/recipes" render={() => (logic.userLoggedIn && recipes) ? <Results recipes={recipes} onDetail ={this.handleOnDetail}/> : <Redirect to = "/" />} />}
                 {<Route exact path="/home/detail" render={() => (logic.userLoggedIn && recipe)? <Detail recipe={recipe} ingredients={ingredientsList} backToRecipes={this.handleBackToRecipes} /> : <Redirect to = "/home/search" />} />}
-                {<Route path="/home/feedback" render={()=> (logic.userLoggedIn && searchFeedback)?<Feedback goBackSearch={this.handleGoBackSearch} message={searchFeedback}/>:<Redirect to="/home" /> }/>}
+                {<Route path="/home/feedback" render={()=> (logic.userLoggedIn && searchFeedback)?<FeedbackSearch goBackSearch={this.handleGoBackSearch} message={searchFeedback}/>:<Redirect to="/home" /> }/>}
             </main>
     }
 

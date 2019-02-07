@@ -8,29 +8,24 @@ import './index.sass'
 
 class Welcome extends React.Component {
     state= {
-        welcomeBannerVisual: true, 
-        loginVisual: false,
-        registerVisual: false,
         loginFeedback: null,
-        resgisterFeedback: null,
+        registerFeedback: null,
         user: null}
 
     handleGotoLogin= ()=>{
-        this.props.history.push(`/login`)
-        this.setState({
-            welcomeBannerVisual: false,
-            /* loginVisual:true,
-            registerVisual: false */
-        })
+        this.setState({ 
+            loginFeedback: null,
+            registerFeedback: null}, 
+            ()=>this.props.history.push(`/login`))
+        
     }
 
     handleGotoRegister=()=>{
-        this.props.history.push(`/register`)
-        this.setState({
-            welcomeBannerVisual: false,
-            /* loginVisual: false,
-            registerVisual: true */
-        })
+        this.setState({ 
+            loginFeedback: null,
+            registerFeedback: null}, 
+            ()=>this.props.history.push(`/register`))
+        
     }
 
     handleOnLogin= (email,password)=>{
@@ -39,36 +34,38 @@ class Welcome extends React.Component {
                 .then (() => {
                     return logic.retrieve(sessionStorage.getItem('user-id'),sessionStorage.getItem('user-api-token'))
                     .then(() => {
-                        this.setState({ loginFeedback: null})
+                        this.setState({ loginFeedback: null,registerFeedback: null})
                     })
                 })
-                .catch(({ message }) => this.setState({ loginFeedback: message }))
+                .catch( error => this.setState({ loginFeedback: error.message }))
 
-        } catch ({ message }) {
-            this.setState({ loginFeedback: message })
+        } catch (error) {
+            this.setState({ loginFeedback: error.message })
         }
     }
 
     handleOnRegister=(name, surname, email, password, confirmPassword, gender, height, weigth, birthDay, lifeStyle)=>{
         try {
             logic.register(name, surname, email, password, confirmPassword, gender, height, weigth, birthDay, lifeStyle)
-                .then ((id) => {
+                .then (() => {
                     this.props.history.push(`/login`)
                 })
-                .catch(({ message }) => this.setState({ registerFeedback: message }))
+                .catch(error => this.setState({ registerFeedback: error.message }))
 
-        } catch ({ message }) {
-            this.setState({ registerFeedback: message })
+        } catch (error) {
+            this.setState({ registerFeedback: error.message })
         }
     }
 
     
     render() {
 
+        const {state:{loginFeedback, registerFeedback}}=this
+
         return <section className="welcome">
                 {<Route exact path="/" render={() => <WelcomeBanner onLoginClick={this.handleGotoLogin} onRegisterClick={this.handleGotoRegister}/>}/>}
-                {<Route path="/login" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Login onLogin={this.handleOnLogin} loginToRegister={this.handleGotoRegister}/>} />}
-                {<Route path="/register" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Register onRegister={this.handleOnRegister} registerToLogin={this.handleGotoLogin}/>} />}
+                {<Route path="/login" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Login onLogin={this.handleOnLogin} loginToRegister={this.handleGotoRegister} feedback={loginFeedback}/>} />}
+                {<Route path="/register" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Register onRegister={this.handleOnRegister} registerToLogin={this.handleGotoLogin} feedback={registerFeedback}/>} />}
             </section>
  
     }

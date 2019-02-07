@@ -1,5 +1,6 @@
 import React from 'react'
 import './index.sass'
+import Feedback from '../Feedback'
 
 class EditProfile extends React.Component {
 
@@ -32,14 +33,6 @@ class EditProfile extends React.Component {
         const { state: { name, surname, gender, height, weight, birthDate, lifeStyle }, props: { onEditProfile } } = this
 
         const user= JSON.parse(sessionStorage.getItem('user'))
-
-        // if (!name) this.setState({name: user.name})
-        // if (!surname) this.setState({surname: user.surname})
-        // if (!gender) this.setState({gender: user.gender})
-        // if (!height) this.setState({height: user.height})
-        // if (!weight) this.setState({weigth: user.weight})
-        // if (!birthDate) this.setState({birthDay: user.birthDate})
-        // if (!lifeStyle) this.setState({lifeStyle: user.lifeStyle})
 
         this.setState({
             name: name || user.name,
@@ -113,6 +106,7 @@ class EditProfile extends React.Component {
 
                     </div>
                     <div className="row login-flex mt-3">
+                    {this.props.feedback && <Feedback message={this.props.feedback}/>}
                         <div className="col-md-3 col-0"></div>
                         <button type="submit" className="btn btn-dark col-12 col-md-6 mr-2">Edit Profile</button>
                         <button onClick={this.handleCancelButton} className="btn btn-outline-light col-12 col-md-2 mt-2 mt-sm-0">Cancel</button>

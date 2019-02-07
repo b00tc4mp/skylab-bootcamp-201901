@@ -1,12 +1,12 @@
 import React from 'react'
 import logic from '../../logic'
 import './index.sass'
+import Feedback from '../Feedback'
 
 class InputsFridge extends React.Component {
     state = { 
         numberInputs: 1, 
-        userCal: 2500, 
-        calories: 0,
+        calories: "0",
         diet: 'indifferent', 
         activeVegan: false, 
         activeVegeterian: false,
@@ -152,7 +152,7 @@ class InputsFridge extends React.Component {
                                 <button onClick={this.handlePeanut} className={`btn btn-outline-dark col-12 ${activePeanut? `active`:``}`}>Peanut-Free</button>
                             </div>
                         </div>
-                        
+                        {this.props.sincronSearchFeedback && <Feedback message={this.props.sincronSearchFeedback} />}
                         <div className="row flex mt-5">
                             <button type="submit" className="btn btn-dark col-12 mr-2">Search</button>
                         </div>
@@ -164,14 +164,3 @@ class InputsFridge extends React.Component {
 
 export default InputsFridge
 
-
-
-// var inputs=1;
-
-// onClick= inouts ++
-
-
-// render()
-//     for (i=0; i<inouts; i++) {
-//         <Search placeholder=`ingredient ${inputs}`></Search>
-//     }
