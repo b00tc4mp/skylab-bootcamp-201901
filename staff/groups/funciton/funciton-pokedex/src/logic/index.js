@@ -136,7 +136,7 @@ const logic = {
     
 
 
-    toggleFavorite(id, token, pokemonName, pokemonId) {
+    toggleFavorite(id, token, pokemonName) {
 
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 

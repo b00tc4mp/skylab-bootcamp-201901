@@ -10,17 +10,23 @@ class FavoritesPanel extends Component {
   state = { favPokemons: [], searchText: this.props.searchText, pokemons: [], loading: true };
 
   componentDidMount() {
-
-    logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
-      .then(favPokemons => this.setState({ favPokemons }))
-
-    logic.retrieveAllPokemons().then(pokemons => {
-      this.setState({ pokemons })
-      console.log(this.state.pokemons)
-    })
-
+    this.updatePokemonList()
   }
 
+  updatePokemonList() {
+    Promise.all([
+      logic.retrieveAllPokemons(),
+      logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
+    ])
+      .then(([pokemons, favPokemons]) => this.setState({ pokemons, favPokemons }))
+  }
+
+  updateOnlyFavs() {
+    Promise.all([
+      logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
+    ])
+      .then(([favPokemons]) => this.setState({favPokemons }))
+  }
 
   handlePokemonDetail = (name) => {
     logic.retrievePokemon(name)
@@ -30,17 +36,21 @@ class FavoritesPanel extends Component {
       })
   }
 
+  handleToggleFav =(userId, token, pokemonName) => {
+    logic.toggleFavorite(userId, token, pokemonName)
+      .then(() => this.updateOnlyFavs())
+  }
 
 
   renderList = () => {
-    if (this.state.favPokemons ===null ) {
+    if (this.state.favPokemons === null) {
       return <p>There is no favorites</p>
-    }else{
+    } else {
       return <ul className='pokemon__ul'>
         {
           this.state.favPokemons.map(pokemon => {
             let result = this.state.pokemons.find(p => p.name === pokemon)
-            return <ItemResult stringPokemonId={result.url} pokemonName={result.name} onGoToDetails={this.handlePokemonDetail} />
+            return <ItemResult stringPokemonId={result.url} pokemonName={result.name} onGoToDetails={this.handlePokemonDetail} onToggleFav={this.handleToggleFav} favorites = {this.state.favPokemons} isFav="heart--fav" />
           })
         }
       </ul>

@@ -5,20 +5,21 @@ import ItemResult from "../ItemResult";
 
 
 class PokemonSearch extends Component {
-  state = { pokemons: [], searchText: this.props.searchText, loading: true };
+  state = { pokemons: [], searchText: this.props.searchText, loading: true, favPokemons: []};
 
   componentDidMount() {
-    logic.retrieveAllPokemons().then(pokemons => {
-      this.setState({ pokemons, loading: false })
-
-    });
+    Promise.all([
+      logic.retrieveAllPokemons(),
+      logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
+    ])
+      .then(([pokemons, favPokemons]) => this.setState({ pokemons, favPokemons }))
   }
 
   handleChange = event => {
     this.setState({
       searchText: event.target.value
     });
-    this.props.setSearchText(event.target.value);
+    this.props.setSearchText(event.target.value.toLowerCase());
 
   };
 
@@ -30,10 +31,25 @@ class PokemonSearch extends Component {
       })
   }
 
+  handleToggleFav =(userId, token, pokemonName) => {
+    logic.toggleFavorite(userId, token, pokemonName)
+      .then(() => this.updateOnlyFavs())
+  }
+
+  updateOnlyFavs() {
+    Promise.all([
+      logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
+    ])
+      .then(([favPokemons]) => this.setState({favPokemons }))
+  }
+
   setSearchTextApp = (query) => {
     this.setState({ searchText: query })
 
   }
+  forceUpdateHandler(){
+    this.forceUpdate();
+  };
 
   renderList = () => {
     
@@ -41,7 +57,7 @@ class PokemonSearch extends Component {
       {
         this.state.pokemons
           .filter(pokemon => pokemon.name.includes(this.state.searchText))
-          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} onGoToDetails={this.handlePokemonDetail} />)
+          .map(pokemon => <ItemResult stringPokemonId = {pokemon.url} pokemonName={pokemon.name} onGoToDetails={this.handlePokemonDetail} onToggleFav={this.handleToggleFav} isFav= { this.state.favPokemons ? (this.state.favPokemons.includes(pokemon.name) ? 'heart--fav' : 'heart'):'heart'} />)
       }
     </ul>
 
