@@ -15,7 +15,6 @@ class Results extends Component {
 
         const user = JSON.parse(sessionStorage.getItem('user'))
         const maxCalories = logic.caloriesCounter(user.gender, user.height, user.weight, user.birthDate, user.lifeStyle)
-        console.log(maxCalories)
         const { recipes } = this.props
 
 
@@ -24,13 +23,13 @@ class Results extends Component {
             <div className="card_columns row m-2 mt-5">
                 {
                     recipes.map(recipe => (
-                        <div className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
+                        <div key={recipe.recipe.uri} className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
                             <div className="card p-2 mt-2">
                                 <div className="card-body">
                                     <h5 className="card-title text-center">{recipe.recipe.label}</h5>
                                     <div className='results__image-favorite'>
                                         <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img>
-                                        <i class="far fa-heart"></i>
+                                        <i className="far fa-heart"></i>
                                     </div>
 
                                     <div className='mt-4 flex'>
