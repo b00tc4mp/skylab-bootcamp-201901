@@ -16,12 +16,14 @@ const userApi = {
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
         if (!password.trim().length) throw Error('password is empty')
 
+        const favourites = []
+
         return fetch(`${this.url}/user`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, username, password })
+            body: JSON.stringify({ name, surname, username, password, favourites })
         })
             .then(response => response.json())
             .then(response => {

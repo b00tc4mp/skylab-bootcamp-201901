@@ -5,25 +5,24 @@ import Feedback from '../Feedback/'
 
 class Register extends Component {
 
-    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: ''}
+    state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '', bDate: ''}
 
     handleInput = event => this.setState({ [event.target.name]: event.target.value })
 
     onSubmitClick = event => {
         event.preventDefault()
 
-        const { state: { name, surname, email, password, passwordConfirmation }, props:{onRegister} } = this
+        const { state: { name, surname, email, bDate ,password, passwordConfirmation }, props:{onRegister} } = this
 
-        onRegister(name, surname, email, password, passwordConfirmation)
+        onRegister(name, surname, email, bDate ,password, passwordConfirmation)
     }
     render() {
 
-        const { handleInput, props: {registerFeedback} } = this
+        const { handleInput, props: {registerFeedback, user} } = this
         return <section>
 
 
             <form onSubmit={this.onSubmitClick}>
-
                 <div>
 
                     <label>name: </label>
@@ -37,6 +36,10 @@ class Register extends Component {
                     <label >Email: </label>
                     <input type="email" name="email" placeholder="email" onChange={handleInput} required />
                 </div>
+                {user && <div>
+                    <label >Birth date: </label>
+                    <input type="date" name="bDate" placeholder="birth date" onChange={handleInput} required />
+                </div>}
                 <div>
                     <label>Password: </label>
                     <input type="password" name="password" placeholder="password" onChange={handleInput} required />
@@ -45,7 +48,7 @@ class Register extends Component {
                     <label>Confirm Password: </label>
                     <input type="password" name="passwordConfirmation" placeholder="password confirmation" onChange={handleInput} required />
                 </div>
-                <button type="submit"><strong>Register </strong></button>
+                <button type="submit"><strong>{user ? 'Save changes': 'Register' }</strong></button>
             </form>
             <div>
                 <button> <Link to="/login"> To Login</Link></button>
