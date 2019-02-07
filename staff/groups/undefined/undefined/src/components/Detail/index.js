@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logic from '../../logic'
 
+import './index.sass'
 
 class Detail extends Component {
 
@@ -36,55 +37,54 @@ class Detail extends Component {
         logic.toggleFavorties(id)
     }
 
-
+    //<button onClick={handleFavorites}>Favorites</button>
     printDetails = () => {
         if (this.state.videoSelected) {
             const {handleFavorites, state: {videoSelected: {Title, Runtime, Plot, Genre, Actors, Poster, Released}}} = this
             return (
                 <section className="detail modal is-active">
 
-                    <div class="modal-background"></div>
-                    <div class="modal-content">
-                        <div class="box">
-                            <article class="media">
-
-                                <div class="media-left">
-                                    <figure class="image">
-                                        <img src={Poster} alt={Title} />
+                    <div className="modal-background"></div>
+                    <div className="modal-content">
+                        <div className="box">
+                            <article className="media columns">
+                                <div className="poster media-left column">
+                                    <figure className="image">
+                                        <img className="image" src={Poster} alt={Title} />
                                     </figure>
                                 </div>
-
-                                <div class="media-content">
-                                    <div class="content">
-                                        <h4 class="title is-3">{Title}</h4>
+                                <div className="media-content column">
+                                    <div className="content">
+                                        <h4 className="title is-3">{Title}</h4>
+                                        <hr />
+                                            <button className="button"><i class="far fa-heart"></i></button>
+                                        <hr />
                                         <p>{Plot}</p>
                                     </div>
+                                    <hr />
+                                    <div className="info">
 
-                                    <div class="info">
-
-                                        <div class="info-item">
-                                            <span class="genres">Genres: <span>{Genre}</span></span>
+                                        <div className="info-item">
+                                            <span className="genres"><i class="fas fa-genderless"></i> <strong>Genres:</strong> <span>{Genre}</span></span>
                                         </div>
 
-                                        <div class="info-item">
-                                            <span class="released">Released: <span>{Released}</span></span>
+                                        <div className="info-item">
+                                            <span className="released"><i class="fas fa-genderless"></i> <strong>Released:</strong> <span>{Released}</span></span>
                                         </div>
 
-                                        <div class="info-item">
-                                            <span class="runtime">Runtime: <span>{Runtime}</span></span>
+                                        <div className="info-item">
+                                            <span className="runtime"><i class="fas fa-genderless"></i> <strong>Runtime:</strong> <span>{Runtime}</span></span>
                                         </div>
 
-                                        <div class="info-item">
-                                            <span class="runtime">Actors: <span>{Actors}</span></span>
+                                        <div className="info-item">
+                                            <span className="runtime"><i class="fas fa-genderless"></i> <strong>Actors:</strong> <span>{Actors}</span></span>
                                         </div>
                                     </div>
-              
-                                <button onClick={handleFavorites}>Favorites</button>
                                 </div>
                             </article>
                         </div>
                     </div>
-                    <button onClick={this.onClose} class="modal-close is-large" aria-label="close"></button>
+                    <button onClick={this.onClose} className="modal-close is-large" aria-label="close"></button>
                 </section>
 
             )

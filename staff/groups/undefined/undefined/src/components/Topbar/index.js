@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom' 
 import logic from '../../logic';
 
+import './index.sass'
+
 class Topbar extends Component {
 
     state = { loginFeedback: null, registerFeedback: null }
