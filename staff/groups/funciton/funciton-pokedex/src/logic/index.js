@@ -53,6 +53,15 @@ const logic = {
         this.__userApiToken__ = null
     },
 
+    /**
+    * Retrieve data
+    * 
+    * @param {string} query 
+    * 
+    * 
+    * Returns raw data from a unique pokemon from the API
+    */
+
     retrievePokemon(query) {
 
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
@@ -61,6 +70,13 @@ const logic = {
         return pokemonApi.searchPokemonByName(query)
     },
 
+
+    /**
+    * Retrieve data
+    * 
+    * 
+    * Returns basic data from all pokemons available in API.
+    */
     retrieveAllPokemons() {
 
         if (arguments.length !== 0) throw Error('Too many args')
@@ -73,11 +89,12 @@ const logic = {
     /**
     * Registers a user.
     * 
-    * @param {string} name 
-    * @param {string} surname 
     * @param {string} email 
+    * @param {string} username 
     * @param {string} password 
     * @param {string} passwordConfirmation 
+    * 
+    * Registers a user.
     */
     registerUser(email, username, password, passwordConfirmation) {
         if (typeof username !== 'string') throw TypeError(username + ' is not a string')
@@ -125,7 +142,16 @@ const logic = {
             })
     },
 
-
+    /**
+     * ToggleFavorite
+     * 
+     * @param {string} id 
+     * @param {string} token 
+     * @param {string} pokemonName 
+     * 
+     * Modifies the list of favorites. If the pokemonName exists previously in the array of favorites retrieved from the API,
+     * this pokemonName is removed. In case it does not exist, it is added to the array in the API.
+     */
 
     toggleFavorite(id, token, pokemonName) {
 
@@ -167,7 +193,14 @@ const logic = {
             })
             .then(() => true)
     },
-
+    
+    /**
+     * getFavorites
+     * 
+     * 
+     * Retrieves the array of favorites from the pokemon API
+     * In case there are no favorites, it returns null.
+     */
 
     getFavorites(id, token) {
 

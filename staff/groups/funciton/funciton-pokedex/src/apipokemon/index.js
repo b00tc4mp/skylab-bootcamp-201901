@@ -12,11 +12,9 @@ const pokemonApi = {
 
 
   /**
-   * Searches a pokemon
+   * Searches all pokemon
    *
-   * @param {string} name - The text to match on artists search.
-   *
-   * the query to the API returns large amount of raw data
+   * the query returns all the pokemons. A limit is set in the number of results, parameter limit.
    */
 
   searchAllPokemons() {
@@ -26,6 +24,13 @@ const pokemonApi = {
       .then(res => res.results);
   },
 
+    /**
+   * Searches a pokemon
+   *
+   * @param {string} name - The text to match on pokemon search
+   *
+   * the query returns details of the pokemon
+   */
   searchPokemonByName(query) {
     const searchCriteria = 'pokemon/'
     if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
