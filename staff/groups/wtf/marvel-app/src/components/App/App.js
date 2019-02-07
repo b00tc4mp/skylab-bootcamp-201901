@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { HashRouter, Route, Redirect } from 'react-router-dom'
 import Landing from '../Landing'
 import Home from '../Home'
+import Footer from '../Footer'
 import logic from '../Logic'
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
       <main>
         <Route path='/' render={()=> logic.userLoggedIn ? <Redirect to="/home/search/"/> : <Landing/>}/>
         <Route path='/home/search/' render={() => logic.userLoggedIn ? <Home onLogout={handleLogOut} /> : <Redirect to="/" />} />
+        <Route path='/' render={()=> <Footer/>}/>
       </main>  
     </HashRouter>
   }
