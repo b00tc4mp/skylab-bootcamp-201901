@@ -108,9 +108,7 @@ class Video extends Component {
                     <div className="video__container">
                         <div className="title-likes">
                             <h2 className="iframe__title">{videoInfo.snippet.title}</h2>
-                            <div className="likes">
-                                <i className={`${likeStatus ? "far fa-thumbs-up like" : "far fa-thumbs-up"}`} onClick={handleLike}></i>
-                            </div>
+                            <i className={`${likeStatus ? "far fa-thumbs-up like" : "far fa-thumbs-up"}`} onClick={handleLike}></i>
                         </div>
                         <div>
                             <div className="channel">
@@ -119,7 +117,7 @@ class Video extends Component {
                                 </figure>
                                     <div className="channel__info">
                                         <h3 className="channel__text">{videoInfo.snippet.channelTitle}</h3>
-                                        <p className="channel__publish">Publish At: {videoInfo.snippet.publishedAt}</p>
+                                        <p className="channel__publish">Publish At: {videoInfo.snippet.publishedAt.substr(1, 9)}</p>
                                     </div>
                             </div>
                                 <p className="channel__description">{videoInfo.snippet.description}</p>

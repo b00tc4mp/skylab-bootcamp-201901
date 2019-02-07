@@ -24,15 +24,15 @@ class Login extends Component {
 
         return <section className={`${mode ? 'login login-light' : 'login login-dark'}`}>
             <div className="loginBox">
-                <div className={`${mode ? 'content content-light' : 'content content-dark'}`}>
-                    <div className="text">
+                <div className={`${mode ? 'loginContent loginContent-light' : 'loginContent loginContent-dark'}`}>
+                    <div className="loginText">
                         <i className={`${mode ? 'fab fa-youtube fa-youtube-light fa-5x' : 'fab fa-youtube fa-5x'}`}></i>
                         <h3 className={`${mode ? 'loginTitle loginTitle-light' : 'loginTitle loginTitle-dark'}`}>Sign in</h3>
                         <p>to continue to TuTubo</p>
                     </div>
                     <form className="loginform" onSubmit={handleFromSubmit}>
-                        <input className="input" name='email' type='text' placeholder='email' onChange={handleEmailInput} />
-                        <input className="input" name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
+                        <input className="loginInput" name='email' type='text' placeholder='email' onChange={handleEmailInput} />
+                        <input className="loginInput" name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
                         {feedback && <Feedback message = {feedback}/>}
                         <button className="loginButton">Login</button>
                     </form>
