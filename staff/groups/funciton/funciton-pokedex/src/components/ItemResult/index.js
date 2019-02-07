@@ -1,20 +1,33 @@
 import React from 'react'
 import './index.sass'
+import logic from  '../../logic'
 import {getPokemonId} from '../../utils'
 
 
 class ItemResult extends React.Component {
 
+    state={userId :logic.getUserId(), userToken: logic.getUserApiToken(), favorites: this.props.favorites, isFav: 'heart' }
+    
+    
 
     retrieveDataFromItem = () => {
         this.props.onGoToDetails(this.props.pokemonName)
     }
 
+    toggleFavorite = ()=>{
+        
+        this.props.onToggleFav(this.state.userId,this.state.userToken,this.props.pokemonName)
+
+    }
+
+
     render(){
 
+        
         const {props: {stringPokemonId, pokemonName}} = this
         console.log(stringPokemonId)
         let pokemonId = getPokemonId(stringPokemonId)
+        
         const source = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`
 
         return <div className="card pokemonCard">
@@ -24,7 +37,7 @@ class ItemResult extends React.Component {
             
                 <p onClick={this.retrieveDataFromItem} className="card-text">{pokemonName.toUpperCase()}</p>
                 <button onClick={this.retrieveDataFromItem} className="pokemonCard__details">More</button>
-                <p className="heart">♡</p>
+                <p onClick= {this.toggleFavorite} className={this.props.isFav}>❤</p>
         </div>
     }
 }
