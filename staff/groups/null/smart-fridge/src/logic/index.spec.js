@@ -128,7 +128,7 @@ describe('logic', () => {
                 logic.caloriesCounter(gender, height, weight, birthDate, lifeStyle)
             }).toThrow(TypeError(birthDate + ' is not a string'))
         })
-        it('should fail on object lifeStyle instead of string', () => {
+        it('should fail on empty lifeStyle instead of string', () => {
 
             birthDate = '1985/10/15'
             lifeStyle = ''
@@ -496,4 +496,274 @@ describe('logic', () => {
         logic.__userId__=null
         logic.__user__=null
     })
+
+
+    describe('detail', () => {
+        describe('find recipeUri in recipes', () => {
+       
+            let recipeUri = 'http://www.edamam.com/ontologies/edamam.owl#recipe_d81795fb677ba4f12ab1a104e10aac98'
+            let recipes = [ 
+                {recipe: 
+                    {uri: "http://www.edamam.com/ontologies/edamam.owl#recipe_d81795fb677ba4f12ab1a104e10aac98",
+                    label: "Citrus Roasted Chicken",
+                    image: "https://www.edamam.com/web-img/d4b/d4bb1e6c7a6c3738d8e01707eb0ad83d.jpg"}},
+                {recipe: 
+                    {uri: "http://www.edamam.com/ontologies/edamam.owl#recipe_d81795fb677ba4f12ab1a104e10aac98",
+                    label: "Citrus Roasted Chicken",
+                    image: "https://www.edamam.com/web-img/d4b/d4bb1e6c7a6c3738d8e01707eb0ad83d.jpg"}}
+                ]
+
+            it ('should succeed on matching query', ()=> {
+
+                    let recipe= logic.detail(recipeUri, recipes)
+                    expect(recipe).toBeDefined()
+                    expect(recipe instanceof Object).toBeTruthy()
+            })   
+
+            it ('should fail on array recipeUri instead of string', () => {
+
+                recipeUri = []
+
+                expect (() => 
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipeUri + ' is not a string'))
+            })
+
+            it ('should fail on number recipeUri instead of string', () => {
+
+                recipeUri = 4567
+
+                expect (() =>
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipeUri + ' is not a string'))
+            })
+
+            it ('should fail on boolean recipeUri instead of string', () => {
+
+                recipeUri = true
+
+                expect (() =>
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipeUri + ' is not a string'))
+            })
+
+            it ('should fail on undefined recipeUri instead of string', () => {
+
+                recipeUri = undefined
+
+                expect (() =>
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipeUri + ' is not a string'))
+            })
+
+            it ('should fail on object recipeUri instead of string', () => {
+
+                recipeUri = {}
+
+                expect (() =>
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipeUri + ' is not a string'))
+            })
+
+            it ('should fail on non-existing recipeUri instead of string', () => {
+
+                recipeUri = ''
+
+                expect (() =>
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(Error(recipeUri + ' cannot be empty'))
+            })         
+            
+            it ('should fail on object recipes instead of array', () => {
+
+                recipeUri = 'http://www.edamam.com/ontologies/edamam.owl#recipe_d81795fb677ba4f12ab1a104e10aac98'
+                recipes = {}
+
+                expect (() => 
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipes + ' is not an array'))
+            })
+
+            it ('should fail on boolean recipes instead of array', () => {
+
+                recipes = true
+
+                expect (() => 
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipes + ' is not an array'))
+            })
+
+               
+            it ('should fail on number recipes instead of array', () => {
+
+                recipes = 1234
+
+                expect (() => 
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipes + ' is not an array'))
+            })
+
+            it ('should fail on object recipes instead of array', () => {
+
+                recipes = {}
+
+                expect (() => 
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipes + ' is not an array'))
+            })
+
+            it ('should fail on string recipes instead of array', () => {
+          
+                recipes = "test"
+
+                expect (() => 
+                    logic.detail(recipeUri, recipes)
+                ).toThrow(TypeError(recipes + ' is not an array'))
+              })
+        })
+    })
+
+    describe('generateLists', () => {
+        describe('generate list of fridge and shopping', () => {
+        
+          let ingredientsRecipe = ["2 tablespoons butter",
+          "2 tablespoons olive oil",
+          "1 ounce pancetta",
+          "1 pound ground beef",
+          "1 1/2 cup pureed tomatoes",
+          "2 garlic cloves",
+          "1 sweet onion",
+          "1 celery stick",
+          "5 carrots",
+          "1/4 cup white wine",
+          "1 cup full fat milk or 2%",
+          "1 cup chicken stock",
+          "1/4 teaspoon sea salt",
+          "Dashes pepper & nutmeg"]
+          
+          let ingredientsQuery = ["carrot",
+          "milk",
+          "chicken"]
+
+            it ('should succeed on matching query', ()=> {
+
+                    let list = logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                    expect(list).toBeDefined()
+                    expect(list instanceof Object).toBeTruthy()
+                    expect(list.fridge).toBeDefined()
+                    expect(list.fridge instanceof Array).toBeTruthy()
+                    expect(list.shopping).toBeDefined()
+                    expect(list.shopping instanceof Array).toBeTruthy()
+            })
+
+            it ('should fail on boolean ingredientsRecipe instead of array', () => {
+
+                ingredientsRecipe = true
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(TypeError(ingredientsRecipe + ' is not an array'))
+            })
+
+            it ('should fail on number ingredientsRecipe instead of array', () => {
+
+                ingredientsRecipe = 1234
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(TypeError(ingredientsRecipe + ' is not an array'))
+            })
+
+            it ('should fail on object ingredientsRecipe instead of array', () => {
+
+                ingredientsRecipe = {}
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(TypeError(ingredientsRecipe + ' is not an array'))
+            })
+
+            it ('should fail on string ingredientsRecipe instead of array', () => {
+
+                ingredientsRecipe = 'test'
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(TypeError(ingredientsRecipe + ' is not an array'))
+            })
+
+            it ('should fail on non-existing ingredientsRecipe instead of array', () => {
+
+                ingredientsRecipe = ''
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(Error(ingredientsRecipe + ' is not an array'))
+            })
+
+            
+            it ('should fail on empty ingredientsRecipe instead of array', () => {
+
+                ingredientsRecipe = []
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(Error(ingredientsRecipe + ' cannot be empty'))
+            })
+
+            it ('should fail on object ingredientsQuery instead of array', () => {
+
+                ingredientsRecipe = ["2 tablespoons butter",
+                "2 tablespoons olive oil",
+                "1 ounce pancetta",
+                "1 pound ground beef",
+                "1 1/2 cup pureed tomatoes",
+                "2 garlic cloves",
+                "1 sweet onion",
+                "1 celery stick",
+                "5 carrots",
+                "1/4 cup white wine",
+                "1 cup full fat milk or 2%",
+                "1 cup chicken stock",
+                "1/4 teaspoon sea salt",
+                "Dashes pepper & nutmeg"]
+
+                ingredientsQuery = {a:7}
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(TypeError(ingredientsQuery + ' is not an array'))
+            })
+
+            it ('should fail on number ingredientsQuery instead of array', () => {
+
+                ingredientsQuery = 789
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(TypeError(ingredientsQuery + ' is not an array'))
+            })
+
+            it ('should fail on string ingredientsQuery instead of array', () => {
+
+                ingredientsQuery = 'test'
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(TypeError(ingredientsQuery + ' is not an array'))
+            })
+
+            it ('should fail on boolen ingredientsQuery instead of array', () => {
+
+                ingredientsQuery = false
+
+                expect (() => 
+                    logic.generateLists(ingredientsRecipe, ingredientsQuery)
+                ).toThrow(TypeError(ingredientsQuery + ' is not an array'))
+            })
+
+        })
+          
+    })
+
 })

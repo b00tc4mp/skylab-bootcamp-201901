@@ -348,19 +348,29 @@ const logic = {
 
         return edamamApi.search(query, toCalories, myDiet, health)
     },
-    /**
-     * 
-     * find the recipeUri amound all the recipes
-     * 
-     * @param {string} recipeUri 
-     * @param {array} recipes 
-     * 
-     * @throws {Error} wheh recipeUri is not found in recipes
-     * 
-     * @return {Object} - Recipe found
-     */
+
+/**
+ * 
+ * find the recipeUri among all the recipes
+ * 
+ * @param {string} recipeUri 
+ * @param {array} recipes 
+ * 
+ * @throws {Error} when recipeUri is not found in recipes
+ * @throws {TypeError} - On different argument types
+ * 
+ * @return {Object} - Recipe found
+ */
     detail(recipeUri, recipes){
+
+        if (typeof recipeUri !== 'string') throw TypeError(recipeUri + ' is not a string')
+
+        if (!recipeUri.trim().length) throw Error(recipeUri + ' cannot be empty')
+
+        if (recipes.constructor !== Array) throw TypeError(recipes + ' is not an array')
+
         let recipe=null
+        
         recipes.find( element => {
             if(element.recipe.uri===recipeUri){
                 recipe=element.recipe
@@ -369,7 +379,28 @@ const logic = {
         if (!!recipe) return recipe
         else throw Error('Details are not found')
     },
+
+  /**
+   * create a fridge and shopping arrays
+   *
+   * @param {array} ingredientsRecipe 
+   * @param {array} ingredientsQuery 
+   * 
+   * @throws {Error} when recipeUri is not found in recipes
+   * @throws {TypeError} - On different arguments types
+   * 
+   * @return {object} - fridge and shopping creates
+   */
     generateLists(ingredientsRecipe, ingredientsQuery){
+
+        if (ingredientsRecipe.constructor !== Array) throw TypeError(ingredientsRecipe + ' is not an array')
+
+        if (ingredientsRecipe.length <1) throw Error(ingredientsRecipe + ' cannot be empty')
+
+        if (ingredientsQuery.constructor !== Array) throw TypeError(ingredientsQuery + ' is not an array')
+
+        if (ingredientsQuery.length <1) throw Error(ingredientsQuery + ' cannot be empty')
+    
         let fridge =[]
         let shopping=[]
 
