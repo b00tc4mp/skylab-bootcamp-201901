@@ -1,4 +1,4 @@
-'use strict'
+
 
 import pokemonApi from '../apipokemon'
 import userApi from '../user-api'
@@ -53,13 +53,6 @@ const logic = {
         this.__userApiToken__ = null
     },
 
-
-
-
-
-
-
-
     retrievePokemon(query) {
 
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
@@ -71,7 +64,6 @@ const logic = {
     retrieveAllPokemons() {
 
         if (arguments.length !== 0) throw Error('Too many args')
-
         return pokemonApi.searchAllPokemons()
     },
 
@@ -133,7 +125,6 @@ const logic = {
             })
     },
 
-    
 
 
     toggleFavorite(id, token, pokemonName) {
@@ -141,10 +132,6 @@ const logic = {
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
         if (!id.trim().length) throw Error('id cannot be empty');
-
-        // if (typeof user !== 'string') throw TypeError(user + ' is not a string');
-
-        // if (!user.trim().length) throw Error('user cannot be empty');
 
         if (typeof token !== 'string') throw TypeError(token + ' is not a string');
 
@@ -157,7 +144,8 @@ const logic = {
 
         return userApi.retrieve(id, token)
             .then((data) => {
-                let { favorites } = data
+
+                let favorites = data.favorites
 
                 if (!favorites || !favorites.length) { //Caso sin favoritos o que el usuario los haya borrado todos
                     //En este caso creamos el array de favoritos, con el primer elemento el favorito clickado
@@ -169,7 +157,6 @@ const logic = {
                     if (favorites.includes(pokemonName)) {
                         //Quitarlo de favoritos
                         const index = favorites.indexOf(pokemonName)
-
                         favorites.splice(index, 1)
                     } else {
                         favorites.push(pokemonName)
@@ -181,14 +168,12 @@ const logic = {
             .then(() => true)
     },
 
-    getFavorites( id, token) {
+
+    getFavorites(id, token) {
+
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
         if (!id.trim().length) throw Error('id cannot be empty');
-
-        // if (typeof user !== 'string') throw TypeError(user + ' is not a string');
-
-        // if (!user.trim().length) throw Error('user cannot be empty');
 
         if (typeof token !== 'string') throw TypeError(token + ' is not a string');
 
