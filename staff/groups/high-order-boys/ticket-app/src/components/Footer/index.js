@@ -3,11 +3,9 @@ import React, { Component } from 'react'
 
 class Footer extends Component {
     render() {
-        return <footer id="fix-footer" className="hero is-small is-primary is-bold is-bottom">
-            <div className="hero-body">
-                <p>
-                    <strong>High Order Boys</strong>
-                </p>
+        return <footer className="footer">
+            <div className="content has-text-centered">
+                <p className="footerTitle">Handcrafted by</p><p className="footerTitle">hiGH oRdeR boyZ<i class="far fa-gem poo fa-spin"></i></p>
             </div>
         </footer>
 
