@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import logic from '../../logic'
 import './index.sass'
 import ItemResult from "../ItemResult";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class PokemonSearch extends Component {
-  state = { pokemons: [], searchText: this.props.searchText, loading: false, favPokemons: []};
+  state = { pokemons: [], searchText: this.props.searchText, loading: false, favPokemons: [], toastId : null};
 
   componentDidMount() {
     Promise.all([
@@ -32,8 +34,14 @@ class PokemonSearch extends Component {
   }
 
   handleToggleFav =(userId, token, pokemonName) => {
+    this.state.toastId = toast("Favorites updated!",{
+      position: toast.POSITION.BOTTOM_RIGHT,
+      autoClose: 3000,
+      type: toast.TYPE.ERROR
+    })
     logic.toggleFavorite(userId, token, pokemonName)
       .then(() => this.updateOnlyFavs())
+      
   }
 
   updateOnlyFavs() {
@@ -69,21 +77,23 @@ class PokemonSearch extends Component {
       <div className='searchPanel'>
         {/* <img src={titleImage} alt="poke_title"></img> */}
         <img src={require('../../funcitons-pokedex-title.png')}></img>
-        <h2 className='title__search'>Search Pokemon</h2>
+        <h2 className='title__search card-subtitle mb-2'>Search Pokemon</h2>
         
-          <input className="input__searchPokemon"
+          <input className="input__searchPokemon input-group-text"
             onChange={this.handleChange}
             type="text"
-            placeholder="Search your Pokemon"
+            placeholder="Poke-Search"
             value={this.state.searchText}
           />
           {
             this.state.loading && <h1>LOADING</h1>
           }
+          <div className= "displayresults">
           {
             this.state.searchText !== "" && this.renderList()
           }
-
+          </div>
+          <ToastContainer/>
       </div>
     );
   }
