@@ -5,6 +5,8 @@ class EventDetails extends Component {
     render() {
         const {props: {event, onFavourite, isFavourite}} = this
 
+        console.log('eveeent', event)
+
         return <section>
            <h1>DETAIL {event.name}</h1>
            <button onClick={()=>onFavourite(event.id)}>Add Favourite</button>
