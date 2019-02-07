@@ -1,5 +1,14 @@
+@import '../../bulma/bulma.sass'
+    
 .login
     flex: 1
     & .button-group
         display: flex
         justify-content: space-between
+    & header
+        margin: 16% 0% 10% 0%
+        & h2
+            +mobile
+                display: none
+    +mobile 
+        margin: 0% 15%
