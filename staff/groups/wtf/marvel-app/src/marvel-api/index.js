@@ -8,8 +8,6 @@ import md5 from 'blueimp-md5'
  * @version 0.0.1
  */
 
-
-
 const marvelApi = (() => {
     const apiKey = '09bb08e7ffb06c3a436190a5fc0782a0',
         privateApiKey = 'a3b23cd3b2e40a602d5d2afe1a89df2f11b85a39',

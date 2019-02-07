@@ -6,6 +6,7 @@ import './index.sass'
 import logic from '../Logic'
 import Login from '../Login'
 import Register from '../Register'
+import NotFound from '../NotFound'
 
 class Landing extends Component {
 
