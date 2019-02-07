@@ -8,7 +8,7 @@ const path = require('path');
 const pokemonApi = {
 
   apiURL: 'https://pokeapi.co/api/v2/',
-  limit : 151, //limitation for the number of results to be retrieved when searching all pokemon
+  limit: 151, //limitation for the number of results to be retrieved when searching all pokemon
 
 
   /**
@@ -22,10 +22,7 @@ const pokemonApi = {
   searchAllPokemons() {
     const searchCriteria = `pokemon/?limit=${this.limit}`;
     return fetch(`${this.apiURL}${searchCriteria}`, {})
-      .then(res => {
-        if (res == null) throw Error("This pokemon does not exist");
-        return res.json();
-      })
+      .then(res => res.json())
       .then(res => res.results);
   },
 
@@ -42,39 +39,6 @@ const pokemonApi = {
         return res.json()
       })
   },
-
-  searchPokemonsByType(query) {
-    const searchCriteria = 'type/';
-
-    if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
-    if (!query.trim().length) throw Error('query is empty')
-
-    return fetch(`${this.apiURL}${searchCriteria}${query}`, {
-
-    })
-      .then(res => {
-        if (res == null) throw Error('This type of pokemon does not exist')
-        return res.json()
-      })
-      .then(res => res.pokemon)
-
-  },
-  searchPokemonsByAbility(query) {
-    const searchCriteria = 'ability/';
-
-    if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
-    if (!query.trim().length) throw Error('query is empty')
-
-    return fetch(`${this.apiURL}${searchCriteria}${query}`, {
-
-    })
-      .then(res => {
-        if (res == null) throw Error('This type of pokemon does not exist')
-        return res.json()
-      })
-      .then(res => res)
-
-  }
 
 }
 

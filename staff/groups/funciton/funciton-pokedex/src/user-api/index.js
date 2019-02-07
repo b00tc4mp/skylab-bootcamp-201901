@@ -74,10 +74,10 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
-                
+
                 if (response.status === 'OK') return response.data
 
-                throw Error(response.error) //Contempla el caso de mal funcionamiento de la API
+                throw Error(response.error)
             })
     },
 
@@ -103,7 +103,7 @@ const userApi = {
 
                 if (status === 'OK') return
 
-                throw Error(response.error) //Contempla el caso de mal funcionamiento de la API
+                throw Error(response.error)
             })
     },
 
@@ -134,7 +134,7 @@ const userApi = {
 
                 if (status === 'OK') return
 
-                throw Error(response.error) //Contempla el caso de mal funcionamiento de la API
+                throw Error(response.error)
             })
     }
 }
