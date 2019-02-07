@@ -13,9 +13,16 @@ class Header extends Component {
         onLogout()
     }
 
+    handleOnGoToFavs = () => {
+
+        const { props : { onGoToFav }} = this
+
+        onGoToFav()
+    }
+
     render() {
 
-        const { handleLogout, props: { onSearch, onGoToLogin, onModeSwitch, mode } } = this
+        const { handleLogout, props: { onSearch, onGoToLogin, onModeSwitch, mode }, handleOnGoToFavs } = this
 
         return <header className={`${mode ? `header header-light` : 'header header-dark'}`}>
             <i className={`${mode ? 'fas fa-bars fa-bars-light' : 'fas fa-bars fa-bars-dark'}`}></i>
@@ -24,19 +31,20 @@ class Header extends Component {
             <Search onSearch={onSearch} mode={this.props.mode}/>
             {!logic.userLoggedIn && <a className="header__button" onClick={onGoToLogin}>Login to Sesson</a>}
             {logic.userLoggedIn && <div className="drp">
-                <div class="dropdown is-right is-hoverable">
-                    <div class="dropdown-trigger">
-                        <button class="button drp__button" aria-haspopup="true" aria-controls="dropdown-menu4">
-                            <span class="icon is-small">
+                <div className="dropdown is-right is-hoverable">
+                    <div className="dropdown-trigger">
+                        <button className="button drp__button" aria-haspopup="true" aria-controls="dropdown-menu4">
+                            <span className="icon is-small">
                                 <i className={`${mode ? 'fas fa-user fa-user-light' : 'fas fa-user fa-user-dark'}`}></i>
                             </span>
                         </button>
                     </div>
-                    <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                            <div class="dropdown-content">
-                                <a onClick={handleLogout} href="#" class="dropdown-item drp__link">Logout</a>
-                                <a onClick={onModeSwitch}>Change Mode</a>
+                    <div className="dropdown-menu" id="dropdown-menu4" role="menu">
+                        <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div className="dropdown-content">
+                                <a onClick={handleOnGoToFavs} className="dropdown-item drp__link">Favorites</a>
+                                <a onClick={onModeSwitch} className="dropdown-item drp__link">Change Mode</a>
+                                <a onClick={handleLogout} href="#" className="dropdown-item drp__link">Logout</a>
                             </div>
                         </div>
                     </div>

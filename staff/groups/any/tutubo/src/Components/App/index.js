@@ -13,6 +13,7 @@ import { withRouter, Route, Redirect } from 'react-router-dom'
 import Video from '../Video'
 import Home from '../Home'
 import Comments from '../Comments';
+import Favorites from '../Favorites';
 
 //#endregion
 
@@ -20,7 +21,7 @@ class App extends Component {
 
     //#region STATES
 
-    state = { email: '', videoId: '', text: '', loginFeedback:'', registerFeedback:'', mode: false }
+    state = { email: '', videoId: '', text: '', loginFeedback:'', registerFeedback:'', mode: false, likes:null }
 
     //#endregion
 
@@ -95,20 +96,12 @@ class App extends Component {
     handleLikeVideo = (videoId) => {
         try {
             logic.likeVideo(videoId)
-                .then(likes => {
-                    if (likes) {
-                        if(likes.includes(videoId)) {
-                            this.setState({likes})
-                        } 
-                    }else{console.log('por nada')}
-                })
+            .then(likes => this.setState({likes}, () => console.log(this.state.likes)))
                 .catch(/* set state of feedback message */)
         } catch {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
         }
     }
-
-    
 
     handleOnLogout = () => {
 
@@ -121,6 +114,10 @@ class App extends Component {
         this.setState({ mode: !this.state.mode}, () => this.updateDocumentColor())
     }
 
+    handleOnGoToFavs = () => {
+        this.props.history.push('/favorites')
+    }
+
     //#endregion
 
     //#region RENDER
@@ -128,14 +125,15 @@ class App extends Component {
     render() {
         const { pathname } = this.props.location;
         console.log(pathname)
-        const { handleOnLogout, handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleModeSwitch, handleLikeVideo, state:{ videoId, loginFeedback, registerFeedback, email } } = this
+        const { handleOnLogout, handleSelectVideo, handleGoToRegister, handleGoToLogin, handleSearch, handleLogin, handleRegister, handleLoginButton, handleComment, handleModeSwitch, handleLikeVideo, handleOnGoToFavs, state:{ videoId, loginFeedback, registerFeedback, email } } = this
         return <section>
-            {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} onLogout={handleOnLogout} onModeSwitch={handleModeSwitch} mode={this.state.mode}/>}
+            {!this.isLoginOrRegister() && <Header onSearch={handleSearch} onGoToLogin={handleLoginButton} onLogout={handleOnLogout} onModeSwitch={handleModeSwitch} mode={this.state.mode} onGoToFav={handleOnGoToFavs}/>}
             <Route exact path="/search/:query" render={props => <VideoResults selectVideo={handleSelectVideo} query={props.match.params.query} mode={this.state.mode}/>} />
             <Route exact path="/" render={() => <Home selectVideo={handleSelectVideo} mode={this.state.mode}/>} /> 
             <Route exact path="/watch/:id" render={props => <Video videoId={props.match.params.id} onLike={handleLikeVideo} like={this.state.likes} mode={this.state.mode}/>} />
             <Route exact path="/login/" render={() => logic.userLoggedIn ? <Redirect to='/' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} feedback={loginFeedback} mode={this.state.mode}/>} />
             <Route exact path="/register/" render={() => logic.userLoggedIn ? <Redirect to='/'/> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} feedback={registerFeedback} mode={this.state.mode}/>} />
+            <Route exact path="/favorites" render={() => !logic.userLoggedIn ? <Redirect to='/'/>: <Favorites/>}/>
         </section>
     }
 

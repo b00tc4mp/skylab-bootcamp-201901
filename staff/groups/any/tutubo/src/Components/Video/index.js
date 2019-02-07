@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import logic from '../../logic'
 import Comments from '../Comments'
 import './index.sass'
@@ -44,6 +45,10 @@ class Video extends Component {
         }
     }
 
+    componentWillReceiveProps(nextprops){
+        nextprops.like  && this.setState({likeStatus: nextprops.like.includes(this.props.videoId)})
+    }
+
     handleVideoInfo = videoId => {
         try {
             logic.watchVideo(videoId)
@@ -60,25 +65,24 @@ class Video extends Component {
     handleLike = event => {
         event.preventDefault()
 
-        const { props: { onLike, videoId } } = this
+        if (logic.userLoggedIn) {
+            
+            const { props: { onLike, videoId } } = this
+            
+            onLike(videoId)
 
-        onLike(videoId)
-        //debugger
-
-        //this.handleShowLike()
+        } else {
+            this.props.history.push('/login')
+        }
     }
 
     handleShowLike = () => {
-        debugger
         try {
-            const idNow = this.props.videoId
+            const { props: { videoId } } = this
             logic.retrieveLikes()
             .then((items) => {
-                console.log(items)
                     if (items.likes) {
-                    //debugger
-                    //const idNow = this.props.videoId
-                        if(items.likes.includes(idNow)) this.setState({likeStatus: !this.state.likeStatus})
+                        if(items.likes.includes(videoId)) this.setState({likeStatus: !this.state.likeStatus})
                         else this.setState({likeStatus: this.state.likeStatus})
                     }
                 })
@@ -133,4 +137,4 @@ class Video extends Component {
             }
         }
         
-export default Video
+export default withRouter(Video)
