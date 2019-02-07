@@ -5,6 +5,7 @@ import './index.css';
 
 import logic from '../../logic';
 import Card from '../Card';
+import Feedback from '../Feedback';
 
 const masonryOptions = {
     transitionDuration: 0,
@@ -15,8 +16,9 @@ class Results extends Component {
     state = { 
         results: null, 
         favorites: [], 
-        feedback: null ,
-        nextButton: false
+        feedbackResult: null,
+        nextButton: false,
+        loading: true
     };
 
     loadMoreGame = nextButton => {
@@ -30,8 +32,8 @@ class Results extends Component {
                             params: { query = ''}
                         }
                     } = this.props;
-
-                    games.map(game => {
+                   
+                    games && games.map(game => {
                         game.base_url = boxart.base_url;
                         game.boxart = boxart.data[game.id].find(
                             image => image.side === 'front'
@@ -41,15 +43,15 @@ class Results extends Component {
                                             : platform[game.platform];
                         return game;
                     })
-
+                    
                     this.setState({
-                        nextButton: pages.next,
+                        nextButton: (pages.next !== this.state.nextButton) ? pages.next : false,
                         results: [...this.state.results, ...games]
                     });
                 })
-                .catch(({ message }) => this.setState({ feedback: message }));
+                .catch(({ message }) => this.setState({ feedbackResult: message }));
         } catch ({ message }) {
-            this.setState({ feedback: message });
+            this.setState({ feedbackResult: message });
         }
     };
 
@@ -70,9 +72,9 @@ class Results extends Component {
                         })
                     });
                 })
-                .catch(({ message }) => this.setState({ feedback: message }));
+                .catch(({ message }) => this.setState({ feedbackResult: message }));
         } catch ({ message }) {
-            this.setState({ feedback: message });
+            this.setState({ feedbackResult: message });
         }
     };
 
@@ -94,9 +96,9 @@ class Results extends Component {
                         })
                     });
                 })
-                .catch(({ message }) => this.setState({ feedback: message }));
+                .catch(({ message }) => this.setState({ feedbackResult: message }));
         } catch ({ message }) {
-            this.setState({ feedback: message });
+            this.setState({ feedbackResult: message });
         }
     };
 
@@ -111,7 +113,7 @@ class Results extends Component {
     getFavoritesPage = () => {
         logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
             try {
-                logic
+                favorites.length > 0 && logic
                     .retrieveGame(favorites.join(','), '', 'boxart,platform')
                     .then(({ data: { games }, include: { boxart, platform }, pages }) => {
                         this.setState({
@@ -126,10 +128,16 @@ class Results extends Component {
                             })
                         });
                     })
-                    .catch(({ message }) => this.setState({ feedback: message }));
+                    .catch(({ message }) => this.setState({ feedbackResult: message }));
             } catch ({ message }) {
-                this.setState({ feedback: message });
+                this.setState({ feedbackResult: message });
             }
+        });
+    };
+
+    toggleFeedback = (prop) => {
+        this.setState({
+            feedbackResult: prop
         });
     };
 
@@ -161,33 +169,44 @@ class Results extends Component {
         this.getFavorites();
     }
 
+    handleImagesLoaded = (imagesLoadedInstance) => {
+        imagesLoadedInstance.images.map(image => {
+            if(image.isLoaded) image.img.parentElement.parentElement.style.opacity = '1';
+        }) 
+    }
+
     render() {
         const {
-            state: { nextButton, results, favorites }
+            toggleFeedback,
+            state: { loading, nextButton, results, favorites, feedbackResult }
         } = this;
         console.log("RENDER RESULS");
         return (
             <Fragment>
-            <Masonry
-                className={'results content'}
-                elementType={'section'}
-                options={masonryOptions}
-                disableImagesLoaded={false}
-                updateOnEachImageLoad={false}
-            >
-                {results &&
-                    results.map(game => {
-                        return (
-                            <Card
-                                key={game.id}
-                                gameUrl={game.id}
-                                favorites={favorites}
-                                game={game}
-                            />
-                        );
-                    })}
-            </Masonry>
-            {nextButton && <button className="load-more" onClick={() => this.loadMoreGame(nextButton)}>Load more</button>}
+                <Masonry
+                    className={'results content'}
+                    elementType={'section'}
+                    options={masonryOptions}
+                    disableImagesLoaded={false}
+                    updateOnEachImageLoad={false}
+                    onImagesLoaded={this.handleImagesLoaded}
+                >
+                    {results &&
+                        results.map(game => {
+                            return (
+                                <Card
+                                    key={game.id}
+                                    gameUrl={game.id}
+                                    favorites={favorites}
+                                    game={game}
+                                />
+                            );
+                        })}
+                </Masonry>
+                {
+                    (nextButton) && (<button className="load-more" onClick={() => this.loadMoreGame(nextButton)}>Load more</button>)
+                }
+                {feedbackResult && <Feedback message={feedbackResult} toggleFeedback={toggleFeedback} />}
             </Fragment>
         );
     }

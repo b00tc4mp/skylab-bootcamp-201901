@@ -5,6 +5,7 @@
     align-items: center;
     color: #222;
     padding: 0px 15px;
+    overflow: hidden;
 }
     
 .login__content {

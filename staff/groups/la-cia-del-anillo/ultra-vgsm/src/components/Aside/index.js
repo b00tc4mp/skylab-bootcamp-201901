@@ -9,10 +9,27 @@ class Aside extends Component {
         console.log(id);
     };
 
+    __hideAsideMobile = () => {
+        const overlay = document.querySelector('.sidebar-overlay');
+        const aside = document.querySelector('.sidebar');
+        const wrapper = document.querySelector('.wrapper');
+        wrapper.className = 'wrapper wrapper--show';
+        overlay.className = 'sidebar-overlay';
+        aside.className = 'sidebar';
+    }
+
+    componentWillMount() {
+        window.addEventListener('resize', () => {
+            if (document.body.offsetWidth >= 1024) {
+                this.__hideAsideMobile();
+            }
+        });
+    }
+
     render() {
         return (
             <Fragment>
-            <div className="sidebar-overlay"></div>
+            <div className="sidebar-overlay" onClick={() => this.__hideAsideMobile()}></div>
                 <aside className="sidebar">
                     <div className="sidebar__scrolling-content">
                         <div className="sidebar__scrolling-content-scroll">
@@ -28,14 +45,14 @@ class Aside extends Component {
 
                             <nav className="menu">
                                 <ul className="menu__list">
-                                    <li className="menu__item">
+                                    <li className="menu__item" onClick={() => this.__hideAsideMobile()}>
                                         <Link to="/" title="Home" className="menu__link">
                                             <i className="fas fa-home" />
                                             Home
                                         </Link>
                                     </li>
                                     {logic.userLoggedIn && (
-                                        <li className="menu__item">
+                                        <li className="menu__item" onClick={() => this.__hideAsideMobile()}>
                                             <Link
                                                 to="/favorites"
                                                 title="Favorites"
@@ -58,7 +75,7 @@ class Aside extends Component {
                                         </li>
                                     )}
                                     {logic.userLoggedIn || (
-                                        <li className="menu__item">
+                                        <li className="menu__item" onClick={() => this.__hideAsideMobile()}>
                                             <Link to="/login" title="Login" className="menu__link">
                                                 <i className="fas fa-unlock-alt" />
                                                 Login
@@ -66,7 +83,7 @@ class Aside extends Component {
                                         </li>
                                     )}
                                     {logic.userLoggedIn || (
-                                        <li className="menu__item">
+                                        <li className="menu__item" onClick={() => this.__hideAsideMobile()}>
                                             <Link
                                                 to="/register"
                                                 title="Register"
@@ -82,22 +99,22 @@ class Aside extends Component {
                             <nav className="menu">
                                 <h3 className="menu__title">Platforms</h3>
                                 <ul className="menu__list">
-                                    <li className="menu__item">
+                                    <li className="menu__item" onClick={() => this.__hideAsideMobile()}>
                                         <Link to="/platform/4971" className="menu__link">
                                             Nintendo Switch
                                         </Link>
                                     </li>
-                                    <li className="menu__item">
+                                    <li className="menu__item" onClick={() => this.__hideAsideMobile()}>
                                         <Link to="/platform/4919" className="menu__link">
                                             PlayStation 4
                                         </Link>
                                     </li>
-                                    <li className="menu__item">
+                                    <li className="menu__item" onClick={() => this.__hideAsideMobile()}>
                                         <Link to="/platform/4920" className="menu__link">
                                             Xbox One
                                         </Link>
                                     </li>
-                                    <li className="menu__item">
+                                    <li className="menu__item" onClick={() => this.__hideAsideMobile()}>
                                         <Link to="/platform/1" className="menu__link">
                                             PC
                                         </Link>

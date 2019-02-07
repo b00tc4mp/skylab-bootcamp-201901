@@ -471,6 +471,7 @@ body {
 
 main {
     height: 100%;
+    overflow: hidden;
 }
 @media screen and (min-width: 1024px) {
     main {
@@ -494,11 +495,7 @@ main {
 }
 
 .sidebar {
-    /* display: none; */
     background-color: #f4f4f4;
-    /* transition-duration: 0.25s;
-    transition-timing-function: ease-out;
-    transition-delay: 0s; */
     transition: transform 0.25s ease-out 0s;
     transform: translateX(-100%);
 }
@@ -512,6 +509,7 @@ main {
     display: flex;
     visibility: visible;
     background-color: #f4f4f4;
+    transition: transform 0.25s ease-out 0s;
     transform: translateX(0);
 }
 @media screen and (min-width: 1024px) {
@@ -521,6 +519,7 @@ main {
         height: 100vh;
         flex: 1 1 0%;
         overflow: auto;
+        transition: transform 0.25s ease-out 0s;
         transform: translateX(0);
     }
 }
@@ -558,10 +557,17 @@ main {
     grid-template-columns: 100%;
     overflow-y: auto;
     height: 100vh;
+    transition: transform 0.25s ease-out 0s;
+}
+.wrapper--show {
+    transform: translateX(0);
+}
+.wrapper--hide {
+    transform: translateX(calc(100% - 50px));
 }
 
 .container {
-    display: grid;
+    /* display: grid; */
 }
 
 .content {
