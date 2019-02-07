@@ -277,12 +277,9 @@ const logic = {
 
                 if (likes) {
                     if (likes.includes(videoId)) {
-                        function indexOfLike(videoId, element) {
-                            return element === videoId
-                        }
 
-                        const index = likes.findIndex(indexOfLike)
-
+                        const index = likes.indexOf(videoId)
+                        
                         likes.splice(index, 1)
 
                     } else {
