@@ -2,7 +2,7 @@
 
 import youtubeApi from '.'
 
-describe('tutubo api', () => {
+describe('youtube api', () => {
     describe('search', () => {
         it('should succeed on valid query', () => {
             const query = 'viral videos'
@@ -10,7 +10,7 @@ describe('tutubo api', () => {
             return youtubeApi.search(query)
                 .then(items => {
                     expect(items).toBeDefined()
-                    expect(items.length).toBe(20)
+                    expect(items.length).toBe(50)
                     expect(items).toBeInstanceOf(Array)
                 })
 
@@ -38,12 +38,40 @@ describe('tutubo api', () => {
     })
 
     describe('most popular', () => {
-        it('should succeed on valid key', () =>{
+        it('should succeed on valid key', () => {
             return youtubeApi.mostPopular()
                 .then(items => {
                     expect(items).toBeDefined()
                     expect(items).toBeInstanceOf(Array)
                 })
         })
+        it('should hardly ever fail', () => {
+            return youtubeApi.mostPopular()
+                .catch(Error => {
+                    expect(Error).toBeUndefined()
+                })
+        })
     })
+
+    describe('watch video', () => {
+        it('should succeed on matching id', () => {
+            const id = 'FWYsvw_U3Zw'
+            return youtubeApi.watchVideo(id)
+                .then(items => {
+                    expect(items).toBeDefined()
+                    expect(items).toBeInstanceOf(Object)
+                })
+        })
+
+        // it('should fail on empty id', () => {
+        //     const id = ''
+        //     return youtubeApi.watchVideo(id)
+        //         .catch(error => {
+        //             expect(error).toBeDefined()
+        //             expect(error.message).toBe('failed to load')
+        //         })
+        // })
+    })
+
+    
 })
