@@ -8,7 +8,7 @@ import Login from '../Login'
 import Topbar from '../Topbar'
 import Favorites from '../Favorites';
 
-
+import './index.sass'
 
 class App extends Component {
 
@@ -64,10 +64,10 @@ class App extends Component {
           <Switch>
             <Route path='/register' render={() => !user && <Register onRegister={handleRegister} feedback={registerFeedback}/> }   />
             <Route path='/login' render={() => !user? <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/' /> } />
+            <Route exact path='/favorites' render={() => <Favorites /> } />
  
             <Route path='/' render={() => <Home /> } />
               
-            <Route path='/favorites' render={() => <Favorites /> } />
           </Switch>
 
 

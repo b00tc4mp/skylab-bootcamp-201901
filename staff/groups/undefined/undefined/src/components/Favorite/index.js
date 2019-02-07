@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 
 import logic from '../../logic'
 
+import './index.sass'
+
 class Favorite extends Component {
 
     state = {videoSelected: null}
