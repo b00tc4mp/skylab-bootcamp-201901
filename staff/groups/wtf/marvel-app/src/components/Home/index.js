@@ -49,7 +49,7 @@ class Home extends Component {
     
     render() {
 
-        const { handleSearch, handleCharacterSelected, handleComicSelected, handleToHome, handleToFavourites, handleLogOut, props: {home, favourites, youtube, logOut, searchBtn, searchInput, topCharacters, topComics, favs__feedback, favs__title, moreInfo, seeComics, price, characters }} = this
+        const { handleSearch, handleCharacterSelected, handleComicSelected, handleToHome, handleToFavourites, handleLogOut, props: {home, favourites, youtube, logOut, searchBtn, searchInput, topCharacters, topComics, favs__feedback, favs__title, moreInfo, seeComics, price, characters, comics }} = this
 
         return <section className="margin-top">
             <nav className="header level">
@@ -73,7 +73,7 @@ class Home extends Component {
             <Route  exact path="/home/search" render={()=> <TopCharacters onCharacterSelected={handleCharacterSelected} topCharacters={topCharacters}/>} />
             <Route  exact path="/home/search" render={()=> <TopComics onComicSelected={handleComicSelected} topComics={topComics} />} />
             <Route  exact path="/home/search/:query" render={props => <CharactersResults query={props.match.params.query} onCharacterSelected={handleCharacterSelected} />} />
-            <Route  path="/home/search/character/:id" render={props => <CharacterInfoResult id={props.match.params.id} onComicSelected={handleComicSelected} moreInfo={moreInfo} seeComics={seeComics}/>} />
+            <Route  path="/home/search/character/:id" render={props => <CharacterInfoResult id={props.match.params.id} onComicSelected={handleComicSelected} moreInfo={moreInfo} seeComics={seeComics} comics={comics}/>} />
             <Route  path="/home/search/comic/:id" render={props => <ComicInfoResult id={props.match.params.id} onCharacterSelected={handleCharacterSelected} moreInfo={moreInfo} characters={characters} price={price}/>} />
             <Route  path="/home/search/user/favourites" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleCharacterSelected} favs__feedback={favs__feedback} favs__title={favs__title}/>} />
         </section>

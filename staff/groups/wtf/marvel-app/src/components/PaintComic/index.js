@@ -5,8 +5,9 @@ import Feedback from '../Feedback'
 
 function PaintComic({onItemClick, feedback, results, characters, price, moreInfo}) {
 
-    return  <section className="container">
+    return  <section className="container has-text-centered">
     {feedback && <Feedback message={feedback} />}
+    {feedback === null && results === null && <span><i className="favourite__loading fas fa-spinner fa-spin fa-3x white" /></span>}
     {results && <Fragment> 
     <div key={results.id} data-id={results.id}  className="tile is-ancestor">
         <div className="tile is-vertical is-8">
