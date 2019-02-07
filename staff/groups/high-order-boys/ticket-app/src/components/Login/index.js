@@ -36,7 +36,7 @@ class Login extends Component {
                             <input className="input" type="password" name="password" placeholder="password" onChange={handleInput} />
                         </div>
                         <div className="column">
-                            <button className="button is-fullwidth">Login</button>
+                            <button className="button is-fullwidth is-success">Login</button>
                         </div>
                     </form>
                 </div>
