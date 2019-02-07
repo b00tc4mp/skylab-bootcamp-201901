@@ -23,7 +23,8 @@ class Favourite extends Component {
     const { handleItemChosen } = this.props;
     return (
       <section className="favourites container margin-top has-text-centered">
-        <nav className="panel list-group track">
+        <h2 className="title is-4 white">Your Favourite Characters</h2>
+        <nav className="panel list-group">
           {userFavourites === undefined && <span>
                                               <i className=" favourite__loading fas fa-spinner fa-5x" />
                                            </span>}
@@ -38,12 +39,15 @@ class Favourite extends Component {
                 key={id}
                 onClick={() => handleItemChosen(id)}
                 data-id={id}
-                className="favourite__item white title is-6 column is-three-fifths is-offset-one-fifth"
+                className="favourite__item white column is-three-fifths is-offset-one-fifth "
               >
                 <span className="panel-icon">
                   <i className="fas fa-bolt" />
                 </span>
-                {name}
+                {name} &nbsp;
+                <span className="panel-icon">
+                  <i className="fas fa-bolt" />
+                </span>
               </a>
             ))}
         </nav>

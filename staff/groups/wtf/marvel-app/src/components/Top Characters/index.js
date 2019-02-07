@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 
 class TopCharacter extends Component {
 
-    state = {results: [{"id": "1009662", "name" : "Thing", "src": "http://i.annihil.us/u/prod/marvel/i/mg/9/00/527bb4d36b5c2/detail.jpg"}, {"id": "1009158", "name" : "Black Cat", "src": "http://i.annihil.us/u/prod/marvel/i/mg/e/03/526952357d91c/detail.jpg"}, {"id": "1009368", "name":"Iron Man", "src":"http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55/detail.jpg"} ]}
+    state = {results: [{"id": "1009662", "name" : "Thing", "src": "http://i.annihil.us/u/prod/marvel/i/mg/9/00/527bb4d36b5c2/detail.jpg"}, {"id": "1009185", "name" : "Black Cat", "src": "http://i.annihil.us/u/prod/marvel/i/mg/e/03/526952357d91c/detail.jpg"}, {"id": "1009368", "name":"Iron Man", "src":"http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55/detail.jpg"} ]}
 
 
     render(){
