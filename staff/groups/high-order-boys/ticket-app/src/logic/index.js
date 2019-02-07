@@ -92,13 +92,20 @@ const logic = {
 
     retrieveUser() {
         return userApi.retrieve(this.getUserId(), this.getUserApiToken())
-        .then(({ id, name, surname, username,favourites }) => ({
+        .then(({ id, name, surname, username,favourites, bDate}) => ({
             id,
             name,
             surname,
             email: username,
-            favourites
+            favourites,
+            bDate: bDate
         }))
+    },
+
+    updateUser(data) {
+        if(data.constructor !== Object) throw TypeError(data + 'is not an Object')
+
+        return userApi.update(this.getUserId(), this.getUserApiToken(), data)
     },
 
     toggleFavourite(favouriteId) {
@@ -134,6 +141,17 @@ const logic = {
                 return fav === favouriteId;
             })
         })
+    },
+
+    getFavourites(favourites){
+
+       let array_promises =  favourites.map(favourite => {
+            return this.retrieveEvent(favourite)
+        }); 
+
+        return Promise.all(array_promises).then(function(values) {
+            return values
+        });
     },
 
     retrieveEvents(query, startDate, endDate) {
