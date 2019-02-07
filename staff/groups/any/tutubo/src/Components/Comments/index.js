@@ -15,26 +15,26 @@ class Comments extends Component {
         event.preventDefault()
 
         if (logic.userLoggedIn) {
-            const { state: { text }, props: { onComment } } = this
+            const { state: { text }, props: { onComment, updateComments } } = this
 
-            onComment(undefined, text)
+            onComment(text)
+
+            this.setState({ text: '' })
         } else {
             this.props.history.push('/login')
         }
 
-        const { props: { updateComments }, state: { text } } = this
-
-        updateComments()
-
-        this.setState({ text: '' })
     }
+
+    //#region revisar
 
     handleCommentDeletion = date => {
 
-        const { props: { onDelete } } = this
+        const { props: { onDelete, updateComments } } = this
 
         onDelete(date)
     }
+    //#endregion
 
     render() {
         const { handleFormSubmit, handleTextInput, handleCommentDeletion, props: { comments, id, mode } } = this
@@ -57,7 +57,7 @@ class Comments extends Component {
                                 <article class="message is-dark eachcomment">
                                     <div class="message-header eachcomment__header">
                                         <p>{name}</p>
-                                        <button class="delete" aria-label="delete"></button>
+                                        <button class="delete" aria-label="delete" onClick={() => handleCommentDeletion(comment.date)}></button>
                                     </div>
                                     <div class="message-body eachcomment__body">
                                         <p className="eachcomment__text">{comment.text}</p>

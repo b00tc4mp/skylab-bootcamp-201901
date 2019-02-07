@@ -17,10 +17,14 @@ class Video extends Component {
         this.handleVideoInfo(videoId)
     }
 
-    handleComment = (videoId, date) => {
+    handleComment = (date) => {
         try {
-            videoId = this.props.videoId
+            const {props: {videoId}} = this
             logic.commentVideo(videoId, date)
+                .then(() => logic.showComments(videoId))
+                    .then(comments => {
+                        this.setState({comments})
+                    })
                 .catch(() => console.log('bitch shut the fuck up'))
         } catch {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
@@ -36,8 +40,8 @@ class Video extends Component {
                     console.log(comments)
                 })
                 .catch(() => console.log('bitch shut the fuck upeeee'))
-        } catch {
-            this.setState(console.log('rer'))
+        } catch({message}) {
+            this.setState(console.log(message))
         }
     }
 
@@ -62,8 +66,18 @@ class Video extends Component {
         onLike(videoId)
     }
 
+    //#region Revisar
+    handleOnDelete = date => {
+        const {props : {videoId}} = this
+        logic.deleteComments(videoId, date)
+            .then(() =>  logic.showComments(videoId))
+            .then(comments => {
+                this.setState({comments})})
+    }
+    //#endregion
+
     render() {
-        const { props: { videoId, like }, handleShowComments, handleComment, state: { videoInfo }, handleLike, handleDislike } = this
+        const { props: { videoId, like }, handleShowComments, handleComment, state: { videoInfo }, handleLike, handleDislike, handleOnDelete } = this
 
         return <section className="section__video">
             <iframe className="iframe" title={videoId} src={`https://www.youtube.com/embed/${videoId}`}></iframe>
@@ -91,7 +105,7 @@ class Video extends Component {
                             </div>
                         </div>
                         }
-            <Comments onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} updateComments={handleShowComments} />
+            <Comments onDelete={handleOnDelete} onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} updateComments={handleShowComments} />
                     </div>
         </section>
             }
