@@ -2,25 +2,31 @@ import React, { Component } from "react";
 import logic from '../../logic'
 import './index.sass'
 import ItemResult from "../ItemResult";
-import {getPokemonId} from '../../utils';
+import { getPokemonId } from '../../utils';
 
 
 class FavoritesPanel extends Component {
-    
-  state = { favPokemons: [] , searchText: this.props.searchText, pokemons: [] , loading: true };
 
-  componentDidMount(){
+  state = { favPokemons: [], searchText: this.props.searchText, pokemons: [], loading: true };
 
-    logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
-        .then(favPokemons => this.setState({favPokemons}))
-    
-    logic.retrieveAllPokemons().then(pokemons => {
-            this.setState({pokemons})
-            console.log(this.state.pokemons)
-          })
-    
+  componentDidMount() {
+    this.updatePokemonList()
   }
-  
+
+  updatePokemonList() {
+    Promise.all([
+      logic.retrieveAllPokemons(),
+      logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
+    ])
+      .then(([pokemons, favPokemons]) => this.setState({ pokemons, favPokemons }))
+  }
+
+  updateOnlyFavs() {
+    Promise.all([
+      logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
+    ])
+      .then(([favPokemons]) => this.setState({favPokemons }))
+  }
 
   handlePokemonDetail = (name) => {
     logic.retrievePokemon(name)
@@ -30,22 +36,28 @@ class FavoritesPanel extends Component {
       })
   }
 
-  
+  handleToggleFav =(userId, token, pokemonName) => {
+    logic.toggleFavorite(userId, token, pokemonName)
+      .then(() => this.updateOnlyFavs())
+  }
+
 
   renderList = () => {
-
-    return <ul className='pokemon__ul'>
-      {
-        this.state.favPokemons.map(pokemon => {
+    if (this.state.favPokemons === null) {
+      return <p>There is no favorites</p>
+    } else {
+      return <ul className='pokemon__ul'>
+        {
+          this.state.favPokemons.map(pokemon => {
             let result = this.state.pokemons.find(p => p.name === pokemon)
-            return <ItemResult stringPokemonId = {result.url} pokemonName={result.name} onGoToDetails={this.handlePokemonDetail} />
-        })
-      }
-    </ul>
+            return <ItemResult stringPokemonId={result.url} pokemonName={result.name} onGoToDetails={this.handlePokemonDetail} onToggleFav={this.handleToggleFav} favorites = {this.state.favPokemons} isFav="heart--fav" />
+          })
+        }
+      </ul>
     }
 
+  }
 
-    
 
 
   render() {
@@ -54,7 +66,7 @@ class FavoritesPanel extends Component {
       <div className='searchPanel'>
         <img src={require('../../funcitons-pokedex-title.png')}></img>
         <h2 className='title__search'>Your Pokeballs</h2>
-          {this.renderList()}
+        {this.renderList()}
       </div>
     );
   }
