@@ -1,4 +1,4 @@
-'use strict'
+
 
 import pokemonApi from '../apipokemon'
 import userApi from '../user-api'
@@ -7,7 +7,7 @@ import userApi from '../user-api'
  */
 const logic = {
     //Pokemon Side
-    retrievePokemon(query){
+    retrievePokemon(query) {
 
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
         if (!query.trim().length) throw Error('query is empty')
@@ -15,10 +15,9 @@ const logic = {
         return pokemonApi.searchPokemonByName(query)
     },
 
-    retrieveAllPokemons(){
+    retrieveAllPokemons() {
 
-        if(arguments.length !== 0) throw Error('Too many args')
-
+        if (arguments.length !== 0) throw Error('Too many args')
         return pokemonApi.searchAllPokemons()
     },
 
@@ -35,7 +34,7 @@ const logic = {
     * @param {string} password 
     * @param {string} passwordConfirmation 
     */
-    registerUser( email, username, password, passwordConfirmation) {
+    registerUser(email, username, password, passwordConfirmation) {
         if (typeof username !== 'string') throw TypeError(username + ' is not a string')
 
         if (!username.trim().length) throw Error('username cannot be empty')
@@ -77,20 +76,16 @@ const logic = {
             .then(({ id, token }) => {
                 this.__userId__ = id
                 this.__userApiToken__ = token
-                return ({id, token, user})
+                return ({ id, token, user })
             })
     },
 
-    
-    toggleFavorite(user, id, token, pokemonName){
+
+    toggleFavorite(id, token, pokemonName) {
 
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
         if (!id.trim().length) throw Error('id cannot be empty');
-
-        if (typeof user !== 'string') throw TypeError(user + ' is not a string');
-
-        if (!user.trim().length) throw Error('user cannot be empty');
 
         if (typeof token !== 'string') throw TypeError(token + ' is not a string');
 
@@ -102,9 +97,9 @@ const logic = {
 
 
         return userApi.retrieve(id, token)
-            .then((data) =>{
+            .then((data) => {
                 let favorites = data.favorites
-                if(!favorites || !favorites.length){ //Caso sin favoritos o que el usuario los haya borrado todos
+                if (!favorites || !favorites.length) { //Caso sin favoritos o que el usuario los haya borrado todos
                     //En este caso creamos el array de favoritos, con el primer elemento el favorito clickado
                     // favorites = JSON.parse(JSON.stringify(([pokemonName])))
 
@@ -115,10 +110,10 @@ const logic = {
                         .then(() => true)
                 } else {
                     //Si favoritos existe, hay dos opciones, que exista o no
-                    if(favorites.includes(pokemonName)){
+                    if (favorites.includes(pokemonName)) {
                         //Quitarlo de favoritos
                         let index = favorites.indexOf(pokemonName)
-                        favorites.splice(index,1)
+                        favorites.splice(index, 1)
 
                         let favorites2 = {
                             'favorites': favorites
@@ -139,27 +134,23 @@ const logic = {
             })
     },
 
-    getFavorites(user, id, token){
+    getFavorites(id, token) {
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
 
         if (!id.trim().length) throw Error('id cannot be empty');
-
-        if (typeof user !== 'string') throw TypeError(user + ' is not a string');
-
-        if (!user.trim().length) throw Error('user cannot be empty');
 
         if (typeof token !== 'string') throw TypeError(token + ' is not a string');
 
         if (!token.trim().length) throw Error('token cannot be empty');
 
-        userApi.retrieve(id, token)
-        .then(({favorites}) =>{
-            if(!favorites || favorites.length==0){
-                return null
-            } else {
-                return favorites //Devuelve un array de pokemons({name})
-            }
-        })
+        return userApi.retrieve(id, token)
+            .then(({ favorites }) => {
+                if (!favorites || favorites.length == 0) {
+                    return null
+                } else {
+                    return favorites //Devuelve un array de pokemons({name})
+                }
+            })
     },
 }
 
