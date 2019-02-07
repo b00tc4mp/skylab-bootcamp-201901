@@ -12,6 +12,8 @@ class Favorites extends Component {
 
     componentDidMount () {
         
+        this.setState({favorites: []})
+
         logic.retrieveUser()
             .then (user => {
                 this.setState ({ favorites: user.favorites})
@@ -20,7 +22,7 @@ class Favorites extends Component {
 
     handleGoBack = event =>{
         event.preventDefault()
-        this.props.history.push('/')
+        this.props.history.push('/home/')
       }
 
     render (){
@@ -34,10 +36,10 @@ class Favorites extends Component {
                      video={video}
                 /> 
             )}
-            {!this.state.favorites || [] && <h3>You have no favorites yet... Search for movies and add them to your favorites</h3> }
+            {(!this.state.favorites || [] )&& <h3>You have no favorites yet... Search for movies and add them to your favorites</h3> }
             <div class="field">
               <p class="control">
-                <button onClick={this.handleGoBack} class="button is-info">Go back Home</button>
+                <button onClick={this.handleGoBack} onDeleted={this.handleDeleted} class="button is-info">Go back Home</button>
               </p>
             </div>
             </div>
