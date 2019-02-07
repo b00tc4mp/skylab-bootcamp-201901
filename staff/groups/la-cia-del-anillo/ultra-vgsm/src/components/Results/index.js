@@ -19,24 +19,25 @@ class Results extends Component {
         favorites: [],
         feedbackResult: null,
         nextButton: false,
-        loadFirstTime: true
+        loading: true
     };
 
     _updateGamesAftersearch = ({ data: { games }, include: { boxart, platform }, pages }) => {
         this.setState({
+            loading: false,
             nextButton: pages.next !== this.state.nextButton ? pages.next : false,
             results: games.map(game => {
                 game.base_url = boxart.base_url;
 
-                game.platform = (platform.data) ? platform.data[game.platform] : platform[game.platform];
+                game.platform = platform.data
+                    ? platform.data[game.platform]
+                    : platform[game.platform];
 
-                game.boxart = boxart.data[game.id].find(
-                    image => image.side === 'front'
-                );
+                game.boxart = boxart.data[game.id].find(image => image.side === 'front');
                 return game;
             })
         });
-    }
+    };
 
     loadMoreGame = nextButton => {
         try {
@@ -55,10 +56,9 @@ class Results extends Component {
                             game.boxart = boxart.data[game.id].find(
                                 image => image.side === 'front'
                             );
-                            game.platform =
-                                (platform.data)
-                                    ? platform.data[game.platform]
-                                    : platform[game.platform];
+                            game.platform = platform.data
+                                ? platform.data[game.platform]
+                                : platform[game.platform];
                             return game;
                         });
 
@@ -142,31 +142,46 @@ class Results extends Component {
 
     componentDidMount() {
         const {
-            favoritesSearch = false,
+            loading = true,
+            results = [],
+            favorites = [],
             match: {
                 params: { query = '', platformId = null }
             }
         } = this.props;
+        
         this.setState({
-            loadFirstTime: false
-        })
+            loading,
+            results,
+            favorites,
+            nextButton: false
+        });
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-        if (favoritesSearch) this.getFavoritesPage();
+        // if (favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
     componentWillReceiveProps(nextProps) {
         const {
-            favoritesSearch = false,
+            loading = true,
+            results = [],
+            favorites = [],
             match: {
                 params: { query = '', platformId = null }
             }
         } = nextProps;
 
+        this.setState({
+            loading,
+            results,
+            favorites,
+            nextButton: false
+        });
+
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-        if (favoritesSearch) this.getFavoritesPage();
+        // if (favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
@@ -179,12 +194,28 @@ class Results extends Component {
     render() {
         const {
             toggleFeedback,
-            state: { loadFirstTime, nextButton, results, favorites, feedbackResult }
+            state: { loading, nextButton, results, favorites, feedbackResult }
         } = this;
-        console.log(results);
+
+        console.log(loading, results.length);
+
+        if (loading && results.length <= 0) {
+            //Loading...
+            return (
+                <div className="loading">
+                    <i className="fas fa-sync fa-spin" />
+                </div>
+            );
+        } else if (!loading && results.length <= 0) {
+            //No results
+            return <NoResults />;
+        }
+        // else if (!loading && results.length > 0) {
+        //     //Results
+        // }
+
         return (
             <Fragment>
-                {(results.length <= 0 || loadFirstTime) && <NoResults />}
                 <Masonry
                     className={'results content'}
                     elementType={'section'}
@@ -205,11 +236,12 @@ class Results extends Component {
                             );
                         })}
                 </Masonry>
-                {nextButton && (
+                {results && nextButton && (
                     <button className="load-more" onClick={() => this.loadMoreGame(nextButton)}>
                         Load more
                     </button>
                 )}
+
                 {feedbackResult && (
                     <Feedback message={feedbackResult} toggleFeedback={toggleFeedback} />
                 )}
