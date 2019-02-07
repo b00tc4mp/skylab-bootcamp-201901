@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import './index.sass'
+
 class Video extends Component  {
 
     onVideoClick = id => {
