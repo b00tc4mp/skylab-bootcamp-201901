@@ -28,40 +28,38 @@ class Login extends Component {
         const {feedback} = this.props
         return (
 
-            <section className="login columns is-fullheight">
+            <section className="login columns">
             <div className="container column is-6">
-            <form onSubmit={handleFromSubmit}>
-                <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                      <input onChange={handleEmailInput} className="input" type="email" placeholder="Email" required/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                      </span>
-                      <span className="icon is-small is-right">
-                        <i className="fas fa-check"></i>
-                      </span>
-                    </p>
-                  </div>
+              <header>
+                <h1 class="title">Login</h1>
+                <h2 class="subtitle">Enjoy thousands of films and series in a click hit</h2>
+              </header>
+              <form onSubmit={handleFromSubmit}>
                   <div className="field">
-                    <p className="control has-icons-left">
-                      <input onChange={handlePasswordInput} className="input" type="password" placeholder="Password" required/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-lock"></i>
-                      </span>
-                    </p>
-                  </div>
-                  <div className="button-group">
-                    <div className="field">
-                        <button className="button is-success">Login</button>
+                      <p className="control has-icons-left has-icons-right">
+                        <input onChange={handleEmailInput} className="input" type="email" placeholder="Email" required/>
+                        <span className="icon is-small is-left">
+                          <i className="fas fa-envelope"></i>
+                        </span>
+                      </p>
                     </div>
                     <div className="field">
-                        <button onClick={handleGoBack} className="button">Go back Home</button>
+                      <p className="control has-icons-left">
+                        <input onChange={handlePasswordInput} className="input" type="password" placeholder="Password" required/>
+                        <span className="icon is-small is-left">
+                          <i className="fas fa-lock"></i>
+                        </span>
+                      </p>
                     </div>
-                  </div>
-
-
-            </form>
-
+                    <div className="button-group">
+                      <div className="field">
+                          <button className="button is-success">Login</button>
+                      </div>
+                      <div className="field">
+                          <button onClick={handleGoBack} className="button">Go back Home</button>
+                      </div>
+                    </div>
+              </form>
             { feedback && <Feedback message={feedback} level="warn" /> }
             </div>
             </section>     
