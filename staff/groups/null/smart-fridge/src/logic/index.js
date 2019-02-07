@@ -323,9 +323,89 @@ const logic = {
             health = ''
         }
         
-        const toCalories = `&calories=${calories/2}-` + calories
+        const toCalories = `&calories=${Math.round(calories/2)}-` + calories
 
         return edamamApi.search(query, toCalories, myDiet, health)
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 
+ * find the recipeUri amound all the recipes
+ * 
+ * @param {string} recipeUri 
+ * @param {array} recipes 
+ * 
+ * @throws {Error} wheh recipeUri is not found in recipes
+ * 
+ * @return {Object} - Recipe found
+ */
+    detail(recipeUri, recipes){
+        let recipe=null
+        recipes.find( element => {
+            if(element.recipe.uri===recipeUri){
+                recipe=element.recipe
+            }
+        })
+        if (!!recipe) return recipe
+        else throw Error('Details are not found')
+    },
+
+    generateLists(ingredientsRecipe, ingredientsQuery){
+        let fridge =[]
+        let shopping=[]
+
+        ingredientsRecipe.forEach(ingredientRecipe=>{
+            let compare= ingredientsQuery.find(ingredientQuery=>{
+                return ingredientRecipe.toLowerCase().includes(ingredientQuery.toLowerCase()) 
+            })
+            if (compare) fridge.push(ingredientRecipe)
+            else(shopping.push(ingredientRecipe))
+        })
+
+        return {fridge, shopping}
     }
 }
 
