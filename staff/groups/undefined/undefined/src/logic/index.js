@@ -163,12 +163,12 @@ const logic = {
      **/
 
 
-    searchVideos(query) {
+    searchVideos(query, count) {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
         if (!query.trim().length) throw Error('query is empty')
 
-        return ombdApi.searchItems(query)
+        return ombdApi.searchItems(query, count)
     },
 
     /**
