@@ -9,22 +9,18 @@ class CharacterInfoResult extends Component {
 
   componentWillMount() {
     const { props: { id } } = this
-
     this.handleCharacterSelected(id)
   }
 
   componentWillReceiveProps(nextProps) {
     const { id } = nextProps
-
     this.handleCharacterSelected(id)
   }
 
   handleCharacterSelected = id => {
     try {
-      logic
-        .retrieveCharacter(id)
-        .then(character => {this.setState({ character: character.results[0], feedback: null })
-        })
+      logic.retrieveCharacter(id)
+        .then(character => {this.setState({ character: character.results[0], feedback: null })})
         .then(() => {
           return logic.retrieveFavourites().then(favs => {
             let result = favs.some( obj => obj.id === this.state.character.id)

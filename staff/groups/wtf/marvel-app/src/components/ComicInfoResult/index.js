@@ -10,13 +10,11 @@ class ComicInfoResult extends Component {
 
     componentWillMount() {
         const { props: { id } } = this
-
         this.handleComicSelected(id)
     }
 
     componentWillReceiveProps(nextProps) {    
         const { id } = nextProps
-
         this.handleComicSelected(id)
     }
 

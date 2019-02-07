@@ -20,15 +20,11 @@ class Home extends Component {
     handleSearch = query => this.props.history.push(`/home/search/${query}`)
 
     handleCharacterSelected = id => {
-        this.setState({
-            characterId: id
-        }, () => this.props.history.push(`/home/search/character/${id}`))
+        this.setState({characterId: id}, () => this.props.history.push(`/home/search/character/${id}`))
     }
 
     handleComicSelected = id => {
-        this.setState({
-            comicId: id
-        }, () => this.props.history.push(`/home/search/comic/${id}`))
+        this.setState({comicId: id}, () => this.props.history.push(`/home/search/comic/${id}`))
     }
 
     handleToHome = (event) => { 
@@ -58,19 +54,19 @@ class Home extends Component {
         return <section className="margin-top">
             <nav className="header level">
                 <p className="level-item has-text-centered">
-                    <a onClick={(event) =>  handleToHome(event)} href="#" className="button is-small is-black is-rounded"><i class="fas fa-home"></i>&nbsp;&nbsp;Home</a>
+                    <a onClick={(event) =>  handleToHome(event)} href="#" className="button is-small is-black is-rounded"><i className="fas fa-home"></i>&nbsp;&nbsp;Home</a>
                 </p>
                 <p className="level-item has-text-centered">
-                    <a onClick={(event) =>  handleToFavourites(event)} href="#" className="button is-small is-black is-rounded"><i class="fas fa-bolt"></i>&nbsp;&nbsp;Favourites</a>
+                    <a onClick={(event) =>  handleToFavourites(event)} href="#" className="button is-small is-black is-rounded"><i className="fas fa-bolt"></i>&nbsp;&nbsp;Favourites</a>
                 </p>
                 <p className="level-item has-text-centered">
                     <img src="https://images.vectorhq.com/images/previews/cd8/marvel-logo-psd-444569.png" alt="" className="header__logo"/>
                 </p>
                 <p className="level-item has-text-centered">
-                    <a target="_blanck "href="https://www.youtube.com/channel/UCvC4D8onUfXzvjTOM-dBfEA" className="button is-small is-black is-rounded"><i class="fab fa-youtube"></i>&nbsp;&nbsp;Youtube</a>
+                    <a target="_blanck "href="https://www.youtube.com/channel/UCvC4D8onUfXzvjTOM-dBfEA" className="button is-small is-black is-rounded"><i className="fab fa-youtube"></i>&nbsp;&nbsp;Youtube</a>
                 </p>
                 <p className="level-item has-text-centered">
-                    <a onClick={(event) =>  handleLogOut(event)} href="#" className="button is-small is-black is-rounded"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Log out</a>
+                    <a onClick={(event) =>  handleLogOut(event)} href="#" className="button is-small is-black is-rounded"><i className="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Log out</a>
                 </p>
             </nav>
             <Search onSearch={handleSearch}/>
@@ -81,7 +77,6 @@ class Home extends Component {
             <Route  path="/home/search/comic/:id" render={props => <ComicInfoResult id={props.match.params.id} onCharacterSelected={handleCharacterSelected} />} />
             <Route  path="/home/search/user/favourites" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleCharacterSelected}/>} />
         </section>
-   
     }
 }
 

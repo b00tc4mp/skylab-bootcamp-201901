@@ -10,13 +10,11 @@ class CharactersResults extends Component {
     
     componentWillMount() {
         const { props: { query } } = this
-
         this.handleSearch(query)
     }
 
     componentWillReceiveProps(nextProps) {    
         const { query } = nextProps
-
         this.handleSearch(query)
     }
 
@@ -25,7 +23,6 @@ class CharactersResults extends Component {
             logic.searchCharacter(query)
                 .then(characters => {
                     const {results} = characters
-
                     this.setState({
                         feedback: null,
                         characters: results.map(({ id, name, thumbnail: {path,extension} }) => ({id, name, path, extension}))
@@ -38,11 +35,9 @@ class CharactersResults extends Component {
     }
 
     render() {
-
         const { state:{characters, feedback}, props: {onCharacterSelected} } = this;
 
         return  <MultipleResults results={characters} feedback={feedback} onItemClick={onCharacterSelected}/>
-
     }
 }
 

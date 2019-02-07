@@ -19,10 +19,8 @@ const marvelApi = {
         if (!this.__hash__) {
             const { apiKey, privateApiKey } = this
             const timeStamp = Date.now().toString()
-
             this.__hash__ = `apikey=${apiKey}&ts=${timeStamp}&hash=${md5(timeStamp + privateApiKey + apiKey)}`
         }
-
         return this.__hash__
     },
 
@@ -76,7 +74,6 @@ const marvelApi = {
         if (typeof characterId !== 'string') throw TypeError(`${characterId} is not a string`)
         if (!characterId.trim().length) throw Error(`characterId is empty`)
 
-
         return fetch(`${this.url}characters/${characterId}?${this.hash}`)
             .then(response => response.json())
             .then(response => {
@@ -120,4 +117,4 @@ const marvelApi = {
     }
 }
 
-export default marvelApi;
+export default marvelApi
