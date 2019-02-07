@@ -76,7 +76,7 @@ class PokemonSearch extends Component {
     return (
       <div className='searchPanel'>
         {/* <img src={titleImage} alt="poke_title"></img> */}
-        <img src={require('../../funcitons-pokedex-title.png')}></img>
+        {/* <img className="imagefunciton" src={require('../../funcitons-pokedex-title.png')}></img> */}
         <h2 className='title__search card-subtitle mb-2'>Search Pokemon</h2>
         
           <input className="input__searchPokemon input-group-text"

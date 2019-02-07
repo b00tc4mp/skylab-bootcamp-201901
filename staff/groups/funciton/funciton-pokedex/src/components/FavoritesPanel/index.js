@@ -71,7 +71,6 @@ class FavoritesPanel extends Component {
 
     return (
       <div className='searchPanel'>
-        <img src={require('../../funcitons-pokedex-title.png')}></img>
         <h2 className='title__search'>Your Pokeballs</h2>
         {this.renderList()}
         <ToastContainer />

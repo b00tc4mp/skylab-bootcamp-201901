@@ -10,7 +10,7 @@ html, body {
 }
 .App {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: row wrap;
   text-align: center;
   height: 100vh;
   width:100vw;
