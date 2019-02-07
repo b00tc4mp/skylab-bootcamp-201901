@@ -5,7 +5,7 @@ describe('logic', () => {
     describe('register user', () => {
         const name = 'Manolo'
         const surname = 'Skywalker'
-        const email = `manoloskywalker@mail.com-${Math.random()}`
+        const email = `register@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
 
@@ -147,19 +147,22 @@ describe('logic', () => {
                 logic.registerUser(name, surname, email, password, password)
             }).toThrow(Error('surname cannot be empty'))
         })
+
+
     })
 
     describe('retrieve user', () => {
         const name = 'Manolo'
         const surname = 'Skywalker'
-        const email = `manoloskywalker@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
+        let email
 
-        beforeEach(() =>
-            logic.registerUser(name, surname, email, password, passwordConfirm)
+        beforeEach(() => {
+            email = `retrieve@mail.com-${Math.random()}`
+            return logic.registerUser(name, surname, email, password, passwordConfirm)
                 .then(() => logic.loginUser(email, password))
-        )
+        })
 
         it('should succeed on correct credentials', () =>
             logic.retrieveUser()
@@ -172,17 +175,23 @@ describe('logic', () => {
         )
     })
 
+
     describe('login user', () => {
 
         const name = 'Manolo'
         const surname = 'Skywalker'
-        const email = `manoloskywalker@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
+        let email
 
-        it('should succeed on correct credentials', () => {
+        beforeEach(() => {
+            email = `retrieve@mail.com-${Math.random()}`
+            return logic.registerUser(name, surname, email, password, passwordConfirm)
+        })
 
-            logic.loginUser(email, password)
+        it('login should succeed on correct credentials', () => {
+
+            return logic.loginUser(email, password)
                 .then(() => {
                     expect(logic.__userId__).toBeDefined()
                     expect(logic.__userApiToken__).toBeDefined()
@@ -191,17 +200,27 @@ describe('logic', () => {
 
         it('should fail on a wrong email', () => {
 
-            const email = `wrongmail@notfake.com`
-            const password = '123'
+            const em = `login@fake.com`
+            const pass = '123'
+
+            return logic.loginUser(em, pass).catch(error => {
+                expect(error).toBeDefined()
+            })
+
+
+        })
+
+        it('should fail on undefined', () => {
 
             try {
-                logic.loginUser(email, password)
+                logic.loginUser()
 
             } catch (error) {
                 expect(error).toBeDefined()
-
+                expect(error.message).toBe(`undefined is not a string`)
             }
         })
+
 
         it('should fail if email is empty', () => {
 
@@ -219,7 +238,7 @@ describe('logic', () => {
 
         it('should fail if password is empty', () => {
 
-            const email = `wrongmail@notfake.com`
+            const email = `login@fake.com`
             const password = ''
 
             try {
@@ -231,7 +250,6 @@ describe('logic', () => {
             }
         })
     })
-
 
     describe('retrieveEvents', () => {
 
@@ -276,6 +294,18 @@ describe('logic', () => {
                 })
         })
 
+        it('should fail on undefined', () => {
+
+            try {
+                logic.retrieveEvents(query, startDate, endDate)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+
+            }
+        })
+
+
         it('should fail without query (city)', () => {
             const query = null
             const startDate = '2019-06-01'
@@ -299,7 +329,7 @@ describe('logic', () => {
             }
         })
 
-        it('should succeed in returning a fail message', () => {
+        it('should succeed in returning a degined error', () => {
             const query = 'Capital City the one from the Simpsons'
             const startDate = null
             const endDate = null
@@ -312,7 +342,6 @@ describe('logic', () => {
             }
         })
     })
-
 
     describe('retrieveEvent', () => {
 
@@ -337,9 +366,7 @@ describe('logic', () => {
         })
 
         it('should fail with a made up id', () => {
-
-            const id = 'qualitymemes'
-
+            const id = 'nonsense'
             try {
                 logic.retrieveEvent(id)
             } catch (error) {
@@ -348,7 +375,124 @@ describe('logic', () => {
         })
     })
 
+    describe('toggleFavourite', () => {
+
+        let name = 'Manolo'
+        let surname = 'Skywalker'
+        let email
+        let password = '123'
+        let passwordConfirm = '123'
+        let favouriteId
+        let favouriteId2
+
+        beforeEach(() => {
+
+            email = `toggle@favourite.com-${Math.random()}`
+            favouriteId = `nicememe-${Math.random()}`
+
+            return logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.loginUser(email, password))
+        })
+
+
+
+        it('should succed on toggling a fave', () => {
+            return logic.toggleFavourite(favouriteId)
+                .then(response => {
+                    expect(response).toBe(true)
+                })
+        })
+
+        it('should succed on toggling 2 diferent faves', () => {
+            favouriteId2 = `nicememe2 - ${Math.random()} `
+
+            return logic.toggleFavourite(favouriteId)
+                .then(() => logic.toggleFavourite(favouriteId2))
+                .then(response => { expect(response).toBe(true) })
+        })
+
+        it('should succed on dissable toogle', () => {
+
+            return logic.toggleFavourite(favouriteId)
+                .then(() => logic.toggleFavourite(favouriteId))
+                .then(response => { expect(response).toBe(false) })
+        })
+
+        it('should fail on dissable toogle', () => {
+            favouriteId2 = `nicememe2 - ${Math.random()} `
+
+            return logic.toggleFavourite(favouriteId)
+                .then(() => logic.toggleFavourite(favouriteId2))
+                .then(response => { expect(response).toBe(true) })
+        })
+        it('should fail on undefined', () => {
+
+            try {
+                logic.toggleFavourite()
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+
+            }
+        })
+
+
+
+    })
+
+    describe('checkFavourite', () => {
+
+        let name = 'Manolo'
+        let surname = 'Skywalker'
+        let email
+        let password = '123'
+        let passwordConfirm = '123'
+        let favouriteId
+        let favouriteId2
+
+        beforeEach(() => {
+
+            email = `check@favourite.com-${Math.random()} `
+            favouriteId = `favIdToggle - ${Math.random()} `
+
+            return logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.loginUser(email, password).then(() => logic.toggleFavourite(favouriteId)))
+
+        })
+
+        it('should succed on checking a fave', () => {
+            return logic.checkFavourite(favouriteId)
+                .then(response => {
+                    expect(response).toBe(true)
+                })
+        })
+
+
+        it('should fail on checking a fave', () => {
+            favouriteId2 = `nicememe2 - ${Math.random()} `
+
+            return logic.checkFavourite(favouriteId2)
+                .then(response => {
+                    expect(response).toBe(false)
+                })
+        })
+
+        it('should fail on undefined', () => {
+
+            try {
+                logic.toggleFavourite()
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+
+            }
+        })
+
+    })
+
 
 
     // TODO; updateUser, removeUser (métodos no creados?)
 })
+
+
