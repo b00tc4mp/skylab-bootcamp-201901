@@ -42,7 +42,7 @@ const thegamesDbApi = {
         })
             .then(response => response.json())
             .then(response => {
-                const { code, status, data, include, pages } = response;
+                const { code, status, data, include = {}, pages } = response;
 
                 if (status !== 'Success') throw Error(response.error);
 

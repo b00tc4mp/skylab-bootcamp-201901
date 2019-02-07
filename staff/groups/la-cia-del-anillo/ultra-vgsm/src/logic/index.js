@@ -153,6 +153,7 @@ const logic = {
      * @returns {Promise}
      */
     searchGame(query, params = '') {
+        
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`);
 
         if (!query.trim().length) throw Error('query is empty');

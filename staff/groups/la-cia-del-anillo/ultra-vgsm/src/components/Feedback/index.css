@@ -1,7 +1,17 @@
 .feedback {
-    margin-top: 1em;
-    padding: 0.6em;
-    font-size: 1.2em;
+    padding: 2rem;
+    font-size: 1.6rem;
     background-color: tomato;
     color: white;
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    left: 0px;
+    z-index: 40;
+}
+.feedback__close {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    cursor: pointer;
 }
