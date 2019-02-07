@@ -30,23 +30,23 @@ class Register extends Component {
 
         return <section className={`${mode ? 'register register-light' : 'register register-dark'}`}>
             <div className="registerBox">
-                <div className={`${mode ? 'content content-light' : 'content content-dark'}`}>
-                    <div className="text">
+                <div className={`${mode ? 'registerContent registerContent-light' : 'registerContent registerContent-dark'}`}>
+                    <div className="registerText">
                         <i className={`${mode ? 'fab fa-youtube fa-youtube-light fa-5x' : 'fab fa-youtube fa-5x'}`}></i>
                         <h3 className={`${mode ? 'tittleRegister tittleRegister-light' : 'tittleRegister tittleRegister-dark'}`}>Create your account</h3>
                         <p>to continue to TuTubo</p>
                     </div>
                     <form classname="registerform" onSubmit={handleFromSubmit}>
                         <div className="miniForm">
-                            <input className="input" name='name' type='text' placeholder='name' onChange={handleNameInput} />
-                            <input className="input" name='surname' type='text' placeholder='surname' onChange={handleSurnameInput} />
+                            <input className="registerInput" name='name' type='text' placeholder='name' onChange={handleNameInput} />
+                            <input className="registerInput" name='surname' type='text' placeholder='surname' onChange={handleSurnameInput} />
                         </div>
                         <div className="miniForm">
-                            <input className="input" name='email' type='text' placeholder='email' onChange={handleEmailInput} />
-                            <input className="input" name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
+                            <input className="registerInput" name='email' type='text' placeholder='email' onChange={handleEmailInput} />
+                            <input className="registerInput" name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
                         </div>
                         <div className="miniForm">
-                            <input className="input" name='passwordConfirmation' type='password' placeholder='confirm password' onChange={handlePasswordConfirmationInput} />
+                            <input className="registerInput" name='passwordConfirmation' type='password' placeholder='confirm password' onChange={handlePasswordConfirmationInput} />
                             <button className="registerButton">Register</button>
                         </div>
                     </form>
