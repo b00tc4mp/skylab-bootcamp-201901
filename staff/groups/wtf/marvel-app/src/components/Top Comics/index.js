@@ -8,10 +8,10 @@ class TopComics extends Component {
 
     render(){
 
-        const {state:{results}, props:{onComicSelected}} = this
+        const {state:{results}, props:{onComicSelected, topComics}} = this
 
         return <section className="container has-text-centered margin-top">
-        <h2 className="title is-4 white margin-top">Top Comics</h2>
+        <h2 className="title is-4 white margin-top">{topComics}</h2>
         <div className="columns is-mobile is-multiline is-centered">
         {results && results.map(({id, src}) => 
             <div key={id} onClick={() => onComicSelected(id)} data-id={id} className="column cursor card is-one-fourth-widescreen is-three-quarters-mobile has-text-centered">

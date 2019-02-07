@@ -3,7 +3,7 @@
 import React, { Fragment } from "react";
 import Feedback from "../Feedback";
 
-function PaintCharacter({ onItemClick, feedback, results, handleFavourite, isFav }) {
+function PaintCharacter({ onItemClick, feedback, results, handleFavourite, isFav, moreInfo, seeComics }) {
   
   let heart = isFav ? <img className="icon" src="https://image.flaticon.com/icons/svg/1477/1477163.svg" />: <img className="icon" src="https://image.flaticon.com/icons/svg/1477/1477265.svg" />
 
@@ -31,7 +31,7 @@ function PaintCharacter({ onItemClick, feedback, results, handleFavourite, isFav
                   <div className="content">{results.description}</div>
                   {results.urls[1].url && (
                     <a target="_blank " className="button is-small is-outlined is-info" href={results.urls[1].url}>
-                      More info
+                      {moreInfo}
                     </a>
                   )}
                 </article>
@@ -58,7 +58,7 @@ function PaintCharacter({ onItemClick, feedback, results, handleFavourite, isFav
                       })}
                   </ul>
                   {results.urls[2].url && (
-                        <a target="_blank " className="button is-small is-outlined" href={results.urls[2].url}> See all comics</a>
+                        <a target="_blank " className="button is-small is-outlined" href={results.urls[2].url}>{seeComics}</a>
                     )}
                 </div>
               </article>
