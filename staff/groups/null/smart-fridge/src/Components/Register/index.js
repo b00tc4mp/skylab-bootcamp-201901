@@ -1,5 +1,6 @@
 import React from 'react'
 import './index.sass'
+import Feedback from '../Feedback'
 
 class Register extends React.Component {
 
@@ -96,6 +97,7 @@ class Register extends React.Component {
                     </div>
                    
                     <div className="row mt-3">
+                    {this.props.feedback && <Feedback message={this.props.feedback}/>}
                             <div className="col-md-3 col-0"></div>
                             <button type="submit" className="btn btn-dark col-12 col-sm-6">Register</button>
                             <div className="p-0 pt-2 pt-sm-0 pl-sm-2 col-12 col-sm-6 col-md-3">

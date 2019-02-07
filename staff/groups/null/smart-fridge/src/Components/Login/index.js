@@ -1,5 +1,6 @@
 import React from 'react'
 import './index.sass'
+import Feedback from '../Feedback'
 
 class Login extends React.Component {
     state = { email: '', password: '' }
@@ -32,7 +33,7 @@ class Login extends React.Component {
                             <input onChange={this.handleEmailInput} type="email" className="col col-md-9 col-12 form-control mt-1" name="email" placeholder="Email" required />
                             <label htmlFor="password" className="col col-md-3 col-sm-12 flex mt-1">Password</label>
                             <input onChange={this.handlePasswordInput} type="password" className="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required />
-                            {/* {this.props.feedback && <Feedback message={this.props.feedback} />} */}
+                            {this.props.feedback && <Feedback message={this.props.feedback} />}
                         </div>
                         <div className="row mt-3">
                             <div className="col-md-3 col-0"></div>
