@@ -26,7 +26,8 @@ class Favorites extends Component {
     render (){
 
         return (
-        <section className="Favorites">
+        <section className="favorites section columns is-fullheight">
+            <div class="container column is-10">
             {(this.state.favorites || []).map(video => 
                 <Favorite
                      key={video.imdbID} 
@@ -38,6 +39,7 @@ class Favorites extends Component {
               <p class="control">
                 <button onClick={this.handleGoBack} class="button is-info">Go back Home</button>
               </p>
+            </div>
             </div>
         </section>)
     }
