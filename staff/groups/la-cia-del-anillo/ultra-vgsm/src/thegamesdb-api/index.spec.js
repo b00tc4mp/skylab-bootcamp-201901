@@ -57,6 +57,69 @@ describe('ThegamesDb API', () => {
         });
     });
 
+    describe('Search games by URL', () => {
+        let nextPage =
+            `https://api.thegamesdb.net/Games/ByPlatformID?apikey=${thegamesDbApi.apiKey}&id=1&include=boxart%2Cplatform&page=2`;
+
+        it('Should succeed on retrieve next page', () => {
+            return thegamesDbApi.searchGameByUrl(nextPage).then(({ data: { games } }) => {
+                expect(games).toBeDefined();
+                expect(games instanceof Array).toBeTruthy();
+                expect(games.length).toBeGreaterThan(0);
+
+                games.forEach(({ game_title }) => expect(game_title).toBeDefined());
+            });
+        });
+
+        it('Should succeed on retrieve next page and include extra data information', () => {
+            return thegamesDbApi
+                .searchGameByUrl(nextPage)
+                .then(({ data: { games }, include: { boxart, platform } }) => {
+                    expect(games).toBeDefined();
+                    expect(games instanceof Array).toBeTruthy();
+                    expect(games.length).toBeGreaterThan(0);
+                    games.forEach(({ game_title }) => expect(game_title).toBeDefined());
+
+                    expect(boxart).toBeDefined();
+
+                    expect(platform).toBeDefined();
+                });
+        });
+
+        it('Should fail on empty url', () => {
+            nextPage = '';
+            expect(() => thegamesDbApi.searchGameByUrl(nextPage)).toThrowError('url is empty');
+        });
+
+        it('Should fail if url is a number', () => {
+            nextPage = 1;
+            expect(() => thegamesDbApi.searchGameByUrl(nextPage)).toThrowError(
+                `${nextPage} is not a string`
+            );
+        });
+
+        it('Should fail if url is a boolean', () => {
+            nextPage = true;
+            expect(() => thegamesDbApi.searchGameByUrl(nextPage)).toThrowError(
+                `${nextPage} is not a string`
+            );
+        });
+
+        it('Should fail if url is a array', () => {
+            nextPage = [1.2, 2, 'berberecho'];
+            expect(() => thegamesDbApi.searchGameByUrl(nextPage)).toThrowError(
+                `${nextPage} is not a string`
+            );
+        });
+
+        it('Should fail if url is a object', () => {
+            nextPage = { hulio: 'tennis' };
+            expect(() => thegamesDbApi.searchGameByUrl(nextPage)).toThrowError(
+                `${nextPage} is not a string`
+            );
+        });
+    });
+
     describe('ultra-vgsm api retrieve GAME DATA by GameID', () => {
         beforeEach(() => {
             thegamesDbApi.apiKey = secureApiKey;
@@ -113,14 +176,6 @@ describe('ThegamesDb API', () => {
                 const gameId = '';
 
                 expect(() => thegamesDbApi.retrieveGame(gameId)).toThrowError('gameId is empty');
-            });
-
-            it('should throw error when gameId is not a string number (isNaN(Number(gameId)))', () => {
-                const gameId = 'a';
-
-                expect(() => thegamesDbApi.retrieveGame(gameId)).toThrowError(
-                    `${gameId} should be a number`
-                );
             });
 
             it('should throw error when gameId is <1', () => {
@@ -569,14 +624,12 @@ describe('ThegamesDb API', () => {
     });
     describe('Search games by platform', () => {
         it('Search games by platform', () => {
-            const id = '1';
+            const platformId = '1';
 
-            return thegamesDbApi.retrieveGamesByPlatform(id).then(({ data: { games } }) => {
+            return thegamesDbApi.retrieveGamesByPlatform(platformId).then(({ data: { games } }) => {
                 expect(games).toBeDefined();
                 expect(games instanceof Array).toBeTruthy();
                 expect(games.length).toBeGreaterThan(0);
-
-                games.forEach(({ id }) => expect(id).toEqual(id));
             });
         });
 
