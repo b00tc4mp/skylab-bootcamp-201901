@@ -6,10 +6,10 @@ import ticketmasterApi from '../ticketmaster-api';
  * Abstraction of business logic.
  */
 const logic = {
-    
+
     __userId__: null,
     __userApiToken__: null,
-    
+
     setUserId(id) {
         this.__userId__ = id
     },
@@ -92,18 +92,18 @@ const logic = {
 
     retrieveUser() {
         return userApi.retrieve(this.getUserId(), this.getUserApiToken())
-        .then(({ id, name, surname, username,favourites, bDate}) => ({
-            id,
-            name,
-            surname,
-            email: username,
-            favourites,
-            bDate: bDate
-        }))
+            .then(({ id, name, surname, username, favourites, bDate }) => ({
+                id,
+                name,
+                surname,
+                email: username,
+                favourites,
+                bDate: bDate
+            }))
     },
 
     updateUser(data) {
-        if(data.constructor !== Object) throw TypeError(data + 'is not an Object')
+        if (data.constructor !== Object) throw TypeError(data + 'is not an Object')
 
         return userApi.update(this.getUserId(), this.getUserApiToken(), data)
     },
@@ -112,44 +112,44 @@ const logic = {
         let isFav = false
 
         return userApi.retrieve(this.getUserId(), this.getUserApiToken())
-        .then(({favourites}) => {
+            .then(({ favourites }) => {
 
-            const hasFav = favourites.some(function(fav) {
-                return fav === favouriteId;
-            })
+                const hasFav = favourites.some(function (fav) {
+                    return fav === favouriteId;
+                })
 
-            if(hasFav) {
-                const index = favourites.indexOf(favouriteId);
-                if (index > -1) {
-                    favourites.splice(index, 1);
+                if (hasFav) {
+                    const index = favourites.indexOf(favouriteId);
+                    if (index > -1) {
+                        favourites.splice(index, 1);
+                    }
+                } else {
+                    isFav = true
+                    favourites.push(favouriteId)
                 }
-            }else{
-                isFav = true
-                favourites.push(favouriteId)
-            }
 
-            return userApi.update(this.getUserId(), this.getUserApiToken(), {favourites: favourites})
-                .then(()  => isFav)
+                return userApi.update(this.getUserId(), this.getUserApiToken(), { favourites: favourites })
+                    .then(() => isFav)
 
-        })
-    },
-
-    checkFavourite(favouriteId){
-        return userApi.retrieve(this.getUserId(), this.getUserApiToken())
-        .then(({favourites}) => {
-            return favourites.some(function(fav) {
-                return fav === favouriteId;
             })
-        })
     },
 
-    getFavourites(favourites){
+    checkFavourite(favouriteId) {
+        return userApi.retrieve(this.getUserId(), this.getUserApiToken())
+            .then(({ favourites }) => {
+                return favourites.some(function (fav) {
+                    return fav === favouriteId;
+                })
+            })
+    },
 
-       let array_promises =  favourites.map(favourite => {
+    getFavourites(favourites) {
+
+        let array_promises = favourites.map(favourite => {
             return this.retrieveEvent(favourite)
-        }); 
+        });
 
-        return Promise.all(array_promises).then(function(values) {
+        return Promise.all(array_promises).then(function (values) {
             return values
         });
     },
