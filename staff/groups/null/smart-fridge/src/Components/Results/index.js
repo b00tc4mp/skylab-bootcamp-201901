@@ -25,7 +25,7 @@ class Results extends Component {
                 {
                     recipes.map(recipe => (
                         <div className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
-                            <div className="card p-2">
+                            <div className="card p-2 mt-2">
                                 <div className="card-body">
                                     <h5 className="card-title text-center">{recipe.recipe.label}</h5>
                                     <div className='results__image-favorite'>
