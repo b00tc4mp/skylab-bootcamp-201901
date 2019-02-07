@@ -5,9 +5,8 @@ import Feedback from "../Feedback";
 
 function PaintCharacter({ onItemClick, feedback, results, handleFavourite, isFav }) {
   
-  let heart = isFav ? <img className="icon" src="https://image.flaticon.com/icons/svg/148/148836.svg" />: <img className="icon" src="https://image.flaticon.com/icons/svg/149/149217.svg" />
+  let heart = isFav ? <img className="icon" src="https://image.flaticon.com/icons/svg/1477/1477163.svg" />: <img className="icon" src="https://image.flaticon.com/icons/svg/1477/1477265.svg" />
 
-  
   return (
     <section className="container">
       {feedback && <Feedback message={feedback} />}
@@ -57,12 +56,10 @@ function PaintCharacter({ onItemClick, feedback, results, handleFavourite, isFav
                           </li>
                         );
                       })}
-                    {results.urls[2].url && (
-                      <li>
-                        <a target="_blank " className="button is-small is-outlined" href={results.urls[2].url}> See all comics</a>
-                      </li>
-                    )}
                   </ul>
+                  {results.urls[2].url && (
+                        <a target="_blank " className="button is-small is-outlined" href={results.urls[2].url}> See all comics</a>
+                    )}
                 </div>
               </article>
             </div>

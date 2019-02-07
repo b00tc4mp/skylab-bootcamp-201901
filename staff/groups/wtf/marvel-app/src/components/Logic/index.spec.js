@@ -120,7 +120,7 @@ describe("logic testing", () => {
       ));
   });
 
-  false && describe("retrieveUser", () => {
+  describe("retrieveUser", () => {
     const name = "Manuel";
     const surname = "Barzi";
     let email;
@@ -137,62 +137,12 @@ describe("logic testing", () => {
     });
 
     it("should succeed with correct credentials", () =>
-      logic
-        .updateUser({ favourites: [{ id: "1011334", name: "3-D Man" }, { id: "1011335", name: "Hulk" }] })
+      logic.updateUser({ favourites: [{ id: "1011334", name: "3-D Man" }, { id: "1011335", name: "Hulk" }] })
         .then(() => logic.retrieveUser(logic.__userId__, logic.__userApiToken__))
         .then(user => {
           expect(user.favourites).toEqual([{ id: "1011334", name: "3-D Man" }, { id: "1011335", name: "Hulk" }])
-          expect(user.favourites instanceof Array).toBeTruthy()
-        }));
-
-    it("should fail with wrong token", () => {
-      return logic.retrieveUser(logic.__userId__, "wrong token")
-        .then(() => {
-          throw Error("should not have passed by here");
-        })
-        .catch(error => {
-          expect(error).toBeDefined();
-          expect(error.message).toBe(`invalid token`);
-        });
-    });
-
-    it("should fail with wrong id", () => {
-      return logic
-        .retrieveUser("wrongId", logic.__userApiToken__)
-        .then(() => {
-          throw Error("should not have passed by here");
-        })
-        .catch(error => {
-          expect(error).toBeDefined();
-          expect(error.message).toBe(
-            `token id \"${logic.__userId__}\" does not match user \"wrongId\"`
-          );
-        });
-    });
-
-    it("should fail on empty id", () => {
-      expect(() => logic.retrieveUser("", logic.__userApiToken__)).toThrowError(
-        "id is empty"
+          expect(user.favourites instanceof Array).toBeTruthy()})
       );
-    });
-
-    it("should fail on empty token", () => {
-      expect(() => logic.retrieveUser(logic.__userId__, "")).toThrowError(
-        "token is empty"
-      );
-    });
-
-    it("should fail when id is a number", () => {
-      expect(() => logic.retrieveUser(1, logic.__userApiToken__)).toThrowError(
-        `1 is not a string`
-      );
-    });
-
-    it("should fail when token is a boolean", () => {
-      expect(() => logic.retrieveUser(logic.__userId__, true)).toThrowError(
-        `true is not a string`
-      );
-    });
   });
 
   describe("search characters", () => {
