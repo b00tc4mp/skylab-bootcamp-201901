@@ -5,16 +5,15 @@ import './index.sass'
 
 class Video extends Component {
 
-    state = { comments: [], videoId: '', text: '', buttonLike: '', buttonDislike: '', videoInfo: '' }
+    state = { comments: [], videoId: '', text: '', buttonLike: '', buttonDislike: '', videoInfo: '', likeStatus: false }
 
     componentDidMount() {
 
         const { props: { videoId } } = this
 
-        console.log(videoId)
-
-        this.handleShowComments()
         this.handleVideoInfo(videoId)
+        this.handleShowLike()
+        this.handleShowComments()
     }
 
     handleComment = (date) => {
@@ -64,6 +63,25 @@ class Video extends Component {
         const { props: { onLike, videoId } } = this
 
         onLike(videoId)
+        //debugger
+
+        //this.handleShowLike()
+    }
+
+    handleShowLike = () => {
+        try {
+            const idNow = this.props.videoId
+            logic.retrieveLikes()
+                .then(({likes}) => {
+                    //debugger
+                    //const idNow = this.props.videoId
+                    if(likes.includes(idNow)) this.setState({likeStatus: !this.state.likeStatus})
+                    else this.setState({likeStatus: this.state.likeStatus})
+                })
+                .catch(console.log('like error'))
+        } catch {
+            this.setState(/* sets state of feedback messafe again in case of error beforehand */)
+        }
     }
 
     //#region Revisar
@@ -77,7 +95,7 @@ class Video extends Component {
     //#endregion
 
     render() {
-        const { props: { videoId, like }, handleShowComments, handleComment, state: { videoInfo }, handleLike, handleDislike, handleOnDelete } = this
+        const { props: { videoId }, handleShowComments, handleComment, state: { videoInfo, likeStatus }, handleLike, handleOnDelete } = this
 
         return <section className="section__video">
             <iframe className="iframe" title={videoId} src={`https://www.youtube.com/embed/${videoId}`}></iframe>
@@ -87,8 +105,7 @@ class Video extends Component {
                         <div className="title-likes">
                             <h2 className="iframe__title">{videoInfo.snippet.title}</h2>
                             <div className="likes">
-                                <i className={`${like ? "far fa-thumbs-up blue" : "far fa-thumbs-up"}`} onClick={handleLike}> 2 M</i>
-                                <i className="far fa-thumbs-down" onClick={handleDislike}> 14 M</i>
+                                <i className={`${likeStatus ? "far fa-thumbs-up like" : "far fa-thumbs-up"}`} onClick={handleLike}></i>
                             </div>
                         </div>
                         <div>

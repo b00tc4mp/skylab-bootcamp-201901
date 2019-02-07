@@ -22,7 +22,7 @@ class Login extends Component {
     render() {
         const { handleEmailInput, handlePasswordInput, handleFromSubmit, props: { onGoToRegister, feedback, mode } } = this
 
-        return <section className={`${mode ? 'login login-light' : 'login-dark'}`}>
+        return <section className={`${mode ? 'login login-light' : 'login login-dark'}`}>
             <div className="loginBox">
                 <div className={`${mode ? 'content content-light' : 'content content-dark'}`}>
                     <div className="text">
@@ -33,12 +33,12 @@ class Login extends Component {
                     <form className="loginform" onSubmit={handleFromSubmit}>
                         <input className="input" name='email' type='text' placeholder='email' onChange={handleEmailInput} />
                         <input className="input" name='password' type='password' placeholder='password' onChange={handlePasswordInput} />
+                        {feedback && <Feedback message = {feedback}/>}
                         <button className="loginButton">Login</button>
                     </form>
                     <a className="createAccount" onClick={onGoToRegister}>Create account</a>
                 </div>
             </div>
-            {feedback && <Feedback message = {feedback}/>}
         </section> 
     }
 }

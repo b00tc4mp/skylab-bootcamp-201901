@@ -187,10 +187,11 @@ const logic = {
             }))
     },
 
-    popularResults(/*aqui es donde se podria meter lo de cambiar la region de los resultados populares*/) {
-        return youtubeApi.mostPopular(/*aqui es donde se podria meter lo de cambiar la region de los resultados populares*/)
+    popularResults() {
+        return youtubeApi.mostPopular()
 
             .then(items => items)
+            .catch(Error)
     },
 
     watchVideo(videoId) {
@@ -296,12 +297,10 @@ const logic = {
             })  
     },
 
-    // retrieveLikes() {
-    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
-    //         .then(user => {
-    //             const { }
-    //         })
-    // }
+    retrieveLikes() {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => user)
+    }
 
     // dislikeVideo(videoId) {
     //     return userApi.retrieve(this.__userId__, this.__userApiToken__)

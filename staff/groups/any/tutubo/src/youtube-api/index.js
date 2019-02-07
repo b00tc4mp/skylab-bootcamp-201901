@@ -51,7 +51,9 @@ const youtubeApi = {
             .then(response => response.json())
             .then(response => {
                 const {items} = response
-                return items
+                if(items.length) return items
+
+                throw Error('site down')
             })
     },
 
