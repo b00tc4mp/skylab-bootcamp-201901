@@ -3,7 +3,7 @@
 import React, {Fragment} from 'react'
 import Feedback from '../Feedback'
 
-function PaintComic({onItemClick, feedback, results}) {
+function PaintComic({onItemClick, feedback, results, characters, price, moreInfo}) {
 
     return  <section className="container">
     {feedback && <Feedback message={feedback} />}
@@ -17,15 +17,15 @@ function PaintComic({onItemClick, feedback, results}) {
                     </figure>
                     <p className="title">{results.title}</p>
                     <div className="content">{results.description}</div>
-                    {results.prices[0].price && <p>Price: {results.prices[0].price}€</p>}
-                    {results.urls[0].url && <a target="_blank " className="button is-small is-outlined is-info" href={results.urls[0].url}>More info</a>}
+                    {results.prices[0].price && <p>{price}: {results.prices[0].price}€</p>}
+                    {results.urls[0].url && <a target="_blank " className="button is-small is-outlined is-info" href={results.urls[0].url}>{moreInfo}</a>}
             </article>
         </div>
         </div>
         <div className="tile is-parent">
         <article className="tile is-child notification">
             <div className="content">
-            <p className="title">Characters</p>
+            <p className="title">{characters}</p>
             <ul className="content">
                 {results.characters && results.characters.items.map(({name, resourceURI}) => {
                     const uri = resourceURI.split('/')

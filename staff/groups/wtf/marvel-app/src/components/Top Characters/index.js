@@ -9,10 +9,10 @@ class TopCharacter extends Component {
 
     render(){
 
-        const {state:{results}, props:{onCharacterSelected}} = this
+        const {state:{results}, props:{onCharacterSelected, topCharacters}} = this
 
         return <section className="container has-text-centered margin-top">
-        <h2 className="title is-4 white">Top Characters</h2>
+        <h2 className="title is-4 white">{topCharacters}</h2>
         <div className="columns is-mobile is-multiline is-centered">
             {results && results.map(({id, src}) => 
             

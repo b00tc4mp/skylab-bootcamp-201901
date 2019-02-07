@@ -41,7 +41,7 @@ class Register extends Component {
 
 
     render() {
-         const {handleCloseModal, handleOnLanding, handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback, modalVisible,}  } = this
+         const {handleCloseModal, handleOnLanding, handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback, modalVisible, name, surname, email, password, confirmPassword, register, goBack}  } = this
     
         return <section className="register container margin-top">
         <div className="columns is-mobile">
@@ -49,10 +49,10 @@ class Register extends Component {
                 <div className="modal-background"></div>
                 <div className="modal-content column is-half-widescreen is-three-fifths-tablet is-three-quarters-mobile is-centered">
                     <form className="register__form " onSubmit={handleFormSubmit}>
-                        <h4 className="subtitle is-4 white">Sign Up</h4>
+                        <h4 className="subtitle is-4 white">{register}</h4>
                         <div className="field">
                             <p className="control has-icons-left has-icons-right">
-                                <input className="input is-small is-rounded" type="text" name="name" placeholder="Name" required onChange={handleNameInput} />
+                                <input className="input is-small is-rounded" type="text" name="name" placeholder={name} required onChange={handleNameInput} />
                                 <span className="icon is-small is-left">
                                     <i className="far fa-user"></i>
                                 </span>
@@ -63,7 +63,7 @@ class Register extends Component {
                         </div>
                         <div className="field">
                         <p className="control has-icons-left has-icons-right">
-                            <input className="input is-small is-rounded" type="text" name="surname" placeholder="Surame" required onChange={handleSurnameInput} />
+                            <input className="input is-small is-rounded" type="text" name="surname" placeholder={surname} required onChange={handleSurnameInput} />
                             <span className="icon is-small is-left">
                                 <i className="far fa-user"></i>
                             </span>
@@ -74,7 +74,7 @@ class Register extends Component {
                         </div>
                         <div className="field">
                             <p className="control has-icons-left has-icons-right">
-                                <input className="input is-small is-rounded" type="email" name="email" placeholder="Email" required onChange={handleEmailInput}/>
+                                <input className="input is-small is-rounded" type="email" name="email" placeholder={email} required onChange={handleEmailInput}/>
                                 <span className="icon is-small is-left">
                                     <i className="fas fa-envelope"></i>
                                 </span>
@@ -85,7 +85,7 @@ class Register extends Component {
                         </div>
                         <div className="field">
                             <p className="control has-icons-left">
-                                <input className="input is-small is-rounded" type="password" name="password"placeholder="Password" required onChange={handlePasswordInput} />
+                                <input className="input is-small is-rounded" type="password" name="password" placeholder={password} required onChange={handlePasswordInput} />
                                 <span className="icon is-small is-left">
                                     <i className="fas fa-lock"></i>
                                 </span>
@@ -93,7 +93,7 @@ class Register extends Component {
                         </div>
                         <div className="field">
                             <p className="control has-icons-left">
-                                <input className="input is-small is-rounded" type="password" name="password-confirmation"placeholder="Confirm password" required onChange={handlePasswordConfirmationInput}/>
+                                <input className="input is-small is-rounded" type="password" name="password-confirmation"placeholder={confirmPassword} required onChange={handlePasswordConfirmationInput}/>
                                 <span className="icon is-small is-left">
                                     <i className="fas fa-lock"></i>
                                 </span>
@@ -103,8 +103,8 @@ class Register extends Component {
                             {feedback && <Feedback message={feedback} />}
                         </div>
                         <div className="field is-grouped btn_grp">
-                            <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">Sign Up</button></p>
-                            <p className="control"><a to='/' onClick={handleOnLanding} className="button is-inverted is-outlined is-danger is-small is-rounded">Go back</a></p>
+                            <p className="control"><button className="button is-outlined is-danger is-small is-rounded" type="submit">{register}</button></p>
+                            <p className="control"><a to='/' onClick={handleOnLanding} className="button is-inverted is-outlined is-danger is-small is-rounded">{goBack}</a></p>
                         </div>
                     </form>
                 </div>    
