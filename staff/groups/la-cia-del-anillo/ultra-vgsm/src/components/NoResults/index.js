@@ -7,8 +7,8 @@ class NoResults extends Component {
             <section className="notfound">
                 <div className="notfound__content">
                     <h2 className="notfound__title">
-                        Ups! Parece que aquí no hay nada... Revisa que el nombre esté bien escrito o
-                        realiza otra busqueda
+                        Ups! It seems that there is nothing here... Check that everything is well
+                        written or perform another search
                     </h2>
                     <img src="./images/ups.svg" className="notfound__image" alt="" />
                 </div>
