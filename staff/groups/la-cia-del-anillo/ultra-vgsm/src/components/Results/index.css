@@ -15,6 +15,7 @@
     background: #f7f7f7;
     width: 150px;
     margin: 0px auto 20px auto;
+    display: block;
 }
 .load-more:hover {
     background: #f1efef;

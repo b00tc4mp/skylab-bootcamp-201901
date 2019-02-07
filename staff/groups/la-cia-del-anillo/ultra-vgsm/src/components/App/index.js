@@ -13,10 +13,9 @@ import Register from '../Register';
 import NotFound from '../NotFound';
 import logic from '../../logic';
 import LandingPage from '../LandingPage';
-import Feedback from '../Feedback';
 
 class App extends Component {
-    state = { loginFeedback: null, registerFeedback: null };
+    state = { feedbackLogin: null, feedbackRegister: null };
 
     handleLogin = (email, password) => {
         try {
@@ -25,9 +24,11 @@ class App extends Component {
                 .then(() => {
                     this.props.history.push('/');
                 })
-                .catch(error => {this.setState({ loginFeedback: error.message })});
+                .catch(error => {
+                    this.setState({ feedbackLogin: error.message });
+                });
         } catch ({ message }) {
-            this.setState({ loginFeedback: message });
+            this.setState({ feedbackLogin: message });
         }
     };
 
@@ -38,9 +39,11 @@ class App extends Component {
                 .then(() => {
                     this.props.history.push('/login');
                 })
-                .catch(error => {this.setState({ registerFeedback: error.message })});
+                .catch(error => {
+                    this.setState({ feedbackRegister: error.message });
+                });
         } catch ({ message }) {
-            this.setState({ registerFeedback: message });
+            this.setState({ feedbackRegister: message });
         }
     };
 
@@ -50,12 +53,19 @@ class App extends Component {
         this.props.history.push('/');
     };
 
+    // toggleFeedback = (prevProp) => {
+    //     console.log(prevProp);
+    //     this.setState({
+    //         feedback: prevProp
+    //     });
+    // };
+
     render() {
         const {
             handleLogin,
             handleRegister,
             handleLogout,
-            state: { loginFeedback, registerFeedback }
+            state: { feedbackLogin, feedbackRegister }
         } = this;
 
         return (
@@ -65,7 +75,7 @@ class App extends Component {
                     <Header />
                     <div className="container">
                         <Switch>
-                        <Route exact path="/" component={LandingPage} />
+                            <Route exact path="/" component={LandingPage} />
                             <Route path="/search/:query" component={Results} />
                             <Route path="/platform/:platformId" component={Results} />
                             <Route
@@ -87,7 +97,7 @@ class App extends Component {
                                     logic.userLoggedIn ? (
                                         <Redirect to="/" />
                                     ) : (
-                                        <Login onLogin={handleLogin} feedback={loginFeedback} />
+                                        <Login onLogin={handleLogin} feedback={feedbackLogin} />
                                     )
                                 }
                             />
@@ -98,10 +108,7 @@ class App extends Component {
                                     logic.userLoggedIn ? (
                                         <Redirect to="/" />
                                     ) : (
-                                        <Register
-                                            onRegister={handleRegister}
-                                            feedback={registerFeedback}
-                                        />
+                                        <Register onRegister={handleRegister} feedback={feedbackRegister} />
                                     )
                                 }
                             />
