@@ -119,12 +119,42 @@ class Aside extends Component {
                                             PC
                                         </Link>
                                     </li>
+                                    <li className="menu__item">
+                                        <Link to="/platform/3" className="menu__link">
+                                            Nintendo 64
+                                        </Link>
+                                    </li>
+                                    <li className="menu__item">
+                                        <Link to="/platform/13" className="menu__link">
+                                            PSP
+                                        </Link>
+                                    </li>
+                                    <li className="menu__item">
+                                        <Link to="/platform/9" className="menu__link">
+                                            Wii
+                                        </Link>
+                                    </li>
+                                    <li className="menu__item">
+                                        <Link to="/platform/2" className="menu__link">
+                                            GameCube
+                                        </Link>
+                                    </li>
+                                    <li className="menu__item">
+                                        <Link to="/platform/36" className="menu__link">
+                                            Sega Mega Drive
+                                        </Link>
+                                    </li>
+                                    <li className="menu__item">
+                                        <Link to="/platform/6" className="menu__link">
+                                            Super Nintendo
+                                        </Link>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
                 </aside>
-                </Fragment>
+            </Fragment>
         );
     }
 }

@@ -172,7 +172,7 @@ const logic = {
     searchGameByUrl(url) {
         if (typeof url !== 'string') throw TypeError(`${url} is not a string`);
 
-        if (!url.trim().length) throw Error('query is empty');
+        if (!url.trim().length) throw Error('url is empty');
 
 
         return thegamesDbApi.searchGameByUrl(url);

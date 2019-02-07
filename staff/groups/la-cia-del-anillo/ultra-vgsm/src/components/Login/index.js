@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+
 import './index.css';
 
 import Feedback from '../Feedback';
@@ -86,6 +87,7 @@ class Login extends Component {
                 </section>
                 {feedback && <Feedback message={feedback} toggleFeedback={toggleFeedback} />}
             </Fragment>
+
         );
     }
 }
