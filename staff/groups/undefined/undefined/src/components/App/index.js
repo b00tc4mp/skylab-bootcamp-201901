@@ -5,6 +5,7 @@ import Home from '../Home'
 import Register from '../Register'
 import logic from '../../logic';
 import Login from '../Login'
+import Favorites from '../Favorites';
 
 
 class App extends Component {
@@ -67,6 +68,7 @@ class App extends Component {
           <Route path='/' render={() => !user && <button onClick={handleGoToLogin}>Login</button>} />
 
           <Route path='/' render={() => !loginIsVisible && !registerIsVisible && <Home /> } />
+          <Route path='/favorites' render={() => <Favorites /> } />
 
         </div>
       )

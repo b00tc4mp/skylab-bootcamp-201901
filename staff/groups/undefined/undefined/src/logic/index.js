@@ -106,12 +106,30 @@ const logic = {
 
     retrieveUser() {
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(({ id, name, surname, username }) => ({
+            .then(({ id, name, surname, username, favorites }) => ({
                 id,
                 name,
                 surname,
-                email: username
+                email: username,
+                favorites
             }))
+    },
+
+    updateUser(favorites){
+        return userApi.update(this.__userId__, this.__userApiToken__, favorites)
+    },
+
+
+    toggleFavorties(id){
+        return this.retrieveUser().then(user => {
+            if (user.favorites.includes(id)) {
+                user.favorites = user.favorites.filter(fav => fav !== id)
+            } else {
+                user.favorites.push(id)
+            }
+            this.updateUser(user).then(() => this.retrieveUser().then(user => console.log(user)))
+        })
+
     },
 
 
