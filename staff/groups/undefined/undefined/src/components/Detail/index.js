@@ -28,7 +28,7 @@ class Detail extends Component {
 
     onClose = () => {
         this.setState({ videoSelected: null })
-        this.props.history.push(`/videos/${this.props.match.params.query}`)
+        this.props.history.push(`/home/videos/${this.props.match.params.query}`)
     }
 
     handleFavorites = () => {
