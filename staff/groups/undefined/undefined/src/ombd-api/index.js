@@ -23,11 +23,11 @@ const omdbApi = {
      * 
      */
 
-    searchItems(query) { 
+    searchItems(query, count) { 
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
         if (!query.trim().length) throw Error('query is empty')
 
-        return fetch(`${this.url}&s=${query}`)
+        return fetch(`${this.url}&s=${query}&page=${count}`)
             .then(response => response.json())
             .then(response => {
                 if (response.Response === 'False') throw Error(response.Error)
