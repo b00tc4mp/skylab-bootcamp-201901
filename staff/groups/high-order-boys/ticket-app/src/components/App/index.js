@@ -74,6 +74,7 @@ class App extends Component {
 
 
   render() {
+    
     const { handleLogin, handleRegister, handleLogout, state: { loginFeedback, registerFeedback, user } } = this
     return <main className="app">
       <Header user={user} onLogout={handleLogout} />

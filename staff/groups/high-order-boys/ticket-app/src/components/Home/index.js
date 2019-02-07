@@ -4,6 +4,7 @@ import Search from '../Search'
 import User from '../User'
 import EventResults from '../EventResults'
 import Event from '../Event'
+import Breadcrumb from '../Breadcrumb'
 
 
 
@@ -21,13 +22,14 @@ class Home extends Component {
 
     render(){
         
-        const { location: { pathname }, user } = this.props
+        const { location: { pathname } } = this.props
         const isUser = (pathname.includes("home/user"))
         const { handleSearch, handleEventDetail, state: { startDate,endDate } } = this
         
         return<div className='container'>
             {!isUser && <Search onSearch={handleSearch} />}
-            < Route path='/home/user' component={User} user={user}/>
+            <Breadcrumb pathname={pathname}/>
+            <Route path='/home/user' component={User}/>
             <Route path="/home/search/:query" render={props => <EventResults query={props.match.params.query} startDate={startDate} endDate={endDate} onEventDetail={handleEventDetail}/>} />
             <Route path="/home/event/:id" render={props => <Event id={props.match.params.id} />} />
         </div> 
