@@ -57,8 +57,8 @@ class DetailedPokemonPanel extends Component {
         const selectedButtonType = this.state.showType ? 'DetailPanel-otherInfo__buttons-button-selected' : 'DetailPanel-otherInfo__buttons-button'
 
         return <section className="DetailPanelContainer" >
-            <div className='DetailPanel'>
                 <button className='DetailPanel__backButton' onClick={onBackButtonClicked}>BACK</button>
+            <div className='DetailPanel'>
 
                 <div className='DetailPanel-mainInfo'>
 

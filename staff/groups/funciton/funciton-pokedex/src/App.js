@@ -31,13 +31,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Route exact path="/" render={() => this.state.userId ? <Redirect to="/welcome" />: <Redirect to="/home" />}/>
+      <div className="App"><Route exact path="/" render={() => this.state.userId ? <Redirect to="/welcome" />: <Redirect to="/home" />}/>
         <Route exact path="/home" component ={Home}/>      
         <Route exact path="/login" component ={LoginPanel}/>
         <Route exact path="/register" component = {RegisterPanel}/>
-        <Route exact path="/welcome" component = {Welcome}/>
-      </div>
+        <Route exact path="/welcome" component = {Welcome}/></div>
 
 /* <Route exact path="/" render={() => logic.userLoggedIn ? <Redirect to="/home" /> : <Fragment><Link to="/login">Login</Link> or <Link to="/register">Register</Link></Fragment>}></Route> */
     );

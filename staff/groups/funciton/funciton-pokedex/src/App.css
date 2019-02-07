@@ -9,7 +9,7 @@ html, body {
     
 }
 .App {
-  display: flex;
+  display: inline-block;
   flex-flow: row wrap;
   text-align: center;
   height: 100vh;
