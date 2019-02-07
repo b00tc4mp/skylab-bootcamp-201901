@@ -23,28 +23,68 @@ class Register extends Component {
 
         const { handleOnSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, props: {feedback}} = this
 
-        return <section className = "register">
-            <h2>Register</h2>
-                <form onSubmit = {handleOnSubmit}>
-                    <label htmlFor="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Name" onChange={handleNameInput} required />
+        return (
+    
+        <section className="register columns is-fullheight">
+           <form onSubmit={handleOnSubmit} className="container column is-10">
+              <div className="field">
+                <label className="label">Name</label>
+                <div className="control">
+                  <input onChange={handleNameInput} className="input" type="text" placeholder="Name" />
+              </div>
+            </div>
 
-                    <label htmlFor="surname">Surname</label>
-                    <input type="text" id="surname" name="surname" placeholder="Surname" onChange={handleSurnameInput} required />
+              <div className="field">
+                  <label className="label">Surname</label>
+                  <div className="control">
+                    <input onChange={handleSurnameInput} className="input" type="text" placeholder="Surname" />
+                  </div>
+                </div>
 
-                    <label htmlFor="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="E-mail" onChange={handleEmailInput} required />
+              <div className="field">
+                <label className="label">Email</label>
+                <div className="control has-icons-left has-icons-right">
+                  <input onChange={handleEmailInput} className="input" type="email" placeholder="Email"  />
+                  <span className="icon is-small is-left">
+                      <i className="fas fa-envelope"></i>
+                  </span>
+                </div>
+              </div>
 
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password" onChange={handlePasswordInput} required />
+              <div className="field">
+                  <label className="label">Password</label>
+                  <p className="control has-icons-left">
+                    <input onChange={handlePasswordInput} className="input" type="password" placeholder="Password" />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-lock"></i>
+                    </span>
+                  </p>
+              </div>
 
-                    <label htmlFor="passwordConfirmation">Password Confirmation</label>
-                    <input type="password" id="passwordConfirmation" name="passwordConfirmation" placeholder="Password confirmation" onChange={handlePasswordConfirmInput} required />
+              <div className="field">
+                  <label className="label">Confirm Password</label>
+                  <p className="control has-icons-left">
+                    <input onChange={handlePasswordConfirmInput} className="input" type="password" placeholder="Confirm Password" />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-lock"></i>
+                    </span>
+                  </p>
+              </div>
+              
+              <div className="field is-grouped">
+                <div className="control">
+                  <button className="button is-link">Register</button>
+                </div>
 
-                    <button type="submit">Register</button>
-                </form>
-                { feedback && <Feedback message={feedback} level="warn" /> }
+                <div className="control">
+                  <button className="button is-text">Cancel</button>
+                </div>
+              </div>
+           </form>
+           { feedback && <Feedback message={feedback} level="warn" /> }
         </section>
+
+        )
 
     }
 }

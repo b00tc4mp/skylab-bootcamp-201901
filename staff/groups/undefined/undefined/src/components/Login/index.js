@@ -19,17 +19,38 @@ class Login extends Component {
         const {handleEmailInput,handlePasswordInput,handleFromSubmit} = this
         const {feedback} = this.props
         return (
-            <section>
-                <h1>Login</h1>
-                <form onSubmit={handleFromSubmit}>
-                    <label>E-mail:</label>
-                    <input type="text" name="email" onChange={handleEmailInput}></input>
-                    <label>Password:</label>
-                    <input type="password" name="password" onChange={handlePasswordInput}></input>
-                    <button>Login</button>
-                </form>
-                { feedback && <Feedback message={feedback} level="warn" /> }
-            </section>            
+
+            <section className="login columns is-fullheight">
+            <div className="container column is-10">
+            <form onSubmit={handleFromSubmit}>
+                <div class="field">
+                    <p class="control has-icons-left has-icons-right">
+                      <input onChange={handleEmailInput} class="input" type="email" placeholder="Email" required/>
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                      </span>
+                      <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="field">
+                    <p class="control has-icons-left">
+                      <input onChange={handlePasswordInput} class="input" type="password" placeholder="Password" required/>
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="field">
+                    <p class="control">
+                      <button class="button is-success">Login</button>
+                    </p>
+                  </div>
+            </form>
+            { feedback && <Feedback message={feedback} level="warn" /> }
+            </div>
+            </section>     
         )
 
         
