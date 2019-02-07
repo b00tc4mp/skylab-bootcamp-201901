@@ -1,9 +1,16 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
+import './index.css';
 
-function Feedback({message}) {
-    return <section className="feedback">{message}</section>;
+class Feedback extends Component {
+
+    
+
+    render() {
+        const {props: {message}} = this;
+        return <section className="feedback">{message}</section>;
+    }
 }
 
 export default Feedback;

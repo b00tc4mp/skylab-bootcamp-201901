@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Feedback from '../Feedback'
+import Feedback from '../Feedback';
 import './index.css';
 
 class Login extends Component {
@@ -17,7 +17,7 @@ class Login extends Component {
             state: { email, password },
             props: { onLogin }
         } = this;
-        
+
         onLogin(email, password);
     };
 
@@ -64,12 +64,10 @@ class Login extends Component {
                     </form>
                     <div className="divider" />
                     <p className="login__register-text">
-                        No tienes cuenta? haz click  <Link to="/register">
-                          aquí
-                          </Link>
+                        No tienes cuenta? haz click <Link to="/register">aquí</Link>
                     </p>
+                    {feedback && <Feedback message={feedback} />}
                 </div>
-                {feedback && <Feedback message={feedback} />}
             </section>
         );
     }
