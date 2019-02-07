@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
 
-
 import {withRouter} from 'react-router-dom'
 
 import './index.sass'
@@ -35,8 +34,13 @@ class Register extends Component {
 
         return (
     
-        <section className="register columns is-fullheight">
-           <form onSubmit={handleOnSubmit} className="container column is-10">
+        <section className="register columns">
+        <div className="container column is-6">
+            <header>
+              <h1 class="title">Register</h1>
+              <h2 class="subtitle">Enjoy thousands of films and series in a click hit</h2>
+            </header>
+           <form onSubmit={handleOnSubmit}>
               <div className="field">
                 <label className="label">Name</label>
                 <div className="control">
@@ -80,23 +84,18 @@ class Register extends Component {
                     </span>
                   </p>
               </div>
-              
-              <div className="field is-grouped">
-                <div className="control">
-                  <button className="button is-link">Register</button>
-                </div>
 
-                <div className="control">
-                  <button className="button is-text">Cancel</button>
-                </div>
+              <div className="button-group">
+                  <div className="field">
+                      <button className="button is-success">Register</button>
+                  </div>
+                  <div className="field">
+                    <button onClick={handleGoBack} className="button">Go back Home</button>
+                  </div>
               </div>
            </form>
-           <div class="field">
-              <p class="control">
-                <button onClick={handleGoBack} class="button is-info">Go back Home</button>
-              </p>
-            </div>
            { feedback && <Feedback message={feedback} level="warn" /> }
+        </div>
         </section>
 
         )
