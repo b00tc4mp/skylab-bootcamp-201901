@@ -53,7 +53,7 @@ const logic = {
     },
 
     get userLoggedIn() {
-        return !!this.__userId__
+        return (!!this.__userId__ && !!this.__userApiToken__)
     },
 
     logout() {

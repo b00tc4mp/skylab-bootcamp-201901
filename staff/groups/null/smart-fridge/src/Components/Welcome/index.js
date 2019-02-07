@@ -64,10 +64,9 @@ class Welcome extends React.Component {
 
     
     render() {
-        const {state: {welcomeBannerVisual}} = this
 
         return <section className="welcome">
-                {welcomeBannerVisual && <Route exact path="/" render={() => <WelcomeBanner onLoginClick={this.handleGotoLogin} onRegisterClick={this.handleGotoRegister}/>}/>}
+                {<Route exact path="/" render={() => <WelcomeBanner onLoginClick={this.handleGotoLogin} onRegisterClick={this.handleGotoRegister}/>}/>}
                 {<Route path="/login" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Login onLogin={this.handleOnLogin} loginToRegister={this.handleGotoRegister}/>} />}
                 {<Route path="/register" render={() =>  logic.userLoggedIn ? <Redirect to="/home" /> : <Register onRegister={this.handleOnRegister} registerToLogin={this.handleGotoLogin}/>} />}
             </section>

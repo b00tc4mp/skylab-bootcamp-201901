@@ -68,6 +68,9 @@ class Home extends React.Component{
                 {<Route path="/home/profile" render={() =>  logic.userLoggedIn ? <EditProfile onEditProfile={this.handleEditProfile} cancelButton={this.handleCancelButton}/> : <Redirect to="/" />} />}
                 {<Route path="/home/search" render={() => recipes ? <Results recipes={recipes}/> : <Redirect to = "/home" />}/>/* {results && <Results recipes={this.state.recipes}/>} */}
                 {<Route path="/home/search/detail" render={() => onDetails ? <Detail recipes={recipes}/> : <Redirect to = "/home"/>}/>}
-            </main>}
+            </main>
+    }
+
+}
 
 export default withRouter(Home)
