@@ -18,17 +18,27 @@ class Search extends Component {
     render() {
         const { handleFormSubmit, handleInput, state: {city} } = this
 
-        return <section>
-            <h2>Search</h2>
-            <form onSubmit={ handleFormSubmit }>
-                <label>City</label>
-                <input type="text" name="city" placeholder="City" onChange={ handleInput } value={city} required />
-                <label>Start Date</label>
-                <input type="date" name="startDate" placeholder="Start Date" onChange={ handleInput } />
-                <label>End Date</label>
-                <input type="date" name="endDate" placeholder="End Date" onChange={ handleInput } />
-                <button>Submit</button>
-            </form>
+        return <section className="search">
+            <div className="block searchPanel">
+                <div className="columns is-centered has-text-centered">
+                    <div className="column">
+                        <form className="columns is-centered" onSubmit={ handleFormSubmit }>
+                            <div className="control column is-3">
+                                <input className="input" type="text" name="city" placeholder="City" onChange={ handleInput } value={city} required />
+                            </div>    
+                            <div className="control column is-3">
+                                <input className="input dateInputHack" type="date" name="startDate" placeholder="Start Date" onChange={ handleInput } />
+                            </div>
+                            <div className="control column is-3">
+                                <input className="input dateInputHack1" type="date" name="endDate" placeholder="End Date" onChange={ handleInput } />
+                            </div>
+                            <div className="column is-3">    
+                                <button className="button is-fullwidth is-warning is-outlined">Submit</button>
+                            </div>    
+                        </form>
+                    </div>
+                </div>
+            </div>    
         </section>
     }
 }
