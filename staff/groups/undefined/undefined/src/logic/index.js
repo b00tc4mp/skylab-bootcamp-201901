@@ -124,18 +124,24 @@ const logic = {
     },
 
     updateUser(favorites){
+        if (typeof favorites !== 'object') throw TypeError(favorites + ' is not an object')
+
         return userApi.update(this.__userId__, this.__userApiToken__, favorites)
     },
 
 
     toggleFavorties(id){
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+
+        if (!id.trim().length) throw Error('id cannot be empty')
+
         return this.retrieveUser().then(user => {
             if (user.favorites.includes(id)) {
                 user.favorites = user.favorites.filter(fav => fav !== id)
             } else {
                 user.favorites.push(id)
             }
-            this.updateUser(user).then(() => this.retrieveUser().then(user => console.log(user)))
+            return this.updateUser(user).then(() => this.retrieveUser().then(user => user))
         })
 
     },

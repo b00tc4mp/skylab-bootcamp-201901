@@ -6,12 +6,16 @@ import Detail from '../Detail'
 import logic from '../../logic'
 import Feedback from '../Feedback'
 
+
+import './index.sass'
+
+
 class Results extends Component  {
     
     state = { videoSelected: null, results: null, query: null, searchFeedback:null }
 
     handleVideoClick = id => {
-        this.props.history.push(`/videos/${this.state.query}/detail/${id}`)
+        this.props.history.push(`/home/videos/${this.state.query}/detail/${id}`)
     }
 
     componentDidMount () {
@@ -69,8 +73,10 @@ class Results extends Component  {
                        onVideoSelected={handleVideoClick}
                     /> 
                 )}
+
                 { searchFeedback && <Feedback message={searchFeedback} level="warn" /> }
-                <Route path='/videos/:query/detail/:id' component={Detail}/>
+
+                <Route path='/home/videos/:query/detail/:id' component={Detail}/>
 
             </section>
         )
