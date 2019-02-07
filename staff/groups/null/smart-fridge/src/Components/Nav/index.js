@@ -21,6 +21,12 @@ class Nav extends React.Component {
         this.props.editInputs()
     }
 
+    handleOnGoToFavourites = event => {
+        event.preventDefault() 
+
+        this.props.goToFavourites()
+    }
+
 
     render() {
         return <nav className="navbar container">
@@ -31,6 +37,9 @@ class Nav extends React.Component {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav mt-3">
+                    <li className="nav-item">
+                            <a onClick={this.handleOnGoToFavourites} className="nav-link text-right nav__link" href="#">Favourites</a>
+                        </li>
                         <li className="nav-item ">
                             <a  onClick={this.handleEditProfile} className="nav-link text-right nav__link" href="#">Edit Profile </a>
                         </li>
