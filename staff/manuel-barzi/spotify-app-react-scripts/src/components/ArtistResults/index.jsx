@@ -17,7 +17,7 @@ class ArtistResults extends Component {
 
     componentWillReceiveProps(props) {
         console.log('props changed')
-        
+
         const { query } = props
 
         this.handleSearch(query)
@@ -25,11 +25,28 @@ class ArtistResults extends Component {
 
     handleSearch = query => {
         try {
-            logic.searchArtists(query)
-                .then(artists => {
+            Promise.all([
+                logic.searchArtists(query),
+                logic.retrieveUser()
+            ])
+                .then(([artists, { favoriteArtists }]) =>
                     this.setState({
-                        artists: artists.map(({ id, name: title }) => ({ id, title }))
+                        artists: artists.map(({ id, name: title }) => ({ id, title, isFavorite: favoriteArtists.includes(id) }))
                     })
+                )
+                .catch(({ message }) => this.setState({ feedback: message }))
+        } catch ({ message }) {
+            this.setState({ feedback: message })
+        }
+    }
+
+    handleToggleFavorite(artistId) {
+        try {
+            logic.toggleFavoriteArtist(artistId)
+                .then(() => {
+                    const { props: { query } } = this
+
+                    return this.handleSearch(query)
                 })
                 .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
@@ -38,7 +55,7 @@ class ArtistResults extends Component {
     }
 
     render() {
-        const { state: { artists, feedback }, props: {onArtistSelected} } = this
+        const { state: { artists, feedback }, props: { onArtistSelected } } = this
 
         return <Results title="Artists" results={artists} feedback={feedback} onItemClick={onArtistSelected} />
     }

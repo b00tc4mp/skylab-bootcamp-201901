@@ -40,7 +40,7 @@ class Home extends Component {
     }
 
     render() {
-        const { handleSearch, handleArtistSelected, handleAlbumSelected, handleTrackSelected, state: { artists, albums, tracks, track, searchFeedback, artistFeedback, albumFeedback, trackFeedback }, props: { language } } = this
+        const { handleSearch, handleArtistSelected, handleAlbumSelected, handleTrackSelected, state: { searchFeedback }, props: { language } } = this
 
         return <section className="home">
             <Search title={i18n[language].searchTitle} onSearch={handleSearch} feedback={searchFeedback} />
