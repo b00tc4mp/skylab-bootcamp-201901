@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logic from '../../logic';
 import './index.sass'
+import Feedback from '../Feedback'
 
 class Home extends Component {
 
@@ -42,10 +43,11 @@ class Home extends Component {
     }
 
     render() {
-        const { onVideoSelected, state: { videos }, props: {mode} } = this
+        const { onVideoSelected, state: { videos }, props: { mode, feedback } } = this
         console.log(videos)
         return <section>
             <div class={`${mode ? 'randomVideoList randomVideoList-light' : 'randomVideoList randomVideoList-dark'}`}>
+            {feedback && <Feedback message = {feedback}/>}
                 {videos.map(({ id: videoId , snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
                     return <div className={`${mode ? 'card randomCard randomCard-light' : 'card randomCard randomCard-dark'}`} key={videoId} onClick={() => onVideoSelected(videoId)} >
                         <div className="card-image">

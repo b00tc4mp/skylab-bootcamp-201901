@@ -94,7 +94,6 @@ class App extends Component {
 
     handleLikeVideo = (videoId) => {
         try {
-
             logic.likeVideo(videoId)
                 .then(likes => {
                     if (likes) {
@@ -108,6 +107,8 @@ class App extends Component {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
         }
     }
+
+    
 
     handleOnLogout = () => {
 
