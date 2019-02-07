@@ -50,11 +50,12 @@ class Register extends Component {
                             <button className="registerButton">Register</button>
                         </div>
                     </form>
+                    <p className="feedback">{feedback && <Feedback message={feedback}/>}</p>
                     <a className="signIn"onClick={onGoToLogin}>Sign In</a>
                 </div>
             </div>
           
-            {feedback && <Feedback message={feedback}/>}
+            {/* {feedback && <Feedback message={feedback}/>} */}
         </section> 
     }
 }
