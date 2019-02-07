@@ -3,46 +3,36 @@ import React, { Component } from 'react'
 import './index.sass'
 import logic from '../../logic'
 
-
-class Results extends Component {
-
-    state={favourites: JSON.parse(sessionStorage.getItem('user')).favourites}
+class Favourites extends Component {
 
     handleOnDetail = recipeUri => {
         this.props.onDetail(recipeUri)
     }
-    handleOnFavourite = recipe => {
-        // this.isMarked(recipe.recipe.uri)
-        this.props.onFavourite(recipe)
-    }
 
-    // isMarked = uri =>{
-    //     return this.state.favourites.find(favorite=> {
-    //         return favorite.recipe.uri===uri
-    //     })
-    // }
+    handleOnFavourite = recipe => {
+        this.props.onFavouriteTrue(recipe)
+    }
 
     render() {
 
         const user = JSON.parse(sessionStorage.getItem('user'))
         const maxCalories = logic.caloriesCounter(user.gender, user.height, user.weight, user.birthDate, user.lifeStyle)
-        const { recipes } = this.props
+        console.log(maxCalories)
+        const { favourites } = this.props
+
 
         return <section className="results">
 
             <div className="card_columns row m-2 mt-5">
                 {
-
-                    recipes.map(recipe => (
-                        <div key={recipe.recipe.uri} className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
-                            <div className="card p-2 mt-2">
+                    favourites.map(recipe => (
+                        <div className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
+                            <div className="card p-2">
                                 <div className="card-body">
                                     <h5 className="card-title text-center">{recipe.recipe.label}</h5>
                                     <div className='results__image-favorite'>
                                         <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img>
-
                                         <i onClick={() => this.handleOnFavourite(recipe)} className={JSON.parse(sessionStorage.getItem('user')).favourites.find(favorite=> favorite.recipe.uri===recipe.recipe.uri)? "far fa-heart fa-heart-red":"far fa-heart" }></i>
-
                                     </div>
 
                                     <div className='mt-4 flex'>
@@ -86,5 +76,4 @@ class Results extends Component {
 
 }
 
-export default Results
-
+export default Favourites
