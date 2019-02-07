@@ -41,6 +41,9 @@ class Detail extends Component {
     printDetails = () => {
         if (this.state.videoSelected) {
             const {handleFavorites, state: {videoSelected: {Title, Runtime, Plot, Genre, Actors, Poster, Released}}} = this
+
+            if (this.state.videoSelected.Poster === "N/A")  this.setState({videoSelected: ({Title, Runtime, Plot, Genre, Actors, Poster : "http://www.lbsnaa.gov.in/upload/academy_souvenir/images/59031ff5e92caNo-image-available.jpg", Released})})
+
             return (
                 <section className="detail modal is-active">
 

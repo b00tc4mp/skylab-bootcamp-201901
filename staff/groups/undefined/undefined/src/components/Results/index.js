@@ -6,11 +6,13 @@ import Detail from '../Detail'
 import logic from '../../logic'
 import Feedback from '../Feedback'
 
+
 import './index.sass'
+
 
 class Results extends Component  {
     
-    state = { videoSelected: null, results: null, query: null }
+    state = { videoSelected: null, results: null, query: null, searchFeedback:null }
 
     handleVideoClick = id => {
         this.props.history.push(`/home/videos/${this.state.query}/detail/${id}`)
@@ -59,6 +61,7 @@ class Results extends Component  {
             state : {results},   
                     handleVideoClick
             } = this
+        const {searchFeedback} = this.state
             
         return (
             <section className="results section columns is-multiline">
@@ -71,10 +74,9 @@ class Results extends Component  {
                     /> 
                 )}
 
+                { searchFeedback && <Feedback message={searchFeedback} level="warn" /> }
+
                 <Route path='/home/videos/:query/detail/:id' component={Detail}/>
-
-
-
 
             </section>
         )

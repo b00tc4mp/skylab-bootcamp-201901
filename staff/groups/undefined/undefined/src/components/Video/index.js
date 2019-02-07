@@ -12,6 +12,8 @@ class Video extends Component  {
     render () {
         const {props: {video}, onVideoClick} = this
         
+        if (video.Poster === "N/A")  video.Poster = "http://www.lbsnaa.gov.in/upload/academy_souvenir/images/59031ff5e92caNo-image-available.jpg"
+
         return (
         
             <section onClick={() => onVideoClick(video.imdbID)} className="video card column is-4">
