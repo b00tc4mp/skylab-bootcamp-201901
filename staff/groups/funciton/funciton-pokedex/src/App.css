@@ -16,3 +16,37 @@ html, body {
   width:100vw;
   background-color: white
 }
+
+
+@-webkit-keyframes fadeIn { 0% { opacity:0; } 100% { opacity:1; } } /* -webkit-: Chrome y Safari*/ 
+.fade-in.clase1 {
+ -webkit-animation-delay: 0.7s;
+ -moz-animation-delay: 0.7s;
+ -o-animation-delay: 0.7s;
+ -ms-animation-delay: 0.7s;
+ animation-delay: 0.7s;
+}
+.fade-in {
+   opacity:0;  /* Sin visibilidad al empezar */
+   -webkit-animation:fadeIn ease-in 1;
+   -moz-animation:fadeIn ease-in 1;
+   -o-animation:fadeIn ease-in 1;
+   -ms-animation:fadeIn ease-in 1;
+   animation:fadeIn ease-in 1;
+   /* fadeIn es un identificador de keyframe inventado; ease-in determina el tipo de velocidad de la transición ( http://www.devildrey33.es/Doc/CSS/Propiedades/transition-timing-function ); el 1 determina el número de veces que se reproduce la animación */
+
+   -webkit-animation-fill-mode:forwards; 
+   -moz-animation-fill-mode:forwards;
+   -o-animation-fill-mode:forwards;
+   -ms-animation-fill-mode:forwards;
+   animation-fill-mode:forwards;
+
+
+   /* Duración de las animaciones */
+   -webkit-animation-duration:0.3s;
+   -moz-animation-duration:0.3s;
+   -o-animation-duration:0.3s;
+   -ms-animation-duration:0.3s;
+   animation-duration:0.3s;
+
+}

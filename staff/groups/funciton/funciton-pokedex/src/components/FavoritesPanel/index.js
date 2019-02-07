@@ -3,12 +3,13 @@ import logic from '../../logic'
 import './index.sass'
 import ItemResult from "../ItemResult";
 import { getPokemonId } from '../../utils';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class FavoritesPanel extends Component {
 
-  state = { favPokemons: [], searchText: this.props.searchText, pokemons: [], loading: true };
-
+  state = { favPokemons: [], searchText: this.props.searchText, pokemons: [], loading: true, toastId: null };
   componentDidMount() {
     this.updatePokemonList()
   }
@@ -22,6 +23,12 @@ class FavoritesPanel extends Component {
   }
 
   updateOnlyFavs() {
+
+    this.state.toastId = toast("Pokemon removed from favorites!",{
+      position: toast.POSITION.BOTTOM_RIGHT,
+      autoClose: 3000,
+      type: toast.TYPE.ERROR
+    })
     Promise.all([
       logic.getFavorites(logic.getUserId(), logic.getUserApiToken())
     ])
@@ -67,6 +74,7 @@ class FavoritesPanel extends Component {
         <img src={require('../../funcitons-pokedex-title.png')}></img>
         <h2 className='title__search'>Your Pokeballs</h2>
         {this.renderList()}
+        <ToastContainer />
       </div>
     );
   }

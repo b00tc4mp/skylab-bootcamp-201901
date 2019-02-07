@@ -57,7 +57,7 @@ class RegisterPanel extends Component {
             <Home/>
 
             <div className='row'>
-                <div className="containerRegister">
+                <div className="containerRegister fade-in">
                     <form onSubmit={handleFormSubmit}>
                         <div>
                             <label htmlFor="Username">Username</label>
