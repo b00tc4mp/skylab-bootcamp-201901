@@ -266,6 +266,17 @@ describe('user api', () => {
                 })
         })
 
+        it('should fail on invalid data, token or id', () => {
+            const id = 'smkasklmask'
+            const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
+
+            return userApi.update(id, _token, data)
+                .catch(error => {
+                    expect(error).toBeDefined()
+                })
+        })
+
+
         // describe('fail on TypeError id', () => {
 
         //     it('should fail on id typeof number instead of string ', () =>
