@@ -69,7 +69,6 @@ class Video extends Component {
     }
 
     handleShowLike = () => {
-        debugger
         try {
             const idNow = this.props.videoId
             logic.retrieveLikes()
@@ -127,7 +126,7 @@ class Video extends Component {
                             </div>
                         </div>
                         }
-            <Comments onDelete={handleOnDelete} onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} updateComments={handleShowComments} />
+            <Comments onDelete={handleOnDelete} onComment={handleComment} text={this.setState.text} comments={this.state.comments} id={videoId} updateComments={handleShowComments} mode={this.props.mode}/>
                     </div>
         </section>
             }

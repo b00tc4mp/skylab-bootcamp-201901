@@ -15,7 +15,7 @@ class Comments extends Component {
         event.preventDefault()
 
         if (logic.userLoggedIn) {
-            const { state: { text }, props: { onComment, updateComments } } = this
+            const { state: { text }, props: { onComment } } = this
 
             onComment(text)
 
@@ -30,7 +30,7 @@ class Comments extends Component {
 
     handleCommentDeletion = date => {
 
-        const { props: { onDelete, updateComments } } = this
+        const { props: { onDelete } } = this
 
         onDelete(date)
     }
@@ -55,13 +55,13 @@ class Comments extends Component {
                                 <p>{comment.date}</p>
                                 <button onClick={() => handleCommentDeletion(comment.date)}>X</button> */}
                                 <article class="message is-dark eachcomment">
-                                    <div class="message-header eachcomment__header">
+                                    <div class={`${mode ? 'message-header eachcomment__header eachcomment__header-light' : 'message-header eachcomment__header eachcomment__header-dark'}`}>
                                         <p>{name}</p>
                                         <button class="delete" aria-label="delete" onClick={() => handleCommentDeletion(comment.date)}></button>
                                     </div>
-                                    <div class="message-body eachcomment__body">
-                                        <p className="eachcomment__text">{comment.text}</p>
-                                        <p className="eachcomment__date">{comment.date}</p>
+                                    <div class={`${mode ? 'message-body eachcomment__body eachcomment__body-light' : 'message-body eachcomment__body eachcomment__body-dark'}`}>
+                                        <p className={`${mode ? 'eachcomment__text eachcomment__text-light' : 'eachcomment__text eachcomment__text-dark'}`}>{comment.text}</p>
+                                        <p className={`${mode ? 'eachcomment__date eachcomment__date-light' : 'eachcomment__date eachcomment__date-dark'}`}>{comment.date.substr(0, 10)}</p>
                                     </div>
                                 </article>
                             </div>)
