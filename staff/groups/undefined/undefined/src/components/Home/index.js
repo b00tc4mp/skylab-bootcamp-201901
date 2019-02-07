@@ -10,7 +10,7 @@ class Home extends Component {
     state = { videos: null, searchFeedback: null }
 
     handleSearch = query => {
-        this.props.history.push(`/videos/${query}`)
+        this.props.history.push(`/home/videos/${query}`)
     }
 
     render() {
@@ -19,8 +19,12 @@ class Home extends Component {
         return (
             <section className="home columns is-fullheight">
                 <div class="container column is-10">
+
+                    <Route path='/home/videos/:query' render={(props) => <Results query={props.match.params.query} />} />
+
                     <Search onSearch={handleSearch} />
-                    <Route path='/videos/:query' render={(props) => <Results query={props.match.params.query} />} />
+
+
                 </div>
             </section >
         )
