@@ -6,6 +6,7 @@ import './index.css';
 import logic from '../../logic';
 import Card from '../Card';
 import Feedback from '../Feedback';
+import NoResults from '../NoResults';
 
 const masonryOptions = {
     transitionDuration: 0,
@@ -17,8 +18,8 @@ class Results extends Component {
         results: null, 
         favorites: [], 
         feedbackResult: null,
-        nextButton: false,
-        loading: true
+        nextButton: false
+
     };
 
     loadMoreGame = nextButton => {
@@ -26,24 +27,20 @@ class Results extends Component {
             logic
                 .searchGameByUrl(nextButton)
                 .then(({ data: { games }, include: { boxart, platform }, pages }) => {
-
                     const {
                         match: {
-                            params: { query = ''}
+                            params: { query = '' }
                         }
                     } = this.props;
                    
                     games && games.map(game => {
                         game.base_url = boxart.base_url;
-                        game.boxart = boxart.data[game.id].find(
-                            image => image.side === 'front'
-                        );
-                        game.platform = (query === '') 
-                                            ? platform.data[game.platform]
-                                            : platform[game.platform];
+                        game.boxart = boxart.data[game.id].find(image => image.side === 'front');
+                        game.platform =
+                            query === '' ? platform.data[game.platform] : platform[game.platform];
                         return game;
-                    })
-                    
+                    });
+
                     this.setState({
                         nextButton: (pages.next !== this.state.nextButton) ? pages.next : false,
                         results: [...this.state.results, ...games]
@@ -83,7 +80,6 @@ class Results extends Component {
             logic
                 .retrieveGamesByPlatform(platformId, 'boxart,platform')
                 .then(({ data: { games }, include: { boxart, platform }, pages }) => {
-                    
                     this.setState({
                         nextButton: pages.next,
                         results: games.map(game => {
@@ -103,11 +99,12 @@ class Results extends Component {
     };
 
     getFavorites = () => {
-        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
-            this.setState({
-                favorites
+        logic.userLoggedIn &&
+            logic.retrieveUser().then(({ favorites }) => {
+                this.setState({
+                    favorites
+                });
             });
-        });
     };
 
     getFavoritesPage = () => {
@@ -145,13 +142,13 @@ class Results extends Component {
         const {
             favoritesSearch = false,
             match: {
-                params: { query = '', platformId = null,  }
+                params: { query = '', platformId = null }
             }
         } = this.props;
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-        if(favoritesSearch) this.getFavoritesPage();
+        if (favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
@@ -165,7 +162,7 @@ class Results extends Component {
 
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-        if(favoritesSearch) this.getFavoritesPage();
+        if (favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
@@ -180,9 +177,10 @@ class Results extends Component {
             toggleFeedback,
             state: { loading, nextButton, results, favorites, feedbackResult }
         } = this;
-        console.log("RENDER RESULS");
+        console.log(results);
         return (
             <Fragment>
+                {results === null && <NoResults />}
                 <Masonry
                     className={'results content'}
                     elementType={'section'}

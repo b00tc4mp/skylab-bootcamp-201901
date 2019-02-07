@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import './index.css'
+
 
 class LandingPage extends Component {
     render() {

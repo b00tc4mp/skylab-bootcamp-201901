@@ -150,6 +150,210 @@ describe('logic', () => {
                 logic.registerUser(name, surname, email, password, password);
             }).toThrow(Error('surname cannot be empty'));
         });
+
+        it('should fail on undefined email', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = undefined;
+            const password = '123';
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(email + ' is not a string'));
+        });
+
+        it('should fail on numeric email', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 123;
+            const password = '123';
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(email + ' is not a string'));
+        });
+
+        it('should fail on boolean email', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = true;
+            const password = '123';
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(email + ' is not a string'));
+        });
+
+        it('should fail on object email', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = {};
+            const password = '123';
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(email + ' is not a string'));
+        });
+
+        it('should fail on array email', () => {
+            const name =  'Manuel';
+            const surname = 'Barzi';
+            const email = [];
+            const password = '123';
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(email + ' is not a string'));
+        });
+
+        it('should fail on empty email', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = '';
+            const password = '123';
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(Error('email cannot be empty'));
+        });
+
+        it('should fail on undefined password', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = undefined;
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(password + ' is not a string'));
+        });
+
+        it('should fail on numeric password', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = 123;
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(password + ' is not a string'));
+        });
+
+        it('should fail on boolean password', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = true;
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(password + ' is not a string'));
+        });
+
+        it('should fail on object password', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = {};
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(password + ' is not a string'));
+        });
+
+        it('should fail on array password', () => {
+            const name =  'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = [];
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(TypeError(password + ' is not a string'));
+        });
+
+        it('should fail on empty password', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = '';
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password);
+            }).toThrow(Error('password cannot be empty'));
+        });
+
+        it('should fail on undefined password confirmation', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = 'undefined';
+            const passwordConfirmation = undefined
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, passwordConfirmation);
+            }).toThrow(TypeError(passwordConfirmation + ' is not a string'));
+        });
+
+        it('should fail on numeric password confirmation', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = 'undefined';
+            const passwordConfirmation = 123
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, passwordConfirmation);
+            }).toThrow(TypeError(passwordConfirmation + ' is not a string'));
+        });
+
+        it('should fail on boolean password confirmation', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = 'undefined';
+            const passwordConfirmation = true
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, passwordConfirmation);
+            }).toThrow(TypeError(passwordConfirmation + ' is not a string'));
+        });
+
+        it('should fail on object password confirmation', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = 'undefined';
+            const passwordConfirmation = {}
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, passwordConfirmation);
+            }).toThrow(TypeError(passwordConfirmation + ' is not a string'));
+        });
+
+        it('should fail on array password confirmation', () => {
+            const name =  'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = 'undefined';
+            const passwordConfirmation = []
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, passwordConfirmation);
+            }).toThrow(TypeError(passwordConfirmation + ' is not a string'));
+        });
+
+        it('should fail on empty password confirmation', () => {
+            const name = 'Manuel';
+            const surname = 'Barzi';
+            const email = 'manuelbarzi@mail.com';
+            const password = 'undefined';
+            const passwordConfirmation = ''
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, passwordConfirmation);
+            }).toThrow(Error('password confirmation cannot be empty'));
+        });
     });
 
     describe('login user', () => {
@@ -190,9 +394,161 @@ describe('logic', () => {
             }));
     });
 
-    // TODO updateUser and removeUser
+    describe('Toggle Favorites', () => {
 
-    describe('ThegamesDb API', () => {
+        let gameId = '340'
+
+        let name = 'Manuel';
+        let surname = 'Barzi';
+        let email = `manuelbarzi@mail.com-${Math.random()}`;
+        let password = '123';
+        let passwordConfirm = password;
+
+        let __userId__
+        let __userApiToken__
+
+        beforeEach(() => {
+            gameId = '340'
+
+            name = 'Manuel';
+            surname = 'Barzi';
+            email = `manuelbarzi@mail.com-${Math.random()}`;
+            password = '123';
+            passwordConfirm = password;
+            __userId__ = null;
+            __userApiToken__ = null;
+        });
+
+        it('should add correctly a favorite', () => {
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+            .then(() => logic.loginUser(email, password))
+            .then(() => logic.toggleFavorite(gameId))
+            .then(() => logic.retrieveUser()
+            .then(({ favorites }) => {
+                const index = favorites.indexOf(gameId)
+                expect(index).toBeGreaterThan(-1)
+                    })
+                )
+        })
+
+        it('should delete correctly a favorite', () => {
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+            .then(() => logic.loginUser(email, password))
+            .then(() => logic.toggleFavorite(gameId))
+            .then(() => logic.retrieveUser()
+                .then(({ favorites }) => {
+                    const index = favorites.indexOf(gameId)
+                    expect(index).toBeGreaterThan(-1)
+                }))
+            .then(() => logic.toggleFavorite(gameId))
+            .then(() => logic.retrieveUser()
+                .then(({ favorites }) => {
+                    const index = favorites.indexOf(gameId)
+                    expect(index).toBe(-1)
+                })
+            )
+        })
+        
+        // it('should throw error when Game ID is not a string number', () => {
+        //     const gameId = 2
+            
+        //     logic.toggleFavorite(gameId)
+        //     .then(() => {
+        //         throw Error('should not pass by here');
+        //     })
+        //     .catch(({ message }) =>
+        //         expect(message).toThrow(TypeError(`${gameId} is not a string`))
+        //     )
+        // })
+    })
+
+    describe('user logged checker', () => {
+
+        let gameId = '340'
+
+        let name = 'Manuel';
+        let surname = 'Barzi';
+        let email = `manuelbarzi@mail.com-${Math.random()}`;
+        let password = '123';
+        let passwordConfirm = password;
+
+        let __userId__
+        let __userApiToken__
+
+        beforeEach(() => {
+            gameId = '340'
+
+            name = 'Manuel';
+            surname = 'Barzi';
+            email = `manuelbarzi@mail.com-${Math.random()}`;
+            password = '123';
+            passwordConfirm = password;
+
+            __userId__ = null;
+            __userApiToken__ = null;
+        });
+
+        it('should check if user is not logged anymore', () => {
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+            .then(() => logic.loginUser(email, password))
+            .then(() => {
+                expect(__userApiToken__).toBeDefined();
+                expect(__userId__).toBeDefined();
+                logic.logout()
+                }).then(() => {
+                expect(__userApiToken__).toBe(null)
+                expect(__userId__).toBe(null)
+                })
+        })
+    })
+
+    // describe('user logged checker', () => {
+
+    //     let gameId = '340'
+
+    //     let name = 'Manuel';
+    //     let surname = 'Barzi';
+    //     let email = `manuelbarzi@mail.com-${Math.random()}`;
+    //     let password = '123';
+    //     let passwordConfirm = password;
+
+    //     let __userId__
+    //     let __userApiToken__
+
+    //     beforeEach(() => {
+    //         gameId = '340'
+
+    //         name = 'Manuel';
+    //         surname = 'Barzi';
+    //         email = `manuelbarzi@mail.com-${Math.random()}`;
+    //         password = '123';
+    //         passwordConfirm = password;
+
+    //         __userId__ = null;
+    //         __userApiToken__ = null;
+    //     });
+
+    //     it('should check if user is logged', () => {
+    //         logic.registerUser(name, surname, email, password, passwordConfirm)
+    //         .then(() => logic.loginUser(email, password))
+    //         .then(() => logic.toggleFavorite(gameId))
+    //         .then(() => {
+    //             expect(logic.userLoggedIn).toBe(true)
+    //             }
+    //         )
+    //     })
+    //     it('should check if user is not logged', () => {
+            
+    //         logic.registerUser(name, surname, email, password, passwordConfirm)
+    //         .then(() => logic.toggleFavorite(gameId))
+    //         .then(() => {
+    //             expect(logic.userLoggedIn).toBe(false)
+    //             }
+    //         )
+    //     })
+    // })
+
+    describe('ThegamesDb API logic', () => {
         describe('Search games', () => {
             it('Should succeed on matching query', () => {
                 const query = 'Zelda';
@@ -243,6 +599,69 @@ describe('logic', () => {
                 expect(() => logic.searchGame(query)).toThrowError('query is empty');
             });
         });
+
+        describe('Search games by URL', () => {
+            let nextPage =
+            `https://api.thegamesdb.net/Games/ByPlatformID?apikey=${thegamesDbApi.apiKey}&id=1&include=boxart%2Cplatform&page=2`;
+
+            it('Should succeed on retrieve next page', () => {
+                
+                return logic.searchGameByUrl(nextPage).then(({ data: { games } }) => {
+                    expect(games).toBeDefined();
+                    expect(games instanceof Array).toBeTruthy();
+                    expect(games.length).toBeGreaterThan(0);
+
+                    games.forEach(({ game_title }) =>
+                        expect(game_title).toBeDefined()
+                    );
+                });
+            });
+
+            it('Should succeed on retrieve next page and include extra data information', () => {
+                
+                return logic
+                    .searchGameByUrl(nextPage)
+                    .then(({ data: { games }, include: { boxart, platform } }) => {
+                        expect(games).toBeDefined();
+                        expect(games instanceof Array).toBeTruthy();
+                        expect(games.length).toBeGreaterThan(0);
+                        games.forEach(({ game_title }) =>
+                            expect(game_title).toBeDefined()
+                        );
+
+                        expect(boxart).toBeDefined();
+
+                        expect(platform).toBeDefined();
+                    });
+            });
+
+            it('Should fail on empty url', () => {
+                nextPage = ''
+                expect(() => logic.searchGameByUrl(nextPage)).toThrowError('url is empty');
+            });
+
+            it('Should fail if url is a number', () => {
+                nextPage = 1
+                expect(() => logic.searchGameByUrl(nextPage)).toThrowError(`${nextPage} is not a string`);
+            });
+
+            it('Should fail if url is a boolean', () => {
+                nextPage = true
+                expect(() => logic.searchGameByUrl(nextPage)).toThrowError(`${nextPage} is not a string`);
+            });
+
+            it('Should fail if url is a array', () => {
+                nextPage = [1.2,2,'berberecho']
+                expect(() => logic.searchGameByUrl(nextPage)).toThrowError(`${nextPage} is not a string`);
+            });
+
+            it('Should fail if url is a object', () => {
+                nextPage = { 'hulio' : 'tennis' }
+                expect(() => logic.searchGameByUrl(nextPage)).toThrowError(`${nextPage} is not a string`);
+            });
+
+        });
+
 
         describe('Retrieve GAME DATA by GameID', () => {
             beforeEach(() => {
@@ -300,14 +719,6 @@ describe('logic', () => {
                     const gameId = '';
 
                     expect(() => logic.retrieveGame(gameId)).toThrowError('gameId is empty');
-                });
-
-                it('should throw error when gameId is not a string number (isNaN(Number(gameId)))', () => {
-                    const gameId = 'a';
-
-                    expect(() => logic.retrieveGame(gameId)).toThrowError(
-                        `${gameId} should be a number`
-                    );
                 });
 
                 it('should throw error when gameId is <1', () => {
@@ -758,8 +1169,7 @@ describe('logic', () => {
 
     describe('retrive games by platform', function() {
         beforeEach(() => {
-            thegamesDbApi.apiKey =
-                '387f91ccf550081f8c890fefc75982c76d309d2b215cfbefd959d520d397c72b';
+            thegamesDbApi.apiKey = thegamesDbApi.apiKey = secureApiKey;
             thegamesDbApi.proxy = 'https://skylabcoders.herokuapp.com/proxy?url=';
         });
 

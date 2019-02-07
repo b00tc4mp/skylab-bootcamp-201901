@@ -55,7 +55,7 @@ const thegamesDbApi = {
     searchGameByUrl(url) {
         if (typeof url !== 'string') throw TypeError(`${url} is not a string`);
 
-        if (!url.trim().length) throw Error('query is empty');
+        if (!url.trim().length) throw Error('url is empty');
 
         return fetch(`${this.proxy + url}`, {
             headers: {
@@ -91,9 +91,11 @@ const thegamesDbApi = {
 
         // if (isNaN(Number(gameId))) throw Error(`${gameId} should be a number`);
 
-        // if (Number(gameId) < 1) throw Error(`${gameId} should be a bigger than 0 number`);
+        if (!isNaN(Number(gameId)) && Number(gameId) < 1)
+            throw Error(`${gameId} should be a bigger than 0 number`);
 
-        // if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
+        if (!isNaN(Number(gameId)) && Number(gameId) % 1 !== 0)
+            throw Error(`${gameId} should be an integer number`);
 
         if (typeof fields !== 'string') throw TypeError(`${fields} is not a string`);
 
@@ -108,11 +110,10 @@ const thegamesDbApi = {
         urlParams.include = include;
 
         Object.keys(urlParams).forEach(key => url.searchParams.append(key, urlParams[key]));
-        
+
         return fetch(`${this.proxy + url}`)
             .then(response => response.json())
             .then(response => {
-                
                 const { status, data, data: { count } = {}, include, pages } = response;
 
                 if (!status) throw Error(response.error);
@@ -317,6 +318,5 @@ const thegamesDbApi = {
             });
     }
 };
-
 
 export default thegamesDbApi;

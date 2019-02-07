@@ -128,6 +128,7 @@ class Register extends Component {
                 </section>
                 {feedback && <Feedback message={feedback} toggleFeedback={toggleFeedback} />}
             </Fragment>
+
         );
     }
 }
