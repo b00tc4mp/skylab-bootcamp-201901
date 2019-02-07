@@ -13,14 +13,15 @@ class MobileHeader extends Component {
     __showAsideMobile = () => {
         const overlay = document.querySelector('.sidebar-overlay');
         const aside = document.querySelector('.sidebar');
+        const wrapper = document.querySelector('.wrapper');
+        wrapper.className = 'wrapper wrapper--hide';
         overlay.className = 'sidebar-overlay sidebar-overlay--show';
         aside.className = 'sidebar sidebar--show';
     }
 
     render() {
         const {
-            props: { onSearch },
-            __hideSearchMobile,
+            props: { onSearch }
         } = this;
 
         return (
