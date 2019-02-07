@@ -50,7 +50,7 @@ class Landing extends Component {
 
         const {handleLogin, handleRegistration, handleToLogin, handleLanding, state:{loginFeedback, registrationFeedback, modalVisible}, props:{welcome__title, welcome__subtitle, login, register, email, password, goBack, name, surname, confirmPassword}} = this
 
-        return <section className="container foto">
+        return <section className="container">
         <Route exact path="/" render={() =>
             <Fragment>
                 <div className="columns is-mobile is-centered has-text-centered">

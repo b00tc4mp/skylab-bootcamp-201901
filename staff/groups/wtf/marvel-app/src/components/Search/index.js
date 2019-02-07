@@ -26,7 +26,7 @@ class Search extends Component {
                 <div className="control has-icons-left is-expanded">
                     <input onChange={handleQueryInput} className="input is-small is-rounded" placeholder={searchInput} type="text" name="query"></input>
                     <span className="icon is-small is-left">
-                        <i class="fas fa-bolt"></i>
+                        <i className="fas fa-bolt"></i>
                     </span>
                 </div>
                 <div className="control">

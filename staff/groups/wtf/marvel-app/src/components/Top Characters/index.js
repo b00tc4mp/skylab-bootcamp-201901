@@ -13,9 +13,9 @@ class TopCharacter extends Component {
 
         return <section className="container has-text-centered margin-top">
         <h2 className="title is-4 white">{topCharacters}</h2>
-        <div className="columns is-mobile is-multiline is-centered">
+            <div className="columns is-mobile is-multiline is-centered">
+        
             {results && results.map(({id, src}) => 
-            
                 <div key={id} onClick={() => onCharacterSelected(id)} data-id={id} className="column cursor card is-one-fourth-widescreen is-three-quarters-mobile has-text-centered">
                     <div className="pointer card-image">
                         <figure className="image is-centered">
