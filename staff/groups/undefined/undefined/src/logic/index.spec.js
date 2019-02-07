@@ -1,4 +1,6 @@
 import logic from "../logic/index";
+import userApi from '../user-api'
+
 
 
 
@@ -577,6 +579,100 @@ describe('logic' , () => {
 
 
     })
+
+    describe('updateUser' , () => {
+        it('should fail when favorites is undefined' , () => {
+            const favorites = undefined
+            expect(() =>  logic.updateUser(favorites)).toThrowError(`${favorites} is not an object`)
+
+
+        })
+
+
+        it('should fail when favorites is number' , () => {
+            const favorites = 123
+            expect(() =>  logic.updateUser(favorites)).toThrowError(`${favorites} is not an object`)
+
+
+        })
+
+       
+
+
+    })
+
+    describe('toogleFavorites' , () => {
+        it('should fail when id is undefined' , () => {
+            const id = undefined
+            expect(() =>  logic.toggleFavorties(id)).toThrowError(`${id} is not a string`)
+
+
+        })
+
+        it('should fail when id is null' , () => {
+            const id = null
+            expect(() =>  logic.toggleFavorties(id)).toThrowError(`${id} is not a string`)
+
+
+        })
+
+        it('should fail when id is number' , () => {
+            const id = 123
+            expect(() =>  logic.toggleFavorties(id)).toThrowError(`${id} is not a string`)
+
+
+        })
+
+        it('should fail when id is array' , () => {
+            const id = []
+            expect(() =>  logic.toggleFavorties(id)).toThrowError(`${id} is not a string`)
+
+
+        })
+
+        it('should fail when id is boolea' , () => {
+            const id = true
+            expect(() =>  logic.toggleFavorties(id)).toThrowError(`${id} is not a string`)
+
+
+        })
+
+        it('should fail when id is object' , () => {
+            const id = {}
+            expect(() =>  logic.toggleFavorties(id)).toThrowError(`${id} is not a string`)
+
+
+        })
+
+        it('should fail when id is empty' , () => {
+            const id = ''
+            expect(() =>  logic.toggleFavorties(id)).toThrowError('id cannot be empty')
+
+
+        })
+        it('should succes on correct data' , () => {
+        const name = 'Jony'
+        const surname = 'Fernandez'
+        const email = `juas@juju.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirmation = '123'
+        
+            return logic.registerUser(name, surname, email, password,passwordConfirmation)
+            .then(()=> logic.loginUser(email,password).then(()=> {
+                return logic.toggleFavorties('id pelicula').then((user) => {
+                    expect(user.favorites[0]).toBe('id pelicula')
+                })
+            }))
+       
+        
+    
+    
+    
+        })
+        
+    })
+
+
     
     
     
