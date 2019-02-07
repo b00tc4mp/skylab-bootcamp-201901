@@ -12,7 +12,7 @@ const logic = {
     __videoId__: null,
     __storage__:null,
 
-    __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTQ4MDA0OCwiZXhwIjoxNTQ5NDgzNjQ4fQ.ayOcxkgVHOTJne1gLqY1W9mnzJ0c6SoWlHIG1rIinQE',
+    // __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTQ5NTQwMiwiZXhwIjoxNTQ5NDk5MDAyfQ.ui5kwZTMXL2hkKjk-d4ngNQbckHq7xq5yHYyI6hLSYM',
 
     set storage(storage){
         this.__storage__=storage
@@ -33,7 +33,11 @@ const logic = {
     },
 
     get __userApiToken__(){
-        return this.__storage__.getItem('user-token')
+        if(this.__storage__.getItem('user-token')) return this.__storage__.getItem('user-token')
+        else {
+            this.__userApiToken__='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTUyNjY5OSwiZXhwIjoxNTQ5NTMwMjk5fQ.zL16UlsGgLZdYkeS1XakC5R0Sr6td94U-XW06D-E6N0'
+            return this.__storage__.getItem('user-token')
+        }
     },
 
     
@@ -101,7 +105,7 @@ const logic = {
 
     logout() {
         this.__userId__ = null
-        this.__userApiToken__ = null
+        // this.__userApiToken__ = null
     },
 
     authenticateUser(email, password){
@@ -225,12 +229,13 @@ const logic = {
                 console.log(comments)
 
                 return userApi.update(this.__userId__, this.__userApiToken__, {comments})
+
             })
             .then(() => {})
     },
 
     showComments(videoId) {
-        return userApi.retrieveAllUsers(this.__mytoken__)
+        return userApi.retrieveAllUsers(this.__userApiToken__)
             .then((data) => {
                 const myUsers = data.filter(user => !!user.appId)
       // myUsers.forEach(user => console.log(user.comments))
@@ -250,10 +255,15 @@ const logic = {
             .then(user => {
                 const { comments } = user
                 if (comments) {
-                    if (comments.includes(videoId)) {
-                        const index = videoId.indexOf( element => element[date])
+                    if (comments[videoId]) {
+                         // const commentToDelete = comments[videoId].find(element=> element.date === date)
+                        // console.log(commentToDelete)
+                        
+                        const index = comments[videoId].findIndex(element=> element.date === date)
 
-                        videoId.splice(index, 1)
+                        comments[videoId].splice(index, 1)
+
+                        return userApi.update(this.__userId__, this.__userApiToken__, {comments})
                     }
                 }
             })
