@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { HashRouter, Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, withRouter } from 'react-router-dom'
 import Landing from '../Landing'
 import Home from '../Home'
 import Footer from '../Footer'
@@ -13,17 +13,21 @@ class App extends Component {
     this.props.history.push('/')
   }
 
+  componentWillMount() {
+    this.props.history.listen(() => {
+    if(this.props.location.pathname === '/' && logic.userLoggedIn) this.props.history.push('/home/search')
+    });
+  }
+
   render() {
     const { handleLogOut }= this
     
-    return <HashRouter>
-      <main>
-        <Route path='/' render={()=> logic.userLoggedIn ? <Redirect to="/home/search/"/> : <Landing/>}/>
-        <Route path='/home/search/' render={() => logic.userLoggedIn ? <Home onLogout={handleLogOut} /> : <Redirect to="/" />} />
+    return<main>
+        <Route path='/' render={()=> <Landing/>}/>
+        <Route path='/home/search' render={() => logic.userLoggedIn ? <Home onLogout={handleLogOut} /> : <Redirect to="/" />} />
         <Route path='/' render={()=> <Footer/>}/>
       </main>  
-    </HashRouter>
   }
 }
 
-export default App
+export default withRouter(App)

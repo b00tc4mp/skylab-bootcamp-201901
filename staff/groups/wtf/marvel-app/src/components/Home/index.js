@@ -33,16 +33,16 @@ class Home extends Component {
 
     handleToHome = (event) => { 
         event.preventDefault()
-        this.props.history.push('/home/search/')
+        this.props.history.push('/home/search')
     }
 
     handleToFavourites = (event) => { 
         event.preventDefault()
-        this.props.history.push('/home/search/user/favourites/')}
+        this.props.history.push('/home/search/user/favourites')}
 
     handleToUser = (event) => {
         event.preventDefault()
-        this.props.history.push('/home/user/')
+        this.props.history.push('/home/user')
     }
 
     handleLogOut = (event) => {
@@ -55,8 +55,7 @@ class Home extends Component {
 
         const { handleSearch, handleCharacterSelected, handleComicSelected, handleToHome, handleToFavourites, handleLogOut} = this
 
-        return <HashRouter>
-        <section className="margin-top">
+        return <section className="margin-top">
             <nav className="header level">
                 <p className="level-item has-text-centered">
                     <a onClick={(event) =>  handleToHome(event)} href="#" className="button is-small is-black is-rounded"><i class="fas fa-home"></i>&nbsp;&nbsp;Home</a>
@@ -68,21 +67,21 @@ class Home extends Component {
                     <img src="https://images.vectorhq.com/images/previews/cd8/marvel-logo-psd-444569.png" alt="" className="header__logo"/>
                 </p>
                 <p className="level-item has-text-centered">
-                    <a target="_blanck "href="https://www.youtube.com/channel/UCvC4D8onUfXzvjTOM-dBfEA" className="button is-small is-black is-rounded"><i class="fab fa-youtube"></i>&nbsp;&nbsp;Youtube Channel</a>
+                    <a target="_blanck "href="https://www.youtube.com/channel/UCvC4D8onUfXzvjTOM-dBfEA" className="button is-small is-black is-rounded"><i class="fab fa-youtube"></i>&nbsp;&nbsp;Youtube</a>
                 </p>
                 <p className="level-item has-text-centered">
                     <a onClick={(event) =>  handleLogOut(event)} href="#" className="button is-small is-black is-rounded"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Log out</a>
                 </p>
             </nav>
             <Search onSearch={handleSearch}/>
-            <Route exact path="/home/search/" render={()=> <TopCharacters onCharacterSelected={handleCharacterSelected} />} />
-            <Route exact path="/home/search/" render={()=> <TopComics onComicSelected={handleComicSelected} />} />
-            <Route exact path="/home/search/:query" render={props => <CharactersResults query={props.match.params.query} onCharacterSelected={handleCharacterSelected} />} />
-            <Route exact path="/home/search/character/:id" render={props => <CharacterInfoResult id={props.match.params.id} onComicSelected={handleComicSelected} />} />
-            <Route exact path="/home/search/comic/:id" render={props => <ComicInfoResult id={props.match.params.id} onCharacterSelected={handleCharacterSelected} />} />
-            <Route exact path="/home/search/user/favourites/" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleCharacterSelected}/>} />
+            <Route  exact path="/home/search" render={()=> <TopCharacters onCharacterSelected={handleCharacterSelected} />} />
+            <Route  exact path="/home/search" render={()=> <TopComics onComicSelected={handleComicSelected} />} />
+            <Route  exact path="/home/search/:query" render={props => <CharactersResults query={props.match.params.query} onCharacterSelected={handleCharacterSelected} />} />
+            <Route  path="/home/search/character/:id" render={props => <CharacterInfoResult id={props.match.params.id} onComicSelected={handleComicSelected} />} />
+            <Route  path="/home/search/comic/:id" render={props => <ComicInfoResult id={props.match.params.id} onCharacterSelected={handleCharacterSelected} />} />
+            <Route  path="/home/search/user/favourites" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleCharacterSelected}/>} />
         </section>
-    </HashRouter>
+   
     }
 }
 
