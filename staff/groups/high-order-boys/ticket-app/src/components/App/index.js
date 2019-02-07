@@ -34,17 +34,21 @@ function PublicRoute({ component: Component, authed, onLogin, loginFeedback, ...
 
 
 class App extends Component {
-  state = { loginFeedback: null, registerFeedback: null }
+  state = { loginFeedback: null, registerFeedback: null, user: null}
 
-  // componentWillMount(){
-  //     this.setState({isAuth: !!userStorage.auth})
-  // }
+  componentDidMount(){
+    logic.getUserApiToken() && logic.retrieveUser()
+        .then(user => this.setState({user}))
+}
 
   handleLogin = (email, password) => {
     try {
       logic.loginUser(email, password)
-        .then(() => logic.retrieveUser(email, password))
-        .then(() => this.props.history.push('/home'))
+        .then(() => {    
+          logic.retrieveUser()
+            .then(user => this.setState({user}))
+            .then(() => this.props.history.push('/home'))
+        })
         .catch(({ message }) => this.setState({ loginFeedback: message }))
     } catch ({ message }) {
       this.setState({ loginFeedback: message })
@@ -63,21 +67,23 @@ class App extends Component {
   }
 
   handleLogout = () => {
-    userStorage.deleteUserToken()
+    logic.setUserId()
+    logic.setUserApiToken()
+    this.setState({user: null})
     this.props.history.push('/login')
   }
 
 
   render() {
-    const { handleLogin, handleRegister, handleLogout, state: { loginFeedback, registerFeedback } } = this
+    const { handleLogin, handleRegister, handleLogout, state: { loginFeedback, registerFeedback, user } } = this
 
     return <main className="app">
-      < Header user={userStorage.auth} onLogout={handleLogout} />
-      < Redirect from="/" to="/home" />
-      < PrivateRoute authed={!!userStorage.auth} path='/home' component={Home} />
-      < PublicRoute authed={!!userStorage.auth} path='/login' component={Login} onLogin={handleLogin} loginFeedback={loginFeedback} />
-      < Route exact path="/register" render={(props) => < Register onRegister={handleRegister} registerFeedback={registerFeedback} />} />
-      < Footer />
+      <Header user={user} onLogout={handleLogout} />
+      <Redirect from="/" to="/home" />
+      <PrivateRoute authed={!!logic.userLoggedIn} path='/home' component={Home} user={user} />
+      <PublicRoute authed={!!logic.userLoggedIn} path='/login' component={Login} onLogin={handleLogin} loginFeedback={loginFeedback} />
+      <Route exact path="/register" render={(props) => < Register onRegister={handleRegister} registerFeedback={registerFeedback} user={null} {...props} />} />
+      <Footer />
     </main>
   }
 }

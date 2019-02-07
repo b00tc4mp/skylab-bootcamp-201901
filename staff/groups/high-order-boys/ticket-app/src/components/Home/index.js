@@ -20,12 +20,14 @@ class Home extends Component {
     }
 
     render(){
-        const { location: { pathname } } = this.props
+        
+        const { location: { pathname }, user } = this.props
         const isUser = (pathname.includes("home/user"))
         const { handleSearch, handleEventDetail, state: { startDate,endDate } } = this
+        
         return<div className='container'>
             {!isUser && <Search onSearch={handleSearch} />}
-            < Route path='/home/user' component={User} />
+            < Route path='/home/user' component={User} user={user}/>
             <Route path="/home/search/:query" render={props => <EventResults query={props.match.params.query} startDate={startDate} endDate={endDate} onEventDetail={handleEventDetail}/>} />
             <Route path="/home/event/:id" render={props => <Event id={props.match.params.id} />} />
         </div> 
