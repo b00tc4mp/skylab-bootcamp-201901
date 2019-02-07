@@ -33,14 +33,14 @@ class Aside extends Component {
                 <aside className="sidebar">
                     <div className="sidebar__scrolling-content">
                         <div className="sidebar__scrolling-content-scroll">
-                            <div className="sidebar__fixed-logo">
-                                <a href="/" title="Ultra-VGMS" className="logo logo--black">
+                            <div className="sidebar__fixed-logo" onClick={() => this.__hideAsideMobile()}>
+                                <Link to="/" title="Ultra-VGMS" className="logo logo--black">
                                     <img
                                         src="./images/logo.png"
                                         alt="Ultra-VGMS Logo"
                                         className="logo__image"
                                     />
-                                </a>
+                                </Link>
                             </div>
 
                             <nav className="menu">
