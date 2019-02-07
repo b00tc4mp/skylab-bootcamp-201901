@@ -12,7 +12,9 @@ import './index.sass'
 
 class Results extends Component  {
     
-    state = { videoSelected: null, results: null, query: null, searchFeedback:null }
+    state = { videoSelected: null, results: null, query: null, searchFeedback:null, countPagination:0 }
+
+    countPage = 2    
 
     handleVideoClick = id => {
         this.props.history.push(`/home/videos/${this.state.query}/detail/${id}`)
@@ -21,6 +23,7 @@ class Results extends Component  {
     componentDidMount () {
         const {props:{query}, handleSearch} = this
 
+        this.countPage = 2
         handleSearch(query) 
     }
 
@@ -31,12 +34,21 @@ class Results extends Component  {
                     this.setState({ results, searchFeedback: null })                
                 })
                 .catch( ({message}) => {
-                    console.log(message)
                     this.setState({ results: null, searchFeedback: message })
                 }) 
         } catch ({message}) {
             this.setState({ results: null, searchFeedback: message })
         }
+    }
+
+    handleMoreResults = () => {
+        logic.searchVideos(this.props.query, this.countPage++)
+                .then(results => {
+                    this.setState({ results, searchFeedback: null })                
+                })
+                .catch( ({message}) => {
+                    this.setState({ results: null, searchFeedback: message })
+                }) 
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -73,6 +85,8 @@ class Results extends Component  {
                        onVideoSelected={handleVideoClick}
                     /> 
                 )}
+
+                <button onClick={this.handleMoreResults}>More Results</button>
 
                 { searchFeedback && <Feedback message={searchFeedback} level="warn" /> }
 
