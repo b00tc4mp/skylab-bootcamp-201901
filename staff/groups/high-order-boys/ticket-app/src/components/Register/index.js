@@ -13,7 +13,6 @@ class Register extends Component {
         const {props: user} = this
         if(user)        
             this.setState({ 
-                user: user,
                 name: user.name,
                 surname: user.surname,
                 email: user.email,
@@ -46,6 +45,8 @@ class Register extends Component {
     render() {
 
         const { handleInput, props: {registerFeedback}, state: {user} } = this
+
+
         return <section className="register">
         <div className="block registerPanel">
             <div className="columns is-mobile is-centered has-text-centered">
