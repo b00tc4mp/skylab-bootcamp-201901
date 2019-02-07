@@ -48,7 +48,7 @@ class Login extends Component {
             <Fragment>
                 <section className="login">
                     <div className="login__content animated flipInX">
-                        <h3 className="login__title">Inicia sesión en ULTRAVGSM.</h3>
+                        <h3 className="login__title">Login to ULTRAVGSM.</h3>
                         <form onSubmit={handleLoginSubmit} className="login__form">
                             <div className="login__row">
                                 <label htmlFor="email" className="login__label">
@@ -81,7 +81,7 @@ class Login extends Component {
                         </form>
                         <div className="divider" />
                         <p className="login__register-text">
-                            No tienes cuenta? haz click <Link to="/register">aquí</Link>
+                        You do not have an account? click <Link to="/register">here</Link>
                         </p>
                     </div>
                 </section>
