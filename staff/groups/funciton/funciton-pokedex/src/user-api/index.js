@@ -1,7 +1,20 @@
 'use strict'
 
 const userApi = {
+
+    //Endpoint of the API
     url: 'https://skylabcoders.herokuapp.com/api',
+
+    /**
+     * Register a user
+     * 
+     * @param {string} email 
+     * @param {string} username 
+     * @param {string} password 
+     * @param {string} passwordConf 
+     * 
+     * Register a user. In case login is successful it returns user's id, otherwise an Error is thrown.
+     */
 
     register(email, username, password, passwordConf) {
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
@@ -36,6 +49,16 @@ const userApi = {
             })
     },
 
+
+    /**
+     * Authenticates a user
+     * 
+     * @param {string} username 
+     * @param {string} password 
+     * 
+     * Authenticates a user. In case authentication is successful it returns user's data, otherwise an Error is thrown.
+     * Data returned contain userid and token.
+     */
     authenticate(username, password) {
         if (typeof username !== 'string') throw TypeError(`${username} is not a string`)
         if (!username.trim().length) throw Error('username is empty')
@@ -60,6 +83,15 @@ const userApi = {
             })
     },
 
+    /**
+     * Authenticates a user
+     * 
+     * @param {string} id 
+     * @param {string} token 
+     * 
+     * Retrieves data from a user from the API. 
+     * In case id and token are successful, it returns data, otherwise an error is thrown.
+     */
     retrieve(id, token) {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id is empty')
@@ -81,13 +113,22 @@ const userApi = {
             })
     },
 
+    /**
+     * Updates user data 
+     * 
+     * @param {string} id 
+     * @param {string} token 
+     * @param {Object} data 
+     * 
+     * Updates user data, according to the parameter. An error is thrown if 
+     * any of the parameters is incorrect.
+     */
     update(id, token, data) {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id is empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-
 
         return fetch(`${this.url}/user/${id}`, {
             method: 'PUT',
@@ -107,6 +148,16 @@ const userApi = {
             })
     },
 
+    /**
+     * Removes a user
+     * 
+     * @param {string} id 
+     * @param {string} token 
+     * @param {string} username 
+     * @param {string} password 
+     * 
+     * Removes a user. In case the deletion is successful, nothing is returned, otherwise it throws Error.
+     */
     remove(id, token, username, password) {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id is empty')

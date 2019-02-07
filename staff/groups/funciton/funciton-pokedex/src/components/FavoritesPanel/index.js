@@ -26,7 +26,7 @@ class FavoritesPanel extends Component {
 
     this.state.toastId = toast("Pokemon removed from favorites!",{
       position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: 3000,
+      autoClose: 1500,
       type: toast.TYPE.ERROR
     })
     Promise.all([
@@ -51,7 +51,7 @@ class FavoritesPanel extends Component {
 
   renderList = () => {
     if (this.state.favPokemons === null) {
-      return <p>There is no favorites</p>
+      return <p>You have no favorites!</p>
     } else {
       return <ul className='pokemon__ul'>
         {

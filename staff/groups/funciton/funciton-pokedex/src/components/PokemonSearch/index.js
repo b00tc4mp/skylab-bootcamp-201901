@@ -36,7 +36,7 @@ class PokemonSearch extends Component {
   handleToggleFav =(userId, token, pokemonName) => {
     this.state.toastId = toast("Favorites updated!",{
       position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: 3000,
+      autoClose: 1500,
       type: toast.TYPE.ERROR
     })
     logic.toggleFavorite(userId, token, pokemonName)

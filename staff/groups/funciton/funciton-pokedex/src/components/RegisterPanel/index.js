@@ -2,14 +2,16 @@ import React, { Component, Fragment } from "react";
 import './index.sass'
 import Feedback from '../../components/Feedback'
 import logic from "../../logic";
-import Home from '../Home'
+import Home from '../Home';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 
 class RegisterPanel extends Component {
 
-    state = { email: '', username: '', password: '', retryPassword: '', registerFeedback: '' }
+    state = { email: '', username: '', password: '', retryPassword: '', registerFeedback: '', toastId: null }
 
     handleEmailInput = event => this.setState({ email: event.target.value })
     handleUsernameInput = event => this.setState({ username: event.target.value })
@@ -38,6 +40,11 @@ class RegisterPanel extends Component {
         .then(user => {
           this.setState({ user })
           this.setState({ user }, () => this.props.history.push("/"))
+          this.state.toastId = toast("User succesfully registered, please login",{
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 2500,
+            type: toast.TYPE.INFO
+          })
         })
 
         .catch(({ message }) => this.showRegisterFeedback(message))
@@ -72,7 +79,6 @@ class RegisterPanel extends Component {
                             <button type="submit" className="btn btn-info">Submit</button>
                             <button onClick={goBack} type="button" className="goBack__button btn btn-light">Go Back</button>
                             <Feedback message={this.state.registerFeedback} level="warn" />
-
                         </div>
                     </form>
                 </div>
