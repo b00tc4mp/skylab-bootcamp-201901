@@ -32,7 +32,7 @@ class Favourites extends Component {
                                     <h5 className="card-title text-center">{recipe.recipe.label}</h5>
                                     <div className='results__image-favorite'>
                                         <img className="card-img-top" alt="recipe" src={recipe.recipe.image}></img>
-                                        <i onClick={() => this.handleOnFavourite(recipe)} className="far fa-heart"></i>
+                                        <i onClick={() => this.handleOnFavourite(recipe)} className={JSON.parse(sessionStorage.getItem('user')).favourites.find(favorite=> favorite.recipe.uri===recipe.recipe.uri)? "far fa-heart fa-heart-red":"far fa-heart" }></i>
                                     </div>
 
                                     <div className='mt-4 flex'>
