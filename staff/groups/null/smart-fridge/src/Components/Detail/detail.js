@@ -1,6 +1,7 @@
 import React from 'react'
 
-class Detail extends React.Components{
+
+class Detail extends React.Component{
   
     
 
