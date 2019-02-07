@@ -59,6 +59,11 @@ class Home extends React.Component{
 
     }
 
+    goBackSearch=()=>{
+        this.props.history.push('/home')
+        this.setState({recipes:null})
+    }
+
     handleEditInputs=()=>{
         this.props.history.push('/home')
         this.setState({recipes: null})
@@ -72,9 +77,7 @@ class Home extends React.Component{
                 {<Route exact path="/home" render={() =>  logic.userLoggedIn ? <InputsFridge onSearch={this.handleOnSearch}/> : <Redirect to="/" />} />}
                 {<Route path="/home/profile" render={() =>  logic.userLoggedIn ? <EditProfile onEditProfile={this.handleEditProfile} cancelButton={this.handleCancelButton}/> : <Redirect to="/" />} />}
                 {<Route path="/home/recipes" render={() => logic.userLoggedIn ? <Results recipes={recipes}/> : <Redirect to = "/" />} />/* {results && <Results recipes={this.state.recipes}/>} */}
-                {/* {<Route path="/home/search/detail" render={() => logic.userLoggedIn ? <Detail recipe={recipes}/> : <Redirect to = "/"/>}/>} */}
-                {/* {!error && <Feedback/>} */}
-                {<Route path="/home/feedback" render={()=> (logic.userLoggedIn && searchFeedback)?<Feedback onGoBackSearch={this.onGoBacktosearch} message={searchFeedback}/>:<Redirect to="/home" /> }/>}
+                {<Route path="/home/feedback" render={()=> (logic.userLoggedIn && searchFeedback)?<Feedback onGoBackSearch={this.onGoBacktosearch} message={searchFeedback}/>:<Redirect to="/home" /> } onGoBackSearch={this.GoBackSearch}/>}
                
             </main>
     }
