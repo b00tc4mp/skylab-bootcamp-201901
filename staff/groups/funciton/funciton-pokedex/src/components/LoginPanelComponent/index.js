@@ -49,7 +49,7 @@ class LoginPanel extends Component {
 
         return <Fragment>
             <Home/>
-            <div className="containerLogin">
+            <div className="containerLogin fade-in">
                 <form onSubmit={handleFormSubmit}>
                     <div>
                         <label htmlFor="exampleInputEmail1">Email address</label>
