@@ -40,7 +40,7 @@ const userApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, username, password })
+            body: JSON.stringify({ name, surname, username, password, favorites: [] })
         })
             .then(response => response.json())
             .then(response => {
@@ -104,7 +104,7 @@ const userApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        //if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
         return fetch(`${this.url}/user/${id}`, {
             method: 'PUT',

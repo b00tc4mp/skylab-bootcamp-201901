@@ -31,10 +31,15 @@ class Detail extends Component {
         this.props.history.push(`/videos/${this.props.match.params.query}`)
     }
 
+    handleFavorites = () => {
+        const {props: {match: {params :{id}}}} = this
+        logic.toggleFavorties(id)
+    }
+
 
     printDetails = () => {
         if (this.state.videoSelected) {
-            const {state: {videoSelected: {Title, Runtime, Plot, Genre, Actors, Poster, Released}}} = this
+            const {handleFavorites, state: {videoSelected: {Title, Runtime, Plot, Genre, Actors, Poster, Released}}} = this
             return (
                 <section className="detail modal is-active">
 
@@ -73,12 +78,15 @@ class Detail extends Component {
                                             <span class="runtime">Actors: <span>{Actors}</span></span>
                                         </div>
                                     </div>
+              
+                                <button onClick={handleFavorites}>Favorites</button>
                                 </div>
                             </article>
                         </div>
                     </div>
                     <button onClick={this.onClose} class="modal-close is-large" aria-label="close"></button>
                 </section>
+
             )
         }
 
