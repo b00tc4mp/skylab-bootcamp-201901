@@ -5,6 +5,7 @@ import './index.css';
 
 import logic from '../../logic';
 import Card from '../Card';
+import Feedback from '../Feedback';
 import NoResults from '../NoResults';
 
 const masonryOptions = {
@@ -13,11 +14,12 @@ const masonryOptions = {
 };
 
 class Results extends Component {
-    state = {
-        results: null,
-        favorites: [],
-        feedback: null,
+    state = { 
+        results: null, 
+        favorites: [], 
+        feedbackResult: null,
         nextButton: false
+
     };
 
     loadMoreGame = nextButton => {
@@ -30,8 +32,8 @@ class Results extends Component {
                             params: { query = '' }
                         }
                     } = this.props;
-
-                    games.map(game => {
+                   
+                    games && games.map(game => {
                         game.base_url = boxart.base_url;
                         game.boxart = boxart.data[game.id].find(image => image.side === 'front');
                         game.platform =
@@ -40,13 +42,13 @@ class Results extends Component {
                     });
 
                     this.setState({
-                        nextButton: pages.next,
+                        nextButton: (pages.next !== this.state.nextButton) ? pages.next : false,
                         results: [...this.state.results, ...games]
                     });
                 })
-                .catch(({ message }) => this.setState({ feedback: message }));
+                .catch(({ message }) => this.setState({ feedbackResult: message }));
         } catch ({ message }) {
-            this.setState({ feedback: message });
+            this.setState({ feedbackResult: message });
         }
     };
 
@@ -67,9 +69,9 @@ class Results extends Component {
                         })
                     });
                 })
-                .catch(({ message }) => this.setState({ feedback: message }));
+                .catch(({ message }) => this.setState({ feedbackResult: message }));
         } catch ({ message }) {
-            this.setState({ feedback: message });
+            this.setState({ feedbackResult: message });
         }
     };
 
@@ -90,9 +92,9 @@ class Results extends Component {
                         })
                     });
                 })
-                .catch(({ message }) => this.setState({ feedback: message }));
+                .catch(({ message }) => this.setState({ feedbackResult: message }));
         } catch ({ message }) {
-            this.setState({ feedback: message });
+            this.setState({ feedbackResult: message });
         }
     };
 
@@ -106,29 +108,34 @@ class Results extends Component {
     };
 
     getFavoritesPage = () => {
-        logic.userLoggedIn &&
-            logic.retrieveUser().then(({ favorites }) => {
-                try {
-                    logic
-                        .retrieveGame(favorites.join(','), '', 'boxart,platform')
-                        .then(({ data: { games }, include: { boxart, platform }, pages }) => {
-                            this.setState({
-                                nextButton: pages.next,
-                                results: games.map(game => {
-                                    game.base_url = boxart.base_url;
-                                    game.boxart = boxart.data[game.id].find(
-                                        image => image.side === 'front'
-                                    );
-                                    game.platform = platform.data[game.platform];
-                                    return game;
-                                })
-                            });
-                        })
-                        .catch(({ message }) => this.setState({ feedback: message }));
-                } catch ({ message }) {
-                    this.setState({ feedback: message });
-                }
-            });
+        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
+            try {
+                favorites.length > 0 && logic
+                    .retrieveGame(favorites.join(','), '', 'boxart,platform')
+                    .then(({ data: { games }, include: { boxart, platform }, pages }) => {
+                        this.setState({
+                            nextButton: pages.next,
+                            results: games.map(game => {
+                                game.base_url = boxart.base_url;
+                                game.boxart = boxart.data[game.id].find(
+                                    image => image.side === 'front'
+                                );
+                                game.platform = platform.data[game.platform];
+                                return game;
+                            })
+                        });
+                    })
+                    .catch(({ message }) => this.setState({ feedbackResult: message }));
+            } catch ({ message }) {
+                this.setState({ feedbackResult: message });
+            }
+        });
+    };
+
+    toggleFeedback = (prop) => {
+        this.setState({
+            feedbackResult: prop
+        });
     };
 
     componentDidMount() {
@@ -159,9 +166,16 @@ class Results extends Component {
         this.getFavorites();
     }
 
+    handleImagesLoaded = (imagesLoadedInstance) => {
+        imagesLoadedInstance.images.map(image => {
+            if(image.isLoaded) image.img.parentElement.parentElement.style.opacity = '1';
+        }) 
+    }
+
     render() {
         const {
-            state: { nextButton, results, favorites }
+            toggleFeedback,
+            state: { loading, nextButton, results, favorites, feedbackResult }
         } = this;
         console.log(results);
         return (
@@ -173,6 +187,7 @@ class Results extends Component {
                     options={masonryOptions}
                     disableImagesLoaded={false}
                     updateOnEachImageLoad={false}
+                    onImagesLoaded={this.handleImagesLoaded}
                 >
                     {results &&
                         results.map(game => {
@@ -186,11 +201,10 @@ class Results extends Component {
                             );
                         })}
                 </Masonry>
-                {nextButton && (
-                    <button className="load-more" onClick={() => this.loadMoreGame(nextButton)}>
-                        Load more
-                    </button>
-                )}
+                {
+                    (nextButton) && (<button className="load-more" onClick={() => this.loadMoreGame(nextButton)}>Load more</button>)
+                }
+                {feedbackResult && <Feedback message={feedbackResult} toggleFeedback={toggleFeedback} />}
             </Fragment>
         );
     }

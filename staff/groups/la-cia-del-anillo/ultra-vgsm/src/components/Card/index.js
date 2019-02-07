@@ -6,6 +6,12 @@ import logic from '../../logic';
 import Favorite from '../Favorite';
 
 class Card extends Component {
+
+    // myHandleImageLoadEvent = Event => {
+    //     console.log(Event.target);
+    //     Event.target.parentElement.parentElement.style.opacity = '1';
+    // }
+
     render() {
 
         const {
@@ -30,6 +36,7 @@ class Card extends Component {
                             className="card__image"
                             src={game.base_url.thumb + game.boxart.filename}
                             alt=""
+                            // onLoad={(event) => this.myHandleImageLoadEvent(event)}
                         />
                     ) : (
                         <img className="card__image" src="/images/thinking.svg" alt="" />

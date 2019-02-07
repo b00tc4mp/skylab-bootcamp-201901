@@ -1,6 +1,8 @@
 .card {
     max-width: 30rem;
     margin-bottom: 1.5rem;
+    transition: opacity 0.5s;
+    opacity: 0;
 }
 .card__image-content {
     position: relative;
