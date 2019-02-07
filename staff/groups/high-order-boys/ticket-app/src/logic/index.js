@@ -86,10 +86,10 @@ const logic = {
             .then((data) => {
                 this.setUserId(data.id)
                 this.setUserApiToken(data.token)
-
                 return data
             })
     },
+
 
     retrieveUser() {
         return userApi.retrieve(this.getUserId(), this.getUserApiToken())
@@ -145,13 +145,13 @@ const logic = {
         if (startDate != null && typeof startDate !== 'string') throw TypeError(`-->${startDate}<-- startDate introduced is not a string`)
         if (endDate != null && typeof endDate !== 'string') throw TypeError(`-->${endDate}<-- endDate introduced is not a string`)
 
-       return ticketmasterApi.searchEvents(query, startDate, endDate)
+        return ticketmasterApi.searchEvents(query, startDate, endDate)
             .then(events => events)
     },
 
     retrieveEvent(id) {
-        if(typeof id !== 'string') throw TypeError(`-->${id} <-- id introduced is not a string`)
-        if(!id.trim().length) throw Error('id is empty')
+        if (typeof id !== 'string') throw TypeError(`-->${id} <-- id introduced is not a string`)
+        if (!id.trim().length) throw Error('id is empty')
 
         return ticketmasterApi.searchEvent(id)
     }
