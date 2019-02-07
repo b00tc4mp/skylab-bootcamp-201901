@@ -24,17 +24,16 @@ class Header extends Component {
 
         return <header className="hero is-small is-black">
             <div className="hero-body">
-                <div className="container is-pulled-left">
-                    <Link to="/home" className="title"><h1 className="title">HANGOUT<i class="fas fa-circle first"></i><i class="fas fa-circle second"></i><i class="fas fa-circle third"></i></h1></Link>
+                <div className="block is-pulled-left">
+                    <Link to="/home" className="title"><h1 className="title">HANGOUT<i className="fas fa-circle first"></i><i className="fas fa-circle second"></i><i className="fas fa-circle third"></i></h1></Link>
                 </div>
-     {!!user && <div className="navbar-end header-icons">
+     {!!user && <div className="block is-pulled-right header-icons">
                     <Link className="navbar-item" to="/home/user" name="userInfo">{user.name}</Link>
                     <a className="navbar-item" onClick={onLogout} name="logOut">Logout</a>
                 </div>
                 }
             </div>
         </header >
-
     }
 }
 
