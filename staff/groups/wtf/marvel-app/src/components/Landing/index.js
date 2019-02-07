@@ -6,6 +6,7 @@ import './index.sass'
 import logic from '../Logic'
 import Login from '../Login'
 import Register from '../Register'
+import LanguageSelector from '../LanguageSelector';
 
 class Landing extends Component {
 
@@ -47,28 +48,25 @@ class Landing extends Component {
 
     render() {
 
-        const {handleLogin, handleRegistration, handleToLogin, handleLanding, state:{loginFeedback, registrationFeedback, modalVisible}} = this
+        const {handleLogin, handleRegistration, handleToLogin, handleLanding, state:{loginFeedback, registrationFeedback, modalVisible}, props:{welcome__title, welcome__subtitle, login, register, email, password, goBack, name, surname, confirmPassword}} = this
 
         return <section className="container foto">
         <Route exact path="/" render={() =>
             <Fragment>
                 <div className="columns is-mobile is-centered has-text-centered">
-                    <div className="modal is-active is-clipped">
-                        <div className="modal-background"></div>
-                        <div className="modal-content column is-half-widescreen is-three-fifths-tablet is-three-quarters-mobile is-centered">
-                            <h1 className="title is-1 white">Welcome to Marvel App</h1>
-                            <h5 className="subtitle is-5 white">Your free Marvel repository</h5>
+                        <div className="column is-half-widescreen is-three-fifths-tablet is-three-quarters-mobile is-centered margin">
+                            <h1 className="title is-1 white">{welcome__title}</h1>
+                            <h5 className="subtitle is-5 white">{welcome__subtitle}</h5>
                             <div className="is-grouped btn_grp">
-                                <p className="control"><Link to='/login' className="button is-danger is-outlined is-small is-rounded">Log in</Link></p>
+                                <p className="control"><Link to='/login' className="button is-danger is-outlined is-small is-rounded">{login}</Link></p>
                                 <p>&nbsp;</p>
-                                <p className="control"><Link to='/register' className="button is-inverted is-outlined is-danger is-small is-rounded">Sign Up</Link></p>
+                                <p className="control"><Link to='/register' className="button is-inverted is-outlined is-danger is-small is-rounded">{register}</Link></p>
                             </div>
                         </div>
                     </div>
-                </div>
             </Fragment>} />
-            <Route exact path='/login' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Login onLogin={handleLogin} feedback={loginFeedback} onLanding={handleLanding}/>} />
-            <Route exact path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onLanding={handleLanding} modalVisible={modalVisible} onLogin={handleToLogin}/>} />
+            <Route exact path='/login' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Login onLogin={handleLogin} feedback={loginFeedback} onLanding={handleLanding} email={email} password={password} goBack={goBack} login={login}/>} />
+            <Route exact path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onLanding={handleLanding} modalVisible={modalVisible} onLogin={handleToLogin} register={register} name={name} surname={surname} email={email} password={password} confirmPassword={confirmPassword} goBack={goBack}/>} />
         </section>
     }
 }

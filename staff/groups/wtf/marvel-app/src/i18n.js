@@ -1,0 +1,63 @@
+'use strict'
+
+const i18n = {
+    'en': {
+        welcome__title: 'Welcome to Marvel App',
+        welcome__subtitle: 'Your free Marvel repository',
+        login: 'Log in',
+        register: 'Sign Up',
+        email: 'Email',
+        password: 'Password',
+        confirmPassword: 'Confirm Password',
+        name: 'Name',
+        surname: 'Surname',
+        goBack: 'Go back',
+        modal__feedback: 'You have successfully registered!',
+        home: 'Home',
+        favourites: 'Favourites',
+        youtube: 'Youtube',
+        logOut: 'Log out',
+        searchInput: 'Find a character',
+        searchBtn: 'Find!',
+        topCharacters: 'Top Characters',
+        topComics: 'Top Comics',
+        moreInfo: 'More info',
+        seeComics: 'See all comics',
+        comics: 'Comics',
+        characters: 'Characters',
+        price: 'Price',
+        favs__title: 'Your Favourite Characters',
+        favs__feedback: 'No favourite characters added'
+    },
+
+    'es': {
+        welcome__title: 'Bienvenido a Marvel App',
+        welcome__subtitle: 'Tu repositorio gratuito de Marvel',
+        login: 'Iniciar sesión',
+        register: 'Registrase',
+        email: 'Email',
+        password: 'Contraseña',
+        confirmPassword: 'Confirmar Contraseña',
+        name: 'Nombre',
+        surname: 'Apellido',
+        goBack: 'Atrás',
+        modal__feedback: 'Se ha registrado correctamente',
+        home: 'Inicio',
+        favourites: 'Favoritos',
+        youtube: 'Youtube',
+        logOut: 'Cerrar sesión',
+        searchInput: 'Encuentra tu personaje',
+        searchBtn: 'Encuentra!',
+        topCharacters: 'Personajes Top',
+        topComics: 'Comics Top',
+        moreInfo: 'Mas información',
+        seeComics: 'Ver todos los comics',
+        comics: 'Comics',
+        characters: 'Personajes',
+        price: 'Precio',
+        favs__title: 'Tus Personajes Favoritos',
+        favs__feedback: 'No se han añadido favoritos'
+    },
+}
+
+export default i18n
