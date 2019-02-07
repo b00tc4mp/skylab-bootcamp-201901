@@ -1,20 +1,19 @@
 import React from 'react'
 import './index.sass'
 
-class Feedback extends React.Component{
+class Feedback extends React.Component {
 
-    render(){
-  
-    return<section className="feedback">
-        <div className= "feedback__box pl-md-5 pr-md-5 mt-3">
-        <h3>Error</h3>
-       
-        <p className= "error message">{this.props.message}</p>
-        <button className="btn btn-dark inline feedback" onClick={this.onGoBackSearch}>Return to search</button>
-       </div>
+    render() {
 
+        return <section className="feedback">
+            <div className="feedback__box mt-5 ml-5 mr-5">
+                <h3 className="feedback__title mt-3">Error</h3>
 
-    </section>
+                <p className="error feedback__message font-weight-bold">{this.props.message}</p>
+                <button className="btn btn-dark inline mb-3" onClick={this.onGoBackSearch}>Return to search</button>
+            </div>
+
+        </section>
 
     }
 }
