@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 import SearchOverlay from '../../SearchOverlay';
 
@@ -31,9 +32,9 @@ class MobileHeader extends Component {
                     <button className="header__button" onClick={() => this.__showAsideMobile()}>
                         <i className="fas fa-bars" />
                     </button>
-                    <a href="#home" title="Ultra-VGMS" className="logo">
+                    <Link to="/" title="Ultra-VGMS" className="logo">
                         <img src="/images/ultra_vgsm_2.png" alt="Ultra-VGMS Logo" className="logo__image" />
-                    </a>
+                    </Link>
                     <button className="header__button" onClick={() => this.__showSearchMobile()}>
                         <i className="fas fa-search" />
                     </button>
