@@ -216,10 +216,7 @@ describe('user api', () => {
             const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
             expect( () => userApi.update(_id, '', data)).toThrowError('token is empty')
         })
-        it('should fail on empty data', () => {
-            const data = ''
-            expect( () => userApi.update(_id, _token, data)).toThrowError(`${data} is not an object`)
-        })
+        
     })
 
     describe('remove', () => {
@@ -246,7 +243,7 @@ describe('user api', () => {
                 .then(() => {
                     throw Error('should not pass by here')
                 })
-                .catch(({message}) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
+                .catch(({message}) => expect(message).toBe(`user with id "${_id}" does not exist`))
         })
         it('should fail when id is incorrect', () => {
             userApi.remove('potato', _token, username, password)
