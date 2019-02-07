@@ -18,11 +18,10 @@ class Header extends Component {
         const { handleLogout, props: { onSearch, onGoToLogin, onModeSwitch, mode } } = this
 
         return <header className={`${mode ? `header header-light` : 'header header-dark'}`}>
-            <i className={`${mode ? 'fas fa-bars fa-bars-light' : 'fas fa-bars fa-bars-dark'}`}></i>
             <a className="youtubeIcon" href="#"><i className='fab fa-youtube fa-3x'/></a>
             <h3 className={`${mode ? 'header__title header__title-light' : 'header__title header__title-dark'}`}>TuTubo</h3>
-            <Search onSearch={onSearch} mode={this.props.mode}/>
-            {!logic.userLoggedIn && <a className="header__button" onClick={onGoToLogin}>Login to Sesson</a>}
+            <Search className="searchBar" onSearch={onSearch} mode={this.props.mode}/>
+            {!logic.userLoggedIn && <a className="header__button" onClick={onGoToLogin}>Login</a>}
             {logic.userLoggedIn && <div className="drp">
                 <div class="dropdown is-right is-hoverable">
                     <div class="dropdown-trigger">
@@ -34,7 +33,7 @@ class Header extends Component {
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu4" role="menu">
                         <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                            <div class="dropdown-content">
+                            <div class={`${mode ? 'dropdown-content dropdown-content-light' : 'dropdown-content dropdown-content-dark'}`}>
                                 <a onClick={handleLogout} href="#" class="dropdown-item drp__link">Logout</a>
                                 <a onClick={onModeSwitch}>Change Mode</a>
                             </div>
