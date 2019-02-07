@@ -5,7 +5,7 @@ import ItemResult from "../ItemResult";
 
 
 class PokemonSearch extends Component {
-  state = { pokemons: [], searchText: this.props.searchText, loading: true, favPokemons: []};
+  state = { pokemons: [], searchText: this.props.searchText, loading: false, favPokemons: []};
 
   componentDidMount() {
     Promise.all([
