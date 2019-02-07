@@ -56,10 +56,10 @@ class CharacterInfoResult extends Component {
 
   render() {
     const {
-      state: { character, feedback, isFav }, props: { onComicSelected }} = this
+      state: { character, feedback, isFav }, props: { onComicSelected, moreInfo, seeComics }} = this
 
     return (
-      <PaintCharacter results={character} feedback={feedback} onItemClick={onComicSelected} handleFavourite={this.handleFavourite} isFav={isFav}/>
+      <PaintCharacter results={character} feedback={feedback} onItemClick={onComicSelected} handleFavourite={this.handleFavourite} isFav={isFav} seeComics={seeComics} moreInfo={moreInfo}/>
     )
   }
 }
