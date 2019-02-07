@@ -64,16 +64,16 @@ class DetailedPokemonPanel extends Component {
 
                     <h2>{name.toUpperCase()}</h2>
                     <img className='img' src={source}></img>
-                    <p>Height: <span>{height}</span></p>
-                    <p>Weight: <span>{weight}</span></p>
+                    <p >Height: <span className='badge badge-primary badge-pill'>{height}</span></p>
+                    <p>Weight: <span className='badge badge-primary badge-pill'>{weight}</span></p>
                         <h3>STATS</h3>
-                    <ul className='stats'>
-                        <li className = 'stat stat-speed'>Speed: <span> {stats[0].base_stat}</span></li>
-                        <li className = 'stat stat-specialDefense' >Special Defense: <span> {stats[1].base_stat}</span></li>
-                        <li className = 'stat stat-specialAttack' >Special Attack: <span> {stats[2].base_stat}</span></li>
-                        <li className = 'stat stat-defense' >Defense: <span> {stats[3].base_stat}</span></li>
-                        <li className = 'stat stat-attack' >Attack: <span> {stats[4].base_stat}</span></li>
-                        <li className = 'stat stat-hp' >HP: <span> {stats[5].base_stat}</span></li>
+                    <ul className='list-group'>
+                        <li>Speed:<span></span> <span className='badge badge-primary badge-pill'> {stats[0].base_stat}</span></li>
+                        <li>Special Defense: <span></span><span className='badge badge-primary badge-pill'> {stats[1].base_stat}</span></li>
+                        <li>Special Attack: <span></span><span className='badge badge-primary badge-pill'> {stats[2].base_stat}</span></li>
+                        <li>Defense:<span></span> <span className='badge badge-primary badge-pill'> {stats[3].base_stat}</span></li>
+                        <li>Attack:<span></span> <span className='badge badge-primary badge-pill'> {stats[4].base_stat}</span></li>
+                        <li>HP:<span></span> <span className='badge badge-primary badge-pill'> {stats[5].base_stat}</span></li>
 
                     </ul>
                 </div>

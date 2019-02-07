@@ -48,13 +48,22 @@ body::-webkit-scrollbar-thumb,
     justify-content: space-between
     width: 100%
 
-    span
-        color: red
 
 
     &__backButton
+        text-align: center
+        text-justify: 
         margin-top: 10px 
         height: 40px
+        width: 60px
+        color: white
+        border-radius: 1.2rem
+        background-color: #FF0032
+        border: 1px solid #3B3B3B
+    &__backButton:hover
+        background-color: #4845BA
+        color: #FEDE1D      
+
     button
         display: inline-block
         cursor: pointer
@@ -75,13 +84,6 @@ body::-webkit-scrollbar-thumb,
         border: 5px solid #3B3B3B
         background-color: white
         
-
-
-
-
-        &__backButton
-            position: relative
-            left: 0
         h2
             background-color: #FF0032
             border-top-left-radius: .7rem
@@ -111,6 +113,8 @@ body::-webkit-scrollbar-thumb,
             background-color: #FF0032
             border-top-left-radius: .7rem
             border-top-right-radius: .7rem
+            font-size: 1.5em
+
 
             &-button
                 border-radius: .5rem
@@ -119,6 +123,7 @@ body::-webkit-scrollbar-thumb,
                 background-color: #EE5450
                 color: white
                 border: 0px solid #EE5450
+            
             
 
         &__moves
@@ -173,7 +178,14 @@ body::-webkit-scrollbar-thumb,
         background-color: #B8A038
     &-water
         background-color: #6890F0
-    
+
+.stat
+    cursor: default
+span
+    margin-left: .25em
+.badge 
+    font-size: 1em
+    background-color: blue
 .ability
     display: flex
     align-content: center
@@ -183,7 +195,7 @@ body::-webkit-scrollbar-thumb,
     width: 100px
     height: 50px
     color: white
-    background-color: red
+    background-color: #A8A878
     margin: 10px
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 2px rgba(0, 0, 0, 0.19)
     border-radius: 1.2rem
@@ -198,7 +210,7 @@ body::-webkit-scrollbar-thumb,
     width: 100px
     height: 50px
     color: white
-    background-color: red
+    background-color: #E0C068
     margin: 10px
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 2px rgba(0, 0, 0, 0.19)
     border-radius: 1.2rem
@@ -213,7 +225,7 @@ body::-webkit-scrollbar-thumb,
     width: 100px
     height: 50px
     color: white
-    background-color: red
+    background-color: #6890F0
     margin: 10px
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 2px rgba(0, 0, 0, 0.19)
     border-radius: 1.2rem
