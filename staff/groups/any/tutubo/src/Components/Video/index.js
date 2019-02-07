@@ -71,14 +71,19 @@ class Video extends Component {
     handleShowLike = () => {
         debugger
         try {
+            const idNow = this.props.videoId
             logic.retrieveLikes()
-                .then(({likes}) => {
-                    debugger
-                    const { props: {videoId}} = this
-                    if(likes.includes(videoId)) this.setState({likeStatus: !this.state.likeStatus})
-                    else this.setState({likeStatus: this.state.likeStatus})
+            .then((items) => {
+                console.log(items)
+                    if (items.likes) {
+                    //debugger
+                    //const idNow = this.props.videoId
+                        if(items.likes.includes(idNow)) this.setState({likeStatus: !this.state.likeStatus})
+                        else this.setState({likeStatus: this.state.likeStatus})
+                    }
                 })
-                .catch(console.log('like error'))
+            .catch((Error) => console.log(Error))
+                
         } catch {
             this.setState(/* sets state of feedback messafe again in case of error beforehand */)
         }
