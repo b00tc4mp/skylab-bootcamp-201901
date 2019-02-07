@@ -28,7 +28,7 @@ class Register extends Component {
         });
     }
 
-    toggleFeedback = (prop) => {
+    toggleFeedback = prop => {
         this.setState({
             feedback: prop
         });
@@ -46,32 +46,30 @@ class Register extends Component {
             <Fragment>
                 <section className="login">
                     <div className="login__content animated flipInX">
-                        <h3 className="login__title">
-                            Regístrate con tu dirección de correo electrónico
-                        </h3>
+                        <h3 className="login__title">Sign up with your email address</h3>
                         <form onSubmit={handleRegisterSubmit} className="login__form">
                             <div className="login__row">
                                 <label htmlFor="name" className="login__label">
-                                    Nombre
+                                    Name
                                 </label>
                                 <input
                                     type="text"
                                     name="name"
                                     id="name"
-                                    placeholder="Nombre"
+                                    placeholder="Name"
                                     onChange={handleInput}
                                     className="login__input"
                                 />
                             </div>
                             <div className="login__row">
                                 <label htmlFor="surname" className="login__label">
-                                    Apellidos
+                                    Surname
                                 </label>
                                 <input
                                     type="text"
                                     name="surname"
                                     id="surname"
-                                    placeholder="Apellidos"
+                                    placeholder="Surname"
                                     onChange={handleInput}
                                     className="login__input"
                                 />
@@ -110,7 +108,7 @@ class Register extends Component {
                                     type="password"
                                     name="passwordConfirm"
                                     id="passwordConfirm"
-                                    placeholder="Confirmar password"
+                                    placeholder="confirm password"
                                     onChange={handleInput}
                                     className="login__input"
                                 />
@@ -122,13 +120,12 @@ class Register extends Component {
                         </form>
                         <div className="divider" />
                         <p className="login__register-text">
-                            ¿Ya tienes cuenta? <Link to="/login">Entra</Link>
+                            Do you already have an account? <Link to="/login">Access</Link>
                         </p>
                     </div>
                 </section>
                 {feedback && <Feedback message={feedback} toggleFeedback={toggleFeedback} />}
             </Fragment>
-
         );
     }
 }
