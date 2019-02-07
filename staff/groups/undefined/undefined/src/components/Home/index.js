@@ -17,8 +17,8 @@ class Home extends Component {
         return (
             <section className="home columns is-fullheight">
                 <div class="container column is-10">
-                    <Search onSearch={handleSearch} feedback={searchFeedback} />
-                    <Route path='/videos/:query' render={(props) => <Results query={props.match.params.query} />} />
+                    <Search onSearch={handleSearch}  />
+                    <Route path='/videos/:query' render={(props) => <Results query={props.match.params.query}/>} />
                 </div>
             </section >
         )
