@@ -45,17 +45,19 @@ PokemonCard has four main parts.
 
 ## Use cases
 
+![Components]('images/Usecases.png')
 
+### Architecture
 
+![Components]('images/arquitectura.png')
 
+### Components
 
+![Components]('images/ComponentDiagram.png')
 
+### Flow
 
-
-
-
-
-
+![Components]('images/Flow.png')
 
 
 
@@ -65,19 +67,9 @@ PokemonCard has four main parts.
 The application has automated test, so they may be run when necessary.
 For example in case the application is evolved, test may be run.
 
-------------------------------|----------|----------|----------|----------|-------------------|
-File                          |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
-------------------------------|----------|----------|----------|----------|-------------------|
- src/apipokemon               |    46.67 |    41.67 |       50 |       50 |                   |
-  index.js                    |    93.33 |    83.33 |      100 |      100 |                43 |
-  index.js                    |        0 |        0 |        0 |        0 |... 36,37,39,43,44 |
- src/logic                    |    39.08 |    39.52 |       50 |    45.08 |                   |
-  index.js                    |    79.07 |    79.03 |      100 |    91.67 |    36,44,48,52,53 |
-  index.js                    |        0 |        0 |        0 |        0 |... 15,217,218,220 |
- src/user-api                 |    42.05 |    39.71 |       50 |       50 |                   |
-  index.js                    |    84.09 |    79.41 |      100 |      100 |... 68,169,171,172 |
-  index.js                    |        0 |        0 |        0 |        0 |... 82,184,186,188 |
-------------------------------|----------|----------|----------|----------|-------------------|
+The results of automated are shown below.
+![Components]('images/test.png')
+
 
 ### Logic Test
 
@@ -90,7 +82,7 @@ Test the data extraction from the API. The main tests are:
 * SearchAllPokemon
 * SearchPokemonByName
 
-More info at: https://pokeapi.co/
+More info at: [https://pokeapi.co/] (https://pokeapi.co/)
                  
 
 ### User API
