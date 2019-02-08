@@ -19,9 +19,9 @@ class App extends Component {
         })
     }
 
-    handleRegister = (email, password) => {
+    handleRegister = (name, surname, email, password, passwordConfirmation) => {
         try {
-            logic.registerUser(email, password)
+            logic.registerUser(name, surname, email, password, passwordConfirmation)
                 .then(() => this.props.history.push('/login'))
                 .catch(({ message }) => this.setState({ registerFeedback: message }))
         } catch ({ message }) {
@@ -31,7 +31,7 @@ class App extends Component {
 
     handleLogin = (email, password) => {
         try {
-            logic.loginUser(email, password)
+            logic.logInUser(email, password)
                 .then(() => this.props.history.push('/'))
                 .catch(({ message }) => this.setState({ loginFeedback: message }))
         } catch ({ message }) {
@@ -49,7 +49,7 @@ class App extends Component {
             {title}
             <Route path="/register" render={() => <Register title={i18n[selectedLanguage].registerTitle} onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route path="/login" render={() => <Login title={i18n[selectedLanguage].loginTitle} onLogin={handleLogin} feedback={loginFeedback} />} />
-            <Route exact path="/" render={() => <Home language={selectedLanguage} />} />
+            {logic.isUserLoggedIn && <Route path="/" render={() => <Home language={selectedLanguage} />} />}
         </main>
     }
 }
