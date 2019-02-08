@@ -1,5 +1,3 @@
-'use stric'
-
 import React, { Component } from 'react';
 import logic from '../../logic'
 
@@ -30,7 +28,7 @@ class DevelopersInfo extends Component {
         if (this.state.devName) {
             return (
                <span>
-                    // Developer: {this.state.devName}
+                    {'// Developer: '}{this.state.devName}
                 </span>
             )
         }

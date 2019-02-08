@@ -19,6 +19,7 @@ class Card extends Component {
         } = this;
                
         const linkGame = '/game/' + { gameUrl }.gameUrl;
+        const linkPlatform = '/platform/' + game.platform.id;
 
         return (
             <article className="card">
@@ -52,7 +53,15 @@ class Card extends Component {
                             {game.game_title}
                         </Link>
                     </h3>
-                    <h4 className="card__platform">{game.platform.name}</h4>
+                    <h4 className="card__platform">
+                        <Link
+                            to={linkPlatform}
+                            className="card__title-link"
+                            title="The Legend of Zelda: Ocarina of Time"
+                        >
+                            {game.platform.name}
+                        </Link>
+                    </h4>
                 </header>
             </article>
         );
