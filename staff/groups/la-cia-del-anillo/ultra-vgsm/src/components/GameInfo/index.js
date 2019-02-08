@@ -7,8 +7,6 @@ import GameTitle from '../GameTitle'
 import Favorite from '../Favorite'
 
 import Loading from '../Loading';
-import { Link } from 'react-router-dom';
-
 
 class GameInfo extends Component {
     state = {
