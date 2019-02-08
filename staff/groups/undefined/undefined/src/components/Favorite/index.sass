@@ -4,7 +4,19 @@
 .fav-detail
     padding: 5px
     margin-top: 35px
+    & .card-content
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        &__top
+            margin-bottom: 15px
     & .card-image
         max-width: 500px
         min-width: 300px
         width: 100%
+    & .tag-details
+        display: flex
+        flex-wrap: wrap
+        margin-top: 15px
+    & .tag
+        margin: 5px

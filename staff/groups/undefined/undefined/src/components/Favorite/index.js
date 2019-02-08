@@ -41,28 +41,27 @@ class Favorite extends Component {
                 </div>
 
                 <div class="card-content">
+                    <div className="card-content__top">
                         <h3 className="title is-3">{Title}</h3>
+                        <div className="block">
+                        <span className="tag is-danger">
+                            Remove from favorites
+                            <button onClick={handleFavorites} className="delete is-small"></button>
+                        </span>
+                        </div>
                         <p>{Plot}</p>
 
-                        <div className="content-details">
-                            <span class="tag is-success">{Type}</span>
-                            <span class="tag is-info">{Year}</span>
-                            <span class="tag is-info">{Runtime}</span>
-                            <span class="tag is-info">{Genre}</span>
-                            <span class="tag is-info">{Director}</span>
-                            <span class="tag is-info">{Website}</span>
+                        <div className="content-details"> 
                         </div>
-
-                        <div className="tags-details">
-                            <span class="tag is-info">{Country}</span>
-                            <span class="tag is-info">{Awards}</span>
-                            <span class="tag is-info">{imdbRating}</span>
-                            <span class="tag is-info">{BoxOffice}</span>
-                            <span class="tag is-info">{Production}</span>
-                        </div>
-                    <button className="button" onClick={handleFavorites}>Delete</button>
+                    </div>
+                    <div className="tags-details">
+                        <span className="tag">{Type}</span>
+                        <span className="tag">{Year}</span>
+                        <span className="tag">{Runtime}</span>
+                        <span className="tag">{Country}</span>
+                        <span className="tag">{BoxOffice}</span>
+                    </div>
                 </div>
-            
         </section>)
     }
     else return <div></div>
