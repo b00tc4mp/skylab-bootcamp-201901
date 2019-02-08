@@ -18,10 +18,8 @@ logic.getUserApiToken = () => sessionStorage.getItem('user-api-token')
 logic.setUser = user => user? sessionStorage.setItem('user', JSON.stringify(user)) : sessionStorage.removeItem('user')
 logic.getUser = () => sessionStorage.getItem('user')
 
-// ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'))
+
 ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'))
 
-
-// ReactDOM.render(<App />, document.getElementById('root'));
 
 serviceWorker.unregister();

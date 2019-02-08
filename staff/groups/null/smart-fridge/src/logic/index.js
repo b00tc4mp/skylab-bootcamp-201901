@@ -398,8 +398,6 @@ const logic = {
         if (ingredientsRecipe.length <1) throw Error(ingredientsRecipe + ' cannot be empty')
 
         if (ingredientsQuery.constructor !== Array) throw TypeError(ingredientsQuery + ' is not an array')
-
-        if (ingredientsQuery.length <1) throw Error(ingredientsQuery + ' cannot be empty')
     
         let fridge =[]
         let shopping=[]
@@ -411,6 +409,8 @@ const logic = {
             if (compare) fridge.push(ingredientRecipe)
             else(shopping.push(ingredientRecipe))
         })
+
+        if (fridge.length===0) fridge.push('No ingredients selected')
 
         return {fridge, shopping}
     }

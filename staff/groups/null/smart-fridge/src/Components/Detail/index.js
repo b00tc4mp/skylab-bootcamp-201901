@@ -3,8 +3,9 @@ import './index.sass'
 
 class Detail extends React.Component {
 
-    handleBackToRecipes=()=>{
-        this.props.backToRecipes()
+    handleBack=()=>{
+        if (this.props.detailsFrom ==='Recipes') this.props.backToRecipes()
+        if (this.props.detailsFrom ==='Favorites') this.props.backToFavorites()
     }
 
     render() {
@@ -20,7 +21,7 @@ class Detail extends React.Component {
                         </div>
 
                         <div className='row mt-4'>
-                            <button className="btn btn-outline-dark inline mt-2 col-6" onClick={this.handleBackToRecipes}>Back to Recipes</button>
+                            <button className="btn btn-outline-dark inline mt-2 col-6" onClick={this.handleBack}>Back to {this.props.detailsFrom}</button>
                             <div className="col-6 pr-2">
                                 <a className="btn btn-dark inline mt-2" href={recipe.url} target="_blank" >Preparation</a>
                             </div>

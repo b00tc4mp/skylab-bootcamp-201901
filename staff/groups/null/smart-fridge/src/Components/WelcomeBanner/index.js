@@ -12,10 +12,6 @@ class WelcomeBanner extends React.Component {
         onRegisterClick()
     }
 
-    // handleButtonRegister(){
-    //     this.props.onRegisterClick()
-    // }
-
     render() {
         return <section className="welcome__banner">
             <h2 className="text-center display-2">Recipes for your needs</h2>
