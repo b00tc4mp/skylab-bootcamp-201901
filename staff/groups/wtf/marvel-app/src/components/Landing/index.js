@@ -48,7 +48,7 @@ class Landing extends Component {
 
     render() {
 
-        const {handleLogin, handleRegistration, handleToLogin, handleLanding, state:{loginFeedback, registrationFeedback, modalVisible}, props:{welcome__title, welcome__subtitle, login, register, email, password, goBack, name, surname, confirmPassword}} = this
+        const {handleLogin, handleRegistration, handleToLogin, handleLanding, state:{loginFeedback, registrationFeedback, modalVisible}, props:{welcome__title, welcome__subtitle, login, register, email, password, goBack, name, surname, confirmPassword, modal__feedback}} = this
 
         return <section className="container">
         <Route exact path="/" render={() =>
@@ -66,7 +66,7 @@ class Landing extends Component {
                     </div>
             </Fragment>} />
             <Route exact path='/login' render={() => logic.userLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} feedback={loginFeedback} onLanding={handleLanding} email={email} password={password} goBack={goBack} login={login}/>} />
-            <Route exact path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onLanding={handleLanding} modalVisible={modalVisible} onLogin={handleToLogin} register={register} name={name} surname={surname} email={email} password={password} confirmPassword={confirmPassword} goBack={goBack}/>} />
+            <Route exact path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onLanding={handleLanding} modalVisible={modalVisible} onLogin={handleToLogin} register={register} name={name} surname={surname} email={email} password={password} confirmPassword={confirmPassword} goBack={goBack} modal__feedback={modal__feedback}/>} />
         </section>
     }
 }

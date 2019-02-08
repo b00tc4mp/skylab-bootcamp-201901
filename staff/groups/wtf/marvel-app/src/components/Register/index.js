@@ -41,7 +41,7 @@ class Register extends Component {
 
 
     render() {
-         const {handleCloseModal, handleOnLanding, handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback, modalVisible, name, surname, email, password, confirmPassword, register, goBack}  } = this
+         const {handleCloseModal, handleOnLanding, handleFormSubmit, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmationInput, props: {feedback, modalVisible, name, surname, email, password, confirmPassword, register, goBack, modal__feedback}  } = this
     
         return <section className="register container">
         <div className="columns is-mobile is-centered">
@@ -107,7 +107,7 @@ class Register extends Component {
                 </form>
             </div>    
         </div>
-        {modalVisible && <Modal closeModal={handleCloseModal} />}
+        {modalVisible && <Modal closeModal={handleCloseModal} modal__feedback={modal__feedback}/>}
     </section>
     }
 }
