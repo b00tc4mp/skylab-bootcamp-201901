@@ -1,4 +1,5 @@
 import logic from '.'
+import userApi from '../user-api';
 //import '../index'
 
 logic.storage = sessionStorage
