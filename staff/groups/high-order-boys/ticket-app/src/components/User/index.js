@@ -61,7 +61,7 @@ class User extends Component {
         const { state: { user, eventsFavourites }, handleRegister, registerFeedback } = this
 
         return <section>
-            {!isFavourites && <Link to="/home/user/favourites" className="button">Favourites</Link>}
+            {!isFavourites && <Link to="/home/user/favourites" className="button is-danger is-fullwidth">Go to favourites</Link>}
             {!isFavourites && <Register user={user} onRegister={handleRegister} registerFeedback={registerFeedback} />}
             <Route exact path="/home/user/favourites" render={(props) => < Favourites events={eventsFavourites} {...props} />}  />
             
