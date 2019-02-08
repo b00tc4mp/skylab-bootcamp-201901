@@ -43,11 +43,11 @@ const logic = {
     /**
     * Registers a user.
     * 
-    * @param {string} name 
-    * @param {string} surname 
-    * @param {string} email 
-    * @param {string} password 
-    * @param {string} passwordConfirmation 
+    * @param {string} name - name user
+    * @param {string} surname - surname user
+    * @param {string} email - email user
+    * @param {string} password - password user
+    * @param {string} passwordConfirmation - confirmation to password
     */
     registerUser(name, surname, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
@@ -76,12 +76,15 @@ const logic = {
             .then(() => { })
     },
 
-    // /**
-    //  * Logins a user by its credentials.
-    //  * 
-    //  * @param {string} email 
-    //  * @param {string} password 
-    //  */
+    /**
+     * Logins a user by its credentials.
+     * 
+     * @param {string} email - email user   
+     * @param {string} password - password user
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     */
+
     loginUser(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
@@ -98,11 +101,18 @@ const logic = {
             })
     },
 
-
+    /**
+     * Store user 
+     */
+    
     get userLoggedIn() {
         return !!this.__userId__
-
+        
     },
+    
+    /**
+   * Logout user 
+   */
 
     logout() {
         this.__userId__ = null
@@ -110,7 +120,10 @@ const logic = {
     },
 
 
+       /**
+     *@returns {Promise} - returns the user's parameters
 
+     */
 
     retrieveUser() {
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
@@ -123,12 +136,32 @@ const logic = {
             }))
     },
 
+    /**
+     * 
+     * modify the user's parameters
+     * 
+     * @param {Array} email - email user 
+     *   
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     */
+
+
     updateUser(favorites){
         if (typeof favorites !== 'object') throw TypeError(favorites + ' is not an object')
 
         return userApi.update(this.__userId__, this.__userApiToken__, favorites)
     },
 
+     /**
+     * 
+     * @param {string} -  id the user's name.
+
+     * @retuns {Promise} - shows the user's parameters and then modifies them
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     */
 
     toggleFavorties(id){
         if (typeof id !== 'string') throw TypeError(id + ' is not a string')

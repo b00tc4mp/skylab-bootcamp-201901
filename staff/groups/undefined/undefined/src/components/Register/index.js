@@ -25,7 +25,7 @@ class Register extends Component {
 
     handleGoBack = event =>{
       event.preventDefault()
-      this.props.history.push('/')
+      this.props.history.push('/home')
     }
 
     render(){
