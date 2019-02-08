@@ -33,11 +33,15 @@ const logic = {
     /**
     * Registers a user.
     * 
+    * Register a user in the application
+    * 
     * @param {string} name 
     * @param {string} surname 
     * @param {string} email 
     * @param {string} password 
     * @param {string} passwordConfirmation 
+    * 
+    * @returns {promise} - returns a empty promise
     */
     registerUser(name, surname, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
@@ -67,10 +71,15 @@ const logic = {
     },
 
     /**
+     * 
+     * Login User
+     * 
      * Logins a user by its credentials.
      * 
      * @param {string} email 
      * @param {string} password 
+     * 
+     * @returns {promise} - sets in sessioin storage the token and the id of the user
      */
     loginUser(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
@@ -89,6 +98,15 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieve user
+     * 
+     * retrieve the information of the logged user
+     * 
+     * 
+     * @returns {promise} - returns the infromation of a user in object format
+     * 
+     */
 
     retrieveUser() {
         return userApi.retrieve(this.getUserId(), this.getUserApiToken())
@@ -102,11 +120,34 @@ const logic = {
             }))
     },
 
+    /**
+     * 
+     * update user
+     * 
+     * updates an user with new information
+     * 
+     * @param {Object} data 
+     * 
+     * @returns {promise}
+     */
+
     updateUser(data) {
         if (data.constructor !== Object) throw TypeError(data + 'is not an Object')
 
         return userApi.update(this.getUserId(), this.getUserApiToken(), data)
     },
+
+
+    /**
+     * 
+     * Toggle Favourite
+     * 
+     * Insert or delete an id of the favourites array
+     * 
+     * @param {string} favouriteId 
+     * 
+     * @returns {promise} - returns a promise with a boolean that indicates if the favourite id is favourite or none
+     */
 
     toggleFavourite(favouriteId) {
         let isFav = false
@@ -134,6 +175,17 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * check favoruite
+     * 
+     * checks if the id favourite given is inside of the favourites array of the logged in user
+     * 
+     * @param {string} favouriteId 
+     * 
+     * @returns {promise} - a promise with a boolean that indicates if the favourite id is favourite or none
+     */
+
     checkFavourite(favouriteId) {
         return userApi.retrieve(this.getUserId(), this.getUserApiToken())
             .then(({ favourites }) => {
@@ -143,6 +195,17 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * Get favourites
+     * 
+     * Retrieve all the favoruites events of an user
+     * 
+     * @param {Array} favourites 
+     * 
+     * @returns {promise} - returns a promise with a result an array of event objects
+     */
+    
     getFavourites(favourites) {
         // ALT in parallel (cannot be applied because of API multiple requests limitation, but it works!)
         //    let array_promises =  favourites.map(favourite => {
@@ -175,6 +238,19 @@ const logic = {
         return chain.then(() => favs)
     },
 
+    /**
+     * 
+     * Retrieve Events
+     * 
+     * Search events passing a city name and a optional dates from start and end params
+     * 
+     * @param {string} query 
+     * @param {string} startDate 
+     * @param {string} endDate 
+     * 
+     * @returns {Promise} - with all events that satisfies the params 
+     */
+
     retrieveEvents(query, startDate, endDate) {
         if (typeof query !== 'string') throw TypeError(`-->${query}<-- query introduced is not a string`)
         if (!query.trim().length) throw Error(`query is empty`)
@@ -186,6 +262,16 @@ const logic = {
         return ticketmasterApi.searchEvents(query, startDate, endDate)
             .then(events => events)
     },
+
+     /**
+     * SearchEvent
+     * 
+     * Search for especific event using an Id and return it 
+     * 
+     * @param {string} id 
+     * 
+     * @returns {Promise} - returns a promise that conteins an event
+     */
 
     retrieveEvent(id) {
         if (typeof id !== 'string') throw TypeError(`-->${id} <-- id introduced is not a string`)

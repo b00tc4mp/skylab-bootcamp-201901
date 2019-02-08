@@ -1,5 +1,8 @@
 import ticketmasterApi from ".";
 
+const { env: { REACT_APP_TICKETMASTER_API_KEY } } = process
+ticketmasterApi.apiKey = REACT_APP_TICKETMASTER_API_KEY
+
 describe('ticketmaster-api', () => {
 
     describe('searchEvents', () => {
