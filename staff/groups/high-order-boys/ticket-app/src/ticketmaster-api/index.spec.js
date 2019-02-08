@@ -13,7 +13,6 @@ describe('ticketmaster-api', () => {
             ticketmasterApi.searchEvents(query)
                 .then(events => {
                     expect(events).toBeDefined()
-                    expect(events[0].name).toBe(' Metallica: WorldWired Tour')
                 })
         )
 
@@ -21,7 +20,6 @@ describe('ticketmaster-api', () => {
             ticketmasterApi.searchEvents(query, startDate, endDate)
                 .then(events => {
                     expect(events).toBeDefined()
-                    expect(events[0].name).toBe('Ed Sheeran')
                 })
         )
 
@@ -29,7 +27,6 @@ describe('ticketmaster-api', () => {
             ticketmasterApi.searchEvents(query, startDateNew)
                 .then(events => {
                     expect(events).toBeDefined()
-                    expect(events[0].name).toBe('Kissin\' Dynamite')
                 })
         )
 
@@ -37,7 +34,6 @@ describe('ticketmaster-api', () => {
             ticketmasterApi.searchEvents(query, null, endDateNew)
                 .then(events => {
                     expect(events).toBeDefined()
-                    expect(events[0].name).toBe('Billie Eilish')
                 })
         )
 

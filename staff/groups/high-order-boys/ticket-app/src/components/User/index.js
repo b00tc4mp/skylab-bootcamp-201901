@@ -38,8 +38,7 @@ class User extends Component {
 
         try {
             logic.updateUser(updateInfo)
-                .then(() => this.props.history.push('/home/user'))
-                .then(() => this.setState({ registerFeedback: 'user updated correctly' }))
+                .then(() => window.location.reload())
                 .then(() => logic.retrieveUser())
                 .then(user => this.setState({ user }))
                 .catch(({ message }) => this.setState({ registerFeedback: message }))
