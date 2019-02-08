@@ -27,8 +27,8 @@ class Home extends Component {
         const { handleSearch, handleEventDetail, state: { startDate,endDate } } = this
         
         return<div className='container'>
-            {!isUser && <Search onSearch={handleSearch} />}
             <Breadcrumb pathname={pathname}/>
+            {!isUser && <Search onSearch={handleSearch} />}
             <Route path='/home/user' component={User}/>
             <Route path="/home/search/:query" render={props => <EventResults query={props.match.params.query} startDate={startDate} endDate={endDate} onEventDetail={handleEventDetail}/>} />
             <Route path="/home/event/:id" render={props => <Event id={props.match.params.id} />} />
