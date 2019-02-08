@@ -30,7 +30,7 @@ class GenresInfo extends Component {
         if (this.state.genName) {
             return (
                 <span>
-                    {this.state.genName} //
+                    {this.state.genName}{' //'}
                 </span>
             )
         }

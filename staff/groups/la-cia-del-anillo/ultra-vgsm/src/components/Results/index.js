@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { withRouter, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Masonry from 'react-masonry-component';
 import './index.css';
 
@@ -7,6 +7,7 @@ import logic from '../../logic';
 import Card from '../Card';
 import Feedback from '../Feedback';
 import NoResults from '../NoResults';
+import Loading from '../Loading';
 
 const masonryOptions = {
     transitionDuration: 0,
@@ -19,46 +20,40 @@ class Results extends Component {
         favorites: [],
         feedbackResult: null,
         nextButton: false,
-        loadFirstTime: true
+        loading: true
     };
 
     _updateGamesAftersearch = ({ data: { games }, include: { boxart, platform }, pages }) => {
         this.setState({
+            loading: false,
             nextButton: pages.next !== this.state.nextButton ? pages.next : false,
             results: games.map(game => {
                 game.base_url = boxart.base_url;
 
-                game.platform = (platform.data) ? platform.data[game.platform] : platform[game.platform];
+                game.platform = platform.data
+                    ? platform.data[game.platform]
+                    : platform[game.platform];
 
-                game.boxart = boxart.data[game.id].find(
-                    image => image.side === 'front'
-                );
+                game.boxart = boxart.data[game.id].find(image => image.side === 'front');
                 return game;
             })
         });
-    }
+    };
 
     loadMoreGame = nextButton => {
         try {
             logic
                 .searchGameByUrl(nextButton)
                 .then(({ data: { games }, include: { boxart, platform }, pages }) => {
-                    const {
-                        match: {
-                            params: { query = '' }
-                        }
-                    } = this.props;
-
                     games &&
                         games.map(game => {
                             game.base_url = boxart.base_url;
                             game.boxart = boxart.data[game.id].find(
                                 image => image.side === 'front'
                             );
-                            game.platform =
-                                (platform.data)
-                                    ? platform.data[game.platform]
-                                    : platform[game.platform];
+                            game.platform = platform.data
+                                ? platform.data[game.platform]
+                                : platform[game.platform];
                             return game;
                         });
 
@@ -142,36 +137,51 @@ class Results extends Component {
 
     componentDidMount() {
         const {
-            favoritesSearch = false,
+            loading = true,
+            results = [],
+            favorites = [],
             match: {
                 params: { query = '', platformId = null }
             }
         } = this.props;
+        
         this.setState({
-            loadFirstTime: false
-        })
+            loading,
+            results,
+            favorites,
+            nextButton: false
+        });
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-        if (favoritesSearch) this.getFavoritesPage();
+        // if (favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
     componentWillReceiveProps(nextProps) {
         const {
-            favoritesSearch = false,
+            loading = true,
+            results = [],
+            favorites = [],
             match: {
                 params: { query = '', platformId = null }
             }
         } = nextProps;
 
+        this.setState({
+            loading,
+            results,
+            favorites,
+            nextButton: false
+        });
+
         if (platformId) this.getPlatform(platformId);
         if (query !== '') this.handleSearch(query);
-        if (favoritesSearch) this.getFavoritesPage();
+        // if (favoritesSearch) this.getFavoritesPage();
         this.getFavorites();
     }
 
     handleImagesLoaded = imagesLoadedInstance => {
-        imagesLoadedInstance.images.map(image => {
+        imagesLoadedInstance.images.forEach(image => {
             if (image.isLoaded) image.img.parentElement.parentElement.style.opacity = '1';
         });
     };
@@ -179,12 +189,23 @@ class Results extends Component {
     render() {
         const {
             toggleFeedback,
-            state: { loadFirstTime, nextButton, results, favorites, feedbackResult }
+            state: { loading, nextButton, results, favorites, feedbackResult }
         } = this;
-        console.log(results);
+
+        console.log(loading, results.length);
+
+        if (loading && results.length <= 0) {
+            //Loading...
+            return (
+                <Loading />
+            );
+        } else if (!loading && results.length <= 0) {
+            //No results
+            return <NoResults />;
+        }
+
         return (
             <Fragment>
-                {(results.length <= 0 || loadFirstTime) && <NoResults />}
                 <Masonry
                     className={'results content'}
                     elementType={'section'}
@@ -205,11 +226,12 @@ class Results extends Component {
                             );
                         })}
                 </Masonry>
-                {nextButton && (
+                {results && nextButton && (
                     <button className="load-more" onClick={() => this.loadMoreGame(nextButton)}>
                         Load more
                     </button>
                 )}
+
                 {feedbackResult && (
                     <Feedback message={feedbackResult} toggleFeedback={toggleFeedback} />
                 )}
