@@ -45,19 +45,19 @@ PokemonCard has four main parts.
 
 ## Use cases
 
-![Components]('images/Usecases.png')
+![Components](images/Usecases.png)
 
 ### Architecture
 
-![Components]('images/arquitectura.png')
+![Components](images/arquitectura.png)
 
 ### Components
 
-![Components]('images/ComponentDiagram.png')
+![Components](images/ComponentDiagram.png)
 
 ### Flow
 
-![Components]('images/Flow.png')
+![Components](images/Flow.png)
 
 
 
@@ -68,7 +68,7 @@ The application has automated test, so they may be run when necessary.
 For example in case the application is evolved, test may be run.
 
 The results of automated are shown below.
-![Components]('images/test.png')
+![Components](images/test.png)
 
 
 ### Logic Test
@@ -82,8 +82,7 @@ Test the data extraction from the API. The main tests are:
 * SearchAllPokemon
 * SearchPokemonByName
 
-More info at: [https://pokeapi.co/] (https://pokeapi.co/)
-                 
+More info at: <https://pokeapi.co/>                 
 
 ### User API
 
