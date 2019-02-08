@@ -38,7 +38,7 @@ Users have to register in order to use the app. Once they log in, they can searc
 
 ### Technolgies
 
-React JS, ES6
+React JS, ES6, Sass, JEST, NPM, Bulma
 
 ### Code Coverage
 
