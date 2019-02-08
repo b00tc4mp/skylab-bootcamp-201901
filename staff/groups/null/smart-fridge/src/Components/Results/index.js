@@ -16,6 +16,29 @@ class Results extends Component {
         this.props.onFavourite(recipe)
     }
 
+    move = (info) => {
+        let s = info.split('-')
+        if (s.length > 1) {
+            let elem = this.refs[info]
+            let number =  Number(info.split('-')[1])
+
+            var width = 0;
+            var id = setInterval(frame, 20);
+
+            function frame() {
+            if (width >= number) {
+                clearInterval(id);
+            } else {
+                width++; 
+                elem && (elem.style.width = width + '%');
+            }
+            }
+        }
+    }
+    componentDidMount() {
+        Object.keys(this.refs).forEach(key => this.move(key))
+    }
+
     render() {
 
         const user = JSON.parse(sessionStorage.getItem('user'))
@@ -27,7 +50,7 @@ class Results extends Component {
             <div className="card_columns row m-2 mt-5">
                 {
 
-                    recipes.map(recipe => (
+                    recipes.map((recipe, n) => (
                         <div key={recipe.recipe.uri} className='col-12 col-sm-6 col-lg-4 mt-2 results__box'>
                             <div className="card p-2 mt-2">
                                 <div className="card-body">
@@ -42,7 +65,7 @@ class Results extends Component {
                                     <div className='mt-4 flex'>
                                         <label className='font-weight-bold mb-0 results__nutrients'>Total Calories: <span className='font-weight-normal'>{(((recipe.recipe.totalNutrients.ENERC_KCAL.quantity / recipe.recipe.yield))).toFixed() + 'Kcal'}</span></label>
                                         <div className="progressBarContainer">
-                                            <div id="progressBar total" ref="progressBar" className="progressBar" style={{ width: ((recipe.recipe.totalNutrients.ENERC_KCAL.quantity / recipe.recipe.yield) / maxCalories) * 100 + '%' }}>
+                                            <div id="progressBar total" ref={`progressBar${n}-${((recipe.recipe.totalNutrients.ENERC_KCAL.quantity / recipe.recipe.yield) / maxCalories) * 100 }`} className="progressBar">
                                             </div>
                                         </div>
                                         <label className=' mt-3 mb-0  results__nutrients'>Carbohydrates</label>
