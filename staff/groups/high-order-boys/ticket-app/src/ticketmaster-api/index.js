@@ -1,10 +1,22 @@
 'use strict'
 
+
 const ticketmasterApi  = {
-    apiKey: 'iH8PnL5GTD8FOUAoT5fXDta2iEGW1pmI',
     url: 'https://app.ticketmaster.com/discovery/v2/',
-    // startDate: '2019-06-01T14:00:00Z',
-    // endDate: '2019-08-01T14:00:00Z',
+
+
+    /**
+     * 
+     * searchEvents
+     * 
+     * Search events passing a city name and a optional dates from start and end params
+     * 
+     * @param {string} query 
+     * @param {string} startDate 
+     * @param {string} endDate
+     * 
+     * @returns {Promise} - with all events that satisfies the params 
+     */
 
     searchEvents(query, startDate = null, endDate = null){
         if(typeof query !== 'string') throw TypeError (`${query} introduced is not a string`)
@@ -22,12 +34,22 @@ const ticketmasterApi  = {
         .then(response => {
             if(response._embedded) return response._embedded.events
             return null
-            // else throw Error ('there is no results for ' + query)
         })
         //.then(response => response)
         //.then(({_embedded: {events}}) => events)
         .catch(error => error) 
     },
+
+
+    /**
+     * SearchEvent
+     * 
+     * Search for especific event using an Id and return it 
+     * 
+     * @param {string} id 
+     * 
+     * @returns {Promise} - returns a promise that conteins an event
+     */
 
     searchEvent(id) {
         if(typeof id !== 'string') throw TypeError(`-->${id}<-- id introduced is not a string`)

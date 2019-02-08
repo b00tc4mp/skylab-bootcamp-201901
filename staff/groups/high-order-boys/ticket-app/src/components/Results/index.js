@@ -13,7 +13,7 @@ class  Results extends Component {
         const { props:{ results }, handleDetail} = this
 
         return<section className='columns is-multiline is-mobile is-centered'>
-            {results && results.map(result => (<div className='column is-three-quarters-mobile is-two-fifths-tablet is-one-quarter-widescreen'>
+            {results && results.length > 0 && results.map(result => (<div className='column is-three-quarters-mobile is-two-fifths-tablet is-one-quarter-widescreen'>
                 <div className='card' key={result.id}>
                     {result.images && <div className='card-image'>
                         <figure className='image is-4by3'>
