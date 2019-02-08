@@ -1,48 +1,55 @@
 'use strict'
 
-class Home extends React.Component {
-    state = { artists: null, albums: null, tracks: null, track: null, searchFeedback: null, artistFeedback: null, albumFeedback: null, trackFeedback: null }
+import React, { Component } from 'react'
+import Search from '../Search'
+import i18n from '../../i18n'
+import { withRouter, Route } from 'react-router-dom'
+import ArtistResults from '../ArtistResults'
+import AlbumResults from '../AlbumResults'
+import TrackResults from '../TrackResults'
+import TrackPlayer from '../TrackPlayer'
+import './index.sass'
 
-    handleSearch = query => logic.searchArtists(query, (error, artists) => {
-        if (error) this.setState({ searchFeedback: error.message })
-        else this.setState({
-            artists: artists.map(({ id, name: title }) => ({ id, title })),
-            albums: null,
-            tracks: null
-        })
+class Home extends Component {
+    state = { query: null, artistId: null, albumId: null, trackId: null, searchFeedback: null }
+
+    handleSearch = query => {
+        this.setState({ query }, () => this.props.history.push(`/search/${query}`))
+    }
+
+    handleArtistSelected = artistId => this.setState({ artistId }, () => {
+        const { state: {query} } = this
+
+        this.props.history.push(`/search/${query}/artist/${artistId}`)
     })
 
-    handleArtistSelected = id => logic.retrieveAlbums(id, (error, albums) => {
-        if (error) this.setState({ artistFeedback: error.message })
-        else this.setState({
-            albums: albums.map(({ id, name: title }) => ({ id, title })),
-            tracks: null
-        })
-    })
+    handleAlbumSelected = albumId => {
+        this.setState({ albumId }, () => {
+            const { state: { query, artistId } } = this
 
-    handleAlbumSelected = id => logic.retrieveTracks(id, (error, tracks) => {
-        if (error) this.setState({ albumFeedback: error.message })
-        else this.setState({
-            tracks: tracks.map(({ id, name: title }) => ({ id, title }))
+            this.props.history.push(`/search/${query}/artist/${artistId}/album/${albumId}`)
         })
-    })
+    }
 
-    handleTrackSelected = id => logic.retrieveTrack(id, (error, track) => {
-        if (error) this.setState({ trackFeedback: error.message })
-        else this.setState({
-            track: { title: track.name, url: track.preview_url }
+    handleTrackSelected = trackId => {
+        this.setState({ trackId }, () => {
+            const { state: { query, artistId, albumId } } = this
+
+            this.props.history.push(`/search/${query}/artist/${artistId}/album/${albumId}/track/${trackId}`)
         })
-    })
+    }
 
     render() {
-        const { handleSearch, handleArtistSelected, handleAlbumSelected, handleTrackSelected, state: { artists, albums, tracks, track, searchFeedback, artistFeedback, albumFeedback, trackFeedback }, props: { language } } = this
+        const { handleSearch, handleArtistSelected, handleAlbumSelected, handleTrackSelected, state: { searchFeedback }, props: { language } } = this
 
         return <section className="home">
             <Search title={i18n[language].searchTitle} onSearch={handleSearch} feedback={searchFeedback} />
-            {artists && <Results title="Artists" results={artists} onItemClick={handleArtistSelected} feedback={artistFeedback} />}
-            {albums && <Results title="Albums" results={albums} onItemClick={handleAlbumSelected} feedback={albumFeedback} />}
-            {tracks && <Results title="Tracks" results={tracks} onItemClick={handleTrackSelected} feedback={trackFeedback} />}
-            {track && <Player track={track} />}
+            <Route path="/search/:query" render={props => <ArtistResults query={props.match.params.query} onArtistSelected={handleArtistSelected} />} />
+            <Route path="/search/:query/artist/:artistId" render={props => <AlbumResults artistId={props.match.params.artistId} onAlbumSelected={handleAlbumSelected} />} />
+            <Route path="/search/:query/artist/:artistId/album/:albumId" render={props => <TrackResults albumId={props.match.params.albumId} onTrackSelected={handleTrackSelected} />} />
+            <Route path="/search/:query/artist/:artistId/album/:albumId/track/:trackId" render={props => <TrackPlayer trackId={props.match.params.trackId} />} />
         </section >
     }
 }
+
+export default withRouter(Home)
