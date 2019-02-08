@@ -4,7 +4,6 @@
 const ticketmasterApi  = {
     url: 'https://app.ticketmaster.com/discovery/v2/',
 
-
     /**
      * 
      * searchEvents

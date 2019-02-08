@@ -550,13 +550,6 @@ describe('logic', () => {
                 .then(response => { expect(response).toBe(false) })
         })
 
-        it('should fail on dissable toogle', () => {
-            favouriteId2 = `nicememe2 - ${Math.random()} `
-
-            return logic.toggleFavourite(favouriteId)
-                .then(() => logic.toggleFavourite(favouriteId2))
-                .then(response => { expect(response).toBe(true) })
-        })
         it('should fail on undefined', () => {
 
             try {
