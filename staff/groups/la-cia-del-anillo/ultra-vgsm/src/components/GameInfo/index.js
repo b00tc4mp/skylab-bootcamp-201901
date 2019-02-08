@@ -7,6 +7,7 @@ import DevelopersInfo from '../DevelopersInfo'
 import GenresInfo from '../GenresInfo'
 import PublishersInfo from '../PublishersInfo'
 import GameTitle from '../GameTitle'
+import Loading from '../Loading';
 import { Link } from 'react-router-dom';
 
 
@@ -25,7 +26,8 @@ class GameInfo extends Component {
         publishers: null,
         imageBaseUrlOriginal: null,
         imageFilename: null,
-        platformName: null
+        platformName: null,
+        loading: true
     };
 
 
@@ -97,7 +99,8 @@ class GameInfo extends Component {
                             publishers: publishers,
                             imageBaseUrlOriginal: original,
                             imageFilename: data[id].find(image => image.side === 'front').filename,
-                            platformName: dataPlatform[platform].name
+                            platformName: dataPlatform[platform].name,
+                            loading: false
                         });
                     }
                 )
@@ -120,7 +123,8 @@ class GameInfo extends Component {
                 publishers,
                 imageBaseUrlOriginal,
                 imageFilename,
-                platformName
+                platformName,
+                loading
             }
         } = this;
 
@@ -136,6 +140,10 @@ class GameInfo extends Component {
         const imageUrl =
             { imageBaseUrlOriginal }.imageBaseUrlOriginal + { imageFilename }.imageFilename;
         const platformUrl = "/platform/" + platform
+
+        if(loading) {
+            return <Loading />
+        }
         return (
             <section className="gameInfo">
                 <div className="gameInfo__title">
@@ -145,7 +153,7 @@ class GameInfo extends Component {
                     <p>
                     <GenresInfo genId = {genres} /> 
                     {releaseDate ? ' '+releaseDate+' // ' : ''}
-                    <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                    <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link>{' //'}
                     {players ? ' Players : '+players+' // ' : ''}
                     {coop ? ' Coop : '+coop+' ' : ''}
                     <DevelopersInfo devId = {developers}/> 

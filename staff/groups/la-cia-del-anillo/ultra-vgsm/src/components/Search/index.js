@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
 import Feedback from '../Feedback';
 
 class Search extends Component {
