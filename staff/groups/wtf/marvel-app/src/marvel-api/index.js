@@ -9,9 +9,9 @@ import md5 from 'blueimp-md5'
  */
 
 const marvelApi = {
-    apiKey: 'NO API KEY',
+    apiKey: 'NO-API-KEY',
 
-    privateApiKey: 'NO PRIVATE API KEY',
+    privateApiKey: 'NO-PRIVATE-API-KEY',
 
     __hash__: null,
 
@@ -47,7 +47,7 @@ const marvelApi = {
             .then(response => response.json())
 
             .then(response => {
-                if (response.code !== 200) throw Error(response.status)
+                if (response.code !== 200) throw Error(response.message)
                 if (response.data.count === 0) throw Error('No characters found')
 
                 const { data } = response
