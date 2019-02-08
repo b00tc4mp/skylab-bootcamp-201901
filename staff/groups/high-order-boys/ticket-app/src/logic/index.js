@@ -144,7 +144,6 @@ const logic = {
     },
 
     getFavourites(favourites) {
-
         // ALT in parallel (cannot be applied because of API multiple requests limitation, but it works!)
         //    let array_promises =  favourites.map(favourite => {
         //         return this.retrieveEvent(favourite)
