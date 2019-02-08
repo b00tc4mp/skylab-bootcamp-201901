@@ -144,14 +144,35 @@ const logic = {
     },
 
     getFavourites(favourites) {
+        // ALT in parallel (cannot be applied because of API multiple requests limitation, but it works!)
+        //    let array_promises =  favourites.map(favourite => {
+        //         return this.retrieveEvent(favourite)
+        //     }); 
 
-        let array_promises = favourites.map(favourite => {
-            return this.retrieveEvent(favourite)
-        });
+        //     return Promise.all(array_promises).then(function(values) {
+        //         return values
+        //     });
 
-        return Promise.all(array_promises).then(function (values) {
-            return values
-        });
+        // ALT in series with delay on each call (to avoid API multiple calls limitation)
+        let chain = Promise.resolve()
+        const favs = []
+
+        favourites.forEach(favourite => {
+            chain = chain
+                .then(() =>
+                    new Promise((resolve, reject) => {
+                        setTimeout(() =>
+                            this.retrieveEvent(favourite)
+                                .then(resolve)
+                                .catch(reject),
+                            1000
+                        )
+                    })
+                )
+                .then(values => favs.push(values))
+        })
+
+        return chain.then(() => favs)
     },
 
     retrieveEvents(query, startDate, endDate) {
