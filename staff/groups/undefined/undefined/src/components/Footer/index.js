@@ -8,6 +8,7 @@ function Footer(){
           <p>
             <strong>UNDEFINED FILMS</strong>. The source code is licensed
           </p>
+          <p>© 2011 UNDEFINED All Rights Reserved</p>
         </div>
       </footer>
     )
