@@ -31,8 +31,7 @@ class Favorite extends Component {
     render() {
         console.log(this.props.favorites)
         const {
-            state: { favorite },
-            props: { idGame, favorites }
+            state: { favorite }
         } = this;
         console.log('RENDER FAV');
         let favoriteClass = favorite ? 'favorite favorite--selected' : 'favorite';

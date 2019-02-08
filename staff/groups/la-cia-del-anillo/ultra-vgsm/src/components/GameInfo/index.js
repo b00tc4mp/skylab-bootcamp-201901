@@ -6,6 +6,9 @@ import logic from '../../logic';
 import GameTitle from '../GameTitle'
 import Favorite from '../Favorite'
 
+import Loading from '../Loading';
+import { Link } from 'react-router-dom';
+
 
 class GameInfo extends Component {
     state = {
@@ -24,7 +27,9 @@ class GameInfo extends Component {
         imageFilename: null,
         platformName: null,
         feedback: null,
-        favorites: []
+        favorites: [],
+        loading: true
+
     };
 
 
@@ -98,7 +103,8 @@ class GameInfo extends Component {
                             publishers: publishers,
                             imageBaseUrlOriginal: original,
                             imageFilename: data[id].find(image => image.side === 'front').filename,
-                            platformName: dataPlatform[platform].name
+                            platformName: dataPlatform[platform].name,
+                            loading: false
                         });
                     }
                 ).then(this.getFavorites())
@@ -131,7 +137,8 @@ class GameInfo extends Component {
                 imageFilename,
                 platformName,
                 feedback,
-                favorites
+                favorites,
+                loading
             }
         } = this;
 
@@ -152,7 +159,11 @@ class GameInfo extends Component {
             return (<h2>{feedback}</h2>)
         }
         console.log(favorites)
-        return (
+        
+        if(loading) {
+            return <Loading />
+        }
+       return (
             <section className="gameInfo">
                 <div className="gameInfo__title">
                     <GameTitle  gamId = {id} 
