@@ -1,6 +1,6 @@
 # Funciton Pokedex
 
-Your pokemon application!
+Functional description
 
 ## Getting Started
 
@@ -19,29 +19,6 @@ You don't need to install anything, just run the application on a browser.
 
 The application has automated test, so they may be run when necessary.
 For example in case the application is evolved, test may be run.
-
-### Logic Test
-
-Test the application logics.
-
-### Pokemon API
-
-Test the data extraction from the API. The main tests are:
-* SearchAllPokemon
-* SearchPokemonByName
-
-More info at: https://pokeapi.co/
-                 
-
-### User API
-
-Test the interaction between the application and user manager.The main functionalities tested are:
-* Registering a user
-* Authentication
-* Retrieving data from a user
-* Updating data from a user
-* Removing data from a user
-
 
 ## Application
 
