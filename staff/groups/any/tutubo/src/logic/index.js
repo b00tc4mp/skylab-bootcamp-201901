@@ -185,7 +185,9 @@ const logic = {
         return youtubeApi.mostPopular()
 
             .then(items => items)
-            .catch(Error)
+            .catch(()=> {
+                throw Error('Site down')
+            })
     },
 
     watchVideo(videoId) {
