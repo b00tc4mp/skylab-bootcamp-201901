@@ -52,7 +52,7 @@ class LoginPanel extends Component {
             <div className="containerLogin fade-in">
                 <form onSubmit={handleFormSubmit}>
                     <div>
-                        <label htmlFor="exampleInputEmail1">Email address</label>
+                        <label htmlFor="exampleInputEmail1">Username</label>
                         <input type="name" value={this.state.username} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Username" onChange={handleEmailInput} />
                         <small id="emailHelp" className="form-text text-muted">Your pokemon trainer's email!</small>
                         <label htmlFor="exampleInputPassword1">Password</label>
