@@ -5,8 +5,12 @@ import './vendor/bulma/0.7.2/bulma.sass'
 import './index.sass';
 import App from './components/App';
 import logic from './logic'
+import ticketmasterApi from './ticketmaster-api'
 import * as serviceWorker from './serviceWorker';
 
+const { REACT_APP_TICKETMASTER_API_KEY} = process.env
+
+ticketmasterApi.apiKey = REACT_APP_TICKETMASTER_API_KEY
 logic.setUserId = id => id? sessionStorage.setItem('user-id', id) : sessionStorage.removeItem('user-id')
 logic.getUserId = () => sessionStorage.getItem('user-id')
 
