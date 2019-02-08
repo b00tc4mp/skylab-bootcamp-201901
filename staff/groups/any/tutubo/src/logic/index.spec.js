@@ -1,6 +1,7 @@
 import logic from '.'
-import '../index'
+//import '../index'
 
+logic.storage = sessionStorage
 
 describe('logic', () => {
     describe('register user', () => {
@@ -162,7 +163,7 @@ describe('logic', () => {
     })
 
     describe('login user', () => {
-        const email = `e@mail.com`
+        const email = `e@gmail.com`
         const password = 'p'
 
         it('should succeed on valid data', () =>

@@ -240,16 +240,19 @@ describe('user api', () => {
     describe('update', () => {
         const name = 'sergio'
         const surname = 'costa'
-        const username = `sergio-${Math.random()}`
+        let username
         const password = '123'
 
         let _id, _token
 
-        beforeEach(() =>
-            userApi.register(name, surname, username, password)
+        beforeEach(() => {
+            username = `sergio-${Math.random()}`
+            return userApi.register(name, surname, username, password)
                 .then(id => _id = id)
                 .then(() => userApi.authenticate(username, password))
                 .then(({ token }) => _token = token)
+        }
+           
         )
 
         it('should succeed on correct data', () => {
