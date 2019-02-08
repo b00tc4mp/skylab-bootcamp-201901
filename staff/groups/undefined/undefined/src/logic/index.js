@@ -1,4 +1,3 @@
-'use strict'
 
 import ombdApi from '../ombd-api'
 import userApi from '../user-api'
