@@ -1,5 +1,3 @@
-'use stric'
-
 import React, { Component } from 'react';
 import logic from '../../logic'
 
@@ -28,10 +26,7 @@ class PublishersInfo extends Component {
 
     render() {
         if (this.state.devName) {
-            return (
-               <span>
-                    // Publisher: {this.state.pubName}
-                </span>
+            return (<span>{'// Publisher: '}{this.state.pubName}</span>
             )
         }
         return ( <fragment></fragment>)

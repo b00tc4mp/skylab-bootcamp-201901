@@ -1,5 +1,3 @@
-'use strict';
-
 import thegamesDbApi from '../thegamesdb-api';
 import userApi from '../user-api';
 

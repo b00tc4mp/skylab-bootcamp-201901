@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { withRouter, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Masonry from 'react-masonry-component';
 import './index.css';
 
@@ -7,6 +7,7 @@ import logic from '../../logic';
 import Card from '../Card';
 import Feedback from '../Feedback';
 import NoResults from '../NoResults';
+import Loading from '../Loading';
 
 const masonryOptions = {
     transitionDuration: 0,
@@ -44,12 +45,6 @@ class Results extends Component {
             logic
                 .searchGameByUrl(nextButton)
                 .then(({ data: { games }, include: { boxart, platform }, pages }) => {
-                    const {
-                        match: {
-                            params: { query = '' }
-                        }
-                    } = this.props;
-
                     games &&
                         games.map(game => {
                             game.base_url = boxart.base_url;
@@ -186,7 +181,7 @@ class Results extends Component {
     }
 
     handleImagesLoaded = imagesLoadedInstance => {
-        imagesLoadedInstance.images.map(image => {
+        imagesLoadedInstance.images.forEach(image => {
             if (image.isLoaded) image.img.parentElement.parentElement.style.opacity = '1';
         });
     };
@@ -202,17 +197,12 @@ class Results extends Component {
         if (loading && results.length <= 0) {
             //Loading...
             return (
-                <div className="loading">
-                    <i className="fas fa-sync fa-spin" />
-                </div>
+                <Loading />
             );
         } else if (!loading && results.length <= 0) {
             //No results
             return <NoResults />;
         }
-        // else if (!loading && results.length > 0) {
-        //     //Results
-        // }
 
         return (
             <Fragment>
