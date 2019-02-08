@@ -1,3 +1,8 @@
+@import '../../bulma/bulma.sass'
+@import '../../mixins.sass'
+@import url('https://fonts.googleapis.com/css?family=Arvo:700')
+@import url('https://fonts.googleapis.com/css?family=Kristi')
+
 nav
     &.topbar
         background-color: whitesmoke
@@ -8,3 +13,20 @@ nav
             padding: 5px 30px
             display: flex
             justify-content: space-between
+
+        & .logo
+            font-family: 'Arvo', serif
+            font-size: 32px
+            +mobile
+                font-size: 22px
+            +mini-mobile
+                font-size: 15px
+            & .films
+                font-size: 22px
+                font-family: 'Kristi', cursive
+        & .navbar-end
+            & .button 
+                +mobile 
+                    
+
+        

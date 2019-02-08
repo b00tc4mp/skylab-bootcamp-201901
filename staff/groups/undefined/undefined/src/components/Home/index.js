@@ -21,7 +21,6 @@ class Home extends Component {
                 <div className="container column is-10">
                     <Search onSearch={handleSearch} />
                     <Route path='/home/videos/:query' render={(props) => <Results query={props.match.params.query} />} />
-
                 </div>
             </section >
         )
