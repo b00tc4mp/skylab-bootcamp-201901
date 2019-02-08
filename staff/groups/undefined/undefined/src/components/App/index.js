@@ -70,8 +70,9 @@ class App extends Component {
           <Switch>
             <Route path='/register' render={() => !logic.userLoggedIn?  <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to='/login' /> }   />
             <Route path='/login' render={() => !logic.userLoggedIn? <Login onLogin={handleLogin} feedback={loginFeedback}/> : <Redirect to='/home' /> } />
-            <Route exact path='/favorites' render={() => <Favorites /> } />
-            <Route path='/home' render={() => <Home /> } />
+            <Route path='/favorites' render={() => logic.userLoggedIn? <Favorites /> : <Redirect to='/home' /> } />
+            <Route path='/home' render={() => <Home />  } /> 
+            <Route exact path= '/' render={()=> <Redirect to='/home' />} />
             <Route component={NotFound} />
           </Switch>
 
