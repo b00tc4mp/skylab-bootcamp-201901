@@ -1,5 +1,11 @@
 # **U**LTRA **V**ideo **G**ame **S**earch **M**achine <small>(ULTRA VGSM)</small>
 
+[[![react version](https://img.shields.io/badge/react-16.8.0-blue.svg)](https://www.npmjs.com/package/react/v/16.8.0)] ![react version](https://img.shields.io/badge/coverage-88%25-green.svg)
+
+## Introduction
+
+ULTRA Video Game Search Machine (ULTRA VGSM) is a [SPA](https://en.wikipedia.org/wiki/Single-page_application) developed with [React](https://reactjs.org) that allows searches through the [TheGamesDB API](https://api.thegamesdb.net/#/), list by platform, and let you keep a list of favorites.
+
 ## 🚀 Environment setup
 
 ### Install the needed tools
@@ -7,10 +13,6 @@
 * Move to your project folder: `cd skylab-bootcamp-201901/staff/groups/la-cia-del-anillo/ultra-vgsm`
 * Start the services: `$ yarn start`
 * Go to the [development mode](http://localhost:3000)
-
-## Introduction
-
-Lorem ipsum...
 
 ## Functional Description
 
@@ -42,15 +44,10 @@ Lorem ipsum...
 
 ![Components](images/components.png)
 
-
 ### Data Model
 
 ![Data Model](images/data-model.png)
 
-### Technolgies
-
-React JS, ES6...
-
 ### Code Coverage
 
-![Code Coverage](images/code-coverage.png)
+![Code Coverage](images/coverage.png)
