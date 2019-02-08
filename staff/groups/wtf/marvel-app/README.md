@@ -2,7 +2,7 @@
 
 ## [Documentation](doc/README.md)
 
-## [Demo](src)
+## [Demo](https://marvel-app-wtf.surge.sh)
 
 ## Available Scripts for development
 
