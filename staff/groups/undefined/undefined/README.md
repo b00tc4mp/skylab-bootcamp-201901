@@ -7,7 +7,7 @@
 ## [Documentation](doc/README.md)
 
 
-## [Live Demo](https://url-from.surge.sh)
+## [Live Demo](https://undefined-skylab.surge.sh)
 
 
 ## Available Scripts for development
