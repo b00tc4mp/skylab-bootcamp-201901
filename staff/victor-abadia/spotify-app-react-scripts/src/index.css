@@ -24,8 +24,14 @@ section {
 .images{
   width: 250px; 
   height: 250px;
+  display: block;
 }
 
 .results{
   grid-row: auto
+}
+
+.ul{
+  list-style: none;
+  display: block;
 }
