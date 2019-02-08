@@ -16,12 +16,6 @@ class Results extends Component {
         this.props.onFavourite(recipe)
     }
 
-    // isMarked = uri =>{
-    //     return this.state.favourites.find(favorite=> {
-    //         return favorite.recipe.uri===uri
-    //     })
-    // }
-
     render() {
 
         const user = JSON.parse(sessionStorage.getItem('user'))
