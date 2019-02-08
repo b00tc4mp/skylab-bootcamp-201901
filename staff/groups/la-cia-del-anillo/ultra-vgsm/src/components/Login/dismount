@@ -1,3 +1,0 @@
- componentWillUnmount() {
-        clearFeedback(this.props.feedback);
-      }
