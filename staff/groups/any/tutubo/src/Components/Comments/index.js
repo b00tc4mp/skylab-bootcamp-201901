@@ -26,15 +26,12 @@ class Comments extends Component {
 
     }
 
-    //#region revisar
-
     handleCommentDeletion = date => {
 
         const { props: { onDelete } } = this
 
         onDelete(date)
     }
-    //#endregion
 
     render() {
         const { handleFormSubmit, handleTextInput, handleCommentDeletion, props: { comments, id, mode } } = this
@@ -50,10 +47,6 @@ class Comments extends Component {
                     comments.map(({ name, comments }) => {
                         if (comments[id]) {
                             return comments[id].map(comment => <div key={comment.date}>
-                                {/* <p>{name}</p>
-                                <p>{comment.text}</p>
-                                <p>{comment.date}</p>
-                                <button onClick={() => handleCommentDeletion(comment.date)}>X</button> */}
                                 <article class="message is-dark eachcomment">
                                     <div class={`${mode ? 'message-header eachcomment__header eachcomment__header-light' : 'message-header eachcomment__header eachcomment__header-dark'}`}>
                                         <p>{name}</p>

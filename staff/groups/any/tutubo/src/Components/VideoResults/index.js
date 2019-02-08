@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
 import './index.sass'
+import Feedback from '../Feedback'
 
 class VideoRasults extends Component {
 
-    state = { videos: [] }
+    state = { videos: [], feedback:'' }
 
     componentDidMount() {
-        console.log('monuterds')
 
         const { props: { query } } = this
 
@@ -25,14 +25,17 @@ class VideoRasults extends Component {
         try {
             logic.searchVideo(query)
                 .then(({ items }) => {
-                    console.log(items)
                     this.setState({
                         videos: items
                     })
+                    this.setState({feedback: ''})
                 })
-                .catch(({ message }) => console.log(message))
+                .catch(({message}) => {
+                    this.setState({feedback: message})
+                    this.setState({videos: []})
+                })
         } catch ({ message }) {
-            console.log(message)
+            this.setState({feedback: message})
         }
     }
 
@@ -46,9 +49,12 @@ class VideoRasults extends Component {
 
     render() {
 
-        const { onVideoSelected, state: { videos }, props: {mode} } = this
+        const { onVideoSelected, state: { videos, feedback}, props: {mode} } = this
 
         return <section className="videolist">
+            <div className="video__feedback">
+            {feedback && <Feedback message = {feedback}/>}
+            </div>
             <div className={`${mode ? `searchVideoList searchVideoList-light` : 'searchVideoList searchVideoList-dark'}`}>
                 {videos.map(({ id: { videoId }, snippet: { title, channelId, publishedAt, channelTitle, description, thumbnails: { medium: { url } } } }) => {
                     return <div className="videoResults" key={videoId} onClick={() => onVideoSelected(videoId)} >
@@ -57,7 +63,7 @@ class VideoRasults extends Component {
                         </div>
                         <div className="searchResultsText">
                             <h2 className={`${mode ? 'videoSearchTitle videoSearchTitle-light' : 'videoSearchTitle-dark'}`}>{title.length > 50 ? title = `${title.substr(0, 50)}...`: title}</h2>
-                            <p className={`${mode ? 'searchChannelTitle searchChannelTitle-light' : 'searchChannelTitle'}`} channel-id={channelId} onClick={() => console.log(channelId)}>{channelTitle} · {publishedAt = publishedAt.substr(0, 10)}</p>
+                            <p className={`${mode ? 'searchChannelTitle searchChannelTitle-light' : 'searchChannelTitle'}`} channel-id={channelId}>{channelTitle} · {publishedAt = publishedAt.substr(0, 10)}</p>
                             <p className={`${mode ? 'searchDes searchDes-light' : 'searchDes'}`}>{description = description.substr(0, 100)}...</p>
                         </div>
                     </div>

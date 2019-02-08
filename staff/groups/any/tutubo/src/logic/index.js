@@ -12,8 +12,6 @@ const logic = {
     __videoId__: null,
     __storage__:null,
 
-    // __mytoken__:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTk1N2QyNTUzOTM1MDAwOWMxMzhiYyIsImlhdCI6MTU0OTQ5NTQwMiwiZXhwIjoxNTQ5NDk5MDAyfQ.ui5kwZTMXL2hkKjk-d4ngNQbckHq7xq5yHYyI6hLSYM',
-
     set storage(storage){
         this.__storage__=storage
     },
@@ -105,7 +103,6 @@ const logic = {
 
     logout() {
         this.__userId__ = null
-        // this.__userApiToken__ = null
     },
 
     authenticateUser(email, password){
@@ -147,7 +144,7 @@ const logic = {
         if (data.constructor !== Object) throw TypeError(data + ' is not an object')
 
         return userApi.update(data, this.__userApiToken__, this.__userId__)
-            .then(() => { })  //en este caso no se obtiene respuesta de la api
+            .then(() => { })
     },
 
     /**
@@ -166,11 +163,8 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return userApi.remove(this.__userId__, this.__userApiToken__, email, password)
-            .then(() => { }) //aqui tampoco esperamos respuesta
+            .then(() => { })
     },
-
-    //he hecho que para borrar su usuario la parsona tiene que confirmarlo con el email i el password
-
 
     /**
      * 
@@ -182,7 +176,7 @@ const logic = {
         if (!query.trim().length) throw Error('query is empty')
 
         return youtubeApi.search(query)
-            .then(items => ({   //opcion sin destructuring
+            .then(items => ({ 
                 items
             }))
     },
@@ -196,7 +190,7 @@ const logic = {
 
     watchVideo(videoId) {
         return youtubeApi.watchVideo(videoId)
-          .then(items => ({   //opcion sin destructuring
+          .then(items => ({
             items
         }))  
     },
@@ -227,8 +221,6 @@ const logic = {
                     comments[videoId] = [comment]
                 }
 
-                console.log(comments)
-
                 return userApi.update(this.__userId__, this.__userApiToken__, {comments})
 
             })
@@ -239,15 +231,13 @@ const logic = {
         return userApi.retrieveAllUsers(this.__userApiToken__)
             .then((data) => {
                 const myUsers = data.filter(user => !!user.appId)
-      // myUsers.forEach(user => console.log(user.comments))
-                // console.log(myUsers)
-                // myUsers.forEach(user => console.log(user.comments))
-                // console.log(myUsers)
+      
                 const allComments = myUsers.filter(user => user.comments && !!user.comments[videoId])
 
-                console.log(allComments)
-
                 return allComments
+            })
+            .catch(() => {
+                throw Error ('invalid Token you should login again! Sorry :(')
             })
     },
 
@@ -257,8 +247,6 @@ const logic = {
                 const { comments } = user
                 if (comments) {
                     if (comments[videoId]) {
-                         // const commentToDelete = comments[videoId].find(element=> element.date === date)
-                        // console.log(commentToDelete)
                         
                         const index = comments[videoId].findIndex(element=> element.date === date)
 
@@ -298,29 +286,6 @@ const logic = {
         return userApi.retrieve(this.__userId__, this.__userApiToken__)
             .then(user => user)
     }
-
-    // dislikeVideo(videoId) {
-    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
-    //         .then(user => {
-    //             const { dislikes = {} } = user
-
-    //             if (dislikes) {
-    //                 dislikes.push(videoId)
-    //             } else {
-    //                 dislikes[0] = [videoId]
-    //             }
-                
-    //             return userApi.update(this.__userId__, this.__userApiToken__, { dislikes })
-    //         })
-    //     .then(() => {})  
-    // },
-
-    // checkReview(videoId) {
-    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
-    //         .then(user => {
-
-    //         })
-    // }
 
 }
 

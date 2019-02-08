@@ -8,34 +8,23 @@ class Favorites extends Component {
 
     componentDidMount() {
 
-        try {
         logic.retrieveLikes()
-        .then((items) => {
-               if(items.likes){
-                   this.setState({videosid: items.likes})
-               }
+            .then((items) => {
+                if (items.likes) {
+                    this.setState({ videosid: items.likes })
+                }
             }
         )
 
-        } catch (err) {
-            console.log(err.message)
-        }
     }
 
-    // onVideoSelected = id => {
-
-    //     const {props : { selectVideo }} = this
-
-    //     selectVideo(id)
-    // }
-    
-    
     render() {
 
         const { state: { videosid }, props: { mode } } = this
+
         return <section className="videolist">
             <div className={`${mode ? `searchVideoList searchVideoList-light` : 'searchVideoList searchVideoList-dark'}`}>
-                {videosid.map( id => <VideoFav id={id} selectVideo = {this.props.selectVideo}/>)}                
+                {videosid.map(id => <VideoFav id={id} selectVideo={this.props.selectVideo} mode={mode} />)}
             </div>
         </section>
     }
