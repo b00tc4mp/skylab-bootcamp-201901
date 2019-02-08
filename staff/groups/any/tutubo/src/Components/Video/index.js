@@ -110,14 +110,14 @@ class Video extends Component {
     }
 
     render() {
-        const { props: { videoId }, handleShowComments, handleComment, state: { videoInfo, likeStatus, feedback }, handleLike, handleOnDelete } = this
+        const { props: { videoId, mode }, handleShowComments, handleComment, state: { videoInfo, likeStatus, feedback }, handleLike, handleOnDelete } = this
 
         return <section className="section__video">
             <iframe className="iframe" title={videoId} src={`https://www.youtube.com/embed/${videoId}`}></iframe>
             <div className="panel__container">
                 {videoInfo &&
                     <div className="video__container">
-                        <div className="title-likes">
+                        <div className={`${mode ? 'title-likes title-likes-light' : 'title-likes title-likes-dark'}`}>
                             <h2 className="iframe__title">{videoInfo.snippet.title}</h2>
                             <i className={`${likeStatus ? "far fa-thumbs-up like" : "far fa-thumbs-up"}`} onClick={handleLike}></i>
                         </div>
