@@ -3,14 +3,19 @@
     
 
 .main
+    justify-content: space-around
     width: 100%
     order: 1
-    height: 10%
+    height: 5.5em
     background-color: #D25950
+    position: fixed
+    top: 0
+    left:  0
     
 
     .imagefunciton
-        width: 15%
+        width: 20em
+        
 
  
     img
@@ -21,3 +26,19 @@
         align-self: center
         width: 80%
         height: 80%
+
+
+@media screen and (max-width: 640px)
+    .main
+        justify-content: center
+
+
+    .imagefunciton
+        display: none
+
+
+
+@media screen and (min-width: 641px) and (max-width: 1080px)
+
+    .main
+        justify-content: center 
