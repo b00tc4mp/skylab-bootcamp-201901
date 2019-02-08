@@ -9,36 +9,36 @@ describe('ticketmaster-api', () => {
         const startDateNew = '2019-10-01'
         const endDateNew = '2019-04-01'
 
-        it('should succeed on correct query', () => 
+        it('should succeed on correct query', () =>
             ticketmasterApi.searchEvents(query)
                 .then(events => {
                     expect(events).toBeDefined()
                     expect(events[0].name).toBe(' Metallica: WorldWired Tour')
                 })
-        )  
-        
-        it('should succeed on correct query, startDate & endDate', () =>
-                ticketmasterApi.searchEvents(query,startDate,endDate)
-                    .then(events => {
-                        expect(events).toBeDefined()
-                        expect(events[0].name).toBe('Ed Sheeran')
-                    })
         )
-        
+
+        it('should succeed on correct query, startDate & endDate', () =>
+            ticketmasterApi.searchEvents(query, startDate, endDate)
+                .then(events => {
+                    expect(events).toBeDefined()
+                    expect(events[0].name).toBe('Ed Sheeran')
+                })
+        )
+
         it('should succeed on correct query & startDate ', () =>
-                ticketmasterApi.searchEvents(query,startDateNew)
-                    .then(events => {
-                        expect(events).toBeDefined()
-                        expect(events[0].name).toBe('Kissin\' Dynamite')
-                    })
+            ticketmasterApi.searchEvents(query, startDateNew)
+                .then(events => {
+                    expect(events).toBeDefined()
+                    expect(events[0].name).toBe('Kissin\' Dynamite')
+                })
         )
 
         it('should succeed on correct query & endDate ', () =>
-                ticketmasterApi.searchEvents(query,null,endDateNew)
-                    .then(events => {
-                        expect(events).toBeDefined()
-                        expect(events[0].name).toBe('Billie Eilish')
-                    })
+            ticketmasterApi.searchEvents(query, null, endDateNew)
+                .then(events => {
+                    expect(events).toBeDefined()
+                    expect(events[0].name).toBe('Billie Eilish')
+                })
         )
 
         it('should fail on empty query', () =>
@@ -52,14 +52,14 @@ describe('ticketmaster-api', () => {
                 ticketmasterApi.searchEvents(null)
             }).toThrow(TypeError(`${null} introduced is not a string`))
         )
-        
+
         it('should fail on array query', () =>
             expect(() => {
                 ticketmasterApi.searchEvents([])
             }).toThrow(TypeError(`${[]} introduced is not a string`))
         )
 
-        it('should fail on boolean query', ()=>
+        it('should fail on boolean query', () =>
             expect(() => {
                 ticketmasterApi.searchEvents(true)
             }).toThrow(TypeError(`${true} introduced is not a string`))
@@ -89,14 +89,14 @@ describe('ticketmaster-api', () => {
                 ticketmasterApi.searchEvent(null)
             }).toThrow(TypeError(`-->${null}<-- id introduced is not a string`))
         )
-        
+
         it('should fail on array id', () =>
             expect(() => {
                 ticketmasterApi.searchEvent([])
             }).toThrow(TypeError(`-->${[]}<-- id introduced is not a string`))
         )
 
-        it('should fail on boolean id', ()=>
+        it('should fail on boolean id', () =>
             expect(() => {
                 ticketmasterApi.searchEvent(true)
             }).toThrow(TypeError(`-->${true}<-- id introduced is not a string`))

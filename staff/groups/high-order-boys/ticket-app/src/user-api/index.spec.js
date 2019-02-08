@@ -15,6 +15,15 @@ describe('user api', () => {
                 .then(id => expect(id).toBeDefined())
         )
 
+        it('should fail on undefined', () => {
+            try {
+                userApi.register()
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
         it('should fail on already existing user', () =>
             userApi.register(name, surname, username, password)
                 .then(() => {
@@ -102,6 +111,17 @@ describe('user api', () => {
                 })
         )
 
+        it('should fail on undefined', () => {
+
+            try {
+                userApi.authenticate()
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+
         it('should fail on empty username', () => {
 
 
@@ -129,18 +149,22 @@ describe('user api', () => {
     })
 
     describe('retrieve', () => {
-        const name = 'Manolo'
-        const surname = 'Skywalker'
-        const username = `ManoloSkywalker-${Math.random()}`
-        const password = '123'
+        let name = 'Manolo'
+        let surname = 'Skywalker'
+        let username
+        let password = '123'
 
         let _id, _token
 
-        beforeEach(() =>
-            userApi.register(name, surname, username, password)
+        beforeEach(() => {
+
+            username = `ManoloSkywalker-${Math.random()}`
+
+            return userApi.register(name, surname, username, password)
                 .then(id => _id = id)
                 .then(() => userApi.authenticate(username, password))
                 .then(({ token }) => _token = token)
+        }
         )
 
         it('should succeed on correct data', () =>
@@ -152,6 +176,44 @@ describe('user api', () => {
                     expect(user.username).toBe(username)
                 })
         )
+
+        it('should fail on undefined', () => {
+
+            try {
+                userApi.retrieve()
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on empty id', () => {
+
+            let _id = ''
+            let _token = 'token'
+
+            try {
+                userApi.retrieve(_id, _token)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('id is empty')
+            }
+        })
+
+        it('should fail on empty token', () => {
+
+            let _id = 'id'
+            let _token = ''
+
+            try {
+                userApi.retrieve(_id, _token)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('token is empty')
+            }
+        })
+
+
 
         // TODO more unit test cases
     })
@@ -232,21 +294,27 @@ describe('user api', () => {
     })
 
     describe('remove', () => {
-        const name = 'Manolo'
-        const surname = 'Skywalker'
-        const username = `ManoloSkywalker-${Math.random()}`
-        const password = '123'
+        let name = 'Manolo'
+        let surname = 'Skywalker'
+        let username
+        let password = '123'
 
         let _id, _token
 
-        beforeEach(() =>
-            userApi.register(name, surname, username, password)
+        beforeEach(() => {
+            username = `ManoloSkywalker-${Math.random()}`
+
+            return userApi.register(name, surname, username, password)
                 .then(id => _id = id)
                 .then(() => userApi.authenticate(username, password))
                 .then(({ token }) => _token = token)
+        }
         )
 
+
+
         it('should succeed on correct data', () => {
+
             return userApi.remove(_id, _token, username, password)
                 .then(() => userApi.retrieve(_id, _token))
                 .then(() => {
@@ -254,6 +322,80 @@ describe('user api', () => {
                 })
                 .catch(({ message }) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
         })
+
+
+        it('should fail on undefined', () => {
+
+            try {
+                userApi.remove(_id, _token, username, password)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on empty id', () => {
+
+            let _id = ''
+            let _token = 'token'
+            let username = 'username'
+            let password = '123'
+
+            try {
+                userApi.remove(_id, _token, username, password)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('id is empty')
+            }
+        })
+
+
+        it('should fail on empty token', () => {
+
+            let _id = 'id'
+            let _token = ''
+            let username = 'username'
+            let password = '123'
+
+            try {
+                userApi.remove(_id, _token, username, password)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('token is empty')
+            }
+        })
+
+        it('should fail on empty username', () => {
+
+            let _id = 'id'
+            let _token = 'token'
+            let username = ''
+            let password = '123'
+
+            try {
+                userApi.remove(_id, _token, username, password)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('username is empty')
+            }
+        })
+
+
+        it('should fail on empty password', () => {
+
+            let _id = 'id'
+            let _token = 'token'
+            let username = 'username'
+            let password = ''
+
+            try {
+                userApi.remove(_id, _token, username, password)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('password is empty')
+            }
+        })
+
 
 
 
