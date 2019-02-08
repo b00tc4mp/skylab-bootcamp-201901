@@ -1,9 +1,13 @@
 'use stric'
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import './index.css'
 
 import logic from '../../logic'
+import DevelopersInfo from '../DevelopersInfo'
+import GenresInfo from '../GenresInfo'
+import PublishersInfo from '../PublishersInfo'
 
 
 class GameTitle extends Component {
@@ -35,27 +39,134 @@ class GameTitle extends Component {
 
     render() {
         
-        console.log(this.state.baseUrl)
-        console.log(this.state.logoUrl)
-        const logoTotalUrl = (this.state.baseUrl)+(this.state.logoUrl)
-        const fanartFullUrl = (this.state.baseUrl)+(this.state.fanartUrl)
-        console.log(fanartFullUrl)
-        if (this.state.fanartUrl) {
-            if (this.state.logoUrl) {
-                return (
-                    <div style={{backgroundImage: "url(" + fanartFullUrl +")", backgroundAttachment: "fixed", backgroundSize: "cover"}}>
-                        <img src={logoTotalUrl} alt="Clear logo of the game" />
+        const { state : { baseUrl, logoUrl, fanartUrl},
+                props : { name, genId, releaseDate, platformUrl, platformName, players, coop, devId, pubId } 
+        } = this
+
+        console.log(baseUrl)
+        console.log(logoUrl)
+        const logoTotalUrl = (baseUrl)+(logoUrl)
+        const fanartFullUrl = (baseUrl)+(fanartUrl)
+
+        return(
+            <Fragment>
+                {fanartUrl && logoUrl && (
+                    <div className="banner" style={{backgroundImage: "url(" + fanartFullUrl +")", backgroundAttachment: "fixed", backgroundSize: "cover"}}>
+                        <div className="banner__title">
+                            <img className="banner__title--shadow" src={logoTotalUrl} alt="Clear logo of the game" />
+                        </div>
+                        <div className="banner__details">
+                            <p>
+                            <GenresInfo genId = {genId} /> 
+                            {releaseDate ? ' '+releaseDate+' // ' : ''}
+                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                            {players ? ' Players : '+players+' // ' : ''}
+                            {coop ? ' Coop : '+coop+' ' : ''}
+                            <DevelopersInfo devId = {devId}/> 
+                            <PublishersInfo pubId = {pubId} />
+                            </p>
+                        </div>
                     </div>
                 )}
-        
-                return( <h1 className="gameInfo__titleGame">{this.props.name}</h1> )
-        }
-        if (this.state.logoUrl) {
-        return (
-            <img src={logoTotalUrl} alt="Clear logo of the game" />
-        )}
+                {fanartUrl && !logoUrl && (
+                    <div className="banner" style={{backgroundImage: "url(" + fanartFullUrl +")", backgroundAttachment: "fixed", backgroundSize: "cover"}}>
+                        <div className="banner__title">
+                            <h1 className="gameInfo__titleGame">{name}</h1>
+                        </div>
+                        <div className="banner__details">
+                            <p>
+                            <GenresInfo genId = {genId} /> 
+                            {releaseDate ? ' '+releaseDate+' // ' : ''}
+                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                            {players ? ' Players : '+players+' // ' : ''}
+                            {coop ? ' Coop : '+coop+' ' : ''}
+                            <DevelopersInfo devId = {devId}/> 
+                            <PublishersInfo pubId = {pubId} />
+                            </p>
+                        </div>
+                    </div>
+                )}
+                
+                {!fanartUrl && logoUrl && (
+                    <div className="banner">
+                        <div className="banner__title">
+                            <img className="banner__title--shadow" src={logoTotalUrl} alt="Clear logo of the game" />
+                        </div>
+                        <div className="banner__details">
+                            <p>
+                            <GenresInfo genId = {genId} /> 
+                            {releaseDate ? ' '+releaseDate+' // ' : ''}
+                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                            {players ? ' Players : '+players+' // ' : ''}
+                            {coop ? ' Coop : '+coop+' ' : ''}
+                            <DevelopersInfo devId = {devId}/> 
+                            <PublishersInfo pubId = {pubId} />
+                            </p>
+                        </div>
+                    </div>
+                )}
+                {!fanartUrl && !logoUrl && (
+                    <div className="banner">
+                        <div className="banner__title">
+                            <h1 className="gameInfo__titleGame">{name}</h1>
+                        </div>
+                        <div className="banner__details">
+                            <p>
+                            <GenresInfo genId = {genId} /> 
+                            {releaseDate ? ' '+releaseDate+' // ' : ''}
+                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                            {players ? ' Players : '+players+' // ' : ''}
+                            {coop ? ' Coop : '+coop+' ' : ''}
+                            <DevelopersInfo devId = {devId}/> 
+                            <PublishersInfo pubId = {pubId} />
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </Fragment>
+        )
 
-        return( <h1 className="gameInfo__titleGame">{this.props.name}</h1> )
+
+                /* <div className="banner__details">
+                    <p>
+                    <GenresInfo genId = {genId} /> 
+                    {releaseDate ? ' '+releaseDate+' // ' : ''}
+                    <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                    {players ? ' Players : '+players+' // ' : ''}
+                    {coop ? ' Coop : '+coop+' ' : ''}
+                    <DevelopersInfo devId = {devId}/> 
+                    <PublishersInfo pubId = {pubId} />
+                    </p>
+                </div> */
+
+        /* <div className="gameInfo__details">
+                    <p>
+                    <GenresInfo genId = {genres} /> 
+                    {releaseDate ? ' '+releaseDate+' // ' : ''}
+                    <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                    {players ? ' Players : '+players+' // ' : ''}
+                    {coop ? ' Coop : '+coop+' ' : ''}
+                    <DevelopersInfo devId = {developers}/> 
+                    <PublishersInfo pubId = {publishers} />
+                    </p>
+                </div> */
+
+        // if (this.state.fanartUrl) {
+        //     if (this.state.logoUrl) {
+        //         return (
+        //             <div style={{backgroundImage: "url(" + fanartFullUrl +")", backgroundAttachment: "fixed", backgroundSize: "cover"}}>
+        //                 <img src={logoTotalUrl} alt="Clear logo of the game" />
+        //             </div>
+        //         )}
+        
+        //         return( <h1 className="gameInfo__titleGame">{this.props.name}</h1> )
+        // }
+        // if (this.state.logoUrl) {
+        // return (
+        //     <img src={logoTotalUrl} alt="Clear logo of the game" />
+        // )}
+
+        // return( <h1 className="gameInfo__titleGame">{this.props.name}</h1> )
     }
 }
 

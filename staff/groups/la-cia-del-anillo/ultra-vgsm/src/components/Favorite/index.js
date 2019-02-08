@@ -3,10 +3,10 @@ import './index.css';
 import logic from '../../logic';
 
 class Favorite extends Component {
+
     state = { 
         favorite: this.props.favorites.includes(this.props.idGame.toString()) 
     };
-
     handleToggleFavorite = Event => {
         Event.stopPropagation();
 
@@ -29,6 +29,7 @@ class Favorite extends Component {
     };
 
     render() {
+        console.log(this.props.favorites)
         const {
             state: { favorite }
         } = this;
