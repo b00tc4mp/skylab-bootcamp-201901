@@ -17,22 +17,22 @@ class Welcome extends Component {
 
     onBackButtonDetailedPokemon = () => this.setState({ pokemonVisible: null, searchText: this.state.searchText })
 
-    enableSearch = () => this.setState({pokemonSearchVisible: true, searchText:''})
-    enableFavorites = () => this.setState({pokemonSearchVisible: false, searchText:''})
-    
+    enableSearch = () => this.setState({ pokemonSearchVisible: true, searchText: '' })
+    enableFavorites = () => this.setState({ pokemonSearchVisible: false, searchText: '' })
+
     logout = (event) => {
         event.preventDefault()
         logic.logout()
         this.props.history.push("/")
     }
-    
+
     render() {
 
         return <Fragment>
-        <MainPanel enableFavorites = {this.enableFavorites} enableSearch = {this.enableSearch} logout ={this.logout}/>
-           {!this.state.pokemonVisible && !this.state.pokemonSearchVisible && <FavoritesPanel  setPokemonVisible={this.setPokemonVisible}  />}
+            <MainPanel enableFavorites={this.enableFavorites} enableSearch={this.enableSearch} logout={this.logout} />
+            {!this.state.pokemonVisible && !this.state.pokemonSearchVisible && <FavoritesPanel setPokemonVisible={this.setPokemonVisible} />}
             {!this.state.pokemonVisible && this.state.pokemonSearchVisible && <PokemonSearch setSearchText={this.setSearchText} setPokemonVisible={this.setPokemonVisible} searchText={this.state.searchText} />}
-            {this.state.pokemonVisible && <DetailedPokemonPanel pokemonToShow={this.state.pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon}/>}
+            {this.state.pokemonVisible && <DetailedPokemonPanel pokemonToShow={this.state.pokemonVisible} onBackButton={this.onBackButtonDetailedPokemon} />}
 
         </Fragment>
 
