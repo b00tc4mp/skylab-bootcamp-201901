@@ -57,15 +57,23 @@ class App extends Component {
     this.props.history.push('/home')
   }
 
+  handleGoToRegister = () => this.setState({registerFeedback: null}, () => this.props.history.push('/register'))
+
+  handleGoToLogin = () => this.setState({loginFeedback: null}, () => this.props.history.push('/login'))
+
+  handleGoToHome = () => this.props.history.push('/home')
+
+  handleGoToFavorites = () => this.props.history.push('/favorites')
+
 
   render() {
 
-    const {handleRegister, handleLogin, handleLogout, state: {loginFeedback, registerFeedback}} = this
+    const {handleRegister, handleLogin, handleLogout, handleGoToRegister, handleGoToLogin, handleGoToHome, handleGoToFavorites, state: {loginFeedback, registerFeedback}} = this
 
     return (
         <div className="app">
           
-          <Topbar user={logic.userLoggedIn} onLogout={handleLogout}/>
+          <Topbar user={logic.userLoggedIn} onGoToHome={handleGoToHome} onGoToFavorites={handleGoToFavorites} onLogout={handleLogout} onGoToRegister={handleGoToRegister} onGoToLogin={handleGoToLogin} />
 
           <Switch>
             <Route path='/register' render={() => !logic.userLoggedIn?  <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to='/login' /> }   />
