@@ -117,8 +117,8 @@ class Video extends Component {
             <div className="panel__container">
                 {videoInfo &&
                     <div className="video__container">
-                        <div className={`${mode ? 'title-likes title-likes-light' : 'title-likes title-likes-dark'}`}>
-                            <h2 className="iframe__title">{videoInfo.snippet.title}</h2>
+                        <div className="title-likes">
+                            <h2 className={`${mode ? 'iframe__title iframe__title-light' : 'iframe__title iframe__title-dark'}`}>{videoInfo.snippet.title}</h2>
                             <i className={`${likeStatus ? "far fa-thumbs-up like" : "far fa-thumbs-up"}`} onClick={handleLike}></i>
                         </div>
                         <div>
@@ -127,11 +127,11 @@ class Video extends Component {
                                     <img className="is-rounded" alt="channel logo" src={videoInfo.snippet.thumbnails.default.url}></img>
                                 </figure>
                                 <div className="channel__info">
-                                    <h3 className="channel__text">{videoInfo.snippet.channelTitle}</h3>
-                                    <p className="channel__publish">Publish At: {videoInfo.snippet.publishedAt.substr(1, 9)}</p>
+                                    <h3 className={`${mode ? 'channel__text channel__text-light' : 'channel__text channel__text-dark'}`}>{videoInfo.snippet.channelTitle}</h3>
+                                    <p className={`${mode ? 'channel__publish channel__publish-light' : 'channel__publish channel__publish-dark'}`}>Publish At: {videoInfo.snippet.publishedAt.substr(1, 9)}</p>
                                 </div>
                             </div>
-                            <p className="channel__description">{videoInfo.snippet.description}</p>
+                            <p className={`${mode ? 'channel__description channel__description-light': 'channel__description channel__description-dark'}`}>{videoInfo.snippet.description}</p>
                             {feedback && <Feedback message={feedback} />}
                         </div>
                     </div>
