@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import logic from '../../logic'
 import './index.sass'
-import ItemResult from "../ItemResult";
+import ItemResult from "../Item";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

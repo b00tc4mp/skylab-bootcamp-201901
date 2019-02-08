@@ -6,8 +6,8 @@ import "./App.css";
 
 import logic from "./logic";
 import Home from './components/Home'
-import LoginPanel from "./components/LoginPanelComponent";
-import RegisterPanel from "./components/RegisterPanel";
+import LoginPanel from "./components/Login";
+import RegisterPanel from "./components/Register";
 import Welcome from "./components/Welcome"
 
 
