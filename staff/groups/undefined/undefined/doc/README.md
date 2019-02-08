@@ -1,4 +1,4 @@
-# Spotiy-App React-Scripts
+# UNDEFINED FILMS APP
 
 ## Introduction
 
@@ -12,9 +12,9 @@
 
 ### Flows
 
-#### List Albums
+#### List Videos
 
-![List Albums Flow](images/flow.png)
+![List Videos Flow](images/flow.png)
 
 ## Technical Description
 
@@ -26,17 +26,20 @@
 
 ![Components](images/components.png)
 
-### Class / Objects
-
-![Classes / Objects](images/classes-objects.png)
-
 ### Data Model
 
-![Data Model](images/data-model.png)
+![Data Model](images/data_model.png)
 
-### Technolgies
+### Technologies
 
-React JS, ES6...
+<img src="images/logos/bulma.png" alt="bulma css" width="130px" />
+<img src="images/logos/es6.png" alt="es6 js" width="130px" />
+<img src="images/logos/html5.png" alt="html5" width="130px" />
+<img src="images/logos/font-awesome.png" alt="font awesome css" width="130px" />
+<img src="images/logos/jest.png" alt="jest test" width="130px" />
+<img src="images/logos/npm.png" alt="npm" width="130px" />
+<img src="images/logos/react.png" alt="react" width="130px" />
+<img src="images/logos/sass.png" alt="sass" width="130px" />
 
 ### Code Coverage
 
