@@ -1,6 +1,6 @@
 # Tutubo App
 
-## [Documentation](../README.md)
+## [Documentation](./doc/README.md)
 
 ## [Live Demo]()
 

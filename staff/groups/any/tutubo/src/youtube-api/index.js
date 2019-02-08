@@ -3,7 +3,7 @@
 const youtubeApi = {
 
     url : 'https://www.googleapis.com/youtube/v3/',
-    key : 'key=AIzaSyAuXWh-zdhVotLyZHfzFnuBUUPOpj0nC8Q',
+    key : 'key=AIzaSyDoYOyKKI0RkFSQbVsOos-EtHNn4RdTwiE',
     part: 'part=snippet',
     videoType : 'type=video',
     maxResults : 'maxResults=50',
