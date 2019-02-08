@@ -26,9 +26,9 @@ TuTubo app is created using React Js, ES6 and the yourube v3 Api. Built by a tea
 
 ![technical description](./img/use-cases-4.png)
 
-### Class/Objects
+### Data Model
 
-![technical description](./img/use-cases-3.png)
+![technical description](./img/dataModel.png)
 
 ### Technologies
 
