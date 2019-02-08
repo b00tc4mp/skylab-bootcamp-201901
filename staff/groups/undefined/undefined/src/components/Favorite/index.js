@@ -40,25 +40,25 @@ class Favorite extends Component {
                     </figure>
                 </div>
 
-                <div class="card-content">
+                <div className="card-content">
                         <h3 className="title is-3">{Title}</h3>
                         <p>{Plot}</p>
 
                         <div className="content-details">
-                            <span class="tag is-success">{Type}</span>
-                            <span class="tag is-info">{Year}</span>
-                            <span class="tag is-info">{Runtime}</span>
-                            <span class="tag is-info">{Genre}</span>
-                            <span class="tag is-info">{Director}</span>
-                            <span class="tag is-info">{Website}</span>
+                            <span className="tag is-success">{Type}</span>
+                            <span className="tag is-info">{Year}</span>
+                            <span className="tag is-info">{Runtime}</span>
+                            <span className="tag is-info">{Genre}</span>
+                            <span className="tag is-info">{Director}</span>
+                            <span className="tag is-info">{Website}</span>
                         </div>
 
                         <div className="tags-details">
-                            <span class="tag is-info">{Country}</span>
-                            <span class="tag is-info">{Awards}</span>
-                            <span class="tag is-info">{imdbRating}</span>
-                            <span class="tag is-info">{BoxOffice}</span>
-                            <span class="tag is-info">{Production}</span>
+                            <span className="tag is-info">{Country}</span>
+                            <span className="tag is-info">{Awards}</span>
+                            <span className="tag is-info">{imdbRating}</span>
+                            <span className="tag is-info">{BoxOffice}</span>
+                            <span className="tag is-info">{Production}</span>
                         </div>
                     <button className="button" onClick={handleFavorites}>Delete</button>
                 </div>
