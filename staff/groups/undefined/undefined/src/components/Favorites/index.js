@@ -29,7 +29,7 @@ class Favorites extends Component {
 
         return (
         <section className="favorites section columns is-fullheight">
-            <div class="container column is-10">
+            <div className="container column is-10">
             {(this.state.favorites || []).map(video => 
                 <Favorite
                      key={video.imdbID} 
@@ -37,9 +37,9 @@ class Favorites extends Component {
                 /> 
             )}
             {(!this.state.favorites || [] )&& <h3>You have no favorites yet... Search for movies and add them to your favorites</h3> }
-            <div class="field">
-              <p class="control">
-                <button onClick={this.handleGoBack} onDeleted={this.handleDeleted} class="button is-info">Go back Home</button>
+            <div className="field">
+              <p className="control">
+                <button onClick={this.handleGoBack}  className="button is-info">Go back Home</button>
               </p>
             </div>
             </div>

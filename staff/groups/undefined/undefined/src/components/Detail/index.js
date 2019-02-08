@@ -87,19 +87,19 @@ class Detail extends Component {
                                     <div className="info">
 
                                         <div className="info-item">
-                                            <span className="genres"><i class="fas fa-genderless"></i> <strong>Genres:</strong> <span>{Genre}</span></span>
+                                            <span className="genres"><i className="fas fa-genderless"></i> <strong>Genres:</strong> <span>{Genre}</span></span>
                                         </div>
 
                                         <div className="info-item">
-                                            <span className="released"><i class="fas fa-genderless"></i> <strong>Released:</strong> <span>{Released}</span></span>
+                                            <span className="released"><i className="fas fa-genderless"></i> <strong>Released:</strong> <span>{Released}</span></span>
                                         </div>
 
                                         <div className="info-item">
-                                            <span className="runtime"><i class="fas fa-genderless"></i> <strong>Runtime:</strong> <span>{Runtime}</span></span>
+                                            <span className="runtime"><i className="fas fa-genderless"></i> <strong>Runtime:</strong> <span>{Runtime}</span></span>
                                         </div>
 
                                         <div className="info-item">
-                                            <span className="runtime"><i class="fas fa-genderless"></i> <strong>Actors:</strong> <span>{Actors}</span></span>
+                                            <span className="runtime"><i className="fas fa-genderless"></i> <strong>Actors:</strong> <span>{Actors}</span></span>
                                         </div>
                                     </div>
                                 </div>

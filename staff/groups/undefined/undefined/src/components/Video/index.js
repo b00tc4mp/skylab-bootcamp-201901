@@ -17,18 +17,18 @@ class Video extends Component  {
         return (
         
             <section onClick={() => onVideoClick(video.imdbID)} className="video card column is-4">
-                <div class="card-image">
-                    <figure class="image">
+                <div className="card-image">
+                    <figure className="image">
                         <img src={video.Poster} alt={video.Title} />
                     </figure>
                 </div>
 
-                <div class="card-content">
-                    <div class="content">
+                <div className="card-content">
+                    <div className="content">
                     <h6>{video.Title}</h6>
-                    <div class="tags">
-                        <span class="tag is-info">{video.Year}</span>
-                        <span class="tag is-success">{video.Type}</span>
+                    <div className="tags">
+                        <span className="tag is-info">{video.Year}</span>
+                        <span className="tag is-success">{video.Type}</span>
                     </div>
                     </div>
                 </div>

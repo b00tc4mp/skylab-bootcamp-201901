@@ -31,8 +31,8 @@ class Login extends Component {
             <section className="login columns">
             <div className="container column is-6">
               <header>
-                <h1 class="title">Login</h1>
-                <h2 class="subtitle">All films and series at your disposal with a click of a button</h2>
+                <h1 className="title">Login</h1>
+                <h2 className="subtitle">All films and series at your disposal with a click of a button</h2>
               </header>
               <form onSubmit={handleFromSubmit}>
                   <div className="field">

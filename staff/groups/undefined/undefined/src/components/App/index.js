@@ -41,7 +41,7 @@ class App extends Component {
         .then( () => {
             this.setState({ loginFeedback: null })
             
-            this.props.history.push('/home') 
+            //this.props.history.push('/home') 
             alert('you have successfully login')
         }).catch( ({message}) => {
             this.setState({ loginFeedback: message })

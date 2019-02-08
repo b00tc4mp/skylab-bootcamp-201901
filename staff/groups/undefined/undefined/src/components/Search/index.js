@@ -21,17 +21,17 @@ class Search extends Component {
         return (
             <section className="search">
                 <form className="field is-grouped" onSubmit={handleSearchSubmit} >
-                <p class="control is-expanded">
+                <p className="control is-expanded">
                     <input 
                         name="query" 
                         placeholder="Search Movies and Series"
                         onChange={handleQueryInput}
                         className="input"
                         required
-                        autocomplete="off"
+                        autoComplete="off"
                     />
                 </p>
-                <p class="control">
+                <p className="control">
                     <button className="button is-info" type="submit">Search</button>
                 </p>
                     
