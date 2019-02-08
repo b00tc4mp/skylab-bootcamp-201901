@@ -99,6 +99,9 @@ describe('user api', () => {
             it('should fail on username typeof array instead of string ', () =>
                 expect(() => userApi.register(name, surname, username, [])).toThrowError(` is not a string`)
             )
+            it('should fail on empty password', () =>
+                expect(() => userApi.register(username, '')).toThrowError(`password is empty`)
+            )
         })
 
     })
@@ -167,7 +170,14 @@ describe('user api', () => {
             )
         })
 
-
+        describe('fail on no matching username or password', () => {
+            it('should fail', () => 
+                userApi.authenticate('dssdsadd', 'dsdkvsn')
+                    .then(response => {
+                        expect(Error).toBe(response.error)   
+                    })
+            )
+        })
     })
 
     describe('retrieve', () => {
@@ -327,17 +337,45 @@ describe('user api', () => {
                 .catch(({ message }) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
         })
 
+        it('should fail on empty passwoed', () =>
+                expect(() => userApi.remove(_id, _token, username, '')).toThrowError(`password is empty`)     
+        )
+
+        it('should fail on empty username', () =>
+                expect(() => userApi.remove(_id, _token, '', password)).toThrowError(`username is empty`)     
+        )
+
+        it('should fail on object for password', () =>
+                expect(() => userApi.remove(_id, _token, username, {})).toThrowError(`{object Object} is not a string`)     
+        )
+
         // TODO more unit test cases
 
-        describe('retrieveAllUsers', () => {
-            
-            it('should return all users', () => 
-                userApi.retrieveAllUsers('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTg3OGE0Y2Q0OTJhMDAwOTA2Nzg2OSIsImlhdCI6MTU0OTMwMTk5MSwiZXhwIjoxNTQ5MzA1NTkxfQ.mBkUdeA1MiCF4ttJ9rOH2EjerGQwX-WeMH0L5qiUOWE')
-                    .then(data => {
-                        debugger 
-                        expect(data).toBeDefined()  
-                    }).catch(()=> console.log('shut the fuk up'))
+        describe('fail on no matching username or password', () => {
+            it('should fail', () => 
+                userApi.remove(_id, _token, 'dssdsadd', 'dsdkvsn')
+                    .then(response => {
+                        expect(Error).toBe(response.error)   
+                    })
             )
         })
+    })
+
+    describe('retrieveAllUsers', () => {
+            
+        it('should return all users', () => 
+            userApi.retrieveAllUsers('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjNTg3OGE0Y2Q0OTJhMDAwOTA2Nzg2OSIsImlhdCI6MTU0OTMwMTk5MSwiZXhwIjoxNTQ5MzA1NTkxfQ.mBkUdeA1MiCF4ttJ9rOH2EjerGQwX-WeMH0L5qiUOWE')
+                .then(data => {
+                    expect(data).toBeDefined()  
+                }).catch(()=> console.log('shut the fuk up'))
+        )
+
+        it('shoulf fail on object for token', () =>
+            expect(() => userApi.retrieveAllUsers()).toThrowError(`undefined is not a string`)     
+        )
+
+        it('shoulf fail on object for token', () =>
+            expect(() => userApi.retrieveAllUsers('')).toThrowError(`undefined is not a string`)     
+        )
     })
 })

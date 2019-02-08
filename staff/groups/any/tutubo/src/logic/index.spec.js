@@ -9,10 +9,10 @@ describe('logic', () => {
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
-        const passwordConfirm = password
+        const passwordConfirmation = password
 
         it('should succeed on valid data', () =>
-            logic.registerUser(name, surname, email, password)
+            logic.registerUser(name, surname, email, password, passwordConfirmation)
                 .then(result => expect(result).toBeUndefined())
         )
 
@@ -180,6 +180,15 @@ describe('logic', () => {
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
+        it('should fail on empty email', () => {
+            const email = ''
+            const password = '123'
+
+            expect(() => {
+                logic.loginUser(email, password)
+            }).toThrow(TypeError('email cannot be empty'))
+        })
+
         it('should fail on numeric email', () => {
             const email = 1238378
             const password = '123'
@@ -282,14 +291,22 @@ describe('logic', () => {
         })
     })
 
-    describe('update user', () => {
-        it('should succeed on valid data', () => {
-            logic.updateUser({"gslmds": "dlcsdl"})
-                .then(nothing => {
-                    expect(nothing).toBeUndefined()
-                })
-        })
-    })
+    // describe('update user', () => {
+    //     it('should succeed on valid data', () => {
+    //         const data = { 'name': 'Pepito' }
+    //         logic.loginUser('e@gmail.com', 'p') 
+    //             .then((id, token) => {
+    //                 id
+    //                 token
+    //             })
+    //             .then(
+    //                 logic.updateUser(this._id, this._token, data)
+    //                     .then(nothing => {
+    //                         expect(nothing).toBeUndefined()
+    //                 })
+    //             )   
+    //     })
+    // })
 
     describe('retrieve user', () => {
         it('should succeed on valid data', () => {
@@ -335,6 +352,14 @@ describe('logic', () => {
         it('should fail on object for query', () => {
             expect(() => logic.searchVideo({})).toThrowError('[object Object] is not a string')
         })
+
+        it('should fail on numbers for query', () => {
+            expect(() => logic.searchVideo(123)).toThrowError('123 is not a string')
+        })
+
+        it('should fail on empty query', () => {
+            expect(() => logic.searchVideo()).toThrowError('undefined is not a string')
+        })
     })
 
     describe('popular results', () => {
@@ -362,6 +387,27 @@ describe('logic', () => {
                 .then(video => {
                     expect(video).toBeUndefined()
                 })
+        })
+
+        it('should fail on empty id', () => {
+            expect(() => logic.watchVideo()).toThrowError('undefined is not a string')
+        })
+
+        it('should fail on number for id', () => {
+            expect(() => logic.watchVideo(123)).toThrowError('123 is not a string')
+        })
+
+        it('should fail on object for id', () => {
+            expect(() => logic.watchVideo({})).toThrowError('[object Object] is not a string')
+        })
+
+        it('should fail on array for id', () => {
+            expect(() => logic.watchVideo([])).toThrowError(' is not a string')
+        })
+
+        it('should fail on empty query', () => {
+            expect(() => logic.watchVideo('')).toThrowError('failed to load')
+                
         })
     })
 
@@ -434,7 +480,7 @@ describe('logic', () => {
                 })
         })
 
-        it ('should fail on numver for id', () => {
+        it ('should fail on number for id', () => {
             const videoId = 123444554
             logic.likeVideo(videoId)
                 .then(likes => {
@@ -444,10 +490,11 @@ describe('logic', () => {
     })
 
     describe('retrieve likes', () => {
-        it('should return likes videos', () => {
-            logic.likeVideo()
+        it('should return user likes', () => {
+            logic.retrieveLikes()
                 .then(likes => {
                     expect(likes).toBeDefined()
+                    expect(likes).toBeInstanceOf(Array)
                 })
         })
     })

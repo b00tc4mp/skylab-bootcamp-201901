@@ -299,29 +299,6 @@ const logic = {
             .then(user => user)
     }
 
-    // dislikeVideo(videoId) {
-    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
-    //         .then(user => {
-    //             const { dislikes = {} } = user
-
-    //             if (dislikes) {
-    //                 dislikes.push(videoId)
-    //             } else {
-    //                 dislikes[0] = [videoId]
-    //             }
-                
-    //             return userApi.update(this.__userId__, this.__userApiToken__, { dislikes })
-    //         })
-    //     .then(() => {})  
-    // },
-
-    // checkReview(videoId) {
-    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
-    //         .then(user => {
-
-    //         })
-    // }
-
 }
 
 export default logic
