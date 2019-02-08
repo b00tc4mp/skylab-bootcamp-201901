@@ -61,6 +61,9 @@ PokemonCard has four main parts.
 * Favorites icon
     * Allows to add/remove to favorites.
 
+## Detailed Pokemon
+* Shows the stats and information, such as abilities, types, moves and held items, of the selected pokemon.
+
 
 # Authors
 
