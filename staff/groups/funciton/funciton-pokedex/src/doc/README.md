@@ -59,7 +59,9 @@ PokemonCard has four main parts.
 
 ![Components](images/Flow.png)
 
+### Data Model
 
+![Components](images/datamodel.png)
 
 
 ##Testing
