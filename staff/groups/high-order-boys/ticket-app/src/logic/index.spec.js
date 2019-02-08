@@ -173,7 +173,30 @@ describe('logic', () => {
                     expect(user.email).toBe(email)
                 })
         )
+
+        it('should fail on undefined', () => {
+
+            try {
+                logic.retrieveUser()
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on empty string', () => {
+
+            try {
+                logic.retrieveUser('')
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
     })
+
 
 
     describe('login user', () => {
@@ -195,6 +218,7 @@ describe('logic', () => {
                 .then(() => {
                     expect(logic.__userId__).toBeDefined()
                     expect(logic.__userApiToken__).toBeDefined()
+                    expect(logic.userLoggedIn).toBe(true)
                 })
         })
 
@@ -251,6 +275,67 @@ describe('logic', () => {
         })
     })
 
+
+
+
+    describe('updateUser', () => {
+
+        let name = 'Manolo'
+        let surname = 'Skywalker'
+        let email
+        let password = '123'
+        let passwordConfirm = '123'
+        let favouriteId
+        let data = { data: 'data' }
+
+
+        beforeEach(() => {
+
+            email = `check@favourite.com-${Math.random()} `
+            favouriteId = `favIdToggle - ${Math.random()} `
+
+            return logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.loginUser(email, password).then(() => logic.toggleFavourite(favouriteId)))
+
+        })
+
+
+        it(`should be undefined with { data: 'data' } as a variable`, () => {
+            try {
+                logic.updateUser(data)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(undefined)
+
+            }
+        }
+        )
+
+
+        it('should fail on empty string', () => {
+
+            try {
+                logic.updateUser('')
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe('is not an Object')
+
+            }
+        })
+
+        it('should fail on undefined', () => {
+
+            try {
+                logic.updateUser()
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`Cannot read property 'constructor' of undefined`)
+
+            }
+        })
+    })
+
+
     describe('retrieveEvents', () => {
 
         const query = 'barcelona'
@@ -292,6 +377,55 @@ describe('logic', () => {
                 .then(events => {
                     expect(events).toBeDefined()
                 })
+        })
+
+        it('should fail on empty query', () => {
+            const query = ''
+
+            try {
+                logic.retrieveEvents(query, startDate, endDate)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`query is empty`)
+            }
+        })
+
+
+        it('should fail on numeric query', () => {
+            const query = 666
+
+            try {
+                logic.retrieveEvents(query, startDate, endDate)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`-->${query}<-- query introduced is not a string`)
+            }
+        })
+
+        it('should fail on numeric startDate', () => {
+            const query = 'barcelona'
+            const startDate = 999
+            const endDate = '2019-08-01'
+
+            try {
+                logic.retrieveEvents(query, startDate, endDate)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`-->${startDate}<-- startDate introduced is not a string`)
+            }
+        })
+
+        it('should fail on numeric endDate', () => {
+            const query = 'barcelona'
+            const startDate = '2019-06-01'
+            const endDate = 999
+
+            try {
+                logic.retrieveEvents(query, startDate, endDate)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`-->${endDate}<-- endDate introduced is not a string`)
+            }
         })
 
         it('should fail on undefined', () => {
@@ -480,7 +614,7 @@ describe('logic', () => {
         it('should fail on undefined', () => {
 
             try {
-                logic.toggleFavourite()
+                logic.checkFavourite()
             } catch (error) {
                 expect(error).toBeDefined()
                 expect(error.message).toBe(`undefined is not a string`)
@@ -491,8 +625,61 @@ describe('logic', () => {
     })
 
 
+    describe('getFavourites', () => {
 
-    // TODO; updateUser, removeUser (métodos no creados?)
+        let name = 'Manolo'
+        let surname = 'Skywalker'
+        let email
+        let password = '123'
+        let passwordConfirm = '123'
+        let favouriteId
+        let favArray = ['hola', 'como', 'estas']
+
+
+        beforeEach(() => {
+
+            email = `check@favourite.com-${Math.random()} `
+            favouriteId = `favIdToggle - ${Math.random()} `
+
+            return logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.loginUser(email, password).then(() => logic.toggleFavourite(favouriteId)))
+
+        })
+
+        it('should succed on getting a fave', () =>
+            logic.getFavourites(favArray)
+                .then(response => {
+                    expect(response).toBeDefined()
+                })
+        )
+
+
+        it('should fail if used like a function', () => {
+
+            try {
+                logic.getFavourites('')
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`favourites.map is not a function`)
+
+            }
+        })
+
+        it('should fail on undefined', () => {
+
+            try {
+                logic.getFavourites()
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`Cannot read property 'map' of undefined`)
+
+            }
+        })
+
+    })
+
+
+
 })
 
 
