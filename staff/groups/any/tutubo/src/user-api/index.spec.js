@@ -289,28 +289,6 @@ describe('user api', () => {
                 })
         })
 
-
-        // describe('fail on TypeError id', () => {
-
-        //     it('should fail on id typeof number instead of string ', () =>
-        //         expect(() => userApi.update(12345, _token)).toThrowError(`12345 is not a string`)
-        //     )
-        //     it('should fail on id typeof boolean instead of string ', () =>
-        //         expect(() => userApi.update(true, _token)).toThrowError(`true is not a string`)
-        //     )
-        //     it('should fail on id typeof object instead of string ', () =>
-        //         expect(() => userApi.update({}, _token)).toThrowError(`[object Object] is not a string`)
-        //     )
-        //     it('should fail on id typeof array instead of string ', () =>
-        //         expect(() => userApi.update([], _token)).toThrowError(` is not a string`)
-        //     )
-        //     it('should fail on empty id', () =>
-        //         expect(() => userApi.update('', _token)).toThrowError(`token is empty`)
-        //     )
-        // })
-
-
-        // TODO more unit test cases
     })
 
     describe('remove', () => {
