@@ -3,10 +3,9 @@ import YouTube from 'react-youtube';
 import './index.css';
 
 import logic from '../../logic';
-import DevelopersInfo from '../DevelopersInfo'
-import GenresInfo from '../GenresInfo'
-import PublishersInfo from '../PublishersInfo'
 import GameTitle from '../GameTitle'
+import Favorite from '../Favorite'
+
 import Loading from '../Loading';
 import { Link } from 'react-router-dom';
 
@@ -27,7 +26,10 @@ class GameInfo extends Component {
         imageBaseUrlOriginal: null,
         imageFilename: null,
         platformName: null,
+        feedback: null,
+        favorites: [],
         loading: true
+
     };
 
 
@@ -37,6 +39,7 @@ class GameInfo extends Component {
                 params: { gameId }
             }
         } = this.props;
+        
         if (gameId) this.handleGameInfo(gameId);
     }
 
@@ -46,6 +49,7 @@ class GameInfo extends Component {
                 params: { gameId }
             }
         } = nextProps;
+
         this.handleGameInfo(gameId)
     }
 
@@ -103,9 +107,17 @@ class GameInfo extends Component {
                             loading: false
                         });
                     }
-                )
+                ).then(this.getFavorites())
                 .catch(({ message }) => this.setState({ feedback: message }));
-        } 
+        }
+
+    getFavorites = () => {
+        logic.userLoggedIn && logic.retrieveUser().then(({favorites}) => {
+            this.setState({
+                favorites
+            });
+        });
+    };
 
     render() {
         const {
@@ -124,6 +136,8 @@ class GameInfo extends Component {
                 imageBaseUrlOriginal,
                 imageFilename,
                 platformName,
+                feedback,
+                favorites,
                 loading
             }
         } = this;
@@ -141,25 +155,34 @@ class GameInfo extends Component {
             { imageBaseUrlOriginal }.imageBaseUrlOriginal + { imageFilename }.imageFilename;
         const platformUrl = "/platform/" + platform
 
+        if (feedback !== null) {
+            return (<h2>{feedback}</h2>)
+        }
+        console.log(favorites)
+        
         if(loading) {
             return <Loading />
         }
-        return (
+       return (
             <section className="gameInfo">
                 <div className="gameInfo__title">
-                    <GameTitle gamId = {id} name = {name}/>
+                    <GameTitle  gamId = {id} 
+                                name = {name}
+                                genId = {genres}
+                                releaseDate = {releaseDate}
+                                platformUrl = {platformUrl}
+                                players = {players}
+                                coop = {coop}
+                                devId = {developers}
+                                pubId = {publishers}
+                                platformName = {platformName}
+                                />
                 </div>
-                <div className="gameInfo__details">
-                    <p>
-                    <GenresInfo genId = {genres} /> 
-                    {releaseDate ? ' '+releaseDate+' // ' : ''}
-                    <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link>{' //'}
-                    {players ? ' Players : '+players+' // ' : ''}
-                    {coop ? ' Coop : '+coop+' ' : ''}
-                    <DevelopersInfo devId = {developers}/> 
-                    <PublishersInfo pubId = {publishers} />
-                    </p>
-                </div>
+                {logic.userLoggedIn && (
+                        <div className="gameInfo__favorite">
+                            <Favorite idGame={this.props.match.params.gameId} favorites={favorites} />
+                        </div>
+                    )}
                 <div className="gameInfo__image">
                     <img className="gameInfo__image--modifier" width="100%" alt="Frontboxart of game" src={imageUrl} />
                 </div>

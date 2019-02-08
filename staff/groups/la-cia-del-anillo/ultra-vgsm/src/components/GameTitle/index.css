@@ -1,5 +1,47 @@
-h1 {
+.banner h1 {
     font-size: 3em;
     text-shadow: 3px 2px rgb(200,250,200);
+    text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;
 }
 
+.banner {
+    display: grid;
+    grid-template-rows: auto;
+}
+
+.banner__title {
+    grid-row-start: 1;
+    grid-column: 1 / span 5;
+    text-align: center;
+    margin-top: 1em;
+}
+.banner__details {
+    grid-row-start: 2;
+    grid-column: 1 / span 5;
+    margin: 0.3em 0 0 0;
+    background: linear-gradient(to top, rgba(220, 255, 220, 1) 0%, rgba(220, 255, 220, 0.4) 70%, rgba(167,221,190,0) 95%);
+    text-align: center;
+    /* border-radius: 10px; */
+    font-size: 0.9em;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding-top: 1em;
+    border-bottom: 0.2em solid black;
+
+}
+
+.banner__title--shadow {
+    filter: drop-shadow(5px 5px 5px #222);
+}
+
+.gameInfo__link:link, .gameInfo__link:visited {
+    text-decoration: none;
+    color: rgb(0, 111, 0);
+    transition: background-color 0.30s;
+}
+
+.gameInfo__link:hover {
+    text-decoration: none;
+    color: white;
+    background-color:#50BC7E;
+}
