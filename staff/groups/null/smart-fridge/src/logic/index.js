@@ -373,7 +373,7 @@ const logic = {
         
         recipes.find( element => {
             if(element.recipe.uri===recipeUri){
-                recipe=element.recipe
+                recipe=element
             }
         })
         if (!!recipe) return recipe
