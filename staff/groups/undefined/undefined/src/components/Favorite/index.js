@@ -22,6 +22,7 @@ class Favorite extends Component {
         const {props :{video}} = this
         logic.toggleFavorties(video)
         this.setState ({videoSelected:null})
+        this.props.MsgEmptyFav()
     }
 
     render(){
@@ -42,29 +43,25 @@ class Favorite extends Component {
 
 
                 <div className="card-content">
-          
                        <div className="card-content__top">
                         <h3 className="title is-3">{Title}</h3>
                           <div className="block">
-                          <span className="tag is-danger">
-                              Remove from favorites
-                              <button onClick={handleFavorites} className="delete is-small"></button>
-                          </span>
+                            <span className="tag is-danger">
+                                Remove from favorites
+                                <button onClick={handleFavorites} className="delete is-small"></button>
+                            </span>
                           </div>
                            <p>{Plot}</p>
-
+                        </div>
 
                         <div className="content-details"> 
-          
                           <div className="tags-details">
                             <span className="tag is-info">{Country}</span>
                             <span className="tag is-info">{Awards}</span>
                             <span className="tag is-info">{imdbRating}</span>
                             <span className="tag is-info">{BoxOffice}</span>
                             <span className="tag is-info">{Production}</span>
-
                           </div>
-          
                         </div>
                 </div>
         </section>)
