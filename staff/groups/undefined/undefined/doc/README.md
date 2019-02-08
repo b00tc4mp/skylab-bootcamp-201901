@@ -43,4 +43,4 @@
 
 ### Code Coverage
 
-![Code Coverage](images/code-coverage.png)
+![Code Coverage](images/coverage.png)
