@@ -1,4 +1,5 @@
 import logic from '.'
+import userApi from '../user-api';
 //import '../index'
 
 logic.storage = sessionStorage
@@ -290,23 +291,6 @@ describe('logic', () => {
             }).toThrow(Error('password cannot be empty'))
         })
     })
-
-    // describe('update user', () => {
-    //     it('should succeed on valid data', () => {
-    //         const data = { 'name': 'Pepito' }
-    //         logic.loginUser('e@gmail.com', 'p') 
-    //             .then((id, token) => {
-    //                 id
-    //                 token
-    //             })
-    //             .then(
-    //                 logic.updateUser(this._id, this._token, data)
-    //                     .then(nothing => {
-    //                         expect(nothing).toBeUndefined()
-    //                 })
-    //             )   
-    //     })
-    // })
 
     describe('retrieve user', () => {
         it('should succeed on valid data', () => {
