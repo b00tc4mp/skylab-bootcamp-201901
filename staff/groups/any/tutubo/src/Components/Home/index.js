@@ -46,7 +46,7 @@ class Home extends Component {
         const { onVideoSelected, state: { videos }, props: { mode, feedback } } = this
         console.log(videos)
         return <section>
-            <div class={`${mode ? 'randomVideoList randomVideoList-light' : 'randomVideoList randomVideoList-dark'}`}>
+            <div className={`${mode ? 'randomVideoList randomVideoList-light' : 'randomVideoList randomVideoList-dark'}`}>
             {feedback && <Feedback message = {feedback}/>}
                 {videos.map(({ id: videoId , snippet: { title, channelId, channelTitle, description, thumbnails: { medium: { url } } } }) => {
                     return <div className={`${mode ? 'card randomCard randomCard-light' : 'card randomCard randomCard-dark'}`} key={videoId} onClick={() => onVideoSelected(videoId)} >
