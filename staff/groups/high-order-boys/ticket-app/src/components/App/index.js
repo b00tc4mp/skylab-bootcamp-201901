@@ -68,7 +68,7 @@ class App extends Component {
   handleLogout = () => {
     logic.setUserId()
     logic.setUserApiToken()
-    this.setState({user: null})
+    this.setState({user: null, loginFeedback: null, registerFeedback: null})
     this.props.history.push('/login')
   }
 
