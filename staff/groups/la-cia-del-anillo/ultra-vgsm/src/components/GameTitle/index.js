@@ -1,5 +1,3 @@
-'use stric'
-
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css'
@@ -23,7 +21,7 @@ class GameTitle extends Component {
 
     handleClearLogo = img => {
         try {
-            logic.retrieveImages(img.gamId.toString())
+            logic.retrieveImages(img.toString())
                 .then( ({ data : { base_url: { original }, images } }) => {
                     const clrLogo = images[this.props.gamId].find(image => image.type === 'clearlogo')
                     const fanArt = images[this.props.gamId].find(image => image.type === 'fanart')
@@ -59,7 +57,7 @@ class GameTitle extends Component {
                             <p>
                             <GenresInfo genId = {genId} /> 
                             {releaseDate ? ' '+releaseDate+' // ' : ''}
-                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link>{' //'}
                             {players ? ' Players : '+players+' // ' : ''}
                             {coop ? ' Coop : '+coop+' ' : ''}
                             <DevelopersInfo devId = {devId}/> 
@@ -77,7 +75,7 @@ class GameTitle extends Component {
                             <p>
                             <GenresInfo genId = {genId} /> 
                             {releaseDate ? ' '+releaseDate+' // ' : ''}
-                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link>{' //'}
                             {players ? ' Players : '+players+' // ' : ''}
                             {coop ? ' Coop : '+coop+' ' : ''}
                             <DevelopersInfo devId = {devId}/> 
@@ -96,7 +94,7 @@ class GameTitle extends Component {
                             <p>
                             <GenresInfo genId = {genId} /> 
                             {releaseDate ? ' '+releaseDate+' // ' : ''}
-                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link>{' //'}
                             {players ? ' Players : '+players+' // ' : ''}
                             {coop ? ' Coop : '+coop+' ' : ''}
                             <DevelopersInfo devId = {devId}/> 
@@ -114,7 +112,7 @@ class GameTitle extends Component {
                             <p>
                             <GenresInfo genId = {genId} /> 
                             {releaseDate ? ' '+releaseDate+' // ' : ''}
-                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link> //
+                            <Link className="gameInfo__link" to={platformUrl}> {platformName}</Link>{' //'}
                             {players ? ' Players : '+players+' // ' : ''}
                             {coop ? ' Coop : '+coop+' ' : ''}
                             <DevelopersInfo devId = {devId}/> 
