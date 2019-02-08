@@ -1,6 +1,13 @@
 "use strict";
 
-import logic from ".";
+import logic from "."
+import marvelApi from '../../marvel-api'
+
+const { REACT_APP_MARVEL_API_KEY, REACT_APP_MARVEL_PRIVATE_API_KEY } = process.env
+
+marvelApi.apiKey = REACT_APP_MARVEL_API_KEY
+
+marvelApi.privateApiKey = REACT_APP_MARVEL_PRIVATE_API_KEY
 
 describe("logic testing", () => {
   describe("register", () => {

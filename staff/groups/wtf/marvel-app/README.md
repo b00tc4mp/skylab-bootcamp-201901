@@ -2,6 +2,8 @@
 
 ## [Documentation](doc/README.md)
 
+## [Demo](src)
+
 ## Available Scripts for development
 
 In the project directory, you can run:

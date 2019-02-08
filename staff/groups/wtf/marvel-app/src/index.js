@@ -9,6 +9,7 @@ import * as serviceWorker from './serviceWorker'
 import marvelApi from './marvel-api'
 
 const { REACT_APP_MARVEL_API_KEY, REACT_APP_MARVEL_PRIVATE_API_KEY } = process.env
+
 marvelApi.apiKey = REACT_APP_MARVEL_API_KEY
 
 marvelApi.privateApiKey = REACT_APP_MARVEL_PRIVATE_API_KEY

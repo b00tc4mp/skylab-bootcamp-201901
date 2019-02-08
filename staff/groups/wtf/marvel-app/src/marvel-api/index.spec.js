@@ -1,5 +1,11 @@
 import marvelApi from './index'
 
+const { REACT_APP_MARVEL_API_KEY, REACT_APP_MARVEL_PRIVATE_API_KEY } = process.env
+
+marvelApi.apiKey = REACT_APP_MARVEL_API_KEY
+
+marvelApi.privateApiKey = REACT_APP_MARVEL_PRIVATE_API_KEY
+
 /**
  * 
  * Marvel API Testing
@@ -38,13 +44,13 @@ describe('marvel api testing', ()=>{
                 })
         })
 
-        it('should fail on returning 0 characters', () =>{
+        it('should fail on missmatching character', () =>{
             marvelApi.searchCharacter('12312313123').then(() => {
                     throw Error('should not pass by here')
                 })
                 .catch(error => {
                     expect(error).toBeDefined()
-                    expect(error.message).toBe(`No characters found`)
+                    expect(error.message).toEqual(`No characters found`)
                 })
         })
         
