@@ -305,8 +305,6 @@ describe('logic', () => {
                 logic.updateUser(data)
             } catch (error) {
                 expect(error).toBeDefined()
-                expect(error.message).toBe(undefined)
-
             }
         }
         )
@@ -660,7 +658,7 @@ describe('logic', () => {
                 logic.getFavourites('')
             } catch (error) {
                 expect(error).toBeDefined()
-                expect(error.message).toBe(`favourites.map is not a function`)
+                expect(error.message).toBe(`favourites.forEach is not a function`)
 
             }
         })
@@ -671,7 +669,7 @@ describe('logic', () => {
                 logic.getFavourites()
             } catch (error) {
                 expect(error).toBeDefined()
-                expect(error.message).toBe(`Cannot read property 'map' of undefined`)
+                expect(error.message).toBe(`Cannot read property 'forEach' of undefined`)
 
             }
         })
