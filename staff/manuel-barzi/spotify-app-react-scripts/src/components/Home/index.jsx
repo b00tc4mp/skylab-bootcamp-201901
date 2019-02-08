@@ -8,49 +8,46 @@ import ArtistResults from '../ArtistResults'
 import AlbumResults from '../AlbumResults'
 import TrackResults from '../TrackResults'
 import TrackPlayer from '../TrackPlayer'
+import './index.sass'
 
 class Home extends Component {
-    state = { artists: null, albums: null, tracks: null, track: null, artistId: null, albumId: null, trackId: null, searchFeedback: null }
+    state = { query: null, artistId: null, albumId: null, trackId: null, searchFeedback: null }
 
     handleSearch = query => {
-        this.props.history.push(`/search/${query}`)
+        this.setState({ query }, () => this.props.history.push(`/search/${query}`))
     }
 
-    handleArtistSelected = id => {
-        this.setState({
-            artistId: id
-        }, () => this.props.history.push(`/artist/${id}`))
-    }
+    handleArtistSelected = artistId => this.setState({ artistId }, () => {
+        const { state: {query} } = this
 
-    handleAlbumSelected = id => {
-        this.setState({
-            albumId: id
-        }, () => {
-            const { state: { artistId } } = this
+        this.props.history.push(`/search/${query}/artist/${artistId}`)
+    })
 
-            this.props.history.push(`/artist/${artistId}/album/${id}`)
+    handleAlbumSelected = albumId => {
+        this.setState({ albumId }, () => {
+            const { state: { query, artistId } } = this
+
+            this.props.history.push(`/search/${query}/artist/${artistId}/album/${albumId}`)
         })
     }
 
-    handleTrackSelected = id => {
-        this.setState({
-            trackId: id
-        }, () => {
-            const { state: { artistId, albumId } } = this
+    handleTrackSelected = trackId => {
+        this.setState({ trackId }, () => {
+            const { state: { query, artistId, albumId } } = this
 
-            this.props.history.push(`/artist/${artistId}/album/${albumId}/track/${id}`)
+            this.props.history.push(`/search/${query}/artist/${artistId}/album/${albumId}/track/${trackId}`)
         })
     }
 
     render() {
-        const { handleSearch, handleArtistSelected, handleAlbumSelected, handleTrackSelected, state: { artists, albums, tracks, track, searchFeedback, artistFeedback, albumFeedback, trackFeedback }, props: { language } } = this
+        const { handleSearch, handleArtistSelected, handleAlbumSelected, handleTrackSelected, state: { searchFeedback }, props: { language } } = this
 
         return <section className="home">
             <Search title={i18n[language].searchTitle} onSearch={handleSearch} feedback={searchFeedback} />
             <Route path="/search/:query" render={props => <ArtistResults query={props.match.params.query} onArtistSelected={handleArtistSelected} />} />
-            <Route path="/artist/:id" render={props => <AlbumResults artistId={props.match.params.id} onAlbumSelected={handleAlbumSelected} />} />
-            <Route path="/artist/:artistId/album/:albumId" render={props => <TrackResults albumId={props.match.params.albumId} onTrackSelected={handleTrackSelected} />} />
-            <Route path="/artist/:artistId/album/:albumId/track/:trackId" render={props => <TrackPlayer trackId={props.match.params.trackId} />} />
+            <Route path="/search/:query/artist/:artistId" render={props => <AlbumResults artistId={props.match.params.artistId} onAlbumSelected={handleAlbumSelected} />} />
+            <Route path="/search/:query/artist/:artistId/album/:albumId" render={props => <TrackResults albumId={props.match.params.albumId} onTrackSelected={handleTrackSelected} />} />
+            <Route path="/search/:query/artist/:artistId/album/:albumId/track/:trackId" render={props => <TrackPlayer trackId={props.match.params.trackId} />} />
         </section >
     }
 }
