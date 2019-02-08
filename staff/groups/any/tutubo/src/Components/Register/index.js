@@ -54,8 +54,6 @@ class Register extends Component {
                     <a className="signIn"onClick={onGoToLogin}>Sign In</a>
                 </div>
             </div>
-          
-            {/* {feedback && <Feedback message={feedback}/>} */}
         </section> 
     }
 }

@@ -63,14 +63,6 @@ describe('youtube api', () => {
                 })
         })
 
-        // it('should fail on empty id', () => {
-        //     const id = ''
-        //     return youtubeApi.watchVideo(id)
-        //         .catch(error => {
-        //             expect(error).toBeDefined()
-        //             expect(error.message).toBe('failed to load')
-        //         })
-        // })
     })
 
     
