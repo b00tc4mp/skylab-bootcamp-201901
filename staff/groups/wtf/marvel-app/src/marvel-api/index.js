@@ -47,13 +47,12 @@ const marvelApi = {
             .then(response => response.json())
 
             .then(response => {
-                if (!response.data) throw Error(response.status)
+                if (response.code !== 200) throw Error(response.status)
                 if (response.data.count === 0) throw Error('No characters found')
 
                 const { data } = response
 
-                if (data) return data
-                throw Error(response.message)
+                return data
             })
     },
 

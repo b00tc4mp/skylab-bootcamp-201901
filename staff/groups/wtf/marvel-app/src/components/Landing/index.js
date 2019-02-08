@@ -17,7 +17,7 @@ class Landing extends Component {
           logic.login(email, password)
             .then(() => {
                 this.setState({loginFeedback: null})
-                this.props.history.push('/home/search')
+                this.props.history.push('/home')
 
             })
             .catch(({message}) => this.setState({ loginFeedback: message }))
@@ -65,8 +65,8 @@ class Landing extends Component {
                         </div>
                     </div>
             </Fragment>} />
-            <Route exact path='/login' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Login onLogin={handleLogin} feedback={loginFeedback} onLanding={handleLanding} email={email} password={password} goBack={goBack} login={login}/>} />
-            <Route exact path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home/search" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onLanding={handleLanding} modalVisible={modalVisible} onLogin={handleToLogin} register={register} name={name} surname={surname} email={email} password={password} confirmPassword={confirmPassword} goBack={goBack}/>} />
+            <Route exact path='/login' render={() => logic.userLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} feedback={loginFeedback} onLanding={handleLanding} email={email} password={password} goBack={goBack} login={login}/>} />
+            <Route exact path='/register' render={() => logic.userLoggedIn ? <Redirect to="/home" /> : <Register onRegistration={handleRegistration} feedback={registrationFeedback} onLanding={handleLanding} modalVisible={modalVisible} onLogin={handleToLogin} register={register} name={name} surname={surname} email={email} password={password} confirmPassword={confirmPassword} goBack={goBack}/>} />
         </section>
     }
 }
