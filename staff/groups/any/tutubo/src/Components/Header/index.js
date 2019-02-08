@@ -6,7 +6,7 @@ import logic from '../../logic'
 
 class Header extends Component {
 
-    handleLogout =() =>  {
+    handleLogout = () => {
 
         const { props: { onLogout } } = this
 
@@ -15,7 +15,7 @@ class Header extends Component {
 
     handleOnGoToFavs = () => {
 
-        const { props : { onGoToFav }} = this
+        const { props: { onGoToFav } } = this
 
         onGoToFav()
     }
@@ -25,9 +25,11 @@ class Header extends Component {
         const { handleLogout, props: { onSearch, onGoToLogin, onModeSwitch, mode }, handleOnGoToFavs } = this
 
         return <header className={`${mode ? `header header-light` : 'header header-dark'}`}>
-            <a className="youtubeIcon" href="#"><i className='fab fa-youtube fa-3x'/></a>
-            <h3 className={`${mode ? 'header__title header__title-light' : 'header__title header__title-dark'}`}>TuTubo</h3>
-            <Search className="searchBar" onSearch={onSearch} mode={this.props.mode}/>
+            <div className="title__logo">
+                <a className="youtubeIcon" href="#"><i className='fab fa-youtube fa-3x' /></a>
+                <h3 className={`${mode ? 'header__title header__title-light' : 'header__title header__title-dark'}`}>TuTubo</h3>
+            </div>
+            <Search className="searchBar" onSearch={onSearch} mode={this.props.mode} />
             {!logic.userLoggedIn && <a className="header__button" onClick={onGoToLogin}>Login</a>}
             {logic.userLoggedIn && <div className="drp">
                 <div className="dropdown is-right is-hoverable">
