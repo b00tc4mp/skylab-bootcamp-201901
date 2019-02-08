@@ -41,7 +41,6 @@ function PaintComic({onItemClick, feedback, results, characters, price, moreInfo
     </div>
     </Fragment>
     } 
-    }
     
   </section>
 }
