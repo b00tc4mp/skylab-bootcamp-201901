@@ -4,8 +4,9 @@ Smart-fridge
 
 ## Documentation
 
-![documentation](/doc/README.md)
+[Documentation](/doc/README.md)
 
+[Live Demo](http://smart-fridge-pro.surge.sh/)
 
 ## Available scripts for development
 
