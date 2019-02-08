@@ -1,6 +1,36 @@
 'use strict'
 
 const i18n = {
+
+    'ch': {
+        welcome__title: '歡迎來到 Marvel App',
+        welcome__subtitle: '你的免費漫威存儲庫',
+        login: `登錄`,
+        register: `註冊`,
+        email: '電子郵件',
+        password: '密碼',
+        confirmPassword: '確認密碼',
+        name: '名',
+        surname: `姓`,
+        goBack: '背部',
+        modal__feedback: '它已被正確註冊',
+        home: '引發',
+        favourites: '喜愛',
+        youtube: '的Youtube',
+        logOut: '關閉會話',
+        searchInput: '找到你的角色',
+        searchBtn: '看',
+        topCharacters: '熱門人物',
+        topComics: '熱門漫畫',
+        moreInfo: '更多信息',
+        seeComics: '看所有的漫畫',
+        comics: '漫畫',
+        characters: '人物',
+        price: '價格',
+        favs__title: '你最喜歡的角色',
+        favs__feedback: '沒有添加收藏夾'
+    },
+
     'en': {
         welcome__title: 'Welcome to Marvel App',
         welcome__subtitle: 'Your free Marvel repository',

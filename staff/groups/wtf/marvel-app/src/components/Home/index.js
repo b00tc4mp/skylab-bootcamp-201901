@@ -29,17 +29,13 @@ class Home extends Component {
 
     handleToHome = (event) => { 
         event.preventDefault()
-        this.props.history.push('/home/search')
+        this.props.history.push('/home')
     }
 
     handleToFavourites = (event) => { 
         event.preventDefault()
-        this.props.history.push('/home/search/user/favourites')}
+        this.props.history.push('/home/user/favourites')}
 
-    handleToUser = (event) => {
-        event.preventDefault()
-        this.props.history.push('/home/user')
-    }
 
     handleLogOut = (event) => {
         event.preventDefault() 
@@ -60,7 +56,7 @@ class Home extends Component {
                     <a onClick={(event) =>  handleToFavourites(event)} href="#" className="button is-small is-black is-rounded"><i className="fas fa-bolt"></i>&nbsp;&nbsp;{favourites}</a>
                 </p>
                 <p className="level-item has-text-centered">
-                    <img src="https://images.vectorhq.com/images/previews/cd8/marvel-logo-psd-444569.png" alt="" className="header__logo"/>
+                    <a target="_blank" href="https://www.marvel.com/"><img src="https://images.vectorhq.com/images/previews/cd8/marvel-logo-psd-444569.png" alt="" className="header__logo"/></a>
                 </p>
                 <p className="level-item has-text-centered">
                     <a target="_blanck "href="https://www.youtube.com/channel/UCvC4D8onUfXzvjTOM-dBfEA" className="button is-small is-black is-rounded"><i className="fab fa-youtube"></i>&nbsp;&nbsp;{youtube}</a>
@@ -70,12 +66,12 @@ class Home extends Component {
                 </p>
             </nav>
             <Search onSearch={handleSearch} searchBtn={searchBtn} searchInput={searchInput}/>
-            <Route  exact path="/home/search" render={()=> <TopCharacters onCharacterSelected={handleCharacterSelected} topCharacters={topCharacters}/>} />
-            <Route  exact path="/home/search" render={()=> <TopComics onComicSelected={handleComicSelected} topComics={topComics} />} />
+            <Route  exact path="/home" render={()=> <TopCharacters onCharacterSelected={handleCharacterSelected} topCharacters={topCharacters}/>} />
+            <Route  exact path="/home" render={()=> <TopComics onComicSelected={handleComicSelected} topComics={topComics} />} />
             <Route  exact path="/home/search/:query" render={props => <CharactersResults query={props.match.params.query} onCharacterSelected={handleCharacterSelected} />} />
             <Route  path="/home/search/character/:id" render={props => <CharacterInfoResult id={props.match.params.id} onComicSelected={handleComicSelected} moreInfo={moreInfo} seeComics={seeComics} comics={comics}/>} />
             <Route  path="/home/search/comic/:id" render={props => <ComicInfoResult id={props.match.params.id} onCharacterSelected={handleCharacterSelected} moreInfo={moreInfo} characters={characters} price={price}/>} />
-            <Route  path="/home/search/user/favourites" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleCharacterSelected} favs__feedback={favs__feedback} favs__title={favs__title}/>} />
+            <Route  path="/home/user/favourites" render={() => <Favourites handleToHome={handleToHome} handleItemChosen={handleCharacterSelected} favs__feedback={favs__feedback} favs__title={favs__title}/>} />
         </section>
     }
 }

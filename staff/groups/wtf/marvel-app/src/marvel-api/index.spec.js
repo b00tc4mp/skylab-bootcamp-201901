@@ -29,8 +29,7 @@ describe('marvel api testing', ()=>{
         })
 
         it('should get characters on matching query', () =>{
-            return marvelApi.searchCharacter(query)
-                .then((data) =>{
+            return marvelApi.searchCharacter(query).then((data) =>{
                     expect(data).toBeDefined()
                     expect(typeof data === 'object').toBeTruthy()
                     const {count, results} = data
@@ -40,8 +39,7 @@ describe('marvel api testing', ()=>{
         })
 
         it('should fail on returning 0 characters', () =>{
-            marvelApi.searchCharacter('12312313123')
-                .then(() => {
+            marvelApi.searchCharacter('12312313123').then(() => {
                     throw Error('should not pass by here')
                 })
                 .catch(error => {
