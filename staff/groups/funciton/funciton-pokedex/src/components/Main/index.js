@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import './index.sass'
-import logic from '../../logic';
 
 
 class MainPanel extends Component  {

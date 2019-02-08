@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import PokemonSearch from '../PokemonSearch';
-import MainPanel from '../mainPanel';
-import DetailedPokemonPanel from '../DetailPanel';
+import MainPanel from '../Main';
+import DetailedPokemonPanel from '../Detail';
 import requireAuth from '../RequireAuth'
-import FavoritesPanel from '../FavoritesPanel'
+import FavoritesPanel from '../Favorites'
 import logic from '../../logic'
 
 
