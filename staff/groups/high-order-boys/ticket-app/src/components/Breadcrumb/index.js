@@ -20,8 +20,6 @@ class Breadcrumb extends Component {
 
       const{ state: {pathname, city}} = this
 
-        console.log(pathname, pathname.includes('home/search'))
-
         return <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
           {pathname.includes('/home') && <li className={pathname === '/home' ? 'is-active': ''} ><Link to="/home">Home</Link></li>}

@@ -17,14 +17,14 @@ class  Results extends Component {
                 <div className='card' key={result.id}>
                     {result.images && <div className='card-image'>
                         <figure className='image is-4by3'>
-                            <img src={result.images[0].url} alt={result.name} className="resultImage"/>
+                            {result.images && <img src={result.images[0].url} alt={result.name} className="resultImage"/> }
                         </figure>
                     </div>}
                     {result && <div className='card-content'>
                         <h4 className='cardTitle'>{result.name}</h4>
-                        <p className="tag">{result.classifications[0].genre.name}</p>
-                        <p className="tag">{result.classifications[0].segment.name}</p>
-                        <p className="tag">{result.classifications[0].subGenre.name}</p>
+                        {results.classifications&& <p className="tag">{result.classifications[0].genre.name}</p>}
+                        {results.classifications&& <p className="tag">{result.classifications[0].segment.name}</p>}
+                        {results.classifications&& <p className="tag">{result.classifications[0].subGenre.name}</p>}
                         <button className="button is-fullwidth is-danger is-outlined eventButton" onClick={() => handleDetail(result.id)}>Details</button>
                     </div>}
                 </div>
