@@ -1,10 +1,6 @@
 # **U**LTRA **V**ideo **G**ame **S**earch **M**achine <small>(ULTRA VGSM)</small>
 
-<<<<<<< HEAD
 [![react version](https://img.shields.io/badge/react-16.8.0-blue.svg)](https://www.npmjs.com/package/react/v/16.8.0) ![react version](https://img.shields.io/badge/coverage-88%25-green.svg)
-=======
-[[![react version](https://img.shields.io/badge/react-16.8.0-blue.svg)](https://www.npmjs.com/package/react/v/16.8.0)] ![react version](https://img.shields.io/badge/coverage-88%25-green.svg)
->>>>>>> 61fe3b4ce9ec0202f07fdab5ef4bbbb42241fa2f
 
 ## Introduction
 
