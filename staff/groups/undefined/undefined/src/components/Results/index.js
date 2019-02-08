@@ -90,7 +90,7 @@ class Results extends Component  {
 
                 <Route path='/home/videos/:query/detail/:id' component={Detail}/>
                 <hr />
-                    <button className="button pagination-next is-warning" onClick={this.handleMoreResults}>More Results</button>
+                   {results && <button className="button pagination-next is-warning" onClick={this.handleMoreResults}>More Results</button>}
             </section>
             
         )

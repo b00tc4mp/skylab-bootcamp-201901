@@ -23,9 +23,7 @@ class Favorites extends Component {
 
     handleMsgEmptyFav = () => {
         let numFavo = this.state.numFav
-        this.setState({ numFav: --numFavo })
-        //console.log(this.state.favorites.length)
-        console.log('NumFavo', numFavo)
+        this.setState({ numFav: --numFavo    })
     }
 
     render (){
