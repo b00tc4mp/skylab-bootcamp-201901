@@ -37,8 +37,8 @@ class Register extends Component {
         <section className="register columns">
         <div className="container column is-6">
             <header>
-              <h1 class="title">Register</h1>
-              <h2 class="subtitle">Enjoy thousands of films and series in a click hit</h2>
+              <h1 className="title">Register</h1>
+              <h2 className="subtitle">Enjoy thousands of films and series in a click hit</h2>
             </header>
            <form onSubmit={handleOnSubmit}>
               <div className="field">

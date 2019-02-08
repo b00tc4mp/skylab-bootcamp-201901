@@ -3,8 +3,8 @@ import './index.sass'
 
 function Footer(){
     return (
-        <footer class="footer">
-        <div class="content has-text-centered">
+        <footer className="footer">
+        <div className="content has-text-centered">
           <p>
             <strong>UNDEFINED FILMS</strong>. The source code is licensed
           </p>
