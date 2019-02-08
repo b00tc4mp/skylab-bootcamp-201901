@@ -77,7 +77,7 @@ class Register extends Component {
             <div className="columns is-mobile is-centered has-text-centered login">
                     <div className="column">  
                         {!user && <p>Already a memeber? go to <Link to="/login"> login</Link></p>}
-                        {user && <p>Let the password empty if you don't want to change it</p>}
+                        {user && <p>Let password empty if no changes</p>}
                     </div>     
             </div>
         </div>

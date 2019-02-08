@@ -20,9 +20,9 @@ class Breadcrumb extends Component {
 
       const{ state: {pathname, city}} = this
 
-        return <nav class="breadcrumb" aria-label="breadcrumbs">
+        return <nav className="breadcrumb" aria-label="breadcrumbs">
         <ul>
-          {pathname.includes('/home') && <li className={pathname === '/home' ? 'is-active': ''} ><Link to="/home">Home</Link></li>}
+          {pathname.includes('/home') && <li className={pathname === '/home' ? 'is-active': ''} ><Link to="/home" className="breadcrumbHome">Home</Link></li>}
           {pathname.includes('/home/user')&& <li className={pathname === '/home/user' ? 'is-active': ''} ><Link to="/home/user">User</Link></li>}
           {pathname.includes('/home/user/favourites')&& <li className={pathname === '/home/user/favourites' ? 'is-active': ''} ><Link to="/home/user/favourites">Favourites</Link></li>}
           {pathname.includes('home/search')&& <li className={pathname.includes('/home/search') ? 'is-active': ''} ><a href="#">Search</a></li>}
