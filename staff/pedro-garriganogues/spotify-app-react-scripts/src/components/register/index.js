@@ -4,7 +4,13 @@ import React from 'react'
 
 
 class RegisterSection extends React.Component {
-	state = { name: '', surname: '', email: '', password: '', passwordConfirmation: '', }
+	state = {
+		name: '',
+		surname: '',
+		email: '',
+		password: '',
+		passwordConfirmation: '',
+	}
 
 	handleInputChange = event => this.setState({ [event.target.name]: event.target.value })
 
