@@ -4,7 +4,7 @@ Smart-fridge
 
 ## Documentation
 
-[Documentation](/doc/README.md)
+[Documentation](collab/skylab-bootcamp-201901/staff/groups/null/smart-fridge/doc/README.md)
 
 [Live Demo](http://smart-fridge-pro.surge.sh/)
 
