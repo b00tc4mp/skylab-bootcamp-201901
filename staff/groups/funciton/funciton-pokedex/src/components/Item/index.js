@@ -25,7 +25,6 @@ class ItemResult extends React.Component {
 
         
         const {props: {stringPokemonId, pokemonName}} = this
-        console.log(stringPokemonId)
         let pokemonId = getPokemonId(stringPokemonId)
         
         const source = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`
