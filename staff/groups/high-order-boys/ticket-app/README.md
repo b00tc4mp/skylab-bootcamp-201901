@@ -3,7 +3,7 @@ Ticket-App
 
 ## [Documentation](doc/README.md)
 
-## [Live Demo](https://url-from.surge.sh)
+## [Live Demo](http://ticket-app.surge.sh)
 
 ## Available Scripts for development
 
