@@ -6,7 +6,7 @@
  * @version 1.1.0
  */
 const spotifyApi = {
-    token: 'BQBjnUfgbAq7jV1jtaGPA28QZKu4mwz7imMhItdVEjR79STSFFp6Ktr09Gk0UfVmWQzNd2lqX9_GxASRwLZV5dLL46BrAKif7xdZ-1Z9ppM2t2bmvHl21nvH7Mx7fGwPikQO53070I_ENl6S8Mc',
+    token: 'BQAPdiossZy1zLnYoKYI2SWH0gPMK8e_cpyIPbAj4Jub8t2Zx2ySHjdx1TE43TPuK8hDIQglrWmcix3PsrIdbTMaztxtErhvA1RENuXl1rBehtOcmwd6wA9Zzy7FPrXY3fI-_311or0IWqvyCvQ',
 
     /**
      * Searches ducklings.
