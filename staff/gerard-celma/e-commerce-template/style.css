@@ -1,0 +1,102 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+}
+
+/* HEADER--------------------------------- */
+
+header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    background: lightcoral;
+    position: fixed;
+
+}
+
+header i{
+    width: 20px;
+} 
+
+header p {
+    display: none;
+}
+
+#logo-name {
+    font-size: 1.5em;  
+    margin-left: 50px; 
+}
+
+/* MAIN------------------------------------------ */
+
+main {
+    padding-top: 100px;
+    margin: 0px 10px;
+}
+
+section {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+section p {
+    text-align: justify;
+}
+
+section img {
+    max-width: 50%;
+}
+
+/* MEDIA QUERY TABLET-------------------------------- */
+
+@media (min-width: 768px) {
+    #burger {
+        display: none;
+    }
+
+    header p {
+        display: inline;
+    }
+
+    #menu {
+        font-size: 1.5em;
+    }
+
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap:20px;      
+      }
+      section {
+          width: 100%;
+  
+      }
+  }
+
+
+ /* MEDIA QUERY LAPTOP-------------------------------- */
+ 
+ @media (min-width: 992px) {
+
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap:20px;      
+      }
+      section {
+          width: 100%;
+  
+      }
+
+      form input {
+          width: 250px;
+          height: 35px;
+      }
+  }
