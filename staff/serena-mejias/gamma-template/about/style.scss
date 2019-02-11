@@ -1,0 +1,224 @@
+$main-color: rgb(38, 146, 137);
+$space-xl: 3rem;
+$space-l: 2rem;
+$space-m: 0.8rem;
+$space-s: 0.4rem;
+$border-grey: 1px solid #dedede;
+$font-size-xl: 2rem;
+$font-size-l: 1.5rem;
+$font-size-m: 1rem;
+$font-size-s: 0.6rem;
+
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  line-height: 13px;
+}
+.head {
+  padding: $space-m $space-s;
+  font-size: $font-size-m;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  @media screen and (max-width: 450px) {
+    justify-content: space-between;
+  }
+  &__title {
+    color: $main-color;
+    font-weight: 700;
+  }
+  &__icon {
+    border: $border-grey;
+    border-radius: 20%;
+    padding: $space-s;
+    height: 0.7rem;
+    font-size: $font-size-m;
+    margin-right: 1rem;
+    @media screen and (min-width: 450px) and (max-width: 1400px) {
+      .head__icon {
+        display: none;
+      }
+    }
+  }
+  &__menu {
+    color: #333;
+    font-weight: 500;
+    font-size: $font-size-s;
+    display: flex;
+    flex-direction: row;
+    margin: $space-s $space-m;
+    @media screen and (max-width: 450px) {
+      display: none;
+    }
+    &__item {
+      margin-right: $space-m;
+    }
+  }
+}
+.title {
+  background-color: $main-color;
+  padding: $space-l $space-s;
+  color: white;
+  font-size: $font-size-xl;
+  font-weight: 700;
+}
+main {
+  @media screen and (min-width: 900px) and (max-width: 1400px) {
+    display: flex;
+    flex-direction: row;
+    padding: $space-l $space-xl 0 $space-xl;
+    height: 100%;
+  }
+}  
+.post {
+  &__title {
+    font-weight: 700;
+    padding: $space-xl $space-s $space-s $space-s;
+    font-size: $font-size-l;
+  }
+  &__text {
+    font-size: $font-size-s;
+    padding: $space-m $space-s;
+    width: 100%;
+    text-align: left;
+  }
+  &__btn {
+    background-color: white;
+    border-radius: 10%;
+    outline: 0;
+    border: $border-grey;
+    font-size: $font-size-m;
+    padding: $space-s 1rem;
+    margin: $space-s $space-s $space-l $space-s;
+  }
+  &__title--padding {
+    padding: $space-m $space-s $space-s $space-s;
+    font-weight: 700;
+  }
+}
+.collapsible {
+  border: $border-grey;
+  margin: $space-s;
+  &__title {
+    font-size: $font-size-m;
+    font-weight: 700;
+    padding: $space-s $space-m;
+    border: $border-grey;
+    background-color: #eeeeee;
+    color: #333;
+  }
+  &__text {
+    font-size: $font-size-s;
+    padding: $space-s $space-m;
+    text-align: left;
+    &.collapsible__text--hidden {
+      display: none;
+    }
+  }
+}
+.ad {
+  width: calc(100% - #{2 * $space-s});
+  border: $border-grey;
+  margin: $space-s;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  &__features {
+    background-color: $main-color;
+    flex: 4;
+    font-weight: 700;
+    padding: 3rem 4rem $space-m $space-l;
+    line-height: 35px;
+    &__title {
+      font-size: $font-size-xl;
+      font-weight: 700;
+    }
+    &__list {
+      font-size: $font-size-m;
+      font-weight: 700;
+      margin-top: $space-m;
+
+      &__item:before {
+        content: "✓";
+        font-size: 1.5rem;
+      }
+    }
+    &__ad {
+      width: 75%;
+      margin: $space-m;
+    }
+  }
+  &__info {
+    background-color: #363535;
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    padding: $space-m $space-l;
+    align-items: center;
+    &__list {
+      display: flex;
+      flex-direction: row;
+      font-size: 0.6rem;
+      padding: $space-m 0;
+      flex: 1;
+      @media screen and (min-width: 450px) and (max-width: 1400px) {
+        align-self: flex-start;
+      }
+      &__item {
+        margin-right: $space-m;
+        &__lastchild {
+          margin-right: none;
+        }
+      }
+    }
+    &__foot {
+      font-size: 0.6rem;
+      padding: $space-m 0;
+      flex: 1;
+      @media screen and (min-width: 450px) and (max-width: 1400px) {
+        align-self: flex-end;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1100px) {
+
+
+  .column :first-child {
+    padding: $space-m $space-s $space-s $space-s;
+    flex: 2;
+    //height: calc(100% - 32.78px);
+  }
+  .column :last-child {
+    flex: 1;
+  }
+
+  .container {
+    &__features {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      & :first-child {
+        flex: 1;
+      }
+      & :last-child {
+        align-content: center;
+        flex: 1;
+      }
+    }
+    
+  }
+}
