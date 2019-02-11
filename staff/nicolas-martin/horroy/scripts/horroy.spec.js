@@ -113,8 +113,6 @@ describe('Horroy', function() {
         });
 
         it('should succeed and returns the position 2 for the letter "c"', function () {
-            
-            debugger;
             var horr = new Horroy('a', 'b', 'c', 'd');
             var indexOf = horr.indexOf('c');
 
@@ -176,6 +174,7 @@ describe('Horroy', function() {
     describe(('filter'), function () {
         it('should create a new array only with odd numbers only', function () {
             var horr = new Horroy(1, 2, 3, 4);
+            debugger
             var newHorr = horr.filter(function (item) {
                 return item % 2 !== 0;
             });

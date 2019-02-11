@@ -92,8 +92,13 @@ Horroy.prototype.find = function (callback) {
 Horroy.prototype.filter = function(callback) {
     if (typeof callback !== 'function') throw TypeError(callback + ' is not a function');
     var horr = new Horroy;
+    var cont = 0;
     for (var i = 0; i < this.length; i++)
-        if (callback(this[i])) horr.push(this[i])
+        if (callback(this[i])) {
+            horr[cont] = this[i];
+            cont++;
+            horr.length = cont;
+        }
     return horr;
 }
 
