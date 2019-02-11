@@ -85,8 +85,11 @@ Horroy.prototype.toString = function() {
  * @throws {TypeError} - If horroy is not a array
  */
 Horroy.prototype.fill = function(value, start, end) {
-  if (!(this instanceof Horroy)) {
-    throw new TypeError(this + " is not an horroy");
+  if (!(typeof start === "number")) {
+    throw new TypeError(start + " is not a number");
+  }
+  if (!(typeof end === "number")) {
+    throw new TypeError(end + " is not a number");
   }
   start = Math.floor(start) || 0;
   end = Math.floor(end) || this.length;
