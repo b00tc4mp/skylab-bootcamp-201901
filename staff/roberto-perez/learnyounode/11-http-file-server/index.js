@@ -1,5 +1,5 @@
-var http = require("http");
-var fs = require("fs");
+const http = require("http");
+const fs = require("fs");
 
 const {
   argv: [, , port, file]
@@ -7,8 +7,8 @@ const {
 
 http
   .createServer((req, res) => {
-    res.writeHead(200, {'content-type': 'text/html'});
-    const readStrem = fs.createReadStream(file);
-    readStrem.pipe(res);
+    res.writeHead(200, { "content-type": "text/html" });
+    const rs = fs.createReadStream(file);
+    rs.pipe(res);
   })
-  .listen(8000);
+  .listen(port);
