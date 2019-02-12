@@ -1,0 +1,47 @@
+.login {
+    background-color: #dedede;
+    padding: 1em;
+    border-style: solid;
+    color: white;
+}
+
+.btn {
+    margin-top: 1em;
+}
+.alert-danger {
+    display: none;
+    margin-top: 1em;
+}
+#resultsList {
+    width: 1100px;
+}
+.card {
+    float: left;
+    color: #333;
+    width: 300px;
+    text-align: center;
+    margin: 25px;
+
+}
+.card img {
+    border-radius: 5px;
+    margin: 0 auto;
+}
+.register {
+    display: none;
+    background-color:  #dedede
+    padding: 1em;
+    border-style: solid;
+    
+}
+.register__error {
+    display: none;
+    background-color: red;
+    color: white;
+}
+
+.home {
+    display: none;
+    background-color:  #dedede
+    color: white;
+}
