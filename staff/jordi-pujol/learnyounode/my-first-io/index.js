@@ -1,7 +1,9 @@
-var fs = require('fs')
+const fs = require('fs')
 
-let buf = fs.readFileSync(process.argv[2])
+const { argv: [, , path] } = process
 
-let str = buf.toString()
+const content = fs.readFileSync(path, { encoding: 'utf-8' })
 
-console.log((str.split('\n')).length -1)
+const numOfBreaks = content.match(/\n/g).length
+
+console.log(numOfBreaks)
