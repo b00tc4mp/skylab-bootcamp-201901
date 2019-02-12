@@ -1,0 +1,26 @@
+main {
+  background-color: #1CD760;
+}
+
+header {
+  padding: 1.5em;
+}
+
+.panel {
+  background-color: gray;
+}
+
+.cards {
+  padding: 1em;
+}
+
+.card {
+  margin: 0.5em;
+}
+
+audio {
+  width: 20em;
+  height: 3em;
+}
+
+/*# sourceMappingURL=main.css.map */
