@@ -1,8 +1,5 @@
+const { argv: [,, ...nums] } = process
 
-let result=0
-
-for (let i = 2; i<process.argv.length; i++){
-    result += Number(process.argv[i])
-}
+const result = nums.reduce((accum, val) => accum + Number(val), 0)
 
 console.log(result)
