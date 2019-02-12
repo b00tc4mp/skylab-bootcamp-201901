@@ -1,0 +1,58 @@
+@import ../../utils
+
+.search-section
+    &__header
+        padding: 50px 0px
+    &__title
+        font-size: 1.69em
+        padding: 15px
+    &__back
+        font-size: 0.77em
+        text-decoration: none
+        color: #fff
+        position: relative
+        top: 6px
+        &:hover
+            color: $greenSpotify
+            text-decoration: none
+
+.result
+    cursor: pointer
+    &:hover .artist__img-container
+        box-shadow: 0 0 10px #28a745
+    &__header
+        text-align: center
+        padding: 20px 0px
+    &__img-container 
+        margin: 0
+        display: block
+        border: 0
+        outline: 0
+        position: relative
+        background-color: #282828
+        padding-top: 100%
+        box-shadow: 0 0 10px rgba(0,0,0,.3)
+        width: auto
+        height: auto
+        &--radius
+            border-radius: 50%
+    &__icon
+        position: absolute
+        top: 35%
+        bottom: 35%
+        left: 35%
+        right: 35%
+        & svg
+            width: 100%
+            height: 100%
+    &__image
+        position: absolute
+        top: 0
+        width: 100%
+        height: 100%
+        background-size: cover!important
+        background-position: 50%
+        &--radius
+            border-radius: 50%
+    &__name
+        font-size: 0.77em
