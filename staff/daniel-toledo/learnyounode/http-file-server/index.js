@@ -1,8 +1,10 @@
-const http=require('http')
-const fs=require('fs')
-const {argv:[,,url]} = process
+const http = require('http')
+const fs = require('fs')
+const { argv: [, , port, file] } = process
 
-let server = http.createServer((request, response) => {
-    fs.createReadStream()
-  })
-  server.listen(8000)
+http.createServer((request, response) => {
+  const rs = fs.createReadStream(file)
+
+  rs.on('open', () => rs.pipe(response))
+
+}).listen(port)
