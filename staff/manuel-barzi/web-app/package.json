@@ -1,0 +1,22 @@
+{
+  "name": "web-app",
+  "version": "1.0.0",
+  "description": "## server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "watch": "nodemon .",
+    "debug": "node debug .",
+    "test": "mocha src/**/*.spec.js",
+    "test-debug": "mocha debug src/**/*.spec.js",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js",
+    "styles": "sass --watch src/index.sass:public/style.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
