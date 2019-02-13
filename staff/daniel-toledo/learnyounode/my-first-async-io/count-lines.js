@@ -1,4 +1,5 @@
 const fs=require('fs')
+
 module.exports = (url, callback) => fs.readFile(url, 'utf8', (error, string) => {
     if (error) return callback(error)
 

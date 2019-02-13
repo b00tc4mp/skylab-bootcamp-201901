@@ -1,10 +1,12 @@
+const path = require('path')
 const {expect} =require('chai')
 const countLines = require('./count-lines')
 
 describe('my-first-async-io', ()=>{
     
     it ('should succeed on correct numbers', done =>{
-        const file = __dirname + "/test.txt";
+        // const file = __dirname + "/test.txt";
+        const file=path.join(__dirname,'test.txt')
 
         countLines(file, (error, data) => {
             expect(error).to.equal(null)
@@ -24,10 +26,10 @@ describe('my-first-async-io', ()=>{
     })
 
 
-    it ('should throw Error', () =>{
+    it ('should throw Error', done =>{
         const file = __dirname + "/test1.txt";
 
-        res= done => countLines(file, (error, data) => {
+        countLines(file, (error, data) => {
             expect(error).to.exist
             expect(data).to.not.exist
             done()
