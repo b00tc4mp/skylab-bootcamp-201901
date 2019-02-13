@@ -90,7 +90,7 @@ var logic = {
         ducklingApi.search(query, callback);
     },
 
-    /*retrieve: function (id, callback) {
+    retrieve: function (id, callback) {
         ducklingApi.retrieve(id, callback);
-    }*/
+    }
 };
