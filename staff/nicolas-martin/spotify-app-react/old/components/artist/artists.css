@@ -1,0 +1,110 @@
+/*
+Error: Undefined mixin 'background-opacity'.
+        on line 7 of staff/nicolas-martin/spotify-app-react/scripts/components/artist/artists.sass, in `background-opacity'
+        from line 7 of staff/nicolas-martin/spotify-app-react/scripts/components/artist/artists.sass
+
+2:     &__list
+3:         &__artist //mejorrar a BEM
+4:             width: 70px
+5:             height: 320px
+6:             & .layer
+7:                 @include background-opacity(#000000, 0.5)
+8:                 position: absolute
+9:                 top: 0
+10:                 left: 0
+11:                 width: 100%
+12:                 height: 100%
+
+Backtrace:
+staff/nicolas-martin/spotify-app-react/scripts/components/artist/artists.sass:7:in `background-opacity'
+staff/nicolas-martin/spotify-app-react/scripts/components/artist/artists.sass:7
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:98:in `block in with_mixin'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:135:in `with_frame'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:98:in `with_mixin'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:350:in `visit_mixin'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:135:in `with_frame'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `block (2 levels) in visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `map'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `block in visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:442:in `visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:135:in `with_frame'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `block (2 levels) in visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `map'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `block in visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:442:in `visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:135:in `with_frame'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `block (2 levels) in visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `map'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `block in visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:442:in `visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:135:in `with_frame'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `block (2 levels) in visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `map'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:444:in `block in visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:442:in `visit_rule'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:135:in `with_frame'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/stack.rb:79:in `with_base'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:171:in `block in visit_children'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:170:in `visit_children'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:190:in `visit_root'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:161:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/visitors/perform.rb:10:in `visit'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/engine.rb:307:in `render_with_sourcemap'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/plugin/compiler.rb:462:in `update_stylesheet'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/plugin/compiler.rb:294:in `watch'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/plugin.rb:109:in `method_missing'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/exec/sass_scss.rb:360:in `watch_or_update'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/exec/base.rb:52:in `parse'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/lib/sass/exec/base.rb:19:in `parse!'
+/Users/nico/.rvm/gems/ruby-2.4.2/gems/sass-3.5.4/bin/sass:13:in `<top (required)>'
+/Users/nico/.rvm/gems/ruby-2.4.2/bin/sass:23:in `load'
+/Users/nico/.rvm/gems/ruby-2.4.2/bin/sass:23:in `<main>'
+/Users/nico/.rvm/gems/ruby-2.4.2/bin/ruby_executable_hooks:15:in `eval'
+/Users/nico/.rvm/gems/ruby-2.4.2/bin/ruby_executable_hooks:15:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined mixin 'background-opacity'.\A         on line 7 of staff/nicolas-martin/spotify-app-react/scripts/components/artist/artists.sass, in `background-opacity'\A         from line 7 of staff/nicolas-martin/spotify-app-react/scripts/components/artist/artists.sass\A \A 2:     &__list\A 3:         &__artist //mejorrar a BEM\A 4:             width: 70px\A 5:             height: 320px\A 6:             & .layer\A 7:                 @include background-opacity(#000000, 0.5)\A 8:                 position: absolute\A 9:                 top: 0\A 10:                 left: 0\A 11:                 width: 100%\A 12:                 height: 100%"; }
