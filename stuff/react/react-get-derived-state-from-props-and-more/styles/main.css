@@ -1,0 +1,67 @@
+.app {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.language-selector {
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.register {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.login {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.home {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.search {
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.results {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.feedback {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+    background-color: greenyellow;
+}
+
+.feedback--warn {
+    background-color: yellow;
+}
+
+.feedback--error {
+    background-color: tomato;
+    color: white;
+}
