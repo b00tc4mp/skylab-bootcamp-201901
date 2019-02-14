@@ -1,8 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-const FileStore = require('session-file-store')(session)
-const logicFactory = require('./src/logic-factory')
+const logic = require('./src/logic')
 
 const { argv: [, , port = 8080] } = process
 
@@ -13,9 +12,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     // cookie: { secure: true }
-    store: new FileStore({
-        path: './.sessions'
-    })
 }))
 
 const formBodyParser = bodyParser.urlencoded({ extended: false })
@@ -30,34 +26,50 @@ function pullFeedback(req) {
     return feedback
 }
 
-function renderPage(content) {
-    return `<html>
-<head>
-    <title>HELLO WORLD!</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body class="main">
-    <h1>HELLO WORLD! 🤡</h1>
-    ${content}
-</body>
-</html>`
+function isUserLoggedIn(req) {
+    const { session: { userId, token } } = req
+
+    return !!(userId && token)
+}
+
+function logoutUser(req) {
+    // WARN cleaning just session does not renew cookie (two consecutive users would re-use same cookie, not recommended)
+    // const { session } = req
+    // delete session.userId
+    // delete session.token
+
+    req.session.destroy() // NOTE this method destroys session and renews cookie (recommended)
 }
 
 app.get('/', (req, res) => {
-    res.send(renderPage(`<section class="landing">
+    res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="landing">
         <a href="/login">Login</a> or <a href="/register">Register</a>
-    </section>`))
+    </section>
+</body>
+</html>`)
 })
 
 app.get('/register', (req, res) => {
-    const logic = logicFactory.create(req)
-
-    if (logic.isUserLoggedIn) {
+    if (isUserLoggedIn(req)) {
         res.redirect('/home')
     } else {
         const feedback = pullFeedback(req)
 
-        res.send(renderPage(`<section class="register">
+        res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="register">
         <h2>Register</h2>
         <form method="POST" action="/register">
         <input name="name" type="text" placeholder="name" required>
@@ -71,22 +83,31 @@ app.get('/register', (req, res) => {
             ${feedback}
         </section>` : ''}
         Go <a href="/">Home</a> or <a href="/login">Login</a>
-    </section>`))
+    </section>
+</body>
+</html>`)
     }
 })
 
 app.post('/register', formBodyParser, (req, res) => {
     const { body: { name, surname, email, password, passwordConfirm } } = req
 
-    const logic = logicFactory.create(req)
-
     try {
         logic.registerUser(name, surname, email, password, passwordConfirm)
-            .then(() => res.send(renderPage(`<section class="register">
+            .then(() => res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="register">
         <h2>Registration confirmation</h2>
         Ok, user <strong>${email}</strong> successfully registered, please proceed to <a href="/login">login</a>.
         </form>
-    </section>`)))
+    </section>
+</body>
+</html>`))
             .catch(({ message }) => {
                 req.session.feedback = message
 
@@ -100,14 +121,19 @@ app.post('/register', formBodyParser, (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-    const logic = logicFactory.create(req)
-
-    if (logic.isUserLoggedIn) {
+    if (isUserLoggedIn(req)) {
         res.redirect('/home')
     } else {
         const feedback = pullFeedback(req)
 
-        res.send(renderPage(`<section class="login">
+        res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="login">
         <h2>Login</h2>
         <form method="POST" action="/login">
         <input name="email" type="email" placeholder="email" required>
@@ -118,18 +144,23 @@ app.get('/login', (req, res) => {
             ${feedback}
         </section>` : ''}
         Go <a href="/">Home</a> or <a href="/register">Register</a>
-    </section>`))
+    </section>
+</body>
+</html>`)
     }
 })
 
 app.post('/login', formBodyParser, (req, res) => {
     const { body: { email, password } } = req
 
-    const logic = logicFactory.create(req)
-
     try {
         logic.logInUser(email, password)
-            .then(() => res.redirect('/home'))
+            .then(({ id, token }) => {
+                req.session.userId = id
+                req.session.token = token
+
+                res.redirect('/home')
+            })
             .catch(({ message }) => {
                 req.session.feedback = message
 
@@ -144,13 +175,18 @@ app.post('/login', formBodyParser, (req, res) => {
 
 app.get('/home', (req, res) => {
     try {
-        const { session: { feedback } } = req
+        const { session: { userId, token, feedback } } = req
 
-        const logic = logicFactory.create(req)
-
-        if (logic.isUserLoggedIn)
-            logic.retrieveUser()
-                .then(user => res.send(renderPage(`<section class="home">
+        if (userId && token)
+            logic.retrieveUser(userId, token)
+                .then(user => res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="home">
         Welcome, ${user.name}!
         ${feedback ? `<section class="feedback feedback--error">
             ${feedback}
@@ -158,7 +194,9 @@ app.get('/home', (req, res) => {
         <form action="/logout" method="post">
             <button type="submit">Logout</button>
         </form>
-    </section>`)))
+    </section>
+</body>
+</html>`))
                 .catch(({ message }) => {
                     req.session.feedback = message
 
@@ -173,18 +211,25 @@ app.get('/home', (req, res) => {
 })
 
 app.post('/logout', (req, res) => {
-    const logic = logicFactory.create(req)
-
-    logic.logOutUser()
+    logoutUser(req)
 
     res.redirect('/')
 })
 
-app.get('*', (req, res) => res.send(404, renderPage(`<section class="not-found">
+app.get('*', (req, res) => res.send(404, `<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="not-found">
         <h2>NOT FOUND</h2>
 
         Go <a href="/">Home</a>
-    </section>`)))
+    </section>
+</body>
+</html>`))
 
 
 app.listen(port, () => console.log(`server running on port ${port}`))
