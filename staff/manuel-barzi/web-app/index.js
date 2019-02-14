@@ -69,7 +69,80 @@ app.post('/register', formBodyParser, (req, res) => {
     }
 })
 
-// TODO get and post login
+app.get('/login', (req, res) => {
+    res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>HELLO WORLD</h1>
+    <section class="login">
+        <h2>Login</h2>
+        <form method="POST" action="/login">
+        <input name="email" type="email" placeholder="email" required>
+        <input name="password" type="password" placeholder="password" required>
+        <button type="submit">Login</button>
+        </form>
+        ${feedback ? `<section class="feedback feedback--warn">
+            ${feedback}
+        </section>` : ''}
+    </section>
+</body>
+</html>`)
+})
+
+app.post('/login', formBodyParser, (req, res) => {
+    const { body: { email, password } } = req
+
+    try {
+        logic.logInUser(email, password)
+            .then(() => res.redirect('/home'))
+            .catch(({ message }) => {
+                feedback = message
+
+                res.redirect('/login')
+            })
+    } catch ({ message }) {
+        feedback = message
+
+        res.redirect('/login')
+    }
+})
+
 // TODO get home (must control user is logged in)
+
+app.get('/home', (req, res) => {
+    try {
+        if (logic.isUserLoggedIn)
+            logic.retrieveUser()
+                .then(user => res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>HELLO WORLD</h1>
+    <section class="welcome">
+        Welcome, ${user.name}!
+        ${feedback ? `<section class="feedback feedback--error">
+            ${feedback}
+        </section>` : ''}
+    </section>
+</body>
+</html>`))
+                .catch(({ message }) => {
+                    feedback = message
+
+                    res.redirect('/home')
+                })
+        else res.redirect('/login')
+    } catch ({ message }) {
+        feedback = message
+
+        res.redirect('/home')
+    }
+})
+
 
 app.listen(port, () => console.log(`server running on port ${port}`))
