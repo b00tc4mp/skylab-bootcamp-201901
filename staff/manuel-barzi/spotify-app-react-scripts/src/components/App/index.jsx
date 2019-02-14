@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Link } from 'react-router-dom'
 import LanguageSelector from '../LanguageSelector'
 import Register from '../Register'
 import Login from '../Login'
@@ -19,9 +19,9 @@ class App extends Component {
         })
     }
 
-    handleRegister = (email, password) => {
+    handleRegister = (name, surname, email, password, passwordConfirmation) => {
         try {
-            logic.registerUser(email, password)
+            logic.registerUser(name, surname, email, password, passwordConfirmation)
                 .then(() => this.props.history.push('/login'))
                 .catch(({ message }) => this.setState({ registerFeedback: message }))
         } catch ({ message }) {
@@ -31,7 +31,7 @@ class App extends Component {
 
     handleLogin = (email, password) => {
         try {
-            logic.loginUser(email, password)
+            logic.logInUser(email, password)
                 .then(() => this.props.history.push('/'))
                 .catch(({ message }) => this.setState({ loginFeedback: message }))
         } catch ({ message }) {
@@ -49,7 +49,7 @@ class App extends Component {
             {title}
             <Route path="/register" render={() => <Register title={i18n[selectedLanguage].registerTitle} onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route path="/login" render={() => <Login title={i18n[selectedLanguage].loginTitle} onLogin={handleLogin} feedback={loginFeedback} />} />
-            <Route exact path="/" render={() => <Home language={selectedLanguage} />} />
+            <Route exact path="/" render={() => logic.isUserLoggedIn ? <Home language={selectedLanguage} /> : <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section>} />
         </main>
     }
 }
