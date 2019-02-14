@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+// import { BrowserRouter } from 'react-router-dom'
 import { HashRouter } from 'react-router-dom'
 import App from './components/App'
 import * as serviceWorker from './serviceWorker'
@@ -34,6 +35,7 @@ Object.defineProperties(logic, {
     }
 })
 
+// ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root')) // WARN what if we run this react app in a web server other than the one provided by create-react-app, we try to access directly to a path like, for instance, http://localhost:8080/login ? try it running the app in http-server, after build ("$ npm run build", and then, "$ http-server build")
 ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
