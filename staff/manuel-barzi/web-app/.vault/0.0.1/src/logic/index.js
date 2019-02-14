@@ -6,6 +6,9 @@ const userApi = require('../user-api')
  * Abstraction of business logic.
  */
 const logic = {
+    __userId__: null,
+    __userApiToken__: null,
+
     /**
     * Registers a user.
     * 
@@ -58,6 +61,10 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return userApi.authenticate(email, password)
+            .then(({ id, token }) => {
+                this.__userId__ = id
+                this.__userApiToken__ = token
+            })
     },
 
     /**
@@ -75,8 +82,8 @@ const logic = {
         this.__userApiToken__ = null
     },
 
-    retrieveUser(userId, token) {
-        return userApi.retrieve(userId, token)
+    retrieveUser() {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
             .then(({ id, name, surname, username: email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
                 id,
                 name,
