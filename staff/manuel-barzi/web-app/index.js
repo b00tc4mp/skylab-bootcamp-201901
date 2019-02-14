@@ -70,6 +70,7 @@ app.post('/register', formBodyParser, (req, res) => {
 })
 
 // TODO get and post login
+
 // TODO get home (must control user is logged in)
 
 app.listen(port, () => console.log(`server running on port ${port}`))
