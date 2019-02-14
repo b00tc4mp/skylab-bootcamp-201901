@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-const FileStore = require('session-file-store')(session)
 const logicFactory = require('./src/logic-factory')
 
 const { argv: [, , port = 8080] } = process
@@ -13,9 +12,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     // cookie: { secure: true }
-    store: new FileStore({
-        path: './.sessions'
-    })
 }))
 
 const formBodyParser = bodyParser.urlencoded({ extended: false })
