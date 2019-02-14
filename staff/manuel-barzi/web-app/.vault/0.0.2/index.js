@@ -41,23 +41,19 @@ function logoutUser(req) {
     req.session.destroy() // NOTE this method destroys session and renews cookie (recommended)
 }
 
-function renderPage(content) {
-    return `<html>
+app.get('/', (req, res) => {
+    res.send(`<html>
 <head>
-    <title>HELLO WORLD!</title>
+    <title>HELLO WORLD</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body class="main">
-    <h1>HELLO WORLD! 🤡</h1>
-    ${content}
-</body>
-</html>`
-}
-
-app.get('/', (req, res) => {
-    res.send(renderPage(`<section class="landing">
+    <h1>HELLO WORLD</h1>
+    <section class="landing">
         <a href="/login">Login</a> or <a href="/register">Register</a>
-    </section>`))
+    </section>
+</body>
+</html>`)
 })
 
 app.get('/register', (req, res) => {
@@ -66,7 +62,14 @@ app.get('/register', (req, res) => {
     } else {
         const feedback = pullFeedback(req)
 
-        res.send(renderPage(`<section class="register">
+        res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="register">
         <h2>Register</h2>
         <form method="POST" action="/register">
         <input name="name" type="text" placeholder="name" required>
@@ -80,7 +83,9 @@ app.get('/register', (req, res) => {
             ${feedback}
         </section>` : ''}
         Go <a href="/">Home</a> or <a href="/login">Login</a>
-    </section>`))
+    </section>
+</body>
+</html>`)
     }
 })
 
@@ -89,11 +94,20 @@ app.post('/register', formBodyParser, (req, res) => {
 
     try {
         logic.registerUser(name, surname, email, password, passwordConfirm)
-            .then(() => res.send(renderPage(`<section class="register">
+            .then(() => res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="register">
         <h2>Registration confirmation</h2>
         Ok, user <strong>${email}</strong> successfully registered, please proceed to <a href="/login">login</a>.
         </form>
-    </section>`)))
+    </section>
+</body>
+</html>`))
             .catch(({ message }) => {
                 req.session.feedback = message
 
@@ -112,7 +126,14 @@ app.get('/login', (req, res) => {
     } else {
         const feedback = pullFeedback(req)
 
-        res.send(renderPage(`<section class="login">
+        res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="login">
         <h2>Login</h2>
         <form method="POST" action="/login">
         <input name="email" type="email" placeholder="email" required>
@@ -123,7 +144,9 @@ app.get('/login', (req, res) => {
             ${feedback}
         </section>` : ''}
         Go <a href="/">Home</a> or <a href="/register">Register</a>
-    </section>`))
+    </section>
+</body>
+</html>`)
     }
 })
 
@@ -156,7 +179,14 @@ app.get('/home', (req, res) => {
 
         if (userId && token)
             logic.retrieveUser(userId, token)
-                .then(user => res.send(renderPage(`<section class="home">
+                .then(user => res.send(`<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="home">
         Welcome, ${user.name}!
         ${feedback ? `<section class="feedback feedback--error">
             ${feedback}
@@ -164,7 +194,9 @@ app.get('/home', (req, res) => {
         <form action="/logout" method="post">
             <button type="submit">Logout</button>
         </form>
-    </section>`)))
+    </section>
+</body>
+</html>`))
                 .catch(({ message }) => {
                     req.session.feedback = message
 
@@ -184,11 +216,20 @@ app.post('/logout', (req, res) => {
     res.redirect('/')
 })
 
-app.get('*', (req, res) => res.send(404, renderPage(`<section class="not-found">
+app.get('*', (req, res) => res.send(404, `<html>
+<head>
+    <title>HELLO WORLD</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="main">
+    <h1>HELLO WORLD</h1>
+    <section class="not-found">
         <h2>NOT FOUND</h2>
 
         Go <a href="/">Home</a>
-    </section>`)))
+    </section>
+</body>
+</html>`))
 
 
 app.listen(port, () => console.log(`server running on port ${port}`))
