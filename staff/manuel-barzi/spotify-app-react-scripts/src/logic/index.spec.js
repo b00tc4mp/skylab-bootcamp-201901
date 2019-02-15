@@ -1,13 +1,14 @@
 import spotifyApi from '../spotify-api'
-import users from '../data'
 import logic from '.'
 
 const { env: { REACT_APP_SPOTIFY_API_TOKEN } } = process
 
 spotifyApi.token = REACT_APP_SPOTIFY_API_TOKEN
 
+jest.setTimeout(10000)
+
 describe('logic', () => {
-    describe('register', () => {
+    describe('register user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
@@ -15,7 +16,7 @@ describe('logic', () => {
         const passwordConfirm = password
 
         it('should succeed on valid data', () =>
-            logic.registerUser(name, surname, email, password, passwordConfirm) 
+            logic.registerUser(name, surname, email, password, passwordConfirm)
                 .then(result => expect(result).toBeUndefined())
         )
 
@@ -154,19 +155,19 @@ describe('logic', () => {
         })
     })
 
-    describe('login', () => {
+    describe('log in user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
 
-        beforeEach(() => 
+        beforeEach(() =>
             logic.registerUser(name, surname, email, password, passwordConfirm)
         )
 
-        it('should succeed on correct credentials', () => 
-            logic.loginUser(email, password)
+        it('should succeed on correct credentials', () =>
+            logic.logInUser(email, password)
                 .then(() => {
                     expect(logic.__userId__).toBeDefined()
                     expect(logic.__userApiToken__).toBeDefined()
@@ -174,19 +175,56 @@ describe('logic', () => {
         )
     })
 
-    describe('retrieve', () => {
+    describe('check user is logged in', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
 
-        beforeEach(() => 
+        beforeEach(() =>
             logic.registerUser(name, surname, email, password, passwordConfirm)
-                .then(() => logic.loginUser(email, password))
         )
 
-        it('should succeed on correct credentials', () => 
+        it('should succeed on correct credentials', () =>
+            logic.logInUser(email, password)
+                .then(() => expect(logic.isUserLoggedIn).toBeTruthy())
+        )
+    })
+
+    describe('log out user', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
+
+        beforeEach(() =>
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.logInUser(email, password))
+        )
+
+        it('should succeed on correct credentials', () => {
+            logic.logOutUser()
+
+            expect(logic.__userId__).toBeNull()
+            expect(logic.__userId__).toBeNull()
+        })
+    })
+
+    describe('retrieve user', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
+
+        beforeEach(() =>
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.logInUser(email, password))
+        )
+
+        it('should succeed on correct credentials', () =>
             logic.retrieveUser()
                 .then(user => {
                     expect(user.id).toBe(logic.__userId__)
@@ -197,7 +235,9 @@ describe('logic', () => {
         )
     })
 
-    false && describe('search artists', () => {
+    // TODO updateUser and removeUser
+
+    describe('search artists', () => {
         it('should succeed on mathing query', () => {
             const query = 'madonna'
 
@@ -216,5 +256,225 @@ describe('logic', () => {
 
             expect(() => logic.searchArtists(query, function (error, artists) { })).toThrowError('query is empty')
         })
+    })
+
+    describe('retrieve artist', () => {
+        it('should succeed on mathing query', () => {
+            const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
+
+            return logic.retrieveArtist(artistId)
+                .then(({ id, name }) => {
+                    expect(id).toBe(artistId)
+                    expect(name).toBe('Madonna')
+                })
+        })
+
+        it('should fail on empty artistId', function () {
+            const artistId = ''
+
+            expect(() => logic.retrieveArtist(artistId)).toThrowError('artistId is empty')
+        })
+    })
+
+    describe('toggle favorite artist', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
+        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
+
+        beforeEach(() =>
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.logInUser(email, password))
+        )
+
+        it('should succeed on correct data', () =>
+            logic.toggleFavoriteArtist(artistId)
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    expect(user.id).toBe(logic.__userId__)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+
+                    expect(user.favoriteArtists).toBeDefined()
+                    expect(user.favoriteArtists.length).toBe(1)
+                    expect(user.favoriteArtists[0]).toBe(artistId)
+
+                    return logic.toggleFavoriteArtist(artistId)
+                })
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    expect(user.id).toBe(logic.__userId__)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+
+                    expect(user.favoriteArtists).toBeDefined()
+                    expect(user.favoriteArtists.length).toBe(0)
+                })
+        )
+    })
+
+    describe('retrieve albums', () => {
+        it('should succeed on mathing query', () => {
+            const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
+
+            return logic.retrieveAlbums(artistId)
+                .then(albums => {
+                    expect(albums).toBeDefined()
+                    expect(albums instanceof Array).toBeTruthy()
+                    expect(albums.length).toBeGreaterThan(0)
+                })
+        })
+
+        it('should fail on empty artistId', function () {
+            const artistId = ''
+
+            expect(() => logic.retrieveAlbums(artistId)).toThrowError('artistId is empty')
+        })
+    })
+
+    describe('retrieve album', () => {
+        it('should succeed on mathing query', () => {
+            const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
+
+            return logic.retrieveAlbum(albumId)
+                .then(({ id, name }) => {
+                    expect(id).toBe(albumId)
+                    expect(name).toBe('Rebel Heart Tour (Live)')
+                })
+        })
+
+        it('should fail on empty albumId', function () {
+            const albumId = ''
+
+            expect(() => logic.retrieveAlbum(albumId)).toThrowError('albumId is empty')
+        })
+    })
+
+    describe('toggle favorite album', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
+        const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
+
+        beforeEach(() =>
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.logInUser(email, password))
+        )
+
+        it('should succeed on correct data', () =>
+            logic.toggleFavoriteAlbum(albumId)
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    expect(user.id).toBe(logic.__userId__)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+
+                    expect(user.favoriteAlbums).toBeDefined()
+                    expect(user.favoriteAlbums.length).toBe(1)
+                    expect(user.favoriteAlbums[0]).toBe(albumId)
+
+                    return logic.toggleFavoriteAlbum(albumId)
+                })
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    expect(user.id).toBe(logic.__userId__)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+
+                    expect(user.favoriteAlbums).toBeDefined()
+                    expect(user.favoriteAlbums.length).toBe(0)
+                })
+        )
+    })
+
+    describe('retrieve tracks', () => {
+        it('should succeed on mathing query', () => {
+            const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
+
+            return logic.retrieveTracks(albumId)
+                .then(tracks => {
+                    expect(tracks).toBeDefined()
+                    expect(tracks instanceof Array).toBeTruthy()
+                    expect(tracks.length).toBeGreaterThan(0)
+                })
+        })
+
+        it('should fail on empty albumId', function () {
+            const albumId = ''
+
+            expect(() => logic.retrieveTracks(albumId)).toThrowError('albumId is empty')
+        })
+    })
+
+    describe('retrieve track', () => {
+        it('should succeed on mathing query', () => {
+            const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live
+            const trackName = 'Rebel Heart Tour Intro - Live'
+
+            return logic.retrieveTrack(trackId)
+                .then(track => {
+                    expect(track).toBeDefined()
+
+                    const { id, name } = track
+
+                    expect(id).toBe(trackId)
+                    expect(name).toBe(trackName)
+                })
+        })
+
+        it('should fail on empty trackId', function () {
+            const trackId = ''
+
+            expect(() => logic.retrieveTrack(trackId)).toThrowError('trackId is empty')
+        })
+    })
+
+    describe('toggle favorite track', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const password = '123'
+        const passwordConfirm = password
+        const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live)
+
+        beforeEach(() =>
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.logInUser(email, password))
+        )
+
+        it('should succeed on correct data', () =>
+            logic.toggleFavoriteTrack(trackId)
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    expect(user.id).toBe(logic.__userId__)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+
+                    expect(user.favoriteTracks).toBeDefined()
+                    expect(user.favoriteTracks.length).toBe(1)
+                    expect(user.favoriteTracks[0]).toBe(trackId)
+
+                    return logic.toggleFavoriteTrack(trackId)
+                })
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    expect(user.id).toBe(logic.__userId__)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+
+                    expect(user.favoriteTracks).toBeDefined()
+                    expect(user.favoriteTracks.length).toBe(0)
+                })
+        )
     })
 })
