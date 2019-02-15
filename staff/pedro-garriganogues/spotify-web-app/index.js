@@ -43,7 +43,7 @@ function renderPage(content) {
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body class="main">
-    <h1>HOME</h1>
+    <h1>HOME/h1>
     ${content}
 </body>
 </html>`
@@ -129,19 +129,22 @@ app.get('/home', (req, res) => {
 
         if (logic.isUserLoggedIn)
             logic.retrieveUser()
-                .then(user => res.send(renderPage(`<section class="home">
-        Welcome, ${user.name}!
-        ${feedback ? `<section class="feedback feedback--error">
-            ${feedback}
-        </section>` : ''}
-        <form action="/search" method="POST">
-        <button type="submit">Search</button>
-        <input name='artist', type='artist', placeholder='artist'></input>
-        </form>
-        <form action="/logout" method="POST">
-        <button type="submit">Logout</button>
-        </form>
-    </section>`)))
+                .then(user => {
+
+                    res.render('home', { feedback });
+
+
+                    // res.send(renderPage(`<section class="home">
+                    //     Welcome, ${user.name}!
+                    //     ${feedback ? `<section class="feedback feedback--error">
+                    //         ${feedback}
+                    //     </section>` : ''}
+                    //     searxh
+                    //     <form action="/logout" method="POST">
+                    //     <button type="submit">Logout</button>
+                    //     </form>
+                    // </section>`))
+                })
                 .catch(({ message }) => {
                     req.session.feedback = message
 
@@ -156,10 +159,11 @@ app.get('/home', (req, res) => {
 })
 
 
-app.post('/search', (req, res) => {
+app.post('/search', formBodyParser, (req, res) => {
+    const { body: { query }, session: { feedback } } = req
 
     try {
-        spotifyApi.searchArtists('artists', (error, artists) => {
+        spotifyApi.searchArtists(query, (error, artists) => {
             if (error) console.log(error.message);
             else {
                 res.render('artists', { artists })
