@@ -1,2 +1,11 @@
+extends ../layout
+
 block content
-    code= artists
+    each artist in artists
+      p #{artist.name}
+
+    
+
+//-  form(method='POST', action='/search')
+//-            input(name='name', type='text', placeholder='artist', required='')
+//-            button(type='submit') Search
