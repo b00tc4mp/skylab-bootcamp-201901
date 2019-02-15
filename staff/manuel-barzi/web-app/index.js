@@ -1,26 +1,30 @@
+require('dotenv').config()
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-const FileStore = require('session-file-store')(session)
+// const FileStore = require('session-file-store')(session)
 const logicFactory = require('./src/logic-factory')
 
-const { argv: [, , port = 8080] } = process
+const { env: { PORT }, argv: [, , port = PORT || 8080] } = process
 
 const app = express()
 
 app.use(session({
-    secret: 'a secret phrase used to encrypt data that flows from server to client and viceversa',
+    secret: 'a secret phrase',
     resave: true,
     saveUninitialized: true,
-    // cookie: { secure: true }
-    store: new FileStore({
-        path: './.sessions'
-    })
+    // store: new FileStore({
+    //     path: './.sessions'
+    // })
 }))
 
-const formBodyParser = bodyParser.urlencoded({ extended: false })
-
 app.use(express.static('public'))
+
+app.set('view engine', 'pug')
+app.set('views', './src/components')
+
+const formBodyParser = bodyParser.urlencoded({ extended: false })
 
 function pullFeedback(req) {
     const { session: { feedback } } = req
@@ -44,9 +48,7 @@ function renderPage(content) {
 }
 
 app.get('/', (req, res) => {
-    res.send(renderPage(`<section class="landing">
-        <a href="/login">Login</a> or <a href="/register">Register</a>
-    </section>`))
+    res.render('landing')
 })
 
 app.get('/register', (req, res) => {
@@ -57,21 +59,7 @@ app.get('/register', (req, res) => {
     } else {
         const feedback = pullFeedback(req)
 
-        res.send(renderPage(`<section class="register">
-        <h2>Register</h2>
-        <form method="POST" action="/register">
-        <input name="name" type="text" placeholder="name" required>
-        <input name="surname" type="text" placeholder="surname" required>
-        <input name="email" type="email" placeholder="email" required>
-        <input name="password" type="password" placeholder="password" required>
-        <input name="passwordConfirm" type="password" placeholder="confirm password" required>
-        <button type="submit">Register</button>
-        </form>
-        ${feedback ? `<section class="feedback feedback--warn">
-            ${feedback}
-        </section>` : ''}
-        Go <a href="/">Home</a> or <a href="/login">Login</a>
-    </section>`))
+        res.render('register', { feedback })
     }
 })
 
@@ -107,18 +95,7 @@ app.get('/login', (req, res) => {
     } else {
         const feedback = pullFeedback(req)
 
-        res.send(renderPage(`<section class="login">
-        <h2>Login</h2>
-        <form method="POST" action="/login">
-        <input name="email" type="email" placeholder="email" required>
-        <input name="password" type="password" placeholder="password" required>
-        <button type="submit">Login</button>
-        </form>
-        ${feedback ? `<section class="feedback feedback--warn">
-            ${feedback}
-        </section>` : ''}
-        Go <a href="/">Home</a> or <a href="/register">Register</a>
-    </section>`))
+        res.render('login', { feedback })
     }
 })
 
