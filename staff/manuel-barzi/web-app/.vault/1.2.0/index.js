@@ -1,12 +1,10 @@
-require('dotenv').config()
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 // const FileStore = require('session-file-store')(session)
 const logicFactory = require('./src/logic-factory')
 
-const { env: { PORT }, argv: [, , port = PORT || 8080] } = process
+const { argv: [, , port = 8080] } = process
 
 const app = express()
 
@@ -22,7 +20,6 @@ app.use(session({
 app.use(express.static('public'))
 
 app.set('view engine', 'pug')
-app.set('views', './src/components')
 
 const formBodyParser = bodyParser.urlencoded({ extended: false })
 
