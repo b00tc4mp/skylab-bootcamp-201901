@@ -1,0 +1,14 @@
+extends ../layout
+
+include ../search/index
+
+block content
+    section.home
+        //- h2 Welcome #{user.name} !
+        form(action='/logout', method='post')
+            button(type='submit') Logout
+        +search
+        block artists
+        block albums
+        block tracks
+        block player

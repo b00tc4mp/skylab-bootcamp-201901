@@ -1,0 +1,9 @@
+extends ../home/index
+
+block artists
+    section
+        h2 Artists results
+        div
+            each artist in artists
+                a(href=`home&artist&${artist.id}`)= artist.name
+                    
