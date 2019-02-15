@@ -1,0 +1,73 @@
+.randomVideoList
+    position: absolute 
+    margin-top: 4em
+    padding: 0.5em
+    padding-left: 0.5em
+    padding-right: 0.5em
+    display: grid
+    grid-template-columns: 1fr
+
+    &-dark
+        color: white
+
+    &-light
+        color: black
+
+.randomCard
+    padding: 0.2em
+
+    &:hover
+        cursor: pointer
+
+    &-dark
+        background-color: #121212
+
+    &-light
+        background-color: white
+
+.randomTittle
+    color: white
+    font-weight: bolder
+
+    &-dark
+        color: white
+
+    &-light
+        color: black
+
+.randomDes
+    display: none
+    font-size: 0.8em
+
+@media (min-width: 600px)
+    .randomVideoList
+        grid-template-columns: 1fr 1fr 
+
+@media (min-width: 768px)
+    .randomVideoList
+        grid-template-columns: 1fr 1fr 1fr
+        padding: 2em
+        padding-left: 4em
+        padding-right: 4em
+
+    .randomDes
+        display: block
+
+@media (min-width: 992px)
+    .randomVideoList
+        grid-template-columns: 1fr 1fr 1fr 1fr  
+
+@media (min-width: 1200px) 
+    .randomVideoList
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 
+        margin-left: 5em
+        margin-right: 5em
+
+@media (min-width : 1450px)
+    .randomVideoList
+        margin-left: 15em
+        margin-right: 15em
+
+
+
+
