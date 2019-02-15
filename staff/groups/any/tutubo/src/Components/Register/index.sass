@@ -1,0 +1,178 @@
+.registerContent
+    border-radius: 0
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    padding: 2em
+    
+    &-dark
+        background-color: #282828
+
+    &-light
+        background-color: white
+
+.fa-youtube-light
+    color: red
+
+.registerTitle
+        font-size: 2em
+        font-weight: bold
+
+        &-light
+            color: black !important
+
+        &-dark
+            color: white !important
+
+.registerText
+    text-align: center
+    color: gray
+
+.registerform
+    margin-top: 2em
+    width: 15em
+    display: flex
+    flex-flow: column
+    justify-content: center
+
+.miniForm
+    display: flex
+    flex-flow: column
+
+.registerInput
+        padding: 1.25em
+        margin-bottom: 2em
+        border-style: solid
+        border-width: 0.1em
+        border-color: #242424
+        border-radius: 0.5em
+        height: 2em
+
+.registerButton
+        color: white
+        align-self: center
+        margin-bottom: 2em
+        height: 3em
+        width: 10em
+        border-radius: 0.5em
+        background-color: #1976C8
+        border-width: 0em
+        cursor: pointer
+        margin-right: 0em
+
+.signIn
+    color: #1976C8
+    cursor: pointer
+
+.feedback
+        align-self: center
+
+
+
+
+@media (min-width: 768px) 
+
+    html
+        max-width: 100%
+
+    .register
+        display: flex
+        justify-content: center
+        align-items: center
+        position: absolute
+        top: 0
+        right: 0
+        bottom: 0
+        left: 0
+        padding: 2em
+        max-width: 100%
+
+        &-dark
+            background-color: #474747
+
+        &-light
+            background-color: white
+
+    .registerBox
+        display: flex
+        justify-content: center
+        align-content: center
+
+    .registerContent
+        position: relative
+        border-style: solid
+        border-width: 0.05em
+        border-color: #242424
+        border-radius: 0.5em
+        padding: 4em
+        padding-left: 8em
+        padding-right: 8em
+
+        &-light
+            background-color: white
+            color: black
+
+        &-dark
+            color: #D8D7D7
+            background-color: #282828
+
+    .registerform
+        width: auto
+
+    .registerButton
+        margin-right: 1.8em
+    
+
+    .registerBox
+        display: flex
+        justify-content: center
+        align-content: center
+
+    .registerContent
+        border-style: solid
+        border-width: 0.05em
+        border-color: #242424
+        border-radius: 0.5em
+        display: flex
+        flex-direction: column
+        padding: 4em
+
+        &-light
+            background-color: white
+            color: black
+
+        &-dark
+            color: #D8D7D7
+            background-color: #282828
+
+    .registerInput
+        margin: 1em
+        padding: 1em
+        border-style: solid
+        border-width: 0.1em
+        border-color: #242424
+        border-radius: 0.5em
+        height: 2em
+        width: 25em
+
+    .registerButton
+        color: white
+        margin: 1em
+        padding: 1em
+        height: 4.17em
+        width: 15em
+        border-radius: 0.5em
+        background-color: #1976C8
+        border-width: 0em
+        cursor: pointer
+
+    .miniForm
+        display: flex
+        flex-flow: row
+        justify-content: space-between
