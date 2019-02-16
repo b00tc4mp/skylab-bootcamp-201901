@@ -1,0 +1,16 @@
+extends ../layout
+include ../feedback/index 
+
+
+block content
+    section.login
+        h2 Login
+        form(method='POST', action='/login')
+            input(name='email', type='email', placeholder='email', required='')
+            input(name='password', type='password', placeholder='password', required='')
+            button(type='submit') Login
+        if feedback
+            +feedback(feedback, 'error')
+        div(class='gohome')
+            a(href='/') Home
+            a(href='/register') Register

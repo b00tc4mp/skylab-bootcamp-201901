@@ -1,0 +1,72 @@
+.gohome {
+  margin-left: 4rem;
+  text-decoration: none;
+  height: 2rem;
+  background-color: #8686f3;
+  width: 20rem;
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 0.4rem;
+}
+
+.feedback, .landing {
+  padding: 1em;
+  margin: 1em;
+}
+
+.feedback, .landing {
+  padding: 1em;
+  margin: 1em;
+}
+
+.feedback {
+  background-color: limegreen;
+}
+.feedback--warn {
+  background-color: gold;
+}
+.feedback--error {
+  background-color: tomato;
+}
+
+main {
+  background-color: #3a90c0;
+  border: 0.15rem solid #584f4f;
+}
+
+body {
+  background-color: #432a82;
+}
+
+form {
+  margin: 2rem 0 2rem 3rem;
+}
+form ul {
+  margin: 0;
+  padding: 0.6rem;
+  text-indent: 1rem;
+}
+
+h1 {
+  margin: 2rem 0 3rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  margin-left: 3rem;
+}
+
+h2 {
+  margin: 3rem 0 1.8rem 2.3rem;
+}
+
+h3 {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  margin-left: 3rem;
+  font-size: 1.6rem;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=style.css.map */
