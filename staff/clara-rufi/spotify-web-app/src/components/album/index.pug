@@ -1,12 +1,12 @@
-extends ../home/index
+//- extends ../home/index
 
-block albums
-          if albums
-            section(class="album")
-                h2 Album
-                    div 
-                        each album in albums
-                            form(method='POST', action='/tracks')
-                                button(name='tracksId', type='submit', value=album.id)= album.name   
-                                img(src=`${album.images[0] ? album.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='uk-margin-top', alt="")
+//- block albums
+//-           if albums
+//-             section(class="album")
+//-                 h2 Album
+//-                     div 
+//-                         each album in albums
+//-                             form(method='POST', action='/tracks')
+//-                                 button(name='tracksId', type='submit', value=album.id)= album.name   
+//-                                 img(src=`${album.images[0] ? album.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='uk-margin-top', alt="")
                      

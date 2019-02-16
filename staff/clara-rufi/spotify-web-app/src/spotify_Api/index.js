@@ -8,8 +8,8 @@ require('isomorphic-fetch')
  * @version 2.1.0
  */
 const spotifyApi = {
-    token: 'NO-TOKEN',
-    // token: 'BQDEp0Q99UfNR9Y0etaT5oIkThn1-nnARE3Txm6f2rO9QrNLOFvZEi4UkAPyWXmWxiR03BfCm6eo6y5tcbkcZDbO-AYna75kNIWbKG7Kd7hEHgC6LfhDkqSAjDcAfJ090l7ZyR9Q7foWLRjyl5vwMReuzgMKSkAQLQ',
+   
+    token: 'BQDPPXav8PhTh1Qc2HbKTaP1fctxyhwwe8vsBbXUXYBdF9wOPtsFFJJXM4eBOEVRnlKAZWoBEVpwuifKdZij4mgzRUfB8fl3sh577wgAlxn2bB6R-acnPsItgizioqg8Rvhzwd4iMKX6coGXLuv9-MAJSgbpjA48ig',
     url: 'https://api.spotify.com/v1',
 
     /**
@@ -22,7 +22,7 @@ const spotifyApi = {
      * @throws {Error} - On empty parameters value.
      */
     searchArtists(query) {
-       debugger
+  
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
         if (!query.trim().length) throw Error('query is empty')

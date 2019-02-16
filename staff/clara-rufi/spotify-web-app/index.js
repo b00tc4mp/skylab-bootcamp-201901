@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 // const FileStore = require('session-file-store')(session)
 const logicFactory = require('./src/logic-factory')
-const spotifyApi = require('./src/spotify-api')
+// const spotifyApi = require('./src/spotify-api')
 
 const { env: { PORT }, argv: [, , port = PORT || 8080] } = process
 
@@ -35,14 +35,14 @@ function pullFeedback(req) {
     return feedback
 }
 
-// function renderPage(content) { 
-//     return `<html>
-// <body class="main">
-//     <h1>Spotify App! 🤡</h1>
-//      ${content}
-// // </body>
-// // </html>`
-// }
+function renderPage(content) { 
+    return `<html>
+<body class="main">
+    <h1>Spotify App! 🤡</h1>
+     ${content}
+// </body>
+// </html>`
+}
 
 app.get('/register', (req, res) => {
     const logic = logicFactory.create(req)
@@ -110,6 +110,9 @@ app.post('/login', formBodyParser, (req, res) => {
 
 app.get('/home', (req, res) => {
 
+    try {
+        const { session: { feedback } } = req
+
         const logic = logicFactory.create(req)
 
         if (logic.isUserLoggedIn)
@@ -125,21 +128,27 @@ app.get('/home', (req, res) => {
                 })
 
         else res.redirect('/login')
+    } catch ({ message }) {
+        req.session.feedback = message
+
+        res.redirect('/home')
+    }
 })
 
-app.post('/home', formBodyParser, (req, res) => {
-    const { body: { query } } = req
+// app.post('/home', formBodyParser, (req, res) => {
+//     const { body: { query } } = req
 
-    res.redirect('home')   
-    // ('/home')
+//     res.redirect('/home')   
+//     // ('/home')
 
-})
+// })
 
 app.post('/search', formBodyParser, (req, res) => {
   
     const { body: { query } } = req
- 
+    const logic = logicFactory.create(req)
     try {
+        debugger
         if (logic.isUserLoggedIn){
             logic.searchArtists(query)
                 .then(artists => {
@@ -150,7 +159,7 @@ app.post('/search', formBodyParser, (req, res) => {
             res.redirect('/login')
         }   
     } catch (error) {
-        req.session.feedback = message
+        // req.session.feedback = message
         const feedback = pullFeedback(req)
 
         res.render('home', { feedback })
@@ -201,26 +210,24 @@ app.post('/albums', formBodyParser, (req, res) => {
   })
 
   app.post('/track', formBodyParser, (req, res) => {
-    debugger
       const { body: { trackId } } = req
       const logic = logicFactory.create(req)
    
-      try {
-          if (logic.isUserLoggedIn){
-              debugger
-  
-              logic.retrieveTrack(trackId)
-                  .then(track => {
-                    res.track = track
-                      res.render('home', {track})              
-                  })
-          }else{
-              res.redirect('/login')
-          }   
-      } catch (error) {
-          console.log(error.message)
-      }   
-  })
+        try {
+            if (logic.isUserLoggedIn){
+    
+                logic.retrieveTrack(trackId)
+                    .then(track => {
+                        res.track = track
+                        res.render('home', {track})              
+                    })
+            }else{
+                res.redirect('/login')
+            }   
+        } catch (error) {
+            console.log(error.message)
+        }   
+    })
 
 app.post('/logout', (req, res) => {
     const logic = logicFactory.create(req)

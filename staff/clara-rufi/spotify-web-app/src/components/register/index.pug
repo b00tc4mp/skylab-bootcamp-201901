@@ -14,7 +14,5 @@ block content
         button(type='submit') Register
       if feedback
         +feedback(feedback, 'warn')
-      | Go 
-      a(href='/') Home
-      |  or 
-      a(href='/login') Login
+      div(class='go')
+        a(href='/login') Login
