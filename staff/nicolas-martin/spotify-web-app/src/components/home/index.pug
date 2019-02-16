@@ -1,0 +1,15 @@
+extends ../layout
+
+include ../header/index.pug
+include ../artists/index.pug
+include ../albums/index.pug
+include ../tracks/index.pug
+
+block content
+    +header(feedback)
+    if artists !== undefined
+        +artists(artists)
+    if albums !== undefined
+        +albums(albums)
+    if tracks !== undefined
+        +tracks(tracks)

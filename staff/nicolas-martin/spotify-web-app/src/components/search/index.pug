@@ -1,0 +1,12 @@
+include ../feedback/index
+
+mixin search(feedback)
+  form.search-form(action='/home/artists')
+    label.is-hidden(for='search') Search
+    input(type='search', name='query', placeholder='Search...')
+    button#submit.search-button(type='submit')
+      i.material-icons.icn-search search
+  if feedback
+    +feedback(feedback, 'error')
+
+

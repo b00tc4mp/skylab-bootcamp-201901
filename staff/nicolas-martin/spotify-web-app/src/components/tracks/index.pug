@@ -1,0 +1,7 @@
+mixin tracks(tracks)
+    .main-content
+        .tracks
+            each track in tracks
+                .track
+                    h5= track.name
+                    audio(src=`${track.preview_url}`, controls)
