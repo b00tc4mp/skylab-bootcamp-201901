@@ -103,32 +103,27 @@ app.post('/login', formBodyParser, (req, res) => {
 })
 
 app.get('/home', (req, res) => {
-    try {
-        const { session: { feedback } } = req
 
-        const logic = logicFactory.create(req)
+    const logic = logicFactory.create(req)
 
-        if (logic.isUserLoggedIn)
-            logic.retrieveUser()
-                .then(user => {
-                    res.render('home', { user })
-                })
-                .catch(({ message }) => {
-                    req.session.feedback = message
+    if (logic.isUserLoggedIn)
+        
+        logic.retrieveUser()
+            .then(user => {
+                res.render('home', { user })
+            })
+            .catch(({ message }) => {
+                req.session.feedback = message
+                const feedback = pullFeedback(req)
+                res.render('home', {feedback})
+            })
+    else res.redirect('/login')
 
-                    res.redirect('/home')
-                })
-        else res.redirect('/login')
-    } catch ({ message }) {
-        req.session.feedback = message
-
-        res.redirect('/home')
-    }
 })
 
 app.post('/home', formBodyParser, (req, res) => {
     const { body: { query } } = req
-    debugger;
+
     res.redirect(`home&search&${query}`)
 
 })
@@ -137,15 +132,22 @@ app.get('/home&search&:query', (req, res) => {
     const { session: { feedback }, params : { query } } = req
 
     const logic = logicFactory.create(req)
+    if(logic.isUserLoggedIn) {
+        try {
+            logic.searchArtists(query)
+                .then(artists => res.render('results-artists', { artists }))
+                .catch(({ message }) => {
+                    req.session.feedback = message
+                    const feedback = pullFeedback(req)
 
-    try {
-        logic.searchArtists(query)
-            .then(artists => res.render('results-artists', { artists }))
-            .catch(({ message }) => {
-                req.session.feedback = message
-            })
-    } catch ({ message }) {
-        req.session.feedback = message
+                    res.render('home', { feedback })
+                })
+        } catch ({ message }) {
+            req.session.feedback = message
+            const feedback = pullFeedback(req)
+
+            res.render('home', { feedback })
+        }
     }
 })
 
@@ -157,6 +159,39 @@ app.get('/home&artist&:artistId', (req, res) => {
     try {
         logic.retrieveAlbums(artistId)
             .then(albums => res.render('results-albums', { albums }))
+            .catch(({ message }) => {
+                req.session.feedback = message
+            })
+    } catch ({ message }) {
+        req.session.feedback = message
+    }
+})
+
+app.get('/home&album&:albumId', (req, res) => {
+    const { session: { feedback }, params : { albumId } } = req
+
+    const logic = logicFactory.create(req)
+
+    try {
+        logic.retrieveTracks(albumId)
+            .then(tracks => res.render('results-tracks', { tracks }))
+            .catch(({ message }) => {
+                req.session.feedback = message
+            })
+    } catch ({ message }) {
+        req.session.feedback = message
+    }
+})
+
+app.get('/home&track&:trackId', (req, res) => {
+    const { session: { feedback }, params : { trackId } } = req
+
+    const logic = logicFactory.create(req)
+
+    try {
+        debugger;
+        logic.retrieveTrack(trackId)
+            .then(track => res.render('results-track', { track }))
             .catch(({ message }) => {
                 req.session.feedback = message
             })
