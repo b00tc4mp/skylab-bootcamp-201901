@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 // const FileStore = require('session-file-store')(session)
 const logicFactory = require('./src/logic-factory')
-const spotifyApi = require('./src/spotify-api/spotify-api-1.1.0')
+const spotifyApi = require('./src/spotify-api/spotify-api-v1.1.0')
 
 
 const { env: { PORT }, argv: [, , port = PORT || 8080] } = process
@@ -160,22 +160,74 @@ app.get('/home', (req, res) => {
 
 
 app.post('/search', formBodyParser, (req, res) => {
+
+    const logic = logicFactory.create(req)
+
     const { body: { query }, session: { feedback } } = req
 
     try {
-        spotifyApi.searchArtists(query, (error, artists) => {
-            if (error) console.log(error.message);
-            else {
-                res.render('artists', { artists })
-            }
+        logic.searchArtists(query).then((artists) => {
+
+            res.render('artists', { artists })
         })
     } catch (error) {
+        console.log('error');
         console.log(error.message)
 
     }
 
 })
 
+app.get('/artist/:artistId', (req, res) => {
+    const { session: { feedback }, params: { artistId } } = req
+
+    const logic = logicFactory.create(req)
+
+    try {
+        logic.retrieveAlbums(artistId)
+            .then(albums => res.render('albums', { albums }))
+            .catch(({ message }) => {
+                req.session.feedback = message
+            })
+    } catch ({ message }) {
+        req.session.feedback = message
+    }
+})
+
+
+app.get('/album/:albumId', (req, res) => {
+    const { session: { feedback }, params: { albumId } } = req
+
+    const logic = logicFactory.create(req)
+    console.log('1');
+    try {
+        console.log('2');
+        logic.retrieveTracks(albumId)
+            .then(tracks => res.render('tracks', { tracks }))
+            .catch(({ message }) => {
+                req.session.feedback = message
+            })
+    } catch ({ message }) {
+        console.log('3');
+        req.session.feedback = message
+    }
+})
+
+// app.get('/album:albumId', (req, res) => {
+//     const { session: { feedback }, params: { trackId } } = req
+
+//     const logic = logicFactory.create(req)
+
+//     try {
+//            logic.retrieveTrack(trackId)
+//             .then(track => res.render('track', { track }))
+//             .catch(({ message }) => {
+//                 req.session.feedback = message
+//             })
+//     } catch ({ message }) {
+//         req.session.feedback = message
+//     }
+// })
 
 app.post('/logout', (req, res) => {
     const logic = logicFactory.create(req)

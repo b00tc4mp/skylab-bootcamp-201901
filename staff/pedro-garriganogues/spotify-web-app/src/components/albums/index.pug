@@ -1,1 +1,7 @@
 
+extends ../layout
+
+block content
+  each album in albums
+    p
+      a(href=`/album/${album.id}`) #{album.name}

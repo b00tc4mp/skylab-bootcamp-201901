@@ -1,6 +1,7 @@
 'use strict'
 
 const userApi = require('../user-api')
+const spotifyApi = require('../spotify-api/spotify-api-v1.1.0')
 
 /**
  * Abstraction of business logic.
@@ -96,6 +97,136 @@ class Logic {
                 favoriteAlbums,
                 favoriteTracks
             }))
+    }
+
+    searchArtists(query) {
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+
+        if (!query.trim().length) throw Error('query is empty')
+
+        return spotifyApi.searchArtists(query)
+    }
+
+    /**
+     * Retrieves an artist.
+     * 
+     * @param {string} artistId 
+     */
+    retrieveArtist(artistId) {
+        if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
+
+        if (!artistId.trim().length) throw Error('artistId is empty')
+
+        return spotifyApi.retrieveArtist(artistId)
+    }
+
+    /**
+     * Toggles a artist from non-favorite to favorite, and viceversa.
+     * 
+     * @param {string} artistId - The id of the artist to toggle in favorites.
+     */
+    toggleFavoriteArtist(artistId) {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => {
+                const { favoriteArtists = [] } = user
+
+                const index = favoriteArtists.findIndex(_artistId => _artistId === artistId)
+
+                if (index < 0) favoriteArtists.push(artistId)
+                else favoriteArtists.splice(index, 1)
+
+                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteArtists })
+            })
+    }
+
+    /**
+     * Retrieves albums from artist.
+     * 
+     * @param {string} artistId 
+     */
+    retrieveAlbums(artistId) {
+        if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
+
+        if (!artistId.trim().length) throw Error('artistId is empty')
+
+        return spotifyApi.retrieveAlbums(artistId)
+    }
+
+    /**
+     * Retrieves an album.
+     * 
+     * @param {string} albumId 
+     */
+    retrieveAlbum(albumId) {
+        if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
+
+        if (!albumId.trim().length) throw Error('albumId is empty')
+
+        return spotifyApi.retrieveAlbum(albumId)
+    }
+
+    /**
+     * Toggles a album from non-favorite to favorite, and viceversa.
+     * 
+     * @param {string} albumId - The id of the album to toggle in favorites.
+     */
+    toggleFavoriteAlbum(albumId) {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => {
+                const { favoriteAlbums = [] } = user
+
+                const index = favoriteAlbums.findIndex(_albumId => _albumId === albumId)
+
+                if (index < 0) favoriteAlbums.push(albumId)
+                else favoriteAlbums.splice(index, 1)
+
+                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteAlbums })
+            })
+    }
+
+    /**
+     * Retrieves tracks from album.
+     * 
+     * @param {string} albumId 
+     */
+    retrieveTracks(albumId) {
+        if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
+
+        if (!albumId.trim().length) throw Error('albumId is empty')
+
+        return spotifyApi.retrieveTracks(albumId)
+    }
+
+    /**
+     * Retrieves track.
+     * 
+     * @param {string} trackId 
+     */
+    retrieveTrack(trackId) {
+        if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)
+
+        if (!trackId.trim().length) throw Error('trackId is empty')
+
+        return spotifyApi.retrieveTrack(trackId)
+    }
+
+    /**
+     * Toggles a track from non-favorite to favorite, and viceversa.
+     * 
+     * @param {string} trackId - The id of the track to toggle in favorites.
+     */
+    toggleFavoriteTrack(trackId) {
+        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+            .then(user => {
+                const { favoriteTracks = [] } = user
+
+                const index = favoriteTracks.findIndex(_trackId => _trackId === trackId)
+
+                if (index < 0) favoriteTracks.push(trackId)
+                else favoriteTracks.splice(index, 1)
+
+                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteTracks })
+            })
     }
 
 }
