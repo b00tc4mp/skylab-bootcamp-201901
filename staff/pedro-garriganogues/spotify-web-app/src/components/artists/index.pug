@@ -2,10 +2,8 @@ extends ../layout
 
 block content
     each artist in artists
-      p #{artist.name}
+      p
+        a(href=`/artist/${artist.id}`) #{artist.name}
 
     
 
-//-  form(method='POST', action='/search')
-//-            input(name='name', type='text', placeholder='artist', required='')
-//-            button(type='submit') Search
