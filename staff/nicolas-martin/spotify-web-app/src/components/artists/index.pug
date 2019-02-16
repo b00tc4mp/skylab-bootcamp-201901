@@ -1,0 +1,10 @@
+mixin artists(artists)
+    .main-content
+        ul.gif-list
+            each artist in artists
+                li.gif-wrap
+                    a(href=`/albums/${artist.id}`, alt=`See albums of ${artist.name}`)
+                        if artist.images[1] !== undefined
+                            img(src=artist.images[1].url)
+                        else
+                            img(src='https://i0.wp.com/raduluchian.com/wp-content/uploads/post/when-spotify-delivers-more-frustration-than-music/spotify-first-launch-page.jpg')
