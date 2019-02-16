@@ -1,0 +1,13 @@
+extends ../layout
+
+include ../search/index
+
+block content
+    section.uk-container
+        a(href='/home') Home
+        form(action='/logout', method='post')
+            button(type='submit') Logout
+        +search
+        block artists
+        block albums
+        block tracks

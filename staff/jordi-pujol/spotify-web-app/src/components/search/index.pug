@@ -1,0 +1,14 @@
+include ../feedback/index
+
+mixin search()
+    section(classname='search container')
+      form(method='POST', action='/home' )
+        div(classname='row')
+          div(classname=' col input-group mb-3')
+            div(classname='input-group-prepend')
+              span#inputGroup-sizing-default(classname='input-group-text')
+                img(classname='icon', src='https://starrsystems.net/wp-content/uploads/2016/07/Services-Music-Systems-page.png')
+            input(type='text', classname='form-control', name='query', placeholder='Search an artist...', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+          button(type='submit', classname='btn btn-outline-primary') Search
+      if feedback
+        +feedback(feedback, 'error')
