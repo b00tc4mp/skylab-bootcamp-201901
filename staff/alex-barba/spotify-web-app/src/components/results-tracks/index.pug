@@ -1,0 +1,8 @@
+extends ../home/index
+
+block tracks
+    section.uk-margin-top.uk-container.uk-container-xsmall.uk-text-center
+        ul(class="uk-list uk-list-divider")
+            each track in tracks
+                li
+                    a.uk-link-muted(href=`home&track&${track.id}`)= track.name

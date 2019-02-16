@@ -35,8 +35,8 @@ const spotifyApi = {
                 if (response.error) throw Error(response.error.message)
 
                 const { artists: { items } } = response
-
-                return items
+                if (!items.length) throw Error('No matching Artists')  
+                else return items
             })
     },
 

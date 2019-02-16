@@ -1,9 +1,11 @@
 include ../feedback/index
 
 mixin search()
-    section(classname='search')
-        form(method='POST', action='/home')
-            input(type='text', name='query' ,placeholder='Search an artist...')
-            button(type='submit') Search
+    section.uk-margin-top(classname='search')
+        form.uk-container.uk-text-center(method='POST', action='/home')
+            div.uk-inline
+                span(class='uk-form-icon', uk-icon="search")
+                input.uk-input.uk-form-small.uk-form-blank.uk-form-width-large(type='text', name='query' ,placeholder='Search an artist...')
+            button.uk-button.uk-button-default.uk-button-small(type='submit') Search
         if feedback
-        +feedback(feedback, 'error')
+            +feedback(feedback, 'danger')

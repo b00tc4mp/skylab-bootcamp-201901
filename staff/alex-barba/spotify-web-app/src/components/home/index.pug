@@ -3,12 +3,12 @@ extends ../layout
 include ../search/index
 
 block content
-    section.home
-        //- h2 Welcome #{user.name} !
-        form(action='/logout', method='post')
-            button(type='submit') Logout
+    section.uk-container
+        a.uk-button.uk-button-secondary.uk-button-small(href='/home') Home
+        form.uk-align-right(action='/logout', method='post')
+            button.uk-button.uk-button-secondary.uk-button-small(type='submit') Logout
         +search
         block artists
         block albums
         block tracks
-        block player
+        block track

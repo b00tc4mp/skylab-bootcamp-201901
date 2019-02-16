@@ -1,7 +1,10 @@
 extends ../layout
 
 block content
-    section.landing
-      a(href='/login') Login
-      |  or 
-      a(href='/register') Register
+    section.uk-container.uk-text-center.uk-margin-top 
+      p 
+        | Already a user? Please 
+        a(href='/login' class='uk-link-heading') Log In
+      p 
+        |Not a user yet? 
+        a(href='/register' class='uk-link-heading') Sign Up!

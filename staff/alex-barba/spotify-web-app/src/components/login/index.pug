@@ -3,15 +3,20 @@ extends ../layout
 include ../feedback/index
 
 block content
-    section.login
-      h2 Login
-      form(method='POST', action='/login')
-        input(name='email', type='email', placeholder='email', required='')
-        input(name='password', type='password', placeholder='password', required='')
-        button(type='submit') Login
+  section.uk-container.uk-text-center
+    h2.uk-heading-bullet Log In
+    form(method='POST', action='/login')
+      div.uk-inline
+        span(class='uk-form-icon', uk-icon="user")
+        input.uk-input.uk-form-small.uk-form-blank(name='email', type='email', placeholder='email', required='')
+      div.uk-inline
+        span(class='uk-form-icon fas', uk-icon="unlock")
+        input.uk-input.uk-form-small.uk-form-blank(name='password', type='password', placeholder='password', required='')
+      button.uk-button.uk-button-secondary.uk-button-small(type='submit') Log In
       if feedback
-        +feedback(feedback, 'error')
-      | Go 
-      a(href='/') Home
-      |  or 
-      a(href='/register') Register
+        +feedback(feedback, 'danger')
+    | Go 
+    a(href='/' class='uk-link-heading') Home
+    |  or 
+    a(href='/register' class='uk-link-heading') Sign Up
+  

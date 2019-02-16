@@ -1,8 +1,12 @@
 extends ../home/index
 
 block albums
-    section
-        h2 Albums results
-        div
-            each album in albums
-                a(href=`home&album&${album.id}`)= album.name
+    div(class='uk-child-width-1-2@m uk-grid-match uk-margin-top', uk-grid, uk-scrollspy="cls: uk-animation-fade; target: > div > a > .uk-card; delay: 300; repeat: true")
+        each album in albums
+            div
+                a(href=`home&album&${album.id}`)
+                    div(class='uk-card uk-card-default uk-card-hover')
+                        div.uk-card-media-top.uk-text-center
+                            img(src=`${album.images[0] ? album.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='uk-margin-top',data-srcset="", sizes="", width="", height="", alt="", uk-img)
+                        div.uk-card-body.uk-text-center
+                            h3.uk-card-title= album.name
