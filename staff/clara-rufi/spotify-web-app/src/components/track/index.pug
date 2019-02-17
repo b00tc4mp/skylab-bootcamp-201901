@@ -1,11 +1,12 @@
-//- extends ../home/index
+extends ../tracks/index
 
-//- if track
-//-         section(class="track")
-//-             h2 Track
-//-                 div 
-//-                     h4 track.name
-//-                     h4 track.id
-
-//-                         form(method='POST', action='/track')
-//-                             audio(controls='', autoplay='', loop='', src='{track.preview_url}')  
+block track
+    if track
+        section(class="track")
+            h2 Track
+                div 
+                    h4 #{track.name} 
+                    if track.preview_url
+                        audio(controls='', autoplay='', loop='', src=track.preview_url)  
+                    else
+                        p Sorry, there is no preview available

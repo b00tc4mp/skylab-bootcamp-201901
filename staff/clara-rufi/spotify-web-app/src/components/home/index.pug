@@ -7,43 +7,48 @@ block content
     section(class="home")
         //p Welcome, {user.name}
         form(method='POST' action='/logout')
-            button(type='submit') Logout
+            button(type='submit' class='logout') Logout
         h2 Search
-        form(method='POST', action='/search')
-            input(name='query', type='text', placeholder='artist', required='')  
-            button(type='submit') Search
-        if artists
-            section(class="artists")
-                h2 Artists
-                div 
-                    each artist in artists
-                        form(method='POST', action='/albums')
-                            img(src=`${artist.images[0] ? artist.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='uk-margin-top', alt="")
-                            button(name='artistId', type='submit', value=artist.id)= artist.name
+        form(method='POST', action='/home')
+            input(name='query', type='text', class="search" placeholder='Search an artist', required='')  
+            button(type='submit' class="search_button") Search
+    block artists
+    //- block albums
+    //- block tracks
+    //- block track
+        //- if artists
+        //-     section(class="artists")
+        //-         h2 Artists
+        //-         ul
+        //-             each artist in artists
+        //-                 li
+        //-                     form(method='POST', action='/albums')
+        //-                         img(src=`${artist.images[0] ? artist.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='image', alt="")
+        //-                         button(name='artistId', type='submit', value=artist.id)= artist.name
 
-        if albums
-            section(class="album")
-                h2 Album
-                    div 
-                        each album in albums
-                            form(method='POST', action='/tracks')
-                                button(name='tracksId', type='submit', value=album.id)= album.name   
-                                img(src=`${album.images[0] ? album.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='uk-margin-top', alt="")
+        //- if albums                                         
+        //-     section(class="album")
+        //-         h2 Album
+        //-             div 
+        //-                 each album in albums
+        //-                     form(method='POST', action='/tracks')
+        //-                         button(name='tracksId', type='submit', value=album.id)= album.name   
+        //-                         img(src=`${album.images[0] ? album.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='uk-margin-top', alt="")
                      
 
-        if tracks
-            section(class="tracks")
-                h2 Tracks
-                    div 
-                        each track in tracks
-                            form(method='POST', action='/track')
-                                button(name='trackId', type='submit', value=track.id)= track.name     
-        if track
-            section(class="track")
-                h2 Track
-                    div 
-                        h4 track.name
-                        h4 track.id
+        //- if tracks
+        //-     section(class="tracks")
+        //-         h2 Tracks
+        //-             div 
+        //-                 each track in tracks
+        //-                     form(method='POST', action='/track')
+        //-                         button(name='trackId', type='submit', value=track.id)= track.name     
+        //- if track
+        //-     section(class="track")
+        //-         h2 Track
+        //-             div 
+        //-                 h4 track.name
+        //-                 h4 track.id
 
-                            form(method='POST', action='/track')
-                                audio(controls='', autoplay='', loop='', src='{track.preview_url}')  
+        //-                     form(method='POST', action='/track')
+        //-                         audio(controls='', autoplay='', loop='', src='{track.preview_url}')  

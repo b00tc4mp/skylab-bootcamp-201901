@@ -38,7 +38,7 @@ function pullFeedback(req) {
 function renderPage(content) { 
     return `<html>
 <body class="main">
-    <h1>Spotify App! 🤡</h1>
+    <h1>Spotify App!</h1>
      ${content}
 // </body>
 // </html>`
@@ -109,7 +109,6 @@ app.post('/login', formBodyParser, (req, res) => {
 })
 
 app.get('/home', (req, res) => {
-
     try {
         const { session: { feedback } } = req
 
@@ -143,17 +142,15 @@ app.get('/home', (req, res) => {
 
 // })
 
-app.post('/search', formBodyParser, (req, res) => {
-  
+app.post('/home', formBodyParser, (req, res) => {
     const { body: { query } } = req
     const logic = logicFactory.create(req)
     try {
-        debugger
         if (logic.isUserLoggedIn){
             logic.searchArtists(query)
                 .then(artists => {
-                    res.artist = artists
-                    res.render('home', {artists})              
+                    res.artists = artists
+                    res.render('artists', {artists})              
                 })
         }else{
             res.redirect('/login')
@@ -167,24 +164,23 @@ app.post('/search', formBodyParser, (req, res) => {
 })
 
 app.post('/albums', formBodyParser, (req, res) => {
-  
-      const { body: { artistId } } = req
-      const logic = logicFactory.create(req)
+    const { body: { artistId } } = req
+    const logic = logicFactory.create(req)
    
-      try {
-          if (logic.isUserLoggedIn){
-  
-              logic.retrieveAlbums(artistId)
-                  .then(albums => {
-                    res.albums = albums
-                      res.render('home', {albums})              
-                  })
-          }else{
-              res.redirect('/login')
-          }   
-      } catch (error) {
-          console.log(error.message)
-      }   
+    try {
+        if (logic.isUserLoggedIn){
+
+            logic.retrieveAlbums(artistId)
+                .then(albums => {
+                res.albums = albums
+                    res.render('albums', {albums})              
+                })
+        }else{
+            res.redirect('/login')
+        }   
+    } catch (error) {
+        console.log(error.message)
+    }   
   })
 
   app.post('/tracks', formBodyParser, (req, res) => {
@@ -194,12 +190,11 @@ app.post('/albums', formBodyParser, (req, res) => {
    
       try {
           if (logic.isUserLoggedIn){
-              
-  
+            
               logic.retrieveTracks(tracksId)
                   .then(tracks => {
                     res.tracks = tracks
-                      res.render('home', {tracks})              
+                      res.render('tracks', {tracks})              
                   })
           }else{
               res.redirect('/login')
@@ -218,9 +213,12 @@ app.post('/albums', formBodyParser, (req, res) => {
     
                 logic.retrieveTrack(trackId)
                     .then(track => {
+                        debugger
                         res.track = track
-                        res.render('home', {track})              
+                        res.render('track', {track})
+                        debugger              
                     })
+
             }else{
                 res.redirect('/login')
             }   
@@ -237,10 +235,8 @@ app.post('/logout', (req, res) => {
     res.redirect('/')
 })
 
-app.get('*', (req, res) => res.send(404, renderPage(`<section class="not-found">
-        <h2>NOT FOUND</h2>
-
-        Go <a href="/">Home</a>
+app.get('*', (req, res) => res.send(404, renderPage(`<section class="go">
+        Go <a href="/login">Login</a>
     </section>`)))
 
 

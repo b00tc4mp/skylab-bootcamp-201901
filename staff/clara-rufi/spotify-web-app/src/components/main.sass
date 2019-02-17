@@ -1,34 +1,59 @@
 main
     background-color:#3a90c0 
     border: 0.15rem solid #584f4f
+    padding-left: 1rem
 
 body
     background-color: #432a82
 
 form 
   
-    margin: 2rem 0 2rem 3rem
+    margin-left: 2.3rem
 
-    ul 
-        margin: 0
-        padding: 0.6rem
-        text-indent: 1rem
+ul 
+    list-style-type: none
 
-h1 
-    margin: 2rem 0 3rem
-    margin-top: 2rem
-    margin-bottom: 3rem
-    margin-left: 3rem
+.button_artist
+    border-radius: 0.3rem
+    margin-left: 0.5rem
+    height: 1.9rem
+    background-color: #5a80ed
+    color: white
+    display: flex
+    margin-top: 0.5rem
+
+p 
+    color: red
+    font-size: 1.2rem
 
 h2 
-    margin: 3rem 0 1.8rem 2.3rem
+    margin: 0 0 1.8rem 2.3rem
 
+h4
+    color: #d8c5f9
+    margin-top: 3rem
 
-h3 
-    margin-top: 2rem
-    margin-bottom: 1.5rem
-    margin-left: 3rem
-    font-size: 1.6rem
+.search
+    border-radius: 0.3rem
+    height: 1.7rem
+    text-indent: 0.5rem
 
-.pointer 
-    cursor: pointer
+.search_button
+    border-radius: 0.3rem
+    margin-left: 0.5rem
+    height: 1.7rem
+
+.go
+    margin-left: 4rem
+    text-decoration: none
+    height: 2rem
+    background-color: #8686f3
+    width: 20rem
+    display: flex
+    justify-content: space-evenly
+    border-radius: 0.4rem
+
+@import panel
+
+.main
+    @extend %panel 
