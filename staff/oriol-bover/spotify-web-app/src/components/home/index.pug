@@ -1,0 +1,17 @@
+extends ../layout
+
+include ../feedback/index
+include ../header/index
+include ../search/index
+include ../footer/index
+
+block content
+  +header
+  .main
+    section.container
+        section.section
+          +search
+          block artistResults
+          block albumResults
+          block trackResults
+  +footer
