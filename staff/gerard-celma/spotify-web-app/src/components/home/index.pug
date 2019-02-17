@@ -1,0 +1,17 @@
+extends ../layout/index
+
+include ../feedback/index
+include ../search/index
+
+
+block content
+    section.home
+        | Welcome!
+        if feedback
+            +feedback(feedback, 'error')
+        form(action='/logout', method='POST')
+            button(type='submit') Logout
+        +search
+        block artists
+        block albums
+        block tracks 
