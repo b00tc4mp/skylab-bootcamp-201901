@@ -1,10 +1,11 @@
 mixin artists(artists)
-    .main-content
-        ul.gif-list
+    section.artists.p-l-10.p-r-10
+        .artists-list
             each artist in artists
-                li.gif-wrap
+                .artist
                     a(href=`/albums/${artist.id}`, alt=`See albums of ${artist.name}`)
                         if artist.images[1] !== undefined
                             img(src=artist.images[1].url)
                         else
-                            img(src='https://i0.wp.com/raduluchian.com/wp-content/uploads/post/when-spotify-delivers-more-frustration-than-music/spotify-first-launch-page.jpg')
+                            img(src='/images/image-not-found.jpg')
+                    h4= artist.name

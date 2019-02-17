@@ -1,12 +1,17 @@
 include ../feedback/index
 
 mixin search(feedback)
-  form.search-form(action='/home/artists')
-    label.is-hidden(for='search') Search
-    input(type='search', name='query', placeholder='Search...')
-    button#submit.search-button(type='submit')
-      i.material-icons.icn-search search
-  if feedback
-    +feedback(feedback, 'error')
+    section.search.p-l-50.p-r-50.p-t-30.p-b-30
+      form.login100-form.validate-form(action='/home/artists', method='get')
+        .wrap-input100.validate-input.m-b-23(data-validate='Search query is required')
+          input.input100(type='text', name='query', placeholder='Search Artists', autocomplete='off')
+          span.focus-input100(data-symbol='')
+      if feedback
+        +feedback(feedback, 'error')
+
+
+
+
+
 
 

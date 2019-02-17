@@ -1,0 +1,36 @@
+.artists
+    width: 90%
+    background: #fff
+    border-radius: 0px 0px 10px 10px
+    overflow: hidden
+    padding-top: 35px
+    &-list
+        display: flex
+        flex-flow: row wrap
+        justify-content: center
+        & .artist
+            flex-basis: 30%
+            -ms-flex: auto
+            width: 200px
+            position: relative
+            padding: 10px
+            box-sizing: border-box
+            text-align: center
+            margin-bottom: 20px
+            //background: -webkit-linear-gradient(right, #00dbde, #fc00ff, #00dbde, #fc00ff)
+            & img 
+                width: 200px
+                border-radius: 50%
+            h4
+                color: #333333
+                font-weight: bold
+                font-size: 100%
+                margin-top: 8px
+                text-transform: uppercase
+
+        @media(max-width: 815px) 
+            flex-basis: 50%
+
+        @media(max-width: 555px) 
+            flex-basis: 100%
+
