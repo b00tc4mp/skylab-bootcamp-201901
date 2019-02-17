@@ -4,14 +4,15 @@ extends ../layout
 
 
 block content
+    
     section(class="home")
         //p Welcome, {user.name}
         form(method='POST' action='/logout')
             button(type='submit' class='logout') Logout
         h2 Search
         form(method='POST', action='/home')
-            input(name='query', type='text', class="search" placeholder='Search an artist', required='')  
-            button(type='submit' class="search_button") Search
+            input(name='query', type='text', class="input" placeholder='Search an artist', required='')  
+            button(type='submit' class="input_button") Search
     block artists
     //- block albums
     //- block tracks

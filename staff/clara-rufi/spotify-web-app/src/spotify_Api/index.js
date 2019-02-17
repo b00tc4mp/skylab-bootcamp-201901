@@ -8,8 +8,8 @@ require('isomorphic-fetch')
  * @version 2.1.0
  */
 const spotifyApi = {
-   
-    token: 'BQBetAm55JdgRUcIyDYjoSgsN88JXT3XRIA4OfBoDb9yeKdsQoXV2A4N8ypqTmTd8rb3DNALvkOeXGFGYwZTEDYSo7JmJV16hfzGkbOfHd4KCRnDegWmSBAhqSNISExcs3ZUJXxtgrHPtoP081IVj_5C6BCnBkO0nw',
+    token: 'NO-TOKEN',
+    token: 'BQBk8ziWkwcVPoAc8wV5WN9zwcEHX3d_1V-Dvi_hrwmolXLXoTuPVIdgPsDbwqyZeR_C80XbnWYGnfXzuEpIG6NKMpCzKGyGVfC2vr6RBv048Z9ortV2XX4N_OaZ0ysURExsBq0W3deImRbXbsc6m1CxEnscL_z8XQ',
     url: 'https://api.spotify.com/v1',
 
     /**

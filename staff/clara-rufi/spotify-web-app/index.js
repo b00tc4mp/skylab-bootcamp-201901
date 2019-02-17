@@ -232,7 +232,7 @@ app.post('/logout', (req, res) => {
 
     logic.logOutUser()
 
-    res.redirect('/')
+    res.redirect('/login')
 })
 
 app.get('*', (req, res) => res.send(404, renderPage(`<section class="go">

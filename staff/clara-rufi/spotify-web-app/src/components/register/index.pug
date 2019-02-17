@@ -6,12 +6,12 @@ block content
     section.register
       h2 Register
       form(method='POST', action='/register')
-        input(name='name', type='text', placeholder='name', required='')
-        input(name='surname', type='text', placeholder='surname', required='')
-        input(name='email', type='email', placeholder='email', required='')
-        input(name='password', type='password', placeholder='password', required='')
-        input(name='passwordConfirm', type='password', placeholder='confirm password', required='')
-        button(type='submit') Register
+        input(name='name', type='text', placeholder='name', class='input' required='')
+        input(name='surname', type='text', placeholder='surname', class='input' required='')
+        input(name='email', type='email', placeholder='email', class='input' required='')
+        input(name='password', type='password', placeholder='password', class='input' required='')
+        input(name='passwordConfirm', type='password', placeholder='confirm password', class='input' required='')
+        button(type='submit' class='input_button') Register
       if feedback
         +feedback(feedback, 'warn')
       div(class='go')
