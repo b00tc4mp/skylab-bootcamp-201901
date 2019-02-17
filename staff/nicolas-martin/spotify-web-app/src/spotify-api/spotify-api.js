@@ -38,8 +38,8 @@ const spotifyApi = {
 
                 if(response.error)throw Error(response.error.message)
 
-                const {artists: {items}} = response
-                return items
+                const {artists} = response
+                return artists
             })
     },
 

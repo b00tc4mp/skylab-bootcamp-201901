@@ -111,7 +111,7 @@ app.get('/home/artists', formBodyParser, (req, res) => {
 
     try {
         logic.searchArtists(query)
-            .then(artists => res.render('home', { artists, feedback: null }))
+            .then(results => res.render('home', { results, feedback: null }))
             .catch(({ message }) => {
                 req.session.feedback = message
                 const feedback = pullFeedback(req)
@@ -165,7 +165,6 @@ app.get('/tracks/:albumId', (req, res) => {
     }
 
 })
-
 
 
 app.post('/logout', (req, res) => {

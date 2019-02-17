@@ -1,50 +1,86 @@
-.register, .feedback, .landing, .login, .home, .main {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em; }
-
-.register, .feedback, .landing, .login, .home, .main {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em; }
-
+.artists {
+  width: 90%;
+  background: #fff;
+  border-radius: 0px 0px 10px 10px;
+  overflow: hidden;
+  padding-top: 35px; }
+  .artists-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center; }
+    .artists-list .artist {
+      flex-basis: 30%;
+      -ms-flex: auto;
+      width: 200px;
+      position: relative;
+      padding: 10px;
+      box-sizing: border-box;
+      text-align: center;
+      margin-bottom: 20px; }
+      .artists-list .artist img {
+        width: 200px;
+        border-radius: 50%; }
+      .artists-list .artist h4 {
+        color: #333333;
+        font-weight: bold;
+        font-size: 100%;
+        margin-top: 8px;
+        text-transform: uppercase; }
+@media(max-width: 815px) {
+  .artists-list {
+    flex-basis: 50%; } }
+@media(max-width: 555px) {
+  .artists-list {
+    flex-basis: 100%; } }
 .feedback {
-  background-color: limegreen; }
-  .feedback--warn {
-    background-color: gold; }
-  .feedback--error {
-    background-color: tomato; }
+  color: #fc00ff;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center; }
 
-.register, .feedback, .landing, .login, .home, .main {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em; }
+.home {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-image: url("images/bg-01.jpg"); }
 
-.register, .feedback, .landing, .login, .home, .main {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em; }
+.register a {
+  color: white;
+  text-decoration: underline; }
+.register h2 {
+  margin-bottom: 15px; }
 
-.register, .feedback, .landing, .login, .home, .main {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em; }
+.search {
+  width: 90%;
+  background: #fff;
+  border-radius: 10px 10px 0px 0px;
+  overflow: hidden; }
+  .search .focus-input100::after {
+    height: calc(100% - 0px); }
 
-.register, .feedback, .landing, .login, .home, .main {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em; }
+.tracks .track {
+  flex-basis: 50%; }
+  .tracks .track h5 {
+    font-size: 14px;
+    margin-bottom: 15px; }
 
-.register, .feedback, .landing, .login, .home, .main {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em; }
+.resume {
+  background-color: #fff;
+  padding: 20px 90px;
+  width: 90%; }
+  .resume p {
+    color: #df2af1; }
 
 /*# sourceMappingURL=style.css.map */

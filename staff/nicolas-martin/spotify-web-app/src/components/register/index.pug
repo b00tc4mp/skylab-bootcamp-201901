@@ -3,18 +3,35 @@ extends ../layout
 include ../feedback/index
 
 block content
-    section.register
-      h2 Register
-      form(method='POST', action='/register')
-        input(name='name', type='text', placeholder='name', required='')
-        input(name='surname', type='text', placeholder='surname', required='')
-        input(name='email', type='email', placeholder='email', required='')
-        input(name='password', type='password', placeholder='password', required='')
-        input(name='passwordConfirm', type='password', placeholder='confirm password', required='')
-        button(type='submit') Register
+  .container-login100(style="background-image: url('images/bg-01.jpg');")
+    .wrap-login100.p-l-55.p-r-55.p-t-65.p-b-54
+      form.login100-form.validate-form(action='/register', method='post', _lpchecked='1')
+        span.login100-form-title.p-b-49 Register
+        .wrap-input100.validate-input.m-b-23(data-validate='Username is reauired')
+          span.label-input100 Name
+          input.input100(type='text', name='name', required='true', placeholder='Type your name', autocomplete='off', style='background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="); cursor: pointer;')
+          span.focus-input100(data-symbol='')
+        .wrap-input100.validate-input.m-b-23(data-validate='Name is required')
+          span.label-input100 Surname
+          input.input100(type='text', name='surname', required='true', placeholder='Type your surname', autocomplete='off', style='background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC"); cursor: auto; background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;')
+          span.focus-input100(data-symbol='')
+        .wrap-input100.validate-input.m-b-23(data-validate='Username is required')
+          span.label-input100 Email
+          input.input100(type='email', name='email', required='true', placeholder='Type your email', autocomplete='off', style='background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="); cursor: pointer;')
+          span.focus-input100(data-symbol='')
+        .wrap-input100.validate-input.m-b-23(data-validate='Password is required')
+          span.label-input100 Password
+          input.input100(type='password', name='password', required='true', placeholder='Type your password', autocomplete='off', style='background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="); cursor: auto;')
+          span.focus-input100(data-symbol='')
+        .wrap-input100.validate-input.m-b-35(data-validate='Password is required')
+          span.label-input100 Password confirmation
+          input.input100(type='password', name='passwordConfirm', required='true', placeholder='Type your password again', autocomplete='off', style='background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="); cursor: auto;')
+          span.focus-input100(data-symbol='')
+        .container-login100-form-btn
+          .wrap-login100-form-btn
+            .login100-form-bgbtn
+            button.login100-form-btn Login
+        .txt1.text-center.p-t-54.p-b-20
+          a.txt2(href='/login') Go to Login
       if feedback
         +feedback(feedback, 'warn')
-      | Go 
-      a(href='/') Home
-      |  or 
-      a(href='/login') Login
