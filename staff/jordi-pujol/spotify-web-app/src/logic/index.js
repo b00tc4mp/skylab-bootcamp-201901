@@ -128,25 +128,6 @@ class Logic {
     }
 
     /**
-     * Toggles a artist from non-favorite to favorite, and viceversa.
-     * 
-     * @param {string} artistId - The id of the artist to toggle in favorites.
-     */
-    toggleFavoriteArtist(artistId) {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(user => {
-                const { favoriteArtists = [] } = user
-
-                const index = favoriteArtists.findIndex(_artistId => _artistId === artistId)
-
-                if (index < 0) favoriteArtists.push(artistId)
-                else favoriteArtists.splice(index, 1)
-
-                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteArtists })
-            })
-    }
-
-    /**
      * Retrieves albums from artist.
      * 
      * @param {string} artistId 
@@ -173,25 +154,6 @@ class Logic {
     }
 
     /**
-     * Toggles a album from non-favorite to favorite, and viceversa.
-     * 
-     * @param {string} albumId - The id of the album to toggle in favorites.
-     */
-    toggleFavoriteAlbum(albumId) {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(user => {
-                const { favoriteAlbums = [] } = user
-
-                const index = favoriteAlbums.findIndex(_albumId => _albumId === albumId)
-
-                if (index < 0) favoriteAlbums.push(albumId)
-                else favoriteAlbums.splice(index, 1)
-
-                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteAlbums })
-            })
-    }
-
-    /**
      * Retrieves tracks from album.
      * 
      * @param {string} albumId 
@@ -215,25 +177,6 @@ class Logic {
         if (!trackId.trim().length) throw Error('trackId is empty')
 
         return spotifyApi.retrieveTrack(trackId)
-    }
-
-    /**
-     * Toggles a track from non-favorite to favorite, and viceversa.
-     * 
-     * @param {string} trackId - The id of the track to toggle in favorites.
-     */
-    toggleFavoriteTrack(trackId) {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(user => {
-                const { favoriteTracks = [] } = user
-
-                const index = favoriteTracks.findIndex(_trackId => _trackId === trackId)
-
-                if (index < 0) favoriteTracks.push(trackId)
-                else favoriteTracks.splice(index, 1)
-
-                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteTracks })
-            })
     }
 }
 

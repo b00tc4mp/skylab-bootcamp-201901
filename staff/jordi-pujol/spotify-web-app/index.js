@@ -103,24 +103,26 @@ app.post('/login', formBodyParser, (req, res) => {
 })
 
 app.get('/home', (req, res) => {
+    const { session: { feedback } } = req
+
+    const logic = logicFactory.create(req)
+    
     try {
-        const { session: { feedback } } = req
-
-        const logic = logicFactory.create(req)
-
         if (logic.isUserLoggedIn)
             logic.retrieveUser()
                 .then(user => res.render('home', { feedback }))
                 .catch(({ message }) => {
                     req.session.feedback = message
+                    feedback = pullFeedback(req)
 
-                    res.redirect('/home')
+                    res.redirect('/home', {message})
                 })
         else res.redirect('/login')
     } catch ({ message }) {
         req.session.feedback = message
+        const feedback = pullFeedback(req)
 
-        res.redirect('/home')
+        res.redirect('/home', {feedback})
     }
 })
 
@@ -135,11 +137,10 @@ app.post('/logout', (req, res) => {
 app.post('/home', formBodyParser, (req, res) => {
     const { body: { query } } = req
 
-    res.redirect(`home&search&${query}`)
-
+    res.redirect(`home/search/${query}`)
 })
 
-app.get('/home&search&:query', (req, res) => {
+app.get('/home/search/:query', (req, res) => {
     const { session: { feedback }, params: { query } } = req
 
     const logic = logicFactory.create(req)
@@ -148,43 +149,40 @@ app.get('/home&search&:query', (req, res) => {
             logic.searchArtists(query)
                 .then(artists => res.render('artists', { artists }))
                 .catch(({ message }) => {
-                    req.session.feedback = message
-                    const feedback = pullFeedback(req)
+                    feedback = pullFeedback(req)
 
-                    res.render('home', { feedback })
+                    res.render('home', { message })
                 })
         } catch ({ message }) {
-            req.session.feedback = message
-            const feedback = pullFeedback(req)
+            feedback = pullFeedback(req)
 
             res.render('home', { feedback })
         }
     }
 })
 
-app.get('/home&artist&:artistId', (req, res) => {
+app.get('/home/artist/:artistId', (req, res) => {
 
     const { params: { artistId }, session: { feedback } } = req
+
     const logic = logicFactory.create(req)
 
     try {
         logic.retrieveAlbums(artistId)
             .then((albums) => res.render('albums', { albums }))
             .catch(({ message }) => {
-                req.session.feedback = message
-                const feedback = pullFeedback(req)
+                feedback = pullFeedback(req)
 
                 res.render('home', { feedback })
             })
     } catch ({ message }) {
-        req.session.feedback = message
-        const feedback = pullFeedback(req)
+        feedback = pullFeedback(req)
 
         res.render('home', { feedback })
     }
 })
 
-app.get('/home&album&:albumId', (req, res) => {
+app.get('/home/album/:albumId', (req, res) => {
 
     const { params: { albumId }, session: { feedback } } = req
     const logic = logicFactory.create(req)
@@ -206,46 +204,6 @@ app.get('/home&album&:albumId', (req, res) => {
         res.render('home', { feedback })
     }
 })
-
-// app.get('home&tracks&:trackId', (req, res)=>{
-
-// })
-
-
-
-
-
-
-// app.get('/search', (req, res) =>{
-
-//     const { body: { query }} = req
-//     const logic = logicFactory.create(req)
-
-//     try{
-
-//         if (logic.isUserLoggedIn)
-//         logic.searchArtists(query)
-//             .then( results => alert(results))
-//             .catch(({ message }) => {
-//                 req.session.feedback = message
-
-//             // res.redirect('/search')
-//         })
-
-//     } catch ({ message }) {
-//         req.session.feedback = message
-
-//         // res.redirect('/search')
-//     }
-// })
-
-// app.get('/artists', (req, res) => {
-// })
-
-
-
-
-
 
 app.get('*', (req, res) => {
     res.status(404)

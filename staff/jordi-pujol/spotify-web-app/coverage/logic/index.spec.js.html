@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>147/147</span>
+        <span class='fraction'>152/152</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>147/147</span>
+        <span class='fraction'>152/152</span>
       </div>
     </div>
     <p class="quiet">
@@ -279,7 +279,12 @@
 <a name='L231'></a><a href='#L231'>231</a>
 <a name='L232'></a><a href='#L232'>232</a>
 <a name='L233'></a><a href='#L233'>233</a>
-<a name='L234'></a><a href='#L234'>234</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -290,6 +295,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -431,6 +437,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -457,6 +464,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -474,6 +482,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -488,6 +497,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -514,15 +524,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 const { expect } = require('chai')
-const logic = require('.')
+const Logic = require('.')
 &nbsp;
-describe('logic', () =&gt; {
+describe('Logic', () =&gt; {
     describe('register user', () =&gt; {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
+        const logic = new Logic
 &nbsp;
         it('should succeed on valid data', () =&gt;
             logic.registerUser(name, surname, email, password, passwordConfirm)
@@ -670,6 +681,7 @@ describe('logic', () =&gt; {
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
+        const logic = new Logic
 &nbsp;
         beforeEach(() =&gt;
             logic.registerUser(name, surname, email, password, passwordConfirm)
@@ -678,8 +690,8 @@ describe('logic', () =&gt; {
         it('should succeed on correct credentials', () =&gt;
             logic.logInUser(email, password)
                 .then(() =&gt; {
-                    expect(logic.__userId__).to.exist
-                    expect(logic.__userApiToken__).to.exist
+                    expect(logic.__storage__.userId).to.exist
+                    expect(logic.__storage__.userApiToken).to.exist
                 })
         )
     })
@@ -690,6 +702,7 @@ describe('logic', () =&gt; {
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
+        const logic = new Logic
 &nbsp;
         beforeEach(() =&gt;
             logic.registerUser(name, surname, email, password, passwordConfirm)
@@ -707,6 +720,7 @@ describe('logic', () =&gt; {
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
+        const logic = new Logic
 &nbsp;
         beforeEach(() =&gt;
             logic.registerUser(name, surname, email, password, passwordConfirm)
@@ -716,8 +730,8 @@ describe('logic', () =&gt; {
         it('should succeed on correct credentials', () =&gt; {
             logic.logOutUser()
 &nbsp;
-            expect(logic.__userId__).to.be.null
-            expect(logic.__userId__).to.be.null
+            expect(logic.__storage__.userId).to.be.null
+            expect(logic.__storage__.userId).to.be.null
         })
     })
 &nbsp;
@@ -727,6 +741,7 @@ describe('logic', () =&gt; {
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
         const passwordConfirm = password
+        const logic = new Logic
 &nbsp;
         beforeEach(() =&gt;
             logic.registerUser(name, surname, email, password, passwordConfirm)
@@ -736,7 +751,7 @@ describe('logic', () =&gt; {
         it('should succeed on correct credentials', () =&gt;
             logic.retrieveUser()
                 .then(user =&gt; {
-                    expect(user.id).to.equal(logic.__userId__)
+                    expect(user.id).to.equal(logic.__storage__.userId)
                     expect(user.name).to.equal(name)
                     expect(user.surname).to.equal(surname)
                     expect(user.email).to.equal(email)
@@ -751,7 +766,7 @@ describe('logic', () =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Feb 13 2019 17:21:17 GMT+0100 (Central European Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Feb 16 2019 17:02:58 GMT+0100 (CET)
 </div>
 </div>
 <script src="../prettify.js"></script>

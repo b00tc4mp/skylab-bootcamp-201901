@@ -3,5 +3,5 @@ extends ../home/index
 block albums
     section
         each album in albums
-          a(href=`home&album&${album.id}`)
+          a(href=`/home/album/${album.id}`)
             h3= album.name

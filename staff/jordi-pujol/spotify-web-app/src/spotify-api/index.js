@@ -9,7 +9,7 @@ require('isomorphic-fetch')
  */
 const spotifyApi = {
     // token: 'NO-TOKEN',
-    token: 'BQDcTxa9Ft2OCSFKPK5vtkBkp_yEez5RzNY6SIknelGK1Nowvy_3Q7v6nCShMEjKkmWxl0UBEUipqfTCqT7_6vauJDIRy6PCcnTzADtNFvxzSMIubgeHl9NqYcYc5yGcltyKcGenFqnucbI',
+    token: 'BQC6evx2Nk-67AY4F0tjvezFirrQnLuiDfV7q3nUEQcS-N_CQCfCnp3_ECY0cGPSae3sUpM_IDeEuomKnQzQuGyDB7mMUcw7dQ9GQVxBeR4xCMAZUMqbDTddtVW74wNxWAlLBueta2Lp69Q',
     url: 'https://api.spotify.com/v1',
     /**
      * Searches artists.
@@ -75,6 +75,10 @@ const spotifyApi = {
      * @throws {Error} - On empty parameters value.
      */
     retrieveTracks(albumId) {
+        if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
+
+        if (!albumId.trim().length) throw Error('albumId is empty')
+
         return fetch(`${this.url}/albums/${albumId}/tracks`, {
             method: 'GET',
             headers: {
