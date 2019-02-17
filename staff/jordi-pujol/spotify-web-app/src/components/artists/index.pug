@@ -3,7 +3,7 @@ extends ../home/index
 block artists
     section(class='results')
         each artist in artists
-          a(href=`home&artist&${artist.id}`)
+          a(href=`/home/artist/${artist.id}`)
             h3= artist.name
             div
               img(src=`${artist.images[0]? artist.images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, alt="")
