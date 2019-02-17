@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <style>
+        .site{  
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .main{
+            flex: 1;
+        }
+
+        .login{
+            margin-top: 5em;
+        }
+        
+        .section-title{
+            margin-bottom: 0.2em;
+        }
+
+        .is-shady:hover{
+            cursor: pointer;
+            box-shadow: #404142 0 0 10px;
+        }
+    </style>
+
+</head>
+
+<body class="site">
+    <section class="hero is-small is-dark">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    <i class="fab fa-spotify"></i> Spotify web app
+                </h1>
+            </div>
+        </div>
+    </section>
+    <div class="main">
+        <section class="container">
+            <section class="section">
+                <div class="box">
+                    <form action="/search" method="POST">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input class="input has-text-centered" type="search" placeholder="search an artist">
+                            </div>
+                            <div class="control">
+                                <input class="button is-dark" type="submit" value="search"></input>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <section>
+                    <div class="columns is-multiline is-mobile is-centered">
+                        <div class="column is-three-quarters-mobile is-three-quarters-tablet is-one-fifth-desktop has-text-centered">
+                            <div class="track--detail">
+                                <img src="https://source.unsplash.com/RWnpyGtY1aU" alt="Placeholder image">
+                                <h2 class="title">Title</h2>
+                                <h4 class="subtitle">Subtitle</h4>
+                                <button class="button"><i class="fab fa-spotify"></i> Spotify Page</button>
+                                <audio controls>
+                                    <source src="horse.mp3" type="audio/mpeg">
+                                </audio>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </section>
+    </div>
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>Developed by <a href="https://github.com/boversauros">Boversauros</a> <i class="fab fa-github"></i></p>
+        </div>
+    </footer>
+</body>
+
+</html>
