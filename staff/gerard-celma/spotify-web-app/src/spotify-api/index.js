@@ -1,12 +1,14 @@
 'use strict'
 
+require('isomorphic-fetch')
+
 /**
  * Spotify API client.
  * 
  * @version 2.1.0
  */
 const spotifyApi = {
-    token: 'NO-TOKEN',
+    token: 'BQCWdCyD6aWz3TxiRIsG4ZcDpOTeXmokLUQlvHPukdZiHZM0c_APsst4_Nzo4zq6eYv4IeOSZRz1bYweVwO9Qas1MDREK_jhtmMFs2VA0CLIjZiIlREbtysbHYMYdecdigKA5_1B-7SXHirdiZM',
     url: 'https://api.spotify.com/v1',
 
     /**
@@ -151,4 +153,4 @@ const spotifyApi = {
     }
 }
 
-export default spotifyApi
+module.exports = spotifyApi

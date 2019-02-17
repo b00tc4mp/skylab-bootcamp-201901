@@ -1,10 +1,11 @@
 'use strict'
 
-import spotifyApi from '.'
+const { expect } = require('chai')
+const spotifyApi = require('.')
 
-const { env: { REACT_APP_SPOTIFY_API_TOKEN } } = process
+const { env: { SPOTIFY_API_TOKEN } } = process
 
-spotifyApi.token = REACT_APP_SPOTIFY_API_TOKEN
+// spotifyApi.token = SPOTIFY_API_TOKEN
 
 describe('spotify api', () => {
     describe('search artists', () => {
@@ -13,18 +14,18 @@ describe('spotify api', () => {
 
             return spotifyApi.searchArtists(query)
                 .then(artists => {
-                    expect(artists).toBeDefined()
-                    expect(artists instanceof Array).toBeTruthy()
-                    expect(artists.length).toBeGreaterThan(0)
+                    expect(artists).to.exist
+                    expect(artists instanceof Array).to.be.true
+                    expect(artists.length).to.be.at.least(0)
 
-                    artists.forEach(({ name }) => expect(name.toLowerCase()).toContain(query))
+                    artists.forEach(({ name }) => expect(name.toLowerCase()).to.contain(query))
                 })
         })
 
         it('should fail on empty query', () => {
             const query = ''
 
-            expect(() => spotifyApi.searchArtists(query)).toThrowError('query is empty')
+            expect(() => spotifyApi.searchArtists(query)).to.throw(Error, 'query is empty')
         })
     })
 
@@ -34,15 +35,15 @@ describe('spotify api', () => {
 
             return spotifyApi.retrieveArtist(artistId)
                 .then(({id, name}) => {
-                    expect(id).toBe(artistId)
-                    expect(name).toBe('Madonna')
+                    expect(id).to.equal(artistId)
+                    expect(name).to.equal('Madonna')
                 })
         })
 
         it('should fail on empty artistId', function () {
             const artistId = ''
 
-            expect(() => spotifyApi.retrieveArtist(artistId)).toThrowError('artistId is empty')
+            expect(() => spotifyApi.retrieveArtist(artistId)).to.throw(Error, 'artistId is empty')
         })
     })
 
@@ -52,16 +53,16 @@ describe('spotify api', () => {
 
             return spotifyApi.retrieveAlbums(artistId)
                 .then(albums => {
-                    expect(albums).toBeDefined()
-                    expect(albums instanceof Array).toBeTruthy()
-                    expect(albums.length).toBeGreaterThan(0)
+                    expect(albums).to.exist
+                    expect(albums instanceof Array).to.be.true
+                    expect(albums.length).to.be.at.least(0)
                 })
         })
 
         it('should fail on empty artistId', function () {
             const artistId = ''
 
-            expect(() => spotifyApi.retrieveAlbums(artistId)).toThrowError('artistId is empty')
+            expect(() => spotifyApi.retrieveAlbums(artistId)).to.throw(Error, 'artistId is empty')
         })
     })
 
@@ -71,15 +72,15 @@ describe('spotify api', () => {
 
             return spotifyApi.retrieveAlbum(albumId)
                 .then(({id, name}) => {
-                    expect(id).toBe(albumId)
-                    expect(name).toBe('Rebel Heart Tour (Live)')
+                    expect(id).to.equal(albumId)
+                    expect(name).to.equal('Rebel Heart Tour (Live)')
                 })
         })
 
         it('should fail on empty albumId', function () {
             const albumId = ''
 
-            expect(() => spotifyApi.retrieveAlbum(albumId)).toThrowError('albumId is empty')
+            expect(() => spotifyApi.retrieveAlbum(albumId)).to.throw(Error, 'albumId is empty')
         })
     })
 
@@ -89,16 +90,16 @@ describe('spotify api', () => {
 
             return spotifyApi.retrieveTracks(albumId)
                 .then(tracks => {
-                    expect(tracks).toBeDefined()
-                    expect(tracks instanceof Array).toBeTruthy()
-                    expect(tracks.length).toBeGreaterThan(0)
+                    expect(tracks).to.exist
+                    expect(tracks instanceof Array).to.be.true
+                    expect(tracks.length).to.be.at.least(0)
                 })
         })
 
         it('should fail on empty albumId', function () {
             const albumId = ''
 
-            expect(() => spotifyApi.retrieveTracks(albumId)).toThrowError('albumId is empty')
+            expect(() => spotifyApi.retrieveTracks(albumId)).to.throw(Error, 'albumId is empty')
         })
     })
 
@@ -109,19 +110,19 @@ describe('spotify api', () => {
 
             return spotifyApi.retrieveTrack(trackId)
                 .then(track => {
-                    expect(track).toBeDefined()
+                    expect(track).to.exist
 
                     const { id, name } = track
 
-                    expect(id).toBe(trackId)
-                    expect(name).toBe(trackName)
+                    expect(id).to.equal(trackId)
+                    expect(name).to.equal(trackName)
                 })
         })
 
         it('should fail on empty trackId', function () {
             const trackId = ''
 
-            expect(() => spotifyApi.retrieveTrack(trackId)).toThrowError('trackId is empty')
+            expect(() => spotifyApi.retrieveTrack(trackId)).to.throw(Error, 'trackId is empty')
         })
     })
 })
