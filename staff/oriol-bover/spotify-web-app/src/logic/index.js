@@ -165,6 +165,22 @@ class Logic {
 
 
     /**
+     * 
+     * Retrieve Album
+     * 
+     * @param {string} albumId 
+     * @returns {Promise}
+     */
+    retrieveAlbum(albumId) {
+        if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
+
+        if (!albumId.trim().length) throw Error('albumId is empty')
+
+        return spotifyApi.retrieveAlbum(albumId)
+    }
+
+
+    /**
      * Retrieve Tracks
      * 
      * @param {string} albumId 
@@ -176,6 +192,21 @@ class Logic {
         if (!albumId.trim().length) throw Error('albumId is empty')
 
         return spotifyApi.retrieveTracks(albumId)
+    }
+
+
+    /**
+     * Retrieve Track
+     * 
+     * @param {string} trackId 
+     * @returns {Promise}
+     */
+    retrieveTrack(trackId) {
+        if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)
+
+        if (!trackId.trim().length) throw Error('trackId is empty')
+
+        return spotifyApi.retrieveTrack(trackId)
     }
 
 }
