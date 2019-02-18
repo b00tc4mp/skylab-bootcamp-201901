@@ -122,28 +122,17 @@ app.post('/login', formBodyParser, (req, res) => {
 })
 
 app.get('/home', (req, res) => {
+    const { session: { feedback } } = req
+
+    const logic = logicFactory.create(req)
+
     try {
-        const { session: { feedback } } = req
-
-        const logic = logicFactory.create(req)
-
         if (logic.isUserLoggedIn)
             logic.retrieveUser()
                 .then(user => {
 
                     res.render('home', { feedback });
 
-
-                    // res.send(renderPage(`<section class="home">
-                    //     Welcome, ${user.name}!
-                    //     ${feedback ? `<section class="feedback feedback--error">
-                    //         ${feedback}
-                    //     </section>` : ''}
-                    //     searxh
-                    //     <form action="/logout" method="POST">
-                    //     <button type="submit">Logout</button>
-                    //     </form>
-                    // </section>`))
                 })
                 .catch(({ message }) => {
                     req.session.feedback = message
@@ -199,16 +188,16 @@ app.get('/album/:albumId', (req, res) => {
     const { session: { feedback }, params: { albumId } } = req
 
     const logic = logicFactory.create(req)
-    console.log('1');
+
     try {
-        console.log('2');
+
         logic.retrieveTracks(albumId)
             .then(tracks => res.render('tracks', { tracks }))
             .catch(({ message }) => {
                 req.session.feedback = message
             })
     } catch ({ message }) {
-        console.log('3');
+
         req.session.feedback = message
     }
 })
