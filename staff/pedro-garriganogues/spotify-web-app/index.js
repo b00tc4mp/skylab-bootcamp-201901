@@ -155,7 +155,11 @@ app.post('/search', formBodyParser, (req, res) => {
         logic.searchArtists(query).then((artists) => {
 
             res.render('artists', { artists })
+
         })
+            .catch(({ message }) => {
+                req.session.feedback = message
+            })
     } catch (error) {
         console.log('error');
         console.log(error.message)
@@ -171,7 +175,11 @@ app.get('/artist/:artistId', (req, res) => {
 
     try {
         logic.retrieveAlbums(artistId)
-            .then(albums => res.render('albums', { albums }))
+            .then(albums => {
+                res.render('albums', { albums })
+                console.log('albums: ', albums);
+                console.log('album: ', album);
+            })
             .catch(({ message }) => {
                 req.session.feedback = message
             })
@@ -189,9 +197,7 @@ app.get('/album/:albumId', (req, res) => {
     try {
 
         logic.retrieveTracks(albumId)
-            .then(tracks => {
-                res.render('tracks', { tracks })
-            })
+            .then(tracks => res.render('tracks', { tracks }))
             .catch(({ message }) => {
                 req.session.feedback = message
             })
