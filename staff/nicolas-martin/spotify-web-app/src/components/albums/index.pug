@@ -7,33 +7,5 @@ mixin albums(albums)
                         if album.images[1] !== undefined
                             img(src=album.images[1].url)
                         else
-                            img(src='https://i0.wp.com/raduluchian.com/wp-content/uploads/post/when-spotify-delivers-more-frustration-than-music/spotify-first-launch-page.jpg')
+                            img(src='/images/image-not-found.jpg')
                     h4= album.name
-
-
-//- mixin artists(artists)
-//-     section.artists.p-l-10.p-r-10
-//-         .artists-list
-//-             each artist in artists
-//-                 .artist
-//-                     a(href=`/albums/${artist.id}`, alt=`See albums of ${artist.name}`)
-//-                         if artist.images[1] !== undefined
-//-                             img(src=artist.images[1].url)
-//-                         else
-//-                             img(src='/images/image-not-found.jpg')
-//-                     h4= artist.name
-
-
-
-//- album_group: "album"
-//- album_type: "album"
-//- artists: [{…}]
-//- available_markets: (78) ["AD", "AE", "AR", "AT", "AU", "BE", "BG", "BH", "BO", "BR", "CA", "CH", "CL", "CO", "CR", "CY", "CZ", "DE", "DK", "DO", "DZ", "EC", "EE", "EG", "ES", "FI", "FR", "GB", "GR", "GT", "HK", "HN", "HU", "ID", "IE", "IL", "IS", "IT", "JO", "JP", "KW", "LB", "LI", "LT", "LU", "LV", "MA", "MC", "MT", "MX", "MY", "NI", "NL", "NO", "NZ", "OM", "PA", "PE", "PH", "PL", "PS", "PT", "PY", "QA", "RO", "SA", "SE", "SG", "SK", "SV", "TH", "TN", "TR", "TW", "US", "UY", "VN", "ZA"]
-//- external_urls: {spotify: "https://open.spotify.com/album/5n1GSzC1Reao29ScnpLYqp"}
-//- href: "https://api.spotify.com/v1/albums/5n1GSzC1Reao29ScnpLYqp"
-//- id: "5n1GSzC1Reao29ScnpLYqp"
-//- images: (3) [{…}, {…}, {…}]
-//- name: "Dying To Live"
-//- release_date: "2018-12-14"
-//- release_date_precision: "day"
-//- total_tracks: 16

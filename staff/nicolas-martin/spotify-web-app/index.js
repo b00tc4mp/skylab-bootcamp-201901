@@ -104,14 +104,22 @@ app.get('/home', (req, res) => {
     res.render('home')
 })
 
+app.post('/artists', formBodyParser, (req, res) => {
+    const { body : { query } } = req
+    res.redirect(`/artists/${query}`)
+})
+
 // artists list
-app.get('/home/artists', formBodyParser, (req, res) => {
-    const { session: { feedback }, query : { query } } = req
+app.get('/artists/:query', formBodyParser, (req, res) => {
+    const { session: { feedback }, params : { query } } = req
     const logic = logicFactory.create(req)
 
     try {
         logic.searchArtists(query)
-            .then(results => res.render('home', { results, feedback: null }))
+            .then(artists => {
+                const feedback = !artists.items.length? ' no results' : null
+                res.render('home', { artists, feedback })
+            })
             .catch(({ message }) => {
                 req.session.feedback = message
                 const feedback = pullFeedback(req)
@@ -165,7 +173,6 @@ app.get('/tracks/:albumId', (req, res) => {
     }
 
 })
-
 
 app.post('/logout', (req, res) => {
     const logic = logicFactory.create(req)
