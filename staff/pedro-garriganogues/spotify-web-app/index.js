@@ -153,7 +153,6 @@ app.post('/search', formBodyParser, (req, res) => {
 
     try {
         logic.searchArtists(query).then((artists) => {
-
             res.render('artists', { artists })
 
         })
@@ -177,8 +176,6 @@ app.get('/artist/:artistId', (req, res) => {
         logic.retrieveAlbums(artistId)
             .then(albums => {
                 res.render('albums', { albums })
-                console.log('albums: ', albums);
-                console.log('album: ', album);
             })
             .catch(({ message }) => {
                 req.session.feedback = message
