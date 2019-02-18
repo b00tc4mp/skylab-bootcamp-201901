@@ -1,0 +1,5 @@
+mixin play(song)
+    section(class='results container')
+    div.row.pb-5.pt-5.pt-md-0
+        h3(class='col-12 col-sm-12 text-center display-5 pb-3')=song.name
+        audio(controls='', autoplay='', loop='', src=`${song.preview_url}`, class='col-12 col-sm-12')
