@@ -3,6 +3,6 @@ mixin artists(artists)
         .artists-list
             each artist in artists.items
                 - let image = artist.images[1] === undefined? '/images/image-not-found.jpg' : artist.images[1].url
-                .artist(style=`background-image: url('${image}');`)
-                    a(href=`/albums/${artist.id}`, alt=`See albums of ${artist.name}`)
+                a(href=`/albums/${artist.id}`, alt=`See albums of ${artist.name}`)
+                    .artist(style=`background-image: url('${image}');`)
                     //- h4= artist.name
