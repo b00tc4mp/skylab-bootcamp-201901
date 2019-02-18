@@ -8,7 +8,7 @@ const logicFactory = require('./src/logic-factory')
 const spotifyApi = require('./src/spotify-api')
 const { REACT_APP_SPOTIFY_API_TOKEN } = process.env
 spotifyApi.token = REACT_APP_SPOTIFY_API_TOKEN
-const { env: { PORT }, argv: [, , port = PORT || 8083] } = process
+const { env: { PORT }, argv: [, , port = PORT || 8080] } = process
 
 const app = express()
 
@@ -139,10 +139,14 @@ app.get('/home', (req, res) => {
     }
 })
 
-app.post('/artists', formBodyParser, (req, res) => {
-    let { body: { query }, session: { feedback } } = req
-    const logic = logicFactory.create(req)
+app.post('/search', formBodyParser, (req, res) => {
+    const { body: { query } } = req
+    res.redirect(`/search/${query}`)
+})
 
+app.get('/search/:query', (req, res) => {
+    const { params: { query }, session: { feedback } } = req
+    const logic = logicFactory.create(req)
     try {
         logic.searchArtists(query)
             .then(artists =>
@@ -151,8 +155,8 @@ app.post('/artists', formBodyParser, (req, res) => {
             .catch(({ message }) => req.session.feedback = message
             )
     } catch ({ message }) {
-        feedback = message
-
+        //feedback = message
+        console.log(message)
     }
 
 })
@@ -181,7 +185,6 @@ app.get('/album/:albumId', (req, res) => {
     try {
         logic.retrieveTracks(albumId)
             .then(tracks => {
-                console.log(tracks);
                 res.render('tracks', { feedback, tracks })
             })
             .catch(({ message }) => req.session.feedback = message
