@@ -6,11 +6,10 @@ include ../search/index
 
 block content
     section.home
-        | Welcome!
         if feedback
             +feedback(feedback, 'error')
         form(action='/logout', method='POST')
-            button(type='submit') Logout
+            button(type='submit' class='logout') Logout
         +search
         block artists
         block albums

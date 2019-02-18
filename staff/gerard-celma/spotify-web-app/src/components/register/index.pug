@@ -12,9 +12,10 @@ block content
         input(name='password', type='password', placeholder='password', required='')
         input(name='passwordConfirm', type='password', placeholder='confirm password', required='')
         button(type='submit') Register
-      if feedback
-        +feedback(feedback, 'warn')
-      | Go 
-      a(href='/') Home
-      |  or 
-      a(href='/login') Login
+      div.redirectBlock2  
+        if feedback
+          +feedback(feedback, 'warn')
+        | Go 
+        a(href='/') Home
+        |  or 
+        a(href='/login') Login

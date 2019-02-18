@@ -9,9 +9,10 @@ block content
         input(name='email', type='email', placeholder='email', required='')
         input(name='password', type='password', placeholder='password', required='')
         button(type='submit') Login
-      if feedback
-        +feedback(feedback, 'error')
-      | Go 
-      a(href='/') Home
-      |  or 
-      a(href='/register') Register
+      div.redirectBlock  
+        if feedback
+          +feedback(feedback, 'error')
+        | Go 
+        a(href='/') Home
+        |  or 
+        a(href='/register') Register

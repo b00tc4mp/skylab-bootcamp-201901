@@ -4,8 +4,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const logicFactory = require('./src/logic-factory')
+const spotifyApi = require('./src/spotify-api')
 
 const { env: { PORT }, argv: [,,port = PORT || 8080] } = process
+
+const { SPOTIFY_API_TOKEN } = process.env
+
+spotifyApi.token = SPOTIFY_API_TOKEN
 
 const app = express()
 
@@ -84,7 +89,7 @@ app.get('/login', (req, res) => {
 
 app.post('/login', formBodyParser, (req, res) => {
     const { body: { email, password } } = req
-
+    debugger;
     const logic = logicFactory.create(req)
 
     try {
