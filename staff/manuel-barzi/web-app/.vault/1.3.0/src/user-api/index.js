@@ -1,5 +1,7 @@
 'use strict'
 
+require('isomorphic-fetch')
+
 const userApi = {
     url: 'https://skylabcoders.herokuapp.com/api',
 
