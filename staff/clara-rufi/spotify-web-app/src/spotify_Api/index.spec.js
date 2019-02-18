@@ -5,7 +5,7 @@ const { expect } = require('chai')
 const spotifyApi = require('../spotify_Api/')
 
 //token es posa només a l'arxiu .env
-spotifyApi.token = 'BQBk8ziWkwcVPoAc8wV5WN9zwcEHX3d_1V-Dvi_hrwmolXLXoTuPVIdgPsDbwqyZeR_C80XbnWYGnfXzuEpIG6NKMpCzKGyGVfC2vr6RBv048Z9ortV2XX4N_OaZ0ysURExsBq0W3deImRbXbsc6m1CxEnscL_z8XQ'
+//spotifyApi.token = 'BQBfMwULhtbHYIEpT0wReUD7hW44mdM0CzdIPf1JK0LNzLWbDcF82ZQp-tPdT5W3Th5VV4e8p_zL7wF6z3GvXbHR-VSTs3PSXZFILibaJVwB1mu3KDEXb99lF65pVOMXIZLSbyeF2C7QsJf9YPy4vCSpMdlGB3hvyw'
 //token => https://developer.spotify.com/console/get-artist/?id=0OdUWJ0sBjDrqHygGUXeCF
 
 const { env: { REACT_APP_SPOTIFY_API_TOKEN } } = process

@@ -6,7 +6,7 @@ block albums
             ul
                 each album in albums
                     li
-                        form(method='POST', action='/tracks')
+                        form(method='POST', action=`/tracks=${album.id}`) 
                             img(src=`${album.images[0] ? album.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='image', alt="")
                             button(name='tracksId', type='submit', value=album.id class='button_artist')= album.name   
                            

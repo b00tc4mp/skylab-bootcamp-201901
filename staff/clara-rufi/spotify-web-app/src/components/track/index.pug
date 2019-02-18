@@ -5,8 +5,11 @@ block track
         section(class="track")
             h2 Track
                 div 
-                    h4 #{track.name} 
+                    h4 #{track.name}
+                    form(method='POST', action=`/tracks=${albumId}`) 
+                        button(class='button_goBack' type='submit') Go back tracks 
                     if track.preview_url
                         audio(controls='', autoplay='', loop='', src=track.preview_url)  
                     else
                         p Sorry, there is no preview available
+//- button(class='button_artist' href=`/tracks=${tracksId}`) Go back tracks

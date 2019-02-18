@@ -3,9 +3,13 @@ extends ../albums/index
 block tracks
     if tracks
         section(class="tracks")
-            h2 Tracks
-                div 
-                    each track in tracks
-                        form(method='POST', action='/track')
-                            button(name='trackId', type='submit', value=track.id class='button_artist')= track.name     
+            form(method='POST', action=`/albums=${artistId}`) 
+                button(class='button_goBack' type='submit') Go back artists 
+            ul
+                h2 Tracks
+                    li
+                        div 
+                            each track in tracks
+                                form(method='POST', action=`/track=${track.id}`) 
+                                    button(name='trackId', type='submit', value=track.id class='button_artist')= track.name                             
     block track

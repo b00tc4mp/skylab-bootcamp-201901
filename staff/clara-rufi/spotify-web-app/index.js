@@ -5,9 +5,12 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 // const FileStore = require('session-file-store')(session)
 const logicFactory = require('./src/logic-factory')
-// const spotifyApi = require('./src/spotify-api')
+const spotifyApi = require('./src/spotify_Api/index')
 
 const { env: { PORT }, argv: [, , port = PORT || 8080] } = process
+const { env: { REACT_APP_SPOTIFY_API_TOKEN } } = process
+
+spotifyApi.token = REACT_APP_SPOTIFY_API_TOKEN
 
 const app = express()
 
@@ -35,7 +38,7 @@ function pullFeedback(req) {
     return feedback
 }
 
-function renderPage(content) { 
+function renderPage(content) {
     return `<html>
 <body class="main">
     <h1>Spotify App!</h1>
@@ -63,7 +66,7 @@ app.post('/register', formBodyParser, (req, res) => {
 
     try {
         logic.registerUser(name, surname, email, password, passwordConfirm)
-            .then(() => res.render('register-confirm', {email}))
+            .then(() => res.render('register-confirm', { email }))
             .catch(({ message }) => {
                 req.session.feedback = message
 
@@ -123,7 +126,7 @@ app.get('/home', (req, res) => {
                 .catch(({ message }) => {
                     req.session.feedback = message
                     const feedback = pullFeedback(req)
-                    res.redirect('/home', {feedback})
+                    res.redirect('/home', { feedback })
                 })
 
         else res.redirect('/login')
@@ -143,89 +146,98 @@ app.get('/home', (req, res) => {
 // })
 
 app.post('/home', formBodyParser, (req, res) => {
-    const { body: { query } } = req
+    const { body: { query } } = req  //body es el q ve dels forms dels pugs. 
     const logic = logicFactory.create(req)
     try {
-        if (logic.isUserLoggedIn){
+        if (logic.isUserLoggedIn) {
             logic.searchArtists(query)
                 .then(artists => {
                     res.artists = artists
-                    res.render('artists', {artists})              
+                    res.render('artists', { artists })
                 })
-        }else{
+        } else {
             res.redirect('/login')
-        }   
+        }
     } catch (error) {
         // req.session.feedback = message
         const feedback = pullFeedback(req)
 
         res.render('home', { feedback })
-    }   
+    }
 })
 
-app.post('/albums', formBodyParser, (req, res) => {
-    const { body: { artistId } } = req
+app.post('/albums=:artistId', formBodyParser, (req, res) => {
+    debugger
+    const { params: { artistId } } = req //params es a partir de : en aquesta cas, artistId
     const logic = logicFactory.create(req)
-   
+
+    req.session.artistId = artistId
+
     try {
-        if (logic.isUserLoggedIn){
+        if (logic.isUserLoggedIn) {
 
             logic.retrieveAlbums(artistId)
                 .then(albums => {
-                res.albums = albums
-                    res.render('albums', {albums})              
+                    res.albums = albums
+                    res.render('albums', { albums, artistId })
                 })
-        }else{
+        } else {
             res.redirect('/login')
-        }   
+        }
     } catch (error) {
         console.log(error.message)
-    }   
-  })
+    }
+})
 
-  app.post('/tracks', formBodyParser, (req, res) => {
-  
-      const { body: { tracksId } } = req
-      const logic = logicFactory.create(req)
-   
-      try {
-          if (logic.isUserLoggedIn){
-            
-              logic.retrieveTracks(tracksId)
-                  .then(tracks => {
+app.post('/tracks=:albumId', formBodyParser, (req, res) => {
+    debugger
+    const { params: { albumId}, session:{artistId}} = req  //els params agafa el valor a partir dels: en aquest cas, albumId
+
+    const logic = logicFactory.create(req)
+
+    req.session.albumId = albumId
+
+
+    try {
+        if (logic.isUserLoggedIn) {
+
+            logic.retrieveTracks(albumId)
+                .then(tracks => {
                     res.tracks = tracks
-                      res.render('tracks', {tracks})              
-                  })
-          }else{
-              res.redirect('/login')
-          }   
-      } catch (error) {
-          console.log(error.message)
-      }   
-  })
+                    res.render('tracks', { tracks, albumId, artistId }) //aixi passem el valor de tracks i albumId al pug de track          
+                })
+        } else {
+            res.redirect('/login')
+        }
+    } catch (error) {
+        console.log(error.message)
+    }
+})
 
-  app.post('/track', formBodyParser, (req, res) => {
-      const { body: { trackId } } = req
-      const logic = logicFactory.create(req)
-   
-        try {
-            if (logic.isUserLoggedIn){
-    
-                logic.retrieveTrack(trackId)
-                    .then(track => {
-                        debugger
-                        res.track = track
-                        res.render('track', {track})
-                        debugger              
-                    })
+app.post('/track=:trackId', formBodyParser, (req, res) => {
+    debugger
+    //els params agafa el valor a partir dels: en aquest cas, albumId
+    const { body: { trackId }, session: { albumId } } = req
+    const logic = logicFactory.create(req)
 
-            }else{
-                res.redirect('/login')
-            }   
-        } catch (error) {
-            console.log(error.message)
-        }   
-    })
+    try {
+        if (logic.isUserLoggedIn) {
+
+            logic.retrieveTrack(trackId)
+                .then(track => {
+                    debugger
+                    res.track = track
+                    res.render('track', { track, albumId })
+                })
+
+        } else {
+            debugger
+            res.redirect('/login')
+        }
+    } catch (error) {
+        console.log(error.message)
+    }
+})
 
 app.post('/logout', (req, res) => {
     const logic = logicFactory.create(req)
