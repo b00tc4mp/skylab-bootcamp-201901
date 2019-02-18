@@ -1,0 +1,68 @@
+.login {
+    background-color: skyblue;
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: gray;
+    color: white;
+}
+
+.error {
+    display: none;
+    background-color: rgba(255, 97, 97, 0.952);
+    color: white;
+}
+
+.register {
+    display: none;
+    background-color: yellow;
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: gray;
+}
+
+.home {
+    display: none;
+    background-color: rgb(178, 223, 178);
+    color: white;
+    border-top: 1px solid gray;
+}
+
+.row {
+    margin: 0;
+}
+
+.card-header {
+    border-bottom: 0;
+}
+
+li {
+    text-decoration: none;
+}
+
+.margin-top {
+    margin-top: 1rem;
+}
+
+.margin-bottom {
+    margin-bottom: 1rem;
+}
+
+.card {
+    color: black;
+}
+
+#list {
+    padding: 0;
+}
+
+img:hover {
+    width:150px;
+}
+
+.detail {
+    display: none;
+    background-color: white;
+    color: black;
+}
