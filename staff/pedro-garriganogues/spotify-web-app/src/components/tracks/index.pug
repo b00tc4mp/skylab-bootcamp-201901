@@ -3,3 +3,4 @@ extends ../layout
 block content
     each track in tracks
       p #{track.name}
+      audio(src=`${track.preview_url}`, controls)
