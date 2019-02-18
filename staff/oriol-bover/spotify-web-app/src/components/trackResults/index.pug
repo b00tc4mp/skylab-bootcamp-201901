@@ -5,8 +5,8 @@ block trackResults
             .columns.is-multiline.is-mobile.is-centered
                 .column.is-three-quarters-mobile.is-three-quarters-tablet.is-one-fifth-desktop.has-text-centered
                     .block
-                        img(src='https://yt3.ggpht.com/a-/AAuE7mDajKsKk93LF27roj83w1ixbeMNG_Wk_EjZoA=s900-mo-c-c0xffffffff-rj-k-no', alt='Placeholder image')
-                        h2.title Title
+                        img(src=`${album.images.length > 0 ? `${album.images[0].url}`: 'https://yt3.ggpht.com/a-/AAuE7mDajKsKk93LF27roj83w1ixbeMNG_Wk_EjZoA=s900-mo-c-c0xffffffff-rj-k-no'}`, alt=`${album.name}`)                        
+                        h2.title= album.name
                 .column.is-three-quarters-mobile.is-three-quarters-tablet.is-four-fifth-desktop
                     .block
                         nav.panel

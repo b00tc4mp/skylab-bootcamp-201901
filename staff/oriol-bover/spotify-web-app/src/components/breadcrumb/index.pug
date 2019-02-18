@@ -1,0 +1,7 @@
+mixin breadcrumb(items = null)
+    if items
+        nav.breadcrumb(aria-label='breadcrumbs')
+            ul
+                each item in items
+                    li(class=`${item.active ? 'is-active': ''}`)
+                        a(href=`${item.url}`)= item.name 

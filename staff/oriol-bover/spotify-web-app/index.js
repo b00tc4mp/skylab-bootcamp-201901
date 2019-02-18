@@ -128,10 +128,11 @@ app.get('/home', (req, res) => {
         const { session: { feedback } } = req
 
         const logic = logicFactory.create(req)
+        const items = [{active: true, url: '/home', name: 'home'}]
 
         if (logic.isUserLoggedIn)
             logic.retrieveUser()
-                .then(user => res.render('home', { feedback, user }))
+                .then(user => res.render('home', { feedback, user, items }))
                 .catch(({ message }) => {
                     req.session.feedback = message
 
@@ -154,12 +155,20 @@ app.post('/search', formBodyParser, (req, res) => {
 app.get('/home/search/:query', (req, res) => {
     const { session: { feedback }, params: { query } } = req
     const logic = logicFactory.create(req)
+    const items = [
+        {active: false, url: '/home', name: 'home'},
+        {active: true, url: `/home/search/${query}`, name: query}
+    ]
 
     if (logic.isUserLoggedIn) {
         try {
             logic.searchArtists(query)
                 .then(artists => {
-                    res.render('artistResults', { artists })
+                    const items = [
+                        {active: false, url: '/home', name: 'home'},
+                        {active: true, url: `/home/search/${query}`, name: query}
+                    ]
+                    res.render('artistResults', { artists, items })
                 })
                 .catch(({ message }) => {
                     req.session.feedback = message
@@ -186,7 +195,12 @@ app.get('/home/albums/:artistId', (req, res) => {
         try {
             logic.retrieveAlbums(artistId)
                 .then(albums => {
-                    res.render('albumResults', { albums })
+                    const items = [
+                        {active: false, url: '/home', name: 'home'},
+                        {active: false, url: `/home/search/${albums[0].artists[0].name}`, name: albums[0].artists[0].name},
+                        {active: true, url: `/home/albums/${artistId}`, name: 'albums'},
+                    ]
+                    res.render('albumResults', { albums, items })
                 })
                 .catch(({ message }) => {
                     req.session.feedback = message
@@ -214,8 +228,17 @@ app.get('/home/album/:albumId', (req, res) => {
         try {
             logic.retrieveTracks(albumId)
                 .then(tracks => {
-                    console.log(tracks)
-                    res.render('trackResults', { tracks })
+
+                    logic.retrieveAlbum(albumId)
+                        .then(album => {
+                            const items = [
+                                {active: false, url: '/home', name: 'home'},
+                                {active: false, url: `/home/search/${album.artists[0].name}`, name: album.artists[0].name},
+                                {active: false, url: `/home/albums/${album.artists[0].id}`, name: 'albums'},
+                                {active: true, url: `/home/album/${album.id}`, name: album.name},
+                            ]
+                            res.render('trackResults', { tracks, album, items })
+                        })
                 })
         } catch (error) {
             req.session.feedback = message
@@ -224,6 +247,34 @@ app.get('/home/album/:albumId', (req, res) => {
             res.render('home', { feedback })
         }
     } else {
+        res.redirect('/login')
+    }
+})
+
+app.get('/home/track/:trackId', (req, res) => {
+    const { params: { trackId } } = req
+    const logic = logicFactory.create(req)
+
+    if(logic.isUserLoggedIn){
+        try {
+            logic.retrieveTrack(trackId)
+                .then(track => {
+                    const items = [
+                        {active: false, url: '/home', name: 'home'},
+                        {active: false, url: `/home/search/${track.artists[0].name}`, name: track.artists[0].name},
+                        {active: false, url: `/home/albums/${track.artists[0].id}`, name: 'albums'},
+                        {active: false, url: `/home/album/${track.album.id}`, name: track.album.name},
+                        {active: true, url: `/home/track/${track.id}`, name: track.name},
+                    ]
+                    res.render('trackDetail', {track, items})
+                })
+        } catch ({message}) {
+            req.session.feedback = message
+            const feedback = pullFeedback(req)
+
+            res.render('home', { feedback })
+        }
+    }else{
         res.redirect('/login')
     }
 })

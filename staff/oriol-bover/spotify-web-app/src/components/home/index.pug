@@ -2,11 +2,13 @@ extends ../layout
 
 include ../feedback/index
 include ../header/index
+include ../breadcrumb/index
 include ../search/index
 include ../footer/index
 
 block content
-  +header
+  +header(user)
+  +breadcrumb(items)
   .main
     section.container
         section.section
@@ -14,4 +16,5 @@ block content
           block artistResults
           block albumResults
           block trackResults
+          block trackDetail
   +footer
