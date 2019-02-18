@@ -1,12 +1,12 @@
 {
   "name": "web-app",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "## server",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "watch": "nodemon .",
-    "debug": "node debug .",
+    "start": "node src",
+    "watch": "nodemon src",
+    "debug": "node debug src",
     "test": "mocha src/**/*.spec.js",
     "test-debug": "mocha debug src/**/*.spec.js",
     "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js",
