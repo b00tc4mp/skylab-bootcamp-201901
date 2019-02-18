@@ -1,53 +1,8 @@
-.main, .feedback, .landing, .home, .login, .register {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em;
-}
-
-.main, .feedback, .landing, .home, .login, .register {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em;
-}
-
-.main, .feedback, .landing, .home, .register, .login {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em;
-}
-
-.main, .feedback, .landing, .register, .login, .home {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em;
-}
-
-.main, .feedback, .register, .login, .home, .landing {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em;
-}
-
-.feedback {
-  background-color: limegreen;
-}
-.feedback--warn {
-  background-color: gold;
-}
-.feedback--error {
-  background-color: tomato;
-}
-
-.main, .register, .login, .home, .landing, .feedback {
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  margin: 1em;
+.main {
+  background-image: url("https://sistemasyserviciosaudio.com/wp-content/uploads/2013/09/The-best-sensitive-hd-music-wallpapers-5-tumblr-life-2.png");
+  background-size: cover;
+  height: 100%;
+  color: white;
 }
 
 /*# sourceMappingURL=style.css.map */

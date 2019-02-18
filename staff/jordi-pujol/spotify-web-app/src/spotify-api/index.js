@@ -9,7 +9,7 @@ require('isomorphic-fetch')
  */
 const spotifyApi = {
     // token: 'NO-TOKEN',
-    token: 'BQC6evx2Nk-67AY4F0tjvezFirrQnLuiDfV7q3nUEQcS-N_CQCfCnp3_ECY0cGPSae3sUpM_IDeEuomKnQzQuGyDB7mMUcw7dQ9GQVxBeR4xCMAZUMqbDTddtVW74wNxWAlLBueta2Lp69Q',
+    token: 'BQD57N41Zgm_tW35aJeNkn7XHkDg7TieUNOo-YaWBQ5NgdS5-HbxbTIzujiouiK3TwYLu-MF2J8fpYIv2i_4nOfgPAWEseP0QGSegO7yVq_QsbCndyFSPxvyjOLiznwwHH0nWxdB4F5MrGQ',
     url: 'https://api.spotify.com/v1',
     /**
      * Searches artists.
@@ -34,7 +34,7 @@ const spotifyApi = {
             .then(response => response.json())
             .then(response => {
 
-                if(response.error)throw Error(response.error.message)
+                if(response.error) throw Error(response.error)
 
                 const {artists: {items}} = response
                 debugger
