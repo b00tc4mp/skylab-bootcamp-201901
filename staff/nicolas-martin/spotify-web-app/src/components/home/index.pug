@@ -10,7 +10,7 @@ block content
     section.home
         +header(feedback)
 
-        if artists.items.length
+        if artists !== undefined
             //- +resume(results)
             +artists(artists)
 
