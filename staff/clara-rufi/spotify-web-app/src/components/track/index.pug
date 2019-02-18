@@ -3,11 +3,11 @@ extends ../tracks/index
 block track
     if track
         section(class="track")
+            form(method='POST', action=`/tracks=${albumId}`) 
+                        button(class='button_goBack' type='submit') Go back tracks 
             h2 Track
                 div 
                     h4 #{track.name}
-                    form(method='POST', action=`/tracks=${albumId}`) 
-                        button(class='button_goBack' type='submit') Go back tracks 
                     if track.preview_url
                         audio(controls='', autoplay='', loop='', src=track.preview_url)  
                     else
