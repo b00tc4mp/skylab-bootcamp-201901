@@ -9,7 +9,7 @@ block content
       if feedback
         +feedback(feedback, 'error')
     h2 Search
-      form(action='/artists', method='post')
+      form(action='/search/', method='post')
         input(type='text', name='query', placeholder='Search an artist...')
         button(type='submit') Search
     block artists
