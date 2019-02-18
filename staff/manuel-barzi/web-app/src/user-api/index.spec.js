@@ -1,5 +1,6 @@
 'use strict'
 
+require('isomorphic-fetch')
 const { expect } = require('chai')
 const userApi = require('.')
 
