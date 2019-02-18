@@ -9,10 +9,13 @@ include ../resume/index.pug
 block content
     section.home
         +header(feedback)
-        if results !== undefined
-            +resume(results)
-            +artists(results.items)
+
+        if artists.items.length
+            //- +resume(results)
+            +artists(artists)
+
         if albums !== undefined
             +albums(albums)
+
         if tracks !== undefined
             +tracks(tracks)

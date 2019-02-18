@@ -2,9 +2,9 @@ include ../feedback/index
 
 mixin search(feedback)
     section.search.p-l-50.p-r-50.p-t-30.p-b-30
-      form.login100-form.validate-form(action='/home/artists', method='get')
+      form.login100-form.validate-form(action='/artists', method='post')
         .wrap-input100.validate-input.m-b-23(data-validate='Search query is required')
-          input.input100(type='text', name='query', placeholder='Search Artists', autocomplete='off')
+          input.input100(type='text', name='query', placeholder='Search Artists', autocomplete='off' , autofocus)
           span.focus-input100(data-symbol='')
       if feedback
         +feedback(feedback, 'error')
