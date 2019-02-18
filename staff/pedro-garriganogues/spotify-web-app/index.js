@@ -3,7 +3,6 @@ require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-// const FileStore = require('session-file-store')(session)
 const logicFactory = require('./src/logic-factory')
 const spotifyApi = require('./src/spotify-api/spotify-api-v1.1.0')
 
@@ -16,9 +15,7 @@ app.use(session({
     secret: 'a secret phrase',
     resave: true,
     saveUninitialized: true,
-    // store: new FileStore({
-    //     path: './.sessions'
-    // })
+
 }))
 
 app.use(express.static('public'))
@@ -192,7 +189,9 @@ app.get('/album/:albumId', (req, res) => {
     try {
 
         logic.retrieveTracks(albumId)
-            .then(tracks => res.render('tracks', { tracks }))
+            .then(tracks => {
+                res.render('tracks', { tracks })
+            })
             .catch(({ message }) => {
                 req.session.feedback = message
             })
@@ -202,21 +201,24 @@ app.get('/album/:albumId', (req, res) => {
     }
 })
 
-// app.get('/album:albumId', (req, res) => {
-//     const { session: { feedback }, params: { trackId } } = req
+app.get('/track/:tracksId', (req, res) => {
+    const { session: { feedback }, params: { tracksId } } = req
 
-//     const logic = logicFactory.create(req)
+    const logic = logicFactory.create(req)
 
-//     try {
-//            logic.retrieveTrack(trackId)
-//             .then(track => res.render('track', { track }))
-//             .catch(({ message }) => {
-//                 req.session.feedback = message
-//             })
-//     } catch ({ message }) {
-//         req.session.feedback = message
-//     }
-// })
+    try {
+
+        logic.retrieveTrack(tracksId)
+            .then(track => res.render('track', { track }))
+            .catch(({ message }) => {
+                req.session.feedback = message
+            })
+    } catch ({ message }) {
+
+        req.session.feedback = message
+    }
+})
+
 
 app.post('/logout', (req, res) => {
     const logic = logicFactory.create(req)
