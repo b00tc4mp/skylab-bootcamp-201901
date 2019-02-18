@@ -1,7 +1,8 @@
 'use strict'
 
 require('isomorphic-fetch')
-const { expect } = require('chai')
+const expect = require('expect')
+
 const userApi = require('.')
 
 describe('user api', () => {
@@ -13,7 +14,7 @@ describe('user api', () => {
 
         it('should succeed on correct data', () =>
             userApi.register(name, surname, username, password)
-                .then(id => expect(id).to.exist)
+                .then(id => expect(id).toBeDefined())
         )
 
         it('should fail on already existing user', () =>
@@ -22,8 +23,8 @@ describe('user api', () => {
                     throw Error('should not have passed by here')
                 })
                 .catch(error => {
-                    expect(error).to.exist
-                    expect(error.message).to.equal(`user with username \"${username}\" already exists`)
+                    expect(error).toBeDefined()
+                    expect(error.message).toBe(`user with username \"${username}\" already exists`)
                 })
         )
 
@@ -46,8 +47,8 @@ describe('user api', () => {
         it('should succeed on correct data', () =>
             userApi.authenticate(username, password)
                 .then(({ id, token }) => {
-                    expect(id).to.equal(_id)
-                    expect(token).to.exist
+                    expect(id).toBe(_id)
+                    expect(token).toBeDefined()
                 })
         )
 
@@ -72,10 +73,10 @@ describe('user api', () => {
         it('should succeed on correct data', () =>
             userApi.retrieve(_id, _token)
                 .then(user => {
-                    expect(user.id).to.equal(_id)
-                    expect(user.name).to.equal(name)
-                    expect(user.surname).to.equal(surname)
-                    expect(user.username).to.equal(username)
+                    expect(user.id).toBe(_id)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.username).toBe(username)
                 })
         )
 
@@ -103,11 +104,11 @@ describe('user api', () => {
             return userApi.update(_id, _token, data)
                 .then(() => userApi.retrieve(_id, _token))
                 .then(user => {
-                    expect(user.id).to.equal(_id)
-                    expect(user.name).to.equal(data.name)
-                    expect(user.surname).to.equal(data.surname)
-                    expect(user.age).to.equal(data.age)
-                    expect(user.username).to.equal(username)
+                    expect(user.id).toBe(_id)
+                    expect(user.name).toBe(data.name)
+                    expect(user.surname).toBe(data.surname)
+                    expect(user.age).toBe(data.age)
+                    expect(user.username).toBe(username)
                 })
         })
 
@@ -135,7 +136,7 @@ describe('user api', () => {
                 .then(() => {
                     throw Error('should not pass by here')
                 })
-                .catch(({message}) => expect(message).to.equal(`user with id \"${_id}\" does not exist`))
+                .catch(({message}) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
         })
 
         // TODO more unit test cases
