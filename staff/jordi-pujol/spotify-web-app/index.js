@@ -110,7 +110,7 @@ app.get('/home', (req, res) => {
     try {
         if (logic.isUserLoggedIn)
             logic.retrieveUser()
-                .then(user => res.render('home', { feedback }))
+                .then(user => res.render('home', { user }))
                 .catch(({ message }) => {
                     req.session.feedback = message
                     feedback = pullFeedback(req)
@@ -149,9 +149,10 @@ app.get('/home/search/:query', (req, res) => {
             logic.searchArtists(query)
                 .then(artists => res.render('artists', { artists }))
                 .catch(({ message }) => {
+                    req.session.feedback = message
                     feedback = pullFeedback(req)
 
-                    res.render('home', { message })
+                    res.render('home', { feedback })
                 })
         } catch ({ message }) {
             feedback = pullFeedback(req)
