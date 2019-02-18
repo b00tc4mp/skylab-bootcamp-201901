@@ -14,7 +14,7 @@ header{
     display: flex;
     justify-content: space-between;
     padding: 20px 10px;
-    top: 0px;
+    top: 0px
 }
 
 /* pq ho configurem amb mobile first, 1er amaguem contingut del rightnav a*/ 
