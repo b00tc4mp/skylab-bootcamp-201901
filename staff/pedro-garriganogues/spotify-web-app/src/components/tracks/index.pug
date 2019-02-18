@@ -1,6 +1,9 @@
 extends ../layout
+include ../search/index
 
 block content
-    each track in tracks
-      p #{track.name}
-      audio(src=`${track.preview_url}`, controls)
+    +search()
+    div.row
+      each track in tracks
+        p #{track.name}
+        audio(src=`${track.preview_url}`, controls)

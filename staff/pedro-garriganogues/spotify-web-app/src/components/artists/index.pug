@@ -1,16 +1,19 @@
 extends ../layout
+include ../search/index
 
 block content
+  +search()
   if artists
-    each artist in artists
-      p
-        if artist.images[0]
-          img(src=artist.images[0].url width=200)
-          a(href=`/artist/${artist.id}`) #{artist.name}
-        
-        if !artist.images[0]
-          img(src=artist.images[0] alt='404 ')
-          a(href=`/artist/${artist.id}`) #{artist.name}
+    div.row
+      each artist in artists
+        div.col-md-4 
+          if artist.images[0]
+            img(src=artist.images[0].url width=200)
+            a(href=`/artist/${artist.id}`) #{artist.name}
+          
+          if !artist.images[0]
+            img(src=artist.images[0] alt='404 ')
+            a(href=`/artist/${artist.id}`) #{artist.name}
 
 
 
