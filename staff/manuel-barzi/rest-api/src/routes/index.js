@@ -1,17 +1,13 @@
 module.exports = {
-    // register: {
-    //     post: require('./register/post')
-    // },
+    registerUser: require('./register-user'),
 
-    authenticate: {
-        post: require('./authenticate/post')
-    },
+    authenticateUser: require('./authenticate-user'),
 
-    // retrieve: {
-    //     get: require('./home/get')
-    // },
+    retrieveUser: require('./retrieve-user'),
 
-    // notFound: {
-    //     get: require('./not-found/get')
-    // }
+    searchArtists: require('./search-artists'),
+
+    // TODO other route handlers
+
+    notFound: require('./not-found')
 }
