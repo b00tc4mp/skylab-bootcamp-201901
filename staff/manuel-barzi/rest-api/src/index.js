@@ -4,21 +4,36 @@ require('isomorphic-fetch')
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const spotifyApi = require('./spotify-api')
 
-const { register, authenticate, retrieve, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, searchArtists, notFound } = require('./routes')
 
-const { env: { PORT }, argv: [, , port = PORT || 8080] } = process
+const { env: { PORT, SPOTIFY_API_TOKEN }, argv: [, , port = PORT || 8080] } = process
+
+spotifyApi.token = SPOTIFY_API_TOKEN
 
 const app = express()
 
 const jsonBodyParser = bodyParser.json()
 
-// app.post('/register', formBodyParser, register.post)
+const router = express.Router()
 
-app.post('/authenticate', jsonBodyParser, authenticate.post)
+router.post('/user', jsonBodyParser, registerUser)
 
-// app.get('/retrieve', retrieve.get)
+router.post('/user/auth', jsonBodyParser, authenticateUser)
 
-// app.get('*', notFound.get)
+router.get('/user/:id', retrieveUser)
+
+router.get('/artists', searchArtists)
+
+// router.get('/artist/:id', retrieveArtist)
+
+// router.get('/album/:id', retrieveAlbum)
+
+// router.get('/track/:id', retrieveTrack)
+
+// app.get('*', notFound)
+
+app.use('/api', router)
 
 app.listen(port, () => console.log(`server running on port ${port}`))
