@@ -1,13 +1,11 @@
-const logic = require('../../logic')
+const logic = require('../logic')
 
 module.exports = (req, res) => {
     const { body: { email, password } } = req
 
-    debugger
-
     try {
         logic.authenticateUser(email, password)
-            // .then(res => res.json(res))
+            // .then(data => res.json(data))
             .then(res.json.bind(res))
             .catch(({ message }) => {
                 res.status(401).json({
