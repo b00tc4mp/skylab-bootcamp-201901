@@ -1,76 +1,36 @@
-# Funciton Pokedex
+# FUNCITON POKEDEX
 
-Functional description
+## [Documentation](doc/README.md)
 
-#Link
+## [Live Demo](http://funciton-pokedex.surge.sh)
 
-<http://funciton-pokedex.surge.sh/#/login/>   
+## Available Scripts
 
-## Getting Started
+In the project directory, you can run:
 
-You will only need a browser and creating a user to access to your pokedex.
+### `$ npm start`
 
-### Prerequisites
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-You don't need to install anything, just run the application on a browser.
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-### Installing
+### `$ npm test`
 
-You don't need to install anything, just run the application on a browser.
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+### `$ npm run build`
 
-## Running the tests
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The application has automated test, so they may be run when necessary.
-For example in case the application is evolved, test may be run.
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-## Application
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-The application welcomes the user by showing two main options, login a register.
-If the user exists, it may login. In case it does not exist, it should register previously.
+### `$ npm run build` fails to minify
 
-### Login
-As soon as the user has logged in, userId and token are stored in sessionStorage.
-
-
-## Home
-
-As soon as the user has logged in.
-The application has three main options:
-* Logout
-* Search
-* Favorites
-
-
-
-### Logout
-
-Logouts the application. User Id and token are removed from sessionStorage.
-
-### Search
-It allows to search a pokemon by name, the results are shown below. User may scroll if necessary.
-
-### Favorites
-It allows to display a list of your favorite pokemon.
-
-
-## PokemonCard
-
-PokemonCard has four main parts.
-* Card
-* Display of the pokemon
-* Pokemon Name
-* More
-    * Allows to see the detail of the pokemon (it also works clicking over card.)
-* Favorites icon
-    * Allows to add/remove to favorites.
-
-## Detailed Pokemon
-* Shows the stats and information, such as abilities, types, moves and held items, of the selected pokemon.
-
-
-# Authors
-
-* Marc
-* Ury
-* Carlos
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
