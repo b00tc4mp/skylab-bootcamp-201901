@@ -40,7 +40,6 @@ const logic = {
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
         return userApi.register(name, surname, email, password)
-            .then(() => { })
     },
 
     /**
@@ -50,7 +49,6 @@ const logic = {
      * @param {string} password 
      */
     authenticateUser(email, password) {
-        debugger
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
         if (!email.trim().length) throw Error('email cannot be empty')
@@ -102,6 +100,12 @@ const logic = {
         if (!artistId.trim().length) throw Error('artistId is empty')
 
         return spotifyApi.retrieveArtist(artistId)
+            // TODO once artistComment is already implemented
+            // .then(artist =>
+            //     artistComment.find({ artistId: artist.id })
+            //         .then(comments => artist.comments = comments)
+            //         .then(() => artist)
+            // )
     },
 
     /**
@@ -121,6 +125,10 @@ const logic = {
 
                 return userApi.update(userId, token, { favoriteArtists })
             })
+    },
+
+    addCommentToArtist(userId, token, artistId, comment) {
+        // TODO use artistComment
     },
 
     /**
