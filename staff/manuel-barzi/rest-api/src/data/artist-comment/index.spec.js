@@ -14,7 +14,7 @@ describe('artist comments data', () => {
             date: new Date
         }
 
-        it('should succeed ...', () =>
+        it('should succeed on correct data', () =>
             artistComment.add(comment)
                 .then(() => expect(comment.id).toBeDefined())
         )
@@ -32,7 +32,7 @@ describe('artist comments data', () => {
             artistComment.add(comment)
         )
 
-        it('should succeed ...', () =>
+        it('should succeed on correct commend id', () =>
             artistComment.retrieve(comment.id)
                 .then(({ id, artistId, userId, text, date }) => {
                     expect(id).toBe(comment.id)
@@ -56,7 +56,7 @@ describe('artist comments data', () => {
             artistComment.add(comment)
         )
 
-        it('should succeed ...', () => {
+        it('should succeed on correct data', () => {
             comment.text += '-NEW'
 
             return artistComment.update(comment)
@@ -83,7 +83,7 @@ describe('artist comments data', () => {
             artistComment.add(comment)
         )
 
-        it('should succeed ...', () => {
+        it('should succeed on correct comment id', () => {
             return artistComment.delete(comment.id)
                 .then(() => artistComment.retrieve(comment.id))
                 .then(comment => expect(comment).toBeNull())
