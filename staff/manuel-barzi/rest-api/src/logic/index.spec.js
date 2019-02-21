@@ -305,7 +305,7 @@ describe('logic', () => {
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-        const comment = `comment ${Math.random()}`
+        const text = `comment ${Math.random()}`
         let _id, _token
 
         beforeEach(() =>
@@ -321,7 +321,7 @@ describe('logic', () => {
         )
 
         it('should succeed on correct data', () =>
-            logic.addCommentToArtist(_id, _token, artistId, comment)
+            logic.addCommentToArtist(_id, _token, artistId, text)
                 .then(id => {
                     expect(id).toBeDefined()
 
@@ -330,7 +330,9 @@ describe('logic', () => {
                             expect(_comment.id).toBe(id)
                             expect(_comment.userId).toBe(_id)
                             expect(_comment.artistId).toBe(artistId)
-                            expect(_comment.text).toBe(comment)
+                            expect(_comment.text).toBe(text)
+                            expect(_comment.date).toBeDefined()
+                            expect(_comment.date instanceof Date).toBeTruthy()
                         })
                 })
         )
