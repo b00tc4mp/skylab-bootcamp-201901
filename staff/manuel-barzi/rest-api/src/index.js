@@ -26,6 +26,12 @@ router.get('/user/:id', retrieveUser)
 
 router.get('/artists', searchArtists)
 
+// TODO add comment to artist
+// router.post('/artist/:id/comment', addCommentToArtist)
+
+// TODO list comments from artist
+// router.get('/artist/:id/comment', listCommentsFromArtist)
+
 // router.get('/artist/:id', retrieveArtist)
 
 // router.get('/album/:id', retrieveAlbum)
