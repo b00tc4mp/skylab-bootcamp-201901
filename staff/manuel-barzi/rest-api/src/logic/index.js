@@ -134,16 +134,21 @@ const logic = {
         const comment = {
             userId,
             artistId,
-            text
+            text,
+            date: new Date
         }
 
         return userApi.retrieve(userId, token)
+            .then(() => spotifyApi.retrieveArtist(artistId))
+            .then(({ error }) => {
+                if (error) throw Error(error.message)
+            })
             .then(() => artistComment.add(comment))
             .then(() => comment.id)
     },
 
     listCommentsFromArtist(artistId) {
-        // TODO artistId
+        // TODO validate artistId
 
         return artistComment.find({ artistId })
     },
