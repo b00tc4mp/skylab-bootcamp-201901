@@ -6,7 +6,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const spotifyApi = require('./spotify-api')
 
-const { registerUser, authenticateUser, retrieveUser, searchArtists, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, searchArtists, addCommentToArtist, listCommentsFromArtist, notFound } = require('./routes')
 
 const { env: { PORT, SPOTIFY_API_TOKEN }, argv: [, , port = PORT || 8080] } = process
 
@@ -26,11 +26,9 @@ router.get('/user/:id', retrieveUser)
 
 router.get('/artists', searchArtists)
 
-// TODO add comment to artist
-// router.post('/artist/:id/comment', addCommentToArtist)
+router.post('/artist/:artistId/comment', jsonBodyParser, addCommentToArtist)
 
-// TODO list comments from artist
-// router.get('/artist/:id/comment', listCommentsFromArtist)
+router.get('/artist/:artistId/comment', listCommentsFromArtist)
 
 // router.get('/artist/:id', retrieveArtist)
 
