@@ -7,9 +7,9 @@
     "start": "node src",
     "watch": "nodemon src",
     "debug": "node debug src",
-    "test": "mocha --timeout 10000 src/**/*.spec.js",
-    "test-debug": "mocha debug src/**/*.spec.js",
-    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 src/**/*.spec.js"
+    "test": "mocha --timeout 10000 $(find src -name *.spec.js)",
+    "test-debug": "mocha debug $(find src -name *.spec.js)",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
   },
   "keywords": [],
   "author": "",

@@ -4,9 +4,100 @@ const expect = require('expect')
 const path = require('path')
 const fsp = require('fs').promises
 const artistComment = require('.')
+const uuid = require('uuid')
 
 describe('artist comments data', () => {
-    beforeEach(() => fsp.writeFile(path.join(__dirname, artistComment.file), JSON.stringify([])))
+    const file = path.join(__dirname, artistComment.file)
+
+    beforeEach(() => fsp.writeFile(file, JSON.stringify([])))
+
+    describe('__load__', () => {
+        const comments = [
+            {
+                id: uuid(),
+                userId: `userId-${Math.random()}`,
+                artistId: `artistId-${Math.random()}`,
+                text: `comment ${Math.random()}`,
+                date: new Date
+            },
+            {
+                id: uuid(),
+                userId: `userId-${Math.random()}`,
+                artistId: `artistId-${Math.random()}`,
+                text: `comment ${Math.random()}`,
+                date: new Date
+            },
+            {
+                id: uuid(),
+                userId: `userId-${Math.random()}`,
+                artistId: `artistId-${Math.random()}`,
+                text: `comment ${Math.random()}`,
+                date: new Date
+            }
+        ]
+
+        beforeEach(() => fsp.writeFile(file, JSON.stringify(comments)))
+
+        it('should succeed on correct file path', () =>
+            artistComment.__load__(file)
+                .then(_comments => {
+                    expect(_comments).toBeDefined()
+                    expect(_comments.length).toBe(comments.length)
+
+                    _comments.forEach(({ id, userId, artistId, text, date }, index) => {
+                        expect(id).toBe(comments[index].id)
+                        expect(userId).toBe(comments[index].userId)
+                        expect(artistId).toBe(comments[index].artistId)
+                        expect(text).toBe(comments[index].text)
+                        expect(date).toBe(comments[index].date.toISOString())
+                    })
+                })
+        )
+    })
+
+    describe('__save__', () => {
+        const comments = [
+            {
+                id: uuid(),
+                userId: `userId-${Math.random()}`,
+                artistId: `artistId-${Math.random()}`,
+                text: `comment ${Math.random()}`,
+                date: new Date
+            },
+            {
+                id: uuid(),
+                userId: `userId-${Math.random()}`,
+                artistId: `artistId-${Math.random()}`,
+                text: `comment ${Math.random()}`,
+                date: new Date
+            },
+            {
+                id: uuid(),
+                userId: `userId-${Math.random()}`,
+                artistId: `artistId-${Math.random()}`,
+                text: `comment ${Math.random()}`,
+                date: new Date
+            }
+        ]
+
+        it('should succeed on correct file path', () =>
+            artistComment.__save__(file, comments)
+                .then(() => fsp.readFile(file))
+                .then(content => JSON.parse(content))
+                .then(_comments => {
+                    expect(_comments).toBeDefined()
+                    expect(_comments.length).toBe(comments.length)
+
+                    _comments.forEach(({ id, userId, artistId, text, date }, index) => {
+                        expect(id).toBe(comments[index].id)
+                        expect(userId).toBe(comments[index].userId)
+                        expect(artistId).toBe(comments[index].artistId)
+                        expect(text).toBe(comments[index].text)
+                        expect(date).toBe(comments[index].date.toISOString())
+                    })
+                })
+        )
+    })
 
     describe('add', () => {
         const comment = {
@@ -18,12 +109,30 @@ describe('artist comments data', () => {
 
         it('should succeed on correct data', () =>
             artistComment.add(comment)
-                .then(() => expect(comment.id).toBeDefined())
+                .then(() => {
+                    expect(comment.id).toBeDefined()
+
+                    return fsp.readFile(file)
+                })
+                .then(content => JSON.parse(content))
+                .then(comments => {
+                    expect(comments).toBeDefined()
+                    expect(comments.length).toBe(1)
+
+                    const [{ id, userId, artistId, text, date }] = comments
+
+                    expect(id).toBe(comment.id)
+                    expect(userId).toBe(comment.userId)
+                    expect(artistId).toBe(comment.artistId)
+                    expect(text).toBe(comment.text)
+                    expect(date).toBe(comment.date.toISOString())
+                })
         )
     })
 
     describe('retrieve', () => {
         const comment = {
+            id: uuid(),
             artistId: `artistId-${Math.random()}`,
             userId: `userId-${Math.random()}`,
             text: `comment ${Math.random()}`,
@@ -31,7 +140,8 @@ describe('artist comments data', () => {
         }
 
         beforeEach(() =>
-            artistComment.add(comment)
+            // artistComment.add(comment) // FATAL each test should test ONE unit
+            fsp.writeFile(file, JSON.stringify([comment]))
         )
 
         it('should succeed on correct commend id', () =>
@@ -48,6 +158,7 @@ describe('artist comments data', () => {
 
     describe('update', () => {
         const comment = {
+            id: uuid(),
             artistId: `artistId-${Math.random()}`,
             userId: `userId-${Math.random()}`,
             text: `comment ${Math.random()}`,
@@ -55,25 +166,28 @@ describe('artist comments data', () => {
         }
 
         beforeEach(() =>
-            artistComment.add(comment)
+            // artistComment.add(comment) // FATAL each test should test ONE unit
+            fsp.writeFile(file, JSON.stringify([comment]))
         )
 
         it('should succeed on correct data', () => {
             comment.text += '-NEW'
 
             return artistComment.update(comment)
-                .then(() => artistComment.retrieve(comment.id))
+                .then(() => fsp.readFile(file))
+                .then(content => JSON.parse(content))
+                .then(comments => comments.find(_comment => _comment.id === comment.id))
                 .then(({ id, artistId, userId, text, date }) => {
                     expect(id).toBe(comment.id)
                     expect(artistId).toBe(comment.artistId)
                     expect(userId).toBe(comment.userId)
                     expect(text).toBe(comment.text)
-                    expect(date.toString()).toBe(comment.date.toString())
+                    expect(date).toBe(comment.date.toISOString())
                 })
         })
     })
 
-    describe('delete', () => {
+    describe('remove', () => {
         const comment = {
             artistId: `artistId-${Math.random()}`,
             userId: `userId-${Math.random()}`,
@@ -82,18 +196,24 @@ describe('artist comments data', () => {
         }
 
         beforeEach(() =>
-            artistComment.add(comment)
+            // artistComment.add(comment) // FATAL each test should test ONE unit
+            fsp.writeFile(file, JSON.stringify([comment]))
         )
 
         it('should succeed on correct comment id', () =>
-            artistComment.delete(comment.id)
-                .then(() => artistComment.retrieve(comment.id))
-                .then(comment => expect(comment).toBeNull())
+            artistComment.remove(comment.id)
+                .then(() => fsp.readFile(file))
+                .then(content => JSON.parse(content))
+                .then(comments => comments.find(_comment => _comment.id === comment.id))
+                .then(comment => expect(comment).toBeUndefined())
         )
     })
 
+    // TODO test remove all
+
     describe('find', () => {
         const comment = {
+            id: uuid(),
             artistId: `artistId-${Math.random()}`,
             userId: `userId-${Math.random()}`,
             text: `comment ${Math.random()}`,
@@ -101,6 +221,7 @@ describe('artist comments data', () => {
         }
 
         const comment2 = {
+            id: uuid(),
             artistId: `artistId-${Math.random()}`,
             userId: `userId-${Math.random()}`,
             text: `comment ${Math.random()}`,
@@ -108,6 +229,7 @@ describe('artist comments data', () => {
         }
 
         const comment3 = {
+            id: uuid(),
             artistId: `artistId-${Math.random()}`,
             userId: `userId-${Math.random()}`,
             text: `comment ${Math.random()}`,
@@ -115,6 +237,7 @@ describe('artist comments data', () => {
         }
 
         const comment4 = {
+            id: uuid(),
             artistId: comment2.artistId,
             userId: `userId-${Math.random()}`,
             text: `comment ${Math.random()}`,
@@ -122,6 +245,7 @@ describe('artist comments data', () => {
         }
 
         const comment5 = {
+            id: uuid(),
             artistId: comment2.artistId,
             userId: `userId-5-${Math.random()}`,
             text: comment4.text,
@@ -129,11 +253,12 @@ describe('artist comments data', () => {
         }
 
         beforeEach(() =>
-            artistComment.add(comment)
-                .then(() => artistComment.add(comment2))
-                .then(() => artistComment.add(comment3))
-                .then(() => artistComment.add(comment4))
-                .then(() => artistComment.add(comment5))
+            // artistComment.add(comment) // FATAL each test should test ONE unit
+            //     .then(() => artistComment.add(comment2))
+            //     .then(() => artistComment.add(comment3))
+            //     .then(() => artistComment.add(comment4))
+            //     .then(() => artistComment.add(comment5))
+            fsp.writeFile(file, JSON.stringify([comment, comment2, comment3, comment4, comment5]))
         )
 
         it('should succeed on correct criteria by id', () =>
@@ -202,6 +327,6 @@ describe('artist comments data', () => {
                 })
         )
     })
-    
-    after(() => fsp.writeFile(path.join(__dirname, artistComment.file), JSON.stringify([])))
+
+    after(() => fsp.writeFile(file, JSON.stringify([])))
 })
