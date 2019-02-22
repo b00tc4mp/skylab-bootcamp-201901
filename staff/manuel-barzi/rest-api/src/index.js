@@ -6,14 +6,21 @@ const { MongoClient } = require('mongodb')
 const express = require('express')
 const bodyParser = require('body-parser')
 const spotifyApi = require('./spotify-api')
+const users = require('./data/users')
+const logic = require('./logic')
 
 const { registerUser, authenticateUser, retrieveUser, searchArtists, addCommentToArtist, listCommentsFromArtist, notFound } = require('./routes')
 
-const { env: { DB_URL, PORT, SPOTIFY_API_TOKEN }, argv: [, , port = PORT || 8080] } = process
+const { env: { DB_URL, PORT, SPOTIFY_API_TOKEN, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
+
 
 MongoClient.connect(DB_URL, { useNewUrlParser: true })
     .then(client => {
+        const db = client.db()
+        users.collection = db.collection('users')
+
         spotifyApi.token = SPOTIFY_API_TOKEN
+        logic.jwtSecret = JWT_SECRET
 
         const app = express()
 
