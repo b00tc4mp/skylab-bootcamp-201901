@@ -75,6 +75,76 @@ describe('user', () => {
         )
     })
 
+    describe('find by id', () => {
+        const _user = {
+            name: 'Tachi',
+            surname: 'Melodin',
+            email: 'tachito@mail.com',
+            password: 'meguhtalagasssolina'
+        }
+
+        let userId
+
+        beforeEach(() =>
+            users.collection.insertOne(_user)
+                .then(res => userId = res.insertedId.toString())
+        )
+
+        it('should succeed on correct data', () =>
+            users.findById(userId)
+                .then(({ id, _id, name, surname, email, password }) => {
+                    expect(id).to.equal(userId)
+                    expect(_id).not.to.exist
+                    expect(name).to.equal(_user.name)
+                    expect(surname).to.equal(_user.surname)
+                    expect(email).to.equal(_user.email)
+                    expect(password).to.equal(_user.password)
+                })
+        )
+
+        it('should resolve null on non matching id', () =>
+            users.findByEmail('unknown-id')
+                .then(user => expect(user).to.be.null)
+        )
+    })
+
+    describe('udpate', () => {
+        const _user = {
+            name: 'Tachi',
+            surname: 'Melodin',
+            email: 'tachito@mail.com',
+            password: 'meguhtalagasssolina'
+        }
+
+        beforeEach(() =>
+            users.collection.insertOne(_user)
+                .then(res => _user.id = res.insertedId.toString())
+        )
+
+        it('should succeed on correct data', () => {
+            _user.someExtraData = ['hello', 'world']
+
+            return users.update(_user)
+                .then(() =>
+                    users.collection.findOne({ _id: ObjectId(_user.id) })
+                        .then(({ _id, id, name, surname, email, password, someExtraData }) => {
+                            expect(_id).to.exist
+                            expect(id).not.to.exist
+                            expect(name).to.equal(_user.name)
+                            expect(surname).to.equal(_user.surname)
+                            expect(email).to.equal(_user.email)
+                            expect(password).to.equal(_user.password)
+                            expect(someExtraData).to.deep.equal(_user.someExtraData)
+                        })
+                )
+        })
+
+        it('should resolve null on non matching id', () =>
+            users.findByEmail('unknown-id')
+                .then(user => expect(user).to.be.null)
+        )
+    })
+
     after(() =>
         users.collection.deleteMany()
             .then(() => client.close())
