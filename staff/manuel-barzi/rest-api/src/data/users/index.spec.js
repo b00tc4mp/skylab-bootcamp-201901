@@ -58,9 +58,10 @@ describe('user', () => {
 
         it('should succeed on correct data', () =>
             users.findByEmail(_user.email)
-                .then(({ id, name, surname, email, password }) => {
+                .then(({ id, _id, name, surname, email, password }) => {
                     expect(id).to.exist
                     expect(id).to.be.a('string')
+                    expect(_id).not.to.exist
                     expect(name).to.equal(_user.name)
                     expect(surname).to.equal(_user.surname)
                     expect(email).to.equal(_user.email)
