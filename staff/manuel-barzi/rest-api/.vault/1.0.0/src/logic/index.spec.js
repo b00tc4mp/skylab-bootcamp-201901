@@ -1,39 +1,18 @@
-'use strict'
-
 require('dotenv').config()
-
 require('isomorphic-fetch')
 
-const { MongoClient } = require('mongodb')
 const expect = require('expect')
 const userApi = require('../user-api')
 const spotifyApi = require('../spotify-api')
-const artistComments = require('../data/artist-comments')
+const artistComment = require('../data/artist-comment')
 const logic = require('.')
-const users = require('../data/users')
 
-const { env: { DB_URL, SPOTIFY_API_TOKEN } } = process
+const { env: { SPOTIFY_API_TOKEN } } = process
 
 spotifyApi.token = SPOTIFY_API_TOKEN
 
 describe('logic', () => {
-    let client
-
-    before(() =>
-        MongoClient.connect(DB_URL, { useNewUrlParser: true })
-            .then(_client => {
-                client = _client
-
-                users.collection = client.db().collection('users')
-            })
-    )
-
-    beforeEach(() =>
-        Promise.all([
-            artistComments.removeAll(),
-            users.collection.deleteMany()
-        ])
-    )
+    beforeEach(() => artistComment.removeAll())
 
     describe('register user', () => {
         const name = 'Manuel'
@@ -214,8 +193,8 @@ describe('logic', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.authenticateUser(email, password))
                 .then(({ id, token }) => {
                     _id = id
                     _token = token
@@ -284,8 +263,8 @@ describe('logic', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.authenticateUser(email, password))
                 .then(({ id, token }) => {
                     _id = id
                     _token = token
@@ -346,7 +325,7 @@ describe('logic', () => {
                 .then(id => {
                     expect(id).toBeDefined()
 
-                    return artistComments.retrieve(id)
+                    return artistComment.retrieve(id)
                         .then(_comment => {
                             expect(_comment.id).toBe(id)
                             expect(_comment.userId).toBe(_id)
@@ -381,9 +360,9 @@ describe('logic', () => {
                     _id = id
                     _token = token
                 })
-                .then(() => artistComments.add(comment = { userId: _id, artistId, text }))
-                .then(() => artistComments.add(comment2 = { userId: _id, artistId, text: text2 }))
-                .then(() => artistComments.add(comment3 = { userId: _id, artistId, text: text3 }))
+                .then(() => artistComment.add(comment = { userId: _id, artistId, text }))
+                .then(() => artistComment.add(comment2 = { userId: _id, artistId, text: text2 }))
+                .then(() => artistComment.add(comment3 = { userId: _id, artistId, text: text3 }))
         )
 
         it('should succeed on correct data', () =>
@@ -454,8 +433,8 @@ describe('logic', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.authenticateUser(email, password))
                 .then(({ id, token }) => {
                     _id = id
                     _token = token
@@ -542,8 +521,8 @@ describe('logic', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.authenticateUser(email, password))
                 .then(({ id, token }) => {
                     _id = id
                     _token = token
@@ -578,11 +557,5 @@ describe('logic', () => {
         )
     })
 
-    after(() =>
-        Promise.all([
-            artistComments.removeAll(),
-            users.collection.deleteMany()
-                .then(() => client.close())
-        ])
-    )
+    after(() => artistComment.removeAll())
 })
