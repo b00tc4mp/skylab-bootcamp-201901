@@ -14,6 +14,15 @@ const user = {
         // TODO validate email
 
         return this.collection.findOne({ email })
+            .then(user => {
+                if (!user) return null
+
+                user.id = user._id.toString
+
+                delete user._id
+
+                return user
+            })
     }
 }
 
