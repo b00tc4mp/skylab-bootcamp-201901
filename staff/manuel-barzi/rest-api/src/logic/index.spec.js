@@ -11,10 +11,12 @@ const spotifyApi = require('../spotify-api')
 const artistComments = require('../data/artist-comments')
 const logic = require('.')
 const users = require('../data/users')
+const bcrypt = require('bcrypt')
 
-const { env: { DB_URL, SPOTIFY_API_TOKEN } } = process
+const { env: { DB_URL, SPOTIFY_API_TOKEN, JWT_SECRET } } = process
 
 spotifyApi.token = SPOTIFY_API_TOKEN
+logic.jwtSecret = JWT_SECRET
 
 describe('logic', () => {
     let client
@@ -39,7 +41,7 @@ describe('logic', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const password = `123-${Math.random()}`
         const passwordConfirm = password
 
         it('should succeed on valid data', () =>
@@ -47,6 +49,16 @@ describe('logic', () => {
                 .then(id => {
                     expect(id).toBeDefined()
                     expect(typeof id).toBe('string')
+
+                    return users.findByEmail(email)
+                })
+                .then(user => {
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+
+                    return bcrypt.compare(password, user.password)
+                        .then(match => expect(match).toBeTruthy())
                 })
         )
 
@@ -54,7 +66,7 @@ describe('logic', () => {
             const name = undefined
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -65,7 +77,7 @@ describe('logic', () => {
             const name = 10
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -77,7 +89,7 @@ describe('logic', () => {
             const name = true
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -88,7 +100,7 @@ describe('logic', () => {
             const name = {}
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -99,7 +111,7 @@ describe('logic', () => {
             const name = []
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -110,7 +122,7 @@ describe('logic', () => {
             const name = ''
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -121,7 +133,7 @@ describe('logic', () => {
             const name = 'Manuel'
             const surname = undefined
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -132,7 +144,7 @@ describe('logic', () => {
             const name = 'Manuel'
             const surname = 10
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -144,7 +156,7 @@ describe('logic', () => {
             const name = 'Manuel'
             const surname = false
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -155,7 +167,7 @@ describe('logic', () => {
             const name = 'Manuel'
             const surname = {}
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -166,7 +178,7 @@ describe('logic', () => {
             const name = 'Manuel'
             const surname = []
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -177,7 +189,7 @@ describe('logic', () => {
             const name = 'Manuel'
             const surname = ''
             const email = 'manuelbarzi@mail.com'
-            const password = '123'
+            const password = `123-${Math.random()}`
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
@@ -189,11 +201,13 @@ describe('logic', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const password = `123-${Math.random()}`
 
         beforeEach(() =>
             // logic.registerUser(name, surname, email, password, passwordConfirm) // FATAL each test should test ONE unit
-            userApi.register(name, surname, email, password)
+            // userApi.register(name, surname, email, password)
+            bcrypt.hash(password, 10)
+                .then(hash => users.add({ name, surname, email, password: hash }))
         )
 
         it('should succeed on correct credentials', () =>
@@ -209,7 +223,7 @@ describe('logic', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const password = `123-${Math.random()}`
         const passwordConfirm = password
         let _id, _token
 
@@ -278,7 +292,7 @@ describe('logic', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const password = `123-${Math.random()}`
         const passwordConfirm = password
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
         let _id, _token
@@ -324,7 +338,7 @@ describe('logic', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const password = `123-${Math.random()}`
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
         const text = `comment ${Math.random()}`
         let _id, _token
@@ -363,7 +377,7 @@ describe('logic', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const password = `123-${Math.random()}`
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
         const text = `comment ${Math.random()}`
         const text2 = `comment ${Math.random()}`
@@ -448,7 +462,7 @@ describe('logic', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const password = `123-${Math.random()}`
         const passwordConfirm = password
         const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
         let _id, _token
@@ -536,7 +550,7 @@ describe('logic', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const password = `123-${Math.random()}`
         const passwordConfirm = password
         const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live)
         let _id, _token
