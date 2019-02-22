@@ -1,17 +1,32 @@
 const uuid = require('uuid/v4')
-const fsp = require('fs').promises // WARN need node v10+
+const fs = require('fs')
+const fsp = fs.promises // WARN need node v10+
 const path = require('path')
 
 const artistComment = {
     file: 'artist-comments.json',
 
     __load__(file) {
-        return fsp.readFile(file)
-            .then(content => JSON.parse(content))
+        // return fsp.readFile(file)
+        //     .then(content => JSON.parse(content))
+        return new Promise((resolve, reject) => {
+            fs.readFile(file, (error, content) => {
+                if (error) return reject(error)
+
+                resolve(JSON.parse(content))
+            })
+        })
     },
 
     __save__(file, comments) {
-        return fsp.writeFile(file, JSON.stringify(comments, null, 4))
+        // return fsp.writeFile(file, JSON.stringify(comments, null, 4))
+        return new Promise((resolve, reject) => {
+            fs.writeFile(file, JSON.stringify(comments, null, 4), error => {
+                if (error) return reject(error)
+
+                resolve()
+            })
+        })
     },
 
     add(comment) {
@@ -48,7 +63,7 @@ const artistComment = {
 
     update(comment) {
         // TODO validate comment (should all field values and types)
-        
+
         const file = path.join(__dirname, this.file)
 
         return this.__load__(file)
@@ -82,7 +97,7 @@ const artistComment = {
 
     removeAll() {
         const file = path.join(__dirname, this.file)
-        
+
         return this.__save__(file, [])
     },
 
