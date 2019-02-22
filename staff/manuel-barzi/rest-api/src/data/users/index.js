@@ -17,7 +17,7 @@ const user = {
             .then(user => {
                 if (!user) return null
 
-                user.id = user._id.toString
+                user.id = user._id.toString()
 
                 delete user._id
 
