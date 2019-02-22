@@ -2,8 +2,7 @@
 
 const spotifyApi = require('../spotify-api')
 const userApi = require('../user-api')
-const users = require('../data/users')
-const artistComments = require('../data/artist-comments')
+const artistComment = require('../data/artist-comment')
 
 /**
  * Abstraction of business logic.
@@ -41,8 +40,7 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        // return userApi.register(name, surname, email, password)
-        return users.add({ name, surname, email, password })
+        return userApi.register(name, surname, email, password)
     },
 
     /**
@@ -60,14 +58,7 @@ const logic = {
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        // return userApi.authenticate(email, password)
-        // TODO redo authenticate here, using users driver to find user by email, verify password, generate token using jsonwebtoken
-        // return users.findByEmail(email)
-            // .then(user => {
-            //  if (!user) throw Error(`user with email ${email} not found`)
-            //  if (user.password !== password) throw Error('wrong credentials')
-            //  create token... etc, etc, etc...
-            // })
+        return userApi.authenticate(email, password)
     },
 
     retrieveUser(userId, token) {
@@ -152,14 +143,14 @@ const logic = {
             .then(({ error }) => {
                 if (error) throw Error(error.message)
             })
-            .then(() => artistComments.add(comment))
+            .then(() => artistComment.add(comment))
             .then(() => comment.id)
     },
 
     listCommentsFromArtist(artistId) {
         // TODO validate artistId
 
-        return artistComments.find({ artistId })
+        return artistComment.find({ artistId })
     },
 
     /**
