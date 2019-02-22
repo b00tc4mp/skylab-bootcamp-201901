@@ -46,7 +46,12 @@ const logic = {
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
         // return userApi.register(name, surname, email, password)
-        return bcrypt.hash(password, 10)
+        return users.findByEmail(email)
+            .then(user => {
+                if (user) throw Error(`user with email ${email} already exists`)
+
+                return bcrypt.hash(password, 10)
+            })
             .then(hash => users.add({ name, surname, email, password: hash }))
     },
 
@@ -73,10 +78,10 @@ const logic = {
                     .then(match => {
                         if (!match) throw Error('wrong credentials')
 
-                        const id = user._id.toString()
-        
+                        const { id } = user
+
                         const token = jwt.sign({ sub: id }, this.jwtSecret, { expiresIn: '4h' })
-        
+
                         return { id, token }
                     })
             })
