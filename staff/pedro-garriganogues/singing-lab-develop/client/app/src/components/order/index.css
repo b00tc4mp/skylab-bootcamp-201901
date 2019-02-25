@@ -1,0 +1,31 @@
+.my-order-title{
+    font-size: 45px;
+    margin-left: 10px;
+}
+.my-order-title{
+    display: flex;
+    justify-content: center;
+}
+
+.title-shopping-truck{
+    position: absolute;
+    top: 161px;
+    font-size: 30px;
+    animation: truckTitleImage 8s 1s both ease;
+
+}
+
+@keyframes truckTitleImage{
+    0%{ transform: translateX(-250px)}
+    20%{ transform: translateX(-90px)}
+    100%{ transform: translateX(1000px)}
+}
+
+.my-card-title{
+    animation: flipCart 1s 2s both ease;
+}
+
+
+@keyframes flipCart{
+    0%{ transform: rotate(720deg); }
+}

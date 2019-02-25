@@ -1,0 +1,29 @@
+.productData{
+    display: flex;
+    justify-content: center;
+    padding: 4% 3%;
+    background: linear-gradient(-40deg, #9824af49, #5c1b535e, transparent);
+}
+
+.productDataSub{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    background: white;
+    border-radius: 20px;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    width: 85%;
+}
+
+.product-data-image{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 5px 5px 5px;
+    border: 1px solid #5c1b535e;
+}
+
+.product-desc{
+    max-width: 50%;
+}

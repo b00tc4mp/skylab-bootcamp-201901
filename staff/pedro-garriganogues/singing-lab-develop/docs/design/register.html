@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/register.css">
+    <link rel="stylesheet" href="../vendor/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <script src="../vendor/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="../vendor/jquery/3.3.1/jquery-3.3.1.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <nav class="site-header sticky-top py-1">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+            <div class="py-2 d-none d-md-inline-block">
+                <i class="fas fa-music"></i>
+                <i class="fas fa-music"></i>
+            </div>
+
+            <a class="py-2 d-none d-md-inline-block" href="index.html">home</a>
+            <a class="py-2 d-none d-md-inline-block" href="categories.html">Products</a>
+            <a class="py-2 d-none d-md-inline-block" href="#">Search</a>
+            <a class="py-2 d-none d-md-inline-block" href="login.html">Login</a>
+            <a class="py-2 d-none d-md-inline-block" href="register.html">Register</a>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="py-5 text-center title">
+            <h2>Register</h2>
+            <p class="lead">Below is an example </p>
+        </div>
+
+        <div class="main-container">
+            <form class="form-register" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">First name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">Last name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="username" placeholder="Username" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Your username is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">Email
+                    </label>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address">password</label>
+                    <input type="password" class="form-control" id="address" required>
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address2">Confirm password
+                    </label>
+                    <input type="password" class="form-control" id="address2">
+                </div>
+
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block register-submit" type="submit">Continue to Login</button>
+            </form>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

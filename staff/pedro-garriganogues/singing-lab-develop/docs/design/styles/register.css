@@ -1,0 +1,50 @@
+body{
+    background: linear-gradient(#9824afa6, #6b2061a9, transparent), url('../images/blurry-register.jpeg');
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif !important;
+    color: rgb(228, 228, 228) !important;
+}
+
+.title{
+    padding-bottom: 0 !important;
+}
+
+.container {
+    max-width: 500px;
+}
+
+.form-control{
+    background: rgba(255, 255, 255, 0) !important;
+}
+
+.form-register {
+    width: 100%;
+    max-width: 450px;
+    margin: auto;
+    padding-bottom: 50px;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.border-top-gray {
+    border-top-color: #adb5bd;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.lh-condensed {
+    line-height: 1.25;
+}
+
+.register-submit{
+    background: linear-gradient(to left, rgba(121, 27, 105, 0.616), rgba(34, 8, 44, 0.685)) !important;
+    border: 1px solid purple !important;
+
+}

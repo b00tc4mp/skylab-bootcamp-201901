@@ -1,0 +1,31 @@
+.col-lg-4 {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  text-align: center;
+}
+
+.col-lg-4 p {
+  margin-right: .75rem;
+  margin-left: .75rem;
+  text-align: justify;
+}
+.col-lg-4 .circle-image-button{
+  text-align: center;
+}
+
+.landing-center-div {
+  background: linear-gradient(-40deg, white, lightgrey);
+  padding: 0 3%;
+}
+
+.rounded-circle-images{
+  border: 2px solid black;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px purple; 
+}
+
+.landing-center-div-titles{
+  font-family: Apple Chancery;
+  font-weight: bold;
+  padding-top: 15px;
+}
