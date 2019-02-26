@@ -47,17 +47,17 @@ describe('music api', () => {
         const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `password-${Math.random()}`
 
-        let _id
+        let userId
 
         beforeEach(() =>
             musicApi.registerUser(name, surname, email, password, password)
-                .then(id => _id = id)
+                .then(id => userId = id)
         )
 
         it('should succeed on correct data', () =>
             musicApi.authenticateUser(email, password)
                 .then(({ id, token }) => {
-                    expect(id).toBe(_id)
+                    expect(id).toBe(userId)
                     expect(token).toBeDefined()
                 })
         )
@@ -71,19 +71,19 @@ describe('music api', () => {
         const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `password-${Math.random()}`
 
-        let _id, _token
+        let userId, token
 
         beforeEach(() =>
             musicApi.registerUser(name, surname, email, password, password)
-                .then(id => _id = id)
+                .then(id => userId = id)
                 .then(() => musicApi.authenticateUser(email, password))
-                .then(({ token }) => _token = token)
+                .then(({ token: _token }) => token = _token)
         )
 
         it('should succeed on correct data', () =>
-            musicApi.retrieveUser(_id, _token)
+            musicApi.retrieveUser(userId, token)
                 .then(user => {
-                    expect(user.id).toBe(_id)
+                    expect(user.id).toBe(userId)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -101,22 +101,22 @@ describe('music api', () => {
         const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `password-${Math.random()}`
 
-        let _id, _token
+        let userId, token
 
         beforeEach(() =>
             musicApi.registerUser(name, surname, email, password, password)
-                .then(id => _id = id)
+                .then(id => userId = id)
                 .then(() => musicApi.authenticateUser(email, password))
-                .then(({ token }) => _token = token)
+                .then(({ token: _token }) => token = _token)
         )
 
         it('should succeed on correct data', () => {
             const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
 
-            return musicApi.updateUser(_id, _token, data)
-                .then(() => musicApi.retrieveUser(_id, _token))
+            return musicApi.updateUser(userId, token, data)
+                .then(() => musicApi.retrieveUser(userId, token))
                 .then(user => {
-                    expect(user.id).toBe(_id)
+                    expect(user.id).toBe(userId)
                     expect(user.name).toBe(data.name)
                     expect(user.surname).toBe(data.surname)
                     expect(user.age).toBe(data.age)
@@ -134,22 +134,22 @@ describe('music api', () => {
         const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `password-${Math.random()}`
 
-        let _id, _token
+        let userId, token
 
         beforeEach(() =>
             musicApi.registerUser(name, surname, email, password, passwordConfirm)
-                .then(id => _id = id)
+                .then(id => userId = id)
                 .then(() => musicApi.authenticateUser(email, password))
-                .then(({ token }) => _token = token)
+                .then(({ token: _token }) => token = _token)
         )
 
         it('should succeed on correct data', () => {
-            return musicApi.remove(_id, _token, email, password, passwordConfirm)
-                .then(() => musicApi.retrieveUser(_id, _token))
+            return musicApi.remove(userId, token, email, password, passwordConfirm)
+                .then(() => musicApi.retrieveUser(userId, token))
                 .then(() => {
                     throw Error('should not pass by here')
                 })
-                .catch(({ message }) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
+                .catch(({ message }) => expect(message).toBe(`user with id \"${userId}\" does not exist`))
         })
 
         // TODO more unit test cases
@@ -201,23 +201,62 @@ describe('music api', () => {
         const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `password-${Math.random()}`
 
-        let _id, _token
+        let userId, token
 
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
         const text = `text ${Math.random()}`
 
         beforeEach(() =>
             musicApi.registerUser(name, surname, email, password, password)
-                .then(id => _id = id)
+                .then(id => userId = id)
                 .then(() => musicApi.authenticateUser(email, password))
-                .then(({ token }) => _token = token)
+                .then(({ token: _token }) => token = _token)
         )
 
         it('should succeed on mathing query', () =>
-            musicApi.addCommentToArtist(_id, _token, artistId, text)
+            musicApi.addCommentToArtist(userId, token, artistId, text)
                 .then(({ id }) => {
                     expect(id).toBeDefined()
                     expect(typeof id === 'string').toBeTruthy()
+                })
+        )
+    })
+
+    describe('list comments from artist', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `password-${Math.random()}`
+
+        let userId, token
+
+        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
+        const text = `text ${Math.random()}`
+
+        let commendId
+
+        beforeEach(() =>
+            musicApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id)
+                .then(() => musicApi.authenticateUser(email, password))
+                .then(({ token: _token }) => token = _token)
+                .then(() => musicApi.addCommentToArtist(userId, token, artistId, text))
+                .then(({ id }) => commendId = id)
+        )
+
+        it('should succeed on mathing query', () =>
+            musicApi.listCommentsFromArtist(token, artistId)
+                .then(comments => {
+                    expect(comments.length).toBeGreaterThan(0)
+
+                    const comment = comments.find(({ id }) => id === commendId)
+
+                    expect(comment.id).toBe(commendId)
+                    expect(comment.userId).toBe(userId)
+                    expect(comment.artistId).toBe(artistId)
+                    expect(comment.text).toBe(text)
+                    expect(comment.date).toBeDefined()
+                    expect(comment.date instanceof Date).toBeTruthy()
                 })
         )
     })
