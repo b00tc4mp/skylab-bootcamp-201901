@@ -5,48 +5,59 @@ import musicApi from '.'
 jest.setTimeout(10000)
 
 describe('music api', () => {
-    describe('register', () => {
+    describe('register user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
-        const password = '123'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `password-${Math.random()}`
 
         it('should succeed on correct data', () =>
-            musicApi.register(name, surname, username, password, password)
+            musicApi.registerUser(name, surname, email, password, password)
                 .then(id => expect(id).toBeDefined())
         )
 
         it('should fail on already existing user', () =>
-            musicApi.register(name, surname, username, password, password)
+            musicApi.registerUser(name, surname, email, password, password)
                 .then(() => {
                     throw Error('should not have passed by here')
                 })
                 .catch(error => {
                     expect(error).toBeDefined()
-                    expect(error.message).toBe(`user with email ${username} already exists`)
+                    expect(error.message).toBe(`user with email ${email} already exists`)
+                })
+        )
+
+        it('should fail on non-matching password and its confirmation', () =>
+            musicApi.registerUser(name, surname, email, password, `non-matching ${password}`)
+                .then(() => {
+                    throw Error('should not have passed by here')
+                })
+                .catch(error => {
+                    expect(error).toBeDefined()
+                    expect(error.message).toBe('passwords do not match')
                 })
         )
 
         // TODO more unit test cases
     })
 
-    describe('authenticate', () => {
+    describe('authenticate user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const username = `manuelbarzi-${Math.random()}`
-        const password = '123'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `password-${Math.random()}`
 
-        let _id
+        let userId
 
         beforeEach(() =>
-            musicApi.register(name, surname, username, password, password)
-                .then(id => _id = id)
+            musicApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id)
         )
 
         it('should succeed on correct data', () =>
-            musicApi.authenticate(username, password)
+            musicApi.authenticateUser(email, password)
                 .then(({ id, token }) => {
-                    expect(id).toBe(_id)
+                    expect(id).toBe(userId)
                     expect(token).toBeDefined()
                 })
         )
@@ -54,90 +65,282 @@ describe('music api', () => {
         // TODO more unit test cases
     })
 
-    // describe('retrieve', () => {
-    //     const name = 'Manuel'
-    //     const surname = 'Barzi'
-    //     const username = `manuelbarzi-${Math.random()}`
-    //     const password = '123'
+    describe('retrieve user', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `password-${Math.random()}`
 
-    //     let _id, _token
+        let userId, token
 
-    //     beforeEach(() =>
-    //         musicApi.register(name, surname, username, password, passwordConfirm)
-    //             .then(id => _id = id)
-    //             .then(() => musicApi.authenticate(username, password, passwordConfirm))
-    //             .then(({ token }) => _token = token)
-    //     )
+        beforeEach(() =>
+            musicApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id)
+                .then(() => musicApi.authenticateUser(email, password))
+                .then(({ token: _token }) => token = _token)
+        )
 
-    //     it('should succeed on correct data', () =>
-    //         musicApi.retrieve(_id, _token)
-    //             .then(user => {
-    //                 expect(user.id).toBe(_id)
-    //                 expect(user.name).toBe(name)
-    //                 expect(user.surname).toBe(surname)
-    //                 expect(user.username).toBe(username)
-    //             })
-    //     )
+        it('should succeed on correct data', () =>
+            musicApi.retrieveUser(userId, token)
+                .then(user => {
+                    expect(user.id).toBe(userId)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+                })
+        )
 
-    //     // TODO more unit test cases
-    // })
+        // TODO more unit test cases
+    })
 
-    // describe('update', () => {
-    //     const name = 'Manuel'
-    //     const surname = 'Barzi'
-    //     const username = `manuelbarzi-${Math.random()}`
-    //     const password = '123'
 
-    //     let _id, _token
+    // TODO build endpoint for this in API first! (it does not exist yet)
+    false && describe('update user', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `password-${Math.random()}`
 
-    //     beforeEach(() =>
-    //         musicApi.register(name, surname, username, password, passwordConfirm)
-    //             .then(id => _id = id)
-    //             .then(() => musicApi.authenticate(username, password, passwordConfirm))
-    //             .then(({ token }) => _token = token)
-    //     )
+        let userId, token
 
-    //     it('should succeed on correct data', () => {
-    //         const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
+        beforeEach(() =>
+            musicApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id)
+                .then(() => musicApi.authenticateUser(email, password))
+                .then(({ token: _token }) => token = _token)
+        )
 
-    //         return musicApi.update(_id, _token, data)
-    //             .then(() => musicApi.retrieve(_id, _token))
-    //             .then(user => {
-    //                 expect(user.id).toBe(_id)
-    //                 expect(user.name).toBe(data.name)
-    //                 expect(user.surname).toBe(data.surname)
-    //                 expect(user.age).toBe(data.age)
-    //                 expect(user.username).toBe(username)
-    //             })
-    //     })
+        it('should succeed on correct data', () => {
+            const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
 
-    //     // TODO more unit test cases
-    // })
+            return musicApi.updateUser(userId, token, data)
+                .then(() => musicApi.retrieveUser(userId, token))
+                .then(user => {
+                    expect(user.id).toBe(userId)
+                    expect(user.name).toBe(data.name)
+                    expect(user.surname).toBe(data.surname)
+                    expect(user.age).toBe(data.age)
+                    expect(user.email).toBe(email)
+                })
+        })
 
-    // describe('remove', () => {
-    //     const name = 'Manuel'
-    //     const surname = 'Barzi'
-    //     const username = `manuelbarzi-${Math.random()}`
-    //     const password = '123'
+        // TODO more unit test cases
+    })
 
-    //     let _id, _token
+    // TODO build endpoint for this in API first! (it does not exist yet)
+    false && describe('remove user', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `password-${Math.random()}`
 
-    //     beforeEach(() =>
-    //         musicApi.register(name, surname, username, password, passwordConfirm)
-    //             .then(id => _id = id)
-    //             .then(() => musicApi.authenticate(username, password, passwordConfirm))
-    //             .then(({ token }) => _token = token)
-    //     )
+        let userId, token
 
-    //     it('should succeed on correct data', () => {
-    //         return musicApi.remove(_id, _token, username, password, passwordConfirm)
-    //             .then(() => musicApi.retrieve(_id, _token))
-    //             .then(() => {
-    //                 throw Error('should not pass by here')
-    //             })
-    //             .catch(({message}) => expect(message).toBe(`user with id \"${_id}\" does not exist`))
-    //     })
+        beforeEach(() =>
+            musicApi.registerUser(name, surname, email, password, passwordConfirm)
+                .then(id => userId = id)
+                .then(() => musicApi.authenticateUser(email, password))
+                .then(({ token: _token }) => token = _token)
+        )
 
-    //     // TODO more unit test cases
-    // })
+        it('should succeed on correct data', () => {
+            return musicApi.remove(userId, token, email, password, passwordConfirm)
+                .then(() => musicApi.retrieveUser(userId, token))
+                .then(() => {
+                    throw Error('should not pass by here')
+                })
+                .catch(({ message }) => expect(message).toBe(`user with id \"${userId}\" does not exist`))
+        })
+
+        // TODO more unit test cases
+    })
+
+    describe('search artists', () => {
+        it('should succeed on mathing query', () => {
+            const query = 'madonna'
+
+            return musicApi.searchArtists(query)
+                .then(artists => {
+                    expect(artists).toBeDefined()
+                    expect(artists instanceof Array).toBeTruthy()
+                    expect(artists.length).toBeGreaterThan(0)
+
+                    artists.forEach(({ name }) => expect(name.toLowerCase()).toContain(query))
+                })
+        })
+
+        it('should fail on empty query', () => {
+            const query = ''
+
+            expect(() => musicApi.searchArtists(query)).toThrowError('query is empty')
+        })
+    })
+
+    // TODO build endpoint for this in API first! (it does not exist yet)
+    false && describe('retrieve artist', () => {
+        it('should succeed on mathing query', () => {
+            const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
+
+            return musicApi.retrieveArtist(artistId)
+                .then(({ id, name }) => {
+                    expect(id).toBe(artistId)
+                    expect(name).toBe('Madonna')
+                })
+        })
+
+        it('should fail on empty artistId', function () {
+            const artistId = ''
+
+            expect(() => musicApi.retrieveArtist(artistId)).toThrowError('artistId is empty')
+        })
+    })
+
+    describe('add comment to artist', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `password-${Math.random()}`
+
+        let userId, token
+
+        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
+        const text = `text ${Math.random()}`
+
+        beforeEach(() =>
+            musicApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id)
+                .then(() => musicApi.authenticateUser(email, password))
+                .then(({ token: _token }) => token = _token)
+        )
+
+        it('should succeed on mathing query', () =>
+            musicApi.addCommentToArtist(userId, token, artistId, text)
+                .then(({ id }) => {
+                    expect(id).toBeDefined()
+                    expect(typeof id === 'string').toBeTruthy()
+                })
+        )
+    })
+
+    describe('list comments from artist', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `password-${Math.random()}`
+
+        let userId, token
+
+        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
+        const text = `text ${Math.random()}`
+
+        let commendId
+
+        beforeEach(() =>
+            musicApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id)
+                .then(() => musicApi.authenticateUser(email, password))
+                .then(({ token: _token }) => token = _token)
+                .then(() => musicApi.addCommentToArtist(userId, token, artistId, text))
+                .then(({ id }) => commendId = id)
+        )
+
+        it('should succeed on mathing query', () =>
+            musicApi.listCommentsFromArtist(token, artistId)
+                .then(comments => {
+                    expect(comments.length).toBeGreaterThan(0)
+
+                    const comment = comments.find(({ id }) => id === commendId)
+
+                    expect(comment.id).toBe(commendId)
+                    expect(comment.userId).toBe(userId)
+                    expect(comment.artistId).toBe(artistId)
+                    expect(comment.text).toBe(text)
+                    expect(comment.date).toBeDefined()
+                    expect(comment.date instanceof Date).toBeTruthy()
+                })
+        )
+    })
+
+    // TODO build endpoint for this in API first! (it does not exist yet)
+    false && describe('retrieve albums', () => {
+        it('should succeed on mathing query', () => {
+            const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
+
+            return musicApi.retrieveAlbums(artistId)
+                .then(albums => {
+                    expect(albums).toBeDefined()
+                    expect(albums instanceof Array).toBeTruthy()
+                    expect(albums.length).toBeGreaterThan(0)
+                })
+        })
+
+        it('should fail on empty artistId', function () {
+            const artistId = ''
+
+            expect(() => musicApi.retrieveAlbums(artistId)).toThrowError('artistId is empty')
+        })
+    })
+
+    // TODO build endpoint for this in API first! (it does not exist yet)
+    false && describe('retrieve album', () => {
+        it('should succeed on mathing query', () => {
+            const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
+
+            return musicApi.retrieveAlbum(albumId)
+                .then(({ id, name }) => {
+                    expect(id).toBe(albumId)
+                    expect(name).toBe('Rebel Heart Tour (Live)')
+                })
+        })
+
+        it('should fail on empty albumId', function () {
+            const albumId = ''
+
+            expect(() => musicApi.retrieveAlbum(albumId)).toThrowError('albumId is empty')
+        })
+    })
+
+    // TODO build endpoint for this in API first! (it does not exist yet)
+    false && describe('retrieve tracks', () => {
+        it('should succeed on mathing query', () => {
+            const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
+
+            return musicApi.retrieveTracks(albumId)
+                .then(tracks => {
+                    expect(tracks).toBeDefined()
+                    expect(tracks instanceof Array).toBeTruthy()
+                    expect(tracks.length).toBeGreaterThan(0)
+                })
+        })
+
+        it('should fail on empty albumId', function () {
+            const albumId = ''
+
+            expect(() => musicApi.retrieveTracks(albumId)).toThrowError('albumId is empty')
+        })
+    })
+
+    // TODO build endpoint for this in API first! (it does not exist yet)
+    false && describe('retrieve track', () => {
+        it('should succeed on mathing query', () => {
+            const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live
+            const trackName = 'Rebel Heart Tour Intro - Live'
+
+            return musicApi.retrieveTrack(trackId)
+                .then(track => {
+                    expect(track).toBeDefined()
+
+                    const { id, name } = track
+
+                    expect(id).toBe(trackId)
+                    expect(name).toBe(trackName)
+                })
+        })
+
+        it('should fail on empty trackId', function () {
+            const trackId = ''
+
+            expect(() => musicApi.retrieveTrack(trackId)).toThrowError('trackId is empty')
+        })
+    })
 })
