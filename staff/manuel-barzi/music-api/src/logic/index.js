@@ -80,21 +80,25 @@ const logic = {
 
                         const token = jwt.sign({ sub: id }, this.jwtSecret, { expiresIn: '4h' })
 
-                        return { id, token }
+                        return token
                     })
             })
     },
 
-    __verifyUserToken__(userId, token) {
+    // TODO doc
+    __verifyToken__(token) {
         const { sub } = jwt.verify(token, this.jwtSecret)
 
-        if (sub !== userId) throw Error(`user id ${userId} does not match token user id ${sub}`)
+        if (!sub) throw Error(`user id not present in token ${token}`)
+
+        return sub
     },
 
-    retrieveUser(userId, token) {
+    // TODO doc
+    retrieveUser(token) {
         // TODO validate userId and token type and content
 
-        this.__verifyUserToken__(userId, token)
+        const userId = this.__verifyToken__(token)
 
         return users.findById(userId)
             .then(user => {
@@ -140,10 +144,10 @@ const logic = {
      * 
      * @param {string} artistId - The id of the artist to toggle in favorites.
      */
-    toggleFavoriteArtist(userId, token, artistId) {
+    toggleFavoriteArtist(token, artistId) {
         // TODO validate arguments
 
-        this.__verifyUserToken__(userId, token)
+        const userId = this.__verifyToken__(token)
 
         return users.findById(userId)
             .then(user => {
@@ -160,10 +164,10 @@ const logic = {
             })
     },
 
-    addCommentToArtist(userId, token, artistId, text) {
+    addCommentToArtist(token, artistId, text) {
         // TODO validate userId, token, artistId and text
 
-        this.__verifyUserToken__(userId, token)
+        const userId = this.__verifyToken__(token)
 
         const comment = {
             userId,
@@ -180,10 +184,18 @@ const logic = {
             .then(() => comment.id)
     },
 
-    listCommentsFromArtist(artistId) {
+    listCommentsFromArtist(token, artistId) {
         // TODO validate artistId
 
-        return artistComments.find({ artistId })
+        const userId = this.__verifyToken__(token)
+
+        return users.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                return artistComments.find({ artistId })
+            })
+
     },
 
     /**
@@ -217,10 +229,10 @@ const logic = {
      * 
      * @param {string} albumId - The id of the album to toggle in favorites.
      */
-    toggleFavoriteAlbum(userId, token, albumId) {
+    toggleFavoriteAlbum(token, albumId) {
         // TODO validate arguments
 
-        this.__verifyUserToken__(userId, token)
+        const userId = this.__verifyToken__(token)
 
         return users.findById(userId)
             .then(user => {
@@ -268,10 +280,10 @@ const logic = {
      * 
      * @param {string} trackId - The id of the track to toggle in favorites.
      */
-    toggleFavoriteTrack(userId, token, trackId) {
+    toggleFavoriteTrack(token, trackId) {
         // TODO validate arguments
 
-        this.__verifyUserToken__(userId, token)
+        const userId = this.__verifyToken__(token)
 
         return users.findById(userId)
             .then(user => {
