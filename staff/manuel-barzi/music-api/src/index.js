@@ -44,7 +44,7 @@ MongoClient.connect(DB_URL, { useNewUrlParser: true })
 
         router.post('/user/auth', jsonBodyParser, authenticateUser)
 
-        router.get('/user/:id', retrieveUser)
+        router.get('/user', retrieveUser)
 
         router.get('/artists', searchArtists)
 

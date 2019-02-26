@@ -166,10 +166,7 @@ describe('logic', () => {
 
         it('should succeed on correct credentials', () =>
             logic.logInUser(email, password)
-                .then(() => {
-                    expect(logic.__userId__).toBeDefined()
-                    expect(logic.__userApiToken__).toBeDefined()
-                })
+                .then(() => expect(logic.__userApiToken__).toBeDefined())
         )
     })
 
@@ -205,8 +202,7 @@ describe('logic', () => {
         it('should succeed on correct credentials', () => {
             logic.logOutUser()
 
-            expect(logic.__userId__).toBeNull()
-            expect(logic.__userId__).toBeNull()
+            expect(logic.__userApiToken__).toBeNull()
         })
     })
 
@@ -225,7 +221,6 @@ describe('logic', () => {
         it('should succeed on correct credentials', () =>
             logic.retrieveUser()
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -291,7 +286,6 @@ describe('logic', () => {
             logic.toggleFavoriteArtist(artistId)
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -304,7 +298,6 @@ describe('logic', () => {
                 })
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -369,7 +362,6 @@ describe('logic', () => {
             logic.toggleFavoriteAlbum(albumId)
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -382,7 +374,6 @@ describe('logic', () => {
                 })
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -452,7 +443,6 @@ describe('logic', () => {
             logic.toggleFavoriteTrack(trackId)
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -465,7 +455,6 @@ describe('logic', () => {
                 })
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)

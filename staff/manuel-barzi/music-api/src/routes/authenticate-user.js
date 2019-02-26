@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     try {
         logic.authenticateUser(email, password)
             // .then(data => res.json(data))
-            .then(res.json.bind(res))
+            .then(token => res.json({ token }))
             .catch(({ message }) => {
                 res.status(401).json({
                     error: message
