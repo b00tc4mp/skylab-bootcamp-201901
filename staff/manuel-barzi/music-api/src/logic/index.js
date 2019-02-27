@@ -1,8 +1,7 @@
 'use strict'
 
 const spotifyApi = require('../spotify-api')
-const users = require('../data/users')
-const artistComments = require('../data/artist-comments')
+const { User, Comment } = require('../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
@@ -44,13 +43,26 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        return users.findByEmail(email)
-            .then(user => {
-                if (user) throw Error(`user with email ${email} already exists`)
+        // return User.findOne({ email })
+        //     .then(user => {
+        //         if (user) throw Error(`user with email ${email} already exists`)
 
-                return bcrypt.hash(password, 10)
-            })
-            .then(hash => users.add({ name, surname, email, password: hash }))
+        //         return bcrypt.hash(password, 10)
+        //     })
+        //     .then(hash => User.create({ name, surname, email, password: hash }))
+        //     .then(({ id }) => id)
+
+        return (async () => {
+            const user = await User.findOne({ email })
+
+            if (user) throw Error(`user with email ${email} already exists`)
+
+            const hash = await bcrypt.hash(password, 10)
+
+            const { id } = await User.create({ name, surname, email, password: hash })
+
+            return id
+        })()
     },
 
     /**
