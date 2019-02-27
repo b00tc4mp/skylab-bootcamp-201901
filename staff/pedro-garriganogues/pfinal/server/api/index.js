@@ -2,8 +2,8 @@
 
 require('dotenv').config()
 
-const { mongoose } = require('../data')
 const express = require('express')
+const { mongoose } = require('../data')
 const router = require('./src/routes/index')
 const cors = require('cors')
 
@@ -22,13 +22,12 @@ mongoose.connect(DB_URL)
         app.listen(port, () => console.log(`server running on port ${port}`))
 
         process.on('SIGINT', () => {
-            console.log('\nstopping server')
+            mongoose.disconnect()
+                .then(() => {
+                    console.log('\nserver stopped')
 
-            mongoose.connection.close(() => {
-                console.log('db connection closed')
-
-                process.exit()
-            })
+                    process.exit(0)
+                })
         })
     })
     .catch(console.error)
