@@ -6,7 +6,6 @@ import musicApi from '../music-api'
  * Abstraction of business logic.
  */
 const logic = {
-    __userId__: null,
     __userApiToken__: null,
 
     /**
@@ -61,29 +60,25 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return musicApi.authenticateUser(email, password)
-            .then(({ id, token }) => {
-                this.__userId__ = id
-                this.__userApiToken__ = token
-            })
+            .then(token => this.__userApiToken__ = token)
     },
 
     /**
      * Checks user is logged in.
      */
     get isUserLoggedIn() {
-        return !!this.__userId__
+        return !!this.__userApiToken__
     },
 
     /**
      * Logs out the user.
      */
     logOutUser() {
-        this.__userId__ = null
         this.__userApiToken__ = null
     },
 
     retrieveUser() {
-        return musicApi.retrieveUser(this.__userId__, this.__userApiToken__)
+        return musicApi.retrieveUser(this.__userApiToken__)
             .then(({ id, name, surname, email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
                 id,
                 name,
@@ -130,7 +125,7 @@ const logic = {
      * @param {string} artistId - The id of the artist to toggle in favorites.
      */
     toggleFavoriteArtist(artistId) {
-        return musicApi.retrieveUser(this.__userId__, this.__userApiToken__)
+        return musicApi.retrieveUser(this.__userApiToken__)
             .then(user => {
                 const { favoriteArtists = [] } = user
 
@@ -139,7 +134,7 @@ const logic = {
                 if (index < 0) favoriteArtists.push(artistId)
                 else favoriteArtists.splice(index, 1)
 
-                return musicApi.update(this.__userId__, this.__userApiToken__, { favoriteArtists })
+                return musicApi.update(this.__userApiToken__, { favoriteArtists })
             })
     },
 
@@ -175,7 +170,7 @@ const logic = {
      * @param {string} albumId - The id of the album to toggle in favorites.
      */
     toggleFavoriteAlbum(albumId) {
-        return musicApi.retrieveUser(this.__userId__, this.__userApiToken__)
+        return musicApi.retrieveUser(this.__userApiToken__)
             .then(user => {
                 const { favoriteAlbums = [] } = user
 
@@ -184,7 +179,7 @@ const logic = {
                 if (index < 0) favoriteAlbums.push(albumId)
                 else favoriteAlbums.splice(index, 1)
 
-                return musicApi.update(this.__userId__, this.__userApiToken__, { favoriteAlbums })
+                return musicApi.update(this.__userApiToken__, { favoriteAlbums })
             })
     },
 
@@ -220,7 +215,7 @@ const logic = {
      * @param {string} trackId - The id of the track to toggle in favorites.
      */
     toggleFavoriteTrack(trackId) {
-        return musicApi.retrieveUser(this.__userId__, this.__userApiToken__)
+        return musicApi.retrieveUser(this.__userApiToken__)
             .then(user => {
                 const { favoriteTracks = [] } = user
 
@@ -229,7 +224,7 @@ const logic = {
                 if (index < 0) favoriteTracks.push(trackId)
                 else favoriteTracks.splice(index, 1)
 
-                return musicApi.update(this.__userId__, this.__userApiToken__, { favoriteTracks })
+                return musicApi.update(this.__userApiToken__, { favoriteTracks })
             })
     }
 }
