@@ -1,6 +1,7 @@
 'use strict'
 
-const { mongoose, models: { User } } = require('data')
+const { User } = require('../model')
+// models:
 const mongoose = require('mongoose')
 
 const logic = {
@@ -9,11 +10,11 @@ const logic = {
 
         if (typeof email !== 'string') throw Error('email is not a string')
 
-        const user = await User.findOne({ email }).exec()
+        const user = await User.findOne({ email })
 
         if (user) throw Error(`user with email ${email} already exists`)
 
-        await User.create({ name, surname, email, password, passwordConfirmation }).exec()
+        await User.create({ name, surname, email, password, passwordConfirmation })
 
     },
 
