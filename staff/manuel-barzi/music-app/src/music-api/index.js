@@ -18,9 +18,7 @@ const musicApi = {
 
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
         if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
-
-        debugger
-
+        
         return fetch(`${this.url}/user`, {
             method: 'POST',
             headers: {
@@ -51,17 +49,18 @@ const musicApi = {
             body: JSON.stringify({ email, password })
         })
             .then(response => response.json())
-            .then(response => response)
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response.token
+            })
     },
 
-    retrieveUser(id, token) {
-        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
-        if (!id.trim().length) throw Error('id is empty')
-
+    retrieveUser(token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        return fetch(`${this.url}/user/${id}`, {
+        return fetch(`${this.url}/user`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
@@ -74,16 +73,13 @@ const musicApi = {
             })
     },
 
-    updateUser(id, token, data) {
-        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
-        if (!id.trim().length) throw Error('id is empty')
-
+    updateUser(token, data) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
-        return fetch(`${this.url}/user/${id}`, {
+        return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${token}`,
@@ -99,10 +95,7 @@ const musicApi = {
             })
     },
 
-    removeUser(id, token, email, password) {
-        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
-        if (!id.trim().length) throw Error('id is empty')
-
+    removeUser(token, email, password) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -112,7 +105,7 @@ const musicApi = {
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
         if (!password.trim().length) throw Error('password is empty')
 
-        return fetch(`${this.url}/user/${id}`, {
+        return fetch(`${this.url}/user`, {
             method: 'DELETE',
             headers: {
                 authorization: `Bearer ${token}`,
@@ -129,14 +122,14 @@ const musicApi = {
     },
 
     /**
-         * Searches artists.
-         * 
-         * @param {string} query - The text to match on artists search.
-         * @retuns {Promise} - Resolves with artists, otherwise rejects with error.
-         * 
-         * @throws {TypeError} - On wrong parameters type.
-         * @throws {Error} - On empty parameters value.
-         */
+     * Searches artists.
+     * 
+     * @param {string} query - The text to match on artists search.
+     * @retuns {Promise} - Resolves with artists, otherwise rejects with error.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     */
     searchArtists(query) {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
@@ -173,7 +166,17 @@ const musicApi = {
             .then(response => response.json())
     },
 
-    addCommentToArtist(userId, token, artistId, text) {
+    /**
+     * Adds a user comment to an artist.
+     * 
+     * @param {string} token - The access token.
+     * @param {string} artistId - The artist id.
+     * @param {string} text - The comment text.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     */
+    addCommentToArtist(token, artistId, text) {
         // TODO validate arguments
 
         return fetch(`${this.url}/artist/${artistId}/comment`, {
@@ -182,11 +185,40 @@ const musicApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ userId, text })
+            body: JSON.stringify({ text })
         })
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
+
+                return response.id
+            })
+    },
+
+    /**
+     * Lists comments from an artist.
+     * 
+     * @param {string} token - The access token.
+     * @param {string} artistId - The artist id.
+     * 
+     * @throws {TypeError} - On wrong parameters type.
+     * @throws {Error} - On empty parameters value.
+     */
+    listCommentsFromArtist(token, artistId) {
+        // TODO validate arguments
+
+        return fetch(`${this.url}/artist/${artistId}/comment`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                response.forEach(comment => comment.date = new Date(comment.date))
 
                 return response
             })
@@ -212,7 +244,11 @@ const musicApi = {
             }
         })
             .then(response => response.json())
-            .then(({ items }) => items)
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
     },
 
     /**
@@ -235,6 +271,11 @@ const musicApi = {
             }
         })
             .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
     },
 
     /**
@@ -257,7 +298,11 @@ const musicApi = {
             }
         })
             .then(response => response.json())
-            .then(({ items }) => items)
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
     },
 
     /**
@@ -280,6 +325,11 @@ const musicApi = {
             }
         })
             .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
     }
 }
 
