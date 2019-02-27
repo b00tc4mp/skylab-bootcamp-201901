@@ -1,13 +1,11 @@
 'use strict'
 
-import spotifyApi from '../spotify-api'
-import userApi from '../user-api'
+import musicApi from '../music-api'
 
 /**
  * Abstraction of business logic.
  */
 const logic = {
-    __userId__: null,
     __userApiToken__: null,
 
     /**
@@ -42,7 +40,7 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        return userApi.register(name, surname, email, password)
+        return musicApi.registerUser(name, surname, email, password, passwordConfirmation)
             .then(() => { })
     },
 
@@ -61,31 +59,27 @@ const logic = {
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        return userApi.authenticate(email, password)
-            .then(({ id, token }) => {
-                this.__userId__ = id
-                this.__userApiToken__ = token
-            })
+        return musicApi.authenticateUser(email, password)
+            .then(token => this.__userApiToken__ = token)
     },
 
     /**
      * Checks user is logged in.
      */
     get isUserLoggedIn() {
-        return !!this.__userId__
+        return !!this.__userApiToken__
     },
 
     /**
      * Logs out the user.
      */
     logOutUser() {
-        this.__userId__ = null
         this.__userApiToken__ = null
     },
 
     retrieveUser() {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
-            .then(({ id, name, surname, username: email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
+        return musicApi.retrieveUser(this.__userApiToken__)
+            .then(({ id, name, surname, email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
                 id,
                 name,
                 surname,
@@ -109,7 +103,7 @@ const logic = {
 
         if (!query.trim().length) throw Error('query is empty')
 
-        return spotifyApi.searchArtists(query)
+        return musicApi.searchArtists(query)
     },
 
     /**
@@ -122,7 +116,7 @@ const logic = {
 
         if (!artistId.trim().length) throw Error('artistId is empty')
 
-        return spotifyApi.retrieveArtist(artistId)
+        return musicApi.retrieveArtist(artistId)
     },
 
     /**
@@ -131,7 +125,7 @@ const logic = {
      * @param {string} artistId - The id of the artist to toggle in favorites.
      */
     toggleFavoriteArtist(artistId) {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+        return musicApi.retrieveUser(this.__userApiToken__)
             .then(user => {
                 const { favoriteArtists = [] } = user
 
@@ -140,7 +134,7 @@ const logic = {
                 if (index < 0) favoriteArtists.push(artistId)
                 else favoriteArtists.splice(index, 1)
 
-                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteArtists })
+                return musicApi.update(this.__userApiToken__, { favoriteArtists })
             })
     },
 
@@ -154,7 +148,7 @@ const logic = {
 
         if (!artistId.trim().length) throw Error('artistId is empty')
 
-        return spotifyApi.retrieveAlbums(artistId)
+        return musicApi.retrieveAlbums(artistId)
     },
 
     /**
@@ -167,7 +161,7 @@ const logic = {
 
         if (!albumId.trim().length) throw Error('albumId is empty')
 
-        return spotifyApi.retrieveAlbum(albumId)
+        return musicApi.retrieveAlbum(albumId)
     },
 
     /**
@@ -176,7 +170,7 @@ const logic = {
      * @param {string} albumId - The id of the album to toggle in favorites.
      */
     toggleFavoriteAlbum(albumId) {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+        return musicApi.retrieveUser(this.__userApiToken__)
             .then(user => {
                 const { favoriteAlbums = [] } = user
 
@@ -185,7 +179,7 @@ const logic = {
                 if (index < 0) favoriteAlbums.push(albumId)
                 else favoriteAlbums.splice(index, 1)
 
-                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteAlbums })
+                return musicApi.update(this.__userApiToken__, { favoriteAlbums })
             })
     },
 
@@ -199,7 +193,7 @@ const logic = {
 
         if (!albumId.trim().length) throw Error('albumId is empty')
 
-        return spotifyApi.retrieveTracks(albumId)
+        return musicApi.retrieveTracks(albumId)
     },
 
     /**
@@ -212,7 +206,7 @@ const logic = {
 
         if (!trackId.trim().length) throw Error('trackId is empty')
 
-        return spotifyApi.retrieveTrack(trackId)
+        return musicApi.retrieveTrack(trackId)
     },
 
     /**
@@ -221,7 +215,7 @@ const logic = {
      * @param {string} trackId - The id of the track to toggle in favorites.
      */
     toggleFavoriteTrack(trackId) {
-        return userApi.retrieve(this.__userId__, this.__userApiToken__)
+        return musicApi.retrieveUser(this.__userApiToken__)
             .then(user => {
                 const { favoriteTracks = [] } = user
 
@@ -230,7 +224,7 @@ const logic = {
                 if (index < 0) favoriteTracks.push(trackId)
                 else favoriteTracks.splice(index, 1)
 
-                return userApi.update(this.__userId__, this.__userApiToken__, { favoriteTracks })
+                return musicApi.update(this.__userApiToken__, { favoriteTracks })
             })
     }
 }
