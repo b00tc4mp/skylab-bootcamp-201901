@@ -9,6 +9,7 @@ const spotifyApi = require('./spotify-api')
 const tokenHelper = require('./token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
+const cors = require('./cors')
 
 const { registerUser, authenticateUser, retrieveUser, searchArtists, addCommentToArtist, listCommentsFromArtist, notFound } = require('./routes')
 
@@ -24,16 +25,6 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         const jsonBodyParser = bodyParser.json()
 
         const router = express.Router()
-
-        function cors(req, res, next) {
-            // res.set('access-control-allow-credentials', true)
-            res.set('access-control-allow-headers', 'Accept, Authorization, Origin, Content-Type, Retry-After')
-            // res.set('access-control-allow-methods', 'GET, POST, OPTIONS, PUT, DELETE, PATCH')
-            res.set('access-control-allow-origin', '*')
-            // res.set('access-control-max-age', 604800)
-
-            next()
-        }
 
         router.use(cors)
 
