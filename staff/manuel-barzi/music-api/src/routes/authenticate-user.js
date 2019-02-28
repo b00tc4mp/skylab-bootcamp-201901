@@ -1,6 +1,7 @@
 const logic = require('../logic')
 
 const { createToken } = require('../token-helper')
+const { handleResponseError } = require('./route-helper')
 
 module.exports = (req, res) => {
     const { body: { email, password } } = req
@@ -13,14 +14,8 @@ module.exports = (req, res) => {
 
                 res.json({ token })
             })
-            .catch(({ message }) => {
-                res.status(401).json({
-                    error: message
-                })
-            })
-    } catch ({ message }) {
-        res.status(401).json({
-            error: message
-        })
+            .catch(error => handleResponseError(error, res))
+    } catch (error) {
+        handleResponseError(error, res)
     }
 }
