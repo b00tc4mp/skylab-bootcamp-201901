@@ -1,10 +1,12 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { userId } = req
+    const { headers: { authorization } } = req
+
+    const token = authorization.substring(7)
 
     try {
-        logic.retrieveUser(userId)
+        logic.retrieveUser(token)
             // .then(user => res.json(user))
             .then(res.json.bind(res))
             .catch(({ message }) => {
