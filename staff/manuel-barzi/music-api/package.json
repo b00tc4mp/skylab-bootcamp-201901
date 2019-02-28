@@ -1,6 +1,6 @@
 {
   "name": "music-api",
-  "version": "4.0.0",
+  "version": "4.0.0-alpha",
   "description": "## server",
   "main": "index.js",
   "scripts": {
