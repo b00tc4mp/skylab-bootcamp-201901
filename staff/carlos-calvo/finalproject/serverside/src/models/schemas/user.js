@@ -28,8 +28,7 @@ const User = new Schema({
         required: true
     }
 
-
-    //TODO Add books from user
+    //TODO Books from user
 })
 
 module.exports = User
