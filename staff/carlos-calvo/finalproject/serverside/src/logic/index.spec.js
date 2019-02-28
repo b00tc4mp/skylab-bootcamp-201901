@@ -5,22 +5,19 @@ require('dotenv').config()
 require('isomorphic-fetch')
 
 const mongoose = require('mongoose')
-const { User, Comment } = require('../models')
+const { User } = require('../models')
 const expect = require('expect')
-const spotifyApi = require('../spotify-api')
 const logic = require('.')
 const bcrypt = require('bcrypt')
+const TEST_DB_URL = 'mongodb://localhost/skylab-test'
 
-const { env: { TEST_DB_URL, SPOTIFY_API_TOKEN } } = process
 
-spotifyApi.token = SPOTIFY_API_TOKEN
 
 describe('logic', () => {
     before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
 
     beforeEach(() =>
         Promise.all([
-            Comment.deleteMany(),
             User.deleteMany()
         ])
     )
@@ -556,7 +553,6 @@ describe('logic', () => {
 
     after(() =>
         Promise.all([
-            Comment.deleteMany(),
             User.deleteMany()
         ])
             .then(() => mongoose.disconnect())
