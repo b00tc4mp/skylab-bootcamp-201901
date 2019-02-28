@@ -1,18 +1,19 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { params: { artistId }, body: { text }, userId } = req
+    const { query: { q } } = req
 
     try {
-        logic.addCommentToArtist(userId, artistId, text)
-            .then(id => res.json({ id }))
+        logic.searchArtists(q)
+            // .then(artists => res.json(artists))
+            .then(res.json.bind(res))
             .catch(({ message }) => {
-                res.status(409).json({
+                res.status(400).json({
                     error: message
                 })
             })
     } catch ({ message }) {
-        res.status(409).json({
+        res.status(400).json({
             error: message
         })
     }
