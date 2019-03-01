@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component } from "react";
+import { Route  } from "react-router-dom";
 import './App.css';
-import Header from '../src/components/header';
+import Welcome from '../src/components/welcome';
+import Login from '../src/components/login';
 import Carrousel from '../src/components/carrousel';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header></Header>
-        <Carrousel></Carrousel>
+        <Route exact path="/" component = {Welcome} />
       </div>
     );
   }
 }
 
 export default App;
+

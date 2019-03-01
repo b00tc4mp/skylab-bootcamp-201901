@@ -4,9 +4,14 @@
   "private": true,
   "dependencies": {
     "node-sass": "^4.11.0",
+    "rc-banner-anim": "^2.2.2",
+    "rc-queue-anim": "^1.6.12",
+    "rc-tween-one": "^2.3.3",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-scripts": "2.1.5"
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.5",
+    "react-toastify": "^4.5.2"
   },
   "scripts": {
     "start": "react-scripts start",
