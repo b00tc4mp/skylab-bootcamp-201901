@@ -26,7 +26,22 @@ const User = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+
+    favoriteArtists: [{
+        type: String,
+        unique: true
+    }],
+
+    favoriteAlbums: [{
+        type: String,
+        unique: true
+    }],
+
+    favoriteTracks: [{
+        type: String,
+        unique: true
+    }]
 })
 
 module.exports = User

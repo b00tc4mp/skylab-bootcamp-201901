@@ -1,12 +1,17 @@
 'use strict'
 
-const { User, Comment } = require('../models')
+const spotifyApi = require('../spotify-api')
+const users = require('../data/users')
+const artistComments = require('../data/artist-comments')
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 /**
  * Abstraction of business logic.
  */
 const logic = {
+    jwtSecret: null,
+
     /**
     * Registers a user.
     * 
@@ -39,26 +44,13 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        // return User.findOne({ email })
-        //     .then(user => {
-        //         if (user) throw Error(`user with email ${email} already exists`)
+        return users.findByEmail(email)
+            .then(user => {
+                if (user) throw Error(`user with email ${email} already exists`)
 
-        //         return bcrypt.hash(password, 10)
-        //     })
-        //     .then(hash => User.create({ name, surname, email, password: hash }))
-        //     .then(({ id }) => id)
-
-        return (async () => {
-            const user = await User.findOne({ email })
-
-            if (user) throw Error(`user with email ${email} already exists`)
-
-            const hash = await bcrypt.hash(password, 10)
-
-            const { id } = await User.create({ name, surname, email, password: hash })
-
-            return id
-        })()
+                return bcrypt.hash(password, 10)
+            })
+            .then(hash => users.add({ name, surname, email, password: hash }))
     },
 
     /**
@@ -76,33 +68,39 @@ const logic = {
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        return (async () => {
-            const user = await User.findOne({ email })
+        return users.findByEmail(email)
+            .then(user => {
+                if (!user) throw Error(`user with email ${email} not found`)
 
-            if (!user) throw Error(`user with email ${email} not found`)
+                return bcrypt.compare(password, user.password)
+                    .then(match => {
+                        if (!match) throw Error('wrong credentials')
 
-            const match = await bcrypt.compare(password, user.password)
+                        const { id } = user
 
-            if (!match) throw Error('wrong credentials')
+                        const token = jwt.sign({ sub: id }, this.jwtSecret, { expiresIn: '4h' })
 
-            return user.id
-        })()
+                        return { id, token }
+                    })
+            })
     },
 
-    // TODO doc
-    retrieveUser(userId) {
+    __verifyUserToken__(userId, token) {
+        const { sub } = jwt.verify(token, this.jwtSecret)
+
+        if (sub !== userId) throw Error(`user id ${userId} does not match token user id ${sub}`)
+    },
+
+    retrieveUser(userId, token) {
         // TODO validate userId and token type and content
 
-        return User.findById(userId).select('-password -__v').lean()
+        this.__verifyUserToken__(userId, token)
+
+        return users.findById(userId)
             .then(user => {
-                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user) throw Error(`user with id ${id} not found`)
 
-                // delete user.password
-                // delete user.__v
-
-                user.id = user._id.toString()
-
-                delete user._id
+                delete user.password
 
                 return user
             })
@@ -139,12 +137,13 @@ const logic = {
 
     /**
      * Toggles a artist from non-favorite to favorite, and viceversa.
-     *
-     * @param {string} userId - The id of the user toggling the artist.
+     * 
      * @param {string} artistId - The id of the artist to toggle in favorites.
      */
-    toggleFavoriteArtist(userId, artistId) {
+    toggleFavoriteArtist(userId, token, artistId) {
         // TODO validate arguments
+
+        this.__verifyUserToken__(userId, token)
 
         return users.findById(userId)
             .then(user => {
@@ -161,8 +160,10 @@ const logic = {
             })
     },
 
-    addCommentToArtist(userId, artistId, text) {
+    addCommentToArtist(userId, token, artistId, text) {
         // TODO validate userId, token, artistId and text
+
+        this.__verifyUserToken__(userId, token)
 
         const comment = {
             userId,
@@ -179,16 +180,10 @@ const logic = {
             .then(() => comment.id)
     },
 
-    listCommentsFromArtist(userId, artistId) {
-        // TODO validate arguments
+    listCommentsFromArtist(artistId) {
+        // TODO validate artistId
 
-        return users.findById(userId)
-            .then(user => {
-                if (!user) throw Error(`user with id ${userId} not found`)
-
-                return artistComments.find({ artistId })
-            })
-
+        return artistComments.find({ artistId })
     },
 
     /**
@@ -222,8 +217,10 @@ const logic = {
      * 
      * @param {string} albumId - The id of the album to toggle in favorites.
      */
-    toggleFavoriteAlbum(userId, albumId) {
-        // TODO validate 
+    toggleFavoriteAlbum(userId, token, albumId) {
+        // TODO validate arguments
+
+        this.__verifyUserToken__(userId, token)
 
         return users.findById(userId)
             .then(user => {
@@ -271,8 +268,10 @@ const logic = {
      * 
      * @param {string} trackId - The id of the track to toggle in favorites.
      */
-    toggleFavoriteTrack(userId, trackId) {
+    toggleFavoriteTrack(userId, token, trackId) {
         // TODO validate arguments
+
+        this.__verifyUserToken__(userId, token)
 
         return users.findById(userId)
             .then(user => {
