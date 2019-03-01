@@ -1,4 +1,5 @@
 const logic = require('../logic')
+const { handleResponseError } = require('./route-helper')
 
 module.exports = (req, res) => {
     const { body: { name, surname, email, password, passwordConfirm } } = req
@@ -6,14 +7,8 @@ module.exports = (req, res) => {
     try {
         logic.registerUser(name, surname, email, password, passwordConfirm)
             .then(id => res.json({ id }))
-            .catch(({ message }) => {
-                res.status(409).json({
-                    error: message
-                })
-            })
-    } catch ({ message }) {
-        res.status(409).json({
-            error: message
-        })
+            .catch(error => handleResponseError(error, res))
+    } catch (error) {
+        handleResponseError(error, res)
     }
 }
