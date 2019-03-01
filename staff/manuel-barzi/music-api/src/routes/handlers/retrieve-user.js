@@ -1,5 +1,5 @@
-const logic = require('../logic')
-const { handleResponseError } = require('./route-helper')
+const logic = require('../../logic')
+const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
     const { userId } = req
