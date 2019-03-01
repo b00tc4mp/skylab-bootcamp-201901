@@ -1,9 +1,9 @@
 'use strict'
 
 const spotifyApi = require('../spotify-api')
-const { User, Comment } = require('../models')
+const { models: { User, Comment } } = require('music-data')
 const bcrypt = require('bcrypt')
-const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('../errors')
+const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('music-errors')
 
 /**
  * Abstraction of business logic.

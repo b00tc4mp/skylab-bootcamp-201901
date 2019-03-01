@@ -2,7 +2,7 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
+const { mongoose } = require('music-data')
 const express = require('express')
 const spotifyApi = require('./spotify-api')
 const tokenHelper = require('./token-helper')
@@ -28,7 +28,7 @@ process.on('SIGINT', () => {
     mongoose.disconnect()
         .then(() => {
             console.log(`\n ${package.name} stopped`)
-            
+
             process.exit(0)
         })
 })

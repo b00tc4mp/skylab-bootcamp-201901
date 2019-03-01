@@ -4,8 +4,7 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
-const { User, Comment } = require('../models')
+const { mongoose, models: { User, Comment } } = require('music-data')
 const expect = require('expect')
 const spotifyApi = require('../spotify-api')
 const logic = require('.')
