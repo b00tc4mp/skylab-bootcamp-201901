@@ -2,13 +2,15 @@
 
 const spotifyApi = require('../spotify-api')
 const { User, Comment } = require('../models')
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('../errors')
 
 /**
  * Abstraction of business logic.
  */
 const logic = {
+    jwtSecret: null,
+
     /**
     * Registers a user.
     * 
@@ -21,25 +23,25 @@ const logic = {
     registerUser(name, surname, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
-        if (!name.trim().length) throw new EmptyError('name cannot be empty')
+        if (!name.trim().length) throw Error('name cannot be empty')
 
         if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
 
-        if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
+        if (!surname.trim().length) throw Error('surname cannot be empty')
 
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
-        if (!email.trim().length) throw new EmptyError('email cannot be empty')
+        if (!email.trim().length) throw Error('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
-        if (!password.trim().length) throw new EmptyError('password cannot be empty')
+        if (!password.trim().length) throw Error('password cannot be empty')
 
         if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
 
-        if (!passwordConfirmation.trim().length) throw new EmptyError('password confirmation cannot be empty')
+        if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
-        if (password !== passwordConfirmation) throw new MatchingError('passwords do not match')
+        if (password !== passwordConfirmation) throw Error('passwords do not match')
 
         // return User.findOne({ email })
         //     .then(user => {
@@ -53,7 +55,7 @@ const logic = {
         return (async () => {
             const user = await User.findOne({ email })
 
-            if (user) throw new DuplicateError(`user with email ${email} already exists`)
+            if (user) throw Error(`user with email ${email} already exists`)
 
             const hash = await bcrypt.hash(password, 10)
 
@@ -72,41 +74,49 @@ const logic = {
     authenticateUser(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
-        if (!email.trim().length) throw new EmptyError('email cannot be empty')
+        if (!email.trim().length) throw Error('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
-        if (!password.trim().length) throw new EmptyError('password cannot be empty')
+        if (!password.trim().length) throw Error('password cannot be empty')
 
-        return (async () => {
-                const user = await User.findOne({ email })
-                
-                if (!user) throw new NotFoundError(`user with email ${email} not found`)
-                
-                const match = await bcrypt.compare(password, user.password)
-                
-                if (!match) throw new AuthError('wrong credentials')
-                
-                return user.id
-        })()
+        return users.findByEmail(email)
+            .then(user => {
+                if (!user) throw Error(`user with email ${email} not found`)
+
+                return bcrypt.compare(password, user.password)
+                    .then(match => {
+                        if (!match) throw Error('wrong credentials')
+
+                        const { id } = user
+
+                        const token = jwt.sign({ sub: id }, this.jwtSecret, { expiresIn: '4h' })
+
+                        return token
+                    })
+            })
     },
 
     // TODO doc
-    retrieveUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+    __verifyToken__(token) {
+        const { sub } = jwt.verify(token, this.jwtSecret)
 
-        if (!userId.trim().length) throw new EmptyError('user id is empty')
+        if (!sub) throw Error(`user id not present in token ${token}`)
 
-        return User.findById(userId).select('-password -__v').lean()
+        return sub
+    },
+
+    // TODO doc
+    retrieveUser(token) {
+        // TODO validate userId and token type and content
+
+        const userId = this.__verifyToken__(token)
+
+        return users.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user) throw Error(`user with id ${id} not found`)
 
-                // delete user.password
-                // delete user.__v
-
-                user.id = user._id.toString()
-
-                delete user._id
+                delete user.password
 
                 return user
             })
@@ -143,12 +153,13 @@ const logic = {
 
     /**
      * Toggles a artist from non-favorite to favorite, and viceversa.
-     *
-     * @param {string} userId - The id of the user toggling the artist.
+     * 
      * @param {string} artistId - The id of the artist to toggle in favorites.
      */
-    toggleFavoriteArtist(userId, artistId) {
+    toggleFavoriteArtist(token, artistId) {
         // TODO validate arguments
+
+        const userId = this.__verifyToken__(token)
 
         return users.findById(userId)
             .then(user => {
@@ -165,8 +176,10 @@ const logic = {
             })
     },
 
-    addCommentToArtist(userId, artistId, text) {
+    addCommentToArtist(token, artistId, text) {
         // TODO validate userId, token, artistId and text
+
+        const userId = this.__verifyToken__(token)
 
         const comment = {
             userId,
@@ -183,8 +196,10 @@ const logic = {
             .then(() => comment.id)
     },
 
-    listCommentsFromArtist(userId, artistId) {
-        // TODO validate arguments
+    listCommentsFromArtist(token, artistId) {
+        // TODO validate artistId
+
+        const userId = this.__verifyToken__(token)
 
         return users.findById(userId)
             .then(user => {
@@ -226,8 +241,10 @@ const logic = {
      * 
      * @param {string} albumId - The id of the album to toggle in favorites.
      */
-    toggleFavoriteAlbum(userId, albumId) {
-        // TODO validate 
+    toggleFavoriteAlbum(token, albumId) {
+        // TODO validate arguments
+
+        const userId = this.__verifyToken__(token)
 
         return users.findById(userId)
             .then(user => {
@@ -275,8 +292,10 @@ const logic = {
      * 
      * @param {string} trackId - The id of the track to toggle in favorites.
      */
-    toggleFavoriteTrack(userId, trackId) {
+    toggleFavoriteTrack(token, trackId) {
         // TODO validate arguments
+
+        const userId = this.__verifyToken__(token)
 
         return users.findById(userId)
             .then(user => {

@@ -1,20 +1,21 @@
 const logic = require('../logic')
 
+const { createToken } = require('../token-helper')
+const { handleResponseError } = require('./route-helper')
+
 module.exports = (req, res) => {
     const { body: { email, password } } = req
 
     try {
         logic.authenticateUser(email, password)
             // .then(data => res.json(data))
-            .then(token => res.json({ token }))
-            .catch(({ message }) => {
-                res.status(401).json({
-                    error: message
-                })
+            .then(userId => {
+                const token = createToken(userId)
+
+                res.json({ token })
             })
-    } catch ({ message }) {
-        res.status(401).json({
-            error: message
-        })
+            .catch(error => handleResponseError(error, res))
+    } catch (error) {
+        handleResponseError(error, res)
     }
 }
