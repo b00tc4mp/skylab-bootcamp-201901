@@ -1,12 +1,10 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { params: { artistId }, body: { userId, text }, headers: { authorization } } = req
-
-    const token = authorization.substring(7)
+    const { params: { artistId }, body: { text }, userId } = req
 
     try {
-        logic.addCommentToArtist(userId, token, artistId, text)
+        logic.addCommentToArtist(userId, artistId, text)
             .then(id => res.json({ id }))
             .catch(({ message }) => {
                 res.status(409).json({
