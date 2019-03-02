@@ -4,6 +4,21 @@ import './index.css';
 import { HashRouter } from "react-router-dom";
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import logic from './logic/index'
+
+//Setter y getters para el session Storage donde se guarda el token.
+Object.defineProperties(logic, {
+    __userApiToken__: {
+        set(token) {
+            sessionStorage.setItem('__userApiToken__', token)
+        },
+
+        get() {
+            return sessionStorage.getItem('__userApiToken__')
+        }
+    }
+})
+
 
 ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'));
 
