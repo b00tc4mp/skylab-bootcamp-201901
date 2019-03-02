@@ -2,7 +2,16 @@
   "name": "quiz-api",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "robertz",
   "license": "MIT",
+  "scripts": {
+    "start": "node src",
+    "watch": "nodemon src",
+    "debug": "node debug src",
+    "test": "mocha --timeout 10000 $(find src -name *.spec.js)",
+    "test-debug": "mocha debug $(find src -name *.spec.js)",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
+  },
   "dependencies": {
     "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
