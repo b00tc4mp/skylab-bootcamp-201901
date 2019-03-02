@@ -1,4 +1,4 @@
-const logic = require('../logic')
+const logic = require('../../logic')
 
 module.exports = (req, res) => {
     const { params: { artistId }, userId } = req
