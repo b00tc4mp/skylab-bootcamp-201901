@@ -1,12 +1,10 @@
-'use strict';
-
 /**
  * Abstraction of business logic.
  */
 
 import userApi from '../userApi'
 
-var logic = {
+const logic = {
 
      __userApiToken__: null,
 
@@ -57,23 +55,23 @@ var logic = {
    registerUser(name, surname, email, password, passwordConfirmation) {
     if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
-    if (!name.trim().length) throw EmptyError('name cannot be empty')
+    if (!name.trim().length) throw Error('name cannot be empty')
 
     if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
 
-    if (!surname.trim().length) throw EmptyError('surname cannot be empty')
+    if (!surname.trim().length) throw Error('surname cannot be empty')
 
     if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
-    if (!email.trim().length) throw EmptyError('email cannot be empty')
+    if (!email.trim().length) throw Error('email cannot be empty')
 
     if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
-    if (!password.trim().length) throw EmptyError('password cannot be empty')
+    if (!password.trim().length) throw Error('password cannot be empty')
 
     if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
 
-    if (!passwordConfirmation.trim().length) throw EmptyError('password confirmation cannot be empty')
+    if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
     if (password !== passwordConfirmation) throw Error('passwords do not match')
 
@@ -84,4 +82,4 @@ var logic = {
 }
 
 
-export default logic;
+export default logic

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "mocha": "^6.0.2",
     "node-sass": "^4.11.0",
     "rc-banner-anim": "^2.2.2",
     "rc-queue-anim": "^1.6.12",
@@ -29,7 +30,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "chai": "^4.2.0",
     "dotenv": "^6.2.0",
-    "errors": "file:../music-errors"
+    "errors": "file:../music-errors",
+    "expect": "^24.1.0"
   }
 }
