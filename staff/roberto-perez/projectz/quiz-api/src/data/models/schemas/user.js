@@ -33,29 +33,29 @@ const User = new Schema({
   favoriteQuizzes: [String],
 
   totalGames: {
-      type: Number,
-      default: 0
+    type: Number,
+    default: 0,
   },
 
   totalPoints: {
-      type: Number,
-      default: 0
+    type: Number,
+    default: 0,
   },
 
   totalCorrect: {
-      type: Number,
-      default: 0
+    type: Number,
+    default: 0,
   },
 
   totalIncorrect: {
-      type: Number,
-      default: 0
+    type: Number,
+    default: 0,
   },
 
   totalFirstPosition: {
-      type: Number,
-      default: 0
-  }
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = User;

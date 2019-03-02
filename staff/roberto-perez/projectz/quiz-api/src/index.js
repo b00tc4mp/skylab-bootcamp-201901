@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const { mongoose } = require('./data');
 const package = require('../package.json');
+const router = require('./routes')
 
 const {
   env: { DB_URL, PORT },
@@ -12,6 +13,8 @@ mongoose
   .connect(DB_URL, { useNewUrlParser: true })
   .then(() => {
     const app = express();
+    
+    app.use('/api', router)
 
     app.listen(port, () =>
       console.log(
