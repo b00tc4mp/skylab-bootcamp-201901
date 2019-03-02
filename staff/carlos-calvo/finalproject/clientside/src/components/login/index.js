@@ -25,9 +25,7 @@ class Login extends Component {
 
         try {
             logic.authenticateUser(email, password)
-                .then(({ email }) => {
-                    this.setState({ email }, () => this.props.history.push("/welcome"))
-                })
+                .then(() => this.props.history.push('/home'))
                 .catch(({ message }) => console.log(message))
         } catch ({ message }) {
           this.showLoginFeedback(message)

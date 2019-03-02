@@ -6,7 +6,6 @@ import './index.sass'
 class Welcome extends Component {
 
     goToRoute = (name) => {
-        console.log('pasa por aqui', this)
         this.props.history.push(name)
     }
 
@@ -38,14 +37,14 @@ class Welcome extends Component {
                         </li> */}
 
                         <li className="nav-item">
-                            <button className="nav-link" href = "#" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">
-                            Personal Area
+                            <button className="nav-link" onClick ={ event => {event.preventDefault(); return this.goToRoute('/register')}} id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">
+                            New? Register!
                             </button>
                         </li>
 
                         <li className="nav-item">
                             <button className="nav-link" onClick ={ event => {event.preventDefault(); return this.goToRoute('/login') }} id="navbarDropdownMenuLink">
-                            New? Register!
+                            Personal Area
                             </button>
                         </li>
                     </ul>
