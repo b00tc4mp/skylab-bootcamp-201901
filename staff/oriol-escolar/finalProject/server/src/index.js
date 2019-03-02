@@ -17,7 +17,7 @@ const { env: { DB_URL, PORT, SPOTIFY_API_TOKEN, JWT_SECRET }, argv: [, , port = 
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {
         tokenHelper.jwtSecret = JWT_SECRET
-        spotifyApi.token = SPOTIFY_API_TOKEN
+        // spotifyApi.token = SPOTIFY_API_TOKEN
 
         const app = express()
 
