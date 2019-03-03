@@ -86,6 +86,33 @@ const logic = {
             return id
         })()
     },
+    
+    /**
+     * Retrieves user information
+     * 
+     * @param {String} userId 
+     * 
+     * @throws {TypeError} - if userId is not a string.
+     * @throws {Error} - if userId is empty or user is not found.
+     *
+     * @returns {Object} - user.  
+     */
+    retrieveUser(userId){
+
+        if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new Error('userId is empty')
+
+        return(async() => {
+            const user = await User.findById(userId).select('-__v -password').lean()
+
+            user.id = user._id.toString()
+            delete user._id
+
+            return user
+        })()
+            .catch(error => new Error(`user with userId ${userId} not found`))
+
+    }
 }
 
 module.exports = logic
