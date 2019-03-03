@@ -1,0 +1,51 @@
+.landing
+    width: 100%
+    height: 100%
+    display: flex
+    flex-flow: column
+    justify-content: center
+    align-items: center
+    background-image: url("https://i0.wp.com/www.rooftopleadership.com/wp-content/uploads/2016/05/dark_spots_texture_background_50355_1920x1080.jpg")
+    &__title
+        margin: 1rem
+        font-size: 2rem
+        color: white  
+    &__advise
+        color: #ffffff
+        margin: 0.5rem
+        margin-bottom: 1rem      
+    &__login
+        width: 7rem
+        height: 2rem
+        margin: 1rem 1rem
+        border: 2px solid black
+        background-color: #313131
+        color: #e6e6e6
+        border-top-left-radius: 1rem
+        border-bottom-right-radius: 1rem
+        &:hover
+            background-color: #212121
+            animation: border-change 0.5s forwards
+    &__register
+        width: 7rem
+        height: 2rem
+        margin: 1rem 1rem 
+        border: 2px solid black
+        background-color: #313131
+        color: #e6e6e6
+        border-top-left-radius: 1rem
+        border-bottom-right-radius: 1rem
+        &:hover
+            animation: border-change 0.5s forwards
+            background-color: #212121
+@keyframes border-change
+    0%
+        border-top-left-radius: 1rem
+        border-bottom-right-radius: 1rem
+    100%
+        border-top-left-radius: 0rem
+        border-top-right-radius: 1rem
+        border-bottom-right-radius: 0rem
+        border-bottom-left-radius: 1rem
+
+

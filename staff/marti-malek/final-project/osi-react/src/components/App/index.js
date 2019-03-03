@@ -1,27 +1,34 @@
-import React, { Component } from 'react';
-import { Route, withRouter, BrowserRouter as Router } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Route, withRouter } from 'react-router-dom'
 import './index.sass';
 import Landing from '../Landing'
 import Login from '../Login'
 import Register from '../Register'
 
-class App extends Component {
+function App({ history, handleGoToLogin, handleGoToRegister, handleLogin, handleRegister }) {
 
   handleGoToLogin = () => {
-    this.props.history.push('/login')
+    history.push('/login')
 
   }
 
-  render() {
-
-    const { handleGoToLogin } = this
-
-    return <main className="App">
-      <Route exact path="/" render={() => <Landing goToLogin={handleGoToLogin} />}></Route>
-      <Route path="/login" render={() => <Login />}></Route>
-      <Route path="/register" render={() => <Register />}></Route>
-    </main>
+  handleGoToRegister = () => {
+    history.push('/register')
   }
+
+  handleLogin = (email, password) => {
+    console.log(email, password)
+  }
+
+  handleRegister = (name, surname, email, password, passwordConfirm) => {
+    console.log(name, surname, email, password, passwordConfirm)
+  }
+
+  return <main className="App">
+    <Route exact path="/" render={() => <Landing goToLogin={handleGoToLogin} goToRegister={handleGoToRegister} />}></Route>
+    <Route path="/login" render={() => <Login onLogin={handleLogin} />}></Route>
+    <Route path="/register" render={() => <Register onRegister={handleRegister} />}></Route>
+  </main>
 }
 
 export default withRouter(App);
