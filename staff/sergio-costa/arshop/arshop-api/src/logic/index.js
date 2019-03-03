@@ -1,0 +1,108 @@
+'use strict'
+
+const { User, Product } = require('../models')
+const bcrypt = require('bcrypt')
+
+/**
+ * Abstraction of business logic.
+ */
+const logic = {
+    /**
+    * Registers a user.
+    * 
+    * @param {string} name 
+    * @param {string} surname 
+    * @param {string} email 
+    * @param {string} password 
+    * @param {string} passwordConfirmation 
+    */
+    registerUser(name, surname, email, password, passwordConfirmation) {
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+
+        if (!name.trim().length) throw new Error('name cannot be empty')
+
+        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
+
+        if (!surname.trim().length) throw new Error('surname cannot be empty')
+
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+
+        if (!email.trim().length) throw new Error('email cannot be empty')
+
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+
+        if (!password.trim().length) throw new Error('password cannot be empty')
+
+        if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
+
+        if (!passwordConfirmation.trim().length) throw new Error('password confirmation cannot be empty')
+
+        if (password !== passwordConfirmation) throw new Error('passwords do not match')
+
+        return (async () => {
+            const user = await User.findOne({ email })
+
+            if (user) throw new Error(`user with email ${email} already exists`)
+
+            const hash = await bcrypt.hash(password, 10)
+
+            const { id } = await User.create({ name, surname, email, password: hash })
+
+            return id
+        })()
+    },
+
+    /**
+     * Authenticates user by its credentials.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     */
+    authenticateUser(email, password) {
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+
+        if (!email.trim().length) throw new Error('email cannot be empty')
+
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+
+        if (!password.trim().length) throw new Error('password cannot be empty')
+
+        return (async () => {
+                const user = await User.findOne({ email })
+                
+                if (!user) throw new Error(`user with email ${email} not found`)
+                
+                const match = await bcrypt.compare(password, user.password)
+                
+                if (!match) throw new Error('wrong credentials')
+                
+                return user.id
+        })()
+    },
+
+    /**
+     * retrieves a user by his id
+     * 
+     * @param {string} userId 
+     */
+    retrieveUser(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+
+        if (!userId.trim().length) throw new Error('user id is empty')
+
+        return User.findById(userId).select('-password -__v').lean()
+            .then(user => {
+                if (!user) throw new Error(`user with id ${userId} not found`)
+
+                user.id = user._id.toString()
+
+                delete user._id
+
+                return user
+            })
+    },
+
+    // TODO updateUser and removeUser
+}
+
+module.exports = logic
