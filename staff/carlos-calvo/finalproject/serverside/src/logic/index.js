@@ -2,6 +2,7 @@
 
 const { User, Book} = require('../models')
 const bcrypt = require('bcrypt')
+const ObjectID = require('mongodb').ObjectID
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('../errors')
 
 /**
@@ -142,6 +143,8 @@ const logic = {
      */
 
      /**
+      * Adds a book referred to a user.
+      * 
       * 
       * @param {String} title 
       * @param {String} content 
@@ -169,12 +172,66 @@ const logic = {
         if (!userId.trim().length) throw new EmptyError('userId  is empty')
 
         return (async () => {
-            const book = await Book.findOne({ userId, title })
-            if (book) throw new DuplicateError(`title already existing`)
 
-            const { id } = await Book.create({title, content, coverphoto, images, parameters})
+            //Check that book title does not exist for this user.
+            const book = await Book.find({ 'userId' : ObjectID(userId), 'title': title })
+            // console.log('*******************************************')
+            // console.log('book found', book)
+            // console.log('lenght', book.length)
+            if (book.length) throw new DuplicateError(`title already existing`)
+            
+            //Check that user exists.
+            const user = await User.findById(userId)
+            if(!user) throw new Error('UserId does not exist')
+
+            const { id } = await Book.create({title, content, coverphoto, images, parameters, userId})
+            // console.log(id)
+            return id
+        })()
+    },
+
+    /**
+     * Deletes a book by title from a userId 
+     * @param {String} title 
+     * @param {String} userId 
+     */
+    deleteBook (title, userId){
+        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
+        if (!title.trim().length) throw new EmptyError('title  is empty')
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new EmptyError('userId  is empty')
+
+        return (async () => {
+
+            //Check that book title does exist.
+            const book = await Book.find({ 'userId' : ObjectID(userId), 'title': title })
+            if (!book) throw new NotFoundError(`Book with ${title} was not found`)
+
+            const id = await Book.findOneAndDelete({ 'userId' : ObjectID(userId), 'title': title })
 
             return id
+        })()
+    },
+
+    /**
+     * Retrieves Books from a userId, Returns cursor of books.
+     * @param {*} userId 
+     */
+
+    RetrieveBooks (userId){
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new EmptyError('userId  is empty')
+
+        return (async () => {
+
+            //Check that user exists.
+            const user = await User.findOne({'_id': ObjectID(userId)})
+            if(!user) throw new Error(`UserId ${userId} was not found`)
+
+            const cursor = await Book.find({userId}).cursor()
+            // Be careful when treating cursor as it is async
+            return cursor
         })()
     }
 }

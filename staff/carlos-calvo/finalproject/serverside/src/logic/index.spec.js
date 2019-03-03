@@ -5,7 +5,7 @@ require('dotenv').config()
 require('isomorphic-fetch')
 
 const mongoose = require('mongoose')
-const { User } = require('../models')
+const { User, Book } = require('../models')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -18,11 +18,12 @@ describe('logic', () => {
 
     beforeEach(() =>
         Promise.all([
-            User.deleteMany()
+            User.deleteMany(),
+            Book.deleteMany()
         ])
     )
 
-    describe('register user', () => {
+    false && describe('register user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
@@ -181,7 +182,7 @@ describe('logic', () => {
         })
     })
 
-    describe('authenticate user', () => {
+    false && describe('authenticate user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
@@ -229,7 +230,7 @@ describe('logic', () => {
     
     })
 
-    describe('retrieve user', () => {
+    false && describe('retrieve user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
@@ -266,13 +267,189 @@ describe('logic', () => {
             logic.retrieveUser('')
         }).toThrow(Error)
     )
-    })
+    }) 
 
     // TODO updateUser and removeUser
 
+
+
+
+
+
+
+
+    //TESTING FROM BOOKS
+
+
+
+
+
+
+
+
+
+
+
+    //
+
+    false && describe('Add Book', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const passwordConfirm = password
+
+        const name2 = 'Manuel'
+        const surname2 = 'Barzi'
+        const email2 = `manuelbarzi-${Math.random()}@mail.com`
+        const password2 = `123-${Math.random()}`
+        const passwordConfirm2 = password2
+
+
+        it('should fail on empty title', async () => {
+
+            expect(() => {
+                logic.addBook('', 'content', 'url1', [] , [] , 'userId')
+            }).toThrow(Error)
+        }),
+        it('should fail on non-string title', async () => {
+
+            expect(() => {
+                logic.addBook(true, 'content', 'url1', [] , [] , 'userId')
+            }).toThrow(Error)
+        }),
+
+
+        it('should fail on empty content', async () => {
+
+            expect(() => {
+                logic.addBook('title', '', 'url1', [] , [] , 'userId')
+            }).toThrow(Error)
+        }),
+        it('should fail on non-string content', async () => {
+
+            expect(() => {
+                logic.addBook('title', undefined, 'url1', [] , [] , 'userId')
+            }).toThrow(Error)
+        }),
+
+        it('should fail on empty coverphoto', async () => {
+
+            expect(() => {
+                logic.addBook('title', 'content', '', [] , [] , 'userId')
+            }).toThrow(Error)
+        }),
+        it('should fail on non-string coverphoto', async () => {
+
+            expect(() => {
+                logic.addBook('title', 'content', true, [] , [] , 'userId')
+            }).toThrow(Error)
+        }),
+
+        //Pending to test optional parameters.
+
+        it('should succeed on valid data', async () => {
+            const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+            const id2 = await logic.addBook('titulo1','titulo1', 'titulo1', [], [], id )
+            expect(id2).toBeDefined()
+        })
+
+        it('should fail on title with same name to user', async () => {
+            expect(async () => {
+                const id = await logic.registerUser(name2, surname2, email2, password2, passwordConfirm2)
+                const id1 = await logic.addBook('tit1','tit2', 'tit2', [], [], id )
+                const id2 = await logic.addBook('tit1','tit2', 'tit2', [], [], id )
+            }).toThrow(Error)
+        })
+
+
+    })
+
+
+
+
+
+    describe('Delete Book', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const passwordConfirm = password
+
+
+        it('should fail on empty title', async () => {
+            expect(() => {
+                logic.deleteBook('', 'userId')
+            }).toThrow(Error)
+        })
+
+        it('should fail on non-string title', async () => {
+            expect(() => {
+                logic.deleteBook(true, 'userId')
+            }).toThrow(Error)
+        })
+
+        it('should fail on empty userId', async () => {
+            expect(() => {
+                logic.deleteBook('title1', '')
+            }).toThrow(Error)
+        })
+
+        it('should fail on non-string title', async () => {
+            expect(() => {
+                logic.deleteBook('title1', undefined)
+            }).toThrow(Error)
+        })
+
+        it('should succeed on deleting a book', async () => {
+            const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+            const id1 = await logic.addBook('titulodelete','titulo1', 'titulo1', [], [], id )
+            const id3 = await logic.deleteBook('titulodelete', id)
+            expect(id3.title).toBeDefined()
+            expect(id3.title).toBe('titulodelete')
+        })
+
+        
+    })
+
+
+    describe('Retrieve Books', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const passwordConfirm = password
+
+        it('should fail on empty title', async () => {
+            expect(() => {
+                logic.RetrieveBooks('')
+            }).toThrow(Error)
+        })
+        it('should fail on non-string title', async () => {
+            expect(() => {
+                logic.RetrieveBooks(undefined)
+            }).toThrow(Error)
+        })
+
+        it('should retreive a list of books', async () => {
+            const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+            const id2 = await logic.addBook('titulo1--','titulo1', 'titulo1', [], [], id )
+            const id3 = await logic.addBook('titulo2--','titulo1', 'titulo1', [], [], id )
+            const id4 = await logic.addBook('titulo3--','titulo1', 'titulo1', [], [], id )
+            const bookcursor = await logic.RetrieveBooks(id)
+            const title1 = await bookcursor.next()
+            const title2 = await bookcursor.next()
+            const title3 = await bookcursor.next()
+            expect(title1.title).toBe('titulo1--')
+            expect(title2.title).toBe('titulo2--')
+            expect(title3.title).toBe('titulo3--')
+        })
+    })
+
     after(() =>
         Promise.all([
-            User.deleteMany()
+            User.deleteMany(),
+            Book.deleteMany()
         ])
             .then(() => mongoose.disconnect())
     )
