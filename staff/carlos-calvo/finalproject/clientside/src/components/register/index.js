@@ -3,6 +3,7 @@ import './index.sass'
 import { Route, withRouter, Link } from 'react-router-dom'
 import Welcome from '../welcome';
 import logic from '../../logic/index'
+import Feedback from '../Feedback'
 
 class Register extends Component {
 
@@ -27,9 +28,10 @@ class Register extends Component {
     handleRegister = (name, surname, email, password, passwordConf) => {
 
         try {
+            this.setState({ loginFeedback: '' })
             logic.registerUser(name, surname, email, password, passwordConf)
                 .then(() => this.props.history.push("/welcome"))
-                .catch(({ message }) => console.log(message))
+                .catch(({ message }) => this.showLoginFeedback(message))
         } catch ({ message }) {
           this.showLoginFeedback(message)
         }
@@ -64,7 +66,7 @@ class Register extends Component {
                         <input type="checkbox" checked="checked" name="remember"/> Remember me
                         </label> */}
                     </div>
-                    {/* <Feedback></Feedback> */}
+                    {this.state.loginFeedback && <Feedback message={this.state.loginFeedback} level="warn" />}
                     <div className="container">
                         <button type="button" className="cancelbtn" onClick={this.goBack}>Cancel</button>
                     </div>
@@ -75,4 +77,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default withRouter(Register);

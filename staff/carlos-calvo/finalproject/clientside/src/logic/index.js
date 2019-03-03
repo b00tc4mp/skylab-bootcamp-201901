@@ -77,8 +77,10 @@ const logic = {
 
     return userApi.registerUser(name, surname, email, password, passwordConfirmation)
         .then(() => { })
-   }
+    },
 
+
+    
 }
 
 

@@ -41,7 +41,7 @@ const userApi ={
 
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
         if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
-        debugger
+
         return fetch(`${this.url}/user`, {
             method: 'POST',
             headers: {
@@ -54,6 +54,25 @@ const userApi ={
                 if (error) throw Error(error)
                 return id
             })
+    },
+
+    updateUser(name, surname, email, password, passwordConfirm) {
+        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
+        if (!name.trim().length) throw Error('name is empty')
+
+        if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
+        if (!surname.trim().length) throw Error('surname is empty')
+
+        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
+        if (!email.trim().length) throw Error('email is empty')
+
+        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
+        if (!password.trim().length) throw Error('password is empty')
+
+        if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
+        if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
+
+        return
     }
 
 }

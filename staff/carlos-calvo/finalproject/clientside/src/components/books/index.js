@@ -1,7 +1,7 @@
 import BannerAnim from 'rc-banner-anim';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne from 'rc-tween-one';
-import React, {Component, Fragment} from 'react';
+import React, {Component, Fragment, withRouter} from 'react';
 import ReactDOM from 'react-dom';
 import './index.sass'
 import SideBar from '../sidebar';
@@ -13,7 +13,7 @@ function Books() {
       <SideBar></SideBar>
     </div>
     {/* TODO */}
-    <div className="mainsidebar c_yourbooks">
+    <div className="rightsidebar c_yourbooks">
       <h1>These are your books</h1>
       <p>Lorem Ipsum</p> 
     </div>

@@ -3,6 +3,7 @@ import './index.sass'
 import { Route, withRouter, Link } from 'react-router-dom'
 import Welcome from '../welcome';
 import logic from '../../logic/index'
+import Feedback from '../Feedback'
 
 class Login extends Component {
 
@@ -24,9 +25,10 @@ class Login extends Component {
     handleLogin = (email, password) => {
 
         try {
+            this.setState({ loginFeedback: '' })
             logic.authenticateUser(email, password)
                 .then(() => this.props.history.push('/home'))
-                .catch(({ message }) => console.log(message))
+                .catch(({ message }) => this.showLoginFeedback(message))
         } catch ({ message }) {
           this.showLoginFeedback(message)
         }
@@ -55,16 +57,12 @@ class Login extends Component {
                         <input type="password" value={this.state.password} placeholder="Enter Password" name="psw" onChange={this.handlePasswordInput} required /><br/>
                             
                         <button type="submit" onClick={this.onLogin}>Login</button>
-                        {/* <label>
-                        <input type="checkbox" checked="checked" name="remember"/> Remember me
-                        </label> */}
                     </div>
-                    {/* <Feedback></Feedback> */}
+                    {this.state.loginFeedback && <Feedback message={this.state.loginFeedback} level="warn" />}
                     <div className="container">
                         <button type="button" className="cancelbtn" onClick={this.goBack}>Cancel</button>
                         <span className="psw">Forgot <a href="#">password?</a></span>
                     </div>
-
                 </form>
             </div>
         </Fragment>

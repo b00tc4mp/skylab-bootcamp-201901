@@ -6,12 +6,12 @@ class SideBar extends Component {
         return (
             <Fragment>
                 <div>
-                    <div class="sidenav">
-                        <a href="">New Book <i class="fas fa-plus-square"></i></a>
-                        <a href="">Your Books <i class="fas fa-swatchbook"></i></a>
-                        <a href="">Your Profile <i class="far fa-user"></i></a>
-                        <a href="">Your Cart <i class="fas fa-shopping-cart"></i></a>
-                        <a href="">Contact Us <i class="far fa-envelope"></i></a>
+                    <div className="sidenav">
+                        <a href="/home/newbook">New Book <i className="fas fa-plus-square"></i></a>
+                        <a href="">Your Books <i className="fas fa-swatchbook"></i></a>
+                        <a href="">Your Profile <i className="far fa-user"></i></a>
+                        <a href="">Your Cart <i className="fas fa-shopping-cart"></i></a>
+                        <a href="">Contact Us <i className="far fa-envelope"></i></a>
                     </div>
                 </div>
             </Fragment>

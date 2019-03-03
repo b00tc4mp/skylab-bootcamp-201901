@@ -1,6 +1,6 @@
 'use strict'
 
-const { User} = require('../models')
+const { User, Book} = require('../models')
 const bcrypt = require('bcrypt')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('../errors')
 
@@ -115,6 +115,68 @@ const logic = {
             })
     },
     // TODO updateUser and removeUser
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * 
+     * Abstraction of business logic for books
+     * 
+     * 
+     */
+
+     /**
+      * 
+      * @param {String} title 
+      * @param {String} content 
+      * @param {String} coverphoto 
+      * @param {Array} images 
+      * @param {Array} parameters 
+      * @param {String} userId 
+      */
+
+    addBook (title, content, coverphoto, images =[], parameters =[], userId){
+        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
+        if (!title.trim().length) throw new EmptyError('title  is empty')
+
+        if (typeof content !== 'string') throw TypeError(`${content} is not a string`)
+        if (!content.trim().length) throw new EmptyError('content  is empty')
+
+        if (typeof coverphoto !== 'string') throw TypeError(`${coverphoto} is not a string`)
+        if (!coverphoto.trim().length) throw new EmptyError('coverphoto  is empty')
+
+        if (!(images instanceof Array)) throw TypeError(`${images} is not a array`)
+
+        if (!(parameters instanceof Array)) throw TypeError(`${parameters} is not a array`)
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new EmptyError('userId  is empty')
+
+        return (async () => {
+            const book = await Book.findOne({ userId, title })
+            if (book) throw new DuplicateError(`title already existing`)
+
+            const { id } = await Book.create({title, content, coverphoto, images, parameters})
+
+            return id
+        })()
+    }
 }
 
 module.exports = logic
