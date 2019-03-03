@@ -77,9 +77,40 @@ const skylabInnApi = {
             .then(response => response.json())
             .then(({token, error}) => {
                 if (error) throw new Error(error)
+                debugger
                 return token
             })
-    },  
+    },
+    
+    /**
+     * Retrieves user information
+     * 
+     * @param {String} token 
+     * 
+     * @throws {TypeError} - if token is not a string.
+     * @throws {Error} - if token is empty.
+     *
+     * @returns {Object} - user.  
+     */
+    retrieveUser(token){
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        return fetch (`${this.url}/user`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+
+
+    }
 }
 
 export default skylabInnApi

@@ -81,6 +81,18 @@ const logic = {
      */
     logOutUser() {
         this.__userApiToken__ = null
+    },
+
+    /**
+     * Retrieves user information
+     * 
+     * @param {String} token 
+     *
+     * @returns {Object} - user.  
+     */
+    retrieveUser() {
+        return skylabInnApi.retrieveUser(this.__userApiToken__)
+            .then(({user}) => user)
     }
 }
 
