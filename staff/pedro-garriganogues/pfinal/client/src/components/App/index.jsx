@@ -1,10 +1,13 @@
 
 
 import React, { Component } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import Register from '../Register'
 import Login from '../Login'
-import Footer from '../footer'
+import Landing from '../Landing/index'
+import Navbar from '../Navbar/index'
+
+
 
 import logic from '../../logic'
 class App extends Component {
@@ -36,11 +39,11 @@ class App extends Component {
         const { state: { loginFeedback, registerFeedback }, handleLogin, handleRegister } = this
 
         return (<main className="app">
-
+            <Navbar loggedIn={this.state.loggedIn} onLogout={this.onLogout} cartLength={this.state.cartLength} />
             <Route path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
-            <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section>
-            <Footer />
+            {/* <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section> */}
+            <Landing />
         </main>)
     }
 }

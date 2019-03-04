@@ -11,7 +11,7 @@ function Footer() {
           <h5>Features</h5>
           <ul className="list-unstyled text-small">
             <li>
-              <a className="text-muted">Stuff</a>
+              <p className="text-muted">Stuff</p>
             </li>
           </ul>
         </div>
@@ -19,7 +19,7 @@ function Footer() {
           <h5>Resources</h5>
           <ul className="list-unstyled text-small">
             <li>
-              <a className="text-muted">Resources</a>
+              <p className="text-muted">Resources</p>
             </li>
           </ul>
         </div>
@@ -27,7 +27,7 @@ function Footer() {
           <h5>About</h5>
           <ul className="list-unstyled text-small">
             <li>
-              <a className="text-muted">Team</a>
+              <p className="text-muted">Team</p>
             </li>
           </ul>
         </div>

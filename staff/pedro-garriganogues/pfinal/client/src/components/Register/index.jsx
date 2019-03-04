@@ -25,7 +25,7 @@ class Login extends Component {
     }
 
     render() {
-        const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handleFormSubmit, handlePasswordConfirmationInput, props: { title, feedback } } = this
+        const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handleFormSubmit, handlePasswordConfirmationInput, props: { feedback } } = this
 
         return <section className="register">
 

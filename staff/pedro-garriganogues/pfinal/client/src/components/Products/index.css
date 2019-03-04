@@ -1,0 +1,23 @@
+.main-title{
+    text-align: center;
+    padding: 3%;
+    font-size: 45px;
+    margin: 0;
+    /* background: linear-gradient(-40deg, rgb(85, 44, 92), rgb(92, 52, 85)); */
+    background:  rgb(92, 52, 85);
+    color: white;
+}
+
+hr{
+    border-color: purple;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid purple;
+    margin: 0;
+}
+ 
+.card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

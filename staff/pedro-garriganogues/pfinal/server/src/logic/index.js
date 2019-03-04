@@ -1,8 +1,6 @@
 'use strict'
 
-const { User } = require('../model')
-// models:
-const mongoose = require('mongoose')
+const { User, Product } = require('../model')
 
 const logic = {
 
@@ -90,7 +88,21 @@ const logic = {
 
         return user.remove()
 
-    }
+    },
+
+    listProducts(category) {
+        return Promise.resolve()
+            .then(() => {
+
+                return Product.find({ category })
+                    .then((products) => {
+                        if (!products) throw Error(`no products where found`)
+
+                        return products
+                    })
+            })
+    },
+
 }
 
 module.exports = logic

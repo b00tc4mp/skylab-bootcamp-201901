@@ -4,6 +4,7 @@ import './index.css'
 import logic from '../../logic'
 import CategoriesDropdown from './categories-dropdown'
 
+
 class Navbar extends Component {
     state = {
         user: {},
@@ -24,11 +25,7 @@ class Navbar extends Component {
             this.retrieveUser()
         }
 
-        logic.listCategories()
-            .then(categories => {
-                this.setState({ categories })
 
-            })
     }
 
     componentWillReceiveProps(props) {
@@ -45,42 +42,37 @@ class Navbar extends Component {
 
     render() {
         return (
-            <main>
-                <nav className="site-header sticky-top py-1">
-                    <div className="container d-flex flex-column flex-md-row justify-content-between">
-                        <div className="py-2 d-none d-md-inline-block">
-                            <Link to="/"><i className="fas fa-music" />
-                                <i className="fas fa-music" /></Link>
+            <main className="navbar-container">
+                <nav>
+                    <div>
+                        <div>
+                            <Link to="/">GO HOME<p /></Link>
                         </div>
-                        {/* <span className="py-2 d-none d-md-inline-block">
-                            <Link to="/">Home</Link>
-                        </span> */}
                         <CategoriesDropdown items={this.state.categories} />
                         <span className="py-2 d-none d-md-inline-block">
                             <Link to="/about-us">About Us</Link>
                         </span>
                         {(!this.props.loggedIn) ?
                             <div>
-                                <span className="py-2 d-none d-md-inline-block login-navbar">
-                                    <Link to="/auth">Login</Link>
+                                <span>
+                                    <Link to="/login">Login</Link>
                                 </span>
-                                <span className="py-2 d-none d-md-inline-block">
+                                <span>
                                     <Link to="/register">Register</Link>
                                 </span>
                             </div>
                             :
                             <div className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle dropdown-categories" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.state.user.name}</button>
+                                <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.state.user.name}</button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <Link to="/profile" className="dropdown-item">Profile</Link>
-                                    <a className="dropdown-item navbar-cart">My cart</a>
+                                    <p>My cart</p>
                                     <Link to="/" className="dropdown-item" style={{ cursor: 'pointer' }} onClick={() => { this.logout() }}>logout</Link>
                                 </div>
                             </div>
                         }
-                        <span className="py-2 d-none d-md-inline-block">
-                            {/* <Link to="/cart"><span role="img" aria-label="cart">🛒</span></Link> */}
-                            <Link to="/cart"><span role="img" aria-label="cart"><i className="fas fa-shopping-cart">{this.props.cartLength ? <span className="badge badge-pill badge-info">{this.props.cartLength}</span> : ''}</i> </span></Link>
+                        <span >
+                            <Link to="/cart"><span role="img" aria-label="cart"><i>{this.props.cartLength ? <span className="badge badge-pill badge-info">{this.props.cartLength}</span> : ''}</i> </span></Link>
                         </span>
                     </div>
                 </nav>
