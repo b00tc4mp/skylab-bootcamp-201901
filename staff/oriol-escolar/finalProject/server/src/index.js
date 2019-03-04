@@ -10,7 +10,7 @@ const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
 const cors = require('./cors')
 
-const { registerUser, authenticateUser, retrieveUser, searchArtists, addCommentToArtist, listCommentsFromArtist, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, updateUser, notFound } = require('./routes')
 
 const { env: { DB_URL, PORT, SPOTIFY_API_TOKEN, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -32,6 +32,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/user/auth', jsonBodyParser, authenticateUser)
 
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
+
+        router.put('/user/update', tokenVerifierMiddleware, updateUser)
 
         app.use('/api', router)
 

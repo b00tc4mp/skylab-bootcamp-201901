@@ -1,12 +1,9 @@
-const { Schema } = require('mongoose')
+const { Schema, ObjectId } = require('mongoose')
 
 const User = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-
-    surname: {
+       
+    
+    username: {
         type: String,
         required: true
     },
@@ -26,7 +23,27 @@ const User = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+
+    // myHouses: [{
+
+    //     type: ObjectId,
+    //     ref: 'house'
+
+    // }],
+    myHouses: [{
+
+        type: String
+        
+
+    }],
+
+    favorites:[{
+
+        type: ObjectId,
+        ref: 'house'
+
+    }]    
 })
 
 module.exports = User
