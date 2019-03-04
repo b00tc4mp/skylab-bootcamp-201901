@@ -3,7 +3,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
-const { registerUser, authenticateUser, retrieveUser, updateUser } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, searchSkylaber } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 
@@ -15,6 +15,7 @@ router.post('/user', jsonBodyParser, registerUser)
 router.post('/user/auth', jsonBodyParser, authenticateUser)
 router.get('/user', tokenVerifierMiddleware, retrieveUser)
 router.put('/user', [jsonBodyParser, tokenVerifierMiddleware], updateUser)
+router.get('/user/search', [jsonBodyParser, tokenVerifierMiddleware], searchSkylaber)
 
 module.exports = router
 

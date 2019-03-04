@@ -26,7 +26,7 @@ describe('logic', () => {
             const _password = `Pass-${Math.random()}`
             const _passwordConfirm = _password
     
-            skylabInnApi.registerUser(_name, _surname, _email, _password, _passwordConfirm)
+            return skylabInnApi.registerUser(_name, _surname, _email, _password, _passwordConfirm)
                 .then(id => {
                     expect(id).toBeDefined()
                     expect(typeof id === 'string').toBeTruthy()
@@ -137,7 +137,7 @@ describe('logic', () => {
         })
     
         it('should fail on not registered email', async() => {
-            logic.logInUser('not-previously-registered@mail.com', password)
+            return logic.logInUser('not-previously-registered@mail.com', password)
                 .catch(error => {
                     expect(error).toBeDefined()
                     expect(error.message).toBe(`user with email not-previously-registered@mail.com not found`)
@@ -145,7 +145,7 @@ describe('logic', () => {
         })
     
         it('should fail on wrong credentials', async() => {
-            logic.logInUser(email, 'not-a-matching-password')
+            return logic.logInUser(email, 'not-a-matching-password')
                 .catch(error => {
                     expect(error).toBeDefined()
                     expect(error.message).toBe(`wrong credentials`)
@@ -193,14 +193,16 @@ describe('logic', () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
             passwordConfirm = password
-            skylabInnApi.registerUser( name, surname, email, password, passwordConfirm)
-                .then(id => _id=id)
+            return skylabInnApi.registerUser( name, surname, email, password, passwordConfirm)
+                .then(id => _id = id)
                 .then(() => skylabInnApi.authenticateUser(email, password))
+                .then(token => logic.__userApiToken__ = token)
         })
     
         it('should succeed on correct data', () => {
-            logic.retrieveUser()
+            return logic.retrieveUser()
                 .then(user => {
+                    console.log(user)
                     expect(user).toBeDefined()
                     expect(typeof user === 'object').toBeTruthy()
                     expect(user.id).toBe(_id)
@@ -216,7 +218,7 @@ describe('logic', () => {
         })
     })
 
-    describe.only('update user', () => {
+    describe('update user', () => {
         const name = 'Àlex'
         const surname = 'Barba'
         const data = { name: 'Test', email: 'test@email.com', telephone: 618610187 }
@@ -226,25 +228,16 @@ describe('logic', () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
             passwordConfirm = password
-            logic.registerUser( name, surname, email, password, passwordConfirm)
+            return logic.registerUser( name, surname, email, password, passwordConfirm)
                 .then(id => _id = id)
-                .then(() => logic.logInUser(email, password))
+                .then(() => skylabInnApi.authenticateUser(email, password))
+                .then(token => logic.__userApiToken__ = token)
         })
 
-        // beforeEach(() => {
-        //     email = `alex.barba-${Math.random()}@gmail.com`
-        //     password = `Pass-${Math.random()}`
-        //     passwordConfirm = password
-        //     skylabInnApi.registerUser( name, surname, email, password, passwordConfirm)
-        //         .then(id => _id = id)
-        //         .then(() => skylabInnApi.authenticateUser(email, password))
-        //         .then(token => logic.__userApiToken__ = token)
-        // })
-    
         it('should succeed on correct data', () => {
             return logic.updateUser(data)
                 .then(user => {
-                    expect(user.id).toEqual(_id)
+                    expect(user.id).toBe(_id)
                     expect(user.name).toBe(data.name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(data.email)
@@ -253,5 +246,20 @@ describe('logic', () => {
                     expect(user.password).toBeUndefined()
                 })
         })
+
+        it('should fail on empty data', () =>
+            expect(() => logic.updateUser()).toThrowError('data is empty'))
+
+        it('should fail when data is a number', () =>
+            expect(() => logic.updateUser(1)).toThrowError(`1 is not an object`))
+
+        it('should fail when data is an object', () =>
+            expect(() => logic.updateUser('hola')).toThrowError(`hola is not an object`))
+
+        it('should fail when data is an array', () =>
+            expect(() => logic.updateUser([1, 2, 3])).toThrowError(`1,2,3 is not an object`))
+
+        it('should fail when data is a boolean', () =>
+            expect(() => logic.updateUser(true)).toThrowError(`true is not an object`))
     })
 })

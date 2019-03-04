@@ -103,17 +103,34 @@ const logic = {
      * @throws {TypeError} - if data is not an object.
      * @throws {Error} - if any data is empty.
      *
-     * @returns {Objecy} - user.  
+     * @returns {Object} - user.  
      */
     updateUser(data) {
 
         if (!data) throw Error('data is empty')
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
-        console.log(this.__userApiToken__)
         return skylabInnApi.updateUser(this.__userApiToken__, data)
-
             .then(({user}) => user)
+    },
+
+    /**
+     * Searches for a skylaber.
+     * 
+     * @param {String} query 
+     * 
+     * @throws {TypeError} - if query is not an object.
+     * @throws {Error} - if any query is empty.
+     *
+     * @returns {Object} - skylabers matching the query.  
+     */
+    searchSkylaber(query) {
+
+        if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw new Error('query is empty')
+
+        return skylabInnApi.searchSkylaber(this.__userApiToken__, query)
+            .then(({results}) => results)
     },
 }
 

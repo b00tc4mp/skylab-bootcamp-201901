@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { AppContext } from '../AppContext'
 import Feedback from '../Feedback'
 
-export default function Search({ onSearch, feedback, onToWelcome ,onToProfile, onToSignOut }) {
+export default function Search({ onSearch, feedback, onToWelcome, onToProfile, onToSignOut }) {
 
-    const [query, setQuery] = useState(null)
+    const { query, setQuery, searchResults} = useContext(AppContext)
 
     const handleSearch = event => {
         event.preventDefault()
         onSearch(query)
     }
-    
+
     const handleToWelcome = () => {
         onToWelcome()
     }
@@ -17,7 +18,7 @@ export default function Search({ onSearch, feedback, onToWelcome ,onToProfile, o
     const handleToProfile = () => {
         onToProfile()
     }
-    
+
     const handleToSignOut = () => {
         onToSignOut()
     }
@@ -29,6 +30,7 @@ export default function Search({ onSearch, feedback, onToWelcome ,onToProfile, o
                 {feedback && <Feedback />}
                 <button type="submit">Search</button>
             </form>
+            {searchResults && searchResults.map(res => {return <p key={res.id}>{res.name}</p>})}
             <nav>
                 <a onClick={handleToWelcome}>Home</a>
                 <a onClick={handleToProfile}>Profile</a>

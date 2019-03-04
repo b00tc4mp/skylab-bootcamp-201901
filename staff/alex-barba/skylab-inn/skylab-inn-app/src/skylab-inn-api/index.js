@@ -145,6 +145,41 @@ const skylabInnApi = {
 
                 return response
             })
+    },
+
+    /**
+     * Updates user information
+     * 
+     * @param {String} token
+     * @param {String} query
+     * 
+     * @throws {TypeError} - if token is not a string.
+     * @throws {Error} - if token is empty.
+     *
+     * @returns {Object} - user.  
+     */
+    searchSkylaber(token, query){
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw new Error('query is empty')
+
+        return fetch (`${this.url}/user/search`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ query })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
     }
 }
 

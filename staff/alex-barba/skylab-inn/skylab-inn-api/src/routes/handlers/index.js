@@ -5,5 +5,7 @@ module.exports = {
 
     retrieveUser: require('./retrieve-user'),
 
-    updateUser: require('./update-user')
+    updateUser: require('./update-user'),
+
+    searchSkylaber: require('./search-skylaber')
 }

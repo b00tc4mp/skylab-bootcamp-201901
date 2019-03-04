@@ -1,5 +1,6 @@
 const { Schema } = require('mongoose')
 const Work = require('./work')
+const Education = require('./education')
 
 const User = new Schema({
     name: {
@@ -31,29 +32,19 @@ const User = new Schema({
 
     telephone: { type: Number },
 
-    git: { type: String },
+    git: { type: String, default: '' },
 
-    linkedin: { type: String },
+    linkedin: { type: String, default: '' },
 
-    slack: { type: String },
+    slack: { type: String, default: '' },
 
-    workExperience: [Work],
+    workExperience: [{Work, default: ''}],
 
-    techs: [{ type: String, default: undefined }],
+    techs: [String],
 
-    languages: [{type: String, default: undefined }],
+    languages: [String],
 
-    education: [{
-        college: {
-            type: String,
-            required: true
-        },
-
-        degree: {
-            type: String,
-            required: true
-        },
-    }]
+    education: [{Education, default: ''}]
 })
 
 module.exports = User

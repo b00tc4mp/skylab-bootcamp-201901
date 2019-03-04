@@ -86,7 +86,7 @@ const logic = {
             return id
         })()
     },
-    
+
     /**
      * Retrieves user information
      * 
@@ -97,16 +97,15 @@ const logic = {
      *
      * @returns {Object} - user.  
      */
-    retrieveUser(userId){
+    retrieveUser(userId) {
 
         if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new Error('userId is empty')
 
-        return(async() => {
-            debugger
+        return (async () => {
             const user = await User.findById(userId).select('-__v -password').lean()
-            debugger
-            if(!user) throw new Error(`user with userId ${userId} not found`)
+
+            if (!user) throw new Error(`user with userId ${userId} not found`)
 
             user.id = user._id.toString()
             delete user._id
@@ -120,22 +119,70 @@ const logic = {
      * 
      * @param {String} userId 
      * @param {Object} data 
+     * 
+     * @throws {TypeError} - if userId is not a string or data is not an object.
+     * @throws {Error} - if any param is empty or user is not found.
+     *
+     * @returns {Object} - user.  
      */
     updateUser(userId, data) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')    
-        
+        if (!userId.trim().length) throw Error('userId is empty')
+
         if (!data) throw Error('data is empty')
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
-        return(async() => {
+        return (async () => {
             const user = await User.findByIdAndUpdate(userId, data, { new: true, runValidators: true }).select('-__v -password').lean()
+            if (!user) throw new Error(`user with userId ${userId} not found`)
 
             user.id = user._id.toString()
             delete user._id
             debugger
             return user
+        })()
+    },
+
+    /**
+     * Search fro a skylaber.
+     * 
+     * @param {String} userId 
+     * @param {String} query
+     * 
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty or user is not found.
+     *
+     * @returns {Object} - results matching the query. 
+     */
+    searchSkylaber(userId, query) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw Error('query is empty')
+
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+            debugger
+            const resContact = await User.find({$or: [{name: { "$regex": `${query}`, "$options": "i" }}, {surname: { "$regex": `${query}`, "$options": "i" }}, {email: { "$regex": `${query}`, "$options": "i" }} , {git: { "$regex": `${query}`, "$options": "i" }}, {linkedin: { "$regex": `${query}`, "$options": "i" }}, {slack: { "$regex": `${query}`, "$options": "i" }} ]})
+            const resTechs = await User.find({techs: { "$regex": `${query}`, "$options": "i" }})
+            const resLang = await User.find({languages: { "$regex": `${query}`, "$options": "i" }})
+            const resEdu = await User.find({education: { "$regex": `${query}`, "$options": "i" }})
+            const resWork = await User.find({workExperience: { company : { "$regex": `${query}`, "$options": "i" }}})
+            debugger
+            let results = {}
+
+            resContact ? results.resContact = resContact : null
+            resWork !== undefined ? results.resWork = resWork : null
+            resTechs ? results.resTechs = resTechs : null
+            resLang ? results.resLang = resLang : null
+            resEdu !== undefined ? results.resEdu = resEdu : null
+
+
+            return results
         })()
     }
 }

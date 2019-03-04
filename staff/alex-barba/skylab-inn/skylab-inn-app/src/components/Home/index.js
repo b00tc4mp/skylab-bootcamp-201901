@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 import Welcome from '../Welcome'
 import Search from '../Search'
@@ -8,38 +8,55 @@ import AdvancedSearch from '../AdvancedSearch'
 import Profile from '../Profile'
 
 import logic from '../../logic'
+import { AppContext } from '../AppContext';
 
 function Home({ history }) {
 
-    const handleToSearch = () => {
-        history.push('/home/search')
-    }
-
-    const handleToAdvancedSearch = () => {
-        history.push('/home/adsearch')
-    }
-
-    const handleToProfile = () => {
-        history.push('/home/profile')
-    }
-
-    const handleToWelcome = () => {
-        history.push('/home')
-    }
-
-    const handleToSignOut = () => {
-        logic.signOutUser()
-        history.push('/')
-    }
+    const { setFeedback, setSearchResults } = useContext(AppContext)
 
     const handleSearch = query => {
-        console.log(query)
+        try {
+            logic.searchSkylaber(query)
+                .then(searchResults => {
+                    setFeedback(null)
+                    setSearchResults(searchResults) 
+                })
+                .catch(({ message }) => setFeedback(message))
+            } catch ({ message }) {
+                setFeedback(message)
+        }
     }
 
     const handleAdvancedSearch = query => {
         console.log(query)
     }
 
+
+    const handleToSearch = () => {
+        setFeedback(null)
+        history.push('/home/search')
+    }
+
+    const handleToAdvancedSearch = () => {
+        setFeedback(null)
+        history.push('/home/adsearch')
+    }
+
+    const handleToProfile = () => {
+        setFeedback(null)
+        history.push('/home/profile')
+    }
+
+    const handleToWelcome = () => {
+        setFeedback(null)
+        history.push('/home')
+    }
+
+    const handleToSignOut = () => {
+        setFeedback(null)
+        logic.signOutUser()
+        history.push('/')
+    }
 
     return (
         <Fragment>
