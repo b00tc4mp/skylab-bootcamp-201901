@@ -1,5 +1,5 @@
 module.exports = {
-    Players: require('./player'),
-    Matches: require('./match'),
+    Player: require('./player'),
+    Match: require('./match'),
     Team: require('./team')
 }

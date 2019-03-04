@@ -1,6 +1,6 @@
 "use strict";
 
-const { User, Comment } = require("../models");
+const { Player, Match, Team } = require("../models");
 const bcrypt = require("bcrypt");
 
 const logic = {
@@ -23,37 +23,63 @@ const logic = {
 
   registerPlayer(name, surname, email, password) {
     if (typeof name !== "string") throw TypeError(`${name} is not string`);
-    if (!name.trim().length) throw Error("name is empty");
+    if (!name.trim().length) throw Error("name cannot be empty");
 
     if (typeof surname !== "string")
       throw TypeError(`${surname} is not string`);
-    if (!surname.trim().length) throw Error("surname is empty");
+    if (!surname.trim().length) throw Error("surname cannot be empty");
 
     if (typeof email !== "string") throw TypeError(`${email} is not string`);
-    if (!email.trim().length) throw Error("email is empty");
+    if (!email.trim().length) throw Error("email cannot be empty");
 
     if (typeof password !== "string")
       throw TypeError(`${password} is not string`);
-    if (!password.trim().length) throw Error("password is empty");
+    if (!password.trim().length) throw Error("password cannot be empty");
 
     return (async () => {
-      const player = await Player.findOne(player.email);
+      const player = await Player.findOne({email});
 
       if (player) {
         throw Error(`player wiith email ${player.email} already exists`);
       }
 
       const hash = await bcrypt.hash(password, 10);
-
-      const playerId = await Player.create({
-        name,
-        surname,
-        email,
-        password: hash
-      }).id;
+   
+      const { id } = await Player.create({ name, surname, email, password: hash })
       //a player le anyado un campo que es id
-
-      return playerId;
+      return id;
     })();
-  }
+  },
+
+      /**
+     * Authenticates user by its credentials.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     */
+    authenticatePlayer(email, password) {
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+
+        if (!password.trim().length) throw Error('password cannot be empty')
+
+        return (async () => {
+            debugger
+                const player = await Player.findOne({ email })
+                console.log(player)
+                
+                if (!player) throw Error(`player with email ${email} not found`)
+                
+                const match = await bcrypt.compare(password, player.password)
+                
+                if (!match) throw Error('wrong credentials')
+                
+                return player.id
+        })()
+    },
 };
+
+module.exports = logic;

@@ -1,6 +1,6 @@
 const { Schema } = require("mongoose");
 
-const Match = new Schema({
+const Team = new Schema({
   name: {
     type: String
   },
@@ -10,4 +10,4 @@ const Match = new Schema({
   },
 });
 
-module.exports = Match;
+module.exports = Team;
