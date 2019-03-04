@@ -6,7 +6,7 @@ const House = new Schema({
     owner: {
         type: ObjectId,
         required: true,
-        ref: 'user'
+        ref: 'User'
     },
 
     images: [{

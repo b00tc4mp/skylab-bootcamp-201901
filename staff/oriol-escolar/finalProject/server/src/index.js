@@ -33,7 +33,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
 
-        router.put('/user/update', tokenVerifierMiddleware, updateUser)
+        router.put('/user/update', tokenVerifierMiddleware, jsonBodyParser, updateUser)
 
         app.use('/api', router)
 

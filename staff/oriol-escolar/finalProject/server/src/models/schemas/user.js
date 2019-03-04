@@ -25,23 +25,19 @@ const User = new Schema({
         required: true
     },
 
-    // myHouses: [{
-
-    //     type: ObjectId,
-    //     ref: 'house'
-
-    // }],
     myHouses: [{
 
-        type: String
-        
+        type: ObjectId,
+        ref: 'house'
 
     }],
+    
+    
 
     favorites:[{
 
         type: ObjectId,
-        ref: 'house'
+        ref: 'House'
 
     }]    
 })

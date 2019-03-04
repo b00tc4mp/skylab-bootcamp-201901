@@ -1,6 +1,6 @@
 'use strict'
 
-const { User, Comment } = require('../models')
+const { User, House } = require('../models')
 const bcrypt = require('bcrypt')
 
 /**
@@ -106,7 +106,9 @@ const logic = {
 
     updateUser(userId, data) {
 
-        return User.findByIdAndUpdate(userId, {data}, { runValidators: true, new: true }).select('-password -__v').lean()
+        console.log(userId, data)
+
+        return User.findByIdAndUpdate(userId, data, { runValidators: true, new: true }).select('-password -__v').lean()
             .then(user => {
 
                 if (!user) throw Error(`user with id ${userId} not found`)
