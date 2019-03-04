@@ -76,7 +76,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzcwMWRlNjg4YTcxMDQ0MGU5NDBlYzYiLCJpYXQiOjE1NTA4NTE1NjQsImV4cCI6MTU1MDg2NTk2NH0.lGb0qoRFK4DOpILvtWES2ucT2n2vZQe8QHSJMYmVyWQ",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzc1MWY4NGQxNmYxODYzODk4MjQyMDEiLCJpYXQiOjE1NTExNzk3NTIsImV4cCI6MTU1MTE5NDE1Mn0.L38937szcZUGeMfmEWYw2XKVAAdQ3LOTlHPNt4R_Vp0",
 							"type": "string"
 						}
 					]
@@ -88,7 +88,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/user/5c701de688a710440e940ec6",
+					"raw": "http://localhost:8000/api/user",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -96,8 +96,7 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"user",
-						"5c701de688a710440e940ec6"
+						"user"
 					]
 				}
 			},
@@ -141,7 +140,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzcwMWRlNjg4YTcxMDQ0MGU5NDBlYzYiLCJpYXQiOjE1NTA4NTE1NjQsImV4cCI6MTU1MDg2NTk2NH0.lGb0qoRFK4DOpILvtWES2ucT2n2vZQe8QHSJMYmVyWQ",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzc1MWY4NGQxNmYxODYzODk4MjQyMDEiLCJpYXQiOjE1NTExNzk3NTIsImV4cCI6MTU1MTE5NDE1Mn0.L38937szcZUGeMfmEWYw2XKVAAdQ3LOTlHPNt4R_Vp0",
 							"type": "string"
 						}
 					]
@@ -157,7 +156,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"userId\": \"5c701de688a710440e940ec6\",\n\t\"text\": \"me encanta esta artista, quiero un hijo suyo\"\n}"
+					"raw": "{\n\t\"text\": \"me encanta esta artista, quiero un hijo suyo\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8000/api/artist/6tbjWDEIzxoDsBA1FuhfPW/comment",
@@ -179,6 +178,16 @@
 		{
 			"name": "list comments from artist",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzc1MWY4NGQxNmYxODYzODk4MjQyMDEiLCJpYXQiOjE1NTExNzk3NTIsImV4cCI6MTU1MTE5NDE1Mn0.L38937szcZUGeMfmEWYw2XKVAAdQ3LOTlHPNt4R_Vp0",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"body": {

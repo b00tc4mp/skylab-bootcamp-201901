@@ -9,7 +9,7 @@ describe('logic', () => {
     describe('register user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
 
@@ -156,7 +156,7 @@ describe('logic', () => {
     describe('log in user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
 
@@ -166,17 +166,14 @@ describe('logic', () => {
 
         it('should succeed on correct credentials', () =>
             logic.logInUser(email, password)
-                .then(() => {
-                    expect(logic.__userId__).toBeDefined()
-                    expect(logic.__userApiToken__).toBeDefined()
-                })
+                .then(() => expect(logic.__userApiToken__).toBeDefined())
         )
     })
 
     describe('check user is logged in', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
 
@@ -193,7 +190,7 @@ describe('logic', () => {
     describe('log out user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
 
@@ -205,15 +202,14 @@ describe('logic', () => {
         it('should succeed on correct credentials', () => {
             logic.logOutUser()
 
-            expect(logic.__userId__).toBeNull()
-            expect(logic.__userId__).toBeNull()
+            expect(logic.__userApiToken__).toBeNull()
         })
     })
 
     describe('retrieve user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
 
@@ -225,7 +221,6 @@ describe('logic', () => {
         it('should succeed on correct credentials', () =>
             logic.retrieveUser()
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -277,7 +272,7 @@ describe('logic', () => {
     false && describe('toggle favorite artist', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
@@ -291,7 +286,6 @@ describe('logic', () => {
             logic.toggleFavoriteArtist(artistId)
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -304,7 +298,6 @@ describe('logic', () => {
                 })
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -355,7 +348,7 @@ describe('logic', () => {
     false && describe('toggle favorite album', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
         const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
@@ -369,7 +362,6 @@ describe('logic', () => {
             logic.toggleFavoriteAlbum(albumId)
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -382,7 +374,6 @@ describe('logic', () => {
                 })
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -438,7 +429,7 @@ describe('logic', () => {
     false && describe('toggle favorite track', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
         const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live)
@@ -452,7 +443,6 @@ describe('logic', () => {
             logic.toggleFavoriteTrack(trackId)
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
@@ -465,7 +455,6 @@ describe('logic', () => {
                 })
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    expect(user.id).toBe(logic.__userId__)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)

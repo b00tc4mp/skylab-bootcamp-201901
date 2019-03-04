@@ -1,10 +1,10 @@
-const logic = require('../logic')
+const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { params: { artistId } } = req
+    const { params: { artistId }, userId } = req
 
     try {
-        logic.listCommentsFromArtist(artistId)
+        logic.listCommentsFromArtist(userId, artistId)
             .then(comments => res.json(comments))
             .catch(({ message }) => {
                 res.status(404).json({

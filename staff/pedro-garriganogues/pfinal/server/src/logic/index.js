@@ -18,58 +18,82 @@ const logic = {
 
     },
 
-    // retrieveUser() {
-    // },
+    async authenticateUser(email, password) {
+
+        if (typeof email !== 'string') throw Error('user email is not a string')
+
+        const user = await User.findOne({ email, password })
+
+        if (!user) throw Error('wrong credentials')
+
+        return user.id
+    },
+
+    async retrieveUser(id) {
+
+        if (typeof id !== 'string') throw Error('user id is not a string')
+
+        const user = await User.findById(id).select({ _id: 0, name: 1, surname: 1, address: 1, email: 1, phone: 1, orders: 1 })
+
+        if (!user) throw Error(`no user found with id ${id}`)
+
+        return user
+    },
+
+    async updateUser(id, name, surname, phone, address, email, password, newEmail, newPassword) {
+
+        if (typeof id !== 'string') throw Error('user id is not a string')
+
+        const user = await User.findOne({ email, password })
+
+        if (!user) throw Error('wrong credentials')
+
+        if (user.id !== id) throw Error(`no user found with id ${id} for given credentials`)
+
+        if (newEmail) {
+            const user = await User.findOne({ email: newEmail })
+
+            if (_user && _user.id !== id) throw Error(`user with email ${newEmail} already exists`)
+
+            return user
+        }
+
+        then(() => {
+            user.name = name
+            user.surname = surname
+            user.phone = phone
+            user.address = address
+            user.email = newEmail ? newEmail : email
+            user.password = newPassword ? newPassword : password
+
+            return user.save()
+        })
+        then(() => true)
+    },
+
+    async unregisterUser(id, email, password) {
+
+        if (typeof id !== 'string') throw Error('user id is not a string')
+
+        const user = User.findOne({ email, password })
 
 
-    // update() {
+        if (!user) throw Error('wrong credentials')
 
-    // },
+        if (user.id !== id) throw Error(`no user found with id ${id} for given credentials`)
 
-    // delete() {
+        return user.remove()
 
-    // }
+    }
 }
 
 module.exports = logic
 
-
-
-
-
-// Ez way:
-
-// const logic = {
-//     authenticateUser(email, password) {
-//         return Promise.resolve()
-//             .then(() => {
-//                 return User.findOne({ email, password })
-//             })
-//             .then(user => {
-//                 if (!user) throw Error('wrong credentials')
-
-//                 return user.id
-//             })
-//     }
-// }
-
-// Async way:
-
-// const logic = {
-//     async authenticateUser(email, password) {
-//         const user = await User.findOne({ email, password }).exec()
-//         return user
-//     }
-// }
-
 // Call mode 1:
 
 // async function login(email, password) {
-
 //     return await logic.authenticateUser(email, password)
-
 // }
-
 
 // Call mode 2: 
 

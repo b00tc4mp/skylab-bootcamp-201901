@@ -1,17 +1,14 @@
 'use strict'
 
 const spotifyApi = require('../spotify-api')
-const users = require('../data/users')
-const artistComments = require('../data/artist-comments')
-const jwt = require('jsonwebtoken')
+const { models: { User, Comment } } = require('music-data')
 const bcrypt = require('bcrypt')
+const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('music-errors')
 
 /**
  * Abstraction of business logic.
  */
 const logic = {
-    jwtSecret: null,
-
     /**
     * Registers a user.
     * 
@@ -24,33 +21,46 @@ const logic = {
     registerUser(name, surname, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
-        if (!name.trim().length) throw Error('name cannot be empty')
+        if (!name.trim().length) throw new EmptyError('name cannot be empty')
 
         if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
 
-        if (!surname.trim().length) throw Error('surname cannot be empty')
+        if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
 
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
-        if (!email.trim().length) throw Error('email cannot be empty')
+        if (!email.trim().length) throw new EmptyError('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
-        if (!password.trim().length) throw Error('password cannot be empty')
+        if (!password.trim().length) throw new EmptyError('password cannot be empty')
 
         if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
 
-        if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
+        if (!passwordConfirmation.trim().length) throw new EmptyError('password confirmation cannot be empty')
 
-        if (password !== passwordConfirmation) throw Error('passwords do not match')
+        if (password !== passwordConfirmation) throw new MatchingError('passwords do not match')
 
-        return users.findByEmail(email)
-            .then(user => {
-                if (user) throw Error(`user with email ${email} already exists`)
+        // return User.findOne({ email })
+        //     .then(user => {
+        //         if (user) throw Error(`user with email ${email} already exists`)
 
-                return bcrypt.hash(password, 10)
-            })
-            .then(hash => users.add({ name, surname, email, password: hash }))
+        //         return bcrypt.hash(password, 10)
+        //     })
+        //     .then(hash => User.create({ name, surname, email, password: hash }))
+        //     .then(({ id }) => id)
+
+        return (async () => {
+            const user = await User.findOne({ email })
+
+            if (user) throw new DuplicateError(`user with email ${email} already exists`)
+
+            const hash = await bcrypt.hash(password, 10)
+
+            const { id } = await User.create({ name, surname, email, password: hash })
+
+            return id
+        })()
     },
 
     /**
@@ -62,45 +72,41 @@ const logic = {
     authenticateUser(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
-        if (!email.trim().length) throw Error('email cannot be empty')
+        if (!email.trim().length) throw new EmptyError('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
-        if (!password.trim().length) throw Error('password cannot be empty')
+        if (!password.trim().length) throw new EmptyError('password cannot be empty')
 
-        return users.findByEmail(email)
-            .then(user => {
-                if (!user) throw Error(`user with email ${email} not found`)
-
-                return bcrypt.compare(password, user.password)
-                    .then(match => {
-                        if (!match) throw Error('wrong credentials')
-
-                        const { id } = user
-
-                        const token = jwt.sign({ sub: id }, this.jwtSecret, { expiresIn: '4h' })
-
-                        return { id, token }
-                    })
-            })
+        return (async () => {
+                const user = await User.findOne({ email })
+                
+                if (!user) throw new NotFoundError(`user with email ${email} not found`)
+                
+                const match = await bcrypt.compare(password, user.password)
+                
+                if (!match) throw new AuthError('wrong credentials')
+                
+                return user.id
+        })()
     },
 
-    __verifyUserToken__(userId, token) {
-        const { sub } = jwt.verify(token, this.jwtSecret)
+    // TODO doc
+    retrieveUser(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
 
-        if (sub !== userId) throw Error(`user id ${userId} does not match token user id ${sub}`)
-    },
+        if (!userId.trim().length) throw new EmptyError('user id is empty')
 
-    retrieveUser(userId, token) {
-        // TODO validate userId and token type and content
-
-        this.__verifyUserToken__(userId, token)
-
-        return users.findById(userId)
+        return User.findById(userId).select('-password -__v').lean()
             .then(user => {
-                if (!user) throw Error(`user with id ${id} not found`)
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
 
-                delete user.password
+                // delete user.password
+                // delete user.__v
+
+                user.id = user._id.toString()
+
+                delete user._id
 
                 return user
             })
@@ -137,13 +143,12 @@ const logic = {
 
     /**
      * Toggles a artist from non-favorite to favorite, and viceversa.
-     * 
+     *
+     * @param {string} userId - The id of the user toggling the artist.
      * @param {string} artistId - The id of the artist to toggle in favorites.
      */
-    toggleFavoriteArtist(userId, token, artistId) {
+    toggleFavoriteArtist(userId, artistId) {
         // TODO validate arguments
-
-        this.__verifyUserToken__(userId, token)
 
         return users.findById(userId)
             .then(user => {
@@ -160,10 +165,8 @@ const logic = {
             })
     },
 
-    addCommentToArtist(userId, token, artistId, text) {
+    addCommentToArtist(userId, artistId, text) {
         // TODO validate userId, token, artistId and text
-
-        this.__verifyUserToken__(userId, token)
 
         const comment = {
             userId,
@@ -180,10 +183,16 @@ const logic = {
             .then(() => comment.id)
     },
 
-    listCommentsFromArtist(artistId) {
-        // TODO validate artistId
+    listCommentsFromArtist(userId, artistId) {
+        // TODO validate arguments
 
-        return artistComments.find({ artistId })
+        return users.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                return artistComments.find({ artistId })
+            })
+
     },
 
     /**
@@ -217,10 +226,8 @@ const logic = {
      * 
      * @param {string} albumId - The id of the album to toggle in favorites.
      */
-    toggleFavoriteAlbum(userId, token, albumId) {
-        // TODO validate arguments
-
-        this.__verifyUserToken__(userId, token)
+    toggleFavoriteAlbum(userId, albumId) {
+        // TODO validate 
 
         return users.findById(userId)
             .then(user => {
@@ -268,10 +275,8 @@ const logic = {
      * 
      * @param {string} trackId - The id of the track to toggle in favorites.
      */
-    toggleFavoriteTrack(userId, token, trackId) {
+    toggleFavoriteTrack(userId, trackId) {
         // TODO validate arguments
-
-        this.__verifyUserToken__(userId, token)
 
         return users.findById(userId)
             .then(user => {
