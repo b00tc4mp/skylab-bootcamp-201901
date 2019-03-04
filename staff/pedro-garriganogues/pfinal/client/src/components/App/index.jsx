@@ -3,6 +3,9 @@
 import React, { Component } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
 import Register from '../Register'
+import Login from '../Login'
+import Footer from '../footer'
+
 import logic from '../../logic'
 class App extends Component {
     state = { registerFeedback: null }
@@ -18,15 +21,27 @@ class App extends Component {
         }
     }
 
+    handleLogin = (email, password) => {
+        try {
+            logic.logInUser(email, password)
+                .then(() => this.props.history.push('/'))
+                .catch(({ message }) => this.setState({ loginFeedback: message }))
+        } catch ({ message }) {
+            this.setState({ loginFeedback: message })
+        }
+    }
+
 
     render() {
-        const { state: { registerFeedback }, handleRegister } = this
+        const { state: { loginFeedback, registerFeedback }, handleLogin, handleRegister } = this
 
-
-        return <main className="app">
+        return (<main className="app">
 
             <Route path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
-        </main>
+            <Route path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
+            <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section>
+            <Footer />
+        </main>)
     }
 }
 

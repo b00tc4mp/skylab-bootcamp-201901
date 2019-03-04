@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken')
 
-let _secret = 'NO-SECRET'
+let _secret = 'secret'
 
 function jwtValidator(req, res, next) {
     let message
@@ -27,7 +27,7 @@ function jwtValidator(req, res, next) {
     res.json({ status: 'KO', error: message })
 }
 
-module.exports = function(secret) {
+module.exports = function (secret) {
     _secret = secret
 
     return jwtValidator

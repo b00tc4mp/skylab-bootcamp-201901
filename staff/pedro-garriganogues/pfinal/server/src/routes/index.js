@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const jsonBodyParser = bodyParser.json()
 const logic = require('../logic')
 const router = express.Router()
-
+require('dotenv').config()
 
 const jwt = require('jsonwebtoken')
 const jwtValidation = require('./utils/jwt-validation')
@@ -26,27 +26,12 @@ router.post('/register', jsonBodyParser, (req, res) => {
         })
 })
 
-router.post('/register', jsonBodyParser, (req, res) => {
-    const { body: { name, surname, address, email, password } } = req
 
-    return logic.registerUser(name, surname, address, email, password)
-        .then(() => {
-            res.status(201)
-            res.json({ status: 'OK' })
-        })
-        .catch(({ message }) => {
-            res.status(400)
-            res.json({ status: 'KO', error: message })
-        })
-})
-
-router.post('/auth', jsonBodyParser, (req, res) => {
+router.post('/user/auth', jsonBodyParser, (req, res) => {
     const { body: { email, password } } = req
-
     logic.authenticateUser(email, password)
         .then(id => {
             const token = jwt.sign({ id }, TOKEN_SECRET, { expiresIn: TOKEN_EXP })
-
             res.status(200)
             res.json({ status: 'OK', data: { id, token } })
         })

@@ -28,7 +28,6 @@ class Login extends Component {
         const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handleFormSubmit, handlePasswordConfirmationInput, props: { title, feedback } } = this
 
         return <section className="register">
-            <h2>{title}</h2>
 
             <form onSubmit={handleFormSubmit}>
                 <input type="text" name="name" onChange={handleNameInput} placeholder="name" />

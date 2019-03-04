@@ -22,6 +22,12 @@ const logic = {
 
         if (typeof email !== 'string') throw Error('user email is not a string')
 
+        if (!(email = email.trim()).length) throw Error('user email is empty or blank')
+
+        if (typeof password !== 'string') throw Error('user password is not a string')
+
+        if ((password = password.trim()).length === 0) throw Error('user password is empty or blank')
+
         const user = await User.findOne({ email, password })
 
         if (!user) throw Error('wrong credentials')
@@ -40,36 +46,36 @@ const logic = {
         return user
     },
 
-    async updateUser(id, name, surname, phone, address, email, password, newEmail, newPassword) {
+    // async updateUser(id, name, surname, phone, address, email, password, newEmail, newPassword) {
 
-        if (typeof id !== 'string') throw Error('user id is not a string')
+    //     if (typeof id !== 'string') throw Error('user id is not a string')
 
-        const user = await User.findOne({ email, password })
+    //     const user = await User.findOne({ email, password })
 
-        if (!user) throw Error('wrong credentials')
+    //     if (!user) throw Error('wrong credentials')
 
-        if (user.id !== id) throw Error(`no user found with id ${id} for given credentials`)
+    //     if (user.id !== id) throw Error(`no user found with id ${id} for given credentials`)
 
-        if (newEmail) {
-            const user = await User.findOne({ email: newEmail })
+    //     if (newEmail) {
+    //         const user = await User.findOne({ email: newEmail })
 
-            if (_user && _user.id !== id) throw Error(`user with email ${newEmail} already exists`)
+    //         if (_user && _user.id !== id) throw Error(`user with email ${newEmail} already exists`)
 
-            return user
-        }
+    //         return user
+    //     }
 
-        then(() => {
-            user.name = name
-            user.surname = surname
-            user.phone = phone
-            user.address = address
-            user.email = newEmail ? newEmail : email
-            user.password = newPassword ? newPassword : password
+    //     then(() => {
+    //         user.name = name
+    //         user.surname = surname
+    //         user.phone = phone
+    //         user.address = address
+    //         user.email = newEmail ? newEmail : email
+    //         user.password = newPassword ? newPassword : password
 
-            return user.save()
-        })
-        then(() => true)
-    },
+    //         return user.save()
+    //     })
+    //     then(() => true)
+    // },
 
     async unregisterUser(id, email, password) {
 

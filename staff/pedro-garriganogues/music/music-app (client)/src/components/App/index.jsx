@@ -49,7 +49,7 @@ class App extends Component {
             {title}
             <Route path="/register" render={() => <Register title={i18n[selectedLanguage].registerTitle} onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route path="/login" render={() => <Login title={i18n[selectedLanguage].loginTitle} onLogin={handleLogin} feedback={loginFeedback} />} />
-            <Route path="/" render={() => logic.isUserLoggedIn ? <Home language={selectedLanguage} /> : <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section>} />
+            <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section>} />
         </main>
     }
 }
