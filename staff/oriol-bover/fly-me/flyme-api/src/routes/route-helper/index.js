@@ -1,6 +1,6 @@
 'use strict'
 
-const { AuthError, DuplicateError, EmptyError, MatchingError, NotFoundError } = require('errors')
+const { AuthError, DuplicateError, EmptyError, MatchingError, NotFoundError } = require('flyme-errors')
 
 module.exports = {
     handleResponseError(error, res) {

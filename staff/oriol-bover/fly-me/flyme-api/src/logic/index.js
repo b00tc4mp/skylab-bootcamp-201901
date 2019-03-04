@@ -1,8 +1,8 @@
 'use strict'
 
 const bcrypt = require('bcrypt')
-const { models: { User } } = require('data')
-const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('errors')
+const { models: { User } } = require('flyme-data')
+const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('flyme-errors')
 
 /**
  * 
@@ -129,7 +129,7 @@ const logic = {
             .then(user => {
                 if (!user) throw new NotFoundError(`user with id ${id} does not exist`)
 
-                return User.findByIdAndUpdate(userId, data)
+                return User.findByIdAndUpdate(userId, data, { runValidators: true })
                     .then(user => {
 
                         return {

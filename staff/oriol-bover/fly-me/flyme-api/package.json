@@ -15,10 +15,10 @@
   "dependencies": {
     "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
-    "data": "../data/",
     "dotenv": "^6.2.0",
-    "errors": "../errors/",
     "express": "^4.16.4",
+    "flyme-data": "../flyme-data/",
+    "flyme-errors": "../flyme-errors/",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.5.0",
     "uuid": "^3.3.2"

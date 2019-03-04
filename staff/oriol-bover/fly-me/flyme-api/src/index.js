@@ -1,7 +1,7 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-const { mongoose } = require('data')
+const { mongoose } = require('flyme-data')
 const express = require('express')
 const package = require('../package.json')
 const tokenHelper = require('../src/token-helper')

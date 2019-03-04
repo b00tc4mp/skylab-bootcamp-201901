@@ -1,5 +1,5 @@
 {
-  "name": "errors",
+  "name": "flyme-errors",
   "version": "1.0.0",
   "main": "src/errors/index.js",
   "license": "MIT",

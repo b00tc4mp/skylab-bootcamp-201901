@@ -3,7 +3,7 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-const { mongoose, models: { User } } = require('data')
+const { mongoose, models: { User } } = require('flyme-data')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
