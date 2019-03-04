@@ -172,7 +172,7 @@ describe('logic', () => {
             (async () => {
                 return await logic.authenticateUser('not-previously-registered@mail.com', password)
 
-            })
+            })()
                 .catch(error => {
                     expect(error).toBeDefined()
                     expect(error.message).toBe(`user with email not-previously-registered@mail.com not found`)
@@ -181,8 +181,8 @@ describe('logic', () => {
 
         it('should fail on wrong credentials', () => {
             (async () => {
-                return awaitlogic.authenticateUser(email, 'not-a-matching-password')
-            })
+                return await logic.authenticateUser(email, 'not-a-matching-password')
+            })()
                 .catch(error => {
                     expect(error).toBeDefined()
                     expect(error.message).toBe(`wrong credentials`)
@@ -247,14 +247,15 @@ describe('logic', () => {
             expect(user.password).toBeUndefined()
         })
 
-        it('should fail on not registered email', () => {
-            (async () => {
-                return await logic.retrieveUser('not-previously-registered-userId')
-            })()
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error.message).toBe(`user with userId not-previously-registered-userId not found`)
-                })
+        it('should fail on not registered email', async() => {
+            await User.deleteMany()
+            try {
+               await logic.retrieveUser(_id)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`user with userId ${_id} not found`)
+                
+            }
         })
 
         it('should fail on empty userId', () =>
@@ -271,6 +272,66 @@ describe('logic', () => {
 
         it('should fail when userId is a boolean', () =>
             expect(() => logic.retrieveUser(true)).toThrowError(`true is not a string`))
+    })
+
+    describe('update user', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        const data = { name: 'Test', email: 'test@email.com', telephone: 618610187 }
+        let email, password, _id
+
+        beforeEach(async () => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+
+            const hash = await bcrypt.hash(password, 10)
+            await User.create({ name, surname, email, password: hash })
+
+            const user = await User.findOne({ email })
+            _id = user.id
+        })
+
+        it('should succeed on correct credentials', async () => {
+            const user = await logic.updateUser(_id, data)
+
+            expect(user.id).toEqual(_id)
+            expect(user.name).toBe(data.name)
+            expect(user.surname).toBe(surname)
+            expect(user.email).toBe(data.email)
+            expect(user.telephone).toBe(data.telephone)
+            expect(user.__v).toBeUndefined()
+            expect(user.password).toBeUndefined()
+        })
+
+        it('should fail on empty userId', () =>
+            expect(() => logic.updateUser('', data)).toThrowError('userId is empty'))
+
+        it('should fail when userId is a number', () =>
+            expect(() => logic.updateUser(1, data)).toThrowError(`1 is not a string`))
+
+        it('should fail when userId is an object', () =>
+            expect(() => logic.updateUser({}, data)).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when userId is an array', () =>
+            expect(() => logic.updateUser([1, 2, 3], data)).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when userId is a boolean', () =>
+            expect(() => logic.updateUser(true, data)).toThrowError(`true is not a string`))
+
+        it('should fail on empty data', () =>
+            expect(() => logic.updateUser(_id)).toThrowError('data is empty'))
+
+        it('should fail when data is a number', () =>
+            expect(() => logic.updateUser(_id, 1)).toThrowError(`1 is not an object`))
+
+        it('should fail when data is an object', () =>
+            expect(() => logic.updateUser(_id, 'hola')).toThrowError(`hola is not an object`))
+
+        it('should fail when data is an array', () =>
+            expect(() => logic.updateUser(_id, [1, 2, 3])).toThrowError(`1,2,3 is not an object`))
+
+        it('should fail when data is a boolean', () =>
+            expect(() => logic.updateUser(_id, true)).toThrowError(`true is not an object`))
     })
 
     after(() =>

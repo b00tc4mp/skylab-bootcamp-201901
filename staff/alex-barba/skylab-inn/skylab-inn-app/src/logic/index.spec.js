@@ -188,14 +188,6 @@ describe('logic', () => {
         const name = 'Àlex'
         const surname = 'Barba'
         let email, password, passwordConfirm, _id
-    
-        // beforeEach(async() => {
-        //     email = `alex.barba-${Math.random()}@gmail.com`
-        //     password = `Pass-${Math.random()}`
-        //     passwordConfirm = password
-        //     _id = await skylabInnApi.registerUser( name, surname, email, password, passwordConfirm)
-        //     await skylabInnApi.authenticateUser(email, password)
-        // })
 
         beforeEach(() => {
             email = `alex.barba-${Math.random()}@gmail.com`
@@ -221,7 +213,45 @@ describe('logic', () => {
                     expect(user.password).toBeUndefined()
                     expect(user.__v).toBeUndefined()
                 })
+        })
+    })
 
+    describe.only('update user', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        const data = { name: 'Test', email: 'test@email.com', telephone: 618610187 }
+        let email, password, passwordConfirm, _id
+
+        beforeEach(() => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+            passwordConfirm = password
+            logic.registerUser( name, surname, email, password, passwordConfirm)
+                .then(id => _id = id)
+                .then(() => logic.logInUser(email, password))
+        })
+
+        // beforeEach(() => {
+        //     email = `alex.barba-${Math.random()}@gmail.com`
+        //     password = `Pass-${Math.random()}`
+        //     passwordConfirm = password
+        //     skylabInnApi.registerUser( name, surname, email, password, passwordConfirm)
+        //         .then(id => _id = id)
+        //         .then(() => skylabInnApi.authenticateUser(email, password))
+        //         .then(token => logic.__userApiToken__ = token)
+        // })
+    
+        it('should succeed on correct data', () => {
+            return logic.updateUser(data)
+                .then(user => {
+                    expect(user.id).toEqual(_id)
+                    expect(user.name).toBe(data.name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(data.email)
+                    expect(user.telephone).toBe(data.telephone)
+                    expect(user.__v).toBeUndefined()
+                    expect(user.password).toBeUndefined()
+                })
         })
     })
 })

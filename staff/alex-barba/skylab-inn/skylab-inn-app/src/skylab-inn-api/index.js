@@ -77,7 +77,7 @@ const skylabInnApi = {
             .then(response => response.json())
             .then(({token, error}) => {
                 if (error) throw new Error(error)
-                debugger
+
                 return token
             })
     },
@@ -108,8 +108,43 @@ const skylabInnApi = {
 
                 return response
             })
+    },
 
+    /**
+     * Updates user information
+     * 
+     * @param {String} token
+     * @param {Object} data
+     * 
+     * @throws {TypeError} - if token is not a string.
+     * @throws {Error} - if token is empty.
+     *
+     * @returns {Object} - user.  
+     */
+    updateUser(token, data){
 
+        debugger
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return fetch (`${this.url}/user`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ data })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
     }
 }
 

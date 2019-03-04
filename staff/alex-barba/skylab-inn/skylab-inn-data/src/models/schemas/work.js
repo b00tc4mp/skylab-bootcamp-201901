@@ -13,13 +13,13 @@ const Work = new Schema({
     },
 
     startDate: {
-        type: Date,
+        type: String,
         required: true
     },
 
-    endDate: { type: Date },
+    endDate: { type: String },
 
-    current: { type: Boolean }
+    current: { type: Boolean, required: true }
 
 })
 

@@ -1,5 +1,11 @@
-When testing data in app, changing db_url to test_db_url throws Errors
-retrieveUser testing for app
-if user or admin which layout?
-error test retrieve user with async, and test skylabinnapi from app
-check session storage or call logic in App to preserve state
+# SkyLab Inn
+
+## Introduction
+
+Create a private network to connect the Skylabers, to:
+
+SkyLab Academy: easily match the students with the job offers.
+
+Skylabers: easily find out which Skylabers can help or assist them when in need of assistance, or find out in which companies they are working.
+
+## [Trello](https://trello.com/b/iYW3W8g2/skylab-inn)
