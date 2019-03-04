@@ -1,0 +1,12 @@
+{
+  "name": "errors",
+  "version": "1.0.0",
+  "main": "src/errors/index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha $(find src -name *.spec.js)"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0"
+  }
+}
