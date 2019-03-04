@@ -7,7 +7,7 @@ import skylabInnApi from '../skylab-inn-api'
  */
 const logic = {
 
-    __userApiToken: null,
+    __userApiToken__: null,
 
     /**
      * Registers a user.
@@ -77,9 +77,9 @@ const logic = {
     },
 
     /**
-     * Logs out the user.
+     * Signs out the user.
      */
-    logOutUser() {
+    signOutUser() {
         this.__userApiToken__ = null
     },
 
@@ -93,7 +93,28 @@ const logic = {
     retrieveUser() {
         return skylabInnApi.retrieveUser(this.__userApiToken__)
             .then(({user}) => user)
-    }
+    },
+
+    /**
+     * Updates a user.
+     * 
+     * @param {Object} data 
+     * 
+     * @throws {TypeError} - if data is not an object.
+     * @throws {Error} - if any data is empty.
+     *
+     * @returns {Objecy} - user.  
+     */
+    updateUser(data) {
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        console.log(this.__userApiToken__)
+        return skylabInnApi.updateUser(this.__userApiToken__, data)
+
+            .then(({user}) => user)
+    },
 }
 
 export default logic

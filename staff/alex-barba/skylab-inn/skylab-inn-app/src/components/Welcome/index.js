@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
 
-export default function Welcome({ onToSearch, onToAdvancedSearch, onToProfile }) {
+export default function Welcome({ onToSearch, onToAdvancedSearch, onToWelcome ,onToProfile, onToSignOut}) {
 
-    const { userName } = useContext(AppContext)
+    const { userData, userName } = useContext(AppContext)
 
     const handleToSearch = () => {
         onToSearch()
@@ -13,16 +13,28 @@ export default function Welcome({ onToSearch, onToAdvancedSearch, onToProfile })
         onToAdvancedSearch()
     }
 
+    const handleToWelcome = () => {
+        onToWelcome()
+    }
+
     const handleToProfile = () => {
         onToProfile()
     }
 
+    const handleToSignOut = () => {
+        onToSignOut()
+    }
+
     return (
         <section>
-            <h2>Hi {userName} </h2>
+            <h2>Hi {userData.name} </h2>
             <a onClick={handleToSearch}>Look for a Skylaber</a>
             <a onClick={handleToAdvancedSearch}>Advanced search</a>
-            <button onClick={handleToProfile}>Profile</button>
+            <nav>
+                <a onClick={handleToWelcome}>Home</a>
+                <a onClick={handleToProfile}>Profile</a>
+                <a onClick={handleToSignOut}>Sign Out</a>
+            </nav>
         </section>
     )
 

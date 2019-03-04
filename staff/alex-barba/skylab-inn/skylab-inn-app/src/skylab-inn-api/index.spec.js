@@ -217,43 +217,25 @@ describe('skylab inn api', () => {
     describe('retrieve user', () => {
         const name = 'Àlex'
         const surname = 'Barba'
-        let email, password, passwordConfirm, token
+        let email, password, _id ,_token
 
-        // beforeEach(async () => {
-        //     email = `alex.barba-${Math.random()}@gmail.com`
-        //     password = `Pass-${Math.random()}`
-
-        //     const hash = await bcrypt.hash(password, 10)
-        //     await User.create({ name, surname, email, password: hash })
-
-        //     const user = await User.findOne({ email })
-        //     _id = user.id
-
-        //     _token = await skylabInnApi.authenticateUser(email, password)
-        // })
-
-        // beforeEach(() => {
-        //     email = `alex.barba-${Math.random()}@gmail.com`
-        //     password = `Pass-${Math.random()}`
-
-        //     bcrypt.hash(password, 10)
-        //         .then(hash => User.create({ name, surname, email, password: hash }))
-        //         .then(() => skylabInnApi.authenticateUser(email, password))
-        //         .then(token => _token = token)
-        // })
-
-        beforeEach(() => {
+        beforeEach(async () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
-            passwordConfirm = password
-            skylabInnApi.registerUser(name, surname, email, password, passwordConfirm)
-                .then(() => skylabInnApi.authenticateUser(email, password))
-                .then(token => token)
+
+            const hash = await bcrypt.hash(password, 10)
+            await User.create({ name, surname, email, password: hash })
+
+            const user = await User.findOne({ email })
+            _id = user.id
+
+            _token = await skylabInnApi.authenticateUser(email, password)
+
         })
 
         it('should succeed on correct credentials', () => {
-            skylabInnApi.retrieveUser(token)
-                .then(user => {
+            return skylabInnApi.retrieveUser(_token)
+                .then(({user}) => {
                     expect(user.id).toEqual(_id)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
@@ -263,25 +245,13 @@ describe('skylab inn api', () => {
                 })
         })
 
-        // it('should succeed on correct credentials', async () => {
-        //     const user = await skylabInnApi.retrieveUser(_token)
-
-        //     expect(user.id).toEqual(_id)
-        //     expect(user.name).toBe(name)
-        //     expect(user.surname).toBe(surname)
-        //     expect(user.email).toBe(email)
-        //     expect(user.__v).toBeUndefined()
-        //     expect(user.password).toBeUndefined()
-        // })
-
-        it('should fail on wrong token', () => {
-            (async () => {
-                return await skylabInnApi.retrieveUser('invalid-token')
-            })()
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error.message).toBe(`jwt malformed`)
-                })
+        it('should fail on wrong token', async() => {
+            try {
+                await skylabInnApi.retrieveUser('invalid-token')
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`jwt malformed`)
+            }
         })
 
         it('should fail on empty token', () =>
@@ -298,6 +268,68 @@ describe('skylab inn api', () => {
 
         it('should fail when token is a boolean', () =>
             expect(() => skylabInnApi.retrieveUser(true)).toThrowError(`true is not a string`))
+    })
+
+    describe('update user', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        const data = { name: 'Test', email: 'test@email.com', telephone: 618610187 }
+        let email, password, _id, _token
+
+        beforeEach(async () => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+
+            const hash = await bcrypt.hash(password, 10)
+            await User.create({ name, surname, email, password: hash })
+
+            const user = await User.findOne({ email })
+            _id = user.id
+
+            _token = await skylabInnApi.authenticateUser(email, password)
+        })
+
+        it('should succeed on correct credentials', async () => {
+            const {user} = await skylabInnApi.updateUser(_token, data)
+
+            expect(user.id).toEqual(_id)
+            expect(user.name).toBe(data.name)
+            expect(user.surname).toBe(surname)
+            expect(user.email).toBe(data.email)
+            expect(user.telephone).toBe(data.telephone)
+            expect(user.__v).toBeUndefined()
+            expect(user.password).toBeUndefined()
+        })
+
+        it('should fail on empty token', () =>
+            expect(() => skylabInnApi.updateUser('')).toThrowError('token is empty'))
+
+        it('should fail when token is a number', () =>
+            expect(() => skylabInnApi.updateUser(1)).toThrowError(`1 is not a string`))
+
+        it('should fail when token is an object', () =>
+            expect(() => skylabInnApi.updateUser({})).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when token is an array', () =>
+            expect(() => skylabInnApi.updateUser([1, 2, 3])).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when token is a boolean', () =>
+            expect(() => skylabInnApi.updateUser(true)).toThrowError(`true is not a string`))
+
+        it('should fail on empty data', () =>
+            expect(() => skylabInnApi.updateUser(_id)).toThrowError('data is empty'))
+
+        it('should fail when data is a number', () =>
+            expect(() => skylabInnApi.updateUser(_id, 1)).toThrowError(`1 is not an object`))
+
+        it('should fail when data is an object', () =>
+            expect(() => skylabInnApi.updateUser(_id, 'hola')).toThrowError(`hola is not an object`))
+
+        it('should fail when data is an array', () =>
+            expect(() => skylabInnApi.updateUser(_id, [1, 2, 3])).toThrowError(`1,2,3 is not an object`))
+
+        it('should fail when data is a boolean', () =>
+            expect(() => skylabInnApi.updateUser(_id, true)).toThrowError(`true is not an object`))
     })
 
     afterAll(() =>

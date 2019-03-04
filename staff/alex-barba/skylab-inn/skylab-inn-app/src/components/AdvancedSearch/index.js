@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Feedback from '../Feedback'
 
-export default function AdvancedSearch({ onAdvancedSearch, feedback, onToProfile, onToWelcome }) {
+export default function AdvancedSearch({ onAdvancedSearch, feedback, onToWelcome ,onToProfile, onToSignOut }) {
 
     const [query, setQuery] = useState(null)
 
@@ -10,12 +10,16 @@ export default function AdvancedSearch({ onAdvancedSearch, feedback, onToProfile
         onAdvancedSearch(query)
     }
 
+    const handleToWelcome = () => {
+        onToWelcome()
+    }
+
     const handleToProfile = () => {
         onToProfile()
     }
 
-    const handleToWelcome = () => {
-        onToWelcome()
+    const handleToSignOut = () => {
+        onToSignOut()
     }
 
     return (
@@ -25,8 +29,11 @@ export default function AdvancedSearch({ onAdvancedSearch, feedback, onToProfile
                 {feedback && <Feedback />}
                 <button type="submit">Search</button>
             </form>
-            <button onClick={handleToProfile}>Profile</button>
-            <button onClick={handleToWelcome}>Home</button>
+            <nav>
+                <a onClick={handleToWelcome}>Home</a>
+                <a onClick={handleToProfile}>Profile</a>
+                <a onClick={handleToSignOut}>Sign Out</a>
+            </nav>
         </section>
     )
 }

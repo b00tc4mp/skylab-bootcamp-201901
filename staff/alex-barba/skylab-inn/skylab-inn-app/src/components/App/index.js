@@ -16,6 +16,7 @@ function App({history}) {
     const [feedback, setFeedback] = useState(null)
     const [typeOfUser, setTypeOfUser] = useState(null)
     const [userName, setUserName] = useState(null)
+    const [userData, setUserData] = useState({})
 
     useEffect(() => {
         // window.sessionStorage.setItem('userName', userName)
@@ -23,10 +24,11 @@ function App({history}) {
         logic.isUserLoggedIn && logic.retrieveUser()
             .then(user => {
                 user.techs ? setTypeOfUser('User') : setTypeOfUser('Admin')
-                return setUserName(user.name)
+                setUserName(user.name)
+                return setUserData(user)
             })
        
-    }, [userName])
+    }, [userData.name])
 
     const handleSignUp = (name, surname, email, password, passwordConfirmation) => {
         try {
@@ -47,7 +49,8 @@ function App({history}) {
             .then(() => logic.retrieveUser())
             .then(user => {
                 user.techs ? setTypeOfUser('User') : setTypeOfUser('Admin')
-                return setUserName(user.name)
+                setUserName(user.name)
+                return setUserData(user)
             })
             .then(() => setFeedback(null))
             .then(() => history.push('/home'))
@@ -68,7 +71,7 @@ function App({history}) {
     }
 
     return(
-    <AppContext.Provider value={{feedback, userName, typeOfUser}}>
+    <AppContext.Provider value={{feedback,typeOfUser, userData, setUserData}}>
         <Route exact path="/" render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp}/> : <Redirect to="/home"/>}/>
         <Route path="/signup" render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn}/> : <Redirect to="/home"/>}/>
         <Route path="/home" render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to="/"/>}/>

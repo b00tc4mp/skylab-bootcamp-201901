@@ -37,14 +37,11 @@ const User = new Schema({
 
     slack: { type: String },
 
-    workExperience: [{
-        type: Work,
-        default: undefined
-    }],
+    workExperience: [Work],
 
     techs: [{ type: String, default: undefined }],
 
-    languages: [{ type: String, default: undefined }],
+    languages: [{type: String, default: undefined }],
 
     education: [{
         college: {

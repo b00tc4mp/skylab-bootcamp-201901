@@ -103,15 +103,40 @@ const logic = {
         if (!userId.trim().length) throw new Error('userId is empty')
 
         return(async() => {
+            debugger
             const user = await User.findById(userId).select('-__v -password').lean()
+            debugger
+            if(!user) throw new Error(`user with userId ${userId} not found`)
 
             user.id = user._id.toString()
             delete user._id
 
             return user
         })()
-            .catch(error => new Error(`user with userId ${userId} not found`))
+    },
 
+    /**
+     * Updates user information.
+     * 
+     * @param {String} userId 
+     * @param {Object} data 
+     */
+    updateUser(userId, data) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')    
+        
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return(async() => {
+            const user = await User.findByIdAndUpdate(userId, data, { new: true, runValidators: true }).select('-__v -password').lean()
+
+            user.id = user._id.toString()
+            delete user._id
+            debugger
+            return user
+        })()
     }
 }
 
