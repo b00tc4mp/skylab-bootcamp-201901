@@ -23,7 +23,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         const router = express.Router() //router
 
-        app.use(express.json({limit: '50mb'}));
+        app.use(express.json({limit: '50mb'})); //Set more limit to size because otherwise it refuses size = 1MB
         app.use(express.urlencoded({limit: '50mb'}));
 
         router.use(cors()) //Para el Cors, evita el bloqueo del navegador por seguridad cuando hace llamadas a diferentes URLs.
