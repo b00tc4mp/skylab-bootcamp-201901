@@ -1,18 +1,27 @@
 import React, {Component, Fragment} from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
+import logic from '../../logic'
+import { Route, withRouter, Link, Redirect } from 'react-router-dom'
 import SideBar from '../sidebar'
+import Books from '../books'
+import UpdateUser from '../updateuser'
+import ContactForm from '../contact'
+import CreateBook from '../createBook';
 class Home extends Component {
 
-    onGoToRoute = (name) =>{
-        {this.props.history.push(name)}
-    }
-
+    // logoutUser = () => {
+    //     logic.logOutUser()
+    //     this.props.history.push('/welcome')
+    // }
     render() {
         return (
             <Fragment>
-                <SideBar></SideBar>
+                <SideBar logoutUser = {this.logoutUser}></SideBar>
+                <Route path="/home/newbook" component = {CreateBook} />
+                <Route path="/home/yourbooks" component = {Books} />
+                <Route path="/home/profile" component = {UpdateUser} />
+                <Route path="/home/contact" component = {ContactForm} />
             </Fragment>
         )
     }
 }
-export default withRouter(Home);
+export default Home;

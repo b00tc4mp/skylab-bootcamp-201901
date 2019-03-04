@@ -13,7 +13,7 @@ function Books() {
       <SideBar></SideBar>
     </div>
     {/* TODO */}
-    <div className="rightsidebar c_yourbooks">
+    <div className="rightsidebar coverright">
       <h1>These are your books</h1>
       <p>Lorem Ipsum</p> 
     </div>

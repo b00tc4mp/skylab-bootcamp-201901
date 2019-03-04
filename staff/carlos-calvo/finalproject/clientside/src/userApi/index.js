@@ -72,9 +72,36 @@ const userApi ={
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
         if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
 
-        return
-    }
+        return fetch(`${this.url}/user/update`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ name, surname, email, password, passwordConfirm })
+        })
+            .then(response => response.json())
+            .then(({ id, error }) => {
+                if (error) throw Error(error)
+                return id
+            })
+    },
 
+    retrieveUser(token){
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/user`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
 }
 
 

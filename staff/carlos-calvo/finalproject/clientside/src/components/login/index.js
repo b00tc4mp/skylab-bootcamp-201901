@@ -27,7 +27,7 @@ class Login extends Component {
         try {
             this.setState({ loginFeedback: '' })
             logic.authenticateUser(email, password)
-                .then(() => this.props.history.push('/home'))
+                .then(() => this.props.updateToken())
                 .catch(({ message }) => this.showLoginFeedback(message))
         } catch ({ message }) {
           this.showLoginFeedback(message)

@@ -95,7 +95,11 @@ const logic = {
         })()
     },
 
-    // TODO doc
+    /**
+     * Retrieves a user by userId
+     * 
+     * @param {String} userId 
+     */
     retrieveUser(userId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
 
@@ -105,9 +109,6 @@ const logic = {
             .then(user => {
                 if (!user) throw new NotFoundError(`user with id ${userId} not found`)
 
-                // delete user.password
-                // delete user.__v
-
                 user.id = user._id.toString()
 
                 delete user._id
@@ -115,7 +116,37 @@ const logic = {
                 return user
             })
     },
-    // TODO updateUser and removeUser
+
+    /**
+     * Updates user-related fields in DB.
+     * 
+     * @param {String} name 
+     * @param {String} surname 
+     * @param {String} email 
+     * @param {String} password 
+     * @param {String} passwordConfirmation 
+     */
+
+    updateUser(name, surname, email, password, passwordConfirmation){
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+        if (!name.trim().length) throw new EmptyError('name cannot be empty')
+        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
+        if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+        if (!email.trim().length) throw new EmptyError('email cannot be empty')
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+        if (!password.trim().length) throw new EmptyError('password cannot be empty')
+        if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
+        if (!passwordConfirmation.trim().length) throw new EmptyError('password confirmation cannot be empty')
+        if (password !== passwordConfirmation) throw new MatchingError('passwords do not match')
+
+        return (async () => {
+            const hash = await bcrypt.hash(password, 10)
+            const user = await User.findOneAndUpdate({email}, {$set:{name, surname, 'password': hash}}, {new : true})
+            return user
+        })()
+    },
+    // TODO removeUser
 
 
 
@@ -154,7 +185,7 @@ const logic = {
       * @param {String} userId 
       */
 
-    addBook (title, content, coverphoto, images =[], parameters =[], userId){
+    addBook (title, content, coverphoto, userId, images = [], parameters = [] ){
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw new EmptyError('title  is empty')
 
@@ -184,8 +215,7 @@ const logic = {
             const user = await User.findById(userId)
             if(!user) throw new Error('UserId does not exist')
 
-            const { id } = await Book.create({title, content, coverphoto, images, parameters, userId})
-            // console.log(id)
+            const id  = await Book.create({title, content, coverphoto, images, parameters, 'userId' : ObjectID(userId)})
             return id
         })()
     },
@@ -215,7 +245,7 @@ const logic = {
     },
 
     /**
-     * Retrieves Books from a userId, Returns cursor of books.
+     * Retrieves Books from a userId, Returns Array of books.
      * @param {*} userId 
      */
 
@@ -229,9 +259,9 @@ const logic = {
             const user = await User.findOne({'_id': ObjectID(userId)})
             if(!user) throw new Error(`UserId ${userId} was not found`)
 
-            const cursor = await Book.find({userId}).cursor()
-            // Be careful when treating cursor as it is async
-            return cursor
+            const result = await Book.find({userId})
+
+            return result
         })()
     }
 }

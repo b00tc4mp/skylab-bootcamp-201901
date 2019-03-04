@@ -7,9 +7,9 @@ const bodyParser = require('body-parser')
 const tokenHelper = require('./token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
-const cors = require('./cors')
+const cors = require('cors')
 
-const { registerUser, authenticateUser, retrieveUser, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, updateUser, notFound, addBook } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -23,11 +23,18 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         const router = express.Router() //router
 
-        router.use(cors) //Para el Cors, evita el bloqueo del navegador por seguridad cuando hace llamadas a diferentes URLs.
+        app.use(express.json({limit: '50mb'}));
+        app.use(express.urlencoded({limit: '50mb'}));
+
+        router.use(cors()) //Para el Cors, evita el bloqueo del navegador por seguridad cuando hace llamadas a diferentes URLs.
         
         router.post('/user', jsonBodyParser, registerUser)
 
         router.post('/user/auth', jsonBodyParser, authenticateUser)
+
+        router.post('/book/add', jsonBodyParser, addBook)
+
+        router.put('/user/update', jsonBodyParser, updateUser)
 
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
 

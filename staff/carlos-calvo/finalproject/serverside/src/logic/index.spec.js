@@ -292,7 +292,7 @@ describe('logic', () => {
 
     //
 
-    false && describe('Add Book', () => {
+    describe('Add Book', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
@@ -350,19 +350,27 @@ describe('logic', () => {
 
         it('should succeed on valid data', async () => {
             const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
-            const id2 = await logic.addBook('titulo1','titulo1', 'titulo1', [], [], id )
-            expect(id2).toBeDefined()
+            const book = await logic.addBook('titulo1','contenido1', 'cover1', id, ['1', '2', '3'], ['url1', 'url2'] )
+            expect(book).toBeDefined()
+            expect(book.title).toBe('titulo1')
+            expect(book.content).toBe('contenido1')
+            expect(book.coverphoto).toBe('cover1')
+            expect(book.images.length).toBe(3)
+            expect(book.parameters.length).toBe(2)
         })
 
         it('should fail on title with same name to user', async () => {
             expect(async () => {
+                const title1 = 'title1'
                 const id = await logic.registerUser(name2, surname2, email2, password2, passwordConfirm2)
-                const id1 = await logic.addBook('tit1','tit2', 'tit2', [], [], id )
-                const id2 = await logic.addBook('tit1','tit2', 'tit2', [], [], id )
-            }).toThrow(Error)
+                const id1 = await logic.addBook(title1,'tit2', 'tit2', id, [], [] )
+                try{
+                    const id2 = await logic.addBook(title1,'tit2', 'tit2', id, [], [] )
+                } catch(err) {
+                    expect(err).toBeDefined()
+                }
+            })
         })
-
-
     })
 
 
@@ -407,9 +415,7 @@ describe('logic', () => {
             const id3 = await logic.deleteBook('titulodelete', id)
             expect(id3.title).toBeDefined()
             expect(id3.title).toBe('titulodelete')
-        })
-
-        
+        })   
     })
 
 
@@ -431,15 +437,27 @@ describe('logic', () => {
             }).toThrow(Error)
         })
 
+        it('should retreive null as there are no books', async () => {
+            const name = 'Manuel'
+            const surname = 'Barzi'
+            const email = `manuelbarzi-${Math.random()}@mail.com`
+            const password = `123-${Math.random()}`
+            const passwordConfirm = password
+            const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+            const bookcursor = await logic.RetrieveBooks(id)
+            let next = bookcursor[0]
+            expect(next).toBe(undefined)
+        })
+
         it('should retreive a list of books', async () => {
             const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
             const id2 = await logic.addBook('titulo1--','titulo1', 'titulo1', [], [], id )
             const id3 = await logic.addBook('titulo2--','titulo1', 'titulo1', [], [], id )
             const id4 = await logic.addBook('titulo3--','titulo1', 'titulo1', [], [], id )
             const bookcursor = await logic.RetrieveBooks(id)
-            const title1 = await bookcursor.next()
-            const title2 = await bookcursor.next()
-            const title3 = await bookcursor.next()
+            const title1 = bookcursor[0]
+            const title2 = bookcursor[1]
+            const title3 = bookcursor[2]
             expect(title1.title).toBe('titulo1--')
             expect(title2.title).toBe('titulo2--')
             expect(title3.title).toBe('titulo3--')

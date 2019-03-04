@@ -5,13 +5,9 @@ module.exports = {
 
     retrieveUser: require('./retrieve-user'),
 
-    // searchArtists: require('./search-artists'),
+    updateUser : require('./update-user'),
 
-    // addCommentToArtist: require('./add-comment-to-artist'),
-
-    // listCommentsFromArtist: require('./list-comments-from-artist'),
-
-    // TODO other route handlers
+    addBook : require('./add-book'),
 
     notFound: require('./not-found')
 }
