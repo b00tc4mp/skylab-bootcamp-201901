@@ -4,6 +4,7 @@ import './index.sass';
 import Landing from '../Landing'
 import Login from '../Login'
 import Register from '../Register'
+import logic from '../../logic';
 
 function App({ history, handleGoToLogin, handleGoToRegister, handleLogin, handleRegister }) {
 
@@ -17,11 +18,14 @@ function App({ history, handleGoToLogin, handleGoToRegister, handleLogin, handle
   }
 
   handleLogin = (email, password) => {
-    console.log(email, password)
+    logic.login(email, password)
+      .then(token => logic.__userApiToken__ = token)
+      .then(() => history.push('/desktop'))
   }
 
   handleRegister = (name, surname, email, password, passwordConfirm) => {
-    console.log(name, surname, email, password, passwordConfirm)
+    logic.register(name, surname, email, password, passwordConfirm)
+      .then(() => history.push('/login'))
   }
 
   return <main className="App">

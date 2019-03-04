@@ -2,9 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom'
 import App from './components/App';
-// import * as serviceWorker from './serviceWorker';
+import logic from './logic'
 import './index.sass';
 
-ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'));
+Object.defineProperties(logic, {
+    __userApiToken__: {
+        set(token) {
+            sessionStorage.setItem('__userApiToken__', token)
+        },
 
-// serviceWorker.unregister();
+        get() {
+            return sessionStorage.getItem('__userApiToken__')
+        }
+    }
+})
+
+ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'));
