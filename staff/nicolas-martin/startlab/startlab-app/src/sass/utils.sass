@@ -1,0 +1,29 @@
+$tablet-width: 769px
+$desktop-width: 1024px
+
+@mixin tablet 
+    @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px})
+        @content
+
+
+@mixin desktop
+    @media (min-width: #{$desktop-width})
+        @content
+
+    
+// NOT USING
+
+@function em($px,  $base: $base__font-size)
+    @return ($px  /  $base) *  1em
+
+=text($size: $base__font-size, $line: $base__line, $weight: $base__weight__text, $family: $text__family__text, $color: $color__light)
+    font-size: +em($size)
+    line-height: ($line/$size)
+    font-family: $family
+    color: $color
+    font-weight: $weight
+
+
+=background-opacity($color, $opacity: 0.3) 
+    background: $color
+    background: rgba($color, $opacity)

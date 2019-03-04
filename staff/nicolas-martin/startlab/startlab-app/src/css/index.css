@@ -1,0 +1,88 @@
+.header {
+  background: #edeff0;
+  margin-bottom: 2em; }
+  .header .icn-logo {
+    background: #54606b;
+    color: #fff; }
+    .header .icn-logo i {
+      font-size: 2.45em;
+      line-height: 0;
+      margin-top: 30px; }
+  @media (min-width: 769px) and (max-width: 1023px) {
+    .header .main-nav {
+      display: flex;
+      flex-wrap: wrap; } }
+
+.register, .login, .home, .invitation-list {
+  padding: 1em 2em; }
+
+.register form {
+  display: flex;
+  flex-direction: column; }
+  .register form input {
+    margin-bottom: 1em; }
+
+.register, .login, .home, .invitation-list {
+  padding: 1em 2em; }
+
+.login form {
+  display: flex;
+  flex-direction: column; }
+  .login form input {
+    margin-bottom: 1em; }
+
+.register, .login, .home, .invitation-list {
+  padding: 1em 2em; }
+
+.register, .login, .home, .invitation-list {
+  padding: 1em 2em; }
+
+* {
+  box-sizing: border-box; }
+
+body {
+  color: #576366;
+  background: #5fcf80;
+  margin: 0;
+  font-family: "Roboto", sans-serif; }
+
+button {
+  color: white;
+  background: #4188dc;
+  padding-left: 1em;
+  padding-right: 1em;
+  cursor: pointer;
+  border-color: rgba(0, 0, 0, 0.1); }
+
+.home a, input, button, textarea {
+  padding: 0.5em;
+  font-size: 0.9em;
+  margin-right: 10px;
+  border: none;
+  border-radius: 3px;
+  border: solid 1px #ccc;
+  outline: none; }
+
+hr {
+  border: 0;
+  height: 0;
+  margin: 2.3em 0 2em 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1); }
+
+h1, h2, ul {
+  margin: 0;
+  padding: 0; }
+
+h2 {
+  color: #404040;
+  font-size: 1.6em;
+  margin-bottom: 1.25em; }
+
+ul {
+  list-style-type: none; }
+
+a {
+  text-decoration: none;
+  color: #3b80d1; }
+
+/*# sourceMappingURL=index.css.map */
