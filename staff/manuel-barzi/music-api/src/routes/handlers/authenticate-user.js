@@ -1,7 +1,7 @@
-const logic = require('../logic')
+const logic = require('../../logic')
 
-const { createToken } = require('../token-helper')
-const { handleResponseError } = require('./route-helper')
+const { createToken } = require('../../token-helper')
+const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
     const { body: { email, password } } = req

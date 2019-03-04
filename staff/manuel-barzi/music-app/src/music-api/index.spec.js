@@ -1,23 +1,55 @@
 'use strict'
 
+require('dotenv').config()
+
 import musicApi from '.'
+const { mongoose, models: { User, Comment } } = require('music-data')
+import bcrypt from 'bcrypt'
 
 jest.setTimeout(10000)
 
+const { env: { TEST_DB_URL } } = process
+
 describe('music api', () => {
+    beforeAll(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
+
+    beforeEach(() =>
+        Promise.all([
+            Comment.deleteMany(),
+            User.deleteMany()
+        ])
+    )
+
     describe('register user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `password-${Math.random()}`
+        const passwordConfirm = password
 
-        it('should succeed on correct data', () =>
-            musicApi.registerUser(name, surname, email, password, password)
-                .then(id => expect(id).toBeDefined())
-        )
+        it('should succeed on valid data', async () => {
+            const id = await musicApi.registerUser(name, surname, email, password, passwordConfirm)
 
-        it('should fail on already existing user', () =>
-            musicApi.registerUser(name, surname, email, password, password)
+            debugger
+
+            expect(id).toBeDefined()
+            expect(typeof id).toBe('string')
+
+            const user = await User.findOne({ email })
+
+            expect(user.name).toBe(name)
+            expect(user.surname).toBe(surname)
+            expect(user.email).toBe(email)
+
+            const match = await bcrypt.compare(password, user.password)
+
+            expect(match).toBeTruthy()
+        })
+
+        it('should fail on already existing user', async () => {
+            await User.create({ name, surname, email, password })
+
+            await musicApi.registerUser(name, surname, email, password, password)
                 .then(() => {
                     throw Error('should not have passed by here')
                 })
@@ -25,7 +57,7 @@ describe('music api', () => {
                     expect(error).toBeDefined()
                     expect(error.message).toBe(`user with email ${email} already exists`)
                 })
-        )
+        })
 
         it('should fail on non-matching password and its confirmation', () =>
             musicApi.registerUser(name, surname, email, password, `non-matching ${password}`)
@@ -189,7 +221,7 @@ describe('music api', () => {
         })
     })
 
-    describe('add comment to artist', () => {
+    false && describe('add comment to artist', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
@@ -207,7 +239,7 @@ describe('music api', () => {
                 .then(_token => token = _token)
         )
 
-        it('should succeed on mathing query', () =>{
+        it('should succeed on mathing query', () => {
             return musicApi.addCommentToArtist(token, artistId, text)
                 .then(id => {
                     expect(id).toBeDefined()
@@ -216,7 +248,7 @@ describe('music api', () => {
         })
     })
 
-    describe('list comments from artist', () => {
+    false && describe('list comments from artist', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
@@ -337,4 +369,12 @@ describe('music api', () => {
             expect(() => musicApi.retrieveTrack(trackId)).toThrowError('trackId is empty')
         })
     })
+
+    afterAll(() =>
+        Promise.all([
+            Comment.deleteMany(),
+            User.deleteMany()
+        ])
+            .then(() => mongoose.disconnect())
+    )
 })
