@@ -1,0 +1,10 @@
+extends ../albums/index
+
+block tracksBlock  
+  section.search.container
+    if tracks
+      ul
+        each track in tracks
+          li
+            | #{track.name}
+            audio(src=`${track.preview_url}`, controls='')
