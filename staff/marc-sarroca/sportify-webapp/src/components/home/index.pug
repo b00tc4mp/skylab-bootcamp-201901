@@ -1,0 +1,15 @@
+extends ../layout
+include ../feedback/index
+
+block content
+  section.home
+    p= `Welcome! ${name}`
+    form(action='/logout', method='post')
+      button(type='submit') Logout
+      if feedback
+        +feedback(feedback, 'error')
+    h2 Search
+      form(action='/search/', method='post')
+        input(type='text', name='query', placeholder='Search an artist...')
+        button(type='submit') Search
+    block artists
