@@ -10,7 +10,7 @@ const osiApi = {
         if (typeof surname !== 'string') throw TypeError(`${surname} should be a string`)
 
         if (!surname.trim().length) throw Error('surname cannot be empty')
-
+    
         if (typeof email !== 'string') throw TypeError(`${email} should be a string`)
 
         if (!email.trim().length) throw Error('email cannot be empty')

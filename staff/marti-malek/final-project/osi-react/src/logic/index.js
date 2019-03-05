@@ -58,7 +58,7 @@ const logic = {
     },
 
     retrieve() {
-        return osiApi.retrieveUser(this.__userApiToken__)
+        return osiApi.retrieve(this.__userApiToken__)
     },
 
     update(data) {
