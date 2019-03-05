@@ -62,7 +62,8 @@ const logic = {
                     .then(match => {
                         if (!match) throw new AuthError('wrong credentials')
 
-                        return user.id
+                        // return user.id
+                        return user
                     })
             })
     },

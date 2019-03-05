@@ -13,7 +13,7 @@
       display: flex;
       flex-wrap: wrap; } }
 
-.register, .login, .home, .invitation-list {
+.register, .login, .home, .exercise-list, .invitation-list {
   padding: 1em 2em; }
 
 .register form {
@@ -22,7 +22,7 @@
   .register form input {
     margin-bottom: 1em; }
 
-.register, .login, .home, .invitation-list {
+.register, .login, .home, .exercise-list, .invitation-list {
   padding: 1em 2em; }
 
 .login form {
@@ -31,10 +31,13 @@
   .login form input {
     margin-bottom: 1em; }
 
-.register, .login, .home, .invitation-list {
+.register, .login, .home, .exercise-list, .invitation-list {
   padding: 1em 2em; }
 
-.register, .login, .home, .invitation-list {
+.register, .login, .home, .exercise-list, .invitation-list {
+  padding: 1em 2em; }
+
+.register, .login, .home, .exercise-list, .invitation-list {
   padding: 1em 2em; }
 
 * {

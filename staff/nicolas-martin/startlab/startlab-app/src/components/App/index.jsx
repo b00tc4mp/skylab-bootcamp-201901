@@ -6,11 +6,10 @@ import Header from '../Header/index'
 import Home from '../Home/index'
 import Register from '../Register/index'
 import Login from '../Login/index'
-import ExercisesList from '../ExerciseList/index'
+import ExerciseList from '../ExerciseList/index'
 import NotFound from '../NotFound/index'
 
 import logic from '../../logic'
-// import InvitationList from '../InvitationList/index'
 
 class App extends Component {
   state = {
@@ -34,16 +33,24 @@ class App extends Component {
     try {
       logic.logInUser(email, password)
         .then(() => {
-          return logic.isAdmin().then(isAdmin => {
-            this.setState({ loginFeedback: null, isAdmin, isLoggedIn: logic.isUserLoggedIn })
-            this.props.history.push('/start')
-          })
 
+          this.setState({ loginFeedback: null, isAdmin: logic.isAdmin, isLoggedIn: logic.isUserLoggedIn })
+          // return logic.checkIsAdmin().then(isAdmin => {
+          //   this.setState({ loginFeedback: null, isAdmin: logic.isAdmin, isLoggedIn: logic.isUserLoggedIn })
+          //   this.props.history.push('/')
+          // })
         })
         .catch(({ message }) => this.showFeedbackLogin(message))
     } catch ({ message }) {
       this.showFeedbackLogin(message)
     }
+  }
+
+  handleLogout = (event) => {
+    event.preventDefault()
+    logic.logOutUser()
+    this.setState({ isAdmin: false, isLoggedIn: false })
+    this.props.history.push('/')
   }
 
   showFeedbackRegister = (message) => {
@@ -59,19 +66,20 @@ class App extends Component {
   render() {
     const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback },
       handleRegister,
-      handleLogin
+      handleLogin,
+      handleLogout
     } = this
 
     return (
       <div className="container">
-        <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
+        <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} onLogOut={handleLogout} />
         <Switch>
           <Route exact path="/" component={Home} />
 
-          <Route exact path="/register" render={() => !isLoggedIn? <Register onRegister={handleRegister} feedback={registerFeedback} /> : <Redirect to='/' />} /> :         
-          <Route exact path="/login" render={() => !isLoggedIn? <Login onLogin={handleLogin} feedback={loginFeedback} /> : <Redirect to='/' /> } />
+          <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} feedback={registerFeedback} /> : <Redirect to='/' />} /> :
+          <Route exact path="/login" render={() => !isLoggedIn ? <Login onLogin={handleLogin} feedback={loginFeedback} /> : <Redirect to='/' />} />
 
-          <Route exact path="/admin/exercises" render={() => isAdmin? <ExercisesList /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList /> : <Redirect to='/' />} />
 
           <Route component={NotFound} />
         </Switch>

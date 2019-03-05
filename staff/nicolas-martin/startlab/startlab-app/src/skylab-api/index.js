@@ -1,5 +1,3 @@
-'use strict'
-
 const skylabApi = {
     url: 'http://localhost:8000/api',
 
@@ -52,7 +50,7 @@ const skylabApi = {
             .then(response => {
                 if (response.error) throw Error(response.error)
 
-                return response.token
+                return response
             })
     },
 
@@ -61,6 +59,23 @@ const skylabApi = {
         if (!token.trim().length) throw Error('token is empty')
 
         return fetch(`${this.url}/isadmin`, {
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.error) throw Error(response.error)
+                        return response
+                    })
+    },
+
+    exerciseList(token){
+        // /admin/exercise/list
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/exercise/list`, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }

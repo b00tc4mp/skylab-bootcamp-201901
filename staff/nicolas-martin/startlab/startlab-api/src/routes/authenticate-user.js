@@ -9,10 +9,9 @@ module.exports = (req, res) => {
     try {
         logic.authenticateUser(email, password)
             // .then(data => res.json(data))
-            .then(userId => {
-                const token = createToken(userId)
-                debugger
-                res.json({ token })
+            .then(user => {
+                const token = createToken(user.id)
+                res.json({ token, isAdmin: user.isAdmin })
             })
             .catch(error => handleResponseError(error, res))
     } catch (error) {
