@@ -1,7 +1,7 @@
 'use strict'
 
 const homeSwappApi = {
-    url: 'localhost:8000/api/',
+    url: 'http://localhost:8000/api/',
 
     register(username, email, password,passwordConfirmation) {
 
@@ -22,7 +22,7 @@ const homeSwappApi = {
 
 
 
-        return fetch(`${this.url}/user`, {
+        return fetch(`${this.url}user`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -33,9 +33,9 @@ const homeSwappApi = {
             .then(response => {
                 const { status } = response
 
-                if (status === 'OK') return response
+                if (status === 409) throw Error(response.error)
+                return response
 
-                throw Error(response.error)
             })
     },
 
