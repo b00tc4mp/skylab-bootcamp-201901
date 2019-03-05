@@ -9,5 +9,12 @@ module.exports = {
 
     removeUser: require('./remove-user'),
 
+    createMessage: require('./create-message'),
+
+    messageRead: require('./message-read'),
+
+    messageDelete: require('./message-delete')
+
+
     // notFound: require('./not-found')
 }

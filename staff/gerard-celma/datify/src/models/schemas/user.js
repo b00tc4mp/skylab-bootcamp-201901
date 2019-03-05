@@ -1,4 +1,5 @@
 const { Schema } = require('mongoose')
+const { Types: { ObjectId } } = Schema
 
 const User = new Schema({
     name: {
@@ -26,7 +27,19 @@ const User = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+
+    msgSent: [{
+        type: ObjectId,
+        required: true,
+        ref: 'Message'
+    }],
+
+    msgReceived: [{
+        type: ObjectId,
+        required: true,
+        ref: 'Message'
+    }]
 })
 
 module.exports = User

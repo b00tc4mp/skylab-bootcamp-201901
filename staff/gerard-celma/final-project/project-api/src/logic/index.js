@@ -1,6 +1,6 @@
 'use strict'
 
-const { models: { User } } = require('datify')
+const { models: { User, Message } } = require('datify')
 const bcrypt = require('bcrypt')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('errorify')
 
@@ -140,7 +140,7 @@ const logic = {
 
         if (_password !== _passwordConfirm) throw new MatchingError('passwords do not match')
 
-        return User.findOneAndUpdate({ _id: userId }, { name: _name, surname: _surname, email: _email, password: _password }).select('-password -__v').lean()
+        return User.findOneAndUpdate({ _id: userId }, { name: _name, surname: _surname, email: _email, password: _password }, {runValidators: true}).select('-password -__v').lean()
             .then((user) => {
                 user.id = user._id.toString()
 
@@ -157,8 +157,78 @@ const logic = {
 
         return User.findOneAndRemove({ _id: userId }).select('-password -__v').lean()
             .then(user => user)
-    }
-    // TODO removeUser
+    },
+
+    createMessage(userIdFrom, userIdTo, date, launchDate, position, text) {
+        if (typeof userIdFrom !== 'string') throw TypeError(`${userIdFrom} is not a string`)
+
+        if (!userIdFrom.trim().length) throw new EmptyError('user id is empty')
+
+        if (typeof userIdTo !== 'string') throw TypeError(`${userIdTo} is not a string`)
+
+        if (!userIdTo.trim().length) throw new EmptyError('user id is empty')
+
+        // verify date, launchDate, position, text
+
+        return Message.create({userIdFrom, userIdTo, date, launchDate, position, text})
+            .then(message => {
+                User.findById(userIdFrom)
+                    .then(user => {
+                        user.msgSent.push(message._id)
+                        return user.save()
+                    })
+                User.findById(userIdTo)
+                    .then(user => {
+                        user.msgReceived.push(message._id)
+                        return user.save()
+                    }) 
+                return message    
+            })
+    },
+
+    messageRead(userIdTo, msgId) {
+        if (typeof msgId !== 'string') throw TypeError(`${msgId} is not a string`)
+
+        if (!msgId.trim().length) throw new EmptyError('user id is empty')
+
+        return User.findById(userIdTo)
+                .then(user => {
+                    let msg = user.msgReceived.filter(m => m.toString() !== msgId)
+                    user.msgReceived = msg
+                    user.save()
+                    return {status: 'OK'}
+                })
+    },
+  
+    messageDelete(userId, msgId){
+        if (typeof msgId !== 'string') throw TypeError(`${msgId} is not a string`)
+
+        if (!msgId.trim().length) throw new EmptyError('user id is empty')
+
+        Promise.all([
+            User.findById(userId)
+                .then(user => {
+                    let msg = user.msgSent.filter(m => m.toString() !== msgId)
+                    user.msgSent = msg
+                    user.save() 
+                    return user
+                }),
+            Message.findById(msgId)
+                .then(message => {
+                    User.findById(message.userIdTo)
+                    .then(user => {
+                        let msg = user.msgReceived.filter(m => m.toString() !== msgId)
+                        user.msgReceived = msg
+                        user.save()
+                    })
+                    return message
+                }),
+            Message.findByIdAndDelete(msgId)
+                .then(message => message)       
+        ]).then(values => console.log(values))
+    }     
 }
 
 module.exports = logic
+
+
