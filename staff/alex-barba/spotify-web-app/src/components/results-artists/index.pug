@@ -1,0 +1,13 @@
+extends ../home/index
+
+block artists
+    div(class='uk-child-width-1-2@m uk-grid-match uk-margin-top', uk-grid, uk-scrollspy="cls: uk-animation-fade; target: > div > a > .uk-card; delay: 300; repeat: true")
+        each artist in artists
+            div
+                a(href=`home&artist&${artist.id}`)
+                    div(class='uk-card uk-card-default uk-card-hover')
+                        div.uk-card-media-top.uk-text-center
+                            img(src=`${artist.images[0] ? artist.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='uk-margin-top', data-srcset="", sizes="", width="", height="", alt="", uk-img)
+                        div.uk-card-body.uk-text-center
+                            h3.uk-card-title= artist.name
+                    
