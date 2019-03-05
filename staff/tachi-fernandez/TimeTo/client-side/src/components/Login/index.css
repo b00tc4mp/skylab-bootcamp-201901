@@ -1,0 +1,27 @@
+.login {
+  background-color: red;
+  height: 300px;
+}
+.login__title {
+  display: flex;
+  justify-content: center;
+}
+.login__input {
+  height: 150px;
+  background-color: green;
+  display: flex;
+  justify-content: center;
+}
+.login__input-email {
+  display: flex;
+}
+.login__button {
+  display: flex;
+}
+.login__link {
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+}
+
+/*# sourceMappingURL=index.css.map */
