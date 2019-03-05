@@ -38,5 +38,3 @@ Horroy.prototype.toString = function() {
 
     return string;
 };
-
-
