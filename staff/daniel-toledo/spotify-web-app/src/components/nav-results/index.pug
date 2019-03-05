@@ -1,0 +1,15 @@
+mixin navResults(query, artistId, albumId)
+    nav(class='resultsNav')
+        ul(class='resultsNav__list')
+
+            li(class='nav-item active')
+                a(class='nav-link ml-3', href=`/search&q=${query}`) Artists
+        
+            if artistId
+                li(class='nav-item active')
+                    a(class='nav-link ml-3', href=`/search&artist=${artistId}`)  Albums
+            
+            if albumId
+                li(class='nav-item active')
+                    a(class='nav-link ml-3', href=`/search&album=${albumId}`) Tracks
+
