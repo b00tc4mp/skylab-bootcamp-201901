@@ -8,7 +8,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const logic = require('./logic')
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createDir, createFile } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createDir, createFile, retrieveFile } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -38,6 +38,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/create/dir', jsonBodyParser, createDir)
 
         router.post('/create/file', jsonBodyParser, createFile)
+
+        router.get('/file', retrieveFile)
 
         // router.get('*', notFound)
 

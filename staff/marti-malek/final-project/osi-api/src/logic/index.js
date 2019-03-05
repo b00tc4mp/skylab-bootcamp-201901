@@ -47,7 +47,7 @@ const logic = {
             const user = await User.findOne({ email })
 
             if (user) throw Error(`user with email ${email} already exists`)
-            debugger
+
             const hash = await bcrypt.hash(password, 10)
 
             const { id } = await User.create({ name, surname, email, password: hash })
@@ -209,18 +209,55 @@ const logic = {
 
             const dirPath = `${__dirname}/../data/${data}`
 
+            fileContent.date = Date.now()
+
+            fileContent.filePath = `${fileContent.name}`
+            
             if (!fs.existsSync(dirPath)) {
                 await fs.mkdirSync(dirPath)
             }
 
             if (!fs.existsSync(`${dirPath}/${fileContent.name}`)) {
-                await fs.writeFileSync(`${dirPath}/${fileContent.name}`, JSON.stringify(fileContent), err => {
-                    if (err) console.log(err)
-                    else console.log('Nice!')
-                })
+                fs.writeFileSync(`${dirPath}/${fileContent.name}`, JSON.stringify(fileContent))
+                // const ws = await fs.createWriteStream(`${dirPath}/${fileContent.name}`)
+                // const rs = await fs.createReadStream(`${dirPath}/${fileContent.name}`)
+                // debugger
+                // fileContent.pipe(ws)
             }
 
-            return 'Done'
+            return `${fileContent.filePath}`
+        })()
+    },
+
+    retrieveFile(token, filePath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+        
+        return (async () => {
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+
+            const dirPath = `${__dirname}/../data/${data}/${filePath}`
+
+            if (!fs.existsSync(dirPath)) throw Error('File not found')
+            // const { data } = await jwt.verify(token, this.jwtSecret)
+
+            // const dirPath = `${__dirname}/../data/${data}`
+
+            // const dirContent = await fs.readdirSync(filePath)
+
+            const rs = await JSON.parse(fs.readFileSync(dirPath)) // Object
+
+            // const rs = await fs.readFileSync(dirPath) // Buffer
+
+            return rs
         })()
     }
 }

@@ -9,6 +9,7 @@ const { User } = require('../models')
 const logic = require('.')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const fs = require('fs')
 
 const { env: { DB_URL_TEST, JWT_SECRET } } = process
 
@@ -736,6 +737,166 @@ describe('logic', () => {
         it('should fail on empty token instead of string', () => {
             _token = ''
             expect(() => logic.removeUser(_token)).to.throw(Error, `token cannot be empty`)
+        })
+    })
+
+    describe('create dir', () => {
+        let name = 'm'
+        let surname = 'm'
+        let email
+        let password
+        let _token, userId
+
+        beforeEach(async () => {
+
+            email = `m-${Math.random()}@mail.com`
+            password = 'm'
+
+            const hash = await bcrypt.hash(password, 10)
+
+            await User.create({ name, surname, email, password: hash })
+
+            const user = await User.findOne({ email })
+
+            userId = user.id
+
+            _token = jwt.sign({
+                data: user.id
+            }, JWT_SECRET, { expiresIn: '48h' })
+        })
+
+        it('should succeed on correct params', () => {
+            return logic.createDir(_token)
+                .then(res => {
+                    expect(res).to.equal('Done')
+                    expect(fs.existsSync(`${__dirname}/../data/${userId}`)).to.be.true
+                })
+        })
+
+        afterEach(() => {
+            if (fs.existsSync(`${__dirname}/../data/${userId}`)) {
+                fs.rmdirSync(`${__dirname}/../data/${userId}`)
+            }
+        })
+    })
+
+    describe('create file', () => {
+        let name = 'm'
+        let surname = 'm'
+        let email
+        let password
+        let _token, userId
+        let fileContent = {
+            name: 'testFile',
+            type: '.txt',
+            content: 'hello',
+        }
+
+        beforeEach(async () => {
+
+            email = `m-${Math.random()}@mail.com`
+            password = 'm'
+
+            const hash = await bcrypt.hash(password, 10)
+
+            await User.create({ name, surname, email, password: hash })
+
+            const user = await User.findOne({ email })
+
+            userId = user.id
+
+            _token = jwt.sign({
+                data: user.id
+            }, JWT_SECRET, { expiresIn: '48h' })
+        })
+
+        it('should succeed on correct params', () => {
+            return logic.createFile(_token, fileContent)
+                .then(res => {
+                    expect(res).to.equal(`${fileContent.name}`)
+                    expect(fs.existsSync(`${__dirname}/../data/${userId}`)).to.be.true
+                    const content = fs.readdirSync(`${__dirname}/../data/${userId}`)
+                    expect(content[0]).to.equal(fileContent.name)
+                    const file = fs.readFileSync(`${__dirname}/../data/${userId}/${fileContent.name}`)
+                    expect(file).to.exist
+                    expect(file.constructor).to.equal(Buffer)
+                    expect(JSON.parse(file).name).to.equal(fileContent.name)
+                    expect(JSON.parse(file).type).to.equal(fileContent.type)
+                    expect(JSON.parse(file).content).to.equal(fileContent.content)
+                })
+        })
+
+        afterEach(() => {
+            if (fs.existsSync(`${__dirname}/../data/${userId}`)) {
+                const content = fs.readdirSync(`${__dirname}/../data/${userId}`)
+                content.forEach(file => {
+                    fs.unlinkSync(`${__dirname}/../data/${userId}/${file}`)
+                })
+                fs.rmdirSync(`${__dirname}/../data/${userId}`)
+            }
+        })
+    })
+
+    describe('retrieve file', () => {
+        let name = 'm'
+        let surname = 'm'
+        let email
+        let password
+        let _token, userId
+        let fileContent = {
+            name: 'testFile',
+            type: '.txt',
+            content: 'hello',
+            date: Date.now(),
+        }
+        let dirPath
+
+        beforeEach(async () => {
+
+            email = `m-${Math.random()}@mail.com`
+            password = 'm'
+
+            const hash = await bcrypt.hash(password, 10)
+
+            await User.create({ name, surname, email, password: hash })
+
+            const user = await User.findOne({ email })
+
+            userId = user.id
+
+            _token = jwt.sign({
+                data: user.id
+            }, JWT_SECRET, { expiresIn: '48h' })
+
+            dirPath = `${__dirname}/../data/${userId}`
+
+            fileContent.filepath = dirPath
+
+
+            await fs.mkdirSync(dirPath)
+
+            await fs.writeFileSync(`${dirPath}/${fileContent.name}`, JSON.stringify(fileContent))
+        })
+
+        it('should succeed on correct params', async () => {
+            const file = await logic.retrieveFile(_token, `${fileContent.name}`)
+
+            expect(file).to.exist
+            expect(file).to.be.an('object')
+            expect(file.name).to.equal(fileContent.name)
+            expect(file.type).to.equal(fileContent.type)
+            expect(file.content).to.equal(fileContent.content)
+
+        })
+
+        afterEach(() => {
+            if (fs.existsSync(`${__dirname}/../data/${userId}`)) {
+                const content = fs.readdirSync(`${__dirname}/../data/${userId}`)
+                content.forEach(file => {
+                    fs.unlinkSync(`${__dirname}/../data/${userId}/${file}`)
+                })
+                fs.rmdirSync(`${__dirname}/../data/${userId}`)
+            }
         })
     })
 

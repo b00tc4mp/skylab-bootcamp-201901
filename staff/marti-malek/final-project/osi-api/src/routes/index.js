@@ -5,5 +5,6 @@ module.exports = {
     updateUser: require('./update-user'),
     removeUser: require('./remove-user'),
     createDir: require('./create-dir'),
-    createFile: require('./create-file')
+    createFile: require('./create-file'),
+    retrieveFile: require('./retrieve-file')
 }
