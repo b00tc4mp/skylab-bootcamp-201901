@@ -6,7 +6,7 @@ import logic from '../../logic';
 
 class Register_Pet extends Component {
 
-    state = { users: [], name: '', specie: '', breed: '', color: '', gender: '', birthdate: '', microchip: '', petlicence: '', neutered: '', vaccionations: '', controls: '', details: '', isRegister: false ,error: null }
+    state = { users: [], owner: null, name: '', specie: '', breed: '', color: '', gender: '', birthdate: '', microchip: '', petlicence: '', neutered: '', vaccionations: '', controls: '', details: '', isRegisterPet: false, error: null }
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
@@ -18,9 +18,9 @@ class Register_Pet extends Component {
     handleSelectChange = async event => {
         event.preventDefault()
         const userId = event.target.value 
+        console.log(userId)
         if (!userId) return
-        const {name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details} = await logic.retrieveUser(userId)
-        this.setState({name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
+        this.setState({owner: userId})
     }
 
     componentDidMount(){
@@ -29,10 +29,9 @@ class Register_Pet extends Component {
 
 
     handleRegisterSubmit = event => {
-        debugger
         event.preventDefault()
-        const { state: { name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details} } = this
-        this.registerPet({ name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details })
+        const { state: { owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details} } = this
+        this.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
 
     }
 
@@ -42,10 +41,10 @@ class Register_Pet extends Component {
     }
 
 
-    registerPet = async (name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) => {
+    registerPet = async (owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) => {
         try {
-            await logic.registerPet(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-            this.setState({isRegister: true})
+            await logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+            this.setState({isRegisterPet: true})
         } catch ({ message }) {
             this.setState({ error: message })
         }
@@ -146,10 +145,11 @@ class Register_Pet extends Component {
                 <textarea class="form-control" name="details" onChange={this.handleOnChange} rows="10"></textarea>
             </div> 
            
-            <button type="button" class="btn btn-primary login">Sign in</button>
+            <button type="submit" class="btn btn-primary login">Sign in</button>
             <button className="button__home" onClick={this.handleGoHome}>Go Home</button>
-            {this.state.error && <p className= "feedbackError">{this.state.error}</p>} 
-            {this.state.isRegister && <p className= "feedback__Ok">You have successfully registered {this.state.name}</p>}
+            {this.state.error && <p className= "feedback__Error">{this.state.error}</p>} 
+            {this.state.isRegisterPet && <p className= "feedback__Ok">You have successfully registered {this.state.name}</p>}
+            
             </div>
         </form>
 

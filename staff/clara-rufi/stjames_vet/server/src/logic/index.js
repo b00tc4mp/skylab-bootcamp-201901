@@ -107,7 +107,12 @@ const logic = {
     * @param {string} details 
     */
 
-    registerPet(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) {
+    registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) {
+        
+        if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
+
+        if (!owner.trim().length) throw Error('owner cannot be empty')
+        
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
         if (!name.trim().length) throw Error('name cannot be empty')
@@ -156,12 +161,12 @@ const logic = {
 
         // if (!details.trim().length) throw Error ('details cannot be empty')
 
-        console.log(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+        console.log(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
        
 
         return (async () => {
            
-        const pet = new Pet ({name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
+        const pet = new Pet ({owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
 
         await pet.save()
         

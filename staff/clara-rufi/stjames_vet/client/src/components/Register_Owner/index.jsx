@@ -100,7 +100,7 @@ class Register_Owner extends Component {
             {this.state.isLogin &&<button type="submit" className="button">Sign in</button>}
             <button className="button__home" onClick={this.handleGoHome}>Go Home</button>
             {this.state.isRegister &&<button className="button" onClick={this.handleGoLogin}>Go Login</button>}
-            {this.state.error && <p className= "feedbackError">{this.state.error}</p>} 
+            {this.state.error && <p className= "feedback__Error">{this.state.error}</p>} 
             {this.state.isRegister && <p className= "feedback__Ok">You have successfully registered {this.state.name}</p>}
             </div>
         </form>

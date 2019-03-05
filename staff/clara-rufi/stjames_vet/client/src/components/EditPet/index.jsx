@@ -14,7 +14,6 @@ class EditPet extends Component {
     }
 
     componentDidMount() {
-        debugger
         this.retrieveUsers()
         // this.retrievePet()
     }

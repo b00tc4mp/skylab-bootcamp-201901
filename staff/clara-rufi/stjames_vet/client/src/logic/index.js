@@ -7,7 +7,6 @@
 const logic = {
     url: 'http://localhost:8000/api',
     __userId__: null,
-    __petId__: null,  ///////////////////////////////////////////????????????
     __userApiToken__: null,
     __updateToken__(){
         this.__userApiToken__ = sessionStorage.getItem('__userToken__')
@@ -87,6 +86,7 @@ const logic = {
     /**
     * Registers a owner's pet.
     * 
+    * @param {string} owner 
     * @param {string} name 
     * @param {string} specie
     * @param {string} breed
@@ -100,7 +100,12 @@ const logic = {
     * @param {string} controls
     * @param {string} details
     */
-    registerPet(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details) {
+    registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details) {
+        
+        if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
+
+        if (!owner.trim().length) throw Error('owner cannot be empty')
+
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
         if (!name.trim().length) throw Error('name cannot be empty')
@@ -151,24 +156,23 @@ const logic = {
         if (!details.trim().length) throw Error ('details cannot be empty')
 
 
-        console.log(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+        console.log(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
        debugger
         return fetch(`${this.url}/pet`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
+            body: JSON.stringify({owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
         })
             .then(response => response.json())
-            .then(response => {
-                const { status } = response
-                debugger
-                if (status === 'OK') return response.data.id
-
-                throw Error(response.error)
+            .then(({ id, error }) => {
+                if (error) throw Error(error)
+        
+                return id
             })
     },
+   
 
     /**
      * Logs in the user by its credentials.

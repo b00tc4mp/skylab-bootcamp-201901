@@ -4,7 +4,7 @@ const { Schema } = require('mongoose')
 const Pet = new Schema({
 
 
-    owner: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    owner: { type: Schema.Types.ObjectId, ref: 'User' },
 
     name: {
         type: String,

@@ -1,10 +1,10 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { body: { name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details } } = req
+    const { body: { owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details } } = req
     try {
         debugger
-        logic.registerPet(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+        logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
          
             .then(id => res.json({message: 'OK'}))
             
