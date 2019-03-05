@@ -5,6 +5,8 @@ require('dotenv').config()
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const fs = require('fs')
+const path = require('path')
 
 const logic = {
     jwtSecret: null,
@@ -53,7 +55,16 @@ const logic = {
             return id
         })()
     },
-
+    /**
+     * 
+     * Authenticates the user by it's credentials.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * 
+     * @throws {Error} - On empty data
+     * @throws {TypeError} - On invalid data type
+     */
     authenticateUser(email, password) {
 
         if (typeof email !== 'string') throw TypeError(`${email} should be a string`)
@@ -84,14 +95,22 @@ const logic = {
             return token
         })()
     },
-
+    /**
+     * 
+     * Retrieves the user's data from it's token.
+     * 
+     * @param {string} token 
+     * 
+     * @throws {Error} - On empty data
+     * @throws {TypeError} - On invalid data type
+     */
     retrieveUser(token) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
-        return (async() => {
-            
+        return (async () => {
+
             const verToken = await jwt.verify(token, this.jwtSecret)
 
             const user = await User.findById(verToken.data).select('-__v -password').lean()
@@ -105,7 +124,16 @@ const logic = {
             return user
         })()
     },
-
+    /**
+     * 
+     * Updates the user's data from it's token.
+     * 
+     * @param {string} token 
+     * @param {Object} data 
+     * 
+     * @throws {Error} - On empty data
+     * @throws {TypeError} - On invalid data type
+     */
     updateUser(token, data) {
 
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
@@ -113,11 +141,11 @@ const logic = {
         if (!token.trim().length) throw Error('token cannot be empty')
 
         if (!data) throw Error('data must exist')
-        
+
         if (data.constructor !== Object) throw TypeError(`${data} should be an object`)
 
-        return (async() => {
-            
+        return (async () => {
+
             const verToken = await jwt.verify(token, this.jwtSecret)
 
             const user = await User.findByIdAndUpdate(verToken.data, data).select('-__v -password').lean()
@@ -127,18 +155,72 @@ const logic = {
             return true
         })()
     },
-
+    /**
+     * 
+     * Removes the user from DB by it's token.
+     * 
+     * @param {string} token 
+     * 
+     * @throws {Error} - On empty data
+     * @throws {TypeError} - On invalid data type
+     */
     removeUser(token) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
-        return (async() => {
+        return (async () => {
             const verToken = await jwt.verify(token, this.jwtSecret)
 
             await User.findByIdAndDelete(verToken.data)
 
             return true
+        })()
+    },
+
+    createDir(token) {
+
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return (async () => {
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            if (!fs.existsSync(`${__dirname}/../data/${data}`)) {
+                await fs.mkdirSync(`${__dirname}/../data/${data}`)
+            }
+
+            return 'Done'
+        })()
+    },
+
+    createFile(token, fileContent) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!fileContent) throw Error(`fileContent must exist`)
+
+        if (fileContent.constructor !== Object) throw TypeError(`${fileContent} should be an object`)
+
+        return (async () => {
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            const dirPath = `${__dirname}/../data/${data}`
+
+            if (!fs.existsSync(dirPath)) {
+                await fs.mkdirSync(dirPath)
+            }
+
+            if (!fs.existsSync(`${dirPath}/${fileContent.name}`)) {
+                await fs.writeFileSync(`${dirPath}/${fileContent.name}`, JSON.stringify(fileContent), err => {
+                    if (err) console.log(err)
+                    else console.log('Nice!')
+                })
+            }
+
+            return 'Done'
         })()
     }
 }
