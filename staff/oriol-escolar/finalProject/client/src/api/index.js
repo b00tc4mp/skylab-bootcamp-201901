@@ -1,11 +1,9 @@
 'use strict'
 
-const userApi = {
+const homeSwappApi = {
     url: 'localhost:8000/api/',
 
     register(username, email, password,passwordConfirmation) {
-        if (typeof username !== 'string') throw TypeError(`${username} is not a string`)
-        if (!username.trim().length) throw Error('username is empty')
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
         if (!email.trim().length) throw Error('email is empty')
@@ -35,7 +33,7 @@ const userApi = {
             .then(response => {
                 const { status } = response
 
-                if (status === 'OK') return response.data.id
+                if (status === 'OK') return response
 
                 throw Error(response.error)
             })
@@ -115,4 +113,4 @@ const userApi = {
 
 }
 
-export default userApi
+export default homeSwappApi

@@ -1,6 +1,5 @@
 'use strict'
-import userApi from '../user-api'
-import ticketmasterApi from '../ticketmaster-api';
+import homeSwappApi from '../api'
 
 /**
  * Abstraction of business logic.
@@ -62,7 +61,7 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        return userApi.register(username, email, password,passwordConfirmation)
+        return homeSwappApi.register(username, email, password,passwordConfirmation)
             .then(() => { })
     },
 
@@ -86,10 +85,11 @@ const logic = {
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        return userApi.authenticate(email, password)
+        return homeSwappApi.authenticate(email, password)
             .then((data) => {
                 // this.setUserId(data.id)
-                this.setUserApiToken(data.token)
+                this.setUserApiToken(data)
+                console.log('succeed')
                 return data
             })
     },
@@ -105,13 +105,13 @@ const logic = {
      */
 
     retrieveUser() {
-        return userApi.retrieve(this.getUserApiToken())
-            .then(({ id, username, myHouses, username, favorites }) => ({
+        return homeSwappApi.retrieve(this.getUserApiToken())
+            .then(({ id, myHouses, username, email }) => ({
                 id,
                 username,
                 email,
                 myHouses,
-                favorites
+                
                 
             }))
     },
@@ -130,7 +130,7 @@ const logic = {
     updateUser(data) {
         if (data.constructor !== Object) throw TypeError(data + 'is not an Object')
 
-        return userApi.update(this.getUserId(), this.getUserApiToken(), data)
+        return homeSwappApi.update(this.getUserId(), this.getUserApiToken(), data)
     },
 
 
@@ -148,7 +148,7 @@ const logic = {
     toggleFavourite(favouriteId) {
         let isFav = false
 
-        return userApi.retrieve(this.getUserId(), this.getUserApiToken())
+        return homeSwappApi.retrieve(this.getUserId(), this.getUserApiToken())
             .then(({ favourites }) => {
 
                 const hasFav = favourites.some(function (fav) {
@@ -165,7 +165,7 @@ const logic = {
                     favourites.push(favouriteId)
                 }
 
-                return userApi.update(this.getUserId(), this.getUserApiToken(), { favourites: favourites })
+                return homeSwappApi.update(this.getUserId(), this.getUserApiToken(), { favourites: favourites })
                     .then(() => isFav)
 
             })
@@ -183,7 +183,7 @@ const logic = {
      */
 
     checkFavourite(favouriteId) {
-        return userApi.retrieve(this.getUserId(), this.getUserApiToken())
+        return homeSwappApi.retrieve(this.getUserId(), this.getUserApiToken())
             .then(({ favourites }) => {
                 return favourites.some(function (fav) {
                     return fav === favouriteId;

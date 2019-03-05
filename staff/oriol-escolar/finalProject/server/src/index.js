@@ -12,7 +12,7 @@ const cors = require('./cors')
 
 const { registerUser, authenticateUser, retrieveUser, updateUser, notFound } = require('./routes')
 
-const { env: { DB_URL, PORT, SPOTIFY_API_TOKEN, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
+const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {

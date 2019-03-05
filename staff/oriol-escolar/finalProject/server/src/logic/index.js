@@ -20,7 +20,7 @@ const logic = {
     registerUser(username, email, password, passwordConfirmation) {
         if (typeof username !== 'string') throw TypeError(username + ' is not a string')
 
-        if (!username.trim().length) throw Error('name cannot be empty')
+        if (!username.trim().length) throw Error('username cannot be empty')
 
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
