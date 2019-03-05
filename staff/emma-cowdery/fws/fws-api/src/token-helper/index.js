@@ -1,6 +1,6 @@
 'use strict'
 
-jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 const tokenHelper = {
     jwtSecret: null,

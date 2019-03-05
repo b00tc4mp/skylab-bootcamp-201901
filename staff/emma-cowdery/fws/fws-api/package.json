@@ -20,11 +20,11 @@
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "fws-data": "file:../fws-data",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.15",
-    "uuid": "^3.3.2",
-    "fws-data": "file:../fws-data"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",

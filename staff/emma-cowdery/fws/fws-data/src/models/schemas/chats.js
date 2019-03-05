@@ -2,8 +2,7 @@ const { Schema } = require('mongoose')
 
 const Chats = new Schema({
     userIds: [{
-        type: String,
-        unique: true
+        type: String
     }],
 
     chatName: {
@@ -29,6 +28,10 @@ const Chats = new Schema({
 
             text: {
                 type: String
+            },
+
+            date: {
+                type: Date
             }
         }
     }

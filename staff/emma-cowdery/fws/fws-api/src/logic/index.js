@@ -78,7 +78,7 @@ const logic = {
                     const match = await bcrypt.compare(password, user.password)
                     
                     if (!match) throw Error('wrong credentials')
-                    
+
                     return user.id
 
                 } else {
@@ -102,7 +102,7 @@ const logic = {
      * @param {string} userId 
      */
     retrieveUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a stringo`)
         if (!userId.trim().length) throw Error('userId is empty')
 
         return (async () => {
@@ -122,30 +122,30 @@ const logic = {
 
     // }
 
-    // /**
-    //  * 
-    //  * @param {string} userId 
-    //  * @param {string} password 
-    //  */
-    // removeUser(userId, password) {
-    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-    //     if (!userId.trim().length) throw Error('userId is empty')
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} password 
+     */
+    removeUser(userId, password) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
 
-    //     if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-    //     if (!password.trim().length) throw new EmptyError('password cannot be empty')
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+        if (!password.trim().length) throw new EmptyError('password cannot be empty')
 
-    //     return (async () => {
-    //         const user = await Users.findById(userId)
+        return (async () => {
+            const user = await Users.findById(userId)
 
-    //         if (!user) throw Error(`user with id ${userId} not found`)
+            if (!user) throw Error(`user with id ${userId} not found`)
 
-    //         const match = await bcrypt.compare(password, user.password)
+            const match = await bcrypt.compare(password, user.password)
 
-    //         if (!match) throw Error('wrong credentials')
+            if (!match) throw Error('wrong credentials')
 
-    //         delete user
-    //     })()
-    // },
+            Users.deleteOne(user)
+        })()
+    },
 
     /**
      * 
@@ -176,11 +176,19 @@ const logic = {
 
             const event = await Events.create({ restaurantId, eventTime, eventDate })
 
-            const { id, participants = [] } = event
+            const { participants = [], id } = event
 
             participants.push(userId)
 
-            Events.findByIdAndUpdate(id, participants)
+            event.save()
+
+            const user = await Users.findById(userId)
+
+            const { events = [] } = user
+
+            events.push(id)
+
+            user.save()
 
             return id
         })()
@@ -210,10 +218,39 @@ const logic = {
             if (index < 0) participants.push(userId)
             else participants.splice(index, 1)
 
-            return Events.findByIdAndUpdate(eventId, event)
+            event.save()
+
+            const user = await Users.findById(userId)
+
+            const { events = [] } = user
+
+            const index2 = events.findIndex(_eventId => _eventId === eventId)
+
+            if (index2 < 0) events.push(eventId)
+            else events.splice(index2, 1)
+
+            user.save()
+
+            return event
         })()
     },
 
+    /**
+     * 
+     * @param {string} userId 
+     */
+    userEvents(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            const user = await Users.findById(userId)
+
+            const { events } = user
+
+            return await Promise.all(events.map(async chatId => await Chats.findById(chatId)))
+        })()
+    },
 
     /**
      * 
@@ -238,7 +275,15 @@ const logic = {
 
             userIds.push(userId)
 
-            Chats.findByIdAndUpdate(id, userIds)
+            chat.save()
+
+            const user = await Users.findById(userId)
+
+            const { chatRooms = [] } = user
+
+            chatRooms.push(id)
+
+            user.save()
 
             return id
         })()
@@ -261,12 +306,59 @@ const logic = {
 
             if (!chat) throw Error('unable to join chat room')
 
-            const { id, userIds = [] } = chat
+            const { userIds = [] } = chat
 
-            userIds.push(userId)
+            const index = userIds.findIndex(_userId => _userId === userId)
 
-            return Chats.findByIdAndUpdate(id, userIds)
+            if (index < 0) userIds.push(userId)
+            else userIds.splice(index, 1)
+
+            chat.save()
+
+            const user = await Users.findById(userId)
+
+            const { chatRooms = [] } = user
+
+            const index2 = chatRooms.findIndex(_chatId => _chatId === chatId)
+
+            if (index2 < 0) chatRooms.push(chatId)
+            else chatRooms.splice(index2, 1)
+
+            user.save()
+
+            return chat
         })()
+    },
+
+    /**
+     * 
+     * @param {string} userId 
+     */
+    userChats(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            const user = await Users.findById(userId)
+
+            const { chatRooms } = user
+
+            return await Promise.all(chatRooms.map(async chatId => await Chats.findById(chatId)))
+        })()
+    },
+
+    addMessageToChat(userId, chatId, text) {
+        return (async () => {
+            const chat = await Chats.findById(chatId)
+
+            const message = {userId: userId, text: text, date: new Date}
+
+            const { messages = [] } = chat
+
+            messages.push(message)
+
+            return chat.save()
+        })
     }
 }
 
