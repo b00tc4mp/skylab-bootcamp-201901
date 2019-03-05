@@ -7,6 +7,7 @@ const {
 const httpStatus = require('http-status');
 const { questionSchema } = require('./question.model');
 const { User } = require('./user.model');
+const { NotFoundError } = require('../errors/index');
 
 /**
  * Quiz Schema
@@ -61,6 +62,23 @@ quizSchema.method({
 });
 
 /**
+ * Pre middlewares
+ */
+// quizSchema.pre('save', async function(next, req) {
+
+// 	if(!this.isModified() === true) {
+// 	}
+
+// 	// try {
+// 	// 	if (!this.isModified()) return;
+// 	// 	const hash = await bcrypt.hash(this.password, 10);
+// 	// 	this.author = hash;
+// 	// } catch (error) {
+// 	// 	return new Error(error);
+// 	// }
+// });
+
+/**
  * Statics
  */
 quizSchema.statics = {
@@ -78,10 +96,7 @@ quizSchema.statics = {
 				return quiz;
 			}
 
-			throw new Error({
-				message: 'Quiz does not exist',
-				status: httpStatus.NOT_FOUND,
-			});
+			throw new NotFoundError('Quiz does not exist');
 		} catch (error) {
 			throw error;
 		}
@@ -93,10 +108,7 @@ quizSchema.statics = {
 	 * @returns {Promise<Quiz[]>}
 	 */
 	list() {
-		return (
-			this.find()
-				.exec()
-		);
+		return this.find().exec();
 	},
 };
 

@@ -2,7 +2,7 @@ const express = require('express');
 
 const controller = require('../../controllers/quiz.controller');
 
-const { authorize } = require('../../midelware/auth');
+const { authorize, isAuthor } = require('../../midelware/auth');
 
 const router = express.Router();
 
@@ -16,6 +16,10 @@ router
 	.get(controller.list)
 	.post(authorize, controller.create);
 
-router.route('/:quizId').get(controller.get);
-// .put(controller.replace);
+router
+	.route('/:quizId')
+	.get(controller.get)
+	.patch(authorize, isAuthor, controller.update)
+	.delete(authorize, isAuthor, controller.remove);
+
 module.exports = router;

@@ -23,10 +23,23 @@ module.exports = {
 		]);
 
 		return (async data => {
-			debugger;
 			const quiz = new Quiz(data);
 			const savedQuiz = await quiz.save();
-			return savedQuiz.normalize()
+			return savedQuiz.normalize();
 		})(data);
+	},
+
+	updateQuiz(quiz, data) {
+		return (async (quiz, data) => {
+			const quizUpdated = Object.assign(quiz, data);
+			const savedQuiz = await quizUpdated.save();
+			return savedQuiz.normalize();
+		})(quiz, data);
+	},
+
+	deleteQuiz(quiz) {
+		return (async quiz => {
+			return quiz.remove();
+		})(quiz);
 	},
 };

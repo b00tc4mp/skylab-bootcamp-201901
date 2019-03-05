@@ -8,7 +8,8 @@ const httpStatus = require('http-status');
 //     NotFoundError,
 const {
 	AlreadyExistsError,
-	UnauthorizedError
+	UnauthorizedError,
+	NotFoundError
 } = require('../../errors');
 
 module.exports = {
@@ -23,7 +24,9 @@ module.exports = {
 		// 	error instanceof MatchingError
 		// )
 		// 	status = 412;
-		if (error instanceof UnauthorizedError) status = httpStatus.UNAUTHORIZED;
+		
+		if (error instanceof NotFoundError) status = httpStatus.NOT_FOUND;
+		else if (error instanceof UnauthorizedError) status = httpStatus.UNAUTHORIZED;
 		else if (error instanceof AlreadyExistsError) status = httpStatus.CONFLICT;
 		else status = 500;
 

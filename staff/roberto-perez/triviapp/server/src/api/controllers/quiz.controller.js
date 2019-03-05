@@ -4,6 +4,7 @@ const httpStatus = require('http-status');
 const { Quiz } = require('../models/quiz.model');
 const quiz = require('../logic/quiz');
 const { handleResponseError } = require('../routes/routes-helper');
+const { UnauthorizedError } = require('../errors');
 
 /**
  * Load user and append to req.
@@ -15,7 +16,7 @@ exports.load = async (req, res, next, id) => {
 		req.locals = { quiz };
 		return next();
 	} catch (error) {
-		return next(error);
+		handleResponseError(error, res);
 	}
 };
 
@@ -38,24 +39,37 @@ exports.list = async (req, res) => {
 	}
 };
 
-
 exports.create = async (req, res) => {
-    try {
-        const quizAdd = await quiz.createQuiz(req.body);
-        res.status(httpStatus.CREATED);
-        return res.json(quizAdd);
+	try {
+		req.body.author = req.userId;
+		const quizAdd = await quiz.createQuiz(req.body);
+		res.status(httpStatus.CREATED);
+		return res.json(quizAdd);
 	} catch (error) {
 		handleResponseError(error, res);
 	}
 };
 
+exports.update = async (req, res) => {
+	try {
+		const quizUpdated = await quiz.updateQuiz(req.locals.quiz, req.body);
+		res.status(httpStatus.OK);
+		return res.json(quizUpdated);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
 
-// exports.replace = async (req, res) => {
-//     try {
-//         const quizUpdated = await quiz.updateQuiz(req.body);
-//         res.status(httpStatus.CREATED);
-//         return res.json(quizUpdated);
-// 	} catch (error) {
-// 		handleResponseError(error, res);
-// 	}
-// };
+/**
+ * Delete user
+ * @public
+ */
+exports.remove = async (req, res, next) => {
+	try {
+		const { quiz: quizToDelete } = req.locals;
+		await quiz.deleteQuiz(quizToDelete);
+		res.status(httpStatus.NO_CONTENT).end()
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+  };
