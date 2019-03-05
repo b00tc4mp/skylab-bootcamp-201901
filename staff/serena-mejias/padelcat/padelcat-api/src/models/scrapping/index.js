@@ -9,10 +9,6 @@ const urlScores =
 const urlMatches =
   "https://www.setteo.com/torneos/lliga-padel-guinotprunera-18-19-a-fase-2w07/calendario/?categorias%5B%5D=162079&equipo=200081";
 const outputFile = "webData.json";
-const parsedResults = [];
-const pageLimit = 10;
-let pageCounter = 1;
-let resultCount = 0;
 
 const getWebScorePlayer = async url => {
   try {
@@ -21,6 +17,7 @@ const getWebScorePlayer = async url => {
 
     // New Lists
     const promises = $(".list-equipos li").map(async (i, el) => {
+      
       const link = $(el)
         .find("a")
         .attr("href");
@@ -50,11 +47,15 @@ const getWebScorePlayer = async url => {
 };
 
 const getWebMatches = async url => {
-  debugger;
   try {
     const response = await axios.get(url);
     const $ = cheerio.load(response.data);
     const promises = $(".partido").map(async (i, el) => {
+
+      const matchId = $(el)
+        .find("a")
+        .attr("href");
+
       const date = $(el)
         .find(".datos small")
         .text();
@@ -84,6 +85,7 @@ const getWebMatches = async url => {
         .text();
 
       const metadata = {
+        matchId: matchId,
         date: date,
         team1: team1,
         imageTeam1: imageTeam1,

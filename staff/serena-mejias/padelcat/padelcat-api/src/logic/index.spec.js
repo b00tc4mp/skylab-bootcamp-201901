@@ -749,7 +749,7 @@ describe("logic", () => {
     beforeEach(async () => {
       const hash = await bcrypt.hash(password, 10);
 
-        player = await Player.create({
+      player = await Player.create({
         name,
         surname,
         email,
@@ -763,8 +763,6 @@ describe("logic", () => {
     });
 
     it("should succeed adding score to player object", async () => {
-
-        debugger
       const score = "60";
 
       const res = await logic.addScoreToPlayer(playerId, score);
@@ -882,9 +880,29 @@ describe("logic", () => {
       }).toThrow(Error("score cannot be empty"));
     });
   });
+
+  describe("retrieveMatch", () => {
+    const array = {
+      matchId: "5c51f550b2ef2",
+      playersAvailable: [],
+      playersChosen: { firstPair: [], secondPair: [], thirdPair: [] },
+      result: "1-2",
+    };
+    
+    it("should succeed adding data to match object", async () => {
+        debugger
+      const res = await logic.retrieveMatches();
+  
+      expect(res.matchId).toBe(array.matchId);
+    });
+  });
+
+
   after(() =>
-    Promise.all([Player.deleteMany(), Match.deleteMany(), Team.deleteMany()]).then(() =>
-      mongoose.disconnect()
-    )
+    Promise.all([
+      Player.deleteMany(),
+      Match.deleteMany(),
+      Team.deleteMany()
+    ]).then(() => mongoose.disconnect())
   );
 });
