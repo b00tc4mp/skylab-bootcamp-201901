@@ -1,0 +1,20 @@
+extends ../layout
+
+include ../feedback/index
+include ../header/index
+include ../breadcrumb/index
+include ../search/index
+include ../footer/index
+
+block content
+  +header(user)
+  +breadcrumb(items)
+  .main
+    section.container
+        section.section
+          +search
+          block artistResults
+          block albumResults
+          block trackResults
+          block trackDetail
+  +footer
