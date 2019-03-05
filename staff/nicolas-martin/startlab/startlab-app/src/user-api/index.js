@@ -1,5 +1,3 @@
-'use strict'
-
 const userApi = {
     url: 'https://skylabcoders.herokuapp.com/api',
 

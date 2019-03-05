@@ -1,6 +1,3 @@
-'use strict'
-
-import userApi from '../user-api'
 import skylabApi from '../skylab-api'
 
 /**
@@ -8,6 +5,7 @@ import skylabApi from '../skylab-api'
  */
 const logic = {
     __userApiToken__: null,
+    __isAdmin__: null,
 
     /**
     * Registers a user.
@@ -55,8 +53,9 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return skylabApi.authenticateUser(email, password)
-            .then(token => {
-                this.__userApiToken__ = token
+            .then(response => {
+                this.__userApiToken__ = response.token
+                this.__isAdmin__ = response.isAdmin
             })
     },
 
@@ -68,14 +67,44 @@ const logic = {
     },
 
     /**
+     * Logs out the user.
+     */
+    logOutUser() {
+        this.__userApiToken__ = null
+        this.__isAdmin__ = null
+    },
+
+    /**
      * Checks if an user is admin
      */
+    get isAdmin() {
+        return this.__isAdmin__=== 'true'
+    },
 
-    isAdmin() {
-        if (!this.__userApiToken__) return false
+    // checkIsAdmin() {
+    //     if (!this.__userApiToken__) return false
 
-        return skylabApi.isAdmin(this.__userApiToken__)
-            .then(isAdmin => isAdmin)
+    //     return skylabApi.isAdmin(this.__userApiToken__)
+    //         .then(isAdmin => this.__isAdmin__ = isAdmin)
+    // },
+
+    exerciseList(){
+        return skylabApi.exerciseList(this.__userApiToken__)
+            .then(exercises => exercises)
+    },
+
+    deleteExercise(id){
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        return skylabApi.deleteExercise(id, this.__userApiToken__)
+    },
+
+    retrieveExercise(id) {
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        return skylabApi.retrieveExercise(id, this.__userApiToken__)
     },
 
     checkCode(code, test) {
@@ -86,15 +115,7 @@ const logic = {
         if (!test.trim().length) throw Error('test cannot be empty')
 
         return skylabApi.checkCode(this.__userApiToken__, code, test)
-    }
-
-    // /**
-    //  * Logs out the user.
-    //  */
-    // logOutUser() {
-    //     this.__userId__ = null
-    //     this.__userApiToken__ = null
-    // },
+    },
 
     // retrieveUser() {
     //     return userApi.retrieve(this.__userId__, this.__userApiToken__)

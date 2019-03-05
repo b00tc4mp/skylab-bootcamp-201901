@@ -1,5 +1,3 @@
-'use strict'
-
 const skylabApi = {
     url: 'http://localhost:8000/api',
 
@@ -52,7 +50,7 @@ const skylabApi = {
             .then(response => {
                 if (response.error) throw Error(response.error)
 
-                return response.token
+                return response
             })
     },
 
@@ -70,6 +68,63 @@ const skylabApi = {
                         if (response.error) throw Error(response.error)
                         return response
                     })
+    },
+
+    exerciseList(token){
+        // /admin/exercise/list
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/exercise/list`, {
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.error) throw Error(response.error)
+                        return response
+                    })
+    },
+
+    deleteExercise(id, token) {
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw Error('id is empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/exercise/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+    },
+
+    retrieveExercise(exerciseId, token) {
+        if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
+        if (!exerciseId.trim().length) throw Error('exerciseId is empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/exercise/${exerciseId}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+            })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+
     },
 
     checkCode(token, code, test) {

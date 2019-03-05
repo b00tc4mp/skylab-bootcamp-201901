@@ -16,7 +16,17 @@ Object.defineProperties(logic, {
       get() {
           return sessionStorage.getItem('__userApiToken__')
       }
-  }
+  },
+
+  __isAdmin__: {
+    set(isAdmin) {
+        sessionStorage.setItem('__isAdmin__', isAdmin)
+    },
+
+    get() {
+        return sessionStorage.getItem('__isAdmin__')
+    }
+}
 })
 
 ReactDOM.render(

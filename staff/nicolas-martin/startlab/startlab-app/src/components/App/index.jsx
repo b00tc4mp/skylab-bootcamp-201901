@@ -6,18 +6,19 @@ import Header from '../Header/index'
 import Home from '../Home/index'
 import Register from '../Register/index'
 import Login from '../Login/index'
-import ExercisesList from '../ExerciseList/index'
+import ExerciseList from '../ExerciseList/index'
+import ExerciseForm from '../ExerciseForm/index'
 import NotFound from '../NotFound/index'
 
 import logic from '../../logic'
-// import InvitationList from '../InvitationList/index'
 
 class App extends Component {
   state = {
     registerFeedback: null,
     isLoggedIn: logic.isUserLoggedIn,
     loginFeedback: null,
-    isAdmin: logic.isAdmin
+    isAdmin: logic.isAdmin,
+    exercisesFeedback: null
   }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
@@ -34,16 +35,19 @@ class App extends Component {
     try {
       logic.logInUser(email, password)
         .then(() => {
-          return logic.isAdmin().then(isAdmin => {
-            this.setState({ loginFeedback: null, isAdmin, isLoggedIn: logic.isUserLoggedIn })
-            this.props.history.push('/start')
-          })
-
+          this.setState({ loginFeedback: null, isAdmin: logic.isAdmin, isLoggedIn: logic.isUserLoggedIn })
         })
         .catch(({ message }) => this.showFeedbackLogin(message))
     } catch ({ message }) {
       this.showFeedbackLogin(message)
     }
+  }
+
+  handleLogout = (event) => {
+    event.preventDefault()
+    logic.logOutUser()
+    this.setState({ isAdmin: false, isLoggedIn: false })
+    this.props.history.push('/')
   }
 
   showFeedbackRegister = (message) => {
@@ -56,22 +60,30 @@ class App extends Component {
     setTimeout(() => this.setState({ loginFeedback: null }), 3000)
   }
 
+  onEdit = (id) => {
+    console.log('app - onEdit: ', id)
+    this.props.history.push(`/admin/exercise/${id}`)
+  }
+
   render() {
-    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback },
+    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback, exercisesFeedback},
       handleRegister,
-      handleLogin
+      handleLogin,
+      handleLogout,
+      onEdit
     } = this
 
     return (
       <div className="container">
-        <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
+        <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} onLogOut={handleLogout} />
         <Switch>
           <Route exact path="/" component={Home} />
 
-          <Route exact path="/register" render={() => !isLoggedIn? <Register onRegister={handleRegister} feedback={registerFeedback} /> : <Redirect to='/' />} /> :         
-          <Route exact path="/login" render={() => !isLoggedIn? <Login onLogin={handleLogin} feedback={loginFeedback} /> : <Redirect to='/' /> } />
+          <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} feedback={registerFeedback} /> : <Redirect to='/' />} /> :
+          <Route exact path="/login" render={() => !isLoggedIn ? <Login onLogin={handleLogin} feedback={loginFeedback} /> : <Redirect to='/' />} />
 
-          <Route exact path="/admin/exercises" render={() => isAdmin? <ExercisesList /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList feedback={exercisesFeedback} handleEdit={onEdit} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercise/:ExerciseId" render={props => isAdmin ? <ExerciseForm id={props.match.params.ExerciseId} /> : <Redirect to='/' />} />
 
           <Route component={NotFound} />
         </Switch>
