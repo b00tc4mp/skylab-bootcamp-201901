@@ -4,8 +4,9 @@ require("isomorphic-fetch");
 
 const mongoose = require("mongoose");
 const express = require("express");
-const tokenHelper = require('./token-helper')
+const tokenHelper = require("./token-helper");
 const package = require("../package.json");
+const router = require("./routes");
 
 const {
   env: { DB_URL, PORT, JWT_SECRET },
@@ -18,7 +19,7 @@ mongoose
     tokenHelper.jwtSecret = JWT_SECRET;
 
     const app = express();
-    
+
     app.use("/api", router);
 
     app.listen(port, () => console.log(`server running on port ${port}`));

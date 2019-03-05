@@ -4,8 +4,16 @@ const Match = new Schema({
   team1: {
     type: String
   },
+  
+  team1Image: {
+    type: String
+  },
 
   team2: {
+    type: String
+  },
+
+  team2Image: {
     type: String
   },
 
@@ -13,9 +21,7 @@ const Match = new Schema({
     type: Array
   },
 
-  playersChosen: {
-    type: Array
-  },
+  playersChosen: { firstPair: [], secondPair: [], thirdPair: [] },
 
   date: {
     type: Date

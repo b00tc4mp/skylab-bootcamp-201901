@@ -31,13 +31,29 @@ const Player = new Schema({
   },
 
   matchesPlayed: {
-      type: Number,
+    type: Number
   },
-  
+
   preferedPosition: {
-    type: String, 
-    default: ['right','left','both']
+    type: String,
+    default: ["right", "left", "both"]
+  },
+
+  playerImage: {
+    type: String
+  },
+
+  avalibility: {
+    type: Array
+  },
+
+  score: {
+    type: Number
+  },
+
+  link: {
+    type: String
   }
 });
 
-module.exports = Player
+module.exports = Player;

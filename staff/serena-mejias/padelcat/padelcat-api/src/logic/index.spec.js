@@ -26,9 +26,18 @@ describe("logic", () => {
     const surname = "Barzi";
     const email = `manuelbarzi-${Math.random()}@mail.com`;
     const password = `123-${Math.random()}`;
+    const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+    const preferedPosition = "left";
 
     it("should succeed on valid data", async () => {
-      const id = await logic.registerPlayer(name, surname, email, password);
+      const id = await logic.registerPlayer(
+        name,
+        surname,
+        email,
+        password,
+        link,
+        preferedPosition
+      );
 
       expect(id).toBeDefined();
       expect(typeof id).toBe("string");
@@ -49,9 +58,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(name + " is not string"));
     });
 
@@ -60,9 +78,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(name + " is not string"));
     });
 
@@ -71,9 +98,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(name + " is not string"));
     });
 
@@ -82,9 +118,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(name + " is not string"));
     });
 
@@ -93,9 +138,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(name + " is not string"));
     });
 
@@ -104,9 +158,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(Error("name cannot be empty"));
     });
 
@@ -115,9 +178,18 @@ describe("logic", () => {
       const surname = undefined;
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(surname + " is not string"));
     });
 
@@ -126,9 +198,18 @@ describe("logic", () => {
       const surname = 10;
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(surname + " is not string"));
     });
 
@@ -137,9 +218,18 @@ describe("logic", () => {
       const surname = false;
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(surname + " is not string"));
     });
 
@@ -148,9 +238,18 @@ describe("logic", () => {
       const surname = {};
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(surname + " is not string"));
     });
 
@@ -159,9 +258,18 @@ describe("logic", () => {
       const surname = [];
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(surname + " is not string"));
     });
 
@@ -170,9 +278,18 @@ describe("logic", () => {
       const surname = "";
       const email = "manuelbarzi@mail.com";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(Error("surname cannot be empty"));
     });
 
@@ -181,9 +298,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = undefined;
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(email + " is not string"));
     });
 
@@ -192,9 +318,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = 10;
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(email + " is not string"));
     });
 
@@ -203,9 +338,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = false;
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(email + " is not string"));
     });
 
@@ -214,9 +358,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = {};
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(email + " is not string"));
     });
 
@@ -225,9 +378,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = [];
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(email + " is not string"));
     });
 
@@ -236,9 +398,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "";
       const password = `123-${Math.random()}`;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(Error("email cannot be empty"));
     });
 
@@ -247,9 +418,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = undefined;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(password + " is not string"));
     });
 
@@ -258,9 +438,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = 10;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(password + " is not string"));
     });
 
@@ -269,9 +458,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = false;
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(password + " is not string"));
     });
 
@@ -280,9 +478,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = {};
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(password + " is not string"));
     });
 
@@ -291,9 +498,18 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = [];
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(TypeError(password + " is not string"));
     });
 
@@ -302,27 +518,197 @@ describe("logic", () => {
       const surname = "Barzi";
       const email = "manuelbarzi@mail.com";
       const password = "";
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const preferedPosition = "left";
 
       expect(() => {
-        logic.registerPlayer(name, surname, email, password);
+        logic.registerPlayer(
+          name,
+          surname,
+          email,
+          password,
+          link,
+          preferedPosition
+        );
       }).toThrow(Error("password cannot be empty"));
     });
   });
 
-  describe('authenticate player', () => {
-    const name = 'Manuel'
-    const surname = 'Barzi'
-    const email = `manuelbarzi-${Math.random()}@mail.com`
-    const password = `123-${Math.random()}`
+  describe("authenticate player", () => {
+    const name = "Manuel";
+    const surname = "Barzi";
+    const email = `manuelbarzi-${Math.random()}@mail.com`;
+    const password = `123-${Math.random()}`;
+    const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+    const preferedPosition = "left";
 
     beforeEach(() =>
-        bcrypt.hash(password, 10)
-            .then(hash => Player.create({ name, surname, email, password: hash }))
-    )
+      bcrypt.hash(password, 10).then(hash =>
+        Player.create({
+          name,
+          surname,
+          email,
+          password: hash,
+          link,
+          preferedPosition
+        })
+      )
+    );
 
-    it('should succeed on correct credentials', () =>
-        logic.authenticatePlayer(email, password)
-            .then(id => expect(id).toBeDefined())
-    )
-})  
+    it("should succeed on correct credentials", () =>
+      logic
+        .authenticatePlayer(email, password)
+        .then(id => expect(id).toBeDefined()));
+
+    it("should fail on undefined email", () => {
+      const email = undefined;
+      const password = `123-${Math.random()}`;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(email + " is not string"));
+    });
+
+    it("should fail on numeric email", () => {
+      const email = 10;
+      const password = `123-${Math.random()}`;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(email + " is not string"));
+    });
+
+    it("should fail on boolean email", () => {
+      const email = false;
+      const password = `123-${Math.random()}`;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(email + " is not string"));
+    });
+
+    it("should fail on object email", () => {
+      const email = {};
+      const password = `123-${Math.random()}`;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(email + " is not string"));
+    });
+
+    it("should fail on array email", () => {
+      const email = [];
+      const password = `123-${Math.random()}`;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(email + " is not string"));
+    });
+
+    it("should fail on empty email", () => {
+      const email = "";
+      const password = `123-${Math.random()}`;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(Error("email cannot be empty"));
+    });
+
+    it("should fail on undefined password", () => {
+      const email = "manuelbarzi@mail.com";
+      const password = undefined;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(password + " is not string"));
+    });
+
+    it("should fail on numeric password", () => {
+      const email = "manuelbarzi@mail.com";
+      const password = 10;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(password + " is not string"));
+    });
+
+    it("should fail on boolean password", () => {
+      const email = "manuelbarzi@mail.com";
+      const password = false;
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(password + " is not string"));
+    });
+
+    it("should fail on object password", () => {
+      const email = "manuelbarzi@mail.com";
+      const password = {};
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(password + " is not string"));
+    });
+
+    it("should fail on array password", () => {
+      const email = "manuelbarzi@mail.com";
+      const password = [];
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(TypeError(password + " is not string"));
+    });
+
+    it("should fail on empty password", () => {
+      const email = "manuelbarzi@mail.com";
+      const password = "";
+
+      expect(() => {
+        logic.authenticatePlayer(email, password);
+      }).toThrow(Error("password cannot be empty"));
+    });
+  });
+
+  describe("retrieveScoreData", () => {
+    const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+
+    it("should succeed", () => {
+      expect(logic.retrieveScoreData(link)).toBeTruthy();
+    });
+  });
+
+  describe("addScoreToPlayer", () => {
+    const name = "Manuel";
+    const surname = "Barzi";
+    const email = `manuelbarzi-${Math.random()}@mail.com`;
+    const password = `123-${Math.random()}`;
+    const link = "https:www.setteo.com/usuario/serena-mejias-vazquez";
+    const preferedPosition = "left";
+    let playerId;
+
+    beforeEach(async () => {
+      const hash = await bcrypt.hash(password, 10);
+
+      const player = await Player.create({
+        name,
+        surname,
+        email,
+        password: hash,
+        link,
+        preferedPosition
+      });
+
+      playerId = player.id;
+    });
+
+    it("should succeed", async () => {
+      const score = 60;
+
+      const res = await logic.addScoreToPlayer(playerId, score)
+
+      debugger
+      
+      // TODO lookup player and check that is was actually updated
+    });
+  });
 });

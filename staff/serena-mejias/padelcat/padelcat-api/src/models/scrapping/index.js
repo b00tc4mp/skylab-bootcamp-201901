@@ -45,7 +45,7 @@ const getWebScorePlayer = async url => {
 
     return Promise.all(promises.get());
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
 
@@ -92,23 +92,20 @@ const getWebMatches = async url => {
         result: result,
         location: location
       };
-      console.log(metadata);
 
       return metadata;
     });
 
     return Promise.all(promises.get());
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
 
 Promise.all([getWebScorePlayer(urlScores), getWebMatches(urlMatches)]).then(
   res => {
     fs.writeFile(outputFile, JSON.stringify(res, null, 4), err => {
-      if (err) {
-        console.log(err);
-      }
+      if (err) throw err
       console.log(
         chalk.yellow.bgBlue(
           `\n ${chalk.underline.bold(
