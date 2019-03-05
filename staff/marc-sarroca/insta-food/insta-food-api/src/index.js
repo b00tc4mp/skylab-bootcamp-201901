@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const logic = require("./logic");
-const mongoose = require("mongoose");
+const { mongoose } = require("insta-food-data");
 const cors = require("cors");
 const { tokenVerifierMiddleware } = require("./token-helper");
 

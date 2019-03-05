@@ -1,61 +1,65 @@
 "use strict";
-const jwt = require("jsonwebtoken");
+//const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 const tokenHelper = require("../token-helper");
 
 const {
-  SchemaTypes: { ObjectId },
-  Schema
-} = mongoose;
+  models: { User, Post }
+} = require("insta-food-data");
 
-const User = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  username: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  }
-});
+// const {s
+//   SchemaTypes: { ObjectId },
+//   Schema
+// } = mongoose;
 
-const Post = new Schema({
-  tags: {
-    type: String,
-    required: true
-  },
-  title: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  image: {
-    type: String,
-    required: true
-  },
-  user_id: {
-    type: String,
-    required: true
-  }
-});
+// const User = new Schema({
+//   name: {
+//     type: String,
+//     required: true
+//   },
+//   username: {
+//     type: String,
+//     required: true
+//   },
+//   email: {
+//     type: String,
+//     required: true,
+//     unique: true
+//   },
+//   password: {
+//     type: String,
+//     required: true
+//   }
+// });
 
-const models = {
-  User: mongoose.model("User", User),
-  Post: mongoose.model("Post", Post)
-};
+// const Post = new Schema({
+//   tags: {
+//     type: String,
+//     required: true
+//   },
+//   title: {
+//     type: String,
+//     required: true
+//   },
+//   description: {
+//     type: String,
+//     required: true
+//   },
+//   image: {
+//     type: String,
+//     required: true
+//   },
+//   user_id: {
+//     type: String,
+//     required: true
+//   }
+// });
+
+// const models = {
+//   User: mongoose.model("User", User),
+//   Post: mongoose.model("Post", Post)
+// };
 
 const logic = {
   /**
@@ -111,8 +115,6 @@ const logic = {
       throw TypeError(password + " is not a string");
     if (!password.trim().length) throw Error("password cannot be empty");
 
-    const { User } = models;
-
     return User.findOne({ email: email }).then(user => {
       if (!user) throw Error(`user with email ${email} not found`);
 
@@ -122,26 +124,14 @@ const logic = {
         const { id } = user;
         const token = tokenHelper.createToken(id);
 
-        //const token = jwt.sign({ sub: id }, this.jwtSecret, {
-        //expiresIn: "4h"
-        //});
-
         return { id, token };
       });
     });
   },
 
-  // __verifyUserToken__(userId, token) {
-  //   const { sub } = jwt.verify(token, this.jwtSecret);
-
-  //   if (sub !== userId)
-  //     throw Error(`user id ${userId} does not match token user id ${sub}`);
-  // },
-
   retrieveUser(userId) {
     // TODO validate userId and token type and content
     const { User } = models;
-
     return User.findOne({ _id: userId }).then(user => {
       if (!user) throw Error(`user with id ${id} not found`);
 
