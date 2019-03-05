@@ -4,14 +4,12 @@ const Education = new Schema({
 
     college: {
         type: String,
-        required: true,
-        default: ''
+        required: true
     },
 
     degree: {
         type: String,
-        required: true,
-        default: ''
+        required: true
     }
 })
 

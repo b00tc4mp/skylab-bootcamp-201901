@@ -16,6 +16,9 @@ function App({ history }) {
     const [userData, setUserData] = useState({})
     const [query, setQuery] = useState(null)
     const [searchResults, setSearchResults] = useState(null)
+    const [adSearchResults, setAdSearchResults] = useState(null)
+    const [skylaber, setSkylaber] = useState(null)
+    const [count, setCount] = useState(0)
 
     useEffect(() => {
         logic.isUserLoggedIn && logic.retrieveUser()
@@ -66,7 +69,7 @@ function App({ history }) {
     }
 
     return (
-        <AppContext.Provider value={{ feedback, setFeedback, typeOfUser, userData, setUserData, query, setQuery, searchResults, setSearchResults }}>
+        <AppContext.Provider value={{ feedback, setFeedback, typeOfUser, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber, count, setCount }}>
             <Route exact path="/" render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to="/home" />} />
             <Route path="/signup" render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn} /> : <Redirect to="/home" />} />
             <Route path="/home" render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to="/" />} />

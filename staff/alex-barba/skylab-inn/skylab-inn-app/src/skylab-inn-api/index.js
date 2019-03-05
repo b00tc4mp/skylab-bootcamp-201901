@@ -123,8 +123,6 @@ const skylabInnApi = {
      */
     updateUser(token, data){
 
-        debugger
-
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
@@ -148,15 +146,15 @@ const skylabInnApi = {
     },
 
     /**
-     * Updates user information
+     * Searches for a skylaber
      * 
      * @param {String} token
      * @param {String} query
      * 
-     * @throws {TypeError} - if token is not a string.
-     * @throws {Error} - if token is empty.
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty.
      *
-     * @returns {Object} - user.  
+     * @returns {Object} - user matching query
      */
     searchSkylaber(token, query){
 
@@ -167,7 +165,7 @@ const skylabInnApi = {
         if (!query.trim().length) throw new Error('query is empty')
 
         return fetch (`${this.url}/user/search`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
@@ -180,7 +178,79 @@ const skylabInnApi = {
 
                 return response
             })
-    }
+    },
+
+    /**
+     * Advanced search for a skylaber
+     * 
+     * @param {String} token
+     * @param {String} param
+     * @param {String} query
+     * 
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Object} - user matching query 
+     */
+    adSearchSkylaber(token, param, query){
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (typeof param !== 'string') throw new TypeError(`${param} is not a string`)
+        if (!param.trim().length) throw new Error('param is empty')
+
+        if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw new Error('query is empty')
+
+        return fetch (`${this.url}/user/advanced-search`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ param, query })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    /**
+     * Retrieves a skylaber information
+     * 
+     * @param {String} token 
+     * @param {String} id 
+     * 
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if param is empty.
+     *
+     * @returns {Object} - skjylaber matching id.  
+     */
+    retrieveSkylaber(token, id){
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (typeof id !== 'string') throw new TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id is empty')
+
+        return fetch (`${this.url}/skylaber/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                debugger
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
 }
 
 export default skylabInnApi

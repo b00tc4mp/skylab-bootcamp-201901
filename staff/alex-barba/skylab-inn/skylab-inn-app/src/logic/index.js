@@ -119,8 +119,8 @@ const logic = {
      * 
      * @param {String} query 
      * 
-     * @throws {TypeError} - if query is not an object.
-     * @throws {Error} - if any query is empty.
+     * @throws {TypeError} - if query is not a string.
+     * @throws {Error} - if query is empty.
      *
      * @returns {Object} - skylabers matching the query.  
      */
@@ -130,7 +130,98 @@ const logic = {
         if (!query.trim().length) throw new Error('query is empty')
 
         return skylabInnApi.searchSkylaber(this.__userApiToken__, query)
-            .then(({results}) => results)
+            .then(({user}) => user)
+    },
+
+    /**
+     * Advance search for a skylaber.
+     * 
+     * @param {String} param
+     * @param {String} query 
+     * 
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Object} - skylabers matching the query.  
+     */
+    adSearchSkylaber(param, query) {
+
+        if (typeof param !== 'string') throw new TypeError(`${param} is not a string`)
+        if (!param.trim().length) throw new Error('param is empty')
+
+        if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw new Error('query is empty')
+
+        return skylabInnApi.adSearchSkylaber(this.__userApiToken__, param, query)
+            .then(({user}) =>  user)
+    },
+
+     /**
+     * Next advance search for a skylaber.
+     * 
+     * @param {Array} adSearchResults
+     * @param {String} param
+     * @param {String} query 
+     * 
+     * @throws {TypeError} - if adSearchResults is not an array or param or query are not a string.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Object} - skylabers matching the new query.  
+     */
+    nextAdSearchSkylaber(adSearchResults, param, query) {
+        debugger
+        if (typeof adSearchResults !== 'string') throw new TypeError(`${adSearchResults} is not a string`)
+        if (!adSearchResults.trim().length) throw new Error('adSearchResults is empty')
+
+        if (typeof param !== 'string') throw new TypeError(`${param} is not a string`)
+        if (!param.trim().length) throw new Error('param is empty')
+
+        if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw new Error('query is empty')
+
+            let results
+
+            switch (param) {
+                case 'contact':
+                results = adSearchResults.filter(res => res.name= { "$regex": `${query}`, "$options": "i" })
+                //  {surname: { "$regex": `${query}`, "$options": "i" }}, {email: { "$regex": `${query}`, "$options": "i" }} , {git: { "$regex": `${query}`, "$options": "i" }}, {linkedin: { "$regex": `${query}`, "$options": "i" }}, {slack: { "$regex": `${query}`, "$options": "i" }} ]})
+                break;
+                case 'techs':
+                results = adSearchResults.filter({techs: { "$regex": `${query}`, "$options": "i" }})
+                break;
+                case 'work':
+                results = adSearchResults.filter({languages: { "$regex": `${query}`, "$options": "i" }})
+                break;
+                case 'languages':
+                results = adSearchResults.filter({$or: [{'education.college': { "$regex": `${query}`, "$options": "i" }}, {'education.degree': { "$regex": `${query}`, "$options": "i" }}]})
+                break;
+                case 'education':
+                results = adSearchResults.filter({$or: [{'workExperience.company': { "$regex": `${query}`, "$options": "i" }}, {'workExperience.position': { "$regex": `${query}`, "$options": "i" }}]})
+                break;
+            }
+
+            return results
+        
+    },
+
+
+    /**
+     * Retrieves a skylaber.
+     * 
+     * @param {String} id 
+     * 
+     * @throws {TypeError} - if id is not a string.
+     * @throws {Error} - if any id is empty.
+     *
+     * @returns {Object} - skylaber matching the id.  
+     */
+    retrieveSkylaber(id) {
+
+        if (typeof id !== 'string') throw new TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id is empty')
+
+        return skylabInnApi.retrieveSkylaber(this.__userApiToken__, id)
+        .then(({user}) => user)
     },
 }
 

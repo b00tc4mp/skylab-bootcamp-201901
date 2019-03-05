@@ -4,30 +4,26 @@ const Work = new Schema({
 
     company: {
         type: String,
-        required: true,
-        default: ''
+        required: true
     },
 
     position: {
         type: String,
-        required: true,
-        default: ''
+        required: true
     },
 
     startDate: {
         type: String,
-        required: true,
-        default: ''
+        required: true
     },
 
     endDate: { 
-        type: String,
-        default: '' 
+        type: String 
     },
 
     current: { type: Boolean, 
-        required: true, 
-        default: '' }
+        required: true
+    }
 
 })
 

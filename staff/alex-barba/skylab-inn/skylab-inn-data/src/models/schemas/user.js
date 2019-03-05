@@ -32,19 +32,19 @@ const User = new Schema({
 
     telephone: { type: Number },
 
-    git: { type: String, default: '' },
+    git: { type: String },
 
-    linkedin: { type: String, default: '' },
+    linkedin: { type: String },
 
-    slack: { type: String, default: '' },
+    slack: { type: String },
 
-    workExperience: [{Work, default: ''}],
+    workExperience: [Work],
 
     techs: [String],
 
     languages: [String],
 
-    education: [{Education, default: ''}]
+    education: [Education]
 })
 
 module.exports = User

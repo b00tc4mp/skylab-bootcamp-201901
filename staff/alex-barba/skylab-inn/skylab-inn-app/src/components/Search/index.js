@@ -2,13 +2,17 @@ import React, { useState, useContext } from 'react'
 import { AppContext } from '../AppContext'
 import Feedback from '../Feedback'
 
-export default function Search({ onSearch, feedback, onToWelcome, onToProfile, onToSignOut }) {
+export default function Search({ onSearch, onSkylaber, feedback, onToWelcome, onToProfile, onToSignOut }) {
 
     const { query, setQuery, searchResults} = useContext(AppContext)
 
     const handleSearch = event => {
         event.preventDefault()
         onSearch(query)
+    }
+
+    const handleOnSkylaber = id => {
+        onSkylaber(id)
     }
 
     const handleToWelcome = () => {
@@ -30,7 +34,16 @@ export default function Search({ onSearch, feedback, onToWelcome, onToProfile, o
                 {feedback && <Feedback />}
                 <button type="submit">Search</button>
             </form>
-            {searchResults && searchResults.map(res => {return <p key={res.id}>{res.name}</p>})}
+            {searchResults && !!searchResults.resContact.length && <h5>Contact Information</h5>}
+            {searchResults && !!searchResults.resContact.length && searchResults.resContact.map(res => {return <a onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`)}} key={res._id}>{res.name}</a>})}
+            {searchResults && !!searchResults.resTechs && <h5>Technologies</h5>}
+            {searchResults && !!searchResults.resTechs && searchResults.resTechs.map(res => {return <a onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`)}} key={res._id}>{res.name}</a>})}
+            {searchResults && !!searchResults.resWork.length && <h5>Work Experience</h5>}
+            {searchResults && !!searchResults.resWork.length && searchResults.resWork.map(res => {return <a onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`)}} key={res._id}>{res.name}</a>})}
+            {searchResults && !!searchResults.resLang && <h5>Languages</h5>}
+            {searchResults && !!searchResults.resLang && searchResults.resLang.map(res => {return <a onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`)}} key={res._id}>{res.name}</a>})}
+            {searchResults && !!searchResults.resEdu && <h5>Education</h5>}
+            {searchResults && !!searchResults.resEdu && searchResults.resEdu.map(res => {return <a onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`)}} key={res._id}>{res.name}</a>})}
             <nav>
                 <a onClick={handleToWelcome}>Home</a>
                 <a onClick={handleToProfile}>Profile</a>
