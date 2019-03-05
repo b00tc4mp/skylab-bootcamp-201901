@@ -1,0 +1,8 @@
+
+include ../feedback/index
+mixin search()
+    form(method='POST', action='/search', class='form-inline my-2 my-lg-0 row')
+        input(class='form-control mr-sm-2 col-sm-8 col-12', type='search', name='query', placeholder='Search Artist...', aria-label='Search')
+        button(class='btn btn-outline-info my-2 my-sm-0 col-sm-3 col-12', type='submit') Search
+    if feedback
+            +feedback(feedback, 'error')
