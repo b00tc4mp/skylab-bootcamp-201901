@@ -7,6 +7,7 @@ import Home from '../Home/index'
 import Register from '../Register/index'
 import Login from '../Login/index'
 import ExerciseList from '../ExerciseList/index'
+import ExerciseForm from '../ExerciseForm/index'
 import NotFound from '../NotFound/index'
 
 import logic from '../../logic'
@@ -16,7 +17,8 @@ class App extends Component {
     registerFeedback: null,
     isLoggedIn: logic.isUserLoggedIn,
     loginFeedback: null,
-    isAdmin: logic.isAdmin
+    isAdmin: logic.isAdmin,
+    exercisesFeedback: null
   }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
@@ -33,12 +35,7 @@ class App extends Component {
     try {
       logic.logInUser(email, password)
         .then(() => {
-
           this.setState({ loginFeedback: null, isAdmin: logic.isAdmin, isLoggedIn: logic.isUserLoggedIn })
-          // return logic.checkIsAdmin().then(isAdmin => {
-          //   this.setState({ loginFeedback: null, isAdmin: logic.isAdmin, isLoggedIn: logic.isUserLoggedIn })
-          //   this.props.history.push('/')
-          // })
         })
         .catch(({ message }) => this.showFeedbackLogin(message))
     } catch ({ message }) {
@@ -63,11 +60,17 @@ class App extends Component {
     setTimeout(() => this.setState({ loginFeedback: null }), 3000)
   }
 
+  onEdit = (id) => {
+    console.log('app - onEdit: ', id)
+    this.props.history.push(`/admin/exercise/${id}`)
+  }
+
   render() {
-    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback },
+    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback, exercisesFeedback},
       handleRegister,
       handleLogin,
-      handleLogout
+      handleLogout,
+      onEdit
     } = this
 
     return (
@@ -79,7 +82,8 @@ class App extends Component {
           <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} feedback={registerFeedback} /> : <Redirect to='/' />} /> :
           <Route exact path="/login" render={() => !isLoggedIn ? <Login onLogin={handleLogin} feedback={loginFeedback} /> : <Redirect to='/' />} />
 
-          <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList feedback={exercisesFeedback} handleEdit={onEdit} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercise/:ExerciseId" render={props => isAdmin ? <ExerciseForm id={props.match.params.ExerciseId} /> : <Redirect to='/' />} />
 
           <Route component={NotFound} />
         </Switch>

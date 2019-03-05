@@ -1,13 +1,14 @@
 import React from 'react'
 
-function ExerciseItem({ results: {title, summary, test, id} }) {
+function ExerciseItem({ results: {title, summary, test, id}, myKey, onEdit, onDelete}) {
     return (
-        <div className="exercise-item" key={id}>
+        <div className="exercise-item" key={myKey}>
             <h3>{title}</h3>
-            <p>{summary}</p>
+            <details>{summary}</details>
             <p>{test}</p>
-            <button>Edit</button>
-            <button>Delete</button>
+            <button onClick={() => onEdit(id)}>Edit</button>
+            <button onClick={() => onDelete(id)}>Delete</button>
+            <hr />
         </div>
     )
 }

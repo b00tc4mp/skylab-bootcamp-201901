@@ -93,6 +93,20 @@ const logic = {
             .then(exercises => exercises)
     },
 
+    deleteExercise(id){
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        return skylabApi.deleteExercise(id, this.__userApiToken__)
+    },
+
+    retrieveExercise(id) {
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        return skylabApi.retrieveExercise(id, this.__userApiToken__)
+    },
+
     checkCode(code, test) {
         if (typeof code !== 'string') throw TypeError(code + ' is not a string')
         if (!code.trim().length) throw Error('code cannot be empty')
