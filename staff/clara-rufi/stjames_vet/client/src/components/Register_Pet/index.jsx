@@ -6,11 +6,30 @@ import logic from '../../logic';
 
 class Register_Pet extends Component {
 
-    state = { name: '', specie: '', breed: '', color: '', gender: '', birthdate: '', microchip: '', petlicence: '', neutered: '', vaccionations: '', controls: '', details: '', error: null }
+    state = { users: [], name: '', specie: '', breed: '', color: '', gender: '', birthdate: '', microchip: '', petlicence: '', neutered: '', vaccionations: '', controls: '', details: '', isRegister: false ,error: null }
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
+    retrieveUsers = async () => {
+        const users = await logic.retrieveUsers()
+        this.setState({users})
+    }
+
+    handleSelectChange = async event => {
+        event.preventDefault()
+        const userId = event.target.value 
+        if (!userId) return
+        const {name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details} = await logic.retrieveUser(userId)
+        this.setState({name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
+    }
+
+    componentDidMount(){
+        this.retrieveUsers()
+    }
+
+
     handleRegisterSubmit = event => {
+        debugger
         event.preventDefault()
         const { state: { name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details} } = this
         this.registerPet({ name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details })
@@ -19,16 +38,14 @@ class Register_Pet extends Component {
 
     handleGoHome = event => {
         event.preventDefault()
-        this.props.history.push('/home')
+        this.props.history.push('/')
     }
 
 
     registerPet = async (name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) => {
         try {
-            console.log('logged', logic.__userId__)
-            debugger
             await logic.registerPet(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-            console.log('logged', logic.__userId__)
+            this.setState({isRegister: true})
         } catch ({ message }) {
             this.setState({ error: message })
         }
@@ -39,9 +56,8 @@ class Register_Pet extends Component {
         return <form className="register" onSubmit={this.handleRegisterSubmit}>
             <p className="title__form">Pet's details:</p>
             <label>Select Owner</label>
-             <select name="owner" onChange={this.handleOnChange}>
-            <option>Select an option:</option>
-            {/* <option name= "owner" value="name" onChange={this.handleOnChange}>user: users.map({ users.name }</option> */}
+             <select name="owner" onChange={this.handleSelectChange}>
+             {this.state.users.map(user => <option name= "owner" value={user.id}>{user.name}</option>)}
             </select>    
             <div className="form-group row">
                 <label for="validationDefault01" className="col-sm-2 col-form-label">Name</label>
@@ -49,19 +65,6 @@ class Register_Pet extends Component {
                     <input type="name" name="name" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
                 </div>
             </div>
-
-            {/* server.get('/usersList', function(req, res) {
-  User.find({}, function(err, users) {
-    var userMap = {};
-
-    users.forEach(function(user) {
-      userMap[user._id] = user;
-    });
-
-    res.send(userMap);  
-  });
-}); */}
-      
             <label>Specie</label>
              <select name="specie" onChange={this.handleOnChange}>
             <option>Select an option:</option>
@@ -142,12 +145,13 @@ class Register_Pet extends Component {
             <p className="title_register">Details of clinical interests:</p>
                 <textarea class="form-control" name="details" onChange={this.handleOnChange} rows="10"></textarea>
             </div> 
+           
+            <button type="button" class="btn btn-primary login">Sign in</button>
+            <button className="button__home" onClick={this.handleGoHome}>Go Home</button>
+            {this.state.error && <p className= "feedbackError">{this.state.error}</p>} 
+            {this.state.isRegister && <p className= "feedback__Ok">You have successfully registered {this.state.name}</p>}
             </div>
-                <button type="submit" class="btn btn-primary login">Sign in</button>
-                <button className="goHome" onClick={this.handleGoHome}>GoHome</button>
-                {this.state.error && <p className= "feedbackError">{this.state.error}</p>} 
-                {this.state.isRegister && <p className= "feedbackOk">You have successfully registered!</p>}
-            </form>
+        </form>
 
     }
 }

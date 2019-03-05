@@ -19,20 +19,26 @@ escribe('logic', () => {
 
     beforeEach(() =>
         Promise.all([
-            Comment.deleteMany(),
-            User.deleteMany()
+            User.deleteMany(),
+            Pet.deleteMany(),  ////////////////////////////////////
+            Appointment.deleteMany(), ///////////////////////////////////////////////
+
         ])
     )
 
    describe('register user', () => {
         const name = 'Clara'
         const surname = 'Rufí'
-        const email = `clararufi-${Math.random()}@mail.com`
-        const password = `257-${Math.random()}`
-        const passwordConfirm = password
+        const idCard = `234-${Math.random()}`
+        const phone = `456348-${Math.random()}`
+        const adress = `London Road -${Math.random()}`
+        const city = `London`
+        const email = `clararufi-${Math.random()}@gmail.com`
+        const password = '123'
+        const passwordConfirmation = password
 
         it('should succeed on valid data', async () => {
-            const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+            const id = await logic.registerUser(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation)
 
             expect(id).toBeDefined()
             expect(typeof id).toBe('string')

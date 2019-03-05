@@ -1,4 +1,3 @@
-import userApi from '../user-api'
 import logic from '.'
 
 
@@ -23,7 +22,7 @@ describe('logic', () => {
         )
 
         it('should fail on undefined name', () => {
-            const name = 'Clara'
+            const name = undefined
             const surname = 'Rufí'
             const idCard = `234-${Math.random()}`
             const phone = `456348-${Math.random()}`
@@ -38,7 +37,7 @@ describe('logic', () => {
         })
 
         it('should fail on numeric name', () => {
-            const name = 'Clara'
+            const name = 4567
             const surname = 'Rufí'
             const idCard = `234-${Math.random()}`
             const phone = `456348-${Math.random()}`
@@ -54,7 +53,7 @@ describe('logic', () => {
 
 
         it('should fail on boolean name', () => {
-            const name = 'Clara'
+            const name = true
             const surname = 'Rufí'
             const idCard = `234-${Math.random()}`
             const phone = `456348-${Math.random()}`
@@ -69,7 +68,7 @@ describe('logic', () => {
         })
 
         it('should fail on object name', () => {
-            const name = 'Clara'
+            const name = {}
             const surname = 'Rufí'
             const idCard = `234-${Math.random()}`
             const phone = `456348-${Math.random()}`
@@ -84,7 +83,7 @@ describe('logic', () => {
         })
 
         it('should fail on array name', () => {
-            const name = 'Clara'
+            const name = []
             const surname = 'Rufí'
             const idCard = `234-${Math.random()}`
             const phone = `456348-${Math.random()}`
@@ -99,7 +98,7 @@ describe('logic', () => {
         })
 
         it('should fail on empty name', () => {
-            const name = 'Clara'
+            const name = ''
             const surname = 'Rufí'
             const idCard = `234-${Math.random()}`
             const phone = `456348-${Math.random()}`
@@ -115,7 +114,7 @@ describe('logic', () => {
 
         it('should fail on undefined surname', () => {
             const name = 'Clara'
-            const surname = 'Rufí'
+            const surname = undefined
             const idCard = `234-${Math.random()}`
             const phone = `456348-${Math.random()}`
             const adress = `London Road -${Math.random()}`
@@ -130,7 +129,7 @@ describe('logic', () => {
 
         it('should fail on numeric surname', () => {
             const name = 'Clara'
-            const surname = 'Rufí'
+            const surname = 2344
             const idCard = `234-${Math.random()}`
             const phone = `456348-${Math.random()}`
             const adress = `London Road -${Math.random()}`
@@ -323,4 +322,5 @@ describe('logic', () => {
                 expect(user.password).toBe(password)
             })
     )
+})
 })

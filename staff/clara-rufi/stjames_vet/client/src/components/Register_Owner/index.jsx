@@ -6,7 +6,7 @@ import logic from '../../logic';
 
 class Register_Owner extends Component {
 
-    state = { name: '', surname: '', idCard: '', phone: '',  adress: '', city: '', email: '', password: '', passwordConfirmation: '', error: null, isRegister: false }
+    state = { name: '', surname: '', idCard: '', phone: '',  adress: '', city: '', email: '', password: '', passwordConfirmation: '', error: null, isRegister: false, isLogin: true }
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
@@ -23,12 +23,17 @@ class Register_Owner extends Component {
         this.props.history.push('/login')
     }
 
+    handleGoHome = event => {
+        event.preventDefault()
+        this.props.history.push('/home')
+    }
+
     register = async (name, surname, idCard, phone, adress, city, email, password, passwordConfirmation ) => {
         try {
             debugger
             await logic.registerUser(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation )
             console.log('you have succesfully registered!!')
-            this.setState({isRegister: true, error: null})
+            this.setState({isLogin: false, isRegister: true, error: null})
         } catch ({ message }) {
             this.setState({ error: message })
         }
@@ -92,11 +97,12 @@ class Register_Owner extends Component {
                 <div className="col-sm-7">
                     <input type="password" name="passwordConfirmation" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary login">Sign in</button>
-            <button className="goHome" onClick={this.handleGoLogin}>Go Login</button>
+            {this.state.isLogin &&<button type="submit" className="button">Sign in</button>}
+            <button className="button__home" onClick={this.handleGoHome}>Go Home</button>
+            {this.state.isRegister &&<button className="button" onClick={this.handleGoLogin}>Go Login</button>}
             {this.state.error && <p className= "feedbackError">{this.state.error}</p>} 
-            {this.state.isRegister && <p className= "feedbackOk">You have successfully registered!</p>}
+            {this.state.isRegister && <p className= "feedback__Ok">You have successfully registered {this.state.name}</p>}
+            </div>
         </form>
 
     }

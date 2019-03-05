@@ -1,6 +1,6 @@
 'use strict'
 
-const { models: { User, Pet } }= require('../vet-data')
+const { models: { User, Pet, Appointment } }= require('../vet-data')
 const bcrypt = require('bcrypt')
 
 
@@ -102,8 +102,9 @@ const logic = {
     * @param {string} gender 
     * @param {string} birthdate
     * @param {string} microchip
-    * @param {string} password 
-    * @param {string} passwordConfirmation 
+    * @param {string} neutered 
+    * @param {string} vaccionations 
+    * @param {string} details 
     */
 
     registerPet(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) {
@@ -202,27 +203,29 @@ const logic = {
 
 
         return User.findById(userId)
+        
             .then(user => {
                 if (!user) throw Error(`user with id ${userId} not found`)
 
                 user.id = user._id.toString()
 
-                const owner = {
-                    name: owner.name,
-                    surname : owner.surname,
-                    idCard : owner.idCard,
-                    phone : owner.phone,
-                    adress: owner.adress,
-                    city: owner.city,
-                    email: owner.email,
+                const _user = {
+                    name: user.name,
+                    surname : user.surname,
+                    idCard : user.idCard,
+                    phone : user.phone,
+                    adress: user.adress,
+                    city: user.city,
+                    email: user.email,
                 }
     
-                return user
+                return _user
             })
     },
 
     // TODO doc
     async retrieveUsers() {
+        debugger
         const _users = await User.find({})
 
         const users = _users.map(user => {
@@ -280,17 +283,19 @@ const logic = {
    
     // return user
 
-    updateUser(name, surname, idCard, phone, adress, city, email, password){
+    // updateUser(name, surname, idCard, phone, adress, city, email){
+    updateUser(name, surname, idCard, phone, adress, city, email){
         // if (typeof user !== 'string') throw TypeError(`${user} is not a string`)
         
         // if (!user.trim().length) throw new EmptyError('user is empty')
         
         // if (typeof token!== 'string') throw TypeError(`${token} is not a string`)
-         debugger
-        
         return (async () => {
           debugger
-            let user = await User.findOneAndUpdate({email},{name, surname, idCard, phone, adress, city, email, password},{new: true},)          
+            // let user = await User.findOneAndUpdate({email},{name, surname, idCard, phone, adress, city, email},{new: true},)          
+            
+            const user = await User.findOneAndUpdate({email},{$set:{name, surname, idCard, phone, adress, city, email}},{new: true},)          
+            
             return user
         })()
 

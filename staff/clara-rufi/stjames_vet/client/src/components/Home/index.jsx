@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from 'react'
-import { Route  } from 'react-router-dom'
 
 import Nav from '../Nav'
 import cat_dog from '../images/cat_dog.png'
 import Footer from '../Footer'
-
 
 import './index.sass'
 

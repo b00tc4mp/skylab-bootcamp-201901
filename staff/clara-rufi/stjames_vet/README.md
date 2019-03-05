@@ -2,6 +2,13 @@ StJames__vet
 
 ===================================
 
+## Documentation
+
+[Documentation](skylab-bootcamp-201901/staff/clara-rufi/stjames_vet/doc.README.md)
+
+
+[Live Demo]()
+
 ## Available scripts for development
 
 In the project directory, you can run:

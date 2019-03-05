@@ -11,7 +11,6 @@ class Login extends Component {
 
   handleLoginSubmit = event => {
     event.preventDefault()
-    debugger
     const { state: { email, password } } = this
     this.login(email, password)
   }
@@ -46,7 +45,7 @@ class Login extends Component {
           <input type="password" name="password" onChange={this.handleOnChange} className="form-control" id="inputPassword3" placeholder="" required />
         {this.state.error && <p p className= "feedbackError">{this.state.error}</p>}
         {this.state.isLogin && <p className= "feedback__Ok">You have successfully logged in!</p>} 
-        {this.state.isLogin && <button className="button" onClick={this.handleGoHome}>Go Home</button>}
+        {this.state.isLogin && <button className="button__home" onClick={this.handleGoHome}>Go Home</button>}
         {this.state.signIn &&<button type="submit" className="button">Sign in</button>}
         </div>
       </div>

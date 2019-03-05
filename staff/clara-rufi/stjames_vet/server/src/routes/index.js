@@ -24,7 +24,7 @@ router.get('/users', tokenVerifierMiddleware, retrieveUsers)
 router.get('/user/:userId', tokenVerifierMiddleware, retrieveUser)
 // router.get('/pet', tokenVerifierMiddleware, jsonBodyParser, retrievePet)
 
-router.put('/user', tokenVerifierMiddleware, jsonBodyParser, updateUser)
+router.put('/user', [tokenVerifierMiddleware, jsonBodyParser], updateUser)
 // router.put('/pet', tokenVerifierMiddleware, jsonBodyParser, updatePet)
 
         //app.get('*', notFound)

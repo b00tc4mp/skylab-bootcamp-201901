@@ -17,7 +17,12 @@ const logic = {
     * Registers a user.
     * 
     * @param {string} name 
-    * @param {string} surname 
+    * @param {string} surname
+    * @param {string} surname
+    * @param {string} idCard
+    * @param {string} phone
+    * @param {string} adress
+    * @param {string} city 
     * @param {string} email 
     * @param {string} password 
     * @param {string} passwordConfirmation 
@@ -79,6 +84,22 @@ const logic = {
             })
     },
 
+    /**
+    * Registers a owner's pet.
+    * 
+    * @param {string} name 
+    * @param {string} specie
+    * @param {string} breed
+    * @param {string} color
+    * @param {string} gender
+    * @param {string} birthdate
+    * @param {string} microchip
+    * @param {string} petlicence
+    * @param {string} neutered
+    * @param {string} vaccionations
+    * @param {string} controls
+    * @param {string} details
+    */
     registerPet(name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
@@ -218,7 +239,8 @@ const logic = {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
         this.__updateToken__()
-        return fetch(`${this.url}/user/userId`, {
+        return fetch(`${this.url}/user/${userId
+}`, {
 
             headers: {
                 authorization: `Bearer ${this.__userApiToken__}`
@@ -251,19 +273,19 @@ const logic = {
             })
     },
 
-    updateUser(token, data) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+    updateUser(name, surname, idCard, phone, adress, city, email) {
+        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        // if (!token.trim().length) throw Error('token is empty')
 
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
         debugger
         return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
-                authorization: `Bearer ${token}`,
+                authorization: `Bearer ${this.__userApiToken__}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({name, surname, idCard, phone, adress, city, email})
         })
             .then(response => response.json())
             .then(response => {
@@ -273,6 +295,13 @@ const logic = {
             })
     },
 
+    /**
+    * Updates a pet.
+    * 
+    * @param {string} token
+    * @param {string} data
+    * 
+    */
     updatePet(token, data) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -295,6 +324,14 @@ const logic = {
             })
     },
 
+    /**
+    * Removes an user.
+    * 
+    * @param {string} token 
+    * @param {string} email
+    * @param {string} password
+    * 
+    */
     removeUser(token, email, password) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
