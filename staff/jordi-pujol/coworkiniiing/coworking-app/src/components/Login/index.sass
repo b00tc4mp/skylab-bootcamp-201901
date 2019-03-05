@@ -1,0 +1,54 @@
+=flexin($display, $direction, $align)
+  display: $display
+  flex-direction: $direction
+  align-items: $align
+  
+.login
+  display: grid
+  grid-template-columns: 60% 40%
+  grid-template-rows: 1
+  height: 30rem
+  width: 60rem
+  padding: 0% 20%
+
+  
+  &_content
+    grid-column-start: 1
+    grid-column-end: 2
+    background: #fff
+    +flexin(flex, column, center)
+
+
+    &-form
+      +flexin(flex, column, center)
+      justify-content: space-around
+      height: 70%
+
+      input
+        font-size: 16px
+        border: none
+        border-bottom: 1px solid rgba(0,0,0,0.4)
+        outline: none
+
+      button
+        margin: 0 auto
+        border-radius: 30px
+        width: 8em
+        height: 2em
+        border: none
+        color: #fff
+        font-size: 15px
+        cursor: pointer
+        background-image: linear-gradient(#0F0340, #360BE5)
+      
+      button:hover 
+        background-image: linear-gradient(skyblue, #360BE5)
+
+  &_subcontent
+    grid-column-start: 2
+    grid-column-end: 3
+    background-image: url(https://www.wittobriens.com/wp-content/uploads/2018/08/bigstock-Young-People-Work-In-Modern-Of-214657102.jpg)
+    background-size: cover
+    +flexin(flex, column, center)
+    opacity: 0.8
+    
