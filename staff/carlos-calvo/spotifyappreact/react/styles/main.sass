@@ -1,0 +1,85 @@
+body
+    height: 100vh
+    width: 100vw
+    box-sizing: border-box
+    
+    #root
+        display: flex
+        justify-content: center
+
+        main
+            padding: 2%
+            margin: 0
+
+    .App
+        display: flex
+        justify-content: center
+        flex-direction: column
+        background-color: rgb(72, 196, 70, 0.10)
+
+        .cardContainer
+            display: flex
+            justify-content: space-around
+            width: 100%
+            flex-wrap: wrap
+            background-color: rgb(86, 95, 173, 0.5)
+
+            &__Artist
+                width: 20%
+                position: relative
+
+                &:focus
+                    border: 50px solid black
+
+                img
+                    width: 100%
+                h3
+                    color: black
+                    font-size: 1rem
+
+        .albumContainer
+            display: flex
+            justify-content: space-around
+            width: 100%
+            flex-wrap: wrap
+            background-color: rgb(170, 95, 86, 0.5)
+
+            &__album
+                width: 20%
+                position: relative
+
+                img
+                    width: 100%
+                h3
+                    font-size: 1rem
+                    color: black
+        .dropdown-item
+            h3
+                font-size: 1rem
+
+    .loginPanel
+        max-width: 100%
+
+        .div__buttonlogin
+            display: flex
+            justify-content: center
+            flex-direction: column
+            align-items: center
+
+            section
+                color: red
+            button
+                width: 25%
+
+    .registersection
+        display: flex
+        justify-content: center
+
+        button
+            width: 25%
+
+.form-row
+    margin: 0
+
+
+
