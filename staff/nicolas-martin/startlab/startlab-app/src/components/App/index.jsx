@@ -11,7 +11,12 @@ import logic from '../../logic'
 import InvitationList from '../InvitationList/index'
 
 class App extends Component {
-  state = { registerFeedback: null, loggedIn: logic.isUserLoggedIn, loginFeedback: null }
+  state = {
+    registerFeedback: null,
+    isLoggedIn: logic.isUserLoggedIn,
+    loginFeedback: null,
+    isAdmin: logic.isAdmin
+  }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
     try {
@@ -27,9 +32,12 @@ class App extends Component {
     try {
       logic.logInUser(email, password)
         .then(() => {
-          this.setState({ loginFeedback: null })
-          this.props.history.push('/start')}
-        )
+          return logic.isAdmin().then(isAdmin => {
+            this.setState({ loginFeedback: null, isAdmin, isLoggedIn: logic.isUserLoggedIn })
+            this.props.history.push('/start')
+          })
+          
+        })
         .catch(({ message }) => this.showFeedbackLogin(message))
     } catch ({ message }) {
       this.showFeedbackLogin(message)
@@ -47,17 +55,15 @@ class App extends Component {
   }
 
   render() {
-    const { state: { loggedIn, registerFeedback, loginFeedback }, 
-            handleRegister, 
-            handleLogin,
-            handleOnLoad
+    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback },
+      handleRegister,
+      handleLogin
     } = this
 
     return (
       <div className="container">
-        <Header />
+        <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
         <Switch>
-          {/* { loggedIn && <Route exact path="/" component={Home} /> } */}
           <Route exact path="/" component={Home} />
           <Route exact path="/register" render={() => <Register onRegister={handleRegister} feedback={registerFeedback} />} />
           <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />

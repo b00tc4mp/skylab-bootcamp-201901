@@ -67,7 +67,15 @@ const logic = {
         return !!this.__userApiToken__
     },
 
-    checkCode(code, test){
+    isAdmin() {
+        if (!this.__userApiToken__) return false
+
+        return skylabApi.isAdmin(this.__userApiToken__)
+            .then(isAdmin => isAdmin)
+
+    },
+
+    checkCode(code, test) {
         if (typeof code !== 'string') throw TypeError(code + ' is not a string')
         if (!code.trim().length) throw Error('code cannot be empty')
 

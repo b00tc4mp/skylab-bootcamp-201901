@@ -18,6 +18,7 @@ const {
     authenticateUser,
     retrieveUser,
     checkCode,
+    isAdmin,
 
     // CRUD Exercise
     createExercise,
@@ -47,6 +48,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/user', jsonBodyParser, registerUser)
         router.post('/user/auth', jsonBodyParser, authenticateUser)
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
+        router.get('/isadmin', tokenVerifierMiddleware, isAdmin)
 
         // CRUD Exercise
         router.post('/admin/exercise/create', [jsonBodyParser, tokenVerifierMiddleware], createExercise)

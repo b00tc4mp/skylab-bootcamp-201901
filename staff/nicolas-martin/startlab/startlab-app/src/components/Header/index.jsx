@@ -1,7 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-const Header = () => (
+const Header = ({ isAdmin, isLoggedIn }) => {
+  // {console.log(isAdmin, isLoggedIn)}
+  return (
   <header className="header">
     <span className="icn-logo"><i className="material-icons">code</i></span>
     <ul className="main-nav">
@@ -10,6 +12,6 @@ const Header = () => (
       <li><NavLink to="/login">Login</NavLink></li>
     </ul>
   </header>
-)
+)}
 
 export default Header

@@ -4,6 +4,7 @@ module.exports = {
     registerUser: require('./register-user'),
     authenticateUser: require('./authenticate-user'),
     retrieveUser: require('./retrieve-user'),
+    isAdmin: require('./is-admin'),
 
     // CRUD exercise
     createExercise: require('./exercise/create'),

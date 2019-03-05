@@ -82,6 +82,14 @@ const logic = {
             })
     },
 
+    isAdmin(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
+        debugger
+        return User.findById(userId).select('isAdmin').lean()
+            .then(({ isAdmin }) => isAdmin)
+    },
+
     /********************/
     /** CRUD exercise ***/
     /********************/
@@ -151,7 +159,7 @@ const logic = {
 
                         return Exercise.deleteOne({ _id: exerciseId })
                             .then((res) => {
-                                if (res.ok === 1) return {status: 'ok', message: `exercise with id ${exerciseId} deleted`}
+                                if (res.ok === 1) return { status: 'ok', message: `exercise with id ${exerciseId} deleted` }
                             })
                     })
             })
@@ -171,19 +179,19 @@ const logic = {
                 const { id, ..._exercise } = exercise
 
                 return Exercise.findByIdAndUpdate(id, _exercise, { runValidators: true, new: true }).select('-__v').lean()
-                                .then(exercise => {
-                                    if (!exercise) throw new NotFoundError(`exercise with id ${id} not found`)
+                    .then(exercise => {
+                        if (!exercise) throw new NotFoundError(`exercise with id ${id} not found`)
 
-                                    exercise.id = exercise._id.toString()
-                                    delete exercise._id
+                        exercise.id = exercise._id.toString()
+                        delete exercise._id
 
-                                    return exercise
-                                })
+                        return exercise
+                    })
             })
-    
+
     },
 
-    listExercises(userId){
+    listExercises(userId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
@@ -192,7 +200,7 @@ const logic = {
                 if (!user) throw new NotFoundError(`user with id ${userId} not found`)
                 if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
 
-            return Exercise.find().select('-__v').lean()
+                return Exercise.find().select('-__v').lean()
                     .then(exercises => {
 
                         let _exercises = []

@@ -56,6 +56,22 @@ const skylabApi = {
             })
     },
 
+    isAdmin(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/isadmin`, {
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.error) throw Error(response.error)
+                        return response
+                    })
+    },
+
     checkCode(token, code, test) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
