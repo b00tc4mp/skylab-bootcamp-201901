@@ -7,7 +7,14 @@ import LandingMain from './landing-main'
 
 function Landing(props) {
 
-    const hideProducts = props.location.pathname.includes(['register'])
+    // caso individual:
+
+    // const hideProducts = props.location.pathname.includes(['register'])
+
+    // caso multiple:
+
+    const hideProducts = ['/register', '/login', '/profile', '/contact', '/about', '/products'].includes(props.location.pathname)
+
 
     return (
         <main>
