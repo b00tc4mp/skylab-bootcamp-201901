@@ -4,8 +4,11 @@ import React, { Component } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 import Register from '../Register'
 import Login from '../Login'
+import About from '../About'
 import Landing from '../Landing/index'
 import Navbar from '../Navbar/index'
+import Contact from '../Contact'
+import Footer from '../Footer'
 
 
 
@@ -40,10 +43,13 @@ class App extends Component {
 
         return (<main className="app">
             <Navbar loggedIn={this.state.loggedIn} onLogout={this.onLogout} cartLength={this.state.cartLength} />
-            <Route path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
-            <Route path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
-            {/* <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section> */}
             <Landing />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/contact" component={Contact} />
+            <Route exact path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
+            <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
+            {/* <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section> */}
+            <Footer />
         </main>)
     }
 }

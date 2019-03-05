@@ -57,7 +57,7 @@ class Navbar extends Component {
                         </span> */}
                         <CategoriesDropdown items={this.state.categories} />
                         <span className="py-2 d-none d-md-inline-block">
-                            <Link to="/about-us">About Us</Link>
+                            <Link to="/about">About</Link>
                         </span>
                         {(!this.props.loggedIn) ?
                             <div>

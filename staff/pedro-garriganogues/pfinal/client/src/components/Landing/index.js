@@ -1,24 +1,28 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import './index.css'
 import LandingMain from './landing-main'
-import LandingProducts from './landing-products'
-import Footer from '../Footer'
+// import LandingProducts from './landing-products'
+
 
 function Landing(props) {
+
+    const hideProducts = props.location.pathname.includes(['register'])
+
+
+
     return (
         <main>
             <section>
                 <div>
                     <h1>CleanUp</h1>
-                    {/* <Link to="/categories" className="btn btn-outline-secondary first-main-buttons">Click here to enter</Link> */}
                 </div>
             </section>
-            <LandingProducts onAddToCart={props.onAddToCart} />
-            <LandingMain />
-            <Footer />
+            {!hideProducts && <LandingMain />}
+            {/* <LandingProducts onAddToCart={props.onAddToCart} /> */}
+
         </main>
     )
 }
 
-export default Landing
+export default withRouter(Landing)
