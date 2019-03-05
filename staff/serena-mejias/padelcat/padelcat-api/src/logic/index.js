@@ -105,13 +105,26 @@ const logic = {
   },
 
   retrieveScoreData(link) {
+    if (typeof link !== "string") throw TypeError(link + " is not string");
+
+    if (!link.trim().length) throw Error("link cannot be empty");
+
     return webData[0].find(playerObj => {
       return playerObj.link === link;
     }).score;
   },
 
   addScoreToPlayer(playerId, score) {
-    return (async() => await Player.findByIdAndUpdate(playerId, {score}))()
+    if (typeof playerId !== "string")
+      throw TypeError(`${playerId} is not string`);
+
+    if (!playerId.trim().length) throw Error("playerId cannot be empty");
+
+    if (typeof score !== "string") throw TypeError(score + " is not string");
+
+    if (!score.trim().length) throw Error("score cannot be empty");
+
+    return (async () => await Player.findByIdAndUpdate(playerId, { score }))();
   }
 };
 

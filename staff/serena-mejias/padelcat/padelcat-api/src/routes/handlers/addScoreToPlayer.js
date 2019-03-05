@@ -1,12 +1,13 @@
 const logic = require("../../logic");
 module.exports = (req, res) => {
+  debugger
   const {
-    body: {  playerId, score }
+    playerId, body: { score }
   } = req;
 
   try {
     logic
-      .retrieveScoreData(playerId, score)
+      .addScoreToPlayer(playerId, score)
       .then(res.json.bind(res))
       .catch(err => console.log(err));
   } catch (err) {
