@@ -1,0 +1,226 @@
+@import url("https://fonts.googleapis.com/css?family=Major+Mono+Display|Roboto");
+.register {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 30px 0px;
+  margin-top: 100px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  font-family: "Major Mono Display", monospace;
+  color: white;
+  padding-left: 15px;
+}
+.register button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  margin-right: 20px;
+}
+.register form {
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-top: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.register form input {
+  margin-top: 2px;
+  margin-right: 10px;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+}
+.register form button {
+  background-color: #1CD760;
+  border-radius: 5px;
+  padding: 5px 30px;
+}
+.register .redirectBlock2 {
+  margin-right: 15px;
+  margin-top: 20px;
+}
+.register .redirectBlock2 a {
+  font-family: "Roboto";
+  color: #8fb6ff;
+  text-decoration: none;
+}
+
+.login {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 30px 0px;
+  margin-top: 100px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  font-family: "Major Mono Display", monospace;
+  color: white;
+  padding-left: 15px;
+}
+.login button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  margin-right: 20px;
+}
+.login form {
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-top: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.login form input {
+  margin-top: 2px;
+  margin-right: 10px;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+}
+.login form button {
+  background-color: #1CD760;
+  border-radius: 5px;
+  padding: 5px 30px;
+}
+.login .redirectBlock {
+  margin-right: 15px;
+  margin-top: 20px;
+}
+.login .redirectBlock a {
+  font-family: "Roboto";
+  color: #8fb6ff;
+  text-decoration: none;
+}
+
+.logout {
+  background-color: tomato;
+  width: 60px;
+  height: 60px;
+  text-decoration: none;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  border-style: none;
+  color: white;
+  border-radius: 100%;
+  overflow: none;
+  text-align: center;
+}
+
+.landing {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 30px 0px;
+  margin-top: 200px;
+  text-align: center;
+  color: white;
+}
+.landing a {
+  font-family: "Roboto";
+  color: #8fb6ff;
+  text-decoration: none;
+}
+
+.search {
+  background-color: rgba(0, 0, 0, 0.6);
+  margin-top: 50px;
+  padding: 30px 0px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.search form {
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-top: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.search form input {
+  margin-top: 2px;
+  margin-right: 10px;
+  border-radius: 5px;
+  padding: 15px 30px;
+  border: none;
+}
+.search form button {
+  background-color: #1CD760;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 30px;
+}
+
+.albums {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+.albums a {
+  text-decoration: none;
+}
+.albums a h3 {
+  font-family: "Roboto";
+  color: #1CD760;
+  font-size: 1.2em;
+}
+
+.artists {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+.artists a {
+  text-decoration: none;
+}
+.artists a h3 {
+  font-family: "Roboto";
+  color: #1CD760;
+  font-size: 1.2em;
+}
+
+.tracks {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+.tracks a {
+  text-decoration: none;
+}
+.tracks a h3 {
+  font-family: "Roboto";
+  color: #1CD760;
+  font-size: 1.2em;
+}
+
+header {
+  background-color: black;
+}
+header img {
+  max-width: 120px;
+  margin: 10px 0px 10px 10px;
+}
+
+.main {
+  margin: 0px;
+  padding: 0px;
+  background-image: url(https://images.pexels.com/photos/720240/pexels-photo-720240.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: fixed;
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+}
+
+.mainContainer {
+  flex: 1;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 20px 0px;
+}
+
+/*# sourceMappingURL=style.css.map */
