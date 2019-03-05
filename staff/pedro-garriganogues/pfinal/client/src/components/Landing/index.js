@@ -20,7 +20,7 @@ function Landing(props) {
         <main>
 
             <h4>
-                <h1>CleanUp</h1>
+                {!hideProducts && <h1 className="cleanUp">CleanUp</h1>}
             </h4>
             {!hideProducts && <LandingMain />}
             {/* <LandingProducts onAddToCart={props.onAddToCart} /> */}
