@@ -1,0 +1,6 @@
+.App{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(72, 196, 70, 0.10);
+}
