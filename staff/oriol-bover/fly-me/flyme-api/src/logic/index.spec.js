@@ -585,6 +585,10 @@ describe('logic', () => {
         })
     })
 
+    describe('add drone', () => {
+        
+    })
+
     after(() => {
         return User.deleteMany()
             .then(() => mongoose.disconnect())

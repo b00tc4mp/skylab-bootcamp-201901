@@ -1,7 +1,7 @@
 'use strict'
 
 const bcrypt = require('bcrypt')
-const { models: { User } } = require('flyme-data')
+const { models: { User, Drone, Flight } } = require('flyme-data')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('flyme-errors')
 
 /**
@@ -152,6 +152,43 @@ const logic = {
             .then(() => {
                 return { status: 'OK' }
             })
+    },
+
+    //END USERS CRUD
+
+    addDrone(userId, identifier, brand, model) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        if (typeof identifier !== 'string') throw TypeError(identifier + ' is not a string')
+
+        if (!identifier.trim().length) throw new EmptyError('identifier cannot be empty')
+
+        if (typeof brand !== 'string') throw TypeError(brand + ' is not a string')
+
+        if (!brand.trim().length) throw new EmptyError('brand cannot be empty')
+
+        if (typeof model !== 'string') throw TypeError(model + ' is not a string')
+
+        if (!model.trim().length) throw new EmptyError('model cannot be empty')
+
+        return Drone.create({ owner: userId, identifier, brand, model })
+            .then(drone => drone.id)
+    },
+
+    retrieveDrones() {
+        return Drone.find().select('-__v').lean()
+            .then(drones => drones)
+    },
+
+    retrieveDronesFromUser(userId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        return Drone.find({ owner: userId }).select('-__v').lean()
+            .then(drones => drones)
     }
 
 

@@ -1,5 +1,7 @@
 'use strict'
 
 module.exports = {
-    User: require('./user')
+    User: require('./user'),
+    Drone: require('./drone'),
+    Flight: require('./flight')
 }
