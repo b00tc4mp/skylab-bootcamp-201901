@@ -27,19 +27,24 @@ const User = new Schema({
 
     myHouses: [{
 
-        type: ObjectId,
-        ref: 'house'
+        type: String
 
     }],
+    // myHouses: [{
+
+    //     type: ObjectId,
+    //     ref: 'House'
+
+    // }],
     
     
 
-    favorites:[{
+    // favorites:[{
 
-        type: ObjectId,
-        ref: 'House'
+    //     type: ObjectId,
+    //     ref: 'House'
 
-    }]    
+    // }]    
 })
 
 module.exports = User

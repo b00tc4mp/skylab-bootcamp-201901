@@ -3,6 +3,7 @@
 const { User, House } = require('../models')
 const bcrypt = require('bcrypt')
 
+
 /**
  * Abstraction of business logic.
  */
@@ -51,7 +52,7 @@ const logic = {
 
             const hash = await bcrypt.hash(password, 10)
 
-            const { id } = await User.create({ username,email, password: hash })
+            const { id } = await User.create({ username, email, password: hash })
 
             return id
         })()
@@ -87,14 +88,15 @@ const logic = {
 
     // TODO doc
     retrieveUser(userId) {
-        // TODO validate userId and token type and content
+
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
 
         return User.findById(userId).select('-password -__v').lean()
             .then(user => {
                 if (!user) throw Error(`user with id ${userId} not found`)
 
-                // delete user.password
-                // delete user.__v
 
                 user.id = user._id.toString()
 
@@ -106,7 +108,6 @@ const logic = {
 
     updateUser(userId, data) {
 
-        console.log(userId, data)
 
         return User.findByIdAndUpdate(userId, data, { runValidators: true, new: true }).select('-password -__v').lean()
             .then(user => {
@@ -122,7 +123,36 @@ const logic = {
 
             })
 
+    },
+
+    addHouseToUser(userId, houseId) {
+
+        retrieveUser(userId)
+            .then(user => { 
+                user.myHouses.push(houseId)
+                return user 
+            })
+            .then(user => { 
+
+                const myHouses = user.myHouses
+                User.findByIdAndUpdate(userId, myHouses, { runValidators: true, new: true }) 
+
+            })
+
+
+    },
+
+    createHouse(ownerId, images, description, info, adress) {
+
+        return House.create(ownerId, images, description, info, adress)
+            .then(house => {
+
+                addHouseToUser(ownerId,house.id)
+            
+            })
+
     }
+
 }
 
 module.exports = logic

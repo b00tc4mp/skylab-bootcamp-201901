@@ -3,7 +3,7 @@ const { Schema, ObjectId } = require('mongoose')
 const House = new Schema({
 
 
-    owner: {
+    ownerId: {
         type: ObjectId,
         required: true,
         ref: 'User'
@@ -47,7 +47,14 @@ const House = new Schema({
 
 
 
+    },
+
+    adress: 
+    {
+        type: String,
+        required: true
     }
+
 
    
 })
