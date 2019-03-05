@@ -14,7 +14,7 @@ class SignedIn extends Component {
     render() {
         return (
             <ul className="right">
-                <li><Link to='/'>Products</Link></li>
+                <li><Link to='/profile'>Profile</Link></li>
                 <li><Link to='/'>Log Out</Link></li>
             </ul>
 

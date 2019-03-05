@@ -5,10 +5,12 @@ import { Route, withRouter } from 'react-router-dom'
 import Register from '../Register'
 import Login from '../Login'
 import About from '../About'
+import Products from '../Products'
 import Landing from '../Landing/index'
 import Navbar from '../Navbar/index'
 import Contact from '../Contact'
 import Footer from '../Footer'
+import Profile from '../Profile'
 
 
 
@@ -46,6 +48,8 @@ class App extends Component {
             <Landing />
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
+            <Route exact path="/products" component={Products} />
+            <Route exact path="/profile" component={Profile} />
             <Route exact path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
             {/* <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section> */}

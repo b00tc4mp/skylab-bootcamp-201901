@@ -9,15 +9,12 @@ function Landing(props) {
 
     const hideProducts = props.location.pathname.includes(['register'])
 
-
-
     return (
         <main>
-            <section>
-                <div>
-                    <h1>CleanUp</h1>
-                </div>
-            </section>
+
+            <h4>
+                <h1>CleanUp</h1>
+            </h4>
             {!hideProducts && <LandingMain />}
             {/* <LandingProducts onAddToCart={props.onAddToCart} /> */}
 

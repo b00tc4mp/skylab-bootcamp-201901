@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './index.css'
 
 
-class About extends Component {
+class Profile extends Component {
 
 
 
@@ -10,7 +10,7 @@ class About extends Component {
         return (
             <main>
 
-                <h1>About</h1>
+                <h1>Profile</h1>
 
 
             </main>
@@ -19,4 +19,4 @@ class About extends Component {
 
 }
 
-export default About
+export default Profile
