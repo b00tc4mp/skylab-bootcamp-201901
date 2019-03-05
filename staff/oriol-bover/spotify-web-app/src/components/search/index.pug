@@ -1,0 +1,8 @@
+mixin search()
+          .box
+            form(action='/search', method='POST')
+              .field.has-addons
+                .control.is-expanded
+                  input.input.has-text-centered(type='search', placeholder='search an artist', name="query")
+                .control
+                  input.button.is-dark(type='submit', value='search')
