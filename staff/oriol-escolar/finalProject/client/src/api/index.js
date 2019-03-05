@@ -27,7 +27,7 @@ const homeSwappApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ username, email, username, password })
+            body: JSON.stringify({ username, email, password, passwordConfirmation })
         })
             .then(response => response.json())
             .then(response => {

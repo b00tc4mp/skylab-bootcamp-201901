@@ -12,8 +12,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "eject": "react-scripts eject",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
+
   },
   "eslintConfig": {
     "extends": "react-app"

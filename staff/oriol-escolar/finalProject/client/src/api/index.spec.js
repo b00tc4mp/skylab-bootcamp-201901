@@ -11,15 +11,45 @@ describe('user api', () => {
         const password = '123'
 
         it('should succeed on correct data', () =>
-                        
-        homeSwappApi.register(username, email, password,password)
+
+            homeSwappApi.register(username, email, password, password)
 
                 .then(id => expect(id).toBeDefined())
         )
 
-        it('should fail on undefined', () => {
+        it('should fail on undefined username', () => {
             try {
-                            homeSwappApi.register(username, email, password,password)
+                homeSwappApi.register(undefined, email, password, password)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on undefined email', () => {
+            try {
+                homeSwappApi.register(username, undefined, password, password)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on undefined password', () => {
+            try {
+                homeSwappApi.register(username, email, undefined, password)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on undefined password confirmation', () => {
+            try {
+                homeSwappApi.register(username, email, password, undefined)
 
             } catch (error) {
                 expect(error).toBeDefined()
@@ -28,7 +58,7 @@ describe('user api', () => {
         })
 
         it('should fail on already existing user', () =>
-                        homeSwappApi.register(username, email, password,password)
+            homeSwappApi.register(username, email, password, password)
 
                 .then(() => {
                     throw Error('should not have passed by here')
@@ -43,7 +73,7 @@ describe('user api', () => {
             const username = ''
 
             try {
-                            homeSwappApi.register(username, email, password,password)
+                homeSwappApi.register(username, email, password, password)
 
             } catch (error) {
                 expect(error).toBeDefined()
@@ -56,7 +86,7 @@ describe('user api', () => {
             const email = ''
 
             try {
-                            homeSwappApi.register(username, email, password,password)
+                homeSwappApi.register(username, email, password, password)
 
             } catch (error) {
                 expect(error).toBeDefined()
@@ -70,7 +100,7 @@ describe('user api', () => {
             const email = ''
 
             try {
-                            homeSwappApi.register(username, email, password,password)
+                homeSwappApi.register(username, email, password, password)
 
             } catch (error) {
                 expect(error).toBeDefined()
@@ -84,7 +114,7 @@ describe('user api', () => {
             const password = ''
 
             try {
-                            homeSwappApi.register(username, email, password,password)
+                homeSwappApi.register(username, email, password, password)
 
             } catch (error) {
                 expect(error).toBeDefined()
