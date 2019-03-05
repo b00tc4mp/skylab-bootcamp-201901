@@ -22,11 +22,12 @@ const logic = {
      * @param {String} surname 
      * @param {String} email 
      * @param {String} password 
-     * @param {String} passwordConfirmation 
+     * @param {String} passwordConfirm 
      * 
      * @return Object with the Id of the new User
      */
-    registerUser(name, surname, email, password, passwordConfirmation) {
+    registerUser(name, surname, email, password, passwordConfirm) {
+
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
         if (!name.trim().length) throw new EmptyError('name cannot be empty')
@@ -43,11 +44,11 @@ const logic = {
 
         if (!password.trim().length) throw new EmptyError('password cannot be empty')
 
-        if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
+        if (typeof passwordConfirm !== 'string') throw TypeError(passwordConfirm + ' is not a string')
 
-        if (!passwordConfirmation.trim().length) throw new EmptyError('password confirmation cannot be empty')
+        if (!passwordConfirm.trim().length) throw new EmptyError('password confirmation cannot be empty')
 
-        if (password !== passwordConfirmation) throw new MatchingError('passwords do not match')
+        if (password !== passwordConfirm) throw new MatchingError('passwords do not match')
 
         return User.findOne({ email })
             .then(user => {
@@ -81,6 +82,7 @@ const logic = {
 
         return User.findOne({ email })
             .then(user => {
+
                 if (!user) throw new NotFoundError(`There is no User with this email: ${email}`)
 
                 return bcrypt.compare(password, user.password)
