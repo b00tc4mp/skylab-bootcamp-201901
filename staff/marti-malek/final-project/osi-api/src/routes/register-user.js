@@ -2,7 +2,7 @@ const logic = require('../logic')
 
 module.exports = (req, res) => {
     const { body: { name, surname, email, password, passwordConfirm } } = req
-
+    
     try {
         logic.registerUser(name, surname, email, password, passwordConfirm)
             .then(id => res.json(id))

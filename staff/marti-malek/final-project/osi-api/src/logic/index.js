@@ -45,7 +45,7 @@ const logic = {
             const user = await User.findOne({ email })
 
             if (user) throw Error(`user with email ${email} already exists`)
-
+            debugger
             const hash = await bcrypt.hash(password, 10)
 
             const { id } = await User.create({ name, surname, email, password: hash })
