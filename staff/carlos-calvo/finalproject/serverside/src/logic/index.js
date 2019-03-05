@@ -221,26 +221,23 @@ const logic = {
     },
 
     /**
-     * Deletes a book by title from a userId 
-     * @param {String} title 
-     * @param {String} userId 
+     * Deletes a book by title from a book id
+     * @param {String} id
+     * 
      */
-    deleteBook (title, userId){
-        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
-        if (!title.trim().length) throw new EmptyError('title  is empty')
-
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError('userId  is empty')
-
+    deleteBook (id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new EmptyError('id  is empty')
+        console.log(id)
         return (async () => {
 
             //Check that book title does exist.
-            const book = await Book.find({ 'userId' : ObjectID(userId), 'title': title })
-            if (!book) throw new NotFoundError(`Book with ${title} was not found`)
+            const book = await Book.find({ '_id' : ObjectID(id)})
+            if (!book) throw new NotFoundError(`Book  was not found`)
 
-            const id = await Book.findOneAndDelete({ 'userId' : ObjectID(userId), 'title': title })
+            const res = await Book.findOneAndDelete({ '_id' : ObjectID(id) })
 
-            return id
+            return res
         })()
     },
 
@@ -260,6 +257,18 @@ const logic = {
             if(!user) throw new Error(`UserId ${userId} was not found`)
 
             const result = await Book.find({userId})
+
+            return result
+        })()
+    },
+
+    retrieveBook(bookid){
+        if (typeof bookid !== 'string') throw TypeError(`${bookid} is not a string`)
+        if (!bookid.trim().length) throw new EmptyError('bookid  is empty')
+
+        return (async () => {
+
+            const result = await Book.find({'_id': ObjectID(bookid)})
 
             return result
         })()

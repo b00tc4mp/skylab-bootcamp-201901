@@ -1,8 +1,9 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
-import SideBar from '../sidebar';
+import SideBar from '../SideBar';
 import logic from '../../logic'
 import Feedback from '../Feedback'
+
 class UpdateUser extends Component {
 
     state = { name: '', surname: '', email: '', password: '', passwordConf: '', loginFeedback: '' }

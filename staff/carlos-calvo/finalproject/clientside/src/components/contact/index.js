@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react'
-import SideBar from '../sidebar'
+import SideBar from '../SideBar'
 import './index.sass'
 
 class ContactForm extends Component {

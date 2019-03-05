@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
 import { Route, withRouter, Link } from 'react-router-dom'
-import Welcome from '../welcome';
+import Welcome from '../Welcome';
 import logic from '../../logic/index'
 import Feedback from '../Feedback'
 

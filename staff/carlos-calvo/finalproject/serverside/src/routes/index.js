@@ -9,5 +9,11 @@ module.exports = {
 
     addBook : require('./add-book'),
 
-    notFound: require('./not-found')
+    notFound: require('./not-found'),
+
+    retrieveBooks: require('./retrieve-books'),
+
+    retrieveBook: require('./retrieve-book'),
+
+    deleteBook: require('./delete-book')
 }

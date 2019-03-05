@@ -126,7 +126,16 @@ const logic = {
 
     /// BOOK LOGIC
 
-
+    /**
+     * 
+     * Add a book to the current user
+     * 
+     * @param {String} title 
+     * @param {String} content 
+     * @param {String} coverphoto 
+     * @param {Array} images 
+     * @param {Array} parameters 
+     */
     addBook(title, content, coverphoto, images = [], parameters = []){
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw new Error('title  is empty')
@@ -145,7 +154,54 @@ const logic = {
 
             return book
         })()
+    },
+
+
+    /**
+     * retrieve books from current user
+     */
+    retrieveBooks(){
+        if(arguments.length != 0) throw new Error('Too Many args')
+
+        return ( async () => {
+
+            const books = await bookApi.retrieveBooks(this.getToken)
+
+            return books
+
+        })()
+    },
+
+    /**
+     * 
+     * Retrieve book by bookid
+     * @param {String} bookid
+     * 
+     *  
+     */
+    retrieveBook(bookid){
+        if (typeof bookid !== 'string') throw TypeError(`${bookid} is not a string`)
+        if (!bookid.trim().length) throw new Error('bookid  is empty')
+
+        return ( async () => {
+            const book = await bookApi.retrieveBook(this.getToken, bookid)
+            return book
+        })()
+    },
+
+    deleteBook(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+
+        return (async () => {
+            const book = await bookApi.deleteBook(this.getToken, id)
+            return book
+        })()
+
     }
+
+
+
 
 
     

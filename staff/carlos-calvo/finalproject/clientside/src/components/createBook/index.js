@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react';
-import SideBar from '../sidebar';
 import './index.sass'
 import logic from '../../logic'
-import ProgressBar from '../progressBar';
+import ProgressBar from '../ProgressBar';
+import SideBar from '../SideBar';
 class CreateBook extends Component {
   
     state = {
@@ -22,9 +22,10 @@ class CreateBook extends Component {
         let selectedFile = document.getElementById("inputtext").files[0]
         if(!selectedFile) return //Haria falta avisar al usuario.
         var reader = new FileReader();
-        reader.readAsText(selectedFile, "UTF-8");
+        reader.readAsText(selectedFile, "ISO-8859-1"); //This encoding to accept ç and accents.
         reader.onload = (evt) => {
-            this.setState({textContent :evt.target.result, urlCover :evt.target.result}, () => this.addBook())
+            this.setState({textContent :evt.target.result, urlCover :'https://torange.biz/photofx/54/8/light-very-vivid-colours-fragment-pattern-facebook-electronics-cover-54112.jpg'}
+            ,() => this.addBook())
         }
 
         //Aquí también al leer el fichero debería de calcular los tags de imagenes y parametros. 
@@ -44,7 +45,7 @@ class CreateBook extends Component {
         return (
         <Fragment>
             <div>
-            <SideBar></SideBar>
+            <SideBar/>
             </div>
             <div className="rightsidebar coverright">
                 <div className="formCreateBook">

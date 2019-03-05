@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react'
-import Carrousel from '../carrousel'
+import Carrousel from '../Carrousel'
 import { Route, withRouter, Link } from 'react-router-dom'
 import './index.sass'
 

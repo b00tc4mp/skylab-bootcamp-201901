@@ -9,7 +9,7 @@ const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
 const cors = require('cors')
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, notFound, addBook } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, updateUser, notFound, addBook, retrieveBooks, deleteBook, retrieveBook } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -37,6 +37,12 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.put('/user/update', jsonBodyParser, updateUser)
 
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
+
+        router.get('/books/retrieve', tokenVerifierMiddleware, retrieveBooks)
+
+        router.get('/book/retrieve/:id', [jsonBodyParser, tokenVerifierMiddleware], retrieveBook )
+
+        router.delete('/book/delete',[jsonBodyParser, tokenVerifierMiddleware], deleteBook )
 
         app.use('/api', router)
 

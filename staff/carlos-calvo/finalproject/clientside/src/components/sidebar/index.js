@@ -1,12 +1,13 @@
 import React, {Component, Fragment} from 'react'
-import { Link  } from "react-router-dom";
-
+import { Link, withRouter  } from "react-router-dom";
+import logic from '../../logic'
 import './index.sass'
 class SideBar extends Component {
 
-    // logoutUser(){
-    //     this.props.logoutUser();
-    // }
+    logoutUser(){
+        logic.logOutUser()
+        this.props.history.push('/welcome')
+    }
 
     render() {
         return (
@@ -17,6 +18,7 @@ class SideBar extends Component {
                         <Link to="/home/yourbooks">Your Books <i className="fas fa-swatchbook"/></Link>
                         <Link to="/home/profile">Your Profile <i className="far fa-user"></i></Link>
                         <Link to="/home/contact">Contact Us <i className="far fa-envelope"></i></Link>
+                        <button onClick={this.logoutUser}>LogOut <i className="fas fa-sign-out-alt"></i></button>
                     </div>
                 </div>
             </Fragment>
