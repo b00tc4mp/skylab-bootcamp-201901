@@ -1,0 +1,33 @@
+{
+  "name": "project-z-api",
+  "version": "1.0.0-alpha",
+  "description": "## server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src",
+    "watch": "nodemon src",
+    "debug": "node debug src",
+    "test": "mocha --timeout 10000 **/*.spec.js",
+    "test-debug": "mocha debug **/*.spec.js",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 **/*.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "isomorphic-fetch": "^2.2.1",
+    "jsonwebtoken": "^8.5.0",
+    "mongoose": "^5.4.17",
+    "project-z-data": "file:../project-z-data",
+    "project-z-errors": "file:../project-z-errors",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "expect": "^24.1.0"
+  }
+}
