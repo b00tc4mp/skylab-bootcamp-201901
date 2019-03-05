@@ -67,12 +67,15 @@ const logic = {
         return !!this.__userApiToken__
     },
 
+    /**
+     * Checks if an user is admin
+     */
+
     isAdmin() {
         if (!this.__userApiToken__) return false
 
         return skylabApi.isAdmin(this.__userApiToken__)
             .then(isAdmin => isAdmin)
-
     },
 
     checkCode(code, test) {
@@ -83,8 +86,6 @@ const logic = {
         if (!test.trim().length) throw Error('test cannot be empty')
 
         return skylabApi.checkCode(this.__userApiToken__, code, test)
-
-
     }
 
     // /**

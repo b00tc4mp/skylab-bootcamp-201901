@@ -8,8 +8,8 @@ const Header = ({ isAdmin, isLoggedIn }) => {
     <span className="icn-logo"><i className="material-icons">code</i></span>
     <ul className="main-nav">
       <li><NavLink exact to="/" activeStyle={{ background: 'tomato' }}>Home</NavLink></li>
-      <li><NavLink to="/register" activeClassName="myActiveClass">Register</NavLink></li>
-      <li><NavLink to="/login">Login</NavLink></li>
+      <li>{!isLoggedIn && <NavLink to="/register" activeClassName="myActiveClass">Register</NavLink>}</li>
+      <li>{!isLoggedIn && <NavLink to="/login">Login</NavLink>}</li>
     </ul>
   </header>
 )}

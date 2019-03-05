@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import { withRouter, Route, Switch } from 'react-router-dom'
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 // App components
 import Header from '../Header/index'
 import Home from '../Home/index'
 import Register from '../Register/index'
 import Login from '../Login/index'
+import ExercisesList from '../ExerciseList/index'
 import NotFound from '../NotFound/index'
+
 import logic from '../../logic'
-import InvitationList from '../InvitationList/index'
+// import InvitationList from '../InvitationList/index'
 
 class App extends Component {
   state = {
@@ -36,7 +38,7 @@ class App extends Component {
             this.setState({ loginFeedback: null, isAdmin, isLoggedIn: logic.isUserLoggedIn })
             this.props.history.push('/start')
           })
-          
+
         })
         .catch(({ message }) => this.showFeedbackLogin(message))
     } catch ({ message }) {
@@ -65,9 +67,12 @@ class App extends Component {
         <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/register" render={() => <Register onRegister={handleRegister} feedback={registerFeedback} />} />
-          <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
-          <Route exact path="/invitation-list" component={InvitationList} />
+
+          <Route exact path="/register" render={() => !isLoggedIn? <Register onRegister={handleRegister} feedback={registerFeedback} /> : <Redirect to='/' />} /> :         
+          <Route exact path="/login" render={() => !isLoggedIn? <Login onLogin={handleLogin} feedback={loginFeedback} /> : <Redirect to='/' /> } />
+
+          <Route exact path="/admin/exercises" render={() => isAdmin? <ExercisesList /> : <Redirect to='/' />} />
+
           <Route component={NotFound} />
         </Switch>
       </div>
