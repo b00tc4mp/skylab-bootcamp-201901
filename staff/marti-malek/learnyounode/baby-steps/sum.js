@@ -1,0 +1,1 @@
+module.exports = (...nums) => nums.reduce((acc, curr) => Number(acc) + Number(curr))

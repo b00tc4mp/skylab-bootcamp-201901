@@ -1,0 +1,10 @@
+{
+  "name": "skylab-inn-data",
+  "version": "0.0.1",
+  "description": "data",
+  "main": "src/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^5.4.16"
+  }
+}
