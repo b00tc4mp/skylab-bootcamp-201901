@@ -62,7 +62,6 @@ const logic = {
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
         return homeSwappApi.register(username, email, password,passwordConfirmation)
-            .then(() => { })
     },
 
     /**
@@ -88,7 +87,6 @@ const logic = {
         return homeSwappApi.authenticate(email, password)
             .then((token) => {
                 this.setUserApiToken(token)
-                console.log('succeed')
                 return token
             })
     },

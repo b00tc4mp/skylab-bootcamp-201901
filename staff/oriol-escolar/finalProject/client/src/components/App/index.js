@@ -7,19 +7,22 @@ import logic from '../../logic'
 
 
 class App extends Component {
-  state={user:""}
+  state={user:"", loginFeedback: null, registerFeedback: null}
 
 
   handleLogin = (email, password) => {
+
     try {
       logic.loginUser(email, password)
         .then(() => {    
           logic.retrieveUser()
             .then(user => this.setState({user}))
             // .then(() => this.props.history.push('/home'))
-            .then(() => console.log('yeah'))
         })
-        .catch(({ message }) => this.setState({ loginFeedback: message }))
+        .catch(({ message }) =>{
+          console.log(message)
+          this.setState({ loginFeedback: message })
+        } )
     } catch ({ message }) {
       this.setState({ loginFeedback: message })
     }
@@ -29,13 +32,15 @@ class App extends Component {
 
   render() {
 
-    const { handleLogin }=this
+    const { handleLogin,state:{user,loginFeedback} }=this
 
 
     return (
+
+      
       <div className="App">
         <header className="App-header">
-          <Login onLogin = {handleLogin}> </Login>
+          {!user && <Login loginFeedback={loginFeedback} onLogin = {handleLogin}> </Login>}
         </header>
       </div>
     );

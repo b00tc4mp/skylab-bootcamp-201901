@@ -1,6 +1,8 @@
 'use strict'
 
 import React, { Component } from 'react'
+import Feedback from '../Feedback'
+
 
 
 class Login extends Component {
@@ -24,7 +26,7 @@ class Login extends Component {
 
     render() {
 
-        const { handleInput, handleFormSubmit } = this
+        const { handleInput, handleFormSubmit, props: { loginFeedback } } = this
 
         return <section className="login">
 
@@ -32,15 +34,18 @@ class Login extends Component {
             <form className="login-form" onSubmit={handleFormSubmit}>
 
                 <p>email</p>
-                <input type="text" name="email" placeholder="Enter a valid email adress" onChange={handleInput}></input>
+                <input required type="email" name="email" placeholder="Enter a valid email adress" onChange={handleInput}></input>
 
                 <p>password</p>
-                <input type="text" name="email" placeholder="Enter a valid email adress" onChange={handleInput}></input>
+                <input required type="text" name="password" placeholder="Enter a valid email adress" onChange={handleInput}></input>
 
                 <button>Login</button>
 
 
             </form>
+            <div className="block feedback">
+                {loginFeedback && <Feedback message={loginFeedback} />}
+            </div>
 
 
         </section>
