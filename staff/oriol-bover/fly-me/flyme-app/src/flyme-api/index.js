@@ -44,6 +44,25 @@ const flymeApi = {
         })
             .then(res => res.json())
             .then(res => res)
+    },
+
+    sendCommand(token, command) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof command !== 'string') throw TypeError(`${command} is not a string`)
+        if (!command.trim().length) throw Error('command is empty')
+
+        return fetch(`${this.url}/drone/command`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ command })
+        })
+            .then(res => res.json())
+            .then(res => res)
     }
 }
 

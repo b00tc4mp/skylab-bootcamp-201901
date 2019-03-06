@@ -9,6 +9,7 @@ module.exports = {
     retrieveDronesUser: require('./retrieve-drones-user'),
     updateDrone: require('./update-drone'),
     deleteDrone: require('./delete-drone'),
+    sendDroneCommand: require('./send-drone-command'),
     addFlight: require('./add-flight'),
     retrieveFlights: require('./retrieve-flights'),
     retrieveFlightsUser: require('./retrieve-flights-user'),

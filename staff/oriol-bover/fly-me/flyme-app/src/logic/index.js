@@ -63,6 +63,15 @@ const logic = {
      */
     logOutUser() {
         this.__userApiToken__ = null
+    },
+
+    sendDroneCommand(command) {
+        if (typeof command !== 'string') throw TypeError(command + ' is not a string')
+
+        if (!command.trim().length) throw Error('command cannot be empty')
+
+        return flymeApi.sendCommand(this.__userApiToken__, command)
+            .then(res => res)
     }
 }
 

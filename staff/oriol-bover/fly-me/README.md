@@ -8,5 +8,5 @@
 
 ## DESCRIPTION
 
-This project is an admin to control a DJI TRELLO drone. 
+The "fly-me" project consists of the creation of an application that allows to control a dru DJI brand using only JavaScript technology. Through a combination of react and node js it is possible to mount a full-stack application that achieves this purpose.
 

@@ -1,9 +1,9 @@
 import React from 'react'
-
+import CommandPannel from '../CommandPannel'
 function Admin() {
 
     return (<section>
-        Hello Admin Page
+        < CommandPannel />
     </section>)
 }
 
