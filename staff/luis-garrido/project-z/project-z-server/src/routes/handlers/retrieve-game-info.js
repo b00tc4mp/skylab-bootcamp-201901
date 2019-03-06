@@ -1,11 +1,11 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { params: { artistId }, userId } = req
+    const { params: { gameId } } = req
 
     try {
-        logic.listCommentsFromArtist(userId, artistId)
-            .then(comments => res.json(comments))
+        logic.retrieveGameInfo(gameId)
+            .then(gameInfo => res.json(gameInfo))
             .catch(({ message }) => {
                 res.status(404).json({
                     error: message

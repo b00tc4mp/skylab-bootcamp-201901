@@ -1,18 +1,19 @@
-const { Schema } = require('mongoose')
-const { Types: { ObjectId }} = Schema
+const { Schema } = require("mongoose");
+const {
+    Types: { ObjectId }
+} = Schema;
 
 const Game = new Schema({
-    
     developers: {
-        type: [{ type: Number, ref: 'Developer' }]
+        type: [{ type: Number, ref: "Developer" }]
     },
 
     genres: {
-        type: [{ type: Number, ref: 'Genre' }]
+        type: [{ type: Number, ref: "Genre" }]
     },
 
     publishers: {
-        type: [{ type: Number, ref: 'Publisher' }]
+        type: [{ type: Number, ref: "Publisher" }]
     },
 
     alternates: {
@@ -20,7 +21,7 @@ const Game = new Schema({
     },
 
     reviews: {
-        type: [{ type: ObjectId, ref: 'Review' }]
+        type: [{ type: ObjectId, ref: "Review" }]
     },
 
     id: {
@@ -40,7 +41,7 @@ const Game = new Schema({
     },
 
     platform: {
-        type: [{ type: Number, ref: 'Platform' }],
+        type: [{ type: Number, ref: "Platform" }],
         required: true
     },
 
@@ -71,7 +72,7 @@ const Game = new Schema({
     os: {
         type: String
     },
-    
+
     processor: {
         type: String
     },
@@ -91,6 +92,6 @@ const Game = new Schema({
     sound: {
         type: String
     }
-})
+});
 
-module.exports = Game
+module.exports = Game;

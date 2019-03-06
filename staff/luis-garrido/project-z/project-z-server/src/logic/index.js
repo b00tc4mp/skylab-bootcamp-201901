@@ -1,7 +1,7 @@
 "use strict";
 
 const {
-    models: { User }
+    models: { User, Game, Boxart }
 } = require("project-z-data");
 const bcrypt = require("bcrypt");
 const {
@@ -28,7 +28,7 @@ const logic = {
      * @param {string} password
      * @param {string} passwordConfirmation
      * @returns {string} id
-     * 
+     *
      */
     registerUser(
         admin,
@@ -131,7 +131,7 @@ const logic = {
      * @param {string} loggingData
      * @param {string} password
      * @returns {string} user.id
-     * 
+     *
      */
     authenticateUser(loggingData, password) {
         if (typeof loggingData !== "string")
@@ -178,7 +178,7 @@ const logic = {
      *
      * @param {string} userId
      * @returns {object} user
-     * 
+     *
      */
     retrieveUser(userId) {
         if (typeof userId !== "string")
@@ -205,20 +205,149 @@ const logic = {
     // TODO updateUser and removeUser
 
     /**
+     *
+     * @param {string} userId
+     * @param {string} gameId
+     * @param {object} review
+     *
+     * @returns {object} reviewAdded
+     */
+    postReview(userId, gameId, review) {
+        if (typeof userId !== "string")
+            throw TypeError(`${userId} is not a string`);
+
+        if (!userId.trim().length)
+            throw new EmptyError("userId cannot be empty");
+
+        if (typeof gameId !== "string")
+            throw TypeError(`${gameId} is not a string`);
+
+        if (!gameId.trim().length)
+            throw new EmptyError("gameId cannot be empty");
+
+        if (!(review instanceof Object))
+            throw TypeError(`${review} is not an o-bject`);
+
+        if (Object.keys(review).length === 0)
+            throw new EmptyError("review cannot be empty");
+
+        return async () => {
+            let isUser = await User.findOne({ _id: userId });
+
+            if (!isUser)
+                throw new NotFoundError(
+                    `user with id "${userId}" doesn't exist`
+                );
+
+            let isGame = await Game.findOne({ id: gameId });
+
+            if (!isGame)
+                throw new NotFoundError(
+                    `game with id "${gameId}" doesn't exist`
+                );
+
+            gameId = game._id
+
+            const { text, score, author, game } = review
+
+            const postedReview = await Review.create({
+                text,
+                score,
+                author: userId,
+                game: gameId
+            });
+
+            return postedReview;
+        };
+    },
+
+    /**
      * Search games by name in our DB
-     * 
+     *
      * @param {string} query
-     * 
+     * @returns {object} games
+     *
      */
     searchGames(query) {
-        if (typeof query !== 'string') throw TypeError(`${query} is not a string`);
+        if (typeof query !== "string")
+            throw TypeError(`${query} is not a string`);
 
-        if (!query.trim().length) throw new EmptyError('query is empty');
+        if (!query.trim().length) throw new EmptyError("query is empty");
 
-        return 
+        return Game.find(
+            { $text: { $search: query } },
+            // { game_title: { $regex: `${query}`, $options: "i" } }, // Alex alternative
+            { score: { $meta: "textScore" } }
+        )
+            .sort({
+                score: { $meta: "textScore" }
+            })
+            .select("-_id -__v")
+            .lean()
+            .then(games => {
+                if (games.length === 0)
+                    throw new NotFoundError(`no games found`);
 
+                return games;
+            })
+            .then(async gameInfo => {
+                const gameInfoMap = gameInfo.map(async oneGame => {
+                    const cover = await Boxart.find({ id_game: oneGame.id })
+                        .select("-_id -__v")
+                        .lean();
+                    oneGame.boxartUrl = cover[0].images.find(
+                        image => image.side === "front"
+                    ).filename;
+                    return oneGame;
+                });
+                gameInfo = await Promise.all(gameInfoMap);
+                return gameInfo;
+            });
+    },
 
+    /**
+     * Retrieve game info by game ID
+     *
+     * @param {String} gameId - The ID to retrieve game data.
+     * @returns {Object} - Game info
+     *
+     */
+    retrieveGameInfo(gameId) {
+        if (typeof gameId !== "string")
+            throw TypeError(`${gameId} is not a string`);
 
+        if (!gameId.trim().length) throw new EmptyError("gameId is empty");
+
+        if (isNaN(Number(gameId)))
+            throw TypeError(`${gameId} should be a number`);
+
+        if (!isNaN(Number(gameId)) && Number(gameId) < 1)
+            throw Error(`${gameId} should be a bigger than 0 number`);
+
+        if (!isNaN(Number(gameId)) && Number(gameId) % 1 !== 0)
+            throw Error(`${gameId} should be an integer number`);
+
+        return Game.findOne({ id: gameId })
+            .select("-_id -__v")
+            .lean() // .then(response => response.json())
+            .then(gameInfo => {
+                if (gameInfo === null)
+                    throw new NotFoundError(
+                        `${gameId} doesn't exist in database`
+                    );
+
+                return gameInfo;
+            })
+            .then(async gameInfo => {
+                const cover = await Boxart.find({ id_game: gameId })
+                    .select("-_id -__v")
+                    .lean();
+                gameInfo.boxartUrl = cover[0].images.find(
+                    image => image.side === "front"
+                ).filename;
+
+                return gameInfo;
+            });
     }
 };
 

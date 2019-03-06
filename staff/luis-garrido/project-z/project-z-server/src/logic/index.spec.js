@@ -1205,33 +1205,219 @@ describe("logic", () => {
         });
     });
 
-    // TODO updateUser and removeUser
+    // --------- SEARCH --------------------
+
+    describe("search game", () => {
+        it("should succeed on matching query", () => {
+            const query = "braid";
+
+            return logic.searchGames(query).then(games => {
+                expect(games).toBeDefined();
+                expect(games instanceof Array).toBeTruthy();
+                expect(games.length).toBeGreaterThan(0);
+
+                expect(games[0].game_title.toLowerCase()).toContain(query);
+                expect(games[0].boxartUrl).toBeDefined();
+            });
+        });
+
+        it("should fail when no games found", async () => {
+            const query = "marcsarrocaadventures";
+
+            let errorCatched;
+
+            try {
+                const test = await logic.searchGames(query);
+                console.log(`NOT SHOULD PASS BY HERE`);
+            } catch (error) {
+                errorCatched = error;
+            }
+
+            expect(errorCatched instanceof NotFoundError).toBe(true);
+            expect(errorCatched.message).toBe(`no games found`);
+        });
+
+        it("should fail on empty query", () => {
+            const query = "";
+
+            expect(() => logic.searchGames(query)).toThrow(
+                new EmptyError("query is empty")
+            );
+        });
+
+        it("should fail on undefined query", () => {
+            const query = undefined;
+
+            expect(() =>
+                logic
+                    .searchGames(query)
+                    .toThrow(TypeError(`${query} is not a string`))
+            );
+        });
+
+        it("should fail on numeric query", () => {
+            const query = 10;
+
+            expect(() =>
+                logic
+                    .searchGames(query)
+                    .toThrow(TypeError(`${query} is not a string`))
+            );
+        });
+
+        it("should fail on boolean query", () => {
+            const query = false;
+
+            expect(() =>
+                logic
+                    .searchGames(query)
+                    .toThrow(TypeError(`${query} is not a string`))
+            );
+        });
+
+        it("should fail on object query", () => {
+            const query = {};
+
+            expect(() =>
+                logic
+                    .searchGames(query)
+                    .toThrow(TypeError(`${query} is not a string`))
+            );
+        });
+
+        it("should fail on array query", () => {
+            const query = [];
+
+            expect(() =>
+                logic
+                    .searchGames(query)
+                    .toThrow(TypeError(`${query} is not a string`))
+            );
+        });
+    });
+
+    //----------------RETRIEVE GAME INFO------------------
+
+    describe("retrieve game info", () => {
+        it("should succeed on retrieving info", () => {
+            const gameId = "17111";
+            const gameTitle = "The Witness";
+
+            return logic.retrieveGameInfo(gameId).then(gameInfo => {
+                expect(gameInfo).toBeDefined();
+                expect(gameInfo instanceof Object).toBeTruthy();
+
+                expect(gameInfo.id.toString()).toBe(gameId);
+                expect(gameInfo.game_title).toBe(gameTitle);
+                expect(gameInfo.boxartUrl).toBeDefined();
+            });
+        });
+
+        it("should fail when no games found", async () => {
+            const gameId = "189189189189";
+
+            let errorCatched;
+
+            try {
+                const test = await logic.retrieveGameInfo(gameId);
+                console.log(`NOT SHOULD PASS BY HERE`);
+            } catch (error) {
+                errorCatched = error;
+            }
+
+            expect(errorCatched instanceof NotFoundError).toBe(true);
+            expect(errorCatched.message).toBe(
+                `${gameId} doesn't exist in database`
+            );
+        });
+
+        it("should fail on non-number string gameId", () => {
+            const gameId = "fakeId";
+
+            expect(() => logic.retrieveGameInfo(gameId)).toThrow(
+                TypeError(`${gameId} should be a number`)
+            );
+        });
+
+        it("should fail on gameId lower than 1", () => {
+            const gameId = "0";
+
+            expect(() => logic.retrieveGameInfo(gameId)).toThrow(
+                Error(`${gameId} should be a bigger than 0 number`)
+            );
+        });
+
+        it("should fail on float number gameId", () => {
+            const gameId = "1.3";
+
+            expect(() => logic.retrieveGameInfo(gameId)).toThrow(
+                Error(`${gameId} should be an integer number`)
+            );
+        });
+
+        it("should fail on empty gameId", () => {
+            const gameId = "";
+
+            expect(() => logic.retrieveGameInfo(gameId)).toThrow(
+                new EmptyError("gameId is empty")
+            );
+        });
+
+        it("should fail on undefined gameId", () => {
+            const gameId = undefined;
+
+            expect(() =>
+                logic
+                    .retrieveGameInfo(gameId)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on numeric gameId", () => {
+            const gameId = 10;
+
+            expect(() =>
+                logic
+                    .retrieveGameInfo(gameId)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on boolean gameId", () => {
+            const gameId = false;
+
+            expect(() =>
+                logic
+                    .retrieveGameInfo(gameId)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on object gameId", () => {
+            const gameId = {};
+
+            expect(() =>
+                logic
+                    .retrieveGameInfo(gameId)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on array gameId", () => {
+            const gameId = [];
+
+            expect(() =>
+                logic
+                    .retrieveGameInfo(gameId)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+    });
 
     after(() =>
         Promise.all([User.deleteMany()]).then(() => mongoose.disconnect())
     );
 });
-
-//     false && describe('search artists', () => {
-//         it('should succeed on mathing query', () => {
-//             const query = 'madonna'
-
-//             return logic.searchArtists(query)
-//                 .then(artists => {
-//                     expect(artists).toBeDefined()
-//                     expect(artists instanceof Array).toBeTruthy()
-//                     expect(artists.length).toBeGreaterThan(0)
-
-//                     artists.forEach(({ name }) => expect(name.toLowerCase()).toContain(query))
-//                 })
-//         })
-
-//         it('should fail on empty query', () => {
-//             const query = ''
-
-//             expect(() => logic.searchArtists(query, function (error, artists) { })).toThrowError('query is empty')
-//         })
-//     })
 
 //     false && describe('retrieve artist', () => {
 //         it('should succeed on mathing query', () => {

@@ -7,6 +7,8 @@ module.exports = {
 
     searchGames: require('./search-games'),
 
+    retrieveGameInfo: require('./retrieve-game-info')
+
     // addCommentToArtist: require('./add-comment-to-artist'),
 
     // listCommentsFromArtist: require('./list-comments-from-artist'),
