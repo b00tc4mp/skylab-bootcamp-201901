@@ -130,7 +130,10 @@ const logic = {
         if (!query.trim().length) throw new Error('query is empty')
 
         return skylabInnApi.searchSkylaber(this.__userApiToken__, query)
-            .then(({user}) => user)
+            .then(({user}) => {
+                console.log(user)
+                return user
+            })
     },
 
     /**

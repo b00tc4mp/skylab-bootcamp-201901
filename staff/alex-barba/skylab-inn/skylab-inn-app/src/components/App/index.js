@@ -46,7 +46,7 @@ function App({ history }) {
             logic.logInUser(email, password)
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    user.techs ? setTypeOfUser('User') : setTypeOfUser('Admin')
+                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
                     return setUserData(user)
                 })
                 .then(() => setFeedback(null))
@@ -68,7 +68,7 @@ function App({ history }) {
     }
 
     return (
-        <AppContext.Provider value={{ feedback, setFeedback, typeOfUser, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber }}>
+        <AppContext.Provider value={{ feedback, setFeedback, typeOfUser, setTypeOfUser,userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber }}>
             <Route exact path="/" render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to="/home" />} />
             <Route path="/signup" render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn} /> : <Redirect to="/home" />} />
             <Route path="/home" render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to="/" />} />

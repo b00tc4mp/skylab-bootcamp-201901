@@ -202,16 +202,15 @@ describe('logic', () => {
         it('should succeed on correct data', () => {
             return logic.retrieveUser()
                 .then(user => {
-                    console.log(user)
                     expect(user).toBeDefined()
                     expect(typeof user === 'object').toBeTruthy()
                     expect(user.id).toBe(_id)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
-                    expect(user.techs).toBeDefined()
+                    expect(user.technology).toBeDefined()
                     expect(user.workExperience).toBeDefined()
-                    expect(user.languages).toBeDefined()
+                    expect(user.language).toBeDefined()
                     expect(user.password).toBeUndefined()
                     expect(user.__v).toBeUndefined()
                 })
@@ -221,14 +220,14 @@ describe('logic', () => {
     describe('update user', () => {
         const name = 'Àlex'
         const surname = 'Barba'
-        const data = { name: 'Test', email: 'test@email.com', telephone: 618610187 }
+        const data = { name: `alex barba`, email: `alex.barba-${Math.random()}@gmail.com`, telephone: 618610187 }
         let email, password, passwordConfirm, _id
 
         beforeEach(() => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
             passwordConfirm = password
-            return logic.registerUser( name, surname, email, password, passwordConfirm)
+            return skylabInnApi.registerUser( name, surname, email, password, passwordConfirm)
                 .then(id => _id = id)
                 .then(() => skylabInnApi.authenticateUser(email, password))
                 .then(token => logic.__userApiToken__ = token)
@@ -261,5 +260,82 @@ describe('logic', () => {
 
         it('should fail when data is a boolean', () =>
             expect(() => logic.updateUser(true)).toThrowError(`true is not an object`))
+    })
+
+     
+    describe('search skylaber', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        let email, password, passwordConfirm, _id
+        const query = 'alex'
+    
+        beforeEach(() => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+            passwordConfirm = password
+            return skylabInnApi.registerUser( name, surname, email, password, passwordConfirm)
+                .then(() => skylabInnApi.authenticateUser(email, password))
+                .then(token => logic.__userApiToken__ = token)
+        })
+    
+        it('should succeed on correct query', async() => {
+            const user = await logic.searchSkylaber(query)
+    
+            expect(user).toBeDefined()
+            expect(typeof user === 'object').toBeTruthy()
+        })
+    
+        it('should fail on empty query', () =>
+            expect(() => logic.searchSkylaber('')).toThrowError('query is empty'))
+    
+        it('should fail when query is a number', () =>
+            expect(() => logic.searchSkylaber(1)).toThrowError(`1 is not a string`))
+    
+        it('should fail when query is an object', () =>
+            expect(() => logic.searchSkylaber({})).toThrowError(`[object Object] is not a string`))
+        
+        it('should fail when query is an array', () =>
+            expect(() => logic.searchSkylaber([1,2,3])).toThrowError(`1,2,3 is not a string`))
+    
+        it('should fail when query is a boolean', () =>
+            expect(() => logic.searchSkylaber(true)).toThrowError(`true is not a string`))
+    }),
+
+    describe('ad search skylaber', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        let email, password, passwordConfirm, _id
+        const query = [['Personal info','alex']]
+    
+        beforeEach(() => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+            passwordConfirm = password
+            return skylabInnApi.registerUser( name, surname, email, password, passwordConfirm)
+                .then(() => skylabInnApi.authenticateUser(email, password))
+                .then(token => logic.__userApiToken__ = token)
+        })
+    
+        it('should succeed on correct query', async() => {
+            const user = await logic.adSearchSkylaber(query)
+    
+            expect(user).toBeDefined()
+            expect(typeof user === 'object').toBeTruthy()
+        })
+    
+        it('should fail on empty param', () =>
+            expect(() => logic.adSearchSkylaber([])).toThrowError('param is empty'))
+    
+        it('should fail when param is a number', () =>
+            expect(() => logic.adSearchSkylaber(1)).toThrowError(`1 is not an array`))
+    
+        it('should fail when param is an object', () =>
+            expect(() => logic.adSearchSkylaber({})).toThrowError(`[object Object] is not an array`))
+        
+        it('should fail when param is a string', () =>
+            expect(() => logic.adSearchSkylaber('test')).toThrowError(`test is not an array`))
+    
+        it('should fail when param is a boolean', () =>
+            expect(() => logic.adSearchSkylaber(true)).toThrowError(`true is not an array`))
     })
 })
