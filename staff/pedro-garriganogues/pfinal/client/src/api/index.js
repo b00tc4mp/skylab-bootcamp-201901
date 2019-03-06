@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 const finalApi = {
     url: 'http://localhost:8000',
 
@@ -102,7 +104,134 @@ const finalApi = {
 
                 return response
             })
-    }
+    },
+    listProducts(categoryId) {
+        return Promise.resolve()
+            .then(() => {
+
+                return axios.get(`${this.url}/categories/${categoryId}`)
+                    .then(({ status, data }) => {
+                        if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
+
+                        return data.data
+                    })
+                    .catch(err => {
+                        if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
+
+                        if (err.response) {
+                            const { response: { data: { error: message } } } = err
+
+                            throw Error(message)
+                        } else throw err
+                    })
+            })
+    },
+
+
+    /**
+      * Retrieves product
+      * 
+      * @param {string} productId
+      * 
+      * @throws {Error} - If invalid type of input, unexpected response of status or unable to reach the server
+      * 
+      * @returns {Promise<Product>} 
+      */
+    retrieveProduct(productId) {
+        return Promise.resolve()
+            .then(() => {
+                if (typeof productId !== 'string') throw Error('user productId is not a string')
+
+                if (!(productId = productId.trim()).length) throw Error('user productId is empty or blank')
+
+                return axios.get(`${this.url}/categories/products/${productId}`)
+                    .then(({ status, data }) => {
+                        if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
+
+                        return data.data
+                    })
+                    .catch(err => {
+                        if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
+
+                        if (err.response) {
+                            const { response: { data: { error: message } } } = err
+
+                            throw Error(message)
+                        } else throw err
+                    })
+            })
+    },
+
+
+    /**
+     *  
+     * Lists all products
+     * 
+     * @throws {Error} - If invalid type of input, unexpected response of status or unable to reach the server
+     * 
+     * @returns {Promise<[Product]>} 
+    */
+    listAllProducts() {
+        return Promise.resolve()
+            .then(() => {
+
+                return axios.get(`${this.url}/products`)
+                    .then(({ status, data }) => {
+                        if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
+
+                        return data.data
+                    })
+                    .catch(err => {
+                        if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
+
+                        if (err.response) {
+                            const { response: { data: { error: message } } } = err
+
+                            throw Error(message)
+                        } else throw err
+                    })
+            })
+    },
+
+
+
+    /**
+     * 
+     * Lists products by id
+     * 
+     * @param {Array} cart
+     * 
+     * @throws {Error} - If invalid type of input, unexpected response of status or unable to reach the server
+     * 
+     * @returns {Promise<[Product]>} 
+    */
+    listProductsByIds(cart) {
+        // TODO GET url?ids=id1,id2,id2,id4
+
+        return Promise.resolve()
+            .then(() => {
+                const ids = cart.join(',')
+
+                return axios.get(`${this.url}/products/?ids=${ids}`)
+                    .then(({ status, data }) => {
+                        if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
+
+                        return data.data
+
+                    })
+                    .catch(err => {
+                        if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
+
+                        if (err.response) {
+                            const { response: { data: { error: message } } } = err
+
+                            throw Error(message)
+                        } else throw err
+                    })
+            })
+
+    },
+
 
 }
 

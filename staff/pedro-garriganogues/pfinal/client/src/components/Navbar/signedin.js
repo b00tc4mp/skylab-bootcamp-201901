@@ -11,15 +11,11 @@ class SignedIn extends Component {
 
     }
 
-    logout() {
-        logic.logout()
-        this.props.onLogout()
-    }
     render() {
         return (
             <ul className="right">
                 <li><Link to='/profile'>Profile</Link></li>
-                <li> <Link to="/" onClick={() => { this.logout() }}>Log Out</Link></li>
+                <li> <button onClick={() => { logic.logout() }}>Log Out</button></li>
             </ul>
 
         )

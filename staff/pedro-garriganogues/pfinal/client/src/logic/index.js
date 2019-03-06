@@ -35,11 +35,6 @@ const logic = {
         return !!this.__userApiToken__
     },
 
-
-    logOutUser() {
-        this.__userApiToken__ = null
-    },
-
     retrieveUser() {
         return finalApi.retrieveUser(this.__userApiToken__)
             .then(({ id, name, surname, email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
@@ -55,6 +50,7 @@ const logic = {
 
     logout() {
         this.__userApiToken__ = null
+        window.location.reload()
     },
 
 
