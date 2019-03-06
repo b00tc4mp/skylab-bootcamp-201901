@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import './index.sass'
 
-function Register({ handleEmailInput, handlePasswordInput, handleNameInput, handleSurnameInput, handlePasswordConfirmInput, handleFormSubmit, onRegister }) {
+function Register({ handleEmailInput, handlePasswordInput, handleNameInput, handleSurnameInput, handlePasswordConfirmInput, handleFormSubmit, onRegister, goToLogin }) {
 
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
@@ -20,19 +21,44 @@ function Register({ handleEmailInput, handlePasswordInput, handleNameInput, hand
         onRegister(name, surname, email, password, passwordConfirm)
     }
 
-    return <section>
-        <form onSubmit={handleFormSubmit}>
-            <label>Name</label>
-            <input onChange={handleNameInput} name="name" type="text" placeholder="John"></input>
-            <label>Surname</label>
-            <input onChange={handleSurnameInput} name="surname" type="text" placeholder="Doe"></input>
-            <label>Email</label>
-            <input onChange={handleEmailInput} name="email" type="email" placeholder="something@example.com"></input>
-            <label>Password</label>
-            <input onChange={handlePasswordInput} name="password" type="password" placeholder="Must have at least 8 characters"></input>
-            <label>Password Confirmation</label>
-            <input onChange={handlePasswordConfirmInput} name="passwordConfirm" type="password" placeholder="Must have at least 8 characters"></input>
-            <button>Register</button>
+    window.onwheel = e => {
+        e.preventDefault();
+
+        if (e.ctrlKey) {
+            // Your zoom/scale factor
+            // scale -= e.deltaY * 0.01;
+        } else {
+            // Your trackpad X and Y positions
+            // posX -= e.deltaX * 2;
+            // posY -= e.deltaY * 2;
+            setTimeout(() => goToLogin(), 500)
+        }
+    }
+
+    return <section className="register">
+        {/* <div className="register__image"></div> */}
+        <form onSubmit={handleFormSubmit} className="register__form">
+            <div>
+                <input onChange={handleNameInput} className="register__name" name="name" type="text" required></input>
+                <label>Name</label>
+            </div>
+            <div>
+                <input onChange={handleSurnameInput} className="register__surname" name="surname" type="text" required></input>
+                <label>Surname</label>
+            </div>
+            <div>
+                <input onChange={handleEmailInput} className="register__email" name="email" type="email" required></input>
+                <label>Email</label>
+            </div>
+            <div>
+                <input onChange={handlePasswordInput} className="register__password" name="password" type="password" required></input>
+                <label>Password</label>
+            </div>
+            <div>
+                <input onChange={handlePasswordConfirmInput} className="register__passwordConfirm" name="passwordConfirm" type="password" required></input>
+                <label>Password Confirmation</label>
+            </div>
+            <button className="register__button">Register</button>
         </form>
     </section>
 }
