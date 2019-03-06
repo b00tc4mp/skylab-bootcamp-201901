@@ -1,0 +1,63 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+  font-size: 62.5%;
+}
+
+body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #202121;
+  background: #f4f7f6;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: $green;
+
+  @include on-event() {
+    color: $dark-green;
+  }
+}
+
+a.black {
+  color: $black;
+  transition: color 0.3s ease-in-out;
+
+  @include on-event() {
+    color: $mid-grey;
+    text-decoration: none;
+  }
+}
+
+a.green {
+  color: $green;
+  transition: color 0.3s ease-in-out;
+
+  @include on-event() {
+    color: $black;
+    background: $dark-green;
+    text-decoration: none;
+  }
+}
+
+.strong {
+  font-weight: 400;
+}

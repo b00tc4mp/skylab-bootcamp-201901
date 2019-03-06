@@ -1,0 +1,29 @@
+import React, { Component, Fragment } from 'react';
+import auth from '../../../services/auth';
+
+export default ChildComponent => {
+	class ComposedCompoent extends Component {
+		componentDidMount() {
+			this.shouldNavigateAway();
+		}
+
+		componentDidUpdate() {
+			this.shouldNavigateAway();
+		}
+
+		shouldNavigateAway() {
+			console.log("xD");
+			if (!auth.isUserLoggedIn) this.props.history.push('/');
+		}
+
+		renderChilds() {
+			return auth.isUserLoggedIn ? <ChildComponent {...this.props} /> : null;
+		}
+
+		render() {
+			return <Fragment>{this.renderChilds()}</Fragment>;
+		}
+	}
+
+	return ComposedCompoent;
+};

@@ -1,0 +1,89 @@
+.user-profile {
+  padding: 4px;
+  flex: 0 1 auto;
+  border-radius: 50%;
+  // display: none;
+
+  @include respond-above(xs) {
+    display: flex;
+  }
+
+  &--open,
+  &:hover {
+    background-color: rgba(60, 64, 67, 0.08);
+  }
+
+  &__button {
+    outline: none;
+    border: 0px;
+    border-radius: 50%;
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    height: 42px;
+    width: 42px;
+    z-index: 0;
+    padding: 0px;
+    cursor: pointer;
+  }
+
+  &__image {
+    width: 100%;
+  }
+}
+
+.user-dropdown {
+  background: #fff;
+  position: absolute;
+  right: 15px;
+  min-width: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  top: 100%;
+  -webkit-box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  color: #292a3a;
+  display: none;
+
+  &--open {
+    display: block;
+  }
+
+  &__email {
+    font-size: 0.6875em;
+    font-weight: 100;
+  }
+
+  &__details {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    width: 100%;
+    padding: 8px 12px 12px 12px;
+
+    & ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__list-item {
+    display: block;
+    font-size: 14px;
+    padding: 10px 16px;
+    cursor: pointer;
+    color: rgba(41, 42, 58, 0.66);
+    text-decoration: none;
+
+    &:hover {
+      background: $light-green;
+    }
+  }
+}

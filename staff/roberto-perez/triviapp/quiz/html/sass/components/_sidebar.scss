@@ -1,0 +1,53 @@
+.sidebar {
+  transform: translateX(-100%);
+  background-color: #f4f7f6;
+  transition: transform 0.5s ease-in-out 0s;
+  
+
+  &--show {
+    position: fixed;
+    z-index: 401;
+    outline: 0;
+    left: 0;
+    // width: calc(70% - 50px);
+    width: 320px;
+    height: 100vh;
+    display: flex;
+    visibility: visible;
+    transition: transform 0.5s ease-in-out 0s;
+    transform: translateX(0);
+  }
+
+  &__scrolling-content {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__scrolling-content-scroll {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  &__overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 90;
+    background: rgba(27, 29, 30, 0.5);
+    width: 100%;
+
+    &--show {
+        display: block;
+    }
+  }
+}

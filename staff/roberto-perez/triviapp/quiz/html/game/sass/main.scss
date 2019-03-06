@@ -1,0 +1,30 @@
+@charset 'UTF-8';
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
+@import "../../sass/abstracts/variables", "../../sass/abstracts/functions", "../../sass/abstracts/mixins";
+// 2. Vendors
+@import "../../sass/vendors/normalize";
+// // 3. Base stuff
+@import "../../sass/base/base", "../../sass/base/typography";
+// // 3. Base stuff
+@import "../../sass/base/base", "../../sass/base/typography";
+// 4. Layout-related sections
+@import "components/join-game", "components/leaderboard";
+// // 5. Components
+
+
+// .content {
+//   display: grid;
+//   overflow-y: auto;
+//   height: calc(100vh - 70px);
+// }
+
+// .svg__icon {
+//   position: relative;
+//   display: inline-block;
+//   width: auto;
+//   height: 20px;
+//   fill: #202121;
+//   transform: translate(0, 0);
+// }

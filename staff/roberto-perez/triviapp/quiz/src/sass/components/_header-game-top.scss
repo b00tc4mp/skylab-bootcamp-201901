@@ -1,0 +1,21 @@
+.header-game-top {
+    background: #333;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: auto 40px;
+
+    &__title {
+        margin: 0;
+        color: #fff;
+        text-align: center;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__pin {
+        font-size: 1.6em;
+        margin-left: 20px;
+      }
+}

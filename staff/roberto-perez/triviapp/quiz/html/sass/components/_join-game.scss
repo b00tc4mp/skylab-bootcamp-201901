@@ -1,0 +1,30 @@
+.join-game {
+    flex-grow : 1;
+    display: grid;
+    grid-template-rows: 70px 1fr;
+    padding: 30px 0;
+    background: #eee;
+    // background: radial-gradient(
+    //     ellipse farthest-corner at center top,
+    //     #b2ebf2 0%,
+    //     #03a9f4 100%
+    // );
+
+    @include respond-above(xs) {
+      grid-template-rows: auto;
+      grid-template-columns: 200px 350px;
+      justify-content: center;
+      grid-gap: 15px;
+    }
+
+    &__statusbar {
+      padding: 0 15px;
+    }
+
+    &__player-list {
+        padding: 2rem 1.5rem;
+        @include respond-above(xs) {
+            padding: 0 15px;
+          }
+    }
+}

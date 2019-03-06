@@ -1,0 +1,108 @@
+.end-game-results {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  justify-content: flex-end;
+  position: relative;
+  
+  & .start-button {
+    position: absolute;
+    right: 20px;
+    top: 60px;
+  }
+}
+
+.scoreboard-podiums {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 70%;
+
+  &__podium {
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+  }
+  &__podium-rank {
+    font-size: 4rem;
+    font-weight: 700;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50px;
+  }
+  &__podium-base {
+    height: 0;
+    background: #674fbd;
+    color: #fff;
+    opacity: 1;
+    position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  &__podium-base--first {
+    height: 70%;
+    animation: bartranslation 0.8s 1 both ease-in-out;
+  }
+  &__podium-base--second {
+    height: 50%;
+    animation: bartranslation 0.8s 1 both ease-in-out;
+  }
+  &__podium-base--third {
+    height: 40%;
+    animation: bartranslation 0.8s 1 both ease-in-out;
+  }
+  &__podium-name {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #000;
+    position: absolute;
+    width: 100%;
+    top: -57px;
+    background: #461f8d;
+    border-radius: 4px;
+    background: rgb(224, 224, 224);
+    line-height: 1.375;
+    padding: 0.7rem;
+  }
+
+  &__podium-info {
+    padding: 1.5rem;
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+    position: absolute;
+    bottom: 20px;
+
+    & span {
+      display: block;
+      padding: 0.5rem;
+      font-size: 1.365em;
+      font-weight: 700;
+    }
+  }
+
+  &__podium-number small {
+    display: block;
+    font-size: 60%;
+    color: #333;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+}
+
+@keyframes bartranslation {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: 3translatey (0%);
+  }
+}

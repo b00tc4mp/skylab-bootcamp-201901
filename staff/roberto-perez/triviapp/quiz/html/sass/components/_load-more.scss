@@ -1,0 +1,21 @@
+.load-more {
+  outline: none;
+  border: 0px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px auto;
+  border: 1px solid #fff;
+  border-radius: 50px;
+  height: 40px;
+  padding: 0px 20px;
+  color: #bdc1c0;
+  transition: color 0.25s ease-out 0s;
+
+  &:hover {
+      color: #8c8c8c;
+      box-shadow: 0px 3px 11px -1px rgba(0, 0, 0, 0.1);
+  }
+}

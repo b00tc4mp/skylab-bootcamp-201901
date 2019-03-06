@@ -1,0 +1,16 @@
+.quiz-grid {
+  padding: 40px 0px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+
+  @include respond-above(xs) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include respond-above(sm) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include respond-above(md) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

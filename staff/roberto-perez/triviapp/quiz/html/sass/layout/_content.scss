@@ -1,0 +1,8 @@
+.content {
+  display: grid;
+  overflow-y: auto;
+  height: calc(100vh - 70px);
+  
+  grid-template-rows: auto 70px;
+  grid-template-columns: 100%;
+}

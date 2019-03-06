@@ -1,0 +1,105 @@
+.header {
+  background-color: #f4f7f6;
+  border-bottom: 1px solid #e6eaea;
+  position: relative;
+
+  &__menu {
+    padding: 0px 20px;
+    height: 70px;
+    font-size: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #e6eaea;
+  }
+
+  &__content-right {
+    display: flex;
+    justify-content: flex-end;
+    // flex-direction: row-reverse;
+    flex: 1;
+
+    @include respond-above(xs) {
+      flex-direction: row;
+    }
+  }
+
+  &__search {
+    width: 65px;
+    height: 70px;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-button {
+      outline: none;
+      width: 65px;
+      height: 70px;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 0px;
+      background: none;
+    }
+
+    &-svg-icon {
+      position: relative;
+      display: inline-block;
+      width: auto;
+      height: 18px;
+      fill: #202121;
+      transform: translate(0, 0);
+    }
+  }
+
+  &__logo {
+    font-family: "Rubik", sans-serif;
+    flex: 1;
+    text-align: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-title {
+      position: absolute;
+      left: 50%;
+      font-size: 1.25em;
+      margin-left: -25px;
+      margin-top: 0px;
+    }
+
+    & span {
+      color: #49c5b6;
+    }
+
+  }
+
+  &__profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 15px;
+  }
+
+  &__btn-login.btn__link {
+    display: none;
+
+    @include respond-above(xs) {
+      display: flex;
+    }
+  }
+
+  &__btn-signup.btn__link {
+    display: none;
+
+    @include respond-above(xs) {
+      display: flex;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.expand_button {
+  outline: 0;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 2em;
+  cursor: pointer;
+
+  & svg {
+      fill: #fff;
+  }
+}

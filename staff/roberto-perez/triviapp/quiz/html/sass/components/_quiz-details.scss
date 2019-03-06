@@ -1,0 +1,12 @@
+.quiz-details {
+  @include respond-above(sm) {
+    padding: 40px 0;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    grid-gap: 20px;
+
+    &__questions-title {
+        margin-top: 0;
+    }
+  }
+}

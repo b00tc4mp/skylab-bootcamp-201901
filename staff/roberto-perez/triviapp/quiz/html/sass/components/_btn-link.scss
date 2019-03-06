@@ -1,0 +1,28 @@
+.btn__link {
+    outline: none;
+    position: relative;
+    height: 7rem;
+    padding: 0 1em;
+    color: $black;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 0px;
+    transition: background-color 0.25s ease-out 0s;
+
+    &--green {
+      background-color: $green;
+      color: #fff;
+    }
+  }
+
+.btn__link-icon {
+  margin-right: 5px;
+}
