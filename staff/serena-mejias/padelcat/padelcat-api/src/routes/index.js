@@ -17,6 +17,6 @@ router.post("/register", jsonBodyParser, registerPlayer);
 router.post("/authenticate", jsonBodyParser, authenticatePlayer);
 router.get("/retrieveScore", retrieveScoreData);
 router.put("/addScore", [jsonBodyParser, tokenVerifierMiddleware], addScoreToPlayer);
-router.get("/retrieveMatches", retrieveMatches);
+router.put("/retrieveMatches", [jsonBodyParser, tokenVerifierMiddleware], retrieveMatches);
 
 module.exports = router;

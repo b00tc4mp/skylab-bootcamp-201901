@@ -1,21 +1,21 @@
 const logic = require("../../logic");
 module.exports = (req, res) => {
   const {
-    body: {  }
+    body: {  }, playerId
   } = req;
 
   try {
     logic
-      .retrieveMatches()
-      .then(res.json.bind(res))
+      .retrieveMatchesScrapping()
+      .then(r =>  res.json(r))
       .catch(error => {
         res.status(400).json({
-          error: message
+          error: "123"
         });
       });
   } catch (err) {
     res.status(400).json({
-      error: message
+      error: err
     });
   }
 };

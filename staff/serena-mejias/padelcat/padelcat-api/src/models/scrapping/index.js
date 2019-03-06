@@ -52,11 +52,11 @@ const getWebMatches = async url => {
 
       const matchId = $(el)
         .find("a")
-        .attr("href");
+        .attr("href").substring(31, 44);
 
       const date = $(el)
         .find(".datos small")
-        .text();
+        .text().trim();
 
       const team1 = $(el)
         .find(".equipos .equipo.individual .jugador.jugador1-izquierda a")
@@ -76,7 +76,7 @@ const getWebMatches = async url => {
 
       const result = $(el)
         .find(".datos .resultado_eliminatoria span")
-        .text();
+        .text().trim();
 
       const location = $(el)
         .find(".datos p")

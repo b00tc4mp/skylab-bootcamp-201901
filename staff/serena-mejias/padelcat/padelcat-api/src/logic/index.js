@@ -129,12 +129,11 @@ const logic = {
     return (async () => await Player.findByIdAndUpdate(playerId, { score }))();
   },
 
-  retrieveMatches() {
-    debugger
+  retrieveMatchesScrapping() {
     const urlMatches =
       "https://www.setteo.com/torneos/lliga-padel-guinotprunera-18-19-a-fase-2w07/calendario/?categorias%5B%5D=162079&equipo=200081";
 
-    const getWebMatches = async url => {
+    return (async url => {
       try {
         const response = await axios.get(url);
 
@@ -143,11 +142,13 @@ const logic = {
         const metadatas = $(".partido").map((i, el) => {
           const matchId = $(el)
             .find("a")
-            .attr("href");
+            .attr("href")
+            .substring(31, 44);
 
           const date = $(el)
             .find(".datos small")
-            .text();
+            .text()
+            .trim();
 
           const team1 = $(el)
             .find(".equipos .equipo.individual .jugador.jugador1-izquierda a")
@@ -167,7 +168,8 @@ const logic = {
 
           const result = $(el)
             .find(".datos .resultado_eliminatoria span")
-            .text();
+            .text()
+            .trim();
 
           const location = $(el)
             .find(".datos p")
@@ -187,14 +189,87 @@ const logic = {
           return metadata;
         });
 
-        return metadatas;
+        return metadatas.get();
       } catch (error) {
         throw error;
       }
-    };
+    })(urlMatches);
 
-    return getWebMatches(urlMatches);
-  }
+    // const getWebMatches = async url => {
+    //   try {
+    //     const response = await axios.get(url);
+
+    //     const $ = cheerio.load(response.data);
+
+    //     const metadatas = $(".partido")c.map((i, el) => {
+    //       const matchId = $(el)
+    //     .find("a")
+    //     .attr("href").substring(31, 44);
+
+    //       const date = $(el)
+    //         .find(".datos small")
+    //         .text().trim();
+
+    //       const team1 = $(el)
+    //         .find(".equipos .equipo.individual .jugador.jugador1-izquierda a")
+    //         .text();
+
+    //       const imageTeam1 = $(el)
+    //         .find(".equipos .equipo.individual .jugador.jugador1-izquierda img")
+    //         .attr("data-src");
+
+    //       const team2 = $(el)
+    //         .find(".equipos .equipo.individual .jugador.jugador1-derecha a")
+    //         .text();
+
+    //       const imageTeam2 = $(el)
+    //         .find(".equipos .equipo.individual .jugador.jugador1-derecha img")
+    //         .attr("data-src");
+
+    //       const result = $(el)
+    //         .find(".datos .resultado_eliminatoria span")
+    //         .text().trim();
+
+    //       const location = $(el)
+    //         .find(".datos p")
+    //         .text();
+
+    //       const metadata = {
+    //         matchId: matchId,
+    //         date: date,
+    //         team1: team1,
+    //         imageTeam1: imageTeam1,
+    //         team2: team2,
+    //         imageTeam2: imageTeam2,
+    //         result: result,
+    //         location: location
+    //       };
+
+    //       return metadata;
+    //     });
+
+    //     return metadatas;
+    //   } catch (error) {
+    //     throw error;
+    //   }
+    // };
+
+    // return getWebMatches(urlMatches);
+  },
+
+  keepIdMatches(matchesArray) {
+    matchesArray.then(() => {
+      matchesArray.map(matchObj => Match.create(matchObj.matchId));
+    });
+  },
+
+    // retrieveAvailabilityPlayers() {
+    //   retrieveMatchesScrapping().then(() =>{
+    //     response.map(matchObj => {
+    //       if(matchObj.matchId === Player.avalibility)
+    //     })
+    //   })
+    // }
 };
 
 module.exports = logic;
