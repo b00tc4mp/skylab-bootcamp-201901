@@ -1,6 +1,6 @@
 'use strict'
 
-const { User, House } = require('../models')
+const { User, House } = require('homeSwapp-data')
 const bcrypt = require('bcrypt')
 
 

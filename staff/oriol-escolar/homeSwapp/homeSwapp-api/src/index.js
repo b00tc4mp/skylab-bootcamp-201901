@@ -2,7 +2,7 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
+const {mongoose} = require('homeSwapp-data')
 const express = require('express')
 const bodyParser = require('body-parser')
 const tokenHelper = require('./token-helper')

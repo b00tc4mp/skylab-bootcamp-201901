@@ -31,7 +31,7 @@ class Register extends Component {
 
         return <section className="login">
 
-            <h2> Login </h2>
+            <h2> Register </h2>
             <form className="login-form" onSubmit={handleFormSubmit}>
 
                 <p>username</p>
