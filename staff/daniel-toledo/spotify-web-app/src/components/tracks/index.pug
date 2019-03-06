@@ -1,0 +1,24 @@
+extends ../layout
+
+include ../feedback/index
+include ../search/index
+include ../nav/index
+include ../nav-results/index
+include ../play/index
+
+block content
+    +nav(true)
+    +navResults(query, artistId, albumId)
+
+    section(class='results container')
+        div(class='row pt-5')
+            img(src=`${imageAlbum}`, class='col-12 col-md-6 results__image', width='40%')
+            ul(class='col-md-6 pl-3 list-group list-group-flush')
+                if song
+                    +play(song)
+            
+                each track in tracks 
+                    li(class="list-group-item")
+                        form(method='POST', action=`/search&song=${track.id}`)
+                            button(htype='submit' class='pointer button-list')=track.name
+

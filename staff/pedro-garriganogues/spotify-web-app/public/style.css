@@ -1,0 +1,60 @@
+.artists, .main, .feedback, .landing, .home, .login, .register {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.artists, .main, .feedback, .landing, .home, .login, .register {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.artists, .main, .feedback, .landing, .home, .register, .login {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.artists, .main, .feedback, .landing, .register, .login, .home {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.artists, .main, .feedback, .register, .login, .home, .landing {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.feedback {
+  background-color: limegreen;
+}
+.feedback--warn {
+  background-color: gold;
+}
+.feedback--error {
+  background-color: tomato;
+}
+
+.artists, .main, .register, .login, .home, .landing, .feedback {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.artists, .register, .login, .home, .landing, .feedback, .main {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+/*# sourceMappingURL=style.css.map */

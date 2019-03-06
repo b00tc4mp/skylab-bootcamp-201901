@@ -1,0 +1,81 @@
+.searchVideoList
+    position: absolute 
+    margin-top: 4em
+    padding: 0.5em
+    padding-left: 0.5em
+    padding-right: 0.5em
+    max-width: 100%
+
+    &-dark
+        background-color: #121212
+
+    &-light
+        background-color: white
+
+.videoResults
+    display: flex
+    flex-flow: row
+    padding: 0.5em
+
+    &:hover
+        cursor: pointer
+
+.video__feedback
+    position: absolute
+    margin-top: 4em
+    width: 20%
+
+.searchResultsText
+    margin-left: 1em
+
+.videoSearchTitle
+    font-weight: bolder
+    font-size: 1.2em
+
+    &-dark
+        color: white
+
+    &-light
+        color: black
+
+.searchChannelTitle
+    color: #a5aaaa
+
+    &-light
+        color: #6E6E6E
+
+
+.searchDes
+    display: none
+    color: #a5aaaa
+
+    &-light
+        color: #6E6E6E
+
+
+
+@media (min-width: 768px)
+    .searchVideoListDark
+        padding: 2em
+        padding-left: 4em
+        padding-right: 4em
+
+    .searchDes
+        display: block
+
+    .resultsThumbnail
+        height: 35%
+        width: 20%
+
+@media (min-width: 1200px)
+    .searchVideoList
+        padding-left: 8em
+
+
+@media (min-width: 1400px)
+    .searchVideoList
+        padding-left: 16em
+
+    .resultsThumbnail
+        height: 90% 
+        width: 30%

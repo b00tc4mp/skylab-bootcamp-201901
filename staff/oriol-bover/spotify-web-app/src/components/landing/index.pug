@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+    section.hero.is-fullheight
+      .hero-body
+        .container.has-text-centered
+          h1.title
+            i.fab.fa-spotify
+            |  spotify Web App
+          section.landing
+            a(href='/login') Login
+            |  or 
+            a(href='/register') Register
+      .hero-foot
+        .container.has-text-centered
+          p
+            | Developed by 
+            a(href='https://github.com/boversauros') Boversauros
+            i.fab.fa-github

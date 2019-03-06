@@ -1,0 +1,33 @@
+.register {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.track--detail {
+  padding: 2em;
+}
+.track--image {
+  max-width: 65%;
+}
+.track--button {
+  margin-bottom: 1em;
+}
+
+.breadcrumb {
+  margin-left: 2em;
+  margin-top: 1em;
+}
+
+.main {
+  flex: 1;
+}
+
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/*# sourceMappingURL=style.css.map */

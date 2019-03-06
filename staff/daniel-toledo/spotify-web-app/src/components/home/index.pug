@@ -1,0 +1,13 @@
+extends ../layout
+
+include ../feedback/index
+include ../search/index
+include ../nav/index
+
+block content
+    +nav
+    section(class='welcome')
+        div(class='home')
+            h2(class='text-center pt-5 display-2') Welcome, #{user.name}!
+            p(class='text-center mt-2 display-5') Search for an Artist to listen to their music. 
+            +search

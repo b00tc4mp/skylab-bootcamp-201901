@@ -1,0 +1,38 @@
+.login {
+    padding: 2em;
+    border: 0.5px solid lightgray;
+    border-radius: 0.5em;
+    margin-top: 2rem;
+}
+
+.alert-danger {
+    display: none;
+    margin-top: 1em;
+}
+
+.title{
+    margin-top: 1em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+
+.register {
+    display: none;
+    padding: 2em;
+    border: 0.5px solid lightgray;
+    border-radius: 0.5em;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.home {
+    display: none;
+}
+
+.detail {
+    display: none;
+    padding: 2em;
+    border: 0.5px solid lightgray;
+    border-radius: 0.5em;
+    margin-bottom: 2em;
+}

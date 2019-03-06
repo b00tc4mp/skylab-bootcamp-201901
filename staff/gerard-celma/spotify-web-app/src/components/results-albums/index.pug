@@ -1,0 +1,8 @@
+extends ../home/index
+
+block albums
+    section.albums
+        each album in albums
+            div
+                a(href=`home&album&${album.id}`)
+                    h3= album.name
