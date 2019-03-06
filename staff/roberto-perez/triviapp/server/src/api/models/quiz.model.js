@@ -90,9 +90,12 @@ quizSchema.statics = {
 	 */
 	async get(id) {
 		try {
-			let quiz = await this.findById(id).populate('author').exec();
+			let quiz = await this.findById(id)
+				.populate('author')
+				.exec();
 
 			if (quiz) {
+				// quiz.author = quiz.author.normalize();
 				return quiz;
 			}
 
@@ -108,7 +111,9 @@ quizSchema.statics = {
 	 * @returns {Promise<Quiz[]>}
 	 */
 	list() {
-		return this.find().populate('author').exec();
+		return this.find()
+			.populate('author')
+			.exec();
 	},
 };
 

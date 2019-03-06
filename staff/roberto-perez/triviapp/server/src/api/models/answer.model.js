@@ -18,11 +18,7 @@ const answerSchema = new mongoose.Schema(
 		success: {
 			type: Boolean,
 			required: true,
-		},
-		color: {
-			type: String,
-			required: true
-		},
+		}
 	},
 	{ timestamps: true },
 );

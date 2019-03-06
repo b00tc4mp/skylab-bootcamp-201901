@@ -26,13 +26,13 @@ module.exports = {
 		return (async data => {
 			data.quiz = quizId;
 			const question = new Question(data);
-			const savedQuestion = await question.save();
-			return savedQuestion.normalize();
+			// const savedQuestion = await question.save();
+			// return savedQuestion.normalize();
 
-			// const quiz = await Quiz.get(quizId);
-			// quiz.questions.push(question);
-			// await quiz.save();
-			// return quiz.normalize();
+			const quiz = await Quiz.get(quizId);
+			quiz.questions.push(question);
+			await quiz.save();
+			return quiz.normalize();
 		})(data);
 	},
 
