@@ -3,11 +3,12 @@ import { Route, Redirect, withRouter } from 'react-router-dom'
 import logo from '../../logo.svg';
 import './index.sass';
 import Login from '../loginPanel'
+import Register from '../registerPanel'
 import logic from '../../logic'
 
 
 class App extends Component {
-  state={user:"", loginFeedback: null, registerFeedback: null}
+  state={user:"", loginFeedback: null, registerFeedback: null, registered:""}
 
 
   handleLogin = (email, password) => {
@@ -28,11 +29,21 @@ class App extends Component {
     }
   }
 
+  handleRegister = (username, email, password, passwordConfirm) => {
+
+    try {
+      return logic.registerUser(username, email, password, passwordConfirm)
+      .then(()=>this.setState({ registered: 'yes' }))
+    } catch ({ message }) {
+      this.setState({ registerFeedback: message })
+    }
+  }
+
 
 
   render() {
 
-    const { handleLogin,state:{user,loginFeedback} }=this
+    const { handleLogin, handleRegister, state:{user,loginFeedback,registerFeedback,registered} }=this
 
 
     return (
@@ -40,7 +51,8 @@ class App extends Component {
       
       <div className="App">
         <header className="App-header">
-          {!user && <Login loginFeedback={loginFeedback} onLogin = {handleLogin}> </Login>}
+          {registered && !user && <Login loginFeedback={loginFeedback} onLogin = {handleLogin}> </Login>}
+          {!registered && <Register registerFeedback={registerFeedback} onRegister = {handleRegister}> </Register>}
         </header>
       </div>
     );

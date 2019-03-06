@@ -51,6 +51,8 @@ const logic = {
 
         if (!email.trim().length) throw Error('email cannot be empty')
 
+        if(!(/^\w+([\.-]?\w+)+@\w+([\.:]?\w+)+(\.[a-zA-Z0-9]{2,3})+$/.test(email))) throw Error ('Invalid email adress')
+
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
         if (!password.trim().length) throw Error('password cannot be empty')
