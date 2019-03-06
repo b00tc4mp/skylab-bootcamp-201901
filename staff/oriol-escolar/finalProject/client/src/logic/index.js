@@ -86,11 +86,10 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return homeSwappApi.authenticate(email, password)
-            .then((data) => {
-                // this.setUserId(data.id)
-                this.setUserApiToken(data)
+            .then((token) => {
+                this.setUserApiToken(token)
                 console.log('succeed')
-                return data
+                return token
             })
     },
 
@@ -106,14 +105,7 @@ const logic = {
 
     retrieveUser() {
         return homeSwappApi.retrieve(this.getUserApiToken())
-            .then(({ id, myHouses, username, email }) => ({
-                id,
-                username,
-                email,
-                myHouses,
-                
-                
-            }))
+            
     },
 
     /**

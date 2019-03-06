@@ -16,7 +16,8 @@ class App extends Component {
         .then(() => {    
           logic.retrieveUser()
             .then(user => this.setState({user}))
-            .then(() => this.props.history.push('/home'))
+            // .then(() => this.props.history.push('/home'))
+            .then(() => console.log('yeah'))
         })
         .catch(({ message }) => this.setState({ loginFeedback: message }))
     } catch ({ message }) {

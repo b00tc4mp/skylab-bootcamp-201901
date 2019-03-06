@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "node-sass": "^4.11.0",
+    "nyc": "^13.3.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1",
@@ -16,7 +17,6 @@
     "test": "react-scripts test",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
     "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
-
   },
   "eslintConfig": {
     "extends": "react-app"

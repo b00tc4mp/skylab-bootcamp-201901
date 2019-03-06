@@ -6,7 +6,7 @@ describe('user api', () => {
 
     describe('register', () => {
 
-        const email = `manolo${Math.random}@hotmail.com`
+        const email = `manolo${Math.random()}@hotmail.com`
         const username = `ManoloSkywalker-${Math.random()}`
         const password = '123'
 
@@ -123,5 +123,103 @@ describe('user api', () => {
         })
 
         // TODO more unit test cases
+    })
+    describe('authenticate', () => {
+
+        const email = `manolo${Math.random()}@hotmail.com`
+        const username = `ManoloSkywalker-${Math.random()}`
+        const password = '123'
+
+        beforeEach(() =>
+
+            homeSwappApi.register(username, email, password, password)
+
+        )
+
+        it('should succeed on correct data', () =>
+
+            homeSwappApi.authenticate(email, password)
+
+                .then(token => {
+                    expect(token).toBeDefined()
+                })
+        )
+
+        it('should fail on undefined email', () => {
+            try {
+                homeSwappApi.authenticate(undefined, password)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on undefined password', () => {
+            try {
+                homeSwappApi.authenticate(email, undefined)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+    })
+
+    describe('retrieve', () => {
+
+        const email = `manolo${Math.random()}@hotmail.com`
+        const username = `ManoloSkywalker-${Math.random()}`
+        const password = '123'
+
+        let _token;
+
+        beforeEach(() =>
+
+            homeSwappApi.register(username, email, password, password)
+                .then(() => homeSwappApi.authenticate(email, password))
+                .then(token => {
+                    _token = token
+                    
+                })
+
+        )
+
+        it('should succeed on correct data', () =>
+
+            homeSwappApi.retrieve(_token)
+
+                .then(({id, myHouses, username, email}) => {
+                    
+                    expect(id).toBeDefined()
+                    expect(myHouses).toBeDefined()
+                    expect(username).toBeDefined()
+                    expect(email).toBeDefined()
+
+
+                })
+        )
+
+        it('should fail on undefined email', () => {
+            try {
+                homeSwappApi.authenticate(undefined, password)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on undefined password', () => {
+            try {
+                homeSwappApi.authenticate(email, undefined)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
     })
 })

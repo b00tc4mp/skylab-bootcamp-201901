@@ -3,7 +3,7 @@
 const homeSwappApi = {
     url: 'http://localhost:8000/api/',
 
-    register(username, email, password,passwordConfirmation) {
+    register(username, email, password,passwordConfirm) {
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
         if (!email.trim().length) throw Error('email is empty')
@@ -14,10 +14,10 @@ const homeSwappApi = {
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
         if (!password.trim().length) throw Error('password is empty')
 
-        if (typeof passwordConfirmation !== 'string') throw TypeError(`${passwordConfirmation} is not a string`)
-        if (!passwordConfirmation.trim().length) throw Error('passwordConfirmation is empty')
+        if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
+        if (!passwordConfirm.trim().length) throw Error('passwordConfirm is empty')
 
-        if(password !== passwordConfirmation) throw Error ('Password and Password confirmation do not match')
+        if(password !== passwordConfirm) throw Error ('Password and Password confirmation do not match')
 
 
 
@@ -27,13 +27,11 @@ const homeSwappApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ username, email, password, passwordConfirmation })
+            body: JSON.stringify({ username, email, password, passwordConfirm })
         })
             .then(response => response.json())
             .then(response => {
-                const { status } = response
-
-                if (status === 409) throw Error(response.error)
+                
                 return response
 
             })
@@ -55,11 +53,10 @@ const homeSwappApi = {
         })
             .then(response => response.json())
             .then(response => {
-                const { status } = response
+                
+          
 
-                if (status === 'OK') return response.data
-
-                throw Error(response.error)
+                return response.token
             })
     },
 
@@ -76,11 +73,9 @@ const homeSwappApi = {
         })
             .then(response => response.json())
             .then(response => {
-                const { status } = response
 
-                if (status === 'OK') return response.data
-
-                throw Error(response.error)
+                return response
+                
             })
     },
 
