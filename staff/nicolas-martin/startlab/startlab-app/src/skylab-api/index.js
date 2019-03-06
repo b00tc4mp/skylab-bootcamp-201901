@@ -59,32 +59,32 @@ const skylabApi = {
         if (!token.trim().length) throw Error('token is empty')
 
         return fetch(`${this.url}/isadmin`, {
-                    headers: {
-                        authorization: `Bearer ${token}`
-                    }
-                    })
-                    .then(response => response.json())
-                    .then(response => {
-                        if (response.error) throw Error(response.error)
-                        return response
-                    })
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
     },
 
-    exerciseList(token){
+    exerciseList(token) {
         // /admin/exercise/list
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
         return fetch(`${this.url}/admin/exercise/list`, {
-                    headers: {
-                        authorization: `Bearer ${token}`
-                    }
-                    })
-                    .then(response => response.json())
-                    .then(response => {
-                        if (response.error) throw Error(response.error)
-                        return response
-                    })
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
     },
 
     deleteExercise(id, token) {
@@ -98,8 +98,8 @@ const skylabApi = {
             method: 'DELETE',
             headers: {
                 authorization: `Bearer ${token}`
-                }
-            })
+            }
+        })
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
@@ -118,11 +118,59 @@ const skylabApi = {
             headers: {
                 authorization: `Bearer ${token}`
             }
-            })
+        })
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
                 return response
+            })
+
+    },
+
+    updateExercise(exercise, token) {
+        //Todo validate exercise as object
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/exercise/update`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(exercise)
+        })
+            .then(response => response.json())
+            .then(({ error, message }) => {
+                if (error) throw Error(error)
+
+                return message
+            })
+    },
+
+    createExercise(exercise, token) {
+        //Todo validate exercise as object
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/exercise/create`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(exercise)
+        })
+            .then(response => response.json())
+            .then(({ error, message }) => {
+                if (error) throw Error(error)
+
+                return message
             })
 
     },
@@ -145,12 +193,12 @@ const skylabApi = {
             },
             body: JSON.stringify({ code, test })
         })
-          .then(response => response.json()) 
-          .then(response => {
-              if (response.error) throw Error(response.error)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
 
-              return response
-          })
+                return response
+            })
 
     }
 

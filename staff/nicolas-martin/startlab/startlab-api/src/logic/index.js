@@ -114,7 +114,10 @@ const logic = {
                 if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
 
                 return Exercise.create({ title, summary, test })
-                    .then(({ id }) => id)
+                    .then(({ id }) => {
+                        debugger
+                        return { message: `exercise with id ${id} created` }
+                    })
             })
 
     },
@@ -184,9 +187,9 @@ const logic = {
                         if (!exercise) throw new NotFoundError(`exercise with id ${id} not found`)
 
                         exercise.id = exercise._id.toString()
-                        delete exercise._id
+                        //delete exercise._id
 
-                        return exercise
+                        return { status: 'ok', message: `exercise with id ${exercise._id} updated` }
                     })
             })
 

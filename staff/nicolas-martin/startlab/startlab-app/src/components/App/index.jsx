@@ -60,17 +60,24 @@ class App extends Component {
     setTimeout(() => this.setState({ loginFeedback: null }), 3000)
   }
 
-  onEdit = (id) => {
-    console.log('app - onEdit: ', id)
-    this.props.history.push(`/admin/exercise/${id}`)
+  onEdit = (id) => this.props.history.push(`/admin/exercise/${id}`)
+
+  onNew = () => this.props.history.push('/admin/exercise/new')
+
+  handleNew = (message) => {
+    console.log(message)
+    this.setState({ exercisesFeedback: message })
+    this.props.history.push('/admin/exercises')
   }
 
   render() {
-    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback, exercisesFeedback},
+    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback, exercisesFeedback },
       handleRegister,
       handleLogin,
       handleLogout,
-      onEdit
+      onEdit,
+      onNew,
+      handleNew
     } = this
 
     return (
@@ -82,7 +89,8 @@ class App extends Component {
           <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} feedback={registerFeedback} /> : <Redirect to='/' />} /> :
           <Route exact path="/login" render={() => !isLoggedIn ? <Login onLogin={handleLogin} feedback={loginFeedback} /> : <Redirect to='/' />} />
 
-          <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList feedback={exercisesFeedback} handleEdit={onEdit} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList feedbackNew={exercisesFeedback} handleEdit={onEdit} handleNew={onNew} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercise/new" render={() => isAdmin ? <ExerciseForm onNew={handleNew} /> : <Redirect to='/' />} />
           <Route exact path="/admin/exercise/:ExerciseId" render={props => isAdmin ? <ExerciseForm id={props.match.params.ExerciseId} /> : <Redirect to='/' />} />
 
           <Route component={NotFound} />

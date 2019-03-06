@@ -27,12 +27,18 @@ class ExerciseList extends Component {
     }
 
     render() {
-        const { state: { exercises, feedback }, handleDelete, props: {handleEdit}} = this
+        const { state: { exercises, feedback }, handleDelete, props: { handleEdit, handleNew, feedbackNew } } = this
         return (
             <main className="exercise-list">
-                <p>{exercises.length} exercises</p>
+                <div className="course-header group">
+                    <h2>Courses</h2>
+                    <p>{exercises.length} exercises</p>
+                    <button onClick={handleNew}>New</button>
+                </div>
+
                 {feedback && <Feedback message={feedback} />}
-                {exercises.map((exercise) => <ExerciseItem results={exercise} onDelete={handleDelete} onEdit={handleEdit}/>)}
+                {feedbackNew && <Feedback message={feedbackNew} />}
+                {exercises.map((exercise, index) => <ExerciseItem key={index} results={exercise} onDelete={handleDelete} onEdit={handleEdit} />)}
             </main>
         )
     }

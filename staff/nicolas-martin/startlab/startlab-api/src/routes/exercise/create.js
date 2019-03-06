@@ -8,7 +8,7 @@ module.exports = (req, res) => {
 
     try {
         logic.createExercise(userId, title, summary, test)
-            .then(id => res.json({ id }))
+            .then(response => res.json(response))
             .catch(error => handleResponseError(error, res))
     } catch (error) {
         handleResponseError(error, res)
