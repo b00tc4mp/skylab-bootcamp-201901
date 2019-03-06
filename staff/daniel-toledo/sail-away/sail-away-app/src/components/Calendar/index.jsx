@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
 import moment from 'moment'
 
 import './index.sass'
@@ -11,7 +10,7 @@ function Calendar({ month, year, selectDate, date1, date2 }) {
 
     return (<section className='calendar'>
         <div>
-            <h4>{m.format('MMMM')}</h4>
+            <h4 className='text-center'>{m.format('MMMM')} {m.format('YYYY')}</h4>
             <div className='month'>
                 {
                     week.map(day => <div className='week'>{day}</div>)
@@ -33,8 +32,8 @@ function Calendar({ month, year, selectDate, date1, date2 }) {
                                 
                                 if (paint && count <= m.daysInMonth()) {
                                     let day=count
+
                                     date=new Date(m.year(), m.month(), day )
-                                    
                                     
                                     if(date1 && date2) {
                                         if (date.toString()===date1.toString()) dayClass='day start'
@@ -66,4 +65,4 @@ function Calendar({ month, year, selectDate, date1, date2 }) {
     </section>)
 }
 
-export default withRouter(Calendar)
+export default Calendar

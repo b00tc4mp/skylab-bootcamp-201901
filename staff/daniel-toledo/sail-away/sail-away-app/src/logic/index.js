@@ -1,19 +1,25 @@
-// 'use strict'
+'use strict'
 
-// const  logic = {
+import sailAwayApi from '../sail-away-api'
 
-//     generateMap: async () =>{
-//         fetch("https://maps.googleapis.com/maps/api/js?key=AIzaSyAFDTq_HRLGd3dWHf2NLtw8Jv-05efTy7s&callback=initMap")
-    
-//         var map;
-//       function initMap() {
-//         map = new google.maps.Map(document.getElementById('map'), {
-//           center: {lat: -34.397, lng: 150.644},
-//           zoom: 8
-//         });
-//       }
-//     }
+const  logic = {
 
-// }
+    generateJourney(route, dates, description ){
+        if (route.constructor !== Array) throw TypeError(route + ' is not an Array');
+        if (!route.length) throw Error('route cannot be empty');
 
-// export default logic
+        if (dates.constructor !== Array) throw TypeError(dates + ' is not an Array');
+        if (!dates.length) throw Error('dates cannot be empty');
+
+        if (typeof description !== 'string') throw TypeError(description + ' is not a string');
+        if (!description.trim().length) throw Error('description cannot be empty');
+
+        console.log(route)
+        console.log(dates)
+        console.log(description)
+        return sailAwayApi.createJourney(route, dates, description)
+    }
+
+}
+
+export default logic

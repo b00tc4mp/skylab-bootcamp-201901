@@ -1,17 +1,17 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps-react'
 
 
-function MapRoute({ google }) {
+function MapRoute({ google, getRoute }) {
 
     let [markers, setMarkers] = useState([])
 
-    function getRoute(markers) {
+    function generateRoute(markers) {
         let route = []
         markers.forEach(({ position }) => route.push(position))
+        getRoute(route)
         return route
     }
 
@@ -32,9 +32,6 @@ function MapRoute({ google }) {
         const { latLng } = clickEvent
         const lat = latLng.lat()
         const lng = latLng.lng()
-
-        console.log(lat)
-        console.log(lng)
 
         let newMarker = {
             name: 'new marker',
@@ -104,7 +101,7 @@ function MapRoute({ google }) {
 
 
             <Polyline
-                path={getRoute(markers)}
+                path={generateRoute(markers)}
                 options={{
                     strokeColor: '#0000ff',
                     strokeOpacity: 1,
