@@ -4,7 +4,7 @@ const { Schema } = require("mongoose");
 
 const Post = new Schema({
   tags: {
-    type: String,
+    type: Array,
     required: true
   },
   title: {
