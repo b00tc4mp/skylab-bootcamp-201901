@@ -1,0 +1,131 @@
+@import utils
+
+body
+    background-color: #d6dee3e3
+    font-family: Helvetica Neue, Helvetica, Arial
+
+
+.title__form
+    color: #bc3b14
+    text-decoration: underline
+    font-weight: 600
+    font-size: 1.6rem
+    margin-left: 3rem
+    margin-top: 3rem
+
+
+form
+    background-color: #a9a4a4
+    font-size: 0.8rem
+    color: #efeaea
+    margin: 6rem
+    padding: 0.1rem 0 1rem
+    border: 0.2rem solid black
+    border-radius: 0.4rem
+
+    
+.input__form
+    margin: 0 1.5rem 0.5rem 3rem
+
+label
+    font-size: 1.5rem
+
+select
+    color: black
+    font-size: 1.4rem
+    margin-left: 1.1rem
+    border-radius: 0.3rem
+
+input, textarea
+
+    width: calc(100% - 2rem)
+    border-radius: 0.2rem
+    font-size: 1.2rem
+    border: 0.8px solid black
+    color: black
+    margin: 1rem 0 1rem 0
+    text-indent: 0.4rem 
+    font-size: 1.4rem
+    height: 2.5rem
+
+textarea 
+    height: 30rem
+// .textArea
+// width: 30rem
+// height: 15rem
+// border: 0.3rem solid black
+main
+    display: flex
+    flex-direction: column
+    padding: 1.5rem
+
+.button
+    border-radius: 0.3rem
+    height: 3.5rem
+    width: 6rem
+    background-color: #4949c5
+    color: white
+    font-size: 1.1rem
+    border: 0.1rem solid #363434
+    margin-left: 4rem
+    // margin-top: 1rem
+    // margin-left: 1rem
+
+.button__gohome
+    border-radius: 0.3rem
+    height: 3.5rem
+    width: 9rem
+    background-color: #dbaf3c
+    color: white
+    font-size: 1.2rem
+    border: 0.1rem solid #363434
+    margin: 2rem 0 2rem 4rem
+
+
+.feedback__Ok
+    border: 0.1rem solid black
+    background-color: #069406
+    color: white
+    border-radius: 0.3rem
+    text-align: center
+    padding: 1rem
+    font-size: 1.2rem
+    width: 35rem
+    margin: 2rem 0 4rem 4rem
+
+.feedback__Error
+    border: 0.1rem solid black
+    background-color: tomato
+    text-align: center
+    padding: 1rem
+    color: white
+    font-size: 1.2rem  
+    width: 35rem
+    margin: 2rem 0 4rem 4rem
+
+@media (max-width: 570px)
+
+    .form
+        padding: 0 1rem 0 1rem
+     
+
+@media (min-width: 570px)
+
+    .register
+        padding-left: 6rem
+
+    .button
+        margin-top: 3.5rem
+    
+    // .form
+
+    //     width: 60rem
+    //     margin: 15rem
+
+    // .input__form
+    //     margin: 0 8rem 0.5rem 3rem
+    // textarea
+    //     margin-right: 1rem
+
+    textarea.form-control 
+        font-size: 1.2rem
