@@ -58,6 +58,32 @@ const logic = {
     },
 
 
+    listProducts(category) {
+        return finalApi.listProducts(category)
+            .then(products => {
+                return products
+            })
+    },
+
+
+    retrieveProduct(productId) {
+        return finalApi.retrieveProduct(productId)
+            .then(product => product)
+    },
+
+
+    listAllProducts() {
+        return finalApi.listAllProducts()
+            .then(products => products)
+    },
+
+
+    createOrder(paymentMethod, products, orderAdress) {
+
+        return finalApi.createOrder(paymentMethod, this._orderStatus, products, this.userId(), orderAdress, this.getDateOrder())
+    }
+
+
 }
 
 export default logic

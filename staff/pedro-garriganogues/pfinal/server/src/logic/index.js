@@ -75,34 +75,70 @@ const logic = {
     //     then(() => true)
     // },
 
-    async unregisterUser(id, email, password) {
+    // async unregisterUser(id, email, password) {
 
-        if (typeof id !== 'string') throw Error('user id is not a string')
+    //     if (typeof id !== 'string') throw Error('user id is not a string')
 
-        const user = User.findOne({ email, password })
+    //     const user = User.findOne({ email, password })
 
 
-        if (!user) throw Error('wrong credentials')
+    //     if (!user) throw Error('wrong credentials')
 
-        if (user.id !== id) throw Error(`no user found with id ${id} for given credentials`)
+    //     if (user.id !== id) throw Error(`no user found with id ${id} for given credentials`)
 
-        return user.remove()
+    //     return user.remove()
+
+
+    async listProducts(category) {
+
+        const products = await Product.find({ category })
+
+        if (!products) throw Error(`no products found`)
+
+        return products
+
 
     },
 
-    listProducts(category) {
-        return Promise.resolve()
-            .then(() => {
+    async retrieveProduct(productId) {
 
-                return Product.find({ category })
-                    .then((products) => {
-                        if (!products) throw Error(`no products where found`)
+        if (typeof productId !== 'string') throw Error('user productId is not a string')
 
-                        return products
-                    })
-            })
+        if (!(productId = productId.trim()).length) throw Error('user productId is empty or blank')
+
+        const product = await Product.findById(productId)
+
+        if (!product) throw Error(`no product found with id ${productId}`)
+
+        return product
+
     },
 
+
+    async listAllProducts() {
+
+        const products = await Product.find()
+
+        if (!products) throw Error(`no products found`)
+
+        return products
+
+    },
+
+    async listProductsByIds(ids) {
+
+        const idsArray = ids.split(',')
+
+        const products = await Product.find({
+            _id: { $in: idsArray }
+        })
+
+        if (!products) throw Error(`no products found`)
+
+        return products
+
+
+    },
 }
 
 module.exports = logic
