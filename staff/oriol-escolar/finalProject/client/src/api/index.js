@@ -34,6 +34,8 @@ const homeSwappApi = {
             .then(response => response.json())
             .then(response => {
                 
+                if(response.error) throw Error (response.error)
+
                 return response
 
             })
