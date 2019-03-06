@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/logic/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">src/logic</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.72% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>100/114</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">85.06% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>74/87</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">98.68% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>75/76</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import thegamesDbApi from '../thegamesdb-api';
+import userApi from '../user-api';
+&nbsp;
+/**
+ * Abstraction of business logic.
+ */
+const logic = {
+    setUserId(id) {
+        this.___userId___ = id;
+    },
+&nbsp;
+    getUserId() {
+        return this.___userId___;
+    },
+&nbsp;
+    setUserApiToken(token) {
+        this.___userApiToken___ = token;
+    },
+&nbsp;
+    getUserApiToken() {
+        return this.___userApiToken___;
+    },
+&nbsp;
+    set __userId__(id) {
+        this.setUserId(id);
+    },
+&nbsp;
+    get __userId__() {
+        return this.getUserId();
+    },
+&nbsp;
+    set __userApiToken__(token) {
+        this.setUserApiToken(token);
+    },
+&nbsp;
+    get __userApiToken__() {
+        return this.getUserApiToken();
+    },
+&nbsp;
+    /**
+     * Registers a user.
+     *
+     * @param {string} name
+     * @param {string} surname
+     * @param {string} email
+     * @param {string} password
+     * @param {string} passwordConfirmation
+     */
+    registerUser(name, surname, email, password, passwordConfirmation) {
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string');
+&nbsp;
+        if (!name.trim().length) throw Error('name cannot be empty');
+&nbsp;
+        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string');
+&nbsp;
+        if (!surname.trim().length) throw Error('surname cannot be empty');
+&nbsp;
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string');
+&nbsp;
+        if (!email.trim().length) throw Error('email cannot be empty');
+&nbsp;
+        if (typeof password !== 'string') throw TypeError(password + ' is not a string');
+&nbsp;
+        if (!password.trim().length) throw Error('password cannot be empty');
+&nbsp;
+        if (typeof passwordConfirmation !== 'string')
+            throw TypeError(passwordConfirmation + ' is not a string');
+&nbsp;
+        if (!passwordConfirmation.trim().length)
+            throw Error('password confirmation cannot be empty');
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (password !== passwordConfirmation) <span class="cstat-no" title="statement not covered" >throw Error('passwords do not match');</span>
+&nbsp;
+        return userApi.register(name, surname, email, password).then(() =&gt; {});
+    },
+&nbsp;
+    /**
+     * Logins a user by its credentials.
+     *
+     * @param {string} email
+     * @param {string} password
+     */
+    loginUser(email, password) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof email !== 'string') <span class="cstat-no" title="statement not covered" >throw TypeError(email + ' is not a string');</span>
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!email.trim().length) <span class="cstat-no" title="statement not covered" >throw Error('email cannot be empty');</span>
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof password !== 'string') <span class="cstat-no" title="statement not covered" >throw TypeError(password + ' is not a string');</span>
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!password.trim().length) <span class="cstat-no" title="statement not covered" >throw Error('password cannot be empty');</span>
+&nbsp;
+        return userApi.authenticate(email, password).then(({ id, token }) =&gt; {
+            this.__userId__ = id;
+            this.__userApiToken__ = token;
+        });
+    },
+&nbsp;
+    retrieveUser() {
+        return userApi
+            .retrieve(this.__userId__, this.__userApiToken__)
+            .then(({ id, name, surname, username, favorites }) =&gt; ({
+                id,
+                name,
+                surname,
+                email: username,
+                favorites
+            }));
+    },
+&nbsp;
+    toggleFavorite(gameId) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof gameId !== 'string') <span class="cstat-no" title="statement not covered" >throw TypeError(`${gameId} is not a string`);</span>
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!gameId.trim().length) <span class="cstat-no" title="statement not covered" >throw Error('gameId is empty');</span>
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (isNaN(Number(gameId))) <span class="cstat-no" title="statement not covered" >throw Error(`${gameId} should be a number`);</span>
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (Number(gameId) &lt; 1) <span class="cstat-no" title="statement not covered" >throw Error(`${gameId} should be a bigger than 0 number`);</span>
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (Number(gameId) % 1 !== 0) <span class="cstat-no" title="statement not covered" >throw Error(`${gameId} should be an integer number`);</span>
+        
+&nbsp;
+        return this.retrieveUser().then(({ favorites }) =&gt; {
+&nbsp;
+            const index = favorites.indexOf(gameId);
+&nbsp;
+            if(index &lt; 0) {
+                favorites.push(gameId);
+            } else {
+                favorites.splice(index, 1);
+            }
+            
+            return userApi
+                .update(this.__userId__, this.__userApiToken__, {favorites})
+                .then(() =&gt; index);
+        });
+    },
+&nbsp;
+    get userLoggedIn() {
+<span class="cstat-no" title="statement not covered" >        return !!this.__userId__;</span>
+    },
+&nbsp;
+    logout() {
+        this.__userId__ = null;
+        this.__userApiToken__ = null;
+    },
+&nbsp;
+    /**
+     * Search games.
+     *
+     * @param {string} query
+     * @returns {Promise}
+     */
+    searchGame(query, params = '') {
+        
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`);
+&nbsp;
+        if (!query.trim().length) throw Error('query is empty');
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof params !== 'string') <span class="cstat-no" title="statement not covered" >throw TypeError(`${params} is not a string`);</span>
+&nbsp;
+        return thegamesDbApi.searchGame(query, params);
+    },
+&nbsp;
+    /**
+     * Search games.
+     *
+     * @param {string} query
+     * @returns {Promise}
+     */
+    searchGameByUrl(url) {
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`);
+&nbsp;
+        if (!url.trim().length) throw Error('url is empty');
+&nbsp;
+&nbsp;
+        return thegamesDbApi.searchGameByUrl(url);
+    },
+&nbsp;
+    /**
+     * Retrieves data from game.
+     *
+     * @param {string} gameId
+     */
+    retrieveGame(gameId, fields = '', include = '') {
+        if (typeof gameId !== 'string') throw TypeError(`${gameId} is not a string`);
+&nbsp;
+        if (!gameId.trim().length) throw Error('gameId is empty');
+&nbsp;
+        // if (isNaN(Number(gameId))) throw Error(`${gameId} should be a number`);
+&nbsp;
+        // if (Number(gameId) &lt; 1) throw Error(`${gameId} should be a bigger than 0 number`);
+&nbsp;
+        // if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof fields !== 'string') <span class="cstat-no" title="statement not covered" >throw TypeError(`${fields} is not a string`);</span>
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof include !== 'string') <span class="cstat-no" title="statement not covered" >throw TypeError(`${include} is not a string`);</span>
+&nbsp;
+        return thegamesDbApi.retrieveGame(gameId, fields, include);
+    },
+&nbsp;
+    /**
+     * Retrieves images from game.
+     *
+     * @param {string} gameId
+     */
+    retrieveImages(gameId) {
+        
+        if (typeof gameId !== 'string') throw TypeError(`${gameId} is not a string`);
+&nbsp;
+        if (!gameId.trim().length) throw Error('gameId is empty');
+&nbsp;
+        if (isNaN(Number(gameId))) throw Error(`${gameId} should be a number`);
+&nbsp;
+        if (Number(gameId) &lt; 1) throw Error(`${gameId} should be a bigger than 0 number`);
+&nbsp;
+        if (Number(gameId) % 1 !== 0) throw Error(`${gameId} should be an integer number`);
+        return thegamesDbApi.retrieveImages(gameId);
+    },
+&nbsp;
+    /**
+     * Retrieves a platform list
+     *
+     * @param {string} fields
+     */
+    retrievePlatformList(fields = '') {
+        if (typeof fields !== 'string') throw TypeError(`${fields} is not a string`);
+&nbsp;
+        return thegamesDbApi.retrievePlatformList(fields);
+    },
+&nbsp;
+    /**
+     * Retrieves a genres list
+     *
+     */
+    retrieveGenresList() {
+        return thegamesDbApi.retrieveGenresList();
+    },
+&nbsp;
+    /**
+     * Retrieves a developers list
+     *
+     */
+    retrieveDevelopersList() {
+        return thegamesDbApi.retrieveDevelopersList();
+    },
+&nbsp;
+    /**
+     * Retrieves a publishers list
+     *
+     */
+    retrievePublishersList() {
+        return thegamesDbApi.retrievePublishersList();
+    },
+&nbsp;
+    /**
+     * Retrieves platforms by Id.
+     *
+     * @param {string} gameId
+     */
+&nbsp;
+    retrieveGamesByPlatform(platformId, params = '') {
+        if (typeof platformId !== 'string') throw TypeError(`${platformId} is not a string`);
+&nbsp;
+        if (!platformId.trim().length) throw Error('platformId is empty');
+&nbsp;
+        if (isNaN(Number(platformId))) throw Error(`${platformId} should be a number`);
+&nbsp;
+        if (Number(platformId) &lt; 1) throw Error(`${platformId} should be a bigger than 0`);
+&nbsp;
+        if (Number(platformId) % 1 !== 0) throw Error(`${platformId} should be an integer number`);
+&nbsp;
+        return thegamesDbApi.retrieveGamesByPlatform(platformId, params);
+    }
+};
+&nbsp;
+export default logic;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Feb 08 2019 11:46:13 GMT+0100 (GMT+01:00)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
