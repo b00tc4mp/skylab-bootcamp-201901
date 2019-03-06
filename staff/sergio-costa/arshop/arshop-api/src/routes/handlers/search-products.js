@@ -1,8 +1,7 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { query: { q,c } } = req
-    debugger
+    const { query: { q } } = req
     try {
         logic.searchProducts(q)
             .then(product => res.json(product))
