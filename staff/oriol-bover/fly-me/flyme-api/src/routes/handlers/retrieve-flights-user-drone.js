@@ -4,11 +4,12 @@ const logic = require('../../logic')
 const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
-    const { userId, body: { identifier, brand, model } } = req
+
+    const { params: { userId, droneId } } = req
 
     try {
-        logic.addDrone(userId, identifier, brand, model)
-            .then(droneId => res.json({ droneId }))
+        logic.retrieveFlightsFromUserDrone(userId, droneId)
+            .then(res.json.bind(res))
             .catch(err => handleResponseError(err, res))
     } catch (error) {
         handleResponseError(error, res)

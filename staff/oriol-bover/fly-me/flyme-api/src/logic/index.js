@@ -133,7 +133,6 @@ const logic = {
 
                 return User.findByIdAndUpdate(userId, data, { runValidators: true })
                     .then(user => {
-
                         return {
                             status: 'OK',
                             id: user._id.toString(),
@@ -189,8 +188,145 @@ const logic = {
 
         return Drone.find({ owner: userId }).select('-__v').lean()
             .then(drones => drones)
-    }
+    },
 
+    updateDrone(userId, droneId, data) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+
+        if (Object.keys(data).length === 0) throw new EmptyError('Data cannot be empty')
+
+        return Drone.findOne({ _id: droneId, owner: userId })
+            .then(drone => {
+                if (!drone) throw new AuthError('You dont have permissions to delete this drone')
+
+                return Drone.findByIdAndUpdate(droneId, data, { runValidators: true })
+
+            })
+            .then(drone => {
+                return { droneId: drone.id, status: 'OK' }
+            })
+    },
+
+    deleteDrone(userId, droneId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+
+        return Drone.findOne({ _id: droneId, owner: userId })
+            .then(drone => {
+                if (!drone) throw new AuthError('You dont have permissions to delete this drone')
+
+                return Drone.findByIdAndDelete(droneId)
+            })
+            .then(() => {
+                return { status: 'OK' }
+            })
+
+    },
+
+    addFlight(userId, droneId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+
+        return Drone.findById(droneId)
+            .then(drone => {
+                if (!drone) throw new EmptyError(`No drone with id ${drone.id}`)
+
+                return Flight.create({ userId, droneId })
+            })
+            .then(drone => drone.id)
+    },
+
+    retrieveFlights() {
+        return Flight.find().select('-__v').lean()
+            .then(flights => flights)
+    },
+
+    retrieveFlightsFromUser(userId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        return Flight.find({ userId }).select('-__v').lean()
+            .then(flights => flights)
+    },
+
+    retrieveFlightsFromDrone(droneId) {
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+
+        return Flight.find({ droneId }).select('-__v').lean()
+            .then(flights => flights)
+    },
+
+    retrieveFlightsFromUserDrone(userId, droneId) {
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+
+        return Flight.find({ userId, droneId }).select('-__v').lean()
+            .then(flights => flights)
+    },
+
+    updateFlight(userId, flightId, data) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        if (typeof flightId !== 'string') throw TypeError(flightId + ' is not a string')
+
+        if (!flightId.trim().length) throw new EmptyError('flightId cannot be empty')
+
+        if (Object.keys(data).length === 0) throw new EmptyError('Data cannot be empty')
+
+        return Flight.findOne({ _id: flightId, userId: userId })
+            .then(flight => {
+                if (!flight) throw new AuthError('You dont have permissions to delete this flight')
+
+                return Flight.findByIdAndUpdate(flightId, data, { runValidators: true })
+
+            })
+            .then(flight => {
+                return { flightId: flight.id, status: 'OK' }
+            })
+    },
+
+    deleteFlight(userId, flightId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        if (typeof flightId !== 'string') throw TypeError(flightId + ' is not a string')
+
+        if (!flightId.trim().length) throw new EmptyError('flightId cannot be empty')
+
+        return Flight.findOne({ _id: flightId, userId: userId })
+            .then(flight => {
+                if (!flight) throw new AuthError('You dont have permissions to delete this flight')
+
+                return Flight.findByIdAndDelete(flightId)
+            })
+            .then(() => {
+                return { status: 'OK' }
+            })
+
+    }
 
 }
 

@@ -7,5 +7,14 @@ module.exports = {
     addDrone: require('./add-drone'),
     retrieveDrones: require('./retrieve-drones'),
     retrieveDronesUser: require('./retrieve-drones-user'),
+    updateDrone: require('./update-drone'),
+    deleteDrone: require('./delete-drone'),
+    addFlight: require('./add-flight'),
+    retrieveFlights: require('./retrieve-flights'),
+    retrieveFlightsUser: require('./retrieve-flights-user'),
+    retrieveFlightsDrone: require('./retrieve-flights-drone'),
+    retrieveFlightsUserDrone: require('./retrieve-flights-user-drone'),
+    updateFlight: require('./update-flight'),
+    deleteFlight: require('./delete-flight'),
     notFound: require('./not-found')
 }
