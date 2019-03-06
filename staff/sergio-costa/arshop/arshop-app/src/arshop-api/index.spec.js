@@ -5,6 +5,8 @@ import arshopApi from '.'
 jest.setTimeout(10000)
 
 describe('arshop api', () => {
+
+    //#region REGISTER USER
     describe('register user', () => {
         const name = 'sergio'
         const surname = 'costa'
@@ -40,7 +42,9 @@ describe('arshop api', () => {
 
         // TODO more unit test cases
     })
+    //#endregion
 
+    //#region AUTHENTICATE USER
     describe('authenticate user', () => {
         const name = 'sergio'
         const surname = 'costa'
@@ -58,7 +62,9 @@ describe('arshop api', () => {
 
         // TODO more unit test cases
     })
+    //#endregion
 
+    //#region RETRIEVE USER
     describe('retrieve user', () => {
         const name = 'sergio'
         const surname = 'costa'
@@ -86,6 +92,7 @@ describe('arshop api', () => {
 
         // TODO more unit test cases
     })
+    //#endregion
 
     // describe('update user', () => {
     //     const name = 'sergio'
