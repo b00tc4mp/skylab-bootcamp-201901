@@ -1,11 +1,11 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { body: { ...data } } = req
+    const { body: { ...data }, userId } = req
 
     try {
-        logic.updateUser(data)
-            .then(token => res.json({ token }))
+        logic.updateUser(userId, data)
+            .then(() => res.json({ status:'OK' }))
             .catch(({ message }) => {
                 res.status(401).json({
                     error: message

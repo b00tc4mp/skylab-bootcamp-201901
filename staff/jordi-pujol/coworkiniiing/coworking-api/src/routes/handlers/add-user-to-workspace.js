@@ -2,10 +2,10 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
 
-    const { body: { name, user } } = req
+    const { body: { workspaceId, user } } = req
     
     try {
-        logic.addUserToWorkspace(name, user)
+        logic.addUserToWorkspace(workspaceId, user)
             .then(() => res.json({ status: 'OK' }))
             .catch(({ message }) => {
                 res.status(401).json({

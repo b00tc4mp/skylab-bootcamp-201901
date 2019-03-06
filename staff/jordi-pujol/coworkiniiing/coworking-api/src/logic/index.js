@@ -39,7 +39,9 @@ const logic = {
 
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
-        if (typeof isAdmin !== 'string') throw TypeError(isAdmin + ' is not a boolean')
+        if (typeof isAdmin !== 'string') throw TypeError(isAdmin + ' is not a string')
+
+        if (!isAdmin.trim().length) throw Error('isAdmin cannot be empty')
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
@@ -51,7 +53,6 @@ const logic = {
             })
             .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
             .then(({ id }) => id)
-        //create or add user to workspace
     },
 
     /**
@@ -87,34 +88,21 @@ const logic = {
     },
 
     /**
-     * Verifies provided token is correct
+     * Retrieves user by it's Id
      * 
-     * @param {string} token 
+     * @param {string} userId 
      */
-    __verifyToken__(token) {
-        const { sub } = jwt.verify(token, this.jwtSecret)
+    retrieveUser(userId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
 
-        if (!sub) throw Error(`user id not present in token ${token}`)
-
-        return sub
-    },
-
-    /**
-     * 
-     * @param {string} token 
-     */
-    retrieveUser(token) {
-        // TODO validate userId and token type and content
-        if (typeof token !== 'string') throw TypeError(token + 'is not a string')
-        if (!token.trim().length) throw Error('email cannot be empty')
-
-        const userId = this.__verifyToken__(token)
-
-        return User.findById(userId)
+        return User.findById(userId).select('-password -__v').lean()
             .then(user => {
                 if (!user) throw Error(`user with id ${id} not found`)
 
-                delete user.password
+                user.id = user._id.toString()
+
+                delete user._id
 
                 return user
             })
@@ -124,83 +112,90 @@ const logic = {
      * Updates a user. Can remove, change or add user params.
      * 
      * @param {string} userId 
-     * @param {string} token 
      * @param {string} data 
      */
-    updateUser(token, data) {
+    // updateUser(userId, data) {
+    //     if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
+    //     if (!userId.trim().length) throw Error('userId cannot be empty')
 
-        jwt.verify(token, this.jwtSecret, (error, decode) => {
+    //     if (typeof data !== 'string') throw TypeError(data + 'is not a string')
+    //     if (!data.trim().length) throw Error('data cannot be empty')
 
-            if (error) throw Error(error.message)
-            if (decode.id !== userId) throw Error('userId does not match token')
+    //     return User.update(userId, data)
+    //         .then(() => { })
 
-        })
+    // },
 
-        return User.update(userId, data)
-            .then(() => { })
+    // removeUser(token, email) {
 
-    },
+    //     return User.deleteOne({ email })
+    //         .then(user => {
+    //             if (!user) throw Error(`user with email ${email} not found`)
 
-    removeUser(token, email) {
 
-        return User.deleteOne({ email })
+    //             jwt.verify(token, this.jwtSecret, (error, decode) => {
+
+    //                 if (error) throw Error(error.message)
+    //                 if (decode.id !== id) throw Error('userId does not match token')
+
+    //             })
+    //         })
+    // },
+
+    createWorkspace(name, userId) {
+
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+        if (!name.trim().length) throw Error('name cannot be empty')
+
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return User.findById(userId)
             .then(user => {
-                if (!user) throw Error(`user with email ${email} not found`)
+                if (!user) throw Error('user does not exist')
+                if (user.workspace) throw Error('cannot create more than one workspace with same email')
 
-
-                jwt.verify(token, this.jwtSecret, (error, decode) => {
-
-                    if (error) throw Error(error.message)
-                    if (decode.id !== id) throw Error('userId does not match token')
-
-                })
+                return Workspace.findOne({ name })
             })
-    },
-
-    createWorkspace(name, user) {
-        debugger
-        return Workspace.findOne({ name })
             .then(workspace => {
                 if (workspace) throw Error(`${workspace} already exists`)
-                return Workspace.create({ name, user })
+
+                return Workspace.create({ name, user: userId })
             })
             .then(({ id }) => id)
             .then((workspaceId) => {
-                return User.findOneAndUpdate({ id: user, $set: { workspace: workspaceId } }).then(() => workspaceId)
+                return User.findOneAndUpdate({ id: userId, $set: { workspace: workspaceId } }).then(() => workspaceId)
             })
     },
 
-    addUserToWorkspace(name, user) {
-        //not name but ID
-        return Workspace.findOne({ name }).lean()
+    addUserToWorkspace(workId, userId) {
+        if (typeof workId !== 'string') throw TypeError(workId + ' is not a string')
+        if (!workId.trim().length) throw Error('workspaceId cannot be empty')
+
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return Workspace.findOne({ _id: workId }).lean()
             .then(workspace => {
-                if (!workspace) throw Error(`${name} does not exists`)
+                if (!workspace) throw Error(`workspace does not exists`)
 
                 for (let i = 0; i < workspace.user.length; i++) {
-                    if (workspace.user[i].toString() === user) throw Error(`${user} already exists`)
+                    if (workspace.user[i].toString() === userId) throw Error(`${userId} already exists`)
                 }
                 return workspace
             })
             .then((workspace) => {
-                workspace.user.push(user)
+                workspace.user.push(userId)
                 // workspace.save()
-                return Workspace.findOneAndUpdate({ name: name, $set: { user: workspace.user } }).lean()
-                    .then((workspace) =>{ 
-                        debugger
-                        return workspace._id})
+                return Workspace.findOneAndUpdate({ _id: workId, $set: { user: workspace.user } }).lean()
+                    .then(() => workspace._id)
+
             }).then((workspaceId) => {
-                debugger
-                return User.findById(user)
-                    .then((user) => {
-                        debugger
+                return User.findById(userId)
+                    .then(user => {
                         user.workspace = workspaceId
                         return user.save()
                     })
-                // return User.findOneAndUpdate({ id: user, $set: { workspace: workspaceId } }).lean()
-                //     .then((result) => {
-                //         debugger
-                //         console.log('hello')
-                //     })
             })
     },
 

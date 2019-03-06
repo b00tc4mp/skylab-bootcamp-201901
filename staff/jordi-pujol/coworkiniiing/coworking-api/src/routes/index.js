@@ -15,7 +15,7 @@ router.post('/user', jsonBodyParser, registerUser)
 
 router.get('/user', tokenVerifierMiddleware ,retrieveUser)
 
-router.put('/user', jsonBodyParser, updateUser)
+router.put('/user', [jsonBodyParser, tokenVerifierMiddleware], updateUser)
 
 router.post('/user/auth', jsonBodyParser, authenticateUser)
 

@@ -1,7 +1,7 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    // const { headers: { authorization } } = req
+    // const { userId } = req
 
     // const token = authorization.substring(7)
 
