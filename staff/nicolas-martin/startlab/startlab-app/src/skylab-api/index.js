@@ -178,8 +178,17 @@ const skylabApi = {
     getExercisesFromUser(token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-
         
+        return fetch(`${this.url}/student/start`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
     },
 
     checkCode(token, code, test) {

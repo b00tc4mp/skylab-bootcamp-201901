@@ -224,12 +224,19 @@ const logic = {
         if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
         return User.findById(userId).populate('historical.exercise').lean()
-            .then(result => {
-                // if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
                 
+                const historical = user.historical.filter(userExercise => {
+                    
+                    userExercise.exercise.id = userExercise.exercise._id
+                    delete userExercise.exercise._id
+                    delete userExercise.exercise.__v
+                    return userExercise
+                })
 
-                debugger
+                return historical
+
             })
     },
 
