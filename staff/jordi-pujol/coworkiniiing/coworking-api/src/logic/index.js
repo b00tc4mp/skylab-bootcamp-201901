@@ -1,13 +1,12 @@
 'use strict'
 
-const jwt = require('jsonwebtoken')
+const tokenHelper = require('../token-helper')
+const { createToken } = tokenHelper
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
-const { User, Workspace } = require('../models')
+const { User, Workspace, Service } = require('../models')
 
 const logic = {
-
-    jwtSecret: 'onepiece',
 
     /**
         * Registers a user.
@@ -80,11 +79,10 @@ const logic = {
 
                         const { id } = user
 
-                        const token = jwt.sign({ sub: id }, this.jwtSecret, { expiresIn: '4h' })
-
-                        return token
+                        return createToken(id)
                     })
             })
+        // .then(() => user.id)
     },
 
     /**
@@ -107,6 +105,9 @@ const logic = {
                 return user
             })
     },
+
+    /// updateuser should ony recieve the token
+
 
     /**
      * Updates a user. Can remove, change or add user params.
@@ -175,24 +176,27 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
-        return Workspace.findOne({ _id: workId }).lean()
+        debugger
+        return Workspace.findOne({ _id: workId })
             .then(workspace => {
                 if (!workspace) throw Error(`workspace does not exists`)
 
                 for (let i = 0; i < workspace.user.length; i++) {
                     if (workspace.user[i].toString() === userId) throw Error(`${userId} already exists`)
                 }
+
+                // afegir validacio
                 return workspace
             })
             .then((workspace) => {
                 workspace.user.push(userId)
-                // workspace.save()
-                return Workspace.findOneAndUpdate({ _id: workId, $set: { user: workspace.user } }).lean()
+                return workspace.save()
                     .then(() => workspace._id)
 
             }).then((workspaceId) => {
                 return User.findById(userId)
                     .then(user => {
+
                         user.workspace = workspaceId
                         return user.save()
                     })
@@ -200,18 +204,150 @@ const logic = {
     },
 
     createNewUserLink(userId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
 
-        return User.findById({ userId }).lean()
+        let workspaceId = ''
+
+        return User.findById({ _id: userId })
             .then(user => {
                 if (!user) throw Error(`${userId} does not exists`)
 
                 if (!user.isAdmin) throw Error(`${userId} has no permissions for creating a new link`)
 
-                return uuid()
+                workspaceId = user.workspace
+
+                return bcrypt.hash(uuid(), 10)
             })
+            .then(hash => {
+                let _hash = hash
+
+                return Workspace.findById(workspaceId)
+                    .then(workspace => {
+                        console.log(workspace)
+                        workspace.hash.push(hash)
+                        return workspace.save()
+                    })
+                    .then(() => {
+                        return _hash
+                    })
+            })
+    },
+
+    verifyNewUserLink(userId, link) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (typeof link !== 'string') throw TypeError(link + ' is not a string')
+        if (!link.trim().length) throw Error('link cannot be empty')
+
+        return User.findById({ _id: userId })
+            .then(user => {
+                if (!user) throw Error(`${userId} does not exists`)
+
+            })
+            .then(() => {
+                return Workspace.findOne({ hash: link })
+            })
+            .then(workspace => {
+                if (!workspace) throw Error('link validation failed')
+
+                const index = workspace.hash.findIndex(invitations => invitations === link)
+
+                workspace.hash.splice(index, 1)
+                return workspace.save()
+            })
+    },
+
+    createService(userId, title, description) {
+        
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (typeof title !== 'string') throw TypeError(title + ' is not a string')
+        if (!title.trim().length) throw Error('title cannot be empty')
+
+        if (typeof description !== 'string') throw TypeError(description + ' is not a string')
+        if (!description.trim().length) throw Error('description cannot be empty')
+
+        let serviceId
+
+        return User.findById({ _id: userId })
+            .then(user => {
+                if (!user) throw Error(`${userId} does not exists`)
+
+                return user.workspace
+            })
+            .then(workspaceId => {
+                return Workspace.findById(workspaceId)
+
+                    .then(workspace => {
+                        workspace.service.push()
+                    })
+                    .then(() => {
+                        return Service.create({ title, description, user: userId })
+                    })
+                    .then(({ id }) => id)
+
+            })
+    },
+
+    retrieveService(userId, serviceId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
+        if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
+
+        return Service.findById(serviceId).select('-password -__v').lean()
+            .then(service => {
+                if (service.user.toString() !== userId) throw Error('this user cannot retrieve this service')
+
+                service.id = service._id.toString()
+
+                delete service._id
+
+                return service
+            })
+    },
+
+    updateService(userId, serviceId, data) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
+        if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
+
+        // if (typeof data !== 'string') throw TypeError(data + ' is not a string')
+        // if (!data.trim().length) throw Error('data cannot be empty')
+
+        return Service.findById(serviceId)
+            .then(service => {
+                if (service.user.toString() !== userId) throw Error('this user cannot update this service')
+            })
+            .then(() => {
+                return Service.findOneAndUpdate({ id: serviceId, $set: data })
+            })
+    },
+
+    deleteService(userId, serviceId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
+        if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
+
+        return Service.findById(serviceId)
+            .then(service => {
+                if (service.user.toString() !== userId) throw Error('this user cannot delete this service')
+            })
+            .then(() => {
+                return Service.deleteOne({ _id: serviceId })
+            })
+
     }
 
-    /// updateuser should ony recieve the token
+
 }
 
 module.exports = logic

@@ -10,7 +10,7 @@ const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
 
-const { env: { TEST_DB_URL } } = process
+const { env: { TEST_DB_URL, JWT_SECRET } } = process
 
 describe('logic', () => {
     before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
@@ -740,40 +740,43 @@ describe('logic', () => {
 
         const name = 'Josepet'
         const surname = 'Pepet'
-        const email = `josepet-${Math.random()}@mail.com`
+        let email = ''
         const password = `123-${Math.random()}`
         const isAdmin = 'true'
         let userId = ''
-        let workspaceName = `One Piece-${Math.random()}`
+        let workspaceName = ''
         let workspaceId = ''
+        let _hash = ''
 
         const name2 = 'Josepet'
         const surname2 = 'Pepet'
-        const email2 = `josepet-${Math.random()}@mail.com`
+        let email2 = ''
         const password2 = `123-${Math.random()}`
         const isAdmin2 = 'true'
         let userId2 = ''
 
-        beforeEach(() =>{
-            bcrypt.hash(password, 10)
+        beforeEach(() => {
+
+            email = `josepet-${Math.random()}@mail.com`
+            email2 = `josepet-${Math.random()}@mail.com`
+            workspaceName = `One Piece-${Math.random()}`
+
+            return bcrypt.hash(password, 10)
                 .then(hash => {
-                    User.create({ name: name2, surname: surname2, email: email2, password: hash, isAdmin: isAdmin2 }).then(({ id }) => userId2 = id)
-                    return hash
+                    _hash = hash
+                    return User.create({ name: name2, surname: surname2, email: email2, password: hash, isAdmin: isAdmin2 }).then(({ id }) => userId2 = id)
                 })
-                .then((hash) => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(() => User.create({ name, surname, email, password: _hash, isAdmin }))
                 .then(({ id }) => userId = id)
                 .then(() => {
                     return Workspace.create({ name: workspaceName, user: userId })
                 })
                 .then(({ _id }) => {
+
                     workspaceId = _id.toString()
                     return User.findOneAndUpdate({ id: userId, $set: { workspace: workspaceId } })
                 })
-
-            // bcrypt.hash(password2, 10)
-            //     .then((hash) => User.create({ name: name2, surname: surname2, email: email2, password: hash, isAdmin: isAdmin2 }))
-            //     .then(({ id }) => userId2 = id)
-            })
+        })
 
         it('should succed on valid data', () => {
             logic.addUserToWorkspace(workspaceId, userId2)
@@ -782,9 +785,9 @@ describe('logic', () => {
                 })
                 .then(workspace => {
                     expect(workspace._id).toBeDefined()
-                    console.log('dsaadsdasd')
-                    // expect(workspace._id.toString()).toBe(id)
-                    // expect(workspace.user).toContain(userId2)
+                    expect(workspace._id.toString()).toBe('dsadsad')
+                    expect(workspace.user).toContain(userId2)
+                    console.log('dsadsa')
                 })
         })
         it('should fail on undefined workspaceId', () => {
@@ -837,7 +840,7 @@ describe('logic', () => {
 
         it('should fail on undefined userId', () => {
             const userId2 = undefined
-
+            
             expect(() => {
                 logic.addUserToWorkspace(workspaceId, userId2)
             }).toThrow(Error(userId2 + ' is not a string'))
@@ -880,6 +883,79 @@ describe('logic', () => {
 
             expect(() => {
                 logic.addUserToWorkspace(workspaceId, userId2)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+    })
+
+    describe('create link per new user', () => {
+
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const isAdmin = 'true'
+        let userId = ''
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(({ _id }) => userId = _id.toString())
+        )
+        //TODO
+        it('should succeed on correct data', () => {
+            
+            logic.createNewUserLink(userId)
+                .then(link => {
+                    expect(link).toBeUndefined()
+                })
+
+        })
+
+        it('should fail on undefined userId', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.createNewUserLink(userId)
+            }).toThrow(Error(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric userId', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.createNewUserLink(userId)
+            }).toThrow(Error(userId + ' is not a string'))
+        })
+
+        it('should fail on boolean userId', () => {
+            const userId = true
+
+            expect(() => {
+                logic.createNewUserLink(userId)
+            }).toThrow(Error(userId + ' is not a string'))
+        })
+
+        it('should fail on object userId', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.createNewUserLink(userId)
+            }).toThrow(Error(userId + ' is not a string'))
+        })
+
+        it('should fail on array userId', () => {
+            const userId = []
+
+            expect(() => {
+                logic.createNewUserLink(userId)
+            }).toThrow(Error(userId + ' is not a string'))
+        })
+
+        it('should fail on empty userId', () => {
+            const userId = ''
+
+            expect(() => {
+                logic.createNewUserLink(userId)
             }).toThrow(Error('userId cannot be empty'))
         })
     })

@@ -13,10 +13,14 @@ const Workspace = new Schema ({
         ref: 'User'
     }],
     //plural
-    need:[{
+    service:[{
         type: ObjectId,
         required: false,
-        ref: 'Need'
+        ref: 'Service'
+    }],
+    hash:[{
+        type: String,
+        required: false
     }]
 })
 

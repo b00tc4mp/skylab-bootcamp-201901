@@ -1,6 +1,6 @@
 module.exports = {
     User: require('./user'),
     Comment: require('./comments'),
-    Need: require('./needs'),
+    Service: require('./service'),
     Workspace: require('./workspaces')
 }

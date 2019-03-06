@@ -1,8 +1,8 @@
 const { Schema } = require('mongoose')
 const { Types: { ObjectId } } = Schema
-const Comment = require('../schemas/comments')
+const Comment = require('./comments')
 
-const Need = new Schema ({
+const Service = new Schema ({
 
     title:{
         type: String,
@@ -23,4 +23,4 @@ const Need = new Schema ({
     comments: [Comment]
 })
 
-module.exports = Need
+module.exports = Service

@@ -13,5 +13,15 @@ module.exports = {
 
     addUserToWorkSpace: require('./add-user-to-workspace'),
 
-    createNewUserLink: require('./create-new-user-link')
+    createNewUserLink: require('./create-new-user-link'),
+
+    verifyNewUserLink: require('./verify-new-user-link'),
+
+    createService: require('./create-service'),
+
+    retrieveService: require('./retrieve-service'),
+
+    updateService: require('./update-service'),
+
+    deleteService: require('./delete-service')
 }
