@@ -205,7 +205,7 @@ const logic = {
 
         if (!msgId.trim().length) throw new EmptyError('user id is empty')
 
-        Promise.all([
+        return Promise.all([
             User.findById(userId)
                 .then(user => {
                     let msg = user.msgSent.filter(m => m.toString() !== msgId)
@@ -225,7 +225,7 @@ const logic = {
                 }),
             Message.findByIdAndDelete(msgId)
                 .then(message => message)       
-        ]).then(values => console.log(values))
+        ]).then(values => values)
     }     
 }
 
