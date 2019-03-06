@@ -46,9 +46,14 @@ const logic = {
         //     .then(({ id }) => id)
 
         return (async () => {
-            const user = await User.findOne({ email })
+            let user = await User.findOne({ email })
 
             if (user) throw Error(`user with email ${email} already exists`)
+
+            user = await User.findOne({ username })
+
+            if (user) throw Error(`user with username ${username} already exists`)
+
 
             const hash = await bcrypt.hash(password, 10)
 
@@ -128,14 +133,14 @@ const logic = {
     addHouseToUser(userId, houseId) {
 
         retrieveUser(userId)
-            .then(user => { 
+            .then(user => {
                 user.myHouses.push(houseId)
-                return user 
+                return user
             })
-            .then(user => { 
+            .then(user => {
 
                 const myHouses = user.myHouses
-                User.findByIdAndUpdate(userId, myHouses, { runValidators: true, new: true }) 
+                User.findByIdAndUpdate(userId, myHouses, { runValidators: true, new: true })
 
             })
 
@@ -147,8 +152,8 @@ const logic = {
         return House.create(ownerId, images, description, info, adress)
             .then(house => {
 
-                addHouseToUser(ownerId,house.id)
-            
+                addHouseToUser(ownerId, house.id)
+
             })
 
     }
