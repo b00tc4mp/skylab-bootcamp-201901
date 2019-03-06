@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>620/620</span>
+        <span class='fraction'>621/621</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>619/619</span>
+        <span class='fraction'>620/620</span>
       </div>
     </div>
     <p class="quiet">
@@ -1270,7 +1270,8 @@
 <a name='L1222'></a><a href='#L1222'>1222</a>
 <a name='L1223'></a><a href='#L1223'>1223</a>
 <a name='L1224'></a><a href='#L1224'>1224</a>
-<a name='L1225'></a><a href='#L1225'>1225</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L1225'></a><a href='#L1225'>1225</a>
+<a name='L1226'></a><a href='#L1226'>1226</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1721,6 +1722,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -2930,7 +2932,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 &nbsp;
         beforeEach(() =&gt;
@@ -2949,6 +2951,7 @@ describe('logic', () =&gt; {
                             expect(_product.tittle).toBe(product.tittle)
                             expect(_product.description).toBe(product.description)
                             expect(_product.price).toBe(product.price)
+                            expect(_product.city).toBe(product.city)
                         })
                 })
         )
@@ -3036,7 +3039,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 &nbsp;
         const product2 = {
@@ -3044,7 +3047,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 9999,
             category: 'vehicle',
-            zone: 'Madrid'
+            city: 'Madrid'
         }
 &nbsp;
         beforeEach(() =&gt; {
@@ -3062,13 +3065,13 @@ describe('logic', () =&gt; {
                     expect(products[0].description).toBe(product.description)
                     expect(products[0].price).toBe(product.price)
                     expect(products[0].category).toBe(product.category)
-                    expect(products[0].zone).toBe(product.zone)
+                    expect(products[0].city).toBe(product.city)
 &nbsp;
                     expect(products[1].tittle).toBe(product2.tittle)
                     expect(products[1].description).toBe(product2.description)
                     expect(products[1].price).toBe(product2.price)
                     expect(products[1].category).toBe(product2.category)
-                    expect(products[1].zone).toBe(product2.zone)
+                    expect(products[1].city).toBe(product2.city)
                 })
         )
 &nbsp;
@@ -3094,7 +3097,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 9999,
             category: 'vehicle',
-            zone: 'Madrid',
+            city: 'Madrid',
         }
         let _id
 &nbsp;
@@ -3163,7 +3166,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 &nbsp;
         beforeEach(() =&gt;
@@ -3183,7 +3186,7 @@ describe('logic', () =&gt; {
                     expect(products[0].description).toBe(product.description)
                     expect(products[0].price).toBe(product.price)
                     expect(products[0].category).toBe(product.category)
-                    expect(products[0].zone).toBe(product.zone)
+                    expect(products[0].city).toBe(product.city)
 &nbsp;
                     expect(products.length).toBe(1)
                 })
@@ -3234,7 +3237,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 &nbsp;
         beforeEach(() =&gt;
@@ -3348,7 +3351,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 &nbsp;
         beforeEach(() =&gt;
@@ -3411,7 +3414,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 &nbsp;
         const product2 = {
@@ -3419,7 +3422,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 9999,
             category: 'electronic',
-            zone: 'Madrid'
+            city: 'Madrid'
         }
 &nbsp;
         beforeEach(() =&gt; {
@@ -3437,7 +3440,7 @@ describe('logic', () =&gt; {
                     expect(products[0].description).toBe(product.description)
                     expect(products[0].price).toBe(product.price)
                     expect(products[0].category).toBe(product.category)
-                    expect(products[0].zone).toBe(product.zone)
+                    expect(products[0].city).toBe(product.city)
                     expect(products.length).toBe(1)
                 })
         )
@@ -3481,7 +3484,7 @@ describe('logic', () =&gt; {
             description: 'car seat ibiza',
             price: 1500,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 &nbsp;
         const product2 = {
@@ -3489,7 +3492,7 @@ describe('logic', () =&gt; {
             description: 'car in good contitions',
             price: 20000,
             category: 'vehicle',
-            zone: 'Madrid'
+            city: 'Madrid'
         }
 &nbsp;
         const product3 = {
@@ -3497,7 +3500,7 @@ describe('logic', () =&gt; {
             description: 'samsung galaxi',
             price: 400,
             category: 'electronic',
-            zone: 'Galicia'
+            city: 'Barcelona'
         }
 &nbsp;
         beforeEach(() =&gt; {
@@ -3517,13 +3520,13 @@ describe('logic', () =&gt; {
                     expect(products[0].description).toBe(product.description)
                     expect(products[0].price).toBe(product.price)
                     expect(products[0].category).toBe(product.category)
-                    expect(products[0].zone).toBe(product.zone)
+                    expect(products[0].city).toBe(product.city)
 &nbsp;
                     expect(products[1].tittle).toBe(product2.tittle)
                     expect(products[1].description).toBe(product2.description)
                     expect(products[1].price).toBe(product2.price)
                     expect(products[1].category).toBe(product2.category)
-                    expect(products[1].zone).toBe(product2.zone)
+                    expect(products[1].city).toBe(product2.city)
 &nbsp;
                     expect(products.length).toBe(2)
                 })
@@ -3536,7 +3539,7 @@ describe('logic', () =&gt; {
                     expect(products[0].description).toBe(product3.description)
                     expect(products[0].price).toBe(product3.price)
                     expect(products[0].category).toBe(product3.category)
-                    expect(products[0].zone).toBe(product3.zone)
+                    expect(products[0].city).toBe(product3.city)
 &nbsp;
                     expect(products.length).toBe(1)
                 })
@@ -3581,7 +3584,7 @@ describe('logic', () =&gt; {
     })
     //#endregion
 &nbsp;
-    //#region UPDATE PRODCUTS
+    //#region UPDATE PRODUCTS
     describe('update products', () =&gt; {
         let name = 'sergio'
         let surname = 'costa'
@@ -3595,7 +3598,7 @@ describe('logic', () =&gt; {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 &nbsp;
         beforeEach(() =&gt;
@@ -3616,7 +3619,7 @@ describe('logic', () =&gt; {
                     expect(_product.description).toBe(product.description)
                     expect(_product.price).toBe(_product.price)
                     expect(_product.category).toBe(product.category)
-                    expect(_product.zone).toBe(product.zone)
+                    expect(_product.city).toBe(product.city)
                 })
         })
 &nbsp;
@@ -3628,7 +3631,7 @@ describe('logic', () =&gt; {
                     expect(_product.description).toBe(product.description)
                     expect(_product.price).toBe(product.price)
                     expect(_product.category).toBe(product.category)
-                    expect(_product.zone).toBe(product.zone)
+                    expect(_product.city).toBe(product.city)
                 })
         })
 &nbsp;
@@ -3724,7 +3727,7 @@ describe('logic', () =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Mar 06 2019 20:19:18 GMT+0100 (GMT+01:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Mar 06 2019 20:33:49 GMT+0100 (GMT+01:00)
 </div>
 </div>
 <script src="..\prettify.js"></script>

@@ -434,7 +434,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 
         beforeEach(() =>
@@ -453,6 +453,7 @@ describe('logic', () => {
                             expect(_product.tittle).toBe(product.tittle)
                             expect(_product.description).toBe(product.description)
                             expect(_product.price).toBe(product.price)
+                            expect(_product.city).toBe(product.city)
                         })
                 })
         )
@@ -540,7 +541,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 
         const product2 = {
@@ -548,7 +549,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 9999,
             category: 'vehicle',
-            zone: 'Madrid'
+            city: 'Madrid'
         }
 
         beforeEach(() => {
@@ -566,13 +567,13 @@ describe('logic', () => {
                     expect(products[0].description).toBe(product.description)
                     expect(products[0].price).toBe(product.price)
                     expect(products[0].category).toBe(product.category)
-                    expect(products[0].zone).toBe(product.zone)
+                    expect(products[0].city).toBe(product.city)
 
                     expect(products[1].tittle).toBe(product2.tittle)
                     expect(products[1].description).toBe(product2.description)
                     expect(products[1].price).toBe(product2.price)
                     expect(products[1].category).toBe(product2.category)
-                    expect(products[1].zone).toBe(product2.zone)
+                    expect(products[1].city).toBe(product2.city)
                 })
         )
 
@@ -598,7 +599,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 9999,
             category: 'vehicle',
-            zone: 'Madrid',
+            city: 'Madrid',
         }
         let _id
 
@@ -667,7 +668,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 
         beforeEach(() =>
@@ -687,7 +688,7 @@ describe('logic', () => {
                     expect(products[0].description).toBe(product.description)
                     expect(products[0].price).toBe(product.price)
                     expect(products[0].category).toBe(product.category)
-                    expect(products[0].zone).toBe(product.zone)
+                    expect(products[0].city).toBe(product.city)
 
                     expect(products.length).toBe(1)
                 })
@@ -738,7 +739,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 
         beforeEach(() =>
@@ -852,7 +853,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 
         beforeEach(() =>
@@ -867,7 +868,6 @@ describe('logic', () => {
         it('should retrieve all favs from a user', () =>
             logic.retrieveFavs(userId)
                 .then((favorites) => {
-                    console.log(favorites)
                     expect(favorites).toBeDefined()
                     expect(favorites.length).toBe(1)
                     expect(favorites[0].toString()).toBe(_id)
@@ -915,7 +915,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 
         const product2 = {
@@ -923,7 +923,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 9999,
             category: 'electronic',
-            zone: 'Madrid'
+            city: 'Madrid'
         }
 
         beforeEach(() => {
@@ -941,7 +941,7 @@ describe('logic', () => {
                     expect(products[0].description).toBe(product.description)
                     expect(products[0].price).toBe(product.price)
                     expect(products[0].category).toBe(product.category)
-                    expect(products[0].zone).toBe(product.zone)
+                    expect(products[0].city).toBe(product.city)
                     expect(products.length).toBe(1)
                 })
         )
@@ -985,7 +985,7 @@ describe('logic', () => {
             description: 'car seat ibiza',
             price: 1500,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 
         const product2 = {
@@ -993,7 +993,7 @@ describe('logic', () => {
             description: 'car in good contitions',
             price: 20000,
             category: 'vehicle',
-            zone: 'Madrid'
+            city: 'Madrid'
         }
 
         const product3 = {
@@ -1001,7 +1001,7 @@ describe('logic', () => {
             description: 'samsung galaxi',
             price: 400,
             category: 'electronic',
-            zone: 'Galicia'
+            city: 'Barcelona'
         }
 
         beforeEach(() => {
@@ -1021,13 +1021,13 @@ describe('logic', () => {
                     expect(products[0].description).toBe(product.description)
                     expect(products[0].price).toBe(product.price)
                     expect(products[0].category).toBe(product.category)
-                    expect(products[0].zone).toBe(product.zone)
+                    expect(products[0].city).toBe(product.city)
 
                     expect(products[1].tittle).toBe(product2.tittle)
                     expect(products[1].description).toBe(product2.description)
                     expect(products[1].price).toBe(product2.price)
                     expect(products[1].category).toBe(product2.category)
-                    expect(products[1].zone).toBe(product2.zone)
+                    expect(products[1].city).toBe(product2.city)
 
                     expect(products.length).toBe(2)
                 })
@@ -1040,7 +1040,7 @@ describe('logic', () => {
                     expect(products[0].description).toBe(product3.description)
                     expect(products[0].price).toBe(product3.price)
                     expect(products[0].category).toBe(product3.category)
-                    expect(products[0].zone).toBe(product3.zone)
+                    expect(products[0].city).toBe(product3.city)
 
                     expect(products.length).toBe(1)
                 })
@@ -1085,7 +1085,7 @@ describe('logic', () => {
     })
     //#endregion
 
-    //#region UPDATE PRODCUTS
+    //#region UPDATE PRODUCTS
     describe('update products', () => {
         let name = 'sergio'
         let surname = 'costa'
@@ -1099,7 +1099,7 @@ describe('logic', () => {
             description: 'bueno, bonito, barato',
             price: 20000,
             category: 'vehicle',
-            zone: 'Barcelona'
+            city: 'Barcelona'
         }
 
         beforeEach(() =>
@@ -1120,7 +1120,7 @@ describe('logic', () => {
                     expect(_product.description).toBe(product.description)
                     expect(_product.price).toBe(_product.price)
                     expect(_product.category).toBe(product.category)
-                    expect(_product.zone).toBe(product.zone)
+                    expect(_product.city).toBe(product.city)
                 })
         })
 
@@ -1132,7 +1132,7 @@ describe('logic', () => {
                     expect(_product.description).toBe(product.description)
                     expect(_product.price).toBe(product.price)
                     expect(_product.category).toBe(product.category)
-                    expect(_product.zone).toBe(product.zone)
+                    expect(_product.city).toBe(product.city)
                 })
         })
 

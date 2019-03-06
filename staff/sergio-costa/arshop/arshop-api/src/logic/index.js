@@ -140,8 +140,8 @@ const logic = {
             .then(user => {
                 if (!user) throw Error(`user with id ${userId} not found`)
 
-                const { tittle, description, price, category, zone } = product
-                return Product.create({ tittle, description, price, owner: userId, category, zone })
+                const { tittle, description, price, category, city, sold } = product
+                return Product.create({ tittle, description, price, owner: userId, category, city, sold })
                     .then((_product) => {
 
                         user.products.push(_product.id)
