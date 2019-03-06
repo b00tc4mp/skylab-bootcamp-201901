@@ -1,5 +1,7 @@
 'use strict'
 
+import { debug } from "util";
+
 const homeSwappApi = {
     url: 'http://localhost:8000/api/',
 
@@ -54,7 +56,7 @@ const homeSwappApi = {
             .then(response => response.json())
             .then(response => {
                 
-          
+           if(response.error) throw Error (response.error)
 
                 return response.token
             })

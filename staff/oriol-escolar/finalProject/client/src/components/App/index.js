@@ -13,9 +13,9 @@ class App extends Component {
   handleLogin = (email, password) => {
 
     try {
-      logic.loginUser(email, password)
+      return logic.loginUser(email, password)
         .then(() => {    
-          logic.retrieveUser()
+          return logic.retrieveUser()
             .then(user => this.setState({user}))
             // .then(() => this.props.history.push('/home'))
         })
