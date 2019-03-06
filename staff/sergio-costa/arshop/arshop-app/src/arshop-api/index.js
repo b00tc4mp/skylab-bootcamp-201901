@@ -1,5 +1,8 @@
 'use strict'
 
+import { type } from "os";
+import { REPL_MODE_SLOPPY } from "repl";
+
 const arshopApi = {
     url: 'http://localhost:8000/api',
 
@@ -69,6 +72,49 @@ const arshopApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    updateUser(token, data){
+        if(typeof token !== 'string')throw TypeError(`${token} is not a string`)
+        if(!token.trim().length)throw Error('token is empty')
+
+        if(data.constructor !== Object)throw TypeError(`${data} is not an object`)
+
+        return fetch(`${this.url}/user/update`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(response => {
+                if(response.error)throw Error(response.error)
+
+                return response
+            })
+    },
+
+    addProduct(token, product){
+        if(typeof token !== 'string')throw TypeError(`${token} is not a string`)
+        if(!token.trim().length)throw Error('token is empty')
+
+        if(!product)throw Error('product should be defined')
+        if(product.constructor !== Object)throw TypeError(`${product} is not an object`)
+
+        return fetch(`${this.url}/add/product`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(product) 
+        })
+            .then(response => response.json())
+            .then(response => {
+                if(response.error)throw Error(response.error)
 
                 return response
             })

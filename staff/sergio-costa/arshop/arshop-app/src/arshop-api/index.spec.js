@@ -87,4 +87,20 @@ describe('arshop api', () => {
         // TODO more unit test cases
     })
 
+    // describe('update user', () => {
+    //     const name = 'sergio'
+    //     const surname = 'costa'
+    //     const email = `sergiocosta-${Math.random()}@mail.com`
+    //     const password = `password-${Math.random()}`
+
+    //     let userId, token
+
+    //     beforeEach(() =>
+    //         arshopApi.updateUser(name, surname, email, password, password)
+    //             .then(id => userId = id)
+    //             .then(() => arshopApi.authenticateUser(email, password))
+    //             .then(_token => token = _token)
+    //     )
+    // })
+
 })
