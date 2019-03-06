@@ -159,6 +159,27 @@ const fwsApi = {
     /**
      * 
      * @param {string} token 
+     */
+    userEvents(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/events`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
+     * @param {string} token 
      * @param {string} chatName 
      * @param {string} eventId 
      */
@@ -212,5 +233,28 @@ const fwsApi = {
 
             return response
         })
+    },
+
+    /**
+     * 
+     * @param {string} token 
+     */
+    userChats(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}`, {
+            headers: {
+                authorization: `Bearer ${token}/chats`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
     }
 }
+
+export default fwsApi

@@ -19,5 +19,7 @@ module.exports = {
 
     addMessageToChat: require('./add-message-to-chat'),
 
+    uploadImage: require('./upload-image'),
+
     notFound: require('./not-found')
 }

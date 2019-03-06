@@ -1,7 +1,9 @@
 'use strict'
 
-const { models: { Users, Events, Chats } } = require('fws-data')
+const { models: { Users, Events, Chats, Messages } } = require('fws-data')
 const bcrypt = require('bcrypt')
+
+const { uploadImage } = require('../cloudinary')
 
 const logic = {
 
@@ -207,18 +209,18 @@ const logic = {
         if (!userId.trim().length) throw Error('userId is empty')
 
         return (async () => {
-            const event = await Events.findById(eventId)
+            const _event = await Events.findById(eventId)//.select('__v').lean()
 
-            if (!event) throw Error('event not found')
+            if (!_event) throw Error('event not found')
 
-            const { participants = [] } = event
+            const { participants = [] } = _event
 
             const index = participants.findIndex(_userId => _userId === userId)
 
             if (index < 0) participants.push(userId)
             else participants.splice(index, 1)
 
-            event.save()
+            _event.save()
 
             const user = await Users.findById(userId)
 
@@ -230,6 +232,12 @@ const logic = {
             else events.splice(index2, 1)
 
             user.save()
+
+            const event = await Events.findById(eventId).select('-password -__v').lean()
+
+            event.id = event._id.toString()
+
+            delete event._id
 
             return event
         })()
@@ -248,7 +256,7 @@ const logic = {
 
             const { events } = user
 
-            return await Promise.all(events.map(async chatId => await Chats.findById(chatId)))
+            return await Promise.all(events.map(async eventId => await Events.findById(eventId).select('-password -__v').lean()))
         })()
     },
 
@@ -348,16 +356,45 @@ const logic = {
     },
 
     addMessageToChat(userId, chatId, text) {
-        return (async () => {
-            const chat = await Chats.findById(chatId)
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
 
-            const message = {userId: userId, text: text, date: new Date}
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId is empty')
+
+        if (typeof text !== 'string') throw TypeError(`${text} is not a string`)
+        if (!text.trim().length) throw Error('text is empty')
+
+        return (async () => {
+            const message = await Messages.create({ userId, text, date: new Date })
+
+            const chat = await Chats.findById(chatId)
 
             const { messages = [] } = chat
 
+            console.log(message)
+
             messages.push(message)
 
+            console.log(chat)
+
             return chat.save()
+        })()
+
+        // return (async () => {
+        //     const chat = await Chats.findById(chatId)
+
+        //     const { messages: [{ message: { userId = userId, chatId = chatId, text = text, date = new Date } }] } = chat
+
+
+        // })()
+    },
+
+    uploadImage(userId, file) {
+        return (async () => {
+            const url = await uploadImage(file)
+
+            console.log(url)
         })
     }
 }

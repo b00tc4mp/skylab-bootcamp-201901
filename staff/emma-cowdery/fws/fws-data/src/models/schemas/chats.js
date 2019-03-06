@@ -1,4 +1,5 @@
 const { Schema } = require('mongoose')
+const Messages = require('./messages')
 
 const Chats = new Schema({
     userIds: [{
@@ -20,21 +21,29 @@ const Chats = new Schema({
         type: String
     },
 
-    messages: {
-        message: {
-            userId: {
-                type: String
-            },
+    // messages: [{
+    //     message: {
+    //         type: Object
+    //     }
+    // }]
 
-            text: {
-                type: String
-            },
+    messages: [Messages]
 
-            date: {
-                type: Date
-            }
-        }
-    }
+    // messages: [{
+    //     message: {
+    //         userId: {
+    //             type: String
+    //         },
+
+    //         text: {
+    //             type: String
+    //         },
+
+    //         date: {
+    //             type: Date
+    //         }
+    //     }
+    // }]
 })
 
 module.exports = Chats

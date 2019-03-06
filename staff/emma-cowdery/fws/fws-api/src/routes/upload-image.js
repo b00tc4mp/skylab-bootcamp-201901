@@ -1,11 +1,11 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { userId, params: { chatId }, body: { text } } = req
+    const { userId, body: { file } } = req
     
     try {
-        logic.addMessageToChat(userId, chatId, text)
-            .then(chat => res.json({ chat }))
+        logic.uploadImage(userId, file)
+            .then(url => res.json({ url }))
             .catch(({ message }) => {
                 res.status(409).json({
                     error: message
