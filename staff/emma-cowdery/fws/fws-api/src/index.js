@@ -20,7 +20,7 @@ const { parseImageUpload } = require('./cloudinary/middleware')
 
 //nocloud
 
-const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, createChat, joinChat, userChats, addMessageToChat, uploadImage, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, createChat, joinChat, userChats, addMessageToChat, searchRestaurants, uploadImage, notFound } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -55,6 +55,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/chats', [tokenVerifierMiddleware], userChats)
 
         router.post('/message/:chatId', [tokenVerifierMiddleware, jsonBodyParser], addMessageToChat)
+
+        router.get('/search-restaurants', jsonBodyParser, searchRestaurants)
 
         //router.post('/upload', [parseImageUpload, tokenVerifierMiddleware], uploadImage)
 

@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 
 const { uploadImage } = require('../cloudinary')
 
+const googleMapsApi = require('../google-maps-api')
+
 const logic = {
 
     /**
@@ -182,7 +184,7 @@ const logic = {
 
             participants.push(userId)
 
-            event.save()
+            await event.save()
 
             const user = await Users.findById(userId)
 
@@ -190,7 +192,7 @@ const logic = {
 
             events.push(id)
 
-            user.save()
+            await user.save()
 
             return id
         })()
@@ -220,7 +222,7 @@ const logic = {
             if (index < 0) participants.push(userId)
             else participants.splice(index, 1)
 
-            _event.save()
+            await _event.save()
 
             const user = await Users.findById(userId)
 
@@ -231,7 +233,7 @@ const logic = {
             if (index2 < 0) events.push(eventId)
             else events.splice(index2, 1)
 
-            user.save()
+            await user.save()
 
             const event = await Events.findById(eventId).select('-password -__v').lean()
 
@@ -256,7 +258,15 @@ const logic = {
 
             const { events } = user
 
-            return await Promise.all(events.map(async eventId => await Events.findById(eventId).select('-password -__v').lean()))
+            return await Promise.all(events.map(async eventId => {
+                const event = await Events.findById(eventId).select('-password -__v').lean()
+
+                event.id = event._id.toString()
+
+                delete event._id
+
+                return event
+            }))
         })()
     },
 
@@ -283,7 +293,7 @@ const logic = {
 
             userIds.push(userId)
 
-            chat.save()
+            await chat.save()
 
             const user = await Users.findById(userId)
 
@@ -291,7 +301,7 @@ const logic = {
 
             chatRooms.push(id)
 
-            user.save()
+            await user.save()
 
             return id
         })()
@@ -310,18 +320,18 @@ const logic = {
         if (!chatId.trim().length) throw Error('chatId is empty')
 
         return (async () => {
-            const chat = await Chats.findById(chatId)
+            const _chat = await Chats.findById(chatId)
 
-            if (!chat) throw Error('unable to join chat room')
+            if (!_chat) throw Error('unable to join chat room')
 
-            const { userIds = [] } = chat
+            const { userIds = [] } = _chat
 
             const index = userIds.findIndex(_userId => _userId === userId)
 
             if (index < 0) userIds.push(userId)
             else userIds.splice(index, 1)
 
-            chat.save()
+            await _chat.save()
 
             const user = await Users.findById(userId)
 
@@ -332,7 +342,13 @@ const logic = {
             if (index2 < 0) chatRooms.push(chatId)
             else chatRooms.splice(index2, 1)
 
-            user.save()
+            await user.save()
+
+            const chat = await Chats.findById(chatId).select('-password -__v').lean()
+
+            chat.id = chat._id.toString()
+
+            delete chat._id
 
             return chat
         })()
@@ -351,10 +367,24 @@ const logic = {
 
             const { chatRooms } = user
 
-            return await Promise.all(chatRooms.map(async chatId => await Chats.findById(chatId)))
+            return await Promise.all(chatRooms.map(async chatId => {
+                const chat = await Chats.findById(chatId).select('-password -__v').lean()
+
+                chat.id = chat._id.toString()
+
+                delete chat._id
+
+                return chat
+            }))
         })()
     },
 
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} chatId 
+     * @param {string} text 
+     */
     addMessageToChat(userId, chatId, text) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId is empty')
@@ -368,33 +398,67 @@ const logic = {
         return (async () => {
             const message = await Messages.create({ userId, text, date: new Date })
 
-            const chat = await Chats.findById(chatId)
+            const _chat = await Chats.findById(chatId)
 
-            const { messages = [] } = chat
+            const { messages = [] } = _chat
 
             console.log(message)
 
             messages.push(message)
 
-            console.log(chat)
+            console.log(_chat)
 
-            return chat.save()
+            await  _chat.save()
+
+            const chat = await Chats.findById(chatId).select('-password -__v').lean()
+
+            chat.id = chat._id.toString()
+
+            delete chat._id
+
+            return chat
         })()
-
-        // return (async () => {
-        //     const chat = await Chats.findById(chatId)
-
-        //     const { messages: [{ message: { userId = userId, chatId = chatId, text = text, date = new Date } }] } = chat
-
-
-        // })()
     },
 
-    uploadImage(userId, file) {
-        return (async () => {
-            const url = await uploadImage(file)
+    // uploadImage(userId, file) {
+    //     return (async () => {
+    //         const url = await uploadImage(file)
 
-            console.log(url)
+    //         console.log(url)
+    //     })
+    // },
+
+    /**
+     * 
+     * @param {string} query 
+     */
+    searchRestaurants(query) {
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw Error('query is empty')
+
+        return (async () => {
+            const results = await googleMapsApi.searchRestaurants(query)
+
+            if (!results) throw Error('unable to fetch results')
+
+            return results
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} restaurantId 
+     */
+    restaurantDetails(restaurantId) {
+        if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
+        if (!restaurantId.trim().length) throw Error('restaurantId is empty')
+
+        return (async () => {
+            const results = await googleMapsApi.restaurantDetails(restaurantId)
+
+            if (!results) throw Error('unable to fetch restaurant details')
+
+            return results
         })
     }
 }

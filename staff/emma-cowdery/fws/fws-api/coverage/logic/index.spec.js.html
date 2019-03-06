@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">98.02% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>657/657</span>
+        <span class='fraction'>645/658</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>187/187</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">98.02% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>656/656</span>
+        <span class='fraction'>644/657</span>
       </div>
     </div>
     <p class="quiet">
@@ -1108,7 +1108,9 @@
 <a name='L1060'></a><a href='#L1060'>1060</a>
 <a name='L1061'></a><a href='#L1061'>1061</a>
 <a name='L1062'></a><a href='#L1062'>1062</a>
-<a name='L1063'></a><a href='#L1063'>1063</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L1063'></a><a href='#L1063'>1063</a>
+<a name='L1064'></a><a href='#L1064'>1064</a>
+<a name='L1065'></a><a href='#L1065'>1065</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1552,13 +1554,13 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1851,9 +1853,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1973,12 +1975,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -2614,13 +2618,13 @@ describe('logic', () =&gt; {
         it('should succeed on correct data', async () =&gt; {
             const id = await logic.createEvent(restaurantId, userId, eventTime, eventDate)
 &nbsp;
-            expect(id).toBeDefined()
+<span class="cstat-no" title="statement not covered" >            expect(id).toBeDefined()</span>
 &nbsp;
-            const event = await Events.findOne({ restaurantId })
+            const event = <span class="cstat-no" title="statement not covered" >await Events.findOne({ restaurantId })</span>
 &nbsp;
-            expect(event.restaurantId).toBe(restaurantId)
-            expect(event.eventTime).toBe(eventTime)
-            expect(event.eventDate).toBe(eventDate)
+<span class="cstat-no" title="statement not covered" >            expect(event.restaurantId).toBe(restaurantId)</span>
+<span class="cstat-no" title="statement not covered" >            expect(event.eventTime).toBe(eventTime)</span>
+<span class="cstat-no" title="statement not covered" >            expect(event.eventDate).toBe(eventDate)</span>
         })
 &nbsp;
         it('should fail on undefined restaurant id', () =&gt; {
@@ -2913,9 +2917,9 @@ describe('logic', () =&gt; {
 &nbsp;
             const updatedEvent = await logic.joinEvent(eventId, newUserId)
 &nbsp;
-            expect(updatedEvent.restaurantId).toBe(restaurantId)
-            expect(updatedEvent.eventTime).toBe(eventTime)
-            expect(updatedEvent.eventDate).toBe(eventDate)
+<span class="cstat-no" title="statement not covered" >            expect(updatedEvent.restaurantId).toBe(restaurantId)</span>
+<span class="cstat-no" title="statement not covered" >            expect(updatedEvent.eventTime).toBe(eventTime)</span>
+<span class="cstat-no" title="statement not covered" >            expect(updatedEvent.eventDate).toBe(eventDate)</span>
         })
 &nbsp;
         it('should fail on undefined event id', () =&gt; {
@@ -3035,12 +3039,14 @@ describe('logic', () =&gt; {
         it('should suceed on correct data', async () =&gt; {
             const id = await logic.createChat(userId, chatName, eventId)
 &nbsp;
-            expect(id).toBeDefined()
+<span class="cstat-no" title="statement not covered" >            expect(id).toBeDefined()</span>
 &nbsp;
-            const chat = await Chats.findOne({ eventId })
+            const chat = <span class="cstat-no" title="statement not covered" >await Chats.findOne({ eventId })</span>
 &nbsp;
-            expect(chat.eventId).toBe(eventId)
-            expect(chat.chatName).toBe(chatName)
+<span class="cstat-no" title="statement not covered" >            console.log(chat)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            expect(chat.eventId).toBe(eventId)</span>
+<span class="cstat-no" title="statement not covered" >            expect(chat.chatName).toBe(chatName)</span>
         })
 &nbsp;
         it('should fail on undefined user id', () =&gt; {
@@ -3238,7 +3244,7 @@ after(() =&gt;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 18:07:38 GMT+0100 (Central European Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Mar 06 2019 16:26:01 GMT+0100 (Central European Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

@@ -21,5 +21,7 @@ module.exports = {
 
     uploadImage: require('./upload-image'),
 
+    searchRestaurants: require('./search-restaurants'),
+
     notFound: require('./not-found')
 }
