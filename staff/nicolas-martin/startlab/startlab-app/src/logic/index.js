@@ -129,18 +129,10 @@ const logic = {
         return skylabApi.checkCode(this.__userApiToken__, code, test)
     },
 
-    // retrieveUser() {
-    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
-    //         .then(({ id, name, surname, username: email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
-    //             id,
-    //             name,
-    //             surname,
-    //             email,
-    //             favoriteArtists,
-    //             favoriteAlbums,
-    //             favoriteTracks
-    //         }))
-    // }
+    retrieveExercisesFromUser() {
+        return skylabApi.getExercisesFromUser(this.__userApiToken__)
+                .then(exercises => exercises)
+    }
 }
 
 export default logic

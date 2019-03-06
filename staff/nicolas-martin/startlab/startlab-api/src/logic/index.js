@@ -219,6 +219,20 @@ const logic = {
             })
     },
 
+    getExercisesFromUser(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
+
+        return User.findById(userId).populate('historical.exercise').lean()
+            .then(result => {
+                // if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+
+                
+
+                debugger
+            })
+    },
+
 
     /********************/
     /*** Code methods ***/

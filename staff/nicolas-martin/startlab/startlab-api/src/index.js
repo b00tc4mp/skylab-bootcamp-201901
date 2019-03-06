@@ -27,6 +27,8 @@ const {
     deleteExercise,
     listExercises,
 
+    getExercisesFromUser,
+
     // Others
     notFound
 } = require('./routes')
@@ -56,6 +58,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/admin/exercise/:exerciseId', [jsonBodyParser, tokenVerifierMiddleware], retrieveExercise)
         router.post('/admin/exercise/update', [jsonBodyParser, tokenVerifierMiddleware], updateExercise)
         router.delete('/admin/exercise/delete/:exerciseId', [jsonBodyParser, tokenVerifierMiddleware], deleteExercise)
+
+        router.get('/student/start', [jsonBodyParser, tokenVerifierMiddleware], getExercisesFromUser)
 
         // Code sanity
         router.post('/testing', [jsonBodyParser, tokenVerifierMiddleware], checkCode)

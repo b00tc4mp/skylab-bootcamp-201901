@@ -13,6 +13,8 @@ module.exports = {
     deleteExercise: require('./exercise/delete'),
     listExercises: require('./exercise/list'),
 
+    getExercisesFromUser: require('./get-exercises-from-user'),
+
     // Code sanity
     checkCode: require('./check-code'),
 

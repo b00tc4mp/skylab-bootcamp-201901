@@ -175,6 +175,13 @@ const skylabApi = {
 
     },
 
+    getExercisesFromUser(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        
+    },
+
     checkCode(token, code, test) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
