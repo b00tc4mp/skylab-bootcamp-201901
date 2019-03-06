@@ -7,20 +7,29 @@ import './index.sass'
 class YourBooks extends Component {
 
     state = {
-        books: []
+        books: [],
+        rerender: true
     }
 
-    componentDidMount(){
+    deleteBook = (id) => {
+        return logic.deleteBook(id)
+        .then(()=> {
+            this.retrieveYourBooks()})
+    }
 
+    retrieveYourBooks(){
         try {
             logic.retrieveBooks()
                 .then((books) => {
                     this.setState({books})
-                    console.log(books)
             })
         } catch (error) {
             console.log(error)
         }
+    }
+
+    componentDidMount(){
+        this.retrieveYourBooks()
     }
 
     render() {
@@ -32,7 +41,7 @@ class YourBooks extends Component {
                 <div className = "rightsidebar c_updateuser">
                     <div className="row justify-content-center">
                         {this.state.books.map(book =>{
-                            return (<CardBook bookSelected={book} loadBook = {this.props.loadBook} />)
+                            return (<CardBook bookSelected={book} deleteBook = {this.deleteBook} loadBook = {this.props.loadBook} />)
                             })}
                     </div>  
                 </div>

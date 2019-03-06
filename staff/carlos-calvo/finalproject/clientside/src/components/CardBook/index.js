@@ -8,9 +8,8 @@ class CardBook extends Component {
         this.props.loadBook(this.props.bookSelected._id)
     }
 
-    deleteBook = () => {
-        return logic.deleteBook(this.props.bookSelected._id)
-        .then(()=> this.forceUpdate())
+    deleteBook = () =>{
+        this.props.deleteBook(this.props.bookSelected._id)
     }
 
     render() {
