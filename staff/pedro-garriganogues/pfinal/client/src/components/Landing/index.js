@@ -13,7 +13,7 @@ function Landing(props) {
 
     // caso multiple:
 
-    const hideProducts = ['/register', '/login', '/profile', '/contact', '/about', '/products'].includes(props.location.pathname)
+    const hideProducts = ['/register', '/login', '/profile', '/contact', '/about', '/products', '/cart', '/product'].includes(props.location.pathname)
 
 
     return (

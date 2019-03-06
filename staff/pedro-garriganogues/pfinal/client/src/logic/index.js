@@ -53,8 +53,9 @@ const logic = {
             }))
     },
 
-
-
+    logout() {
+        this.__userApiToken__ = null
+    },
 
 
 }
