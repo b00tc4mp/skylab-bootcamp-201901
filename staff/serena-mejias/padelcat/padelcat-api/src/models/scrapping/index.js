@@ -35,8 +35,6 @@ const getWebScorePlayer = async url => {
         imageUrl: imageUrl,
         score: score
       };
-      console.log(metadata);
-
       return metadata;
     });
 

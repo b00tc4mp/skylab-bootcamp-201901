@@ -137,8 +137,10 @@ const logic = {
     const getWebMatches = async url => {
       try {
         const response = await axios.get(url);
+
         const $ = cheerio.load(response.data);
-        const promises = $(".partido").map(async (i, el) => {
+
+        const metadatas = $(".partido").map((i, el) => {
           const matchId = $(el)
             .find("a")
             .attr("href");
@@ -185,18 +187,13 @@ const logic = {
           return metadata;
         });
 
-        return Promise.all(promises.get());
+        return metadatas;
       } catch (error) {
         throw error;
       }
     };
 
-    Promise.all(getWebMatches(urlMatches)).then(
-      res => {
-        debugger
-        console.log(res);
-      }
-    );
+    return getWebMatches(urlMatches);
   }
 };
 
