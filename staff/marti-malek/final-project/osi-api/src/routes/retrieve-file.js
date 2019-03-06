@@ -3,8 +3,6 @@ const logic = require('../logic')
 module.exports = (req, res) => {
     const { headers: { authorization }, query: { path } } = req
 
-    debugger
-
     const token = authorization.slice(7)
     try {
         logic.retrieveFile(token, path)

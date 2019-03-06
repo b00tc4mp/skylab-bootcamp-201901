@@ -2,7 +2,7 @@
 
 require('dotenv').config()
 
-const { User } = require('../models')
+const { models: { User } } = require('osi-data')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const fs = require('fs')
@@ -15,7 +15,7 @@ const logic = {
      * @param {string} name 
      * @param {string} surname 
      * @param {string} email 
-     * @param {string} password 
+     * @param {string} password
      * @param {string} passwordConfirm 
      * 
      * @throws {Error} - On empty params
@@ -178,7 +178,7 @@ const logic = {
         })()
     },
 
-    createDir(token) {
+    createRootDir(token) {
 
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
@@ -188,11 +188,39 @@ const logic = {
             const { data } = await jwt.verify(token, this.jwtSecret)
 
             if (!fs.existsSync(`${__dirname}/../data/${data}`)) {
-                await fs.mkdirSync(`${__dirname}/../data/${data}`)
+                await fs.mkdir(`${__dirname}/../data/${data}`, err => {
+                    if (err) throw err
+                })
             }
 
             return 'Done'
         })()
+    },
+
+    createDir(token, dirPath, dirName) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof dirPath !== 'string') throw TypeError(`${dirPath} should be a string`)
+
+        if (!dirPath.trim().length) throw Error('dirPath cannot be empty')
+
+        return (async () => {
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            const directory = await path.join(data, dirPath, dirName)
+
+            if (!fs.existsSync(directory)) {
+                await fs.mkdir(directory, err => {
+                    if (err) throw err
+                })
+            }
+
+        })()
+
     },
 
     createFile(token, fileContent) {
@@ -212,17 +240,17 @@ const logic = {
             fileContent.date = Date.now()
 
             fileContent.filePath = `${fileContent.name}`
-            
+
             if (!fs.existsSync(dirPath)) {
-                await fs.mkdirSync(dirPath)
+                await fs.mkdir(dirPath, err => {
+                    if (err) throw err
+                })
             }
 
             if (!fs.existsSync(`${dirPath}/${fileContent.name}`)) {
-                fs.writeFileSync(`${dirPath}/${fileContent.name}`, JSON.stringify(fileContent))
-                // const ws = await fs.createWriteStream(`${dirPath}/${fileContent.name}`)
-                // const rs = await fs.createReadStream(`${dirPath}/${fileContent.name}`)
-                // debugger
-                // fileContent.pipe(ws)
+                fs.writeFile(`${dirPath}/${fileContent.name}`, JSON.stringify(fileContent), err => {
+                    if (err) throw err
+                })
             }
 
             return `${fileContent.filePath}`
@@ -239,23 +267,39 @@ const logic = {
         if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
 
         if (!filePath.trim().length) throw Error('filePath cannot be empty')
-        
+
         return (async () => {
             const { data } = await jwt.verify(token, this.jwtSecret)
-
 
             const dirPath = `${__dirname}/../data/${data}/${filePath}`
 
             if (!fs.existsSync(dirPath)) throw Error('File not found')
-            // const { data } = await jwt.verify(token, this.jwtSecret)
 
-            // const dirPath = `${__dirname}/../data/${data}`
+            const rs = await fs.readFileSync(dirPath) // Object
 
-            // const dirContent = await fs.readdirSync(filePath)
+            return JSON.parse(rs).content
+        })()
+    },
 
-            const rs = await JSON.parse(fs.readFileSync(dirPath)) // Object
+    retrieveDir(token, dirPath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
-            // const rs = await fs.readFileSync(dirPath) // Buffer
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof dirPath !== 'string') throw TypeError(`${dirPath} should be a string`)
+
+        if (!dirPath.trim().length) throw Error('dirPath cannot be empty')
+
+        return (async () => {
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            const resPath = `${__dirname}/../data/${data}/${dirPath}`
+
+            if (!fs.existsSync(resPath)) throw Error('File not found')
+
+            const rs = await fs.readdirSync(resPath) // Object
 
             return rs
         })()

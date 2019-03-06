@@ -4,7 +4,8 @@ module.exports = {
     retrieveUser: require('./retrieve-user'),
     updateUser: require('./update-user'),
     removeUser: require('./remove-user'),
-    createDir: require('./create-dir'),
+    createRootDir: require('./create-root-dir'),
     createFile: require('./create-file'),
-    retrieveFile: require('./retrieve-file')
+    retrieveFile: require('./retrieve-file'),
+    retrieveDir: require('./retrieve-dir')
 }
