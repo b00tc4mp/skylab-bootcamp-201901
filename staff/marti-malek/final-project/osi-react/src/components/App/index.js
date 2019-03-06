@@ -30,8 +30,8 @@ function App({ history, handleGoToLogin, handleGoToRegister, handleLogin, handle
 
   return <main className="App">
     <Route exact path="/" render={() => <Landing goToLogin={handleGoToLogin} goToRegister={handleGoToRegister} />}></Route>
-    <Route path="/login" render={() => <Login onLogin={handleLogin} />}></Route>
-    <Route path="/register" render={() => <Register onRegister={handleRegister} />}></Route>
+    <Route path="/login" render={() => <Login onLogin={handleLogin} goToRegister={handleGoToRegister}/>}></Route>
+    <Route path="/register" render={() => <Register onRegister={handleRegister} goToLogin={handleGoToLogin}/>}></Route>
   </main>
 }
 
