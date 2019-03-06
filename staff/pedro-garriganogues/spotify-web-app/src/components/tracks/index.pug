@@ -1,9 +1,0 @@
-extends ../layout
-include ../search/index
-
-block content
-    +search()
-    div.row
-      each track in tracks
-        p #{track.name}
-        audio(src=`${track.preview_url}`, controls)
