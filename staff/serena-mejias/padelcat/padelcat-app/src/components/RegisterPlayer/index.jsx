@@ -1,51 +1,28 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 
-class RegisterPlayer extends Component {
-  state = {
-    name: null,
-    surname: null,
-    email: null,
-    password: null,
-    passwordConfirm: null,
-    preferedPosition: null,
-    link: null
-  };
+import styles from "./index.module.scss";
+import { Button, TextField } from "@material-ui/core";
 
-  handleNameInput = event => this.setState({ name: event.target.value });
+const RegisterPlayer = props => {
+  const [name, setName] = useState(null);
+  const [surname, setSurname] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [passwordConfirm, setPasswordConfirm] = useState(null);
+  const [preferedPosition, setPreferedPosition] = useState(null);
+  const [link, setLink] = useState(null);
 
-  handleSurnameInput = event => this.setState({ surname: event.target.value });
+  const handleNameInput = e => setName(e.target.value);
+  const handleSurnameInput = e => setSurname(e.target.value);
+  const handleEmailInput = e => setEmail(e.target.value);
+  const handlePasswordInput = e => setPassword(e.target.value);
+  const handlePasswordConfirmInput = e => setPasswordConfirm(e.target.value);
+  const handlePreferedPositionInput = e => setPreferedPosition(e.target.value);
+  const handleLinkInput = e => setLink(e.target.value);
 
-  handleEmailInput = event => this.setState({ email: event.target.value });
-
-  handlePasswordInput = event =>
-    this.setState({ password: event.target.value });
-
-  handlePasswordConfirmInput = event =>
-    this.setState({ passwordConfirm: event.target.value });
-
-  handlePreferedPositionInput = event =>
-    this.setState({ preferedPosition: event.target.value });
-
-  handleLinkInput = event => this.setState({ link: event.target.value });
-
-  handleRegisterSubmit = event => {
-    event.preventDefault();
-
-    const {
-      state: {
-        name,
-        surname,
-        email,
-        password,
-        passwordConfirm,
-        preferedPosition,
-        link
-      }
-    } = this;
-
-    const {
-      props: { onRegister }
-    } = this;
+  const handleRegisterSubmit = e => {
+    const { onRegister } = props;
+    e.preventDefault();
     onRegister(
       name,
       surname,
@@ -56,88 +33,88 @@ class RegisterPlayer extends Component {
       link
     );
   };
-  render() {
-    const {
-      handleRegisterSubmit,
-      handleNameInput,
-      handleSurnameInput,
-      handleEmailInput,
-      handlePasswordInput,
-      handlePasswordConfirmInput,
-      handlePreferedPositionInput,
-      handleLinkInput
-    } = this;
+
+  const isInvalidForm = () => {
     return (
-      <section className="register">
-        <form onSubmit={handleRegisterSubmit}>
-          <label>
-            Name
-            <input
-              type="text"
-              name="name"
-              onChange={handleNameInput}
-              placehoder="name"
-            />
-          </label>
-          <label>
-            Surname
-            <input
-              type="text"
-              name="surname"
-              onChange={handleSurnameInput}
-              placehoder="surname"
-            />
-          </label>
-          <label>
-            Email
-            <input
-              type="text"
-              name="email"
-              onChange={handleEmailInput}
-              placehoder="email"
-            />
-          </label>
-          <label>
-            Password
-            <input
-              type="text"
-              name="password"
-              onChange={handlePasswordInput}
-              placehoder="password"
-            />
-          </label>
-          <label>
-            Password Confirmation
-            <input
-              type="text"
-              name="passwordConfirm"
-              onChange={handlePasswordConfirmInput}
-              placehoder="passwordConfirm"
-            />
-          </label>
-          <label>
-            Prefered Position
-            <input
-              type="text"
-              name="preferedPosition"
-              onChange={handlePreferedPositionInput}
-              placehoder="preferedPosition"
-            />
-          </label>
-          <label>
-            Link
-            <input
-              type="text"
-              name="link"
-              onChange={handleLinkInput}
-              placehoder="link"
-            />
-          </label>
-          <button>Register</button>
-        </form>
-      </section>
+      !name ||
+      !surname ||
+      !email ||
+      !password ||
+      !preferedPosition ||
+      !link ||
+      (password && password !== passwordConfirm)
     );
-  }
-}
+  };
+
+  return (
+    <section className={styles.container}>
+      <form onSubmit={handleRegisterSubmit}>
+        <TextField
+          className={styles.inputContainer}
+          label="Name"
+          margin="normal"
+          onChange={handleNameInput}
+          required={true}
+        />
+        <TextField
+          className={styles.inputContainer}
+          label="Surname"
+          margin="normal"
+          onChange={handleSurnameInput}
+          required={true}
+        />
+        <TextField
+          className={styles.inputContainer}
+          label="Email"
+          type={"email"}
+          margin="normal"
+          onChange={handleEmailInput}
+          required={true}
+        />
+        <TextField
+          className={styles.inputContainer}
+          label="Password"
+          type={"password"}
+          margin="normal"
+          onChange={handlePasswordInput}
+          required={true}
+        />
+        <TextField
+          className={styles.inputContainer}
+          label="PasswordConfirm"
+          type={"password"}
+          margin="normal"
+          onChange={handlePasswordConfirmInput}
+          required={true}
+        />
+        <TextField
+          className={styles.inputContainer}
+          label="Link"
+          margin="normal"
+          onChange={handleLinkInput}
+          required={true}
+        />
+
+        <label className={styles.label}>
+          Prefered Position
+          <select onChange={handlePreferedPositionInput}>
+            <option value={"Left"}>Left</option>
+            <option value={"Right"}>Right</option>
+            <option value={"Both"}>Both</option>
+          </select>
+        </label>
+
+        <Button
+          variant="contained"
+          color="primary"
+          type={"submit"}
+          disabled={isInvalidForm()}
+        >
+          Register
+        </Button>
+      </form>
+    </section>
+  );
+};
 
 export default RegisterPlayer;

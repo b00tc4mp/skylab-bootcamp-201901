@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Redirect } from "react-router-dom";
 
 import logic from "../../logic";
-import Home from "../Home";
+import { Home } from "../Home";
 import Login from "../Login";
 import RegisterPlayer from "../RegisterPlayer";
+import { Header } from "../Header/Header";
+import Grid from "@material-ui/core/Grid";
 
 class App extends Component {
   handleLogin = (email, password) => {
@@ -56,12 +58,16 @@ class App extends Component {
     const { handleLogin, handleRegister } = this;
     return (
       <main>
-        <Route
-          path="/register"
-          render={() => <RegisterPlayer onRegister={handleRegister} />}
-        />
-        <Route path="/login" render={() => <Login onLogin={handleLogin} />} />
-        <Route path="/home" component={Home} />
+        <Header />
+        <Grid container justify="center" spacing={24}>
+          <Route
+            path="/register"
+            render={() => <RegisterPlayer onRegister={handleRegister} />}
+          />
+          <Route path="/login" render={() => <Login onLogin={handleLogin} />} />
+          <Route path="/home" component={Home} />
+          <Route path="/" render={() => <Redirect to={{ pathname: "/home" }} />} />
+        </Grid>
       </main>
     );
   }

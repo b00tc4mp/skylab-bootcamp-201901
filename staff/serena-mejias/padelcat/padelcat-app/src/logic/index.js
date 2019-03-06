@@ -1,8 +1,7 @@
 import padelcatApi from "../padelcat-api";
 
 const logic = {
-  
-  TOKEN_KEY: null,
+  TOKEN_KEY: "token",
 
   registerPlayer(
     name,
@@ -49,40 +48,41 @@ const logic = {
 
     if (!link.trim().length) throw Error("link cannot be empty");
 
-    return padelcatApi.registerPlayer(
-      name,
-      surname,
-      email,
-      password,
-      passwordConfirm,
-      preferedPosition,
-      link
-    ).then(() => { })
+    return padelcatApi
+      .registerPlayer(
+        name,
+        surname,
+        email,
+        password,
+        passwordConfirm,
+        preferedPosition,
+        link
+      )
+      .then(() => {});
   },
 
   loginPlayer(email, password) {
-    if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+    if (typeof email !== "string") throw TypeError(email + " is not a string");
 
-        if (!email.trim().length) throw Error('email cannot be empty')
+    if (!email.trim().length) throw Error("email cannot be empty");
 
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+    if (typeof password !== "string")
+      throw TypeError(password + " is not a string");
 
-        if (!password.trim().length) throw Error('password cannot be empty')
+    if (!password.trim().length) throw Error("password cannot be empty");
 
-        return padelcatApi.authenticatePlayer(email, password)
-            .then(token => this.TOKEN_KEY = token)
+    return padelcatApi.authenticatePlayer(email, password);
   },
 
   // apiLogin() {
   //   new Promise(resolve => resolve({ token: "tokenKey" }));
   // },
   getStoredtoken() {
-    sessionStorage.getItem(this.TOKEN_KEY);
+    return sessionStorage.getItem(this.TOKEN_KEY);
   },
   storeToken(token) {
-    sessionStorage.setItem(this.TOKEN_KEY, token)
+    sessionStorage.setItem(this.TOKEN_KEY, token);
   }
-
 };
 
 export default logic;
