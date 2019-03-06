@@ -6,7 +6,6 @@ const {
 } = mongoose;
 const httpStatus = require('http-status');
 const { questionSchema } = require('./question.model');
-const { User } = require('./user.model');
 const { NotFoundError } = require('../errors/index');
 
 /**
@@ -17,6 +16,7 @@ const quizSchema = new mongoose.Schema(
 	{
 		author: {
 			type: ObjectId,
+			required: true,
 			ref: 'User',
 		},
 		title: {
@@ -90,7 +90,7 @@ quizSchema.statics = {
 	 */
 	async get(id) {
 		try {
-			let quiz = await this.findById(id).exec();
+			let quiz = await this.findById(id).populate('author').exec();
 
 			if (quiz) {
 				return quiz;
@@ -108,7 +108,7 @@ quizSchema.statics = {
 	 * @returns {Promise<Quiz[]>}
 	 */
 	list() {
-		return this.find().exec();
+		return this.find().populate('author').exec();
 	},
 };
 

@@ -16,6 +16,9 @@ const verifyToken = token => {
 	return sub;
 };
 
+
+
+
 exports.authorize = (req, res, next) => {
 	const {
 		headers: { authorization },
@@ -31,6 +34,7 @@ exports.authorize = (req, res, next) => {
 	try {
 		const id = verifyToken(token);
 		req.userId = id;
+		console.log(req.userId);
 	} catch ({ message }) {
 		return res.status(httpStatus.UNAUTHORIZED).json({ error: message });
 	}
@@ -39,6 +43,10 @@ exports.authorize = (req, res, next) => {
 };
 
 exports.isAuthor = (req, res, next) => {
+	console.log('####', findVal(req.locals, 'author'));
+
+	
+
 	if (req.userId.toString() !== req.locals.quiz.author.toString()) {
 		return res
 			.status(httpStatus.UNAUTHORIZED)

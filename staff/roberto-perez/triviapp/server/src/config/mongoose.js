@@ -7,7 +7,7 @@ const { mongo } = require('./vars');
  * @returns {object} Mongoose disconnection
  * @public
  */
-exports.disconnect = () => {
+exports.disconnect = async () => {
 	return mongoose.disconnect();
 };
 

@@ -1,24 +1,20 @@
 'use strict';
 
 require('dotenv').config();
-const mongoose = require('mongoose');
+const mongoose = require('../../../config/mongoose');
 const httpStatus = require('http-status');
 const bcrypt = require('bcrypt');
-// const { expect } = require('chai');
 const expect = require('expect');
-const app = require('../../../index');
 const { User } = require('../../models/user.model');
-const auth = require('./');
+const auth = require('.');
 const { AlreadyExistsError, UnauthorizedError } = require('../../errors');
-// const { MONGO_URI_TESTS } = require('../../../config/vars');
-
-const MONGO_URI_TESTS = 'mongodb://localhost:27017/quiz-test';
-
-before(() => mongoose.connect(MONGO_URI_TESTS, { useNewUrlParser: true }));
-
-beforeEach(() => Promise.all([User.deleteMany()]));
 
 describe('Auth', () => {
+
+	before(() => mongoose.connect());
+
+	beforeEach(() => Promise.all([User.deleteMany()]));
+
 	describe('POST /v1/auth/register', () => {
 		let data = {};
 

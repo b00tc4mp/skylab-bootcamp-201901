@@ -1,6 +1,9 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const {
+	SchemaTypes: { ObjectId },
+} = mongoose;
 const httpStatus = require('http-status');
 const { answerSchema } = require('./answer.model');
 
@@ -10,6 +13,11 @@ const { answerSchema } = require('./answer.model');
  */
 const questionSchema = new mongoose.Schema(
 	{
+		quiz: {
+			type: ObjectId,
+			required: true,
+			ref: 'Quiz',
+		},
 		title: {
 			type: String,
 			required: true,
@@ -32,7 +40,10 @@ const questionSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
-		answers: [answerSchema],
+		answers: [{
+			type: answerSchema,
+			require: true
+		}],
 	},
 	{ timestamps: true },
 );
@@ -72,7 +83,7 @@ questionSchema.statics = {
 	 */
 	async get(id) {
 		try {
-			let question = await this.findById(id).exec();
+			let question = await this.findById(id).populate('quiz').exec();
 
 			if (question) {
 				return question;
