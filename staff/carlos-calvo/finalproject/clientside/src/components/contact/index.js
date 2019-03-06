@@ -11,7 +11,7 @@ class ContactForm extends Component {
                     <SideBar/>
                 </div>
 
-                <div className="coverright rightsidebar">
+                <div className="coverright">
                     <div className="formcontact">
                         <form action="">
                             <label htmlFor="fname">First Name</label>

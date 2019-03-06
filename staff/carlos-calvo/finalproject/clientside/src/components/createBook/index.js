@@ -3,39 +3,79 @@ import './index.sass'
 import logic from '../../logic'
 import ProgressBar from '../ProgressBar';
 import SideBar from '../SideBar';
+import Feedback from '../Feedback';
 class CreateBook extends Component {
   
+    isnameTag = false
+    isplaceTag = false
+    medida1 = 33
+    medida2 = 70
+
     state = {
         title: null,
         textContent: '',
-        urlCover : '',
-        medida: 33,
+        imageCover : '',
         step1: true,
-        step2: false,
+        messageFeedback: '',
+        name: '',
+        place: '',
+        images: []
+        
     }
 
-    handleEmailInput = (event) => this.setState({ title: event.target.value })
+    handleTitleInput = (event) => this.setState({ title: event.target.value })
+    handleNameInput = (event) => this.setState({ name: event.target.value })
+    handlePlaceInput = (event) => this.setState({ place: event.target.value })
 
-    onLoadFiles = (event) => {
+    nextStep = (event) => {
         event.preventDefault();
-
-        let selectedFile = document.getElementById("inputtext").files[0]
-        if(!selectedFile) return //Haria falta avisar al usuario.
-        var reader = new FileReader();
-        reader.readAsText(selectedFile, "ISO-8859-1"); //This encoding to accept ç and accents.
-        reader.onload = (evt) => {
-            this.setState({textContent :evt.target.result, urlCover :'https://torange.biz/photofx/54/8/light-very-vivid-colours-fragment-pattern-facebook-electronics-cover-54112.jpg'}
-            ,() => this.addBook())
-        }
+        this.setState({step1: false})
+        //Aqui falta dar mensaje de que falta.
+        // if(!textContent) return
+        // if(!imageCover) return
+        // this.addBook()
+        
+        // this.setState({urlCover : image}
+        //     ,() => this.addBook())
 
         //Aquí también al leer el fichero debería de calcular los tags de imagenes y parametros. 
         //Parte de upload photo a Cloudinary
     }
 
+    handleFileChange = e => {
+        let files = e.target.files
+        let reader = new FileReader()
+        
+        if (files.length) {
+            reader.readAsDataURL(files[0])
+            let name = e.target.name
+            this.setState({[name]: files[0]}, () => {})
+        }
+    }
+
+    handleFileTextChange = e => {
+        let files = e.target.files
+        let reader = new FileReader()
+        if (files.length) {
+            reader.readAsText(files[0], "UTF-8")
+            let name = e.target.name
+            reader.onload = (evt) => {
+                this.isnameTag = evt.target.result.indexOf('<name>')
+                this.isplaceTag = evt.target.result.indexOf('<place>')
+                this.setState({[name]: evt.target.result }, () => {})
+            }
+        }
+    }
+
     addBook = () => {
+        let parameters = new Array
+        if(this.state.name) parameters.push({'name' : this.state.name})
+        if(this.state.place) parameters.push({'place' : this.state.place})
+        
         try{
-            logic.addBook( this.state.title, this.state.textContent, this.state.urlCover )
-            .then((book) => console.log(1234)) //Para la siguiente pantalla mostrar 
+
+            logic.addBook( this.state.title, this.state.textContent, this.state.imageCover, parameters )
+            .then((book) => console.log(book)) //Para la siguiente pantalla mostrar 
         } catch (error){
             console.log(error)
         }
@@ -45,25 +85,47 @@ class CreateBook extends Component {
         return (
         <Fragment>
             <div>
-            <SideBar/>
+                <SideBar/>
             </div>
-            <div className="rightsidebar coverright">
-                <div className="formCreateBook">
-                    <form onSubmit={this.onLoadFiles}>STEP 1
+            <div className="coverright ">
+             {this.state.step1 ? 
+                <div className = "formCreateBook" >
+                    <form onSubmit={this.nextStep}>STEP 1
                     <ProgressBar level={this.state.medida}></ProgressBar><br/>
                         <label htmlFor="uname"><b>Your books title</b></label>
-                        <input type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleEmailInput} required /> <br/>
+                        <input type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required /> <br/>
                         <div className="row justify-content-center">
                             <label htmlFor="uname" className="col-5"><b>Enter a txt file for your book </b></label>
-                            <input id="inputtext" className="col-5" type="file"/>
+                            <input onChange={this.handleFileTextChange} id="inputtext" name="textContent" className="col-5" type="file" required/>
                         </div>    
                         <div className="row justify-content-center">
                             <label htmlFor="uname" className="col-5"><b>Enter a coverphoto </b></label>
-                            <input id="inputcover" className="col-5" type="file"/>
+                            <input onChange={this.handleFileChange} id="inputcover" name="imageCover" className="col-5" type="file" required/>
                         </div>    
                         <button className="btn btn-info" type="submit">Go!</button>    
                     </form>
+                </div> :
+                <div className="formCreateBook">
+                    <form onSubmit={this.addBook}>STEP 2
+                        <ProgressBar level={this.state.medida2}></ProgressBar><br/>
+                        <label htmlFor="uname"><b>Your main character is: </b></label>
+                        <div>
+                            {this.isnameTag > -1 ? 
+                                <div><input type="text" placeholder="Your main character is ..." onChange={this.handleNameInput} required /> <br/></div> 
+                                : 
+                                <div><input type="text" placeholder="You have not inserted a tag for name" disabled/> <br/></div> 
+                            }
+                            <label htmlFor="uname"><b>Your main place is: </b></label>
+                            {this.isnameTag > -1 ? 
+                                <div><input type="text" placeholder="Your place is ..." onChange={this.handlePlaceInput} required /> <br/></div> 
+                                : 
+                                <div><input type="text" placeholder="You have not inserted a tag for place" disabled/> <br/></div> 
+                            }
+                            <button className="btn btn-info" type="submit">Go!</button>    
+                        </div>
+                    </form>
                 </div>
+             }
             </div>
         </Fragment>
         );

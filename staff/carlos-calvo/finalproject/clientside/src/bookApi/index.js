@@ -1,10 +1,13 @@
 'use strict'
 
+const axios = require('axios')
+
 
 const bookApi ={
 
     url : 'http://localhost:8000/api',
-
+    url_cloudinary:'https://api.cloudinary.com/v1_1/ccl1986/upload',
+    url_cloudinary_upload_preset :'v7oaakma',
     /**
      * Add a book to the server
      * 
@@ -15,26 +18,38 @@ const bookApi ={
      * @param {Array} parameters 
      * @param {String} userId 
      */
-    addBook(title, content, coverphoto, images, parameters, userId) {
+    addBook(title, content, coverphoto, parameters, images, userId) {
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw new Error('title  is empty')
         if (typeof content !== 'string') throw TypeError(`${content} is not a string`)
         if (!content.trim().length) throw new Error('content  is empty')
-        if (typeof coverphoto !== 'string') throw TypeError(`${coverphoto} is not a string`)
-        if (!coverphoto.trim().length) throw new Error('coverphoto  is empty')
         if (!(images instanceof Array)) throw TypeError(`${images} is not a array`)
         if (!(parameters instanceof Array)) throw TypeError(`${parameters} is not a array`)
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new Error('userId  is empty')
 
-        return fetch(`${this.url}/book/add`, {
+        var formData = new FormData()
+        formData.append('file', coverphoto)
+        formData.append('upload_preset', this.url_cloudinary_upload_preset)
+        return axios({
+            url: this.url_cloudinary,
             method: 'POST',
-            headers: {
-                'content-type': 'application/json'
+            header: {
+                'Content-Type' : 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify({ title, content, coverphoto, images, parameters, userId })
+            data: formData
+        }).then(res => {
+            const { data : { secure_url } } = res
+            return fetch(`${this.url}/book/add`, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, content, 'coverphoto' : secure_url, images, parameters, userId })
+                })
+                .then(response => response.json())
+        
         })
-        .then(response => response.json())
     },
     
     /**

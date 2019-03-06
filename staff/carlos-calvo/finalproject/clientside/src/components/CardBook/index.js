@@ -17,13 +17,22 @@ class CardBook extends Component {
         const book = this.props.bookSelected
         return (
             <Fragment>
-                <div className="card col-sm-9 col-md-6 col-lg-4" >
-                    <img className="card-img-top" width="70%"  height="50%" src={book.coverphoto}/>
+                <div className="bookCard col-sm-8 col-md-5 col-lg-3" >
+                    <div className="bookCard-photocontainer">
+                        <img className="card-img-top" src={book.coverphoto}/>
+                    </div>
                     <div className="card-body">
-                        <h5 className="card-title">{book.title}</h5>
-                        <p className="card-text">{book.content.substring(0, 45)}</p>
-                        <button onClick={this.loadBook} className="btn btn-primary">Read It!</button>
-                        <button onClick={this.deleteBook} className="btn btn-danger">Delete It!</button>
+                        <div>
+                            <h5 className="card-title">{book.title}</h5>
+                        </div>
+                        <div>
+                            <p className="card-text">{book.content.substring(0, 45)}</p>  
+                        </div>
+                        <div className="bookCard-buttonContainer">
+                            <button onClick={this.loadBook} className="btn btn-primary btn-readit"><i className="fas fa-book-reader"></i></button>
+                            <button onClick={this.loadBook} className="btn btn-primary btn-readit"><i className="fas fa-edit"></i></button>
+                            <button onClick={this.deleteBook} className="btn btn-danger btn-deleteit"><i className="fas fa-trash-alt"></i></button>
+                        </div>
                     </div>
                 </div>
             </Fragment>

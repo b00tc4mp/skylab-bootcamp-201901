@@ -57,7 +57,7 @@ class Books extends Component {
             <div className = "rightsidebar c_updateuser">
                 <div className ="page">
                     <div className="padded-page">
-                        {this.pages[this.state.currentPage]}
+                        <pre>{this.pages[this.state.currentPage]}</pre>
                     </div>
                 </div>
             <button className={buttonback} onClick={this.backPage}><i class="fas fa-arrow-left"></i></button>

@@ -38,7 +38,7 @@ class YourBooks extends Component {
                 <div>
                     <SideBar/>
                 </div>
-                <div className = "rightsidebar c_updateuser">
+                <div className = "coverright">
                     <div className="row justify-content-center">
                         {this.state.books.map(book =>{
                             return (<CardBook bookSelected={book} deleteBook = {this.deleteBook} loadBook = {this.props.loadBook} />)

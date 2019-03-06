@@ -5,6 +5,7 @@
 import userApi from '../userApi'
 import bookApi from '../bookApi';
 
+
 const logic = {
 
      __userApiToken__: null,
@@ -132,25 +133,24 @@ const logic = {
      * 
      * @param {String} title 
      * @param {String} content 
-     * @param {String} coverphoto 
+     * @param {File} coverphoto 
      * @param {Array} images 
      * @param {Array} parameters 
+     * 
      */
-    addBook(title, content, coverphoto, images = [], parameters = []){
+    addBook(title, content, coverphoto, parameters = [], images = []){
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw new Error('title  is empty')
         if (typeof content !== 'string') throw TypeError(`${content} is not a string`)
         if (!content.trim().length) throw new Error('content  is empty')
-        if (typeof coverphoto !== 'string') throw TypeError(`${coverphoto} is not a string`)
-        if (!coverphoto.trim().length) throw new Error('coverphoto  is empty')
         if (!(images instanceof Array)) throw TypeError(`${images} is not a array`)
         if (!(parameters instanceof Array)) throw TypeError(`${parameters} is not a array`)
-
+        console.log('in da logic', parameters)
         return (async () => {
 
             const {id} = await this.retrieveUser()
 
-            const book = await bookApi.addBook(title, content, coverphoto, images, parameters, id)
+            const book = await bookApi.addBook(title, content, coverphoto, parameters, images,  id)
 
             return book
         })()
@@ -189,6 +189,13 @@ const logic = {
         })()
     },
 
+
+
+    /**
+     * 
+     * Deletes a book by id
+     * @param {String} id 
+     */
     deleteBook(id){
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw new Error('id  is empty')

@@ -185,7 +185,7 @@ const logic = {
       * @param {String} userId 
       */
 
-    addBook (title, content, coverphoto, userId, images = [], parameters = [] ){
+    addBook (title, content, coverphoto, userId, images, parameters ){
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw new EmptyError('title  is empty')
 
@@ -203,7 +203,6 @@ const logic = {
         if (!userId.trim().length) throw new EmptyError('userId  is empty')
 
         return (async () => {
-
             //Check that book title does not exist for this user.
             const book = await Book.find({ 'userId' : ObjectID(userId), 'title': title })
             // console.log('*******************************************')
@@ -272,7 +271,12 @@ const logic = {
 
             return result
         })()
-    }
+    },
+
+    // uploadImage(file, userId){
+    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+    //     if (!userId.trim().length) throw new EmptyError('userId  is empty')
+    // }
 }
 
 module.exports = logic

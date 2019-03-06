@@ -20,7 +20,7 @@ const Book = new Schema({
 
     images: [String], //Array de strings de URL de photos
 
-    parameters: [String], //array de String de parametros calculados previamente al leer el fichero.
+    parameters: [], //array de String de parametros calculados previamente al leer el fichero.
 
     userId: { //Referencia del usuario.
         type: ObjectId,

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "cloudinary": "^1.13.2",
     "flipping-pages": "^2.1.2",
     "mocha": "^6.0.2",
     "node-sass": "^4.11.0",

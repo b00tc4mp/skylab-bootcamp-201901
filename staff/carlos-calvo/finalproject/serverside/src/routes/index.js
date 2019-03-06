@@ -15,5 +15,7 @@ module.exports = {
 
     retrieveBook: require('./retrieve-book'),
 
-    deleteBook: require('./delete-book')
+    deleteBook: require('./delete-book'),
+
+    imageUpload: require('./upload-image')
 }
