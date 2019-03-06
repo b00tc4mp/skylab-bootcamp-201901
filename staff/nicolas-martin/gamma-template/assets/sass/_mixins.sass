@@ -1,0 +1,50 @@
+
+@function em($px, $base: $base__font-size)
+    @return ($px / $base) * 1em
+
+/**   
+/* $$size
+/* $line
+/* $margin: 0
+/* $weight: normal
+/* $family: $text__family-sans
+/* $color: $text__color--base
+/**
+
+=text($size, $line, $margin: 0, $weight: $base__weight, $family: $text__family-sans, $color: $text__color--base)
+    font-size: +em($size)
+    line-height: ($line/$size)
+    font-family: $family
+    color: $color
+    margin-bottom: +em($margin, $size)
+    font-weight: $weight
+
+/**   
+/* $display: block
+/* $justify-content: flex-start
+/* $align-items: flex-start
+/* $flex-flow: row nowrap
+/* $align-content: flex-start
+/**
+
+=flex($display: flex, $justify-content: flex-start, $align-items: flex-start, $flex-flow: row nowrap, $align-content: flex-start)
+    display: $display
+    justify-content: $justify-content
+    align-items: $align-items
+    flex-flow: $flex-flow
+    align-content: $align-content
+
+// Medium devices
+@mixin md 
+    @media (min-width: #{$screen-md-min})
+        @content
+
+// Large devices
+@mixin lg
+    @media (min-width: #{$screen-lg-min}) 
+        @content
+
+// Extra large devices
+@mixin xl 
+    @media (min-width: #{$screen-xl-min}) 
+        @content

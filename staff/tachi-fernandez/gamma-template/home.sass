@@ -1,0 +1,203 @@
+@media (max-width: 600px)
+
+$color-base: #1caa98
+
+body
+    margin: 0
+    
+.menu
+    background: #F8F8FF
+    display: flex
+    justify-content: space-between
+    padding: 10px
+    &__logo
+        color: $color-base
+    &__list
+        display: none
+.hero
+    background: #1b222a
+    display: flex
+    flex-direction: column
+    align-items: center
+    padding: 30px  
+    &__img
+        display: none
+    &__title
+        display: flex
+        flex-direction: row
+        justify-content: center
+        &--green
+            color: $color-base
+    &__description
+        color: white
+        text-align: center
+    &__apps 
+        display: flex
+        flex-direction: column
+        align-items: center
+        &__image
+            width: 50%
+            height: 50px
+            &--top 
+                margin-top: 20px
+                width: 50%
+                height: 50px
+            
+.blog
+    padding: 30px
+    display: flex
+    flex-direction: column
+    align-items: center
+    .post
+        display: flex
+        flex-direction: column
+        width: 100%
+        margin: 20px 0 
+        &__img
+            width: 100%
+            box-shadow: 0 0 0 1px rgba(0,0,0,.1) 
+        &__title
+            margin-bottom: 0
+        &__link
+            color: rgba(0,0,0,.5)  
+            text-decoration: none 
+            box-shadow: 0 0 0 1px rgba(0,0,0,.3) 
+            padding: 5px 10px 
+            width: 25%
+            border-radius: 5px
+
+.features
+    background: $color-base url("./images/logo.png") no-repeat 40%
+    background-position-x: 20px
+    background-position-y: 250px
+    padding: 30px
+    height: 500px
+    
+
+    &__title
+        color: white
+    &__list
+        color: white
+        list-style: none
+        padding-left: 0
+   
+
+.information
+    background: #333333
+    padding: 40px
+    &__list
+        color: white
+        list-style: none
+        display: flex
+        justify-content: space-around
+        padding-left: 0
+    &__copy
+        color: white
+        display: flex
+        justify-content: center
+
+
+@media (min-width: 600px)
+    
+    .menu
+        justify-content: flex-start
+        &__logo
+            display: flex
+            align-items: center
+        &__list
+            list-style: none
+            display: flex            
+            a 
+                text-decoration: none
+                margin: 0 15px
+        &__button
+            display: none            
+
+    .hero
+        background-image: url('./images/site_showcase_bg.jpg')
+        background-position: top center
+        background-size: 800px
+        background-repeat: no-repeat
+        display: flex
+        align-items: flex-start
+        padding: 30px
+        &__img
+            display: flex
+            width: 100%
+        &__title
+            font-size: 2.7rem
+            margin-top: 10px
+            margin-right: 350px
+        &__description
+            display: flex
+            justify-content: flex-start
+            
+        &__apps
+            display: flex
+            flex-direction: row
+            &__image
+                width: 30%
+                margin-top: 20px
+                &--top
+                    width: 30%
+                    margin-left: 20px
+                            
+    .information
+        display: flex
+        flex-flow: column
+        padding: 1rem       
+        &__list
+            display: flex
+            justify-content: flex-start
+            margin-left: 1rem
+            &__link
+                margin-right: 1rem
+        &__copy
+            align-self: flex-end
+            margin: 0
+
+@media (min-width: 900px)   
+
+        .hero          
+            background-size: 1100px
+            height: 305px
+            &__title
+                margin-right: 77%
+            &__phone
+                background: url("./images/site_phone.png") no-repeat 60%
+                background-size: 250px
+                width: 100%
+                padding: 70px            
+            &__apps
+                width: 500px
+                   
+                
+            
+        .blog
+            display: flex
+            flex-direction: row
+            padding: 30px
+            justify-content: space-around
+            .post
+                flex-basis: 30%
+                &__link
+                    height: 30px
+                    width: 35px
+
+            
+
+        .features
+            background: $color-base url("./images/logo.png") no-repeat 70% 
+            background-size: 200px
+            padding-left: 150px
+            height: 250px 
+
+        .information
+            height: 40px
+            &__copy
+                
+            
+
+                
+            
+

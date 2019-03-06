@@ -1,0 +1,1 @@
+module.exports = text => text.split('\n').length - 1

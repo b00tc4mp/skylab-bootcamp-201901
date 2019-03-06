@@ -1,0 +1,8 @@
+extends ../home/index
+
+block tracks
+    section(class='results container')
+        each track in tracks
+          div(class='item')
+            h3= track.name
+            audio(src=`${track.preview_url}`, controls='')
