@@ -22,14 +22,21 @@ const Product = new Schema({
         required: true
     },
 
-    zone: {
+    city: {
         type: String,
+        enum: ['Barcelona', 'Madrid'],
         required: true
     },
 
     owner: {
         type: ObjectId,
         ref: 'User'
+    },
+
+    sold: {
+        type: Boolean,
+        default: false,
+        required: true
     },
 
     imageUrl: {
