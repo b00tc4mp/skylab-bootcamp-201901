@@ -42,9 +42,10 @@ function Home({ history }) {
         }
     }
 
-    const handleAdvancedSearch = (param, query) => {
+    const handleAdvancedSearch = param => {
+        debugger
         try {
-            logic.adSearchSkylaber(param, query)
+            logic.adSearchSkylaber(param)
                 .then(searchResults => {
                     setFeedback(null)
                     return setAdSearchResults(searchResults) 
@@ -54,20 +55,7 @@ function Home({ history }) {
                 setFeedback(message)
         }
     }
-
-    const handleNextAdvancedSearch = (adSearchResults, param, query) => {
-        try {
-            logic.nextAdSearchSkylaber(adSearchResults, param, query)
-                .then(results => {
-                    setFeedback(null)
-                    return setAdSearchResults(results) 
-                })
-                .catch(({ message }) => setFeedback(message))
-            } catch ({ message }) {
-                setFeedback(message)
-        }
-    }
-    
+   
 
     const handleToSearch = () => {
         setFeedback(null)
@@ -111,7 +99,7 @@ function Home({ history }) {
         <Fragment>
             <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
             <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
-            <Route path="/home/adsearch" render={() => <AdvancedSearch onAdvancedSearch={handleAdvancedSearch} nextAdvancedSearch={handleNextAdvancedSearch} onSkylaber={handleSkylaber} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
+            <Route path="/home/adsearch" render={() => <AdvancedSearch onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
             <Route path="/home/profile" render={() => <Profile onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
             <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId}  onToBack={handleToBack} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
         </Fragment>

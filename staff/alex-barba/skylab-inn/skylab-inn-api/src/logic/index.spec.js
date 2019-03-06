@@ -303,6 +303,17 @@ describe('logic', () => {
             expect(user.password).toBeUndefined()
         })
 
+        it('should fail on not registered user', async() => {
+            await User.deleteMany()
+            try {
+               await logic.updateUser(_id, data)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`user with userId ${_id} not found`)
+                
+            }
+        })
+
         it('should fail on empty userId', () =>
             expect(() => logic.updateUser('', data)).toThrowError('userId is empty'))
 
@@ -324,7 +335,7 @@ describe('logic', () => {
         it('should fail when data is a number', () =>
             expect(() => logic.updateUser(_id, 1)).toThrowError(`1 is not an object`))
 
-        it('should fail when data is an object', () =>
+        it('should fail when data is a string', () =>
             expect(() => logic.updateUser(_id, 'hola')).toThrowError(`hola is not an object`))
 
         it('should fail when data is an array', () =>
@@ -332,6 +343,278 @@ describe('logic', () => {
 
         it('should fail when data is a boolean', () =>
             expect(() => logic.updateUser(_id, true)).toThrowError(`true is not an object`))
+    })
+
+    describe('search skylaber', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        let email, password, _id
+        let test = 'test'
+
+        beforeEach(async () => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+
+            const hash2 = await bcrypt.hash(password, 10)
+            await User.create({ name, surname, email, password: hash2 })
+
+            const _name= 'Marti'
+            const _surname='Malek'
+            const _email= `marti.malek-${Math.random()}@gmail.com`
+            const _password= 'p'
+
+            const hash = await bcrypt.hash(_password, 10)
+            await User.create({ name: _name, surname: _surname, email: _email, password: hash })
+
+            const user = await User.findOne({ email })
+            _id = user.id
+        })
+
+        it('should succeed on correct search', async () => {
+            const query= 'barba'
+
+            const results = await logic.searchSkylaber(_id, query)
+
+            expect(results).toBeDefined()
+            expect(results.resContact.length).toBe(1)
+            expect(results.resContact[0].name).toBe(name)
+        })
+
+        it('should fail on not registered user', async() => {
+            await User.deleteMany()
+            try {
+               await logic.searchSkylaber(_id, test)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`user with userId ${_id} not found`)
+                
+            }
+        })
+
+        it('should succeed on correct search for two users', async () => {
+            const __name= 'Martini'
+            const __surname='Malek'
+            const __email= 'marti@malekasd.com'
+            const __password= 'p'
+
+            const hash = await bcrypt.hash(__password, 10)
+            await User.create({ name: __name, surname: __surname, email: __email, password: hash })
+            const query= 'marti'
+
+            const results = await logic.searchSkylaber(_id, query)
+
+            expect(results).toBeDefined()
+            expect(results.resContact.length).toBe(2)
+            expect(results.resContact[0].name).toBe('Marti')
+            expect(results.resContact[1].name).toBe(__name)
+        })
+
+        it('should fail on empty userId', () =>
+            expect(() => logic.searchSkylaber('', )).toThrowError('userId is empty'))
+
+        it('should fail when userId is a number', () =>
+            expect(() => logic.searchSkylaber(1, test)).toThrowError(`1 is not a string`))
+
+        it('should fail when userId is an object', () =>
+            expect(() => logic.searchSkylaber({}, test)).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when userId is an array', () =>
+            expect(() => logic.searchSkylaber([1, 2, 3], test)).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when userId is a boolean', () =>
+            expect(() => logic.searchSkylaber(true, test)).toThrowError(`true is not a string`))
+
+        it('should fail on empty query', () =>
+            expect(() => logic.searchSkylaber(_id, '')).toThrowError('query is empty'))
+
+        it('should fail when query is a number', () =>
+            expect(() => logic.searchSkylaber(_id, 1)).toThrowError(`1 is not a string`))
+
+        it('should fail when query is an object', () =>
+            expect(() => logic.searchSkylaber(_id, {})).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when query is an array', () =>
+            expect(() => logic.searchSkylaber(_id, [1, 2, 3])).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when query is a boolean', () =>
+            expect(() => logic.searchSkylaber(_id, true)).toThrowError(`true is not a string`))
+
+    })
+
+    describe('ad search skylaber', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        const _name = 'Marti'
+        const _surname ='Malek'
+        let email, password, _email, _password, _id
+        let test = [['Personal info', 'alex']]
+
+        beforeEach(async () => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+
+            const hash2 = await bcrypt.hash(password, 10)
+            await User.create({ name, surname, email, password: hash2 })
+
+            _email= `marti.malek-${Math.random()}@gmail.com`
+            _password= 'p'
+
+            const hash = await bcrypt.hash(_password, 10)
+            await User.create({ name: _name, surname: _surname, email: _email, password: hash })
+
+            const user = await User.findOne({ email })
+            _id = user.id
+        })
+
+        it('should succeed on correct search', async () => {
+
+            const results = await logic.adSearchSkylaber(_id, test)
+
+            expect(results).toBeDefined()
+            expect(results.length).toBe(1)
+            expect(results[0].name).toBe(name)
+        })
+
+        it('should succeed on correct search for two users', async () => {
+            const __name= 'Martini'
+            const __surname='Malek'
+            const __email= 'marti@malekasd.com'
+            const __password= 'p'
+
+            const hash = await bcrypt.hash(__password, 10)
+            await User.create({ name: __name, surname: __surname, email: __email, password: hash })
+            const query= [['Personal info', 'marti']]
+
+            const results = await logic.adSearchSkylaber(_id, query)
+
+            expect(results).toBeDefined()
+            expect(results.length).toBe(2)
+            expect(results[0].name).toBe(_name)
+            expect(results[1].name).toBe(__name)
+        })
+
+        it('should fail on not registered user', async() => {
+            await User.deleteMany()
+            try {
+               await logic.adSearchSkylaber(_id, test)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`user with userId ${_id} not found`)
+                
+            }
+        })
+
+        it('should fail on empty userId', () =>
+            expect(() => logic.adSearchSkylaber('', )).toThrowError('userId is empty'))
+
+        it('should fail when userId is a number', () =>
+            expect(() => logic.adSearchSkylaber(1, test)).toThrowError(`1 is not a string`))
+
+        it('should fail when userId is an object', () =>
+            expect(() => logic.adSearchSkylaber({}, test)).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when userId is an array', () =>
+            expect(() => logic.adSearchSkylaber([1, 2, 3], test)).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when userId is a boolean', () =>
+            expect(() => logic.adSearchSkylaber(true, test)).toThrowError(`true is not a string`))
+
+        it('should fail on empty param', () =>
+            expect(() => logic.adSearchSkylaber(_id,[])).toThrowError('param is empty'))
+
+        it('should fail when param is a number', () =>
+            expect(() => logic.adSearchSkylaber(_id, 1)).toThrowError(`1 is not an array`))
+
+        it('should fail when param is an object', () =>
+            expect(() => logic.adSearchSkylaber(_id, {})).toThrowError(`[object Object] is not an array`))
+
+        it('should fail when param is a string', () =>
+            expect(() => logic.adSearchSkylaber(_id, 'test')).toThrowError(`test is not an array`))
+
+        it('should fail when param is a boolean', () =>
+            expect(() => logic.adSearchSkylaber(_id, true)).toThrowError(`true is not an array`))
+
+    })
+
+    describe('retrieve user', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        let email, password, _id, _skylaberId
+
+        beforeEach(async () => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+
+            const hash = await bcrypt.hash(password, 10)
+            await User.create({ name, surname, email, password: hash })
+
+            const user = await User.findOne({ email })
+            _id = user.id
+            _skylaberId = user.id
+        })
+
+        it('should succeed on correct credentials', async () => {
+            const user = await logic.retrieveSkylaber(_id, _skylaberId)
+
+            expect(user.id).toEqual(_id)
+            expect(user.name).toBe(name)
+            expect(user.surname).toBe(surname)
+            expect(user.email).toBe(email)
+            expect(user.__v).toBeUndefined()
+            expect(user.password).toBeUndefined()
+        })
+
+        it('should fail on not registered user', async() => {
+            await User.deleteOne({id: _id})
+            try {
+               await logic.retrieveSkylaber(_id, _skylaberId)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`user with userId ${_id} not found`)
+                
+            }
+        })
+
+        it('should fail on not registered skylaber', async() => {
+            await User.deleteOne({id: _skylaberId})
+            try {
+               await logic.retrieveSkylaber(_id, _skylaberId)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`skylaber with userId ${skylaberId} not found`)
+                
+            }
+        })
+
+        it('should fail on empty userId', () =>
+            expect(() => logic.retrieveSkylaber('', _skylaberId)).toThrowError('userId is empty'))
+
+        it('should fail when userId is a number', () =>
+            expect(() => logic.retrieveSkylaber(1, _skylaberId)).toThrowError(`1 is not a string`))
+
+        it('should fail when userId is an object', () =>
+            expect(() => logic.retrieveSkylaber({}, _skylaberId)).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when userId is an array', () =>
+            expect(() => logic.retrieveSkylaber([1, 2, 3], _skylaberId)).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when userId is a boolean', () =>
+            expect(() => logic.retrieveSkylaber(true, _skylaberId)).toThrowError(`true is not a string`))
+
+        it('should fail on empty skylaberId', () =>
+            expect(() => logic.retrieveSkylaber(_id, '')).toThrowError('skylaberId is empty'))
+
+        it('should fail when skylaberId is a number', () =>
+            expect(() => logic.retrieveSkylaber(_id, 1)).toThrowError(`1 is not a string`))
+
+        it('should fail when skylaberId is an object', () =>
+            expect(() => logic.retrieveSkylaber(_id, {})).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when skylaberId is an array', () =>
+            expect(() => logic.retrieveSkylaber(_id, [1, 2, 3])).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when skylaberId is a boolean', () =>
+            expect(() => logic.retrieveSkylaber(_id, true)).toThrowError(`true is not a string`))
     })
 
     after(() =>

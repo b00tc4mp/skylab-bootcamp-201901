@@ -167,11 +167,11 @@ const logic = {
             const user = await User.findById(userId)
             if (!user) throw new Error(`user with userId ${userId} not found`)
 
-            const resContact = await User.find({$or: [{name: { "$regex": `${query}`, "$options": "i" }}, {surname: { "$regex": `${query}`, "$options": "i" }}, {email: { "$regex": `${query}`, "$options": "i" }} , {git: { "$regex": `${query}`, "$options": "i" }}, {linkedin: { "$regex": `${query}`, "$options": "i" }}, {slack: { "$regex": `${query}`, "$options": "i" }} ]})
-            const resTechs = await User.find({techs: { "$regex": `${query}`, "$options": "i" }})
-            const resLang = await User.find({languages: { "$regex": `${query}`, "$options": "i" }})
-            const resEdu = await User.find({$or: [{'education.college': { "$regex": `${query}`, "$options": "i" }}, {'education.degree': { "$regex": `${query}`, "$options": "i" }}]})
-            const resWork = await User.find({$or: [{'workExperience.company': { "$regex": `${query}`, "$options": "i" }}, {'workExperience.position': { "$regex": `${query}`, "$options": "i" }}]})
+            const resContact = await User.find({ $or: [{ name: { "$regex": `${query}`, "$options": "i" } }, { surname: { "$regex": `${query}`, "$options": "i" } }, { email: { "$regex": `${query}`, "$options": "i" } }, { git: { "$regex": `${query}`, "$options": "i" } }, { linkedin: { "$regex": `${query}`, "$options": "i" } }, { slack: { "$regex": `${query}`, "$options": "i" } }] })
+            const resTechs = await User.find({ 'technology.tech': { "$regex": `${query}`, "$options": "i" } })
+            const resLang = await User.find({ 'language.language': { "$regex": `${query}`, "$options": "i" } })
+            const resEdu = await User.find({ $or: [{ 'education.college': { "$regex": `${query}`, "$options": "i" } }, { 'education.degree': { "$regex": `${query}`, "$options": "i" } }] })
+            const resWork = await User.find({ $or: [{ 'workExperience.company': { "$regex": `${query}`, "$options": "i" } }, { 'workExperience.position': { "$regex": `${query}`, "$options": "i" } }] })
 
             let results = {}
 
@@ -189,64 +189,68 @@ const logic = {
      * Search for a skylaber.
      * 
      * @param {String} userId 
-     * @param {String} param
-     * @param {String} query
+     * @param {Array} param
      * 
-     * @throws {TypeError} - if any param is not a string.
+     * @throws {TypeError} - if userId is not a string or param is not an array.
      * @throws {Error} - if any param is empty or user is not found.
      *
      * @returns {Object} - results matching the query. 
      */
-    adSearchSkylaber(userId, param, query) {
+    adSearchSkylaber(userId, param) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId is empty')
 
-        if (typeof param !== 'string') throw TypeError(`${param} is not a string`)
-        if (!param.trim().length) throw Error('param is empty')
-
-        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
-        if (!query.trim().length) throw Error('query is empty')
+        if (param instanceof Array === false) throw new TypeError(`${param} is not an array`)
+        if (!param.length) throw new Error('param is empty')
 
         return (async () => {
             const user = await User.findById(userId)
             if (!user) throw new Error(`user with userId ${userId} not found`)
 
-            let results
-              
-            switch (param) {
-                case 'contact':
-                results = await User.find({$or: [{name: { "$regex": `${query}`, "$options": "i" }}, {surname: { "$regex": `${query}`, "$options": "i" }}, {email: { "$regex": `${query}`, "$options": "i" }} , {git: { "$regex": `${query}`, "$options": "i" }}, {linkedin: { "$regex": `${query}`, "$options": "i" }}, {slack: { "$regex": `${query}`, "$options": "i" }} ]})
-                break;
-                case 'techs':
-                results = await User.find({techs: { "$regex": `${query}`, "$options": "i" }})
-                break;
-                case 'work':
-                results = await User.find({languages: { "$regex": `${query}`, "$options": "i" }})
-                break;
-                case 'languages':
-                results = await User.find({$or: [{'education.college': { "$regex": `${query}`, "$options": "i" }}, {'education.degree': { "$regex": `${query}`, "$options": "i" }}]})
-                break;
-                case 'education':
-                results = await User.find({$or: [{'workExperience.company': { "$regex": `${query}`, "$options": "i" }}, {'workExperience.position': { "$regex": `${query}`, "$options": "i" }}]})
-                break;
-            } 
 
-            return results
+            let adSearch = []
+
+            param.map(search => {
+                const filter = search[0]
+                const query = search[1]
+
+                switch (filter) {
+                    case 'Personal info':
+                        adSearch.push({ $or: [{ name: { "$regex": `${query}`, "$options": "i" } }, { surname: { "$regex": `${query}`, "$options": "i" } }, { email: { "$regex": `${query}`, "$options": "i" } }, { git: { "$regex": `${query}`, "$options": "i" } }, { linkedin: { "$regex": `${query}`, "$options": "i" } }, { slack: { "$regex": `${query}`, "$options": "i" } }] })
+                        break;
+                    case 'Technology':
+                        adSearch.push({ 'technology.tech': { "$regex": `${query}`, "$options": "i" } })
+                        break;
+                    case 'Language':
+                        adSearch.push({ 'language.language': { "$regex": `${query}`, "$options": "i" } })
+                        break;
+                    case 'Education':
+                        adSearch.push({ $or: [{ 'education.college': { "$regex": `${query}`, "$options": "i" } }, { 'education.degree': { "$regex": `${query}`, "$options": "i" } }] })
+                        break;
+                    case 'Work':
+                        adSearch.push({ $or: [{ 'workExperience.company': { "$regex": `${query}`, "$options": "i" } }, { 'workExperience.position': { "$regex": `${query}`, "$options": "i" } }] })
+                        break;
+                }
+            })
+
+            let match = await User.find({ $and: adSearch })
+
+            return match
         })()
     },
 
-     /**
-     * Retrieves skylaber information
-     * 
-     * @param {String} userId 
-     * @param {String} skylaberId
-     * 
-     * @throws {TypeError} - if any param is not a string.
-     * @throws {Error} - if any param is empty or user or skylaber is not found.
-     *
-     * @returns {Object} - user.  
-     */
+    /**
+    * Retrieves skylaber information
+    * 
+    * @param {String} userId 
+    * @param {String} skylaberId
+    * 
+    * @throws {TypeError} - if any param is not a string.
+    * @throws {Error} - if any param is empty or user or skylaber is not found.
+    *
+    * @returns {Object} - user.  
+    */
     retrieveSkylaber(userId, skylaberId) {
 
         if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)

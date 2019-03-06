@@ -1,6 +1,8 @@
 const { Schema } = require('mongoose')
 const Work = require('./work')
 const Education = require('./education')
+const Language = require('./language')
+const Technology = require('./technology')
 
 const User = new Schema({
     name: {
@@ -40,9 +42,9 @@ const User = new Schema({
 
     workExperience: [Work],
 
-    techs: [String],
+    technology: [Technology],
 
-    languages: [String],
+    language: [Language],
 
     education: [Education]
 })

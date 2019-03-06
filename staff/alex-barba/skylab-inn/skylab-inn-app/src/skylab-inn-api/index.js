@@ -184,24 +184,21 @@ const skylabInnApi = {
      * Advanced search for a skylaber
      * 
      * @param {String} token
-     * @param {String} param
-     * @param {String} query
+     * @param {Array} param
      * 
-     * @throws {TypeError} - if any param is not a string.
+     * @throws {TypeError} - if token is not a string or param is not an array.
      * @throws {Error} - if any param is empty.
      *
      * @returns {Object} - user matching query 
      */
-    adSearchSkylaber(token, param, query){
+    adSearchSkylaber(token, param){
+        debugger
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
-        if (typeof param !== 'string') throw new TypeError(`${param} is not a string`)
-        if (!param.trim().length) throw new Error('param is empty')
-
-        if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
-        if (!query.trim().length) throw new Error('query is empty')
+        if (param instanceof Array === false) throw new TypeError(`${param} is not an array`)
+        if (!param.length) throw new Error('param is empty')
 
         return fetch (`${this.url}/user/advanced-search`, {
             method: 'POST',
@@ -209,10 +206,11 @@ const skylabInnApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ param, query })
+            body: JSON.stringify({ param })
         })
             .then(response => response.json())
             .then(response => {
+                debugger
                 if (response.error) throw new Error(response.error)
 
                 return response
