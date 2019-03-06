@@ -190,6 +190,27 @@ const logic = {
             })
     },
 
+    retrieveUserProducts(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+                return user.products
+            })
+            .then(idProducts => {
+                return Product.find({ _id: { $in: idProducts } }).select('-__v').lean()
+            })
+            .then(products => {
+                products.forEach(product => {
+                    product.id = product._id.toString()
+                    delete product._id
+                })
+                return products
+            })
+    },
+
     toogleFav(userId, productId) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -208,7 +229,7 @@ const logic = {
                 else user.favoriteProducts.splice(index, 1)
 
                 return user.save()
-                    .then(({favoriteProducts}) => favoriteProducts)
+                    .then(({ favoriteProducts }) => favoriteProducts)
             })
     },
 
@@ -247,7 +268,7 @@ const logic = {
         if (typeof q !== 'string') throw TypeError(`${q} is not a string`)
         if (!q.trim().length) throw Error('query cannot be empty')
 
-        return Product.find({$or: [{ tittle: q }, { description: {$regex: q, $options: 'i'} }]}).select('-__v').lean()
+        return Product.find({ $or: [{ tittle: q }, { description: { $regex: q, $options: 'i' } }] }).select('-__v').lean()
             .then(products => {
                 if (!products) throw Error('there are no products')
 

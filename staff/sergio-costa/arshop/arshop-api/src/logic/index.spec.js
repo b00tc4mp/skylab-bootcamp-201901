@@ -653,6 +653,77 @@ describe('logic', () => {
     })
     //#endregion
 
+    //#region RETRIEVE PRODUCTS FROM USER
+    describe('retrive products from user', () => {
+        let name = 'sergio'
+        let surname = 'costa'
+        let email = `sergiocosta-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+        let userId
+        let _id
+
+        const product = {
+            tittle: 'coche',
+            description: 'bueno, bonito, barato',
+            price: 20000,
+            category: 'vehicle',
+            zone: 'Barcelona'
+        }
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => logic.createProduct(userId, product))
+                .then((id) => {
+                    _id = id
+                })
+        )
+
+        it('should retrieve products from user', () =>
+            logic.retrieveUserProducts(userId)
+                .then(products => {
+                    expect(products[0].tittle).toBe(product.tittle)
+                    expect(products[0].description).toBe(product.description)
+                    expect(products[0].price).toBe(product.price)
+                    expect(products[0].category).toBe(product.category)
+                    expect(products[0].zone).toBe(product.zone)
+
+                    expect(products.length).toBe(1)
+                })
+        )
+
+        it('should fail on wrong userid', () =>
+            logic.retrieveUserProducts('hola')
+                .catch(err => {
+                    expect(err).toBeDefined()
+                })
+        )
+        it('should fail on object instead string', () =>
+            expect(() => {
+                logic.retrieveUserProducts({})
+            }).toThrow(TypeError({} + ' is not a string'))
+        )
+        it('should fail on array instead string', () =>
+            expect(() => {
+                logic.retrieveUserProducts([])
+            }).toThrow(TypeError([]+ ' is not a string'))
+        )
+
+        it('should fail on undefined instead string', () =>
+            expect(() => {
+                logic.retrieveUserProducts(undefined)
+            }).toThrow(TypeError(undefined + ' is not a string'))
+        )
+
+        it('should fail on empty userid', () =>
+            expect(() => {
+                logic.retrieveUserProducts('')
+            }).toThrow(TypeError('userId cannot be empty'))
+        )
+    })
+    //#endregion
+
     //#region TOOGLE FAV
     describe('toogleFav', () => {
         let name = 'sergio'
@@ -803,7 +874,7 @@ describe('logic', () => {
                 })
         )
 
-        it('should fail on wrong user id', () => 
+        it('should fail on wrong user id', () =>
             logic.retrieveFavs('adsdsa')
                 .catch(err => {
                     expect(err).toBeDefined()

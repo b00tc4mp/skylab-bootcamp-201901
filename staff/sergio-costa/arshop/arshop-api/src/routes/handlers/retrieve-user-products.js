@@ -1,18 +1,18 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { query: { q,c } } = req
-    debugger
+    const { userId } = req
+
     try {
-        logic.searchProducts(q)
-            .then(product => res.json(product))
+        logic.retrieveUserProducts(userId)
+            .then(products => res.json(products))
             .catch(({ message }) => {
-                res.status(400).json({
+                res.status(409).json({
                     error: message
                 })
             })
     } catch ({ message }) {
-        res.status(400).json({
+        res.status(409).json({
             error: message
         })
     }

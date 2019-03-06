@@ -3,7 +3,7 @@ const cors = require('../cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
-const { registerUser, authenticateUser, retrieveUser, updateUser, addProduct, retrieveProducts, retrieveProduct, toogleFav, retrieveFavs, searchProductsByCategory, searchProducts, updateProduct, notFound } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, addProduct, retrieveProducts, retrieveProduct, toogleFav, retrieveFavs, searchProductsByCategory, searchProducts, updateProduct, retrieveUserProducts, notFound } = require('./handlers')
 
 //#region cloudinary
 // const { parseImageUpload } = require('../../cloudinary/midlecloud')
@@ -29,6 +29,8 @@ router.put('/add/product', [tokenVerifierMiddleware, jsonBodyParser], addProduct
 router.get('/products', retrieveProducts)
 
 router.get('/product/:id', retrieveProduct)
+
+router.get('/user/products', tokenVerifierMiddleware, retrieveUserProducts)
 
 router.put('/product/update/:id', [tokenVerifierMiddleware, jsonBodyParser], updateProduct)
 

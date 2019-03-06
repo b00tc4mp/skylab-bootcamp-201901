@@ -13,6 +13,8 @@ module.exports = {
 
     retrieveProduct: require('./retrieve-product'),
 
+    retrieveUserProducts: require('./retrieve-user-products'),
+
     updateProduct: require('./update-product'),
 
     toogleFav: require('./toogleFav'),
