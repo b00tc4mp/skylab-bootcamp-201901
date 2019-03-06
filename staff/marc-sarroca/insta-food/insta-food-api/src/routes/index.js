@@ -6,5 +6,6 @@ module.exports = {
   retrieveAllPosts: require("./retrieve-allposts"),
   retrieveUserPosts: require("./retrieve-userposts"),
   addFavorites: require("./add-favorites"),
-  addComments: require("./add-comments")
+  addComments: require("./add-comments"),
+  retrieveComments: require("./retrieve-comments")
 };

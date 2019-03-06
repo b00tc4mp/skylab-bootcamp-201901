@@ -83,7 +83,7 @@ const logic = {
     });
   },
 
-  createPost(tags, title, description, image, comments, user_id) {
+  createPost(title, description, image, comments, user_id) {
     if (typeof title !== "string") throw TypeError(title + " is not a string");
     if (!title.trim().length) throw Error("name cannot be empty");
     if (typeof description !== "string")
@@ -95,7 +95,16 @@ const logic = {
     if (typeof user_id !== "string")
       throw TypeError(title + " is not a string");
 
-    return Post.create({ tags, title, description, image, comments, user_id });
+    let t = description.split(" ").filter(w => w.includes("#"));
+
+    return Post.create({
+      tags: t,
+      title,
+      description,
+      image,
+      comments,
+      user_id
+    });
   },
 
   retrievePostsByUser(userId) {
@@ -139,6 +148,11 @@ const logic = {
   },
 
   addCommentPost(userId, postId, text) {
+    if (typeof userId !== "string")
+      throw TypeError(userId + " is not a string");
+    if (typeof postId !== "string")
+      throw TypeError(postId + " is not a string");
+    if (typeof text !== "string") throw TypeError(text + " is not a string");
     return Post.findById(postId).then(post => {
       const { comments = [] } = post;
       comments.push({ userId, text });
