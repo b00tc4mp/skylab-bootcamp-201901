@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 
 import quiz from '../../services/quiz';
@@ -18,10 +17,10 @@ function Quiz(props) {
 			},
 		} = props;
 
-		handleGameInfo(quizId);
+		getQuizById(quizId);
 	}, [props.match.params.quizId]);
 
-	const handleGameInfo = async quizId => {
+	const getQuizById = async quizId => {
 		try {
 			const newQuiz = await quiz.get(quizId);
 			setCurrentQuiz(newQuiz);

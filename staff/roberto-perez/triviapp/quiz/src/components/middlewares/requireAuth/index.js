@@ -12,7 +12,6 @@ export default ChildComponent => {
 		}
 
 		shouldNavigateAway() {
-			console.log("xD");
 			if (!auth.isUserLoggedIn) this.props.history.push('/');
 		}
 

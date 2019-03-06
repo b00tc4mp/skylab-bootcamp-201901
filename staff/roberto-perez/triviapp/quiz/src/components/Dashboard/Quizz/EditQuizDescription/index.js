@@ -1,18 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import quizApi from '../../../quiz-api';
 
-function CreateQuiz(props) {
+import quiz from '../../../services/quiz';
+
+function EditQuizDescription(props) {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 	const [error, setError] = useState(null);
+	
 
-    const create = async data => {
+	const {
+		match: {
+			params: { quizId },
+		},
+	} = props;
+
+	useEffect(() => {
+		getQuizById(quizId);
+	}, [props.match.params.quizId]);
+
+	const getQuizById = async quizId => {
 		try {
-			const quiz = await quizApi.createQuiz(data);
-			console.log(quiz);
-			props.history.push(`/create/quiz/${quiz.id}/overview`);
+			const newQuiz = await quiz.get(quizId);
+			setTitle(newQuiz.title);
+			setDescription(newQuiz.description);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	
+	const edit = async (quizId, data) => {
+		try {
+			const editedQuiz = await quiz.edit(quizId, data);
+			console.log(editedQuiz);
+			props.history.push(`/dashboard/create/quiz/${editedQuiz.id}/overview`);
 		} catch (error) {
 			setError(error.message);
 			console.log(error);
@@ -21,9 +43,9 @@ function CreateQuiz(props) {
 
 	const handleSubmit = async Event => {
 		Event.preventDefault();
-		create({ title, description });
-    };
-    
+		edit(quizId, {title, description});
+	};
+
 	return (
 		<section>
 			<form onSubmit={handleSubmit}>
@@ -45,7 +67,8 @@ function CreateQuiz(props) {
 								type="text"
 								name="title"
 								id="quiz_title"
-                                onChange={Event => setTitle(Event.target.value)}
+								value={title}
+								onChange={Event => setTitle(Event.target.value)}
 							/>
 						</p>
 						<p>
@@ -56,7 +79,8 @@ function CreateQuiz(props) {
 								className="quiz_description"
 								placeholder="Description"
 								name="description"
-                                onChange={Event => setDescription(Event.target.value)}
+								onChange={Event => setDescription(Event.target.value)}
+								value={description}
 							/>
 						</p>
 						<button className="btn__link btn__link--green login__submit">
@@ -69,4 +93,4 @@ function CreateQuiz(props) {
 	);
 }
 
-export default withRouter(CreateQuiz);
+export default withRouter(EditQuizDescription);

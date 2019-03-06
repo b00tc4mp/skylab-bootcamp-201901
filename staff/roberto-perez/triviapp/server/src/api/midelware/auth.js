@@ -43,11 +43,11 @@ exports.authorize = (req, res, next) => {
 };
 
 exports.isAuthor = (req, res, next) => {
-	console.log('####', findVal(req.locals, 'author'));
+	console.log('####', req.userId.toString(), req.locals.quiz.author._id.toString());
 
 	
 
-	if (req.userId.toString() !== req.locals.quiz.author.toString()) {
+	if (req.userId.toString() !== req.locals.quiz.author._id.toString()) {
 		return res
 			.status(httpStatus.UNAUTHORIZED)
 			.json({ error: 'You are unauthorized to access the requested resource.' });
