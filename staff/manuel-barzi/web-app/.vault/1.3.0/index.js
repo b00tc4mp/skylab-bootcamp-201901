@@ -87,11 +87,6 @@ app.post('/register', formBodyParser, (req, res) => {
     }
 })
 
-<<<<<<< HEAD
-// TODO get and post login
-
-// TODO get home (must control user is logged in)
-=======
 app.get('/login', (req, res) => {
     const logic = logicFactory.create(req)
 
@@ -168,6 +163,5 @@ app.get('*', (req, res) => res.send(404, renderPage(`<section class="not-found">
         Go <a href="/">Home</a>
     </section>`)))
 
->>>>>>> upstream/develop
 
 app.listen(port, () => console.log(`server running on port ${port}`))
