@@ -5,7 +5,23 @@ module.exports = {
 
     retrieveUser: require('./retrieve-user'),
 
-    // TODO other route handlers
+    updateUser: require('./update-user'),
+
+    addProduct: require('./create-product'),
+
+    retrieveProducts: require('./retrieve-products'),
+
+    retrieveProduct: require('./retrieve-product'),
+
+    updateProduct: require('./update-product'),
+
+    toogleFav: require('./toogleFav'),
+
+    retrieveFavs: require('./retrieve-favs-from-user'),
+
+    searchProductsByCategory: require('./search-products-by-category'),
+
+    searchProducts: require('./search-products'),
 
     notFound: require('./not-found')
 }

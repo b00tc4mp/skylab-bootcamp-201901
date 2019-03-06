@@ -2,7 +2,7 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
+const {mongoose} = require('arshop-data')
 const express = require('express')
 const tokenHelper = require('./token-helper')
 const package = require('../package.json')

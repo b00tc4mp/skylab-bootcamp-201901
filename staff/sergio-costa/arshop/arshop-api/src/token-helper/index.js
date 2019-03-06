@@ -6,7 +6,7 @@ const tokenHelper = {
     jwtSecret: null,
 
     createToken(userId) {
-        return jwt.sign({ sub: userId }, this.jwtSecret, { expiresIn: '4h' })
+        return jwt.sign({ sub: userId }, this.jwtSecret, { expiresIn: '48h' })
     },
 
     verifyToken(token) {
