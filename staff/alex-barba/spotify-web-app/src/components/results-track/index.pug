@@ -1,0 +1,6 @@
+extends ../home/index
+
+block track
+    section.uk-container.uk-text-center.uk-margin-top
+        h4.uk-heading-bullet= track.name
+        audio(src=`${track.preview_url}`, controls) 

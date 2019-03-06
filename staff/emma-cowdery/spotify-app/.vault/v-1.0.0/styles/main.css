@@ -1,0 +1,41 @@
+body {
+  margin: 0em;
+  padding: 0em;
+}
+body main {
+  background-color: #1CD760;
+  margin: 0em;
+  padding: 0em;
+}
+body main header {
+  padding: 1.5em;
+}
+body main .search .search-input {
+  max-width: 50%;
+}
+body main .result {
+  margin: 0em;
+  padding: 0em;
+  background-color: black;
+  max-width: 100%;
+}
+body main .result .artistsList {
+  list-style-type: none;
+  padding: 0em;
+}
+body main .result .artistsList .artists {
+  padding: 0.5em;
+  width: 7em;
+  height: 7em;
+  border-style: solid;
+  border-color: grey;
+  background-color: gray;
+  color: white;
+  margin: 1em;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/*# sourceMappingURL=main.css.map */
