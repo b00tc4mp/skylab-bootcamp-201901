@@ -107,6 +107,18 @@ const logic = {
         return skylabApi.retrieveExercise(id, this.__userApiToken__)
     },
 
+    updateExercise(exercise) {
+        //Todo validate input data
+
+        return skylabApi.updateExercise(exercise, this.__userApiToken__)
+    },
+
+    newExercise(exercise) {
+        //Todo validate input data
+
+        return skylabApi.createExercise(exercise, this.__userApiToken__)
+    },
+
     checkCode(code, test) {
         if (typeof code !== 'string') throw TypeError(code + ' is not a string')
         if (!code.trim().length) throw Error('code cannot be empty')
