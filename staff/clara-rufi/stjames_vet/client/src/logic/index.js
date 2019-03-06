@@ -239,6 +239,23 @@ const logic = {
             })
     },
 
+    retrievePets(userId){
+
+        this.__updateToken__()
+        return fetch(`${this.url}/pets/${userId}`, {
+        
+            headers:{
+                authorization: `Bearer ${this.__userApiToken__}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
     retrieveUser(userId) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')

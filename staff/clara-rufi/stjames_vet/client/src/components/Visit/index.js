@@ -17,7 +17,11 @@ class Visit extends Component {
         this.retrievePet()
     }
 
-
+    handleGoHome = event => {
+        event.preventDefault()
+        this.props.history.push('/home')
+    }
+    
     // handleEditProfile = event => {
     //     event.preventDefault()
     //     const { state: { name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details } } = this

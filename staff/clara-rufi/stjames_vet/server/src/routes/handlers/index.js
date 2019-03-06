@@ -9,6 +9,8 @@ module.exports = {
     
     retrieveUser: require('./retrieve_user'),
 
+    retrievePets: require('./retrieve-pets'),
+
     updateUser: require('./update-user'),
       // TODO other route handlers
 

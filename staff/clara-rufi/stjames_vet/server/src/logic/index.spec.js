@@ -14,7 +14,7 @@ const bcrypt = require('bcrypt')
 const { env: { TEST_DB_URL } } = process
 
 
-escribe('logic', () => {
+describe('logic', () => {
     before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
 
     beforeEach(() =>

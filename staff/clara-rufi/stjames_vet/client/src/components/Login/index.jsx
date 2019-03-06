@@ -32,24 +32,42 @@ class Login extends Component {
 
   render() {
 
-    return <form className="register" onSubmit={this.handleLoginSubmit} >
-      <div className="form-group row">
-        <label for="validationDefault01" className="col-sm-2 col-form-label">Email</label>
-        <div className="col-sm-7">
-          <input type="email" name="email" onChange={this.handleOnChange} className="form-control" id="inputEmail3" placeholder="" required />
+    return <form className="form" onSubmit={this.handleLoginSubmit} >
+        <p className="title__form">Login:</p>
+        <div className="input__form">
+        <label>Email</label>
+     
+          <input type="email" name="email" onChange={this.handleOnChange} required />
         </div>
-      </div>
-      <div className="form-group row">
-        <label for="validationDefault01" className="col-sm-2 col-form-label" required>Password</label>
-        <div className="col-sm-7">
-          <input type="password" name="password" onChange={this.handleOnChange} className="form-control" id="inputPassword3" placeholder="" required />
+        <div className="input__form">
+        <label>Password</label>
+          <input type="password" name="password" onChange={this.handleOnChange} required />
+        
         {this.state.error && <p p className= "feedbackError">{this.state.error}</p>}
         {this.state.isLogin && <p className= "feedback__Ok">You have successfully logged in!</p>} 
         {this.state.isLogin && <button className="button__home" onClick={this.handleGoHome}>Go Home</button>}
         {this.state.signIn &&<button type="submit" className="button">Sign in</button>}
         </div>
-      </div>
+ 
     </form>
+    // return <form className="register" onSubmit={this.handleLoginSubmit} >
+    //   <div className="form-group row">
+    //     <label for="validationDefault01" className="col-sm-2 col-form-label">Email</label>
+    //     <div className="col-sm-7">
+    //       <input type="email" name="email" onChange={this.handleOnChange} className="form-control" id="inputEmail3" placeholder="" required />
+    //     </div>
+    //   </div>
+    //   <div className="form-group row">
+    //     <label for="validationDefault01" className="col-sm-2 col-form-label" required>Password</label>
+    //     <div className="col-sm-7">
+    //       <input type="password" name="password" onChange={this.handleOnChange} className="form-control" id="inputPassword3" placeholder="" required />
+    //     {this.state.error && <p p className= "feedbackError">{this.state.error}</p>}
+    //     {this.state.isLogin && <p className= "feedback__Ok">You have successfully logged in!</p>} 
+    //     {this.state.isLogin && <button className="button__home" onClick={this.handleGoHome}>Go Home</button>}
+    //     {this.state.signIn &&<button type="submit" className="button">Sign in</button>}
+    //     </div>
+    //   </div>
+    // </form>
   }
 }
 

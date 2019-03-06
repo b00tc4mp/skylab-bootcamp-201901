@@ -1,10 +1,52 @@
-import logic from '.'
+'use strict'
 
+require('dotenv').config()
+
+require('isomorphic-fetch')
+const { mongoose, models: { User, Pet, Appointment } } = require('vet-data')
+const expect = require('expect')
+const logic = require('.')
+
+const { env: { TEST_DB_URL } } = process
+// import logic from '.'
+
+
+///////////////falta update remove  user!!!!!!!!!!!!!!!!!
+
+
+// const bcrypt = require('bcrypt')
+
+
+
+
+// describe('logic', () => {
+//     before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
+
+//     beforeEach(() =>
+//         Promise.all([
+//             User.deleteMany(),
+//             Pet.deleteMany(),  ////////////////////////////////////
+//             Appointment.deleteMany(), ///////////////////////////////////////////////
+
+//         ])
+//     )
 
 
 jest.setTimeout(10000)
 
 describe('logic', () => {
+
+    before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
+
+    beforeEach(() =>
+        Promise.all([
+            User.deleteMany(),
+            Pet.deleteMany(),  ////////////////////////////////////
+            Appointment.deleteMany(), ///////////////////////////////////////////////
+
+        ])
+    )
+
     describe('register user', () => {
         const name = 'Clara'
         const surname = 'Rufí'
@@ -214,7 +256,7 @@ describe('logic', () => {
         const passwordConfirm = password
 
         beforeEach(() =>
-            userApi.registerUser(name, surname, email, password, passwordConfirm)
+            logic.registerUser(name, surname, email, password, passwordConfirm)
         )
 
         it('should succeed on correct credentials', () =>

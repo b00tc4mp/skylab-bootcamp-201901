@@ -12,39 +12,39 @@ class Register_Pet extends Component {
 
     retrieveUsers = async () => {
         const users = await logic.retrieveUsers()
-        this.setState({users})
+        this.setState({ users })
     }
 
     handleSelectChange = async event => {
         event.preventDefault()
-        const userId = event.target.value 
+        const userId = event.target.value
         console.log(userId)
         if (!userId) return
-        this.setState({owner: userId})
+        this.setState({ owner: userId })
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.retrieveUsers()
     }
 
 
     handleRegisterSubmit = event => {
         event.preventDefault()
-        const { state: { owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details} } = this
+        const { state: { owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details } } = this
         this.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
 
     }
 
     handleGoHome = event => {
         event.preventDefault()
-        this.props.history.push('/')
+        this.props.history.push('/home')
     }
 
 
     registerPet = async (owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) => {
         try {
             await logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-            this.setState({isRegisterPet: true})
+            this.setState({ isRegisterPet: true })
         } catch ({ message }) {
             this.setState({ error: message })
         }
@@ -52,107 +52,96 @@ class Register_Pet extends Component {
 
     render() {
 
-        return <form className="register" onSubmit={this.handleRegisterSubmit}>
-            <p className="title__form">Pet's details:</p>
-            <label>Select Owner</label>
-             <select name="owner" onChange={this.handleSelectChange}>
-             {this.state.users.map(user => <option name= "owner" value={user.id}>{user.name}</option>)}
-            </select>    
-            <div className="form-group row">
-                <label for="validationDefault01" className="col-sm-2 col-form-label">Name</label>
-                <div className="col-sm-7">
-                    <input type="name" name="name" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
+        return <form onSubmit={this.handleRegisterSubmit}>
+            <section class="form">
+                <p className="title__form">Pet's details:</p>
+                <div className="input__form">
+                    <label>Select Owner</label>
+                    <select name="owner" onChange={this.handleSelectChange}>
+                        {this.state.users.map(user => <option name="owner" value={user.id}>{user.name}</option>)}
+                    </select>
                 </div>
-            </div>
-            <label>Specie</label>
-             <select name="specie" onChange={this.handleOnChange}>
-            <option>Select an option:</option>
-            <option name="specie" value="dog" onChange={this.handleOnChange}>Dog</option>
-            <option name="specie" value="cat" onChange={this.handleOnChange}>Cat</option>
-            <option name="specie" value="reptile" onChange={this.handleOnChange}>Reptile</option>
-            </select>
+                <div className="input__form">
+                    <label>Name</label>
+                    <input type="name" name="name" onChange={this.handleOnChange} required></input>
+                </div>
+                <div className="input__form">
+                    <label>Specie</label>
+                    <select name="specie" onChange={this.handleOnChange}>
+                        <option>Select an option:</option>
+                        <option name="specie" value="dog" onChange={this.handleOnChange}>Dog</option>
+                        <option name="specie" value="cat" onChange={this.handleOnChange}>Cat</option>
+                        <option name="specie" value="reptile" onChange={this.handleOnChange}>Reptile</option>
+                    </select>
+                    <div className="input__form">
+                        <label>Breed</label>
+                        <input type="breed" name="breed" onChange={this.handleOnChange}></input>
+                    </div>
+                    <div className="input__form">
+                        <label>Color</label>
+                        <input type="name" name="color" onChange={this.handleOnChange} required></input>
+                    </div>
+                    <div className="input__form"></div>
+                    <label>Gender</label>
+                    <div className="radio">
+                        <label>
+                            <input type="radio" name="gender" value="male" onChange={this.handleOnChange} />
+                            male
+                        </label>
+                    </div>
+                    <div className="radio">
+                        <label>
+                            <input type="radio" name="gender" value="female" onChange={this.handleOnChange} />
+                            female
+                        </label>
+                    </div>
+                    <div className="input__form">
+                        <label>Birth Date</label>
+                        <input onChange={this.handleOnChange} name="birthdate" type="date" placeholder="Birth Day" required />
+                    </div>
+                    <div className="input__form">
+                        <label>Microchip</label>
+                        <input type="microchip" name="microchip" onChange={this.handleOnChange}></input>
+                    </div>
+                    <div className="input__form">
+                        <label>Pet licence</label>
+                        <input type="petlicence" name="petlicence" onChange={this.handleOnChange}></input>
+                    </div>
+                    <label>Neutered</label>
+                    <div className="radio">
+                        <label>
+                            <input type="radio" name="neutered" value="yes" onChange={this.handleOnChange} />
+                            yes
+                        </label>
+                    </div>
+                    <div className="radio">
+                        <label>
+                            <input type="radio" name="neutered" value="no" onChange={this.handleOnChange} />
+                            no
+                        </label>
+                    </div>
+                    <div className="input__form">
+                        <label>Vaccionations and booster shots:</label>
+                        <textarea class="form-control" name="vaccionations" onChange={this.handleOnChange} rows="20"></textarea>
+                    </div>
+                    <div className="input__form">
+                        <label>Veterinary controls:</label>
+                        <textarea class="form-control" name="controls" onChange={this.handleOnChange} rows="20"></textarea>
+                    </div>
+                    <div className="input__form">
+                        <label>Details of clinical interests:</label>
+                        <textarea class="form-control" name="details" onChange={this.handleOnChange} rows="10"></textarea>
+                    </div>
 
-            <div className="form-group row">
-                <label for="validationDefault01" className="col-sm-2 col-form-label">Breed</label>
-                <div className="col-sm-7">
-                    <input type="breed" name="breed" onChange={this.handleOnChange} className="form-control" id="inputEmail3" ></input>
-                </div>
-            </div>
-            <div className="form-group row">
-                <label for="validationDefault01" className="col-sm-2 col-form-label">Color</label>
-                <div className="col-sm-7">
-                    <input type="name" name="color" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
-                </div>
-            </div>
-  
-            <label>Gender</label>
-                <div className="radio">
-                    <label>
-                        <input type="radio" name="gender" value="male" onChange={this.handleOnChange} />
-                    male
-                    </label>
-                </div>
-                <div className="radio">
-                    <label>
-                        <input type="radio" name="gender" value="female" onChange={this.handleOnChange} />
-                    female
-                    </label>
-                </div>
-  
-            <div className='form-group row'>
-                <label for="validationDefault01" className="col-sm-2 col-form-label">Birth Date</label>
-                <div className="col-sm-7">
-                <input onChange={this.handleOnChange} name="birthdate" type="date" className="form-control" placeholder="Birth Day" required />
-            </div>
-            </div>
-            <div className="form-group row">
-                <label for="validationDefault01" className="col-sm-2 col-form-label">Microchip</label>
-                <div className="col-sm-7">
-                    <input type="microchip" name="microchip" onChange={this.handleOnChange} className="form-control" id="inputEmail3"></input>
-                </div>
-            </div>
-            <div className="form-group row">
-                <label for="validationDefault01" className="col-sm-2 col-form-label">Pet licence</label>
-                <div className="col-sm-7">
-                    <input type="petlicence" name="petlicence" onChange={this.handleOnChange} className="form-control" id="inputEmail3"></input>
-                </div>
-            </div>
-   
-            <label>Neutered</label>
-            <div className="radio">  
-                <label>
-                    <input type="radio" name="neutered" value="yes" onChange={this.handleOnChange} />
-                yes
-                </label>
-            </div>
-            <div className="radio">
-                <label>
-                    <input type="radio" name="neutered" value="no" onChange={this.handleOnChange} />
-                no
-                </label>
-            </div>
-            <div class="col-lg-3">
-            <div class="form-group">
-            <p className="title_register">Vaccionations and booster shots:</p>
-                <textarea class="form-control" name="vaccionations" onChange={this.handleOnChange} rows="20"></textarea>
-            </div>
-            <div class="form-group">
-            <p className="title_register">Veterinary controls:</p>
-                <textarea class="form-control" name= "controls" onChange={this.handleOnChange} rows="20"></textarea>
-            </div>
-            <div class="form-group">
-            <p className="title_register">Details of clinical interests:</p>
-                <textarea class="form-control" name="details" onChange={this.handleOnChange} rows="10"></textarea>
-            </div> 
-           
-            <button type="submit" class="btn btn-primary login">Sign in</button>
-            <button className="button__home" onClick={this.handleGoHome}>Go Home</button>
-            {this.state.error && <p className= "feedback__Error">{this.state.error}</p>} 
-            {this.state.isRegisterPet && <p className= "feedback__Ok">You have successfully registered {this.state.name}</p>}
+                    <button type="submit" class="btn btn-primary login">Sign in</button>
+                    <button className="button__home" onClick={this.handleGoHome}>Go Home</button>
+                    {this.state.error && <p className="feedback__Error">{this.state.error}</p>}
+                    {this.state.isRegisterPet && <p className="feedback__Ok">You have successfully registered {this.state.name}</p>}
             
-            </div>
+                </div>
+            </section>
         </form>
 
-    }
-}
-export default Register_Pet
+            }
+        }
+        export default Register_Pet

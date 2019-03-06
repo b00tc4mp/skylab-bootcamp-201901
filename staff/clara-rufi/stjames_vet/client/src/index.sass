@@ -1,23 +1,100 @@
 @import utils
 
-html, body
+body
     background-color: #d6dee3e3
     font-family: Helvetica Neue, Helvetica, Arial
+
+
+.title__form
+    color: #bc3b14
+    text-decoration: underline
+    font-weight: 600
+    font-size: 1.6rem
+    margin-left: 3rem
+    margin-top: 3rem
+
+form
+    background-color: #998f8f
+    font-size: 0.8rem
+    color: #efeaea
+    margin: 6rem
+    padding: 0.1rem 0 1rem
+    border-radius: 0.4rem
+
+    
+.input__form
+    margin: 0 1.5rem 0.5rem 3rem
+
+label
+    font-size: 1.5rem
+
+select
+    color: black
+    font-size: 1.4rem
+    margin-left: 1.1rem
+    border-radius: 0.3rem
+
+input, textarea
+
+    width: calc(100% - 2rem)
+    border-radius: 0.2rem
     font-size: 1rem
-
-h1 
-    margin: 4rem
-
-h2 
-    margin: 2rem
-
-
-
-input
-    // +round-border(0.5em, black, solid, 1px)
-    padding: 0.25em
+    border: 0.3px solid #baa5a5
+    color: black
+    margin: 1rem 0 1rem 0
+    text-indent: 0.4rem 
+    font-size: 1.4rem
+    height: 2.5rem
 
 
+main
+    display: flex
+    flex-direction: column
+    padding: 1.5rem
 
-form 
-    margin: 2rem 0 2rem 2rem
+.button
+    border-radius: 0.3rem
+    height: 3rem
+    width: 6rem
+    background-color: #4949c5
+    color: white
+    font-size: 1.1rem
+    border: 0.1rem solid #363434
+    // margin-top: 1rem
+    // margin-left: 1rem
+
+.button__home
+    border-radius: 0.3rem
+    height: 3rem
+    width: 6rem
+    background-color: #dbaf3c
+    color: white
+    font-size: 0.8rem
+    border: 0.1rem solid #363434
+    margin-top: 1rem
+    margin-left: 1rem
+
+
+@media (max-width: 570px)
+
+    .form
+        padding: 0 1rem 0 1rem
+     
+
+@media (min-width: 570px)
+
+    .register
+        padding-left: 6rem
+
+    .button
+        margin-top: 3.5rem
+    
+    // .form
+
+    //     width: 60rem
+    //     margin: 15rem
+
+    .input__form
+        margin: 0 5rem 0.5rem 3rem
+    textarea
+        margin-right: 1rem

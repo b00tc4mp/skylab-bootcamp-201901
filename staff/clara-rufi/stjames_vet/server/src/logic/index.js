@@ -237,10 +237,28 @@ const logic = {
             return {
                 name: user.name,
                 id: user._id
+                
             }
         })
 
         return users
+    },
+
+    async retrievePets(ownerId) {
+
+        const _pets = await Pet.find({owner: ownerId})
+
+        console.log(_pets)
+
+        const pets = _pets.map(pet => {
+            return {
+                owner: pet.owner,
+                name: pet.name,
+                id: pet._id
+            }
+        })
+
+        return pets
     },
 
     retrievePet(userId) {
