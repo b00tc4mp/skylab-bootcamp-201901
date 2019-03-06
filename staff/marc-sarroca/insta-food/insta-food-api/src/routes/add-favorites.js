@@ -2,13 +2,14 @@ const logic = require("../logic");
 
 module.exports = (req, res) => {
   const {
-    body: { tags, title, description, image, comments },
-    userId
+    userId,
+    params: { postId }
   } = req;
+
   try {
     logic
-      .createPost(tags, title, description, image, comments, userId)
-      .then(post => res.json({ post }))
+      .toggleFavoritesUser(userId, postId)
+      .then(res.json.bind(res))
       .catch(({ message }) => {
         res.status(409).json({
           error: message

@@ -11,7 +11,11 @@ const {
   registerUser,
   authenticateUser,
   retrieveUser,
-  createPost
+  createPost,
+  retrieveAllPosts,
+  retrieveUserPosts,
+  addFavorites,
+  addComments
 } = require("./routes");
 
 const {
@@ -36,7 +40,20 @@ mongoose
       [jsonBodyParser, tokenVerifierMiddleware],
       createPost
     );
-    router.get("/user/post/:id", tokenVerifierMiddleware, retrieveUser);
+    router.get("/posts", tokenVerifierMiddleware, retrieveAllPosts);
+    router.get("/user/:id/posts", tokenVerifierMiddleware, retrieveUserPosts);
+    router.get(
+      "/user/favorites/:postId",
+      tokenVerifierMiddleware,
+      addFavorites
+    );
+    router.post(
+      "/user/:postId/comments",
+      tokenVerifierMiddleware,
+      jsonBodyParser,
+      addComments
+    );
+
     app.use("/api", router);
     app.listen(port, () => console.log(`server running on port ${port}`));
   })

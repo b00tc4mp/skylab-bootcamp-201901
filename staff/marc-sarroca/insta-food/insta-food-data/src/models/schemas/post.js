@@ -22,6 +22,9 @@ const Post = new Schema({
   user_id: {
     type: String,
     required: true
+  },
+  comments: {
+    type: Array
   }
 });
 

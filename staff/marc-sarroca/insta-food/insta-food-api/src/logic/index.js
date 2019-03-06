@@ -1,65 +1,10 @@
 "use strict";
-//const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-//const mongoose = require("mongoose");
-const tokenHelper = require("../token-helper");
 
+const bcrypt = require("bcrypt");
+const tokenHelper = require("../token-helper");
 const {
   models: { User, Post }
 } = require("insta-food-data");
-
-// const {s
-//   SchemaTypes: { ObjectId },
-//   Schema
-// } = mongoose;
-
-// const User = new Schema({
-//   name: {
-//     type: String,
-//     required: true
-//   },
-//   username: {
-//     type: String,
-//     required: true
-//   },
-//   email: {
-//     type: String,
-//     required: true,
-//     unique: true
-//   },
-//   password: {
-//     type: String,
-//     required: true
-//   }
-// });
-
-// const Post = new Schema({
-//   tags: {
-//     type: String,
-//     required: true
-//   },
-//   title: {
-//     type: String,
-//     required: true
-//   },
-//   description: {
-//     type: String,
-//     required: true
-//   },
-//   image: {
-//     type: String,
-//     required: true
-//   },
-//   user_id: {
-//     type: String,
-//     required: true
-//   }
-// });
-
-// const models = {
-//   User: mongoose.model("User", User),
-//   Post: mongoose.model("Post", Post)
-// };
 
 const logic = {
   /**
@@ -89,7 +34,6 @@ const logic = {
     if (password !== passwordConfirmation)
       throw Error("passwords do not match");
 
-    const { User } = models;
     return User.findOne({ email })
       .then(user => {
         if (user) throw Error(`user with email ${email} already exists`);
@@ -130,8 +74,6 @@ const logic = {
   },
 
   retrieveUser(userId) {
-    // TODO validate userId and token type and content
-    const { User } = models;
     return User.findOne({ _id: userId }).then(user => {
       if (!user) throw Error(`user with id ${id} not found`);
 
@@ -152,8 +94,57 @@ const logic = {
     if (!comments instanceof Array) throw TypeError(title + " is not a array");
     if (typeof user_id !== "string")
       throw TypeError(title + " is not a string");
-    const { Post } = models;
+
     return Post.create({ tags, title, description, image, comments, user_id });
+  },
+
+  retrievePostsByUser(userId) {
+    if (typeof userId !== "string")
+      throw TypeError(userId + " is not a string");
+    return User.findOne({ _id: userId })
+      .then(user => {
+        if (!user) throw Error(`user with id ${id} not found`);
+      })
+      .then(() =>
+        Post.find({ user_id: userId })
+          .select("-__v")
+          .lean()
+      )
+      .then(post => post);
+  },
+
+  retrieveAllPosts(userId) {
+    if (typeof userId !== "string")
+      throw TypeError(userId + " is not a string");
+    return Post.find({})
+      .select("-__v")
+      .lean()
+
+      .then(post => post);
+  },
+
+  toggleFavoritesUser(userId, postId) {
+    if (typeof userId !== "string")
+      throw TypeError(userId + " is not a string");
+    if (typeof postId !== "string")
+      throw TypeError(postId + " is not a string");
+    return User.findById(userId).then(user => {
+      const { favorites = [] } = user;
+      const index = favorites.findIndex(_postId => _postId === postId);
+      if (index < 0) favorites.push(postId);
+      else favorites.splice(index, 1);
+      user.favorites = favorites;
+      return user.save();
+    });
+  },
+
+  addCommentPost(userId, postId, text) {
+    return Post.findById(postId).then(post => {
+      const { comments = [] } = post;
+      comments.push({ userId, text });
+
+      return post.save();
+    });
   }
 };
 
