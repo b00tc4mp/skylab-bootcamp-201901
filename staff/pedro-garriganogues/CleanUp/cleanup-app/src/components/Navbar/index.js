@@ -40,7 +40,7 @@ class Navbar extends Component {
 
 
 
-            <body>
+            <main>
                 <div className="navegacion">
                     <nav>
                         <ul>
@@ -75,7 +75,7 @@ class Navbar extends Component {
                         </ul>
                     </nav>
                 </div>
-            </body>
+            </main>
 
 
 

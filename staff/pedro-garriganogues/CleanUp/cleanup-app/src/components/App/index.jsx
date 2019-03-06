@@ -52,7 +52,7 @@ class App extends Component {
     render() {
         const { state: { loginFeedback, registerFeedback }, handleLogin, handleRegister } = this
 
-        return (<main className="app">
+        return (<body className="app">
             <Navbar loggedIn={this.state.loggedIn} onLogout={this.onLogout} cartLength={this.state.cartLength} />
             <Landing />
             <Route exact path="/about" component={About} />
@@ -69,7 +69,7 @@ class App extends Component {
             <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
             {/* <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section> */}
             <Footer />
-        </main>)
+        </body>)
     }
 }
 
