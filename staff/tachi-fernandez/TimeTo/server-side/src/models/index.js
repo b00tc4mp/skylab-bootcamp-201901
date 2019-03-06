@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
-const { User,Events } = require('./schemas')
+const { User,Events,Comments } = require('./schemas')
 
 module.exports = {
     User: mongoose.model('User', User),
-    Events: mongoose.model('Events', Events)
+    Events: mongoose.model('Events', Events),
+    Comments: mongoose.model('Comments', Comments)
 
 }

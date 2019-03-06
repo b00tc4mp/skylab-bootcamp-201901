@@ -13,7 +13,15 @@ const {
   registerUser,
   authenticateUser,
   retrieveUser,
+  updateUser,
+  deleteUser,
   createEvent,
+  listEvents,
+  listEventsByQuery,
+  listEventsById,
+  addComment,
+  listComments,
+  deleteComment,
   notFound
 } = require("./routes");
 
@@ -57,9 +65,25 @@ mongoose
 
     router.post("/user/auth", jsonBodyParser, authenticateUser);
 
-    router.get("/user/:id", tokenVerifierMiddleware,retrieveUser);
+    router.get("/user/:userId", tokenVerifierMiddleware,retrieveUser);
 
-    router.post("/create-event/:id", [tokenVerifierMiddleware, jsonBodyParser] , createEvent)
+    router.put('/user/update/:userId' , jsonBodyParser,tokenVerifierMiddleware , updateUser )
+
+    router.delete("/user/delete/:userId" , jsonBodyParser , deleteUser)
+
+    router.post("/create-event/:userId", [tokenVerifierMiddleware, jsonBodyParser] , createEvent)
+
+    router.get("/events/:categoryId", jsonBodyParser, listEvents) 
+
+    router.get('/events/query/:query' , jsonBodyParser , listEventsByQuery)
+
+    router.get('/event/:eventId', jsonBodyParser, listEventsById )
+
+    router.post('/add-comment/:eventId' , jsonBodyParser,tokenVerifierMiddleware, addComment )
+
+    router.get('/list-comments/:commentEvent' , jsonBodyParser, tokenVerifierMiddleware, listComments)
+
+    router.get('/delete-comment/:commentId', jsonBodyParser, tokenVerifierMiddleware , deleteComment)
 
     // app.get('*', notFound)
 

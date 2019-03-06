@@ -7,11 +7,11 @@ const {
 const User  = require('./user')
 const Events = new Schema ({
 
-    user: {
-        type: ObjectId,
-        required: true,
-        ref: 'User'
-    },
+    // author: {
+    //     type: ObjectId,
+    //     required: true,
+    //     ref: 'User'
+    // },
 
     title:{
         type: String,
@@ -35,9 +35,15 @@ const Events = new Schema ({
     },
 
     category: {
-        type: String,
+        type: ObjectId,
         require: true
-    }
+    },
+
+    members:[{
+        type: ObjectId,
+        ref: 'Events'
+    }],
+    
 })
 
 module.exports = Events

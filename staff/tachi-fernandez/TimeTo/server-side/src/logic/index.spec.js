@@ -4,36 +4,33 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
-const { MongoClient } = require('mongodb')
+const {
+    SchemaTypes:{ObjectId}
+} = require("mongoose");
+
+const {
+    User,
+    Events,
+    Comments
+} = require("../models");
+
+const mongoose = require('mongoose')
 const expect = require('expect')
-const spotifyApi = require('../spotify-api')
-const artistComments = require('../data/artist-comments')
 const logic = require('.')
-const users = require('../data/users')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const { env: { DB_URL, SPOTIFY_API_TOKEN, JWT_SECRET } } = process
+const { env: { MONGO_URL, JWT_SECRET } } = process
 
-spotifyApi.token = SPOTIFY_API_TOKEN
 logic.jwtSecret = JWT_SECRET
 
 describe('logic', () => {
-    let client
 
-    before(() =>
-        MongoClient.connect(DB_URL, { useNewUrlParser: true })
-            .then(_client => {
-                client = _client
-
-                users.collection = client.db().collection('users')
-            })
-    )
+    before(() => mongoose.connect(MONGO_URL, { useNewUrlParser: true }))
 
     beforeEach(() =>
         Promise.all([
-            artistComments.removeAll(),
-            users.collection.deleteMany()
+            User.deleteMany()
         ])
     )
 
@@ -285,10 +282,9 @@ describe('logic', () => {
     })
 
     after(() =>
-        Promise.all([
-            artistComments.removeAll(),
-            users.collection.deleteMany()
-                .then(() => client.close())
-        ])
-    )
+    Promise.all([
+        User.deleteMany()
+    ])
+        .then(() => mongoose.disconnect())
+)
 })

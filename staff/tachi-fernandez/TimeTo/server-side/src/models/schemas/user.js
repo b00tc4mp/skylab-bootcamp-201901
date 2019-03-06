@@ -1,6 +1,15 @@
+// const {
+//   Schema
+// } = require("mongoose");
+
+const mongoose = require("mongoose");
+
 const {
-  Schema
-} = require("mongoose");
+  Schema,
+  SchemaTypes:{ObjectId}
+} = mongoose
+
+const Events  = require('./events')
 
 const User = new Schema({
   name: {
@@ -39,6 +48,11 @@ const User = new Schema({
     type: String,
     required: true
   },
+
+  events: [{
+    type: ObjectId,
+    ref: 'Events'
+}],
 
 });
 
