@@ -140,6 +140,7 @@ const logic = {
         const $ = cheerio.load(response.data);
 
         const metadatas = $(".partido").map((i, el) => {
+          console.log(el)
           const matchId = $(el)
             .find("a")
             .attr("href")
@@ -208,7 +209,6 @@ const logic = {
       if (!err) {
         throw Error(err);
       }
-      debugger
       return foundMatch.schema.obj.playersAvailable;
     });
   }

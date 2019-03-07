@@ -1,5 +1,5 @@
 const padelcatApi = {
-  url: "http://192.168.0.249:8000/api",
+  url: "http://localhost:8000/api",
 
   registerPlayer(
     name,
@@ -72,10 +72,11 @@ const padelcatApi = {
       });
   },
 
-  retrieveMatches() {
+  retrieveMatchesScrapping(token) {
     return fetch(`${this.url}/retrieveMatches`, {
       method: "GET",
       headers: {
+        authorization: `Bearer ${token}`,
         "content-type": "application/json"
       }
       //body: JSON.stringify({ email, password })

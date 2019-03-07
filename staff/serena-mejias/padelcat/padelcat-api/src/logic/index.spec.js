@@ -671,6 +671,7 @@ describe("logic", () => {
 
   describe("retrieveScoreData", () => {
     it("should succeed with correct data", () => {
+      debugger
       const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
       expect(logic.retrieveScoreData(link)).toBeTruthy();
     });

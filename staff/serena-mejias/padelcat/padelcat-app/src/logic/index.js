@@ -12,6 +12,15 @@ const logic = {
     preferedPosition,
     link
   ) {
+    // validate([
+    //   { key: "name", value: name, type: String },
+    //   { key: "surname", value: surname, type: String },
+    //   { key: "email", value: email, type: String },
+    //   { key: "password", value: password, type: String },
+    //   { key: "passwordConfirm", value: passwordConfirm, type: String }
+    //   { key: "preferedPosition", value: preferedPosition, type: String }
+    //   { key: "link", value: link, type: String }
+    // ]);
     if (typeof name !== "string") throw TypeError(name + " is not a string");
 
     if (!name.trim().length) throw Error("name cannot be empty");
@@ -82,6 +91,11 @@ const logic = {
   },
   storeToken(token) {
     sessionStorage.setItem(this.TOKEN_KEY, token);
+  },
+
+  retrieveMatches() {
+    const tokenprob = logic.getStoredtoken()
+    return padelcatApi.retrieveMatchesScrapping(tokenprob)
   }
 };
 
