@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './index.sass';
 
 
 
@@ -26,7 +27,7 @@ class LandingPage extends Component {
 
         const{handleFormSubmit,handleInput} = this
 
-        return <section className="LandingPage">
+        return <section className="landingPage">
 
 
             <h2> Where do you want to go? </h2>

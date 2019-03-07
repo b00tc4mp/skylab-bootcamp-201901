@@ -60,7 +60,7 @@ class App extends Component {
           <Header user={user} ></Header>
           {!user && registered && <Login loginFeedback={loginFeedback} onLogin={handleLogin}> </Login>}
           {!registered && !user && <Register registerFeedback={registerFeedback} onRegister={handleRegister}> </Register>}
-          {<LandingPage registerFeedback={registerFeedback} onRegister={handleRegister}> </LandingPage>} 
+          {<LandingPage> </LandingPage>} 
       </div>
     );
   }
