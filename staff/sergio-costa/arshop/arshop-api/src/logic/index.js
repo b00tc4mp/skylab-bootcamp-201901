@@ -263,12 +263,28 @@ const logic = {
             })
     },
 
-    searchProducts(q) {
+    searchProducts(q, qcategory, qcity) {
 
-        if (typeof q !== 'string') throw TypeError(`${q} is not a string`)
-        if (!q.trim().length) throw Error('query cannot be empty')
+        if (q !== undefined) {
+            if (typeof q !== 'string') throw TypeError(`${q} is not a string`)
+            if (!q.trim().length) throw Error('query cannot be empty')
+        }
+        if (qcategory !== undefined) {
+            if (typeof qcategory !== 'string') throw TypeError(`${qcategory} is not a string`)
+            if (!qcategory.trim().length) throw Error('category cannot be empty')
+        }
+        if (qcity !== undefined) {
+            if (typeof qcity !== 'string') throw TypeError(`${qcity} is not a string`)
+            if (!qcity.trim().length) throw Error('city cannot be empty')
+        }
 
-        return Product.find({ $or: [{ tittle: q }, { description: { $regex: q, $options: 'i' } }] }).select('-__v').lean()
+        let criteria = {}
+
+        if (q) criteria.$or = [{ tittle: q }, { description: { $regex: q, $options: 'i' } }]
+        if (qcategory) criteria.category = qcategory
+        if (qcity) criteria.city = qcity
+
+        return Product.find(criteria).select('-__v').lean()
             .then(products => {
                 if (!products) throw Error('there are no products')
 
@@ -313,6 +329,31 @@ const logic = {
             })
 
     },
+
+    toogleSold(userId, productId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                const index = user.products.findIndex(_productid => _productid == productId)
+
+                if (index < 0) throw Error(`this user do not have any product with id ${productId}`)
+                else return productId
+            })
+            .then(productId => {
+                return Product.findById(productId)
+            })
+            .then(_product => {
+                _product.sold = !_product.sold
+                return _product.save()
+            })
+    }
 
 }
 

@@ -19,6 +19,8 @@ module.exports = {
 
     toogleFav: require('./toogleFav'),
 
+    toogleSold: require('./toogle-sold'),
+
     retrieveFavs: require('./retrieve-favs-from-user'),
 
     searchProductsByCategory: require('./search-products-by-category'),

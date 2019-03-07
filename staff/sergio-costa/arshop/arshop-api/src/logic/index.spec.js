@@ -708,7 +708,7 @@ describe('logic', () => {
         it('should fail on array instead string', () =>
             expect(() => {
                 logic.retrieveUserProducts([])
-            }).toThrow(TypeError([]+ ' is not a string'))
+            }).toThrow(TypeError([] + ' is not a string'))
         )
 
         it('should fail on undefined instead string', () =>
@@ -720,6 +720,122 @@ describe('logic', () => {
         it('should fail on empty userid', () =>
             expect(() => {
                 logic.retrieveUserProducts('')
+            }).toThrow(TypeError('userId cannot be empty'))
+        )
+    })
+    //#endregion
+
+    //#region TOOGLE SOLD
+    describe('toogleSold', () => {
+        let name = 'sergio'
+        let surname = 'costa'
+        let email = `sergiocosta-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+        let userId
+        let _id
+
+        const product = {
+            tittle: 'coche',
+            description: 'bueno, bonito, barato',
+            price: 20000,
+            category: 'vehicle',
+            city: 'Barcelona',
+            sold: false
+        }
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => logic.createProduct(userId, product))
+                .then((id) => _id = id)
+        )
+
+        it('should succed on correct credentials', () =>
+            logic.toogleSold(userId, _id)
+                .then(_product => {
+                    expect(_product).toBeDefined()
+                    expect(_product.sold).toBe(true)
+                })
+        )
+
+        it('should remove fav', () =>
+            User.findById(userId)
+                .then(user => {
+                    return logic.toogleSold(user.id, _id)
+                        .then((_product) => {
+                            expect(_product).toBeDefined()
+                            expect(_product.sold).toBe(true)
+                        })
+                        .then(() => {
+                            return logic.toogleSold(userId, _id)
+                                .then(__product => {
+                                    expect(__product).toBeDefined()
+                                    expect(__product.sold).toBe(false)
+                                })
+                        })
+                })
+        )
+
+        it('should fail on wrong product id', () =>
+            logic.toogleSold(userId, 'ads')
+                .catch(err => {
+                    expect(err).toBeDefined()
+                })
+        )
+
+        it('should fail on object instead string', () =>
+            expect(() => {
+                logic.toogleSold(userId, {})
+            }).toThrow(TypeError({} + ' is not a string'))
+        )
+
+        it('should fail on array instead string', () =>
+            expect(() => {
+                logic.toogleSold(userId, [])
+            }).toThrow(TypeError([] + ' is not a string'))
+        )
+
+        it('should fail on number instead string', () =>
+            expect(() => {
+                logic.toogleSold(userId, 12345)
+            }).toThrow(TypeError(12345 + ' is not a string'))
+        )
+
+        it('should fail on empty userId', () =>
+            expect(() => {
+                logic.toogleSold(userId, '')
+            }).toThrow(TypeError('productId cannot be empty'))
+        )
+
+        it('should fail on wrong user id', () =>
+            logic.toogleSold('adsdsa', _id)
+                .catch(err => {
+                    expect(err).toBeDefined()
+                })
+        )
+
+        it('should fail on object instead string', () =>
+            expect(() => {
+                logic.toogleSold({}, _id)
+            }).toThrow(TypeError({} + ' is not a string'))
+        )
+
+        it('should fail on array instead string', () =>
+            expect(() => {
+                logic.toogleSold([], _id)
+            }).toThrow(TypeError([] + ' is not a string'))
+        )
+
+        it('should fail on number instead string', () =>
+            expect(() => {
+                logic.toogleSold(12345, _id)
+            }).toThrow(TypeError(12345 + ' is not a string'))
+        )
+
+        it('should fail on empty userId', () =>
+            expect(() => {
+                logic.toogleSold('', _id)
             }).toThrow(TypeError('userId cannot be empty'))
         )
     })
@@ -978,8 +1094,8 @@ describe('logic', () => {
     })
     //#endregion
 
-    //#region SEARCH PRODUTS BY TITTLE AND DESCRIPTION
-    describe('search products by tittle and description', () => {
+    //#region SEARCH PRODUTS
+    describe('search products', () => {
         const product = {
             tittle: 'seat',
             description: 'car seat ibiza',
@@ -1041,6 +1157,38 @@ describe('logic', () => {
                     expect(products[0].price).toBe(product3.price)
                     expect(products[0].category).toBe(product3.category)
                     expect(products[0].city).toBe(product3.city)
+
+                    expect(products.length).toBe(1)
+                })
+        )
+
+        it('should search by category vehicle', () =>
+            logic.searchProducts(undefined, 'vehicle')
+                .then(products => {
+                    expect(products[0].tittle).toBe(product.tittle)
+                    expect(products[0].description).toBe(product.description)
+                    expect(products[0].price).toBe(product.price)
+                    expect(products[0].category).toBe(product.category)
+                    expect(products[0].city).toBe(product.city)
+
+                    expect(products[1].tittle).toBe(product2.tittle)
+                    expect(products[1].description).toBe(product2.description)
+                    expect(products[1].price).toBe(product2.price)
+                    expect(products[1].category).toBe(product2.category)
+                    expect(products[1].city).toBe(product2.city)
+
+                    expect(products.length).toBe(2)
+                })
+        )
+
+        it('should search by city Madrid', () =>
+            logic.searchProducts(undefined, undefined, 'Madrid')
+                .then(products => {
+                    expect(products[0].tittle).toBe(product2.tittle)
+                    expect(products[0].description).toBe(product2.description)
+                    expect(products[0].price).toBe(product2.price)
+                    expect(products[0].category).toBe(product2.category)
+                    expect(products[0].city).toBe(product2.city)
 
                     expect(products.length).toBe(1)
                 })

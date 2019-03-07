@@ -1,11 +1,11 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { userId, body: { product } } = req
+    const { userId, params: { id } } = req
 
     try {
-        logic.createProduct(userId, product)
-            .then(id => res.json({id}))
+        logic.toogleSold(userId, id)
+            .then(() => res.json({status: "OK"}))
             .catch(({ message }) => {
                 res.status(401).json({
                     error: message
