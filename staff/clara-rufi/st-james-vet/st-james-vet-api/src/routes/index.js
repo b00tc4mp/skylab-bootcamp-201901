@@ -24,7 +24,8 @@ router.get('/users', tokenVerifierMiddleware, retrieveUsers)
 router.get('/pets/:ownerId', tokenVerifierMiddleware, retrievePets)
 
 router.get('/user/:userId', tokenVerifierMiddleware, retrieveUser)
-// router.get('/pet', tokenVerifierMiddleware, jsonBodyParser, retrievePet)
+
+router.get('/pet/:petsId', tokenVerifierMiddleware, retrievePet)
 
 router.put('/user', [tokenVerifierMiddleware, jsonBodyParser], updateUser)
 

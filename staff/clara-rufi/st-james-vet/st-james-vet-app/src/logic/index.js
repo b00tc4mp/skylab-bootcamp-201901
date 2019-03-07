@@ -260,8 +260,7 @@ const logic = {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
         this.__updateToken__()
-        return fetch(`${this.url}/user/${userId
-}`, {
+        return fetch(`${this.url}/user/${userId}`, {
 
             headers: {
                 authorization: `Bearer ${this.__userApiToken__}`
@@ -275,13 +274,15 @@ const logic = {
             })
         },
         
-    retrievePet() {
+    retrievePet(petsId) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
        
-        this.__updateToken__()
-        return fetch(`${this.url}/user`, {
+        // this.__updateToken__()
+        // return fetch(`${this.url}/user`, {
 
+         this.__updateToken__()
+        return fetch(`${this.url}/pet/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userApiToken__}`
             }

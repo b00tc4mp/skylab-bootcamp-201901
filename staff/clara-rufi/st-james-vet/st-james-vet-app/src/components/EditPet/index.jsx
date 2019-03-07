@@ -13,9 +13,10 @@ class EditPet extends Component {
         this.retrieveUsers()
     }
 
-    retrievePets = async userId => {
-        const pets = await logic.retrievePets(userId)
-        this.setState({ pets })
+    handleSelectOwner = async event => {
+        event.preventDefault()
+        const usersId = event.target.value
+        this.retrievePets(usersId)
     }
 
     retrieveUsers = async () => {
@@ -23,19 +24,24 @@ class EditPet extends Component {
         this.setState({ users })
     }
 
-    handleSelectOwner = async event => {
-        event.preventDefault()
-        const usersId = event.target.value
-        this.retrievePets(usersId)
+    retrievePets = async userId => {
+        const pets = await logic.retrievePets(userId)
+        console.log("userId " + userId)
+        this.setState({ pets })
     }
 
     handleSelectPet = async event => {
         event.preventDefault()
         const petsId = event.target.value
-        console.log(petsId)
-        const pets = await logic.retrievePets(petsId)
+        console.log("petsID " + petsId)
+        if (!petsId) return
         debugger
-        this.setState({ pets })
+        const {name, microchip, petlicence, neutered} = await logic.retrievePet(petsId)
+        this.setState({name, microchip, petlicence, neutered})
+        
+        // const pets = await logic.retrievePets(userId)
+        // debugger
+        // this.setState({ pets })
     }
 
     handleGoHome = event => {
@@ -66,7 +72,7 @@ class EditPet extends Component {
             <section class="form">
                 <p className="title__form">Pet's details:</p>
                 <div className="input__form">
-                    <label onClick={this.handleSelect}>Select Owner</label>
+                    <label>Select Owner</label>
                     <select name="owner" onChange={this.handleSelectOwner}>
                         {this.state.users.map(user => <option name="owner" value={user.id}>{user.name}</option>)}
                     </select>

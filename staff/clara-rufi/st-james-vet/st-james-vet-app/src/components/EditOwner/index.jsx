@@ -14,12 +14,6 @@ class EditOwner extends Component {
         this.setState({users})
     }
 
-    // retrieveUser = async () => {
-    //     const user = await logic.retrieveUser()
-    //     this.setState({user})
-
-    // }
-
     handleSelectChange = async event => {
         event.preventDefault()
         const userId = event.target.value

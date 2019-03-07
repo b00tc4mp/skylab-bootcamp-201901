@@ -11,6 +11,8 @@ module.exports = {
 
     retrievePets: require('./retrieve-pets'),
 
+    retrievePet: require('./retrieve-pet'),
+
     updateUser: require('./update-user'),
 
     updatePet: require('./update-pet'),

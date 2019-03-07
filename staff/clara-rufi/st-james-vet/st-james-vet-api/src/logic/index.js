@@ -1,6 +1,6 @@
 'use strict'
 
-const { models: { User, Pet, Appointment } }= require('../../../vet-data')
+const { models: { User, Pet, Appointment } }= require('../../../st-james-vet-data')
 const bcrypt = require('bcrypt')
 
 
@@ -264,39 +264,74 @@ const logic = {
         return pets
     },
 
-    retrievePet(userId) {
+     retrieveUser(userId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
 
         if (!userId.trim().length) throw new EmptyError('user id is empty')
 
 
-        return Pet.findById(userId)
+        return User.findById(userId)
+        
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                user.id = user._id.toString()
+
+                const _user = {
+                    name: user.name,
+                    surname : user.surname,
+                    idCard : user.idCard,
+                    phone : user.phone,
+                    adress: user.adress,
+                    city: user.city,
+                    email: user.email,
+                }
+    
+                return _user
+            })
+    },
+
+   
+    retrievePet(petsId) {
+        // if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+
+        // if (!userId.trim().length) throw new EmptyError('user id is empty')
+
+
+        return Pet.findById(petsId)
+        
             .then(pet => {
-                if (!pet) throw Error(`user with id ${userId} not found`)
+                if (!pet) throw Error(`user with id ${petsId} not found`)
 
                 pet.id = pet._id.toString()
 
-                const pet = {
-                    id: pet._id,
+                const _pet = {
                     name: pet.name,
-                    specie : pet.specie,
-                    breed : pet.breed,
-                    color : pet.color,
-                    gender: pet.gender,
-                    birthdate: pet.birthdate,
                     microchip: pet.microchip,
                     petlicence: pet.petlicence,
                     neutered: pet.neutered,
-                    vaccionations:pet.vaccionations,
-                    controls: pet.controls,
-                    details: pet.details
                 }
     
-                return user
+                return _pet
             })
     },
 
     
+    // const pet = {
+    //     id: pet._id,
+    //     name: pet.name,
+    //     specie : pet.specie,
+    //     breed : pet.breed,
+    //     color : pet.color,
+    //     gender: pet.gender,
+    //     birthdate: pet.birthdate,
+    //     microchip: pet.microchip,
+    //     petlicence: pet.petlicence,
+    //     neutered: pet.neutered,
+    //     vaccionations:pet.vaccionations,
+    //     controls: pet.controls,
+    //     details: pet.details
+
     // const user = {
     //     id: user._id,
     //     name: user.name,
