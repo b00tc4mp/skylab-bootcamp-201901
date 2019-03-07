@@ -117,7 +117,9 @@ const logic = {
 
     async listAllProducts() {
 
-        const products = await Product.find()
+
+        const products = await Product.find({})
+        console.log(products + 'products');
 
         if (!products) throw Error(`no products found`)
 

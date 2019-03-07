@@ -9,8 +9,6 @@ import logic from '../../logic'
 
 class Navbar extends Component {
 
-
-
     // retrieveUser() {
     //     if (this.props.loggedIn)
     //         logic.retrieveUser()
@@ -36,6 +34,15 @@ class Navbar extends Component {
 
 
     render() {
+        // caso individual:
+
+        // const hideProducts = props.location.pathname.includes(['register'])
+
+        // caso multiple:
+
+        // const hideProducts = ['/register', '/login', '/profile', '/contact', '/about', '/products', '/cart', '/product'].includes(props.location.pathname)
+
+
         return (
 
 

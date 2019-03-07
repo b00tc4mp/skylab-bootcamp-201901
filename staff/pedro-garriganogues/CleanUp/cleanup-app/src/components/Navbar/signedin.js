@@ -15,7 +15,7 @@ class SignedIn extends Component {
         return (
             <ul className="right">
                 <li><Link to='/profile'>Profile</Link></li>
-                <li> <button onClick={() => { logic.logout() }}>Log Out</button></li>
+                <li> <Link to='/' onClick={() => { logic.logout() }}>Log Out</Link></li>
             </ul>
 
         )

@@ -2,11 +2,11 @@ const { Schema, Schema: { ObjectId } } = require('mongoose')
 
 
 const Product = new Schema({
-    category: {
-        type: ObjectId,
-        ref: 'Category',
-        required: true
-    },
+    // category: {
+    //     type: ObjectId,
+    //     ref: 'Category',
+    //     required: true
+    // },
     name: {
         type: String,
         require: true
@@ -15,10 +15,10 @@ const Product = new Schema({
         type: Number,
         required: true
     },
-    discount: {
-        type: Number,
-        required: false
-    },
+    // discount: {
+    //     type: Number,
+    //     required: false
+    // },
     description: {
         type: String,
         required: true

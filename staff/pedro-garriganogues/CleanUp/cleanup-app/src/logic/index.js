@@ -49,7 +49,8 @@ const logic = {
     },
 
     logout() {
-        this.__userApiToken__ = null
+
+        sessionStorage.clear()
         window.location.reload()
     },
 
