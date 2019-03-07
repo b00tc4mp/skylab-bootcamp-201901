@@ -6,16 +6,9 @@ import homeSwappApi from '../api'
  */
 const logic = {
 
-    __userId__: null,
     __userApiToken__: null,
 
-    setUserId(id) {
-        this.__userId__ = id
-    },
-
-    getUserId() {
-        return this.__userId__
-    },
+    
 
     setUserApiToken(token) {
         this.__userApiToken__ = token
@@ -26,7 +19,7 @@ const logic = {
     },
 
     get userLoggedIn() {
-        return !!this.getUserId()
+        return !!this.getUserApiToken()
     },
 
     /**
@@ -93,6 +86,10 @@ const logic = {
             })
     },
 
+    logout() {
+        this.__userApiToken__ = null;
+    },
+
     /**
      * Retrieve user
      * 
@@ -122,7 +119,7 @@ const logic = {
     updateUser(data) {
         if (data.constructor !== Object) throw TypeError(data + 'is not an Object')
 
-        return homeSwappApi.update(this.getUserId(), this.getUserApiToken(), data)
+        return homeSwappApi.update(this.getUserApiToken(), data)
     },
 
 
@@ -140,7 +137,7 @@ const logic = {
     toggleFavourite(favouriteId) {
         let isFav = false
 
-        return homeSwappApi.retrieve(this.getUserId(), this.getUserApiToken())
+        return homeSwappApi.retrieve(this.getUserApiToken())
             .then(({ favourites }) => {
 
                 const hasFav = favourites.some(function (fav) {
@@ -157,7 +154,7 @@ const logic = {
                     favourites.push(favouriteId)
                 }
 
-                return homeSwappApi.update(this.getUserId(), this.getUserApiToken(), { favourites: favourites })
+                return homeSwappApi.update(this.getUserApiToken(), { favourites: favourites })
                     .then(() => isFav)
 
             })
@@ -175,7 +172,7 @@ const logic = {
      */
 
     checkFavourite(favouriteId) {
-        return homeSwappApi.retrieve(this.getUserId(), this.getUserApiToken())
+        return homeSwappApi.retrieve(this.getUserApiToken())
             .then(({ favourites }) => {
                 return favourites.some(function (fav) {
                     return fav === favouriteId;
