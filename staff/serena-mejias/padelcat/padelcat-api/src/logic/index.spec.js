@@ -735,7 +735,7 @@ describe("logic", () => {
     });
   });
 
-  describe("addScoreToPlayer", () => {
+  false && describe("addScoreToPlayer", () => {
     const name = "Manuel";
     const surname = "Barzi";
     const email = `manuelbarzi-${Math.random()}@mail.com`;
@@ -896,21 +896,42 @@ describe("logic", () => {
     });
   });
  
-  describe("setIdMatches", () => {
+ describe("setIdMatches", () => {
 
     it("should succeed adding match id", async () => {
+      debugger
       const res = await logic.setIdMatches();
-      console.log(res);
-      
+      expect(res).toBeTruthy();
+    });
+  });
+  
+  describe("retrieveAvailabilityPlayers", () => {
+    const match = {
+      "matchId": "5c51f550b2ef2",
+      "date": "09 February, 2019\t\t06:00 pm",
+      "team1": "JUNIOR NEGRE",
+      "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/defaults/d/e/fa/equipo.png",
+      "team2": "INDOOR RUBI",
+      "imageTeam2": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
+      "result": "1 - 2",
+      "location": "Club Junior 1917,  Sant Cugat del Vallès,  Espanya"
+  }
+
+    const id = "5c51f550b2ef2"
+
+    it("should succeed getting players availability", async () => {
+      debugger
+      const res = await logic.retrieveAvailabilityPlayers(id);
+      expect(res).toBeTruthy();
     });
   });
 
 
-  after(() =>
-    Promise.all([
-      Player.deleteMany(),
-      Match.deleteMany(),
-      Team.deleteMany()
-    ]).then(() => mongoose.disconnect())
-  );
+  // after(() =>
+  //   Promise.all([
+  //     Player.deleteMany(),
+  //     Match.deleteMany(),
+  //     Team.deleteMany()
+  //   ]).then(() => mongoose.disconnect())
+  // );
 });

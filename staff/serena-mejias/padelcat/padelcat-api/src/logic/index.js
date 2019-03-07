@@ -188,7 +188,6 @@ const logic = {
 
           return metadata;
         });
-        debugger;
         return metadatas.get();
       } catch (error) {
         throw error;
@@ -197,23 +196,20 @@ const logic = {
   },
 
   setIdMatches() {
-    debugger;
     return logic.retrieveMatchesScrapping().then(response => {
-      response.map(({matchId}) => {
-        Match.create({matchId: matchId}, (c, doc) =>{
-          console.log(doc);
-        });
+      return response.map(({ matchId }) => {
+        Match.create({ matchId: matchId });
       });
     });
   },
 
-  retrieveAvailabilityPlayers() {
-    return logic.retrieveMatchesScrapping().then(() => {
-      response.map(matchObj => {
-        if (matchObj.matchId === Match.matchId) {
-          return Match.playersAvailable;
-        }
-      });
+  retrieveAvailabilityPlayers(id) {
+    const foundMatch = Match.findOne({ matchId: id }, (err, doc) => {
+      if (!err) {
+        throw Error(err);
+      }
+      debugger
+      return foundMatch.schema.obj.playersAvailable;
     });
   }
 };
