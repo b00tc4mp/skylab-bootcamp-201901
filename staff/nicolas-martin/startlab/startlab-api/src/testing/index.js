@@ -1,26 +1,20 @@
 const vm = require('vm')
 const expect = require('chai').expect
+const { EmptyError } = require('../errors')
 
 const ex = {
-    // { code = x = 40; var y = 17; }
-    // { test = expect(x).to.equal(40) }
-    checkCode(code, test) {
-        // context with expect to execute the test
+
+    checkAnswer(answer, test) {
+        if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
+        if (!answer.trim().length) throw new EmptyError(`${answer} is empty`)
+
+        if (typeof test !== 'string') throw TypeError(`${test} is not a string`)
+        if (!test.trim().length) throw new EmptyError(`${test} is empty`)
+
         const context = { expect }
-
-        debugger
-
         vm.createContext(context)
-
-        vm.runInContext(code, context) // context = { expect, x: 40, y: 17 }
-
+        vm.runInContext(answer, context)
         return vm.runInContext(test, context)
-
-        return result
-
-        //Returns: <any> the result of the very last statement executed in the script.
-
-        // expect(x).to.equal(40)
     }
 }
 

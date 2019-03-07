@@ -185,10 +185,7 @@ const logic = {
                 return Exercise.findByIdAndUpdate(id, _exercise, { runValidators: true, new: true }).select('-__v').lean()
                     .then(exercise => {
                         if (!exercise) throw new NotFoundError(`exercise with id ${id} not found`)
-
                         exercise.id = exercise._id.toString()
-                        //delete exercise._id
-
                         return { status: 'ok', message: `exercise with id ${exercise._id} updated` }
                     })
             })
@@ -226,9 +223,9 @@ const logic = {
         return User.findById(userId).populate('historical.exercise').lean()
             .then(user => {
                 if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                
+
                 const historical = user.historical.filter(userExercise => {
-                    
+
                     userExercise.exercise.id = userExercise.exercise._id
                     delete userExercise.exercise._id
                     delete userExercise.exercise.__v
@@ -244,21 +241,53 @@ const logic = {
     /********************/
     /*** Code methods ***/
     /********************/
-
-    checkCode(userId, code, test) {
+    // 
+    // checks the answer and change the fields exercise & completed
+    // 
+    checkAnswer(userId, answer, exerciseId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
-        if (typeof code !== 'string') throw TypeError(`${code} is not a string`)
-        if (!code.trim().length) throw new EmptyError(`${code} is empty`)
+        if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
+        if (!answer.trim().length) throw new EmptyError(`${answer} is empty`)
 
-        if (typeof test !== 'string') throw TypeError(`${test} is not a string`)
-        if (!test.trim().length) throw new EmptyError(`${test} is empty`)
+        if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
+        if (!exerciseId.trim().length) throw new EmptyError(`${exerciseId} is empty`)
 
-        return testing.checkCode(code, test)
-        // if (result.error) throw new CodeError(result.error)
-        // return result
-    }
+        return this.retrieveExercise(userId, exerciseId)
+            .then(exercise => {
+                testing.checkAnswer(answer, exercise.test)
+                //this.__changeStatusExerciseFromUser__(userId, answer, exercise.id)
+                return { status: 'ok' }
+            })
+            .catch(error => {   //{"error": "ReferenceError: favoriteFood is not defined"}
+                // goes to catch if the answer from user is not valid
+                if (error) return { error: error.message }
+            })
+    },
+
+    // __changeStatusExerciseFromUser__(userId, answer, exerciseId) {
+    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+    //     if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
+
+    //     if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
+    //     if (!answer.trim().length) throw new EmptyError(`${answer} is empty`)
+
+    //     if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
+    //     if (!exerciseId.trim().length) throw new EmptyError(`${exerciseId} is empty`)
+
+    //     return User.findById(userId).select('-password -__v').lean()
+    //             .then(user => {
+    //                 if (!user) throw new NotFoundError(`user with id ${id} not found`)
+                    
+    //                 return User.findByIdAndUpdate(userId, _exercise, { runValidators: true, new: true }).select('-__v').lean()
+    //                     .then(exercise => {
+    //                         if (!exercise) throw new NotFoundError(`exercise with id ${id} not found`)
+    //                         exercise.id = exercise._id.toString()
+    //                         return { status: 'ok', message: `exercise with id ${exercise._id} updated` }
+    //                     })
+    //             })
+    // }
 
 }
 

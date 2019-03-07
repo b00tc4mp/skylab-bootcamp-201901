@@ -1,33 +1,9 @@
 import React, { Component } from 'react'
 
-import Feedback from '../Feedback/index'
-import logic from '../../logic'
-
 class Home extends Component {
 
-  state = { answer: '', answerFeedback: null }
-
-  handleFormSubmit = event => {
-    event.preventDefault()
-    let test = 'expect(favoriteFood).to.be.a("string")'
-    const { state: { answer } } = this
-    try {
-      logic.checkCode(answer, test)
-        .then(response => {
-          this.setState({ answerFeedback: response.status })
-        })
-        .catch(error => {
-          this.setState({ answerFeedback: error.message })
-        })
-    } catch (error) {
-      this.setState({ answerFeedback: error.message })
-    }
-  }
-
-  handleAnswerInput = event => this.setState({ answer: event.target.value })
-
   render() {
-    const { state: { answerFeedback }, handleFormSubmit, handleAnswerInput, props: { onStart } } = this
+    const { props: { onStart } } = this
 
     return (
       <div className="home">
@@ -51,15 +27,6 @@ class Home extends Component {
         <hr />
 
         <button onClick={onStart}>START</button>
-
-        <h3>Your answer</h3>
-
-        <form onSubmit={handleFormSubmit}>
-          <textarea type="text" placeholder="start coding here..." onChange={handleAnswerInput} required />
-          <button type="submit">Enviar</button>
-        </form>
-
-        {answerFeedback && <Feedback message={answerFeedback} />}
 
       </div>
     )

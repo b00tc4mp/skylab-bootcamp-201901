@@ -17,7 +17,6 @@ const {
     registerUser,
     authenticateUser,
     retrieveUser,
-    checkCode,
     isAdmin,
 
     // CRUD Exercise
@@ -28,6 +27,8 @@ const {
     listExercises,
 
     getExercisesFromUser,
+
+    checkAnswer,
 
     // Others
     notFound
@@ -62,7 +63,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/student/start', [jsonBodyParser, tokenVerifierMiddleware], getExercisesFromUser)
 
         // Code sanity
-        router.post('/testing', [jsonBodyParser, tokenVerifierMiddleware], checkCode)
+        router.post('/checkanswer', [jsonBodyParser, tokenVerifierMiddleware], checkAnswer)
 
         app.use('/api', router)
 

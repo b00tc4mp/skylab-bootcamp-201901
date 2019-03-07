@@ -15,8 +15,7 @@ module.exports = {
 
     getExercisesFromUser: require('./get-exercises-from-user'),
 
-    // Code sanity
-    checkCode: require('./check-code'),
+    checkAnswer: require('./check-answer'),
 
     notFound: require('./not-found')
 }

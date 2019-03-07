@@ -2,32 +2,54 @@ import React, { Component } from 'react'
 
 import Feedback from '../Feedback/'
 import ActiveExercise from '../ActiveExercise'
+import StartIntro from '../StartIntro'
+import AnswerForm from '../AnswerForm'
 import logic from '../../logic';
 
 class Start extends Component {
-    state = { exercises: [], startFeedback: '' }
+    state = { exercises: [], activeExercise: undefined, startFeedback: '' }
 
     componentDidMount() {
+        this.getExercisesFromUser()
+    }
+
+    getExercisesFromUser() {
         try {
             logic.retrieveExercisesFromUser()
-                .then(exercises => this.setState({ exercises }))
+                .then(exercises => {
+                    const activeExercise = exercises.find(exercise => !exercise.completed).exercise
+                    this.setState({ exercises, activeExercise })
+                })
                 .catch(error => console.log(error))
         } catch (error) {
             console.log(error)
         }
     }
 
+    handleAnswerSubmit = (answer) => {
+        const { state: { activeExercise: { id: exerciseId } } } = this
+
+        logic.checkCode(answer, exerciseId)
+            .then(result => this.setState({startFeedback: result.message }))
+            .catch (error => {
+                this.setState({startFeedback: error.message })
+            })
+    }
+
+
     render() {
-        const exercises = this.state.exercises
-        const progress = exercises.find(exercise => !exercise.completed)
+        const { state: { activeExercise, exercises, startFeedback }, handleAnswerSubmit } = this
 
         return (
             <main className="start">
-                <ul className="start-intro">
-                    {exercises.map(({ exercise, completed }) => <li className={`${completed}`}>{exercise.title}</li>)}
-                </ul>
 
-                {progress && <ActiveExercise exercise={progress}/>}
+                {exercises && <StartIntro exercises={exercises} />}
+
+                {activeExercise && <ActiveExercise onExercise={activeExercise} />}
+
+                {activeExercise && <AnswerForm handleSubmit={handleAnswerSubmit} />}
+
+                {startFeedback && <Feedback message={startFeedback} />}
 
             </main>
         )
