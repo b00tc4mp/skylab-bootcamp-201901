@@ -2,11 +2,12 @@ const logic = require('../../logic')
 const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
-    const { userId, body: { userIdTo, launchDate, position, text } } = req
-    
+    const { userId } = req
+    debugger
     try {
-        logic.createMessage(userId, userIdTo, launchDate, position, text)
-            .then(message => res.json(message))
+        logic.retrieveUsers(userId)
+            // .then(user => res.json(user))
+            .then(res.json.bind(res))
             .catch(error => handleResponseError(error, res))
     } catch (error) {
         handleResponseError(error, res)

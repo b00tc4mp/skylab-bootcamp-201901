@@ -113,6 +113,33 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     */
+    retrieveUsers(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+
+        if (!userId.trim().length) throw new EmptyError('user id is empty')
+
+        return User.find().select('-password -__v').lean()
+            .then(users => {
+                debugger
+                if (!users) throw new NotFoundError(`user with id ${userId} not found`)
+
+                // delete user.password
+                // delete user.__v
+
+                users.map(user => {
+                    user.id = user._id.toString()
+                    delete user._id
+                })
+
+                return users
+            })
+    },
+
     updateUser(userId, _name, _surname, _email, _password, _passwordConfirm) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
 
@@ -159,7 +186,7 @@ const logic = {
             .then(user => user)
     },
 
-    createMessage(userIdFrom, userIdTo, date, launchDate, position, text) {
+    createMessage(userIdFrom, userIdTo, launchDate, position, text) {
         if (typeof userIdFrom !== 'string') throw TypeError(`${userIdFrom} is not a string`)
 
         if (!userIdFrom.trim().length) throw new EmptyError('user id is empty')
@@ -168,9 +195,9 @@ const logic = {
 
         if (!userIdTo.trim().length) throw new EmptyError('user id is empty')
 
-        // verify date, launchDate, position, text
+        // verify launchDate, position, text
 
-        return Message.create({userIdFrom, userIdTo, date, launchDate, position, text})
+        return Message.create({userIdFrom, userIdTo, launchDate, position, text})
             .then(message => {
                 User.findById(userIdFrom)
                     .then(user => {
