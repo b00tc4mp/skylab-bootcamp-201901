@@ -2,26 +2,32 @@ const { Schema } = require('mongoose')
 const { Types: { ObjectId } } = Schema
 
 const Journey = new Schema({
-    positions: {
+    sea: {
+        type: Object,
+        required: true
+    },
+
+    route: {
         type: [Object],
         required: true
     },
 
     dates: {
-        type: Date,
+        type: [String],
         required: true,
-        default: Date.now
     },
     
-    description: [String],
+    description: {
+        type: String
+    }
 
-    user: {
-        type: ObjectId,
-        required: true,
-        ref: 'User'
-    },
+    // user: {
+    //     type: ObjectId,
+    //     required: true,
+    //     ref: 'User'
+    // },
 
-    crew: [String || ObjectId]
+    // crew: [String || ObjectId]
 
 })
 

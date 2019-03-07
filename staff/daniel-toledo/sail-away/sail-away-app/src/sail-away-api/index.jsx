@@ -4,13 +4,14 @@ const sailAwayApi = {
 
     url: `http://localhost:8000/api`,
 
-    createJourney(route, dates, description) {
+    createJourney(sea, route, dates, description) {
+      
         return fetch(`${this.url}/journey/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ route, dates, description })
+            body: JSON.stringify({ sea, route, dates, description })
         })
             .then(response => response.json())
             .then(journey => {
@@ -19,6 +20,36 @@ const sailAwayApi = {
                 else throw Error(journey.error)
             })
 
+    },
+
+    listJourneys(){
+        return fetch(`${this.url}/journeys/`)
+            .then(journeys => journeys.json())
+            .then(journeys => {
+                if (!journeys.error) return journeys
+
+                else throw Error(journeys.error)
+            })
+    },
+
+    searchBySea(query){
+        return fetch(`${this.url}/search?query=${query}`)
+        .then(journeys => journeys.json())
+        .then(response => {
+            if (!response.error) return response.journeys
+
+            else throw Error(response.error)
+        })
+    },
+
+    retrieveJourney(id){
+        return fetch(`${this.url}/journey/${id}`)
+        .then(journey => journey.json())
+        .then(response => {
+            if (!response.error) return response.journey
+
+            else throw Error(response.error)
+        })
     }
 }
 

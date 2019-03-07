@@ -3,10 +3,16 @@
 import React, { useState, useEffect } from 'react'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps-react'
 
+import './index.sass'
 
-function MapRoute({ google, getRoute }) {
+function MapRoute({ google, getRoute, seaSelection }) {
 
     let [markers, setMarkers] = useState([])
+    let [sea, setSea] = useState(seaSelection)
+
+    useEffect(() => {
+        setSea(seaSelection)
+    }, [seaSelection])
 
     function generateRoute(markers) {
         let route = []
@@ -54,65 +60,70 @@ function MapRoute({ google, getRoute }) {
     }
 
     return (<Map
-            containerStyle={{height: "50%"}}
-            google={google}
-            style={{
-                width: "100%",
-                height: "100%"
-            }}
-            zoom={7}
-            onClick={(mapProps, map, clickEvent) => mapClicked(mapProps, map, clickEvent)}
-        >
-            {
-                markers.map((marker, index) => {
-                    if (index === 0) {
-                        return <Marker
-                            position={marker.position}
-                            draggable={true}
-                            animation={google.maps.Animation.DROP}
-                            onDragend={(t, map, coord) => onMarkerDragEnd(coord, index)}
-                            onClick={() => onMarkerClick(index)}
-                            name={marker.name}
-                        >
-                        </Marker>
-                    }
-                    else {
+        className='map'
+        google={google}
+        containerStyle={{ height: "50%" }}
+        style={{
+            width: "100%",
+            height: "100%"
+        }}
+        center={{
+            lat: markers.length ? markers[markers.length - 1].position.lat : sea.center.lat,
+            lng: markers.length ? markers[markers.length - 1].position.lng : sea.center.lng
+        }}
+        zoom={sea.zoom}
+        onClick={(mapProps, map, clickEvent) => mapClicked(mapProps, map, clickEvent)}
+    >
+        {
+            markers.map((marker, index) => {
+                if (index === 0) {
+                    return <Marker
+                        position={marker.position}
+                        draggable={true}
+                        animation={google.maps.Animation.DROP}
+                        onDragend={(t, map, coord) => onMarkerDragEnd(coord, index)}
+                        onClick={() => onMarkerClick(index)}
+                        name={marker.name}
+                    >
+                    </Marker>
+                }
+                else {
 
-                        return (<Marker
-                            position={marker.position}
-                            draggable={true}
-                            onDragend={(t, map, coord) => onMarkerDragEnd(coord, index)}
-                            onClick={() => onMarkerClick(index)}
-                            name={marker.name}
-                            icon={{
-                                path: google.maps.SymbolPath.CIRCLE,
-                                fillColor: '#00F',
-                                fillOpacity: 0.6,
-                                strokeColor: '#00A',
-                                strokeOpacity: 0.9,
-                                strokeWeight: 1,
-                                scale: 3
-                            }} />)
+                    return (<Marker
+                        position={marker.position}
+                        draggable={true}
+                        onDragend={(t, map, coord) => onMarkerDragEnd(coord, index)}
+                        onClick={() => onMarkerClick(index)}
+                        name={marker.name}
+                        icon={{
+                            path: google.maps.SymbolPath.CIRCLE,
+                            fillColor: '#00F',
+                            fillOpacity: 0.6,
+                            strokeColor: '#00A',
+                            strokeOpacity: 0.9,
+                            strokeWeight: 1,
+                            scale: 3
+                        }} />)
 
 
-                    }
-                })
-            }
+                }
+            })
+        }
 
 
-            <Polyline
-                path={generateRoute(markers)}
-                options={{
-                    strokeColor: '#0000ff',
-                    strokeOpacity: 1,
-                    strokeWeight: 2,
-                    icons: [{
-                        icon: "hello",
-                        offset: '0',
-                        repeat: '10px'
-                    }],
-                }} />
-        </Map>)
+        <Polyline
+            path={generateRoute(markers)}
+            options={{
+                strokeColor: '#0000ff',
+                strokeOpacity: 1,
+                strokeWeight: 2,
+                icons: [{
+                    icon: "hello",
+                    offset: '0',
+                    repeat: '10px'
+                }],
+            }} />
+    </Map>)
 }
 
 export default GoogleApiWrapper({

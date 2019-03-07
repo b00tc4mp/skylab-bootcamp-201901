@@ -1,11 +1,12 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { body: { sea, route, dates, description } } = req
-    debugger
+    const { query: { query } } = req
+
     try {
-        return logic.addJourney(sea, route, dates, description)
-            .then(id => res.json({ id }))
+        debugger
+        return logic.searchJourneys(query)
+            .then(journeys => res.json({ journeys }))
 
     } catch ({ message }) {
         res.status(409).json({

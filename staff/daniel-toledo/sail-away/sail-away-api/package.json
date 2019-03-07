@@ -24,8 +24,8 @@
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.15",
     "nodemon": "^1.18.10",
-    "uuidv4": "^3.0.1",
-    "sail-away-data": "file:../sail-away-data"
+    "sail-away-data": "file:../sail-away-data",
+    "uuidv4": "^3.0.1"
   },
   "devDependencies": {
     "expect": "^24.1.0"
