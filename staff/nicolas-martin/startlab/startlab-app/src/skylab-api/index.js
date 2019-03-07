@@ -175,23 +175,44 @@ const skylabApi = {
 
     },
 
-    checkCode(token, code, test) {
+    getExercisesFromUser(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        
+        return fetch(`${this.url}/student/start`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+    },
+
+    // checks if the answer from student is correct 
+    // also change the database user historical
+
+    // return message if its ok or not
+
+    checkCode(answer, exerciseId, token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        if (typeof code !== 'string') throw TypeError(`${code} is not a string`)
-        if (!code.trim().length) throw Error('code is empty')
+        if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
+        if (!answer.trim().length) throw Error('answer is empty')
 
-        if (typeof test !== 'string') throw TypeError(`${test} is not a string`)
-        if (!test.trim().length) throw Error('test is empty')
+        if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
+        if (!exerciseId.trim().length) throw Error('exerciseId is empty')
 
-        return fetch(`${this.url}/testing`, {
+        return fetch(`${this.url}/checkanswer`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 'authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ code, test })
+            body: JSON.stringify({ answer, exerciseId })
         })
             .then(response => response.json())
             .then(response => {
@@ -199,6 +220,7 @@ const skylabApi = {
 
                 return response
             })
+            .catch(error => error)
 
     }
 

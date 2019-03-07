@@ -13,7 +13,7 @@
       display: flex;
       flex-wrap: wrap; } }
 
-.register, .login, .home, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .exercise-list, .exercise-form, .start, .invitation-list {
   padding: 1em 2em; }
 
 .register form {
@@ -22,7 +22,7 @@
   .register form input {
     margin-bottom: 1em; }
 
-.register, .login, .home, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .exercise-list, .exercise-form, .start, .invitation-list {
   padding: 1em 2em; }
 
 .login form {
@@ -31,19 +31,27 @@
   .login form input {
     margin-bottom: 1em; }
 
-.register, .login, .home, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .exercise-list, .exercise-form, .start, .invitation-list {
   padding: 1em 2em; }
 
-.register, .login, .home, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .exercise-list, .exercise-form, .start, .invitation-list {
   padding: 1em 2em; }
 
 .exercise-list h3 {
   text-transform: uppercase; }
 
-.register, .login, .home, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .exercise-list, .exercise-form, .start, .invitation-list {
   padding: 1em 2em; }
 
-.register, .login, .home, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .exercise-list, .exercise-form, .start, .invitation-list {
+  padding: 1em 2em; }
+
+.start-intro {
+  font-size: 22px; }
+  .start-intro .true {
+    text-decoration: line-through; }
+
+.register, .login, .home, .exercise-list, .exercise-form, .start, .invitation-list {
   padding: 1em 2em; }
 
 * {

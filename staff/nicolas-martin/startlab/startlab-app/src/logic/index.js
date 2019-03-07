@@ -78,7 +78,7 @@ const logic = {
      * Checks if an user is admin
      */
     get isAdmin() {
-        return this.__isAdmin__=== 'true'
+        return this.__isAdmin__ === 'true'
     },
 
     // checkIsAdmin() {
@@ -88,12 +88,12 @@ const logic = {
     //         .then(isAdmin => this.__isAdmin__ = isAdmin)
     // },
 
-    exerciseList(){
+    exerciseList() {
         return skylabApi.exerciseList(this.__userApiToken__)
             .then(exercises => exercises)
     },
 
-    deleteExercise(id){
+    deleteExercise(id) {
         if (typeof id !== 'string') throw TypeError(id + ' is not a string')
         if (!id.trim().length) throw Error('id cannot be empty')
 
@@ -119,28 +119,20 @@ const logic = {
         return skylabApi.createExercise(exercise, this.__userApiToken__)
     },
 
-    checkCode(code, test) {
-        if (typeof code !== 'string') throw TypeError(code + ' is not a string')
-        if (!code.trim().length) throw Error('code cannot be empty')
+    checkCode(answer, exerciseId) {
+        if (typeof answer !== 'string') throw TypeError(answer + ' is not a string')
+        if (!answer.trim().length) throw Error('answer cannot be empty')
 
-        if (typeof test !== 'string') throw TypeError(test + ' is not a string')
-        if (!test.trim().length) throw Error('test cannot be empty')
+        if (typeof exerciseId !== 'string') throw TypeError(exerciseId + ' is not a string')
+        if (!exerciseId.trim().length) throw Error('exerciseId cannot be empty')
 
-        return skylabApi.checkCode(this.__userApiToken__, code, test)
+        return skylabApi.checkCode(answer, exerciseId, this.__userApiToken__)
     },
 
-    // retrieveUser() {
-    //     return userApi.retrieve(this.__userId__, this.__userApiToken__)
-    //         .then(({ id, name, surname, username: email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
-    //             id,
-    //             name,
-    //             surname,
-    //             email,
-    //             favoriteArtists,
-    //             favoriteAlbums,
-    //             favoriteTracks
-    //         }))
-    // }
+    retrieveExercisesFromUser() {
+        return skylabApi.getExercisesFromUser(this.__userApiToken__)
+            .then(exercises => exercises)
+    }
 }
 
 export default logic
