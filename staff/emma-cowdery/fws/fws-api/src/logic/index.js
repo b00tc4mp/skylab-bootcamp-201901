@@ -432,11 +432,18 @@ const logic = {
      * 
      * @param {string} query 
      */
-    searchRestaurants(query) {
+    searchRestaurants(query, userId) {
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
         if (!query.trim().length) throw Error('query is empty')
 
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
         return (async () => {
+            const user = await Users.findById(userId)
+
+            if (!user) throw Error('you must be logged in to perform search')
+
             const results = await googleMapsApi.searchRestaurants(query)
 
             if (!results) throw Error('unable to fetch results')
@@ -449,17 +456,65 @@ const logic = {
      * 
      * @param {string} restaurantId 
      */
-    restaurantDetails(restaurantId) {
+    restaurantDetails(restaurantId, userId) {
         if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
         if (!restaurantId.trim().length) throw Error('restaurantId is empty')
 
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
         return (async () => {
-            const results = await googleMapsApi.restaurantDetails(restaurantId)
+            const user = await Users.findById(userId)
 
-            if (!results) throw Error('unable to fetch restaurant details')
+            if (!user) throw Error('you must be logged in to perform search')
 
-            return results
-        })
+            const result = await googleMapsApi.restaurantDetails(restaurantId)
+
+            if (!result) throw Error('unable to fetch restaurant details')
+
+            return result
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} photoReference 
+     */
+    resizePhoto(photoReference, userId) {
+        if (typeof photoReference !== 'string') throw TypeError(`${photoReference} is not a string`)
+        if (!photoReference.trim().length) throw Error('photoReference is empty')
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            const user = await Users.findById(userId)
+
+            if (!user) throw Error('you must be logged in to perform search')
+
+            const result = await googleMapsApi.resizePhoto(photoReference)
+
+            if (!result) throw Error('unable to fetch restaurant details')
+
+            return result
+        })()
+    },
+
+    geolocation(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            const user = await Users.findById(userId)
+
+            if (!user) throw Error('you must be logged in to perform search')
+
+            const geolocation = await googleMapsApi.geolocation()
+
+            if (!geolocation) throw Error('unable to obrain current location')
+
+            return geolocation
+        })()
     }
 }
 

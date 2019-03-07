@@ -1,11 +1,11 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { params: { query }, userId} = req
+    const { params: { photoReference }, userId } = req
     
     try {
-        logic.searchRestaurants(query, userId)
-            .then(results => res.json({ results }))
+        logic.resizePhoto(photoReference, userId)
+            .then(result => res.json({ result }))
             .catch(({ message }) => {
                 res.status(409).json({
                     error: message

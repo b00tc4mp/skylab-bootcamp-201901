@@ -173,6 +173,10 @@ const logic = {
         })()
     },
 
+    /**
+     * 
+     * @param {string} chatId 
+     */
     joinChat(chatId) {
         if (typeof chatId !== 'string') throw TypeError(chatId + ' is not a string')
         if (!chatId.trim().length) throw Error('chatId cannot be empty')
@@ -186,13 +190,88 @@ const logic = {
         })()
     },
 
+    /**
+     * Retrieves chats from the user that is logged in at that moment
+     */
     userChats() {
         return (async () => {
-            const chats = fwsApi.userChats(this.__token__)
+            const chats = await fwsApi.userChats(this.__token__)
 
             if (!chats) throw Error('unable to retrieve users chats')
 
             return chats
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} chatId 
+     * @param {string} text 
+     */
+    addMessageToChat(chatId, text) {
+        if (typeof chatId !== 'string') throw TypeError(chatId + ' is not a string')
+        if (!chatId.trim().length) throw Error('chatId cannot be empty')
+
+        if (typeof text !== 'string') throw TypeError(text + ' is not a string')
+        if (!text.trim().length) throw Error('text cannot be empty')
+
+        return (async () => {
+            const chat = await fwsApi.addMesageToChat(this.__token__, chatId, text)
+
+            if (!chat) throw Error('messae failed to send')
+
+            return chat
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} query 
+     */
+    searchRetaurants(query) {
+        if (typeof query !== 'string') throw TypeError(query + ' is not a string')
+        if (!query.trim().length) throw Error('query cannot be empty')
+
+        return (async () => {
+            const results = await fwsApi.searchRestaurants(query, this.__token__)
+
+            if (!results) throw Error('failed to search')
+
+            return results
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} restaurantId 
+     */
+    restaurantDetails(restaurantId) {
+        if (typeof restaurantId !== 'string') throw TypeError(restaurantId + ' is not a string')
+        if (!restaurantId.trim().length) throw Error('restaurantId cannot be empty')
+
+        return (async () => {
+            const details = await fwsApi.restaurantDetails(restaurantId, this.__token__)
+
+            if (!details) throw Error('unable tof etch details')
+
+            return details
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} photoReference 
+     */
+    retrievePhoto(photoReference) {
+        if (typeof photoReference !== 'string') throw TypeError(`${photoReference} is not a string`)
+        if (!photoReference.trim().length) throw Error('photoReference is empty')
+
+        return (async () => {
+            const imgUrl = await fwsApi.retrievePhoto(photoReference, this.__token__)
+
+            if (!imgUrl) throw Error('image not found')
+
+            return imgUrl.result
         })()
     }
 }

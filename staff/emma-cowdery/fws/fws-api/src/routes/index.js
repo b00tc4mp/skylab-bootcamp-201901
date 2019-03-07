@@ -23,5 +23,11 @@ module.exports = {
 
     searchRestaurants: require('./search-restaurants'),
 
+    restaurantDetails: require('./restaurant-details'),
+
+    resizePhoto: require('./resize-photo'),
+
+    geolocation: require('./geolocation'),
+
     notFound: require('./not-found')
 }

@@ -114,7 +114,7 @@ const fwsApi = {
         if (typeof eventDate !== 'string') throw TypeError(`${eventDate} is not a string`)
         if (!eventDate.trim().length) throw Error('eventDate is empty')
 
-        return fetch(`${this.url}/event`, {
+        return fetch(`${this.url}/event/${restaurantId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -142,7 +142,7 @@ const fwsApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        return fetch(`${this.url}/event`, {
+        return fetch(`${this.url}/event/${eventId}`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${token}`
@@ -193,7 +193,7 @@ const fwsApi = {
         if (typeof chatName !== 'string') throw TypeError(`${chatName} is not a string`)
         if (!chatName.trim().length) throw Error('chatName is empty')
 
-        return fetch(`${this.url}/chat`, {
+        return fetch(`${this.url}/chat/${eventId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -221,9 +221,10 @@ const fwsApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        return fetch(`${this.url}/chat`, {
+        return fetch(`${this.url}/chat/${chatId}`, {
             method: 'PUT',
             headers: {
+                'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             }
         })
@@ -243,9 +244,111 @@ const fwsApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        return fetch(`${this.url}`, {
+        return fetch(`${this.url}/chats`, {
             headers: {
-                authorization: `Bearer ${token}/chats`
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
+     * @param {string} token 
+     * @param {string} chatId 
+     * @param {string} text 
+     */
+    addMesageToChat(token, chatId, text) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId is empty')
+
+        if (typeof text !== 'string') throw TypeError(`${text} is not a string`)
+        if (!text.trim().length) throw Error('text is empty')
+
+        return fetch(`${this.url}/message/${chatId}`, {
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ text })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+    
+    /**
+     * 
+     * @param {string} query 
+     * @param {string} token 
+     */
+    searchRestaurants(query, token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw Error('query is empty')
+
+        return fetch(`${this.url}/search-restaurants/${query}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    restaurantDetails(restaurantId, token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
+        if (!restaurantId.trim().length) throw Error('restaurantId is empty')
+
+        return fetch(`${this.url}/restaurant-details/${restaurantId}`, {
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
+     * @param {string} photoReference 
+     * @param {string} token 
+     */
+    retrievePhoto(photoReference, token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof photoReference !== 'string') throw TypeError(`${photoReference} is not a string`)
+        if (!photoReference.trim().length) throw Error('photoReference is empty')
+
+        return fetch(`${this.url}/resized-photo/${photoReference}`, {
+            headers: {
+                authorization: `Bearer ${token}`
             }
         })
         .then(response => response.json())
