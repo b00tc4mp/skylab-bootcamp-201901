@@ -1,0 +1,13 @@
+.footer {
+    padding: 10%;
+    background-color: rgb(41, 41, 41);
+    color: lightgray;
+}
+
+.footer a {
+    color: lightgray !important;
+}
+
+.thumbnail {
+    display: flex;
+}
