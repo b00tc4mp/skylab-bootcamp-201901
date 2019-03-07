@@ -46,6 +46,45 @@ const flymeApi = {
             .then(res => res)
     },
 
+    startDrone(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        //TODO droneId
+        const droneId = '5c80f001cdda345041068f1c'
+
+        return fetch(`${this.url}/drone/start`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ droneId })
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    stopDrone(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        //TODO droneId
+        const droneId = '5c80f001cdda345041068f1c'
+
+        return fetch(`${this.url}/drone/stop`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ droneId })
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+
     sendCommand(token, command) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -53,13 +92,16 @@ const flymeApi = {
         if (typeof command !== 'string') throw TypeError(`${command} is not a string`)
         if (!command.trim().length) throw Error('command is empty')
 
+        //TODO droneId
+        const droneId = '5c80f001cdda345041068f1c'
+
         return fetch(`${this.url}/drone/command`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ command })
+            body: JSON.stringify({ droneId, command })
         })
             .then(res => res.json())
             .then(res => res)

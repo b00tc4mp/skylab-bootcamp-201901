@@ -12,13 +12,13 @@ class Drone {
 
         this.socket.bind(this.port)
 
-        this.on = true
+        this.__on__ = true
     }
 
     stop() {
         this.socket.close()
 
-        this.on = false
+        this.__on__ = false
     }
 
     onMessage(callback) {
@@ -26,12 +26,12 @@ class Drone {
     }
 
     sendCommand(command) {
-        if (this.on) {
+        if (this.__on__) {
             this.socket.send(command, 0, command.length, this.port, this.host, error => {
                 if (error) throw new DroneError(error)
             })
         } else {
-            throw new DroneError(`drone at ${this.host}:${this.port} is offline`)
+            throw new DroneError(`drone at ${this.host}: ${this.port} is offline`)
         }
     }
 }

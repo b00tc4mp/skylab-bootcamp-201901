@@ -61,6 +61,7 @@ function Register() {
                                 <button className="button">Login</button>
                             </div>
                         </form>
+                        {feedback && <p>{feedback}</p>}
                     </div>
                 </div>
             </div>

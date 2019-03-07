@@ -3,7 +3,7 @@
 const bcrypt = require('bcrypt')
 const { models: { User, Drone, Flight } } = require('flyme-data')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('flyme-errors')
-const Drone = require('drone-api')
+const DroneApi = require('drone-api')
 
 /**
  * 
@@ -12,6 +12,7 @@ const Drone = require('drone-api')
  */
 
 const logic = {
+    activeDrones: new Map,
 
     /**
      * 
@@ -156,14 +157,10 @@ const logic = {
 
     //END USERS CRUD
 
-    addDrone(userId, identifier, brand, model, host, port) { // TODO host port
+    addDrone(userId, brand, model, host, port) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
 
         if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (typeof identifier !== 'string') throw TypeError(identifier + ' is not a string')
-
-        if (!identifier.trim().length) throw new EmptyError('identifier cannot be empty')
 
         if (typeof brand !== 'string') throw TypeError(brand + ' is not a string')
 
@@ -173,7 +170,13 @@ const logic = {
 
         if (!model.trim().length) throw new EmptyError('model cannot be empty')
 
-        return Drone.create({ owner: userId, identifier, brand, model })
+        if (typeof host !== 'string') throw TypeError(host + ' is not a string')
+
+        if (!host.trim().length) throw new EmptyError('host cannot be empty')
+
+        if (typeof port !== 'number') throw TypeError(port + ' is not a number')
+
+        return Drone.create({ owner: userId, brand, model, host, port })
             .then(drone => drone.id)
     },
 
@@ -207,7 +210,6 @@ const logic = {
                 if (!drone) throw new AuthError('You dont have permissions to delete this drone')
 
                 return Drone.findByIdAndUpdate(droneId, data, { runValidators: true })
-
             })
             .then(drone => {
                 return { droneId: drone.id, status: 'OK' }
@@ -235,21 +237,56 @@ const logic = {
 
     },
 
-    startDrone(userId, id) {
-        // TODO lookup drone and switch on
-        // 1 find drone by id
-        // 2 drone = new Drone(...)
-        // 3 drone.start()
-    },  
+    startDrone(userId, droneId) {
 
-    stopDrone(userId, id) {
-        // TODO lookup drone and switch off
-        // 1 find drone by id
-        // 2 drone = new Drone(...)
-        // 3 drone.stop()
+        let drone = this.activeDrones.get(droneId)
+
+        if (drone) throw Error(`drone ${droneId} already started`)
+
+        return Drone.findById(droneId)
+            .then(({ host, port }) => {
+
+                if (!host && !port) throw Error('drone not found it')
+
+                drone = new DroneApi(host, port)
+
+                drone.start()
+
+                drone.onMessage(message => console.log(`DRONE: ${message}`))
+
+                drone.sendCommand('command')
+
+                this.activeDrones.set(droneId, drone)
+
+                return { start: 'OK', on: true }
+            })
+            .catch(({ message }) => {
+                throw Error(message)
+            })
+
     },
 
-    sendDroneCommand(userId, command) {
+    stopDrone(userId, droneId) {
+        const drone = this.activeDrones.get(droneId)
+
+        if (!drone) throw Error(`drone ${droneId} already stopped`)
+
+        this.activeDrones.delete(droneId)
+
+        return Drone.findById(droneId)
+            .then(droneRes => {
+
+                if (!droneRes) throw Error('drone not found it')
+
+                drone.sendCommand('land')
+
+                drone.stop()
+
+                return { stop: 'OK', on: false }
+            })
+    },
+
+    sendDroneCommand(userId, droneId, command) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
 
         if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
@@ -258,9 +295,9 @@ const logic = {
             .then(user => {
                 if (!user) throw new AuthError('No permissions')
 
-                drone.init()
+                const drone = this.activeDrones.get(droneId)
+
                 drone.sendCommand(command)
-                drone.turnOff()
 
                 return { command: 'OK' }
             })
@@ -283,7 +320,7 @@ const logic = {
 
                 return Flight.create({ userId, droneId })
             })
-            .then(drone => drone.id)
+            .then(flight => flight.id)
     },
 
     retrieveFlights() {
@@ -310,6 +347,10 @@ const logic = {
     },
 
     retrieveFlightsFromUserDrone(userId, droneId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
         if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
 
         if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')

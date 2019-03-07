@@ -65,6 +65,18 @@ const logic = {
         this.__userApiToken__ = null
     },
 
+
+    //TODO DRONE ID
+    startDrone() {
+        return flymeApi.startDrone(this.__userApiToken__)
+            .then(res => res)
+    },
+
+    stopDrone() {
+        return flymeApi.stopDrone(this.__userApiToken__)
+            .then(res => res)
+    },
+
     sendDroneCommand(command) {
         if (typeof command !== 'string') throw TypeError(command + ' is not a string')
 

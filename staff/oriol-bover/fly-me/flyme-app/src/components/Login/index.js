@@ -40,6 +40,7 @@ function Login(props) {
                                 <button className="button">Login</button>
                             </div>
                         </form>
+                        {feedback && <p>{feedback}</p>}
                     </div>
                 </div>
             </div>

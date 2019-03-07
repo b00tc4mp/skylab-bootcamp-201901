@@ -3,7 +3,7 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-const { mongoose, models: { User } } = require('flyme-data')
+const { mongoose, models: { User, Drone, Flight } } = require('flyme-data')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -13,7 +13,13 @@ const { env: { TEST_DB_URL } } = process
 describe('logic', () => {
     before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
 
-    beforeEach(() => User.deleteMany())
+    beforeEach(() =>
+        Promise.all([
+            Drone.deleteMany(),
+            User.deleteMany(),
+            Flight.deleteMany()
+        ])
+    )
 
     describe('register user', () => {
         const name = 'Leia'
@@ -586,11 +592,778 @@ describe('logic', () => {
     })
 
     describe('add drone', () => {
-        
+        const userId = '5c7e9271c926d43423d72b28'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+
+        it('should succeed on correct data', () => {
+            return logic.addDrone(userId, brand, model, host, port)
+                .then(id => {
+                    expect(id).toBeDefined()
+                    expect(typeof id).toBe('string')
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.addDrone(badUserId, brand, model, host, port)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.addDrone(badUserId, brand, model, host, port)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.addDrone(badUserId, brand, model, host, port)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.addDrone(badUserId, brand, model, host, port)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.addDrone(badUserId, brand, model, host, port)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.addDrone(badUserId, brand, model, host, port)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+    })
+
+    describe('retrieve drones', () => {
+        it('should return an array on correct functionlaity', () => {
+            return logic.retrieveDrones()
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(Array.isArray(res)).toBeTruthy()
+                })
+        })
+    })
+
+    describe('retrieve drones from user', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+        )
+
+        it('should succed on correct data', () => {
+            return logic.retrieveDronesFromUser(userId)
+                .then(drones => {
+
+                    expect(drones).toBeDefined()
+                    expect(Array.isArray(drones)).toBeTruthy()
+                    expect(drones.length).toBe(1)
+                    expect(drones[0].owner.toString()).toBe(userId)
+                    expect(drones[0].brand).toBe(brand)
+                    expect(drones[0].model).toBe(model)
+                    expect(drones[0].host).toBe(host)
+                    expect(drones[0].port).toBe(port)
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.retrieveDronesFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.retrieveDronesFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.retrieveDronesFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.retrieveDronesFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.retrieveDronesFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.retrieveDronesFromUser(badUserId)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+    })
+
+    describe('updateDrone', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+        )
+
+        it('should succed on correct data', () => {
+            return logic.updateDrone(userId, droneId, { brand: 'Samsung', model: 'Diablo' })
+                .then(res => {
+                    expect(res.droneId).toBe(droneId)
+                    expect(res.status).toBe('OK')
+
+                    return Drone.findById(droneId)
+                })
+                .then(drone => {
+                    expect(drone.brand).toBe('Samsung')
+                    expect(drone.model).toBe('Diablo')
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.updateDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.updateDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.updateDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.updateDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.updateDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.updateDrone(badUserId)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+
+    })
+
+    describe('delete Drone', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+        )
+
+        it('should succed on correct data', () => {
+            return logic.deleteDrone(userId, droneId)
+                .then(res => {
+                    expect(res.status).toBe('OK')
+
+                    return Drone.findById(droneId)
+                })
+                .then(drone => {
+                    expect(drone).toBeNull()
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.deleteDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.deleteDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.deleteDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.deleteDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.deleteDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.deleteDrone(badUserId)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+    })
+
+    describe('add flight', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+        )
+
+        it('should succeed on correct data', () => {
+            return logic.addFlight(userId, droneId)
+                .then(id => {
+                    expect(id).toBeDefined()
+                    expect(typeof id).toBe('string')
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.addFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.addFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.addFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.addFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.addFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.addFlight(badUserId)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+    })
+
+    describe('retrieve flights', () => {
+        it('should return an array on correct functionlaity', () => {
+            return logic.retrieveFlights()
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(Array.isArray(res)).toBeTruthy()
+                })
+        })
+    })
+
+    describe('retrieve flights from user', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+                .then(() => {
+                    return Flight.create({ userId, droneId })
+                })
+        )
+
+
+        it('should succed on correct data', () => {
+            return logic.retrieveFlightsFromUser(userId)
+                .then(flights => {
+                    expect(flights).toBeDefined()
+                    expect(flights.length).toBe(1)
+                    expect(flights[0].userId.toString()).toBe(userId)
+                    expect(flights[0].droneId.toString()).toBe(droneId)
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.retrieveFlightsFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.retrieveFlightsFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.retrieveFlightsFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.retrieveFlightsFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.retrieveFlightsFromUser(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.retrieveFlightsFromUser(badUserId)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+    })
+
+    describe('retrieve flights from drone', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+                .then(() => {
+                    return Flight.create({ userId, droneId })
+                })
+        )
+
+        it('should succed on correct data', () => {
+            return logic.retrieveFlightsFromDrone(droneId)
+                .then(flights => {
+                    expect(flights).toBeDefined()
+                    expect(flights.length).toBe(1)
+                    expect(flights[0].userId.toString()).toBe(userId)
+                    expect(flights[0].droneId.toString()).toBe(droneId)
+                })
+        })
+    })
+
+    describe('retrieve flights from user and drone', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+                .then(() => {
+                    return Flight.create({ userId, droneId })
+                })
+        )
+
+        it('should succed on correct data', () => {
+            return logic.retrieveFlightsFromUserDrone(userId, droneId)
+                .then(flights => {
+                    expect(flights).toBeDefined()
+                    expect(flights.length).toBe(1)
+                    expect(flights[0].userId.toString()).toBe(userId)
+                    expect(flights[0].droneId.toString()).toBe(droneId)
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(badUserId)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+    })
+
+    describe('update flight', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        const end = new Date
+        let userId, droneId, flightId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+                .then(() => {
+                    return Flight.create({ userId, droneId })
+                })
+                .then(flight => {
+                    flightId = flight.id
+                })
+        )
+
+        it('should succeed on correct data', () => {
+            return logic.updateFlight(userId, flightId, { end })
+                .then(res => {
+                    debugger
+                    expect(res.flightId).toBe(flightId)
+                    expect(res.status).toBe('OK')
+
+                    return Flight.findById(flightId)
+                })
+                .then(flight => {
+                    expect(flight).toBeDefined()
+                    expect(flight.end).toBeDefined()
+                    expect(flight.end.toString()).toBe(end.toString())
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.updateFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.updateFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.updateFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.updateFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.updateFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.updateFlight(badUserId)
+            }).toThrow(Error('userId cannot be empty'))
+        })
+    })
+
+    describe('delete flight', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId, flightId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+                .then(() => {
+                    return Flight.create({ userId, droneId })
+                })
+                .then(flight => {
+                    flightId = flight.id
+                })
+        )
+
+        it('should delete on correct data', () => {
+            return logic.deleteFlight(userId, flightId)
+                .then(res => {
+                    expect(res.status).toBe('OK')
+
+                    return Flight.findById(flightId)
+                })
+                .then(flight => {
+                    expect(flight).toBeNull()
+                })
+        })
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.deleteFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.deleteFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.deleteFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.deleteFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.deleteFlight(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.deleteFlight(badUserId)
+            }).toThrow(Error('userId cannot be empty'))
+        })
     })
 
     after(() => {
-        return User.deleteMany()
+        Promise.all([
+            Drone.deleteMany(),
+            User.deleteMany(),
+            Flight.deleteMany()
+        ])
             .then(() => mongoose.disconnect())
     })
 })

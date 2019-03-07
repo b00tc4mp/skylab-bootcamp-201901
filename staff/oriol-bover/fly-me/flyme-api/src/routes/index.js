@@ -15,6 +15,8 @@ const { registerUser,
     retrieveDronesUser,
     updateDrone,
     deleteDrone,
+    startDrone,
+    stopDrone,
     sendDroneCommand,
     addFlight,
     retrieveFlights,
@@ -54,6 +56,10 @@ router.get('/user/:userId/drones', tokenVerifierMiddleware, retrieveDronesUser)
 router.put('/drone/update', [jsonBodyParser, tokenVerifierMiddleware], updateDrone)
 
 router.delete('/drone', [jsonBodyParser, tokenVerifierMiddleware], deleteDrone)
+
+router.post('/drone/start', [jsonBodyParser, tokenVerifierMiddleware], startDrone)
+
+router.post('/drone/stop', [jsonBodyParser, tokenVerifierMiddleware], stopDrone)
 
 router.post('/drone/command', [jsonBodyParser, tokenVerifierMiddleware], sendDroneCommand)
 

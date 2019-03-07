@@ -10,12 +10,6 @@ const Drone = new Schema({
         ref: 'User'
     },
 
-    identifier: {
-        type: String,
-        required: true,
-        unique: true
-    },
-
     brand: {
         type: String,
         required: true
@@ -23,6 +17,16 @@ const Drone = new Schema({
 
     model: {
         type: String,
+        required: true
+    },
+
+    host: {
+        type: String,
+        required: true
+    },
+
+    port: {
+        type: Number,
         required: true
     }
 
