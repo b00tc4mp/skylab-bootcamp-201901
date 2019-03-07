@@ -15,10 +15,7 @@ const Product = new Schema({
         type: Number,
         required: true
     },
-    // discount: {
-    //     type: Number,
-    //     required: false
-    // },
+
     description: {
         type: String,
         required: true

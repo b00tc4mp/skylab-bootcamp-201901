@@ -6,7 +6,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const router = require('./src/routes/index')
 const cors = require('cors')
-const { Product } = require('./src/model')
+const { Product } = require('../cleanup-data/model')
 
 const { env: { PORT, DB_URL } } = process
 

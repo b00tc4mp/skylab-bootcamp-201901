@@ -1,6 +1,6 @@
 'use strict'
 
-const { User, Product } = require('../model')
+const { User, Product } = require('../../../cleanup-data/model')
 
 const logic = {
 
