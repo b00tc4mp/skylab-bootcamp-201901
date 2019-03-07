@@ -3,5 +3,5 @@ module.exports = {
     authenticatePlayer: require("./authenticatePlayer"),
     retrieveScoreData: require("./retrieveScoreData"),
     addScoreToPlayer: require("./addScoreToPlayer"),
-    retrieveMatches: require("./retrieveMatches")
+    retrieveMatchesScrapping: require("./retrieveMatches")
 }

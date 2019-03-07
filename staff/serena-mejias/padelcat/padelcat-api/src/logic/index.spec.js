@@ -882,18 +882,26 @@ describe("logic", () => {
   });
 
   describe("retrieveMatch", () => {
-    const array = {
-      matchId: "5c51f550b2ef2",
-      playersAvailable: [],
-      playersChosen: { firstPair: [], secondPair: [], thirdPair: [] },
-      result: "1-2",
-    };
-    
-    it("should succeed adding data to match object", async () => {
-        debugger
-      const res = await logic.retrieveMatches();
-  
-      expect(res.matchId).toBe(array.matchId);
+
+    it("should succeed recovering match data", async () => {
+      const res = await logic.retrieveMatchesScrapping();
+     expect(res[0].matchId).toBeTruthy();
+     expect(res[0].date).toBeTruthy();
+     expect(res[0].team1).toBeTruthy();
+     expect(res[0].imageTeam1).toBeTruthy();
+     expect(res[0].team2).toBeTruthy();
+     expect(res[0].imageTeam2).toBeTruthy();
+     expect(res[0].result).toBeTruthy();
+     expect(res[0].location).toBeTruthy();
+    });
+  });
+ 
+  describe("setIdMatches", () => {
+
+    it("should succeed adding match id", async () => {
+      const res = await logic.setIdMatches();
+      console.log(res);
+      
     });
   });
 

@@ -10,7 +10,7 @@ module.exports = (req, res) => {
       .then(r =>  res.json(r))
       .catch(error => {
         res.status(400).json({
-          error: "123"
+          error: err
         });
       });
   } catch (err) {
