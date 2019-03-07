@@ -1,0 +1,45 @@
+import React, {Component, Fragment} from 'react'
+import logic from '../../logic'
+import { Route, withRouter } from 'react-router-dom'
+import SideBar from '../SideBar'
+import UpdateUser from '../UpdateUser'
+import ContactForm from '../Contact'
+import CreateBook from '../CreateBook';
+import YourBooks from '../YourBooks'
+import Books from '../Books';
+import EditBook from '../EditBook'
+import { ToastContainer, toast } from 'react-toastify';
+
+
+class Home extends Component {
+    state = { bookid: null }
+
+    logoutUser = () => {
+        logic.logOutUser()
+        this.props.history.push('/welcome')
+    }
+
+    loadBook = (bookid) => {
+        this.props.history.push(`/home/yourbooks/${bookid}`)
+    }
+
+    editBook = (bookid) => {
+        this.props.history.push(`/home/editbook/${bookid}`)
+    }
+
+    render() {
+        return (
+            <Fragment>
+                <SideBar logoutUser = {this.logoutUser}></SideBar>
+                <Route path="/home/newbook" component = {CreateBook} />
+                <Route exact path="/home/yourbooks" render={() => <YourBooks loadBook={this.loadBook} editBook={this.editBook}/> }/>
+                <Route path="/home/profile" component = {UpdateUser} />
+                <Route path="/home/contact" component = {ContactForm} />
+                <Route path="/home/editbook/:bookid" render={(props) => <EditBook bookid={props.match.params.bookid}/>} />
+                <Route exact path="/home/yourbooks/:bookid" render={(props) => <Books bookid={props.match.params.bookid}/>}/>
+                <ToastContainer/>
+            </Fragment>
+        )
+    }
+}
+export default withRouter(Home);
