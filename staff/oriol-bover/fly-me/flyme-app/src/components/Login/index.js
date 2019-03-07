@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import logic from '../../logic'
 
-function Login() {
+function Login(props) {
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [feedback, setFeedback] = useState(null)
@@ -11,7 +11,7 @@ function Login() {
 
         try {
             logic.logInUser(email, password)
-                .then(res => console.log('async res', res))
+                .then(() => props.history.push('/admin'))
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
             setFeedback(message)

@@ -3,7 +3,7 @@
 const bcrypt = require('bcrypt')
 const { models: { User, Drone, Flight } } = require('flyme-data')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('flyme-errors')
-const { drone } = require('drone-api')
+const Drone = require('drone-api')
 
 /**
  * 
@@ -156,7 +156,7 @@ const logic = {
 
     //END USERS CRUD
 
-    addDrone(userId, identifier, brand, model) {
+    addDrone(userId, identifier, brand, model, host, port) { // TODO host port
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
 
         if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
@@ -235,6 +235,19 @@ const logic = {
 
     },
 
+    startDrone(userId, id) {
+        // TODO lookup drone and switch on
+        // 1 find drone by id
+        // 2 drone = new Drone(...)
+        // 3 drone.start()
+    },  
+
+    stopDrone(userId, id) {
+        // TODO lookup drone and switch off
+        // 1 find drone by id
+        // 2 drone = new Drone(...)
+        // 3 drone.stop()
+    },
 
     sendDroneCommand(userId, command) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')

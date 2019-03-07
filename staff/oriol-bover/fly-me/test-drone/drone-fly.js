@@ -20,7 +20,7 @@ function handleError(error) {
     }
 }
 
-const commands = ['command', 'battery?', 'takeoff', 'land']
+const commands = ['command', 'battery?'] //'takeoff', 'land'
 
 let i = 0
 
