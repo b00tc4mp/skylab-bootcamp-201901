@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const tokenHelper = require("../token-helper");
 const { tokenVerifierMiddleware } = tokenHelper;
 const cors = require("cors");
-const { registerPlayer, authenticatePlayer, retrieveScoreData, addScoreToPlayer, retrieveMatchesScrapping } = require("./handlers");
+const { registerPlayer, authenticatePlayer, retrieveScoreData, addScoreToPlayer, retrieveMatchesScrapping, setIdMatches, retrieveAvailabilityPlayers } = require("./handlers");
 
 
 
@@ -17,6 +17,8 @@ router.post("/register", jsonBodyParser, registerPlayer);
 router.post("/authenticate", jsonBodyParser, authenticatePlayer);
 router.get("/retrieveScore", retrieveScoreData);
 router.put("/addScore", [jsonBodyParser, tokenVerifierMiddleware], addScoreToPlayer);
-router.put("/retrieveMatches", [jsonBodyParser, tokenVerifierMiddleware], retrieveMatchesScrapping);
+router.get("/retrieveMatches", [jsonBodyParser, tokenVerifierMiddleware], retrieveMatchesScrapping);
+router.put("/setIdMatches", [jsonBodyParser, tokenVerifierMiddleware], setIdMatches);
+router.post("/retrieveAvailabilityPlayers", jsonBodyParser, retrieveAvailabilityPlayers);
 
 module.exports = router;
