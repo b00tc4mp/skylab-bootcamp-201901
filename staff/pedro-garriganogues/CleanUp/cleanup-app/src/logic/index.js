@@ -35,18 +35,6 @@ const logic = {
         return !!this.__userApiToken__
     },
 
-    retrieveUser() {
-        return cleanUpApi.retrieveUser(this.__userApiToken__)
-            .then(({ id, name, surname, email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
-                id,
-                name,
-                surname,
-                email,
-                favoriteArtists,
-                favoriteAlbums,
-                favoriteTracks
-            }))
-    },
 
     logout() {
 
