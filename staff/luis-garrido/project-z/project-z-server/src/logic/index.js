@@ -1,7 +1,7 @@
 "use strict";
 
 const {
-    models: { User, Game, Boxart }
+    models: { User, Game, Boxart, Review }
 } = require("project-z-data");
 const bcrypt = require("bcrypt");
 const {
@@ -205,6 +205,7 @@ const logic = {
     // TODO updateUser and removeUser
 
     /**
+     * Post game review
      *
      * @param {string} userId
      * @param {string} gameId
@@ -226,29 +227,56 @@ const logic = {
             throw new EmptyError("gameId cannot be empty");
 
         if (!(review instanceof Object))
-            throw TypeError(`${review} is not an o-bject`);
+            throw TypeError(`${review} is not an object`);
 
-        if (Object.keys(review).length === 0)
+        if (!Object.keys(review).length)
             throw new EmptyError("review cannot be empty");
 
-        return async () => {
-            let isUser = await User.findOne({ _id: userId });
+        const { text, score } = review;
+
+        if (typeof text !== "string")
+            throw TypeError(`${text} is not a string`);
+
+        // if (!text.trim().length) throw new EmptyError("text cannot be empty");
+
+        if (isNaN(score)) throw TypeError(`${score} is not a number`);
+
+        if (score < 0 || score > 5)
+            throw Error("score must be between 0 and 5");
+
+        if (score % 1 !== 0) throw Error(`score should be an integer number`);
+
+        return (async () => {
+            let isUser = await User.findById(userId)
+                .select("-password -__v")
+                .lean();
 
             if (!isUser)
                 throw new NotFoundError(
                     `user with id "${userId}" doesn't exist`
                 );
 
-            let isGame = await Game.findOne({ id: gameId });
+            let isGame = await Game.findOne({ id: gameId })
+                .select("-__v")
+                .lean()
+                .populate("reviews")
+                .then(gameInfo => {
+                    if (gameInfo === null)
+                        throw new NotFoundError(
+                            `${gameId} doesn't exist in database`
+                        );
 
-            if (!isGame)
-                throw new NotFoundError(
-                    `game with id "${gameId}" doesn't exist`
-                );
+                    return gameInfo;
+                });
 
-            gameId = game._id
+            if (
+                isGame.reviews.some(
+                    review => review.author.toString() === userId
+                )
+            )
+                throw new DuplicateError(`user reviewed this game before`);
 
-            const { text, score, author, game } = review
+            gameId = isGame._id;
 
             const postedReview = await Review.create({
                 text,
@@ -257,8 +285,35 @@ const logic = {
                 game: gameId
             });
 
-            return postedReview;
-        };
+            let linkReviewToGame = await Game.findById({ _id: gameId });
+
+            linkReviewToGame.reviews.push(postedReview._id);
+
+            if (!linkReviewToGame.scores) linkReviewToGame.scores = [];
+            linkReviewToGame.scores.push(score);
+
+            linkReviewToGame.finalScore =
+                linkReviewToGame.scores.reduce((a, b) => a + b) /
+                linkReviewToGame.scores.length;
+
+            await linkReviewToGame.save();
+
+            let addReviewToAuthor = await User.findById({ _id: userId });
+
+            addReviewToAuthor.reviewedGames.push(postedReview._id);
+
+            await addReviewToAuthor.save();
+
+            let getReview = await Review.findById({ _id: postedReview._id })
+                .select("-__v")
+                .lean()
+                .populate("author")
+                .populate("game")
+                .select("-__v")
+                .lean();
+
+            return getReview;
+        })();
     },
 
     /**
@@ -282,6 +337,7 @@ const logic = {
             .sort({
                 score: { $meta: "textScore" }
             })
+            .limit(20)
             .select("-_id -__v")
             .lean()
             .then(games => {
@@ -298,6 +354,13 @@ const logic = {
                     oneGame.boxartUrl = cover[0].images.find(
                         image => image.side === "front"
                     ).filename;
+
+                    if (oneGame.scores !== undefined) {
+                        oneGame.finalScore =
+                            oneGame.scores.reduce((a, b) => a + b) /
+                            oneGame.scores.length;
+                    }
+
                     return oneGame;
                 });
                 gameInfo = await Promise.all(gameInfoMap);
@@ -329,7 +392,8 @@ const logic = {
 
         return Game.findOne({ id: gameId })
             .select("-_id -__v")
-            .lean() // .then(response => response.json())
+            .lean()
+            .populate("reviews")
             .then(gameInfo => {
                 if (gameInfo === null)
                     throw new NotFoundError(
@@ -346,6 +410,53 @@ const logic = {
                     image => image.side === "front"
                 ).filename;
 
+                if (gameInfo.scores !== undefined) {
+                    gameInfo.finalScore =
+                        gameInfo.scores.reduce((a, b) => a + b) /
+                        gameInfo.scores.length;
+                }
+
+                return gameInfo;
+            });
+    },
+
+    /**
+     * List games by final score
+     *
+     * @returns {object} games
+     *
+     */
+    rankingGames() {
+
+        return Game.find()
+            .sort('-finalScore')
+            .limit(20)
+            .select("-_id -__v")
+            .lean()
+            .then(games => {
+                if (games.length === 0)
+                    throw new NotFoundError(`no games found`);
+
+                return games;
+            })
+            .then(async gameInfo => {
+                const gameInfoMap = gameInfo.map(async oneGame => {
+                    const cover = await Boxart.find({ id_game: oneGame.id })
+                        .select("-_id -__v")
+                        .lean();
+                    oneGame.boxartUrl = cover[0].images.find(
+                        image => image.side === "front"
+                    ).filename;
+
+                    if (oneGame.scores !== undefined) {
+                        oneGame.finalScore =
+                            oneGame.scores.reduce((a, b) => a + b) /
+                            oneGame.scores.length;
+                    }
+
+                    return oneGame;
+                });
+                gameInfo = await Promise.all(gameInfoMap);
                 return gameInfo;
             });
     }

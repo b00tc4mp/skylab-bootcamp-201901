@@ -24,6 +24,14 @@ const Game = new Schema({
         type: [{ type: ObjectId, ref: "Review" }]
     },
 
+    scores: [{
+        type: Number
+    }],
+
+    finalScore: {
+        type: Number
+    },
+
     id: {
         type: Number,
         required: true,

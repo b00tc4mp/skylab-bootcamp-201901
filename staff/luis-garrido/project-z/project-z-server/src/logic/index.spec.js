@@ -5,7 +5,7 @@ require("isomorphic-fetch");
 
 const {
     mongoose,
-    models: { User }
+    models: { User, Game }
 } = require("project-z-data");
 const {
     AuthError,
@@ -1411,6 +1411,406 @@ describe("logic", () => {
                     .retrieveGameInfo(gameId)
                     .toThrow(TypeError(`${gameId} is not a string`))
             );
+        });
+    });
+
+    //--------------- POST REVIEW ------------------------------
+
+    describe("Post Review", () => {
+        const admin = false;
+        const username = "quinwacca";
+        const avatar = "10";
+        const name = "Luis";
+        const surname = "Garrido";
+        const email = `luisgarrido-${Math.random()}@mail.com`;
+        const password = `123-${Math.random()}`;
+
+        const gameId = "17111"; // The Witness
+
+        const review = {
+            text: "esta mu bien",
+            score: 4
+        };
+
+        let idReviewer;
+
+        beforeEach(async () => {
+            idReviewer = await User.create({
+                admin,
+                username,
+                avatar,
+                name,
+                surname,
+                email,
+                password
+            });
+        });
+
+        it("should post a review with success", async () => {
+            let test = await logic
+                .postReview(idReviewer.id, gameId, review)
+                .then(async () => {
+                    let isGame = await Game.findOne({ id: gameId })
+                        .select("-__v")
+                        .populate("reviews");
+                    expect(() =>
+                        isGame.reviews.some(
+                            reviews => reviews.author.toString() === idReviewer
+                        )
+                    ).toBeTruthy();
+                    // expect(isGame.finalScore).toBe(review.score);
+                    // expect(isGame.scores.length).toBe(1);
+
+                    isGame.scores = undefined;
+                    isGame.reviews = [];
+
+                    await isGame.save();
+                });
+        });
+
+        it("should fail when same user tries to review twice a game", async () => {
+            let test = await logic
+                .postReview(idReviewer.id, gameId, review)
+                .then(async () => {
+                    let isGame = await Game.findOne({ id: gameId })
+                        .select("-__v")
+                        .populate("reviews");
+                    expect(() =>
+                        isGame.reviews.some(
+                            reviews => reviews.author.toString() === idReviewer
+                        )
+                    ).toBeTruthy();
+                    expect(isGame.finalScore).toBe(review.score);
+                    expect(isGame.scores.length).toBe(1);
+                });
+
+            expect(
+                async () =>
+                    await logic
+                        .postReview(idReviewer.id, gameId, review)
+                        .toThrow(
+                            new DuplicateError("user reviewed this game before")
+                        )
+            );
+
+            let isGame = await Game.findOne({ id: gameId });
+
+            isGame.scores = undefined;
+            isGame.reviews = [];
+
+            await isGame.save();
+        });
+
+        it("should fail on empty userId", () => {
+            const userId = "";
+
+            expect(() => logic.postReview(userId, gameId, review)).toThrow(
+                new EmptyError("userId cannot be empty")
+            );
+        });
+
+        it("should fail on undefined userId", () => {
+            const userId = undefined;
+
+            expect(() =>
+                logic
+                    .postReview(userId, gameId, review)
+                    .toThrow(TypeError(`${userId} is not a string`))
+            );
+        });
+
+        it("should fail on numeric userId", () => {
+            const userId = 10;
+
+            expect(() =>
+                logic
+                    .postReview(userId, gameId, review)
+                    .toThrow(TypeError(`${userId} is not a string`))
+            );
+        });
+
+        it("should fail on boolean userId", () => {
+            const userId = false;
+
+            expect(() =>
+                logic
+                    .postReview(userId, gameId, review)
+                    .toThrow(TypeError(`${userId} is not a string`))
+            );
+        });
+
+        it("should fail on object userId", () => {
+            const userId = {};
+
+            expect(() =>
+                logic
+                    .postReview(userId, gameId, review)
+                    .toThrow(TypeError(`${userId} is not a string`))
+            );
+        });
+
+        it("should fail on array userId", () => {
+            const userId = [];
+
+            expect(() =>
+                logic
+                    .postReview(userId, gameId, review)
+                    .toThrow(TypeError(`${userId} is not a string`))
+            );
+        });
+
+        it("should fail on empty gameId", () => {
+            const gameId = "";
+
+            expect(() =>
+                logic.postReview(idReviewer.id, gameId, review)
+            ).toThrow(new EmptyError("gameId cannot be empty"));
+        });
+
+        it("should fail on undefined gameId", () => {
+            const gameId = undefined;
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on numeric gameId", () => {
+            const gameId = 10;
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on boolean gameId", () => {
+            const gameId = false;
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on object gameId", () => {
+            const gameId = {};
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on array gameId", () => {
+            const gameId = [];
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${gameId} is not a string`))
+            );
+        });
+
+        it("should fail on empty review", () => {
+            const review = {};
+
+            expect(() =>
+                logic.postReview(idReviewer.id, gameId, review)
+            ).toThrow(new EmptyError("review cannot be empty"));
+        });
+
+        it("should fail on undefined review", () => {
+            const review = undefined;
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${review} is not an object`))
+            );
+        });
+
+        it("should fail on numeric review", () => {
+            const review = 10;
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${review} is not an object`))
+            );
+        });
+
+        it("should fail on boolean review", () => {
+            const review = false;
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${review} is not an object`))
+            );
+        });
+
+        it("should fail on string review", () => {
+            const review = "yeee";
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${review} is not an object`))
+            );
+        });
+
+        it("should fail on array review", () => {
+            const review = [];
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${review} is not an object`))
+            );
+        });
+
+        // it("should fail on empty text review", () => {
+        //     const review = { text: "", score: 3 };
+
+        //     expect(() =>
+        //         logic.postReview(idReviewer.id, gameId, review)
+        //     ).toThrow(new EmptyError("text cannot be empty"));
+        // });
+
+        it("should fail on undefined text review", () => {
+            const review = { text: undefined, score: 3 };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${text} is not a string`))
+            );
+        });
+
+        it("should fail on numeric text review", () => {
+            const review = { text: 3, score: 3 };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${text} is not a string`))
+            );
+        });
+
+        it("should fail on boolean text review", () => {
+            const review = { text: false, score: 3 };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${text} is not a string`))
+            );
+        });
+
+        it("should fail on object text review", () => {
+            const review = { text: {}, score: 3 };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${text} is not a string`))
+            );
+        });
+
+        it("should fail on array text review", () => {
+            const review = { text: [], score: 3 };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${text} is not a string`))
+            );
+        });
+
+        it("should fail on undefined score review", () => {
+            const review = { text: 'asd', score: undefined };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${score} is not a number`))
+            );
+        });
+
+        it("should fail on string score review", () => {
+            const review = { text: 'asd', score: 'asd' };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${score} is not a number`))
+            );
+        });
+
+        it("should fail on boolean score review", () => {
+            const review = { text: 'asd', score: false };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${score} is not a number`))
+            );
+        });
+
+        it("should fail on object score review", () => {
+            const review = { text: 'asd', score: {} };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${score} is not a number`))
+            );
+        });
+
+        it("should fail on array score review", () => {
+            const review = { text: 'asd', score: [] };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review)
+                    .toThrow(TypeError(`${score} is not a number`))
+            );
+        });
+
+        it("should fail on bigger than 5 score review", () => {
+            const review = { text: 'asd', score: 6 };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review))
+                    .toThrow(Error("score must be between 0 and 5"))
+            
+        });
+
+        it("should fail on smaller than score review", () => {
+            const review = { text: 'asd', score: -1 };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review))
+                    .toThrow(Error("score must be between 0 and 5"))
+            
+        });
+
+        it("should fail on non integer score review", () => {
+            const review = { text: 'asd', score: 1.2 };
+
+            expect(() =>
+                logic
+                    .postReview(idReviewer.id, gameId, review))
+                    .toThrow(Error("score should be an integer number"))
+            
         });
     });
 

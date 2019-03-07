@@ -7,9 +7,11 @@ module.exports = {
 
     searchGames: require('./search-games'),
 
-    retrieveGameInfo: require('./retrieve-game-info')
+    retrieveGameInfo: require('./retrieve-game-info'),
 
-    // addCommentToArtist: require('./add-comment-to-artist'),
+    postReview: require('./post-review'),
+
+    rankingGames: require('./ranking-games')
 
     // listCommentsFromArtist: require('./list-comments-from-artist'),
 

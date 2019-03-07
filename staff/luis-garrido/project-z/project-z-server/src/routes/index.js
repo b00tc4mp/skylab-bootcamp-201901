@@ -9,6 +9,8 @@ const {
     retrieveUser,
     searchGames,
     retrieveGameInfo,
+    postReview,
+    rankingGames,
     notFound
 } = require("./handlers");
 
@@ -28,11 +30,11 @@ router.get('/games', searchGames)
 
 router.get('/game/:gameId', retrieveGameInfo)
 
-// router.post('/artist/:artistId/comment', [jsonBodyParser, tokenVerifierMiddleware], addCommentToArtist)
+router.post('/game/:gameId/review', [jsonBodyParser, tokenVerifierMiddleware], postReview)
+
+router.get('/ranking', rankingGames)
 
 // router.get('/artist/:artistId/comment', tokenVerifierMiddleware, listCommentsFromArtist)
-
-// router.get('/album/:id', retrieveAlbum)
 
 // router.get('/track/:id', retrieveTrack)
 

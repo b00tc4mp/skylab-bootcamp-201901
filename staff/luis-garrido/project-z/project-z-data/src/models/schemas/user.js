@@ -1,12 +1,14 @@
-const { Schema } = require('mongoose')
+const { Schema } = require("mongoose");
+const {
+    Types: { ObjectId }
+} = Schema;
 
 const User = new Schema({
-    
     admin: {
         type: Boolean,
         required: true
     },
-    
+
     username: {
         type: String,
         required: true
@@ -33,7 +35,9 @@ const User = new Schema({
         unique: true,
         validate: {
             validator: email => {
-                return /^\w+([\.-]?\w+)+@\w+([\.:]?\w+)+(\.[a-zA-Z0-9]{2,3})+$/.test(email);
+                return /^\w+([\.-]?\w+)+@\w+([\.:]?\w+)+(\.[a-zA-Z0-9]{2,3})+$/.test(
+                    email
+                );
             },
             message: props => `${props.value} is not a valid email`
         }
@@ -48,7 +52,13 @@ const User = new Schema({
 
     playedGames: [String],
 
-    reviewedGames: [String]
-})
+    reviewedGames: [
+        {
+            type: ObjectId,
+            ref: "Game",
+            required: true
+        }
+    ]
+});
 
-module.exports = User
+module.exports = User;
