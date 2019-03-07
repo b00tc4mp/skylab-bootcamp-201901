@@ -3,7 +3,7 @@
 const bcrypt = require("bcrypt");
 const tokenHelper = require("../token-helper");
 const {
-  models: { User, Post }
+  models: { User, Post, Comment }
 } = require("insta-food-data");
 
 const logic = {
@@ -74,13 +74,17 @@ const logic = {
   },
 
   retrieveUser(userId) {
-    return User.findOne({ _id: userId }).then(user => {
-      if (!user) throw Error(`user with id ${id} not found`);
+    if (typeof userId !== "string")
+      throw TypeError(userId + " is not a string");
+    return User.findOne({ _id: userId })
+      .select("-__v -password")
+      .then(user => {
+        if (!user) throw Error(`user with id ${id} not found`);
 
-      delete user.password;
+        delete user.password;
 
-      return user;
-    });
+        return user;
+      });
   },
 
   createPost(title, description, image, comments, user_id) {
@@ -126,6 +130,7 @@ const logic = {
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
     return Post.find({})
+      .populate("comments.by")
       .select("-__v")
       .lean()
 
@@ -137,14 +142,22 @@ const logic = {
       throw TypeError(userId + " is not a string");
     if (typeof postId !== "string")
       throw TypeError(postId + " is not a string");
-    return User.findById(userId).then(user => {
-      const { favorites = [] } = user;
-      const index = favorites.findIndex(_postId => _postId === postId);
-      if (index < 0) favorites.push(postId);
-      else favorites.splice(index, 1);
-      user.favorites = favorites;
-      return user.save();
-    });
+    return User.findById(userId)
+      .then(user => {
+        const { favorites = [] } = user;
+        const index = favorites.findIndex(
+          _postId => _postId.toString() === postId
+        );
+        if (index < 0) favorites.push(postId);
+        else favorites.splice(index, 1);
+        user.favorites = favorites;
+        user.save();
+      })
+      .then(() => {
+        return User.findById(userId)
+          .populate("favorites")
+          .select("-__v -password");
+      });
   },
 
   addCommentPost(userId, postId, text) {
@@ -153,10 +166,14 @@ const logic = {
     if (typeof postId !== "string")
       throw TypeError(postId + " is not a string");
     if (typeof text !== "string") throw TypeError(text + " is not a string");
+
+    const newComment = new Comment({
+      by: userId,
+      body: text
+    });
     return Post.findById(postId).then(post => {
       const { comments = [] } = post;
-      comments.push({ userId, text });
-
+      comments.push(newComment);
       return post.save();
     });
   }

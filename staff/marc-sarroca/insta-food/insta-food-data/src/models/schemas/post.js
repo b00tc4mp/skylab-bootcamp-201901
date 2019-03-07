@@ -1,7 +1,11 @@
 "use strict";
 
 const { Schema } = require("mongoose");
+const {
+  Types: { ObjectId }
+} = Schema;
 
+const Comment = require("./comment");
 const Post = new Schema({
   tags: {
     type: Array,
@@ -23,9 +27,10 @@ const Post = new Schema({
     type: String,
     required: true
   },
-  comments: {
-    type: Array
-  }
+  // postedBy: {
+  //   type: ObjectId,
+  //   ref: "User"
+  comments: [Comment]
 });
 
 module.exports = Post;

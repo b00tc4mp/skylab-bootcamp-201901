@@ -1,7 +1,9 @@
 "use strict";
 
 const { Schema } = require("mongoose");
-
+const {
+  Types: { ObjectId }
+} = Schema;
 const User = new Schema({
   name: {
     type: String,
@@ -20,9 +22,11 @@ const User = new Schema({
     type: String,
     required: true
   },
-  favorites: {
-    type: Array,
-    required: true
-  }
+  favorites: [
+    {
+      type: ObjectId,
+      ref: "Post"
+    }
+  ]
 });
 module.exports = User;
