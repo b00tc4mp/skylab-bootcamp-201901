@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
+import './index.sass';
+
 
 
 
@@ -40,6 +42,7 @@ class Login extends Component {
                 <input required type="text" name="password" placeholder="Enter a valid email adress" onChange={handleInput}></input>
 
                 <button>Login</button>
+                
 
 
             </form>

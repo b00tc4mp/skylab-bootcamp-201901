@@ -58,8 +58,8 @@ class App extends Component {
 
       <div className="App">
           <Header user={user} ></Header>
-          {!user && <Login loginFeedback={loginFeedback} onLogin={handleLogin}> </Login>}
-          {/* {!registered && <Register registerFeedback={registerFeedback} onRegister={handleRegister}> </Register>} */}
+          {!user && registered && <Login loginFeedback={loginFeedback} onLogin={handleLogin}> </Login>}
+          {!registered && !user && <Register registerFeedback={registerFeedback} onRegister={handleRegister}> </Register>}
           {<LandingPage registerFeedback={registerFeedback} onRegister={handleRegister}> </LandingPage>} 
       </div>
     );

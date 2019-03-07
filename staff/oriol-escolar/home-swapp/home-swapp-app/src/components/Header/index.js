@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import './index.sass';
+
 
 
 
@@ -69,7 +71,7 @@ class Header extends Component {
 
         const { goToLogin, goToRegister, goToLanding, goToLogout,goToConversations,goToUser, renderUnloggedButtons,renderloggedButtons, state: { user } } = this
 
-        return <section className="header">
+        return <div className="header">
 
 
             <img className="header__logo" src="https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo1.png" onClick={goToLanding}></img>
@@ -77,7 +79,7 @@ class Header extends Component {
             {user ? renderloggedButtons(goToLogin,goToRegister):renderUnloggedButtons(goToLogout,goToConversations,goToUser)}
 
 
-        </section>
+        </div>
 
 
 
