@@ -82,7 +82,6 @@ const logic = {
                         return createToken(id)
                     })
             })
-        // .then(() => user.id)
     },
 
     /**
@@ -116,12 +115,19 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
-        // if (typeof data !== 'string') throw TypeError(data + 'is not a string')
-        // if (!data.trim().length) throw Error('data cannot be empty')
+        if (!data) throw TypeError('data should be defined')
+        if (!data.constructor !== Object) throw Error('data is not an object')
 
         return User.findOneAndUpdate({ id: userId, $set: data })
     },
 
+    /**
+     * 
+     * Removes a user from a workspace
+     * 
+     * @param {string} userId 
+     * @param {string} email 
+     */
     removeUser(userId, email) {
         if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -155,6 +161,13 @@ const logic = {
             // })
     },
 
+    /**
+     * 
+     * Creates a new workspace. Only admins can do it
+     * 
+     * @param {string} name 
+     * @param {string} userId 
+     */
     createWorkspace(name, userId) {
 
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
@@ -181,6 +194,13 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * Adds a user to an existing workspace.
+     * 
+     * @param {string} workId 
+     * @param {string} userId 
+     */
     addUserToWorkspace(workId, userId) {
         if (typeof workId !== 'string') throw TypeError(workId + ' is not a string')
         if (!workId.trim().length) throw Error('workspaceId cannot be empty')
@@ -214,6 +234,12 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * Create a link that will allow new users be added to a workspace
+     * 
+     * @param {string} userId 
+     */
     createNewUserLink(userId) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -244,6 +270,13 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * Verifies the link provided to the user is correct and can be added to a workspace.
+     * 
+     * @param {srting} userId 
+     * @param {string} link 
+     */
     verifyNewUserLink(userId, link) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -269,6 +302,14 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * Creates a service.
+     * 
+     * @param {string} userId 
+     * @param {string} title 
+     * @param {string} description 
+     */
     createService(userId, title, description) {
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
@@ -298,6 +339,13 @@ const logic = {
             .then(() => serviceId)
     },
 
+    /**
+     * 
+     * Retrieves a service
+     * 
+     * @param {string} userId 
+     * @param {string} serviceId 
+     */
     retrieveService(userId, serviceId) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -317,6 +365,12 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} serviceId 
+     * @param {Object} data 
+     */
     updateService(userId, serviceId, data) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -324,8 +378,8 @@ const logic = {
         if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
         if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
 
-        // if (typeof data !== 'string') throw TypeError(data + ' is not a string')
-        // if (!data.trim().length) throw Error('data cannot be empty')
+        if (!data) throw TypeError('data should be defined')
+        if (data.constructor !== Object) throw Error(`${data} is not an object`)
 
         return Service.findById(serviceId)
             .then(service => {
@@ -334,6 +388,11 @@ const logic = {
             .then(() => Service.findOneAndUpdate({ id: serviceId, $set: data }))
     },
 
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} serviceId 
+     */
     deleteService(userId, serviceId) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
