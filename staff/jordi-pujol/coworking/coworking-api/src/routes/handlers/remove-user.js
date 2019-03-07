@@ -1,13 +1,11 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { body: { email, password }, headers: { authorization } } = req
-
-    const token = authorization.substring(7)
+    const { userId, body: {email} } = req
 
     try {
-        logic.removeUser(token, email, password)
-            .then(() => res.json({ }))
+        logic.removeUser(userId, email)
+            .then(() => res.json({ status: 'ok'}))
             .catch(({ message }) => {
                 res.status(408).json({
                     error: message
