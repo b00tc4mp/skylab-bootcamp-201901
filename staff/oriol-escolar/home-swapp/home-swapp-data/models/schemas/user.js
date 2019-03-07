@@ -26,17 +26,17 @@ const User = new Schema({
         required: true
     },
 
-    myHouses: [{
-
-        type: String
-
-    }],
     // myHouses: [{
 
-    //     type: ObjectId,
-    //     ref: 'House'
+    //     type: String
 
     // }],
+    myHouses: [{
+
+        type: ObjectId,
+        ref: 'House'
+
+    }],
     
     
 

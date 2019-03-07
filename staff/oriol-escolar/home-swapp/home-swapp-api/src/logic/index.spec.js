@@ -487,6 +487,94 @@ describe('logic', () => {
     })
 
 
+    describe('create house', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images =['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city:'badalona',
+            street:'tamariu',
+            number:'29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info ={
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+        )
+
+        it.only('should succeed on correct data', () =>
+            logic.createHouse(userId,images,description,info,adress)
+                .then(user => {
+                    expect(user.id).toBe(userId)
+                    expect(user.username).toBe(username)
+                    expect(user.email).toBe(email)
+                    expect(user.myHouses).toBe(email)
+
+                    expect(user.save).toBeUndefined()
+                })
+
+            
+        )
+
+        // it('should fail on boolean id', () => {
+            
+        //     expect(() => {
+        //         logic.retrieveUser(true)
+        //     }).toThrow(Error(`${true} is not a string`))
+        // })
+
+        // it('should fail on object id', () => {
+            
+        //     expect(() => {
+        //         logic.retrieveUser({})
+        //     }).toThrow(Error(`${{}} is not a string`))
+        // })
+
+        // it('should fail on undefined id', () => {
+            
+        //     expect(() => {
+        //         logic.retrieveUser(undefined)
+        //     }).toThrow(Error(`${undefined} is not a string`))
+        // })
+
+        // it('should fail on array id', () => {
+            
+        //     expect(() => {
+        //         logic.retrieveUser([])
+        //     }).toThrow(Error(`${[]} is not a string`))
+        // })
+
+        // it('should fail on numeric id', () => {
+            
+        //     expect(() => {
+        //         logic.retrieveUser(1)
+        //     }).toThrow(Error(`${1} is not a string`))
+        // })
+
+        // it('should fail on empty id', () => {
+            
+        //     expect(() => {
+        //         logic.retrieveUser("")
+        //     }).toThrow(Error('userId cannot be empty'))
+        // })
+    })
+
+
 
 
 

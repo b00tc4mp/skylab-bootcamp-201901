@@ -1,6 +1,6 @@
 'use strict'
 
-const { User, House } = require('homeSwapp-data')
+const { User, House,mongoose } = require('homeSwapp-data')
 const bcrypt = require('bcrypt')
 
 
@@ -147,14 +147,16 @@ const logic = {
 
     },
 
-    createHouse(ownerId, images, description, info, adress) {
+    createHouse( ownerId, images, description, info, adress) {
+
+        ownerId = mongoose.Types.ObjectId(ownerId)
 
         return House.create(ownerId, images, description, info, adress)
-            .then(house => {
+            // .then(house => {
 
-                addHouseToUser(ownerId, house.id)
+                // addHouseToUser(ownerId, house.id)
 
-            })
+            // })
 
     }
 
