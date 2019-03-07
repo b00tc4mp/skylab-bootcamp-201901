@@ -23,9 +23,9 @@ router.post('/user/auth', jsonBodyParser, authenticateUser)
 router.delete('/user', [tokenVerifierMiddleware, jsonBodyParser], removeUser)
 
 
-router.post('/workspace', jsonBodyParser, createWorkspace)
+router.post('/workspace', [tokenVerifierMiddleware, jsonBodyParser], createWorkspace)
 
-router.post('/workspace/user', jsonBodyParser, addUserToWorkSpace)
+router.post('/workspace/user', [tokenVerifierMiddleware, jsonBodyParser], addUserToWorkSpace)
 
 router.get('/workspace/link', tokenVerifierMiddleware, createNewUserLink)
 

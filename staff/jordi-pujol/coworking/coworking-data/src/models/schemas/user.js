@@ -31,7 +31,8 @@ const User = new Schema({
 
     isAdmin:{
         type: String,
-        required: true
+        default: 'false',
+        required: false
     },
 
     workspace:{

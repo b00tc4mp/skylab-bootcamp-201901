@@ -100,6 +100,96 @@ const coworkingApi = {
 
                 return response
             })
+    },
+
+    createWorkspace(name, token){
+        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
+        if (!name.trim().length) throw Error('name is empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/workspace`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ name })
+        })
+            .then( response => response.json())
+            .then (response => {
+                if (response.error) throw Error (response.error)
+
+                return response
+            })
+    },
+
+    createNewUserLink(token){
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/workspace/link`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then( response => response.json())
+            .then (response => {
+                if (response.error) throw Error (response.error)
+                console.log(response)
+                return response.link
+            })
+    },
+
+    verifyNewUserLink(token, link){
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof link !== 'string') throw TypeError(`${link} is not a string`)
+        if (!link.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/workspace/link`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ invitationId: link })
+        })
+            .then( response => response.json())
+            .then (response => {
+                if (response.error) throw Error (response.error)
+
+                return response
+            })
+    },
+
+    addUserToWorkspace(token, workspaceId){
+        console.log(workspaceId)
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof workspaceId !== 'string') throw TypeError(`${workspaceId} is not a string`)
+        if (!workspaceId.trim().length) throw Error('workspaceId is empty')
+
+        return fetch(`${this.url}/workspace/user`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ workspaceId })
+        })
+            .then( response => response.json())
+            .then (response => {
+                if (response.error) throw Error (response.error)
+                
+                if(response.status === 'OK')
+                return response.status
+            })
     }
 }
 

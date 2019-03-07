@@ -19,7 +19,9 @@ class Home extends Component {
     handleGoToNotifications = () => this.props.history.push('/home/notifications')
 
     handleCreateNewLink = () => {
-        logic.createNewUserLink() // TODO logic
+        logic.createNewUserLink()
+            .then((result)=> console.log(result + 'dsadsadsadsadds'))
+            .then(()=> this.props.history.push('/home/notifications'))
     }
 
     handleLogOut = () => {
@@ -29,7 +31,7 @@ class Home extends Component {
 
     render() {
 
-        const { handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut } = this
+        const { handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink } = this
 
         return <section>
             <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />

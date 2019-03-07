@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     
     try {
         logic.verifyNewUserLink(userId, link)
-            .then(() => res.json({ status: 'OK' }))
+            .then((workspaceId) => res.json({ workspaceId }))
             .catch(({ message }) => {
                 res.status(401).json({
                     error: message

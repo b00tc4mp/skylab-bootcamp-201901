@@ -7,6 +7,7 @@ import Login from '../Login'
 import Register from '../Register'
 import Home from '../Home'
 import logic from '../../logic'
+import Workspace from '../Create-workspace'
 
 class App extends Component {
 
@@ -17,19 +18,40 @@ class App extends Component {
 
     }
 
-    handleLogin = (email, password) => {
+    handleLogin = (email, password, link) => {
+
+        if (link) {
+
+            return logic.logInUser(email, password)
+                .then(() => logic.verifyNewUserLink(link))
+                .then(workspaceId => logic.addUserToWorkspace(workspaceId))
+                .then(()=> console.log('SIIIIII'))
+                .then(() => this.props.history.push('/home'))
+                .catch((error) => console.log(error)) //print it
+        }
+        else {
+            logic.logInUser(email, password)
+                .then(() => this.props.history.push('/home'))
+                .then(()=> console.log('NOOOOOOO'))
+                .catch((error) => console.log(error)) //print it
+        }
+    }
+
+    handleNewWorkspace = (email, password, name) => {
         logic.logInUser(email, password)
+            .then(token => logic.createWorkspace(name, token))
             .then(() => this.props.history.push('/home'))
             .catch((error) => console.log(error)) //print it
     }
 
     render() {
 
-        const { handleLogin, handleRegister } = this
+        const { handleLogin, handleRegister, handleNewWorkspace } = this
 
         return <main className='app'>
             <Route exact path='/register' render={() => <Register onRegister={handleRegister} />} />
-            <Route exact path='/login' render={() => <Login onLogin={handleLogin} />} />
+            <Route path='/login/:link' render={(props) => <Login onLogin={handleLogin} link={props.match.params.link} />} />
+            <Route exact path='/workspace' render={() => <Workspace onNewWorkspace={handleNewWorkspace} />} />
             <Route path='/home' render={() => <Home />} />
         </main>
     }
