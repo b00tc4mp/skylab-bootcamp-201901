@@ -54,13 +54,22 @@ class App extends Component {
 
 
     return (
-      
+
 
       <div className="App">
+        <div className="navbar">
           <Header user={user} ></Header>
-          {!user && registered && <Login loginFeedback={loginFeedback} onLogin={handleLogin}> </Login>}
-          {!registered && !user && <Register registerFeedback={registerFeedback} onRegister={handleRegister}> </Register>}
-          {<LandingPage> </LandingPage>} 
+
+        </div>
+
+        <div className="content" >
+          <Login loginFeedback={loginFeedback} onLogin={handleLogin}> </Login>
+          <Register registerFeedback={registerFeedback} onRegister={handleRegister}> </Register>
+          <LandingPage> </LandingPage>
+
+        </div>
+
+
       </div>
     );
   }
