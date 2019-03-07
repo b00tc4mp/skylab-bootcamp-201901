@@ -31,6 +31,7 @@ class Nav extends Component {
 
     handleOnLogout = event => {
         this.setState({isLogin: null})
+        logic.logOutUser()
     }
 
     handleRegisterPet = event => {

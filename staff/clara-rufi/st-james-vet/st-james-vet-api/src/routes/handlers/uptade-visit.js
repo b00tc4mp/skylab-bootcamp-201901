@@ -2,10 +2,10 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
 
-    const { body: {petsId, name, microchip, petlicence } } = req
+    const { body: {petsId, vaccionations, controls, details } } = req
 
     try {
-        logic.updatePet(petsId, name, microchip, petlicence)
+        logic.updateVisit(petsId, vaccionations, controls, details)
             // .then(user => res.json(user))
             .then(res.json.bind(res))
             .catch(({ message }) => {

@@ -42,7 +42,7 @@ class Login extends Component {
         <label>Password</label>
           <input type="password" name="password" onChange={this.handleOnChange} required />
         
-        {this.state.error && <p p className= "feedbackError">{this.state.error}</p>}
+        {this.state.error && <p p className= "feedback__Error">{this.state.error}</p>}
         {this.state.isLogin && <p className= "feedback__Ok">You have successfully logged in!</p>} 
         {this.state.isLogin && <button className="button__home" onClick={this.handleGoHome}>Go Home</button>}
         {this.state.signIn &&<button type="submit" className="button">Sign in</button>}

@@ -1,52 +1,23 @@
 import React, { Component} from 'react'
+import Calendar from '../Calendar'
 
-import './index.sass'
 
-// import moment from 'moment';
+
 
 class Appointments extends Component {
    
-    // render() {
-    //   debugger
-    //     const { props: { year, month } } = this
+    render() {
+ 
 
-    //     const m = moment(`${year}-${month}`)
-
-    //     return <section>
-    //         <h2>{m.format('MMMM')}</h2>
-    //         {
-    //             (() => {
-    //                 const days = []
-    //                 const weeks = Math.ceil((m.day() + m.daysInMonth()) / 7)
-
-    //                 let paint = false
-    //                 let count = 1
-
-    //                 for (let w = 0; w < weeks; w++) {
-    //                     for (let d = 0; d < 7; d++) {
-    //                         if (d === m.day()) paint = true
-
-    //                         const mNow = moment(`${year}-${month}-${count}`)
-
-
-    //                         if (paint && count <= m.daysInMonth()) {
-    //                             days.push(<div className="current-month-day" key={count}>{`${mNow.format('dddd')} ${count++}`}</div>)
-    //                         } else
-    //                             days.push(<div className="day" key={`${w}-${d}`}></div>)
-    //                     }
-    //                 }
-
-    //                 return days
-    //             })()
-              
-
-    //           }
-    //     <h1>Calendar</h1>
-    //     <Calendar year={2019} month={5} ></Calendar>
+        return <section>
+           
+        <h1>Calendar</h1>
+        <Calendar year={2019} month={5} ></Calendar>
+        <Calendar year={2019} month={6} ></Calendar>
     
-    //     </section>
+        </section>
               
-    // } 
+    } 
   }
 export default Appointments
 

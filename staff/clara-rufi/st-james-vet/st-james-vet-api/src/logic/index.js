@@ -316,7 +316,28 @@ const logic = {
             })
     },
 
+    retrievePetVisit(petsId) {
+        // if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+
+        // if (!userId.trim().length) throw new EmptyError('user id is empty')
+
+
+        return Pet.findById(petsId)
+        
+            .then(pet => {
+                if (!pet) throw Error(`user with id ${petsId} not found`)
+
+                pet.id = pet._id.toString()
+
+                const _pet = {
+                    vaccionations:pet.vaccionations,
+                    controls: pet.controls,
+                    details: pet.details
+                }
     
+                return _pet
+            })
+    },
     // const pet = {
     //     id: pet._id,
     //     name: pet.name,
@@ -328,9 +349,7 @@ const logic = {
     //     microchip: pet.microchip,
     //     petlicence: pet.petlicence,
     //     neutered: pet.neutered,
-    //     vaccionations:pet.vaccionations,
-    //     controls: pet.controls,
-    //     details: pet.details
+    //    
 
     // const user = {
     //     id: user._id,
@@ -360,7 +379,9 @@ const logic = {
 
     },
 
-    updatePet(petsId, name, microchip, petlicence, neutered){
+    // updatePet(petsId, name, microchip, petlicence){
+    updatePet(petsId, name, microchip, petlicence){
+
         // if (typeof user !== 'string') throw TypeError(`${user} is not a string`)
         
         // if (!user.trim().length) throw new EmptyError('user is empty')
@@ -368,11 +389,27 @@ const logic = {
         // if (typeof token!== 'string') throw TypeError(`${token} is not a string`)
         return (async () => {
          
-            const user = await User.findOneAndUpdate({petsId},{$set:{name, microchip, petlicence, neutered}},{new: true},)          
+            const pet = await Pet.findOneAndUpdate({_id: petsId},{$set:{name, microchip, petlicence}},{new: true},)          
+            // const pet = await Pet.findById(petsId)
             
-            return user
+            return pet
         })()
+    },
 
+    updateVisit(petsId, vaccionations, controls, details){
+        debugger
+        // if (typeof user !== 'string') throw TypeError(`${user} is not a string`)
+        
+        // if (!user.trim().length) throw new EmptyError('user is empty')
+        
+        // if (typeof token!== 'string') throw TypeError(`${token} is not a string`)
+        return (async () => {
+         
+            const visit = await Pet.findOneAndUpdate({_id: petsId},{$set:{vaccionations, controls, details}},{new: true},)          
+            // const pet = await Pet.findById(petsId)
+            
+            return visit
+        })()
     }
 }
 

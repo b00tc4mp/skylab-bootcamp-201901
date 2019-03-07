@@ -8,6 +8,18 @@ class Visit extends Component {
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
+
+    handleSelectOwner = async event => {
+        event.preventDefault()
+        const usersId = event.target.value
+        this.retrievePets(usersId)
+    }
+
+    retrieveUsers = async () => {
+        const users = await logic.retrieveUsers()
+        this.setState({ users })
+    }
+
     retrievePets = async (userId) => {
         const pets = await logic.retrievePets(userId)
         this.setState({ pets })
@@ -17,47 +29,30 @@ class Visit extends Component {
         this.retrieveUsers()
     }
 
-    retrievePets = async userId => {
-        const pets = await logic.retrievePets(userId)
-        this.setState({ pets })
-    }
-
-    retrieveUsers = async () => {
-        const users = await logic.retrieveUsers()
-        this.setState({ users })
-    }
-
+   
     handleGoHome = event => {
         event.preventDefault()
         this.props.history.push('/home')
-    }
-
-    handleSelectOwner = async event => {
-        event.preventDefault()
-        const usersId = event.target.value
-        this.retrievePets(usersId)
-    }
-
-    handleVisitSubmit = event => {
-        debugger
-        event.preventDefault()
-        const { state: { petsId, name, microchip, petlicence, neutered } } = this
-        this.editPet( petsId, name, microchip, petlicence, neutered)
     }
 
     handleSelectPet = async event => {
         event.preventDefault()
         const petsId = event.target.value
         console.log(petsId)
-        const pets = await logic.retrievePets(petsId)
-        this.setState({ pets })
+        const {vaccionations, controls, details} = await logic.retrievePetVisit(petsId)
+        this.setState({ petsId, vaccionations, controls, details})
     }
 
+    handleVisitSubmit = event => {
+        event.preventDefault()
+        const { state: { petsId, vaccionations, controls, details } } = this
+        this.editVisit( petsId, vaccionations, controls, details)
+    }
 
-    editPet = async (petsId, name, microchip, petlicence, neutered) => {
+    editVisit = async (petsId,  vaccionations, controls, details) => {
         try {
             
-            await logic.updatePet(petsId, name, microchip, petlicence, neutered)
+            await logic.updateVisit(petsId,  vaccionations, controls, details)
             this.setState({isModified: true})
         } catch ({ message }) {
             this.setState({ error: message })
@@ -67,9 +62,8 @@ class Visit extends Component {
     render() {
 
         return <form onSubmit={this.handleVisitSubmit}>
-            <p className="title__form">Visit:</p>
-            <section class="form">
-            <p className="title__form">Pet's details:</p>
+            <section className="form">
+            <p className="title__form">Visit details:</p>
             <div className="input__form">
                 <label>Select Owner</label>
                 <select name="owner" onChange={this.handleSelectOwner}>
@@ -79,27 +73,27 @@ class Visit extends Component {
             <div className="input__form">
                 <label>Select Pet</label>
                 <select name="pet" onChange={this.handleSelectPet}>
-                    {this.state.pets.map(pet => <option name="pet" value={pet.id}>{pet.name}</option>)}
+                {<option>Select a pet</option>}{this.state.pets.map(pet => <option name="pet" value={pet.id}>{pet.name}</option>)}
                 </select>
             </div>
 
             <div className="input__form">
                 <label>Vaccionations and booster shots:</label>
-                <textarea name="vaccionations" onChange={this.handleOnChange} rows="20"></textarea>
+                <textarea value={this.state.vaccionations} name="vaccionations" onChange={this.handleOnChange} rows="20"></textarea>
             </div>
             <div className="input__form">
                 <label>Veterinary controls:</label>
-                <textarea name="controls" onChange={this.handleOnChange} rows="20"></textarea>
+                <textarea value={this.state.controls} name="controls" onChange={this.handleOnChange} rows="20"></textarea>
             </div>
             <div className="input__form">
                 <label>Details of clinical interests:</label>
-                <textarea name="details" onChange={this.handleOnChange} rows="10"></textarea>
+                <textarea value={this.state.details} name="details" onChange={this.handleOnChange} rows="10"></textarea>
             </div>
             
-            <button type="submit" class="button">Sign in</button>
+            <button type="submit" class="button">Edit</button>
             <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
-            {this.state.error && <p className="feedbackError">{this.state.error}</p>}
-            {this.state.isRegister && <p className="feedbackOk">You have successfully edited !</p>}
+            {this.state.error && <p className="feedback__Error">{this.state.error}</p>}
+            {this.state.isModified && <p className="feedback__Ok">Visit successfully updated</p>}
             
             </section>
         </form>         

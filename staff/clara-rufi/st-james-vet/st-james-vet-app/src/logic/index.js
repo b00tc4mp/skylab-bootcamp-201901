@@ -12,6 +12,9 @@ const logic = {
         this.__userApiToken__ = sessionStorage.getItem('__userToken__')
     },
 
+    removeStorage(){
+        sessionStorage.clear()
+    },
     /**
     * Registers a user.
     * 
@@ -219,6 +222,7 @@ const logic = {
     logOutUser() {
         this.__userId__ = null
         this.__userApiToken__ = null
+        this.removeStorage()
     },
 
     retrieveUsers() {
@@ -295,6 +299,28 @@ const logic = {
             })
     },
 
+    retrievePetVisit(petsId) {
+        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        // if (!token.trim().length) throw Error('token is empty')
+       
+        // this.__updateToken__()
+        // return fetch(`${this.url}/user`, {
+
+         this.__updateToken__()
+        return fetch(`${this.url}/visit/${petsId}`, {
+            headers: {
+                authorization: `Bearer ${this.__userApiToken__}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+
+    },
+    
     updateUser(name, surname, idCard, phone, adress, city, email) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
@@ -324,7 +350,7 @@ const logic = {
     * @param {string} data
     * 
     */
-    updatePet(petsId, name, microchip, petlicence, neutered) {
+    updatePet(petsId, name, microchip, petlicence) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
 
@@ -336,7 +362,7 @@ const logic = {
                 authorization: `Bearer ${this.__userApiToken__}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({petsId, name, microchip, petlicence, neutered})
+            body: JSON.stringify({petsId, name, microchip, petlicence})
         })
             .then(response => response.json())
             .then(response => {
@@ -344,6 +370,28 @@ const logic = {
 
                 return response
             })
+    },
+
+    updateVisit(petsId, vaccionations, controls, details) {
+        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        // if (!token.trim().length) throw Error('token is empty')
+
+        // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        debugger
+        return fetch(`${this.url}/visit`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${this.__userApiToken__}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({petsId, vaccionations, controls, details})
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+        })
     },
 
     /**
@@ -378,7 +426,7 @@ const logic = {
 
                 return response
             })
-    },
+    }
 
 }
 

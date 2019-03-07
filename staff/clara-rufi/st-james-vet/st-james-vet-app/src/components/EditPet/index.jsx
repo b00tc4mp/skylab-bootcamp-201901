@@ -4,7 +4,7 @@ import logic from '../../logic'
 
 class EditPet extends Component {
 
-    state = { users: [], pets: [], name: '', microchip: '', petlicence: '', neutered: '', vaccionations: '', controls: '', details: '', error: null }
+    state = { users: [], pets: [], name: '', microchip: '', petlicence: '', error: null }
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
@@ -34,10 +34,8 @@ class EditPet extends Component {
         event.preventDefault()
         const petsId = event.target.value
         console.log("petsID " + petsId)
-        if (!petsId) return
-        debugger
-        const {name, microchip, petlicence, neutered} = await logic.retrievePet(petsId)
-        this.setState({name, microchip, petlicence, neutered})
+        const {name, microchip, petlicence} = await logic.retrievePet(petsId)
+        this.setState({petsId, name, microchip, petlicence})
         
         // const pets = await logic.retrievePets(userId)
         // debugger
@@ -51,16 +49,16 @@ class EditPet extends Component {
     
     
     handleEditSubmit = event => {
-        debugger
+
         event.preventDefault()
-        const { state: { petsId, name, microchip, petlicence, neutered } } = this
-        this.editPet( petsId, name, microchip, petlicence, neutered)
+        const { state: { petsId, name, microchip, petlicence } } = this
+        this.editPet( petsId, name, microchip, petlicence)
     }
 
-    editPet = async (petsId, name, microchip, petlicence, neutered) => {
+    editPet = async (petsId, name, microchip, petlicence) => {
         try {
             
-            await logic.updatePet(petsId, name, microchip, petlicence, neutered)
+            await logic.updatePet(petsId, name, microchip, petlicence)
             this.setState({isModified: true})
         } catch ({ message }) {
             this.setState({ error: message })
@@ -69,18 +67,18 @@ class EditPet extends Component {
     render() {
 
         return <form onSubmit={this.handleEditSubmit}>
-            <section class="form">
+            <section className="form">
                 <p className="title__form">Pet's details:</p>
                 <div className="input__form">
                     <label>Select Owner</label>
-                    <select name="owner" onChange={this.handleSelectOwner}>
-                        {this.state.users.map(user => <option name="owner" value={user.id}>{user.name}</option>)}
+                    <select name="owner" onChange={this.handleSelectOwner} >
+                    {this.state.users.map(user => <option name="owner" value={user.id} >{user.name}</option>)}
                     </select>
                 </div>
                 <div className="input__form">
                     <label>Select Pet</label>
                     <select name="pet" onChange={this.handleSelectPet}>
-                        {this.state.pets.map(pet => <option name="pet" value={pet.id}>{pet.name}</option>)}
+                    {<option>Select a pet</option>}{this.state.pets.map(pet => <option name="pet" value={pet.id}>{pet.name}</option>)}
                     </select>
                 </div>
                 <div className="input__form">
@@ -89,30 +87,18 @@ class EditPet extends Component {
                 </div>
                 <div className="input__form">
                     <label>Microchip</label>
-                    <input value={this.state.microchip} type="microchip" name="microchip" onChange={this.handleOnChange}></input>
+                    <input value={this.state.microchip} type="text" name="microchip" onChange={this.handleOnChange}></input>
                 </div>
                 <div className="input__form">
                     <label>Pet licence</label>
                     <input value={this.state.petlicence} type="text" name="petlicence" onChange={this.handleOnChange}></input>
                 </div>
-                <label>Neutered</label>
-                <div className="radio">
-                    <label>
-                        <input value={this.state.neutered} type="radio" name="neutered" value="yes" onChange={this.handleOnChange} />
-                        yes
-                    </label>
-                </div>
-                <div className="radio">
-                    <label>
-                        <input value={this.state.neutered} type="radio" name="neutered" value="no" onChange={this.handleOnChange} />
-                        no
-                    </label>
-                </div>
+              
 
                 <button type="submit" class="button">Sign in</button>
                 <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
-                {this.state.error && <p className="feedbackError">{this.state.error}</p>}
-                {this.state.isRegister && <p className="feedbackOk">You have successfully edited !</p>}
+                {this.state.error && <p className="feedback__Error">{this.state.error}</p>}
+                {this.state.isModified && <p className="feedback__Ok">Profile successfully updated!</p>}
             </section>
         </form>
 

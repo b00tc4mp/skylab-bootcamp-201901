@@ -1,11 +1,10 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-
-    const { body: {petsId, name, microchip, petlicence } } = req
+    const { params: {petsId}  } = req
 
     try {
-        logic.updatePet(petsId, name, microchip, petlicence)
+        logic.retrievePetVisit(petsId)
             // .then(user => res.json(user))
             .then(res.json.bind(res))
             .catch(({ message }) => {
