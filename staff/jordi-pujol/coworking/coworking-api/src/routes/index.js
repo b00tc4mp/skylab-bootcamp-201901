@@ -20,7 +20,7 @@ router.put('/user', [jsonBodyParser, tokenVerifierMiddleware], updateUser)
 
 router.post('/user/auth', jsonBodyParser, authenticateUser)
 
-router.delete('/user', [jsonBodyParser, tokenVerifierMiddleware], removeUser)
+router.delete('/user', [tokenVerifierMiddleware, jsonBodyParser], removeUser)
 
 
 router.post('/workspace', jsonBodyParser, createWorkspace)

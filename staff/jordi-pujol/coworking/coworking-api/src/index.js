@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const mongoose = require('mongoose')
+const {mongoose} = require('coworking-data')
 const express = require('express')
 const tokenHelper = require('./token-helper')
 const router = require('./routes')
