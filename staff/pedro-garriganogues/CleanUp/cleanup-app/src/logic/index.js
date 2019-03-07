@@ -1,6 +1,6 @@
 'user strict'
 
-import finalApi from '../api'
+import cleanUpApi from '../api'
 
 const logic = {
     __userId__: null,
@@ -10,7 +10,7 @@ const logic = {
 
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
         try {
-            const answer = await finalApi.registerUser(name, surname, email, password, passwordConfirmation)
+            const answer = await cleanUpApi.registerUser(name, surname, email, password, passwordConfirmation)
             console.log(answer)
         } catch (error) {
             console.log(error)
@@ -26,7 +26,7 @@ const logic = {
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        return finalApi.authenticateUser(email, password)
+        return cleanUpApi.authenticateUser(email, password)
             .then(token => this.__userApiToken__ = token)
     },
 
@@ -36,7 +36,7 @@ const logic = {
     },
 
     retrieveUser() {
-        return finalApi.retrieveUser(this.__userApiToken__)
+        return cleanUpApi.retrieveUser(this.__userApiToken__)
             .then(({ id, name, surname, email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
                 id,
                 name,
@@ -56,7 +56,7 @@ const logic = {
 
 
     listProducts(category) {
-        return finalApi.listProducts(category)
+        return cleanUpApi.listProducts(category)
             .then(products => {
                 return products
             })
@@ -64,20 +64,20 @@ const logic = {
 
 
     retrieveProduct(productId) {
-        return finalApi.retrieveProduct(productId)
+        return cleanUpApi.retrieveProduct(productId)
             .then(product => product)
     },
 
 
     listAllProducts() {
-        return finalApi.listAllProducts()
+        return cleanUpApi.listAllProducts()
             .then(products => products)
     },
 
 
     createOrder(paymentMethod, products, orderAdress) {
 
-        return finalApi.createOrder(paymentMethod, this._orderStatus, products, this.userId(), orderAdress, this.getDateOrder())
+        return cleanUpApi.createOrder(paymentMethod, this._orderStatus, products, this.userId(), orderAdress, this.getDateOrder())
     }
 
 
@@ -96,7 +96,7 @@ export default logic
 //     registerUser(name, surname, email, password, passwordConfirmation) {
 //         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
-//               return finalApi.registerUser(name, surname, email, password, passwordConfirmation)
+//               return cleanUpApi.registerUser(name, surname, email, password, passwordConfirmation)
 //             .then(() => { })
 //     }
 

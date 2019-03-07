@@ -14,7 +14,6 @@ import Footer from '../Footer'
 import Profile from '../Profile'
 import Cart from '../Cart'
 import Product from '../Product'
-import ProductData from '../Productdata'
 import AllProducts from '../Allproducts'
 
 
@@ -61,8 +60,8 @@ class App extends Component {
             <Route exact path="/products" component={Products} />
             <Route exact path="/profile" component={Profile} />
 
-            <Route exact path="/products" render={props => <AllProducts categoryId={props.match.params.id} onAddToCart={this.onAddToCart} />} />
-            <Route exact path="/categories/products/:id" render={props => <ProductData productId={props.match.params.id} onAddToCart={this.onAddToCart} />} />
+            <Route exact path="/products" render={props => <AllProducts categoryId={props.match.params.id} />} />
+            <Route exact path="/categories/products/:id" render={props => <Product productId={props.match.params.id} />} />
 
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />

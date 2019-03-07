@@ -9,7 +9,7 @@ export default ({ items, btnShow = false, productDetail = false }) => (
             {items.map(item => (
                 <li key={item._id}>
                     {/* <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}> */}
-                    <div style={{ width: '18rem' }}>
+                    <div>
                         <img id={`img-${item._id}`} src={item.image} alt="404" />
                         <div c>
                             <h5 >{item.name}</h5>

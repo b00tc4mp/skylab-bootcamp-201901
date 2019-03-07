@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const finalApi = {
+const cleanUpApi = {
     url: 'http://localhost:8000',
 
     registerUser(name, surname, email, password, passwordConfirm) {
@@ -235,7 +235,7 @@ const finalApi = {
 
 }
 
-export default finalApi;
+export default cleanUpApi;
 
 
 
