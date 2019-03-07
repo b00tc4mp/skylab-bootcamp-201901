@@ -120,6 +120,7 @@ const logic = {
       })
       .then(() =>
         Post.find({ user_id: userId })
+          .populate("comments.by", "username")
           .select("-__v")
           .lean()
       )
@@ -130,8 +131,8 @@ const logic = {
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
     return Post.find({})
-      .populate("comments.by")
-      .select("-__v")
+      .populate("comments.by", "username")
+      .select("-__v -password")
       .lean()
 
       .then(post => post);
