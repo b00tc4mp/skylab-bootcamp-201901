@@ -75,10 +75,6 @@ const logic = {
     },
 
 
-    createOrder(paymentMethod, products, orderAdress) {
-
-        return cleanUpApi.createOrder(paymentMethod, this._orderStatus, products, this.userId(), orderAdress, this.getDateOrder())
-    }
 
 
 }

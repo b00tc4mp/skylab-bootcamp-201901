@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 
 import './index.css'
-import ListItems from './../Listitems'
+import Indexitems from './../Indexitems'
 
 class AllProducts extends Component {
 
@@ -25,7 +25,7 @@ class AllProducts extends Component {
                 <h2>All products</h2>
                 <hr />
 
-                <ListItems
+                <Indexitems
                     productDetail
                     items={this.state.products}
                 />

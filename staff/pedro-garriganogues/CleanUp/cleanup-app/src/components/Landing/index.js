@@ -22,7 +22,7 @@ function Landing(props) {
 
             {!hideProducts && <h1 className="cleanUp">CleanUp</h1>}
             {!hideProducts && <LandingMain />}
-            {/* <LandingProducts onAddToCart={props.onAddToCart} /> */}
+
 
         </main>
     )

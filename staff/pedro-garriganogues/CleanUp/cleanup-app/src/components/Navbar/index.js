@@ -76,7 +76,6 @@ class Navbar extends Component {
                             </li>
 
                             <span className="py-2 d-none d-md-inline-block">
-                                {/* <Link to="/cart"><span role="img" aria-label="cart">🛒</span></Link> */}
                                 <Link to="/cart"><span role="img" aria-label="cart"><i className="fas fa-shopping-cart">{this.props.cartLength ? <span className="badge badge-pill badge-info">{this.props.cartLength}</span> : ''}</i> </span></Link>
                             </span>
                         </ul>

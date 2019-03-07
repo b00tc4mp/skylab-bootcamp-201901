@@ -25,7 +25,7 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 
 import './index.css'
-import ListItems from './../Listitems'
+import Indexitems from './../Indexitems'
 
 class Products extends Component {
 
@@ -73,11 +73,9 @@ class Products extends Component {
 
             <main>
                 {this.state.categoryName && <h2 className="main-title category-titles">{this.state.categoryName}</h2>}
-                <ListItems
+                <Indexitems
                     productDetail
-                    cartProducts
                     items={this.state.products}
-                    onAddToCart={this.props.onAddToCart}
                 />
 
             </main>
