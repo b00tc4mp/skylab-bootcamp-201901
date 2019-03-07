@@ -23,7 +23,7 @@ export default function LogIn({ onLogIn, onToSignUp }) {
     return (
         <section>
             <form onSubmit={handleFormSubmit}>
-                <input type="text" name="email" placeholder="Email" onChange={e => setEmail(e.target.value)} required></input>
+                <input autoFocus type="text" name="email" placeholder="Email" onChange={e => setEmail(e.target.value)} required></input>
                 <input type="password" name="password" placeholder="Password" onChange={e => setPassword(e.target.value)} required></input>
                 {feedback && <Feedback />}
                 <button type="submit">Log In</button>

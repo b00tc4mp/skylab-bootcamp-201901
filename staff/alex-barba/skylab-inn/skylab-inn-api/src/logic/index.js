@@ -1,6 +1,6 @@
 'use strict'
 
-const { models: { User, Admin } } = require('skylab-inn-data')
+const { models: { User, Admin, Work, Language, Education, Technology } } = require('skylab-inn-data')
 const bcrypt = require('bcrypt')
 
 /**
@@ -216,7 +216,7 @@ const logic = {
                 const query = search[1]
 
                 switch (filter) {
-                    case 'Personal info':
+                    case 'Contact Information':
                         adSearch.push({ $or: [{ name: { "$regex": `${query}`, "$options": "i" } }, { surname: { "$regex": `${query}`, "$options": "i" } }, { email: { "$regex": `${query}`, "$options": "i" } }, { git: { "$regex": `${query}`, "$options": "i" } }, { linkedin: { "$regex": `${query}`, "$options": "i" } }, { slack: { "$regex": `${query}`, "$options": "i" } }] })
                         break;
                     case 'Technology':
@@ -271,6 +271,258 @@ const logic = {
             delete skylaber._id
 
             return skylaber
+        })()
+    },
+
+    /**
+     * Add user information.
+     * 
+     * @param {String} userId 
+     * @param {String} type  
+     * @param {Object} data
+     * 
+     * @throws {TypeError} - if userId or type are not a string or data is not an object.
+     * @throws {Error} - if any param is empty or userId is not found.
+     *
+     * @returns {String} - added information id.  
+     */
+    addUserInformation(userId, type, data) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            let id
+
+            switch (type) {
+                case 'Work':
+                    const newWork = new Work(data)
+
+                    user.workExperience.push(newWork)
+
+                    await user.save()
+
+                    newWork.id = newWork._id.toString()
+                    delete newWork._id
+
+                    id = newWork.id
+                    break;
+                case 'Tech':
+                    const newTech = new Technology(data)
+
+                    user.technology.push(newTech)
+
+                    await user.save()
+
+                    newTech.id = newTech._id.toString()
+                    delete newTech._id
+
+                    id = newTech.id
+                    break;
+                case 'Language':
+                    const newLanguage = new Language(data)
+
+                    user.language.push(newLanguage)
+
+                    await user.save()
+
+                    newLanguage.id = newLanguage._id.toString()
+                    delete newLanguage._id
+
+                    id = newLanguage.id
+                    break;
+                case 'Education':
+                    const newEducation = new Education(data)
+
+                    user.education.push(newEducation)
+
+                    await user.save()
+
+                    newEducation.id = newEducation._id.toString()
+                    delete newEducation._id
+
+                    id = newEducation.id
+                    break;
+            }
+
+            return id
+
+        })()
+    },
+
+    /**
+     * Update user informationr.
+     * 
+     * @param {String} userId
+     * @param {String} infoId
+     * @param {String} type   
+     * @param {Object} data 
+     * 
+     * @throws {TypeError} - if userId, infoId or type are not a string or data is not an object.
+     * @throws {Error} - if any param is empty and user or userId or infoId are not found.
+     *
+     * @returns {String} - updated user information id.  
+     */
+    updateUserInformation(userId, infoId, type, data) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof infoId !== 'string') throw TypeError(`${infoId} is not a string`)
+        if (!infoId.trim().length) throw Error('infoId is empty')
+
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            let id
+            
+            switch (type) {
+                case 'Work':
+                    const work = user.workExperience.id(infoId)
+                    if (!work) throw new Error(`work with id ${infoId} not found`)
+
+                    data.company && (work.company = data.company)
+                    data.position && (work.position = data.position)
+                    data.startDate && (work.startDate = data.startDate)
+                    data.endDate && (work.endDate = data.endDate)
+                    work.current = data.current
+
+                    await user.save()
+
+                    id = work.id
+                    break;
+                case 'Tech':
+                    const technology = user.technology.id(infoId)
+                    if (!technology) throw new Error(`technology with id ${infoId} not found`)
+
+                    data.tech && (technology.tech = data.tech)
+                    data.level && (technology.level = data.level)
+
+                    await user.save()
+
+                    id = technology.id
+                    break;
+                case 'Language':
+                    const language = user.language.id(infoId)
+                    if (!language) throw new Error(`language with id ${infoId} not found`)
+
+                    data.language && (language.language = data.language)
+                    data.level && (language.level = data.level)
+
+                    await user.save()
+
+                    id = language.id
+                    break;
+                case 'Education':
+                    const education = user.education.id(infoId)
+                    if (!education) throw new Error(`education with id ${infoId} not found`)
+
+                    data.college && (education.college = data.college)
+                    data.degree && (education.degree = data.degree)
+
+                    await user.save()
+
+                    id = education.id
+                    break;
+            }
+
+            return id
+        })()
+    },
+
+    /**
+     * Remove user information.
+     * 
+     * @param {String} userId
+     * @param {String} infoId
+     * @param {String} type   
+     * 
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty and userId or infoId are not found.
+     *
+     * @returns {Promise} resolves or rejects  
+     */
+    removeUserInformation(userId, infoId, type) {
+        
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof infoId !== 'string') throw TypeError(`${infoId} is not a string`)
+        if (!infoId.trim().length) throw Error('infoId is empty')
+
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            let index
+
+            switch (type) {
+                case 'Work':
+                    const work = user.workExperience.id(infoId)
+                    if (!work) throw new Error(`work with id ${infoId} not found`)
+
+                    index = user.workExperience.findIndex(work => work.id === infoId)
+
+                    user.workExperience.splice(index, 1)
+
+                    await user.save()
+
+                    break;
+                case 'Tech':
+                    const technology = user.technology.id(infoId)
+                    if (!technology) throw new Error(`technology with id ${infoId} not found`)
+
+                    index = user.technology.findIndex(tech => tech.id === infoId)
+
+                    user.technology.splice(index, 1)
+
+                    await user.save()
+
+                    break;
+                case 'Language':
+                    const language = user.language.id(infoId)
+                    if (!language) throw new Error(`language with id ${infoId} not found`)
+
+                    index = user.language.findIndex(lang => lang.id === infoId)
+
+                    user.language.splice(index, 1)
+
+                    await user.save()
+
+                    break;
+                case 'Education':
+                    const education = user.education.id(infoId)
+                    if (!education) throw new Error(`education with id ${infoId} not found`)
+
+                    index = user.education.findIndex(edu => edu.id === infoId)
+
+                    user.education.splice(index, 1)
+
+                    await user.save()
+
+                    break;
+            }
         })()
     },
 }

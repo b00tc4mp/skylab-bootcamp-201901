@@ -54,20 +54,21 @@ export default function AdvancedSearch({ onAdvancedSearch, nextAdvancedSearch, o
 
     return (
         <section>
-            <article>
-                <button className="dropbtn">{param}</button>
-                <div className="dropdown-content">
-                    <a key="resContact" onClick={e => { e.preventDefault(); setParam('Personal info') }}>Contact Information</a>
-                    <a key="resTechs" onClick={e => { e.preventDefault(); setParam('Technology') }}>Technologies</a>
-                    <a key="resWork" onClick={e => { e.preventDefault(); setParam('Work') }}>Work Experience</a>
-                    <a key="resLang" onClick={e => { e.preventDefault(); setParam('Language') }}>Languages</a>
-                    <a key="resEdu" onClick={e => { e.preventDefault(); setParam('Education') }}>Education</a>
-                </div>
-                <input type="text" name="query" placeholder="Advanced Search" tabIndex="0" onChange={e => setQuery(e.target.value)} onKeyDown={e => handleKeyPress(e)}></input>
+            <form className='dropbtn'>
+                <select className='dropdown-content' onChange={e => setParam(e.target.value)}>
+                    <option>Choose a filter</option>
+                    <option value='Contact Information'>Contact Information</option>
+                    <option value='Technology'>Technologies</option>
+                    <option value='Work'>Work Experience</option>
+                    <option value='Language'>Languages</option>
+                    <option value='Education'>Education</option>
+                </select>
+                <input type='text' name='query' placeholder='Advanced Search' tabIndex='0' onChange={e => setQuery(e.target.value)} onKeyDown={e => handleKeyPress(e)}></input>
                 {feedback && <Feedback />}
-                <button type="submit" onClick={e => handleAdvancedSearch(e)}>Search</button>
-                <button type="submit" onClick={e => handleOnReset(e)}>Reset filters</button>
-            </article>
+                <button type='submit' onClick={e => handleAdvancedSearch(e)}>Search</button>
+                
+                <button type='submit' onClick={e => handleOnReset(e)}>Reset filters</button>
+            </form>
 
             {search && !!search.length && search.map(res => {return <a  onClick={e => { e.preventDefault(); handleOnParam(`${res[1]}`) }} key={res[0]}>{res[1]}</a>})}
             {adSearchResults && <h5>Results</h5>}

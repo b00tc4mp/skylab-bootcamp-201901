@@ -13,18 +13,18 @@ import { AppContext } from '../AppContext';
 
 function Home({ history }) {
 
-    const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, setTypeOfUser} = useContext(AppContext)
+    const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, setTypeOfUser } = useContext(AppContext)
 
     const handleSearch = query => {
         try {
             logic.searchSkylaber(query)
                 .then(searchResults => {
                     setFeedback(null)
-                    return setSearchResults(searchResults) 
+                    return setSearchResults(searchResults)
                 })
                 .catch(({ message }) => setFeedback(message))
-            } catch ({ message }) {
-                setFeedback(message)
+        } catch ({ message }) {
+            setFeedback(message)
         }
     }
 
@@ -37,8 +37,8 @@ function Home({ history }) {
                     return history.push(`/home/search/${id}`)
                 })
                 .catch(({ message }) => setFeedback(message))
-            } catch ({ message }) {
-                setFeedback(message)
+        } catch ({ message }) {
+            setFeedback(message)
         }
     }
 
@@ -47,29 +47,70 @@ function Home({ history }) {
             logic.adSearchSkylaber(param)
                 .then(searchResults => {
                     setFeedback(null)
-                    return setAdSearchResults(searchResults) 
+                    return setAdSearchResults(searchResults)
                 })
                 .catch(({ message }) => setFeedback(message))
-            } catch ({ message }) {
-                setFeedback(message)
+        } catch ({ message }) {
+            setFeedback(message)
         }
     }
 
     const handleUpdatePersonalInfo = (email, telephone, git, linkedin, slack) => {
         try {
-            debugger
-            logic.updateUser({email, telephone, git, linkedin, slack})
+            logic.updateUser({ email, telephone, git, linkedin, slack })
                 .then(() => logic.retrieveUser())
                 .then(user => {
                     user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
                     return setUserData(user)
                 })
                 .catch(({ message }) => setFeedback(message))
-            } catch ({ message }) {
-                setFeedback(message)
+        } catch ({ message }) {
+            setFeedback(message)
         }
     }
-   
+
+    const handleAddInformation = (type, data) => {
+        try {
+            logic.addUserInformation(type, data)
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
+                    return setUserData(user)
+                })
+                .catch(({ message }) => setFeedback(message))
+        } catch ({ message }) {
+            setFeedback(message)
+        }
+    }
+
+    const handleUpdateInformation = (id, type, data) => {
+        try {
+            logic.updateUserInformation(id, type, data)
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
+                    return setUserData(user)
+                })
+                .catch(({ message }) => setFeedback(message))
+        } catch ({ message }) {
+            setFeedback(message)
+        }
+    }
+
+    const handleRemoveInformation = (id, type) => {
+        try {
+            logic.removeUserInformation(id, type)
+                .then(() => logic.retrieveUser())
+                .then(user => {
+                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
+                    return setUserData(user)
+                })
+                .catch(({ message }) => setFeedback(message))
+        } catch ({ message }) {
+            setFeedback(message)
+        }
+    }
+
     const handleToSearch = () => {
         setFeedback(null)
         history.push('/home/search')
@@ -97,7 +138,7 @@ function Home({ history }) {
         setFeedback(null)
         history.push('/home')
     }
-    
+
     const handleToSignOut = () => {
         setSearchResults(null)
         setAdSearchResults(null)
@@ -105,7 +146,7 @@ function Home({ history }) {
         logic.signOutUser()
         history.push('/')
     }
-  
+
 
 
     return (
@@ -113,8 +154,8 @@ function Home({ history }) {
             <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
             <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
             <Route path="/home/adsearch" render={() => <AdvancedSearch onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
-            <Route path="/home/profile" render={() => <Profile onUpdatePersonalInfo={handleUpdatePersonalInfo} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
-            <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId}  onToBack={handleToBack} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
+            <Route path="/home/profile" render={() => <Profile onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
+            <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId} onToBack={handleToBack} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
         </Fragment>
     )
 }

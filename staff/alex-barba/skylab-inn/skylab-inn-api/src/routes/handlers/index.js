@@ -12,4 +12,10 @@ module.exports = {
     retrieveSkylaber: require('./retrieve-skylaber'),
 
     advancedSearchSkylaber: require('./advanced-search-skylaber'),
+
+    addUserInformation: require('./add-user-information'),
+
+    updateUserInformation: require('./update-user-information'),
+
+    removeUserInformation: require('./remove-user-information')
 }

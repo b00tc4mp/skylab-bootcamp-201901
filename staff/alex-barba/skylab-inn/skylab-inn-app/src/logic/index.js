@@ -130,10 +130,7 @@ const logic = {
         if (!query.trim().length) throw new Error('query is empty')
 
         return skylabInnApi.searchSkylaber(this.__userApiToken__, query)
-            .then(({user}) => {
-                console.log(user)
-                return user
-            })
+            .then(({user}) => user)
     },
 
     /**
@@ -174,6 +171,81 @@ const logic = {
         return skylabInnApi.retrieveSkylaber(this.__userApiToken__, id)
         .then(({user}) => user)
     },
+
+     /**
+     * Add information to a user.
+     * 
+     * @param {String} type 
+     * @param {Object} data 
+     * 
+     * @throws {TypeError} - if type is not a string or data is not an object.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {String} - added work id.  
+     */
+    addUserInformation(type, data) {
+        
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return skylabInnApi.addUserInformation(this.__userApiToken__, type, data)
+            .then(({id}) => id)
+    },
+
+    /**
+     * Update information from a user.
+     * 
+     * @param {String} infoId
+     * @param {String} type  
+     * @param {Object} data 
+     * 
+     * @throws {TypeError} - if infoId or type are not a string or data is not an object.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {String} - updated work id.  
+     */
+    updateUserInformation(infoId, type, data) {
+
+        if (typeof infoId !== 'string') throw new TypeError(`${infoId} is not a string`)
+        if (!infoId.trim().length) throw new Error('infoId is empty')
+
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return skylabInnApi.updateUserInformation(this.__userApiToken__, infoId, type, data)
+            .then(({id}) => id)
+    },
+
+    /**
+     * Remove information from a user.
+     * 
+     * @param {String} infoId 
+     * @param {String} type 
+     * 
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Promise} resolves or rejects   
+     */
+    removeUserInformation(infoId, type) {
+
+        if (typeof infoId !== 'string') throw new TypeError(`${infoId} is not a string`)
+        if (!infoId.trim().length) throw new Error('infoId is empty')
+
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+        return skylabInnApi.removeUserInformation(this.__userApiToken__, infoId, type)
+            .then(({id}) => id)
+    },
+
+
 }
 
 export default logic

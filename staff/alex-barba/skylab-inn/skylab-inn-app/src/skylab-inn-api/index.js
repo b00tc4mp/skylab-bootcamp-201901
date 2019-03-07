@@ -75,13 +75,13 @@ const skylabInnApi = {
             body: JSON.stringify({ email, password })
         })
             .then(response => response.json())
-            .then(({token, error}) => {
+            .then(({ token, error }) => {
                 if (error) throw new Error(error)
 
                 return token
             })
     },
-    
+
     /**
      * Retrieves user information
      * 
@@ -92,12 +92,12 @@ const skylabInnApi = {
      *
      * @returns {Object} - user.  
      */
-    retrieveUser(token){
+    retrieveUser(token) {
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
-        return fetch (`${this.url}/user`, {
+        return fetch(`${this.url}/user`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
@@ -116,12 +116,12 @@ const skylabInnApi = {
      * @param {String} token
      * @param {Object} data
      * 
-     * @throws {TypeError} - if token is not a string.
-     * @throws {Error} - if token is empty.
+     * @throws {TypeError} - if token is not a string or data is not an object.
+     * @throws {Error} - if any param is empty.
      *
      * @returns {Object} - user.  
      */
-    updateUser(token, data){
+    updateUser(token, data) {
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
@@ -129,7 +129,7 @@ const skylabInnApi = {
         if (!data) throw Error('data is empty')
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
-        return fetch (`${this.url}/user`, {
+        return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${token}`,
@@ -156,7 +156,7 @@ const skylabInnApi = {
      *
      * @returns {Object} - user matching query
      */
-    searchSkylaber(token, query){
+    searchSkylaber(token, query) {
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
@@ -164,7 +164,7 @@ const skylabInnApi = {
         if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
         if (!query.trim().length) throw new Error('query is empty')
 
-        return fetch (`${this.url}/user/search`, {
+        return fetch(`${this.url}/user/search`, {
             method: 'POST',
             headers: {
                 authorization: `Bearer ${token}`,
@@ -191,8 +191,7 @@ const skylabInnApi = {
      *
      * @returns {Object} - user matching query 
      */
-    adSearchSkylaber(token, param){
-        debugger
+    adSearchSkylaber(token, param) {
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
@@ -200,7 +199,7 @@ const skylabInnApi = {
         if (param instanceof Array === false) throw new TypeError(`${param} is not an array`)
         if (!param.length) throw new Error('param is empty')
 
-        return fetch (`${this.url}/user/advanced-search`, {
+        return fetch(`${this.url}/user/advanced-search`, {
             method: 'POST',
             headers: {
                 authorization: `Bearer ${token}`,
@@ -210,7 +209,6 @@ const skylabInnApi = {
         })
             .then(response => response.json())
             .then(response => {
-                debugger
                 if (response.error) throw new Error(response.error)
 
                 return response
@@ -228,7 +226,7 @@ const skylabInnApi = {
      *
      * @returns {Object} - skjylaber matching id.  
      */
-    retrieveSkylaber(token, id){
+    retrieveSkylaber(token, id) {
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
@@ -236,19 +234,141 @@ const skylabInnApi = {
         if (typeof id !== 'string') throw new TypeError(`${id} is not a string`)
         if (!id.trim().length) throw new Error('id is empty')
 
-        return fetch (`${this.url}/skylaber/${id}`, {
+        return fetch(`${this.url}/skylaber/${id}`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
         })
             .then(response => response.json())
             .then(response => {
-                debugger
                 if (response.error) throw new Error(response.error)
 
                 return response
             })
     },
+
+    /**
+     * Add work experience to a user
+     * 
+     * @param {String} token
+     * @param {String} type
+     * @param {Object} data
+     * 
+     * @throws {TypeError} - if token or type are not a string or data is not an object.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {String} - added work id.  
+     */
+    addUserInformation(token, type, data) {
+        debugger
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return fetch(`${this.url}/user/addInformation`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ type, data })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    /**
+     * Update work experience from a user
+     * 
+     * @param {String} token
+     * @param {String} infoId
+     * @param {String} type 
+     * @param {Object} data
+     * 
+     * @throws {TypeError} - if token, infoId or type are not a string or data is not an object.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {String} - updated work id.  
+     */
+    updateUserInformation(token, infoId, type, data) {
+        debugger
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (typeof infoId !== 'string') throw new TypeError(`${infoId} is not a string`)
+        if (!infoId.trim().length) throw new Error('infoId is empty')
+
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return fetch(`${this.url}/user/updateInformation`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ infoId, type, data })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    /**
+     * Remove work experience from a user
+     * 
+     * @param {String} token
+     * @param {String} infoId
+     * @param {String} type 
+     * 
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Promise} resolves or rejects 
+     */
+    removeUserInformation(token, infoId, type) {
+        debugger
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (typeof infoId !== 'string') throw new TypeError(`${infoId} is not a string`)
+        if (!infoId.trim().length) throw new Error('infoId is empty')
+
+        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
+        if (!type.trim().length) throw new Error('type is empty')
+
+        return fetch(`${this.url}/user/removeInformation`, {
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ infoId, type })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+
 }
 
 export default skylabInnApi

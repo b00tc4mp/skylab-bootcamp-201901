@@ -9,7 +9,7 @@ const Language = new Schema({
 
     level: {
         type: String,
-        enum: ['Elementary proficiency', 'Limited working proficiency', 'Professional working proficiency', 'Full professional proficiency', 'Native or bilingual proficiency' ],
+        enum: ['Elementary proficiency', 'Limited working proficiency', 'Professional working proficiency', 'Full professional proficiency', 'Native or bilingual proficiency'],
         required: true
     }
 })

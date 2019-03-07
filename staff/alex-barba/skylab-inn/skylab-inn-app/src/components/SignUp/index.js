@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '../AppContext'
 import Feedback from '../Feedback'
 
@@ -23,11 +23,10 @@ export default function SignUp({ onSignUp, onToLogIn }) {
         onToLogIn()
     }
 
-
     return (
         <section>
             <form onSubmit={handleFormSubmit}>
-                <input type="text" name="name" placeholder="Name" onChange={e => setName(e.target.value)} required></input>
+                <input autoFocus type="text" name="name" placeholder="Name" onChange={e => setName(e.target.value)} required></input>
                 <input type="text" name="surname" placeholder="Surname" onChange={e => setSurame(e.target.value)} required></input>
                 <input type="email" name="email" placeholder="Email" onChange={e => setEmail(e.target.value)} required></input>
                 <input type="password" name="password" placeholder="Password" onChange={e => setPassword(e.target.value)} required></input>
