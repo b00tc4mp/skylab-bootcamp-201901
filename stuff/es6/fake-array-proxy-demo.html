@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const fakeArray = new Proxy({ length: 0 }, {
+            set: function (obj, prop, newval) {
+                obj[prop] = newval
+
+                if (!isNaN(prop)) obj.length++
+
+                return true
+            }
+        })
+
+        fakeArray[0] = 'a'
+        fakeArray[1] = 'b'
+        fakeArray[2] = 'c'
+
+        fakeArray['hello'] = 'world'
+
+        console.log(fakeArray)
+    </script>
+</body>
+
+</html>
