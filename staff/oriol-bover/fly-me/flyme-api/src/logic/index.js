@@ -12,6 +12,7 @@ const Drone = require('drone-api')
  */
 
 const logic = {
+    activeDrones: new Map,
 
     /**
      * 
@@ -235,21 +236,29 @@ const logic = {
 
     },
 
-    startDrone(userId, id) {
-        // TODO lookup drone and switch on
-        // 1 find drone by id
-        // 2 drone = new Drone(...)
-        // 3 drone.start()
-    },  
+    startDrone(userId, droneId) {
+        let drone = this.activeDrones.get(droneId)
 
-    stopDrone(userId, id) {
-        // TODO lookup drone and switch off
-        // 1 find drone by id
-        // 2 drone = new Drone(...)
-        // 3 drone.stop()
+        if (drone) throw Error(`drone ${droneId} already started`)
+
+        // TODO lookup drone fronm db by userId and droneId
+
+        drone = new Drone(/* host, port */)
+
+        drone.start()
+
+        this.activeDrones.set(dronId, drone)
     },
 
-    sendDroneCommand(userId, command) {
+    stopDrone(userId, droneId) {
+        const drone = this.activeDrones.get(droneId)
+
+        if (!drone) throw Error(`drone ${droneId} already stopped`)
+
+        drone.stop()
+    },
+
+    sendDroneCommand(userId, droneId, command) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
 
         if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
@@ -258,9 +267,9 @@ const logic = {
             .then(user => {
                 if (!user) throw new AuthError('No permissions')
 
-                drone.init()
+                const drone = this.activeDrones.get(droneId)
+
                 drone.sendCommand(command)
-                drone.turnOff()
 
                 return { command: 'OK' }
             })
