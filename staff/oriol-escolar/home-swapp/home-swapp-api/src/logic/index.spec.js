@@ -4,8 +4,7 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
-const { User } = require('../models')
+const { User, House, mongoose } = require('homeSwapp-data')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
