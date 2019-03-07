@@ -129,23 +129,26 @@ const logic = {
     return (async () => await Player.findByIdAndUpdate(playerId, { score }))();
   },
 
-  retrieveMatches() {
-    debugger
+  retrieveMatchesScrapping() {
     const urlMatches =
       "https://www.setteo.com/torneos/lliga-padel-guinotprunera-18-19-a-fase-2w07/calendario/?categorias%5B%5D=162079&equipo=200081";
 
-    const getWebMatches = async url => {
+    return (async url => {
       try {
         const response = await axios.get(url);
+
         const $ = cheerio.load(response.data);
-        const promises = $(".partido").map(async (i, el) => {
+
+        const metadatas = $(".partido").map((i, el) => {
           const matchId = $(el)
             .find("a")
-            .attr("href");
+            .attr("href")
+            .substring(31, 44);
 
           const date = $(el)
             .find(".datos small")
-            .text();
+            .text()
+            .trim();
 
           const team1 = $(el)
             .find(".equipos .equipo.individual .jugador.jugador1-izquierda a")
@@ -165,7 +168,8 @@ const logic = {
 
           const result = $(el)
             .find(".datos .resultado_eliminatoria span")
-            .text();
+            .text()
+            .trim();
 
           const location = $(el)
             .find(".datos p")
@@ -184,19 +188,29 @@ const logic = {
 
           return metadata;
         });
-
-        return Promise.all(promises.get());
+        return metadatas.get();
       } catch (error) {
         throw error;
       }
-    };
+    })(urlMatches);
+  },
 
-    Promise.all(getWebMatches(urlMatches)).then(
-      res => {
-        debugger
-        console.log(res);
+  setIdMatches() {
+    return logic.retrieveMatchesScrapping().then(response => {
+      return response.map(({ matchId }) => {
+        Match.create({ matchId: matchId });
+      });
+    });
+  },
+
+  retrieveAvailabilityPlayers(id) {
+    const foundMatch = Match.findOne({ matchId: id }, (err, doc) => {
+      if (!err) {
+        throw Error(err);
       }
-    );
+      debugger
+      return foundMatch.schema.obj.playersAvailable;
+    });
   }
 };
 

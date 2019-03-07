@@ -5,7 +5,6 @@ require("isomorphic-fetch");
 const mongoose = require("mongoose");
 const express = require("express");
 const tokenHelper = require("./token-helper");
-const package = require("../package.json");
 const router = require("./routes");
 
 const {

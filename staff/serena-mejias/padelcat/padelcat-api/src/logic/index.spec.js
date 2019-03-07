@@ -735,7 +735,7 @@ describe("logic", () => {
     });
   });
 
-  describe("addScoreToPlayer", () => {
+  false && describe("addScoreToPlayer", () => {
     const name = "Manuel";
     const surname = "Barzi";
     const email = `manuelbarzi-${Math.random()}@mail.com`;
@@ -882,27 +882,56 @@ describe("logic", () => {
   });
 
   describe("retrieveMatch", () => {
-    const array = {
-      matchId: "5c51f550b2ef2",
-      playersAvailable: [],
-      playersChosen: { firstPair: [], secondPair: [], thirdPair: [] },
-      result: "1-2",
-    };
-    
-    it("should succeed adding data to match object", async () => {
-        debugger
-      const res = await logic.retrieveMatches();
+
+    it("should succeed recovering match data", async () => {
+      const res = await logic.retrieveMatchesScrapping();
+     expect(res[0].matchId).toBeTruthy();
+     expect(res[0].date).toBeTruthy();
+     expect(res[0].team1).toBeTruthy();
+     expect(res[0].imageTeam1).toBeTruthy();
+     expect(res[0].team2).toBeTruthy();
+     expect(res[0].imageTeam2).toBeTruthy();
+     expect(res[0].result).toBeTruthy();
+     expect(res[0].location).toBeTruthy();
+    });
+  });
+ 
+ describe("setIdMatches", () => {
+
+    it("should succeed adding match id", async () => {
+      debugger
+      const res = await logic.setIdMatches();
+      expect(res).toBeTruthy();
+    });
+  });
   
-      expect(res.matchId).toBe(array.matchId);
+  describe("retrieveAvailabilityPlayers", () => {
+    const match = {
+      "matchId": "5c51f550b2ef2",
+      "date": "09 February, 2019\t\t06:00 pm",
+      "team1": "JUNIOR NEGRE",
+      "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/defaults/d/e/fa/equipo.png",
+      "team2": "INDOOR RUBI",
+      "imageTeam2": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
+      "result": "1 - 2",
+      "location": "Club Junior 1917,  Sant Cugat del Vallès,  Espanya"
+  }
+
+    const id = "5c51f550b2ef2"
+
+    it("should succeed getting players availability", async () => {
+      debugger
+      const res = await logic.retrieveAvailabilityPlayers(id);
+      expect(res).toBeTruthy();
     });
   });
 
 
-  after(() =>
-    Promise.all([
-      Player.deleteMany(),
-      Match.deleteMany(),
-      Team.deleteMany()
-    ]).then(() => mongoose.disconnect())
-  );
+  // after(() =>
+  //   Promise.all([
+  //     Player.deleteMany(),
+  //     Match.deleteMany(),
+  //     Team.deleteMany()
+  //   ]).then(() => mongoose.disconnect())
+  // );
 });

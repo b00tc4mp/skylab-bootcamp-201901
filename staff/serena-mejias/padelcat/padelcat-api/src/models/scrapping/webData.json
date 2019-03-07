@@ -93,38 +93,38 @@
     ],
     [
         {
-            "matchId": "https://www.setteo.com/partido/5c51f550b2ef2/",
-            "date": "\n\t\t\t09 February, 2019\t\t06:00 pm",
+            "matchId": "5c51f550b2ef2",
+            "date": "09 February, 2019\t\t06:00 pm",
             "team1": "JUNIOR NEGRE",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/defaults/d/e/fa/equipo.png",
             "team2": "INDOOR RUBI",
             "imageTeam2": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
-            "result": "\n\t\t\t\t\t\t\t\t\t\t\t\t\t1 - 2\t\t\t\t\t\t\t\t\t\t\t",
+            "result": "1 - 2",
             "location": "Club Junior 1917,  Sant Cugat del Vallès,  Espanya"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f5519a12c/",
-            "date": "\n\t\t\t24 February, 2019\t\t06:00 pm",
+            "matchId": "5c51f5519a12c",
+            "date": "24 February, 2019\t\t06:00 pm",
             "team1": "INDOOR RUBI",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
             "team2": "CTP REIXAC FEMENINO",
             "imageTeam2": "https://www.setteo.com/media/resize/50/50/1/media/defaults/d/e/fa/equipo.png",
-            "result": "\n\t\t\t\t\t\t\t\t\t\t\t\t\t1 - 2\t\t\t\t\t\t\t\t\t\t\t",
+            "result": "1 - 2",
             "location": "Padel Indoor Rubí,  Av. de la Llana,  109,  08191 Rubí,  Barcelona,  Espanya"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f55176c8b/",
-            "date": "\n\t\t\t03 March, 2019\t\t06:00 pm",
+            "matchId": "5c51f55176c8b",
+            "date": "03 March, 2019\t\t06:00 pm",
             "team1": "INDOOR RUBI",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
             "team2": "PADEL UP ORO",
             "imageTeam2": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/d/a/d2/dad2437898614f5cdba040178105c0e52bb01592.png",
-            "result": "",
-            "location": "VSPadel Indoor Rubí,  Av. de la Llana,  109,  08191 Rubí,  Barcelona,  Espanya"
+            "result": "3 - 0",
+            "location": "Padel Indoor Rubí,  Av. de la Llana,  109,  08191 Rubí,  Barcelona,  Espanya"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f54c509dd/",
-            "date": "\n\t\t\t10 March, 2019\t\t12:00 pm",
+            "matchId": "5c51f54c509dd",
+            "date": "10 March, 2019\t\t12:00 pm",
             "team1": "VILA SPORT CLUB",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/a/d/fd/adfd94455a0541781635efb986893370f6cdbaf8.jpeg",
             "team2": "INDOOR RUBI",
@@ -133,8 +133,8 @@
             "location": "VSBarcelona, Espanya"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f551e11dd/",
-            "date": "\n\t\t\t17 March, 2019\t\t06:00 pm",
+            "matchId": "5c51f551e11dd",
+            "date": "17 March, 2019\t\t06:00 pm",
             "team1": "INDOOR RUBI",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
             "team2": "CT EL MOLÍ 1969",
@@ -143,8 +143,8 @@
             "location": "VSPadel Indoor Rubí,  Av. de la Llana,  109,  08191 Rubí,  Barcelona,  Espanya"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f551539b2/",
-            "date": "\n\t\t\t24 March, 2019\t\t06:00 pm",
+            "matchId": "5c51f551539b2",
+            "date": "24 March, 2019\t\t06:00 pm",
             "team1": "INDOOR RUBI",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
             "team2": "PADEL VDM",
@@ -153,8 +153,8 @@
             "location": "VSPadel Indoor Rubí,  Av. de la Llana,  109,  08191 Rubí,  Barcelona,  Espanya"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f551be177/",
-            "date": "\n\t\t\t31 March, 2019\t\t06:00 pm",
+            "matchId": "5c51f551be177",
+            "date": "31 March, 2019\t\t06:00 pm",
             "team1": "INDOOR RUBI",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
             "team2": "JUNIOR NEGRE",
@@ -163,8 +163,8 @@
             "location": "VSPadel Indoor Rubí,  Av. de la Llana,  109,  08191 Rubí,  Barcelona,  Espanya"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f54fb1042/",
-            "date": "\n\t\t\t14 April, 2019\t\t10:30 am",
+            "matchId": "5c51f54fb1042",
+            "date": "14 April, 2019\t\t10:30 am",
             "team1": "CTP REIXAC FEMENINO",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/defaults/d/e/fa/equipo.png",
             "team2": "INDOOR RUBI",
@@ -173,8 +173,8 @@
             "location": "VSClub tenis padel Reixac,  Carretera de La Roca,  Santa Coloma de Gramanet,  España"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f54e9aad6/",
-            "date": "\n\t\t\t28 April, 2019\t\t05:00 pm",
+            "matchId": "5c51f54e9aad6",
+            "date": "28 April, 2019\t\t05:00 pm",
             "team1": "PADEL UP ORO",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/d/a/d2/dad2437898614f5cdba040178105c0e52bb01592.png",
             "team2": "INDOOR RUBI",
@@ -183,8 +183,8 @@
             "location": "VSUP Padel Club Cabrera de Mar,  Up Padel Club,  Carretera de,  Cabrera de Mar,  España"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f5512e993/",
-            "date": "\n\t\t\t05 May, 2019\t\t06:00 pm",
+            "matchId": "5c51f5512e993",
+            "date": "05 May, 2019\t\t06:00 pm",
             "team1": "INDOOR RUBI",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
             "team2": "VILA SPORT CLUB",
@@ -193,8 +193,8 @@
             "location": "VSPadel Indoor Rubí,  Av. de la Llana,  109,  08191 Rubí,  Barcelona,  Espanya"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f552eaa0a/",
-            "date": "\n\t\t\t11 May, 2019\t\t01:00 pm",
+            "matchId": "5c51f552eaa0a",
+            "date": "11 May, 2019\t\t01:00 pm",
             "team1": "CT EL MOLÍ 1969",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/f/e/77/fe77352260784cf6896426a94cad5baf49de446a.jpg",
             "team2": "INDOOR RUBI",
@@ -203,8 +203,8 @@
             "location": "VSClub Tennis El Molí,  Carrer Josep Bastús i Planes,  08970 Sant Joan Despí,  Barcelona,  Espagne"
         },
         {
-            "matchId": "https://www.setteo.com/partido/5c51f54d8f88a/",
-            "date": "\n\t\t\t19 May, 2019\t\t11:30 am",
+            "matchId": "5c51f54d8f88a",
+            "date": "19 May, 2019\t\t11:30 am",
             "team1": "PADEL VDM",
             "imageTeam1": "https://www.setteo.com/media/resize/50/50/1/media/usuarios/7/0/ae/70aebac989f1bc3c3195731bde4fe11aecf15a98.jpg",
             "team2": "INDOOR RUBI",
