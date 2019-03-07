@@ -59,7 +59,7 @@ class EditOwner extends Component {
                     <p className="title__form">Owner's details:</p>
                     <label onClick={this.handleSelect}>Select Owner</label>
                     <select name="owner" onChange={this.handleSelectChange}>
-                        {this.state.users.map(user => <option name="owner" value={user.id}>{user.name}</option>)}
+                    {<option></option>}{this.state.users.map(user => <option name="owner" value={user.id}>{user.name}</option>)}
                     </select>
                 </div>
                 <div className="input__form">

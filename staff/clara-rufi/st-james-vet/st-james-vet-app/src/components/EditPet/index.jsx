@@ -72,13 +72,13 @@ class EditPet extends Component {
                 <div className="input__form">
                     <label>Select Owner</label>
                     <select name="owner" onChange={this.handleSelectOwner} >
-                    {this.state.users.map(user => <option name="owner" value={user.id} >{user.name}</option>)}
+                    {<option></option>}{this.state.users.map(user => <option name="owner" value={user.id} >{user.name}</option>)}
                     </select>
                 </div>
                 <div className="input__form">
                     <label>Select Pet</label>
                     <select name="pet" onChange={this.handleSelectPet}>
-                    {<option>Select a pet</option>}{this.state.pets.map(pet => <option name="pet" value={pet.id}>{pet.name}</option>)}
+                    {<option></option>}{this.state.pets.map(pet => <option name="pet" value={pet.id}>{pet.name}</option>)}
                     </select>
                 </div>
                 <div className="input__form">
