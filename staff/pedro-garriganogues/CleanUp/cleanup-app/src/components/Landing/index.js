@@ -7,21 +7,25 @@ import LandingMain from './landing-main'
 
 function Landing(props) {
 
-    // caso individual:
+    // caso individual negativo:
 
     // const hideProducts = props.location.pathname.includes(['register'])
 
-    // caso multiple:
+    // caso multiple negativo:
 
-    const hideProducts = ['/register', '/login', '/profile', '/contact', '/about', '/products', '/cart', '/product'].includes(props.location.pathname)
+    // const hideProducts = ['/register', '/login', '/profile', '/contact', '/about', '/products', '/cart', '/product/{item._id}'].includes(props.location.pathname)
+
+    // caso singular positivo:
+
+    const showProducts = ['/'].includes(props.location.pathname)
 
 
     return (
         <main>
 
 
-            {!hideProducts && <h1 className="cleanUp">CleanUp</h1>}
-            {!hideProducts && <LandingMain />}
+            {showProducts && <h1 className="cleanUp">CleanUp</h1>}
+            {showProducts && <LandingMain />}
 
 
         </main>
