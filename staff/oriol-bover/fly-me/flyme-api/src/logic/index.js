@@ -238,10 +238,10 @@ const logic = {
     },
 
     startDrone(userId, droneId) {
-
         let drone = this.activeDrones.get(droneId)
 
         if (drone) throw Error(`drone ${droneId} already started`)
+
 
         return Drone.findById(droneId)
             .then(({ host, port }) => {
