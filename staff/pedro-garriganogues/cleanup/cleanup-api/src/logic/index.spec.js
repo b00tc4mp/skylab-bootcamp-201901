@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt')
 
 
 describe('logic', () => {
-    before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
+    before(() => mongoose.connect(DB_URL, { useNewUrlParser: true }))
 
     beforeEach(() =>
         Promise.all([

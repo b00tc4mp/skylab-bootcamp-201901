@@ -22,11 +22,10 @@ class Totalproducts extends Component {
     render() {
 
         return (
-            <main>
-                <h2>All products</h2>
-                <hr />
+            <main className="main">
+                <h2>The products</h2>
 
-                <Indexitems
+                <Indexitems className="products"
                     productDetail
                     items={this.state.products}
                 />
