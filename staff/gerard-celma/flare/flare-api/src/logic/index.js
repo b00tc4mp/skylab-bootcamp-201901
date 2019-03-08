@@ -253,7 +253,16 @@ const logic = {
             Message.findByIdAndDelete(msgId)
                 .then(message => message)       
         ]).then(values => values)
-    }     
+    },
+    
+    retrieveReceivedMessages(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+
+        if (!userId.trim().length) throw new EmptyError('user id is empty')
+
+        return User.findById(userId).populate('msgReceived')
+                .then(user => user)
+    }
 }
 
 module.exports = logic

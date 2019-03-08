@@ -87,7 +87,9 @@ const logic = {
 
         return flareApi.createMessage(this.__userApiToken__, userIdTo, launchDate, position, text)
             .then(message => message)
-    }
+    },
+
+    retrieveMessages()
 }
 
 export default logic

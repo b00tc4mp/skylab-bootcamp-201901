@@ -5,6 +5,7 @@ import Login from '../Login'
 import Home from '../Home'
 import Success from '../Success'
 import Fail from '../Fail'
+import Watch from '../Watch'
 import logic from '../../logic'
 import SendMessage from '../SendMessage';
 
@@ -16,6 +17,7 @@ class App extends Component {
         <Route path="/login" render={() => <Login />} />
         <Route path="/home" render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to="/login" />} />
         <Route path="/send-message" render={() => <SendMessage />} />
+        <Route path="/watch" render={() => <Watch />} />
         <Route path="/success" render={() => <Success />} />
         <Route path="/fail" render={() => <Fail />} />
     </main>

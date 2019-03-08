@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 class Success extends Component {
 
     componentDidMount() {
-        setInterval(() => this.props.history.push('/home'), 3000)
+        setTimeout(() => this.props.history.push('/home'), 2000)
     }
 
     render() {

@@ -3,7 +3,7 @@ const cors = require('../cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
-const { registerUser, authenticateUser, retrieveUser, retrieveUsers, updateUser, removeUser, createMessage, messageRead, messageDelete, notFound } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, retrieveUsers, updateUser, removeUser, createMessage, messageRead, messageDelete, retrieveReceivedMessages, notFound } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 const router = express.Router()
@@ -28,6 +28,8 @@ router.post('/message/create', [jsonBodyParser, tokenVerifierMiddleware], create
 router.post('/message/read', [jsonBodyParser, tokenVerifierMiddleware], messageRead)
 
 router.post('/message/delete', [jsonBodyParser, tokenVerifierMiddleware], messageDelete)
+
+router.get('/message/received', tokenVerifierMiddleware, retrieveReceivedMessages)
 
 // router.get('*', notFound)
 

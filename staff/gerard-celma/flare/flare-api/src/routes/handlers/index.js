@@ -15,7 +15,9 @@ module.exports = {
 
     messageRead: require('./message-read'),
 
-    messageDelete: require('./message-delete')
+    messageDelete: require('./message-delete'),
+    
+    retrieveReceivedMessages: require('./retrieve-received-messages')
 
 
     // notFound: require('./not-found')

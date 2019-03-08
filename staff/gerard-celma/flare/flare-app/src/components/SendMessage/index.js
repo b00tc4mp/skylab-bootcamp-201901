@@ -27,7 +27,7 @@ class SendMessage extends Component {
         event.preventDefault()
         
         const { state:{ text, launchDate, userIdTo, selectedLat, selectedLng } } = this
-
+        
         try {
             logic.createMessage(userIdTo, launchDate, [selectedLat, selectedLng], text)
             .then(() => this.props.history.push('/success'))

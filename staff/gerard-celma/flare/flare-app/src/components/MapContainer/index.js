@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react'
 
 class MapContainer extends Component {
@@ -7,13 +7,27 @@ class MapContainer extends Component {
           {
             name: "Current position",
             position: {
-              lat: 37.77,
-              lng: -122.42
+              lat: null,
+              lng: null
             }
           }
         ]
       };
-    
+
+      componentDidMount() {
+        const { state: { markers } } = this
+
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => this.setState({ markers: [{ position: { lat: position.coords.latitude, lng: position.coords.longitude }}] }), (err) => console.warn('ERROR(' + err.code + '): ' + err.message),
+          {
+              timeout: 5000,
+              enableHighAccuracy: true, 
+              maximumAge: Infinity
+          })
+        }
+      }
+
       onMarkerDragEnd = (coord, index) => {
         const { latLng } = coord;
         const lat = latLng.lat();
@@ -29,12 +43,23 @@ class MapContainer extends Component {
       };
     
       render() {
-        return (
+        const { state: { markers } } = this
+        console.log(markers[0].position.lat, markers[0].position.lng)
+        let showMap = markers[0].position.lat && markers[0].position.lng
+        return (<Fragment>
+
+          {!showMap && <div><i className="fas fa-spinner fa-pulse"></i><p>Loading Map</p></div>}
+
+          { showMap &&
           <Map
             google={this.props.google}
             style={{
               width: "300px",
               height: "300px"
+            }}
+            initialCenter = {{
+              lat: markers[0].position.lat,
+              lng: markers[0].position.lng
             }}
             zoom={14}
           >
@@ -47,7 +72,8 @@ class MapContainer extends Component {
               />
             ))}
           </Map>
-        );
+      }
+        </Fragment>);
       }
 }
 
