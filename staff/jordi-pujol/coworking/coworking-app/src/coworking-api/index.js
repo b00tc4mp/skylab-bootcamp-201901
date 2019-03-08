@@ -163,7 +163,7 @@ const coworkingApi = {
             .then (response => {
                 if (response.error) throw Error (response.error)
 
-                return response
+                return response.workspaceId
             })
     },
 

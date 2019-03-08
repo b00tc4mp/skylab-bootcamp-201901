@@ -122,6 +122,10 @@ const logic = {
     addUserToWorkspace(workspaceId){
 
         return coworkingApi.addUserToWorkspace(this.__coworkingApiToken__, workspaceId)
+    },
+
+    createService(){
+        
     }
 
     // TODO updateUser and removeUser

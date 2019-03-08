@@ -26,12 +26,12 @@ class App extends Component {
                 .then(() => logic.verifyNewUserLink(link))
                 .then(workspaceId => logic.addUserToWorkspace(workspaceId))
                 .then(()=> console.log('SIIIIII'))
-                .then(() => this.props.history.push('/home'))
+                .then(() => this.props.history.push('/home/inbox'))
                 .catch((error) => console.log(error)) //print it
         }
         else {
             logic.logInUser(email, password)
-                .then(() => this.props.history.push('/home'))
+                .then(() => this.props.history.push('/home/inbox'))
                 .then(()=> console.log('NOOOOOOO'))
                 .catch((error) => console.log(error)) //print it
         }
@@ -51,6 +51,7 @@ class App extends Component {
         return <main className='app'>
             <Route exact path='/register' render={() => <Register onRegister={handleRegister} />} />
             <Route path='/login/:link' render={(props) => <Login onLogin={handleLogin} link={props.match.params.link} />} />
+            <Route exact path='/login' render={(props) => <Login onLogin={handleLogin} link={props.match.params.link} />} />
             <Route exact path='/workspace' render={() => <Workspace onNewWorkspace={handleNewWorkspace} />} />
             <Route path='/home' render={() => <Home />} />
         </main>
