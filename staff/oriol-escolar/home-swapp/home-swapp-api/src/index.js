@@ -10,7 +10,7 @@ const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
 const cors = require('./cors')
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, updateUser,createHouse ,notFound } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -34,6 +34,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
 
         router.put('/user/update', tokenVerifierMiddleware, jsonBodyParser, updateUser)
+
+        router.post('/user/house', tokenVerifierMiddleware, jsonBodyParser, createHouse)
 
         app.use('/api', router)
 

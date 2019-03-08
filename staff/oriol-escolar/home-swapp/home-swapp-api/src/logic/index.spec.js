@@ -18,7 +18,8 @@ describe('logic', () => {
 
     beforeEach(() =>
         Promise.all([
-            User.deleteMany()
+            User.deleteMany(),
+            House.deleteMany()
         ])
     )
 
@@ -294,10 +295,10 @@ describe('logic', () => {
                 logic.registerUser(username, email, 'password', "111")
             }).toThrow(Error('passwords do not match'))
         })
-        
+
     })
 
-    
+
 
     describe('authenticate user', () => {
         const username = 'Barzi'
@@ -375,7 +376,7 @@ describe('logic', () => {
         })
 
         it('should fail on numeric password', () => {
-            
+
             const password = 123
 
             expect(() => {
@@ -384,7 +385,7 @@ describe('logic', () => {
         })
 
         it('should fail on array password', () => {
-            
+
             const password = []
 
             expect(() => {
@@ -393,7 +394,7 @@ describe('logic', () => {
         })
 
         it('should fail on undefined password', () => {
-            
+
             const password = undefined
 
             expect(() => {
@@ -401,7 +402,7 @@ describe('logic', () => {
             }).toThrow(Error(`${password} is not a string`))
         })
         it('should fail on object password', () => {
-            
+
             const password = {}
 
             expect(() => {
@@ -409,7 +410,7 @@ describe('logic', () => {
             }).toThrow(Error(`${password} is not a string`))
         })
         it('should fail on boolean password', () => {
-            
+
             const password = true
             expect(() => {
                 logic.authenticateUser(email, password)
@@ -440,46 +441,46 @@ describe('logic', () => {
                     expect(user.save).toBeUndefined()
                 })
 
-            
+
         )
 
         it('should fail on boolean id', () => {
-            
+
             expect(() => {
                 logic.retrieveUser(true)
             }).toThrow(Error(`${true} is not a string`))
         })
 
         it('should fail on object id', () => {
-            
+
             expect(() => {
                 logic.retrieveUser({})
             }).toThrow(Error(`${{}} is not a string`))
         })
 
         it('should fail on undefined id', () => {
-            
+
             expect(() => {
                 logic.retrieveUser(undefined)
             }).toThrow(Error(`${undefined} is not a string`))
         })
 
         it('should fail on array id', () => {
-            
+
             expect(() => {
                 logic.retrieveUser([])
             }).toThrow(Error(`${[]} is not a string`))
         })
 
         it('should fail on numeric id', () => {
-            
+
             expect(() => {
                 logic.retrieveUser(1)
             }).toThrow(Error(`${1} is not a string`))
         })
 
         it('should fail on empty id', () => {
-            
+
             expect(() => {
                 logic.retrieveUser("")
             }).toThrow(Error('userId cannot be empty'))
@@ -491,18 +492,18 @@ describe('logic', () => {
         const username = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
-        const images =['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
         const adress =
         {
             country: 'spain',
-            city:'badalona',
-            street:'tamariu',
-            number:'29'
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
 
         }
         const description = 'this is a sample description of a house'
 
-        const info ={
+        const info = {
 
             petsAllowed: 'no',
             smokersAllowed: 'no',
@@ -510,6 +511,7 @@ describe('logic', () => {
         }
 
         let userId
+        let houseId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
@@ -518,56 +520,62 @@ describe('logic', () => {
         )
 
         it.only('should succeed on correct data', () =>
-            logic.createHouse(userId,images,description,info,adress)
-                .then(user => {
-                    expect(user.id).toBe(userId)
-                    expect(user.username).toBe(username)
-                    expect(user.email).toBe(email)
-                    expect(user.myHouses).toBe(email)
+            logic.createHouse(userId, images, description, info, adress)
+                .then(house => {
 
-                    expect(user.save).toBeUndefined()
+                    houseId = house._id
+                    expect(house._id).toBeDefined()
+
+                    return User.findById(userId).select('-password -__v')
+                        .then(user => {
+                            console.log(user)
+                            expect(user.myHouses).toBe(houseId)
+
+
+                        })
+
                 })
 
-            
+
         )
 
         // it('should fail on boolean id', () => {
-            
+
         //     expect(() => {
         //         logic.retrieveUser(true)
         //     }).toThrow(Error(`${true} is not a string`))
         // })
 
         // it('should fail on object id', () => {
-            
+
         //     expect(() => {
         //         logic.retrieveUser({})
         //     }).toThrow(Error(`${{}} is not a string`))
         // })
 
         // it('should fail on undefined id', () => {
-            
+
         //     expect(() => {
         //         logic.retrieveUser(undefined)
         //     }).toThrow(Error(`${undefined} is not a string`))
         // })
 
         // it('should fail on array id', () => {
-            
+
         //     expect(() => {
         //         logic.retrieveUser([])
         //     }).toThrow(Error(`${[]} is not a string`))
         // })
 
         // it('should fail on numeric id', () => {
-            
+
         //     expect(() => {
         //         logic.retrieveUser(1)
         //     }).toThrow(Error(`${1} is not a string`))
         // })
 
         // it('should fail on empty id', () => {
-            
+
         //     expect(() => {
         //         logic.retrieveUser("")
         //     }).toThrow(Error('userId cannot be empty'))
@@ -584,7 +592,9 @@ describe('logic', () => {
 
     after(() =>
         Promise.all([
-            User.deleteMany()
+            // User.deleteMany(),
+            // House.deleteMany()
+
         ])
             .then(() => mongoose.disconnect())
     )

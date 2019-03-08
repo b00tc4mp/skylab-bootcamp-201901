@@ -7,5 +7,7 @@ module.exports = {
 
     updateUser: require('./update-user'),
 
+    createHouse: require('./create-house'),
+
     notFound: require('./not-found')
 }
