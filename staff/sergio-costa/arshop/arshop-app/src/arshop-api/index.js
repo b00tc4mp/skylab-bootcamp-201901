@@ -21,7 +21,7 @@ const arshopApi = {
 
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
         if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
-        
+
         return fetch(`${this.url}/user`, {
             method: 'POST',
             headers: {
@@ -31,7 +31,6 @@ const arshopApi = {
         })
             .then(response => response.json())
             .then(({ id, error }) => {
-                console.log(id, error)
                 if (error) throw Error(error)
 
                 return id
@@ -55,7 +54,6 @@ const arshopApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
-
                 return response.token
             })
     },
@@ -77,44 +75,136 @@ const arshopApi = {
             })
     },
 
-    updateUser(token, data){
-        if(typeof token !== 'string')throw TypeError(`${token} is not a string`)
-        if(!token.trim().length)throw Error('token is empty')
+    updateUser(token, data) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
 
-        if(data.constructor !== Object)throw TypeError(`${data} is not an object`)
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
         return fetch(`${this.url}/user/update`, {
             method: 'PUT',
             headers: {
-                authorization: `Bearer ${token}`
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({ data })
         })
             .then(response => response.json())
             .then(response => {
-                if(response.error)throw Error(response.error)
+                if (response.error) throw Error(response.error)
 
                 return response
             })
     },
 
-    addProduct(token, product){
-        if(typeof token !== 'string')throw TypeError(`${token} is not a string`)
-        if(!token.trim().length)throw Error('token is empty')
+    createProduct(token, product) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
 
-        if(!product)throw Error('product should be defined')
-        if(product.constructor !== Object)throw TypeError(`${product} is not an object`)
+        if (!product) throw Error('product should be defined')
+        if (product.constructor !== Object) throw TypeError(`${product} is not an object`)
 
         return fetch(`${this.url}/add/product`, {
             method: 'PUT',
             headers: {
-                authorization: `Bearer ${token}`
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
             },
-            body: JSON.stringify(product) 
+            body: JSON.stringify({ product })
         })
             .then(response => response.json())
             .then(response => {
-                if(response.error)throw Error(response.error)
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveProducts() {
+
+        return fetch(`${this.url}/products`, {
+            headers: {
+                'content-type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveProduct(productId) {
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        return fetch(`${this.url}//product/${productId}`)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveUserProducts(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
+        return fetch(`${this.url}/user/products`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw (response.error)
+
+                return response
+            })
+    },
+
+    updateProduct(token, productId, data) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return fetch(`${this.url}/product/update/${productId}`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ data })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    toogleSold(token, productId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        return fetch(`${this.url}/product/sold/${productId}`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
 
                 return response
             })
