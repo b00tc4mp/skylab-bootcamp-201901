@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
-import logic from '../../logic'
 
-export default function Skylaber({ onToWelcome, onToProfile, onToSignOut, onToBack }) {
+export default function Skylaber({ onToBack }) {
 
     const { skylaber } = useContext(AppContext)
 
@@ -12,25 +11,10 @@ export default function Skylaber({ onToWelcome, onToProfile, onToSignOut, onToBa
         onToBack()
     }
 
-    const handleToWelcome = () => {
-        onToWelcome()
-    }
-
-    const handleToProfile = () => {
-        onToProfile()
-    }
-
-    const handleToSignOut = () => {
-        onToSignOut()
-    }
-
-
-
     return (
         <section>
 
             <h2>Hi {name} </h2>
-            <p>Update your profile</p>
             <a onClick={handleToBack}>Back to search</a>
             {skylaber ?
                 <section>
@@ -79,11 +63,6 @@ export default function Skylaber({ onToWelcome, onToProfile, onToSignOut, onToBa
 
                 : null
             }
-            <nav>
-                <a onClick={handleToWelcome}>Home</a>
-                <a onClick={handleToProfile}>Profile</a>
-                <a onClick={handleToSignOut}>Sign Out</a>
-            </nav>
         </section>
     )
 

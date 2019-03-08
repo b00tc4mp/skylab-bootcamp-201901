@@ -1,26 +1,28 @@
 'use strict'
 
 import React, { Fragment, useContext } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 import Welcome from '../Welcome'
 import Search from '../Search'
 import AdvancedSearch from '../AdvancedSearch'
 import Profile from '../Profile'
 import Skylaber from '../Skylaber'
+import AddSkylaber from '../AddSkylaber'
+import NavFooter from '../NavFooter'
 
 import logic from '../../logic'
 import { AppContext } from '../AppContext';
 
 function Home({ history }) {
 
-    const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, setTypeOfUser } = useContext(AppContext)
+    const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, userData } = useContext(AppContext)
 
     const handleSearch = query => {
         try {
             logic.searchSkylaber(query)
                 .then(searchResults => {
                     setFeedback(null)
-                    return setSearchResults(searchResults)
+                    setSearchResults(searchResults)
                 })
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
@@ -34,7 +36,7 @@ function Home({ history }) {
                 .then(skylaber => {
                     setFeedback(null)
                     setSkylaber(skylaber)
-                    return history.push(`/home/search/${id}`)
+                    history.push(`/home/search/${id}`)
                 })
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
@@ -47,7 +49,7 @@ function Home({ history }) {
             logic.adSearchSkylaber(param)
                 .then(searchResults => {
                     setFeedback(null)
-                    return setAdSearchResults(searchResults)
+                    setAdSearchResults(searchResults)
                 })
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
@@ -55,14 +57,11 @@ function Home({ history }) {
         }
     }
 
-    const handleUpdatePersonalInfo = (email, telephone, git, linkedin, slack) => {
+    const handleUpdatePersonalInfo = data => {
         try {
-            logic.updateUser({ email, telephone, git, linkedin, slack })
+            logic.updateUser(data)
                 .then(() => logic.retrieveUser())
-                .then(user => {
-                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
-                    return setUserData(user)
-                })
+                .then(user => setUserData(user))
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
             setFeedback(message)
@@ -73,10 +72,7 @@ function Home({ history }) {
         try {
             logic.addUserInformation(type, data)
                 .then(() => logic.retrieveUser())
-                .then(user => {
-                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
-                    return setUserData(user)
-                })
+                .then(user => setUserData(user))
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
             setFeedback(message)
@@ -87,10 +83,7 @@ function Home({ history }) {
         try {
             logic.updateUserInformation(id, type, data)
                 .then(() => logic.retrieveUser())
-                .then(user => {
-                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
-                    return setUserData(user)
-                })
+                .then(user => setUserData(user))
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
             setFeedback(message)
@@ -101,10 +94,17 @@ function Home({ history }) {
         try {
             logic.removeUserInformation(id, type)
                 .then(() => logic.retrieveUser())
-                .then(user => {
-                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
-                    return setUserData(user)
-                })
+                .then(user => setUserData(user))
+                .catch(({ message }) => setFeedback(message))
+        } catch ({ message }) {
+            setFeedback(message)
+        }
+    }
+
+    const handleOnAddSkylaber = data => {
+        try {
+            logic.addSkylaber(data)
+                .then(() => setFeedback('Skylaber added to the whitelist!'))
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
             setFeedback(message)
@@ -119,6 +119,11 @@ function Home({ history }) {
     const handleToAdvancedSearch = () => {
         setFeedback(null)
         history.push('/home/adsearch')
+    }
+
+    const handleToAddSkylaber = () => {
+        setFeedback(null)
+        history.push('/home/add-skylaber')
     }
 
     const handleToBack = () => {
@@ -147,15 +152,15 @@ function Home({ history }) {
         history.push('/')
     }
 
-
-
     return (
         <Fragment>
-            <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
-            <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
-            <Route path="/home/adsearch" render={() => <AdvancedSearch onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
-            <Route path="/home/profile" render={() => <Profile onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
-            <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId} onToBack={handleToBack} onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
+            <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToAddSkylaber={handleToAddSkylaber} />} />
+            <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber}/>} />
+            <Route path="/home/adsearch" render={() => <AdvancedSearch onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber}/>} />
+            <Route path="/home/profile" render={() => userData.role === 'User' ? <Profile onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation}/> : <Redirect to="/home" />} />
+            <Route path="/home/add-skylaber" render={() => userData.role === 'Admin' ? <AddSkylaber onToBack={handleToBack}onSubmit={handleOnAddSkylaber} /> : <Redirect to="/home" />} />
+            <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId} onToBack={handleToBack}/>} />
+            <Route path ="/home" render={() => <NavFooter onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut}/>}/>
         </Fragment>
     )
 }

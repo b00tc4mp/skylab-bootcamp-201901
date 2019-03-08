@@ -17,5 +17,9 @@ module.exports = {
 
     updateUserInformation: require('./update-user-information'),
 
-    removeUserInformation: require('./remove-user-information')
+    removeUserInformation: require('./remove-user-information'),
+
+    registerAdmin: require('./register-admin'),
+
+    addSkylaber: require('./add-skylaber')
 }

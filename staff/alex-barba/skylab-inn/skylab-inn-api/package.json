@@ -22,6 +22,7 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.0",
+    "nodemailer": "^5.1.1",
     "skylab-inn-data": "file:../skylab-inn-data"
   }
 }

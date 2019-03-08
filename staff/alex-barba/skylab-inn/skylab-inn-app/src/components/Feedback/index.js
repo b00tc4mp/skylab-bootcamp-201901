@@ -4,9 +4,9 @@ import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
 
 export default function feedback() {
-    const {feedback}= useContext(AppContext)
+    const { feedback } = useContext(AppContext)
 
-    return(
+    return (
         <p>{feedback}</p>
     )
 }

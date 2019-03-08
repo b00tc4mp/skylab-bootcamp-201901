@@ -18,7 +18,7 @@ const tokenHelper = {
         if (typeof userId !== 'string') throw new TypeError(`${userId} should be a string`)
         if (!userId.trim().length) throw new Error('userId is empty')
 
-        return jwt.sign({ sub: userId }, this.jwtSecret, { expiresIn: '4h' })
+        return jwt.sign({ sub: userId }, this.jwtSecret, { expiresIn: '48h' })
     },
 
     /**

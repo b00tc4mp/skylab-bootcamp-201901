@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
 
-export default function Welcome({ onToSearch, onToAdvancedSearch, onToWelcome ,onToProfile, onToSignOut}) {
+export default function Welcome({ onToSearch, onToAdvancedSearch, onToAddSkylaber }) {
 
-    const { userData, userName } = useContext(AppContext)
+    const { userData } = useContext(AppContext)
 
     const handleToSearch = () => {
         onToSearch()
@@ -13,28 +13,18 @@ export default function Welcome({ onToSearch, onToAdvancedSearch, onToWelcome ,o
         onToAdvancedSearch()
     }
 
-    const handleToWelcome = () => {
-        onToWelcome()
+    const handleToAddSkylaber = () => {
+        onToAddSkylaber()
     }
 
-    const handleToProfile = () => {
-        onToProfile()
-    }
 
-    const handleToSignOut = () => {
-        onToSignOut()
-    }
 
     return (
         <section>
             <h2>Hi {userData.name} </h2>
             <a onClick={handleToSearch}>Look for a Skylaber</a>
             <a onClick={handleToAdvancedSearch}>Advanced search</a>
-            <nav>
-                <a onClick={handleToWelcome}>Home</a>
-                <a onClick={handleToProfile}>Profile</a>
-                <a onClick={handleToSignOut}>Sign Out</a>
-            </nav>
+            {userData.role === 'Admin' && <a onClick={handleToAddSkylaber}>Add a Skylaber</a>}
         </section>
     )
 

@@ -12,7 +12,6 @@ import logic from '../../logic'
 function App({ history }) {
 
     const [feedback, setFeedback] = useState(null)
-    const [typeOfUser, setTypeOfUser] = useState(null)
     const [userData, setUserData] = useState({})
     const [query, setQuery] = useState(null)
     const [searchResults, setSearchResults] = useState(null)
@@ -21,11 +20,7 @@ function App({ history }) {
 
     useEffect(() => {
         logic.isUserLoggedIn && logic.retrieveUser()
-            .then(user => {
-                user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
-                return setUserData(user)
-            })
-
+            .then(user => setUserData(user))
     }, [userData.name])
 
     const handleSignUp = (name, surname, email, password, passwordConfirmation) => {
@@ -46,7 +41,6 @@ function App({ history }) {
             logic.logInUser(email, password)
                 .then(() => logic.retrieveUser())
                 .then(user => {
-                    user.technology ? setTypeOfUser('User') : setTypeOfUser('Admin')
                     return setUserData(user)
                 })
                 .then(() => setFeedback(null))
@@ -68,7 +62,7 @@ function App({ history }) {
     }
 
     return (
-        <AppContext.Provider value={{ feedback, setFeedback, typeOfUser, setTypeOfUser,userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber }}>
+        <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber }}>
             <Route exact path="/" render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to="/home" />} />
             <Route path="/signup" render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn} /> : <Redirect to="/home" />} />
             <Route path="/home" render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to="/" />} />

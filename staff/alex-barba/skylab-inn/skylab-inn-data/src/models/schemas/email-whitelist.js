@@ -1,6 +1,6 @@
 const { Schema } = require('mongoose')
 
-const Admin = new Schema({
+const EmailWhitelist = new Schema({
     name: {
         type: String,
         required: true
@@ -21,7 +21,13 @@ const Admin = new Schema({
             },
             message: props => `${props.value} is not a valid email`
         }
+    },
+
+    state: {
+        type: String,
+        default : 'pending',
+        enum: ['pending', 'registered']
     }
 })
 
-module.exports = Admin
+module.exports = EmailWhitelist

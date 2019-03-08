@@ -32,6 +32,11 @@ const User = new Schema({
         required: true
     },
 
+    role: {
+        type: String,
+        default: 'User'
+    },
+
     telephone: { type: Number },
 
     git: { type: String },

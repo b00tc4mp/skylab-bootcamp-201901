@@ -339,7 +339,7 @@ const skylabInnApi = {
      * @throws {TypeError} - if any param is not a string.
      * @throws {Error} - if any param is empty.
      *
-     * @returns {Promise} resolves or rejects 
+     * @returns {Promise} resolves or rejects. 
      */
     removeUserInformation(token, infoId, type) {
         debugger
@@ -359,6 +359,41 @@ const skylabInnApi = {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({ infoId, type })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    /**
+     * Adds skylaber to the whitelist.
+     * 
+     * @param {String} token
+     * @param {Object} data
+     * 
+     * @throws {TypeError} - if token is not a string or data is not an object.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Promise} resolves or rejects.   
+     */
+    addSkylaber(token, data) {
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return fetch(`${this.url}/add-skylaber`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ data })
         })
             .then(response => response.json())
             .then(response => {

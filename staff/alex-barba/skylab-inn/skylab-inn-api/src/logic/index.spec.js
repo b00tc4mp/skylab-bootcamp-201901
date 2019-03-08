@@ -2,7 +2,7 @@
 
 require('dotenv').config()
 
-const { mongoose, models: { User, Admin, Work } } = require('skylab-inn-data')
+const { mongoose, models: { User, Work, EmailWhitelist } } = require('skylab-inn-data')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -15,7 +15,6 @@ describe('logic', () => {
 
     beforeEach(() =>
         Promise.all([
-            Admin.deleteMany(),
             User.deleteMany(),
             Work.deleteMany()
         ])
@@ -24,9 +23,15 @@ describe('logic', () => {
     describe('register user', () => {
         const name = 'Àlex'
         const surname = 'Barba'
-        const email = `alex.barba-${Math.random()}@gmail.com`
-        const password = `Pass-${Math.random()}`
-        const passwordConfirm = password
+        let email, password, passwordConfirm
+
+        beforeEach(async () => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+            passwordConfirm = password
+
+            return EmailWhitelist.create({ name, surname, email })
+        })
 
         it('should succeed on correct data', async () => {
             const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
@@ -45,6 +50,16 @@ describe('logic', () => {
             expect(match).toBeTruthy()
         })
 
+        it('should fail on not authorized email', () => {
+            const _email = `alex.barba-${Math.random()}@gmail.com`
+
+            return logic.registerUser(name, surname, _email, password, passwordConfirm)
+                .catch(error => {
+                    expect(error).toBeDefined()
+                    expect(error.message).toBe(`The email ${_email} is not authorised to sign up`)
+                })
+        })
+
         it('should fail on duplicate email', () => {
             const _name = 'Àlex'
             const _surname = 'Barba'
@@ -52,7 +67,8 @@ describe('logic', () => {
             const _password = `Pass-${Math.random()}`
             const _passwordConfirm = _password
 
-            logic.registerUser(_name, _surname, _email, _password, _passwordConfirm)
+            return EmailWhitelist.create({ name: _name, surname: _surname, email: _email })
+                .then(() =>logic.registerUser(_name, _surname, _email, _password, _passwordConfirm))
                 .then(id => {
                     expect(id).toBeDefined()
                     expect(typeof id === 'string').toBeTruthy()
@@ -447,7 +463,7 @@ describe('logic', () => {
         const _name = 'Marti'
         const _surname ='Malek'
         let email, password, _email, _password, _id
-        let test = [['Personal info', 'alex']]
+        let test = [['Contact Information', 'alex']]
 
         beforeEach(async () => {
             email = `alex.barba-${Math.random()}@gmail.com`
@@ -483,7 +499,7 @@ describe('logic', () => {
 
             const hash = await bcrypt.hash(__password, 10)
             await User.create({ name: __name, surname: __surname, email: __email, password: hash })
-            const query= [['Personal info', 'marti']]
+            const query= [['Contact Information', 'marti']]
 
             const results = await logic.adSearchSkylaber(_id, query)
 
@@ -570,8 +586,7 @@ describe('logic', () => {
                await logic.retrieveSkylaber(_id, _skylaberId)
             } catch (error) {
                 expect(error).toBeDefined()
-                expect(error.message).toBe(`user with userId ${_id} not found`)
-                
+                expect(error.message).toBe(`user with userId ${_id} not found`)  
             }
         })
 
@@ -581,8 +596,7 @@ describe('logic', () => {
                await logic.retrieveSkylaber(_id, _skylaberId)
             } catch (error) {
                 expect(error).toBeDefined()
-                expect(error.message).toBe(`skylaber with userId ${skylaberId} not found`)
-                
+                expect(error.message).toBe(`skylaber with userId ${skylaberId} not found`)    
             }
         })
 
@@ -619,7 +633,6 @@ describe('logic', () => {
 
     after(() =>
         Promise.all([
-            Admin.deleteMany(),
             User.deleteMany(),
             Work.deleteMany()
         ])

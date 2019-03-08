@@ -2,34 +2,24 @@ import React, { useState, useContext } from 'react'
 import { AppContext } from '../AppContext'
 import Feedback from '../Feedback'
 
-export default function Search({ onSearch, onSkylaber, feedback, onToWelcome, onToProfile, onToSignOut }) {
+export default function Search({ onSearch, onSkylaber, feedback }) {
 
-    const { query, setQuery, searchResults } = useContext(AppContext)
+    const { query, setQuery, searchResults, setFeedback } = useContext(AppContext)
 
-    const handleSearch = event => {
-        event.preventDefault()
+    const handleSearch = e => {
+        e.preventDefault()
+        setFeedback(null)
         onSearch(query)
     }
 
     const handleOnSkylaber = id => {
+        setFeedback(null)
         onSkylaber(id)
-    }
-
-    const handleToWelcome = () => {
-        onToWelcome()
-    }
-
-    const handleToProfile = () => {
-        onToProfile()
-    }
-
-    const handleToSignOut = () => {
-        onToSignOut()
     }
 
     return (
         <section>
-            <form onSubmit={handleSearch}>
+            <form onSubmit={e => handleSearch(e)}>
                 <input type="text" name="query" placeholder="Look for your Skylaber" onChange={e => setQuery(e.target.value)}></input>
                 {feedback && <Feedback />}
                 <button type="submit">Search</button>
@@ -44,11 +34,6 @@ export default function Search({ onSearch, onSkylaber, feedback, onToWelcome, on
             {searchResults && !!searchResults.resLang.length && searchResults.resLang.map(res => { return <a onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}</a> })}
             {searchResults && !!searchResults.resEdu.length && <h5>Education</h5>}
             {searchResults && !!searchResults.resEdu.length && searchResults.resEdu.map(res => { return <a onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}</a> })}
-            <nav>
-                <a onClick={handleToWelcome}>Home</a>
-                <a onClick={handleToProfile}>Profile</a>
-                <a onClick={handleToSignOut}>Sign Out</a>
-            </nav>
         </section>
     )
 }

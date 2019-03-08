@@ -1,7 +1,8 @@
 'use strict'
 
-const { models: { User, Admin, Work, Language, Education, Technology } } = require('skylab-inn-data')
+const { models: { User, Work, Language, Education, Technology, EmailWhitelist } } = require('skylab-inn-data')
 const bcrypt = require('bcrypt')
+const nodemailer = require('nodemailer')
 
 /**
  * Abstraction of business logic.
@@ -18,7 +19,7 @@ const logic = {
      * @param {String} passwordConfirm
      * 
      * @throws {TypeError} - if any param is not a string.
-     * @throws {Error} - if any param is empty or password and password confirm do not match.
+     * @throws {Error} - if any param is empty or password and password confirm do not match or email is already registered,
      *
      * @returns {String} - id. 
      */
@@ -45,6 +46,9 @@ const logic = {
             const user = await User.findOne({ email })
 
             if (user) throw new Error(`user with email ${email} already exists`)
+
+            const preUser = await EmailWhitelist.findOne({ email })
+            if (!preUser) throw new Error(`The email ${email} is not authorised to sign up`)
 
             const hash = await bcrypt.hash(password, 11)
 
@@ -145,7 +149,7 @@ const logic = {
     },
 
     /**
-     * Search fro a skylaber.
+     * Search for a skylaber.
      * 
      * @param {String} userId 
      * @param {String} query
@@ -523,6 +527,119 @@ const logic = {
 
                     break;
             }
+        })()
+    },
+
+    /**
+     * Registers an Admin user.
+     * 
+     * @param {String} name 
+     * @param {String} surname 
+     * @param {String} email 
+     * @param {String} password
+     * @param {String} passwordConfirm
+     * @param {String} role 
+     * 
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty or passwords do not match or email is already registered.
+     *
+     * @returns {String} - id. 
+     */
+    registerAdmin(name, surname, email, password, passwordConfirm, role) {
+
+        if (typeof name !== 'string') throw new TypeError(`${name} is not a string`)
+        if (!name.trim().length) throw new Error('name is empty')
+
+        if (typeof surname !== 'string') throw new TypeError(`${surname} is not a string`)
+        if (!surname.trim().length) throw new Error('surname is empty')
+
+        if (typeof email !== 'string') throw new TypeError(`${email} is not a string`)
+        if (!email.trim().length) throw new Error('email is empty')
+
+        if (typeof password !== 'string') throw new TypeError(`${password} is not a string`)
+        if (!password.trim().length) throw new Error('password is empty')
+
+        if (typeof passwordConfirm !== 'string') throw new TypeError(`${passwordConfirm} is not a string`)
+        if (!passwordConfirm.trim().length) throw new Error('password confirmation is empty')
+
+        if (password !== passwordConfirm) throw new Error('passwords do not match')
+
+        if (typeof role !== 'string') throw new TypeError(`${role} is not a string`)
+        if (!role.trim().length) throw new Error('role is empty')
+
+        return (async () => {
+            const admin = await User.findOne({ email })
+
+            if (admin) throw new Error(`admin with email ${email} already exists`)
+
+            const hash = await bcrypt.hash(password, 11)
+
+            const { id } = await User.create({ name, surname, email, password: hash, role })
+
+            return id
+        })()
+    },
+
+    /**
+     * Adds skylaber to the whitelist.
+     * 
+     * @param {String} userId 
+     * @param {Object} data 
+     * 
+     * @throws {TypeError} - if userId is not a string or data is not an object.
+     * @throws {Error} - if any param is empty or user is not found.
+     *
+     * @returns {String} - id.  
+     */
+    addSkylaber(userId, data) {
+        debugger
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return (async () => {
+
+            const {name, surname, email} = data
+
+            const user = await User.findOne({ email })
+            if (user) throw new Error(`user with email ${email} already exists`)
+
+            const preUser = await EmailWhitelist.findOne({ email })
+            if (preUser) throw new Error(`user with email ${email} already added to the Whitelist`)
+
+            const {id} = await EmailWhitelist.create({ name, surname, email })
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'skylabinn@gmail.com',
+                  pass: 'Skylabinn123'
+                }
+            })
+              
+            const mailOptions = {
+                from: 'skylabinn@gmail.com',
+                to: `${email}`,
+                subject: 'Join de Skylab Universe!',
+                html: `<h1>Welcome to Skylab Inn ${name}</h1>
+                    <p>We would like to thank you once again for joining the Skylab Academy.<p>
+                    <p>We would like you to register in the following <a href='http://localhost:3000/#/signup'>link</a> to join Skylab Inn.</p>
+                    <p>We ask you to update your created profile in order to offer you the best job opportunities matching the company needs with your skills and experience.</p>
+                    <p>This network will also allow you to se all Skylabers information, so that you can get in touch with any of them if you may ever need it.</p>
+                    <p>See you soon!</p>
+                    <p>Skylab Inn</p>
+                `
+            }
+              
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) throw new Error(`email could not be sent`)
+                else ('Email sent: ' + info.response)
+            })
+
+            return id
         })()
     },
 }

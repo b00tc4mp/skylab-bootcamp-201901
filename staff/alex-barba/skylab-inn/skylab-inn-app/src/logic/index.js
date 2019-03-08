@@ -231,7 +231,7 @@ const logic = {
      * @throws {TypeError} - if any param is not a string.
      * @throws {Error} - if any param is empty.
      *
-     * @returns {Promise} resolves or rejects   
+     * @returns {Promise} resolves or rejects.   
      */
     removeUserInformation(infoId, type) {
 
@@ -242,6 +242,26 @@ const logic = {
         if (!type.trim().length) throw new Error('type is empty')
 
         return skylabInnApi.removeUserInformation(this.__userApiToken__, infoId, type)
+            .then(({id}) => id)
+    },
+
+    /**
+     * Adds a skylaber to the whitelist.
+     * 
+     * @param {Object} data
+     * 
+     * @throws {TypeError} - if data is not an object.
+     * @throws {Error} - if data is empty.
+     *
+     * @returns {Promise} resolves or rejects.  
+     */
+    addSkylaber(data) {
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+
+        return skylabInnApi.addSkylaber(this.__userApiToken__, data)
             .then(({id}) => id)
     },
 
