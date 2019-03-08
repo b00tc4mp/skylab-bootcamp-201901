@@ -20,10 +20,12 @@ class App extends Component {
         .then(() => {
           return logic.retrieveUser()
             .then(user => this.setState({ user }))
+            .catch(({message}) => {
+              this.setState({ loginFeedback: message })
+            })
           // .then(() => this.props.history.push('/home'))
         })
         .catch(({ message }) => {
-          console.log(message)
           this.setState({ loginFeedback: message })
         })
     } catch ({ message }) {
@@ -36,6 +38,9 @@ class App extends Component {
     try {
       return logic.registerUser(username, email, password, passwordConfirm)
         .then(() => this.setState({ registered: 'yes' }))
+        .catch(({message}) => {
+          this.setState({ registerFeedback: message })
+        })
     } catch ({ message }) {
       this.setState({ registerFeedback: message })
     }
