@@ -2,8 +2,10 @@
 
 require('dotenv').config()
 
-import cleanUpApi from '.'
-const { mongoose, models: { User, Comment } } = require('music-data')
+// import cleanUpApi from './'
+const cleanUpApi = require('./api')
+
+const { mongoose, models: { User, Comment } } = require('cleanup-data')
 import bcrypt from 'bcrypt'
 
 jest.setTimeout(10000)

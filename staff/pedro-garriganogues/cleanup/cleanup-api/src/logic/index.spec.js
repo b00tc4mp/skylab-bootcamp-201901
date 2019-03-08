@@ -4,7 +4,7 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
-const { mongoose, models: { User, Comment } } = require('music-data')
+const { mongoose, models: { User, Product } } = require('cleanup-data')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -16,7 +16,7 @@ describe('logic', () => {
 
     beforeEach(() =>
         Promise.all([
-            Comment.deleteMany(),
+            Product.deleteMany(),
             User.deleteMany()
         ])
     )
@@ -552,7 +552,7 @@ describe('logic', () => {
 
     after(() =>
         Promise.all([
-            Comment.deleteMany(),
+            Product.deleteMany(),
             User.deleteMany()
         ])
             .then(() => mongoose.disconnect())

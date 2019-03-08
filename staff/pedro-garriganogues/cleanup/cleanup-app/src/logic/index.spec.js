@@ -1,4 +1,6 @@
-import cleanUpApi from '../api'
+// import cleanUpApi from '../api'
+const cleanUpApi = require('../api')
+
 import logic from '.'
 
 

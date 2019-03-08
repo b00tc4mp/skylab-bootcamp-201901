@@ -1,5 +1,6 @@
 'user strict'
 
+// const cleanUpApi = require('../api')
 import cleanUpApi from '../api'
 
 const logic = {
