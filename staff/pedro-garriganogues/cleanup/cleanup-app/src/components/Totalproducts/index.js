@@ -15,7 +15,7 @@ class Totalproducts extends Component {
 
     componentDidMount() {
 
-        logic.listAllProducts()
+        logic.listTheProducts()
             .then(products => this.setState({ products }))
     }
 

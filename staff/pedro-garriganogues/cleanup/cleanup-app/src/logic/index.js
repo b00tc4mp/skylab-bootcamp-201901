@@ -57,9 +57,9 @@ const logic = {
     },
 
 
-    listAllProducts() {
+    listTheProducts() {
 
-        return cleanUpApi.listAllProducts()
+        return cleanUpApi.listTheProducts()
             .then(products => products)
     },
 

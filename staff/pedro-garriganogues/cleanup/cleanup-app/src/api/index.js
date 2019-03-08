@@ -171,7 +171,7 @@ const cleanUpApi = {
      * 
      * @returns {Promise<[Product]>} 
     */
-    listAllProducts() {
+    listTheProducts() {
         return Promise.resolve()
             .then(() => {
 

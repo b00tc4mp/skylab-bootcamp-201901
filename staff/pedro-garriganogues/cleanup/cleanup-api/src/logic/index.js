@@ -115,7 +115,7 @@ const logic = {
     },
 
 
-    async listAllProducts() {
+    async listTheProducts() {
 
 
 
