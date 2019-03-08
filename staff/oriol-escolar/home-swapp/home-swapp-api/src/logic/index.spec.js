@@ -516,10 +516,10 @@ describe('logic', () => {
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ username, email, password: hash }))
-                .then(({ id }) => userId = id)
+                .then(({ id }) => userId =  id)
         )
 
-        it.only('should succeed on correct data', () =>
+        it('should succeed on correct data', () =>
             logic.createHouse(userId, images, description, info, adress)
                 .then(house => {
 
@@ -528,8 +528,7 @@ describe('logic', () => {
 
                     return User.findById(userId).select('-password -__v')
                         .then(user => {
-                            console.log(user)
-                            expect(user.myHouses).toBe(houseId)
+                            expect(JSON.stringify(user.myHouses[0]) ).toBe(JSON.stringify(houseId) )
 
 
                         })
@@ -539,47 +538,43 @@ describe('logic', () => {
 
         )
 
-        // it('should fail on boolean id', () => {
+        it('should fail on undefined userId', () => {
 
-        //     expect(() => {
-        //         logic.retrieveUser(true)
-        //     }).toThrow(Error(`${true} is not a string`))
-        // })
+            expect(() => {
+                logic.createHouse(undefined, images, description, info, adress)
+            }).toThrow(Error(`${undefined} is not a valid id`))
+        })
+        it('should fail on undefined images', () => {
 
-        // it('should fail on object id', () => {
+            expect(() => {
+                logic.createHouse(userId, undefined, description, info, adress)
+            }).toThrow(Error(`${undefined} is not an array`))
+        })
+        it('should fail on empty images', () => {
 
-        //     expect(() => {
-        //         logic.retrieveUser({})
-        //     }).toThrow(Error(`${{}} is not a string`))
-        // })
+            expect(() => {
+                logic.createHouse(userId, [], description, info, adress)
+            }).toThrow(Error('There must be at least one image'))
+        })
+        it('should fail on undefined description', () => {
 
-        // it('should fail on undefined id', () => {
+            expect(() => {
+                logic.createHouse(userId, images, undefined, info, adress)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+        it('should fail on undefined info', () => {
 
-        //     expect(() => {
-        //         logic.retrieveUser(undefined)
-        //     }).toThrow(Error(`${undefined} is not a string`))
-        // })
+            expect(() => {
+                logic.createHouse(userId, images, description, undefined, adress)
+            }).toThrow(Error(`${undefined} is not an object`))
+        })
+        it('should fail on undefined adress', () => {
 
-        // it('should fail on array id', () => {
-
-        //     expect(() => {
-        //         logic.retrieveUser([])
-        //     }).toThrow(Error(`${[]} is not a string`))
-        // })
-
-        // it('should fail on numeric id', () => {
-
-        //     expect(() => {
-        //         logic.retrieveUser(1)
-        //     }).toThrow(Error(`${1} is not a string`))
-        // })
-
-        // it('should fail on empty id', () => {
-
-        //     expect(() => {
-        //         logic.retrieveUser("")
-        //     }).toThrow(Error('userId cannot be empty'))
-        // })
+            expect(() => {
+                logic.createHouse(userId, images, description, info, undefined)
+            }).toThrow(Error(`${undefined} is not an object`))
+        })
+        
     })
 
 
@@ -592,8 +587,8 @@ describe('logic', () => {
 
     after(() =>
         Promise.all([
-            // User.deleteMany(),
-            // House.deleteMany()
+            User.deleteMany(),
+            House.deleteMany()
 
         ])
             .then(() => mongoose.disconnect())

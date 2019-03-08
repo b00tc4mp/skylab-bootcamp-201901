@@ -1,6 +1,6 @@
 'use strict'
 
-const { User, House, mongoose } = require('homeSwapp-data')
+const { User, House, mongoose, ObjectId } = require('homeSwapp-data')
 const bcrypt = require('bcrypt')
 
 
@@ -134,6 +134,12 @@ const logic = {
 
     createHouse(ownerId, images, description, info, adress) {
 
+        if( typeof ownerId !== 'string' ) throw Error (`${ownerId} is not a valid id`)
+        if( typeof images !== 'object' ) throw Error (`${images} is not an array`)
+        if(images.length==0) throw Error ('There must be at least one image')
+        if( typeof description !== 'string' ) throw Error (`${description} is not a string`)
+        if( typeof info !== 'object' ) throw Error (`${info} is not an object`)
+        if( typeof adress !== 'object' ) throw Error (`${adress} is not an object`)
 
         return House.create({ ownerId, images, description, info, adress })
             .then(house => {
@@ -142,13 +148,31 @@ const logic = {
                return  User.findById(ownerId)
                     .then(user => {
                         user.myHouses.push(house._id)
-                        user.save()
-                        return house
+                        return user.save()
+                        .then( ()=>{
+                            
+                            return house
+                            
+                        })
+                            
 
                     })
 
               })
-            }
+            },
+
+    // updateHouse(houseId, images, description, info, adress){
+
+    //     if( typeof houseId !== 'string' ) throw Error (`${houseId} is not a valid id`)
+    //     if( typeof images !== 'object' ) throw Error (`${images} is not an array`)
+    //     if( images.length==0) throw Error ('There must be at least one image')
+    //     if( typeof description !== 'string' ) throw Error (`${description} is not a string`)
+    //     if( typeof info !== 'object' ) throw Error (`${info} is not an object`)
+    //     if( typeof adress !== 'object' ) throw Error (`${adress} is not an object`)
+
+    //     return House.findByIdAndUpdate(houseId, {images,description,info,adress})
+
+    // }
 
 }
 

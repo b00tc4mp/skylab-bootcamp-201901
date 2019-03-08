@@ -9,5 +9,7 @@ module.exports = {
 
     createHouse: require('./create-house'),
 
+    updateHouse: require('./update-house'),
+
     notFound: require('./not-found')
 }
