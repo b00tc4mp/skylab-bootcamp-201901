@@ -1,23 +1,20 @@
 {
-    "name": "CleanUp",
+    "name": "cleanup-app",
     "version": "1.0.0",
     "private": true,
     "dependencies": {
+        "axios": "^0.18.0",
         "node-sass": "^4.11.0",
+        "popper.js": "^1.14.3",
         "react": "^16.7.0",
         "react-dom": "^16.7.0",
         "react-router-dom": "^4.3.1",
-        "react-scripts": "2.1.3",
-        "jquery": "^3.3.1",
-        "popper.js": "^1.14.3",
-        "axios": "^0.18.0",
-        "bcrypt": "^3.0.4"
+        "react-scripts": "2.1.3"
     },
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "cleanup-data": "file:../cleanup-data",
-        "test": "mocha --timeout 10000 $(find src -name *.spec.js)",
+        "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -28,5 +25,9 @@
         "not dead",
         "not ie <= 11",
         "not op_mini all"
-    ]
+    ],
+    "devDependencies": {
+        "bcrypt": "^3.0.4",
+        "cleanup-data": "file:../cleanup-data"
+    }
 }
