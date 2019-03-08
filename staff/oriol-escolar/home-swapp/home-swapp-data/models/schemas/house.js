@@ -3,12 +3,12 @@ const { Schema, ObjectId } = require('mongoose')
 const House = new Schema({
 
 
+    
     ownerId: {
         type: ObjectId,
         required: true,
         ref: 'User'
     },
-
     images: [{
 
         type: String,
@@ -40,7 +40,7 @@ const House = new Schema({
 
         numberOfBeds: {
             
-            type: Number,
+            type: String,
             required: true
             
         }
@@ -51,8 +51,31 @@ const House = new Schema({
 
     adress: 
     {
-        type: String,
-        required: true
+
+        
+        country:{
+            type: String,
+            required: true
+
+        },
+        city:{
+            type: String,
+            required: true
+
+        },
+
+        street:{
+            type: String,
+            required: true
+
+        },
+
+        number:{
+            type: String,
+            required: true
+
+        },
+
     }
 
 

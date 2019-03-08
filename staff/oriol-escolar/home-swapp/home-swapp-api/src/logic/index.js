@@ -1,6 +1,6 @@
 'use strict'
 
-const { User, House } = require('homeSwapp-data')
+const { User, House, mongoose, ObjectId } = require('homeSwapp-data')
 const bcrypt = require('bcrypt')
 
 
@@ -130,33 +130,49 @@ const logic = {
 
     },
 
-    addHouseToUser(userId, houseId) {
-
-        retrieveUser(userId)
-            .then(user => {
-                user.myHouses.push(houseId)
-                return user
-            })
-            .then(user => {
-
-                const myHouses = user.myHouses
-                User.findByIdAndUpdate(userId, myHouses, { runValidators: true, new: true })
-
-            })
-
-
-    },
+    
 
     createHouse(ownerId, images, description, info, adress) {
 
-        return House.create(ownerId, images, description, info, adress)
+        if( typeof ownerId !== 'string' ) throw Error (`${ownerId} is not a valid id`)
+        if( typeof images !== 'object' ) throw Error (`${images} is not an array`)
+        if(images.length==0) throw Error ('There must be at least one image')
+        if( typeof description !== 'string' ) throw Error (`${description} is not a string`)
+        if( typeof info !== 'object' ) throw Error (`${info} is not an object`)
+        if( typeof adress !== 'object' ) throw Error (`${adress} is not an object`)
+
+        return House.create({ ownerId, images, description, info, adress })
             .then(house => {
 
-                addHouseToUser(ownerId, house.id)
 
-            })
+               return  User.findById(ownerId)
+                    .then(user => {
+                        user.myHouses.push(house._id)
+                        return user.save()
+                        .then( ()=>{
+                            
+                            return house
+                            
+                        })
+                            
 
-    }
+                    })
+
+              })
+            },
+
+    // updateHouse(houseId, images, description, info, adress){
+
+    //     if( typeof houseId !== 'string' ) throw Error (`${houseId} is not a valid id`)
+    //     if( typeof images !== 'object' ) throw Error (`${images} is not an array`)
+    //     if( images.length==0) throw Error ('There must be at least one image')
+    //     if( typeof description !== 'string' ) throw Error (`${description} is not a string`)
+    //     if( typeof info !== 'object' ) throw Error (`${info} is not an object`)
+    //     if( typeof adress !== 'object' ) throw Error (`${adress} is not an object`)
+
+    //     return House.findByIdAndUpdate(houseId, {images,description,info,adress})
+
+    // }
 
 }
 
