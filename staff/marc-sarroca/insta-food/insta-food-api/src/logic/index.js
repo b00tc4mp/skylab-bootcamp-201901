@@ -127,9 +127,7 @@ const logic = {
       .then(post => post);
   },
 
-  retrieveAllPosts(userId) {
-    if (typeof userId !== "string")
-      throw TypeError(userId + " is not a string");
+  retrieveAllPosts() {
     return Post.find({})
       .populate("comments.by", "username")
       .select("-__v -password")
