@@ -36,10 +36,7 @@ class EditPet extends Component {
         console.log("petsID " + petsId)
         const {name, microchip, petlicence} = await logic.retrievePet(petsId)
         this.setState({petsId, name, microchip, petlicence})
-        
-        // const pets = await logic.retrievePets(userId)
-        // debugger
-        // this.setState({ pets })
+ 
     }
 
     handleGoHome = event => {
@@ -49,7 +46,6 @@ class EditPet extends Component {
     
     
     handleEditSubmit = event => {
-
         event.preventDefault()
         const { state: { petsId, name, microchip, petlicence } } = this
         this.editPet( petsId, name, microchip, petlicence)
@@ -64,6 +60,7 @@ class EditPet extends Component {
             this.setState({ error: message })
         }
     }
+
     render() {
 
         return <form onSubmit={this.handleEditSubmit}>
@@ -101,8 +98,6 @@ class EditPet extends Component {
                 {this.state.isModified && <p className="feedback__Ok">Profile successfully updated!</p>}
             </section>
         </form>
-
-
     }
 }
 export default EditPet

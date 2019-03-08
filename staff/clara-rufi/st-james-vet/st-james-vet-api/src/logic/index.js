@@ -1,6 +1,6 @@
 'use strict'
 
-const { models: { User, Pet, Appointment } }= require('../../../st-james-vet-data')
+const { models: { User, Pet, Appointment } }= require('st-james-vet-data')
 const bcrypt = require('bcrypt')
 
 
@@ -24,7 +24,6 @@ const logic = {
     * @param {string} passwordConfirmation 
     */
     registerUser(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation) {
-        debugger
 
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
 
@@ -38,7 +37,7 @@ const logic = {
 
         if (!idCard.trim().length) throw Error('idCard cannot be empty')
 
-        if (typeof phone !== 'string') throw TypeError ('phone is not a string')  ///////////////////////
+        if (typeof phone !== 'string') throw TypeError ('phone is not a string') 
 
         if (!phone.trim().length) throw Error ('phone cannot be empty')
 
@@ -65,15 +64,6 @@ const logic = {
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
         console.log(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation)
-        // return User.findOne({ email })
-        //     .then(user => {
-        //         if (user) throw Error(`user with email ${email} already exists`)
-
-        //         return bcrypt.hash(password, 10)
-        //     })
-        //     .then(hash => User.create({ name, surname, email, password: hash }))
-        //     .then(({ id }) => id)
-
 
         return (async () => {
             debugger
@@ -83,12 +73,10 @@ const logic = {
 
             const hash = await bcrypt.hash(password, 10)
 
-            // const { id } = await User.create({ name, surname, id, phone, adress, city, email, password: hash, passwordConfirmation: hash})
-
             user = new User ({name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation: hash})
 
             await user.save()
-            // return user.id
+
         })()
     },
 
@@ -143,7 +131,7 @@ const logic = {
 
         if(typeof petlicence != 'string') throw TypeError (petlicence + 'is not a string')
 
-        if (!microchip.trim().length) throw Error ('microchip cannot be empty')
+        if (!petlicence.trim().length) throw Error ('petlicence cannot be empty')
 
         if(typeof neutered != 'string') throw TypeError (neutered + 'is not a string')
 
@@ -201,6 +189,11 @@ const logic = {
         })()
     },
 
+     /**
+     * Retrieve an user by its credentials.
+     * 
+     * @param {string} userId  
+     */
     retrieveUser(userId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
 
@@ -228,9 +221,13 @@ const logic = {
             })
     },
 
-    // TODO doc
-    async retrieveUsers() {
-        debugger
+    /**
+     * Retrieve users by its credentials.
+     * 
+     * @param {string} 
+     */
+
+    async retrieveUsers() { 
         const _users = await User.find({})
 
         const users = _users.map(user => {
@@ -244,7 +241,16 @@ const logic = {
         return users
     },
 
+    /**
+     * Retrieve pets by owner's credentials.
+     * 
+     * @param {string} ownerId
+     */
     async retrievePets(ownerId) {
+
+        if (typeof ownerId !== 'string') throw TypeError(ownerId + ' is not a string')
+
+        if (!ownerId.trim().length) throw Error('ownerId cannot be empty')
 
         const _pets = await Pet.find({owner: ownerId})
 
@@ -264,10 +270,14 @@ const logic = {
         return pets
     },
 
+    /**
+     * 
+     * @param {string} userId 
+     */
      retrieveUser(userId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
 
-        if (!userId.trim().length) throw new EmptyError('user id is empty')
+        if (!userId.trim().length) throw Error('user id is empty')
 
 
         return User.findById(userId)
@@ -291,11 +301,14 @@ const logic = {
             })
     },
 
-   
+    /**
+     * 
+     * @param {string} petsId 
+     */
     retrievePet(petsId) {
-        // if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (typeof petsId !== 'string') throw TypeError(`${petsId} is not a string`)
 
-        // if (!userId.trim().length) throw new EmptyError('user id is empty')
+        if (!petsId.trim().length) throw new Error('petsId id is empty')
 
 
         return Pet.findById(petsId)
@@ -316,10 +329,14 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * @param {string} petsId 
+     */
     retrievePetVisit(petsId) {
-        // if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (typeof petsId !== 'string') throw TypeError(`${petsId} is not a string`)
 
-        // if (!userId.trim().length) throw new EmptyError('user id is empty')
+        if (!petsId.trim().length) throw new Error('petsId id is empty')
 
 
         return Pet.findById(petsId)
@@ -338,38 +355,48 @@ const logic = {
                 return _pet
             })
     },
-    // const pet = {
-    //     id: pet._id,
-    //     name: pet.name,
-    //     specie : pet.specie,
-    //     breed : pet.breed,
-    //     color : pet.color,
-    //     gender: pet.gender,
-    //     birthdate: pet.birthdate,
-    //     microchip: pet.microchip,
-    //     petlicence: pet.petlicence,
-    //     neutered: pet.neutered,
-    //    
-
-    // const user = {
-    //     id: user._id,
-    //     name: user.name,
-    //     surname : user.surname,
-    //     phone : user.phone,
-    //     adress : user.adress,
-    //     city: user.city,
-    //     email: user.email
-    // }
    
-    // return user
+    /**
+     * 
+     * @param {string} name 
+     * @param {string} surname 
+     * @param {string} idCard 
+     * @param {string} phone 
+     * @param {string} adress 
+     * @param {string} city 
+     * @param {string} email 
+     */
 
-    // updateUser(name, surname, idCard, phone, adress, city, email){
     updateUser(name, surname, idCard, phone, adress, city, email){
-        // if (typeof user !== 'string') throw TypeError(`${user} is not a string`)
         
-        // if (!user.trim().length) throw new EmptyError('user is empty')
-        
-        // if (typeof token!== 'string') throw TypeError(`${token} is not a string`)
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+
+        if (!name.trim().length) throw Error('name cannot be empty')
+
+        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
+
+        if (!surname.trim().length) throw Error('surname cannot be empty')
+
+        if (typeof idCard !== 'string') throw TypeError(idCard + ' is not a string')
+
+        if (!idCard.trim().length) throw Error('idCard cannot be empty')
+
+        if (typeof phone !== 'string') throw TypeError ('phone is not a string') 
+
+        if (!phone.trim().length) throw Error ('phone cannot be empty')
+
+        if(typeof adress !== 'string') throw TypeError (adress + 'is not a string')
+
+        if (!adress.trim().length) throw Error ('adress cannot be empty')
+
+        if(typeof city !== 'string') throw TypeError (city + 'is not a string')
+
+        if (!city.trim().length) throw Error ('city cannot be empty')
+
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+
+        if (!email.trim().length) throw Error('email cannot be empty')
+
         return (async () => {
          
             const user = await User.findOneAndUpdate({email},{$set:{name, surname, idCard, phone, adress, city, email}},{new: true},)          
@@ -379,34 +406,69 @@ const logic = {
 
     },
 
-    // updatePet(petsId, name, microchip, petlicence){
+    /**
+     * 
+     * @param {string} petsId 
+     * @param {string} name 
+     * @param {string} microchip 
+     * @param {string} petlicence 
+     */
+
     updatePet(petsId, name, microchip, petlicence){
 
-        // if (typeof user !== 'string') throw TypeError(`${user} is not a string`)
+        if (typeof petsId !== 'string') throw TypeError(`${petsId} is not a string`)
+
+        if (!petsId.trim().length) throw new Error('petsId id is empty')
         
-        // if (!user.trim().length) throw new EmptyError('user is empty')
-        
-        // if (typeof token!== 'string') throw TypeError(`${token} is not a string`)
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+
+        if (!name.trim().length) throw Error('name cannot be empty')
+
+        if(typeof microchip != 'string') throw TypeError (microchip + 'is not a string')
+
+        if (!microchip.trim().length) throw Error ('microchip cannot be empty')
+
+        if(typeof petlicence != 'string') throw TypeError (petlicence + 'is not a string')
+
+        if (!petlicence.trim().length) throw Error ('petlicence cannot be empty')
+
         return (async () => {
          
             const pet = await Pet.findOneAndUpdate({_id: petsId},{$set:{name, microchip, petlicence}},{new: true},)          
-            // const pet = await Pet.findById(petsId)
             
             return pet
         })()
     },
 
+    /**
+     * 
+     * @param {string} petsId 
+     * @param {vaccionations} vaccionations 
+     * @param {controls} controls 
+     * @param {details} details 
+     */
+
     updateVisit(petsId, vaccionations, controls, details){
-        debugger
-        // if (typeof user !== 'string') throw TypeError(`${user} is not a string`)
+
+        if (typeof petsId !== 'string') throw TypeError(`${petsId} is not a string`)
+
+        if (!petsId.trim().length) throw new Error('petsId id is empty')
         
-        // if (!user.trim().length) throw new EmptyError('user is empty')
-        
-        // if (typeof token!== 'string') throw TypeError(`${token} is not a string`)
+        if(typeof vaccionations != 'string') throw TypeError (vaccionations + 'is not a string')
+
+        // if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
+
+        if(typeof controls != 'string') throw TypeError (controls + 'is not a string')
+
+        // if (!controls.trim().length) throw Error ('controls cannot be empty')
+
+        if(typeof details != 'string') throw TypeError (details + 'is not a string')
+
+        // if (!details.trim().length) throw Error ('details cannot be empty')
+
         return (async () => {
          
             const visit = await Pet.findOneAndUpdate({_id: petsId},{$set:{vaccionations, controls, details}},{new: true},)          
-            // const pet = await Pet.findById(petsId)
             
             return visit
         })()

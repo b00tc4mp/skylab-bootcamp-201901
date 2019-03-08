@@ -43,7 +43,7 @@ class Appointments extends Component {
 
     render() {
 
-        return <form onSubmit={this.handleEditSubmit}>
+        return <form onSubmit={this.handleVisit}>
             <section className="calendar">
             <h1>Appointments</h1>
                 <div className="input__form">

@@ -3,7 +3,7 @@ require('dotenv').config()
 require('isomorphic-fetch')
 
 
-const {mongoose} = require('../../st-james-vet-data')
+const {mongoose} = require('st-james-vet-data')
 const express = require('express')
 const tokenHelper = require('./token-helper')
 const package = require('../package.json')
@@ -12,7 +12,7 @@ const router = require('../src/routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
-
+debugger
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {
         tokenHelper.jwtSecret = JWT_SECRET
