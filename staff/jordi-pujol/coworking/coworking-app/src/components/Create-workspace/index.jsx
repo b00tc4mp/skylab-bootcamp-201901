@@ -3,50 +3,38 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
-
-class Login extends Component {
-    state = { email: '', password: '', invitation: '' }
-
-    componentWillMount() {
-        const { props: { link } } = this
-
-        this.setState({ invitation: link })
-    }
+class Workspace extends Component {
+    state = { email: '', password: '', name: '' }
 
     handleEmailInput = event => this.setState({ email: event.target.value })
 
     handlePasswordInput = event => this.setState({ password: event.target.value })
 
+    handleWorkspaceInput = event => this.setState({ name: event.target.value })
+
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { email, password, invitation }, props: { onLogin } } = this
+        const { state: { email, password, name }, props: { onNewWorkspace } } = this
 
-        onLogin(email, password, invitation)
-    }
-
-    handleNewFormSubmit = event => {
-        event.preventDefault()
-
-        this.props.history.push('/workspace')
+        onNewWorkspace(email, password, name)
     }
 
     render() {
 
-        const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleNewFormSubmit } = this
+        const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
 
         return <section className="login">
             <section className="login_content">
-                <h2>Welcome back,</h2>
+                <h2>Welcome</h2>
                 <form className="login_content-form" onSubmit={handleFormSubmit}>
                     <span>Email</span>
                     <input type="text" autoFocus onChange={handleEmailInput} required />
                     <span>Password</span>
                     <input type="password" onChange={handlePasswordInput} required />
+                    <span>Workspace name</span>
+                    <input type="text" onChange={handleWorkspaceInput} required />
                     <p className="contentforgot-pass">Forgot password?</p>
-                    <button className="submit">Log In</button>
-                </form>
-                <form onSubmit={handleNewFormSubmit}>
                     <button className="submit">Create new Workspace and Log In</button>
                 </form>
             </section>
@@ -67,4 +55,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(Login)
+export default withRouter(Workspace)

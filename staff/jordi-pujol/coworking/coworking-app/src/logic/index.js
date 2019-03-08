@@ -61,8 +61,10 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return coworkingApi.authenticateUser(email, password)
-            .then(({ token }) => {
+            .then(token => {
                 this.__coworkingApiToken__ = token
+   
+                return token
             })
     },
     
@@ -102,6 +104,28 @@ const logic = {
     removeUser(email, password) {
         return coworkingApi.removeUser(this.__userApiToken__, email, password)
             // .then( () => {})
+    },
+
+    createWorkspace(name, userId){
+        return coworkingApi.createWorkspace(name, userId)
+    },
+
+    createNewUserLink(){
+        return coworkingApi.createNewUserLink(this.__coworkingApiToken__)
+    },
+
+    verifyNewUserLink(link){
+
+        return coworkingApi.verifyNewUserLink(this.__coworkingApiToken__, link)
+    },
+
+    addUserToWorkspace(workspaceId){
+
+        return coworkingApi.addUserToWorkspace(this.__coworkingApiToken__, workspaceId)
+    },
+
+    createService(){
+        
     }
 
     // TODO updateUser and removeUser

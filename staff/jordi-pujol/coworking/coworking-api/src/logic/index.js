@@ -38,9 +38,9 @@ const logic = {
 
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
-        if (typeof isAdmin !== 'string') throw TypeError(isAdmin + ' is not a string')
+        // if (typeof isAdmin !== 'string') throw TypeError(isAdmin + ' is not a string')
 
-        if (!isAdmin.trim().length) throw Error('isAdmin cannot be empty')
+        // if (!isAdmin.trim().length) throw Error('isAdmin cannot be empty')
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
@@ -149,10 +149,11 @@ const logic = {
                 return User.findOneAndUpdate({ email }, { $unset: { workspace: '' } })
             })
             .then(({ _id }) => {
-                
+
                 _userId = _id
                 debugger
-                return Workspace.findById(workspaceId)})
+                return Workspace.findById(workspaceId)
+            })
             .then(workspace => {
                 const index = workspace.user.findIndex(id => id === _userId)
 
@@ -177,22 +178,34 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
+        let workspaceId
+
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error('user does not exist')
                 if (user.workspace) throw Error('cannot create more than one workspace with same email')
 
-                return Workspace.findOne({ name })
+                user.isAdmin = 'true'
+
+                return user.save()
             })
+            .then(() => Workspace.findOne({ name }))
             .then(workspace => {
                 if (workspace) throw Error(`${workspace} already exists`)
 
                 return Workspace.create({ name, user: userId })
             })
-            .then(({ id }) => id)
-            .then((workspaceId) => {
-                return User.findOneAndUpdate({ id: userId, $set: { workspace: workspaceId } }).then(() => workspaceId)
+            .then(({ _id }) => {
+
+                workspaceId = _id
+
+                return User.findById(userId)
             })
+            .then(user => {
+                user.workspace = workspaceId
+                user.save()
+            })
+            .then(() => workspaceId)
     },
 
     /**
@@ -258,7 +271,7 @@ const logic = {
                 return bcrypt.hash(uuid(), 10)
             })
             .then(hash => {
-                let _hash = hash
+                let _hash = hash.replace(/\//g, '')
 
                 return Workspace.findById(workspaceId)
                     .then(workspace => {
@@ -285,10 +298,12 @@ const logic = {
         if (typeof link !== 'string') throw TypeError(link + ' is not a string')
         if (!link.trim().length) throw Error('link cannot be empty')
 
+        let workspaceId
+
         return User.findById({ _id: userId })
             .then(user => {
                 if (!user) throw Error(`${userId} does not exists`)
-                debugger
+                console.log(link)
             })
             .then(() => Workspace.findOne({ hash: link }))
             .then(workspace => {
@@ -296,9 +311,13 @@ const logic = {
 
                 const index = workspace.hash.findIndex(invitations => invitations === link)
 
+                workspaceId = workspace._id.toString()
+                console.log(workspaceId)
+
                 workspace.hash.splice(index, 1)
                 return workspace.save()
             })
+            .then(()=> workspaceId)
     },
 
     /**
@@ -337,7 +356,8 @@ const logic = {
             })
             .then(() => {
                 debugger
-                return serviceId})
+                return serviceId
+            })
     },
 
     /**
@@ -403,7 +423,7 @@ const logic = {
         if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
         if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
 
-        
+
         return Service.findById(serviceId)
             .then(service => {
                 if (service.user.toString() !== userId) throw Error('this user cannot delete this service')
@@ -412,7 +432,7 @@ const logic = {
             .then(() => User.findById(userId))
             .then(({ workspace }) => Workspace.findById(workspace))
             .then(workspace => {
-                
+
                 const index = workspace.service.findIndex(service => service === serviceId)
 
                 workspace.service.splice(index, 1)
