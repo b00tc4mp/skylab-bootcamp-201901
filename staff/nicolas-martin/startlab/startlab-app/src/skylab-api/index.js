@@ -220,7 +220,6 @@ const skylabApi = {
 
                 return response
             })
-            .catch(error => error)
 
     }
 

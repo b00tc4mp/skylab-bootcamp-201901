@@ -132,7 +132,6 @@ const logic = {
         return User.findById(userId)
             .then(user => {
                 if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                //if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
 
                 return Exercise.findById(exerciseId).select('-__v').lean()
                     .then(exercise => {
@@ -256,38 +255,45 @@ const logic = {
 
         return this.retrieveExercise(userId, exerciseId)
             .then(exercise => {
+                if (!exercise) throw new NotFoundError(`exercise with id ${exerciseId} not found`)
+
                 testing.checkAnswer(answer, exercise.test)
-                //this.__changeStatusExerciseFromUser__(userId, answer, exercise.id)
+
+                this.__changeStatusExerciseFromUser__(userId, answer, exercise.id)
                 return { status: 'ok' }
             })
-            .catch(error => {   //{"error": "ReferenceError: favoriteFood is not defined"}
-                // goes to catch if the answer from user is not valid
+            .catch(error => {   // {"error": "ReferenceError: favoriteFood is not defined"}
+                                // goes to catch if the answer from user is not valid
                 if (error) return { error: error.message }
             })
     },
 
-    // __changeStatusExerciseFromUser__(userId, answer, exerciseId) {
-    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-    //     if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
+    __changeStatusExerciseFromUser__(userId, answer, exerciseId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
-    //     if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
-    //     if (!answer.trim().length) throw new EmptyError(`${answer} is empty`)
+        if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
+        if (!answer.trim().length) throw new EmptyError(`${answer} is empty`)
 
-    //     if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
-    //     if (!exerciseId.trim().length) throw new EmptyError(`${exerciseId} is empty`)
+        if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
+        if (!exerciseId.trim().length) throw new EmptyError(`${exerciseId} is empty`)
 
-    //     return User.findById(userId).select('-password -__v').lean()
-    //             .then(user => {
-    //                 if (!user) throw new NotFoundError(`user with id ${id} not found`)
-                    
-    //                 return User.findByIdAndUpdate(userId, _exercise, { runValidators: true, new: true }).select('-__v').lean()
-    //                     .then(exercise => {
-    //                         if (!exercise) throw new NotFoundError(`exercise with id ${id} not found`)
-    //                         exercise.id = exercise._id.toString()
-    //                         return { status: 'ok', message: `exercise with id ${exercise._id} updated` }
-    //                     })
-    //             })
-    // }
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+
+                let newHistorical = user.historical.map(exerciseItem => {
+                    if (exerciseItem.exercise.toString() === exerciseId) {
+                      exerciseItem.answer = answer
+                      exerciseItem.completed = true
+                    }
+
+                    return exerciseItem
+                })
+                user.historical = newHistorical
+                user.save()
+            })
+    }
 
 }
 
