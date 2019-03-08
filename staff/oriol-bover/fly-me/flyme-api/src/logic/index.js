@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const { models: { User, Drone, Flight } } = require('flyme-data')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('flyme-errors')
 const DroneApi = require('drone-api')
+const validate = require('flyme-validation')
 
 /**
  * 
@@ -30,25 +31,7 @@ const logic = {
      */
     registerUser(name, surname, email, password, passwordConfirm) {
 
-        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-
-        if (!name.trim().length) throw new EmptyError('name cannot be empty')
-
-        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
-
-        if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
-
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
-        if (!email.trim().length) throw new EmptyError('email cannot be empty')
-
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
-        if (!password.trim().length) throw new EmptyError('password cannot be empty')
-
-        if (typeof passwordConfirm !== 'string') throw TypeError(passwordConfirm + ' is not a string')
-
-        if (!passwordConfirm.trim().length) throw new EmptyError('password confirmation cannot be empty')
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
         if (password !== passwordConfirm) throw new MatchingError('passwords do not match')
 
@@ -74,13 +57,7 @@ const logic = {
      * @return {Object} Object with the User Token 
      */
     authenticateUser(email, password) {
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
-        if (!email.trim().length) throw new EmptyError('email cannot be empty')
-
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
-        if (!password.trim().length) throw new EmptyError('password cannot be empty')
+        validate([{ key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }])
 
         return User.findOne({ email })
             .then(user => {
@@ -98,9 +75,7 @@ const logic = {
 
 
     retrieveUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return User.findById(userId).select('-password -__v').lean()
             .then(user => {
@@ -115,19 +90,7 @@ const logic = {
     },
 
     updateUser(userId, data) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (!(data instanceof Object)) throw new TypeError(data + ' is not an Object')
-
-        if (data instanceof Function) throw new TypeError(data + ' is a Function')
-
-        if (data instanceof Array) throw new TypeError(data + ' is an array')
-
-        if (Object.keys(data).length === 0) throw new EmptyError('Data cannot be empty')
-
-        //todo validate data is an object
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'data', value: data, type: Object }])
 
         return User.findById(userId)
             .then(user => {
@@ -145,9 +108,7 @@ const logic = {
 
 
     deleteUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return User.findByIdAndDelete(userId)
             .then(() => {
@@ -158,23 +119,7 @@ const logic = {
     //END USERS CRUD
 
     addDrone(userId, brand, model, host, port) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (typeof brand !== 'string') throw TypeError(brand + ' is not a string')
-
-        if (!brand.trim().length) throw new EmptyError('brand cannot be empty')
-
-        if (typeof model !== 'string') throw TypeError(model + ' is not a string')
-
-        if (!model.trim().length) throw new EmptyError('model cannot be empty')
-
-        if (typeof host !== 'string') throw TypeError(host + ' is not a string')
-
-        if (!host.trim().length) throw new EmptyError('host cannot be empty')
-
-        if (typeof port !== 'number') throw TypeError(port + ' is not a number')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'brand', value: brand, type: String }, { key: 'model', value: model, type: String }, { key: 'host', value: host, type: String }, { key: 'port', value: port, type: Number }])
 
         return Drone.create({ owner: userId, brand, model, host, port })
             .then(drone => drone.id)
@@ -186,24 +131,14 @@ const logic = {
     },
 
     retrieveDronesFromUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return Drone.find({ owner: userId }).select('-__v').lean()
             .then(drones => drones)
     },
 
     updateDrone(userId, droneId, data) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
-
-        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
-
-        if (Object.keys(data).length === 0) throw new EmptyError('Data cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }, { key: 'data', value: data, type: Object }])
 
         return Drone.findOne({ _id: droneId, owner: userId })
             .then(drone => {
@@ -217,13 +152,7 @@ const logic = {
     },
 
     deleteDrone(userId, droneId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
-
-        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return Drone.findOne({ _id: droneId, owner: userId })
             .then(drone => {
@@ -297,6 +226,8 @@ const logic = {
 
                 const drone = this.activeDrones.get(droneId)
 
+                if (!drone) throw Error(`the drone with id ${droneId} is not active`)
+
                 drone.sendCommand(command)
 
                 return { command: 'OK' }
@@ -306,13 +237,7 @@ const logic = {
     //END DRONE
 
     addFlight(userId, droneId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
-
-        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return Drone.findById(droneId)
             .then(drone => {
@@ -329,46 +254,28 @@ const logic = {
     },
 
     retrieveFlightsFromUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return Flight.find({ userId }).select('-__v').lean()
             .then(flights => flights)
     },
 
     retrieveFlightsFromDrone(droneId) {
-        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
-
-        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+        validate([{ key: 'droneId', value: droneId, type: String }])
 
         return Flight.find({ droneId }).select('-__v').lean()
             .then(flights => flights)
     },
 
     retrieveFlightsFromUserDrone(userId, droneId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
-
-        if (!droneId.trim().length) throw new EmptyError('droneId cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return Flight.find({ userId, droneId }).select('-__v').lean()
             .then(flights => flights)
     },
 
     updateFlight(userId, flightId, data) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (typeof flightId !== 'string') throw TypeError(flightId + ' is not a string')
-
-        if (!flightId.trim().length) throw new EmptyError('flightId cannot be empty')
-
-        if (Object.keys(data).length === 0) throw new EmptyError('Data cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'flightId', value: flightId, type: String }, { key: 'data', value: data, type: Object }])
 
         return Flight.findOne({ _id: flightId, userId: userId })
             .then(flight => {
@@ -383,13 +290,7 @@ const logic = {
     },
 
     deleteFlight(userId, flightId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-
-        if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        if (typeof flightId !== 'string') throw TypeError(flightId + ' is not a string')
-
-        if (!flightId.trim().length) throw new EmptyError('flightId cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'flightId', value: flightId, type: String }])
 
         return Flight.findOne({ _id: flightId, userId: userId })
             .then(flight => {

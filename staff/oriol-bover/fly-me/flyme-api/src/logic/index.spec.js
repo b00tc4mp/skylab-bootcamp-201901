@@ -75,7 +75,7 @@ describe('logic', () => {
             const badName = ''
             expect(() => {
                 logic.registerUser(badName, surname, email, password, passwordConfirmation)
-            }).toThrow(Error('name cannot be empty'))
+            }).toThrow(Error('name is empty or blank'))
         })
 
         it('should fail on undefined surname', () => {
@@ -117,7 +117,7 @@ describe('logic', () => {
             const badSurname = ''
             expect(() => {
                 logic.registerUser(name, badSurname, email, password, passwordConfirmation)
-            }).toThrow(Error('surname cannot be empty'))
+            }).toThrow(Error('surname is empty or blank'))
         })
 
         it('should fail on undefined email', () => {
@@ -159,7 +159,7 @@ describe('logic', () => {
             const badEmail = ''
             expect(() => {
                 logic.registerUser(name, surname, badEmail, password, passwordConfirmation)
-            }).toThrow(Error('email cannot be empty'))
+            }).toThrow(Error('email is empty or blank'))
         })
 
         it('should fail on undefined password', () => {
@@ -201,7 +201,7 @@ describe('logic', () => {
             const badPassword = ''
             expect(() => {
                 logic.registerUser(name, surname, email, badPassword, passwordConfirmation)
-            }).toThrow(Error('password cannot be empty'))
+            }).toThrow(Error('password is empty or blank'))
         })
 
         it('should fail on undefined passwordConfirmation', () => {
@@ -243,7 +243,7 @@ describe('logic', () => {
             const badPasswordConfirmation = ''
             expect(() => {
                 logic.registerUser(name, surname, email, password, badPasswordConfirmation)
-            }).toThrow(Error('password confirmation cannot be empty'))
+            }).toThrow(Error('passwordConfirm is empty or blank'))
         })
 
         it('should fail on empty passwordConfirmation', () => {
@@ -314,7 +314,7 @@ describe('logic', () => {
             const badEmail = ''
             expect(() => {
                 logic.registerUser(name, surname, badEmail, password)
-            }).toThrow(Error('email cannot be empty'))
+            }).toThrow(Error('email is empty or blank'))
         })
 
         it('should fail on undefined password', () => {
@@ -356,7 +356,7 @@ describe('logic', () => {
             const badPassword = ''
             expect(() => {
                 logic.registerUser(name, surname, email, badPassword)
-            }).toThrow(Error('password cannot be empty'))
+            }).toThrow(Error('password is empty or blank'))
         })
     })
 
@@ -423,7 +423,7 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.retrieveUser(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
         })
 
     })
@@ -521,7 +521,7 @@ describe('logic', () => {
         it('should fail on empty data', () => {
             expect(() => {
                 logic.updateUser(userId, {})
-            }).toThrow(Error('Data cannot be empty'))
+            }).toThrow(Error('data is empty or blank'))
         })
 
 
@@ -645,7 +645,7 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.addDrone(badUserId, brand, model, host, port)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
         })
     })
 
@@ -734,11 +734,11 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.retrieveDronesFromUser(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
         })
     })
 
-    describe('updateDrone', () => {
+    describe('update Drone', () => {
         const name = 'luke'
         const surname = 'skywalker'
         const email = `luke${Math.random()}@mail.com`
@@ -815,7 +815,56 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.updateDrone(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined droneId', () => {
+            const badDroneId = undefined
+            expect(() => {
+                logic.updateDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on numeric droneId', () => {
+            const badDroneId = 123
+            expect(() => {
+                logic.updateDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on boolean droneId', () => {
+            const badDroneId = true
+            expect(() => {
+                logic.updateDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on array droneId', () => {
+            const badDroneId = ['leia']
+            expect(() => {
+                logic.updateDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on object droneId', () => {
+            const badDroneId = { name: 'leia' }
+            expect(() => {
+                logic.updateDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on empty droneId', () => {
+            const badDroneId = ''
+            expect(() => {
+                logic.updateDrone(userId, badDroneId)
+            }).toThrow(Error('droneId is empty or blank'))
+        })
+
+
+        it('should fail on empty object', () => {
+            expect(() => {
+                logic.updateDrone(userId, droneId, {})
+            }).toThrow(Error('data is empty or blank'))
         })
 
     })
@@ -895,7 +944,49 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.deleteDrone(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined droneId', () => {
+            const badDroneId = undefined
+            expect(() => {
+                logic.deleteDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on numeric droneId', () => {
+            const badDroneId = 123
+            expect(() => {
+                logic.deleteDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on boolean droneId', () => {
+            const badDroneId = true
+            expect(() => {
+                logic.deleteDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on array droneId', () => {
+            const badDroneId = ['leia']
+            expect(() => {
+                logic.deleteDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on object droneId', () => {
+            const badDroneId = { name: 'leia' }
+            expect(() => {
+                logic.deleteDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on empty droneId', () => {
+            const badDroneId = ''
+            expect(() => {
+                logic.deleteDrone(userId, badDroneId)
+            }).toThrow(Error('droneId is empty or blank'))
         })
     })
 
@@ -970,7 +1061,7 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.addFlight(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
         })
     })
 
@@ -1061,7 +1152,7 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.retrieveFlightsFromUser(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
         })
     })
 
@@ -1100,6 +1191,48 @@ describe('logic', () => {
                     expect(flights[0].userId.toString()).toBe(userId)
                     expect(flights[0].droneId.toString()).toBe(droneId)
                 })
+        })
+
+        it('should fail on undefined droneId', () => {
+            const badDroneId = undefined
+            expect(() => {
+                logic.retrieveFlightsFromDrone(badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on numeric droneId', () => {
+            const badDroneId = 123
+            expect(() => {
+                logic.retrieveFlightsFromDrone(badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on boolean droneId', () => {
+            const badDroneId = true
+            expect(() => {
+                logic.retrieveFlightsFromDrone(badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on array droneId', () => {
+            const badDroneId = ['leia']
+            expect(() => {
+                logic.retrieveFlightsFromDrone(badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on object droneId', () => {
+            const badDroneId = { name: 'leia' }
+            expect(() => {
+                logic.retrieveFlightsFromDrone(badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on empty droneId', () => {
+            const badDroneId = ''
+            expect(() => {
+                logic.retrieveFlightsFromDrone(badDroneId)
+            }).toThrow(Error('droneId is empty or blank'))
         })
     })
 
@@ -1179,7 +1312,49 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.retrieveFlightsFromUserDrone(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined droneId', () => {
+            const badDroneId = undefined
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on numeric droneId', () => {
+            const badDroneId = 123
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on boolean droneId', () => {
+            const badDroneId = true
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on array droneId', () => {
+            const badDroneId = ['leia']
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on object droneId', () => {
+            const badDroneId = { name: 'leia' }
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(userId, badDroneId)
+            }).toThrow(TypeError(`${badDroneId} is not a string`))
+        })
+
+        it('should fail on empty droneId', () => {
+            const badDroneId = ''
+            expect(() => {
+                logic.retrieveFlightsFromUserDrone(userId, badDroneId)
+            }).toThrow(Error('droneId is empty or blank'))
         })
     })
 
@@ -1269,7 +1444,55 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.updateFlight(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined flightId', () => {
+            const badFlightId = undefined
+            expect(() => {
+                logic.updateFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on numeric flightId', () => {
+            const badFlightId = 123
+            expect(() => {
+                logic.updateFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on boolean flightId', () => {
+            const badFlightId = true
+            expect(() => {
+                logic.updateFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on array flightId', () => {
+            const badFlightId = ['leia']
+            expect(() => {
+                logic.updateFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on object flightId', () => {
+            const badFlightId = { name: 'leia' }
+            expect(() => {
+                logic.updateFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on empty flightId', () => {
+            const badFlightId = ''
+            expect(() => {
+                logic.updateFlight(userId, badFlightId)
+            }).toThrow(Error('flightId is empty or blank'))
+        })
+
+        it('should fail on empty data', () => {
+            expect(() => {
+                logic.updateFlight(userId, flightId, {})
+            }).toThrow(Error('data is empty or blank'))
         })
     })
 
@@ -1354,7 +1577,49 @@ describe('logic', () => {
             const badUserId = ''
             expect(() => {
                 logic.deleteFlight(badUserId)
-            }).toThrow(Error('userId cannot be empty'))
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined flightId', () => {
+            const badFlightId = undefined
+            expect(() => {
+                logic.deleteFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on numeric flightId', () => {
+            const badFlightId = 123
+            expect(() => {
+                logic.deleteFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on boolean flightId', () => {
+            const badFlightId = true
+            expect(() => {
+                logic.deleteFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on array flightId', () => {
+            const badFlightId = ['leia']
+            expect(() => {
+                logic.deleteFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on object flightId', () => {
+            const badFlightId = { name: 'leia' }
+            expect(() => {
+                logic.deleteFlight(userId, badFlightId)
+            }).toThrow(TypeError(`${badFlightId} is not a string`))
+        })
+
+        it('should fail on empty flightId', () => {
+            const badFlightId = ''
+            expect(() => {
+                logic.deleteFlight(userId, badFlightId)
+            }).toThrow(Error('flightId is empty or blank'))
         })
     })
 

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add Waait
+  /usr/local/bin/node /usr/local/bin/yarn remove flyme-validation
 
 PATH: 
   /Users/boversauros/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,17 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/Waait: Not found
-      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66255:18)
-      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:129397:22)
-      at Request.emit (events.js:182:13)
-      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:130369:10)
-      at Request.emit (events.js:182:13)
-      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:130291:12)
-      at Object.onceWrapper (events.js:273:13)
-      at IncomingMessage.emit (events.js:187:15)
-      at endReadableNT (_stream_readable.js:1094:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
+  Error: EACCES: permission denied, unlink '/Users/boversauros/bootcamp/collab/skylab-bootcamp-201901/staff/oriol-bover/fly-me/flyme-api/node_modules/.yarn-integrity'
 
 npm manifest: 
   {
@@ -52,7 +42,8 @@ npm manifest:
       "flyme-errors": "../flyme-errors/",
       "isomorphic-fetch": "^2.2.1",
       "jsonwebtoken": "^8.5.0",
-      "uuid": "^3.3.2"
+      "uuid": "^3.3.2",
+      "waait": "^1.0.4"
     },
     "devDependencies": {
       "expect": "^24.1.0"
@@ -618,6 +609,11 @@ Lockfile:
   
   flyme-errors@../flyme-errors/:
     version "1.0.0"
+  
+  flyme-validation@../flyme-validation/:
+    version "0.0.1"
+    dependencies:
+      flyme-errors "../flyme-errors/"
   
   for-in@^1.0.2:
     version "1.0.2"
@@ -1876,6 +1872,11 @@ Lockfile:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
     integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
+  
+  waait@^1.0.4:
+    version "1.0.4"
+    resolved "https://registry.yarnpkg.com/waait/-/waait-1.0.4.tgz#1d177bab3175bfb56f0f832526582e0ca0b2650d"
+    integrity sha512-fMUqZH5xkzDgzw3b0CzOq7IBjIx9ig09gnpnRpRgonbPOZJWGURXWWHWt3xJa8cpxjh1WGFzRAD96V8i2C8Wmg==
   
   whatwg-fetch@>=0.10.0:
     version "3.0.0"

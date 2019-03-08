@@ -21,6 +21,7 @@
     "express": "^4.16.4",
     "flyme-data": "../flyme-data/",
     "flyme-errors": "../flyme-errors/",
+    "flyme-validation": "../flyme-validation/",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.5.0",
     "uuid": "^3.3.2",
