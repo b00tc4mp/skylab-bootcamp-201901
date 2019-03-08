@@ -1,25 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class AnswerForm extends Component {
-    state = { answer: '' }
+function AnswerForm({ manageSubmit, manageChange, previousAnswer }) {
+    return (
+        <form onSubmit={manageSubmit} >
+        
+            <textarea 
+                type="text" 
+                value={previousAnswer} 
+                placeholder="start coding your solution here..." 
+                onChange={manageChange} 
+            required />
 
-    handleAnswerChange = event => this.setState({ answer: event.target.value })
-
-    manageSubmit = event => {
-        event.preventDefault()
-        const { props: { handleSubmit } } = this
-        handleSubmit(this.state.answer)
-    }
-
-    render() {
-        const { manageSubmit, handleAnswerChange } = this
-        return (
-            <form onSubmit={manageSubmit} >
-                <textarea type="text" placeholder="start coding your solution here..." onChange={handleAnswerChange} required />
-                <button>Enviar</button>
-            </form>
-        )
-    }
+            <button>SEND</button>
+        </form>
+    )
 }
 
 export default AnswerForm
