@@ -101,7 +101,7 @@ const fwsApi = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, token, eventTime, eventDate) {
+    createEvent(restaurantId, token, eventTime, eventDate, reservationName) {
         if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
         if (!restaurantId.trim().length) throw Error('restaurantId is empty')
 
@@ -114,13 +114,16 @@ const fwsApi = {
         if (typeof eventDate !== 'string') throw TypeError(`${eventDate} is not a string`)
         if (!eventDate.trim().length) throw Error('eventDate is empty')
 
+        if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
+        if (!reservationName.trim().length) throw Error('reservationName cannot be empty')
+
         return fetch(`${this.url}/event/${restaurantId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ eventTime, eventDate })
+            body: JSON.stringify({ eventTime, eventDate, reservationName })
         })
         .then(response => response.json())
         .then(({ id, error }) => {
@@ -347,6 +350,41 @@ const fwsApi = {
         if (!photoReference.trim().length) throw Error('photoReference is empty')
 
         return fetch(`${this.url}/resized-photo/${photoReference}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    dontShowHowTo(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/dontshowhowto`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    howTo(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/howto`, {
             headers: {
                 authorization: `Bearer ${token}`
             }

@@ -5,10 +5,6 @@ const Events = new Schema({
         type: String
     },
 
-    // userId: {
-    //     type: String
-    // },
-
     participants: [{
         type: String,
         unique: true
@@ -20,6 +16,11 @@ const Events = new Schema({
     },
 
     eventDate: {
+        type: String,
+        required: true
+    },
+
+    reservationName: {
         type: String,
         required: true
     }

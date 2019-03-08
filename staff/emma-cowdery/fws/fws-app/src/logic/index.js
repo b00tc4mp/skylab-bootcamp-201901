@@ -106,7 +106,7 @@ const logic = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, eventTime, eventDate) {
+    createEvent(restaurantId, eventTime, eventDate, reservationName) {
         if (typeof restaurantId !== 'string') throw TypeError(restaurantId + ' is not a string')
         if (!restaurantId.trim().length) throw Error('restaurantId cannot be empty')
 
@@ -116,8 +116,11 @@ const logic = {
         if (typeof eventDate !== 'string') throw TypeError(eventDate + ' is not a string')
         if (!eventDate.trim().length) throw Error('eventDate cannot be empty')
 
+        if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
+        if (!reservationName.trim().length) throw Error('reservationName cannot be empty')
+
         return (async () => {
-            const eventId = await fwsApi.createEvent(restaurantId, this.__token__, eventTime, eventDate)
+            const eventId = await fwsApi.createEvent(restaurantId, this.__token__, eventTime, eventDate, reservationName)
 
             if (!eventId) throw Error('event creation was unsuccessful')
 
@@ -272,6 +275,26 @@ const logic = {
             if (!imgUrl) throw Error('image not found')
 
             return imgUrl.result
+        })()
+    },
+
+    dontShowHowTo() {
+        return (async () => {
+            const howTo = await fwsApi.dontShowHowTo(this.__token__)
+
+            if (!howTo) throw Error('how to not found')
+
+            return howTo
+        })()
+    },
+
+    howTo() {
+        return (async () => {
+            const howTo = await fwsApi.howTo(this.__token__)
+
+            if (!howTo) throw Error('how to not found')
+
+            return howTo
         })()
     }
 }

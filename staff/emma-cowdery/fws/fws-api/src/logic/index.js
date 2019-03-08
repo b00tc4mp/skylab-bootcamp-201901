@@ -50,7 +50,7 @@ const logic = {
 
             const hash = await bcrypt.hash(password, 10)
 
-            const { id } = await Users.create({ name, surname, email, username, password: hash })
+            const { id } = await Users.create({ name, surname, email, username, password: hash, howTo: true })
 
             return id
         })()
@@ -158,7 +158,7 @@ const logic = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, userId, eventTime, eventDate) {
+    createEvent(restaurantId, userId, eventTime, eventDate, reservationName) {
         if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
         if (!restaurantId.trim().length) throw Error('restaurantId is empty')
 
@@ -171,6 +171,9 @@ const logic = {
         if (typeof eventDate !== 'string') throw TypeError(`${eventDate} is not a string`)
         if (!eventDate.trim().length) throw Error('eventDate is empty')
 
+        if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
+        if (!reservationName.trim().length) throw Error('reservationName cannot be empty')
+
         return (async () => {
             const restaurant = await Events.findOne({ restaurantId })
 
@@ -178,7 +181,7 @@ const logic = {
                 if (restaurant.eventTime === eventTime && restaurant.eventDate === eventDate) throw Error('an event at this place and time already exists, would you like to join that event?')
             }
 
-            const event = await Events.create({ restaurantId, eventTime, eventDate })
+            const event = await Events.create({ restaurantId, eventTime, eventDate, reservationName })
 
             const { participants = [], id } = event
 
@@ -514,6 +517,37 @@ const logic = {
             if (!geolocation) throw Error('unable to obrain current location')
 
             return geolocation
+        })()
+    },
+
+    dontShowHowTo(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            console.log('logic')
+            const user = await Users.findById(userId)
+
+            if (!user) throw Error('user not found')
+
+            user.howTo = false
+
+            await user.save()
+
+            return user.howTo
+        })()
+    },
+
+    howTo(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            const user = await Users.findById(userId)
+
+            if (!user) throw Error('user not found')
+
+            return user.howTo
         })()
     }
 }

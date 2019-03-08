@@ -20,7 +20,7 @@ const { parseImageUpload } = require('./cloudinary/middleware')
 
 //nocloud
 
-const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, createChat, joinChat, userChats, addMessageToChat, searchRestaurants, restaurantDetails, resizePhoto, geolocation, uploadImage, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, createChat, joinChat, userChats, addMessageToChat, searchRestaurants, restaurantDetails, resizePhoto, geolocation, dontShowHowTo, howTo, uploadImage, notFound } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -63,6 +63,10 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/resized-photo/:photoReference', [tokenVerifierMiddleware, jsonBodyParser], resizePhoto)
 
         router.get('/geolocation', [tokenVerifierMiddleware, jsonBodyParser], geolocation)
+
+        router.post('/dontshowhowto', [tokenVerifierMiddleware, jsonBodyParser], dontShowHowTo)
+
+        router.get('/howto', [tokenVerifierMiddleware], howTo)
 
         //router.post('/upload', [parseImageUpload, tokenVerifierMiddleware], uploadImage)
 

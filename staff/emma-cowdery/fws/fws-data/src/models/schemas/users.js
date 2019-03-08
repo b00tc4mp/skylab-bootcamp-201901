@@ -99,6 +99,11 @@ const Users = new Schema({
                 type: String
             }
         }
+    },
+
+    howTo: {
+        type: Boolean,
+        required: true
     }
 })
 

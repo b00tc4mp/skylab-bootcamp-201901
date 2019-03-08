@@ -29,5 +29,9 @@ module.exports = {
 
     geolocation: require('./geolocation'),
 
+    dontShowHowTo: require('./dont-show-how-to'),
+
+    howTo: require('./how-to'),
+
     notFound: require('./not-found')
 }

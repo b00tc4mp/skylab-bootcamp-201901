@@ -10,6 +10,7 @@ import RestautantResults from '../RestaurantResults'
 import EventCategories from '../EventCategories'
 import EventsNearMe from '../EventsNearMe'
 import EventsMap from '../EventsMap'
+import Calendar from '../Calendar'
 
 export default withRouter (function App() {
     return (
@@ -21,6 +22,7 @@ export default withRouter (function App() {
             <Route path="/event-categories" render={() => logic.isUserLoggedIn ? <EventCategories/> : <Redirect to = '/landing'/>}/>
             <Route path="/events-nearme" render={() => logic.isUserLoggedIn ? <EventsNearMe/> : <Redirect to = '/landing'/>}/>
             <Route path="/events-map" render={() => logic.isUserLoggedIn ? <EventsMap/> : <Redirect to = '/landing'/>}/>
+            <Route path="/calendar" component={Calendar}/>
         </Fragment>
     )
 })
