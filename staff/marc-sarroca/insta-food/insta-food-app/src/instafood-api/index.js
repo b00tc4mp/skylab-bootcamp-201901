@@ -76,7 +76,7 @@ const instaApi = {
       });
   },
 
-  createPost(tags, title, description, image, comments, token, user_id) {
+  createPost({ title, description, image, token, userId }) {
     if (typeof title !== "string") throw TypeError(`${title} is not a string`);
     if (!title.trim().length) throw Error("title is empty");
     if (typeof description !== "string")
@@ -84,8 +84,6 @@ const instaApi = {
     if (!description.trim().length) throw Error("description is empty");
     if (typeof image !== "string") throw TypeError(`${image} is not a string`);
     if (!image.trim().length) throw Error("image is empty");
-    if (!comments instanceof Array)
-      throw TypeError(`${comments} is not a array`);
 
     return fetch(`${this.url}/user/post`, {
       method: "POST",
@@ -94,12 +92,10 @@ const instaApi = {
         authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        tags,
         title,
         description,
         image,
-        comments,
-        user_id
+        userId
       })
     })
       .then(response => response.json())

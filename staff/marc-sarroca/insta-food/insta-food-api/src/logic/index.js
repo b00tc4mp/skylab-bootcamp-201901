@@ -87,15 +87,13 @@ const logic = {
       });
   },
 
-  createPost(title, description, image, comments, user_id) {
+  createPost(title, description, image, user_id) {
     if (typeof title !== "string") throw TypeError(title + " is not a string");
     if (!title.trim().length) throw Error("name cannot be empty");
     if (typeof description !== "string")
       throw TypeError(description + " is not a string");
     if (!description.trim().length) throw Error("description cannot be empty");
-    if (!comments instanceof Array) throw TypeError(title + " is not a array");
     if (typeof image !== "string") throw TypeError(title + " is not a string");
-    if (!comments instanceof Array) throw TypeError(title + " is not a array");
     if (typeof user_id !== "string")
       throw TypeError(title + " is not a string");
 
@@ -106,7 +104,6 @@ const logic = {
       title,
       description,
       image,
-      comments,
       user_id
     });
   },

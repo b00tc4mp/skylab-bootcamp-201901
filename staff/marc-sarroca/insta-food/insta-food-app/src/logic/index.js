@@ -94,8 +94,11 @@ const logic = {
       }));
   },
 
+  createPost({ title, description, image, userId, token }) {
+    return instaApi.createPost({ title, description, image, userId, token });
+  },
+
   retrieveAllPosts(token) {
-    console.log(token);
     return instaApi.retrieveAllPosts(token);
   }
 };
