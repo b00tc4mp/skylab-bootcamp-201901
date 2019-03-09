@@ -2,8 +2,7 @@ const logic = require('../logic')
 
 module.exports = (req, res) => {
     const { userId } = req
-
-    try {
+  try {
         logic.RetrieveBooks(userId)
             .then(res.json.bind(res))
     } catch ({ message }) {
