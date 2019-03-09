@@ -58,7 +58,7 @@ const padelcatApi = {
     );
   },
 
-  authenticatePlayer(email, password) {
+  authenticatePlayer: (email, password) => {
     if (typeof email !== "string") throw TypeError(`${email} is not a string`);
     if (!email.trim().length) throw Error("email is empty");
 
@@ -71,9 +71,25 @@ const padelcatApi = {
     });
   },
 
+  retrievePlayer: () => {
+    return axios.get("/retrievePlayers");
+  },
+
+  retrieveScoreScrapping: () => {
+    return axios.get("/retrieveScore");
+  },
+
+  setScorePlayers: (link) => {
+    return axios.put("/setScorePlayer", JSON.stringify({ link }))
+  },
+
   retrieveMatchesScrapping: () => {
     return axios.get("/retrieveMatches");
-  }
+  },
+
+  setIdMatches: () => {
+    return axios.put("/setScorePlayer")
+  },
 
   // retrieveAvailabilityPlayers(matchId, token) {
   //   return fetch(`${this.url}/retrieveAvailabilityPlayers`, {

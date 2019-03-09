@@ -5,6 +5,7 @@ import logic from "../../logic";
 import { Home } from "../Home";
 import Login from "../Login";
 import RegisterPlayer from "../RegisterPlayer";
+import Ranking from "../Ranking";
 import { Header } from "../Header/Header";
 import Grid from "@material-ui/core/Grid";
 import { log } from "util";
@@ -72,6 +73,7 @@ class App extends Component {
             path="/"
             render={() => <Redirect to={{ pathname: "/home" }} />}
           />
+          <Route path="/players" component={Ranking}/>
         </Grid>
       </main>
     );

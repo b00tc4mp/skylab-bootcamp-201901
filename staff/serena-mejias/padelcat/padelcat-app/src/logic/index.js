@@ -1,7 +1,7 @@
 import padelcatApi from "../padelcat-api";
 
 const logic = {
-  registerPlayer(
+  registerPlayer: (
     name,
     surname,
     email,
@@ -9,7 +9,7 @@ const logic = {
     passwordConfirm,
     preferedPosition,
     link
-  ) {
+  ) => {
     // validate([
     //   { key: "name", value: name, type: String },
     //   { key: "surname", value: surname, type: String },
@@ -62,7 +62,7 @@ const logic = {
       .then(() => {});
   },
 
-  loginPlayer(email, password) {
+  loginPlayer: (email, password) => {
     if (typeof email !== "string") throw TypeError(email + " is not a string");
 
     if (!email.trim().length) throw Error("email cannot be empty");
@@ -78,25 +78,41 @@ const logic = {
   // apiLogin() {
   //   new Promise(resolve => resolve({ token: "tokenKey" }));
   // },
-  getStoredtoken() {
+  getStoredtoken: () => {
     const token = sessionStorage.getItem("tokenKey");
     if (token) {
       padelcatApi.setUptokenOnRequest(token);
     }
     return token;
   },
-  storeToken(token) {
+  storeToken: token => {
     padelcatApi.setUptokenOnRequest(token);
     sessionStorage.setItem("tokenKey", token);
   },
 
-  retrieveMatches() {
+  retrievePlayers: () => {
+    return padelcatApi.retrievePlayer();
+  },
+
+  retrieveScoresScapping: () => {
+    return padelcatApi.retrieveScoreScrapping();
+  },
+
+  setScorePlayers: link => {
+    return padelcatApi.setScorePlayers(link);
+  },
+
+  retrieveMatches: () => {
     return padelcatApi.retrieveMatchesScrapping();
   },
 
-  retrieveAvailabilityPlayers(matchId) {
-    return padelcatApi.retrieveMatchesScrapping(matchId, "tokenKey");
+  setIdMatches: () => {
+    return padelcatApi.setIdMatches();
   }
+
+  // retrieveAvailabilityPlayers:(matchId) => {
+  //   return padelcatApi.retrieveMatchesScrapping(matchId, "tokenKey");
+  // }
 };
 
 export default logic;
