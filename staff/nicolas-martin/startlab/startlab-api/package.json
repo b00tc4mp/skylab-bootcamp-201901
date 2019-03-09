@@ -22,8 +22,9 @@
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.16",
-    "uuid": "^3.3.2",
-    "startlab-errors": "file:../startlab-errors"
+    "startlab-errors": "file:../startlab-errors",
+    "startlab-validation": "file:../startlab-validation",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",

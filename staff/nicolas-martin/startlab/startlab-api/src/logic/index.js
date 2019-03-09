@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const testing = require('../testing')
 const { AuthError, DuplicateError, MatchingError, NotFoundError, PrivilegeError } = require('startlab-errors')
+const validate = require('startlab-validation')
 
 /**
  * Abstraction of business logic.
@@ -21,20 +22,29 @@ const logic = {
     /******************/
 
     registerUser(name, surname, email, password, passwordConfirm) {
-        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-        if (!name.trim().length) throw new EmptyError('name cannot be empty')
+        // if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+        // if (!name.trim().length) throw new EmptyError('name cannot be empty')
 
-        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
-        if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
+        // if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
+        // if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
 
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-        if (!email.trim().length) throw new EmptyError('email cannot be empty')
+        // if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+        // if (!email.trim().length) throw new EmptyError('email cannot be empty')
 
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-        if (!password.trim().length) throw new EmptyError('password cannot be empty')
+        // if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+        // if (!password.trim().length) throw new EmptyError('password cannot be empty')
 
-        if (typeof passwordConfirm !== 'string') throw TypeError(passwordConfirm + ' is not a string')
-        if (!passwordConfirm.trim().length) throw new EmptyError('password confirmation cannot be empty')
+        // if (typeof passwordConfirm !== 'string') throw TypeError(passwordConfirm + ' is not a string')
+        // if (!passwordConfirm.trim().length) throw new EmptyError('password confirmation cannot be empty')
+
+        validate([
+            { key: 'name', value: name, type: String }, 
+            { key: 'surname', value: surname, type: String }, 
+            { key: 'email', value: email, type: String }, 
+            { key: 'password', value: password, type: String },
+            { key: 'passwordConfirm', value: passwordConfirm, type: String }
+        ])
+        
         if (passwordConfirm.trim() !== password.trim()) throw new MatchingError('password and password confirmation does not match')
 
         return User.findOne({ email })
