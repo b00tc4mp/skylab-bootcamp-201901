@@ -303,7 +303,6 @@ const logic = {
         return User.findById({ _id: userId })
             .then(user => {
                 if (!user) throw Error(`${userId} does not exists`)
-                console.log(link)
             })
             .then(() => Workspace.findOne({ hash: link }))
             .then(workspace => {
@@ -312,12 +311,11 @@ const logic = {
                 const index = workspace.hash.findIndex(invitations => invitations === link)
 
                 workspaceId = workspace._id.toString()
-                console.log(workspaceId)
 
                 workspace.hash.splice(index, 1)
                 return workspace.save()
             })
-            .then(()=> workspaceId)
+            .then(() => workspaceId)
     },
 
     /**
@@ -383,6 +381,29 @@ const logic = {
                 delete service._id
 
                 return service
+            })
+    },
+
+    retrieveWorkspaceServices(userId, workspaceId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (typeof workspaceId !== 'string') throw TypeError(workspaceId + ' is not a string')
+        if (!workspaceId.trim().length) throw Error('workspaceId cannot be empty')
+
+        let services
+
+        return Workspace.findById(workspaceId).populate('service').lean()
+            .then(workspace => {
+
+                services = workspace.service.map(service => {
+                    service.id = service._id
+                    delete service._id
+                    delete service.__v
+
+                    return service
+                })
+                return services
             })
     },
 

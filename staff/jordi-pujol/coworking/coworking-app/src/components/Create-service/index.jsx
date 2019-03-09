@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { Route, withRouter } from 'react-router-dom'
 
-class Service extends Component {
+class NewService extends Component {
 
     state = { title: '', description: '' }
 
@@ -32,4 +33,4 @@ class Service extends Component {
     }
 }
 
-export default Service
+export default withRouter(NewService)

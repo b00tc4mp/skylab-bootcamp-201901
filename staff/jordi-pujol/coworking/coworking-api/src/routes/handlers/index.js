@@ -21,6 +21,8 @@ module.exports = {
 
     retrieveService: require('./retrieve-service'),
 
+    retrieveWorkspaceServices: require('./retrieve-workspace-services'),
+
     updateService: require('./update-service'),
 
     deleteService: require('./delete-service')

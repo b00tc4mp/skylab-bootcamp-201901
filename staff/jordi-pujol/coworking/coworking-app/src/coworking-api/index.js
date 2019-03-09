@@ -59,6 +59,7 @@ const coworkingApi = {
     },
 
     retrieveUser(token) {
+        console.log('this is my token' + token)
         if (typeof token == ! 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -168,7 +169,6 @@ const coworkingApi = {
     },
 
     addUserToWorkspace(token, workspaceId){
-        console.log(workspaceId)
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -189,6 +189,75 @@ const coworkingApi = {
                 
                 if(response.status === 'OK')
                 return response.status
+            })
+    },
+
+    createService(token, title, description){
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
+        if (!title.trim().length) throw Error('title is empty')
+
+        if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
+        if (!description.trim().length) throw Error('description is empty')
+
+        return fetch(`${this.url}/service`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ title, description })
+        })
+            .then( response => response.json())
+            .then (response => {
+                if (response.error) throw Error (response.error)
+                
+                return response.serviceId
+            })
+    },
+
+    retrieveWorkspaceServices(token, workspaceId){
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof workspaceId !== 'string') throw TypeError(`${workspaceId} is not a string`)
+        if (!workspaceId.trim().length) throw Error('workspaceId is empty')
+
+        return fetch(`${this.url}/service/workspace/${workspaceId}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then( response => response.json())
+            .then (response => {
+                if (response.error) throw Error (response.error)
+                
+                return response.services
+            })
+    },
+
+    retrieveService(token, serviceId){
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
+        if (!serviceId.trim().length) throw Error('serviceId is empty')
+
+        return fetch(`${this.url}/service/${serviceId}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then( response => response.json())
+            .then (response => {
+                if (response.error) throw Error (response.error)
+                return response.service
             })
     }
 }
