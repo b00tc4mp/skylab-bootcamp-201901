@@ -60,7 +60,7 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                     {editTechnology === tech._id ?
                         <form onSubmit={e => handleUpdateInformation(e, 'Tech', tech._id)}>
                             <input type='text' name='technology' placeholder='Technology' onChange={e => setTech(e.target.value)} defaultValue={tech.tech} required></input>
-                            <select className='dropdown-content' onChange={e => setLevelTech(e.target.value)}>
+                            <select className='dropdown-content' onChange={e => setLevelTech(e.target.value)} value={tech.level}>
                                 <option>Choose a level</option>
                                 <option value='Fundamental awareness'>Fundamental awareness</option>
                                 <option value='Novice'>Novice</option>

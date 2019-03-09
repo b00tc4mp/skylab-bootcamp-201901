@@ -37,6 +37,10 @@ const User = new Schema({
         default: 'User'
     },
 
+    status:{ type: String},
+
+    image: { type: String},
+
     telephone: { type: Number },
 
     git: { type: String },

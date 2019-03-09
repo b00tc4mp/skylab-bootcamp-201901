@@ -4,7 +4,7 @@ import { AppContext } from '../AppContext'
 
 export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback }) {
 
-    const { adSearchResults, setFeedback } = useContext(AppContext)
+    const { adSearchResults, setFeedback, setAdSearchResults, userData } = useContext(AppContext)
 
     const [query, setQuery] = useState(null)
     const [param, setParam] = useState('Choose filter')
@@ -23,6 +23,12 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback 
             setSearch([...search, [param, query]])
             e.target.value = null
         }
+    }
+
+    const handleRemove = id => {
+        const skylabers = adSearchResults.filter(skylaber => skylaber._id !== id)
+
+        adSearchResults.length === 0 ? setAdSearchResults([]) : setAdSearchResults(skylabers)
     }
 
     const handleOnReset = (e) => {
@@ -62,7 +68,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback 
             </form>
             {search && !!search.length && search.map(res => { return <a onClick={e => { e.preventDefault(); handleOnParam(`${res[1]}`) }} key={res[0]}>{res[1]}</a> })}
             {adSearchResults && <h5>Results</h5>}
-            {adSearchResults && adSearchResults.map(res => { return <a onClick={e => { e.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}</a> })}
+    {adSearchResults && adSearchResults.map(res => { return <p><a onClick={e => { e.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}{res.email}{res.git}{res.linkedin}</a>{userData.role === 'Admin' && <button onClick={e => { e.preventDefault(); handleRemove(`${res._id}`) }}>Remove</button>}</p> })}
         </section>
     )
 }

@@ -17,6 +17,7 @@ function App({ history }) {
     const [searchResults, setSearchResults] = useState(null)
     const [adSearchResults, setAdSearchResults] = useState(null)
     const [skylaber, setSkylaber] = useState(null)
+    const [whiteList, setWhiteList] = useState(null)
 
     useEffect(() => {
         logic.isUserLoggedIn && logic.retrieveUser()
@@ -40,9 +41,9 @@ function App({ history }) {
         try {
             logic.logInUser(email, password)
                 .then(() => logic.retrieveUser())
-                .then(user => {
-                    return setUserData(user)
-                })
+                .then(user => setUserData(user))
+                .then(() => logic.retrivevePendingSkylabers())
+                .then(preUsers => setWhiteList(preUsers))
                 .then(() => setFeedback(null))
                 .then(() => history.push('/home'))
                 .catch(({ message }) => setFeedback(message))
@@ -62,7 +63,7 @@ function App({ history }) {
     }
 
     return (
-        <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber }}>
+        <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber, whiteList, setWhiteList }}>
             <Route exact path="/" render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to="/home" />} />
             <Route path="/signup" render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn} /> : <Redirect to="/home" />} />
             <Route path="/home" render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to="/" />} />

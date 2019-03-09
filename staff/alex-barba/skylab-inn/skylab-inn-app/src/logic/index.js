@@ -188,8 +188,8 @@ const logic = {
         if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
         if (!type.trim().length) throw new Error('type is empty')
 
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        if (!data) throw new Error('data is empty')
+        if (data.constructor !== Object) throw new TypeError(`${data} is not an object`)
 
         return skylabInnApi.addUserInformation(this.__userApiToken__, type, data)
             .then(({id}) => id)
@@ -265,7 +265,37 @@ const logic = {
             .then(({id}) => id)
     },
 
+    /**
+     * Retrieve whitelist skylabers with pending status.
+     * 
+     * @param {String} token 
+     *
+     * @returns {Object} - users pending sign up.   
+     */
+    retrivevePendingSkylabers() {
+        return skylabInnApi.retrivevePendingSkylabers(this.__userApiToken__)
+            .then(({preUsers}) => preUsers)
+    },
 
+    /**
+     * Updates a user.
+     * 
+     * @param {Object} data 
+     * 
+     * @throws {TypeError} - if data is not an object.
+     * @throws {Error} - if any data is empty.
+     *
+     * @returns {Object} - user.  
+     */
+    updateUserPhoto(data) {
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return skylabInnApi.updateUserPhoto(this.__userApiToken__, data)
+            .then(({user}) => user)
+    },
+    
 }
 
 export default logic

@@ -28,14 +28,15 @@ export default function PersonalInformation({ onEditPersonalInfo, onUpdatePerson
 
     return (
         <section>
-            <h5>Personal Information</h5>
             <a onClick={handleOnEditPersonalInfo}>Edit Personal Information</a>
-            {!editPersonal ? <div><a href={`mailto:${email}`} target='_top'>@: {email ? email : ''}</a>
+            {!editPersonal ? <div>
+                <a href={`mailto:${email}`} target='_top'>@: {email ? email : ''}</a>
                 <a href={`tel:${telephone}`}>Phone: {telephone}</a>
                 <a href={`${git}`} target='_blank'>GIT: {git}</a>
                 <a href={`${linkedin}`} target='_blank'>LinkedIn: {linkedin}</a>
                 <a href={`https://skylabcoders.slack.com/messages/${slack}`} target='_blank'>Slack ID: {slack}</a></div>
-                : <form onSubmit={e => handleUpdatePersonalInfo(e)}><input type='email' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} defaultValue={email} required></input>
+                : <form onSubmit={e => handleUpdatePersonalInfo(e)}>
+                    <input type='email' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} defaultValue={email} required></input>
                     <input type='text' name='telephone' placeholder='Telephone' onChange={e => setTelephone(e.target.value)} defaultValue={telephone}></input>
                     <input type='text' name='git' placeholder='Git' onChange={e => setGit(e.target.value)} defaultValue={git}></input>
                     <input type='text' name='linkedin' placeholder='Linkedin' onChange={e => setLinkedin(e.target.value)} defaultValue={linkedin}></input>

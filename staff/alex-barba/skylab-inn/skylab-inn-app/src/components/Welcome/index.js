@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
 
-export default function Welcome({ onToSearch, onToAdvancedSearch, onToAddSkylaber }) {
+export default function Welcome({ onToSearch, onToAdvancedSearch, onToManageSkylabers }) {
 
     const { userData } = useContext(AppContext)
 
@@ -13,8 +13,8 @@ export default function Welcome({ onToSearch, onToAdvancedSearch, onToAddSkylabe
         onToAdvancedSearch()
     }
 
-    const handleToAddSkylaber = () => {
-        onToAddSkylaber()
+    const handleToManageSkylabers = () => {
+        onToManageSkylabers()
     }
 
 
@@ -24,7 +24,7 @@ export default function Welcome({ onToSearch, onToAdvancedSearch, onToAddSkylabe
             <h2>Hi {userData.name} </h2>
             <a onClick={handleToSearch}>Look for a Skylaber</a>
             <a onClick={handleToAdvancedSearch}>Advanced search</a>
-            {userData.role === 'Admin' && <a onClick={handleToAddSkylaber}>Add a Skylaber</a>}
+            {userData.role === 'Admin' && <a onClick={handleToManageSkylabers}>Manage Skylabers</a>}
         </section>
     )
 

@@ -3,6 +3,7 @@
 const { models: { User, Work, Language, Education, Technology, EmailWhitelist } } = require('skylab-inn-data')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
+const { createToken } = require('../token-helper')
 
 /**
  * Abstraction of business logic.
@@ -10,7 +11,7 @@ const nodemailer = require('nodemailer')
 const logic = {
 
     /**
-     * Registers a user.
+     * Register a user.
      * 
      * @param {String} name 
      * @param {String} surname 
@@ -47,19 +48,46 @@ const logic = {
 
             if (user) throw new Error(`user with email ${email} already exists`)
 
-            const preUser = await EmailWhitelist.findOne({ email })
+            const preUser = await EmailWhitelist.findOneAndUpdate(email, { state: 'registered' })
             if (!preUser) throw new Error(`The email ${email} is not authorised to sign up`)
 
             const hash = await bcrypt.hash(password, 11)
 
-            const { id } = await User.create({ name, surname, email, password: hash })
+            const status = createToken(email)
+
+            const { id } = await User.create({ name, surname, email, password: hash, status })
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'skylabinn@gmail.com',
+                    pass: 'Skylabinn123'
+                }
+            })
+
+            const mailOptions = {
+                from: 'skylabinn@gmail.com',
+                to: `${email}`,
+                subject: 'Welcome to the Skylab Universe!',
+                html: `<h1>Thanks for signing up ${name}!</h1>
+                    <p>We just need you to verify you email to complete registration.<p>
+                    <p>Please click on the following <a href='http://localhost:8000/api/user/${status}/verify'>link</a>.</p>
+                    <p>Thanks</p>
+                    <p>Skylab Inn</p>
+                `
+            }
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) throw new Error(`email could not be sent`)
+                else ('Email sent: ' + info.response)
+            })
 
             return id
         })()
     },
 
     /**
-     * Authenticates a user.
+     * Authenticate a user.
      * 
      * @param {String} email 
      * @param {String} password
@@ -92,7 +120,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user information
+     * Retrieve user information.
      * 
      * @param {String} userId 
      * 
@@ -119,7 +147,7 @@ const logic = {
     },
 
     /**
-     * Updates user information.
+     * Update user information.
      * 
      * @param {String} userId 
      * @param {Object} data 
@@ -149,7 +177,7 @@ const logic = {
     },
 
     /**
-     * Search for a skylaber.
+     * Search for skylabers.
      * 
      * @param {String} userId 
      * @param {String} query
@@ -171,11 +199,11 @@ const logic = {
             const user = await User.findById(userId)
             if (!user) throw new Error(`user with userId ${userId} not found`)
 
-            const resContact = await User.find({ $or: [{ name: { "$regex": `${query}`, "$options": "i" } }, { surname: { "$regex": `${query}`, "$options": "i" } }, { email: { "$regex": `${query}`, "$options": "i" } }, { git: { "$regex": `${query}`, "$options": "i" } }, { linkedin: { "$regex": `${query}`, "$options": "i" } }, { slack: { "$regex": `${query}`, "$options": "i" } }] })
-            const resTechs = await User.find({ 'technology.tech': { "$regex": `${query}`, "$options": "i" } })
-            const resLang = await User.find({ 'language.language': { "$regex": `${query}`, "$options": "i" } })
-            const resEdu = await User.find({ $or: [{ 'education.college': { "$regex": `${query}`, "$options": "i" } }, { 'education.degree': { "$regex": `${query}`, "$options": "i" } }] })
-            const resWork = await User.find({ $or: [{ 'workExperience.company': { "$regex": `${query}`, "$options": "i" } }, { 'workExperience.position': { "$regex": `${query}`, "$options": "i" } }] })
+            const resContact = await User.find({ $and: [{ role: "User" }, { $or: [{ name: { "$regex": `${query}`, "$options": "i" } }, { surname: { "$regex": `${query}`, "$options": "i" } }, { email: { "$regex": `${query}`, "$options": "i" } }, { git: { "$regex": `${query}`, "$options": "i" } }, { linkedin: { "$regex": `${query}`, "$options": "i" } }, { slack: { "$regex": `${query}`, "$options": "i" } }] }] })
+            const resTechs = await User.find({ $and: [{ role: "User" }, { 'technology.tech': { "$regex": `${query}`, "$options": "i" } }] })
+            const resLang = await User.find({ $and: [{ role: "User" }, { 'language.language': { "$regex": `${query}`, "$options": "i" } }] })
+            const resEdu = await User.find({ $and: [{ role: "User" }, { $or: [{ 'education.college': { "$regex": `${query}`, "$options": "i" } }, { 'education.degree': { "$regex": `${query}`, "$options": "i" } }] }] })
+            const resWork = await User.find({ $and: [{ role: "User" }, { $or: [{ 'workExperience.company': { "$regex": `${query}`, "$options": "i" } }, { 'workExperience.position': { "$regex": `${query}`, "$options": "i" } }] }] })
 
             let results = {}
 
@@ -190,7 +218,7 @@ const logic = {
     },
 
     /**
-     * Search for a skylaber.
+     * Advance search of skylabers.
      * 
      * @param {String} userId 
      * @param {Array} param
@@ -212,7 +240,6 @@ const logic = {
             const user = await User.findById(userId)
             if (!user) throw new Error(`user with userId ${userId} not found`)
 
-
             let adSearch = []
 
             param.map(search => {
@@ -221,19 +248,19 @@ const logic = {
 
                 switch (filter) {
                     case 'Contact Information':
-                        adSearch.push({ $or: [{ name: { "$regex": `${query}`, "$options": "i" } }, { surname: { "$regex": `${query}`, "$options": "i" } }, { email: { "$regex": `${query}`, "$options": "i" } }, { git: { "$regex": `${query}`, "$options": "i" } }, { linkedin: { "$regex": `${query}`, "$options": "i" } }, { slack: { "$regex": `${query}`, "$options": "i" } }] })
+                        adSearch.push({ $and: [{ role: "User" }, { $or: [{ name: { "$regex": `${query}`, "$options": "i" } }, { surname: { "$regex": `${query}`, "$options": "i" } }, { email: { "$regex": `${query}`, "$options": "i" } }, { git: { "$regex": `${query}`, "$options": "i" } }, { linkedin: { "$regex": `${query}`, "$options": "i" } }, { slack: { "$regex": `${query}`, "$options": "i" } }] }] })
                         break;
                     case 'Technology':
-                        adSearch.push({ 'technology.tech': { "$regex": `${query}`, "$options": "i" } })
+                        adSearch.push({ $and: [{ role: "User" }, { 'technology.tech': { "$regex": `${query}`, "$options": "i" } }] })
                         break;
                     case 'Language':
-                        adSearch.push({ 'language.language': { "$regex": `${query}`, "$options": "i" } })
+                        adSearch.push({ $and: [{ role: "User" }, { 'language.language': { "$regex": `${query}`, "$options": "i" } }] })
                         break;
                     case 'Education':
-                        adSearch.push({ $or: [{ 'education.college': { "$regex": `${query}`, "$options": "i" } }, { 'education.degree': { "$regex": `${query}`, "$options": "i" } }] })
+                        adSearch.push({ $and: [{ role: "User" }, { $or: [{ 'education.college': { "$regex": `${query}`, "$options": "i" } }, { 'education.degree': { "$regex": `${query}`, "$options": "i" } }] }] })
                         break;
                     case 'Work':
-                        adSearch.push({ $or: [{ 'workExperience.company': { "$regex": `${query}`, "$options": "i" } }, { 'workExperience.position': { "$regex": `${query}`, "$options": "i" } }] })
+                        adSearch.push({ $and: [{ role: "User" }, { $or: [{ 'workExperience.company': { "$regex": `${query}`, "$options": "i" } }, { 'workExperience.position': { "$regex": `${query}`, "$options": "i" } }] }] })
                         break;
                 }
             })
@@ -245,7 +272,7 @@ const logic = {
     },
 
     /**
-    * Retrieves skylaber information
+    * Retrieve a skylaber information.
     * 
     * @param {String} userId 
     * @param {String} skylaberId
@@ -395,7 +422,7 @@ const logic = {
             if (!user) throw new Error(`user with userId ${userId} not found`)
 
             let id
-            
+
             switch (type) {
                 case 'Work':
                     const work = user.workExperience.id(infoId)
@@ -463,7 +490,7 @@ const logic = {
      * @returns {Promise} resolves or rejects  
      */
     removeUserInformation(userId, infoId, type) {
-        
+
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId is empty')
@@ -541,7 +568,7 @@ const logic = {
      * @param {String} role 
      * 
      * @throws {TypeError} - if any param is not a string.
-     * @throws {Error} - if any param is empty or passwords do not match or email is already registered.
+     * @throws {Error} - if any param is empty or passwords do not match or email is already registered or role is wrong.
      *
      * @returns {String} - id. 
      */
@@ -568,6 +595,8 @@ const logic = {
         if (!role.trim().length) throw new Error('role is empty')
 
         return (async () => {
+            if (role === 'User') throw new Error(`wrong role`)
+
             const admin = await User.findOne({ email })
 
             if (admin) throw new Error(`admin with email ${email} already exists`)
@@ -581,18 +610,18 @@ const logic = {
     },
 
     /**
-     * Adds skylaber to the whitelist.
+     * Add skylaber to the whitelist.
      * 
      * @param {String} userId 
      * @param {Object} data 
      * 
      * @throws {TypeError} - if userId is not a string or data is not an object.
-     * @throws {Error} - if any param is empty or user is not found.
+     * @throws {Error} - if any param is empty, user is not found or role does not match, email is already added to the whitelist or registered, 
+     *                   or email could not be sent.
      *
      * @returns {String} - id.  
      */
     addSkylaber(userId, data) {
-        debugger
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId is empty')
@@ -602,24 +631,29 @@ const logic = {
 
         return (async () => {
 
-            const {name, surname, email} = data
+            const user = await User.findById(userId)
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+            if (user.role !== 'Admin') throw new Error(`Acces denied`)
 
-            const user = await User.findOne({ email })
-            if (user) throw new Error(`user with email ${email} already exists`)
+            const { name, surname, email } = data
 
             const preUser = await EmailWhitelist.findOne({ email })
-            if (preUser) throw new Error(`user with email ${email} already added to the Whitelist`)
+            if (preUser) throw new Error(`skylaber with email ${email} already added to the Whitelist`)
 
-            const {id} = await EmailWhitelist.create({ name, surname, email })
+            const skylaber = await User.findOne({ email })
+            if (skylaber) throw new Error(`skylaber with email ${email} already exists`)
+
+
+            const { id } = await EmailWhitelist.create({ name, surname, email })
 
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                  user: 'skylabinn@gmail.com',
-                  pass: 'Skylabinn123'
+                    user: 'skylabinn@gmail.com',
+                    pass: 'Skylabinn123'
                 }
             })
-              
+
             const mailOptions = {
                 from: 'skylabinn@gmail.com',
                 to: `${email}`,
@@ -633,13 +667,99 @@ const logic = {
                     <p>Skylab Inn</p>
                 `
             }
-              
-            transporter.sendMail(mailOptions, function(error, info){
+
+            transporter.sendMail(mailOptions, function (error, info) {
                 if (error) throw new Error(`email could not be sent`)
                 else ('Email sent: ' + info.response)
             })
 
             return id
+        })()
+    },
+
+    /**
+     * Retrieve whitelist skylabers with pending status.
+     * 
+     * @param {String} userId 
+     * 
+     * @throws {TypeError} - if userId is not a string.
+     * @throws {Error} - if userId is empty or user is not found or user role does not match.
+     *
+     * @returns {Object} - users pending sign up.  
+     */
+    retrivevePendingSkylabers(userId) {
+
+        if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new Error('userId is empty')
+
+        return (async () => {
+            const user = await User.findById(userId).select('-__v -password').lean()
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+            if (user.role !== 'Admin') throw new Error(`Acces denied`)
+
+            const preUsers = await EmailWhitelist.find({ state: 'pending' })
+
+            return preUsers
+        })()
+    },
+
+    /**
+   * Update user information.
+   * 
+   * @param {String} userId 
+   * @param {String} url 
+   * 
+   * @throws {TypeError} - if userId is not a string or data is not an object.
+   * @throws {Error} - if any param is empty or user is not found.
+   *
+   * @returns {Object} - user.  
+   */
+    updateUserPhoto(userId, url) {
+        debugger
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
+        if (!url.trim().length) throw Error('url is empty')
+
+        return (async () => {
+            const user = await User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            user.id = user._id.toString()
+            delete user._id
+
+            return user
+        })()
+    },
+
+    /**
+     * Verifies user email address.
+     * 
+     * @param {String} emailToken 
+     * 
+     * @throws {TypeError} - if emailToken is not a string.
+     * @throws {Error} - if emailToken is empty or user is not found.
+     *
+     * @returns {Object} - user.  
+     */
+    verifyEmail(emailToken) {
+
+        if (typeof emailToken !== 'string') throw new TypeError(`${emailToken} is not a string`)
+        if (!emailToken.trim().length) throw new Error('emailToken is empty')
+
+        return (async () => {
+            const user = await User.findOne({ status: emailToken }).select('-__v -password').lean()
+
+            if (!user) throw new Error(`user not found`)
+
+            const userVerified = await User.findByIdAndUpdate(user._id, { status: 'verified' }, { new: true, runValidators: true }).select('-__v -password').lean()
+
+            userVerified.id = userVerified._id.toString()
+            delete userVerified._id
+
+            return userVerified
         })()
     },
 }

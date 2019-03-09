@@ -3,7 +3,10 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
-const { registerUser, authenticateUser, retrieveUser, updateUser, searchSkylaber, retrieveSkylaber, advancedSearchSkylaber, addUserInformation, updateUserInformation, removeUserInformation, addSkylaber } = require('./handlers')
+const imageParser = require('../imageParser')
+const cloudinaryUploader = require('../cloudinary')
+
+const { registerUser, authenticateUser, retrieveUser, updateUser, searchSkylaber, retrieveSkylaber, advancedSearchSkylaber, addUserInformation, updateUserInformation, removeUserInformation, addSkylaber, retrievePendingSkylabers, updateUserPhoto, verifyEmail } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 
@@ -22,6 +25,11 @@ router.post('/user/addInformation', [jsonBodyParser, tokenVerifierMiddleware], a
 router.put('/user/updateInformation', [jsonBodyParser, tokenVerifierMiddleware], updateUserInformation)
 router.delete('/user/removeInformation', [jsonBodyParser, tokenVerifierMiddleware], removeUserInformation)
 router.post('/add-skylaber', [jsonBodyParser, tokenVerifierMiddleware], addSkylaber)
+router.get('/pending-sylabers', tokenVerifierMiddleware, retrievePendingSkylabers)
+router.post('/user-photo', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateUserPhoto)
+
+router.get('/user/:emailToken/verify', verifyEmail)
+
 
 module.exports = router
 

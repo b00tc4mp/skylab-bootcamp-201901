@@ -21,5 +21,11 @@ module.exports = {
 
     registerAdmin: require('./register-admin'),
 
-    addSkylaber: require('./add-skylaber')
+    addSkylaber: require('./add-skylaber'),
+
+    retrievePendingSkylabers: require('./retrieve-pending-skylabers'),
+
+    updateUserPhoto: require('./update-user-photo'),
+
+    verifyEmail: require ('./verify-email')
 }

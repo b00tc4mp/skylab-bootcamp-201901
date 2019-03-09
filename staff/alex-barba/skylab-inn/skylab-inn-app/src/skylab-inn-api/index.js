@@ -146,6 +146,44 @@ const skylabInnApi = {
     },
 
     /**
+     * Updates user information
+     * 
+     * @param {String} token
+     * @param {Object} data
+     * 
+     * @throws {TypeError} - if token is not a string or data is not an object.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Object} - user.  
+     */
+    updateUserPhoto(token, data) {
+        debugger
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        let formData = new FormData()
+        formData.append('image', data.image)
+
+        return fetch(`${this.url}/user-photo`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    /**
      * Searches for a skylaber
      * 
      * @param {String} token
@@ -403,7 +441,33 @@ const skylabInnApi = {
             })
     },
 
+    /**
+     * Retrieve whitelist skylabers with pending status.
+     * 
+     * @param {String} token 
+     * 
+     * @throws {TypeError} - if token is not a string.
+     * @throws {Error} - if token is empty.
+     *
+     * @returns {Object} - users pending sign up.  
+     */
+    retrivevePendingSkylabers(token) {
 
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        return fetch(`${this.url}/pending-sylabers`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
 }
 
 export default skylabInnApi

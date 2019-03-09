@@ -13,17 +13,20 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
     const [_endDate, setEndDate] = useState('')
     const [_current, setCurrent] = useState('')
 
-    const handleOnEditWork = id => {
-        onEditWork(id)
+    const handleOnEditWork = exp => {
+        setCurrent(exp.current)
+        onEditWork(exp._id)
     }
 
     const handleOnAddWork = () => {
+        setCurrent(false)
         onAddWork()
     }
 
     const handleAddInformation = (e, type) => {
         e.preventDefault()
         onAddInformation(type, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current })
+        setCurrent(false)
     }
 
     const handleUpdateInformation = (e, type, id) => {
@@ -47,14 +50,14 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
                 <input type='text' name='position' placeholder='Position' onChange={e => setPosition(e.target.value)} required></input>
                 <input type='date' name='startDate' placeholder='Start date' onChange={e => setStartDate(e.target.value)} defaultValue={new Date().toISOString().substr(0, 10)} required></input>
                 {_current ? null : <input type='date' name='endDate' placeholder='End Date' onChange={e => setEndDate(e.target.value)} defaultValue={new Date().toISOString().substr(0, 10)} ></input>}
-                <p>Current Job <input type='checkbox' name='current' onChange={e => setCurrent(e.target.checked)} ></input></p>
+                <p>Current Job <input type='checkbox' name='current' onChange={e => setCurrent(e.target.checked)}></input></p>
                 <button type="submit">Add</button>
                 <button onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
             </form>
             </div>}
-            {workExperience && workExperience.map(exp => {
+            {workExperience && workExperience.sort((a,b) => new Date(b.startDate) - new Date(a.startDate)).map(exp => {
                 return <div>
-                    <a onClick={e => { e.preventDefault(); handleOnEditWork(exp._id) }}>Edit Work Experience</a>
+                    <a onClick={e => { e.preventDefault(); handleOnEditWork(exp) }}>Edit Work Experience</a>
                     <a onClick={e => handleRemoveInformation(e, 'Work', exp._id)}>Remove Work Experience</a>
                     {editWork === exp._id ?
                         <form onSubmit={e => handleUpdateInformation(e, 'Work', exp._id)}>

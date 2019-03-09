@@ -7,11 +7,13 @@ import Language from '../Language'
 import Education from '../Education'
 import Feedback from '../Feedback'
 
-export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpdateInformation, onRemoveInformation }) {
+export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpdateInformation, onRemoveInformation, onUploadPhoto }) {
 
     const { feedback, userData, setFeedback } = useContext(AppContext)
 
-    const { name, surname } = userData
+    const { name, surname, image } = userData
+
+    const [_image, setImage] = useState(null)
 
     const [editPersonal, setEditPersonal] = useState(null)
 
@@ -27,6 +29,9 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
     const [addEducation, setAddEducation] = useState(null)
     const [editEducation, setEditEducation] = useState(null)
 
+    const handleOnUploadPhoto = () => {
+        onUploadPhoto(_image)
+    }
 
     const handleUpdatePersonalInfo = data => {
         setFeedback(null)
@@ -154,6 +159,9 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
             <section>
                 <section>
                     <h4>{name} {surname}</h4>
+                    {image ? <img src={`${image}`}></img> : <img src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif' height='42' width='42'></img> }
+                    <input type='file' name='image' onChange={e => setImage({image: e.target.files[0]})}></input>
+                    <button onClick={e => {e.preventDefault(); handleOnUploadPhoto()}}>Upload photo</button>
                 </section>
                 <section>
                     <h5>Personal Information</h5>

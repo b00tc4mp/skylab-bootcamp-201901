@@ -56,11 +56,11 @@ export default function Language({ onAddLanguage, onEditLanguage, onAddInformati
             {language && language.map(lang => {
                 return <div>
                     <a onClick={e => { e.preventDefault(); handleOnEditLanguage(lang._id) }}>Edit Language</a>
-                    <a onClick={e => handleRemoveInformation(e, 'Language', lang._id)}>Remove Language Skill</a>
+                    <a onClick={e => handleRemoveInformation(e, 'Language', lang._id)}>Remove Language</a>
                     {editLanguage === lang._id ?
                         <form onSubmit={e => handleUpdateInformation(e, 'Language', lang._id)}>
                             <input type='text' name='language' placeholder='Language' onChange={e => setLanguage(e.target.value)} defaultValue={lang.language} required></input>
-                            <select className='dropdown-content' onChange={e => setLevelLanguage(e.target.value)}>
+                            <select className='dropdown-content' onChange={e => setLevelLanguage(e.target.value)} value={lang.level}>
                                 <option>Choose a level</option>
                                 <option value='Elementary proficiency'>Elementary proficiency</option>
                                 <option value='Limited working proficiency'>Limited working proficiency</option>

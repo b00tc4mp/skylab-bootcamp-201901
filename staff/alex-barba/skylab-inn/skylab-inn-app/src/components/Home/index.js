@@ -7,7 +7,7 @@ import Search from '../Search'
 import AdvancedSearch from '../AdvancedSearch'
 import Profile from '../Profile'
 import Skylaber from '../Skylaber'
-import AddSkylaber from '../AddSkylaber'
+import ManagaSkylabers from '../ManagaSkylabers'
 import NavFooter from '../NavFooter'
 
 import logic from '../../logic'
@@ -15,7 +15,7 @@ import { AppContext } from '../AppContext';
 
 function Home({ history }) {
 
-    const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, userData } = useContext(AppContext)
+    const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, userData, setWhiteList } = useContext(AppContext)
 
     const handleSearch = query => {
         try {
@@ -68,6 +68,16 @@ function Home({ history }) {
         }
     }
 
+    const handleOnUploadPhoto = data =>{
+        try {
+            logic.updateUserPhoto(data)
+                .then(user => setUserData(user))
+                .catch(({ message }) => setFeedback(message))
+        } catch ({ message }) {
+            setFeedback(message)
+        }
+    }
+
     const handleAddInformation = (type, data) => {
         try {
             logic.addUserInformation(type, data)
@@ -105,6 +115,8 @@ function Home({ history }) {
         try {
             logic.addSkylaber(data)
                 .then(() => setFeedback('Skylaber added to the whitelist!'))
+                .then(() => logic.retrivevePendingSkylabers())
+                .then(preUsers => setWhiteList(preUsers))
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
             setFeedback(message)
@@ -121,9 +133,9 @@ function Home({ history }) {
         history.push('/home/adsearch')
     }
 
-    const handleToAddSkylaber = () => {
+    const handleToManageSkylabers = () => {
         setFeedback(null)
-        history.push('/home/add-skylaber')
+        history.push('/home/manage-skylabers')
     }
 
     const handleToBack = () => {
@@ -154,11 +166,11 @@ function Home({ history }) {
 
     return (
         <Fragment>
-            <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToAddSkylaber={handleToAddSkylaber} />} />
+            <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToManageSkylabers={handleToManageSkylabers} />} />
             <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber}/>} />
             <Route path="/home/adsearch" render={() => <AdvancedSearch onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber}/>} />
-            <Route path="/home/profile" render={() => userData.role === 'User' ? <Profile onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation}/> : <Redirect to="/home" />} />
-            <Route path="/home/add-skylaber" render={() => userData.role === 'Admin' ? <AddSkylaber onToBack={handleToBack}onSubmit={handleOnAddSkylaber} /> : <Redirect to="/home" />} />
+            <Route path="/home/profile" render={() => userData.role === 'User' ? <Profile onUploadPhoto={handleOnUploadPhoto} onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation}/> : <Redirect to="/home" />} />
+            <Route path="/home/manage-skylabers" render={() => userData.role === 'Admin' ? <ManagaSkylabers onToBack={handleToBack} onSubmit={handleOnAddSkylaber} /> : <Redirect to="/home" />} />
             <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId} onToBack={handleToBack}/>} />
             <Route path ="/home" render={() => <NavFooter onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut}/>}/>
         </Fragment>
