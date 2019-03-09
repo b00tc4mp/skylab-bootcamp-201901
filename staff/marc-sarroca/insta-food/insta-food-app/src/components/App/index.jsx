@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Route, withRouter, Redirect } from "react-router-dom";
+import { UserContext } from "../../userContext";
 import Login from "../Login";
 import Register from "../Register";
 import ProfilePage from "../../pages/Profile";
@@ -8,6 +9,7 @@ import FavsPage from "../../pages/Favs";
 import ListPage from "../../pages/List";
 import SearchPage from "../../pages/Search";
 import AddPostPage from "../../pages/AddPost";
+import LoadingPage from "../../pages/Loading";
 import logic from "../../logic";
 import useUser from "../../logic/user";
 import ButtonBar from "../ButtonBar";
@@ -15,7 +17,12 @@ import "./index.sass";
 
 function App(props) {
   const [registerFeedback, setRegisterFeedback] = useState(null);
-  const { user } = useUser();
+  const { userState, getUser, logout, login } = useUser();
+  const { user, isUserLoading, userError } = userState;
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const handleRegister = (
     name,
@@ -33,8 +40,9 @@ function App(props) {
       setRegisterFeedback(message);
     }
   };
-  return (
-    <main className="app">
+
+  const renderRoutes = () => (
+    <Fragment>
       <Route
         path="/"
         exact
@@ -74,8 +82,18 @@ function App(props) {
         path="/add"
         render={() => (user ? <AddPostPage /> : <Redirect to="/login" />)}
       />
-      {user && <ButtonBar />}
-    </main>
+    </Fragment>
+  );
+
+  return (
+    <UserContext.Provider
+      value={{ user, isUserLoading, userError, logout, login }}
+    >
+      <main className="app">
+        {isUserLoading ? <LoadingPage /> : renderRoutes()}
+        {user && <ButtonBar />}
+      </main>
+    </UserContext.Provider>
   );
 }
 

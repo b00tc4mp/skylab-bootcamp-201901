@@ -1,19 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import instaApi from "../instafood-api";
 
 export default function useUser() {
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState("");
+  const [userState, setUserState] = useState({
+    user: null,
+    isUserLoading: true,
+    userError: null
+  });
 
-  useEffect(() => {
+  function getUser() {
     const id = sessionStorage.getItem("__userId__");
     const token = sessionStorage.getItem("__userApiToken__");
     const user = id ? { id, token } : null;
-    setUser(user);
-  }, []);
+
+    setUserState({
+      user,
+      isUserLoading: false,
+      userError: null
+    });
+  }
 
   function logout() {
-    setUser(null);
+    setUserState({
+      user: null,
+      isUserLoading: false,
+      userError: null
+    });
     sessionStorage.removeItem("__userId__");
     sessionStorage.removeItem("__userApiToken__");
   }
@@ -28,15 +40,30 @@ export default function useUser() {
 
     if (!password.trim().length) throw Error("password cannot be empty");
 
-    return instaApi
+    setUserState({
+      isUserLoading: true
+    });
+
+    instaApi
       .authenticateUser(email, password)
       .then(({ id, token }) => {
-        setUser({ id, token });
+        const user = { id, token };
+        setUserState({
+          user,
+          isUserLoading: false,
+          userError: null
+        });
         sessionStorage.setItem("__userId__", id);
         sessionStorage.setItem("__userApiToken__", token);
       })
-      .catch(({ message }) => setError(message));
+      .catch(({ message }) =>
+        setUserState({
+          user: null,
+          isUserLoading: false,
+          userError: message
+        })
+      );
   }
 
-  return { user, login, error, logout };
+  return { userState, login, logout, getUser };
 }

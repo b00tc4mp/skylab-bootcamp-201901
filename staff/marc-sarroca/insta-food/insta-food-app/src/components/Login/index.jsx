@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../userContext";
 import Feedback from "../Feedback";
-import useUser from "../../logic/user";
 import "./index.sass";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, login, error } = useUser();
+  const { userError, login } = useContext(UserContext);
 
   const handleEmailInput = event => setEmail(event.target.value);
   const handlePasswordInput = event => setPassword(event.target.value);
@@ -16,13 +15,11 @@ function Login() {
     login(email, password);
   };
 
-  if (user) return <Redirect to="/profile" />;
-
   return (
     <section className="login">
-      <h2>Login</h2>
-      <div className="login-container">
-        <form onSubmit={handleFormSubmit}>
+      <h2 className="page-title">Login</h2>
+      <div>
+        <form className="form-login-register" onSubmit={handleFormSubmit}>
           <input type="text" name="email" onChange={handleEmailInput} />
           <input
             type="password"
@@ -32,7 +29,7 @@ function Login() {
           <button>Login</button>
         </form>
       </div>
-      {error && <Feedback message={error} level="warn" />}
+      {userError && <Feedback message={userError} level="warn" />}
     </section>
   );
 }

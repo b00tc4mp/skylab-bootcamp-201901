@@ -1,5 +1,3 @@
-"use strict";
-
 import React, { useState } from "react";
 import Feedback from "../Feedback";
 import "./index.sass";
@@ -24,10 +22,10 @@ function Register(props) {
   };
 
   return (
-    <section className="register">
-      <h2>Register</h2>
+    <section className="panel-login-register">
+      <h2 className="page-title">Register</h2>
 
-      <form onSubmit={handleFormSubmit}>
+      <form className="form-login-register" onSubmit={handleFormSubmit}>
         <input
           type="text"
           name="name"
