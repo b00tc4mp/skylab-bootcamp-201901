@@ -16,6 +16,16 @@ Object.defineProperties(logic, {
         get() {
             return sessionStorage.getItem('__coworkingApiToken__')
         }
+    },
+
+    __isAdmin__: {
+        set(isAdmin) {
+            sessionStorage.setItem('__isAdmin__', isAdmin)
+        },
+
+        get() {
+            return sessionStorage.getItem('__isAdmin__')
+        }
     }
 })
 

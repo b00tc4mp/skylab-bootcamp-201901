@@ -30,8 +30,8 @@ const User = new Schema({
     },
 
     isAdmin:{
-        type: String,
-        default: 'false',
+        type: Boolean,
+        default: false,
         required: false
     },
 
@@ -39,6 +39,12 @@ const User = new Schema({
         type: ObjectId,
         required: false,
         ref: 'Workspace'
+    },
+
+    time: {
+        type: Number,
+        default: 0,
+        required: false
     }
 })
 

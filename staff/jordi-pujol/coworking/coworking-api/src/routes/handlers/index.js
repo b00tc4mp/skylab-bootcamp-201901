@@ -19,6 +19,8 @@ module.exports = {
 
     createService: require('./create-service'),
 
+    addUserToService: require('./add-user-to-service'),
+
     retrieveService: require('./retrieve-service'),
 
     retrieveWorkspaceServices: require('./retrieve-workspace-services'),

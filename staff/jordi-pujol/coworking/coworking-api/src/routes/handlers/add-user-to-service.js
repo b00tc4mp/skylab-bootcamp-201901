@@ -1,11 +1,12 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { body: { email, password } } = req
 
+    const { params: { serviceId }, userId } = req
+debugger
     try {
-        logic.authenticateUser(email, password)
-            .then(({token, isAdmin}) => res.json({ token, isAdmin }))
+        logic.addUserToService(userId, serviceId)
+            .then(() => res.json({ status: 'OK' }))
             .catch(({ message }) => {
                 res.status(401).json({
                     error: message

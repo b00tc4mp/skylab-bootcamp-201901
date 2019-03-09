@@ -8,6 +8,7 @@ import Inbox from '../Inbox'
 import NewService from '../Create-service'
 import Topbar from '../Topbar';
 import logic from '../../logic';
+import NewInvitation from '../New-invitation';
 
 class Home extends Component {
 
@@ -17,14 +18,15 @@ class Home extends Component {
 
     handleGoToProfile = () => this.props.history.push('/home/profile')
 
-    handleGoToServices = () => this.props.history.push('/home/services')
+    handleGoToServices = () => this.props.history.push('/home/service')
 
     handleGoToNotifications = () => this.props.history.push('/home/notifications')
 
     handleCreateNewLink = () => {
         logic.createNewUserLink()
-            .then((result) => console.log(result + 'dsadsadsadsadds'))
-            .then(() => this.props.history.push('/home/notifications'))
+            .then(result => this.invitation=result )
+            // .then((result) => console.log(result + 'dsadsadsadsadds'))
+            // .then(() => this.props.history.push('/home/notifications'))
     }
 
     handleLogOut = () => {
@@ -40,13 +42,14 @@ class Home extends Component {
 
     render() {
 
-        const { handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService } = this
+        const { handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, invitation } = this
 
         return <section>
             <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />
             <Route exact path='/home/profile' render={() => <Profile />} />
             <Route path='/home/inbox' render={() => <Inbox />} />
             <Route path='/home/service' render={() => <NewService onCreateService={handleCreateService} />} />
+            <Route path='/home/invitation' render={() => <NewInvitation invitation={invitation} />} />
             {/* <Route exact path='/home/inbox' render={()=> services && <Service services={services}/>}/> */}
         </section>
     }

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 class Service extends Component {
 
     onServiceClick = id => {
+        
         const { props: { onServiceSelected } } = this
 
         onServiceSelected(id)

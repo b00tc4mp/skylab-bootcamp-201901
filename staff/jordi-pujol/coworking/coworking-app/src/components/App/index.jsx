@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 
 import Login from '../Login'
 import Register from '../Register'
@@ -24,7 +24,8 @@ class App extends Component {
 
             return logic.logInUser(email, password)
                 .then(() => logic.verifyNewUserLink(link))
-                .then(workspaceId => logic.addUserToWorkspace(workspaceId))
+                .then(workspaceId => {
+                    return logic.addUserToWorkspace(workspaceId)})
                 .then(() => this.props.history.push('/home/inbox'))
                 .catch((error) => console.log(error)) //print it
         }
@@ -47,11 +48,11 @@ class App extends Component {
         const { handleLogin, handleRegister, handleNewWorkspace } = this
 
         return <main className='app'>
-            <Route exact path='/register' render={() => <Register onRegister={handleRegister} />} />
-            <Route path='/login/:link' render={(props) => <Login onLogin={handleLogin} link={props.match.params.link} />} />
-            <Route exact path='/login' render={(props) => <Login onLogin={handleLogin} link={props.match.params.link} />} />
-            <Route exact path='/workspace' render={() => <Workspace onNewWorkspace={handleNewWorkspace} />} />
-            <Route path='/home' render={() => <Home />} />
+            <Route exact path='/register' render={() => !logic.isUserLoggedIn? <Register onRegister={handleRegister}/> : <Redirect to='/home/inbox'/>} />
+            <Route path='/login/:link' render={(props) => !logic.isUserLoggedIn? <Login onLogin={handleLogin} link={props.match.params.link}/> : <Redirect to='/home/inbox'/>} />
+            <Route exact path='/login' render={(props) => !logic.isUserLoggedIn? <Login onLogin={handleLogin} link={props.match.params.link}/> : <Redirect to='/home/inbox'/>} />
+            <Route exact path='/workspace' render={() => !logic.isUserLoggedIn? <Workspace onNewWorkspace={handleNewWorkspace}/> : <Redirect to='/home/inbox'/>} />
+            <Route path='/home' render={() => logic.isUserLoggedIn? <Home /> : <Redirect to='/login'/>} />
         </main>
     }
 }

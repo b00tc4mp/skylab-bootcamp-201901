@@ -20,6 +20,12 @@ const Service = new Schema ({
         ref: 'User'
     },
 
+    submitedUsers:[{
+        type: ObjectId,
+        required: false,
+        ref: 'User'
+    }],
+
     comments: [Comment]
 })
 
