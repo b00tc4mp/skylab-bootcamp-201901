@@ -52,8 +52,7 @@ class CreateBook extends Component {
                 this.isnameTag = evt.target.result.includes('<name>')
                 this.isplaceTag = evt.target.result.includes('<place>')
                 this.setState({textContent: evt.target.result }, () => {})
-                console.log(this.isnameTag, this.isplaceTag)
-                console.log(this.state.textContent)
+
             }
         }
     }
@@ -75,25 +74,26 @@ class CreateBook extends Component {
     render() {
         return (
         <Fragment>
-            <div>
-                <SideBar/>
-            </div>
             <div className="coverright ">
              {this.state.step1 ? 
                 <div className = "formCreateBook" >
-                    <form onSubmit={this.nextStep}>STEP 1
-                    <ProgressBar level={this.state.medida}></ProgressBar><br/>
+                    <form onSubmit={this.nextStep}>
+                        <div className="formCreateBook_step">STEP 1
+                        </div>
+                        <ProgressBar level={this.state.medida}></ProgressBar><br/>
                         <label htmlFor="uname"><b>Your books title</b></label>
                         <input type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required /> <br/>
-                        <div className="row justify-content-center">
-                            <label htmlFor="uname" className="col-5"><b>Enter a txt file for your book </b></label>
-                            <input onChange={this.handleFileTextChange} accept=".txt" id="inputtext" name="textContent" className="col-5" type="file" required/>
+                        <div className="inputContainer">
+                            <label htmlFor="uname" className="col-5"><i class="fa fa-cloud-upload">Enter a file txt</i></label>
+                            <input onChange={this.handleFileTextChange} accept=".txt" id="inputtext" name="textContent" className="inputfile" type="file" required/>
                         </div>    
-                        <div className="row justify-content-center">
-                            <label htmlFor="uname" className="col-5"><b>Enter a coverphoto </b></label>
-                            <input onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp " name="imageCover" className="col-5" type="file" required/>
-                        </div>    
-                        <button className="btn btn-info" type="submit">Go!</button>    
+                        <div className="inputContainer">
+                            <label htmlFor="uname" className="col-5"><i class="fa fa-cloud-upload">Enter a coverphoto</i></label>
+                            <input onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp " name="imageCover" className="inputfile" type="file" required/>
+                        </div>
+                        <div className="formButtonContainer">   
+                            <button className="btn btn-info" type="submit">To Next Step!</button>   
+                        </div> 
                     </form>
                 </div> :
                 <div className="formCreateBook">
@@ -112,7 +112,9 @@ class CreateBook extends Component {
                                 : 
                                 <div><input type="text" placeholder="You have not inserted a tag for place" disabled/> <br/></div> 
                             }
-                            <button className="btn btn-info" type="submit">Go!</button>    
+                            <div className="formButtonContainer">   
+                                <button className="btn btn-info" type="submit">Go!</button>    
+                            </div>
                         </div>
                     </form>
                 </div>

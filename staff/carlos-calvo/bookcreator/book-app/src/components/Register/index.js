@@ -50,7 +50,7 @@ class Register extends Component {
             <Welcome/>
             <div className="containerLogin fade-in">
                 <form onSubmit={this.handleFormSubmit}>
-                    <div >
+                    <div>
                         <label htmlFor="uname"><b>Name</b></label>
                         <input type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameInput} required /> <br/>
                         <label htmlFor="psw"><b>Surname</b></label>
@@ -61,14 +61,15 @@ class Register extends Component {
                         <input type="password" value={this.state.password} placeholder="Enter Password" onChange={this.handlePasswordInput} required /><br/> 
                         <label htmlFor="psw"><b>Password</b></label>
                         <input type="password" value={this.state.passwordConf} placeholder="Re-Enter Password" onChange={this.handlePasswordConfInput} required /><br/>
-                        <button type="submit">Login</button>
+                        
                         {/* <label>
                         <input type="checkbox" checked="checked" name="remember"/> Remember me
                         </label> */}
                     </div>
                     {this.state.loginFeedback && <Feedback message={this.state.loginFeedback} level="warn" />}
-                    <div className="container">
-                        <button type="button" className="cancelbtn" onClick={this.goBack}>Cancel</button>
+                    <div className="container-buttons">
+                        <button type="submit" className="but but--login">Login</button>
+                        <button type="button" className="but but--cancel" onClick={this.goBack}>Cancel</button>
                     </div>
 
                 </form>

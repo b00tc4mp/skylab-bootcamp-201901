@@ -54,9 +54,6 @@ class YourBooks extends Component {
         const {state : { books} } = this
         return (
             <Fragment>
-                <div>
-                    <SideBar/>
-                </div>
                 <div className = "coverright">
                     <div className="row justify-content-center">
                         {books && books.map(book =>{
@@ -64,7 +61,6 @@ class YourBooks extends Component {
                             })}
                     </div>  
                 </div>
-                <ToastContainer/>
             </Fragment>
         )
     }

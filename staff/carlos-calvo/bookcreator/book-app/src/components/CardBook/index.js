@@ -30,22 +30,22 @@ class CardBook extends Component {
                             <h5 className="card-title">{book.title}</h5>
                         </div>
                         <div>
-                            {book.parameters.name ? 
+                            {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')? 
                             <p className="card-text">Name<i className="fas fa-user-circle"></i> {book.parameters.name}</p>:
                             <p className="card-text">Name<i className="fas fa-user-circle"></i> No name tag in this book</p>
                             }
                         </div>
                         <div>
-                            {book.parameters.place ? 
+                            {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place') ? 
                             <p className="card-text">Place :<i className="fas fa-user-circle"></i> {book.parameters.place}</p>
                                 :
                             <p className="card-text">Place :<i className="fas fa-user-circle"></i> No place tag in this book</p>
                             }
                         </div>
                         <div className="bookCard-buttonContainer">
-                            <button onClick={this.loadBook} className="btn btn-primary btn-readit"><i className="fas fa-book-reader"></i></button>
-                            <button onClick={this.editBook} className="btn btn-primary btn-readit"><i className="fas fa-edit"></i></button>
-                            <button onClick={this.deleteBook} className="btn btn-danger btn-deleteit"><i className="fas fa-trash-alt"></i></button>
+                            <button onClick={this.loadBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
+                            <button onClick={this.editBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Edit Book"><i className="fas fa-edit"></i></button>
+                            <button onClick={this.deleteBook} className="btn btn-danger btn-deleteit" data-toggle="tooltip" data-placement="top" title="Delete Book"><i className="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
                 </div>

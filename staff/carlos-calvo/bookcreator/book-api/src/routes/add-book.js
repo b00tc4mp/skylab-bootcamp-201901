@@ -1,8 +1,7 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { body: {title, content, coverphoto, images, parameters, userId} } = req
-    console.log(req.body.parameters)
+    const { body: {title, content, coverphoto, images, parameters}, userId } = req
     try {
         logic.addBook(title, content, coverphoto, userId, images, parameters)
             .then(book => {

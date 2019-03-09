@@ -9,6 +9,7 @@ import YourBooks from '../YourBooks'
 import Books from '../Books';
 import EditBook from '../EditBook'
 import { ToastContainer, toast } from 'react-toastify';
+import './index.sass'
 
 
 class Home extends Component {
@@ -29,7 +30,7 @@ class Home extends Component {
 
     render() {
         return (
-            <Fragment>
+            <div className="bodycontainer">
                 <SideBar logoutUser = {this.logoutUser}></SideBar>
                 <Route path="/home/newbook" component = {CreateBook} />
                 <Route exact path="/home/yourbooks" render={() => <YourBooks loadBook={this.loadBook} editBook={this.editBook}/> }/>
@@ -37,8 +38,7 @@ class Home extends Component {
                 <Route path="/home/contact" component = {ContactForm} />
                 <Route path="/home/editbook/:bookid" render={(props) => <EditBook bookid={props.match.params.bookid}/>} />
                 <Route exact path="/home/yourbooks/:bookid" render={(props) => <Books bookid={props.match.params.bookid}/>}/>
-                <ToastContainer/>
-            </Fragment>
+            </div>
         )
     }
 }

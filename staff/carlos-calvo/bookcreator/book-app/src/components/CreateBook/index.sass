@@ -1,17 +1,51 @@
 .formCreateBook
-    background-color: rgba(100,200,100,0.5)
     width: 100%
     height: 100%
     display: flex
     align-items: center
     justify-content: center
+    
+    
     form
         padding: 2%
         background-color: white
-        width: 60%
+        width: 80%
         display: flex
+        border-radius: 1rem
+        border: 2px solid black
         flex-direction: column
         justify-content: center
+        -webkit-animation-name: Anim1
+        -webkit-animation-duration: 1s
+        
+    
+        @-webkit-keyframes Anim1
+            from
+                opacity: 0
+            to
+                opacity: 1
+
+        .inputContainer
+            display: flex
+            flex-direction: row
+            justify-content: center
+            align-items: center
+
+        .formButtonContainer
+            display: flex
+            justify-content: center
+            button
+                width: 40%
+
+
+    &_step
+        display: flex
+        justify-content: center
+        font-size: 1.5rem
+    label
+        display: flex
+        justify-content: center
+    
 
 .btn-file
     position: relative

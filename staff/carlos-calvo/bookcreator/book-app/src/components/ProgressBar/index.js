@@ -3,9 +3,9 @@
 import React from 'react'
 import './index.sass'
 
-function ProgressBar({ level }) {
+function ProgressBar( level ) {
     return <div className="progress">
-        <div className="progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuenow={level} aria-valuemin="0" aria-valuemax="100"></div>
+        <div className={`progress-bar progress-bar-striped bg-danger w${level}`} role="progressbar" aria-valuenow={level} aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 }
 

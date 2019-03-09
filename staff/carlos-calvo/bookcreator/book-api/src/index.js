@@ -44,7 +44,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.post('/user/auth', jsonBodyParser, authenticateUser)
 
-        router.post('/book/add', jsonBodyParser, addBook)
+        router.post('/book/add', [jsonBodyParser, tokenVerifierMiddleware], addBook)
 
         router.put('/user/update', jsonBodyParser, updateUser)
 

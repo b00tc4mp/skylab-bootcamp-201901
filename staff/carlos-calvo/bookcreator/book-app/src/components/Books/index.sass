@@ -1,14 +1,34 @@
-.page
-    width: 60%
-    height: 60%
-    background-color: white
-.padded-page
-    overflow-x: auto
-    white-space: pre-wrap
-    white-space: -moz-pre-wrap
-    white-space: -pre-wrap
-    white-space: -o-pre-wrap
-    word-wrap: break-word
-.button
-    &-disabled
-        display: none
+.book-container
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: flex-start
+    .page
+        width: 70%
+        background-color: white
+            
+
+    .padded-page
+        overflow-x: auto
+        white-space: pre-wrap
+        white-space: -moz-pre-wrap
+        white-space: -pre-wrap
+        white-space: -o-pre-wrap
+        word-wrap: break-word
+                
+    .button
+        border-radius: 50%
+        border: 2px solid black
+        &-disabled
+            display: none
+    p
+        font-size: 0.8rem
+        -webkit-animation-name: PageBasic
+        -webkit-animation-duration: 1s
+        @-webkit-keyframes PageBasic
+            from
+                opacity: 0
+            to
+                opacity: 1

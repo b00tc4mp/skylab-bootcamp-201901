@@ -203,11 +203,11 @@ const logic = {
 
         return (async () => {
             //Check that book title does not exist for this user.
-            const book = await Book.find({ 'userId' : ObjectID(userId), 'title': title })
+            // const book = await Book.find({ 'userId' : ObjectID(userId), 'title': title })
             // console.log('*******************************************')
             // console.log('book found', book)
             // console.log('lenght', book.length)
-            if (book.length) throw new DuplicateError(`title already existing`)
+            // if (book.length) throw new DuplicateError(`title already existing`)
             
             //Check that user exists.
             const user = await User.findById(userId)

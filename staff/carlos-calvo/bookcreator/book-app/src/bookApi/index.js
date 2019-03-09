@@ -16,17 +16,18 @@ const bookApi ={
      * @param {String} coverphoto 
      * @param {Array} images 
      * @param {Object} parameters 
-     * @param {String} userId 
+     * @param {String} token 
      */
-    addBook(title, content, coverphoto, parameters, images, userId) {
+    addBook(title, content, coverphoto, parameters, images, token) {
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw new Error('title  is empty')
         if (typeof content !== 'string') throw TypeError(`${content} is not a string`)
         if (!content.trim().length) throw new Error('content  is empty')
         if (!(images instanceof Array)) throw TypeError(`${images} is not a array`)
         if (!(parameters instanceof Object)) throw TypeError(`${parameters} is not a Object`)
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new Error('userId  is empty')
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token  is empty')
+        console.log(token)
 
         var formData = new FormData()
         formData.append('file', coverphoto)
@@ -43,9 +44,10 @@ const bookApi ={
             return fetch(`${this.url}/book/add`, {
                     method: 'POST',
                     headers: {
-                        'content-type': 'application/json'
+                        'content-type': 'application/json',
+                        authorization: `Bearer ${token}`
                     },
-                    body: JSON.stringify({ title, content, 'coverphoto' : secure_url, images, parameters, userId })
+                    body: JSON.stringify({ title, content, 'coverphoto' : secure_url, images, parameters })
                 })
                 .then(response => response.json())
         

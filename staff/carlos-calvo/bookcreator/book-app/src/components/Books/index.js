@@ -1,33 +1,69 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
 import logic from '../../logic';
+import SideBar from '../SideBar';
 
 class Books extends Component {
 
     intervalPre =  25
-    pages = []
-
+    interval = 1700
+    
+    book = null
     state = {
-        currentPage: 0
+        title: '',
+        currentPage: 0,
+        pages : []
     }
-    componentWillMount = () =>{
+    componentDidMount = () =>{
         return logic.retrieveBook(this.props.bookid)
             .then(book => {
-                let personalizedText = this.personalizeContent(book[0].content, book[0].parameters)
-                this.pages = this.getArrayconPre(personalizedText, this.interval)
-                this.forceUpdate()
+                this.book = book[0]
+                this.setState({title: book[0].title})
+                this.personalizeContent(this.book, ()=> {})
+                // this.pages = this.getArrayconPre(this.book)
+                // this.forceUpdate()
             }, () => {})
     }
 
-    personalizeContent(str, parameters){
-        if(parameters.name) str = str.replace(/<name>/g, parameters.name)
-        if(parameters.place)str = str.replace(/<place>/g, parameters.place)
-        str = str.replace(/\n/g, '<br>')
-        str = str.replace(/.<br>/,'<br/>')
-        str = str.replace(/<br>/g, '') 
-        str = str.replace(/<Chapter>/g, 'chapter')
-        console.log(str)
-        return str
+    personalizeContent = (book) => {
+
+        if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')) book.content = book.content.replace(/<name>/g, book.parameters.name)
+        if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place')) book.content = book.content.replace(/<place>/g, book.parameters.place)
+        // book.content = book.content.replace(/[.]\s\s\n/g, '<br/>')
+        // book.content = book.content.replace(/[.]\s\n/g, '<br/>')
+        // book.content = book.content.replace(/[.]\n/g, '<br/>')
+        // book.content = book.content.replace(/<br><br>/g, '<br/>')
+        // book.content =  book.content.replace(/<Chapter>/g, 'chapter <br/>')
+        book.content = book.content.replace(/(\r?\n|\r?\n){2,}/g, '<br/><br/>')
+        book.content = book.content.replace(/(\r|\n)/g, ' ')
+        let arraysinsaltos = book.content.split("<br/><br/>")
+        
+        let arrayreturn = []
+        let i = 0 //Counter para arraysinsaltos
+        let string = ''
+        while( i < arraysinsaltos.length){
+            if(string.length < this.interval) {
+                string = string.concat(arraysinsaltos[i])
+                i++
+            } else {
+                arrayreturn.push(string)
+                // console.log(string, string.length)
+                // console.log('++++++++++++++++++++++++++++++++++++++++++')
+                string = ''
+            }
+        }
+
+        arrayreturn.push(string)
+        let newArray = arrayreturn.map(page => page.replace(/<Chapter>/g, '\n\nCHAPTER  \n\n'))
+        
+        this.setState({pages: newArray}, () => {})
+
+        console.log(this.state.pages)
+
+        // console.log(this.pages.length)
+        // console.log(this.pages)
+        // console.log(arraysinsaltos.length)
+        // console.log(book.content)
     }
 
 
@@ -56,35 +92,43 @@ class Books extends Component {
     //     return indices;
     // }
 
-    getArrayconPre(string, interval){
-        // let arraysinsaltos = string.split("<br/>")
-        // console.log(arraysinsaltos.length)
-        let arrayreturn = []
-        // let i = 0
-        // while (i < arraysinsaltos.length){
-        //     let arrayparcial = []
-        //     let string = ''
-        //     for(let j = 0; j < interval; j++){
-        //         string = string.concat(arraysinsaltos[i])
-        //         string = string.concat('\n')
-        //         i++
-        //     }
-        //     arrayreturn.push(string)            
-        // }
+    // getArrayconPre(string, interval){
+    //     console.log(arraysinsaltos.length)
+    //     let arrayreturn = []
+    //     let i = 0
+    //     while (i < arraysinsaltos.length){
+    //         let arrayparcial = []
+    //         let string = ''
+    //         for(let j = 0; j < interval; j++){
+    //             string = string.concat(arraysinsaltos[i])
+    //             string = string.concat('\n')
+    //             i++
+    //         }
+    //         arrayreturn.push(string)            
+    //     }
 
-        return arrayreturn
-    }
+    //     return arrayreturn
+    // }
 
     advancePage = () => {
-        let newState = this.state.currentPage + 1
-        if(newState == this.pages.length -1 ) return
-        this.setState({currentPage: newState})
+        if(this.state.pages.length){
+            let newState = this.state.currentPage + 1
+            if(newState == this.state.pages.length -1 ) return
+            this.setState({currentPage: newState})
+        } else{
+            return
+        }
     }
 
     backPage = () => {
-        let newState = this.state.currentPage - 1
-        if(newState == -1) return
-        this.setState({currentPage: newState})
+        if(this.state.pages.length){
+            let newState = this.state.currentPage - 1
+            if(newState == -1) return
+            this.setState({currentPage: newState})
+        }
+        else{
+            return
+        }
     }
 
 
@@ -92,17 +136,25 @@ class Books extends Component {
         let buttonback = 'button'
         let buttonforward = 'button'
         if(this.state.currentPage == 0) buttonback = 'button-disabled'
-        if(this.state.currentPage == this.pages.length -1) buttonback = 'button-disabled'
+        if(this.state.currentPage == this.state.pages.length -1) buttonback = 'button-disabled'
         return (
-            <div className = "rightsidebar c_updateuser">
-                <div className ="page">
-                    <div className="padded-page">
-                        <p>{this.pages[this.state.currentPage]}</p>
+            <Fragment>
+            <div className = "coverright">
+                <div className="book-container">
+                    <h2> {this.state.title}</h2>
+                    <div>
+                        <button className={buttonback} onClick={this.backPage}><i className="fas fa-arrow-left"></i></button>
+                        <button className={buttonforward} onClick={this.advancePage}><i className="fas fa-arrow-right"></i></button>
                     </div>
+                    <div className ="page">
+                        <div className="padded-page">
+                            <p>{this.state.pages[this.state.currentPage]}</p>
+                        </div>
+                    </div>
+                    
                 </div>
-            <button className={buttonback} onClick={this.backPage}><i class="fas fa-arrow-left"></i></button>
-            <button className={buttonforward} onClick={this.advancePage}><i class="fas fa-arrow-right"></i></button>
             </div>
+            </Fragment>
 
         )
     }    

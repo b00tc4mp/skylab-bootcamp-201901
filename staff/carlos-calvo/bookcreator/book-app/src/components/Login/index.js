@@ -47,21 +47,16 @@ class Login extends Component {
             <Welcome/>
             <div className="containerLogin fade-in">
                 <form onSubmit={this.handleFormSubmit}>
-                    <div className="imgcontainer">
-                        <img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png" alt="Avatar" className="avatar"/>
-                    </div>
-                    <div >
+                    <div>
                         <label htmlFor="uname"><b>Username</b></label>
                         <input type="text" value={this.state.email} placeholder="Enter Username" name="uname" onChange={this.handleEmailInput} required /> <br/>
                         <label htmlFor="psw"><b>Password</b></label>
-                        <input type="password" value={this.state.password} placeholder="Enter Password" name="psw" onChange={this.handlePasswordInput} required /><br/>
-                            
-                        <button type="submit" onClick={this.onLogin}>Login</button>
+                        <input type="password" value={this.state.password} placeholder="Enter Password" name="psw" onChange={this.handlePasswordInput} required /><br/>                         
                     </div>
                     {this.state.loginFeedback && <Feedback message={this.state.loginFeedback} level="warn" />}
-                    <div className="container">
-                        <button type="button" className="cancelbtn" onClick={this.goBack}>Cancel</button>
-                        <span className="psw">Forgot <a href="#">password?</a></span>
+                    <div className="container-buttons">
+                        <button type="submit" className="but but--login"onClick={this.onLogin}>Login</button>
+                        <button type="button" className="but but--cancel" onClick={this.goBack}>Cancel</button>
                     </div>
                 </form>
             </div>

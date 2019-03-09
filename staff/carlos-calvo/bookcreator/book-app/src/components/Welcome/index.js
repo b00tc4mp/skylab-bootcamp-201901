@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import Carrousel from '../Carrousel'
-import { Route, withRouter, Link } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import './index.sass'
 
 class Welcome extends Component {
@@ -23,28 +23,27 @@ class Welcome extends Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav mr-auto">
-                        <li className="nav-item active">
-                            <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                    <ul className="row navbar-nav mr-auto">
+                        <li className="nav-item col-5">
+                            <Link to="/register">New? Register <i class="fas fa-user-plus"></i></Link>
                         </li>
-
-                        <li className="nav-item">
-                            <button className="nav-link" onClick ={ event => {event.preventDefault(); return this.goToRoute('/register')}} id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">
-                            New? Register!
-                            </button>
-                        </li>
-
-                        <li className="nav-item">
-                            <button className="nav-link" onClick ={ event => {event.preventDefault(); return this.goToRoute('/login') }} id="navbarDropdownMenuLink">
-                            Personal Area
-                            </button>
+                        <div className="nav-item col-2"></div>
+                        <li className="nav-item col-5">
+                            <Link to="/login">Personal Area<i class="fas fa-users"></i></Link>
                         </li>
                     </ul>
                 </div>
                 </nav>
             </Fragment>
-            <div className="Carrouselcontainer">
-                <Carrousel/>
+                <div>Book Creator and Sharing!
+                </div>
+            <div className="ContainerWelcome">
+                <div className="ContainerWelcome-carrousel">
+                    <Carrousel/>
+                </div>
+                <div>
+                    Lorem IPsum
+                </div>
             </div>
         </Fragment>)
     }

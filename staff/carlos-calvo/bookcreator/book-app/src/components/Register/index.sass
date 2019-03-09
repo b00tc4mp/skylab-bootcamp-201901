@@ -17,39 +17,33 @@
         width: 50vw
         height: 50vh
         position: absolute
-        top: 15vh
+        top: 10vh
         left: 25vw
         color: white
-       
-
-        button
-            align-self: center
 
     input
-    &[type=text], &[type=password]
         width: 100%
         padding: 12px 20px
-        margin: 8px 0
+        margin: 2px 0
         display: inline-block
         border: 1px solid #ccc
         box-sizing: border-box
 
-    button
-        background-color: #4CAF50
-        color: white
-        padding: 14px 20px
-        margin: 8px 0
-        border: none
-        cursor: pointer
-        width: 100%
+    .container-buttons
+        display: flex
+        justify-content: space-around
+        .but 
+            width: 45%
+            &--cancel
+                background-color: #d86e6e
+                border-radius: 4px
+                margin: 2% 
+            &--login
+                background-color: #68b553
+                border-radius: 4px
+                margin: 2%
     &:hover
         opacity: 0.8
-
-    .cancelbtn
-        width: auto
-        padding: 10px 18px
-        background-color: #f44336
-
     .container
         padding: 16px
 

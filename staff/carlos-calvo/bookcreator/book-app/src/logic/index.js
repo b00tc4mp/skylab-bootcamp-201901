@@ -148,9 +148,8 @@ const logic = {
 
         return (async () => {
 
-            const {id} = await this.retrieveUser()
 
-            const book = await bookApi.addBook(title, content, coverphoto, parameters, images, id)
+            const book = await bookApi.addBook(title, content, coverphoto, parameters, images, this.getToken)
 
             return book
         })()

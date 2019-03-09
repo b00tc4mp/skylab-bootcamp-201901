@@ -50,31 +50,29 @@ class UpdateUser extends Component {
     render() {
         return (
             <Fragment>
-                <div>
-                    <SideBar/>
-                </div>
-                <div className="rightsidebar c_updateuser">
-                    <form onSubmit={this.handleFormSubmit}>
-                        <div>
-                            <label htmlFor="uname"><b>Name</b></label>
-                            <input type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameInput} required /> <br/>
-                            <label htmlFor="psw"><b>Surname</b></label>
-                            <input type="uname" value={this.state.surname} placeholder="Surname..." onChange={this.handleSurnameInput} required /><br/>
-                            <label htmlFor="psw"><b>email</b></label>
-                            <input type="email" value={this.state.email} onChange={this.handleEmailInput} required disabled/><br/>
-                            <label htmlFor="psw"><b>Password</b></label>
-                            <input type="password" placeholder="Enter Password" onChange={this.handlePasswordInput} required /><br/> 
-                            <label htmlFor="psw"><b>Password</b></label>
-                            <input type="password" placeholder="Re-Enter Password" onChange={this.handlePasswordConfInput} required /><br/>
-                            <div className="form-buttoncontainer">
-                                <button type="submit" className="btn btn-info">Update</button>
+
+                <div className="coverright">
+                    <div className="formcontact">
+                        <form onSubmit={this.handleFormSubmit}>
+                            <div>
+                                <label htmlFor="uname"><b>Name</b></label>
+                                <input type="text" value={this.state.name} placeholder="Name..." onChange={this.handleNameInput} required /> <br/>
+                                <label htmlFor="psw"><b>Surname</b></label>
+                                <input type="uname" value={this.state.surname} placeholder="Surname..." onChange={this.handleSurnameInput} required /><br/>
+                                <label htmlFor="psw"><b>email</b></label>
+                                <input type="email" value={this.state.email} onChange={this.handleEmailInput} required disabled/><br/>
+                                <label htmlFor="psw"><b>Password</b></label>
+                                <input type="password" placeholder="Enter Password" onChange={this.handlePasswordInput} required /><br/> 
+                                <label htmlFor="psw"><b>Password</b></label>
+                                <input type="password" placeholder="Re-Enter Password" onChange={this.handlePasswordConfInput} required /><br/>
+                                <div className="form-buttoncontainer">
+                                    <button type="submit" className="btn btn-info">Update</button>
+                                </div>
+                                {this.state.loginFeedback && <Feedback message={this.state.loginFeedback} level="warn" />}
+
                             </div>
-                            {this.state.loginFeedback && <Feedback message={this.state.loginFeedback} level="warn" />}
-
-                        </div>
-                        
-
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </Fragment>
         )
