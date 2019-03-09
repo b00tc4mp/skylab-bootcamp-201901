@@ -28,7 +28,7 @@ class Login extends Component {
                 <hr />
 
                 <form onSubmit={handleFormSubmit}>
-                    <input type="text" name="email" onChange={handleEmailInput} placeholder="email" required />
+                    <input type="text" name="email" onChange={handleEmailInput} placeholder="email" autoComplete="off" required />
                     <input type="password" name="password" onChange={handlePasswordInput} placeholder="password" required />
                     <button>Login</button>
                 </form>

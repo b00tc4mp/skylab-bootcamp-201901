@@ -31,7 +31,7 @@ class ExerciseList extends Component {
         return (
             <main className="exercise-list">
                 <div className="course-header group">
-                    <h2>Courses</h2>
+                    <h2>Exercises</h2>
                     <p>{exercises.length} exercises</p>
                     <button onClick={handleNew}>New</button>
                 </div>

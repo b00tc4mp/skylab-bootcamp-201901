@@ -54,6 +54,16 @@
 .register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
+.exercise-form form {
+  display: flex;
+  flex-direction: column; }
+  .exercise-form form label {
+    margin-top: 2em;
+    font-size: 24px;
+    text-transform: uppercase; }
+  .exercise-form form button {
+    margin-top: 10px; }
+
 .register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
