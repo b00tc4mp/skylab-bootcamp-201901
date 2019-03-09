@@ -1,7 +1,7 @@
 'use sctric';
 
 const httpStatus = require('http-status');
-const { User } = require('triviapp-data');
+const { User } = require('../models/user.model');
 const auth = require('../logic/auth');
 const { jwtExpirationInterval } = require('../../config/vars');
 const { handleResponseError } = require('../routes/routes-helper');

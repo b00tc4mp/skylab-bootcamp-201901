@@ -71,7 +71,9 @@ function Overview(props) {
 					<h1 className="login__title">Description</h1>
 				</header>
 				<section className="content-quiz">
-					<figure className="content-quiz__figure" />
+					<figure className="content-quiz__figure">
+						<img className="content-quiz__image" src={currentQuiz.picture} alt="" />
+					</figure>
 					<div className="content-quiz__info">
 						<h1 className="content-quiz__title">{currentQuiz.title}</h1>
 						<p className="content-quiz__description">

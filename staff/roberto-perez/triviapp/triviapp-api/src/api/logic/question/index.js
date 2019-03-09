@@ -1,4 +1,5 @@
-const { Quiz, Question } = require('triviapp-data');
+const { Quiz } = require('../../models/quiz.model');
+const { Question } = require('../../models/question.model');
 const validate = require('../../utils/validate');
 const { AlreadyExistsError, UnauthorizedError } = require('../../errors');
 

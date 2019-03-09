@@ -2,7 +2,20 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faHeart, faSearch, faCheck, faTimes, faCog, faSignOutAlt, faTrashAlt, faPen, faPlus, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+	faHeart,
+	faSearch,
+	faCheck,
+	faTimes,
+	faCog,
+	faSignOutAlt,
+	faTrashAlt,
+	faPen,
+	faPlus,
+	faTachometerAlt,
+	faDownload,
+	faPlayCircle
+} from '@fortawesome/free-solid-svg-icons';
 
 import Header from '../Header';
 import Aside from '../Aside';
@@ -14,7 +27,20 @@ import Home from '../Home';
 import Quiz from '../Quiz';
 import Dashboard from '../Dashboard';
 
-library.add(faHeart, faSearch, faCheck, faTimes, faCog, faSignOutAlt, faTrashAlt, faPen, faPlus, faTachometerAlt);
+library.add(
+	faHeart,
+	faSearch,
+	faCheck,
+	faTimes,
+	faCog,
+	faSignOutAlt,
+	faTrashAlt,
+	faPen,
+	faPlus,
+	faTachometerAlt,
+	faDownload,
+	faPlayCircle
+);
 
 class App extends Component {
 	render() {

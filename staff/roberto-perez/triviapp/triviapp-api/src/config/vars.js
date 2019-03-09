@@ -1,3 +1,5 @@
+const path = require('path');
+
 // import .env variables
 require('dotenv').load();
 

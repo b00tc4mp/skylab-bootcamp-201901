@@ -1,7 +1,6 @@
-const { Quiz } = require('triviapp-data');
+const { Quiz } = require('../../models/quiz.model');
 const validate = require('../../utils/validate');
 const { AlreadyExistsError, UnauthorizedError } = require('../../errors');
-const cloudinary = require('cloudinary');
 const { cloudName, apiKey, apiSecret } = require('../../../config/vars');
 
 /**

@@ -5,7 +5,8 @@ const mongoose = require('../../../config/mongoose');
 const { MongooseError } = mongoose;
 const httpStatus = require('http-status');
 const expect = require('expect');
-const { User, Quiz } = require('triviapp-data');
+const { Quiz } = require('../../models/quiz.model');
+const { User } = require('../../models/user.model');
 const quiz = require('.');
 const { AlreadyExistsError, UnauthorizedError, NotFoundError } = require('../../errors');
 

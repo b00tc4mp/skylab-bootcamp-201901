@@ -1,7 +1,8 @@
 'use sctric';
 
 const httpStatus = require('http-status');
-const { Quiz, Question } = require('triviapp-data');
+const { Question } = require('../models/question.model');
+const { Quiz } = require('../models/quiz.model');
 const question = require('../logic/question');
 const { handleResponseError } = require('../routes/routes-helper');
 const { UnauthorizedError } = require('../errors');
