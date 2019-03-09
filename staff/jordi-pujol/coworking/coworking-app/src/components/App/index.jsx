@@ -25,14 +25,12 @@ class App extends Component {
             return logic.logInUser(email, password)
                 .then(() => logic.verifyNewUserLink(link))
                 .then(workspaceId => logic.addUserToWorkspace(workspaceId))
-                .then(()=> console.log('SIIIIII'))
                 .then(() => this.props.history.push('/home/inbox'))
                 .catch((error) => console.log(error)) //print it
         }
         else {
             logic.logInUser(email, password)
                 .then(() => this.props.history.push('/home/inbox'))
-                .then(()=> console.log('NOOOOOOO'))
                 .catch((error) => console.log(error)) //print it
         }
     }

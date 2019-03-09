@@ -89,16 +89,15 @@ const logic = {
         this.__coworkingApiToken__ = null
     },
     retrieveUser() {
-        return coworkingApi.retrieveUser(this.__userApiToken__)
-            .then(({ id, name, surname, email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
-                id,
-                name,
-                surname,
-                email,
-                favoriteArtists,
-                favoriteAlbums,
-                favoriteTracks
-            }))
+        return coworkingApi.retrieveUser(this.__coworkingApiToken__)
+            // .then(({ isAdmin, name, surname, email, workspace, id }) => ({
+            //     isAdmin,
+            //     name,
+            //     surname,
+            //     email,
+            //     workspace,
+            //     id
+            // }))
     },
 
     removeUser(email, password) {
@@ -122,10 +121,21 @@ const logic = {
     addUserToWorkspace(workspaceId){
 
         return coworkingApi.addUserToWorkspace(this.__coworkingApiToken__, workspaceId)
+    },  
+
+    createService(title, description){
+        
+        return coworkingApi.createService(this.__coworkingApiToken__, title, description)
     },
 
-    createService(){
-        
+    retrieveWorkspaceServices(workspaceId){
+
+        return coworkingApi.retrieveWorkspaceServices(this.__coworkingApiToken__, workspaceId)
+    },
+
+    retrieveService(serviceId){
+
+        return coworkingApi.retrieveService(this.__coworkingApiToken__, serviceId)
     }
 
     // TODO updateUser and removeUser
