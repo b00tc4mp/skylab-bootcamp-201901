@@ -15,11 +15,13 @@ class MapContainer extends Component {
       };
 
       componentDidMount() {
-        const { state: { markers } } = this
-
-
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => this.setState({ markers: [{ position: { lat: position.coords.latitude, lng: position.coords.longitude }}] }), (err) => console.warn('ERROR(' + err.code + '): ' + err.message),
+          navigator.geolocation.getCurrentPosition((position) => 
+           {
+              this.setState({ markers: [{ position: { lat: position.coords.latitude, lng: position.coords.longitude }}] }, 
+              this.props.retrieveInitialPosition(position.coords.latitude, position.coords.longitude))
+           }  
+              , (err) => console.warn('ERROR(' + err.code + '): ' + err.message),
           {
               timeout: 5000,
               enableHighAccuracy: true, 
@@ -44,7 +46,6 @@ class MapContainer extends Component {
     
       render() {
         const { state: { markers } } = this
-        console.log(markers[0].position.lat, markers[0].position.lng)
         let showMap = markers[0].position.lat && markers[0].position.lng
         return (<Fragment>
 

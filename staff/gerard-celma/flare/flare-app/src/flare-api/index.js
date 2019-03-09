@@ -105,6 +105,37 @@ const flareApi = {
 
                 return response
             })
+    },
+
+    retrieveMessages(token) {
+        return fetch(`${this.url}/message/received`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    messageRead(token, msgId) {
+        return fetch(`${this.url}/message/read`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ msgId })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
     }
 }
 

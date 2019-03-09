@@ -79,9 +79,13 @@ const logic = {
     },
 
     createMessage(userIdTo, launchDate, position, text) {
+        let actualDate = new Date().toJSON().slice(0, 10)
+
         if (typeof userIdTo !== 'string') throw TypeError(userIdTo + ' is not a string')
 
-        if (!userIdTo.trim().length) throw Error('name cannot be empty')
+        if (!userIdTo.trim().length) throw Error('Select user in order to send message')
+
+        if (launchDate < actualDate) throw Error('You cannot select a past date')
 
         // TODO validate launchDate, position, text
 
@@ -89,7 +93,15 @@ const logic = {
             .then(message => message)
     },
 
-    retrieveMessages()
+    retrieveMessages() {
+        return flareApi.retrieveMessages(this.__userApiToken__)
+            .then((messages) => messages)
+    },
+
+    messageRead(msgId) {
+        return flareApi.messageRead(this.__userApiToken__, msgId)
+        .then((messages) => messages)
+    }
 }
 
 export default logic

@@ -14,6 +14,10 @@ Object.defineProperties(logic, {
 
         get() {
             return sessionStorage.getItem('__userApiToken__')
+        },
+
+        delete() {
+            sessionStorage.removeItem('__userApiToken__')
         }
     }
 })

@@ -22,6 +22,7 @@ const Message = new Schema({
 
     launchDate: {
         type: Date,
+        required: true,
         default: Date.now
     },
 

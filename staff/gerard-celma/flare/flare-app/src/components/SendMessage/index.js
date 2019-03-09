@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { withRouter, Link} from 'react-router-dom'
 import MapContainer from '../MapContainer'
 import Feedback from '../Feedback'
@@ -19,6 +19,10 @@ class SendMessage extends Component {
 
     handleInput = event => this.setState({[event.target.name] : event.target.value})
 
+    handleInitialPosition = (lat,lng) => {
+        this.setState({ selectedLat: lat, selectedLng: lng  })
+    }
+
     handlePosition = (lat,lng) => {
         this.setState({ selectedLat: lat, selectedLng: lng  })
     }
@@ -38,22 +42,22 @@ class SendMessage extends Component {
     }
 
     render() {
-        const { handleFormSubmit, handleInput, handlePosition, state: { users, feedback } } = this
+        const { handleFormSubmit, handleInput, handlePosition, handleInitialPosition, state: { users, feedback, selectedLat, selectedLng } } = this
 
         return <section className="sendMessage">
             <p>hola</p>
             {feedback && <Feedback message={ feedback } />}
             <form onSubmit={ handleFormSubmit }>
-            <select name="userIdTo" onChange={ handleInput }>
+            <select name="userIdTo" onChange={ handleInput } >
                 <option>Select user</option>
                 {users && users.map(({ id, name, surname }) => <option value={id}>{`${name} ${surname} `}</option>)}
             </select>
                 <textarea name="text" placeholder="Text" onChange={ handleInput } required />
-                <input type="date" name="launchDate" placeholder="Launch Date" onChange={ handleInput } />
+                <input type="date" name="launchDate" placeholder="Launch Date" onChange={ handleInput } required />
                 <button>Submit</button>    
             </form>
             <Link to="/home">Back home</Link>
-            <MapContainer retrievePosition={handlePosition}/>
+            <MapContainer retrievePosition={handlePosition} retrieveInitialPosition={handleInitialPosition}/>
         </section>
     }
 }
