@@ -8,6 +8,7 @@ import CreateBook from '../CreateBook';
 import YourBooks from '../YourBooks'
 import Books from '../Books';
 import EditBook from '../EditBook'
+import TemplateBooks from '../TemplateBooks'
 import { ToastContainer, toast } from 'react-toastify';
 import './index.sass'
 
@@ -34,6 +35,8 @@ class Home extends Component {
                 <SideBar logoutUser = {this.logoutUser}></SideBar>
                 <Route path="/home/newbook" component = {CreateBook} />
                 <Route exact path="/home/yourbooks" render={() => <YourBooks loadBook={this.loadBook} editBook={this.editBook}/> }/>
+                <Route path="/home/templatebooks" render={() => <TemplateBooks/>} />
+                <Route path="/home/templatebooks/:templateid" render={() => <TemplateBooks/>} />
                 <Route path="/home/profile" component = {UpdateUser} />
                 <Route path="/home/contact" component = {ContactForm} />
                 <Route path="/home/editbook/:bookid" render={(props) => <EditBook bookid={props.match.params.bookid}/>} />

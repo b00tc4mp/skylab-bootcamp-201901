@@ -222,13 +222,48 @@ const logic = {
             return book
         })()
 
+    },
+
+    /**
+     * Retrieves template boos
+     */
+    retrieveTemplateBooks(){
+
+        if(arguments.length !== 0) throw new Error ('Too many args')
+
+        return (async () => {
+            const books = await bookApi.retrieveTemplateBooks()
+            return books
+        })()
+    },
+    
+    /**
+     * Adds a book to template books by id
+     * @param {String} id 
+     */
+    addBookToTemplates(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+        return (async () => {
+            const book = await bookApi.addBookToTemplates(id)
+            return book
+        })()
+        
+    },
+
+    addTemplateToUserBooks(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+        return (async () => {
+            const book = await bookApi.addTemplateToUserBooks(id, this.getToken)
+            return book
+        })()
+        
     }
 
 
 
 
-
-    
 }
 
 

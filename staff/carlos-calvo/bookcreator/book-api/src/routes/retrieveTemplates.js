@@ -1,10 +1,8 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { userId } = req
-
     try {
-        logic.retrieveUser(userId)
+        logic.retrieveTemplates()
             // .then(user => res.json(user))
             .then(res.json.bind(res))
             .catch(({ message }) => {

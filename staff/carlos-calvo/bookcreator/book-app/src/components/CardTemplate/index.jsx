@@ -1,27 +1,19 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
+import logic from '../../logic';
 
 
-class CardBook extends Component {
+class CardTemplate extends Component {
 
-    loadBook = () => {
-        this.props.loadBook(this.props.bookSelected._id)
-    }
-
-    deleteBook = () =>{
-        this.props.deleteBook(this.props.bookSelected._id)
-    }
-
-    editBook = () =>{
-        this.props.editBook(this.props.bookSelected._id)
-    }
-
-    addBookToTemplates = () =>{
-        this.props.addBookToTemplates(this.props.bookSelected._id)
+    addTemplateToUserBooks = () =>{
+        try {
+            logic.addTemplateToUserBooks(this.props.bookSelected._id)
+        } catch (error) {
+            
+        }
     }
 
     render() {
-
         const book = this.props.bookSelected
         return (
             <Fragment>
@@ -48,9 +40,7 @@ class CardBook extends Component {
                         </div>
                         <div className="bookCard-buttonContainer">
                             <button onClick={this.loadBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
-                            <button onClick={this.editBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Edit Book"><i className="fas fa-edit"></i></button>
-                            <button onClick={this.deleteBook} className="btn btn-danger btn-deleteit" data-toggle="tooltip" data-placement="top" title="Delete Book"><i className="fas fa-trash-alt"></i></button>
-                            <button onClick={this.addBookToTemplates} className="btn btn-success btn-deleteit" data-toggle="tooltip" data-placement="top" title="Publish Book"><i class="fas fa-share"></i></button>
+                            <button onClick={this.addTemplateToUserBooks} className="btn btn-success btn-deleteit" data-toggle="tooltip" data-placement="top" title="Add to your books"><i class="fas fa-bookmark"></i></button>
                         </div>
                     </div>
                 </div>
@@ -58,4 +48,4 @@ class CardBook extends Component {
         )
     }
 }
-export default CardBook;
+export default CardTemplate;

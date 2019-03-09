@@ -28,7 +28,6 @@ const User = new Schema({
         required: true
     }
 
-    //TODO Books from user
 })
 
 module.exports = User

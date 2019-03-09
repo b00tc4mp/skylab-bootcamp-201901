@@ -1,19 +1,19 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { userId } = req
+    const { body: {id} } = req
 
     try {
-        logic.retrieveUser(userId)
-            // .then(user => res.json(user))
-            .then(res.json.bind(res))
+        logic.addBookToTemplates(id)
+            .then(book => {
+                return res.json({ book })})
             .catch(({ message }) => {
-                res.status(400).json({
+                res.status(409).json({
                     error: message
                 })
             })
     } catch ({ message }) {
-        res.status(400).json({
+        res.status(409).json({
             error: message
         })
     }

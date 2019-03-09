@@ -145,6 +145,57 @@ const bookApi ={
         })
         .then(response => response.json())
 
+    },
+
+    /**
+     * Calls APi and retrieve all template books
+     */
+    retrieveTemplateBooks(){
+        if(arguments.length !== 0) throw new Error ('Too many args')
+
+        return fetch(`${this.url}/book/retrieveTemplates`, {
+            method: 'GET'
+        })
+        .then(books => books.json())
+    },
+
+
+    /**
+     * 
+     * Add a book to templates book
+     * @param {String} id 
+     */
+    addBookToTemplates(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+
+        return fetch(`${this.url}/book/addBookToTemplates`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        })
+        .then(response => response.json())
+
+    },
+
+
+    addTemplateToUserBooks (id, token){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token  is empty')
+
+        return fetch(`${this.url}/book/addTemplateToUserBooks`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        })
+        .then(response => response.json())
     }
 }
 

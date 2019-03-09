@@ -1,4 +1,5 @@
 module.exports = {
+    
     registerUser: require('./register-user'),
 
     authenticateUser: require('./authenticate-user'),
@@ -19,5 +20,11 @@ module.exports = {
 
     imageUpload: require('./upload-image'),
 
-    updateBook: require('./update-book')
+    updateBook: require('./update-book'),
+
+    addBookToTemplates: require('./addBookToTemplates'),
+
+    retrieveTemplates: require('./retrieveTemplates'),
+
+    addTemplateToUserBooks: require('./addTemplateToUserBooks')
 }

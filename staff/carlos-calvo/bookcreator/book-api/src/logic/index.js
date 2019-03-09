@@ -1,6 +1,6 @@
 'use strict'
 
-const { User, Book} = require('../models')
+const { User, Book, BookTemplate} = require('../models')
 const bcrypt = require('bcrypt')
 const ObjectID = require('mongodb').ObjectID
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('../errors')
@@ -301,12 +301,69 @@ const logic = {
             return book
         })()
 
-    }
+    },
 
-    // uploadImage(file, userId){
-    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-    //     if (!userId.trim().length) throw new EmptyError('userId  is empty')
-    // }
+    /**
+     * 
+     * Adds a book to templates from a book from a user by id of book
+     * 
+     * @param {String} id
+     * 
+     */
+
+    addBookToTemplates(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new EmptyError('id  is empty')
+        
+        return (async () => {
+
+            const result = await Book.findOne({'_id': ObjectID(id)})
+            if(!result) throw new Error('Book not existing')
+            console.log(result.title)
+            const book = await BookTemplate.create({title: result.title, content: result.content, 
+                coverphoto: result.coverphoto, parameters: result.parameters, images: result.images })
+            console.log(book)
+            return book
+        })()
+
+    },
+
+
+    retrieveTemplates(){
+        if(arguments.length !== 0) throw new Error('Too many args')
+
+        return (async () => {
+            const templateBooks = await BookTemplate.find({})
+            return templateBooks
+        })()
+    },
+
+
+    /**
+     * 
+     * Retrieve a Book from templates and add it to user books
+     * 
+     * @param {String} id 
+     * @param {String} userId
+     */
+    addTemplateToUserBooks(id, userId){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new EmptyError('id  is empty')
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new EmptyError('userId  is empty')
+
+        return (async () => {
+
+            const result = await BookTemplate.findOne({'_id': ObjectID(id)})
+            if(!result) throw new Error('Book not existing')
+            console.log(result)
+            const book = Book.create({'title': result.title, 'content': result.content, 
+                'coverphoto': result.coverphoto, 'parameters': result.parameters, 'images': result.images,
+                'userId': ObjectID(userId) })
+
+            return book
+        })()
+    }
 }
 
 module.exports = logic

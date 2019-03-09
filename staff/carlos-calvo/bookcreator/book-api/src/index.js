@@ -6,7 +6,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const tokenHelper = require('./token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
-const parseImageUpload = require('../src/middleware-cloudinary')
+// const parseImageUpload = require('../src/middleware-cloudinary')
 const package = require('../package.json')
 const cors = require('cors')
 
@@ -20,7 +20,10 @@ const { registerUser,
     deleteBook, 
     retrieveBook,
     imageUpload,
-    updateBook
+    updateBook,
+    addBookToTemplates,
+    retrieveTemplates,
+    addTemplateToUserBooks
  } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
@@ -59,6 +62,12 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/image/upload',  jsonBodyParser, imageUpload )
 
         router.post('/book/update',[jsonBodyParser, tokenVerifierMiddleware], updateBook)
+
+        router.post('/book/addBookToTemplates', jsonBodyParser, addBookToTemplates)
+
+        router.get('/book/retrieveTemplates', retrieveTemplates)
+
+        router.post('/book/addTemplateToUserBooks',[jsonBodyParser, tokenVerifierMiddleware] , addTemplateToUserBooks)
 
         app.use('/api', router)
 

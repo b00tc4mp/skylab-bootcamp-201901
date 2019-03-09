@@ -23,7 +23,6 @@ class YourBooks extends Component {
 
     notify = () => {
         toast("Default Notification !");
-        debugger
         toast.success("Success Notification !", {
           position: toast.POSITION.TOP_CENTER
         })
@@ -45,6 +44,15 @@ class YourBooks extends Component {
         this.props.editBook(bookid)
     }
 
+    addBookToTemplates = (id) =>{
+        try {
+            logic.addBookToTemplates(id)
+                .then((books) => {})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     componentDidMount(){
         this.retrieveYourBooks()
     }
@@ -57,7 +65,7 @@ class YourBooks extends Component {
                 <div className = "coverright">
                     <div className="row justify-content-center">
                         {books && books.map(book =>{
-                            return (<CardBook bookSelected={book} deleteBook = {this.deleteBook} editBook={this.editBook} loadBook = {this.props.loadBook} />)
+                            return (<CardBook bookSelected={book} deleteBook = {this.deleteBook} editBook={this.editBook} loadBook = {this.props.loadBook} addBookToTemplates={this.addBookToTemplates} />)
                             })}
                     </div>  
                 </div>
