@@ -1,8 +1,6 @@
 import padelcatApi from "../padelcat-api";
 
 const logic = {
-  TOKEN_KEY: "token",
-
   registerPlayer(
     name,
     surname,
@@ -47,12 +45,6 @@ const logic = {
 
     if (password !== passwordConfirm) throw Error("passwords do not match");
 
-    if (typeof preferedPosition !== "string")
-      throw TypeError(preferedPosition + " is not a string");
-
-    if (!preferedPosition.trim().length)
-      throw Error("preferedPosition cannot be empty");
-
     if (typeof link !== "string") throw TypeError(link + " is not a string");
 
     if (!link.trim().length) throw Error("link cannot be empty");
@@ -87,15 +79,23 @@ const logic = {
   //   new Promise(resolve => resolve({ token: "tokenKey" }));
   // },
   getStoredtoken() {
-    return sessionStorage.getItem(this.TOKEN_KEY);
+    const token = sessionStorage.getItem("tokenKey");
+    if (token) {
+      padelcatApi.setUptokenOnRequest(token);
+    }
+    return token;
   },
   storeToken(token) {
-    sessionStorage.setItem(this.TOKEN_KEY, token);
+    padelcatApi.setUptokenOnRequest(token);
+    sessionStorage.setItem("tokenKey", token);
   },
 
   retrieveMatches() {
-    const tokenprob = logic.getStoredtoken()
-    return padelcatApi.retrieveMatchesScrapping(tokenprob)
+    return padelcatApi.retrieveMatchesScrapping();
+  },
+
+  retrieveAvailabilityPlayers(matchId) {
+    return padelcatApi.retrieveMatchesScrapping(matchId, "tokenKey");
   }
 };
 

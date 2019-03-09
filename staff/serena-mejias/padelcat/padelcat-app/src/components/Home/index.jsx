@@ -9,40 +9,16 @@ export const Home = props => {
     if (!logic.getStoredtoken()) {
       props.history.push("/login");
     }
-    
     logic
-    .retrieveMatches()
-    .then(matches =>
-      setMatches(
-        matches.map(
-          ({
-            matchId,
-            date,
-            team1,
-            imageTeam1,
-            team2,
-            imageTeam2,
-            result,
-            location
-          }) => ({
-              matchId,
-              date,
-              team1,
-              imageTeam1,
-              team2,
-              imageTeam2,
-              result,
-              location
-            })
-          )
-        )
-      )
+      .retrieveMatches()
+      .then(matches => setMatches(matches))
       .catch(error => {
         throw Error(error);
       });
+    //logic.retrieveAvailabilityPlayers(matches.matchId)
   }, []);
   return (
-    <section style={styles.container}>
+    <section className={styles.container}>
       <ul>
         {matches &&
           matches.map(

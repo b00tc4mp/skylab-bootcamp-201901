@@ -1,7 +1,22 @@
-const padelcatApi = {
-  url: "http://localhost:8000/api",
+import axios from "axios";
 
-  registerPlayer(
+const padelcatApi = {
+  setUpDefaults: () => {
+    axios.defaults.baseURL = "http://localhost:8000/api";
+    axios.interceptors.response.use(
+      response => {
+        return response.data;
+      },
+      error => {
+        throw error;
+      }
+    );
+  },
+  setUptokenOnRequest: token => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  },
+
+  registerPlayer: (
     name,
     surname,
     email,
@@ -9,7 +24,7 @@ const padelcatApi = {
     passwordConfirm,
     preferedPosition,
     link
-  ) {
+  ) => {
     if (typeof name !== "string") throw TypeError(`${name} is not a string`);
     if (!name.trim().length) throw Error("name is empty");
 
@@ -29,10 +44,9 @@ const padelcatApi = {
     if (!passwordConfirm.trim().length)
       throw Error("password confirm is empty");
 
-    return fetch(`${this.url}/register`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
+    return axios.post(
+      "/register",
+      JSON.stringify({
         name,
         surname,
         email,
@@ -41,12 +55,7 @@ const padelcatApi = {
         preferedPosition,
         link
       })
-    })
-      .then(res => res.json())
-      .then(({ id, error }) => {
-        if (error) throw Error(error);
-        return id;
-      });
+    );
   },
 
   authenticatePlayer(email, password) {
@@ -57,37 +66,32 @@ const padelcatApi = {
       throw TypeError(`${password} is not a string`);
     if (!password.trim().length) throw Error("password is empty");
 
-    return fetch(`${this.url}/authenticate`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({ email, password })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response.error) throw Error(response.error);
-
-        return response.token;
-      });
+    return axios.post("/authenticate", JSON.stringify({ email, password }), {
+      headers: { "content-type": "application/json" }
+    });
   },
 
-  retrieveMatchesScrapping(token) {
-    return fetch(`${this.url}/retrieveMatches`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${token}`,
-        "content-type": "application/json"
-      }
-      //body: JSON.stringify({ email, password })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response.error) throw Error(response.error);
-
-        return response;
-      });
+  retrieveMatchesScrapping: () => {
+    return axios.get("/retrieveMatches");
   }
+
+  // retrieveAvailabilityPlayers(matchId, token) {
+  //   return fetch(`${this.url}/retrieveAvailabilityPlayers`, {
+  //     method: "GET",
+  //     headers: {
+  //       authorization: `Bearer ${token}`,
+  //       "content-type": "application/json"
+  //     },
+  //     body: JSON.stringify({ matchId })
+  //   })
+  //   .then(response => response.json())
+  //   .then(response => {
+  //     debugger
+  //     if (response.error) throw Error(response.error);
+
+  //       return response;
+  //     });
+  // }
 };
 
 export default padelcatApi;

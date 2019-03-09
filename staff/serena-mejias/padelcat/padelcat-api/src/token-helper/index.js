@@ -29,7 +29,7 @@ const tokenHelper = {
 
       req.playerId = playerId;
     } catch ({ message }) {
-      return res.status(401).json({ error: message });
+      return res.status(401).json(error);
     }
 
     next();

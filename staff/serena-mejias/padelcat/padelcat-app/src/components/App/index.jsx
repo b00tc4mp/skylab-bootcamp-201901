@@ -7,14 +7,15 @@ import Login from "../Login";
 import RegisterPlayer from "../RegisterPlayer";
 import { Header } from "../Header/Header";
 import Grid from "@material-ui/core/Grid";
+import { log } from "util";
 
 class App extends Component {
   handleLogin = (email, password) => {
     try {
       logic
         .loginPlayer(email, password)
-        .then(token => {
-          logic.storeToken(token);
+        .then(response => {
+          logic.storeToken(response.token);
           this.props.history.push("/home");
         })
         .catch(error => {
@@ -66,7 +67,11 @@ class App extends Component {
           />
           <Route path="/login" render={() => <Login onLogin={handleLogin} />} />
           <Route path="/home" component={Home} />
-          <Route path="/" render={() => <Redirect to={{ pathname: "/home" }} />} />
+          <Route
+            exact
+            path="/"
+            render={() => <Redirect to={{ pathname: "/home" }} />}
+          />
         </Grid>
       </main>
     );

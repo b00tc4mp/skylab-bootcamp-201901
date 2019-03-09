@@ -50,11 +50,6 @@ const logic = {
     if (typeof link !== "string") throw TypeError(`${link} is not string`);
     if (!link.trim().length) throw Error("link cannot be empty");
 
-    if (typeof preferedPosition !== "string")
-      throw TypeError(`${preferedPosition} is not string`);
-    if (!preferedPosition.trim().length)
-      throw Error("preferedPosition cannot be empty");
-
     return (async () => {
       const player = await Player.findOne({ email });
 

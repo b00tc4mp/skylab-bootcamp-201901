@@ -19,6 +19,7 @@ router.get("/retrieveScore", retrieveScoreData);
 router.put("/addScore", [jsonBodyParser, tokenVerifierMiddleware], addScoreToPlayer);
 router.get("/retrieveMatches", [jsonBodyParser, tokenVerifierMiddleware], retrieveMatchesScrapping);
 router.put("/setIdMatches", [jsonBodyParser, tokenVerifierMiddleware], setIdMatches);
-router.post("/retrieveAvailabilityPlayers", jsonBodyParser, retrieveAvailabilityPlayers);
+debugger
+router.get("/retrieveAvailabilityPlayers", jsonBodyParser, retrieveAvailabilityPlayers);
 
 module.exports = router;
