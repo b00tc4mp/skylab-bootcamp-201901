@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 
-const { registerUser, registerPet, authenticateUser, retrieveUsers, retrieveUser, retrievePet, retrievePets, updateUser, updatePet, retrievePetVisit,updateVisit, notFound } = require('./handlers')
+const { registerUser, registerPet,assignAppointment, authenticateUser, retrieveUsers, retrieveUser, retrievePet, retrievePets, retrieveAppointments,updateUser, updatePet, retrievePetVisit,updateVisit, notFound } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 
@@ -16,12 +16,14 @@ router.use(cors)
 router.post('/user', jsonBodyParser, registerUser)
 
 router.post('/pet', jsonBodyParser, registerPet)
+router.post('/appointment', jsonBodyParser, assignAppointment)
 
 router.post('/user/auth', jsonBodyParser, authenticateUser)
 
 router.get('/users', tokenVerifierMiddleware, retrieveUsers)
 
 router.get('/pets/:ownerId', tokenVerifierMiddleware, retrievePets)
+router.get('/appointments/:petsId', tokenVerifierMiddleware, retrieveAppointments)
 
 router.get('/user/:userId', tokenVerifierMiddleware, retrieveUser)
 

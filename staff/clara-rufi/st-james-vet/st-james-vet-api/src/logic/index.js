@@ -189,6 +189,17 @@ const logic = {
         })()
     },
 
+
+    assignAppointment(owner, pet, year, month, day, hour) {
+        return (async () => {
+           
+            const appointment = new Appointment ({owner, pet, year, month, day, hour})
+    
+            await appointment.save()
+            
+          })()
+    },
+    
      /**
      * Retrieve an user by its credentials.
      * 
@@ -239,6 +250,21 @@ const logic = {
         })
 
         return users
+    },
+
+    async retrieveAppointments() { 
+        debugger
+        const _users = await Appointment.find({})
+
+        const appointments = _appointments.map(appointment => {
+            return {
+                name: appointment.name,
+                day: appointment.day,
+                hour: appointment.hour               
+            }
+        })
+
+        return appointments
     },
 
     /**
