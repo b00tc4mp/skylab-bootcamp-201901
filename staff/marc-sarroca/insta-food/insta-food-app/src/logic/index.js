@@ -52,36 +52,35 @@ const logic = {
    * @param {string} email
    * @param {string} password
    */
-  logInUser(email, password) {
-    if (typeof email !== "string") throw TypeError(email + " is not a string");
+  // logInUser(email, password) {
+  //   if (typeof email !== "string") throw TypeError(email + " is not a string");
 
-    if (!email.trim().length) throw Error("email cannot be empty");
+  //   if (!email.trim().length) throw Error("email cannot be empty");
 
-    if (typeof password !== "string")
-      throw TypeError(password + " is not a string");
+  //   if (typeof password !== "string")
+  //     throw TypeError(password + " is not a string");
 
-    if (!password.trim().length) throw Error("password cannot be empty");
+  //   if (!password.trim().length) throw Error("password cannot be empty");
 
-    return instaApi.authenticateUser(email, password).then(({ id, token }) => {
-      this.__userId__ = id;
-      this.__userApiToken__ = token;
-    });
-  },
-
+  //   return instaApi.authenticateUser(email, password).then(({ id, token }) => {
+  //     this.__userId__ = id;
+  //     this.__userApiToken__ = token;
+  //   });
+  //
   /**
    * Checks user is logged in.
    */
-  get isUserLoggedIn() {
-    return !!this.__userId__;
-  },
+  // get isUserLoggedIn() {
+  //   return !!this.__userId__;
+  // },
 
   /**
    * Logs out the user.
    */
-  logOutUser() {
-    this.__userId__ = null;
-    this.__userApiToken__ = null;
-  },
+  // logOutUser() {
+  //   this.__userId__ = null;
+  //   this.__userApiToken__ = null;
+  // },
 
   retrieveUser() {
     return instaApi
@@ -93,6 +92,11 @@ const logic = {
         email,
         favorites
       }));
+  },
+
+  retrieveAllPosts(token) {
+    console.log(token);
+    return instaApi.retrieveAllPosts(token);
   }
 };
 

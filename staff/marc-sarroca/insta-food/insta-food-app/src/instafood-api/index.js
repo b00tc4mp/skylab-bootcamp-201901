@@ -108,14 +108,11 @@ const instaApi = {
 
   retrieveAllPosts(token) {
     return fetch(`${this.url}/posts`, {
-      method: "POST",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${token}`
       }
-    })
-      .then(response => response.json())
-      .then(post => post);
+    }).then(response => response.json());
   },
 
   retrievePostsByUser(id, token) {
