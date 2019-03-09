@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 
 import Feedback from '../Feedback'
+import AnswerForm from '../AnswerForm'
 
 import logic from '../../logic'
 
 class ExerciseForm extends Component {
-    state = { title: '', summary: '', test: '', id: '', order: 0, editFeedback: null, pageTitle: 'New exercise' }
+    state = { title: '', summary: '', test: '', answer: '', id: '', order: 0, feedback: '', pageTitle: 'New exercise' }
 
     componentDidMount() {
         if (this.props.id) {
@@ -30,6 +31,8 @@ class ExerciseForm extends Component {
 
     handleTestInput = event => this.setState({ test: event.target.value })
 
+    handleAnswerInput = event => this.setState({ answer: event.target.value })
+
     handleFormSubmit = event => {
         event.preventDefault()
         if (this.props.id)
@@ -41,40 +44,62 @@ class ExerciseForm extends Component {
         try {
             const { title, summary, test, id, order } = this.state
             logic.updateExercise({ title, summary, test, id, order })
-                .then(message => this.setState({ editFeedback: message }))
+                .then(message => this.setState({ feedback: message }))
         } catch ({ message }) {
-            this.setState({ editFeedback: message })
+            this.setState({ feedback: message })
         }
     }
 
     handleNew = () => {
         try {
-            const { state: { title, summary, test, id, order }, props: {onNew} } = this
+            const { state: { title, summary, test, id, order }, props: { onNew } } = this
             logic.newExercise({ title, summary, test, id, order })
                 .then(message => {
                     onNew(message)
                 })
-                .catch(({ message }) => this.setState({ editFeedback: message }))
+                .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
-            this.setState({ editFeedback: message })
+            this.setState({ feedback: message })
         }
     }
 
+    handleTestSubmit = event => {
+        event.preventDefault()
+        const { state: { answer, id: exerciseId } } = this
+
+        logic.checkCode(answer, exerciseId)
+            .then(result => {
+                this.setState({ feedback: 'Ok!' })
+            })
+            .catch(error => {
+                this.setState({ feedback: error.message })
+            })
+    }
+
     render() {
-        const { state: { pageTitle, title, summary, test, editFeedback }, handleFormSubmit, handleTitleInput, handleSummaryInput, handleTestInput } = this
+        const { state: { pageTitle, title, summary, test, answer, feedback },
+            handleTestSubmit, handleFormSubmit, handleTitleInput, handleSummaryInput, handleTestInput, handleAnswerInput } = this
 
         return (
             <section className="exercise-form">
-                <div class="course-header group">
+                <div className="course-header group">
                     <h2>{pageTitle}</h2>
-                    {editFeedback && <Feedback message={editFeedback} />}
+                    {feedback && <Feedback message={feedback} />}
                 </div>
                 <form onSubmit={handleFormSubmit}>
-                    <input type="text" name="title" onChange={handleTitleInput} value={title} required />
-                    <textarea type="text" name="summary" onChange={handleSummaryInput} value={summary} required />
-                    <textarea type="text" name="test" onChange={handleTestInput} value={test} required />
+                    <label htmlFor="title">Title</label>
+                    <input id="title" type="text" name="title" onChange={handleTitleInput} value={title} required />
+
+                    <label htmlFor="summary">Summary</label>
+                    <textarea id="summary" type="text" name="summary" onChange={handleSummaryInput} value={summary} required />
+
+                    <label htmlFor="test">Test</label>
+                    <textarea id="test" type="text" name="test" onChange={handleTestInput} value={test} required />
+
                     <button type="submit">Save</button>
                 </form>
+
+                <AnswerForm manageChange={handleAnswerInput} manageSubmit={handleTestSubmit} previousAnswer={answer} />
             </section>
         )
     }
