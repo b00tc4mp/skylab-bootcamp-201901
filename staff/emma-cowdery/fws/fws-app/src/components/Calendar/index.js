@@ -1,36 +1,41 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import './index.sass'
 import moment from 'moment'
+import dateFns from 'date-fns' 
 
 export default function Calendar () {
-    const m = moment('2020-02')
+    const [currentMonth, setCurrentMonth] = useState()
+    const [selectedDate, setSelectedDate] = useState()
+
+    const dateFromat = 'MMMM YYYY'
+    const dateFormat = 'dddd'
+    const days = []
+
+    var startDate = dateFns.startOfWeek(currentMonth)
+
+    const monthStart = dateFns.startOfMonth(currentMonth);
+    const monthEnd = dateFns.endOfMonth(monthStart);
+    const startDate = dateFns.startOfWeek(monthStart);
+    const endDate = dateFns.endOfWeek(monthEnd);
+
     return (
         <Fragment>
-            <h2>{m.format('MMM')}</h2>
+            <div>
+                <div className='header'>
+                    <button onClick={e => {e.preventDefault(); setCurrentMonth(dateFns.addMonths(currentMonth, 1))}}>left</button>
+                    <span>
+                        {dateFns.format(currentMonth, dateFromat)}
+                    </span>
+                    <button onClick={e => {e.preventDefault(); setCurrentMonth(dateFns.subMonths(currentMonth, 1))}}>right</button>
+                </div>
+            </div>
             {
                 (() => {
-                    const days = []
-
-                    const weeks = Math.ceil((m.day() + m.daysInMonth()) / 7)
-
-                    let paint = false
-                    let count = 1
-
-                    for (let w = 0; w < weeks; w++) {
-                        for (let d = 0; d < 7; d++) {
-                            if (d === m.day()) paint = true
-
-                            const mNow = moment(`2019-03-${count}`)
-
-                            if (paint && count <= m.daysInMonth()) {
-                                days.push(<div className="current-month-day" key={count}>{`${mNow.format('dddd')} ${count++}`}</div>)
-                            } else
-                                days.push(<div className="day" key={`${w}-${d}`}></div>)
-                        }
+                    for (var i = 0; i < 7; i++) {
+                        days.push(<div key={i}>{dateFns.format(dateFns.addDays(startDate, i), dateFormat)}</div>)
                     }
-
-                    return days
-                })()
+                    return <div className='days'>{days}</div>
+                })
             }
         </Fragment>
     )
