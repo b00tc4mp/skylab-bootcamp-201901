@@ -7,7 +7,7 @@ const { User, Exercise } = require('../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const testing = require('../testing')
-const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError, PrivilegeError, CodeError } = require('../errors')
+const { AuthError, DuplicateError, MatchingError, NotFoundError, PrivilegeError } = require('startlab-errors')
 
 /**
  * Abstraction of business logic.
@@ -61,8 +61,6 @@ const logic = {
                 return bcrypt.compare(password, user.password)
                     .then(match => {
                         if (!match) throw new AuthError('wrong credentials')
-
-                        // return user.id
                         return user
                     })
             })
@@ -83,13 +81,13 @@ const logic = {
             })
     },
 
-    isAdmin(userId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
-        debugger
-        return User.findById(userId).select('isAdmin').lean()
-            .then(({ isAdmin }) => isAdmin)
-    },
+    // isAdmin(userId) { // lo comentamos a día 9 de marzo ya que por ahora no se hace uso de él
+    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+    //     if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
+    //     debugger
+    //     return User.findById(userId).select('isAdmin').lean()
+    //         .then(({ isAdmin }) => isAdmin)
+    // },
 
     /********************/
     /** CRUD exercise ***/
@@ -115,7 +113,6 @@ const logic = {
 
                 return Exercise.create({ title, summary, test })
                     .then(({ id }) => {
-                        debugger
                         return { message: `exercise with id ${id} created` }
                     })
             })
