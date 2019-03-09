@@ -759,7 +759,7 @@ describe('logic', () => {
                 })
         )
 
-        it('should remove fav', () =>
+        it('should return false sold', () =>
             User.findById(userId)
                 .then(user => {
                     return logic.toogleSold(user.id, _id)

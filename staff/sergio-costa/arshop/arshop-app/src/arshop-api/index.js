@@ -208,6 +208,67 @@ const arshopApi = {
 
                 return response
             })
+    },
+
+    toogleFav(token, productId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        return fetch(`${this.url}/fav/product/${productId}`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveFavs(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/fav/user`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    searchProducts(q, qcategory, qcity) {
+        if (q !== undefined || null) {
+            if (typeof q !== 'string') throw TypeError(`${q} is not a string`)
+            if (!q.trim().length) throw Error('query cannot be empty')
+        }
+        if (qcategory !== undefined ||null) {
+            if (typeof qcategory !== 'string') throw TypeError(`${qcategory} is not a string`)
+            if (!qcategory.trim().length) throw Error('category cannot be empty')
+        }
+        if (qcity !== undefined || null) {
+            if (typeof qcity !== 'string') throw TypeError(`${qcity} is not a string`)
+            if (!qcity.trim().length) throw Error('city cannot be empty')
+        }
+
+        return fetch(`${this.url}/search?q=${q}`)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
     }
 }
 

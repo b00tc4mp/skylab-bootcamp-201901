@@ -604,58 +604,60 @@ describe('arshop api', () => {
     //#endregion
 
     //#region RETRIEVE ALL PRODUCTS
-    const product = {
-        tittle: 'coche',
-        description: 'bueno, bonito, barato',
-        price: 20000,
-        category: 'vehicle',
-        city: 'Barcelona'
-    }
+    describe('retrieve all products', () => {
+        const product = {
+            tittle: 'coche',
+            description: 'bueno, bonito, barato',
+            price: 20000,
+            category: 'vehicle',
+            city: 'Barcelona'
+        }
 
-    const product2 = {
-        tittle: 'barco',
-        description: 'bueno, bonito, barato',
-        price: 9999,
-        category: 'vehicle',
-        city: 'Madrid'
-    }
+        const product2 = {
+            tittle: 'barco',
+            description: 'bueno, bonito, barato',
+            price: 9999,
+            category: 'vehicle',
+            city: 'Madrid'
+        }
 
-    beforeEach(() => {
-        return Product.create(product)
-            .then(() =>
-                Product.create(product2)
-            )
-    })
-
-    it('should retireve all products', () =>
-        arshopApi.retrieveProducts()
-            .then(products => {
-                expect(products).toBeDefined()
-                expect(products[0].tittle).toBe(product.tittle)
-                expect(products[0].description).toBe(product.description)
-                expect(products[0].price).toBe(product.price)
-                expect(products[0].category).toBe(product.category)
-                expect(products[0].city).toBe(product.city)
-
-                expect(products[1].tittle).toBe(product2.tittle)
-                expect(products[1].description).toBe(product2.description)
-                expect(products[1].price).toBe(product2.price)
-                expect(products[1].category).toBe(product2.category)
-                expect(products[1].city).toBe(product2.city)
-            })
-    )
-
-    describe('not finding products', () => {
-        it('should not find products', () =>
-            Product.deleteMany()
+        beforeEach(() => {
+            return Product.create(product)
                 .then(() =>
-                    arshopApi.retrieveProducts()
-                        .then((arr) => {
-                            expect(arr).toBeDefined()
-                            expect(arr.length).toBe(0)
-                        })
+                    Product.create(product2)
                 )
+        })
+
+        it('should retireve all products', () =>
+            arshopApi.retrieveProducts()
+                .then(products => {
+                    expect(products).toBeDefined()
+                    expect(products[0].tittle).toBe(product.tittle)
+                    expect(products[0].description).toBe(product.description)
+                    expect(products[0].price).toBe(product.price)
+                    expect(products[0].category).toBe(product.category)
+                    expect(products[0].city).toBe(product.city)
+
+                    expect(products[1].tittle).toBe(product2.tittle)
+                    expect(products[1].description).toBe(product2.description)
+                    expect(products[1].price).toBe(product2.price)
+                    expect(products[1].category).toBe(product2.category)
+                    expect(products[1].city).toBe(product2.city)
+                })
         )
+
+        describe('not finding products', () => {
+            it('should not find products', () =>
+                Product.deleteMany()
+                    .then(() =>
+                        arshopApi.retrieveProducts()
+                            .then((arr) => {
+                                expect(arr).toBeDefined()
+                                expect(arr.length).toBe(0)
+                            })
+                    )
+            )
+        })
     })
     //#endregion
 
@@ -762,7 +764,7 @@ describe('arshop api', () => {
     //#endregion
 
     //#region UPDATE PRODUCT
-    false && describe('update products', () => {
+    describe('update products', () => {
         let name = 'sergio'
         let surname = 'costa'
         let email = `sergiocosta-${Math.random()}@mail.com`
@@ -855,7 +857,7 @@ describe('arshop api', () => {
                     arshopApi.updateProduct(token, [], data)
                 } catch (err) {
                     expect(err).toBeDefined()
-                    expect(err.message).toBe([] + ' is not an object')
+                    expect(err.message).toBe([] + ' is not a string')
                 }
             })
             it('should fail on number instead object', () => {
@@ -864,7 +866,7 @@ describe('arshop api', () => {
                     arshopApi.updateProduct(token, 123, data)
                 } catch (err) {
                     expect(err).toBeDefined()
-                    expect(err.message).toBe(123 + ' is not an object')
+                    expect(err.message).toBe(123 + ' is not a string')
                 }
             })
             it('should fail on empty instead object', () => {
@@ -873,15 +875,44 @@ describe('arshop api', () => {
                     arshopApi.updateProduct(token, '', data)
                 } catch (err) {
                     expect(err).toBeDefined()
-                    expect(err.message).toBe('product should be defined')
+                    expect(err.message).toBe('productId cannot be empty')
+                }
+            })
+        })
+        describe('incorrect type data', () => {
+            it('should fail on array instead object', () => {
+                const data = { name: 'yo' }
+                try {
+                    arshopApi.updateProduct(token, _id, [])
+                } catch (err) {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe([] + ' is not an object')
+                }
+            })
+            it('should fail on number instead object', () => {
+                const data = { name: 'yo' }
+                try {
+                    arshopApi.updateProduct(token, _id, 123)
+                } catch (err) {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(123 + ' is not an object')
+                }
+            })
+            it('should fail on empty instead object', () => {
+                const data = { name: 'yo' }
+                try {
+                    arshopApi.updateProduct(token, _id, '')
+                } catch (err) {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(' is not an object')
                 }
             })
         })
     })
     //#endregion
 
-    //#region TOOGLE SOLD
-    false && describe('toogle sold', () => {
+    //#region TOOGLE SOLD (validate token and _id in case)
+    describe('toogle sold', () => {
         let name = 'sergio'
         let surname = 'costa'
         let email = `sergiocosta-${Math.random()}@mail.com`
@@ -898,13 +929,13 @@ describe('arshop api', () => {
             sold: false
         }
 
-        beforeEach(() => 
+        beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
                 .then(() => arshopApi.authenticateUser(email, password))
                 .then(_token => token = _token)
                 .then(() => arshopApi.createProduct(token, product))
-                .then(__id => _id = __id)
+                .then(({ id }) => _id = id)
         )
 
         it('should succed on correct credentials', () =>
@@ -917,23 +948,155 @@ describe('arshop api', () => {
                 )
         )
 
-        // it('should remove fav', () =>
-        //     User.findOne({ name: 'sergio' })
-        //         .then(user => {
-        //             return arshopApi.toogleSold(user.id, _id)
-        //                 .then((_product) => {
-        //                     expect(_product).toBeDefined()
-        //                     expect(_product.sold).toBe(true)
-        //                 })
-        //                 .then(() => {
-        //                     return arshopApi.toogleSold(token, _id)
-        //                         .then(__product => {
-        //                             expect(__product).toBeDefined()
-        //                             expect(__product.sold).toBe(false)
-        //                         })
-        //                 })
-        //         })
-        // )
+        it('should remove fav', () =>
+            arshopApi.toogleSold(token, _id)
+                .then(() => Product.findById(_id)
+                    .then(_product => {
+                        expect(_product).toBeDefined()
+                        expect(_product.sold).toBe(true)
+                    })
+                )
+                .then(() => arshopApi.toogleSold(token, _id))
+                .then(() => Product.findById(_id))
+                .then(_product => {
+                    expect(_product).toBeDefined()
+                    expect(_product.sold).toBe(false)
+                })
+        )
+    })
+    //#endregion
+
+    //#region TOOGLE FAV (validate userId in case)
+    describe('toogleFav', () => {
+        let name = 'sergio'
+        let surname = 'costa'
+        let email = `sergiocosta-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+        let _id
+        let token
+
+        const product = {
+            tittle: 'coche',
+            description: 'bueno, bonito, barato',
+            price: 20000,
+            category: 'vehicle',
+            city: 'Barcelona'
+        }
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(() => arshopApi.authenticateUser(email, password))
+                .then(_token => token = _token)
+                .then(() => Product.create(product))
+                .then(({ id }) => _id = id)
+        )
+
+        it('should succed on correct credentials', () =>
+            arshopApi.toogleFav(token, _id)
+                .then(favproducts => {
+                    expect(favproducts).toBeDefined()
+                    expect(favproducts[0].toString()).toBe(_id)
+                    expect(favproducts.length).toBe(1)
+                })
+        )
+
+        it('should remove fav', () =>
+            arshopApi.toogleFav(token, _id)
+                .then(favproducts => {
+                    expect(favproducts.length).toBe(1)
+                })
+                .then(() => arshopApi.toogleFav(token, _id))
+                .then(_favproducts => {
+                    expect(_favproducts.length).toBe(0)
+                })
+        )
+    })
+    //#endregion
+
+    //#region RETRIEVE FAVS (validate userId in case)
+    describe('retrieve favs from user', () => {
+        let name = 'sergio'
+        let surname = 'costa'
+        let email = `sergiocosta-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+        let token
+        let _id
+
+        const product = {
+            tittle: 'coche',
+            description: 'bueno, bonito, barato',
+            price: 20000,
+            category: 'vehicle',
+            city: 'Barcelona'
+        }
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(() => arshopApi.authenticateUser(email, password))
+                .then(_token => token = _token)
+                .then(() => Product.create(product))
+                .then(({ id }) => _id = id)
+                .then(() => arshopApi.toogleFav(token, _id))
+        )
+
+        it('should retrieve all favs from a user', () =>
+            arshopApi.retrieveFavs(token)
+                .then((favorites) => {
+                    expect(favorites).toBeDefined()
+                    expect(favorites.length).toBe(1)
+                    expect(favorites[0].toString()).toBe(_id)
+                })
+        )
+
+    })
+    //#endregion
+
+    //#region SEARCH PRODUCTS (validate in case)
+    describe('search products', () => {
+        const product = {
+            tittle: 'coche',
+            description: 'bueno, bonito, barato',
+            price: 20000,
+            category: 'vehicle',
+            city: 'Barcelona'
+        }
+
+        const product2 = {
+            tittle: 'barco',
+            description: 'barco, bonito, barato',
+            price: 9999,
+            category: 'vehicle',
+            city: 'Madrid'
+        }
+
+        const product3 = {
+            tittle: 'mobile',
+            description: 'bueno, bonito, barato',
+            price: 100,
+            category: 'electronic',
+            city: 'Madrid'
+        }
+
+        beforeEach(() =>
+            Product.create(product)
+                .then(() =>
+                    Product.create(product2)
+                )
+        )
+
+        it('should search products by query', () =>
+            arshopApi.searchProducts('barco')
+                .then(_products => {
+                    expect(_products.length).toBe(1)
+                    expect(_products[0].tittle).toBe(product2.tittle)
+                    expect(_products[0].description).toBe(product2.description)
+                    expect(_products[0].price).toBe(product2.price)
+                    expect(_products[0].category).toBe(product2.category)
+                    expect(_products[0].city).toBe(product2.city)
+                })
+        )
     })
     //#endregion
 
