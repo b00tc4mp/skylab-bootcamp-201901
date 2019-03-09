@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Redirect } from "react-router-dom";
 import Login from "../Login";
 import Register from "../Register";
 import ProfilePage from "../../pages/Profile";
@@ -38,21 +38,43 @@ function App(props) {
       <Route
         path="/"
         exact
-        render={() => (user ? <ProfilePage /> : <HomePage />)}
+        render={() => (user ? <Redirect to="/posts" /> : <HomePage />)}
       />
       <Route
         path="/register"
-        render={() => (
-          <Register onRegister={handleRegister} feedback={registerFeedback} />
-        )}
+        render={() =>
+          user ? (
+            <Redirect to="/posts" />
+          ) : (
+            <Register onRegister={handleRegister} feedback={registerFeedback} />
+          )
+        }
       />
-      <Route path="/login" render={() => <Login />} />
-      <Route path="/profile" render={() => <ProfilePage />} />
-      <Route path="/favorites" render={() => <FavsPage />} />
-      <Route path="/posts" render={() => <ListPage />} />
-      <Route path="/search" render={() => <SearchPage />} />
-      <Route path="/add" render={() => <AddPostPage />} />
-      <ButtonBar />
+      <Route
+        path="/login"
+        render={() => (user ? <Redirect to="/posts" /> : <Login />)}
+      />
+      <Route
+        path="/profile"
+        render={() => (user ? <ProfilePage /> : <Redirect to="/login" />)}
+      />
+      <Route
+        path="/favorites"
+        render={() => (user ? <FavsPage /> : <Redirect to="/login" />)}
+      />
+      <Route
+        path="/posts"
+        render={() => (user ? <ListPage /> : <Redirect to="/login" />)}
+      />
+      <Route
+        path="/search"
+        render={() => (user ? <SearchPage /> : <Redirect to="/login" />)}
+      />
+      <Route
+        path="/add"
+        render={() => (user ? <AddPostPage /> : <Redirect to="/login" />)}
+      />
+      {user && <ButtonBar />}
     </main>
   );
 }
