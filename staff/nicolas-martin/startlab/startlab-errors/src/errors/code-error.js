@@ -5,7 +5,7 @@ class CodeError extends Error {
         super(messageOrError)
 
         if (Error.captureStackTrace)
-            Error.captureStackTrace(this, MatchingError)
+            Error.captureStackTrace(this, CodeError)
     }
 }
 
