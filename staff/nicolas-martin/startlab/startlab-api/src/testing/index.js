@@ -1,14 +1,14 @@
 const expect = require('chai').expect
 const vm = require('vm')
-const { EmptyError } = require('../errors')
+
+const { EmptyError } = require('startlab-errors')
 
 
 const ex = {
 
     checkAnswer(answer, test) {
-        
+
         test = test.replace(/\n/gi, "")
-        debugger
 
         if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
         if (!answer.trim().length) throw new EmptyError(`${answer} is empty`)

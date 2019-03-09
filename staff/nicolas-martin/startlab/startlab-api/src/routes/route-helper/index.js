@@ -1,6 +1,6 @@
 'use strict'
 
-const { AuthError, DuplicateError, EmptyError, MatchingError, NotFoundError, PrivilegeError, CodeError } = require('../../errors')
+const { AuthError, DuplicateError, EmptyError, MatchingError, NotFoundError, PrivilegeError, CodeError } = require('startlab-errors')
 
 module.exports = {
     handleResponseError(error, res) {

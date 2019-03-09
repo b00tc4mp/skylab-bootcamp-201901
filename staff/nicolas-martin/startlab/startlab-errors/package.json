@@ -1,0 +1,15 @@
+{
+  "name": "startlab-errors",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/errors/index.js",
+  "scripts": {
+    "test": "mocha $(find src -name *.spec.js)"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0"
+  }
+}
