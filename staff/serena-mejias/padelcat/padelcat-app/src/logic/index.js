@@ -108,6 +108,10 @@ const logic = {
 
   setIdMatches: () => {
     return padelcatApi.setIdMatches();
+  },
+
+  lcatApaddAvalabilityPlayer: (matchId) => {
+    return padelcatApi.addAvalabilityPlayer(matchId);
   }
 
   // retrieveAvailabilityPlayers:(matchId) => {

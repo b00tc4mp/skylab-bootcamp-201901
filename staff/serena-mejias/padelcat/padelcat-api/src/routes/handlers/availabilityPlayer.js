@@ -1,17 +1,17 @@
 const logic = require("../../logic");
+
 module.exports = (req, res) => {
   const {
-    body: { link }
+    body: { id, availabilityArray }
   } = req;
-
   try {
     logic
-      .setScorePlayers(link)
+      .addAvailabilityPlayer(id, availabilityArray)
       .then(res.json.bind(res))
       .catch(err => {
-        throw Error (err)
-    });
+        throw Error(err);
+      });
   } catch (err) {
-    throw Error(err)
+    throw Error(err);
   }
 };

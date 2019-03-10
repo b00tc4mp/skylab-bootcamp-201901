@@ -91,6 +91,10 @@ const padelcatApi = {
     return axios.put("/setScorePlayer")
   },
 
+  addAvalabilityPlayer: (playerId, matchId) => {
+    return axios.put("/")
+  }
+
   // retrieveAvailabilityPlayers(matchId, token) {
   //   return fetch(`${this.url}/retrieveAvailabilityPlayers`, {
   //     method: "GET",

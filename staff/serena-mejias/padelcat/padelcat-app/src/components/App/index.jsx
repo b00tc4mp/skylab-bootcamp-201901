@@ -56,6 +56,14 @@ class App extends Component {
     }
   };
 
+  handleCheck = () => {
+    try {
+      logic.addAvalabilityPlayer(matchId);
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
   render() {
     const { handleLogin, handleRegister } = this;
     return (
@@ -67,13 +75,13 @@ class App extends Component {
             render={() => <RegisterPlayer onRegister={handleRegister} />}
           />
           <Route path="/login" render={() => <Login onLogin={handleLogin} />} />
-          <Route path="/home" component={Home} />
+          <Route path="/home" render={() => <Home onChange={handleCheck} />} />
           <Route
             exact
             path="/"
             render={() => <Redirect to={{ pathname: "/home" }} />}
           />
-          <Route path="/players" component={Ranking}/>
+          <Route path="/players" component={Ranking} />
         </Grid>
       </main>
     );

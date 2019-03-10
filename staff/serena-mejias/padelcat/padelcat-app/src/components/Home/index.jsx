@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 
 export const Home = props => {
   const [matches, setMatches] = useState("");
+  const [availabilityPlayer, setAvailabilityPlayer] = useState("false");
 
   useEffect(() => {
     if (!logic.getStoredtoken()) {
@@ -19,6 +20,13 @@ export const Home = props => {
       });
     //logic.retrieveAvailabilityPlayers(matches.matchId)
   }, []);
+
+  const { onCheck } = props;
+
+  const handlecheckBox = e => {
+    e.target.checked();
+    onCheck();
+  }
   return (
     <section className={styles.container}>
       <NavLink to={"/players"} className={styles.button}>
@@ -51,7 +59,7 @@ export const Home = props => {
                   <ul>Available Players</ul>
                   <label>
                     Are you available?
-                    <input type="checkbox" name="Availability" />
+                    <input type="checkbox" name="Availability" checked={availabilityPlayer} onChange={handlecheckBox} />
                   </label>
                   <div
                     id="drop_zone"
@@ -67,7 +75,6 @@ export const Home = props => {
             )
           )}
       </ul>
-      
     </section>
   );
 };

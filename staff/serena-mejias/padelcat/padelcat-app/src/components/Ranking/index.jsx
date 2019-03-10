@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import logic from "../../logic";
 import styles from "./index.module.scss";
+import Button from "@material-ui/core/Button";
+import { NavLink } from "react-router-dom";
+
 export const Ranking = props => {
   const [players, setPlayers] = useState("");
 
   useEffect(() => {
-      console.log('sa');
-      
+    console.log("sa");
+
     logic
       .retrievePlayers()
       .then(players => {
@@ -21,6 +24,9 @@ export const Ranking = props => {
 
   return (
     <section>
+      <NavLink to={"/home"} className={styles.button}>
+        <Button color="inherit">Home</Button>
+      </NavLink>
       <ul>
         {players &&
           players.map(({ name, score }) => (

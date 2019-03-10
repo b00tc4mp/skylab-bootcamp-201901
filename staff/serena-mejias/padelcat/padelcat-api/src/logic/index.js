@@ -153,7 +153,6 @@ const logic = {
       console.log(response);
 
       const matchingPlayer = response.filter(player => player.link === link);
-      console.log(matchingPlayer);
       if (matchingPlayer.length === 1) {
         return Player.findOneAndUpdate(
           { link: link },
@@ -245,6 +244,14 @@ const logic = {
       }
       return foundMatch.schema.obj.playersAvailable;
     });
+  },
+
+  addAvailabilityPlayer(playerId, availabilityArray) {
+    
+    return Player.findByIdAndUpdate(
+      { _id: playerId },
+      {  $push: {availability: availabilityArray} },
+    );
   }
 };
 
