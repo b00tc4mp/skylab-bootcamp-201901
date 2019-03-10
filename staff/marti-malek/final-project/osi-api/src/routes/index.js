@@ -6,6 +6,8 @@ module.exports = {
     removeUser: require('./remove-user'),
     createRootDir: require('./create-root-dir'),
     createFile: require('./create-file'),
+    createDir: require('./create-dir'),
     retrieveFile: require('./retrieve-file'),
-    retrieveDir: require('./retrieve-dir')
+    retrieveDir: require('./retrieve-dir'),
+    updatePosition: require('./update-position')
 }

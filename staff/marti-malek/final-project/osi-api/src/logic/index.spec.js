@@ -3,9 +3,8 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
 const { expect } = require('chai')
-const { User } = require('../models')
+const { models: { User }, mongoose } = require('osi-data')
 const logic = require('.')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')

@@ -10,7 +10,7 @@ const osiApi = {
         if (typeof surname !== 'string') throw TypeError(`${surname} should be a string`)
 
         if (!surname.trim().length) throw Error('surname cannot be empty')
-    
+
         if (typeof email !== 'string') throw TypeError(`${email} should be a string`)
 
         if (!email.trim().length) throw Error('email cannot be empty')
@@ -103,7 +103,7 @@ const osiApi = {
                 if (response.error) throw response.error
                 else return response
             })
-    }, 
+    },
 
     remove(token) {
 
@@ -116,6 +116,113 @@ const osiApi = {
             headers: {
                 authorization: `Bearer ${token}`
             },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    createRootDir(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(this.url + '/create/root', {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    createDir(token, dirPath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof dirPath !== 'string') throw TypeError(`${dirPath} should be a string`)
+
+        if (!dirPath.trim().length) throw Error('dirPath cannot be empty')
+
+        return fetch(this.url + `create/dir?dirPath=${dirPath}`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    retrieveDir(token, dirPath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof dirPath !== 'string') throw TypeError(`${dirPath} should be a string`)
+
+        if (!dirPath.trim().length) throw Error('dirPath cannot be empty')
+
+        return fetch(this.url + `dir?path=${dirPath}`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    retrieveFile(token, filePath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        return fetch(this.url + `file?path=${filePath}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    updatePositions(token, positions) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!positions) throw Error('positions must be defined')
+
+        if (positions.constructor !== Array) throw TypeError(`${positions} is not an array`)
+        
+        return fetch(this.url + `positions`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ positions })
         })
             .then(response => response.json())
             .then(response => {

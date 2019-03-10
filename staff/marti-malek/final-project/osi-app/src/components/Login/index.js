@@ -1,10 +1,21 @@
 import React, { useState } from 'react'
+import Hammer from 'hammerjs'
 import './index.sass'
 
-function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogin, goToRegister }) {
+function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogin, goToRegister, wheelHandler, MouseWheelHandler }) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    let deltaY = 0
+    let deltaX = 0
+
+    /* TO BE CONTINUED */
+    // var hammertime = new Hammer(window);
+    // hammertime.on('pan-y', function (ev) {
+    //     debugger
+    //     console.log(ev);
+    // });
 
     handleEmailInput = e => setEmail(e.target.value)
     handlePasswordInput = e => setPassword(e.target.value)
@@ -16,11 +27,27 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
     }
 
     window.onwheel = e => {
-        e.preventDefault();
+        if (Math.sign(e.deltaY)) deltaY++
+        if (Math.sign(e.deltaX)) deltaX++
 
+        if (deltaX % 4 === 0 || deltaY % 4 === 0) wheelHandler(e)
+        // wheelHandler(e)
+    }
+
+    wheelHandler = e => {
+        // once = true
         if (e.deltaX) {
-            setTimeout(() => goToRegister(), 500)
-        } else {
+            if (e.preventDefault) e.preventDefault()
+            if (e.stopPropagation) e.stopPropagation()
+            e.cancelBubble = true
+            e.returnValue = false
+            goToRegister()
+        } else if (e.deltaY) {
+            if (e.preventDefault) e.preventDefault()
+            if (e.stopPropagation) e.stopPropagation()
+            e.cancelBubble = true
+            e.returnValue = false
+            goToRegister()
         }
     }
 

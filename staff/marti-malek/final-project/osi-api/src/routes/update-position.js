@@ -1,12 +1,12 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { headers: { authorization }, query: { dirPath } } = req
-
+    const { headers: { authorization }, body: { positions } } = req
+    debugger
     const token = authorization.slice(7)
 
     try {
-        logic.createDir(token, dirPath)
+        logic.updatePosition(token, positions)
             .then(res.json.bind(res))
             .catch(({ message }) => {
                 res.status(400).json({

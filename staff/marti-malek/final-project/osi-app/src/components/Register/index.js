@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import './index.sass'
 
-function Register({ handleEmailInput, handlePasswordInput, handleNameInput, handleSurnameInput, handlePasswordConfirmInput, handleFormSubmit, onRegister, goToLogin }) {
+function Register({ handleEmailInput, handlePasswordInput, handleNameInput, handleSurnameInput, handlePasswordConfirmInput, handleFormSubmit, onRegister, wheelHandler, goToLogin }) {
 
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
+
+    let deltaY = 0
+    let deltaX = 0
 
     handleNameInput = e => setName(e.target.value)
     handleSurnameInput = e => setSurname(e.target.value)
@@ -22,16 +25,28 @@ function Register({ handleEmailInput, handlePasswordInput, handleNameInput, hand
     }
 
     window.onwheel = e => {
-        e.preventDefault();
+        if (Math.sign(e.deltaY)) deltaY++
+        if (Math.sign(e.deltaX)) deltaX++
+        // console.log(deltaX)
+        // console.log(Math.sign(e.deltaY))
+        if (deltaX % 4 === 0 || deltaY % 4 === 0) wheelHandler(e)
+        // wheelHandler(e)
+    }
 
-        if (e.ctrlKey) {
-            // Your zoom/scale factor
-            // scale -= e.deltaY * 0.01;
-        } else {
-            // Your trackpad X and Y positions
-            // posX -= e.deltaX * 2;
-            // posY -= e.deltaY * 2;
-            setTimeout(() => goToLogin(), 500)
+    wheelHandler = e => {
+        if (e.deltaX) {
+            // onwheel.apply(false)
+            if (e.preventDefault) e.preventDefault()
+            if (e.stopPropagation) e.stopPropagation()
+            e.cancelBubble = true
+            e.returnValue = false
+            goToLogin()
+        } else if (e.deltaY) {
+            if (e.preventDefault) e.preventDefault()
+            if (e.stopPropagation) e.stopPropagation()
+            e.cancelBubble = true
+            e.returnValue = false
+            goToLogin()
         }
     }
 

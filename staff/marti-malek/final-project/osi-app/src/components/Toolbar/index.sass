@@ -1,0 +1,72 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+%tool
+    width: 4.5rem
+    height: 4.5rem
+    border: 2px solid black
+    border-radius: 50%
+    margin: 0.5rem
+    position: fixed
+    display: flex
+    justify-content: center
+    align-items: center
+    background-image: radial-gradient(white, black)
+    box-shadow: 0.2rem 0.2rem 0.2rem grey
+    // background-image: radial-gradient(135deg, white 45%, #aaa 50%, #ccc 56%, white 80%)
+    &:hover
+        width: 5.5rem
+        height: 5.5rem
+    i
+        font-size: 2em
+
+.toolbar
+    width: 100%
+    height: 100%
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    justify-content: center
+    &__logo
+        @extend %tool
+        transform: translate(8rem, -12rem)
+        &:hover
+            i
+                font-size: 3em !important
+    &__file
+        @extend %tool
+        transform: translate(4rem, -6rem)
+        .fa-file
+            display: flex
+            justify-content: center
+            align-items: center
+            i
+                position: fixed
+                margin-top: 0.2rem
+                font-size: 0.5em
+        &:hover
+            .fa-file
+                font-size: 3em !important
+    &__folder
+        @extend %tool
+        transform: translate(2rem)
+        &:hover
+            i
+                font-size: 3em !important
+    &__calc
+        @extend %tool
+        transform: translate(4rem, 6rem)  
+        &:hover
+            i
+                font-size: 3em !important
+    &__finder
+        @extend %tool
+        transform: translate(8rem, 12rem)
+        &:hover
+            i
+                font-size: 3em !important
+
+        

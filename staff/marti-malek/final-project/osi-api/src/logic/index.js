@@ -187,17 +187,27 @@ const logic = {
         return (async () => {
             const { data } = await jwt.verify(token, this.jwtSecret)
 
-            if (!fs.existsSync(`${__dirname}/../data/${data}`)) {
-                await fs.mkdir(`${__dirname}/../data/${data}`, err => {
+            const dirPath = `${__dirname}/../data/${data}`
+
+            if (!fs.existsSync(dirPath)) {
+                await fs.mkdir(dirPath, err => {
                     if (err) throw err
                 })
-            }
 
-            return 'Done'
+                await fs.writeFile(`${dirPath}/.position.json`,JSON.stringify(new Array(48).fill({
+                    position: null,
+                    type: null
+                })), err => {
+                    if (err) throw err
+                })
+                return 'Done'
+            } else {
+                return 'Folder already exists'
+            }
         })()
     },
 
-    createDir(token, dirPath, dirName) {
+    createDir(token, dirPath) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
@@ -211,14 +221,26 @@ const logic = {
         return (async () => {
             const { data } = await jwt.verify(token, this.jwtSecret)
 
-            const directory = await path.join(data, dirPath, dirName)
+            let dirName = dirPath.split('/').reverse()[0]
+
+            let directory
+            if (dirPath.slice(1) === dirName) {
+                
+                directory = await path.join(`${__dirname}/../data/${data}`, dirPath)
+            } else {
+                directory = await path.join(`${__dirname}/../data/${data}`, dirPath, dirName)
+            }
 
             if (!fs.existsSync(directory)) {
+                
                 await fs.mkdir(directory, err => {
                     if (err) throw err
                 })
+                
+                return dirPath
+            } else {
+                throw Error('Root Folder does not exist for this user')
             }
-
         })()
 
     },
@@ -277,7 +299,7 @@ const logic = {
 
             const rs = await fs.readFileSync(dirPath) // Object
 
-            return JSON.parse(rs).content
+            return JSON.parse(rs)
         })()
     },
 
@@ -301,7 +323,45 @@ const logic = {
 
             const rs = await fs.readdirSync(resPath) // Object
 
-            return rs
+            let rsFiltered = rs.filter(elem => elem !== '.position.json')
+
+            return rsFiltered
+        })()
+    },
+
+    updatePosition(token, positions) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+        
+        if (!positions) throw Error('positions must be defined')
+
+        if (positions.constructor !== Array) throw TypeError(`${positions} is not an array`)
+        
+        return (async () => {
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            const resPath = `${__dirname}/../data/${data}`
+
+            if (!fs.existsSync(resPath)) throw Error('directory not found')
+
+            if (!fs.existsSync(`${resPath}/.position.json`)) throw Error('.position.json file not found')
+            
+            await fs.unlink(`${resPath}/.position.json`, err => {
+                if (err) throw err
+            })
+            
+            let isFileRemoved = await fs.existsSync(`${resPath}/.position.json`)
+
+            if (!isFileRemoved) throw Error('cannot remove file')
+
+            await fs.writeFile(`${resPath}/.position.json`, JSON.stringify(positions), err => {
+                if (err) throw err
+            })
+
+            return positions
         })()
     }
 }

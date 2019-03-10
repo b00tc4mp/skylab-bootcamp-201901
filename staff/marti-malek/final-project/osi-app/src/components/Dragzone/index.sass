@@ -1,0 +1,55 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+$percentage : calc(100% / 6)
+
+//#{$percentage}
+
+.dragzone
+    width: 100%
+    height: 100%
+    position: relative
+    display: grid
+    grid-template-columns: repeat(8, 12.5%) 
+    grid-template-rows: repeat(6, #{$percentage})
+    &:hover
+        border: 1px dotted black
+        border-radius: 1rem
+
+    .fa-folder
+        width: auto
+        height: auto
+        display: flex
+        flex-direction: column
+        &:before
+            align-self: center
+            justify-self: center
+
+    .fa-file
+        width: auto
+        height: auto
+        display: flex
+        flex-direction: column
+        &:before
+            align-self: center
+            justify-self: center
+
+    div
+        width: 100%
+        height: 100%
+        display: flex
+        align-items: center
+        justify-items: center
+        align-content: center
+        justify-content: center
+.name
+    font-size: 1rem
+    width: 68px
+    word-wrap: break-word
+    text-align: center
+        
+
+// .droppable:hover
+//     border: dotted black 1px

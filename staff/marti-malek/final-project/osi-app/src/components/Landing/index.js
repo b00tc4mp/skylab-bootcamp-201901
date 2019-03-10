@@ -4,6 +4,10 @@ import './index.sass'
 function Landing({ goToLogin, goToRegister }) {
 
     return <section className="landing">
+    {/* <video autoPlay muted loop id="landing__video">
+        <source src="../../media/White Smoke.mp4" type="video/mp4"></source>
+    </video> */}
+
     <div className="landing__div">
         <h1 className="landing__title">Welcome to OSI</h1>
     </div>
