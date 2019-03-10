@@ -526,7 +526,6 @@ const logic = {
 
                 return comments
             })
-            .then(() => comments)
     },
 
     removeComment(serviceId, commentId){
