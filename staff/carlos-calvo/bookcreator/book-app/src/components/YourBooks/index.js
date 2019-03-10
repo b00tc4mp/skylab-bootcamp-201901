@@ -44,9 +44,9 @@ class YourBooks extends Component {
         this.props.editBook(bookid)
     }
 
-    addBookToTemplates = (id) =>{
+    addBookToTemplates = (id, isTemplate) =>{
         try {
-            logic.addBookToTemplates(id)
+            logic.addBookToTemplates(id, isTemplate)
                 .then((books) => {})
         } catch (error) {
             console.log(error)

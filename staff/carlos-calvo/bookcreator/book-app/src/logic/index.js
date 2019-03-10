@@ -241,9 +241,10 @@ const logic = {
      * Adds a book to template books by id
      * @param {String} id 
      */
-    addBookToTemplates(id){
+    addBookToTemplates(id, isTemplate){
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw new Error('id  is empty')
+        if(isTemplate) throw new Error('Can not add a template to templates!!')
         return (async () => {
             const book = await bookApi.addBookToTemplates(id)
             return book

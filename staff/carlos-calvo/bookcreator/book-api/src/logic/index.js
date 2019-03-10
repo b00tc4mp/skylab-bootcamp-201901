@@ -350,7 +350,7 @@ const logic = {
             console.log(result)
             const book = Book.create({'title': result.title, 'content': result.content, 
                 'coverphoto': result.coverphoto, 'parameters': result.parameters, 'images': result.images,
-                'userId': ObjectID(userId) })
+                'userId': ObjectID(userId), isTemplate: true })
 
             return book
         })()

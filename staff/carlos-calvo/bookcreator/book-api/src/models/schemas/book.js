@@ -28,6 +28,11 @@ const Book = new Schema({
         ref: 'User'
     },
 
+    isTemplate: {
+        type: Boolean,
+        default: false
+    }
+
 })
 
 module.exports = Book

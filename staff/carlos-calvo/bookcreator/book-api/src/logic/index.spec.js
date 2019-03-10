@@ -504,7 +504,6 @@ describe('logic', () => {
 
 
         it('should succeed on valid data', async () => {
-
             const hash = await bcrypt.hash(password, 10)
             const user  = await User.create({ name, surname, email, password })
             const book = await logic.addBook('titulo1','contenido1', 'cover1', user._id.toString(), ['1', '2', '3'], ['url1', 'url2'] )

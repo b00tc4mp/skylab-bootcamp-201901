@@ -17,7 +17,7 @@ class CardBook extends Component {
     }
 
     addBookToTemplates = () =>{
-        this.props.addBookToTemplates(this.props.bookSelected._id)
+        this.props.addBookToTemplates(this.props.bookSelected._id, this.props.bookSelected.isTemplate)
     }
 
     render() {
@@ -50,8 +50,13 @@ class CardBook extends Component {
                             <button onClick={this.loadBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
                             <button onClick={this.editBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Edit Book"><i className="fas fa-edit"></i></button>
                             <button onClick={this.deleteBook} className="btn btn-danger btn-deleteit" data-toggle="tooltip" data-placement="top" title="Delete Book"><i className="fas fa-trash-alt"></i></button>
+                            
+                            {book.hasOwnProperty('isTemplate') && !book.isTemplate? 
                             <button onClick={this.addBookToTemplates} className="btn btn-success btn-deleteit" data-toggle="tooltip" data-placement="top" title="Publish Book"><i class="fas fa-share"></i></button>
-                        </div>
+                            :
+                            <button onClick={this.addBookToTemplates} className="btn btn-success btn-deleteit" data-toggle="tooltip" data-placement="top" title="This book is already a template" disabled><i class="fas fa-share"></i></button>
+                            }
+                            </div>
                     </div>
                 </div>
             </Fragment>
