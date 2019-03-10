@@ -28,7 +28,7 @@ const coworkingApi = {
         })
             .then(response => response.json())
             .then(response => {
-                
+
                 if (response.error) throw Error(response.error)
 
                 return response.id
@@ -93,15 +93,15 @@ const coworkingApi = {
             },
             body: JSON.stringify({ email, password })
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
 
                 return response
             })
     },
 
-    createWorkspace(name, token){
+    createWorkspace(name, token) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
         if (!name.trim().length) throw Error('name is empty')
 
@@ -116,15 +116,15 @@ const coworkingApi = {
             },
             body: JSON.stringify({ name })
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
 
                 return response
             })
     },
 
-    createNewUserLink(token){
+    createNewUserLink(token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -135,15 +135,15 @@ const coworkingApi = {
                 authorization: `Bearer ${token}`
             }
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
 
                 return response.link
             })
     },
 
-    verifyNewUserLink(token, link){
+    verifyNewUserLink(token, link) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -158,15 +158,15 @@ const coworkingApi = {
             },
             body: JSON.stringify({ invitationId: link })
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
 
                 return response.workspaceId
             })
     },
 
-    addUserToWorkspace(token, workspaceId){
+    addUserToWorkspace(token, workspaceId) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -181,16 +181,16 @@ const coworkingApi = {
             },
             body: JSON.stringify({ workspaceId })
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
-                
-                if(response.status === 'OK')
-                return response.status
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                if (response.status === 'OK')
+                    return response.status
             })
     },
 
-    createService(token, title, description, maxUsers, place){
+    createService(token, title, description, maxUsers, place) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -213,15 +213,15 @@ const coworkingApi = {
             },
             body: JSON.stringify({ title, description, maxUsers, place })
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
-                
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
                 return response.serviceId
             })
     },
 
-    retrieveWorkspaceServices(token, workspaceId){
+    retrieveWorkspaceServices(token, workspaceId) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -235,15 +235,15 @@ const coworkingApi = {
                 authorization: `Bearer ${token}`
             },
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
-                
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
                 return response.services
             })
     },
 
-    retrieveService(token, serviceId){
+    retrieveService(token, serviceId) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -257,14 +257,14 @@ const coworkingApi = {
                 authorization: `Bearer ${token}`
             },
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
                 return response.service
             })
     },
 
-    addUserToService(token, serviceId){
+    addUserToService(token, serviceId) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -278,9 +278,79 @@ const coworkingApi = {
                 authorization: `Bearer ${token}`
             },
         })
-            .then( response => response.json())
-            .then (response => {
-                if (response.error) throw Error (response.error)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+    },
+
+    createComment(token, serviceId, text) {
+
+        console.log(serviceId)
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
+        if (!serviceId.trim().length) throw Error('serviceId is empty')
+
+        return fetch(`${this.url}/comment/${serviceId}`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ text })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                console.log(response)
+                return
+            })
+    },
+
+    retrieveWorkspaceComments(token, serviceId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
+        if (!serviceId.trim().length) throw Error('serviceId is empty')
+
+        return fetch(`${this.url}/comment/${serviceId}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response.comments
+            })
+    },
+
+    removeComment(token, serviceId, commentId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
+        if (!serviceId.trim().length) throw Error('serviceId is empty')
+
+        if (typeof commentId !== 'string') throw TypeError(`${commentId} is not a string`)
+        if (!commentId.trim().length) throw Error('commentId is empty')
+
+        return fetch(`${this.url}/comment/${serviceId}/${commentId}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
                 return response
             })
     }

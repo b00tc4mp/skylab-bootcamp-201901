@@ -4,14 +4,16 @@ import logic from '../../logic';
 
 class FullService extends Component {
 
-    state = {activeService:''}
+    state = { activeService: '', comment: '', comments:[] }
 
-    componentDidMount () {
+    componentDidMount() {
 
-        const {props: {service}} = this
+        const { props: { service } } = this
 
         return logic.retrieveService(service)
             .then(service => this.setState({ activeService: service }))
+            .then(() => logic.retrieveWorkspaceComments(service))
+            .then(comments => this.setState({comments}))
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -26,32 +28,42 @@ class FullService extends Component {
     componentDidUpdate(prevProps) {
 
         const { props: { service } } = this
-        
+
         if (service !== prevProps.service)
             return logic.retrieveService(service)
-                .then(service=> this.setState({activeService: service}))
+                .then(service => this.setState({ activeService: service }))
+                .then(() => logic.retrieveWorkspaceComments(service))
+                .then(comments => this.setState({comments}))
     }
 
-
-    handleSubmitForm = event=> {
+    handleSubmitForm = event => {
         event.preventDefault()
 
-        const {state: {activeService: {id}} }= this
+        const { state: { activeService: { id } } } = this
 
         return logic.addUserToService(id)
             .then(() => this.props.history.push('/home/inbox'))
     }
-    
 
+    handleCommentInput = event => this.setState({ comment: event.target.value })
+
+    handleSubmitComment = event => {
+        event.preventDefault()
+
+        const { state: { comment }, props: {service} } = this
+
+        return logic.createComment(service, comment)
+            .then((id)=> id)
+    }
 
     render() {
 
-        const { state: { activeService: { title, description, user, submitedUsers, maxUsers, date, place } }, handleSubmitForm } = this
+        const { state: { activeService: { title, description, user, submitedUsers, maxUsers, date, place }, comments }, handleSubmitForm, handleCommentInput, handleSubmitComment } = this
 
         let formatedDate
+        let formatDate
 
         if (date) formatedDate = date.substring(0, 10) + ' ' + date.substring(11, 16)
-
 
         return <section className="full-service">
             <h2 className="full__service--title">Title: {title}</h2>
@@ -64,8 +76,16 @@ class FullService extends Component {
             <form onSubmit={handleSubmitForm}>
                 <button className="full-service__button">Submit to this Service</button>
             </form>
-            <form onSubmit={handleSubmitForm}>
-                <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/chat-circle-blue-512.png" alt="#"/>
+                {comments && comments.map((comment) =>{
+                    return <section>
+                    <p>{comment.text}</p>
+                    <p>{comment.date.substring(0, 10) + ' ' + comment.date.substring(11, 16)}</p>
+                    <p>{comment.user}</p>
+                    </section>
+                })}
+            <form onSubmit={handleSubmitComment}>
+                <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/chat-circle-blue-512.png" alt="#" />
+                <input placeholder="comment..." onChange={handleCommentInput} />
                 <button className="full-service__button">Add a comment</button>
             </form>
         </section>
