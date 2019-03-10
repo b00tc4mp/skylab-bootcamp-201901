@@ -17,18 +17,18 @@ const {
 const logic = {
   /**
    *
-   * Register a new user
+   * Register a new player
    *
    * @param {string} name
    * @param {string} surname
-   * @param {string} username
+   * @param {string} playername
    * @param {string} password
    *
    * @throws {TypeError} - When any param is not a string.
    * @throws {Error} - When any param is empty.
    * @throws {Error} - When API returns an error.
    *
-   * @returns {Object} - User Id.
+   * @returns {Object} - player Id.
    *
    */
 
@@ -49,11 +49,6 @@ const logic = {
 
     if (typeof link !== "string") throw TypeError(`${link} is not string`);
     if (!link.trim().length) throw Error("link cannot be empty");
-
-    if (typeof preferedPosition !== "string")
-      throw TypeError(`${preferedPosition} is not string`);
-    if (!preferedPosition.trim().length)
-      throw Error("preferedPosition cannot be empty");
 
     return (async () => {
       const player = await Player.findOne({ email });
@@ -78,7 +73,7 @@ const logic = {
   },
 
   /**
-   * Authenticates user by its credentials.
+   * Authenticates player by its credentials.
    *
    * @param {string} email
    * @param {string} password
@@ -106,27 +101,66 @@ const logic = {
     })();
   },
 
-  retrieveScoreData(link) {
-    if (typeof link !== "string") throw TypeError(link + " is not string");
-
-    if (!link.trim().length) throw Error("link cannot be empty");
-
-    return webData[0].find(playerObj => {
-      return playerObj.link === link;
-    }).score;
+  retrievePlayers() {
+    return Player.find({}, (err, players) => {
+      if (!err) {
+        return players;
+      } else {
+        throw err;
+      }
+    });
   },
 
-  addScoreToPlayer(playerId, score) {
-    if (typeof playerId !== "string")
-      throw TypeError(`${playerId} is not string`);
+  retrieveScoreScrapping() {
+    const urlScores =
+      "https://www.setteo.com/torneos/lliga-padel-guinotprunera-18-19-a-fase-2w07/equipo/200081/";
 
-    if (!playerId.trim().length) throw Error("playerId cannot be empty");
+    return (async url => {
+      try {
+        const response = await axios.get(url);
+        const $ = cheerio.load(response.data);
 
-    if (typeof score !== "string") throw TypeError(score + " is not string");
+        // New Lists
+        const playerScore = $(".list-equipos li").map((i, el) => {
+          const link = $(el)
+            .find("a")
+            .attr("href");
 
-    if (!score.trim().length) throw Error("score cannot be empty");
+          const imageUrl = $(el)
+            .find("img")
+            .attr("src");
 
-    return (async () => await Player.findByIdAndUpdate(playerId, { score }))();
+          const score = $(el)
+            .find("span")
+            .text();
+
+          const metadata = {
+            link: link,
+            imageUrl: imageUrl,
+            score: score
+          };
+          return metadata;
+        });
+        return playerScore.get();
+      } catch (error) {
+        throw error;
+      }
+    })(urlScores);
+  },
+
+  setScorePlayers(link) {
+    return logic.retrieveScoreScrapping().then(response => {
+      console.log(response);
+
+      const matchingPlayer = response.filter(player => player.link === link);
+      console.log(matchingPlayer);
+      if (matchingPlayer.length === 1) {
+        return Player.findOneAndUpdate(
+          { link: link },
+          { score: matchingPlayer[0].score }
+        );
+      }
+    });
   },
 
   retrieveMatchesScrapping() {
@@ -188,6 +222,7 @@ const logic = {
 
           return metadata;
         });
+
         return metadatas.get();
       } catch (error) {
         throw error;
@@ -208,7 +243,6 @@ const logic = {
       if (!err) {
         throw Error(err);
       }
-      debugger
       return foundMatch.schema.obj.playersAvailable;
     });
   }

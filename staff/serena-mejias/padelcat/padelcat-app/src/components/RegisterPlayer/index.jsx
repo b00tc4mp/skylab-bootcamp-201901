@@ -40,7 +40,7 @@ const RegisterPlayer = props => {
       !surname ||
       !email ||
       !password ||
-      !preferedPosition ||
+      !passwordConfirm ||
       !link ||
       (password && password !== passwordConfirm)
     );

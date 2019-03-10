@@ -6,8 +6,8 @@ module.exports = (req, res) => {
 
   try {
     logic
-      .retrieveMatchesScrapping(playerId)
-      .then(r =>  res.json(r))
+      .retrieveScoreScrapping(playerId)
+      .then(r => res.json(r))
       .catch(error => {
         res.status(400).json({
           error: err

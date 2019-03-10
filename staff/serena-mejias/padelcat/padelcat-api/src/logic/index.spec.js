@@ -671,6 +671,7 @@ describe("logic", () => {
 
   describe("retrieveScoreData", () => {
     it("should succeed with correct data", () => {
+      debugger
       const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
       expect(logic.retrieveScoreData(link)).toBeTruthy();
     });
@@ -882,7 +883,7 @@ describe("logic", () => {
   });
 
   describe("retrieveMatch", () => {
-
+debugger
     it("should succeed recovering match data", async () => {
       const res = await logic.retrieveMatchesScrapping();
      expect(res[0].matchId).toBeTruthy();
@@ -899,7 +900,6 @@ describe("logic", () => {
  describe("setIdMatches", () => {
 
     it("should succeed adding match id", async () => {
-      debugger
       const res = await logic.setIdMatches();
       expect(res).toBeTruthy();
     });

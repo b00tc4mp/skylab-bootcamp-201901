@@ -1,9 +1,7 @@
 import padelcatApi from "../padelcat-api";
 
 const logic = {
-  TOKEN_KEY: "token",
-
-  registerPlayer(
+  registerPlayer: (
     name,
     surname,
     email,
@@ -11,7 +9,16 @@ const logic = {
     passwordConfirm,
     preferedPosition,
     link
-  ) {
+  ) => {
+    // validate([
+    //   { key: "name", value: name, type: String },
+    //   { key: "surname", value: surname, type: String },
+    //   { key: "email", value: email, type: String },
+    //   { key: "password", value: password, type: String },
+    //   { key: "passwordConfirm", value: passwordConfirm, type: String }
+    //   { key: "preferedPosition", value: preferedPosition, type: String }
+    //   { key: "link", value: link, type: String }
+    // ]);
     if (typeof name !== "string") throw TypeError(name + " is not a string");
 
     if (!name.trim().length) throw Error("name cannot be empty");
@@ -38,12 +45,6 @@ const logic = {
 
     if (password !== passwordConfirm) throw Error("passwords do not match");
 
-    if (typeof preferedPosition !== "string")
-      throw TypeError(preferedPosition + " is not a string");
-
-    if (!preferedPosition.trim().length)
-      throw Error("preferedPosition cannot be empty");
-
     if (typeof link !== "string") throw TypeError(link + " is not a string");
 
     if (!link.trim().length) throw Error("link cannot be empty");
@@ -61,7 +62,7 @@ const logic = {
       .then(() => {});
   },
 
-  loginPlayer(email, password) {
+  loginPlayer: (email, password) => {
     if (typeof email !== "string") throw TypeError(email + " is not a string");
 
     if (!email.trim().length) throw Error("email cannot be empty");
@@ -77,12 +78,41 @@ const logic = {
   // apiLogin() {
   //   new Promise(resolve => resolve({ token: "tokenKey" }));
   // },
-  getStoredtoken() {
-    return sessionStorage.getItem(this.TOKEN_KEY);
+  getStoredtoken: () => {
+    const token = sessionStorage.getItem("tokenKey");
+    if (token) {
+      padelcatApi.setUptokenOnRequest(token);
+    }
+    return token;
   },
-  storeToken(token) {
-    sessionStorage.setItem(this.TOKEN_KEY, token);
+  storeToken: token => {
+    padelcatApi.setUptokenOnRequest(token);
+    sessionStorage.setItem("tokenKey", token);
+  },
+
+  retrievePlayers: () => {
+    return padelcatApi.retrievePlayer();
+  },
+
+  retrieveScoresScapping: () => {
+    return padelcatApi.retrieveScoreScrapping();
+  },
+
+  setScorePlayers: link => {
+    return padelcatApi.setScorePlayers(link);
+  },
+
+  retrieveMatches: () => {
+    return padelcatApi.retrieveMatchesScrapping();
+  },
+
+  setIdMatches: () => {
+    return padelcatApi.setIdMatches();
   }
+
+  // retrieveAvailabilityPlayers:(matchId) => {
+  //   return padelcatApi.retrieveMatchesScrapping(matchId, "tokenKey");
+  // }
 };
 
 export default logic;
