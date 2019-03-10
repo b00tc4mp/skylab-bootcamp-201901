@@ -4,7 +4,7 @@ const tokenHelper = require('../token-helper')
 const { createToken } = tokenHelper
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
-const { models: { User, Workspace, Service } } = require('coworking-data')
+const { models: { User, Workspace, Service, Comment } } = require('coworking-data')
 
 const logic = {
 
@@ -381,16 +381,22 @@ const logic = {
         if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
         if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
 
+        let _service
         return Service.findById(serviceId).select('-password -__v').lean()
             .then(service => {
-                // if (service.user.toString() !== userId) throw Error('this user cannot retrieve this service')
 
                 service.id = service._id.toString()
-
                 delete service._id
 
+                _service = service
                 return service
             })
+            .then((service)=> User.findById (service.user))
+            .then(user => {
+                _service.user = user.name
+                return _service
+            })
+
     },
 
     retrieveWorkspaceServices(userId, workspaceId) {
@@ -497,9 +503,42 @@ const logic = {
                 workspace.service.splice(index, 1)
                 workspace.save()
             })
+    },
+
+    createComment(userId, serviceId, text) {
+
+        return Service.findOneAndUpdate({ _id: serviceId }, { $push: { comments: { text, user: userId } } })
+            .then(({ _id }) => Service.findById({ _id }))
+            .then(service => service.comments[service.comments.length - 1]._id)
+    },
+
+    retrieveServiceComments(serviceId) {
+
+        let comments = []
+        return Service.findById(serviceId).lean()
+            .then(service => {
+                comments = service.comments.map(_service => {
+                    _service.id = _service._id
+                    delete _service._id
+
+                    return _service
+                })
+
+                return comments
+            })
+            .then(() => comments)
+    },
+
+    removeComment(serviceId, commentId){
+
+        return Service.findById(serviceId)
+            .then(service => {
+                const index = service.comments.findIndex( comment => comment._id == commentId)
+
+                service.comments.splice(index, 1)
+                return service.save()
+            })
     }
-
-
 }
 
 module.exports = logic

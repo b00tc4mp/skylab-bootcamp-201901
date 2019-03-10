@@ -136,8 +136,23 @@ const logic = {
     addUserToService(serviceId){
 
         return coworkingApi.addUserToService(this.__coworkingApiToken__, serviceId)
+    },
+
+    createComment(serviceId, text){
+
+        return coworkingApi.createComment(this.__coworkingApiToken__, serviceId, text)
+    },
+
+    retrieveWorkspaceComments(serviceId) {
+
+        return coworkingApi.retrieveWorkspaceComments(this.__coworkingApiToken__, serviceId)
+    },
+
+    removeComment(serviceId, commentId) {
+
+        return coworkingApi.removeComment(this.__coworkingApiToken__, serviceId, commentId)
     }
 
-    // TODO updateUser and removeUser
+    // TODO updateUser
 }
 export default logic

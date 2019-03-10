@@ -27,5 +27,11 @@ module.exports = {
 
     updateService: require('./update-service'),
 
-    deleteService: require('./delete-service')
+    deleteService: require('./delete-service'),
+
+    createComment: require('./create-comment'),
+
+    retrieveServiceComments: require('./retrieve-service-comments'),
+
+    removeComment: require('./remove-comment')
 }

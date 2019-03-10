@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createWorkspace, addUserToWorkSpace, createNewUserLink, verifyNewUserLink, createService, retrieveService, updateService, deleteService, retrieveWorkspaceServices, addUserToService } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createWorkspace, addUserToWorkSpace, createNewUserLink, verifyNewUserLink, createService, retrieveService, updateService, deleteService, retrieveWorkspaceServices, addUserToService, createComment, retrieveServiceComments, removeComment } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 const router = express.Router()
@@ -45,12 +45,12 @@ router.put('/service/:serviceId', [tokenVerifierMiddleware, jsonBodyParser], upd
 router.delete('/service/:serviceId', tokenVerifierMiddleware, deleteService)
 
 
-// router.post('/service', [tokenVerifierMiddleware, jsonBodyParser], createComment)
+router.post('/comment/:serviceId', [tokenVerifierMiddleware, jsonBodyParser], createComment)
 
-// router.get('/service/:serviceId', tokenVerifierMiddleware, retrieveComment)
+router.get('/comment/:serviceId', tokenVerifierMiddleware, retrieveServiceComments)
 
 // router.put('/service/:serviceId', [tokenVerifierMiddleware, jsonBodyParser], updateComment)
 
-// router.delete('/comment/:serviceId', tokenVerifierMiddleware, deleteComment)
+router.delete('/comment/:serviceId/:commentId', tokenVerifierMiddleware, removeComment)
 
 module.exports = router
