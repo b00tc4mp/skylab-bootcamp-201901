@@ -61,9 +61,10 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return coworkingApi.authenticateUser(email, password)
-            .then(token => {
+            .then(({token, isAdmin}) => {
                 this.__coworkingApiToken__ = token
-   
+                this.__isAdmin__ = isAdmin
+
                 return token
             })
     },
@@ -79,7 +80,7 @@ const logic = {
      * Checks user is logged in.
      */
     get isUserAdmin() {
-        return !!this.__isAdmin__
+        return this.__isAdmin__
     },
 
     /**
@@ -87,21 +88,14 @@ const logic = {
      */
     logOutUser() {
         this.__coworkingApiToken__ = null
+        this.__isAdmin__ = null
     },
     retrieveUser() {
         return coworkingApi.retrieveUser(this.__coworkingApiToken__)
-            // .then(({ isAdmin, name, surname, email, workspace, id }) => ({
-            //     isAdmin,
-            //     name,
-            //     surname,
-            //     email,
-            //     workspace,
-            //     id
-            // }))
     },
 
     removeUser(email, password) {
-        return coworkingApi.removeUser(this.__userApiToken__, email, password)
+        return coworkingApi.removeUser(this.__coworkingApiToken__, email, password)
             // .then( () => {})
     },
 
@@ -110,6 +104,7 @@ const logic = {
     },
 
     createNewUserLink(){
+        this.__isAdmin__ = true
         return coworkingApi.createNewUserLink(this.__coworkingApiToken__)
     },
 
@@ -123,9 +118,9 @@ const logic = {
         return coworkingApi.addUserToWorkspace(this.__coworkingApiToken__, workspaceId)
     },  
 
-    createService(title, description){
-        
-        return coworkingApi.createService(this.__coworkingApiToken__, title, description)
+    createService(title, description, maxUsers, place){
+        console.log(maxUsers)
+        return coworkingApi.createService(this.__coworkingApiToken__, title, description, maxUsers, place)
     },
 
     retrieveWorkspaceServices(workspaceId){
@@ -136,6 +131,11 @@ const logic = {
     retrieveService(serviceId){
 
         return coworkingApi.retrieveService(this.__coworkingApiToken__, serviceId)
+    },
+
+    addUserToService(serviceId){
+
+        return coworkingApi.addUserToService(this.__coworkingApiToken__, serviceId)
     }
 
     // TODO updateUser and removeUser

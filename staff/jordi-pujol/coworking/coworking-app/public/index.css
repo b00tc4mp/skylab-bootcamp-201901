@@ -2,45 +2,110 @@
   display: grid;
   grid-template-columns: 60% 40%;
   grid-template-rows: 1;
-  padding: 0% 10%; }
+  height: 30rem;
+  width: 60rem;
+  padding: 0% 20%; }
   .login_content {
     grid-column-start: 1;
     grid-column-end: 2;
     background: #fff;
     display: flex;
     flex-direction: column;
-    align-self: center; }
+    align-items: center; }
     .login_content-form {
       display: flex;
       flex-direction: column;
-      flex-wrap: wrap;
-      align-items: center; }
+      align-items: center;
+      justify-content: space-around;
+      height: 70%; }
       .login_content-form input {
-        margin-top: 5px;
-        padding-bottom: 5px;
         font-size: 16px;
+        border: none;
         border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-        border-color: inherit;
-        -webkit-box-shadow: none;
-        box-shadow: none;
         outline: none; }
-  .login_subcont {
+      .login_content-form button {
+        margin: 0 auto;
+        border-radius: 30px;
+        width: 8em;
+        height: 2em;
+        border: none;
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+        background-image: linear-gradient(#0F0340, #360BE5); }
+      .login_content-form button:hover {
+        background-image: linear-gradient(skyblue, #360BE5); }
+  .login_subcontent {
     grid-column-start: 2;
     grid-column-end: 3;
-    background: black; }
+    background-image: url(https://www.wittobriens.com/wp-content/uploads/2018/08/bigstock-Young-People-Work-In-Modern-Of-214657102.jpg);
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.8; }
 
 .topBar {
   color: white;
   display: flex;
   justify-content: space-around; }
 
+.topbar {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid white; }
+  .topbar__button {
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    background-color: Transparent; }
+    .topbar__button--logout {
+      background-color: Transparent;
+      font-size: 20px;
+      border: none;
+      color: orange;
+      cursor: pointer; }
+    .topbar__button--icon {
+      background-image: url(https://nilquebe.com/img/coworking.png);
+      height: 125px;
+      width: 125px; }
+
+.inbox {
+  background-size: cover;
+  margin-left: 6em;
+  max-width: 85%; }
+
+.service {
+  background-image: url(https://vignette.wikia.nocookie.net/inciclopedia/images/9/94/Post-It.png/revision/latest?cb=20100719151648&format=original);
+  height: 450px;
+  cursor: pointer; }
+  .service__title {
+    padding-top: 3em;
+    padding-left: 3em;
+    max-width: 300px; }
+  .service__description {
+    padding-left: 5em;
+    max-width: 300px; }
+
+.full__service {
+  position: absolute;
+  background-color: orange;
+  height: 400px;
+  width: 400px; }
+
+img {
+  width: 50px;
+  height: 50px; }
+
+profile {
+  border-bottom: 1px solid white; }
+
 html {
-  background-image: linear-gradient(#0F0340, #360BE5);
-  height: 100%; }
+  background-image: linear-gradient(#9BFF64, #00FF31);
+  background-repeat: no-repeat;
+  background-size: cover; }
   html body {
     margin: 0;
-    padding: 100px;
-    height: 100%;
-    width: 100%; }
+    padding: 100px; }
 
 /*# sourceMappingURL=index.css.map */

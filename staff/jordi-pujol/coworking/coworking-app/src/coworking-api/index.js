@@ -18,7 +18,6 @@ const coworkingApi = {
 
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
         if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
-        debugger
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -54,12 +53,11 @@ const coworkingApi = {
             .then(response => {
                 if (response.error) throw Error(response.error)
 
-                return response.token
+                return response
             })
     },
 
     retrieveUser(token) {
-        console.log('this is my token' + token)
         if (typeof token == ! 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -140,7 +138,7 @@ const coworkingApi = {
             .then( response => response.json())
             .then (response => {
                 if (response.error) throw Error (response.error)
-                console.log(response)
+
                 return response.link
             })
     },
@@ -192,7 +190,7 @@ const coworkingApi = {
             })
     },
 
-    createService(token, title, description){
+    createService(token, title, description, maxUsers, place){
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -202,13 +200,18 @@ const coworkingApi = {
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
         if (!description.trim().length) throw Error('description is empty')
 
+        if (typeof maxUsers !== 'number') throw TypeError(`${maxUsers} is not a number`)
+
+        if (typeof place !== 'string') throw TypeError(`${place} is not a string`)
+        if (!place.trim().length) throw Error('place is empty')
+
         return fetch(`${this.url}/service`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ title, description })
+            body: JSON.stringify({ title, description, maxUsers, place })
         })
             .then( response => response.json())
             .then (response => {
@@ -258,6 +261,27 @@ const coworkingApi = {
             .then (response => {
                 if (response.error) throw Error (response.error)
                 return response.service
+            })
+    },
+
+    addUserToService(token, serviceId){
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
+        if (!serviceId.trim().length) throw Error('serviceId is empty')
+
+        return fetch(`${this.url}/service/${serviceId}`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then( response => response.json())
+            .then (response => {
+                if (response.error) throw Error (response.error)
+                return response
             })
     }
 }

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 class Service extends Component {
 
     onServiceClick = id => {
+        
         const { props: { onServiceSelected } } = this
 
         onServiceSelected(id)
@@ -11,11 +12,15 @@ class Service extends Component {
 
     render() {
 
-        const { props: { servicesFor }, onServiceClick } = this
+        const { props: { servicesFor: {title, description, user, id, date} }, onServiceClick } = this
 
-        return <section onClick={() => onServiceClick(servicesFor.id)}>
-            <h2>Title: {servicesFor.title}</h2 >
-            <p>Descrition: {servicesFor.description}</p>
+        let formatedDate = date.substring(0, 10) + ' ' + date.substring(11, 16)
+
+        return <section className="service" onClick={() => onServiceClick(id)}>
+            <h2 className="service__title">Title: {title}</h2 >
+            <p className="service__description">Description: {description}</p>
+            <p className="service__description">Upload date and time: {formatedDate}</p>
+            <p className="service__description">Service provider: {user}</p>
         </section >
     }
 }

@@ -17,23 +17,22 @@ class Inbox extends Component {
             .then(services => this.setState({ services }))
     }
 
+    handleServiceClick = id => this.props.history.push(`/home/inbox/service/${id}`)
 
-    handleServiceClick = id => {
-        console.log(id)
-        // hacer llamada con el id
-        logic.retrieveService(id)
-            .then(service => this.setState({ activeService: service }, this.props.history.push(`/home/inbox/service/${id}`)))
-    }
+    // handleSubmitService= id => {
+    //     return logic.addUserToService(id)
+    //         .then(() => this.props.history.push('home/inbox'))
+    // }
 
     render() {
 
-        const { state: { services, activeService }, handleServiceClick } = this
+        const { state: { services, activeService }, handleServiceClick, handleSubmitService } = this
 
-        return (<section>
+        return (<section className="inbox">
             {services && services.map(service =>
                 <Service key={services.id} servicesFor={service} onServiceSelected={handleServiceClick} />
             )}
-            <Route path='/home/inbox/service/:service' render={() => <FullService service={activeService} />} />
+            <Route path='/home/inbox/service/:id' render={(props) => <FullService service={props.match.params.id} onServiceSubmit={handleSubmitService} />} />
         </section>)
     }
 }

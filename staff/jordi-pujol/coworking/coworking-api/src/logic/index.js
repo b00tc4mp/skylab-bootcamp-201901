@@ -62,16 +62,18 @@ const logic = {
      */
     authenticateUser(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
         if (!email.trim().length) throw Error('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
         if (!password.trim().length) throw Error('password cannot be empty')
+
+        let isAdmin
 
         return User.findOne({ email })
             .then(user => {
                 if (!user) throw Error(`user with email ${email} not found`)
+
+                isAdmin = user.isAdmin
 
                 return bcrypt.compare(password, user.password)
                     .then(match => {
@@ -81,6 +83,9 @@ const logic = {
 
                         return createToken(id)
                     })
+            })
+            .then(token => {
+                return { token, isAdmin }
             })
     },
 
@@ -141,8 +146,7 @@ const logic = {
         return User.findOne({ _id: userId })
             .then(user => {
                 if (!user.isAdmin) throw Error(`cannot delete if not admin`)
-                debugger
-                // workspaceId = user.workspace
+
                 workspaceId = user.workspace.toString()
             })
             .then(() => {
@@ -151,7 +155,7 @@ const logic = {
             .then(({ _id }) => {
 
                 _userId = _id
-                debugger
+
                 return Workspace.findById(workspaceId)
             })
             .then(workspace => {
@@ -185,7 +189,7 @@ const logic = {
                 if (!user) throw Error('user does not exist')
                 if (user.workspace) throw Error('cannot create more than one workspace with same email')
 
-                user.isAdmin = 'true'
+                user.isAdmin = true
 
                 return user.save()
             })
@@ -271,11 +275,11 @@ const logic = {
                 return bcrypt.hash(uuid(), 10)
             })
             .then(hash => {
-                let _hash = hash.replace(/\//g, '')
+                let _hash = hash.replace(/\//g, '').toString()
 
                 return Workspace.findById(workspaceId)
                     .then(workspace => {
-                        workspace.hash.push(hash)
+                        workspace.hash.push(_hash)
                         return workspace.save()
                     })
                     .then(() => {
@@ -326,7 +330,7 @@ const logic = {
      * @param {string} title 
      * @param {string} description 
      */
-    createService(userId, title, description) {
+    createService(userId, title, description, maxUsers, place) {
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -337,23 +341,28 @@ const logic = {
         if (typeof description !== 'string') throw TypeError(description + ' is not a string')
         if (!description.trim().length) throw Error('description cannot be empty')
 
+        if (typeof maxUsers !== 'number') throw TypeError(maxUsers + ' is not a string')
+
+        if (typeof place !== 'string') throw TypeError(place + ' is not a string')
+        if (!place.trim().length) throw Error('place cannot be empty')
+
         let workspaceId
         let serviceId
 
         return User.findById({ _id: userId })
             .then(user => {
                 if (!user) throw Error(`${userId} does not exists`)
-                debugger
+
                 workspaceId = user.workspace
             })
-            .then(() => Service.create({ title, description, user: userId })).then(({ id }) => serviceId = id)
+            .then(() => Service.create({ title, description, user: userId, maxUsers, place })).then(({ id }) => serviceId = id)
             .then(() => Workspace.findById(workspaceId))
             .then(workspace => {
                 workspace.service.push(serviceId)
                 return workspace.save()
             })
             .then(() => {
-                debugger
+
                 return serviceId
             })
     },
@@ -374,7 +383,7 @@ const logic = {
 
         return Service.findById(serviceId).select('-password -__v').lean()
             .then(service => {
-                if (service.user.toString() !== userId) throw Error('this user cannot retrieve this service')
+                // if (service.user.toString() !== userId) throw Error('this user cannot retrieve this service')
 
                 service.id = service._id.toString()
 
@@ -392,14 +401,23 @@ const logic = {
         if (!workspaceId.trim().length) throw Error('workspaceId cannot be empty')
 
         let services
+        let user
 
-        return Workspace.findById(workspaceId).populate('service').lean()
+        return Workspace.findById(workspaceId).populate('service user').lean()
             .then(workspace => {
 
                 services = workspace.service.map(service => {
                     service.id = service._id
                     delete service._id
                     delete service.__v
+
+                    user = workspace.user.map(_user => {
+                        if (_user._id.toString() === service.user.toString()) {
+                            return _user.name
+                        }
+                    })
+
+                    service.user = user
 
                     return service
                 })
@@ -430,6 +448,26 @@ const logic = {
                 if (service.user.toString() !== userId) throw Error('this user cannot update this service')
             })
             .then(() => Service.findOneAndUpdate({ id: serviceId, $set: data }))
+    },
+
+    addUserToService(userId, serviceId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
+        if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
+
+        return Service.findById(serviceId)
+            .then(service => {
+                service.submitedUsers.map(user => {
+
+                    if (user == userId) throw Error('user is already submited to this service')
+                })
+                if (service.user.toString() === userId) throw Error('user cannot apply for his own service')
+
+                service.submitedUsers.push(userId)
+                return service.save()
+            })
     },
 
     /**
