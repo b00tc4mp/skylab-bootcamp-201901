@@ -25,6 +25,7 @@
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.15",
     "multer": "^1.4.1",
+    "nyc": "^13.3.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

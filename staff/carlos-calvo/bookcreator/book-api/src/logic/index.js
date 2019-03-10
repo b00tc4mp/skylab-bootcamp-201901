@@ -83,12 +83,8 @@ const logic = {
         if (!password.trim().length) throw new EmptyError('password cannot be empty')
 
         return (async () => {
-                const user = await User.findOne({ email })
-                
-                if (!user) throw new NotFoundError(`user with email ${email} not found`)
-                
+                const user = await User.findOne({ email })          
                 const match = await bcrypt.compare(password, user.password)
-                
                 if (!match) throw new AuthError('wrong credentials')
                 
                 return user.id
@@ -187,17 +183,12 @@ const logic = {
     addBook (title, content, coverphoto, userId, images, parameters ){
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw new EmptyError('title  is empty')
-
         if (typeof content !== 'string') throw TypeError(`${content} is not a string`)
         if (!content.trim().length) throw new EmptyError('content  is empty')
-
         if (typeof coverphoto !== 'string') throw TypeError(`${coverphoto} is not a string`)
         if (!coverphoto.trim().length) throw new EmptyError('coverphoto  is empty')
-
         if (!(images instanceof Array)) throw TypeError(`${images} is not a array`)
-
         if (!(parameters instanceof Object)) throw TypeError(`${parameters} is not a Object`)
-
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new EmptyError('userId  is empty')
 
