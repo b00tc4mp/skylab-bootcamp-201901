@@ -1,10 +1,7 @@
 'use strict'
 
-const users = require('../data/users')
-const exercises = require('../data/exercises')
-
 const { User, Exercise } = require('../models')
-const jwt = require('jsonwebtoken')
+
 const bcrypt = require('bcrypt')
 const testing = require('../testing')
 const { AuthError, DuplicateError, MatchingError, NotFoundError, PrivilegeError } = require('startlab-errors')
@@ -22,29 +19,15 @@ const logic = {
     /******************/
 
     registerUser(name, surname, email, password, passwordConfirm) {
-        // if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-        // if (!name.trim().length) throw new EmptyError('name cannot be empty')
-
-        // if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
-        // if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
-
-        // if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-        // if (!email.trim().length) throw new EmptyError('email cannot be empty')
-
-        // if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-        // if (!password.trim().length) throw new EmptyError('password cannot be empty')
-
-        // if (typeof passwordConfirm !== 'string') throw TypeError(passwordConfirm + ' is not a string')
-        // if (!passwordConfirm.trim().length) throw new EmptyError('password confirmation cannot be empty')
 
         validate([
-            { key: 'name', value: name, type: String }, 
-            { key: 'surname', value: surname, type: String }, 
-            { key: 'email', value: email, type: String }, 
+            { key: 'name', value: name, type: String },
+            { key: 'surname', value: surname, type: String },
+            { key: 'email', value: email, type: String },
             { key: 'password', value: password, type: String },
             { key: 'passwordConfirm', value: passwordConfirm, type: String }
         ])
-        
+
         if (passwordConfirm.trim() !== password.trim()) throw new MatchingError('password and password confirmation does not match')
 
         return User.findOne({ email })
@@ -57,12 +40,26 @@ const logic = {
             .then(({ id }) => id)
     },
 
-    authenticateUser(email, password) {
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-        if (!email.trim().length) throw new EmptyError('email cannot be empty')
+    retrieveUser(userId) {
 
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-        if (!password.trim().length) throw new EmptyError('password cannot be empty')
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        return User.findById(userId).select('-password -__v').lean()
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${id} not found`)
+
+                user.id = user._id
+                delete user._id
+                return user
+            })
+    },
+
+    authenticateUser(email, password) {
+
+        validate([
+            { key: 'email', value: email, type: String },
+            { key: 'password', value: password, type: String }
+        ])
 
         return User.findOne({ email })
             .then(user => {
@@ -76,52 +73,25 @@ const logic = {
             })
     },
 
-    retrieveUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
-
-        return User.findById(userId).select('-password -__v').lean()
-            .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${id} not found`)
-                //if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
-
-                user.id = user._id
-                delete user._id
-                return user
-            })
-    },
-
-    // isAdmin(userId) { // lo comentamos a día 9 de marzo ya que por ahora no se hace uso de él
-    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-    //     if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
-    //     debugger
-    //     return User.findById(userId).select('isAdmin').lean()
-    //         .then(({ isAdmin }) => isAdmin)
-    // },
-
     /********************/
     /** CRUD exercise ***/
     /********************/
 
     createExercise(userId, title, summary, test) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError('userId is empty')
 
-        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
-        if (!title.trim().length) throw new EmptyError('title is empty')
-
-        if (typeof summary !== 'string') throw TypeError(`${summary} is not a string`)
-        if (!summary.trim().length) throw new EmptyError('summary is empty')
-
-        if (typeof test !== 'string') throw TypeError(`${test} is not a string`)
-        if (!test.trim().length) throw new EmptyError('test is empty')
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'title', value: title, type: String },
+            { key: 'summary', value: summary, type: String },
+            { key: 'test', value: test, type: String }
+        ])
 
         return User.findById(userId)
             .then(user => {
                 if (!user) throw new NotFoundError(`user with id ${userId} not found`)
                 if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
 
-                return Exercise.create({ title, summary, test })
+                return Exercise.create({ title, summary, test }) // here I'm not calling to Exercise.create. instead I¡m calling to mongo DB create method, right?
                     .then(({ id }) => {
                         return { message: `exercise with id ${id} created` }
                     })
@@ -130,11 +100,11 @@ const logic = {
     },
 
     retrieveExercise(userId, exerciseId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
-        if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
-        if (!exerciseId.trim().length) throw new EmptyError(`exerciseId is empty`)
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'exerciseId', value: exerciseId, type: String }
+        ])
 
         return User.findById(userId)
             .then(user => {
@@ -152,11 +122,11 @@ const logic = {
     },
 
     deleteExercise(userId, exerciseId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
-        if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
-        if (!exerciseId.trim().length) throw new EmptyError(`exerciseId is empty`)
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'exerciseId', value: exerciseId, type: String }
+        ])
 
         return User.findById(userId)
             .then(user => {
@@ -176,10 +146,10 @@ const logic = {
     },
 
     updateExercise(userId, exercise) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
-        //Todo validate exercise and fields
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        // How to validate exercise -> Object ??
 
         return User.findById(userId)
             .then(user => {
@@ -199,8 +169,8 @@ const logic = {
     },
 
     listExercises(userId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
+
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return User.findById(userId)
             .then(user => {
@@ -223,8 +193,8 @@ const logic = {
     },
 
     getExercisesFromUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
+
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return User.findById(userId).populate('historical.exercise').lean()
             .then(user => {
@@ -247,24 +217,20 @@ const logic = {
     /********************/
     /*** Code methods ***/
     /********************/
-    // 
-    // checks the answer and change the fields exercise & completed
-    // 
+
     checkAnswer(userId, answer, exerciseId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
-        if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
-        if (!answer.trim().length) throw new EmptyError(`${answer} is empty`)
-
-        if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
-        if (!exerciseId.trim().length) throw new EmptyError(`${exerciseId} is empty`)
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'answer', value: answer, type: String },
+            { key: 'exerciseId', value: exerciseId, type: String }
+        ])
 
         return this.retrieveExercise(userId, exerciseId)
             .then(exercise => {
                 if (!exercise) throw new NotFoundError(`exercise with id ${exerciseId} not found`)
 
-                testing.checkAnswer(answer, exercise.test)
+                const result = testing.checkAnswer(answer, exercise.test)
 
                 this.__changeStatusExerciseFromUser__(userId, answer, exercise.id)
                 return { status: 'ok' }
@@ -276,14 +242,12 @@ const logic = {
     },
 
     __changeStatusExerciseFromUser__(userId, answer, exerciseId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new EmptyError(`${userId} is empty`)
 
-        if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
-        if (!answer.trim().length) throw new EmptyError(`${answer} is empty`)
-
-        if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
-        if (!exerciseId.trim().length) throw new EmptyError(`${exerciseId} is empty`)
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'answer', value: answer, type: String },
+            { key: 'exerciseId', value: exerciseId, type: String }
+        ])
 
         return User.findById(userId)
             .then(user => {
@@ -291,8 +255,8 @@ const logic = {
 
                 let newHistorical = user.historical.map(exerciseItem => {
                     if (exerciseItem.exercise.toString() === exerciseId) {
-                      exerciseItem.answer = answer
-                      exerciseItem.completed = true
+                        exerciseItem.answer = answer
+                        exerciseItem.completed = true
                     }
 
                     return exerciseItem

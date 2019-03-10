@@ -21,6 +21,12 @@ function validate(params) {
                 if (optional && value == null) break
 
                 if (typeof value !== 'number') throw TypeError(`${value} is not a number`)
+                break
+            case Object:
+                debugger
+                if (optional && value == null) break
+
+                if (value.constructor !== Object) throw TypeError(`${value} is not an object`)
         }
     })
 }
