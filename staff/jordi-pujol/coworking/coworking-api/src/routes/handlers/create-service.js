@@ -2,10 +2,10 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
 
-    const { body: { title, description }, userId } = req
+    const { body: { title, description, maxUsers, place }, userId } = req
     
     try {
-        logic.createService(userId, title, description)
+        logic.createService(userId, title, description, maxUsers, place)
             .then(id => res.json({ id }))
             .catch(({ message }) => {
                 res.status(401).json({

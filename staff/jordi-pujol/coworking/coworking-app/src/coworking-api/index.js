@@ -58,7 +58,6 @@ const coworkingApi = {
     },
 
     retrieveUser(token) {
-        console.log('this is my token' + token)
         if (typeof token == ! 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -139,7 +138,7 @@ const coworkingApi = {
             .then( response => response.json())
             .then (response => {
                 if (response.error) throw Error (response.error)
-                console.log(response)
+
                 return response.link
             })
     },
@@ -191,7 +190,7 @@ const coworkingApi = {
             })
     },
 
-    createService(token, title, description){
+    createService(token, title, description, maxUsers, place){
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -201,13 +200,18 @@ const coworkingApi = {
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
         if (!description.trim().length) throw Error('description is empty')
 
+        if (typeof maxUsers !== 'number') throw TypeError(`${maxUsers} is not a number`)
+
+        if (typeof place !== 'string') throw TypeError(`${place} is not a string`)
+        if (!place.trim().length) throw Error('place is empty')
+
         return fetch(`${this.url}/service`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ title, description })
+            body: JSON.stringify({ title, description, maxUsers, place })
         })
             .then( response => response.json())
             .then (response => {
@@ -276,7 +280,6 @@ const coworkingApi = {
         })
             .then( response => response.json())
             .then (response => {
-                console.log(response)
                 if (response.error) throw Error (response.error)
                 return response
             })

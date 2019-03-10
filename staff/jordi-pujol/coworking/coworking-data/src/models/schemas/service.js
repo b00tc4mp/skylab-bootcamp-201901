@@ -2,9 +2,9 @@ const { Schema } = require('mongoose')
 const { Types: { ObjectId } } = Schema
 const Comment = require('./comments')
 
-const Service = new Schema ({
+const Service = new Schema({
 
-    title:{
+    title: {
         type: String,
         required: true
     },
@@ -20,13 +20,30 @@ const Service = new Schema ({
         ref: 'User'
     },
 
-    submitedUsers:[{
+    submitedUsers: [{
         type: ObjectId,
         required: false,
         ref: 'User'
     }],
 
-    comments: [Comment]
+    comments: [Comment],
+
+    maxUsers: {
+        type: Number,
+        required: false
+    },
+
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+
+    place: {
+        type: String,
+        required: false,
+        default: "Not specified"
+    }
 })
 
 module.exports = Service

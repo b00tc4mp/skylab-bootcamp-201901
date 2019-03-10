@@ -6,13 +6,6 @@ class FullService extends Component {
 
     state = {activeService:''}
 
-    // handleSubmitForm = event => {
-    //     event.preventDefault()
-
-    //     const { props: { onServiceSubmit, id } } = this
-    //     onServiceSubmit(id)
-    // }
-
     componentDidMount () {
 
         const {props: {service}} = this
@@ -48,17 +41,32 @@ class FullService extends Component {
         return logic.addUserToService(id)
             .then(() => this.props.history.push('/home/inbox'))
     }
+    
+
 
     render() {
 
-        const { state: { activeService: { title, description } }, handleSubmitForm } = this
-        
-        return <section>
-            <h3>HOLAAAAAAAAAAAAAAAAAAAAAA</h3>
-            <h2>{title}</h2>
-            <h2>{description}</h2>
+        const { state: { activeService: { title, description, user, submitedUsers, maxUsers, date, place } }, handleSubmitForm } = this
+
+        let formatedDate
+
+        if (date) formatedDate = date.substring(0, 10) + ' ' + date.substring(11, 16)
+
+
+        return <section className="full-service">
+            <h2 className="full__service--title">Title: {title}</h2>
+            <p className="full__service--description"> Description: {description}</p>
+            <p className="full__service--description">Service provider: {user}</p>
+            <p className="full__service--description">Submited users: {submitedUsers}</p>
+            <p className="full__service--description">Max users: {maxUsers}</p>
+            <p className="full__service--description">Place: {place}</p>
+            <p >Upload date and time: {formatedDate}</p>
             <form onSubmit={handleSubmitForm}>
-                <button>Submit to this Service</button>
+                <button className="full-service__button">Submit to this Service</button>
+            </form>
+            <form onSubmit={handleSubmitForm}>
+                <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/chat-circle-blue-512.png" alt="#"/>
+                <button className="full-service__button">Add a comment</button>
             </form>
         </section>
     }

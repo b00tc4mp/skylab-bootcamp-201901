@@ -330,7 +330,7 @@ const logic = {
      * @param {string} title 
      * @param {string} description 
      */
-    createService(userId, title, description) {
+    createService(userId, title, description, maxUsers, place) {
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -341,6 +341,11 @@ const logic = {
         if (typeof description !== 'string') throw TypeError(description + ' is not a string')
         if (!description.trim().length) throw Error('description cannot be empty')
 
+        if (typeof maxUsers !== 'number') throw TypeError(maxUsers + ' is not a string')
+
+        if (typeof place !== 'string') throw TypeError(place + ' is not a string')
+        if (!place.trim().length) throw Error('place cannot be empty')
+
         let workspaceId
         let serviceId
 
@@ -350,7 +355,7 @@ const logic = {
 
                 workspaceId = user.workspace
             })
-            .then(() => Service.create({ title, description, user: userId })).then(({ id }) => serviceId = id)
+            .then(() => Service.create({ title, description, user: userId, maxUsers, place })).then(({ id }) => serviceId = id)
             .then(() => Workspace.findById(workspaceId))
             .then(workspace => {
                 workspace.service.push(serviceId)
@@ -396,14 +401,23 @@ const logic = {
         if (!workspaceId.trim().length) throw Error('workspaceId cannot be empty')
 
         let services
+        let user
 
-        return Workspace.findById(workspaceId).populate('service').lean()
+        return Workspace.findById(workspaceId).populate('service user').lean()
             .then(workspace => {
 
                 services = workspace.service.map(service => {
                     service.id = service._id
                     delete service._id
                     delete service.__v
+
+                    user = workspace.user.map(_user => {
+                        if (_user._id.toString() === service.user.toString()) {
+                            return _user.name
+                        }
+                    })
+
+                    service.user = user
 
                     return service
                 })
@@ -445,9 +459,9 @@ const logic = {
 
         return Service.findById(serviceId)
             .then(service => {
-                service.submitedUsers.map(user=> { 
+                service.submitedUsers.map(user => {
 
-                    if (user == userId) throw Error('user is already submited to this service') 
+                    if (user == userId) throw Error('user is already submited to this service')
                 })
                 if (service.user.toString() === userId) throw Error('user cannot apply for his own service')
 

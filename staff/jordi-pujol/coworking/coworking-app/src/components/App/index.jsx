@@ -52,6 +52,7 @@ class App extends Component {
             <Route path='/login/:link' render={(props) => !logic.isUserLoggedIn? <Login onLogin={handleLogin} link={props.match.params.link}/> : <Redirect to='/home/inbox'/>} />
             <Route exact path='/login' render={(props) => !logic.isUserLoggedIn? <Login onLogin={handleLogin} link={props.match.params.link}/> : <Redirect to='/home/inbox'/>} />
             <Route exact path='/workspace' render={() => !logic.isUserLoggedIn? <Workspace onNewWorkspace={handleNewWorkspace}/> : <Redirect to='/home/inbox'/>} />
+            {/* <Route path='/home' render={()=> <Redirect to='/home/inbox'/>}/>  */}
             <Route path='/home' render={() => logic.isUserLoggedIn? <Home /> : <Redirect to='/login'/>} />
         </main>
     }

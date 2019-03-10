@@ -118,9 +118,9 @@ const logic = {
         return coworkingApi.addUserToWorkspace(this.__coworkingApiToken__, workspaceId)
     },  
 
-    createService(title, description){
-        
-        return coworkingApi.createService(this.__coworkingApiToken__, title, description)
+    createService(title, description, maxUsers, place){
+        console.log(maxUsers)
+        return coworkingApi.createService(this.__coworkingApiToken__, title, description, maxUsers, place)
     },
 
     retrieveWorkspaceServices(workspaceId){

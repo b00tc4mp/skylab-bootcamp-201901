@@ -28,7 +28,7 @@ class Inbox extends Component {
 
         const { state: { services, activeService }, handleServiceClick, handleSubmitService } = this
 
-        return (<section>
+        return (<section className="inbox">
             {services && services.map(service =>
                 <Service key={services.id} servicesFor={service} onServiceSelected={handleServiceClick} />
             )}

@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 
 import Profile from '../Profile'
 import Inbox from '../Inbox'
@@ -12,9 +12,9 @@ import NewInvitation from '../New-invitation';
 
 class Home extends Component {
 
-    state = {services: ''}
+    state = { services: '', link: null }
 
-    handleGoToHome = () => this.props.history.push('/home')
+    handleGoToHome = () => this.props.history.push('/home/inbox')
 
     handleGoToProfile = () => this.props.history.push('/home/profile')
 
@@ -23,10 +23,12 @@ class Home extends Component {
     handleGoToNotifications = () => this.props.history.push('/home/notifications')
 
     handleCreateNewLink = () => {
+        
         logic.createNewUserLink()
-            .then(result => this.invitation=result )
-            // .then((result) => console.log(result + 'dsadsadsadsadds'))
-            // .then(() => this.props.history.push('/home/notifications'))
+            .then(result => this.setState({ link: result }), this.props.history.push('/home/invitation'))
+        
+        // .then((result) => console.log(result + 'dsadsadsadsadds'))
+        // .then(() => this.props.history.push('/home/notifications'))
     }
 
     handleLogOut = () => {
@@ -35,21 +37,22 @@ class Home extends Component {
         this.props.history.push('/login')
     }
 
-    handleCreateService = (title, description) => {
-        logic.createService(title, description)
+    handleCreateService = (title, description, maxUsers, place) => {
+
+        logic.createService(title, description, maxUsers, place)
             .then(() => this.props.history.push('/home'))
     }
 
     render() {
 
-        const { handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, invitation } = this
+        const { state: { link }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, invitation } = this
 
         return <section>
             <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />
             <Route exact path='/home/profile' render={() => <Profile />} />
             <Route path='/home/inbox' render={() => <Inbox />} />
             <Route path='/home/service' render={() => <NewService onCreateService={handleCreateService} />} />
-            <Route path='/home/invitation' render={() => <NewInvitation invitation={invitation} />} />
+            <Route path='/home/invitation' render={() => <NewInvitation invitation={link} /> } />
             {/* <Route exact path='/home/inbox' render={()=> services && <Service services={services}/>}/> */}
         </section>
     }
