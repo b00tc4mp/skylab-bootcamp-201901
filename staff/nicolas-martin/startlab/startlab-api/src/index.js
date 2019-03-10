@@ -28,7 +28,14 @@ const {
 
     checkAnswer,
 
+    // invitations
     sendInvitationEmail,
+    createInvitation,
+    listInvitations,
+    retrieveInvitation,
+    updateInvitation,
+    deleteInvitation,
+
     // Others
     notFound
 } = require('./routes')
@@ -52,7 +59,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
         router.get('/isadmin', tokenVerifierMiddleware, isAdmin)
 
-        // CRUD Exercise
+        // CRUD Exercises
         router.post('/admin/exercise/create', [jsonBodyParser, tokenVerifierMiddleware], createExercise)
         router.get('/admin/exercise/list', [tokenVerifierMiddleware], listExercises)
         router.get('/admin/exercise/:exerciseId', [jsonBodyParser, tokenVerifierMiddleware], retrieveExercise)
@@ -66,6 +73,14 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         // Mail
         router.post('/admin/email/invitation', [jsonBodyParser, tokenVerifierMiddleware], sendInvitationEmail)
+
+        // CRUD Invitations
+        router.post('/admin/invitation/create', [jsonBodyParser, tokenVerifierMiddleware], createInvitation)
+        router.get('/admin/invitation/list', [tokenVerifierMiddleware], listInvitations)
+        router.get('/admin/invitation/:invitationId', [jsonBodyParser, tokenVerifierMiddleware], retrieveInvitation)
+        router.post('/admin/invitation/update', [jsonBodyParser, tokenVerifierMiddleware], updateInvitation)
+        router.delete('/admin/invitation/delete/:invitationId', [jsonBodyParser, tokenVerifierMiddleware], deleteInvitation)
+
 
         app.use('/api', router)
 

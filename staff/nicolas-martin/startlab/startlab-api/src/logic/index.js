@@ -6,7 +6,7 @@ const { AuthError, DuplicateError, MatchingError, NotFoundError, PrivilegeError 
 const validate = require('startlab-validation')
 
 const testing = require('../testing')
-const { User, Exercise } = require('../models')
+const { User, Exercise, Invitation } = require('../models')
 const emailing = require('../emailing')
 
 /**
@@ -215,6 +215,125 @@ const logic = {
             })
     },
 
+    /***************************/
+    /*** Invitations methods ***/
+    /***************************/
+
+    retrieveInvitation(userId, invitationId) {
+
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'invitationId', value: invitationId, type: String }
+        ])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+
+                return Invitation.findById(invitationId).select('-__v').lean()
+                    .then(invitation => {
+                        if (!invitation) throw new NotFoundError(`invitation with id ${invitationId} not found`)
+                        if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+
+                        invitation.id = invitation._id.toString()
+                        delete invitation._id
+                        return invitation
+                    })
+            })
+    },
+
+    createInvitation(userId, email) {
+
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'email', value: email, type: String }
+        ])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+
+                return Invitation.create({ email })
+                    .then(({ id }) => {
+                        return { message: `invitation with id ${id} created` }
+                    })
+            })
+
+    },
+
+    listInvitations(userId) {
+
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+
+                return Invitation.find().select('-__v').lean()
+                    .then(invitations => {
+
+                        let _invitations = []
+                        invitations.forEach(_invitation => {
+                            _invitation.id = _invitation._id
+                            delete _invitation._id
+                            _invitations.push(_invitation)
+                        })
+
+                        return _invitations
+                    })
+            })
+    },
+
+    deleteInvitation(userId, invitationId) {
+
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'invitationId', value: invitationId, type: String }
+        ])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+
+                return Invitation.findById(invitationId)
+                    .then(invitation => {
+                        if (!invitation) throw new NotFoundError(`invitation with id ${invitationId} not found`)
+
+                        return Invitation.deleteOne({ _id: invitationId })
+                            .then((res) => {
+                                if (res.ok === 1) return { status: 'ok', message: `invitation with id ${invitationId} deleted` }
+                            })
+                    })
+            })
+    },
+
+    updateInvitation(userId, invitation) {
+
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        // How to validate exercise -> Object ??
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+
+                const { id, ..._invitation } = invitation
+
+                return Invitation.findByIdAndUpdate(id, _invitation, { runValidators: true, new: true }).select('-__v').lean()
+                    .then(invitation => {
+                        if (!invitation) throw new NotFoundError(`invitation with id ${id} not found`)
+                        invitation.id = invitation._id.toString()
+
+                        return { status: 'ok', message: `invitation with id ${invitation._id} updated` }
+                    })
+            })
+
+    },
+
 
     /********************/
     /*** Code methods ***/
@@ -279,7 +398,6 @@ const logic = {
                 return emailing.sendInvitation('nicolas.martin.acosta@gmail.com', user.name)
 
             })
-
     }
 }
 
