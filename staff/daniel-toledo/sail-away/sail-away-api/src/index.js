@@ -8,10 +8,15 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const logic = require('./logic')
-// const tokenHelper = require('./token-helper')
-// const { tokenVerifierMiddleware } = tokenHelper
+const tokenHelper = require('./token-helper')
+const { tokenVerifierMiddleware } = tokenHelper
 
 const { 
+    registerUser,
+    authenticateUser,
+    retrieveUser,
+    updateUser,
+
     addJourney, 
     retrieveJourney, 
     listJourneys,
@@ -27,7 +32,7 @@ const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = p
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {
 
-        // tokenHelper.jwtSecret = JWT_SECRET
+        tokenHelper.jwtSecret = JWT_SECRET
 
         const jsonBodyParser = bodyParser.json()
 
@@ -37,15 +42,16 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         app.use(cors())
         app.use('/api', router)
 
-        // router.post('/user', jsonBodyParser, registerUser)
-        // router.post('/user/auth', jsonBodyParser, authenticateUser)
-        // router.get('/user',  tokenVerifierMiddleware, retrieveUser)
+        router.post('/user', jsonBodyParser, registerUser)
+        router.post('/user/auth', jsonBodyParser, authenticateUser)
+        router.get('/user',  tokenVerifierMiddleware, retrieveUser)
+        router.put('/user',tokenVerifierMiddleware,jsonBodyParser, updateUser)
 
         router.post('/journey', jsonBodyParser, addJourney)
         router.get('/journey/:id', retrieveJourney)
         router.get('/search', searchJourneys)
         router.get('/journeys', listJourneys)
-        router.put('/journey/:id', updateJourney)
+        router.put('/journey/:id',jsonBodyParser, updateJourney)
         router.delete('/journey/:id', deleteJourney)
 
         router.get('*', notFound)

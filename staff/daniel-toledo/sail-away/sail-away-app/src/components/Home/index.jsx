@@ -9,17 +9,17 @@ import logic from '../../logic';
 
 function Home(props) {
 
-        let { journeys, moreInfo } = props
+        let { journeys, moreInfo, editJourney } = props
 
-        function getRoutes(journeys) {
-                let routes = []
-                journeys.forEach(journey => routes.push(journey.route))
-                return routes
+        function getMarkers(journeys) {
+                let markers = []
+                journeys.forEach(journey => markers.push(journey.route))
+                return markers
         }
 
         return (<main className="home">
                 <div className="journey__map">
-                        <MapDisplay sea={journeys[0].sea} routes={getRoutes(journeys)} />
+                        <MapDisplay sea={journeys[0].sea} markers={getMarkers(journeys)} />
                 </div>
                 <div className='row'>
                         {
@@ -29,7 +29,7 @@ function Home(props) {
                                                         <button onClick={() => moreInfo(journey.id)}>more</button>
                                                         <button>capitan</button>
                                                         <button>contact</button>
-                                                        <button>edit</button>
+                                                        <button onClick={() => editJourney(journey.id)}>edit</button>
                                                         <button className='fas fa-heart'></button>
                                                 </div>
                                                 <div>

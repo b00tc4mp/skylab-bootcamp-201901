@@ -5,19 +5,31 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps
 
 import './index.sass'
 
-function MapRoute({ google, getRoute, seaSelection }) {
+function MapRoute({ google, getMarkers, seaSelection, initialMarkers}) {
+    debugger
 
-    let [markers, setMarkers] = useState([])
-    let [sea, setSea] = useState(seaSelection)
+    let [markers, setMarkers] = useState(initialMarkers)
+    let [sea, setSea] = useState({
+
+        name: 'Select Ocean',
+        center: {
+            lat: 0,
+            lng: 0
+        },
+        zoom: 2
+
+    })
 
     useEffect(() => {
         setSea(seaSelection)
-    }, [seaSelection])
+        setMarkers(markers)
+
+    }, [seaSelection, markers])
+
 
     function generateRoute(markers) {
         let route = []
         markers.forEach(({ position }) => route.push(position))
-        getRoute(route)
         return route
     }
 
@@ -32,6 +44,7 @@ function MapRoute({ google, getRoute, seaSelection }) {
         markers = [...markers]
 
         setMarkers(markers)
+        getMarkers(markers)
     }
 
     function mapClicked(mapProps, map, clickEvent) {
@@ -48,7 +61,9 @@ function MapRoute({ google, getRoute, seaSelection }) {
         }
 
         markers = [...markers, newMarker]
+
         setMarkers(markers)
+        getMarkers(markers)
     }
 
     function onMarkerClick(index) {
@@ -56,11 +71,10 @@ function MapRoute({ google, getRoute, seaSelection }) {
         markers = [...markers]
 
         setMarkers(markers)
-
+        getMarkers(markers)
     }
 
     return (<Map
-        className='map'
         google={google}
         containerStyle={{ height: "50%" }}
         style={{
@@ -68,8 +82,11 @@ function MapRoute({ google, getRoute, seaSelection }) {
             height: "100%"
         }}
         center={{
-            lat: markers.length ? markers[markers.length - 1].position.lat : sea.center.lat,
-            lng: markers.length ? markers[markers.length - 1].position.lng : sea.center.lng
+            // lat: markers.length ? markers[markers.length - 1].position.lat : sea.center.lat,
+            // lng: markers.length ? markers[markers.length - 1].position.lng : sea.center.lng
+
+            lat: sea.center.lat,
+            lng: sea.center.lng
         }}
         zoom={sea.zoom}
         onClick={(mapProps, map, clickEvent) => mapClicked(mapProps, map, clickEvent)}
@@ -92,7 +109,7 @@ function MapRoute({ google, getRoute, seaSelection }) {
                     return (<Marker
                         position={marker.position}
                         draggable={true}
-                        onDragend={(t, map, coord) => onMarkerDragEnd(coord, index)}
+                        onDragend={(event, coord) => onMarkerDragEnd(coord, index)}
                         onClick={() => onMarkerClick(index)}
                         name={marker.name}
                         icon={{
@@ -111,7 +128,7 @@ function MapRoute({ google, getRoute, seaSelection }) {
         }
 
 
-        <Polyline
+        {<Polyline
             path={generateRoute(markers)}
             options={{
                 strokeColor: '#0000ff',
@@ -122,7 +139,7 @@ function MapRoute({ google, getRoute, seaSelection }) {
                     offset: '0',
                     repeat: '10px'
                 }],
-            }} />
+            }} />}
     </Map>)
 }
 

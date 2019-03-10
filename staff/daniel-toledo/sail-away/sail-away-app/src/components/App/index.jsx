@@ -5,6 +5,7 @@ import { Route, withRouter, Redirect } from 'react-router-dom'
 import Home from '../Home'
 import JourneyCreate from '../JourneyCreate'
 import JourneyInfo from '../JourneyInfo'
+import JourneyEdit from '../JourneyEdit'
 import Nav from '../Nav'
 import Landing from '../Landing'
 import './index.sass'
@@ -13,7 +14,7 @@ import logic from '../../logic';
 function App(props) {
 
     let [journeys, setJourneys] = useState([])
-    let [journey, setJourney] = useState([])
+    let [journey, setJourney] = useState(null)
 
     async function handleGoHome() {
         try {
@@ -47,19 +48,26 @@ function App(props) {
         try {
             const journey = await logic.retrieveJourney(id)
             setJourney(journey)
-            props.history.push(`/journey`)
+            props.history.push(`/journey/${id}`)
 
         } catch (error) {
             console.error(error)
         }
     }
 
+  function handleEditJourney(id){
+         
+            props.history.push(`/edit-journey/${id}`)
+
+    }
+
     return (<main className="app">
         <Nav />
         <Route exact path='/' render={() => <Landing search={handleSearch} />} />
-        <Route path="/home" render={() => journeys.length ? <Home journeys={journeys} moreInfo={handleMoreInfo} /> : <Redirect to="/" />} />
+        <Route path="/home" render={() => journeys.length ? <Home journeys={journeys} moreInfo={handleMoreInfo} editJourney={handleEditJourney} /> : <Redirect to="/" />} />
         <Route path="/create-journey" render={() => <JourneyCreate />} />
-        <Route path="/journey" render={() => <JourneyInfo journey={journey} />} />
+        <Route path="/edit-journey/:id" render={() => <JourneyEdit journey={journey}/>} />
+        <Route path="/journey/:id" render={() => <JourneyInfo journey={journey} />} />
         <button onClick={handleGoHome}>go Home</button>
         <button onClick={handleGoJourney}>go Journey</button>
     </main>)

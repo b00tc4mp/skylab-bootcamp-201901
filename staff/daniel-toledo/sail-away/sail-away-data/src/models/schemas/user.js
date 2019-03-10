@@ -1,4 +1,5 @@
 const { Schema } = require('mongoose')
+const { Types: { ObjectId } } = Schema
 
 const User = new Schema({
     name: {
@@ -28,11 +29,35 @@ const User = new Schema({
         required: true
     },
 
-    favoriteArtists: [String],
+    gender: String,
 
-    favoriteAlbums: [String],
+    birthday: Date,
 
-    favoriteTracks: [String]
+    nacionality: String,
+
+    description: String,
+
+    kind: {
+        type: String, //captain or crew
+        required: true
+    },
+
+    talents: [String],
+
+    boats: [Object],
+
+    experience: Number,
+
+    // sailingTitles: [String],
+
+    languages: [String],
+
+    reviews: [Object],
+
+    favoriteJourneys: [ObjectId],
+
+    favoriteCrew: [ObjectId]
+
 })
 
 module.exports = User

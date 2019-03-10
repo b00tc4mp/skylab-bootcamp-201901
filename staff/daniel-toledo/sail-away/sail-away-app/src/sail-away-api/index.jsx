@@ -50,6 +50,23 @@ const sailAwayApi = {
 
             else throw Error(response.error)
         })
+    },
+
+    updateJourney(id, sea, route, dates, description){
+        debugger
+        return fetch(`${this.url}/journey/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ sea, route, dates, description })
+        })
+        .then(journey => journey.json())
+        .then(response => {
+            if (!response.error) return response.journey
+
+            else throw Error(response.error)
+        })
     }
 }
 

@@ -1,10 +1,24 @@
 'use strict'
 
 import React from 'react'
-import { Map, InfoWindow, GoogleApiWrapper, Polyline } from 'google-maps-react'
+import { Map, InfoWindow, GoogleApiWrapper, Polyline, Marker } from 'google-maps-react'
 
 
-function MapDisplay({ google, routes, sea }) {
+function MapDisplay({ google, markers, sea }) {
+
+    function getRoutes(markers) {
+        let routes = []
+        
+        markers.forEach(marker => {
+            let route=[]
+            marker.forEach(mark=>route.push(mark.position))
+            routes.push(route)
+        })
+
+        return routes
+    }
+
+    let routes = getRoutes(markers)
 
     return (<Map
         google={google}
@@ -19,6 +33,7 @@ function MapDisplay({ google, routes, sea }) {
         }}
         zoom={sea.zoom}
     >
+   
         {
             routes.map(route => {
                 return <Polyline

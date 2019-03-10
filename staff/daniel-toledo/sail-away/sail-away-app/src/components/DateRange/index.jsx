@@ -48,8 +48,8 @@ function DateRange({getDates}) {
 
     return (<main className="dayPicker">
         <div className="dayPicker__caret">
-            <button class="fas fa-caret-left fa-2x" onClick={decreaseMonth}></button>
-            <button class="fas fa-caret-right fa-2x" onClick={increaseMonth}></button>
+            <button className="fas fa-caret-left fa-2x" onClick={decreaseMonth}></button>
+            <button className="fas fa-caret-right fa-2x" onClick={increaseMonth}></button>
         </div>
         <div className="dayPicker__calendar">
             < Calendar month={month1} year={year1} selectDate={handleSelectDate} date1={date1} date2={date2} />

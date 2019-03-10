@@ -5,7 +5,9 @@ import seaData from '../sea-data'
 
 const  logic = {
 
+
     generateJourney(sea, route, dates, description ){
+        debugger
      
         if (sea.constructor !== Object) throw TypeError(sea + ' is not an Object')
         if (!Object.keys(sea).length) throw Error('sea cannot be empty')
@@ -49,6 +51,28 @@ const  logic = {
         if (!id.trim().length) throw Error('id cannot be empty')
 
         return sailAwayApi.retrieveJourney(id)
+    },
+
+    updateJourney(id, sea, route, dates, description){
+        debugger
+
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+        
+        if (sea.constructor !== Object) throw TypeError(sea + ' is not an Object')
+        if (!Object.keys(sea).length) throw Error('sea cannot be empty')
+
+        if (route.constructor !== Array) throw TypeError(route + ' is not an Array')
+        if (!route.length) throw Error('route cannot be empty')
+
+        if (dates.constructor !== Array) throw TypeError(dates + ' is not an Array')
+        if (!dates.length) throw Error('dates cannot be empty')
+
+        if (typeof description !== 'string') throw TypeError(description + ' is not a string')
+        if (!description.trim().length) throw Error('description cannot be empty')
+
+        return sailAwayApi.updateJourney(id, sea, route, dates, description)
+
     }
 
 }

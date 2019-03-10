@@ -6,6 +6,7 @@ module.exports = (req, res) => {
     try {
         return logic.updateJourney(id, sea, route, dates, description)
             .then(journey => res.json({ journey }))
+            .catch(error => res.status(404).json({ error: error.message })) 
 
     } catch ({ message }) {
         res.status(409).json({

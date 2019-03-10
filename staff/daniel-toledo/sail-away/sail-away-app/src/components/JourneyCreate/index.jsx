@@ -11,16 +11,18 @@ import './index.sass'
 
 function JourneyCreate(props) {
 
-    let route
+    let [route, setRoute] = useState([])
     let dates
     let [description, setDescription] = useState('')
     let [seaSelection, setSeaSelection] = useState({
-        name: 'North Pacific Ocean',
+
+        name: 'Select Ocean',
         center: {
-            lat: 35.468199,
-            lng: -148.519270
+            lat: 0,
+            lng: 0
         },
-        zoom: 3
+        zoom: 2
+
     })
 
     function handleSeaSelection(event) {
@@ -39,17 +41,16 @@ function JourneyCreate(props) {
         dates = [date1, date2]
     }
 
-    function handleRoute(coordenates) {
-        route = coordenates
+    function handleMarkers(coordenates) {
+        setRoute(coordenates)  //rute is an array of markers
     }
 
     async function handleOnSubmit() {
         try {
-            
-            let id= await logic.generateJourney(seaSelection, route, dates, description)
+            let id = await logic.generateJourney(seaSelection, route, dates, description)
             console.log(id)
             props.history.push('/')
-        
+
         } catch (error) {
             console.error(error)
         }
@@ -64,7 +65,7 @@ function JourneyCreate(props) {
         </select>
         <h3 className='text-center'>Design your journey</h3>
         <div className='journey__map'>
-            <MapRoute getRoute={handleRoute} seaSelection={seaSelection} />
+            <MapRoute getMarkers={handleMarkers} seaSelection={seaSelection} initialMarkers={[]} />
         </div>
 
         <h3 className='text-center'>Sailing days</h3>
@@ -74,7 +75,7 @@ function JourneyCreate(props) {
 
         <h3 className='text-center'>Description</h3>
         <div className='journey__description'>
-            <textarea onChange={e => setDescription(e.target.value)}></textarea>
+            <textarea onChange={e => setDescription(e.target.value)}>{description ? description : ''}</textarea>
         </div>
 
         <button onClick={handleOnSubmit}>Submit</button>
