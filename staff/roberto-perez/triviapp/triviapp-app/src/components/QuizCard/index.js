@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function QuizCard(props) {
 	const {
-		quiz: { id, title, author },
+		quiz: { id, title, questions, author },
 	} = props;
 
 	return (
@@ -49,7 +49,7 @@ function QuizCard(props) {
 							</Link>
 						</div>
 						<div className="quiz__stats">
-							<span className="purple">24Qs</span>
+							<span className="purple">{questions.length}Qs</span>
 							<span className="red">2.3k plays</span>
 						</div>
 					</footer>

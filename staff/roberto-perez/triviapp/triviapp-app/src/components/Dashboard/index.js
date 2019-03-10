@@ -14,7 +14,6 @@ import MyQuizzes from './MyQuizzes';
 
 function Dashboard() {
 	return (
-		<div className="container">
 			<Switch>
 				<Route
 					exact
@@ -43,7 +42,6 @@ function Dashboard() {
 				/>
 				<Route exact path="/dashboard" component={MyQuizzes} />
 			</Switch>
-		</div>
 	);
 }
 

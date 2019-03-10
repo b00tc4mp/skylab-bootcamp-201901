@@ -119,13 +119,13 @@ function Overview(props) {
 							<Link
 								to={`/dashboard/edit/${quizId}/question/${question._id}`}
 								title="Editar"
-								className="content-question__edit-btn"
+								className="content-quiz__edit-btn"
 							>
 								<FontAwesomeIcon icon="pen" />
 							</Link>
 							<button
 								onClick={() => handleDeleteQuestion(question._id)}
-								className="content-question__delete-btn"
+								className="content-quiz__delete-btn"
 							>
 								<FontAwesomeIcon icon="trash-alt" />
 							</button>

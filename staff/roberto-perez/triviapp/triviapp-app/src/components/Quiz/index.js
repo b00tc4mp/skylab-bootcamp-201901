@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 
 
 import quiz from '../../services/quiz';
@@ -31,7 +31,7 @@ function Quiz(props) {
 	};
 
 	return (
-		<div className="container">
+		<Fragment>
 			<section className="quiz-details">
 				
 				<QuizInfo quiz={currentQuiz} />
@@ -68,7 +68,7 @@ function Quiz(props) {
 					})}
 				</div>
 			</section>
-		</div>
+		</Fragment>
 	);
 }
 

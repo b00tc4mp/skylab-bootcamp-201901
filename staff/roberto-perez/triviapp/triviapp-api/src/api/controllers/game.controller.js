@@ -1,0 +1,38 @@
+'use sctric';
+
+const httpStatus = require('http-status');
+const { Game } = require('../models/game.model');
+const gameLogic = require('../logic/game');
+const { handleResponseError } = require('../routes/routes-helper');
+const { UnauthorizedError } = require('../errors');
+const { cloudName, apiKey, apiSecret } = require('../../config/vars');
+
+/**
+ * Load user and append to req.
+ * @public
+ */
+exports.load = async (req, res, next, id) => {
+	try {
+		const game = await Game.get(id);
+		req.locals = { game };
+		return next();
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+/**
+ * Get game
+ * @public
+ */
+exports.get = (req, res) => res.json(req.locals.game.normalize());
+
+exports.create = async (req, res) => {
+	try {
+		const game = await gameLogic.createGame(req.body);
+		res.status(httpStatus.CREATED);
+		return res.json(game);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};

@@ -9,6 +9,7 @@ import { useDropzone } from 'react-dropzone';
 function EditQuizDescription(props) {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
+	const [uploading, setUploading] = useState(false);
 	const [image, setImage] = useState(null);
 	const [error, setError] = useState(null);
 
@@ -18,10 +19,12 @@ function EditQuizDescription(props) {
 		},
 	} = props;
 
-	const onDrop = useCallback(acceptedFiles => {
-		// Do something with the files
-		setImage(acceptedFiles[0]);
-		console.log(acceptedFiles[0]);
+	const onDrop = useCallback(async acceptedFiles => {
+		setUploading(true);
+		const imageUploaded = await imageService.upload(acceptedFiles[0])
+		setImage(imageUploaded.secure_url);
+		await quiz.editQuizPicture(quizId, imageUploaded.secure_url)
+		setUploading(false);
 	}, []);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -35,6 +38,7 @@ function EditQuizDescription(props) {
 			const newQuiz = await quiz.get(quizId);
 			setTitle(newQuiz.title);
 			setDescription(newQuiz.description);
+			setImage(newQuiz.picture);
 		} catch (error) {
 			console.error(error);
 		}
@@ -57,8 +61,6 @@ function EditQuizDescription(props) {
 	};
 
 	return (
-
-
 		<section>
 			<form onSubmit={handleSubmit}>
 				<div className="form__container">
@@ -99,47 +101,41 @@ function EditQuizDescription(props) {
 										placeholder="Description"
 										name="description"
 										value={description}
-										onChange={Event => setDescription(Event.target.value)}
+										onChange={Event =>
+											setDescription(Event.target.value)
+										}
 									/>
 								</p>
 							</fieldset>
 
 							<div className="media-uploader">
 								<div className="media-uploader__body" {...getRootProps()}>
-									{/* <input
-										type="file"
-										id="image-uploader"
-										className="image-uploader no-display"
-										accept="image/gif, image/jpeg, image/jpg, image/png"
-										onChange={onChangeImage}
-									/> */}
 									<input name="file" {...getInputProps()} />
 
 									<label
 										className="media-uploader__label"
 										htmlFor="image-uploader"
 									>
-										<img src="#" alt="Preview" className="hidden" />
-										<div className="media-uploader__star">
-											<FontAwesomeIcon icon="download" />
-											{isDragActive ? (
+										{uploading && (
+											<div className="media-uploader__loading">
+												<FontAwesomeIcon
+													className="fa-spinner"
+													icon="cog"
+												/>
+											</div>
+										)}
+										{image ? (
+											<img
+												src={image}
+												alt="Preview"
+												className="media-uploader__image-preview"
+											/>
+										) : (
+											<div className="media-uploader__star">
+												<FontAwesomeIcon icon="download" />
 												<div>Select a file or drag here</div>
-											) : (
-												<div className="media-uploader__notimage">
-													Drag 'n' drop some files here, or
-													click to select files
-												</div>
-											)}
-										</div>
-										<div className="media-uploader__response hidden">
-											<div className="media-uploader__messages" />
-											<progress
-												className="media-uploader__progress"
-												value="0"
-											>
-												<span>0</span>%
-											</progress>
-										</div>
+											</div>
+										)}
 									</label>
 								</div>
 							</div>

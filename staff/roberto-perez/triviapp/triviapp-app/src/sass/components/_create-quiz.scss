@@ -1,3 +1,7 @@
+.create-quiz-wrap {
+	padding: 2rem 0;
+}
+
 .create-quiz {
 	margin-bottom: 4rem;
 	&__wrap {
@@ -82,8 +86,8 @@
 	color: #5f6982;
 
 	&__body {
-        height: 100%;
-        outline: 0;
+		height: 100%;
+		outline: 0;
 	}
 
 	&__label {
@@ -99,10 +103,19 @@
 		border: 3px dashed #dcdedd;
 		transition: all 0.2s ease;
 		height: 100%;
+		position: relative;
 
 		& .hidden {
 			display: none;
 		}
+	}
+
+	&__image-preview {
+		display: inline;
+		margin: 0 auto 0.5rem auto;
+		width: auto;
+		height: auto;
+		max-width: 180px;
 	}
 
 	&__star {
@@ -115,8 +128,32 @@
 			transition: all 0.2s ease-in-out;
 		}
 	}
+
+	&__loading {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: rgba(255, 255, 255, 0.8);
+		z-index: 10;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 5em;
+		color: #49c5b6;
+	}
 }
 
 .image-uploader {
 	display: none;
+}
+
+@keyframes spinner {
+	to {
+		transform: rotate(360deg);
+	}
+}
+/* This is the class name given by the Font Awesome component when icon contains 'spinner' */
+.fa-spinner {
+	/* Apply 'spinner' keyframes looping once every second (1s)  */
+	animation: spinner 2s linear infinite;
 }

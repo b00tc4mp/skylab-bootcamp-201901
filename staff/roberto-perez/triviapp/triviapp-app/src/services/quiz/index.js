@@ -12,6 +12,17 @@ const quiz = {
 		}
 	},
 
+	async editQuizPicture(quizId, picture) {
+		try {
+			const data = {
+				picture
+			}
+			return await quizApi.editQuiz(quizId, data);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
+
 	async edit(quizId, data) {
 		const { title, description } = data;
 

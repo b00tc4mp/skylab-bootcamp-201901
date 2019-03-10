@@ -1,6 +1,11 @@
 const express = require('express');
 
+const cloudinaryUploader = require('../../midelware/cloudinary')
+
 const controller = require('../../controllers/image.controller');
+
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 
 // var multer  = require('multer')
 
@@ -17,6 +22,6 @@ const router = express.Router();
 
 router
 	.route('/')
-	.post(controller.upload);
+	.post(upload.single('image'), cloudinaryUploader, controller.upload);
 
 module.exports = router;

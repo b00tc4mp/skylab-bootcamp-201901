@@ -49,6 +49,7 @@ exports.list = async (req, res) => {
 
 exports.create = async (req, res) => {
 	try {
+		console.log(req.image)
 		req.body.author = req.userId;
 		const quizAdd = await quiz.createQuiz(req.body);
 		res.status(httpStatus.CREATED);

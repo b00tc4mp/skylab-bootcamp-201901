@@ -1,11 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import gameService from '../../../../services/game';
 
 function MyQuizCard(props) {
 	const {
 		quiz: { id, title, author, picture },
 	} = props;
+
+	const createGame = async id => {
+		try {
+			const game = await gameService.create(id);
+			props.history.push(`game/${game.id}`);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<div className="quiz">
@@ -40,13 +51,12 @@ function MyQuizCard(props) {
 					</header>
 					<footer className="quiz__footer">
 						<div>
-							<Link
-								to={`/author/${author._id}`}
-								rel="author"
+							<button
 								className="quiz__author"
+								onClick={e => createGame(id, e)}
 							>
 								<FontAwesomeIcon icon="play-circle" /> Play
-							</Link>
+							</button>
 						</div>
 						<div className="quiz__stats">
 							<Link
@@ -64,4 +74,4 @@ function MyQuizCard(props) {
 	);
 }
 
-export default MyQuizCard;
+export default withRouter(MyQuizCard);

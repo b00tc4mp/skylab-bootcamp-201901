@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const busboy = require('connect-busboy');
 const compress = require('compression');
 const methodOverride = require('method-override');
 const cors = require('cors');
@@ -14,6 +15,7 @@ const app = express();
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(busboy()); 
 
 // gzip compression
 app.use(compress());

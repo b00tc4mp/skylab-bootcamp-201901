@@ -37,7 +37,7 @@ const quizApi = {
 
 	editQuiz(quizId, data) {
 		//VALIDACIONES DE TIPO
-		
+
 		return fetch(`${this.url}/quiz/${quizId}`, {
 			method: 'PATCH',
 			headers: {
@@ -55,13 +55,13 @@ const quizApi = {
 
 	deleteQuiz(quizId) {
 		//VALIDACIONES DE TIPO
-		
+
 		return fetch(`${this.url}/quiz/${quizId}`, {
 			method: 'DELETE',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.__userApiToken__}`,
-			}
+			},
 		})
 			.then(response => response.json())
 			.then(response => {

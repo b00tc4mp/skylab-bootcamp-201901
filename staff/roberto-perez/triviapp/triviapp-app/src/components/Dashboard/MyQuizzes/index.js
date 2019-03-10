@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter, Link } from 'react-router-dom';
 import quiz from '../../../services/quiz';
@@ -23,7 +23,7 @@ function MyQuizzes() {
 	};
 
 	return (
-		<div className="container">
+		<Fragment>
 			<section className="quizz-actions">
 				<Link
 					to="/dashboard/create/quiz"
@@ -47,7 +47,7 @@ function MyQuizzes() {
 					))}
 				</div>
 			</section>
-		</div>
+		</Fragment>
 	);
 }
 

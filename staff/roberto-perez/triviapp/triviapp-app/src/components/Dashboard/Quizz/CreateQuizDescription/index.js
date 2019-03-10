@@ -8,24 +8,28 @@ import { useDropzone } from 'react-dropzone';
 function CreateQuizDescription(props) {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
+	const [uploading, setUploading] = useState(false);
 	const [image, setImage] = useState(null);
 	const [error, setError] = useState(null);
 
-	const onDrop = useCallback(acceptedFiles => {
-		// Do something with the files
-		setImage(acceptedFiles[0]);
-		console.log(acceptedFiles[0]);
+	const onDrop = useCallback(async acceptedFiles => {
+		setUploading(true)
+		const imageUploaded = await imageService.upload(acceptedFiles[0]);
+		setImage(imageUploaded.secure_url);
+		setUploading(false);
 	}, []);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 	const create = async data => {
 		try {
-			const imageUploaded = await imageService.upload(image);
+			if (image) {
+				data.picture = image;
+			}
 
-			// const addQuiz = await quiz.create(data);
-			// console.log(addQuiz);
-			// props.history.push(`/dashboard/create/quiz/${addQuiz.id}/overview`);
+			const addQuiz = await quiz.create(data);
+			console.log(addQuiz);
+			props.history.push(`/dashboard/create/quiz/${addQuiz.id}/overview`);
 		} catch (error) {
 			setError(error.message);
 			console.log(error);
@@ -37,29 +41,12 @@ function CreateQuizDescription(props) {
 		create({ title, description });
 	};
 
-	const onChangeImage = Event => {
+	const onChangeImage = async Event => {
 		const file = Event.target.files[0];
-		setImage(file);
-
-		// files.forEach((file, i) => {
-		// 	formData.append(i, file);
-		// });
-
-		// fetch(`${API_URL}/image-upload`, {
-		// 	method: 'POST',
-		// 	body: formData,
-		// })
-		// 	.then(res => res.json())
-		// 	.then(images => {
-		// 		this.setState({
-		// 			uploading: false,
-		// 			images,
-		// 		});
-		// 	});
 	};
 
 	return (
-		<section>
+		<section className="create-quiz-wrap">
 			<form onSubmit={handleSubmit}>
 				<div className="form__container">
 					<header className="form__header">
@@ -106,40 +93,32 @@ function CreateQuizDescription(props) {
 
 							<div className="media-uploader">
 								<div className="media-uploader__body" {...getRootProps()}>
-									{/* <input
-										type="file"
-										id="image-uploader"
-										className="image-uploader no-display"
-										accept="image/gif, image/jpeg, image/jpg, image/png"
-										onChange={onChangeImage}
-									/> */}
 									<input name="file" {...getInputProps()} />
 
 									<label
 										className="media-uploader__label"
 										htmlFor="image-uploader"
 									>
-										<img src="#" alt="Preview" className="hidden" />
-										<div className="media-uploader__star">
-											<FontAwesomeIcon icon="download" />
-											{isDragActive ? (
+										{uploading && (
+											<div className="media-uploader__loading">
+												<FontAwesomeIcon
+													className="fa-spinner"
+													icon="cog"
+												/>
+											</div>
+										)}
+										{image ? (
+											<img
+												src={image}
+												alt="Preview"
+												className="media-uploader__image-preview"
+											/>
+										) : (
+											<div className="media-uploader__star">
+												<FontAwesomeIcon icon="download" />
 												<div>Select a file or drag here</div>
-											) : (
-												<div className="media-uploader__notimage">
-													Drag 'n' drop some files here, or
-													click to select files
-												</div>
-											)}
-										</div>
-										<div className="media-uploader__response hidden">
-											<div className="media-uploader__messages" />
-											<progress
-												className="media-uploader__progress"
-												value="0"
-											>
-												<span>0</span>%
-											</progress>
-										</div>
+											</div>
+										)}
 									</label>
 								</div>
 							</div>
