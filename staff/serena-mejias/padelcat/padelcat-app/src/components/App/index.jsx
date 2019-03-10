@@ -19,6 +19,8 @@ class App extends Component {
       logic
         .loginPlayer(email, password)
         .then(response => {
+          this.setState({player: response.player});
+          console.log(this.state.player)
           logic.storeToken(response.token);
           this.props.history.push("/home");
         })
