@@ -224,53 +224,53 @@ describe('logic', () => {
         )
     })
 
-    // describe('update user', () => {
+    describe('update user', () => {
 
-    // })
+    })
 
     // describe('remove user', () => {
 
     // })
 
-    describe('create message', () => {
-        const nameFrom = 'Peter'
-        const surnameFrom = 'McGregor'
-        const emailFrom = `peter-mc-greg-${Math.random()}@mail.com`
-        const passwordFrom = `123-${Math.random()}`
+    // describe('create message', () => {
+    //     const nameFrom = 'Peter'
+    //     const surnameFrom = 'McGregor'
+    //     const emailFrom = `peter-mc-greg-${Math.random()}@mail.com`
+    //     const passwordFrom = `123-${Math.random()}`
 
-        const nameTo = 'Peter'
-        const surnameTo = 'McGregor'
-        const emailTo = `peter-mc-greg-${Math.random()}@mail.com`
-        const passwordTo = `123-${Math.random()}`
+    //     const nameTo = 'Peter'
+    //     const surnameTo = 'McGregor'
+    //     const emailTo = `peter-mc-greg-${Math.random()}@mail.com`
+    //     const passwordTo = `123-${Math.random()}`
 
-        let date = new Date
-        let launchDate = new Date
-        let position = [41.234, 2.897]
-        let text = 'kwjhfwef lifwelfiu 3loiru2pdoje'
-        let userIdFrom
-        let userIdTo
+    //     let date = new Date
+    //     let launchDate = new Date
+    //     let position = [41.234, 2.897]
+    //     let text = 'kwjhfwef lifwelfiu 3loiru2pdoje'
+    //     let userIdFrom
+    //     let userIdTo
 
-        bcrypt.hash(passwordFrom, 10)
-            .then(hash => User.create({ nameFrom, surnameFrom, emailFrom, passwordFrom: hash }))
-            .then(({ id }) => userIdFrom = id)
+    //     bcrypt.hash(passwordFrom, 10)
+    //         .then(hash => User.create({ nameFrom, surnameFrom, emailFrom, passwordFrom: hash }))
+    //         .then(({ id }) => userIdFrom = id)
             
-        bcrypt.hash(passwordTo, 10)
-            .then(hash => User.create({ nameTo, surnameTo, emailTo, passwordTo: hash }))
-            .then(({ id }) => userIdTo = id)
+    //     bcrypt.hash(passwordTo, 10)
+    //         .then(hash => User.create({ nameTo, surnameTo, emailTo, passwordTo: hash }))
+    //         .then(({ id }) => userIdTo = id)
         
 
-        it('should succeed on correct credentials', () => {
-            logic.createMessage(userIdFrom, userIdTo, date, launchDate, position, text)
-                .then(message => {
-                    expect(message.userIdFrom).toBe(userIdFrom)
-                    expect(message.userIdTo).toBe(userIdTo)
-                    expect(message.date).toBeDefined()
-                    expect(message.launchDate).toBeDefined()
-                    expect(message.position).toBe(position)
-                    expect(message.text).toBe(text)
-                })
-        })
-    })
+    //     it('should succeed on correct credentials', () => {
+    //         logic.createMessage(userIdFrom, userIdTo, date, launchDate, position, text)
+    //             .then(message => {
+    //                 expect(message.userIdFrom).toBe(userIdFrom)
+    //                 expect(message.userIdTo).toBe(userIdTo)
+    //                 expect(message.date).toBeDefined()
+    //                 expect(message.launchDate).toBeDefined()
+    //                 expect(message.position).toBe(position)
+    //                 expect(message.text).toBe(text)
+    //             })
+    //     })
+    // })
 
     after(() =>
         Promise.all([

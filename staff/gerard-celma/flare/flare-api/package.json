@@ -23,6 +23,7 @@
     "errorify": "file:../flare-errors",
     "es6-promise": "^4.2.6",
     "express": "^4.16.4",
+    "flare-validation": "file:../flare-validation",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.16",
