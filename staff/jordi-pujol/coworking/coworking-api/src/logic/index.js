@@ -341,7 +341,7 @@ const logic = {
         if (typeof description !== 'string') throw TypeError(description + ' is not a string')
         if (!description.trim().length) throw Error('description cannot be empty')
 
-        if (typeof maxUsers !== 'number') throw TypeError(maxUsers + ' is not a string')
+        if (typeof maxUsers !== 'string') throw TypeError(maxUsers + ' is not a string')
 
         if (typeof place !== 'string') throw TypeError(place + ' is not a string')
         if (!place.trim().length) throw Error('place cannot be empty')

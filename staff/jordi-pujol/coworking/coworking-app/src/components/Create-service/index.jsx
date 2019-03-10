@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 class NewService extends Component {
 
-    state = { title: '', description: '', maxUsers: 1, place: 'Not specified' }
+    state = { title: '', description: '', maxUsers: 1, place: '' }
 
     handleTitleInput = event => this.setState({ title: event.target.value })
 
