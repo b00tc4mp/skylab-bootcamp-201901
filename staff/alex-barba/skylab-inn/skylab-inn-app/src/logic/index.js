@@ -272,8 +272,8 @@ const logic = {
      *
      * @returns {Object} - users pending sign up.   
      */
-    retrivevePendingSkylabers() {
-        return skylabInnApi.retrivevePendingSkylabers(this.__userApiToken__)
+    retrievePendingSkylabers() {
+        return skylabInnApi.retrievePendingSkylabers(this.__userApiToken__)
             .then(({preUsers}) => preUsers)
     },
 
@@ -294,6 +294,18 @@ const logic = {
 
         return skylabInnApi.updateUserPhoto(this.__userApiToken__, data)
             .then(({user}) => user)
+    },
+
+    /**
+     * Retrieve skylabers with unverified emails.
+     * 
+     * @param {String} token 
+     *
+     * @returns {Object} - users with unverified emails.   
+     */
+    retrieveUnverifiedEmails() {
+        return skylabInnApi.retrieveUnverifiedEmails(this.__userApiToken__)
+            .then(({unverified}) => unverified)
     },
     
 }

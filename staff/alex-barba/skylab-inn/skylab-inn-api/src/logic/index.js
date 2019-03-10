@@ -45,15 +45,14 @@ const logic = {
 
         return (async () => {
             const user = await User.findOne({ email })
-
             if (user) throw new Error(`user with email ${email} already exists`)
 
-            const preUser = await EmailWhitelist.findOneAndUpdate(email, { state: 'registered' })
+            const preUser = await EmailWhitelist.findOneAndUpdate({ email }, { state: 'registered' })
             if (!preUser) throw new Error(`The email ${email} is not authorised to sign up`)
 
             const hash = await bcrypt.hash(password, 11)
 
-            const status = createToken(email)
+            const status = await createToken(email)
 
             const { id } = await User.create({ name, surname, email, password: hash, status })
 
@@ -687,7 +686,7 @@ const logic = {
      *
      * @returns {Object} - users pending sign up.  
      */
-    retrivevePendingSkylabers(userId) {
+    retrievePendingSkylabers(userId) {
 
         if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new Error('userId is empty')
@@ -715,7 +714,6 @@ const logic = {
    * @returns {Object} - user.  
    */
     updateUserPhoto(userId, url) {
-        debugger
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId is empty')
@@ -754,12 +752,35 @@ const logic = {
 
             if (!user) throw new Error(`user not found`)
 
-            const userVerified = await User.findByIdAndUpdate(user._id, { status: 'verified' }, { new: true, runValidators: true }).select('-__v -password').lean()
+            await User.findByIdAndUpdate(user._id, { status: 'verified' })
 
-            userVerified.id = userVerified._id.toString()
-            delete userVerified._id
+            return 'Thanks for confirming your email address. Skylab Inn.'
+        })()
+    },
 
-            return userVerified
+    /**
+     * Retrieve skylabers with unverified emails.
+     * 
+     * @param {String} userId 
+     * 
+     * @throws {TypeError} - if userId is not a string.
+     * @throws {Error} - if userId is empty or user is not found or user role does not match.
+     *
+     * @returns {Object} - users with unverified emails.  
+     */
+    retrieveUnverifiedEmails(userId) {
+
+        if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw new Error('userId is empty')
+
+        return (async () => {
+            const user = await User.findById(userId).select('-__v -password').lean()
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+            if (user.role !== 'Admin') throw new Error(`Acces denied`)
+
+            const unverified = await User.find({ $and: [{ status: { $ne: 'verified' } }, { role: 'User' }] })
+
+            return unverified
         })()
     },
 }

@@ -5,8 +5,8 @@ module.exports = (req, res) => {
     const { userId } = req
 
     try {
-        logic.retrievePendingSkylabers(userId)
-            .then(preUsers => res.json({ preUsers }))
+        logic.retrieveUnverifiedEmails(userId)
+            .then(unverified => res.json({ unverified }))
             .catch(({ message }) => {res.status(400).json({error: message})})
     } catch ({ message }) {
         res.status(400).json({error: message})

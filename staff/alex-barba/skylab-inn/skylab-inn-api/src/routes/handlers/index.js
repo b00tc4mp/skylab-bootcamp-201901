@@ -27,5 +27,7 @@ module.exports = {
 
     updateUserPhoto: require('./update-user-photo'),
 
-    verifyEmail: require ('./verify-email')
+    verifyEmail: require ('./verify-email'),
+
+    retrieveUnverifiedEmails: require('./retrieve-unverified-emails')
 }

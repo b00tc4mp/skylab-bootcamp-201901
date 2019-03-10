@@ -6,7 +6,7 @@ import Feedback from '../Feedback'
 
 export default function ManagaSkylabers({ onSubmit, onToBack }) {
 
-    const { feedback, whiteList } = useContext(AppContext)
+    const { feedback, whiteList, unverifiedEmails } = useContext(AppContext)
 
     const [name, setName] = useState(null)
     const [surname, setSurname] = useState(null)
@@ -35,8 +35,12 @@ export default function ManagaSkylabers({ onSubmit, onToBack }) {
                 </form>
             </div>
             <div>
-                <h2>Pending registrations</h2>
+                <h2>Pending Signups</h2>
                 {whiteList && whiteList.map(res => { return <p>{res.name}</p> })}
+            </div>
+            <div>
+                <h2>Pending Email Verification</h2>
+                {unverifiedEmails && unverifiedEmails.map(res => { return <p>{res.name}</p> })}
             </div>
         </section>
     )

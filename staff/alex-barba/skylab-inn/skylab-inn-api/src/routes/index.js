@@ -6,7 +6,7 @@ const { tokenVerifierMiddleware } = tokenHelper
 const imageParser = require('../imageParser')
 const cloudinaryUploader = require('../cloudinary')
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, searchSkylaber, retrieveSkylaber, advancedSearchSkylaber, addUserInformation, updateUserInformation, removeUserInformation, addSkylaber, retrievePendingSkylabers, updateUserPhoto, verifyEmail } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, searchSkylaber, retrieveSkylaber, advancedSearchSkylaber, addUserInformation, updateUserInformation, removeUserInformation, addSkylaber, retrievePendingSkylabers, updateUserPhoto, verifyEmail, retrieveUnverifiedEmails } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 
@@ -25,9 +25,9 @@ router.post('/user/addInformation', [jsonBodyParser, tokenVerifierMiddleware], a
 router.put('/user/updateInformation', [jsonBodyParser, tokenVerifierMiddleware], updateUserInformation)
 router.delete('/user/removeInformation', [jsonBodyParser, tokenVerifierMiddleware], removeUserInformation)
 router.post('/add-skylaber', [jsonBodyParser, tokenVerifierMiddleware], addSkylaber)
-router.get('/pending-sylabers', tokenVerifierMiddleware, retrievePendingSkylabers)
+router.get('/pending-skylabers', tokenVerifierMiddleware, retrievePendingSkylabers)
 router.post('/user-photo', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateUserPhoto)
-
+router.get('/unverified-emails', tokenVerifierMiddleware, retrieveUnverifiedEmails )
 router.get('/user/:emailToken/verify', verifyEmail)
 
 

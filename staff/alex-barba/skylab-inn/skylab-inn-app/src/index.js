@@ -4,7 +4,7 @@ import { HashRouter } from 'react-router-dom'
 import App from './components/App';
 import * as serviceWorker from './serviceWorker'
 
-// import './index.sass'
+import './index.sass'
 import logic from './logic'
 
 Object.defineProperties(logic, {

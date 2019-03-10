@@ -9,7 +9,8 @@
     "debug": "node debug src",
     "test": "mocha $(find src -name *.spec.js)",
     "test debug": "mocha debug $(find src -name *.spec.js)",
-    "test-coverage": "nyc --reporter=html --reporter=text mocha $(find src -name *.spec.js)"
+    "test-coverage": "nyc --reporter=html --reporter=text mocha $(find src -name *.spec.js)",
+    "test-coverage-logic": "nyc --reporter=html --reporter=text mocha src/logic"
   },
   "devDependencies": {
     "expect": "^24.1.0",

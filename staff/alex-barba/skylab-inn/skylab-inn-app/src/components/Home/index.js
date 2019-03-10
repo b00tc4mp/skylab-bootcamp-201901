@@ -15,7 +15,7 @@ import { AppContext } from '../AppContext';
 
 function Home({ history }) {
 
-    const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, userData, setWhiteList } = useContext(AppContext)
+    const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, userData, setWhiteList, setUnverifiedEmails } = useContext(AppContext)
 
     const handleSearch = query => {
         try {
@@ -134,8 +134,12 @@ function Home({ history }) {
     }
 
     const handleToManageSkylabers = () => {
-        setFeedback(null)
-        history.push('/home/manage-skylabers')
+        logic.retrievePendingSkylabers()
+            .then(preUsers => setWhiteList(preUsers))
+            .then(() => logic.retrieveUnverifiedEmails())
+            .then(unverified => setUnverifiedEmails(unverified))
+            setFeedback(null)
+            history.push('/home/manage-skylabers')
     }
 
     const handleToBack = () => {

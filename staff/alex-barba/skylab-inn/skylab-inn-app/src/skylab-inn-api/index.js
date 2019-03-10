@@ -451,12 +451,40 @@ const skylabInnApi = {
      *
      * @returns {Object} - users pending sign up.  
      */
-    retrivevePendingSkylabers(token) {
+    retrievePendingSkylabers(token) {
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
-        return fetch(`${this.url}/pending-sylabers`, {
+        return fetch(`${this.url}/pending-skylabers`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    /**
+     * Retrieve skylabers with unverified emails.
+     * 
+     * @param {String} token 
+     * 
+     * @throws {TypeError} - if token is not a string.
+     * @throws {Error} - if token is empty.
+     *
+     * @returns {Object} - users with unverified emails.  
+     */
+    retrieveUnverifiedEmails(token) {
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        return fetch(`${this.url}/unverified-emails`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
