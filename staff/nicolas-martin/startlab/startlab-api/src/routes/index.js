@@ -17,5 +17,6 @@ module.exports = {
 
     checkAnswer: require('./check-answer'),
 
+    sendInvitationEmail: require('./email/send-invitation-email'),
     notFound: require('./not-found')
 }

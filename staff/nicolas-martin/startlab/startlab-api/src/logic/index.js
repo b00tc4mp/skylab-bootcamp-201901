@@ -1,11 +1,13 @@
 'use strict'
 
-const { User, Exercise } = require('../models')
-
 const bcrypt = require('bcrypt')
-const testing = require('../testing')
+
 const { AuthError, DuplicateError, MatchingError, NotFoundError, PrivilegeError } = require('startlab-errors')
 const validate = require('startlab-validation')
+
+const testing = require('../testing')
+const { User, Exercise } = require('../models')
+const emailing = require('../emailing')
 
 /**
  * Abstraction of business logic.
@@ -236,7 +238,7 @@ const logic = {
                 return { status: 'ok' }
             })
             .catch(error => {   // {"error": "ReferenceError: favoriteFood is not defined"}
-                                // goes to catch if the answer from user is not valid
+                // goes to catch if the answer from user is not valid
                 if (error) return { error: error.message }
             })
     },
@@ -264,8 +266,21 @@ const logic = {
                 user.historical = newHistorical
                 user.save()
             })
-    }
+    },
 
+    sendInvitationEmail(userId) {
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+
+                return emailing.sendInvitation('nicolas.martin.acosta@gmail.com', user.name)
+
+            })
+
+    }
 }
 
 module.exports = logic
