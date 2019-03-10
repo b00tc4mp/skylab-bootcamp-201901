@@ -1,7 +1,6 @@
 'use strict'
 
 import arshopApi from '../arshop-api'
-import { getEnabledCategories } from 'trace_events';
 
 /**
  * Abstraction of business logic.
@@ -78,12 +77,12 @@ const logic = {
 
     retrieveUser() {
         return arshopApi.retrieveUser(this.__userApiToken__)
-            .then(({ id, name, surname, email, product = [], favoriteProducts = [] }) => ({
+            .then(({ id, name, surname, email, products = [], favoriteProducts = [] }) => ({
                 id,
                 name,
                 surname,
                 email,
-                product,
+                products,
                 favoriteProducts,
             }))
     },

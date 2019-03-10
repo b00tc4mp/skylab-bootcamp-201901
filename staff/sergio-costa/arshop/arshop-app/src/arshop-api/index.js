@@ -1,8 +1,5 @@
 'use strict'
 
-import { type } from "os";
-import { REPL_MODE_SLOPPY } from "repl";
-
 const arshopApi = {
     url: 'http://localhost:8000/api',
 

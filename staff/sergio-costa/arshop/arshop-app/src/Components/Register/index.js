@@ -1,9 +1,13 @@
 'use strict'
 
 import React, { Component } from 'react'
+import logic from '../../logic';
+import Feedback from '../Feedback'
+import { withRouter, Link } from 'react-router-dom'
+import './index.sass'
 
 class Register extends Component {
-    state = { name: null, surname: null, email: null, password: null, passwordConfirmation: null }
+    state = { name: null, surname: null, email: null, password: null, passwordConfirmation: null, feedback: null }
 
     handleNameInput = event => this.setState({ name: event.target.value })
 
@@ -18,27 +22,53 @@ class Register extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { name, surname, email, password, passwordConfirmation }, props: { onRegister } } = this
+        const { state: { name, surname, email, password, passwordConfirmation } } = this
 
-        onRegister(name, surname, email, password, passwordConfirmation)
+        try {
+            logic.registerUser(name, surname, email, password, passwordConfirmation)
+                .then(() => {
+                    this.props.history.push('/login/')
+                    this.setState({ feedback: '' })
+                })
+                .catch(({ message }) => {
+                    this.setState({ feedback: message })
+                })
+        } catch ({ message }) {
+            this.setState({ feedback: message })
+        }
     }
 
     render() {
         const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handleFormSubmit, handlePasswordConfirmationInput } = this
 
         return <section className="register">
-            <h2>{title}</h2>
-
-            <form onSubmit={handleFormSubmit}>
-                <input type="text" name="name" onChange={handleNameInput} placeholder="name" />
-                <input type="text" name="surname" onChange={handleSurnameInput} placeholder="surname" />
-                <input type="text" name="email" onChange={handleEmailInput} placeholder="email" />
-                <input type="password" name="password" onChange={handlePasswordInput} placeholder="password" />
-                <input type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password" />
-                <button>Register</button>
-            </form>
-        </section>
+            <div className="register__content">
+                <img className="register__img" src="/images/logoplaceholder.png"></img>
+                <form onSubmit={handleFormSubmit}>
+                    <div className="register__inputrow">
+                        <input className="register__input" type="text" name="name" onChange={handleNameInput} placeholder="name" />
+                    </div>
+                    <div className="register__inputrow">
+                        <input className="register__input" type="text" name="surname" onChange={handleSurnameInput} placeholder="surname" />
+                    </div>
+                    <div className="register__inputrow">
+                        <input className="register__input" type="email" name="email" onChange={handleEmailInput} placeholder="email" />
+                    </div>
+                    <div className="register__inputrow">
+                        <input className="register__input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" />
+                    </div>
+                    <div className="register__inputrow">
+                        <input className="register__input" type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password" />
+                    </div>
+                    <button className="register__btn" >Register</button>
+                </form>
+                <p className="register__login-text">
+                    <Link to="/login" className="register__link">Login Now</Link>
+                </p>
+            </div>
+            {this.state.feedback && <Feedback message={this.state.feedback} />}
+        </section >
     }
 }
 
-export default Register
+export default withRouter(Register)
