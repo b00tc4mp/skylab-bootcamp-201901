@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const logic = require('./logic')
+// const logic = require('./logic')
 const cors = require('./cors')
 const tokenHelper = require('./token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
@@ -28,6 +28,7 @@ const {
 
     checkAnswer,
 
+    sendInvitationEmail,
     // Others
     notFound
 } = require('./routes')
@@ -63,7 +64,12 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         // Code sanity
         router.post('/checkanswer', [jsonBodyParser, tokenVerifierMiddleware], checkAnswer)
 
+        // Mail
+        router.post('/admin/email/invitation', [jsonBodyParser, tokenVerifierMiddleware], sendInvitationEmail)
+
         app.use('/api', router)
+
+        app.set('view engine', 'pug')
 
         router.get('*', notFound)
 
