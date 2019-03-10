@@ -96,8 +96,8 @@ const logic = {
       const match = await bcrypt.compare(password, player.password);
 
       if (!match) throw Error("wrong credentials");
-
-      return player.id;
+      
+      return player;
     })();
   },
 
@@ -247,10 +247,9 @@ const logic = {
   },
 
   addAvailabilityPlayer(playerId, availabilityArray) {
-    
     return Player.findByIdAndUpdate(
       { _id: playerId },
-      {  $push: {availability: availabilityArray} },
+      { $push: { availability: availabilityArray } }
     );
   }
 };

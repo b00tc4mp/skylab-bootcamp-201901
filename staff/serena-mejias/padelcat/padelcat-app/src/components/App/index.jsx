@@ -11,6 +11,9 @@ import Grid from "@material-ui/core/Grid";
 import { log } from "util";
 
 class App extends Component {
+  state = {
+    player: null
+  }
   handleLogin = (email, password) => {
     try {
       logic
@@ -56,16 +59,21 @@ class App extends Component {
     }
   };
 
-  handleCheck = () => {
-    try {
-      logic.addAvalabilityPlayer(matchId);
-    } catch (error) {
-      throw Error(error);
-    }
+  handleSetAvailable = matchId => {
+    console.log("available");
+  };
+
+  handleSetUnavailable = matchId => {
+    console.log("unavailable");
   };
 
   render() {
-    const { handleLogin, handleRegister } = this;
+    const {
+      handleLogin,
+      handleRegister,
+      handleSetAvailable,
+      handleSetUnavailable
+    } = this;
     return (
       <main>
         <Header />
@@ -75,7 +83,15 @@ class App extends Component {
             render={() => <RegisterPlayer onRegister={handleRegister} />}
           />
           <Route path="/login" render={() => <Login onLogin={handleLogin} />} />
-          <Route path="/home" render={() => <Home onChange={handleCheck} />} />
+          <Route
+            path="/home"
+            render={() => (
+              <Home
+                handleSetAvailable={handleSetAvailable}
+                handleSetUnavailable={handleSetUnavailable}
+              />
+            )}
+          />
           <Route
             exact
             path="/"

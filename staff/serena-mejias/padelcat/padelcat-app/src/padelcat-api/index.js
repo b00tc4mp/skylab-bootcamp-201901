@@ -65,7 +65,6 @@ const padelcatApi = {
     if (typeof password !== "string")
       throw TypeError(`${password} is not a string`);
     if (!password.trim().length) throw Error("password is empty");
-
     return axios.post("/authenticate", JSON.stringify({ email, password }), {
       headers: { "content-type": "application/json" }
     });
@@ -92,7 +91,7 @@ const padelcatApi = {
   },
 
   addAvalabilityPlayer: (playerId, matchId) => {
-    return axios.put("/")
+    return axios.put("/availabilityPlayer", JSON.stringify({ playerId, matchId }))
   }
 
   // retrieveAvailabilityPlayers(matchId, token) {
