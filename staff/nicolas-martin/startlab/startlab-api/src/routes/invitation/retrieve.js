@@ -4,11 +4,11 @@ const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
 
-    const { params: { exerciseId }, userId } = req
+    const { params: { invitationId }, userId } = req
 
     try {
-        logic.deleteExercise(userId, exerciseId)
-            .then(_res => res.json(_res))
+        logic.retrieveInvitation(userId, invitationId)
+            .then(invitation => res.json(invitation))
             .catch(error => handleResponseError(error, res))
     } catch (error) {
         handleResponseError(error, res)
