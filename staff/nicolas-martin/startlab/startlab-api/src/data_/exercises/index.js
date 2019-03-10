@@ -1,6 +1,7 @@
 'use strict'
 
 const { ObjectId } = require('mongodb')
+const validate = require('startlab-validation')
 
 const exercise = {
 
@@ -13,7 +14,9 @@ const exercise = {
     },
 
     create(exercise) {
-        if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
+        // if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
+        debugger
+        validate([{ key: 'exercise', value: exercise, type: String }])
 
         return this.collection.insertOne(exercise)
             .then(res => res.insertedId.toString())

@@ -1,12 +1,10 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-// const { MongoClient } = require('mongodb')
 const mongoose = require('mongoose')
 const express = require('express')
 const bodyParser = require('body-parser')
-const users = require('./data/users')
-const exercises = require('./data/exercises')
+
 const logic = require('./logic')
 const cors = require('./cors')
 const tokenHelper = require('./token-helper')
