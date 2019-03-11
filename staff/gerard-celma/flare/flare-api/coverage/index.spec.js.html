@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for logic/index.spec.js</title>
+    <title>Code coverage report for index.spec.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../index.html">All files</a> / <a href="index.html">logic</a> index.spec.js
+      <a href="index.html">All files</a> index.spec.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.48% </span>
+        <span class="strong">16.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>520/528</span>
+        <span class='fraction'>5/30</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,21 +30,21 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.54% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>202/205</span>
+        <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.48% </span>
+        <span class="strong">17.24% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>519/527</span>
+        <span class='fraction'>5/29</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -950,986 +950,836 @@
 <a name='L902'></a><a href='#L902'>902</a>
 <a name='L903'></a><a href='#L903'>903</a>
 <a name='L904'></a><a href='#L904'>904</a>
-<a name='L905'></a><a href='#L905'>905</a>
-<a name='L906'></a><a href='#L906'>906</a>
-<a name='L907'></a><a href='#L907'>907</a>
-<a name='L908'></a><a href='#L908'>908</a>
-<a name='L909'></a><a href='#L909'>909</a>
-<a name='L910'></a><a href='#L910'>910</a>
-<a name='L911'></a><a href='#L911'>911</a>
-<a name='L912'></a><a href='#L912'>912</a>
-<a name='L913'></a><a href='#L913'>913</a>
-<a name='L914'></a><a href='#L914'>914</a>
-<a name='L915'></a><a href='#L915'>915</a>
-<a name='L916'></a><a href='#L916'>916</a>
-<a name='L917'></a><a href='#L917'>917</a>
-<a name='L918'></a><a href='#L918'>918</a>
-<a name='L919'></a><a href='#L919'>919</a>
-<a name='L920'></a><a href='#L920'>920</a>
-<a name='L921'></a><a href='#L921'>921</a>
-<a name='L922'></a><a href='#L922'>922</a>
-<a name='L923'></a><a href='#L923'>923</a>
-<a name='L924'></a><a href='#L924'>924</a>
-<a name='L925'></a><a href='#L925'>925</a>
-<a name='L926'></a><a href='#L926'>926</a>
-<a name='L927'></a><a href='#L927'>927</a>
-<a name='L928'></a><a href='#L928'>928</a>
-<a name='L929'></a><a href='#L929'>929</a>
-<a name='L930'></a><a href='#L930'>930</a>
-<a name='L931'></a><a href='#L931'>931</a>
-<a name='L932'></a><a href='#L932'>932</a>
-<a name='L933'></a><a href='#L933'>933</a>
-<a name='L934'></a><a href='#L934'>934</a>
-<a name='L935'></a><a href='#L935'>935</a>
-<a name='L936'></a><a href='#L936'>936</a>
-<a name='L937'></a><a href='#L937'>937</a>
-<a name='L938'></a><a href='#L938'>938</a>
-<a name='L939'></a><a href='#L939'>939</a>
-<a name='L940'></a><a href='#L940'>940</a>
-<a name='L941'></a><a href='#L941'>941</a>
-<a name='L942'></a><a href='#L942'>942</a>
-<a name='L943'></a><a href='#L943'>943</a>
-<a name='L944'></a><a href='#L944'>944</a>
-<a name='L945'></a><a href='#L945'>945</a>
-<a name='L946'></a><a href='#L946'>946</a>
-<a name='L947'></a><a href='#L947'>947</a>
-<a name='L948'></a><a href='#L948'>948</a>
-<a name='L949'></a><a href='#L949'>949</a>
-<a name='L950'></a><a href='#L950'>950</a>
-<a name='L951'></a><a href='#L951'>951</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L905'></a><a href='#L905'>905</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1938,13 +1788,71 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
@@ -1955,946 +1863,900 @@ require('isomorphic-fetch')
 const { mongoose, models: { User, Message } } = require('datify')
 const expect = require('expect')
 const logic = require('.')
-const bcrypt = require('bcrypt')
+const bcrypt = <span class="cstat-no" title="statement not covered" >require('bcrypt')</span>
 &nbsp;
-const { env: { TEST_DB_URL } } = process
+const { env: { TEST_DB_URL } } = <span class="cstat-no" title="statement not covered" >process</span>
 &nbsp;
-describe('logic', () =&gt; {
-    before(() =&gt; mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
+<span class="cstat-no" title="statement not covered" >describe('logic', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    before(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))</span></span>
 &nbsp;
-    beforeEach(() =&gt;
-        Promise.all([
+<span class="cstat-no" title="statement not covered" >    beforeEach(<span class="fstat-no" title="function not covered" >()</span> =&gt;</span>
+<span class="cstat-no" title="statement not covered" >        Promise.all([</span>
             Message.deleteMany(),
             User.deleteMany()
         ])
     )
 &nbsp;
-    describe('register user', () =&gt; {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
-        const passwordConfirm = password
-&nbsp;
-        it('should succeed on valid data', async () =&gt; {
-            const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
-&nbsp;
-            expect(id).toBeDefined()
-            expect(typeof id).toBe('string')
-&nbsp;
-            const user = await User.findOne({ email })
-&nbsp;
-            expect(user.name).toBe(name)
-            expect(user.surname).toBe(surname)
-            expect(user.email).toBe(email)
-&nbsp;
-            const match = await bcrypt.compare(password, user.password)
-&nbsp;
-            expect(match).toBeTruthy()
-        })
-&nbsp;
-        it('should fail on undefined name', () =&gt; {
-            const name = undefined
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric name', () =&gt; {
-            const name = 10
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean name', () =&gt; {
-            const name = true
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object name', () =&gt; {
-            const name = {}
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array name', () =&gt; {
-            const name = []
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty name', () =&gt; {
-            const name = ''
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('name is empty or blank'))
-        })
-&nbsp;
-        it('should fail on undefined surname', () =&gt; {
-            const name = 'Manuel'
-            const surname = undefined
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError('undefined is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric surname', () =&gt; {
-            const name = 'Manuel'
-            const surname = 10
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError('10 is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean surname', () =&gt; {
-            const name = 'Manuel'
-            const surname = false
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(surname + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object surname', () =&gt; {
-            const name = 'Manuel'
-            const surname = {}
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(surname + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array surname', () =&gt; {
-            const name = 'Manuel'
-            const surname = []
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(surname + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty surname', () =&gt; {
-            const name = 'Manuel'
-            const surname = ''
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('surname is empty or blank'))
-        })
-&nbsp;
-        it('should fail on undefined password', () =&gt; {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = undefined
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric password', () =&gt; {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = 123
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean password', () =&gt; {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = true
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object password', () =&gt; {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = {}
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array password', () =&gt; {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = []
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty password', () =&gt; {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = ``
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('password is empty or blank'))
-        })
-        // init password check
-&nbsp;
-        it('should fail on different password and passwordConfirm', () =&gt; {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = `manuelbarzi@mail.com`
-            const password = `123`
-            const passwordConfirm = '456'
-&nbsp;
-            expect(() =&gt; {
-                logic.registerUser(name, surname, email, password, passwordConfirm)
-            }).toThrow(Error('passwords do not match'))
-        })
-&nbsp;
-        // end password check
-&nbsp;
-        it('should fail on existing user', () =&gt; {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = `manuelbarzi@mail.com`
-            const password = `123`
-            const passwordConfirm = password
-&nbsp;
-            return logic.registerUser(name, surname, email, password, password)
-                    .then(() =&gt; logic.registerUser(name, surname, email, password, password))
-                        .catch(({message}) =&gt; {
-                            expect(message).toBe(`user with email ${email} already exists`)
-                        })  
-        })
-    })
-&nbsp;
-    describe('authenticate user', () =&gt; {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
-&nbsp;
-        let pass = password
-        let mail = email
-&nbsp;
-        beforeEach(() =&gt;
-            bcrypt.hash(password, 10)
-                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
-        )
-&nbsp;
-        it('should succeed on correct credentials', () =&gt;
-            logic.authenticateUser(email, password)
-                .then(id =&gt; expect(id).toBeDefined())
-        )
-&nbsp;
-        it('should fail on undefined email', () =&gt; {
-            const email = undefined
-            const password = pass
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(email + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric email', () =&gt; {
-            const email = 123
-            const password = pass
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(email + ' is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean email', () =&gt; {
-            const email = true
-            const password = pass
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(email + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object email', () =&gt; {
-            const email = {}
-            const password = pass
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(email + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array email', () =&gt; {
-            const email = []
-            const password = pass
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(email + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty email', () =&gt; {
-            const email = ''
-            const password = pass
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(Error('email is empty or blank'))
-        })
-&nbsp;
-        it('should fail on undefined password', () =&gt; {
-            const email = 'manuelbarzi@mail.com'
-            const password = undefined
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric password', () =&gt; {
-            const email = 'manuelbarzi@mail.com'
-            const password = 123
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean password', () =&gt; {
-            const email = 'manuelbarzi@mail.com'
-            const password = true
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object password', () =&gt; {
-            const email = 'manuelbarzi@mail.com'
-            const password = {}
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array password', () =&gt; {
-            const email = 'manuelbarzi@mail.com'
-            const password = []
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty password', () =&gt; {
-            const email = 'manuelbarzi@mail.com'
-            const password = ``
-&nbsp;
-            expect(() =&gt; {
-                logic.authenticateUser(email, password)
-            }).toThrow(Error('password is empty or blank'))
-        })
-&nbsp;
-        it('should fail on incorrect email', () =&gt; {
-            const email = 'test666@mail.com'
-            const password = pass
-&nbsp;
-            logic.authenticateUser(email, password)
-                .catch(({message}) =&gt; {
-                    expect(message).toBe(`user with email ${email} not found`)
-                })
-        })
-&nbsp;
-        it('should fail on incorrect password', () =&gt; {
-            const email = mail
-            const password = '456'
-&nbsp;
-            logic.authenticateUser(email, password)
-                .catch(({message}) =&gt; {
-                    expect(message).toBe('wrong credentials')
-                })
-        })
-    })
-&nbsp;
-    describe('retrieve user', () =&gt; {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
-&nbsp;
-        let userId
-&nbsp;
-        beforeEach(() =&gt;
-            bcrypt.hash(password, 10)
-                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
-                .then(({ id }) =&gt; userId = id)
-        )
-&nbsp;
-        it('should fail on undefined userId', () =&gt; {
-            const userId = undefined
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric userId', () =&gt; {
-            const userId = 123
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean userId', () =&gt; {
-            const userId = true
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object userId', () =&gt; {
-            const userId = {}
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array userId', () =&gt; {
-            const userId = []
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty userId', () =&gt; {
-            const userId = ``
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUser(userId)
-            }).toThrow(Error('userId is empty or blank'))
-        })
-&nbsp;
-        it('should succeed on correct credentials', () =&gt;
-            logic.retrieveUser(userId)
-                .then(user =&gt; {
-                    expect(user.id).toBe(userId)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-&nbsp;
-                    expect(user.save).toBeUndefined()
-                })
-        )
-&nbsp;
-        it('should fail on wrong userId', () =&gt; {
-            logic.retrieveUser('5c83d5ab667269067002ce97')
-                .catch(({ message }) =&gt; {
-                    expect(message).toBe(`user with id 5c83d5ab667269067002ce97 not found`)
-                })
-        })
-    })
-&nbsp;
-    describe('retrieve users', () =&gt; {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
-&nbsp;
-        let userId
-&nbsp;
-        beforeEach(() =&gt;
-            bcrypt.hash(password, 10)
-                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
-                .then(({ id }) =&gt; userId = id)
-        )
-&nbsp;
-        it('should fail on undefined userId', () =&gt; {
-            const userId = undefined
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric userId', () =&gt; {
-            const userId = 123
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean userId', () =&gt; {
-            const userId = true
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object userId', () =&gt; {
-            const userId = {}
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array userId', () =&gt; {
-            const userId = []
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty userId', () =&gt; {
-            const userId = ``
-&nbsp;
-            expect(() =&gt; {
-                logic.retrieveUsers(userId)
-            }).toThrow(Error('userId is empty or blank'))
-        })
-&nbsp;
-        it('should succeed on correct credentials', () =&gt;
-            logic.retrieveUsers(userId)
-                .then(users =&gt; {
-                            users.map(user =&gt; {
-                            expect(user.id).toBe(userId)
-                            expect(user.name).toBe(name)
-                            expect(user.surname).toBe(surname)
-                            expect(user.email).toBe(email)
+    // describe('register user', () =&gt; {
+    //     const name = 'Manuel'
+    //     const surname = 'Barzi'
+    //     const email = `manuelbarzi-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
+    //     const passwordConfirm = password
+&nbsp;
+    //     it('should succeed on valid data', async () =&gt; {
+    //         const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+&nbsp;
+    //         expect(id).toBeDefined()
+    //         expect(typeof id).toBe('string')
+&nbsp;
+    //         const user = await User.findOne({ email })
+&nbsp;
+    //         expect(user.name).toBe(name)
+    //         expect(user.surname).toBe(surname)
+    //         expect(user.email).toBe(email)
+&nbsp;
+    //         const match = await bcrypt.compare(password, user.password)
+&nbsp;
+    //         expect(match).toBeTruthy()
+    //     })
+&nbsp;
+    //     it('should fail on undefined name', () =&gt; {
+    //         const name = undefined
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(name + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric name', () =&gt; {
+    //         const name = 10
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(name + ' is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean name', () =&gt; {
+    //         const name = true
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(name + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object name', () =&gt; {
+    //         const name = {}
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(name + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array name', () =&gt; {
+    //         const name = []
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(name + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty name', () =&gt; {
+    //         const name = ''
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(Error('name is empty or blank'))
+    //     })
+&nbsp;
+    //     it('should fail on undefined surname', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = undefined
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError('undefined is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric surname', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 10
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError('10 is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean surname', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = false
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(surname + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object surname', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = {}
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(surname + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array surname', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = []
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(surname + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty surname', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = ''
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = `123-${Math.random()}`
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(Error('surname is empty or blank'))
+    //     })
+&nbsp;
+    //     it('should fail on undefined password', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = undefined
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric password', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = 123
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean password', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = true
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object password', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = {}
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array password', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = []
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty password', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 'Barzi'
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = ``
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, password)
+    //         }).toThrow(Error('password is empty or blank'))
+    //     })
+    //     // init password check
+&nbsp;
+    //     it('should fail on different password and passwordConfirm', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 'Barzi'
+    //         const email = `manuelbarzi@mail.com`
+    //         const password = `123`
+    //         const passwordConfirm = '456'
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.registerUser(name, surname, email, password, passwordConfirm)
+    //         }).toThrow(Error('passwords do not match'))
+    //     })
+&nbsp;
+    //     // end password check
+&nbsp;
+    //     it('should fail on existing user', () =&gt; {
+    //         const name = 'Manuel'
+    //         const surname = 'Barzi'
+    //         const email = `manuelbarzi@mail.com`
+    //         const password = `123`
+    //         const passwordConfirm = password
+&nbsp;
+    //         return logic.registerUser(name, surname, email, password, password)
+    //                 .then(() =&gt; logic.registerUser(name, surname, email, password, password))
+    //                     .catch(({message}) =&gt; {
+    //                         expect(message).toBe(`user with email ${email} already exists`)
+    //                     })  
+    //     })
+    // })
+&nbsp;
+    // describe('authenticate user', () =&gt; {
+    //     const name = 'Manuel'
+    //     const surname = 'Barzi'
+    //     const email = `manuelbarzi-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
+&nbsp;
+    //     let pass = password
+    //     let mail = email
+&nbsp;
+    //     beforeEach(() =&gt;
+    //         bcrypt.hash(password, 10)
+    //             .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+    //     )
+&nbsp;
+    //     it('should succeed on correct credentials', () =&gt;
+    //         logic.authenticateUser(email, password)
+    //             .then(id =&gt; expect(id).toBeDefined())
+    //     )
+&nbsp;
+    //     it('should fail on undefined email', () =&gt; {
+    //         const email = undefined
+    //         const password = pass
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(email + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric email', () =&gt; {
+    //         const email = 123
+    //         const password = pass
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(email + ' is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean email', () =&gt; {
+    //         const email = true
+    //         const password = pass
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(email + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object email', () =&gt; {
+    //         const email = {}
+    //         const password = pass
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(email + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array email', () =&gt; {
+    //         const email = []
+    //         const password = pass
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(email + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty email', () =&gt; {
+    //         const email = ''
+    //         const password = pass
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(Error('email is empty or blank'))
+    //     })
+&nbsp;
+    //     it('should fail on undefined password', () =&gt; {
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = undefined
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric password', () =&gt; {
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = 123
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean password', () =&gt; {
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = true
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object password', () =&gt; {
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = {}
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array password', () =&gt; {
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = []
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty password', () =&gt; {
+    //         const email = 'manuelbarzi@mail.com'
+    //         const password = ``
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.authenticateUser(email, password)
+    //         }).toThrow(Error('password is empty or blank'))
+    //     })
+&nbsp;
+    //     it('should fail on incorrect email', () =&gt; {
+    //         const email = 'test666@mail.com'
+    //         const password = pass
+&nbsp;
+    //         logic.authenticateUser(email, password)
+    //             .catch(({message}) =&gt; {
+    //                 expect(message).toBe(`user with email ${email} not found`)
+    //             })
+    //     })
+&nbsp;
+    //     it('should fail on incorrect password', () =&gt; {
+    //         const email = mail
+    //         const password = '456'
+&nbsp;
+    //         logic.authenticateUser(email, password)
+    //             .catch(({message}) =&gt; {
+    //                 expect(message).toBe('wrong credentials')
+    //             })
+    //     })
+    // })
+&nbsp;
+    // describe('retrieve user', () =&gt; {
+    //     const name = 'Manuel'
+    //     const surname = 'Barzi'
+    //     const email = `manuelbarzi-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
+&nbsp;
+    //     let userId
+&nbsp;
+    //     beforeEach(() =&gt;
+    //         bcrypt.hash(password, 10)
+    //             .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+    //             .then(({ id }) =&gt; userId = id)
+    //     )
+&nbsp;
+    //     it('should fail on undefined userId', () =&gt; {
+    //         const userId = undefined
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUser(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric userId', () =&gt; {
+    //         const userId = 123
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUser(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean userId', () =&gt; {
+    //         const userId = true
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUser(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object userId', () =&gt; {
+    //         const userId = {}
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUser(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array userId', () =&gt; {
+    //         const userId = []
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUser(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty userId', () =&gt; {
+    //         const userId = ``
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUser(userId)
+    //         }).toThrow(Error('userId is empty or blank'))
+    //     })
+&nbsp;
+    //     it('should succeed on correct credentials', () =&gt;
+    //         logic.retrieveUser(userId)
+    //             .then(user =&gt; {
+    //                 expect(user.id).toBe(userId)
+    //                 expect(user.name).toBe(name)
+    //                 expect(user.surname).toBe(surname)
+    //                 expect(user.email).toBe(email)
+&nbsp;
+    //                 expect(user.save).toBeUndefined()
+    //             })
+    //     )
+&nbsp;
+    //     it('should fail on wrong userId', () =&gt; {
+    //         logic.retrieveUser('5c83d5ab667269067002ce97')
+    //             .catch(({ message }) =&gt; {
+    //                 expect(message).toBe(`user with id 5c83d5ab667269067002ce97 not found`)
+    //             })
+    //     })
+    // })
+&nbsp;
+    // describe('retrieve users', () =&gt; {
+    //     const name = 'Manuel'
+    //     const surname = 'Barzi'
+    //     const email = `manuelbarzi-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
+&nbsp;
+    //     let userId
+&nbsp;
+    //     beforeEach(() =&gt;
+    //         bcrypt.hash(password, 10)
+    //             .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+    //             .then(({ id }) =&gt; userId = id)
+    //     )
+&nbsp;
+    //     it('should fail on undefined userId', () =&gt; {
+    //         const userId = undefined
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUsers(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric userId', () =&gt; {
+    //         const userId = 123
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUsers(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean userId', () =&gt; {
+    //         const userId = true
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUsers(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object userId', () =&gt; {
+    //         const userId = {}
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUsers(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array userId', () =&gt; {
+    //         const userId = []
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUsers(userId)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty userId', () =&gt; {
+    //         const userId = ``
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.retrieveUsers(userId)
+    //         }).toThrow(Error('userId is empty or blank'))
+    //     })
+&nbsp;
+    //     it('should succeed on correct credentials', () =&gt;
+    //         logic.retrieveUsers(userId)
+    //             .then(users =&gt; {
+    //                         users.map(user =&gt; {
+    //                         expect(user.id).toBe(userId)
+    //                         expect(user.name).toBe(name)
+    //                         expect(user.surname).toBe(surname)
+    //                         expect(user.email).toBe(email)
                             
-                            expect(user.save).toBeUndefined()
-                        })
-                })
-        )
+    //                         expect(user.save).toBeUndefined()
+    //                     })
+    //             })
+    //     )
 &nbsp;
-        it('should fail on wrong userId', () =&gt; 
-            logic.retrieveUsers('5c83d5ab667269067002ce97')
-                .catch(({ message }) =&gt; {
-                    expect(message).toBe(`user with id 5c83d5ab667269067002ce97 not found, no permission to perform query`)
-                })
-        )
-    })
+    //     it('should fail on wrong userId', () =&gt; 
+    //         logic.retrieveUsers('5c83d5ab667269067002ce97')
+    //             .catch(({ message }) =&gt; {
+    //                 expect(message).toBe(`user with id 5c83d5ab667269067002ce97 not found, no permission to perform query`)
+    //             })
+    //     )
 &nbsp;
-    describe('update user', () =&gt; {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
+    //     it('should fail with no users', () =&gt;
+    //         logic.retrieveUsers(userId)
+    //             .then(users =&gt; )
+    //     )
+    // })
 &nbsp;
-        const _name = 'Jaume'
-        const _surname = 'Pujol'
-        const _email = `jaumepujol-${Math.random()}@mail.com`
+    // describe('update user', () =&gt; {
+    //     const name = 'Manuel'
+    //     const surname = 'Barzi'
+    //     const email = `manuelbarzi-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
 &nbsp;
-        let userId
+    //     const _name = 'Jaume'
+    //     const _surname = 'Pujol'
+    //     const _email = `jaumepujol-${Math.random()}@mail.com`
 &nbsp;
-        beforeEach(() =&gt;
-            bcrypt.hash(password, 10)
-                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
-                .then(({ id }) =&gt; userId = id)
-        )
+    //     let userId
 &nbsp;
-        it('should fail on undefined userId', () =&gt; {
-            const userId = undefined
+    //     beforeEach(() =&gt;
+    //         bcrypt.hash(password, 10)
+    //             .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+    //             .then(({ id }) =&gt; userId = id)
+    //     )
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
+    //     it('should fail on undefined userId', () =&gt; {
+    //         const userId = undefined
 &nbsp;
-        it('should fail on numeric userId', () =&gt; {
-            const userId = 123
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
+    //     it('should fail on numeric userId', () =&gt; {
+    //         const userId = 123
 &nbsp;
-&nbsp;
-        it('should fail on boolean userId', () =&gt; {
-            const userId = true
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object userId', () =&gt; {
-            const userId = {}
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array userId', () =&gt; {
-            const userId = []
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty userId', () =&gt; {
-            const userId = ``
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(Error('userId is empty or blank'))
-        })
-&nbsp;
-        it('should fail on undefined email', () =&gt; {
-            const _email = undefined
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_email + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric email', () =&gt; {
-            const _email = 123
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_email + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
 &nbsp;
 &nbsp;
-        it('should fail on boolean email', () =&gt; {
-            const _email = true
+    //     it('should fail on boolean userId', () =&gt; {
+    //         const userId = true
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_email + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
 &nbsp;
-        it('should fail on object email', () =&gt; {
-            const _email = {}
+    //     it('should fail on object userId', () =&gt; {
+    //         const userId = {}
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_email + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
 &nbsp;
-        it('should fail on array email', () =&gt; {
-            const _email = []
+    //     it('should fail on array userId', () =&gt; {
+    //         const userId = []
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_email + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
 &nbsp;
-        it('should fail on empty email', () =&gt; {
-            const _email = ''
+    //     it('should fail on empty userId', () =&gt; {
+    //         const userId = ``
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(Error('email is empty or blank'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(Error('userId is empty or blank'))
+    //     })
 &nbsp;
-        it('should fail on undefined surname', () =&gt; {
-            const _surname = undefined
+    //     it('should fail on undefined email', () =&gt; {
+    //         const _email = undefined
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_surname + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_email + ' is not a string'))
+    //     })
 &nbsp;
-        it('should fail on numeric surname', () =&gt; {
-            const _surname = 123
+    //     it('should fail on numeric email', () =&gt; {
+    //         const _email = 123
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_surname + ' is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean surname', () =&gt; {
-            const _surname = true
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_surname + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object surname', () =&gt; {
-            const _surname = {}
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_surname + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array surname', () =&gt; {
-            const _surname = []
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_surname + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty surname', () =&gt; {
-            const _surname = ''
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(Error('surname is empty or blank'))
-        })
-&nbsp;
-        it('should fail on undefined name', () =&gt; {
-            const _name = undefined
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_name + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric name', () =&gt; {
-            const _name = 123
-&nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_name + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_email + ' is not a string'))
+    //     })
 &nbsp;
 &nbsp;
-        it('should fail on boolean name', () =&gt; {
-            const _name = true
+    //     it('should fail on boolean email', () =&gt; {
+    //         const _email = true
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_name + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_email + ' is not a string'))
+    //     })
 &nbsp;
-        it('should fail on object name', () =&gt; {
-            const _name = {}
+    //     it('should fail on object email', () =&gt; {
+    //         const _email = {}
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_name + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_email + ' is not a string'))
+    //     })
 &nbsp;
-        it('should fail on array name', () =&gt; {
-            const _name = []
+    //     it('should fail on array email', () =&gt; {
+    //         const _email = []
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(_name + ' is not a string'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_email + ' is not a string'))
+    //     })
 &nbsp;
-        it('should fail on empty name', () =&gt; {
-            const _name = ''
+    //     it('should fail on empty email', () =&gt; {
+    //         const _email = ''
 &nbsp;
-            expect(() =&gt; {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(Error('name is empty or blank'))
-        })
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(Error('email is empty or blank'))
+    //     })
+&nbsp;
+    //     it('should fail on undefined surname', () =&gt; {
+    //         const _surname = undefined
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_surname + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric surname', () =&gt; {
+    //         const _surname = 123
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_surname + ' is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean surname', () =&gt; {
+    //         const _surname = true
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_surname + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object surname', () =&gt; {
+    //         const _surname = {}
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_surname + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array surname', () =&gt; {
+    //         const _surname = []
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_surname + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty surname', () =&gt; {
+    //         const _surname = ''
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(Error('surname is empty or blank'))
+    //     })
+&nbsp;
+    //     it('should fail on undefined name', () =&gt; {
+    //         const _name = undefined
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_name + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on numeric name', () =&gt; {
+    //         const _name = 123
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_name + ' is not a string'))
+    //     })
+&nbsp;
+&nbsp;
+    //     it('should fail on boolean name', () =&gt; {
+    //         const _name = true
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_name + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on object name', () =&gt; {
+    //         const _name = {}
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_name + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on array name', () =&gt; {
+    //         const _name = []
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(TypeError(_name + ' is not a string'))
+    //     })
+&nbsp;
+    //     it('should fail on empty name', () =&gt; {
+    //         const _name = ''
+&nbsp;
+    //         expect(() =&gt; {
+    //             logic.updateUser(userId, _name, _surname, _email)
+    //         }).toThrow(Error('name is empty or blank'))
+    //     })
         
-        it('should work with correct credentials', () =&gt; 
-            logic.updateUser(userId, _name, _surname, _email)
-                .then(user =&gt; {
-                    expect(user.name).toBe(_name)
-                    expect(user.surname).toBe(_surname)
-                    expect(user.email).toBe(_email)
-                })
-        )
+    //     it('should work with correct credentials', () =&gt; 
+    //         logic.updateUser(userId, _name, _surname, _email)
+    //             .then(user =&gt; {
+    //                 expect(user.name).toBe(_name)
+    //                 expect(user.surname).toBe(_surname)
+    //                 expect(user.email).toBe(_email)
+    //             })
+    //     )
 &nbsp;
-        it('should fail with incorrect credentials', () =&gt; 
-            logic.updateUser('5c83d64f667269067002ce99', _name, _surname, _email)
-                .catch(({ message }) =&gt; expect(message).toBe(`user with id 5c83d64f667269067002ce99 not found`))
-        )
-    })
+    //     it('should fail with incorrect credentials', () =&gt; 
+    //         logic.updateUser('5c83d64f667269067002ce99', _name, _surname, _email)
+    //             .catch(({ message }) =&gt; expect(message).toBe(`user with id 5c83d64f667269067002ce99 not found`))
+    //     )
+    // })
 &nbsp;
-    describe('remove user', () =&gt; {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
+<span class="cstat-no" title="statement not covered" >    describe('remove user', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+        const name = <span class="cstat-no" title="statement not covered" >'Manuel'</span>
+        const surname = <span class="cstat-no" title="statement not covered" >'Barzi'</span>
+        const email = <span class="cstat-no" title="statement not covered" >`manuelbarzi-${Math.random()}@mail.com`</span>
+        const password = <span class="cstat-no" title="statement not covered" >`123-${Math.random()}`</span>
 &nbsp;
         let userId
 &nbsp;
-        beforeEach(() =&gt;
-            bcrypt.hash(password, 10)
-                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
-                .then(({ id }) =&gt; userId = id)
+<span class="cstat-no" title="statement not covered" >        beforeEach(<span class="fstat-no" title="function not covered" >()</span> =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            bcrypt.hash(password, 10)</span>
+                .then(<span class="fstat-no" title="function not covered" >ha</span>sh =&gt; <span class="cstat-no" title="statement not covered" >User.create({ name, surname, email, password: hash }))</span>
+                .then(<span class="fstat-no" title="function not covered" >({</span> id }) =&gt; <span class="cstat-no" title="statement not covered" >userId = id)</span>
         )
 &nbsp;
-        it('should fail on undefined userId', () =&gt; {
-            const userId = undefined
-&nbsp;
-            expect(() =&gt; {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on numeric userId', () =&gt; {
-            const userId = 123
-&nbsp;
-            expect(() =&gt; {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-&nbsp;
-        it('should fail on boolean userId', () =&gt; {
-            const userId = true
-&nbsp;
-            expect(() =&gt; {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on object userId', () =&gt; {
-            const userId = {}
-&nbsp;
-            expect(() =&gt; {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on array userId', () =&gt; {
-            const userId = []
-&nbsp;
-            expect(() =&gt; {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-&nbsp;
-        it('should fail on empty userId', () =&gt; {
-            const userId = ``
-&nbsp;
-            expect(() =&gt; {
-                logic.removeUser(userId)
-            }).toThrow(Error('userId is empty or blank'))
-        })
-&nbsp;
-        it('should succeed on correct userId', () =&gt; 
-            logic.removeUser(userId)
-                .then((user) =&gt; {
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
+<span class="cstat-no" title="statement not covered" >        it('should succeed on correct userId', <span class="fstat-no" title="function not covered" >()</span> =&gt; </span>
+<span class="cstat-no" title="statement not covered" >            logic.removeUser(userId)</span>
+                .then(<span class="fstat-no" title="function not covered" >({</span>status}) =&gt; {
+<span class="cstat-no" title="statement not covered" >                    expect(status).toBe('OK')</span>
                 })
         )
 &nbsp;
-        it('should fail on incorrect userId', () =&gt;
-                logic.removeUser('5c83d64f667269067002ce99')
-                    .catch(({ message }) =&gt; expect(message).toBe(`user with id 5c83d64f667269067002ce99 not found`))
+<span class="cstat-no" title="statement not covered" >        it('should fail on incorrect userId', <span class="fstat-no" title="function not covered" >()</span> =&gt;</span>
+<span class="cstat-no" title="statement not covered" >                logic.removeUser('5c83d64f667269067002ce99')</span>
+                    .catch(<span class="fstat-no" title="function not covered" >({</span>message}) =&gt; <span class="cstat-no" title="statement not covered" >expect(message).toBe('invalid signature'))</span>
         )
     })
 &nbsp;
-    describe('create message', () =&gt; {
-        const nameFrom = 'Peter'
-        const surnameFrom = 'McGregor'
-        const emailFrom = `peter-mc-greg-${Math.random()}@mail.com`
-        const passwordFrom = `123-${Math.random()}`
+    // describe('create message', () =&gt; {
+    //     const nameFrom = 'Peter'
+    //     const surnameFrom = 'McGregor'
+    //     const emailFrom = `peter-mc-greg-${Math.random()}@mail.com`
+    //     const passwordFrom = `123-${Math.random()}`
 &nbsp;
-        const nameTo = 'Peter'
-        const surnameTo = 'McGregor'
-        const emailTo = `peter-mc-greg-${Math.random()}@mail.com`
-        const passwordTo = `123-${Math.random()}`
+    //     const nameTo = 'Peter'
+    //     const surnameTo = 'McGregor'
+    //     const emailTo = `peter-mc-greg-${Math.random()}@mail.com`
+    //     const passwordTo = `123-${Math.random()}`
 &nbsp;
-        let date = new Date
-        let launchDate = new Date
-        let position = [41.234, 2.897]
-        let text = 'kwjhfwef lifwelfiu 3loiru2pdoje'
-        let userIdFrom
-        let userIdTo
+    //     let date = new Date
+    //     let launchDate = new Date
+    //     let position = [41.234, 2.897]
+    //     let text = 'kwjhfwef lifwelfiu 3loiru2pdoje'
+    //     let userIdFrom
+    //     let userIdTo
 &nbsp;
-        bcrypt.hash(passwordFrom, 10)
-            .then(hash =&gt; User.create({ nameFrom, surnameFrom, emailFrom, passwordFrom: hash }))
-            .then(<span class="fstat-no" title="function not covered" >({</span> id }) =&gt; <span class="cstat-no" title="statement not covered" >userIdFrom = id)</span>
+    //     bcrypt.hash(passwordFrom, 10)
+    //         .then(hash =&gt; User.create({ nameFrom, surnameFrom, emailFrom, passwordFrom: hash }))
+    //         .then(({ id }) =&gt; userIdFrom = id)
             
-        bcrypt.hash(passwordTo, 10)
-            .then(hash =&gt; User.create({ nameTo, surnameTo, emailTo, passwordTo: hash }))
-            .then(<span class="fstat-no" title="function not covered" >({</span> id }) =&gt; <span class="cstat-no" title="statement not covered" >userIdTo = id)</span>
+    //     bcrypt.hash(passwordTo, 10)
+    //         .then(hash =&gt; User.create({ nameTo, surnameTo, emailTo, passwordTo: hash }))
+    //         .then(({ id }) =&gt; userIdTo = id)
         
 &nbsp;
-        it('should succeed on correct credentials', () =&gt; {
-            logic.createMessage(userIdFrom, userIdTo, date, launchDate, position, text)
-                .then(<span class="fstat-no" title="function not covered" >me</span>ssage =&gt; {
-<span class="cstat-no" title="statement not covered" >                    expect(message.userIdFrom).toBe(userIdFrom)</span>
-<span class="cstat-no" title="statement not covered" >                    expect(message.userIdTo).toBe(userIdTo)</span>
-<span class="cstat-no" title="statement not covered" >                    expect(message.date).toBeDefined()</span>
-<span class="cstat-no" title="statement not covered" >                    expect(message.launchDate).toBeDefined()</span>
-<span class="cstat-no" title="statement not covered" >                    expect(message.position).toBe(position)</span>
-<span class="cstat-no" title="statement not covered" >                    expect(message.text).toBe(text)</span>
-                })
-        })
-    })
+    //     it('should succeed on correct credentials', () =&gt; {
+    //         logic.createMessage(userIdFrom, userIdTo, date, launchDate, position, text)
+    //             .then(message =&gt; {
+    //                 expect(message.userIdFrom).toBe(userIdFrom)
+    //                 expect(message.userIdTo).toBe(userIdTo)
+    //                 expect(message.date).toBeDefined()
+    //                 expect(message.launchDate).toBeDefined()
+    //                 expect(message.position).toBe(position)
+    //                 expect(message.text).toBe(text)
+    //             })
+    //     })
+    // })
 &nbsp;
-    after(() =&gt;
-        Promise.all([
+<span class="cstat-no" title="statement not covered" >    after(<span class="fstat-no" title="function not covered" >()</span> =&gt;</span>
+<span class="cstat-no" title="statement not covered" >        Promise.all([</span>
             Message.deleteMany(),
             User.deleteMany()
         ])
-            .then(() =&gt; mongoose.disconnect())
+            .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >mongoose.disconnect())</span>
     )
 })</pre></td></tr>
 </table></pre>
@@ -2902,10 +2764,10 @@ describe('logic', () =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Mar 11 2019 17:18:29 GMT+0100 (GMT+01:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Mar 11 2019 16:54:48 GMT+0100 (GMT+01:00)
 </div>
 </div>
-<script src="../prettify.js"></script>
+<script src="prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -2913,7 +2775,7 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../sorter.js"></script>
-<script src="../block-navigation.js"></script>
+<script src="sorter.js"></script>
+<script src="block-navigation.js"></script>
 </body>
 </html>

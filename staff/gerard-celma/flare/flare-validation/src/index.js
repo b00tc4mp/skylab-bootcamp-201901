@@ -21,6 +21,18 @@ function validate(params) {
                 if (optional && value == null) break
 
                 if (typeof value !== 'number') throw TypeError(`${value} is not a number`)
+
+                break
+            case Date:
+                if (optional && value == null) break
+
+                if (!(value instanceof Date)) throw TypeError(`${value} is not a date`)
+
+                break
+            case Array:
+                if (optional && value == null) break
+
+                if (!(value instanceof Array)) throw TypeError(`${value} is not an array`)
         }
     })
 }

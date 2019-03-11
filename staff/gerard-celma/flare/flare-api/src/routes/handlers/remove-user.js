@@ -6,7 +6,7 @@ module.exports = (req,res) => {
 
     try {
         logic.removeUser(userId)
-            .then(user => res.json(user))
+            .then(response => res.json(response))
             .catch(error => handleResponseError(error, res))
     } catch (error) {
         handleResponseError(error, res)
