@@ -18,8 +18,7 @@ export default ({ items }) => (
                     <br />
                     <p className="description" >{item.description}</p>
                     <br />
-                    <Link className="button" to={`product/${item._id}`}>Buy me</Link>
-
+                    <Link className="button" to={`product/${item._id}`}>Product Details</Link>
                 </div>
             </ul>
         ))}

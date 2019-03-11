@@ -19,19 +19,19 @@ class Contact extends Component {
                         <th>Telephone:</th>
                     </tr>
                     <tr>
-                        <td>Jill Smith</td>
+                        <td>Gonzalo Garcia</td>
                         <td>Manager</td>
-                        <td>50 000 000</td>
+                        <td>99 999 99 99</td>
                     </tr>
                     <tr>
-                        <td>Eve Smith</td>
+                        <td>Alvaro Alba</td>
                         <td>Sales</td>
-                        <td>94 000 000</td>
+                        <td>99 999 99 99</td>
                     </tr>
                     <tr>
-                        <td>Adam Smith</td>
+                        <td>Yngrid Yrivarren</td>
                         <td>PR</td>
-                        <td>67 000 000</td>
+                        <td>99 999 99 99</td>
                     </tr>
                 </table>
 

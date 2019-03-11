@@ -33,6 +33,7 @@ class Product extends Component {
                         <div >
                             <h2 className="productName">{this.state.product.name}</h2>
                             <h3 className="productPrice">{this.state.product.price} €</h3>
+                            <button>Add to the cart</button>
                             <p className="productDescription">{this.state.product.description}</p>
                         </div>
                     </div>

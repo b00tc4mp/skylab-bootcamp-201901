@@ -34,6 +34,7 @@ class LandingMain extends Component {
     const { properties, property } = this.state;
     return (
       <div className="App">
+        {/* <img src="http://www.daytonoregon.org/wp-content/uploads/2018/04/community_cleanup1.png" className="bigImage2" alt="404" /> */}
         <img src="https://i.gyazo.com/a03279cbcd72c4890e8d03250d0efe96.png" className="bigImage" alt="404" />
         <div className="col">
           <div className={`cards-slider active-slide-${property.index}`}>
