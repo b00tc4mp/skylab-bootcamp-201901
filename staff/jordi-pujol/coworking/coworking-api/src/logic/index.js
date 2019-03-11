@@ -18,16 +18,12 @@ const logic = {
         * @param {string} password 
         * @param {string} passwordConfirmation 
         */
-    registerUser(name, surname, email, password, passwordConfirmation, isAdmin) {
+    registerUser(name, surname, email, password, passwordConfirmation) {
         validate([{key: 'name', value: name, type: String},
         {key: 'surname', value: surname, type: String},
         {key: 'email', value: email, type: String},
         {key: 'password', value: password, type: String},
-        {key: 'passwordConfirm', value: passwordConfirm, type: String}])
-
-        // if (typeof isAdmin !== 'string') throw TypeError(isAdmin + ' is not a string')
-
-        // if (!isAdmin.trim().length) throw Error('isAdmin cannot be empty')
+        {key: 'passwordConfirmation', value: passwordConfirmation, type: String}])
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
@@ -37,7 +33,7 @@ const logic = {
 
                 return bcrypt.hash(password, 10)
             })
-            .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+            .then(hash => User.create({ name, surname, email, password: hash }))
             .then(({ id }) => id)
     },
 
@@ -162,7 +158,7 @@ const logic = {
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error('user does not exist')
-                if (user.workspace) throw Error('cannot create more than one workspace with same email')
+                if (user.workspace) throw Error('cannot be in more than one workspace with same email')
 
                 user.isAdmin = true
 
@@ -170,7 +166,7 @@ const logic = {
             })
             .then(() => Workspace.findOne({ name }))
             .then(workspace => {
-                if (workspace) throw Error(`${workspace} already exists`)
+                if (workspace) throw Error(`${workspace.name} already exists`)
 
                 return Workspace.create({ name, user: userId })
             })
@@ -303,7 +299,7 @@ const logic = {
         validate([{key: 'userId', value: userId, type: String},
         {key: 'title', value: title, type: String},
         {key: 'description', value: description, type: String},
-        {key: 'maxUsers', value: maxUsers, type: String},
+        {key: 'maxUsers', value: maxUsers, type: Number},
         {key: 'place', value: place, type: String}])
 
         let workspaceId

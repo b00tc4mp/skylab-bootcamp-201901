@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import Feedback from '../Feedback'
 
 class Workspace extends Component {
     state = { email: '', password: '', name: '' }
@@ -22,7 +23,7 @@ class Workspace extends Component {
 
     render() {
 
-        const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
+        const { props: { feedback }, handleEmailInput, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
 
         return <section className="login">
             <section className="login_content">
@@ -51,6 +52,7 @@ class Workspace extends Component {
                     <span>Sign Up</span>
                 </div>
             </section>
+            {feedback && <Feedback message={feedback}/>}
         </section>
     }
 }

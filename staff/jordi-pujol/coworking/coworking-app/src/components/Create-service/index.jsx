@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
+import Feedback from '../Feedback'
+
 class NewService extends Component {
 
-    state = { title: '', description: '', maxUsers: 1, place: '' }
+    state = { title: '', description: '', maxUsers: 1, place: 'Not specified' }
 
     handleTitleInput = event => this.setState({ title: event.target.value })
 
@@ -11,7 +13,7 @@ class NewService extends Component {
 
     handleMaxUsersInput = event => {
         if (event.target.value !== '') {
-            this.setState({ maxUsers: event.target.value })}}
+            this.setState({ maxUsers: Number(event.target.value) })}}
 
     handlePlaceInput = event => {
         if (event.target.value !== '') this.setState({ place: event.target.value })}
@@ -26,7 +28,7 @@ class NewService extends Component {
 
     render() {
 
-        const { handleDescriptionInput, handleFormSubmit, handleTitleInput, handleMaxUsersInput, handlePlaceInput } = this
+        const { props:{feedback}, handleDescriptionInput, handleFormSubmit, handleTitleInput, handleMaxUsersInput, handlePlaceInput } = this
 
         return <section>
             <form onSubmit={handleFormSubmit}>
@@ -40,6 +42,7 @@ class NewService extends Component {
                 <input onChange={handlePlaceInput}></input>
                 <button>Create Service</button>
             </form>
+            {feedback && <Feedback message={feedback}/>}
         </section>
     }
 }

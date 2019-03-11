@@ -8,7 +8,7 @@ import validate from 'coworking-validation'
  */
 const logic = {
     __coworkingApiToken__: null,
-    __isAdmin__: false,
+    __isAdmin__: null,
 
     /**
     * Registers a user.
@@ -64,7 +64,7 @@ const logic = {
      * Checks user is logged in.
      */
     get isUserAdmin() {
-        return this.__isAdmin__
+        return this.__isAdmin__ === 'true'
     },
 
     /**
@@ -90,10 +90,11 @@ const logic = {
         {key: 'userId', value: userId, type: String}])
 
         return coworkingApi.createWorkspace(name, userId)
+            .then((id)=> id)
     },
 
     createNewUserLink(){
-        this.__isAdmin__ = true
+
         return coworkingApi.createNewUserLink(this.__coworkingApiToken__)
     },
 
@@ -112,7 +113,7 @@ const logic = {
     createService(title, description, maxUsers, place){
         validate([{key: 'title', value: title, type: String},
         {key: 'description', value: description, type: String},
-        {key: 'maxUsers', value: maxUsers, type: String},
+        {key: 'maxUsers', value: maxUsers, type: Number},
         {key: 'place', value: place, type: String}])
 
         return coworkingApi.createService(this.__coworkingApiToken__, title, description, maxUsers, place)

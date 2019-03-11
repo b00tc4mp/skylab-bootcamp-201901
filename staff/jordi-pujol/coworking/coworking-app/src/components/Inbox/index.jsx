@@ -4,35 +4,38 @@ import { Route, withRouter } from 'react-router-dom'
 import Service from '../Service'
 import FullService from '../Full-Service'
 import logic from '../../logic';
+import Feedback from '../Feedback'
 
 class Inbox extends Component {
 
-    state = { services: '', activeService: {} }
+    state = { services: '', feedback: null }
 
     componentWillMount() {
-        logic.retrieveUser()
+        try {
+            logic.retrieveUser()
             .then(({ workspace }) => {
                 return logic.retrieveWorkspaceServices(workspace)
             })
             .then(services => this.setState({ services }))
+            .catch(({message}) => this.setState({feedback: message}))
+        }
+        catch ({ message }) {
+            this.setState({ feedback: message })
+        }
     }
 
     handleServiceClick = id => this.props.history.push(`/home/inbox/service/${id}`)
 
-    // handleSubmitService= id => {
-    //     return logic.addUserToService(id)
-    //         .then(() => this.props.history.push('home/inbox'))
-    // }
-
     render() {
 
-        const { state: { services, activeService }, handleServiceClick, handleSubmitService } = this
+        const { state: { services, feedback }, handleServiceClick, handleSubmitService } = this
 
         return (<section className="inbox">
             {services && services.map(service =>
                 <Service key={services.id} servicesFor={service} onServiceSelected={handleServiceClick} />
             )}
             <Route path='/home/inbox/service/:id' render={(props) => <FullService service={props.match.params.id} onServiceSubmit={handleSubmitService} />} />
+            {feedback && <Feedback message={feedback}/>}
         </section>)
     }
 }

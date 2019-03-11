@@ -12,7 +12,7 @@ import NewInvitation from '../New-invitation';
 
 class Home extends Component {
 
-    state = { services: '', link: null }
+    state = { services: '', link: null, createServiceFeedback: null }
 
     handleGoToHome = () => this.props.history.push('/home/inbox')
 
@@ -23,12 +23,15 @@ class Home extends Component {
     handleGoToNotifications = () => this.props.history.push('/home/notifications')
 
     handleCreateNewLink = () => {
-        
-        logic.createNewUserLink()
+
+        try {
+            logic.createNewUserLink()
             .then(result => this.setState({ link: result }), this.props.history.push('/home/invitation'))
-        
-        // .then((result) => console.log(result + 'dsadsadsadsadds'))
-        // .then(() => this.props.history.push('/home/notifications'))
+            .catch(({ message }) => this.setState({createServiceFeedback: message}))
+        }
+        catch ({ message }) {
+            this.setState({createServiceFeedback: message})
+        }
     }
 
     handleLogOut = () => {
@@ -39,20 +42,26 @@ class Home extends Component {
 
     handleCreateService = (title, description, maxUsers, place) => {
 
-        logic.createService(title, description, maxUsers, place)
-            .then(() => this.props.history.push('/home'))
+        try {
+            logic.createService(title, description, maxUsers, place)
+                .then(() => this.props.history.push('/home/inbox'))
+                .catch(({ message }) => this.setState({ createServiceFeedback: message }))
+        }
+        catch ({ message }) {
+            this.setState({ createServiceFeedback: message })
+        }
     }
 
     render() {
 
-        const { state: { link }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, invitation } = this
+        const { state: { link, createServiceFeedback }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, invitation } = this
 
         return <section>
             <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />
             <Route exact path='/home/profile' render={() => <Profile />} />
             <Route path='/home/inbox' render={() => <Inbox />} />
-            <Route path='/home/service' render={() => <NewService onCreateService={handleCreateService} />} />
-            <Route path='/home/invitation' render={() => <NewInvitation invitation={link} /> } />
+            <Route path='/home/service' render={() => <NewService feedback={createServiceFeedback} onCreateService={handleCreateService} />} />
+            <Route path='/home/invitation' render={() => logic.isUserAdmin? <NewInvitation invitation={link}/> : <Redirect to='/home/inbox'/>} />
             {/* <Route exact path='/home/inbox' render={()=> services && <Service services={services}/>}/> */}
         </section>
     }

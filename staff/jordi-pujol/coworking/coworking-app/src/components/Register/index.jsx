@@ -1,6 +1,7 @@
 'use strict'
 
 import React, { Component } from 'react'
+import Feedback from '../Feedback'
 
 class Register extends Component {
 
@@ -29,7 +30,7 @@ class Register extends Component {
 
     render() {
 
-        const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, handleFormSubmit } = this
+        const { props: { feedback }, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, handleFormSubmit } = this
 
 
         return <section className="login">
@@ -63,6 +64,7 @@ class Register extends Component {
                     <span>Sign Up</span>
                 </div>
             </section>
+            {feedback && <Feedback message={feedback}/>}
         </section>
     }
 }

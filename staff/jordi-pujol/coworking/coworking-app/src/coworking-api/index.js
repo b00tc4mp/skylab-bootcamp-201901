@@ -168,7 +168,7 @@ const coworkingApi = {
         validate([{key: 'token', value: token, type: String},
         {key: 'title', value: title, type: String},
         {key: 'description', value: description, type: String},
-        {key: 'maxUsers', value: maxUsers, type: String},
+        {key: 'maxUsers', value: maxUsers, type: Number},
         {key: 'place', value: place, type: String}])
 
         return fetch(`${this.url}/service`, {
@@ -259,7 +259,6 @@ const coworkingApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
-                console.log(response)
                 return
             })
     },
@@ -288,7 +287,7 @@ const coworkingApi = {
         {key: 'commentId', value: commentId, type: String}])
 
         return fetch(`${this.url}/comment/${serviceId}/${commentId}`, {
-            method: 'GET',
+            method: 'DELETE',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`

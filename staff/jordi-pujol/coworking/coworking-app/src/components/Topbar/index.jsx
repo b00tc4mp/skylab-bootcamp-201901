@@ -5,7 +5,7 @@ import logic from '../../logic'
 function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices, onLogOut, onCreatingNewLink }) {
 
     return <section className="topbar">
-        <image className="topbar__button--icon" onClick={onGoToHome}/>
+        <img className="topbar__button--icon" onClick={onGoToHome}/>
         <button className="topbar__button" onClick={onGoToProfile}>Profile</button>
         <button className="topbar__button" onClick={onGoToNotifications}>Notifications</button>
         <button className="topbar__button" onClick={onGoToServices}>Create Service</button>

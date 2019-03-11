@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import Feedback from '../Feedback';
 
 
 class Login extends Component {
@@ -33,7 +34,7 @@ class Login extends Component {
 
     render() {
 
-        const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleNewFormSubmit } = this
+        const { props: { feedback }, handleEmailInput, handlePasswordInput, handleFormSubmit, handleNewFormSubmit } = this
 
         return <section className="login">
             <section className="login_content">
@@ -63,6 +64,7 @@ class Login extends Component {
                     <span>Sign Up</span>
                 </div>
             </section>
+            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }
