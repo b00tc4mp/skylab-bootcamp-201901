@@ -10,20 +10,22 @@ import logic from '../../logic'
 
 
 class App extends Component {
-  state = { user: "", loginFeedback: null, registerFeedback: null, registered: "" }
+  state = { token : "", user: "", loginFeedback: null, registerFeedback: null, registered: "" }
 
 
   handleLogin = (email, password) => {
 
     try {
       return logic.loginUser(email, password)
-        .then(() => {
+        .then((token) => {
+
+          this.setState({ token })
           return logic.retrieveUser()
             .then(user => this.setState({ user }))
             .catch(({message}) => {
               this.setState({ loginFeedback: message })
             })
-          // .then(() => this.props.history.push('/home'))
+          .then(() => this.props.history.push('/'))
         })
         .catch(({ message }) => {
           this.setState({ loginFeedback: message })
@@ -41,21 +43,55 @@ class App extends Component {
         .catch(({message}) => {
           this.setState({ registerFeedback: message })
         })
+        .then(() => this.props.history.push('/login'))
     } catch ({ message }) {
       this.setState({ registerFeedback: message })
     }
   }
 
-  handleLogout = () => {
+  //#region  Header Functions 
+  
+  
+  handleGoToLogout = () => {
     logic.logout();
 
     this.props.history.push('/');
   }
 
+  handleGoToRegister= ()=>{
+
+    this.props.history.push('/register');
+
+  }
+
+  handleGoToLogin= ()=>{
+
+    this.props.history.push('/login');
+
+  }
+  handleGoToLanding= ()=>{
+
+    this.props.history.push('/');
+
+  }
+  handleGoToUser= ()=>{
+
+    this.props.history.push('/user');
+
+  }
+  handleGoToConversations= ()=>{
+
+    this.props.history.push('/conversations');
+
+  }
+
+
+
+//#endregion
 
   render() {
 
-    const { handleLogin, handleRegister, state: { user, loginFeedback, registerFeedback, registered } } = this
+    const { handleLogin, handleRegister,handleGoToConversations,handleGoToLogin,handleGoToLogout,handleGoToRegister,handleGoToUser,handleGoToLanding, state: { user, loginFeedback, registerFeedback, registered } } = this
 
 
     return (
@@ -63,14 +99,14 @@ class App extends Component {
 
       <div className="App">
         <div className="navbar">
-          <Header user={user} ></Header>
+          <Header user={user} handleGoToConversations={handleGoToConversations} handleGoToLogin={handleGoToLogin} handleGoToLogout={handleGoToLogout} handleGoToRegister={handleGoToRegister} handleGoToUser={handleGoToUser} handleGoToLanding={handleGoToLanding} ></Header>
 
         </div>
 
         <div className="content" >
-          <Login loginFeedback={loginFeedback} onLogin={handleLogin}> </Login>
-          <Register registerFeedback={registerFeedback} onRegister={handleRegister}> </Register>
-          <LandingPage> </LandingPage>
+          <Route  exact path = '/' render={() => <LandingPage/>}/> 
+          <Route  exact path ="/login" render={()=> <Login loginFeedback={loginFeedback} onLogin={handleLogin}  />}/> 
+          <Route  exact path ="/register" render={()=> <Register registerFeedback={registerFeedback} onRegister={handleRegister}/>}/> 
 
         </div>
 
@@ -80,4 +116,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App) ;

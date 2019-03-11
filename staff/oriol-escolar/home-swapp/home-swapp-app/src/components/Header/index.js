@@ -19,28 +19,57 @@ class Header extends Component {
 
     }    
 
-    goToRegister() {
+    goToRegister = event => {
+        event.preventDefault()
+
+        const { props: {handleGoToRegister} } = this
+
+        handleGoToRegister()
+        
 
     }
 
-    goToLogin() {
+    goToLogin= event => {
+        event.preventDefault()
+        const { props: {handleGoToLogin} } = this
+        handleGoToLogin()
 
     }
 
-    goToLanding() {
+    goToLanding = event => {
+        event.preventDefault()
+        
+        const { props: {handleGoToLanding} } = this
+
+        handleGoToLanding()
+
+
 
     }
 
-    goToLogout() {
+    goToLogout = event => {
+        event.preventDefault()
+
+        const { props: {handleGoToLogout} } = this
+
+        handleGoToLogout()
+
+    }
+    goToUser = event => {
+        event.preventDefault()
+
+        const { props: {handleGoToUser} } = this
+
+        handleGoToUser()
 
 
     }
-    goToUser() {
+    goToConversations = event => {
+        event.preventDefault()
 
+        const { props: {handleGoToConversations} } = this
 
-    }
-    goToConversations() {
-
+        handleGoToConversations()
 
     }
 
@@ -76,7 +105,7 @@ class Header extends Component {
 
             <img className="header__logo" src="https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo1.png" onClick={goToLanding}></img>
 
-            {user ? renderloggedButtons(goToLogin,goToRegister):renderUnloggedButtons(goToLogout,goToConversations,goToUser)}
+            {user ? renderloggedButtons(goToLogout,goToConversations,goToUser):renderUnloggedButtons(goToLogin,goToRegister)}
 
 
         </div>
