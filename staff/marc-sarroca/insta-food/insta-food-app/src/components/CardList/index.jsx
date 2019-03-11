@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../userContext";
 import logic from "../../logic";
+import Card from "../../components/Card";
 
 function CardList() {
   const { user } = useContext(UserContext);
@@ -14,10 +15,16 @@ function CardList() {
   const getPosts = () => {
     logic.retrieveAllPosts(token).then(posts => setPosts(posts));
   };
+
   return (
-    <div className="card-lsit">
+    <div className="card-listt">
       {posts.map(post => (
-        <p>{post._id}</p>
+        <Card
+          title={post.title}
+          image={post.image}
+          description={post.description}
+          comments={post.comments}
+        />
       ))}
     </div>
   );

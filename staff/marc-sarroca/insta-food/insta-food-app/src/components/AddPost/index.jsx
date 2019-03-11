@@ -15,7 +15,6 @@ function AddPost() {
   const handleDescriptionInput = event => setDescription(event.target.value);
 
   const handleFormSubmit = event => {
-    console.log(title, description, image);
     event.preventDefault();
     logic.createPost({ title, description, image, token });
   };

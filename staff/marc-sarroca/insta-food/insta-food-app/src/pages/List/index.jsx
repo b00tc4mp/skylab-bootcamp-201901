@@ -1,13 +1,13 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "./index.sass";
 import CardList from "../../components/CardList";
 
 function ListPage() {
   return (
-    <section>
-      <h1 className="page-title">All Posts</h1>
+    <Fragment>
+      <h1 className="page-title">All posts</h1>
       <CardList />
-    </section>
+    </Fragment>
   );
 }
 
