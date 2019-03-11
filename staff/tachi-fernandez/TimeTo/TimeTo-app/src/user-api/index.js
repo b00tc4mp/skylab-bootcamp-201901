@@ -1,0 +1,316 @@
+const userApi = {
+    url: 'http://localhost:8000/final-proyect/api',
+
+    register(name, surname, age, description, email, password, passwordConfirmation) {
+        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
+        if (!name.trim().length) throw Error('name is empty')
+
+        if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
+        if (!surname.trim().length) throw Error('surname is empty')
+
+        if (typeof age !== 'string') throw TypeError(`${age} is not a string`)
+        if (!age.trim().length) throw Error('age is empty')
+
+        if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
+        if (!description.trim().length) throw Error('description is empty')
+
+        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
+        if (!email.trim().length) throw Error('email is empty')
+
+        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
+        if (!password.trim().length) throw Error('password is empty')
+
+        if (typeof passwordConfirmation !== 'string') throw TypeError(`${passwordConfirmation} is not a string`)
+        if (!passwordConfirmation.trim().length) throw Error('passwordConfirmation is empty')
+
+        return fetch(`${this.url}/user`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ name, surname, age, description, email, password ,passwordConfirmation })
+        })
+            .then(response => response.json())
+            .then(response => {
+                const { id  } = response
+
+                 return id
+
+                //throw Error(response.error)
+            })
+    },
+
+    authenticate(email, password) {
+        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
+        if (!email.trim().length) throw Error('email is empty')
+
+        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
+        if (!password.trim().length) throw Error('password is empty')
+
+        return fetch(`${this.url}/user/auth`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then(response => response.json())
+            .then(response => {
+                const {token} = response
+
+                return token
+
+            })
+    },
+
+    retrieveUser(token) {
+        debugger
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/retrieve-user`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+
+                return response
+            })
+    },
+
+    retireveUserById(usersId ,token){
+        if (typeof usersId !== 'string') throw TypeError(`${usersId} is not a string`)
+        if (!usersId.trim().length) throw Error('usersId is empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/retrieve-userId/${usersId}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+
+                return response
+            })
+    },
+
+    createEventUser(title, description, date, ubication, category, token){
+        
+        if (typeof title !== 'string') throw TypeError(title + ' is not a string')
+        
+        if (!title.trim().length) throw Error('title cannot be empty')
+        
+        if (typeof description !== 'string') throw TypeError(description + ' is not a string')
+        
+        if (!description.trim().length) throw Error('description cannot be empty')
+        
+        if (typeof date !== 'string') throw TypeError(date + ' is not a string')
+        
+        if (!date.trim().length) throw Error('date cannot be empty')
+        
+        if (typeof ubication !== 'string') throw TypeError(ubication + ' is not a string')
+        
+        if (!ubication.trim().length) throw Error('ubication cannot be empty')
+        
+        debugger
+        
+        if (typeof category !== 'string') throw TypeError(category + ' is not a string')
+        
+        if (!category.trim().length) throw Error('category cannot be empty')
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string')
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/create-event`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}` 
+
+            },
+            body: JSON.stringify({ title, description, date, ubication, category })
+        })
+        .then(response => response.json())
+        .then(response => {
+            const {eventId} = response
+            return eventId
+
+            //throw Error(response.Error)
+        })
+    },
+
+    listEventsByQuery(query,token){
+        if (typeof query !== 'string') throw TypeError(query + ' is not a string')
+        
+        if (!query.trim().length) throw Error('query cannot be empty')
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string')
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/events/query/${query}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}` 
+
+            },
+        })
+        .then(response => response.json())
+        .then(response => {
+
+         return response
+        })
+    },
+
+    listEventsByCategory(categoryId,token){
+        if (typeof categoryId !== 'string') throw TypeError(categoryId + ' is not a string')
+        
+        if (!categoryId.trim().length) throw Error('categoryId cannot be empty')
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string')
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/events/${categoryId}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}` 
+            },
+        })
+        .then(response => response.json())
+        .then(response => {
+            return response
+        })
+    },
+
+    listEventById(eventId,token){
+        if (typeof eventId !== 'string') throw TypeError(eventId + ' is not a string')
+        
+        if (!eventId.trim().length) throw Error('eventId cannot be empty')
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string')
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/event/${eventId}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}` 
+            },
+        })
+        .then(response => response.json())
+        .then(response => {
+            return response
+        })   
+    },
+
+    createComment(eventId,text,token){
+        if (typeof eventId !== 'string') throw TypeError(eventId + ' is not a string')
+        
+        if (!eventId.trim().length) throw Error('eventId cannot be empty')
+
+        if (typeof text !== 'string') throw TypeError(text + ' is not a string')
+        
+        if (!text.trim().length) throw Error('text cannot be empty')
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string')
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/add-comment/${eventId}`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}` 
+
+            },
+            body: JSON.stringify({ text })
+        })
+        .then(response => response.json())
+        .then(response => {
+            return response
+
+            //throw Error(response.Error)
+        })
+    },
+
+    listComments(eventId,token){
+        if (typeof eventId !== 'string') throw TypeError(eventId + ' is not a string')
+        
+        if (!eventId.trim().length) throw Error('eventId cannot be empty')
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string')
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/list-comments/${eventId}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}` 
+            },
+        })
+        .then(response => response.json())
+        .then(response => {
+            return response
+        })
+    },
+
+    deleteComment(eventId,commentId,token){
+        if (typeof eventId !== 'string') throw TypeError(eventId + ' is not a string')
+        
+        if (!eventId.trim().length) throw Error('eventId cannot be empty')
+
+        if (typeof commentId !== 'string') throw TypeError(commentId + ' is not a string')
+
+        if (!commentId.trim().length) throw Error('commentId cannot be empty')
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string')
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+        return fetch(`${this.url}/delete-comment/${eventId}/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearer ${token}` 
+            },
+        })
+
+        .then(response => response.json())
+        .then(response => response)
+        
+    },
+
+    toogleEvent(eventId,token){
+        if (typeof eventId !== 'string') throw TypeError(eventId + ' is not a string')
+
+        if (!eventId.trim().length) throw Error('eventId cannot be empty')
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string')
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/toogle-event/${eventId}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}` 
+            },
+        })
+
+        .then(response => response.json())
+        .then(response => response)
+        
+    }
+    
+}
+
+export default userApi
