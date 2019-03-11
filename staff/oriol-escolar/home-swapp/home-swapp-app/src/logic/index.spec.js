@@ -3,19 +3,27 @@
 import logic from '.'
 import homeSwappApi from '../api';
 
-describe('user api', () => {
+describe('logic', () => {
 
     describe('registerUser', () => {
 
-        const email = `manolo${Math.random()}@hotmail.com`
-        const username = `ManoloSkywalker-${Math.random()}`
-        const password = '123'
+        let email = `manolo${Math.random()}@hotmail.com`
+        let username = `ManoloSkywalker-${Math.random()}`
+        let password = '123'
+
+        beforeEach = () => {
+
+            email = `manolo${Math.random()}@hotmail.com`
+            username = `ManoloSkywalker-${Math.random()}`
+
+
+        }
 
         it('should succeed on correct data', () =>
 
             logic.registerUser(username, email, password, password)
 
-                .then(id => {expect(id).toBeDefined()})
+                .then(id => { expect(id).toBeDefined() })
         )
 
         it('should fail on undefined username', () => {
@@ -127,23 +135,21 @@ describe('user api', () => {
     })
     describe('loginUser', () => {
 
-        const email = `manolo${Math.random()}@hotmail.com`
-        const username = `ManoloSkywalker-${Math.random()}`
-        const password = '123'
+        let email = `manolo${Math.random()}@hotmail.com`
+        let username = `ManoloSkywalker-${Math.random()}`
+        let password = '123'
 
-        beforeEach(() =>
-
-            homeSwappApi.register(username, email, password, password)
-
-        )
+        beforeEach(() => {
+            email = `manolo${Math.random()}@hotmail.com`
+            username = `ManoloSkywalker-${Math.random()}`
+            homeSwappApi.registerUser(username, email, password, password)
+        })
 
         it('should succeed on correct data', () =>
 
             logic.loginUser(email, password)
 
-                .then(token => {
-                    expect(token).toBeDefined()
-                })
+                .then(token => expect(token).toBeDefined())
         )
 
         it('should fail on undefined email', () => {
@@ -178,11 +184,11 @@ describe('user api', () => {
 
         beforeEach(() =>
 
-            homeSwappApi.register(username, email, password, password)
-                .then(() => homeSwappApi.authenticate(email, password))
+            homeSwappApi.registerUser(username, email, password, password)
+                .then(() => homeSwappApi.authenticateUser(email, password))
                 .then(token => {
                     _token = token
-                    
+                    console.log(_token)
                 })
 
         )
@@ -191,8 +197,8 @@ describe('user api', () => {
 
             logic.retrieveUser(_token)
 
-                .then(({id, myHouses, username, email}) => {
-                    
+                .then(({ id, myHouses, username, email }) => {
+
                     expect(id).toBeDefined()
                     expect(myHouses).toBeDefined()
                     expect(username).toBeDefined()
@@ -208,7 +214,7 @@ describe('user api', () => {
 
             } catch (error) {
                 expect(error).toBeDefined()
-                expect(error.message).toBe(`undefined is not a string`)
+                expect(error.message).toBe(`null is not a string`)
             }
         })
 
@@ -218,7 +224,7 @@ describe('user api', () => {
 
             } catch (error) {
                 expect(error).toBeDefined()
-                expect(error.message).toBe(`undefined is not a string`)
+                expect(error.message).toBe(`null is not a string`)
             }
         })
 

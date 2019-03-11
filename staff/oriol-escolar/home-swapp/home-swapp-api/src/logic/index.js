@@ -189,8 +189,19 @@ const logic = {
 
     retrieveHouse(houseId) {
         if (typeof houseId !== 'string') throw Error(`${houseId} is not a valid id`)
+        
         return House.findById(houseId)
+        .then(house => {
 
+            if (!house) throw Error(`house with id ${houseId} not found`)
+
+
+            house.id = house._id.toString()
+
+            delete house._id
+
+            return house
+        })
 
     },
 
