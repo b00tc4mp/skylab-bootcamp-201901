@@ -112,8 +112,7 @@ const instaApi = {
   },
 
   retrievePostsByUser(id, token) {
-    return fetch(`${this.url}/${id}/posts`, {
-      method: "POST",
+    return fetch(`${this.url}/user/${id}/posts`, {
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${token}`

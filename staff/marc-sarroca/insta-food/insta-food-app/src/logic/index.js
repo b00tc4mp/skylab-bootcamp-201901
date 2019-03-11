@@ -100,6 +100,9 @@ const logic = {
 
   retrieveAllPosts(token) {
     return instaApi.retrieveAllPosts(token);
+  },
+  retrievePostByUser(id, token) {
+    return instaApi.retrievePostsByUser(id, token);
   }
 };
 

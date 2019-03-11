@@ -1,11 +1,13 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "./index.sass";
+import GetProfilePost from "../../components/GetProfilePosts";
 
 function ProfilePage() {
   return (
-    <section>
+    <Fragment>
       <h1 className="page-title">Profile</h1>
-    </section>
+      <GetProfilePost />
+    </Fragment>
   );
 }
 
