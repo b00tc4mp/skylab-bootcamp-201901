@@ -19,7 +19,8 @@ describe('logic', () => {
     beforeEach(() =>
         Promise.all([
             User.deleteMany(),
-            Book.deleteMany()
+            Book.deleteMany(),
+            BookTemplate.deleteMany(),
         ])
     )
 
@@ -32,19 +33,31 @@ describe('logic', () => {
 
         it('should succeed on valid data', async () => {
             const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
-
             expect(id).toBeDefined()
             expect(typeof id).toBe('string')
-
             const user = await User.findOne({ email })
-
             expect(user.name).toBe(name)
             expect(user.surname).toBe(surname)
             expect(user.email).toBe(email)
-
             const match = await bcrypt.compare(password, user.password)
-
             expect(match).toBeTruthy()
+        })
+
+        it('should fail on already existing email', async () => {
+            try {
+                const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+                expect(id).toBeDefined()
+                expect(typeof id).toBe('string')
+                const user = await User.findOne({ email })
+                expect(user.name).toBe(name)
+                expect(user.surname).toBe(surname)
+                expect(user.email).toBe(email)
+                const match = await bcrypt.compare(password, user.password)
+                expect(match).toBeTruthy()
+                const id2 = await logic.registerUser(name, surname, email, password, passwordConfirm)
+            } catch (error) {
+                expect(error).toBeDefined()
+            }
         })
 
         it('should fail on undefined name', () => {
@@ -560,13 +573,21 @@ describe('logic', () => {
 
         it('should fail on empty title', async () => {
             expect(() => {
-                logic.RetrieveBooks('')
+                logic.retrieveBooks('')
             }).toThrow(Error)
         })
         it('should fail on non-string title', async () => {
             expect(() => {
-                logic.RetrieveBooks(undefined)
+                logic.retrieveBooks(undefined)
             }).toThrow(Error)
+        })
+
+        it('should fail on non-existing user', async () => {
+            try {
+                logic.retrieveBooks('-invented-string-')
+            } catch (error) {
+                expect(error).toBeDefined()
+            }
         })
 
         it('should retreive null as there are no books', async () => {
@@ -576,7 +597,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
             const passwordConfirm = password
             const userId  = await User.create({ name, surname, email, password })
-            const bookcursor = await logic.RetrieveBooks(userId._id.toString())
+            const bookcursor = await logic.retrieveBooks(userId._id.toString())
             expect(bookcursor.length).toBe(0)
         })
 
@@ -585,13 +606,42 @@ describe('logic', () => {
             const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
             const book2  = await Book.create({title: 'titulo2', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
             const book3  = await Book.create({title: 'titulo3', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
-            const bookcursor = await logic.RetrieveBooks(user._id.toString())
+            const bookcursor = await logic.retrieveBooks(user._id.toString())
             const bookretrieved1 = bookcursor[0]
             const bookretrieved2 = bookcursor[1]
             const bookretrieved3 = bookcursor[2]
             expect(bookretrieved1.title).toBe('titulo1')
             expect(bookretrieved2.title).toBe('titulo2')
             expect(bookretrieved3.title).toBe('titulo3')
+        })
+    })
+
+    describe('Retrieve Book', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const passwordConfirm = password
+
+        it('should succeed on retrieving a book', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            const book2 = await logic.retrieveBook(book1._id.toString())
+            expect(book2[0].title).toBe('titulo1')
+            expect(book2[0].content).toBe('content')
+            expect(book2[0].coverphoto).toBe('co')
+        })
+
+        it('should fail on non-string id', async () => {
+            expect(() => {
+                logic.retrieveBook(true)
+            }).toThrow(Error)
+        })
+
+        it('should fail on empty id', async () => {
+            expect(() => {
+                logic.retrieveBook('')
+            }).toThrow(Error)
         })
     })
 
@@ -678,10 +728,102 @@ describe('logic', () => {
             expect(newBook.parameters.name).toBe('12345')
         })
     })
+
+
+    describe('AddBookToTemplates', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const passwordConfirm = password
+
+        it('should succeed on retrieving a book', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            const book2 = await logic.addBookToTemplates(book1._id.toString())
+            const book3 = await BookTemplate.findOne({title: 'titulo1'})
+            expect(book3.title).toBe('titulo1')
+            expect(book3.content).toBe('content')
+            expect(book3.coverphoto).toBe('co')
+        })
+
+        it('should fail on non-string id', async () => {
+            expect(() => {
+                logic.addBookToTemplates({})
+            }).toThrow(Error)
+        })
+
+        it('should fail on empty id', async () => {
+            expect(() => {
+                logic.addBookToTemplates('')
+            }).toThrow(Error)
+        })
+    })
+
+
+    describe('Retrieve Templates', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const passwordConfirm = password
+
+        it('should succeed on retrieving a book', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            const book = await BookTemplate.create({title: result.title, content: result.content, 
+                coverphoto: result.coverphoto, parameters: result.parameters, images: result.images })
+            const result1  = await Book.create({title: 'titulo2', content:'content2', coverphoto: 'co2','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            const book2 = await BookTemplate.create({title: result1.title, content: result1.content, 
+                coverphoto: result1.coverphoto, parameters: result1.parameters, images: result1.images })
+            const retrievedTemplates = await logic.retrieveTemplates()
+            expect(retrievedTemplates).toBeDefined()
+            expect(retrievedTemplates.length).toBe(2)
+            expect(retrievedTemplates[0].title).toBe('titulo1')
+            expect(retrievedTemplates[1].title).toBe('titulo2')
+        })
+
+        it('should fail on toomany args', async () => {
+            expect(() => {
+                logic.retrieveTemplates([])
+            }).toThrow(Error)
+        })
+
+
+        describe('Retrieve Templates', () => {
+            const name = 'Manuel'
+            const surname = 'Barzi'
+            const email = `manuelbarzi-${Math.random()}@mail.com`
+            const password = `123-${Math.random()}`
+            const passwordConfirm = password
+
+            it('should succeed on correct', async () => {
+                const user  = await User.create({ name, surname, email, password })
+                const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+                const route = logic.generateEpub(result._id.toString())
+                expect(true).toBe(true)
+            })
+
+            it('should fail on non-string id', async () => {
+                expect(() => {
+                    logic.generateEpub(true)
+                }).toThrow(Error)
+            })
+
+            it('should fail on empty id', async () => {
+                expect(() => {
+                    logic.generateEpub('')
+                }).toThrow(Error)
+            })
+        })
+    })
+
+
     after(() =>
         Promise.all([
             User.deleteMany(),
-            Book.deleteMany()
+            Book.deleteMany(),
+            BookTemplate.deleteMany()
         ])
             .then(() => mongoose.disconnect())
     )

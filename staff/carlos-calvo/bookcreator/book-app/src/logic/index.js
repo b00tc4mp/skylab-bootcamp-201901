@@ -260,6 +260,21 @@ const logic = {
             return book
         })()
         
+    },
+
+
+    /**
+     * Calls API by Id to download Book
+     * @param {String} id 
+     */
+    downloadEpub(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+
+        return (async () => {
+            const book = await bookApi.downloadEpub(id, this.getToken)
+            return book
+        })()
     }
 
 

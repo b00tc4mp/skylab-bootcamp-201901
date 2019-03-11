@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
+import logic from '../../logic'
 
 
 class CardBook extends Component {
@@ -18,6 +19,50 @@ class CardBook extends Component {
 
     addBookToTemplates = () =>{
         this.props.addBookToTemplates(this.props.bookSelected._id, this.props.bookSelected.isTemplate)
+    }
+
+    downloadEpubfase1 = (event) =>{
+        event.preventDefault()
+        try{
+            logic.downloadEpub(this.props.bookSelected._id)
+                .then(res => res.blob())
+                .then(blob => {
+                    // // const contentDisposition = res.headers.get('Content-Disposition')
+                    // // const fileName = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition)[1]
+                    // // TODO improve using refs?
+                    // const url = window.URL.createObjectURL(blob)
+                    // const fileName = this.props.bookSelected.title
+                    // const link = document.createElement('a')
+                    // link.href = url
+                    // link.setAttribute('download', fileName)
+                    // document.body.appendChild(link)
+                    // link.click()
+                })
+        } catch (error){
+            console.log(error)
+        }
+    }
+
+    downloadEpubfase2 = (event) => {
+        event.preventDefault()
+        try{
+            logic.downloadEpub(this.props.bookSelected._id)
+                .then(res => res.blob())
+                .then(blob => {
+                    // const contentDisposition = res.headers.get('Content-Disposition')
+                    // const fileName = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition)[1]
+                    // TODO improve using refs?
+                    const url = window.URL.createObjectURL(blob)
+                    const fileName = this.props.bookSelected.title
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', fileName)
+                    document.body.appendChild(link)
+                    link.click()
+                })
+        } catch (error){
+            console.log(error)
+        }
     }
 
     render() {
@@ -56,6 +101,8 @@ class CardBook extends Component {
                             :
                             <button onClick={this.addBookToTemplates} className="btn btn-success btn-deleteit" data-toggle="tooltip" data-placement="top" title="This book is already a template" disabled><i class="fas fa-share"></i></button>
                             }
+                            <button onClick={this.downloadEpubfase1}> popopo</button>
+                            <a onClick={this.downloadEpubfase2} className="btn btn-info btn-readit" data-toggle="tooltip" data-placement="top" title="Download Epub"><i class="fas fa-file-download" download></i></a>
                             </div>
                     </div>
                 </div>

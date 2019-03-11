@@ -80,7 +80,7 @@ class CreateBook extends Component {
                     <form onSubmit={this.nextStep}>
                         <div className="formCreateBook_step">STEP 1
                         </div>
-                        <ProgressBar level={this.state.medida}></ProgressBar><br/>
+                        <ProgressBar level={this.medida1}></ProgressBar><br/>
                         <label htmlFor="uname"><b>Your books title</b></label>
                         <input type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required /> <br/>
                         <div className="inputContainer">
@@ -98,7 +98,7 @@ class CreateBook extends Component {
                 </div> :
                 <div className="formCreateBook">
                     <form onSubmit={this.addBook}>STEP 2
-                        <ProgressBar level={this.state.medida2}></ProgressBar><br/>
+                        <ProgressBar level={this.medida2}></ProgressBar><br/>
                         <label htmlFor="uname"><b>Your main character is: </b></label>
                         <div>
                             {this.isnameTag  ? 

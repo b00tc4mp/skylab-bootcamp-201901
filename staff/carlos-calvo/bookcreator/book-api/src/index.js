@@ -23,7 +23,8 @@ const { registerUser,
     updateBook,
     addBookToTemplates,
     retrieveTemplates,
-    addTemplateToUserBooks
+    addTemplateToUserBooks,
+    getEpub
  } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
@@ -68,6 +69,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/book/retrieveTemplates', retrieveTemplates)
 
         router.post('/book/addTemplateToUserBooks',[jsonBodyParser, tokenVerifierMiddleware] , addTemplateToUserBooks)
+
+        router.get('/book/getEpub/:id',[jsonBodyParser, tokenVerifierMiddleware] , getEpub)
 
         app.use('/api', router)
 

@@ -26,5 +26,7 @@ module.exports = {
 
     retrieveTemplates: require('./retrieveTemplates'),
 
-    addTemplateToUserBooks: require('./addTemplateToUserBooks')
+    addTemplateToUserBooks: require('./addTemplateToUserBooks'), 
+
+    getEpub: require('./generateEpub')
 }

@@ -1,7 +1,6 @@
 const uploadImage = require('../../src/cloudinary')
 
 module.exports = (req, res) => {
-    console.log('El file' ,req.body, req.file, req.data, req.body.data)
     if (req.coverphoto) { /* Check if there is an image */
         uploadImage(req.coverphoto) /* If there is an image, upload it */
           .then((result) => { /* If the upload is successful */

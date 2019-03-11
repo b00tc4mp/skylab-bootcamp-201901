@@ -196,6 +196,20 @@ const bookApi ={
             body: JSON.stringify({ id })
         })
         .then(response => response.json())
+    },
+
+
+    downloadEpub(id, token){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+        return fetch(`${this.url}/book/getEpub/${id}`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response)
+
     }
 }
 

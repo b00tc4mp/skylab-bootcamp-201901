@@ -2,6 +2,7 @@
 
 const { User, Book, BookTemplate} = require('../models')
 const bcrypt = require('bcrypt')
+const Epub = require("epub-gen");
 const ObjectID = require('mongodb').ObjectID
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('../errors')
 
@@ -191,6 +192,8 @@ const logic = {
         if (!(parameters instanceof Object)) throw TypeError(`${parameters} is not a Object`)
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new EmptyError('userId  is empty')
+        
+        
 
         return (async () => {
             //Check that book title does not exist for this user.
@@ -205,6 +208,7 @@ const logic = {
             if(!user) throw new Error('UserId does not exist')
 
             const id  = await Book.create({title, content, coverphoto, images, parameters, 'userId' : ObjectID(userId)})
+
             return id
         })()
     },
@@ -235,7 +239,7 @@ const logic = {
      * @param {*} userId 
      */
 
-    RetrieveBooks (userId){
+    retrieveBooks (userId){
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new EmptyError('userId  is empty')
 
@@ -257,7 +261,7 @@ const logic = {
 
         return (async () => {
 
-            const result = await Book.find({'_id': ObjectID(bookid)})
+            const result = await Book.find({'_id': ObjectID(bookid)}).lean()
 
             return result
         })()
@@ -283,10 +287,6 @@ const logic = {
 
         return (async () => {
 
-            const result = await Book.findOne({'_id': ObjectID(id), 'userId' : ObjectID(userId)})
-
-            if(!result) throw new Error('Book and User not matching')
-
             const book = await Book.findOneAndUpdate({'_id': ObjectID(id)}, {$set:{title, parameters}})
 
             return book
@@ -310,10 +310,8 @@ const logic = {
 
             const result = await Book.findOne({'_id': ObjectID(id)})
             if(!result) throw new Error('Book not existing')
-            console.log(result.title)
             const book = await BookTemplate.create({title: result.title, content: result.content, 
                 coverphoto: result.coverphoto, parameters: result.parameters, images: result.images })
-            console.log(book)
             return book
         })()
 
@@ -347,14 +345,79 @@ const logic = {
 
             const result = await BookTemplate.findOne({'_id': ObjectID(id)})
             if(!result) throw new Error('Book not existing')
-            console.log(result)
             const book = Book.create({'title': result.title, 'content': result.content, 
                 'coverphoto': result.coverphoto, 'parameters': result.parameters, 'images': result.images,
                 'userId': ObjectID(userId), isTemplate: true })
 
             return book
         })()
+    },
+
+
+    /**
+     * Generates a epub file by reading content of book's id
+     * @param {String} id 
+     */
+    generateEpub(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new EmptyError('id  is empty')
+
+        return (async () => {
+            const book = await this.retrieveBook(id)
+            let text = book[0].content
+            //personalize
+
+            if(book[0].hasOwnProperty('parameters') && book[0].parameters.hasOwnProperty('name')) text = text.replace(/<name>/g, book[0].parameters.name)
+            if(book[0].hasOwnProperty('parameters') && book[0].parameters.hasOwnProperty('place')) text = text.replace(/<place>/g, book[0].parameters.place)
+            let arraychapters = text.split('<Chapter>')
+            let content = {}
+
+            if(arraychapters.length == 0){
+                content = {
+                    title : "CHAPTER",
+                    data : text
+                }
+            } else {
+                let i = 0
+                content = arraychapters.map(chapter => {
+                    let obj = {}
+                    if(i==0) obj.title =" "
+                    else obj.title = "CHAPTER" + i + "."
+                    obj.data = chapter
+                    i++
+                    return obj
+                })
+            }
+            const options ={
+                title: book[0].title,
+                author: 'Your Book Creator',
+                cover: book[0].coverphoto,
+                content: content
+            }
+
+            const a = await new Epub(options, __dirname + "/file.epub")
+            return 'c:/Users/Usuario/Documents/collab/skylab-bootcamp-201901/staff/carlos-calvo/bookcreator/book-api/src/logic/file.epub'
+        })()
     }
 }
 
 module.exports = logic
+
+// const option = {
+//     title: "Alice's Adventures in Wonderland", // *Required, title of the book.
+//     author: "Lewis Carroll", // *Required, name of the author.
+//     publisher: "Macmillan & Co.", // optional
+//     cover: "https://images.pexels.com/photos/1934259/pexels-photo-1934259.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", // Url or File path, both ok.
+//     content: [
+//         {
+//             title: "About the author", // Optional
+//             author: "John Doe", // Optional
+//             data: "<h2>Charles Lutwidge Dodgson</h2>"
+//             +"<div lang=\"en\">Better known by the pen name Lewis Carroll...</div>" // pass html string
+//         },
+//         {
+//             title: "Down the Rabbit Hole",
+//             data: "<p>Alice was beginning to get very tired.12345..</p>"
+//         },
+//     ]
+// }

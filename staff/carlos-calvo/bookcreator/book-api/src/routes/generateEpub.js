@@ -1,20 +1,45 @@
-const Epub = require("epub-gen");
-const option = {
-    title: "Alice's Adventures in Wonderland", // *Required, title of the book.
-    author: "Lewis Carroll", // *Required, name of the author.
-    publisher: "Macmillan & Co.", // optional
-    cover: "https://images.pexels.com/photos/1934259/pexels-photo-1934259.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", // Url or File path, both ok.
-    content: [
-        {
-            title: "About the author", // Optional
-            author: "John Doe", // Optional
-            data: "<h2>Charles Lutwidge Dodgson</h2>"
-            +"<div lang=\"en\">Better known by the pen name Lewis Carroll...</div>" // pass html string
-        },
-        {
-            title: "Down the Rabbit Hole",
-            data: "<p>Alice was beginning to get very tired.12345..</p>"
-        },
-    ]
+const logic = require('../logic')
+const fs = require('fs');
+
+module.exports = (req, res) => {
+    const {params: { id } } = req
+    try {
+        logic.generateEpub(id)
+            .then(route => {
+                const filePath =  route
+                fs.exists(filePath, (exists) => {
+                    if (exists) {    
+                        res.writeHead(200, {
+                            'Content-Type': 'application/epub+zip',
+                            'Access-Control-Expose-Headers': 'Content-Disposition'
+                        })
+                        fs.createReadStream(filePath).pipe(res)
+                    } else {
+                        res.writeHead(400, {"Content-Type": "text/plain"})
+                        res.end("ERROR File does not exist")
+                    }
+                })
+            })
+            .catch(({ message }) => {
+                res.status(401).json({
+                    error: message
+                })
+            })
+    } catch ({ message }) {
+        res.status(401).json({
+            error: message
+        })
+    }
 }
-new Epub(option, "C:/Users/Usuario/Documents/collab/path.epub")
+
+
+
+
+
+
+
+
+
+
+
+
