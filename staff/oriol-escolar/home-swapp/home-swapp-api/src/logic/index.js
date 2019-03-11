@@ -130,49 +130,91 @@ const logic = {
 
     },
 
-    
+
 
     createHouse(ownerId, images, description, info, adress) {
 
-        if( typeof ownerId !== 'string' ) throw Error (`${ownerId} is not a valid id`)
-        if( typeof images !== 'object' ) throw Error (`${images} is not an array`)
-        if(images.length==0) throw Error ('There must be at least one image')
-        if( typeof description !== 'string' ) throw Error (`${description} is not a string`)
-        if( typeof info !== 'object' ) throw Error (`${info} is not an object`)
-        if( typeof adress !== 'object' ) throw Error (`${adress} is not an object`)
+        if (typeof ownerId !== 'string') throw Error(`${ownerId} is not a valid id`)
+        if (typeof images !== 'object') throw Error(`${images} is not an array`)
+        if (images.length == 0) throw Error('There must be at least one image')
+        if (typeof description !== 'string') throw Error(`${description} is not a string`)
+        if (typeof info !== 'object') throw Error(`${info} is not an object`)
+        if (typeof adress !== 'object') throw Error(`${adress} is not an object`)
 
         return House.create({ ownerId, images, description, info, adress })
             .then(house => {
 
 
-               return  User.findById(ownerId)
+                return User.findById(ownerId)
                     .then(user => {
                         user.myHouses.push(house._id)
                         return user.save()
-                        .then( ()=>{
-                            
-                            return house
-                            
-                        })
-                            
+                            .then(() => {
+
+                                return house
+
+                            })
+
 
                     })
 
-              })
-            },
+            })
+    },
 
-    // updateHouse(houseId, images, description, info, adress){
+    updateHouse(houseId, images, description, info, adress) {
 
-    //     if( typeof houseId !== 'string' ) throw Error (`${houseId} is not a valid id`)
-    //     if( typeof images !== 'object' ) throw Error (`${images} is not an array`)
-    //     if( images.length==0) throw Error ('There must be at least one image')
-    //     if( typeof description !== 'string' ) throw Error (`${description} is not a string`)
-    //     if( typeof info !== 'object' ) throw Error (`${info} is not an object`)
-    //     if( typeof adress !== 'object' ) throw Error (`${adress} is not an object`)
+        if (typeof houseId !== 'string') throw Error(`${houseId} is not a valid id`)
+        if (typeof images !== 'object') throw Error(`${images} is not an array`)
+        if (images.length == 0) throw Error('There must be at least one image')
+        if (typeof description !== 'string') throw Error(`${description} is not a string`)
+        if (typeof info !== 'object') throw Error(`${info} is not an object`)
+        if (typeof adress !== 'object') throw Error(`${adress} is not an object`)
 
-    //     return House.findByIdAndUpdate(houseId, {images,description,info,adress})
+        return House.findByIdAndUpdate(houseId, { images, description, info, adress }, { new: true })
 
-    // }
+            .then(house => {
+
+                if (!house) throw Error(`user with id ${houseId} not found`)
+
+
+                house.id = house._id.toString()
+
+                delete house._id
+
+                return house
+            })
+
+
+    },
+
+    retrieveHouse(houseId) {
+        if (typeof houseId !== 'string') throw Error(`${houseId} is not a valid id`)
+        return House.findById(houseId)
+
+
+    },
+
+    deleteHouse(houseId,ownerId) {
+        
+        if (typeof houseId !== 'string') throw Error(`${houseId} is not a valid id`)
+        if (typeof ownerId !== 'string') throw Error(`${ownerId} is not a valid id`)
+
+
+        return House.findByIdAndDelete(houseId)
+            .then(() => {
+
+                return User.findById(ownerId)
+                    .then(user => {
+                       let index =  user.myHouses.indexOf(houseId)
+                        user.myHouses.splice(index,1)
+                        return user.save()
+                            
+                    })
+
+
+            })
+
+    }
 
 }
 
