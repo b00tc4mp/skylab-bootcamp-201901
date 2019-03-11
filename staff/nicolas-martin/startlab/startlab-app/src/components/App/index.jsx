@@ -8,10 +8,12 @@ import Register from '../Register'
 import Login from '../Login'
 import ExerciseList from '../ExerciseList'
 import ExerciseForm from '../ExerciseForm'
+import InvitationForm from '../InvitationForm'
 import Start from '../Start'
 import NotFound from '../NotFound'
 
 import logic from '../../logic'
+import InvitationList from '../InvitationList';
 
 class App extends Component {
   state = {
@@ -19,7 +21,8 @@ class App extends Component {
     isLoggedIn: logic.isUserLoggedIn,
     loginFeedback: null,
     isAdmin: logic.isAdmin,
-    exercisesFeedback: null
+    exercisesFeedback: null,
+    invitationsFeedback: ''
   }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
@@ -61,27 +64,39 @@ class App extends Component {
     setTimeout(() => this.setState({ loginFeedback: null }), 3000)
   }
 
-  onEdit = (id) => this.props.history.push(`/admin/exercise/${id}`)
+  onExerciseEdit = (id) => this.props.history.push(`/admin/exercise/${id}`)
+  onInvitationEdit = (id) => this.props.history.push(`/admin/invitation/${id}`)
 
   onNew = () => this.props.history.push('/admin/exercise/new')
 
   handleNew = (message) => {
-    console.log(message)
     this.setState({ exercisesFeedback: message })
     this.props.history.push('/admin/exercises')
   }
 
+  handleNewInvitation = (message) => {
+    this.setState({ invitationsFeedback: message })
+    this.props.history.push('/admin/invitations')
+  }
+
+  onNewInvitation = () => this.props.history.push('/admin/invitation/new')
+
+  onEditInvitation = (id) => this.props.history.push(`/admin/invitation/${id}`)
+
   handleStart = () => this.props.history.push('/start')
 
   render() {
-    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback, exercisesFeedback },
+    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback, exercisesFeedback, invitationsFeedback },
       handleRegister,
       handleLogin,
       handleLogout,
       onEdit,
       onNew,
       handleNew,
-      handleStart
+      onNewInvitation,
+      handleStart,
+      onEditInvitation,
+      handleNewInvitation
     } = this
 
     return (
@@ -96,7 +111,12 @@ class App extends Component {
 
           <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList feedbackNew={exercisesFeedback} handleEdit={onEdit} handleNew={onNew} /> : <Redirect to='/' />} />
           <Route exact path="/admin/exercise/new" render={() => isAdmin ? <ExerciseForm onNew={handleNew} /> : <Redirect to='/' />} />
-          <Route exact path="/admin/exercise/:ExerciseId" render={props => isAdmin ? <ExerciseForm id={props.match.params.ExerciseId} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercise/:exerciseId" render={props => isAdmin ? <ExerciseForm id={props.match.params.exerciseId} /> : <Redirect to='/' />} />
+
+          <Route exact path="/admin/invitations" render={() => isAdmin ? <InvitationList feedbackNewInvitation={invitationsFeedback} handleEditInvitation={onEditInvitation} handleNewInvitation={onNewInvitation} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/invitation/new" render={() => isAdmin ? <InvitationForm onNewInvitation={handleNewInvitation} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/invitation/:invitationId" render={props => isAdmin ? <InvitationForm id={props.match.params.invitationId} /> : <Redirect to='/' />} />
+
 
           <Route component={NotFound} />
         </Switch>

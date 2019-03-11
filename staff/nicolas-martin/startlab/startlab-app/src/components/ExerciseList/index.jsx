@@ -12,6 +12,7 @@ class ExerciseList extends Component {
             .then(exercises => {
                 this.setState({ exercises })
             })
+            .catch(({ error }) => console.log(error))
     }
 
     handleDelete = (id) => {

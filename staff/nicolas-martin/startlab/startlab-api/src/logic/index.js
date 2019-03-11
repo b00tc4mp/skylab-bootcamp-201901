@@ -387,16 +387,35 @@ const logic = {
             })
     },
 
-    sendInvitationEmail(userId) {
+    __changeStatusInvitation__(userId, invitationId) {
+        // todo
+
+        return this.retrieveInvitation(userId, invitationId)
+            .then(invitation => {
+                invitation.status = 'sent'
+                return this.updateInvitation(userId, invitation)
+                            .then(({error, status}) => {
+                                if (error) throw Error(`an error ocurred changing the status of invitation after sending email`)
+                                return status
+                            })
+            })
+    },
+
+    sendInvitationEmail(userId, email, invitationId) {
         validate([{ key: 'userId', value: userId, type: String }])
+        // todo validate email format
 
         return User.findById(userId)
             .then(user => {
                 if (!user) throw new NotFoundError(`user with id ${userId} not found`)
                 if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
 
-                return emailing.sendInvitation('nicolas.martin.acosta@gmail.com', user.name)
+                emailing.sendInvitation(email, user.name)
 
+                return this.__changeStatusInvitation__(userId, invitationId)
+                                .then(result => {
+                                    return {message: `email sent`}
+                                })
             })
     }
 }
