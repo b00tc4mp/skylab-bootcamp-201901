@@ -29,5 +29,9 @@ module.exports = {
 
     verifyEmail: require ('./verify-email'),
 
-    retrieveUnverifiedEmails: require('./retrieve-unverified-emails')
+    retrieveUnverifiedEmails: require('./retrieve-unverified-emails'),
+
+    createHashedUrl: require('./create-hashed-url'),
+
+    retrieveEncryptedIds: require('./retrieve-encrypted-ids')
 }

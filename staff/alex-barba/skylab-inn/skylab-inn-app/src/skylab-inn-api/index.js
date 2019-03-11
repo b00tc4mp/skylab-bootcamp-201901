@@ -157,7 +157,6 @@ const skylabInnApi = {
      * @returns {Object} - user.  
      */
     updateUserPhoto(token, data) {
-        debugger
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
@@ -491,6 +490,66 @@ const skylabInnApi = {
         })
             .then(response => response.json())
             .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    /**
+     * Create a hashed url with skylaberIds.
+     * 
+     * @param {String} token
+     * @param {Array} skylaberIds
+     * 
+     * @throws {TypeError} - if token is not a string or skylaberIds is not an array.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Object} - hashed url with skylabers ids. 
+     */
+    shareResults(token, skylaberIds) {
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (skylaberIds instanceof Array === false) throw new TypeError(`${skylaberIds} is not an array`)
+        if (!skylaberIds.length) throw new Error('skylaberIds is empty')
+
+        return fetch(`${this.url}/admin/create-hashed-url`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ skylaberIds })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    /**
+     * Retrieves encrypted skylabers.
+     * 
+     * @param {String} encryptedIds 
+     * 
+     * @throws {TypeError} - if encryptedIds is not a string.
+     * @throws {Error} - if encryptedIds is empty.
+     *
+     * @returns {Array} - skkylabers matching id.  
+     */
+    retrieveEncryptedIds(encryptedIds) {
+
+        if (typeof encryptedIds !== 'string') throw new TypeError(`${encryptedIds} is not a string`)
+        if (!encryptedIds.trim().length) throw new Error('encryptedIds is empty')
+
+        return fetch(`${this.url}/retrieve-skylaber/${encryptedIds}`)
+            .then(response => response.json())
+            .then(response => {
+                debugger
                 if (response.error) throw new Error(response.error)
 
                 return response

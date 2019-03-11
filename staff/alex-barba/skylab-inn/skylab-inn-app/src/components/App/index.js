@@ -1,11 +1,12 @@
 'use strict'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 import { AppContext } from '../AppContext'
 import LogIn from '../LogIn'
 import SignUp from '../SignUp'
 import Home from '../Home'
+import SharedSkylabers from '../SharedSkylabers'
 
 import logic from '../../logic'
 
@@ -19,6 +20,7 @@ function App({ history }) {
     const [skylaber, setSkylaber] = useState(null)
     const [whiteList, setWhiteList] = useState(null)
     const [unverifiedEmails, setUnverifiedEmails] = useState(null)
+    const [skylabersShared, setSkylabersShared] = useState(null)
 
     useEffect(() => {
         logic.isUserLoggedIn && logic.retrieveUser()
@@ -51,6 +53,17 @@ function App({ history }) {
         }
     }
 
+    const handleRetrieveEncryptedIds = ids => {
+        try {
+            logic.retrieveEncryptedIds(ids)
+                .then(skylabersShared => setSkylabersShared(skylabersShared))
+                .then(() => setFeedback(null))
+                .catch(({ message }) => setFeedback(message))
+        } catch ({ message }) {
+            setFeedback(message)
+        }
+    }
+
     const handleToLogIn = () => {
         setFeedback(null)
         history.push('/')
@@ -62,11 +75,14 @@ function App({ history }) {
     }
 
     return (
-        <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber, whiteList, setWhiteList, unverifiedEmails, setUnverifiedEmails }}>
-            <Route exact path="/" render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to="/home" />} />
-            <Route path="/signup" render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn} /> : <Redirect to="/home" />} />
-            <Route path="/home" render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to="/" />} />
-        </AppContext.Provider>
+        <Fragment>
+            <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber, whiteList, setWhiteList, unverifiedEmails, setUnverifiedEmails }}>
+                <Route exact path='/' render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to='/home' />} />
+                <Route path='/signup' render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn} /> : <Redirect to='/home' />} />
+                <Route path='/home' render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to='/' />} />
+            </AppContext.Provider>
+                <Route path='/skylabers/:encryptedIds' render={(props) => <SharedSkylabers encryptedIds={props.match.params.encryptedIds} retrieveEncryptedIds={handleRetrieveEncryptedIds} skylabersShared={skylabersShared}/> }/>
+        </Fragment>
     )
 
 }

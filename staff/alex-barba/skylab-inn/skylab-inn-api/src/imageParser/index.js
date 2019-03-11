@@ -14,7 +14,7 @@ function imageParser(req, res, next) {
 		}
 	})
 
-	const upload = multer({ storage: storage })
+	const upload = multer({ storage })
 
 	const uploadFile = upload.single('image')
 

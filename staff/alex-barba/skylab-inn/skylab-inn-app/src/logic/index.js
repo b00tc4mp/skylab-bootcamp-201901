@@ -307,6 +307,45 @@ const logic = {
         return skylabInnApi.retrieveUnverifiedEmails(this.__userApiToken__)
             .then(({unverified}) => unverified)
     },
+
+    /**
+     * Create a hashed url with skylaberIds.
+     * 
+     * @param {Array} skylaberIds
+     * 
+     * @throws {TypeError} - if skylaberIds is not an array.
+     * @throws {Error} - if skylaberIds is empty.
+     *
+     * @returns {String} - hashed url with skylabers ids.  
+     */
+    shareResults(skylaberIds) {
+
+        if (skylaberIds instanceof Array === false) throw new TypeError(`${skylaberIds} is not an array`)
+        if (!skylaberIds.length) throw new Error('skylaberIds is empty')
+
+
+        return skylabInnApi.shareResults(this.__userApiToken__, skylaberIds)
+            .then(({hashedUrl}) =>  hashedUrl)
+    },
+
+    /**
+     * Retrieve encrypted skylabers.
+     * 
+     * @param {String} encryptedIds 
+     * 
+     * @throws {TypeError} - if any encryptedIds is not a string.
+     * @throws {Error} - if any encryptedIds is empty.
+     *
+     * @returns {Array} - list of skylabers.  
+     */
+    retrieveEncryptedIds(encryptedIds) {
+
+        if (typeof encryptedIds !== 'string') throw new TypeError(`${encryptedIds} is not a string`)
+        if (!encryptedIds.trim().length) throw new Error('encryptedIds is empty')
+
+        return skylabInnApi.retrieveEncryptedIds(encryptedIds)
+            .then(({skylabers}) => skylabers)
+    },
     
 }
 

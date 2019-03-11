@@ -3,6 +3,7 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../AppContext'
 import Feedback from '../Feedback'
+import './index.sass'
 
 export default function LogIn({ onLogIn, onToSignUp }) {
 
@@ -21,14 +22,22 @@ export default function LogIn({ onLogIn, onToSignUp }) {
     }
 
     return (
-        <section>
-            <form onSubmit={handleFormSubmit}>
-                <input autoFocus type="text" name="email" placeholder="Email" onChange={e => setEmail(e.target.value)} required></input>
-                <input type="password" name="password" placeholder="Password" onChange={e => setPassword(e.target.value)} required></input>
+        <div className='container'>
+            <div className='header'>
+                <h1>SkyLab Inn</h1>
+            </div>
+            <form className='form' onSubmit={handleFormSubmit}>
+                <input autoFocus type='text' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} required></input>
+                <input type='password' name='password' placeholder='Password' onChange={e => setPassword(e.target.value)} required></input>
                 {feedback && <Feedback />}
-                <button type="submit">Log In</button>
+                <button type='submit' className='btn btn--primary'>Log In</button>
             </form>
-            <a onClick={handleToSignUp}>Sign Up</a>
-        </section>
+            <div className='signup'>
+                <a onClick={handleToSignUp}>Not a member yet?<br/>Registration only by invitation</a>
+            </div>
+            <div className='footer'>
+                <a href='https://www.skylabcoders.com/en' target='_blank'>Discover Skylab Coders Academy!</a>
+            </div>
+        </div>
     )
 }

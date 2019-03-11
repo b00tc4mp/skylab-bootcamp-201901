@@ -2,14 +2,14 @@ import React, { useState, useContext } from 'react'
 import Feedback from '../Feedback'
 import { AppContext } from '../AppContext'
 
-export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback }) {
+export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback, onShareResults, hashedUrl }) {
 
     const { adSearchResults, setFeedback, setAdSearchResults, userData } = useContext(AppContext)
 
     const [query, setQuery] = useState(null)
     const [param, setParam] = useState('Choose filter')
     let [search, setSearch] = useState([])
-
+    
     const handleAdvancedSearch = (e) => {
         e.preventDefault()
         setFeedback(null)
@@ -44,9 +44,17 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback 
         results.length === 0 ? setSearch([]) : setSearch(results)
     }
 
-
     const handleOnSkylaber = id => {
         onSkylaber(id)
+    }
+
+    const handleOnShareResults = (e) => {
+        debugger
+        e.preventDefault()
+
+        let skylaberIds = adSearchResults.map(skylaber => skylaber._id)
+
+        onShareResults(skylaberIds)
     }
 
     return (
@@ -68,7 +76,9 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback 
             </form>
             {search && !!search.length && search.map(res => { return <a onClick={e => { e.preventDefault(); handleOnParam(`${res[1]}`) }} key={res[0]}>{res[1]}</a> })}
             {adSearchResults && <h5>Results</h5>}
-    {adSearchResults && adSearchResults.map(res => { return <p><a onClick={e => { e.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}{res.email}{res.git}{res.linkedin}</a>{userData.role === 'Admin' && <button onClick={e => { e.preventDefault(); handleRemove(`${res._id}`) }}>Remove</button>}</p> })}
+            {adSearchResults && adSearchResults.map(res => { return <p><a onClick={e => { e.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}{res.email}{res.git}{res.linkedin}</a>{userData.role === 'Admin' && <button onClick={e => { e.preventDefault(); handleRemove(`${res._id}`) }}>Remove</button>}</p> })}
+            {adSearchResults && <button onClick={handleOnShareResults}>Share Results</button>}
+            {hashedUrl && <a href={`${hashedUrl}`}>Share Url</a>}
         </section>
     )
 }

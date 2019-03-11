@@ -1806,6 +1806,158 @@ describe('logic', () => {
             expect(() => logic.retrieveUnverifiedEmails(true)).toThrowError(`true is not a string`))
     })
 
+    describe('create hashed url', () => {
+        const name = 'Àlex'
+        const surname = 'Barba'
+        let role = 'Admin'
+        let skylaberIds =[]
+        let email, password, _id, _idA, _idB
+        
+
+        beforeEach(async () => {
+            email = `alex.barba-${Math.random()}@gmail.com`
+            password = `Pass-${Math.random()}`
+
+            const hash2 = await bcrypt.hash(password, 10)
+            await User.create({ name, surname, email, password: hash2, role })
+
+            const user = await User.findOne({ email })
+            _id = user.id
+
+            const a = { name: 'Test', surname: 'test', email: `alex.barba-${Math.random()}@gmail.com`, password: '123' }
+            const b = { name: 'Test2', surname: 'test2', email: `alex.barba-${Math.random()}@gmail.com`, password: '123' }
+
+            await User.create(a)
+            const userA = await User.findOne({ email: a.email })
+            _idA = userA.id
+
+            await User.create(b)
+            const userB = await User.findOne({ email: a.email })
+            _idB = userB.id
+
+            skylaberIds = [_idA, _idB]
+        })
+
+        it('should succeed on correct data', async () => {
+            const url = await logic.createHashedUrl(_id, skylaberIds)
+
+            expect(url).toBeDefined()
+            expect(typeof url === 'string').toBeTruthy()
+        })
+
+        it('should fail on not registered user', async () => {
+            await User.deleteMany()
+            try {
+                await logic.createHashedUrl(_id, skylaberIds)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`user with userId ${_id} not found`)
+
+            }
+        })
+
+        it('should fail on if user is not an Admin', async () => {
+            const noAdmin = { name: 'Test2', surname: 'test2', email: `alex.barba-${Math.random()}@gmail.com`, password: '123' }
+
+            await User.create(noAdmin)
+            const userA = await User.findOne({ email: noAdmin.email })
+            let id = userA.id
+
+            await User.deleteMany()
+            try {
+                await logic.createHashedUrl(id, skylaberIds)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`user with userId ${id} not found`)
+            }
+        })
+
+        it('should fail on empty userId', () =>
+            expect(() => logic.createHashedUrl('')).toThrowError('userId is empty'))
+
+        it('should fail when userId is a number', () =>
+            expect(() => logic.createHashedUrl(1, skylaberIds)).toThrowError(`1 is not a string`))
+
+        it('should fail when userId is an object', () =>
+            expect(() => logic.createHashedUrl({}, skylaberIds)).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when userId is an array', () =>
+            expect(() => logic.createHashedUrl([1, 2, 3], skylaberIds)).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when userId is a boolean', () =>
+            expect(() => logic.createHashedUrl(true, skylaberIds)).toThrowError(`true is not a string`))
+
+        it('should fail on empty skylaberIds', () =>
+            expect(() => logic.createHashedUrl(_id, [])).toThrowError('skylaberIds is empty'))
+
+        it('should fail when skylaberIds is a number', () =>
+            expect(() => logic.createHashedUrl(_id, 1)).toThrowError(`1 is not an array`))
+
+        it('should fail when skylaberIds is an object', () =>
+            expect(() => logic.createHashedUrl(_id, {})).toThrowError(`[object Object] is not an array`))
+
+        it('should fail when skylaberIds is a string', () =>
+            expect(() => logic.createHashedUrl(_id, 'test')).toThrowError(`test is not an array`))
+
+        it('should fail when skylaberIds is a boolean', () =>
+            expect(() => logic.createHashedUrl(_id, true)).toThrowError(`true is not an array`))
+
+    })
+
+    describe('retrieve encrypted ids', () => {
+        let token 
+
+        beforeEach(async () => {
+            const a = { name: 'Test', surname: 'test', email: `alex.barba-${Math.random()}@gmail.com`, password: '123' }
+            const b = { name: 'Test2', surname: 'test2', email: `alex.barba-${Math.random()}@gmail.com`, password: '123' }
+
+            await User.create(a)
+            const userA = await User.findOne({ email: a.email })
+            let _idA = userA.id
+
+            await User.create(b)
+            const userB = await User.findOne({ email: b.email })
+            let _idB = userB.id
+
+            let skylaberIds = [_idA, _idB]
+
+            console.log(skylaberIds)
+
+            token = await createToken(skylaberIds)
+        })
+
+        it('should succeed on correct token', async () => {
+            const skylabers = await logic.retrieveEncryptedIds(token)
+ 
+            expect(skylabers).toBeDefined()
+            expect(skylabers.length).toBe(2)
+        })
+
+        it('should fail on worng token', async () => {
+            try {
+                await logic.retrieveEncryptedIds('worng-token')
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`jwt malformed`)
+            }
+        })
+
+        it('should fail on empty encryptedIds', () =>
+            expect(() => logic.retrieveEncryptedIds('')).toThrowError('encryptedIds is empty'))
+
+        it('should fail when encryptedIds is a number', () =>
+            expect(() => logic.retrieveEncryptedIds(1)).toThrowError(`1 is not a string`))
+
+        it('should fail when encryptedIds is an object', () =>
+            expect(() => logic.retrieveEncryptedIds({})).toThrowError(`[object Object] is not a string`))
+
+        it('should fail when encryptedIds is an array', () =>
+            expect(() => logic.retrieveEncryptedIds([1, 2, 3])).toThrowError(`1,2,3 is not a string`))
+
+        it('should fail when encryptedIds is a boolean', () =>
+            expect(() => logic.retrieveEncryptedIds(true)).toThrowError(`true is not a string`))
+    })
+
     after(() =>
         Promise.all([
             User.deleteMany(),

@@ -8,7 +8,67 @@ $success: #DCECA9
 
 /* Font size */
 
-$text: 0.7rem
-$subtitle: 0.9rem
-$title: 1.1rem
+$xsmall: 0.5rem
+$medium: 0.7rem
+$large: 0.9rem
+$xlarge: 1.1rem
+
+/* Button */
+
+@mixin btn-bg($bg) 
+    background: $bg
+    &:hover
+        background: darken($bg,1%)
+        transition: all 0.3s ease
+        // color: lighten($bg, 10%)
+        border-bottom: 0.05rem dotted darken($bg,10%)
+
+@mixin btn-inverted($bg)
+    background: darken($bg, 20%)
+    color: lighten($bg, 30%)
+    &:hover
+        // background: $bg
+        // transition: all 0.3s ease
+        // color: darken($bg, 50%)
+        border-bottom: 1em dotted $bg
+
+.btn
+    text-decoration: none
+    font-size: $medium
+    padding: 0.2rem
+    cursor: pointer
+    color: $secondary
+    border: none
+
+    // Colors & Inverted
+    &--primary
+        @include btn-bg($white)
+        &-inverted
+            @include btn-inverted($white)
+    &--success
+        @include btn-bg($success)
+        &-inverted
+            @include btn-inverted($success)
+    &--danger
+        @include btn-bg($danger)
+        &-inverted
+            @include btn-inverted($danger)
+
+    //Size
+    &-xsmall 
+        font-size: $xsmall
+    &-large
+        font-size: $large
+    &-xlarge 
+        font-size: $xlarge 
+  
+/* Inputs */
+
+input 
+    text-decoration: none
+    font-size: $medium
+    padding: 0.2rem
+    color: $secondary
+    border: none
+    background: none
 

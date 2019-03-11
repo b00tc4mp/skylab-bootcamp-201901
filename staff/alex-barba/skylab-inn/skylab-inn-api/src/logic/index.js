@@ -3,7 +3,8 @@
 const { models: { User, Work, Language, Education, Technology, EmailWhitelist } } = require('skylab-inn-data')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
-const { createToken } = require('../token-helper')
+const { createToken, verifyToken } = require('../token-helper')
+
 
 /**
  * Abstraction of business logic.
@@ -783,6 +784,62 @@ const logic = {
             return unverified
         })()
     },
+
+    /**
+     * Create a hashed url with skylaberIds.
+     * 
+     * @param {String} userId 
+     * @param {Array} skylaberIds
+     * 
+     * @throws {TypeError} - if userId is not a string or skylaberIds is not an array.
+     * @throws {Error} - if any param is empty or user is not found or is not admin.
+     *
+     * @returns {Object} - hashed url with skylabers ids. 
+     */
+    createHashedUrl(userId, skylaberIds) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (skylaberIds instanceof Array === false) throw new TypeError(`${skylaberIds} is not an array`)
+        if (!skylaberIds.length) throw new Error('skylaberIds is empty')
+
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+            if (user.role !== 'Admin') throw new Error(`Acces denied`)
+
+            const results = await createToken(skylaberIds)
+
+            const hashedUrl = `http://localhost:3000/#/skylabers/${results}`
+
+            return hashedUrl
+        })()
+    },
+
+    /**
+    * Retrieve encrypted skylabers.
+    * 
+    * @param {String} encryptedIds
+    * 
+    * @throws {TypeError} - if encryptedIds is not a string.
+    * @throws {Error} - if encryptedIds is empty.
+    *
+    * @returns {Array} - skylabers encrypted.  
+    */
+   retrieveEncryptedIds(encryptedIds) {
+
+    if (typeof encryptedIds !== 'string') throw new TypeError(`${encryptedIds} is not a string`)
+    if (!encryptedIds.trim().length) throw new Error('encryptedIds is empty')
+
+    return (async () => {
+        const ids = await verifyToken(encryptedIds)
+
+        var skylabers = await User.find({_id :{$in : ids}}).lean() 
+
+        return skylabers
+    })()
+},
 }
 
 module.exports = logic

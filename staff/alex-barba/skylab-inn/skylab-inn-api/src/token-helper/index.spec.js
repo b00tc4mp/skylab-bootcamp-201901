@@ -27,36 +27,6 @@ describe('token helper', () => {
             expect(typeof sub === 'string').toBeTruthy()
         })
 
-        it('should failt when userId is a number', () => {
-            const userId = 1234
-
-            expect(() => tokenHelper.createToken(userId)).toThrowError(`${userId} should be a string`)
-        })
-
-        it('should failt when userId is an array', () => {
-            const userId = []
-
-            expect(() => tokenHelper.createToken(userId)).toThrowError(`${userId} should be a string`)
-        })
-
-        it('should failt when userId is an object', () => {
-            const userId = {}
-
-            expect(() => tokenHelper.createToken(userId)).toThrowError(`${userId} should be a string`)
-        })
-
-        it('should failt when userId is a boolean', () => {
-            const userId = true
-
-            expect(() => tokenHelper.createToken(userId)).toThrowError(`${userId} should be a string`)
-        })
-
-        it('should failt when userId is empty', () => {
-            const userId = ''
-
-            expect(() => tokenHelper.createToken(userId)).toThrowError(`userId is empty`)
-        })
-
     })
 
     describe('verify token', () => {

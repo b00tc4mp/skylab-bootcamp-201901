@@ -3,11 +3,11 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
     debugger
-    const { params: { emailToken } } = req
+    const { userId, body: { skylaberIds } } = req
 
     try {
-        logic.verifyEmail(emailToken)
-            .then(res => res.json({ res }))
+        logic.createHashedUrl(userId, skylaberIds)
+            .then(hashedUrl => res.json({ hashedUrl }))
             .catch(({ message }) => { res.status(400).json({ error: message }) })
     } catch ({ message }) {
         res.status(400).json({ error: message })

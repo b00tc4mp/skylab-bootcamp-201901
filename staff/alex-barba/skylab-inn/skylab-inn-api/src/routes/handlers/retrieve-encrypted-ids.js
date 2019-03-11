@@ -2,12 +2,11 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    debugger
-    const { params: { emailToken } } = req
+    const { params: { ids } } = req
 
     try {
-        logic.verifyEmail(emailToken)
-            .then(res => res.json({ res }))
+        logic.retrieveEncryptedIds(ids)
+            .then(skylabers => res.json({ skylabers }))
             .catch(({ message }) => { res.status(400).json({ error: message }) })
     } catch ({ message }) {
         res.status(400).json({ error: message })

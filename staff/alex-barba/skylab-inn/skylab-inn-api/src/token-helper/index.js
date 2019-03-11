@@ -8,17 +8,12 @@ const tokenHelper = {
     /**
      * Creates a new token.
      * 
-     * @param {String} userId
-     * 
-     * @throws {TypeError} - if userId is not a string.
+     * @param {any} data
      * 
      * @returns {String} - token
      */
-    createToken(userId) {
-        if (typeof userId !== 'string') throw new TypeError(`${userId} should be a string`)
-        if (!userId.trim().length) throw new Error('userId is empty')
-
-        return jwt.sign({ sub: userId }, this.jwtSecret, { expiresIn: '48h' })
+    createToken(data) {
+        return jwt.sign({ sub: data }, this.jwtSecret, { expiresIn: '48h' })
     },
 
     /**
@@ -31,6 +26,7 @@ const tokenHelper = {
      * @returns {String} - sub
      */
     verifyToken(token) {
+        debugger
         if (typeof token !== 'string') throw new TypeError(`${token} should be a string`)
         if (!token.trim().length) throw new Error('token is empty')
 

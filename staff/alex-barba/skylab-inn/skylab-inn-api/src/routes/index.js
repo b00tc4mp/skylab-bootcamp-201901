@@ -6,7 +6,7 @@ const { tokenVerifierMiddleware } = tokenHelper
 const imageParser = require('../imageParser')
 const cloudinaryUploader = require('../cloudinary')
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, searchSkylaber, retrieveSkylaber, advancedSearchSkylaber, addUserInformation, updateUserInformation, removeUserInformation, addSkylaber, retrievePendingSkylabers, updateUserPhoto, verifyEmail, retrieveUnverifiedEmails } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, searchSkylaber, retrieveSkylaber, advancedSearchSkylaber, addUserInformation, updateUserInformation, removeUserInformation, addSkylaber, retrievePendingSkylabers, updateUserPhoto, verifyEmail, retrieveUnverifiedEmails, createHashedUrl, retrieveEncryptedIds } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 
@@ -29,6 +29,9 @@ router.get('/pending-skylabers', tokenVerifierMiddleware, retrievePendingSkylabe
 router.post('/user-photo', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateUserPhoto)
 router.get('/unverified-emails', tokenVerifierMiddleware, retrieveUnverifiedEmails )
 router.get('/user/:emailToken/verify', verifyEmail)
+router.post('/admin/create-hashed-url', [jsonBodyParser, tokenVerifierMiddleware], createHashedUrl)
+router.get('/retrieve-skylaber/:ids', retrieveEncryptedIds)
+
 
 
 module.exports = router
