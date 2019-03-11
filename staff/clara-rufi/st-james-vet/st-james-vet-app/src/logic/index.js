@@ -243,6 +243,24 @@ const logic = {
             })
     },
 
+    retrieveAppointments() {
+        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        // if (!token.trim().length) throw Error('token is empty')
+        this.__updateToken__()
+        return fetch(`${this.url}/appointments`, {
+
+            headers: {
+                authorization: `Bearer ${this.__userApiToken__}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
     retrievePets(userId){
 
         this.__updateToken__()
@@ -290,6 +308,50 @@ const logic = {
         
         return fetch(`${this.url}/appointment`, {
             method: 'POST',
+            headers:{
+                // authorization: `Bearer ${this.__userApiToken__}`
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ owner, pet, year, month, day, hour })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    deleteAppointment(owner, pet, year, month, day, hour){
+        if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
+
+        if (!owner.trim().length) throw Error('owner cannot be empty')
+
+        if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
+
+        if (!pet.trim().length) throw Error('pet cannot be empty')
+
+        if (typeof year !== 'string') throw TypeError(year + ' is not a string')
+
+        if (!year.trim().length) throw Error('year cannot be empty')
+
+        if (typeof month !== 'string') throw TypeError(month + ' is not a string')
+
+        if (!month.trim().length) throw Error('month cannot be empty')
+
+        if (typeof day !== 'string') throw TypeError(day + ' is not a string')
+
+        if (!day.trim().length) throw Error('day cannot be empty')
+
+        if (typeof hour !== 'string') throw TypeError(hour + ' is not a string')
+
+        if (!hour.trim().length) throw Error('hour cannot be empty')
+
+        console.log(owner, pet, year, month, day, hour)
+
+        
+        return fetch(`${this.url}/appointment`, {
+            method: 'DELETE',
             headers:{
                 // authorization: `Bearer ${this.__userApiToken__}`
                 'content-type': 'application/json'
@@ -439,7 +501,7 @@ const logic = {
     },
 
     /**
-    * Removes an user.
+    * Removes an user.   ////////////////////////////////// no la faig servir
     * 
     * @param {string} token 
     * @param {string} email

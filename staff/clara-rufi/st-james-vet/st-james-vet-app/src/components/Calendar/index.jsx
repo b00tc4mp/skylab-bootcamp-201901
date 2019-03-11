@@ -7,13 +7,14 @@ import './index.sass'
 
 class Calendar extends Component {
 
-    state = { users: [], owner: '', pets: [], pet: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false,  buttonConfirm: true, error: null, errorDate: false }
+    state = { users: [], owner: '', pets: [], appointments: [], pet: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false,  buttonConfirm: true, error: null, errorDate: false }
+    // state = { users: [], owner: '', pets: [], appointments: [], pet: '', hour: '', visitConfirmed: false, year: 2019, month: 3, day: 1, askConfirmation: false,  buttonConfirm: true, error: null, errorDate: false }
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
     componentDidMount() {
         this.retrieveUsers()
-        // this.retrieveAppointments()
+        this.retrieveAppointments()
     }
 
     retrieveUsers = async () => {
@@ -21,33 +22,25 @@ class Calendar extends Component {
         this.setState({ users })
     }
 
-    // retrieveAppointments = async () => {
-    //   const appointments = await logic.retrieveAppointments()
-    //   this.setState({ appointments })
-    // }
-
-    //     handleSelectOwner = async event => {
-    //       event.preventDefault()
-    //       const usersId = event.target.value
-    //       this.retrievePets(usersId)
-    //       this.setState({ owner: usersId })
-    //       console.log("handleselectowner" + usersId)
-    //   }
+    retrieveAppointments = async () => {
+        const appointments = await logic.retrieveAppointments()
+        this.setState({ appointments })
+    }
 
     handleSelectOwner = async event => {
         event.preventDefault()
         const usersId = event.target.value
         this.retrievePets(usersId)
         console.log(usersId)
+        console.log(typeof this.state.month === 'string')
         this.setState({ owner: usersId })
+
     }
 
     retrievePets = async userId => {
         const pets = await logic.retrievePets(userId)
         console.log("calendar userId " + userId)
         this.setState({ pets })
-        // debugger)
-        // await logic.retrieveAppointments()
     }
 
     handleSelectPet = async event => {
@@ -55,27 +48,32 @@ class Calendar extends Component {
         const petsId = event.target.value
         console.log("calendar petsID " + petsId)
         this.setState({ pet: petsId })
-        // const {day,hour} = await logic.retrievePetVisit(petsId)
-        // this.setState({day, hour})
     }
 
 
+    
     handleNextMonth = event => {
         event.preventDefault()
-        this.setState({ month: this.state.month + 1 });
-
+        let yearNumber= parseInt(this.state.year)
+        let monthNumber = parseInt(this.state.month)
+        let dayNumber= parseInt(this.state.day)
+        console.log(yearNumber, monthNumber, dayNumber)
+        this.setState({ month: monthNumber + 1 });
+        console.log(this.state.month)   
         if (this.state.month === 12) {
-            this.setState({ year: 2020, month: 1 })
-            console.log(this.state.month)
+            this.setState({ year: yearNumber +1, month: 1 })
         }
     }
 
     handleLastMont = event => {
         event.preventDefault()
-        this.setState({ month: this.state.month - 1 });
+        let yearNumber= parseInt(this.state.year)
+        let monthNumber = parseInt(this.state.month)
+        let dayNumber= parseInt(this.state.day)
+        console.log(yearNumber, monthNumber, dayNumber)
+        this.setState({ month: monthNumber - 1 });
         if (this.state.month === 1) {
-            this.setState({ year: 2018, month: 12 })
-            console.log(this.state.month)
+            this.setState({ year: yearNumber -1, month: monthNumber = 12 })
         }
     }
 
@@ -121,11 +119,34 @@ class Calendar extends Component {
 
     handleConfirmVisitOK = event => {
         event.preventDefault()
-        // this.setState({confirmHour:true})
-        
         this.setState({ visitConfirmed: false, askConfirmation: false, error: false, errorDate:false  })
         const { state: { owner, pet, year, month, day, hour } } = this
         this.assignVisit(owner, pet, year, month, day, hour)
+    }
+
+    assignVisit = async (owner, pet, year, month, day, hour) => {
+        try {
+            await logic.assignAppointment(owner, pet, year, month, day, hour)
+            this.setState({ error: false, visitConfirmed: true, errorDate:false })
+        } catch ({ message }) {
+            this.setState({ error: message, askConfirmation: false, visitConfirmed: false, errorDate:false  })
+        }
+    }
+
+    deleteVisit = async (owner, pet, year, month, day, hour) => {
+        try {
+            await logic.deleteAppointment (owner, pet, year, month, day, hour)
+        
+        }catch ({message}) {
+            this.setState({error: message})
+        }
+    }
+
+
+    handleDeleteVisit = event =>{
+        event.preventDefault()
+        const { state: { owner, pet, year, month, day, hour } } = this
+        this.deleteVisit(owner, pet, year, month, day, hour)
     }
 
     handleConfirmVisitNO = event => {
@@ -139,18 +160,9 @@ class Calendar extends Component {
     }
 
 
-    assignVisit = async (owner, pet, year, month, day, hour) => {
-        try {
-            await logic.assignAppointment(owner, pet, year, month, day, hour)
-            this.setState({ error: false, visitConfirmed: true, errorDate:false })
-        } catch ({ message }) {
-            this.setState({ error: message, askConfirmation: false, visitConfirmed: false, errorDate:false  })
-        }
-    }
+  
 
-    handleDeleteVisit = event =>{
-        event.preventDefault()
-    }
+  
 
     render() {
         const { state: { year, month } } = this
@@ -205,7 +217,7 @@ class Calendar extends Component {
                 <i className="fas fa-arrow-right arrow" onClick={this.handleNextMonth}></i>
             </div>
 
-            <h2>{m.format('MMMM')}</h2>
+            <h2>{m.format('MMMM')} {year}</h2>
             {
                 (() => {
                     const days = []
@@ -246,7 +258,9 @@ class Calendar extends Component {
                                     <button onClick={this.confirmVisitNO} className="confirm__hour">No</button>
                                     {this.state.visitConfirmed && <div><p className="confirm__visit">Visit successfully assigned!</p></div>}                                  
                                     </div> */}
-                                        <th>17:00</th>
+                                        <th>17:00>
+                                        {this.state.appointments.map(appointment => <option name="appointment" value={appointment.id}>owner: {appointment.owner}{' '}pet:{appointment.pet}</option>)}
+                                        </th>
                                     </tr>
                                     <tr>
                                         <th>17:30</th>

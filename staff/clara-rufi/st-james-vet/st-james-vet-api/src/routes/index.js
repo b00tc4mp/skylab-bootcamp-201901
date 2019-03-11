@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 
-const { registerUser, registerPet,assignAppointment, authenticateUser, retrieveUsers, retrieveUser, retrievePet, retrievePets, retrieveAppointments,updateUser, updatePet, retrievePetVisit,updateVisit, notFound } = require('./handlers')
+const { registerUser, registerPet,assignAppointment, authenticateUser, retrieveUsers, retrieveUser, retrievePet, retrievePets, retrieveAppointments,updateUser, updatePet, retrievePetVisit,updateVisit, deleteAppointment,notFound } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 
@@ -23,7 +23,8 @@ router.post('/user/auth', jsonBodyParser, authenticateUser)
 router.get('/users', tokenVerifierMiddleware, retrieveUsers)
 
 router.get('/pets/:ownerId', tokenVerifierMiddleware, retrievePets)
-router.get('/appointments/:petsId', tokenVerifierMiddleware, retrieveAppointments)
+
+router.get('/appointments', tokenVerifierMiddleware, retrieveAppointments)
 
 router.get('/user/:userId', tokenVerifierMiddleware, retrieveUser)
 
@@ -37,5 +38,5 @@ router.put('/pet', [tokenVerifierMiddleware, jsonBodyParser], updatePet)
 
 router.put('/visit', [tokenVerifierMiddleware, jsonBodyParser], updateVisit)
 
-
+router.delete('/appointment', jsonBodyParser, deleteAppointment)
 module.exports = router

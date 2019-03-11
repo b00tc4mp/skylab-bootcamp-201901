@@ -199,6 +199,18 @@ const logic = {
             
           })()
     },
+
+    deleteAppointment(appointmentId) {
+        return (async () => {
+           
+            Appointment.deleteOne({_id: appointmentId})
+                .then((res) => {
+                    if(res.deletedCount !== 1) throw Error (`appointment with id ${appointmentId} not found`)
+                
+                    return { status: 'ok', message: `appointment with id ${appointmentId} succesfully deleted` }
+                })
+            })
+    },
     
      /**
      * Retrieve an user by its credentials.
@@ -209,7 +221,6 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
 
         if (!userId.trim().length) throw new EmptyError('user id is empty')
-
 
         return User.findById(userId)
         
@@ -244,8 +255,7 @@ const logic = {
         const users = _users.map(user => {
             return {
                 name: user.name,
-                id: user._id
-                
+                id: user._id                
             }
         })
 
@@ -254,16 +264,21 @@ const logic = {
 
     async retrieveAppointments() { 
         debugger
-        const _users = await Appointment.find({})
+        const _appointments = await Appointment.find({}).populate('owner pet')
+        // const _appointments = await Appointment.find({}).populate[{path:'owner', select:'name'}, {path: 'pet', select: 'name'}]
 
         const appointments = _appointments.map(appointment => {
             return {
-                name: appointment.name,
+                owner: appointment.owner.name,
+                pet: appointment.pet.name,
+                year : appointment.year,
+                month: appointment.month,
                 day: appointment.day,
                 hour: appointment.hour               
             }
         })
 
+        console.log(appointments) 
         return appointments
     },
 
@@ -272,6 +287,7 @@ const logic = {
      * 
      * @param {string} ownerId
      */
+
     async retrievePets(ownerId) {
 
         if (typeof ownerId !== 'string') throw TypeError(ownerId + ' is not a string')
@@ -305,7 +321,6 @@ const logic = {
 
         if (!userId.trim().length) throw Error('user id is empty')
 
-
         return User.findById(userId)
         
             .then(user => {
@@ -322,7 +337,6 @@ const logic = {
                     city: user.city,
                     email: user.email,
                 }
-    
                 return _user
             })
     },
@@ -335,7 +349,6 @@ const logic = {
         if (typeof petsId !== 'string') throw TypeError(`${petsId} is not a string`)
 
         if (!petsId.trim().length) throw new Error('petsId id is empty')
-
 
         return Pet.findById(petsId)
         
@@ -363,7 +376,6 @@ const logic = {
         if (typeof petsId !== 'string') throw TypeError(`${petsId} is not a string`)
 
         if (!petsId.trim().length) throw new Error('petsId id is empty')
-
 
         return Pet.findById(petsId)
         
