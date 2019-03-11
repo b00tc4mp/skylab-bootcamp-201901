@@ -174,7 +174,7 @@ const logic = {
 
             .then(house => {
 
-                if (!house) throw Error(`user with id ${houseId} not found`)
+                if (!house) throw Error(`house with id ${houseId} not found`)
 
 
                 house.id = house._id.toString()
