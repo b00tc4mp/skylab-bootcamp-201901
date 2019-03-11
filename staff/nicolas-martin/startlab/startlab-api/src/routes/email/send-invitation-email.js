@@ -1,16 +1,15 @@
 const logic = require('../../logic')
-const nodemailer = require('nodemailer')
 
 const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
-    const { userId } = req
+  const { body: { id: invitationId, email }, userId } = req
 
-    try {
-      logic.sendInvitationEmail(userId)
-        .then(result => res.json(result))
-        .catch(error => handleResponseError(error, res))
-    } catch (error) {
-      handleResponseError(error, res)
-    }
+  try {
+    logic.sendInvitationEmail(userId, email, invitationId)
+      .then(_res => res.json(_res))
+      .catch(error => handleResponseError(error, res))
+  } catch (error) {
+    handleResponseError(error, res)
+  }
 }

@@ -54,22 +54,6 @@ const skylabApi = {
             })
     },
 
-    isAdmin(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        return fetch(`${this.url}/isadmin`, {
-            headers: {
-                authorization: `Bearer ${token}`
-            }
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error)
-                return response
-            })
-    },
-
     exerciseList(token) {
         // /admin/exercise/list
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
@@ -155,9 +139,6 @@ const skylabApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
         return fetch(`${this.url}/admin/exercise/create`, {
             method: 'POST',
             headers: {
@@ -191,11 +172,6 @@ const skylabApi = {
             })
     },
 
-    // checks if the answer from student is correct 
-    // also change the database user historical
-
-    // return message if its ok or not
-
     checkCode(answer, exerciseId, token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -221,72 +197,130 @@ const skylabApi = {
                 return response
             })
 
+    },
+
+    invitationList(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/invitation/list`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+    },
+
+    deleteInvitation(id, token) {
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw Error('id is empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/invitation/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+    },
+
+    getInvitation(invitationId, token) {
+        if (typeof invitationId !== 'string') throw TypeError(`${invitationId} is not a string`)
+        if (!invitationId.trim().length) throw Error('invitationId is empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/invitation/${invitationId}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+
+    },
+
+    updateInvitation(invitation, token) {
+        //Todo validate invitation as object
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/admin/invitation/update`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(invitation)
+        })
+            .then(response => response.json())
+            .then(({ error, message }) => {
+                if (error) throw Error(error)
+
+                return message
+            })
+    },
+
+    createInvitation(invitation, token) {
+        //Todo validate invitation as object
+
+        // if (typeof invitation !== 'string') throw TypeError(`${invitation} is not a string`)
+        // if (!invitation.trim().length) throw Error('invitation is empty')
+
+        return fetch(`${this.url}/admin/invitation/create`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(invitation)
+        })
+            .then(response => response.json())
+            .then(({ error, message }) => {
+                if (error) throw Error(error)
+
+                return message
+            })
+
+    },
+
+    sendEmailInvitation(token, invitation) {
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        //todo
+
+        return fetch(`${this.url}/admin/email/invitation`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(invitation)
+        })
+            .then((response) => response.json())
+            .then(({message}) => message)
+
     }
 
-    // retrieveUser(token) {
-    //     if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-    //     if (!token.trim().length) throw Error('token is empty')
 
-    //     return fetch(`${this.url}/user`, {
-    //         headers: {
-    //             authorization: `Bearer ${token}`
-    //         }
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response
-    //         })
-    // },
-
-    // updateUser(token, data) {
-    //     if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-    //     if (!token.trim().length) throw Error('token is empty')
-
-    //     if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-
-    //     return fetch(`${this.url}/user`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             authorization: `Bearer ${token}`,
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify(data)
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response
-    //         })
-    // },
-
-    // removeUser(token, email, password) {
-    //     if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-    //     if (!token.trim().length) throw Error('token is empty')
-
-    //     if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-    //     if (!email.trim().length) throw Error('email is empty')
-
-    //     if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-    //     if (!password.trim().length) throw Error('password is empty')
-
-    //     return fetch(`${this.url}/user`, {
-    //         method: 'DELETE',
-    //         headers: {
-    //             authorization: `Bearer ${token}`,
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ email, password })
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response
-    //         })
-    // }
 }
 
 export default skylabApi

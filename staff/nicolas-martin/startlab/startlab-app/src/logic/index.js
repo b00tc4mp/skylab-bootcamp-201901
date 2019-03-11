@@ -81,16 +81,9 @@ const logic = {
         return this.__isAdmin__ === 'true'
     },
 
-    // checkIsAdmin() {
-    //     if (!this.__userApiToken__) return false
-
-    //     return skylabApi.isAdmin(this.__userApiToken__)
-    //         .then(isAdmin => this.__isAdmin__ = isAdmin)
-    // },
-
     exerciseList() {
         return skylabApi.exerciseList(this.__userApiToken__)
-            .then(exercises => exercises)
+                    .then(exercises => exercises)
     },
 
     deleteExercise(id) {
@@ -132,6 +125,44 @@ const logic = {
     retrieveExercisesFromUser() {
         return skylabApi.getExercisesFromUser(this.__userApiToken__)
             .then(exercises => exercises)
+    },
+
+    invitationList(){
+        return skylabApi.invitationList(this.__userApiToken__)
+                    .then(invitations => invitations)
+    },
+
+    deleteInvitation(id) {
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        return skylabApi.deleteInvitation(id, this.__userApiToken__)
+    },
+
+    retrieveInvitation(id) {
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        return skylabApi.getInvitation(id, this.__userApiToken__)
+    },
+
+    updateInvitation(invitation) {
+        //Todo validate input data
+
+        return skylabApi.updateInvitation(invitation, this.__userApiToken__)
+    },
+
+    newInvitation(invitation) {
+        //Todo validate input data
+        
+        return skylabApi.createInvitation(invitation, this.__userApiToken__)
+    },
+
+    sendEmailInvitation(invitation){
+
+        //todo
+
+        return skylabApi.sendEmailInvitation(this.__userApiToken__, invitation)
     }
 }
 

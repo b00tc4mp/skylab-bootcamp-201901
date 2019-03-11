@@ -18,6 +18,8 @@ const Header = ({ isAdmin, isLoggedIn, onLogOut }) => {
       
       <li>{isAdmin && <NavLink exact to="/admin/exercises">Exercises</NavLink>}</li>
 
+      <li>{isAdmin && <NavLink exact to="/admin/invitations">Invitations</NavLink>}</li>
+
     </ul>
   </header>
 )}

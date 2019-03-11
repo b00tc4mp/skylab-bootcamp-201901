@@ -31,10 +31,8 @@ const emailing = {
     }
 
     transporter.sendMail(mailOptions, function (err, info) {
-      if (err)
-        console.log(err)
-      else
-        console.log(info);
+      if (err) throw Error(`error sending the email`)
+      return info
     })
   }
 }
