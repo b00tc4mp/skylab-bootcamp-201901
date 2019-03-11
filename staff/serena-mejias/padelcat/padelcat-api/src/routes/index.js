@@ -11,9 +11,10 @@ const {
   retrieveScore,
   setScorePlayer,
   retrieveMatchesScrapping,
-  setIdMatches,
+  getMatchesWithData,
   retrieveAvailabilityPlayers,
-  availabilityPlayer
+  availabilityPlayer,
+  deleteAvailabilityPlayer
 } = require("./handlers");
 
 const jsonBodyParser = bodyParser.json();
@@ -43,19 +44,20 @@ router.get(
   [jsonBodyParser, tokenVerifierMiddleware],
   retrieveMatchesScrapping
 );
-router.put(
-  "/setIdMatches",
+router.get(
+  "/getMatchesWithData",
   [jsonBodyParser, tokenVerifierMiddleware],
-  setIdMatches
+  getMatchesWithData
 );
 router.get(
   "/retrieveAvailabilityPlayers/:matchId",
   retrieveAvailabilityPlayers
 );
+router.put("/availabilityPlayer", jsonBodyParser, availabilityPlayer);
 router.put(
-  "/availabilityPlayer",
+  "/deleteAvailabilityPlayer",
   jsonBodyParser,
-  availabilityPlayer
+  deleteAvailabilityPlayer
 );
 
 module.exports = router;

@@ -5,7 +5,8 @@ module.exports = {
     retrieveScore: require("./retrieveScore"),
     setScorePlayer: require("./setScorePlayer"),
     retrieveMatchesScrapping: require("./retrieveMatches"),
-    setIdMatches: require("./setIdMatches"),
+    getMatchesWithData: require("./getMatchesWithData"),
     retrieveAvailabilityPlayers: require("./retrieveAvailabilityPlayers"),
-    availabilityPlayer: require("./availabilityPlayer")
+    availabilityPlayer: require("./availabilityPlayer"),
+    deleteAvailabilityPlayer: require("./deleteAvailabilityPlayer")
 }

@@ -150,8 +150,6 @@ const logic = {
 
   setScorePlayers(link) {
     return logic.retrieveScoreScrapping().then(response => {
-      console.log(response);
-
       const matchingPlayer = response.filter(player => player.link === link);
       if (matchingPlayer.length === 1) {
         return Player.findOneAndUpdate(
@@ -229,12 +227,39 @@ const logic = {
     })(urlMatches);
   },
 
-  setIdMatches() {
-    return logic.retrieveMatchesScrapping().then(response => {
-      return response.map(({ matchId }) => {
-        Match.create({ matchId: matchId });
+  getMatchesWithData() {
+    return (async () => {
+      const dataMatches = await logic.retrieveMatchesScrapping();
+      const newArray = dataMatches.map(async scrappingMatch => {
+        const match = await Match.findOne({ matchId: scrappingMatch.matchId });
+        const {
+          matchId,
+          date,
+          team1,
+          imageTeam1,
+          team2,
+          imageTeam2,
+          result,
+          location
+        } = scrappingMatch;
+        const { playersAvailable = [], playersChosen = [] } = match;
+
+        return {
+          matchId,
+          date,
+          team1,
+          imageTeam1,
+          team2,
+          imageTeam2,
+          result,
+          location,
+          playersAvailable,
+          playersChosen
+        };
       });
-    });
+      debugger;
+      return Promise.all(newArray).then((response) => response)
+    })();
   },
 
   addAvailabilityPlayer(playerId, matchId) {
@@ -253,16 +278,36 @@ const logic = {
     })();
   },
 
-  retrieveAvailabilityPlayers(matchId) {
+  deleteAvailabilityPlayer(playerId, matchId) {
     return (async () => {
+      debugger;
+      const player = await Player.findById(playerId);
+      const index = player.availability.indexOf(matchId);
+      player.availability.splice(index, 1);
+      await player.save();
+
       const match = await Match.findOne({ matchId });
-      if (match) {
-        return match.playersAvailable;
+      if (!match) {
+        throw Error("match does not exist");
       } else {
-        throw Error('match does not exist');
+        const match = await Match.findOne({ matchId });
+        const index = await match.playersAvailable.indexOf(playerId);
+        match.playersAvailable.splice(index, 1);
+        await match.save();
       }
     })();
-  }
+  },
+
+  // retrieveAvailabilityPlayers(matchId) {
+  //   return (async () => {
+  //     const match = await Match.findOne({ matchId });
+  //     if (match) {
+  //       return match.playersAvailable;
+  //     } else {
+  //       throw Error("match does not exist");
+  //     }
+  //   })();
+  // }
 };
 
 module.exports = logic;

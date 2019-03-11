@@ -1,13 +1,14 @@
 const logic = require("../../logic");
 module.exports = (req, res) => {
-  const {
-     
-  } = req;
+  const {} = req;
 
   try {
+    debugger
     logic
-      .setIdMatches()
-      .then(res.json.bind(res))
+      .getMatchesWithData()
+      .then(response => {
+        res.json(response);
+      })
       .catch(err => console.log(err));
   } catch (err) {
     console.log(err);
