@@ -1,16 +1,17 @@
 const logic = require("../../logic");
 
 module.exports = (req, res) => {
-  const {
-    body: { id }
-  } = req;
+  const { matchId } = req.params;
 
   try {
+    debugger
     logic
-      .retrieveAvailabilityPlayers(id)
-      .then(res.json.bind(res))
-      .catch(err => console.log(err));
+      .retrieveAvailabilityPlayers(matchId)
+      .then(response => res.json(response))
+      .catch(err => {
+        throw Error(err);
+      });
   } catch (err) {
-    console.log(err);
+    throw Error(err);
   }
 };

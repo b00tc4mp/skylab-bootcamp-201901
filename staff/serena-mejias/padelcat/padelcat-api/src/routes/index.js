@@ -49,8 +49,7 @@ router.put(
   setIdMatches
 );
 router.get(
-  "/retrieveAvailabilityPlayers",
-  jsonBodyParser,
+  "/retrieveAvailabilityPlayers/:matchId",
   retrieveAvailabilityPlayers
 );
 router.put(

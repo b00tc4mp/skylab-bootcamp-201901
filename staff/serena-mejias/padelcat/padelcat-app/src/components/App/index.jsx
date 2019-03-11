@@ -20,7 +20,6 @@ class App extends Component {
         .loginPlayer(email, password)
         .then(response => {
           this.setState({player: response.player});
-          console.log(this.state.player)
           logic.storeToken(response.token);
           this.props.history.push("/home");
         })
@@ -61,11 +60,12 @@ class App extends Component {
     }
   };
 
-  handleSetAvailable = matchId => {
+  handleSetAvailable = (matchId) => {
+    logic.addAvalabilityPlayer(this.state.player._id, matchId)
     console.log("available");
   };
 
-  handleSetUnavailable = matchId => {
+  handleSetUnavailable = (playerId, matchId) => {
     console.log("unavailable");
   };
 

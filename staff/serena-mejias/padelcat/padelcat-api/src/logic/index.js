@@ -96,7 +96,7 @@ const logic = {
       const match = await bcrypt.compare(password, player.password);
 
       if (!match) throw Error("wrong credentials");
-      
+
       return player;
     })();
   },
@@ -237,20 +237,31 @@ const logic = {
     });
   },
 
-  retrieveAvailabilityPlayers(id) {
-    const foundMatch = Match.findOne({ matchId: id }, (err, doc) => {
-      if (!err) {
-        throw Error(err);
+  addAvailabilityPlayer(playerId, matchId) {
+    return (async () => {
+      await Player.findByIdAndUpdate(
+        { _id: playerId },
+        { $push: { availability: matchId } }
+      );
+      const match = await Match.findOne({ matchId });
+      if (!match) {
+        await Match.create({ matchId, playersAvailable: playerId });
+      } else {
+        match.playersAvailable.push(playerId);
+        await match.save();
       }
-      return foundMatch.schema.obj.playersAvailable;
-    });
+    })();
   },
 
-  addAvailabilityPlayer(playerId, availabilityArray) {
-    return Player.findByIdAndUpdate(
-      { _id: playerId },
-      { $push: { availability: availabilityArray } }
-    );
+  retrieveAvailabilityPlayers(matchId) {
+    return (async () => {
+      const match = await Match.findOne({ matchId });
+      if (match) {
+        return match.playersAvailable;
+      } else {
+        throw Error('match does not exist');
+      }
+    })();
   }
 };
 

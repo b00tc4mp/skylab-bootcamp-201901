@@ -3,7 +3,7 @@ import logic from "../../logic";
 import styles from "./index.module.scss";
 import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
-import { Match } from "./Match";
+import { Match } from "../Match";
 
 export const Home = props => {
   const [matches, setMatches] = useState("");

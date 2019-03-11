@@ -112,11 +112,11 @@ const logic = {
 
   addAvalabilityPlayer: (playerId, matchId) => {
     return padelcatApi.addAvalabilityPlayer(playerId, matchId);
-  }
+  },
 
-  // retrieveAvailabilityPlayers:(matchId) => {
-  //   return padelcatApi.retrieveMatchesScrapping(matchId, "tokenKey");
-  // }
+  retrieveAvailabilityPlayers:(matchId) => {
+    return padelcatApi.retrieveAvailabilityPlayers(matchId);
+  }
 };
 
 export default logic;

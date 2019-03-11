@@ -78,8 +78,8 @@ const padelcatApi = {
     return axios.get("/retrieveScore");
   },
 
-  setScorePlayers: (link) => {
-    return axios.put("/setScorePlayer", JSON.stringify({ link }))
+  setScorePlayers: link => {
+    return axios.put("/setScorePlayer", JSON.stringify({ link }));
   },
 
   retrieveMatchesScrapping: () => {
@@ -87,30 +87,22 @@ const padelcatApi = {
   },
 
   setIdMatches: () => {
-    return axios.put("/setScorePlayer")
+    return axios.put("/setScorePlayer");
   },
 
   addAvalabilityPlayer: (playerId, matchId) => {
-    return axios.put("/availabilityPlayer", JSON.stringify({ playerId, matchId }))
-  }
+    return axios.put(
+      "/availabilityPlayer",
+      JSON.stringify({ playerId, matchId }),
+      {
+        headers: { "content-type": "application/json" }
+      }
+    );
+  },
 
-  // retrieveAvailabilityPlayers(matchId, token) {
-  //   return fetch(`${this.url}/retrieveAvailabilityPlayers`, {
-  //     method: "GET",
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //       "content-type": "application/json"
-  //     },
-  //     body: JSON.stringify({ matchId })
-  //   })
-  //   .then(response => response.json())
-  //   .then(response => {
-  //     debugger
-  //     if (response.error) throw Error(response.error);
-
-  //       return response;
-  //     });
-  // }
+   retrieveAvailabilityPlayers: (matchId) => {
+     return axios.get(`/retrieveAvailabilityPlayers/${matchId}`)
+   }
 };
 
 export default padelcatApi;

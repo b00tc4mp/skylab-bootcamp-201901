@@ -8,14 +8,10 @@ module.exports = (req, res) => {
     logic
       .retrievePlayers()
       .then(r => res.json(r))
-      .catch(error => {
-        res.status(400).json({
-          error: err
-        });
+      .catch(err => {
+        throw Error(err);
       });
   } catch (err) {
-    res.status(400).json({
-      error: err
-    });
+    throw Error(err);
   }
 };
