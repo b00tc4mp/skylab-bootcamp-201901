@@ -1,23 +1,16 @@
 'use strict'
 
+import validate from 'coworking-validation'
+
 const coworkingApi = {
     url: 'http://localhost:8000/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
-        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
-
-        if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw Error('surname is empty')
-
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
-
-        if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
-        if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
+        validate([{key: 'name', value: name, type: String},
+        {key: 'surname', value: surname, type: String},
+        {key: 'email', value: email, type: String},
+        {key: 'password', value: password, type: String},
+        {key: 'passwordConfirm', value: passwordConfirm, type: String}])
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -36,11 +29,8 @@ const coworkingApi = {
     },
 
     authenticateUser(email, password) {
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        validate([{key: 'email', value: email, type: String},
+        {key: 'password', value: password, type: String}])
 
         return fetch(`${this.url}/user/auth`, {
             method: 'POST',
@@ -58,8 +48,7 @@ const coworkingApi = {
     },
 
     retrieveUser(token) {
-        if (typeof token == ! 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{key: 'token', value: token, type: String}])
 
         return fetch(`${this.url}/user`, {
             method: 'GET',
@@ -76,14 +65,9 @@ const coworkingApi = {
     },
 
     removeUser(token, email, password) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'email', value: email, type: String},
+        {key: 'password', value: password, type: String}])
 
         return fetch(`${this.url}/user`, {
             method: 'DELETE',
@@ -102,11 +86,8 @@ const coworkingApi = {
     },
 
     createWorkspace(name, token) {
-        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
-
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{key: 'name', value: name, type: String},
+        {key: 'token', value: token, type: String}])
 
         return fetch(`${this.url}/workspace`, {
             method: 'POST',
@@ -125,8 +106,7 @@ const coworkingApi = {
     },
 
     createNewUserLink(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{key: 'token', value: token, type: String}])
 
         return fetch(`${this.url}/workspace/link`, {
             method: 'GET',
@@ -144,11 +124,8 @@ const coworkingApi = {
     },
 
     verifyNewUserLink(token, link) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof link !== 'string') throw TypeError(`${link} is not a string`)
-        if (!link.trim().length) throw Error('token is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'link', value: link, type: String}])
 
         return fetch(`${this.url}/workspace/link`, {
             method: 'POST',
@@ -167,11 +144,8 @@ const coworkingApi = {
     },
 
     addUserToWorkspace(token, workspaceId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof workspaceId !== 'string') throw TypeError(`${workspaceId} is not a string`)
-        if (!workspaceId.trim().length) throw Error('workspaceId is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'workspaceId', value: workspaceId, type: String}])
 
         return fetch(`${this.url}/workspace/user`, {
             method: 'POST',
@@ -191,19 +165,11 @@ const coworkingApi = {
     },
 
     createService(token, title, description, maxUsers, place) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
-        if (!title.trim().length) throw Error('title is empty')
-
-        if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
-        if (!description.trim().length) throw Error('description is empty')
-
-        if (typeof maxUsers !== 'number') throw TypeError(`${maxUsers} is not a number`)
-
-        if (typeof place !== 'string') throw TypeError(`${place} is not a string`)
-        if (!place.trim().length) throw Error('place is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'title', value: title, type: String},
+        {key: 'description', value: description, type: String},
+        {key: 'maxUsers', value: maxUsers, type: String},
+        {key: 'place', value: place, type: String}])
 
         return fetch(`${this.url}/service`, {
             method: 'POST',
@@ -222,11 +188,8 @@ const coworkingApi = {
     },
 
     retrieveWorkspaceServices(token, workspaceId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof workspaceId !== 'string') throw TypeError(`${workspaceId} is not a string`)
-        if (!workspaceId.trim().length) throw Error('workspaceId is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'workspaceId', value: workspaceId, type: String}])
 
         return fetch(`${this.url}/service/workspace/${workspaceId}`, {
             method: 'GET',
@@ -244,11 +207,8 @@ const coworkingApi = {
     },
 
     retrieveService(token, serviceId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
-        if (!serviceId.trim().length) throw Error('serviceId is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'serviceId', value: serviceId, type: String}])
 
         return fetch(`${this.url}/service/${serviceId}`, {
             method: 'GET',
@@ -265,11 +225,8 @@ const coworkingApi = {
     },
 
     addUserToService(token, serviceId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
-        if (!serviceId.trim().length) throw Error('serviceId is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'serviceId', value: serviceId, type: String}])
 
         return fetch(`${this.url}/service/${serviceId}`, {
             method: 'POST',
@@ -287,12 +244,9 @@ const coworkingApi = {
 
     createComment(token, serviceId, text) {
 
-        console.log(serviceId)
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
-        if (!serviceId.trim().length) throw Error('serviceId is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'serviceId', value: serviceId, type: String},
+        {key: 'text', value: text, type: String}])
 
         return fetch(`${this.url}/comment/${serviceId}`, {
             method: 'POST',
@@ -311,11 +265,8 @@ const coworkingApi = {
     },
 
     retrieveWorkspaceComments(token, serviceId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
-        if (!serviceId.trim().length) throw Error('serviceId is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'serviceId', value: serviceId, type: String}])
 
         return fetch(`${this.url}/comment/${serviceId}`, {
             method: 'GET',
@@ -332,14 +283,9 @@ const coworkingApi = {
     },
 
     removeComment(token, serviceId, commentId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(`${serviceId} is not a string`)
-        if (!serviceId.trim().length) throw Error('serviceId is empty')
-
-        if (typeof commentId !== 'string') throw TypeError(`${commentId} is not a string`)
-        if (!commentId.trim().length) throw Error('commentId is empty')
+        validate([{key: 'token', value: token, type: String},
+        {key: 'serviceId', value: serviceId, type: String},
+        {key: 'commentId', value: commentId, type: String}])
 
         return fetch(`${this.url}/comment/${serviceId}/${commentId}`, {
             method: 'GET',
