@@ -169,7 +169,7 @@ const logic = {
 
             if (!match) throw new AuthError("wrong credentials");
 
-            const returnedUser = { admin: user.admin, username: user.username, id: user.id };
+            const returnedUser = { id: user.id };
 
             return returnedUser;
         })();

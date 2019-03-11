@@ -7,13 +7,19 @@ import logic from "../../logic";
 import "./index.sass";
 
 const Footer = props => {
+    const getUsernameLogged = async () => {
+        const lol = await logic.retrieveUserInfo();
+        props.history.push(`/user/${lol.username}`);
+    };
+
     return (
         <Fragment>
             <div className="nav-mobile">
                 <div
-                    onClick={logic.__userApiToken__ !== null
-                        ? () => props.history.push(`/user/${logic.__userApiUsername__}`)
-                        : () => props.history.push(`/login`)
+                    onClick={
+                        logic.__userApiToken__ !== null
+                            ? getUsernameLogged
+                            : () => props.history.push(`/login`)
                     }
                     className="nav-mobile__icons"
                 >
@@ -22,7 +28,7 @@ const Footer = props => {
                 <div className="nav-mobile__icons">
                     <i className="fas fa-search" />
                 </div>
-                <div 
+                <div
                     onClick={() => props.history.push("/")}
                     className="nav-mobile__icons"
                 >

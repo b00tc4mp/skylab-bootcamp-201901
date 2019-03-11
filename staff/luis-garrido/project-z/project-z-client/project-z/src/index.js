@@ -16,16 +16,6 @@ Object.defineProperties(logic, {
         get() {
             return sessionStorage.getItem("__userApiToken__");
         }
-    },
-
-    __userApiUsername__: {
-        set(username) {
-            sessionStorage.setItem("__userApiUsername__", username);
-        },
-
-        get() {
-            return sessionStorage.getItem("__userApiUsername__");
-        }
     }
 });
 

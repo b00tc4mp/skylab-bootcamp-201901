@@ -16,10 +16,8 @@ module.exports = (req, res) => {
             // .then(data => res.json(data))
             .then(user => {
                 const token = createToken(user.id);
-                const username = createToken(user.username)
-                const admin = createToken(user.admin)
 
-                res.json({ admin, username, token });
+                res.json({ token });
             })
             .catch(error => handleResponseError(error, res));
     } catch (error) {

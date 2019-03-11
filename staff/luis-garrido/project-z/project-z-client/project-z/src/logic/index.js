@@ -93,8 +93,6 @@ const logic = {
 
         return projectZApi.authenticateUser(userData, password).then(user => {
             this.__userApiToken__ = user.token;
-            this.__userApiUsername__ = user.username;
-            this.__userApiAdmin__ = user.admin;
         });
     },
 

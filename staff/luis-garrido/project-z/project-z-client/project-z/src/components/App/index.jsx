@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, withRouter, Link, Switch, Redirect } from "react-router-dom";
 
 // import Register from '../Register'
@@ -22,28 +22,15 @@ import UserProfile from "../UserProfile";
 const App = ({ history }) => {
     const [loginFeedback, setLoginFeedback] = useState(null);
     const [registerFeedback, setRegisterFeedback] = useState(null);
+    const [username, setUsername] = useState("");
 
-    const handleRegister = (
-        name,
-        surname,
-        email,
-        password,
-        passwordConfirmation
-    ) => {
-        try {
-            logic
-                .registerUser(
-                    name,
-                    surname,
-                    email,
-                    password,
-                    passwordConfirmation
-                )
-                .then(() => history.push("/login"))
-                .catch(({ message }) => setRegisterFeedback(message));
-        } catch ({ message }) {
-            setRegisterFeedback(message);
-        }
+    useEffect(() => {
+        getUsernameLogged();
+    }, []);
+
+    const getUsernameLogged = async () => {
+        const user = await logic.retrieveUserInfo();
+        setUsername(user.username);
     };
 
     return (
@@ -88,11 +75,7 @@ const App = ({ history }) => {
                             path="/user"
                             render={() =>
                                 logic.isUserLoggedIn ? (
-                                    <Redirect
-                                        to={`/user/${
-                                            logic.__userApiUsername__
-                                        }`}
-                                    />
+                                    <Redirect to={`/user/${username}`} />
                                 ) : (
                                     <Redirect to="/login" />
                                 )
