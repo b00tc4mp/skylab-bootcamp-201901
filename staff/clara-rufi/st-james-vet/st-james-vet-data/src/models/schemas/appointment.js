@@ -8,7 +8,7 @@ const Appointment = new Schema({
 
     pet: { type: Schema.Types.ObjectId, ref: 'Pet' },
     
-    // date: { date: <dateExpression>, timezone: <tzExpression> }
+    dayDb: { type: Date}
 
    
 })

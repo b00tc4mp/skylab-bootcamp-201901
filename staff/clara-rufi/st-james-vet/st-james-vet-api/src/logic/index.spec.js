@@ -4,7 +4,7 @@
 require('dotenv').config()
 
 require('isomorphic-fetch')
-const { mongoose, models: { User, Pet, Appointments } } = require('st-james-vet-data')
+const { mongoose, models: { User, Pet, Appoinment } } = require('st-james-vet-data')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -19,8 +19,8 @@ describe('logic', () => {
     beforeEach(() =>
         Promise.all([
             User.deleteMany(),
-            Pet.deleteMany(),  ////////////////////////////////////
-            // Appointments.deleteMany(), ///////////////////////////////////////////////
+            Pet.deleteMany(),  
+            Appointment.deleteMany(), 
         ])
     )
 
@@ -469,17 +469,137 @@ describe('logic', () => {
         })
 
 
+
     })
 
     ////////////////////////////////////////////////////////register pet
+    // registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) {
+        
+    // describe('register pet', () => {
 
+    //     const owner ='Clara'
+    //     const name = 'George'
+    //     let specie
+    //     let breed
+    //     const color = 'grey'
+    //     const geneder = 'male'
+    //     const birthdate= '2018-09-28'
+    //     let microchip
+    //     let petlicence
+    //     let neutered
+    //     let vaccionations
+    //     let controls
+    //     let details
 
+    //     beforeEach(() => {
 
+    //         specie = `cat-${Math.random()}`
+    //         breed = `british-${Math.random()}`
+    //         microchip = `44567 -${Math.random()}`
+    //         petlicence = `99876-${Math.random()}`
+    //         neutered = `neutered-${Math.random()}`
+    //         vaccionations = `vaccins-${Math.random()}`
+    //         controls = `controls-${Math.random()}`
+    //         details = `details-${Math.random()}`
+            
+    //     })
 
+    //     it('should succeed on valid data', async () => {
+    //         const id = await logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
 
+    //         expect(id).toBeDefined()
+    //         expect(typeof id).toBe('string')
 
+    //       const pet = await Pet.findOne({ _id })
 
+    //       expect(pet.id).toBeDefined()
+    //       expect(pet.owner).toBe(owner)
+    //       expect(pet.name).toBe(name)
+    //       expect(pet.specie).toBe(specie)
+    //       expect(pet.breed).toBe(breed)
+    //       expect(pet.color).toBe(color)
+    //       expect(pet.gender).toBe(gender)
+    //       expect(pet.birthdate).toBe(birthdate) 
+    //       expect(pet.microchip).toBe(microchip) 
+    //       expect(pet.petlicence).toBe(petlicence) 
+    //       expect(pet.neutered).toBe(neutered) 
+    //       expect(pet.vaccionations).toBe(vaccionations) 
+    //       expect(pet.controls).toBe(controls) 
+    //       expect(pet.details).toBe(details) 
 
+    //   })
+
+    //   it('should fail on undefined owner', () => {
+    //       const owner1 = undefined
+        
+    //       expect(() => {
+    //           logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //       }).toThrow(TypeError(owner1 + ' is not a string'))
+    //   })
+
+    //   it('should fail on numeric owner', () => {
+    //     const owner1 = 3456
+      
+    //     expect(() => {
+    //         logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //     }).toThrow(TypeError(owner1 + ' is not a string'))
+    // })
+
+    //     it('should fail on boolean owner', () => {
+    //         const owner1 = true
+        
+    //         expect(() => {
+    //             logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //         }).toThrow(TypeError(owner1 + ' is not a string'))
+    //     })
+
+    //     it('should fail on object owner', () => {
+    //         const owner1 = []
+        
+    //         expect(() => {
+    //             logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //         }).toThrow(TypeError(owner1 + ' is not a string'))
+    //     })
+
+    //     it('should fail on array owner', () => {
+    //         const owner1 = []
+        
+    //         expect(() => {
+    //             logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //         }).toThrow(TypeError(owner1 + ' is not a string'))
+    //     })
+
+    //     it('should fail on empty owner', () => {
+    //         const owner1 = ' '
+        
+    //         expect(() => {
+    //             logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //         }).toThrow(TypeError(owner1 + ' is not a string'))
+    //     })
+
+    //     it('should fail on undefined name', () => {
+    //         const name1 = undefined
+        
+    //         expect(() => {
+    //             logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //         }).toThrow(TypeError(owner + ' is not a string'))
+    //     })
+
+    //     it('should fail on numeric name', () => {
+    //         const name1 = 3456
+        
+    //         expect(() => {
+    //             logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //         }).toThrow(TypeError(owner + ' is not a string'))
+    //     })
+
+    //     it('should fail on boolean name', () => {
+    //         const name1 = false
+        
+    //         expect(() => {
+    //             logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+    //         }).toThrow(TypeError(owner + ' is not a string'))
+    //     })
 
 
 

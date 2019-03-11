@@ -83,82 +83,10 @@ class Register_Owner extends Component {
                 {this.state.isLogin && <button type="submit" className="button">Sign in</button>}
                 <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
                 {this.state.isRegister && <button className="button" onClick={this.handleGoLogin}>Go Login</button>}
-                {this.state.error && <p className="feedback__Error">{this.state.error}</p>}
-                {this.state.isRegister && <p className="feedback__Ok">You have successfully registered {this.state.name}</p>}
+                {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
+                {this.state.isRegister && <p className="feedback feedback__success">You have successfully registered {this.state.name}</p>}
             </section>
         </form>
-
-
-
-
-
-
-
-
-        {/* // return <form onSubmit={this.handleRegisterSubmit} >
-        //     <p className="title__form">Owner's details:</p>
-        //     <div className="inputs__form">
-        //         <label>Name</label>
-        //         <div className="col-sm-7">
-        //             <input type="text" name="name" onChange={this.handleOnChange} className="form-control" required></input>
-        //         </div>
-        //     </div>
-        //     <div className="form-group row">
-        //         <label>Surname</label>
-        //         <div className="col-sm-7">
-        //             <input type="text" name="surname" onChange={this.handleOnChange} className="form-control" id="inputPassword3" required></input>
-        //         </div>
-        //     </div>
-        //     <div className="form-group row">
-        //         <label>Id Card</label>
-        //         <div className="col-sm-7">
-        //             <input type="text" name="idCard" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
-        //         </div>
-        //     </div>
-        //     <div className="form-group row">
-        //         <label>Phone</label>
-        //         <div className="col-sm-7">
-        //             <input type="text" name="phone" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
-        //         </div>
-        //     </div>
-        //     <div className="form-group row">
-        //         <label>Adress</label>
-        //         <div className="col-sm-7">
-        //             <input type="text" name="adress" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
-        //         </div>
-        //     </div>
-        //     <div className="form-group row">
-        //         <label>City</label>
-        //         <div className="col-sm-7">
-        //             <input type="text" name="city" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
-        //         </div>
-        //     </div>
-          
-        //     <div className="form-group row">
-        //         <label>Email</label>
-        //         <div className="col-sm-7">
-        //             <input type="text" name="email" onChange={this.handleOnChange} className="form-control" id="inputPassword3" required></input>
-        //         </div>
-        //     </div>
-        //     <div className="form-group row">
-        //         <label>Password</label>
-        //         <div className="col-sm-7">
-        //             <input type="password" name="password" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
-        //         </div>
-        //     </div>
-        //     <div className="form-group row">
-        //         <label>Confirm Password</label>
-        //         <div className="col-sm-7">
-        //             <input type="password" name="passwordConfirmation" onChange={this.handleOnChange} className="form-control" id="inputEmail3" required></input>
-        //         </div>
-        //     {this.state.isLogin &&<button type="submit" className="button">Sign in</button>}
-        //     <button className="button__home" onClick={this.handleGoHome}>Go Home</button>
-        //     {this.state.isRegister &&<button className="button" onClick={this.handleGoLogin}>Go Login</button>}
-        //     {this.state.error && <p className= "feedback__Error">{this.state.error}</p>} 
-        //     {this.state.isRegister && <p className= "feedback__Ok">You have successfully registered {this.state.name}</p>}
-        //     </div>
-        // </form> */}
-
     }
 }
 

@@ -9,7 +9,7 @@ import Home from '../Home'
 import EditOwner from '../EditOwner'
 import EditPet from '../EditPet'
 import Visit from '../Visit'
-
+// import VisitOwner from '../Visit_Owner'
 import Appointments from '../Appointments';
 
 import './index.sass'
@@ -29,6 +29,7 @@ class App extends Component {
                 <Route path='/editPet' component={EditPet}/>
                 <Route path='/visit' component={Visit}/>
                 <Route path='/appointments' component={Appointments}/>
+                {/* <Route path='/visitOwner' component={VisitOwner}/> */}
 
                 <Route path= '/home' component={Home}/>
             </Fragment>    

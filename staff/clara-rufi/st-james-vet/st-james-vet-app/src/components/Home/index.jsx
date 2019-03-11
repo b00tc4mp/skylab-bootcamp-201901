@@ -19,7 +19,10 @@ class Home extends Component {
         this.props.history.push('/appointments')
     }
 
-    
+    handleVisitOwner= event => {
+        event.preventDefault()
+        this.props.history.push('/visitOwner')
+    }
 
     render(){
 
@@ -32,6 +35,7 @@ class Home extends Component {
         <button className= "button__home" onClick={this.handleVisit}>Visit</button>
         {/* <button className= "button__home" onClick={this.handleEditPet}> Edit Pet</button> */}
         <button className= "button__home" onClick={this.handleAppointments}>Appointment</button>
+        <button className= "button__home" onClick={this.handleVisitOwner}>Visit Owner</button>
     </div>   
     <div>
         <img className= "img__Home" src={cat_dog} alt=""></img>

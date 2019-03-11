@@ -92,8 +92,8 @@ class Visit extends Component {
             
             <button type="submit" class="button">Edit</button>
             <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
-            {this.state.error && <p className="feedback__Error">{this.state.error}</p>}
-            {this.state.isModified && <p className="feedback__Ok">Visit successfully updated</p>}
+            {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
+            {this.state.isModified && <p className="feedback feedback__success">Visit successfully updated</p>}
             
             </section>
         </form>         

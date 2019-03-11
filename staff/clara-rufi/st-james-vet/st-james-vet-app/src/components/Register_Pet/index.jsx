@@ -46,7 +46,7 @@ class Register_Pet extends Component {
             await logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
             this.setState({ isRegisterPet: true, error: false })
         } catch ({ message }) {
-            this.setState({ error: message })
+            this.setState({ error: message})
         }
     }
 
@@ -137,8 +137,8 @@ class Register_Pet extends Component {
 
                     <button type="submit" class="button">Sign in</button>
                     <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
-                    {this.state.error && <p className="feedback__Error">{this.state.error}</p>}
-                    {this.state.isRegisterPet && <p className="feedback__Ok">You have successfully registered {this.state.name}</p>}
+                    {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
+                    {this.state.isRegisterPet && <p className="feedback feedback__success">You have successfully registered {this.state.name}</p>}
             
                 </div>
             </section>

@@ -1,10 +1,11 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { body: { owner, pet, year, month, day, hour } } = req
+    const { body: { owner, pet, dayDb} } = req
     try {
         debugger
-        logic.assignAppointment(owner, pet, year, month, day, hour)
+        // logic.assignAppointment(owner, pet, new Date(dayDb))
+        logic.assignAppointment(owner, pet, dayDb)
          
             .then(id => res.json({message: 'OK'}))
             

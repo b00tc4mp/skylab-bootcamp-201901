@@ -7,7 +7,7 @@ import './index.sass'
 
 class Appointments extends Component {
    
-  state = { users: [], pets: [], appointments: [], year:2019 ,month:3,  day: 15, error: null, confirmHour:false}
+  state = { users: [], pets: [], appointments: [], error: null, confirmHour:false}
   
  
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
@@ -108,10 +108,10 @@ class Appointments extends Component {
        {/* <Calendar yaer= {this.state.year} ></Calendar> */}
       
        <Calendar year={this.state.year} month={this.state.month} ></Calendar>
-       {this.state.appointments.map(appointment => <option name="appointment" value={appointment.id} >{appointment.owner}</option>)}
+       {/* {this.state.appointments.map(appointment => <option name="appointment" value={appointment.id} >{appointment.owner}</option>)} */}
+        <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button> 
   
      
-        <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button> 
          </section>
         
             // </form> 

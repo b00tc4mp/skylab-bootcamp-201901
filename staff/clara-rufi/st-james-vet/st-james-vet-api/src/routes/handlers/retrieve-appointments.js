@@ -1,7 +1,7 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { userId } = req
+    const { } = req
 
     try {
         logic.retrieveAppointments()

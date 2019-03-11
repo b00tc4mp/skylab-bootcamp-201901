@@ -42,31 +42,13 @@ class Login extends Component {
         <label>Password</label>
           <input type="password" name="password" onChange={this.handleOnChange} required />
         
-        {this.state.error && <p p className= "feedback__Error">{this.state.error}</p>}
-        {this.state.isLogin && <p className= "feedback__Ok">You have successfully logged in!</p>} 
+        {this.state.error && <p p className= "feedback__error">{this.state.error}</p>}
+        {this.state.isLogin && <p className= "feedback__success">You have successfully logged in!</p>} 
         {this.state.isLogin && <button className="button__home" onClick={this.handleGoHome}>Go Home</button>}
         {this.state.signIn &&<button type="submit" className="button">Sign in</button>}
         </div>
  
     </form>
-    // return <form className="register" onSubmit={this.handleLoginSubmit} >
-    //   <div className="form-group row">
-    //     <label for="validationDefault01" className="col-sm-2 col-form-label">Email</label>
-    //     <div className="col-sm-7">
-    //       <input type="email" name="email" onChange={this.handleOnChange} className="form-control" id="inputEmail3" placeholder="" required />
-    //     </div>
-    //   </div>
-    //   <div className="form-group row">
-    //     <label for="validationDefault01" className="col-sm-2 col-form-label" required>Password</label>
-    //     <div className="col-sm-7">
-    //       <input type="password" name="password" onChange={this.handleOnChange} className="form-control" id="inputPassword3" placeholder="" required />
-    //     {this.state.error && <p p className= "feedbackError">{this.state.error}</p>}
-    //     {this.state.isLogin && <p className= "feedback__Ok">You have successfully logged in!</p>} 
-    //     {this.state.isLogin && <button className="button__home" onClick={this.handleGoHome}>Go Home</button>}
-    //     {this.state.signIn &&<button type="submit" className="button">Sign in</button>}
-    //     </div>
-    //   </div>
-    // </form>
   }
 }
 

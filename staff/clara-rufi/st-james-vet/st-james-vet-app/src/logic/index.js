@@ -246,7 +246,7 @@ const logic = {
     retrieveAppointments() {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
-        this.__updateToken__()
+        // this.__updateToken__()
         return fetch(`${this.url}/appointments`, {
 
             headers: {
@@ -255,6 +255,7 @@ const logic = {
         })
             .then(response => response.json())
             .then(response => {
+
                 if (response.error) throw Error(response.error)
 
                 return response
@@ -278,7 +279,7 @@ const logic = {
             })
     },
 
-    assignAppointment(owner, pet, year, month, day, hour){
+    assignAppointment(owner, pet, dayDb){
         if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
         if (!owner.trim().length) throw Error('owner cannot be empty')
@@ -287,23 +288,11 @@ const logic = {
 
         if (!pet.trim().length) throw Error('pet cannot be empty')
 
-        if (typeof year !== 'string') throw TypeError(year + ' is not a string')
+        if (typeof dayDb !== 'string') throw TypeError(dayDb + ' is not a string')
 
-        if (!year.trim().length) throw Error('year cannot be empty')
+        if (!dayDb.trim().length) throw Error(' dayDb cannot be empty') /////////////
 
-        if (typeof month !== 'string') throw TypeError(month + ' is not a string')
-
-        if (!month.trim().length) throw Error('month cannot be empty')
-
-        if (typeof day !== 'string') throw TypeError(day + ' is not a string')
-
-        if (!day.trim().length) throw Error('day cannot be empty')
-
-        if (typeof hour !== 'string') throw TypeError(hour + ' is not a string')
-
-        if (!hour.trim().length) throw Error('hour cannot be empty')
-
-        console.log(owner, pet, year, month, day, hour)
+        console.log(owner, pet, dayDb)
 
         
         return fetch(`${this.url}/appointment`, {
@@ -312,7 +301,7 @@ const logic = {
                 // authorization: `Bearer ${this.__userApiToken__}`
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ owner, pet, year, month, day, hour })
+            body: JSON.stringify({ owner, pet, dayDb})
         })
             .then(response => response.json())
             .then(response => {
@@ -322,32 +311,12 @@ const logic = {
             })
     },
 
-    deleteAppointment(owner, pet, year, month, day, hour){
-        if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
+    deleteAppointment(appointmentId){
+        if (typeof appointmentId !== 'string') throw TypeError(appointmentId + ' is not a string')
 
-        if (!owner.trim().length) throw Error('owner cannot be empty')
+        if (!appointmentId.trim().length) throw Error('appointmentId cannot be empty')
 
-        if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
-
-        if (!pet.trim().length) throw Error('pet cannot be empty')
-
-        if (typeof year !== 'string') throw TypeError(year + ' is not a string')
-
-        if (!year.trim().length) throw Error('year cannot be empty')
-
-        if (typeof month !== 'string') throw TypeError(month + ' is not a string')
-
-        if (!month.trim().length) throw Error('month cannot be empty')
-
-        if (typeof day !== 'string') throw TypeError(day + ' is not a string')
-
-        if (!day.trim().length) throw Error('day cannot be empty')
-
-        if (typeof hour !== 'string') throw TypeError(hour + ' is not a string')
-
-        if (!hour.trim().length) throw Error('hour cannot be empty')
-
-        console.log(owner, pet, year, month, day, hour)
+        console.log(appointmentId)
 
         
         return fetch(`${this.url}/appointment`, {
@@ -356,7 +325,7 @@ const logic = {
                 // authorization: `Bearer ${this.__userApiToken__}`
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ owner, pet, year, month, day, hour })
+            body: JSON.stringify({ appointmentId })
         })
             .then(response => response.json())
             .then(response => {

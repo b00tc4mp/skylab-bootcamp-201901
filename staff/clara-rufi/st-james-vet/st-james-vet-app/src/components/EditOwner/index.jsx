@@ -90,8 +90,8 @@ class EditOwner extends Component {
 
                 <button type="submit" className="button">Edit</button>
                 <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
-                {this.state.error && <p className="feedback__Error">{this.state.error}</p>}
-                {this.state.isModified && <p className="feedback__Ok">Profile successfully updated</p>}
+                {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
+                {this.state.isModified && <p className="feedback feedback__success">Profile successfully updated</p>}
             </section>
         </form>
 

@@ -66,7 +66,7 @@ const logic = {
         console.log(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation)
 
         return (async () => {
-            debugger
+           
             let user = await User.findOne({ email })
 
             if (user) throw Error(`user with email ${email} already exists`)
@@ -189,18 +189,46 @@ const logic = {
         })()
     },
 
+    /**
+     * 
+     * Assign appointment to the owner
+     * 
+     * @param {string} owner 
+     * @param {string} pet 
+     * @param {string} dayDb 
+     */
 
-    assignAppointment(owner, pet, year, month, day, hour) {
+    assignAppointment(owner, pet, dayDb) {
+        // if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
+
+        // if (!owner.trim().length) throw Error('owner cannot be empty')
+
+        // if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
+
+        // if (!pet.trim().length) throw Error('pet cannot be empty')
+
+        // if (dayDb instanceof 'date') throw TypeError(dayDb + ' is not a date')
+
+        // if (!dayDb.trim().length) throw Error('dayDb cannot be empty')
+
         return (async () => {
            
-            const appointment = new Appointment ({owner, pet, year, month, day, hour})
+            const appointment = new Appointment ({owner, pet, dayDb})
     
             await appointment.save()
             
           })()
     },
 
+    /**
+     * 
+     * @param {string} appointmentId 
+     */
     deleteAppointment(appointmentId) {
+        if (typeof appointmentId !== 'string') throw TypeError(appointmentId + ' is not a string')
+
+        if (!appointmentId.trim().length) throw Error('appointmentId cannot be empty')
+
         return (async () => {
            
             Appointment.deleteOne({_id: appointmentId})
@@ -218,6 +246,7 @@ const logic = {
      * @param {string} userId  
      */
     retrieveUser(userId) {
+
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
 
         if (!userId.trim().length) throw new EmptyError('user id is empty')
@@ -250,6 +279,7 @@ const logic = {
      */
 
     async retrieveUsers() { 
+        
         const _users = await User.find({})
 
         const users = _users.map(user => {
@@ -262,23 +292,26 @@ const logic = {
         return users
     },
 
+    /**
+     * Retrieve all owner's appointments
+     */
     async retrieveAppointments() { 
-        debugger
-        const _appointments = await Appointment.find({}).populate('owner pet')
+        //const _appointments = await Appointment.find({}).populate('owner pet')
+        //const _appointments = await Appointment.find({})
+        const _appointments = await Appointment.find({}).populate('user').exec()
+        //const _appointments = await Appointment.find({}).populate('user pet')
         // const _appointments = await Appointment.find({}).populate[{path:'owner', select:'name'}, {path: 'pet', select: 'name'}]
 
         const appointments = _appointments.map(appointment => {
             return {
-                owner: appointment.owner.name,
-                pet: appointment.pet.name,
-                year : appointment.year,
-                month: appointment.month,
-                day: appointment.day,
-                hour: appointment.hour               
+                owner: appointment.owner,
+                pet: appointment.pet,
+                dayDb : appointment.dayDb,
+                // id: appointment.id             
             }
         })
-
-        console.log(appointments) 
+        
+        console.log(_appointments) 
         return appointments
     },
 
@@ -313,6 +346,7 @@ const logic = {
     },
 
     /**
+     * Retrieve user's information
      * 
      * @param {string} userId 
      */
@@ -342,6 +376,7 @@ const logic = {
     },
 
     /**
+     * Retrieve owner's pets information
      * 
      * @param {string} petsId 
      */
@@ -369,7 +404,8 @@ const logic = {
     },
 
     /**
-     * 
+     * Retrieve pet's visit information  
+     *
      * @param {string} petsId 
      */
     retrievePetVisit(petsId) {
@@ -395,6 +431,7 @@ const logic = {
     },
    
     /**
+     * Update user information
      * 
      * @param {string} name 
      * @param {string} surname 
@@ -445,6 +482,7 @@ const logic = {
     },
 
     /**
+     * Update pet's information
      * 
      * @param {string} petsId 
      * @param {string} name 
@@ -479,6 +517,7 @@ const logic = {
     },
 
     /**
+     * Update pet visit's information
      * 
      * @param {string} petsId 
      * @param {vaccionations} vaccionations 

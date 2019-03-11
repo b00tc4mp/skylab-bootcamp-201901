@@ -2,17 +2,19 @@ import React, { Component } from 'react'
 
 import moment from 'moment';
 import logic from '../../logic';
-// import Appointments from '../Appointments';
+import Appointments from '../Appointments';
 import './index.sass'
 
 class Calendar extends Component {
 
-    state = { users: [], owner: '', pets: [], appointments: [], pet: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false,  buttonConfirm: true, error: null, errorDate: false }
+    state = { users: [], owner: '', pets: [], appointments: [], pet: '', hour: '', dayDb: [], visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false, buttonConfirm: true, error: null, errorDate: false }
     // state = { users: [], owner: '', pets: [], appointments: [], pet: '', hour: '', visitConfirmed: false, year: 2019, month: 3, day: 1, askConfirmation: false,  buttonConfirm: true, error: null, errorDate: false }
+
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
     componentDidMount() {
+        debugger
         this.retrieveUsers()
         this.retrieveAppointments()
     }
@@ -51,29 +53,29 @@ class Calendar extends Component {
     }
 
 
-    
+
     handleNextMonth = event => {
         event.preventDefault()
-        let yearNumber= parseInt(this.state.year)
+        let yearNumber = parseInt(this.state.year)
         let monthNumber = parseInt(this.state.month)
-        let dayNumber= parseInt(this.state.day)
+        let dayNumber = parseInt(this.state.day)
         console.log(yearNumber, monthNumber, dayNumber)
         this.setState({ month: monthNumber + 1 });
-        console.log(this.state.month)   
+        console.log(this.state.month)
         if (this.state.month === 12) {
-            this.setState({ year: yearNumber +1, month: 1 })
+            this.setState({ year: yearNumber + 1, month: 1 })
         }
     }
 
     handleLastMont = event => {
         event.preventDefault()
-        let yearNumber= parseInt(this.state.year)
+        let yearNumber = parseInt(this.state.year)
         let monthNumber = parseInt(this.state.month)
-        let dayNumber= parseInt(this.state.day)
+        let dayNumber = parseInt(this.state.day)
         console.log(yearNumber, monthNumber, dayNumber)
         this.setState({ month: monthNumber - 1 });
         if (this.state.month === 1) {
-            this.setState({ year: yearNumber -1, month: monthNumber = 12 })
+            this.setState({ year: yearNumber - 1, month: monthNumber = 12 })
         }
     }
 
@@ -82,22 +84,37 @@ class Calendar extends Component {
         const hour = event.target.value;
         this.setState({ hour })
         console.log(hour)
+        this.setState({ dayDb: this.state.dayDb + ' ' + hour }, () => console.log("state dmmmmb " + this.state.dayDb))
     }
+
+
 
     handleDatePicker = event => {
         event.preventDefault()
         const date = event.target.value;
         const dateSelected = new Date(date)
+
+        console.log('date ' + date)
+        // let daySelected= moment(date).format('DD/MM/YYYY')
+        // console.log("day visit " + daySelected)
+        let dayDb = []
+        dayDb.push(date)
+        console.log('dayDb ' + dayDb)
+        this.setState({ dayDb }, () => console.log("state dmmmmb " + this.state.dayDb))
+
         const today = new Date()
         console.log(date)
-        if(dateSelected < today){
-            this.setState({errorDate:true,askConfirmation: false, buttonConfirm: false })
-        }else if(dateSelected > today){
+        if (dateSelected < today) {
+
+            this.setState({ errorDate: true, askConfirmation: false, buttonConfirm: false })
+
+        } else if (dateSelected > today) {
+
             console.log("corect")
             this.setState({ buttonConfirm: true })
         }
         function getDate(date) {
-            
+
             let result = date.split('-');
             return result;
         }
@@ -114,55 +131,54 @@ class Calendar extends Component {
 
     handleCorrectDate = event => {
         event.preventDefault()
-        this.setState({errorDate: false})
+        this.setState({ errorDate: false })
     }
 
     handleConfirmVisitOK = event => {
         event.preventDefault()
-        this.setState({ visitConfirmed: false, askConfirmation: false, error: false, errorDate:false  })
-        const { state: { owner, pet, year, month, day, hour } } = this
-        this.assignVisit(owner, pet, year, month, day, hour)
+        this.setState({ visitConfirmed: false, askConfirmation: false, error: false, errorDate: false })
+        // let dayVisit= moment(dateSelected).format('MM/dd/YYYY')
+        const { state: { owner, pet, dayDb } } = this
+        this.assignVisit(owner, pet, dayDb)
     }
 
-    assignVisit = async (owner, pet, year, month, day, hour) => {
+    assignVisit = async (owner, pet, dayDb) => {
         try {
-            await logic.assignAppointment(owner, pet, year, month, day, hour)
-            this.setState({ error: false, visitConfirmed: true, errorDate:false })
+            await logic.assignAppointment(owner, pet, dayDb)
+            this.setState({ error: false, visitConfirmed: true, errorDate: false })
+            this.retrieveAppointments()
         } catch ({ message }) {
-            this.setState({ error: message, askConfirmation: false, visitConfirmed: false, errorDate:false  })
+            this.setState({ error: message, askConfirmation: false, visitConfirmed: false, errorDate: false })
         }
     }
 
-    deleteVisit = async (owner, pet, year, month, day, hour) => {
-        try {
-            await logic.deleteAppointment (owner, pet, year, month, day, hour)
-        
-        }catch ({message}) {
-            this.setState({error: message})
-        }
-    }
-
-
-    handleDeleteVisit = event =>{
+    handleDeleteVisit = event => {
         event.preventDefault()
-        const { state: { owner, pet, year, month, day, hour } } = this
-        this.deleteVisit(owner, pet, year, month, day, hour)
+        debugger
+        const appointmentId = event.target.value;
+        this.deleteVisit(appointmentId)
+    }
+
+    deleteVisit = async (appointmentId) => {
+        try {
+            debugger
+            await logic.deleteAppointment(appointmentId)
+
+        } catch ({ message }) {
+            this.setState({ error: message })
+        }
     }
 
     handleConfirmVisitNO = event => {
         event.preventDefault()
-        this.setState({ askConfirmation: false, error: false, confirmVisit: false, errorDate:false  })
+        this.setState({ askConfirmation: false, error: false, confirmVisit: false, errorDate: false })
     }
 
     handleConfirmVisit = event => {
         event.preventDefault()
-        this.setState({ askConfirmation: true, error: false, visitConfirmed: false, errorDate:false  })
+        this.setState({ askConfirmation: true, error: false, visitConfirmed: false, errorDate: false })
     }
 
-
-  
-
-  
 
     render() {
         const { state: { year, month } } = this
@@ -198,15 +214,14 @@ class Calendar extends Component {
                     <option name="hour" value="19:30" onChange={this.handleOnChange}>19:30</option>
                 </select>
                 {this.state.buttonConfirm && <button onClick={this.handleConfirmVisit} className="button">Confirm</button>}
-                <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
 
-                {this.state.askConfirmation && <div><p className="feedback__confirmation">Are you sure you want to assign this visit?</p></div>}
+                {this.state.askConfirmation && <div><p className="feedback feedback__confirmation">Are you sure you want to assign this visit?</p></div>}
                 {this.state.askConfirmation && <button onClick={this.handleConfirmVisitOK} className="button__confirm">Yes</button>}
                 {this.state.askConfirmation && <button onClick={this.handleConfirmVisitNO} className="button__confirm">No</button>}
-                {this.state.visitConfirmed && <div><p className="feedback__Ok">Visit successfully assigned!</p></div>}
-                {this.state.errorDate && <div><p className="feedback__error">Select a correct date</p></div>}
-                {this.state.errorDate && <button  onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
-                {this.state.error && <p className="feedback__error">{this.state.error}</p>}
+                {this.state.visitConfirmed && <div><p className="feedback feedback__success">Visit successfully assigned!</p></div>}
+                {this.state.errorDate && <div><p className="feedback feedback__error">Select a correct date</p></div>}
+                {this.state.errorDate && <button onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
+                {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
 
                 {/* {<option></option>}{this.state.hour.map(appointment => <option name="hour" value={appointment.id}>{appointment.hour}</option>)} */}
                 {/* </select> */}
@@ -235,56 +250,43 @@ class Calendar extends Component {
 
                             const mNow = moment(`${year}-${month}-${count}`)
 
-                            // days.push(<div className="month-day" key={count}>{`${year}`}
-                            // days.push(<div className="month-day">{`${year}`}
-                            // </div>)
-
-
                             if (paint && count <= m.daysInMonth()) {
-                                // if(dayweek<7)
-                                // days.push(<div className="day-month" key={count}>{` ${mNow.format('dddd')} ${dayweek++}`}</div>)
-                                // if(weekday<7)
 
-                                // year.push(`${mNow.format('YYYY')}`)
-                                // days.push(<div><table><tr className="month-day" key={count}>{`${mNow.format('dd')}${count++}`}</tr></table></div>
                                 days.push(<div><table><tr className="month-day" key={count}>{`${mNow.format('dddd')} ${count++}`}
-                                    {/* days.push(<div><table><tr className="month-day" key={count}>{`${mNow.format('YYYY')}${count++}`} */}
                                 </tr>
                                     <tr>
-                                        {/* <button name="dayHour" onChange={this.handleOnChange}  onClick={this.confirmVisit}>17:00</button> */}
-                                        {/* <button name="hour" value= "17:00" onChange={this.handleOnChange} onClick= {this.confirmVisit}>17:00</button>
-                                    {this.state.confirmHour && <div><p className="confirm__visit">Assign this hour to owner?</p>}
-                                    <button onClick={this.confirmVisitOK}   className="confirm__hour">Yes</button>
-                                    <button onClick={this.confirmVisitNO} className="confirm__hour">No</button>
-                                    {this.state.visitConfirmed && <div><p className="confirm__visit">Visit successfully assigned!</p></div>}                                  
-                                    </div> */}
-                                        <th>17:00>
-                                        {this.state.appointments.map(appointment => <option name="appointment" value={appointment.id}>owner: {appointment.owner}{' '}pet:{appointment.pet}</option>)}
+                                        <th>17:00
+                                        {this.state.appointments.map(appointment => <p name="appointment" value={appointment.id}>owner: {appointment.owner}{' '}pet:{appointment.pet}</p>)}
+                                            <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th>17:30</th>
+                                        <th>17:30
+                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
+                                        </th>
                                     </tr>
                                     <tr>
-                                        <th>18:00</th>
+                                        <th>18:00
+                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
+                                        </th>
                                     </tr>
                                     <tr>
-                                        <th>18:30</th>
+                                        <th>18:30
+                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
+                                        </th>
                                     </tr>
                                     <tr>
-                                        <th>19:00</th>
+                                        <th>19:00
+                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
+                                        </th>
                                     </tr>
                                     <tr>
-                                        <th>19:30</th>
+                                        <th>19:30
+                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
+                                        </th>
                                     </tr>
                                 </table>
                                 </div>)
-
-                                //days.push(<div className="current-month-day" key={count}>{` ${count++}`}</div>)
-                                //days.push(<div className="current-month-day" key={count}>{` ${count++} ${weekday++}`}</div>)
-                                // if(weekday>7)
-
-                                // days.push(<div className="current-month-day" key={count}>{` ${count++} ${weekday++}`}</div>)
 
                             } else
                                 days.push(<div className="day" key={`${w}-${d}`}></div>)
