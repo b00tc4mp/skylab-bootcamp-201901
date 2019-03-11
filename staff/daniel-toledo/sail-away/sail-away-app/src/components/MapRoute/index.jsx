@@ -3,29 +3,27 @@
 import React, { useState, useEffect } from 'react'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps-react'
 
+import logic from '../../logic'
 import './index.sass'
 
-function MapRoute({ google, getMarkers, seaSelection, initialMarkers}) {
-    debugger
-
+function MapRoute({ google, getMarkers, seaIdSelection, initialMarkers}) {
+ 
     let [markers, setMarkers] = useState(initialMarkers)
-    let [sea, setSea] = useState({
-
-        name: 'Select Ocean',
-        center: {
-            lat: 0,
-            lng: 0
-        },
-        zoom: 2
-
-    })
-
+    let [sea, setSea] = useState(getSea(seaIdSelection))
+ 
     useEffect(() => {
-        setSea(seaSelection)
+        setSea(getSea(seaIdSelection))
         setMarkers(markers)
+       
+    }, [seaIdSelection, markers])
 
-    }, [seaSelection, markers])
-
+    function getSea(id){
+        try{
+            return logic.retrieveSea(id)
+        }catch(error){
+            console.error(error)
+        }
+    }
 
     function generateRoute(markers) {
         let route = []

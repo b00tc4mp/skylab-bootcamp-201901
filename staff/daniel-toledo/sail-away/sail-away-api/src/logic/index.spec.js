@@ -1,10 +1,12 @@
 require('dotenv').config()
 require('isomorphic-fetch')
+require('moment')
 
 const jwt = require('jsonwebtoken')
-const { models: { User, Journey }, data: { seas, languages, talents }, mongoose } = require('sail-away-data')
+const { models: { User, Journey }, data: { seas, languages, talents }, mongoose: { Types: { ObjectId } }, mongoose } = require('sail-away-data')
 const bcrypt = require('bcrypt')
 const expect = require('expect')
+const moment = require('moment')
 
 const logic = require('.')
 
@@ -46,6 +48,15 @@ describe('logic', () => {
             const match = await bcrypt.compare(password, user.password)
 
             expect(match).toBeTruthy()
+        })
+
+        it('should fail on already existing user', async () => {
+            await User.create({ name, surname, email, password, passwordConfirm, kind })
+            return logic.registerUser(name, surname, email, password, passwordConfirm, kind)
+                .catch(error => {
+                    expect(error instanceof Error).toBe(true)
+                    expect(error.message).toBe(`user with email ${email} already exists`)
+                })
         })
 
         it('should fail on undefined name', () => {
@@ -466,7 +477,7 @@ describe('logic', () => {
     describe('authenticate user', () => {
         const name = 'Rita'
         const surname = 'Medina'
-        const kind='captain'
+        const kind = 'captain'
         let email, password, hash
 
         beforeEach(async () => {
@@ -482,6 +493,27 @@ describe('logic', () => {
                     expect(id).toBeDefined()
                 })
         )
+
+        it('should fail on incorrect credentials', () => {
+            password = 'fail'
+            return logic.authenticateUser(email, password)
+                .catch(error => {
+                    expect(error instanceof Error).toBe(true)
+                    expect(error.message).toBe('wrong credentials')
+                })
+        })
+
+
+        it('should fail on not found user', () => {
+            email = 'fail@mail.com'
+            return logic.authenticateUser(email, password)
+                .catch(error => {
+                    expect(error instanceof Error).toBe(true)
+                    expect(error.message).toBe(`user with email ${email} not found`)
+                })
+        })
+
+
         it('should fail on empty email', function () {
             email = ''
 
@@ -569,7 +601,7 @@ describe('logic', () => {
             expect(() => logic.authenticateUser(email, password)).toThrowError(`${password} is not a string`)
         })
         it('should fail on function password', function () {
-            const password = function a() { }
+            const password = function () { }
 
             expect(() => logic.authenticateUser(email, password)).toThrowError(`${password} is not a string`)
         })
@@ -585,19 +617,20 @@ describe('logic', () => {
         })
     })
 
-    false && describe('retrieve user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
+    describe('retrieve user', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, userId
 
-        let userId
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => userId = id)
-        )
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user = await User.create({ name, surname, email, password: hash, kind })
+            userId = user.id.toString()
+            return userId
+        })
 
         it('should succeed on correct credentials', () =>
             logic.retrieveUser(userId)
@@ -611,6 +644,15 @@ describe('logic', () => {
                 })
         )
 
+        it('should succeed fail on not found user', () => {
+            const userId = 'randomId'
+            return logic.retrieveUser(userId)
+                .catch(error => {
+                    expect(error instanceof Error).toBe(true)
+                    expect(error.message).toBe(`user with id ${userId} not found`)
+                })
+        })
+
         it('should fail on empty userId', function () {
             userId = ''
 
@@ -623,29 +665,85 @@ describe('logic', () => {
         })
     })
 
-    false && describe('update user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
+    describe('update user', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, userId
 
-        let userId
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => userId = id)
-        )
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user = await User.create({ name, surname, email, password: hash, kind })
+            userId = user.id.toString()
+            return userId
+        })
 
         it('should succeed on correct credentials', () => {
-            let data = { name: 'Manuel2' }
+            let data = {
+                name: 'Rita',
+                surname: 'Medina-updated',
+                gender: 'Feminine',
+                nacionality: 'Portuguese',
+                description: 'I am a nice girl willing to travel',
+                talents: ['art', 'musician', 'writter'],
+                boats: [{
+                    name: 'saphiro',
+                    type: 'Yacht',
+                    model: 416,
+                    description: 'amazing vessel'
+                }],
+                experience: 200,
+                languages: ['pt', 'en']
+            }
             return logic.updateUser(userId, data)
                 .then(() => User.findById(userId))
                 .then(user => {
                     expect(user.id).toEqual(userId)
                     expect(user.name).toBe(data.name)
-                    expect(user.surname).toBe(surname)
+                    expect(user.surname).toBe(data.surname)
                     expect(user.email).toBe(email)
+                    expect(user.gender).toEqual('Feminine')
+                    expect(user.nacionality).toEqual('Portuguese')
+                    expect(user.description).toEqual('I am a nice girl willing to travel')
+                    expect(user.talents.toString()).toEqual(['art', 'musician', 'writter'].toString())
+                    expect(user.boats[0].toString()).toEqual({
+                        name: 'saphiro',
+                        type: 'Yacht',
+                        model: 416,
+                        description: 'amazing vessel'
+                    }.toString())
+                    expect(user.experience).toEqual(200)
+                    expect(user.languages.toString()).toEqual(['pt', 'en'].toString())
+                })
+        })
+
+        it('should succeed adding boat to captain', () => {
+            let data = {
+                name: 'Rita',
+                surname: 'Medina-updated',
+                gender: 'Feminine',
+                nacionality: 'Portuguese',
+                description: 'I am a nice girl willing to travel',
+                talents: ['art', 'musician', 'writter'],
+                boats: [],
+                experience: 200,
+                languages: ['pt', 'en']
+            }
+            return logic.updateUser(userId, data)
+                .then(() => User.findById(userId))
+                .then(user => {
+                    expect(user.id).toEqual(userId)
+                    expect(user.name).toBe(data.name)
+                    expect(user.surname).toBe(data.surname)
+                    expect(user.email).toBe(email)
+                    expect(user.gender).toEqual('Feminine')
+                    expect(user.nacionality).toEqual('Portuguese')
+                    expect(user.description).toEqual('I am a nice girl willing to travel')
+                    expect(user.talents.toString()).toEqual(['art', 'musician', 'writter'].toString())
+                    expect(user.experience).toEqual(200)
+                    expect(user.languages.toString()).toEqual(['pt', 'en'].toString())
                 })
         })
 
@@ -660,26 +758,32 @@ describe('logic', () => {
             expect(() => logic.updateUser(userId, data).toThrowError(`${userId} is not a string`))
         })
 
-        it('should fail on non object userId', function () {
+        it('should fail on non object data', function () {
             data = 'data'
 
             expect(() => logic.updateUser(userId, data).toThrowError(`${data} is not an object`))
         })
+
+        it('should fail on non data userId', function () {
+
+            expect(() => logic.updateUser(userId).toThrowError('data should be defined'))
+        })
     })
 
-    false && describe('remove user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
+    describe('remove user', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, userId
 
-        let userId
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => userId = id)
-        )
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user = await User.create({ name, surname, email, password: hash, kind })
+            userId = user.id.toString()
+            return userId
+        })
 
         it('should succeed on correct credentials', () => {
             return logic.removeUser(userId)
@@ -700,17 +804,15 @@ describe('logic', () => {
 
     })
 
-    false && describe('create Journeys', () => {
+    describe('create Journeys', () => {
         const title = 'Mediterranean trip'
         const seaId = '08'
         const route = [
             { "name": "new marker", "position": { "lat": 41.98048622251079, "lng": 12.490741193558165 } },
             { "name": "new marker", "position": { "lat": 41.389753882061335, "lng": 2.295428693558165 } }
         ]
-        const days = '123'
+        const dates = [moment("2019-03-25"), moment("2019-04-25")]
         const description = 'Amazing trip around mediterranean sea. We will not stop and we can se dolphins'
-        // const boatId = 'boat-123'
-        // const captain = 'captain-123'
         const lookingFor = {
             lenguages: ['it', 'en'],
             experience: 500,
@@ -718,192 +820,675 @@ describe('logic', () => {
             talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
         }
 
-        beforeEach(async () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, user, userId
 
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            let { id } = await User.create({ name, surname, email, password: hash, kind })
+            userId = ObjectId(id)
+            let data = {
+                name: 'Rita',
+                surname: 'Medina-updated',
+                gender: 'Feminine',
+                nacionality: 'Portuguese',
+                description: 'I am a nice girl willing to travel',
+                talents: ['art', 'musician', 'writter'],
+                boats: [{
+                    name: 'saphiro',
+                    type: 'Yacht',
+                    model: 416,
+                    description: 'amazing vessel'
+                }],
+                experience: 200,
+                languages: ['pt', 'en']
+            }
+
+            user = await User.findByIdAndUpdate(id, { $set: data }, { new: true }).select('-__v').lean()
         })
 
         it('should succeed on valid data', async () => {
-            const id = await logic.addJourney(title, seaId, route, days, description, boatId, captainId, lookingFor)
+            let boat = user.boats[0]
+
+            const id = await logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
 
             expect(id).toBeDefined()
             expect(typeof id).toBe('string')
 
-            const user = await User.findOne({ email })
+            let journey = await Journey.findById(id).select('-__v').lean()
 
-            expect(user.name).toBe(name)
-            expect(user.surname).toBe(surname)
-            expect(user.email).toBe(email)
-
-            const match = await bcrypt.compare(password, user.password)
-
-            expect(match).toBeTruthy()
+            expect(journey.title).toEqual(title)
+            expect(journey.seaId).toEqual(seaId)
+            expect(journey.route.toString()).toEqual(route.toString())
+            // expect(journey.dates.toString()).toEqual(dates.toString())
+            expect(journey.description).toEqual(description)
+            expect(journey.lookingFor.toString()).toEqual(lookingFor.toString())
+            expect(journey.userId.toString()).toEqual(userId.toString())
+            expect(journey.boat.toString()).toEqual(boat.toString())
         })
 
-        it('should fail on empty query', () => {
-            const query = ''
-
-            expect(() => logic.searchArtists(query, function (error, artists) { })).toThrowError('query is empty')
+        it('should failed in invalid boat', async () => {
+            let userId = ObjectId(user.id)
+            let boat = {
+                name: 'saphiro-2',
+                type: 'Yacht',
+                model: 416,
+                description: 'amazing vessel'
+            }
+            expect(async () => logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor).toThrowError('boat dose not belong to user'))
         })
-        it('should fail on array query', function () {
-            const query = []
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+        it('should failed on user not captain', async () => {
+            let data = { kind: 'crew' }
+            userToUpdate = await User.findOne({ email }).select('-__v').lean()
+            user = await User.findByIdAndUpdate(userToUpdate._id, { $set: data }, { new: true }).select('-__v').lean()
+            let userId = ObjectId(user.id)
+            let boat = {
+                name: 'saphiro',
+                type: 'Yacht',
+                model: 416,
+                description: 'amazing vessel'
+            }
+            expect(async () => logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor).toThrowError('user cannot create a journey'))
         })
-        it('should fail on boolean query', function () {
-            const query = true
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+        it('should failed on title not defined', async () => {
+            let title = undefined
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError(title + ' is not a string'))
         })
-        it('should fail on number query', function () {
-            const query = 4
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+        it('should failed on empty title', async () => {
+            let title = ''
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError('title cannot be empty'))
         })
-        it('should fail on object query', function () {
-            const query = {}
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+        it('should failed on seaId not defined', async () => {
+            let seaId = undefined
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError(seaId + ' is not a string'))
         })
-        it('should fail on null query', function () {
-            const query = null
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+        it('should failed on empty seaId', async () => {
+            let seaId = ''
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError('seaId cannot be empty'))
         })
-        it('should fail on undefined query', function () {
-            const query = undefined
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+        it('should failed on route not being an array', async () => {
+            let route = {}
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError(route + ' is not an Array'))
         })
-        it('should fail on function query', function () {
-            const query = function a() { }
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+        it('should failed on empty route', async () => {
+            let route = []
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError('route cannot be empty'))
         })
-        it('should fail on date query', function () {
-            const query = new Date
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+        it('should failed on dates not being an array', async () => {
+            let dates = {}
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError(dates + ' is not an Array'))
         })
-        it('should fail on error query', function () {
-            const query = Error
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+
+        it('should failed on empty dates', async () => {
+            let dates = []
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError('dates cannot be empty'))
+        })
+
+        it('should failed on description not defined', async () => {
+            let description = undefined
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError(description + ' is not a string'))
+        })
+
+
+        it('should failed on empty description', async () => {
+            let description = ''
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError('description cannot be empty'))
+        })
+
+        it('should failed on userId not defined', async () => {
+            let userId = undefined
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError(userId + ' is not a string'))
+        })
+
+
+        it('should failed on empty userId', async () => {
+            let userId = {}
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError('userId cannot be empty'))
+        })
+
+        it('should failed on boat not defined', async () => {
+            let boat = undefined
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError(boat + ' is not a string'))
+        })
+
+
+        it('should failed on empty boat', async () => {
+            let boat = {}
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError('boat cannot be empty'))
+        })
+
+        it('should failed on lookingFor not defined', async () => {
+            let lookingFor = undefined
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError(lookingFor + ' is not a string'))
+        })
+
+
+        it('should failed on empty lookingFor', async () => {
+            let lookingFor = {}
+
+            expect(async () =>
+                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                    .toThrowError('lookingFor cannot be empty'))
         })
     })
 
-    false && describe('search sea', () => {
+    describe('search by sea', () => {
+        const title = 'Mediterranean trip'
+        const route = [
+            { "name": "new marker", "position": { "lat": 41.98048622251079, "lng": 12.490741193558165 } },
+            { "name": "new marker", "position": { "lat": 41.389753882061335, "lng": 2.295428693558165 } }
+        ]
+        const dates = [moment("2019-03-25"), moment("2019-04-25")]
+        const description = 'Amazing trip around mediterranean sea. We will not stop and we can se dolphins'
+        const lookingFor = {
+            lenguages: ['it', 'en'],
+            experience: 500,
+            sailingTitles: [],
+            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+        }
+
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, user, userId, seaId
+
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            let { id } = await User.create({ name, surname, email, password: hash, kind })
+            userId = ObjectId(id)
+            let data = {
+                name: 'Rita',
+                surname: 'Medina-updated',
+                gender: 'Feminine',
+                nacionality: 'Portuguese',
+                description: 'I am a nice girl willing to travel',
+                talents: ['art', 'musician', 'writter'],
+                boats: [{
+                    name: 'saphiro',
+                    type: 'Yacht',
+                    model: 416,
+                    description: 'amazing vessel'
+                }],
+                experience: 200,
+                languages: ['pt', 'en']
+            }
+
+            user = await User.findByIdAndUpdate(id, { $set: data }, { new: true }).select('-__v').lean()
+
+            let boat = user.boats[0]
+
+            seaId = '08'
+            await Journey.create({ title, seaId, route, dates, description, userId, boat, lookingFor })
+
+            seaId = '08'
+            await Journey.create({ title, seaId, route, dates, description, userId, boat, lookingFor })
+
+            seaId = '10'
+            await Journey.create({ title, seaId, route, dates, description, userId, boat, lookingFor })
+        })
+
         it('should succeed on matching query', () => {
-            const query = 'Mediterranean Sea'
+            const query = '08'
 
             return logic.searchJourneys(query)
                 .then(journeys => {
                     expect(journeys).toBeDefined()
                     expect(journeys instanceof Array).toBeTruthy()
-                    expect(artists.length).toBeGreaterThan(0)
+                    expect(journeys.length).toBe(2)
+                })
+        })
 
-                    artists.forEach(({ name }) => expect(name.toLowerCase()).toContain(query))
+
+        it('should return empty array on not results', () => {
+            const query = '09'
+
+            return logic.searchJourneys(query)
+                .then(journeys => {
+                    expect(journeys).toBeDefined()
+                    expect(journeys instanceof Array).toBeTruthy()
+                    expect(journeys.length).toBe(0)
                 })
         })
 
         it('should fail on empty query', () => {
             const query = ''
 
-            expect(() => logic.searchArtists(query, function (error, artists) { })).toThrowError('query is empty')
+            expect(() => logic.searchJourneys(query)).toThrowError('query cannot be empty')
         })
         it('should fail on array query', function () {
             const query = []
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
         it('should fail on boolean query', function () {
             const query = true
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
         it('should fail on number query', function () {
             const query = 4
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
         it('should fail on object query', function () {
             const query = {}
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
         it('should fail on null query', function () {
             const query = null
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
         it('should fail on undefined query', function () {
             const query = undefined
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
         it('should fail on function query', function () {
             const query = function a() { }
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
         it('should fail on date query', function () {
             const query = new Date
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
         it('should fail on error query', function () {
             const query = Error
 
-            expect(() => logic.searchArtists(query)).toThrowError(`${query} is not a string`)
+            expect(() => logic.searchJourneys(query)).toThrowError(`${query} is not a string`)
         })
     })
 
-    false && describe('retrieve artist', () => {
-        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
+    describe('retrieve Journey', () => {
+        const title = 'Mediterranean trip'
+        const seaId = '08'
+        const route = [
+            { "name": "new marker", "position": { "lat": 41.98048622251079, "lng": 12.490741193558165 } },
+            { "name": "new marker", "position": { "lat": 41.389753882061335, "lng": 2.295428693558165 } }
+        ]
+        const dates = [moment("2019-03-25"), moment("2019-04-25")]
+        const description = 'Amazing trip around mediterranean sea. We will not stop and we can se dolphins'
+        const lookingFor = {
+            lenguages: ['it', 'en'],
+            experience: 500,
+            sailingTitles: [],
+            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+        }
 
-        let userId
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        const data = {
+            name: 'Rita',
+            surname: 'Medina-updated',
+            gender: 'Feminine',
+            nacionality: 'Portuguese',
+            description: 'I am a nice girl willing to travel',
+            talents: ['art', 'musician', 'writter'],
+            boats: [{
+                name: 'saphiro',
+                type: 'Yacht',
+                model: 416,
+                description: 'amazing vessel'
+            }],
+            experience: 200,
+            languages: ['pt', 'en']
+        }
+        let email, password, hash, user, boat, userId
 
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => {
-                    userId = id
-                })
-                .catch((err) => {
-                    if (err) throw err
-                })
-        )
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            let { id } = await User.create({ name, surname, email, password: hash, kind })
+            userId = ObjectId(id)
 
+            user = await User.findByIdAndUpdate(id, { $set: data }, { new: true }).select('-__v').lean()
+            boat = user.boats[0]
 
-        it('should succeed on matching query', () => {
-
-            return logic.retrieveArtist(artistId)
-                .then(madonna => {
-                    expect(madonna).toBeDefined()
-                    expect(madonna.name).toBe('Madonna')
-                })
         })
 
-        it('should fail on empty artistId', function () {
-            const artistId = ''
+        it('should succeed on matching journeyId', async () => {
 
-            expect(() => logic.retrieveArtist(artistId)).toThrowError('artistId is empty')
+            let journey = await Journey.create({ title, seaId, route, dates, description, userId, boat, lookingFor })
+            journeyId = journey._id.toString()
+
+            const expectJourney = await logic.retrieveJourney(journeyId)
+
+            expect(expectJourney.title).toEqual(title)
+            expect(expectJourney.seaId).toEqual(seaId)
+            expect(expectJourney.route.toString()).toEqual(route.toString())
+            // expect(expectJourney.dates.toString()).toEqual(dates.toString())
+            expect(expectJourney.description).toEqual(description)
+            expect(expectJourney.lookingFor.toString()).toEqual(lookingFor.toString())
+            expect(expectJourney.userId.toString()).toEqual(userId.toString())
+            expect(expectJourney.boat.toString()).toEqual(boat.toString())
         })
-        it('should fail on object artistId', function () {
-            const artistId = {}
 
-            expect(() => logic.retrieveArtist(artistId)).toThrow(Error(`${artistId} is not a string`))
+        it('should return error in not found journey', async () => {
+            let journeyId = '5c8246a6b504e92cf41906b1'
+            const expectJourney = await logic.retrieveJourney(journeyId)
+
+            expect(expectJourney.error).toBeDefined()
+            expect(expectJourney.error).toEqual('journey not found')
+            expect(expectJourney.journey).toBeUndefined()
+        })
+
+        it('should fail on empty id', () => {
+            const id = ''
+
+            expect(() => logic.retrieveJourney(id)).toThrowError('id cannot be empty')
+        })
+        it('should fail on array id', function () {
+            const id = []
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on boolean id', function () {
+            const id = true
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on number id', function () {
+            const id = 4
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on object id', function () {
+            const id = {}
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on null id', function () {
+            const id = null
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on undefined id', function () {
+            const id = undefined
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on function id', function () {
+            const id = function a() { }
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on date id', function () {
+            const id = new Date
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on error id', function () {
+            const id = Error
+
+            expect(() => logic.retrieveJourney(id)).toThrowError(`${id} is not a string`)
         })
     })
+
+    describe('update Journey', () => {
+        const title = 'Mediterranean trip'
+        const seaId = '08'
+        const route = [
+            { "name": "new marker", "position": { "lat": 41.98048622251079, "lng": 12.490741193558165 } },
+            { "name": "new marker", "position": { "lat": 41.389753882061335, "lng": 2.295428693558165 } }
+        ]
+        const dates = [moment("2019-03-25"), moment("2019-04-25")]
+        const description = 'Amazing trip around mediterranean sea. We will not stop and we can se dolphins'
+        const lookingFor = {
+            lenguages: ['it', 'en'],
+            experience: 500,
+            sailingTitles: [],
+            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+        }
+
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        const data = {
+            name: 'Rita',
+            surname: 'Medina-updated',
+            gender: 'Feminine',
+            nacionality: 'Portuguese',
+            description: 'I am a nice girl willing to travel',
+            talents: ['art', 'musician', 'writter'],
+            boats: [{
+                name: 'saphiro',
+                type: 'Yacht',
+                model: 416,
+                description: 'amazing vessel'
+            }],
+            experience: 200,
+            languages: ['pt', 'en']
+        }
+        let email, password, hash, user, boat, userId, journeyId
+
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            let { id } = await User.create({ name, surname, email, password: hash, kind })
+            userId = ObjectId(id)
+
+            user = await User.findByIdAndUpdate(id, { $set: data }, { new: true }).select('-__v').lean()
+            boat = user.boats[0]
+
+            let journey = await Journey.create({ title, seaId, route, dates, description, userId, boat, lookingFor })
+            journeyId = journey._id.toString()
+        })
+
+        it('should succeed on correct data', async () => {
+            let newData = {
+                title: 'Mediterranean trip version 2',
+                seaId: '09',
+                route: [
+                    { "name": "first position", "position": { "lat": 41.98048622251079, "lng": 12.490741193558165 } },
+                    { "name": "last position", "position": { "lat": 41.389753882061335, "lng": 2.295428693558165 } }
+                ],
+                dates: [moment("2019-04-25"), moment("2019-05-25")],
+                description: 'Amazing trip around mediterranean sea- verion 2. We will not stop and we can se dolphins',
+                lookingFor: {
+                    lenguages: ['it', 'en', 'cat'],
+                    experience: 550,
+                    sailingTitles: [],
+                    talents: [talents[2].offers[3], talents[2].offers[1], talents[2].offers[2]]
+                }
+            }
+
+            let newJourney = await logic.updateJourney(journeyId, newData)
+
+            expect(newJourney.title).toEqual(newData.title)
+            expect(newJourney.seaId).toEqual(newData.seaId)
+            expect(newJourney.route.toString()).toEqual(newData.route.toString())
+            // expect(newJourney.dates.toString()).toEqual(newData.dates.toString())
+            expect(newJourney.description).toEqual(newData.description)
+            expect(newJourney.lookingFor.toString()).toEqual(newData.lookingFor.toString())
+        })
+
+        it('should return error in not found journey', async () => {
+            let journeyId = '5c8246a6b504e92cf41906b1'
+            const expectJourney = await logic.updateJourney(journeyId, { title: 'not title' })
+
+            expect(expectJourney.error).toBeDefined()
+            expect(expectJourney.error).toEqual('journey could not be updated')
+            expect(expectJourney.journey).toBeUndefined()
+        })
+
+        it('should fail on empty id', () => {
+            const id = ''
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError('id cannot be empty')
+        })
+        it('should fail on array id', function () {
+            const id = []
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on boolean id', function () {
+            const id = true
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on number id', function () {
+            const id = 4
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on object id', function () {
+            const id = {}
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on null id', function () {
+            const id = null
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on undefined id', function () {
+            const id = undefined
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on function id', function () {
+            const id = function () { }
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on date id', function () {
+            const id = new Date
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+        it('should fail on error id', function () {
+            const id = Error
+
+            expect(() => logic.updateJourney(id, { title: 'new title' })).toThrowError(`${id} is not a string`)
+        })
+
+        it('should fail on empty data', () => {
+            const data = {}
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError('data cannot be empty')
+        })
+        it('should fail on string data', function () {
+            const data = ''
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+        it('should fail on boolean data', function () {
+            const data = true
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+        it('should fail on number data', function () {
+            const data = 4
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+        it('should fail on array data', function () {
+            const data = []
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+        it('should fail on null data', function () {
+            const data = null
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+        it('should fail on undefined data', function () {
+            const data = undefined
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+        it('should fail on function data', function () {
+            const data = function a() { }
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+        it('should fail on date data', function () {
+            const data = new Date
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+        it('should fail on error data', function () {
+            const data = Error
+
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+        })
+    })
+
+    describe('delete Journey', ()=>{})
 
 
     after(() =>
         Promise.all([
             Journey.deleteMany(),
-            User.deleteMany()
+            User.deleteMany(),
+            // Journey.collection.drop(),
+            // User.collection.drop()
         ])
             .then(() => mongoose.disconnect())
     )

@@ -4,14 +4,14 @@ const sailAwayApi = {
 
     url: `http://localhost:8000/api`,
 
-    createJourney(sea, route, dates, description) {
-      
+    createJourney(title, seaId, route, dates, description, userId, boat, lookingFor) {
+        debugger
         return fetch(`${this.url}/journey/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ sea, route, dates, description })
+            body: JSON.stringify({ title, seaId, route, dates, description, userId, boat, lookingFor })
         })
             .then(response => response.json())
             .then(journey => {

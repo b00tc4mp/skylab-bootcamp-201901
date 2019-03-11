@@ -13,7 +13,7 @@ function Calendar({ month, year, selectDate, date1, date2 }) {
             <h4 className='text-center'>{m.format('MMMM')} {m.format('YYYY')}</h4>
             <div className='month'>
                 {
-                    week.map(day => <div className='week'>{day}</div>)
+                    week.map(day => <div className='week' key={day}>{day}</div>)
                 }
                 {
                     (() => {

@@ -17,7 +17,7 @@ const talents = [
     },
     {
         category: 'new skills',
-        offers: ['computers', 'lenguage teacher', 'dive instructor', 'teacher/tutor/coaching', 'sailing instructor', 'managing experience', 'racing experience']
+        offers: ['computers', 'lenguage teacher', 'dive instructor', 'tutor/coaching', 'sailing instructor', 'managing experience', 'racing experience']
     }
 ]
 

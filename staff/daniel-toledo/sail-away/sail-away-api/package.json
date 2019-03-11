@@ -7,9 +7,9 @@
     "start": "node src",
     "watch": "nodemon src",
     "debug": "node debug src",
-    "test": "mocha src/**/*.spec.js",
-    "test-debug": "mocha debug src/**/*.spec.js",
-    "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js"
+    "test": "mocha src/**/*.spec.js --timeout 99999 ",
+    "test-debug": "mocha debug src/**/*.spec.js --timeout 999999",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js --timeout 99999"
   },
   "author": "",
   "license": "ISC",

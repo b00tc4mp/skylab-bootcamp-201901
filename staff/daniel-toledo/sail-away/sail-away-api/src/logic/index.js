@@ -1,7 +1,7 @@
 'use strict'
 
 const jwt = require('jsonwebtoken')
-const { models: { User, Journey }, } = require('sail-away-data')
+const { models: { User, Journey }, data: { seas, languages, talents }, mongoose: { Types: { ObjectId } }, mongoose } = require('sail-away-data')
 const bcrypt = require('bcrypt')
 
 const logic = {
@@ -71,7 +71,9 @@ const logic = {
             if (!match) throw Error('wrong credentials')
 
             return { id: user.id }
+
         })()
+
     },
 
     retrieveUser(userId) {
@@ -89,6 +91,7 @@ const logic = {
 
                 return user
             })
+            .catch(error=> {throw Error(`user with id ${userId} not found`)})
     },
 
     updateUser(userId, data) {
@@ -100,8 +103,8 @@ const logic = {
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
         return (async () => {
-            const result = await User.findByIdAndUpdate(userId, { $set: data}, { new: true }).select('-__v').lean()
-   
+            const result = await User.findByIdAndUpdate(userId, { $set: data }, { new: true }).select('-__v').lean()
+
             if (!result) throw Error('journey could not be updated')
             else {
                 result.id = result._id.toString()
@@ -121,7 +124,14 @@ const logic = {
 
     //----------------JOURNEYS--------------------//
 
-    addJourney(sea, route, dates, description) {
+    async addJourney(title, seaId, route, dates, description, userId, boat, lookingFor) {
+
+        if (typeof title !== 'string') throw TypeError(title + ' is not a string')
+        if (!title.trim().length) throw Error('title cannot be empty')
+
+        if (typeof seaId !== 'string') throw TypeError(seaId + ' is not a string')
+        if (!seaId.trim().length) throw Error('seaId cannot be empty')
+
         if (route.constructor !== Array) throw TypeError(route + ' is not an Array')
         if (!route.length) throw Error('route cannot be empty')
 
@@ -131,8 +141,23 @@ const logic = {
         if (typeof description !== 'string') throw TypeError(description + ' is not a string')
         if (!description.trim().length) throw Error('description cannot be empty')
 
+        if (userId.constructor !== ObjectId) throw TypeError(userId + ' is not an ObjecyId')
+        if (!Object.keys(userId).length) throw Error('userId cannot be empty')
+
+        if (boat.constructor !== Object) throw TypeError(boat + ' is not an Object')
+        if (!Object.keys(boat).length) throw Error('boat cannot be empty')
+
+        if (lookingFor.constructor !== Object) throw TypeError(lookingFor + ' is not an Object')
+        if (!Object.keys(lookingFor).length) throw Error('lookingFor cannot be empty')
+
+        let user = await User.findById(userId.toString())
+      
+        if (user.kind != 'captain') throw Error('user cannot create a journey')
+        if (!(user.boats.find(b => b.toString() === boat.toString()))) throw Error('boat dose not belong to user')
+
         return (async () => {
-            const journey = new Journey({ sea, route, dates, description })
+           
+            const journey = new Journey({ title, seaId, route, dates, description, userId, boat, lookingFor })
             await journey.save()
             return journey.id
         })()
@@ -142,39 +167,41 @@ const logic = {
         if (typeof id !== 'string') throw TypeError(id + ' is not a string')
         if (!id.trim().length) throw Error('id cannot be empty')
 
-        return (async () => {
-            const result = await Journey.findById(id).select('-__v').lean()
-            if (!result) return { error: 'journey not found' }
-            else {
-                result.id = result._id.toString()
-                delete result._id
-                return result
-            }
-        })()
+
+            return (async () => {
+                const result = await Journey.findById(id).select('-__v').lean()
+                if (!result) return { error: 'journey not found' }
+                else {
+                    result.id = result._id.toString()
+                    delete result._id
+                    return result
+                }
+            })()
+
     },
 
-    listJourneys() {
-        return (async () => {
-            const results = await Journey.find().lean()
+    // listJourneys() {
+    //     return (async () => {
+    //         const results = await Journey.find().lean()
 
-            results.map(result => {
-                result.id = result._id.toString()
-                delete result._id
-                delete result.__v
-                return result
-            })
+    //         results.map(result => {
+    //             result.id = result._id.toString()
+    //             delete result._id
+    //             delete result.__v
+    //             return result
+    //         })
 
-            return results
-        })()
-    },
+    //         return results
+    //     })()
+    // },
 
     searchJourneys(query) {
         if (typeof query !== 'string') throw TypeError(query + ' is not a string')
         if (!query.trim().length) throw Error('query cannot be empty')
 
         return (async () => {
-            const results = await Journey.find({ "sea.name": query }).lean()
-
+            const results = await Journey.find({ seaId: query }).lean()
+            debugger
             results.map(result => {
                 result.id = result._id.toString()
                 delete result._id
@@ -186,24 +213,17 @@ const logic = {
         })()
     },
 
-    updateJourney(id, sea, route, dates, description) {
+    updateJourney(id, data) {
         if (typeof id !== 'string') throw TypeError(id + ' is not a string')
         if (!id.trim().length) throw Error('id cannot be empty')
 
-        if (route.constructor !== Array) throw TypeError(route + ' is not an Array')
-        if (!route.length) throw Error('route cannot be empty')
-
-        if (dates.constructor !== Array) throw TypeError(dates + ' is not an Array')
-        if (!dates.length) throw Error('dates cannot be empty')
-
-        if (typeof description !== 'string') throw TypeError(description + ' is not a string')
-        if (!description.trim().length) throw Error('description cannot be empty')
-
+        if (data.constructor !== Object) throw TypeError(data + ' is not an Object')
+        if (!Object.keys(data).length) throw Error('data cannot be empty')
 
         return (async () => {
-            const result = await Journey.findByIdAndUpdate(id, { $set: { sea, route, dates, description } }, { new: true }).select('-__v').lean()
+            const result = await Journey.findByIdAndUpdate(id, { $set: data }, { new: true }).select('-__v').lean()
             debugger
-            if (!result) throw Error('journey could not be updated')
+            if (!result) return { error: 'journey could not be updated' }
             else {
                 result.id = result._id.toString()
                 delete result._id
@@ -213,17 +233,17 @@ const logic = {
 
     },
 
-    deleteJourney(id) {
-        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
-        if (!id.trim().length) throw Error('id cannot be empty')
+    // deleteJourney(id) {
+    //     if (typeof id !== 'string') throw TypeError(id + ' is not a string')
+    //     if (!id.trim().length) throw Error('id cannot be empty')
 
-        return (async () => {
-            const { id } = await Journey.findByIdAndDelete(id)
+    //     return (async () => {
+    //         const { id } = await Journey.findByIdAndDelete(id)
 
-            return id
-        })()
+    //         return id
+    //     })()
 
-    }
+    // }
 
 }
 

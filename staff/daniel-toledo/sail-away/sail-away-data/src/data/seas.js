@@ -2,6 +2,16 @@
 
 const seas = [
     {
+        id: '00',
+        name: 'Select Ocean',
+        center: {
+            lat: 0,
+            lng: 0
+        },
+        zoom: 2
+
+    },
+    {
         id: '01',
         name: 'North Pacific Ocean',
         center: {

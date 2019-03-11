@@ -6,8 +6,8 @@ const Journey = new Schema({
         type: String,
         required: true
     },
-    sea: {
-        type: Object,
+    seaId: {
+        type: String,
         required: true
     },
 
@@ -25,14 +25,14 @@ const Journey = new Schema({
         type: String
     },
 
-    captain: {
+    userId: {
         type: ObjectId,
         required: true,
         ref: 'User'
     },
 
-    boatId: {
-        type: String,
+    boat: {
+        type: Object,
         required: true
     },
 
