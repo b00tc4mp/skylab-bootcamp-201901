@@ -12,3 +12,7 @@
 .thumbnail {
     display: flex;
 }
+
+.row{
+    display:flex;
+}

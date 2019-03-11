@@ -10,7 +10,7 @@ class Profile extends Component {
         return (
             <main>
 
-                <h1>Profile</h1>
+                <h1 className="title">Profile</h1>
 
 
             </main>
