@@ -169,7 +169,9 @@ const logic = {
 
             if (!match) throw new AuthError("wrong credentials");
 
-            return user.id;
+            const returnedUser = { admin: user.admin, username: user.username, id: user.id };
+
+            return returnedUser;
         })();
     },
 
@@ -193,6 +195,38 @@ const logic = {
             .then(user => {
                 if (!user)
                     throw new NotFoundError(`user with id ${userId} not found`);
+
+                user.id = user._id.toString();
+
+                delete user._id;
+
+                return user;
+            });
+    },
+
+    /**
+     * Retrieve user by username
+     *
+     * @param {string} username
+     * @returns {object} user
+     *
+     */
+    retrieveUserByUsername(username) {
+        if (typeof username !== "string")
+            throw TypeError(`${username} is not a string`);
+
+        if (!username.trim().length)
+            throw new EmptyError("username cannot be empty");
+
+        return User.find({ username })
+            .select("-password -__v")
+            .lean()
+            .then(userArray => {
+                let user = userArray[0];
+                if (!user)
+                    throw new NotFoundError(
+                        `user with id ${username} not found`
+                    );
 
                 user.id = user._id.toString();
 
@@ -427,10 +461,9 @@ const logic = {
      *
      */
     rankingGames() {
-
         return Game.find()
-            .sort('-finalScore')
-            .limit(20)
+            .sort("-finalScore")
+            .limit(10)
             .select("-_id -__v")
             .lean()
             .then(games => {

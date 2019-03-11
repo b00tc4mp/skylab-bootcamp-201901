@@ -11,7 +11,9 @@ module.exports = {
 
     postReview: require('./post-review'),
 
-    rankingGames: require('./ranking-games')
+    rankingGames: require('./ranking-games'),
+
+    retrieveUserByUsername: require('./retrieve-user-by-username')
 
     // listCommentsFromArtist: require('./list-comments-from-artist'),
 

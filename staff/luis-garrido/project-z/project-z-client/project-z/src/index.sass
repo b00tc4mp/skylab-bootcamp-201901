@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css?family=Bungee|Merriweather+Sans:400,700,800')
+@import utils
+
+// font-family: 'Bungee', cursive // title only
+
+*
+    margin: 0
+    padding: 0
+ul, li
+    list-style-type: none
+
+html, body 
+    height: 100%
+    font-family: "Merriweather Sans", sans-serif
+    box-sizing: border-box
+
+body
+    // background-color: rgb(255,255,255)
+    background: radial-gradient(farthest-side at bottom left, rgba(255, 81, 246, 0.3), transparent), radial-gradient(farthest-corner at bottom right, rgba(250, 255, 0, 0.3), transparent 400px)
+    background-attachment: fixed
+
+.container
+    // height: 100vh
+    // background-color: rgba(255,255,255,0.2)
+    background-attachment: fixed
+    display: grid
+    grid-column-start: 2
+    grid-template-rows: 3em auto 4em
+
+.header 
+    background-color: rgba(200, 200, 200, 0.2)
+
+.header__title 
+    text-align: center
+    font-family: "Bungee", cursive
+    color: rgb(40,40,40)
+
+.nav-mobile 
+    // background-color: rgba(255, 220, 255, 0.9)
+    background: linear-gradient(135deg, rgba(255, 81, 246, 0.95) 0%,rgba(250, 255, 0, 0.95) 100%)
+    display: flex
+    justify-content: space-around
+    text-align: center
+    font-size: 2em
+    height: 4rem
+    width: 100%
+    position: fixed
+    bottom: 0px
+    // Blur to wapo // Activar en Chrome flags ENABLE EXPERIMENTAL WEB PLATFORM
+    // background: linear-gradient(135deg, rgba(255, 81, 246, 0.6) 0%,rgba(250, 255, 0, 0.6) 100%)
+    // backdrop-filter: blur(8px)
+
+.footer 
+    display: none
+    background-color: rgba(80, 80, 80, 0.1)
+    text-align: center
+    font-size: 0.8em
+
+.nav-mobile__icons
+    color: rgb(40,40,40) 
+    align-self: center
+
+.main 
+    // width: 100vw
+    height: 100vh
+    display: grid
+    grid-template-columns: 0fr auto
+
+.navbar-tablet 
+    display: flex
+    background: linear-gradient(330deg, rgba(255, 81, 246, 0.9) 0%,rgba(250, 255, 0, 0.9) 100%)
+    // background-color: rgba(80, 80, 80, 0.1)
+    // justify-content: space-between
+    text-align: center
+    font-size: 4em
+    flex-direction: column
+    position: fixed
+    width: 0rem
+    height: 100vh
+
+
+.navbar-tablet__logo
+    display: none
+    text-align: center
+    font-family: "Bungee", cursive
+    font-size: 0.5em
+    color: rgb(40,40,40)
+
+.navbar-tablet__icons 
+    display: none
+    color: rgb(40,40,40)
+
+.search
+    display: flex
+    // color: rgba(255, 255, 255, 0.4)
+    &__input
+        outline: none
+        background-color: rgba(80, 80, 80, 0.1)
+        color: rgb(210,60,200)
+        font-size: 1.3rem
+        text-overflow: ellipsis
+        width: 100%
+        border: 0
+        padding: 15px 25px
+        &::placeholder
+            color: rgba(250, 90, 180, 0.6)
+
+.results
+    padding: 2em
+    overflow: initial
+
+@media only screen and (min-width: 650px) 
+    .container 
+        display: grid
+        grid-template-rows: 4em auto 2em
+  
+    .nav-mobile 
+        display: none
+    
+    .footer 
+        display: grid
+    
+    .main 
+        display: grid
+        grid-template-columns: 8em auto
+    
+    .navbar-tablet 
+        display: flex
+        left: 0px
+        width: 8rem
+    
+    .navbar-tablet__icons 
+        display: block
+    
+    .navbar-tablet__logo
+        display: block
+    

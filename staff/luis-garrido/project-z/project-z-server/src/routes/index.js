@@ -11,6 +11,7 @@ const {
     retrieveGameInfo,
     postReview,
     rankingGames,
+    retrieveUserByUsername,
     notFound
 } = require("./handlers");
 
@@ -34,9 +35,9 @@ router.post('/game/:gameId/review', [jsonBodyParser, tokenVerifierMiddleware], p
 
 router.get('/ranking', rankingGames)
 
-// router.get('/artist/:artistId/comment', tokenVerifierMiddleware, listCommentsFromArtist)
+router.get('/user/:username', retrieveUserByUsername)
 
-// router.get('/track/:id', retrieveTrack)
+// router.get('/artist/:artistId/comment', tokenVerifierMiddleware, listCommentsFromArtist)
 
 // router.get('*', notFound)
 

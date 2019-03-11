@@ -14,10 +14,12 @@ module.exports = (req, res) => {
         logic
             .authenticateUser(loggingData, password)
             // .then(data => res.json(data))
-            .then(userId => {
-                const token = createToken(userId);
+            .then(user => {
+                const token = createToken(user.id);
+                const username = createToken(user.username)
+                const admin = createToken(user.admin)
 
-                res.json({ token });
+                res.json({ admin, username, token });
             })
             .catch(error => handleResponseError(error, res));
     } catch (error) {

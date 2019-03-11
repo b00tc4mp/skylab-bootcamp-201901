@@ -40,8 +40,7 @@ const Game = new Schema({
 
     game_title: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
 
     release_date: {
