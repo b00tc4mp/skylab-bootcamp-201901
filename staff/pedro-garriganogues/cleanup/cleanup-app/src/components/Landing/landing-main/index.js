@@ -34,6 +34,7 @@ class LandingMain extends Component {
     const { properties, property } = this.state;
     return (
       <div className="App">
+        <img src="https://i.gyazo.com/a03279cbcd72c4890e8d03250d0efe96.png" className="bigImage" />
         <div className="col">
           <div className={`cards-slider active-slide-${property.index}`}>
             <div className="cards-slider-wrapper" style={{
@@ -57,7 +58,6 @@ class LandingMain extends Component {
         >Next</button>
         <div className="page">
         </div>
-        <img src="https://i.gyazo.com/a03279cbcd72c4890e8d03250d0efe96.png" className="bigImage" />
       </div>
     );
   }

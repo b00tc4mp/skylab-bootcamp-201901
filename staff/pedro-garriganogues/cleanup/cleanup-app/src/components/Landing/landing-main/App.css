@@ -1,8 +1,8 @@
 /* #region Default styles */
-body {
+/* body {
   margin: 0;
   font-family: sans-serif;
-  overflow-x: hidden; }
+  overflow-x: hidden; } */
 
 .App {
   text-align: center;
@@ -10,9 +10,9 @@ body {
 
 
 /* DEMO STYLES */
-.nav {
+/* .nav {
   padding: 30px 0;
-  background-color: #222; }
+  background-color: #222; } */
 
 
 .bigImage{
@@ -34,14 +34,11 @@ body {
   text-decoration: none;
   color: white; }
 
-.nav a.active {
+/* .nav a.active {
   background-color: #61DAFB;
-  color: #222; }
+  color: #222; } */
 
-section {
-  padding: 20px 0;
-  max-width: 600px;
-  margin: 0 auto; }
+
 
 /* #endregion */
 /* #region Card */
@@ -174,7 +171,7 @@ section {
     content: '';
     display: block;
     width: 50%;
-    height: 100%;
+    height: 60%;
     background: linear-gradient(to right, white 15%, rgba(255, 255, 255, 0) 100%);
     position: absolute;
     top: 0;
@@ -193,7 +190,7 @@ section {
     content: '';
     display: block;
     width: 100%;
-    height: 264px;
+    height: 11em;
     outline: 5px solid #61DAFB;
     position: absolute;
     top: 0;

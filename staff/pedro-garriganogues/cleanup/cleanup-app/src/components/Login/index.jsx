@@ -1,4 +1,5 @@
 
+import './index.css'
 
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
@@ -24,7 +25,7 @@ class Login extends Component {
         return <section className="login">
             <h2>{title}</h2>
 
-            <form className="formi" onSubmit={handleFormSubmit}>
+            <form onSubmit={handleFormSubmit}>
                 <input type="text" name="email" onChange={handleEmailInput} placeholder="email" />
                 <br />
                 <br />

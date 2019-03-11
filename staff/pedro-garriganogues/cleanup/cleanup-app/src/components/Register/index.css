@@ -1,0 +1,9 @@
+.register {
+
+    padding: 20px 0;
+    margin: 3%;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+}

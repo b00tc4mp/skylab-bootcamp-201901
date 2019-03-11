@@ -7,7 +7,7 @@ const Card = ({ property }) => {
         <div id={`card-${index}`} className="card">
             <img src={picture} alt={name} />
             <div className="details">
-                <span className="index">{index + 1}</span>
+
                 <p className="location">
                     {name}
 
