@@ -70,6 +70,8 @@ router.get('/users/:userId', jwtValidator, (req, res) => {
 })
 
 router.post('/user/auth', jsonBodyParser, (req, res) => {
+
+
     const { body: { email, password } } = req
     logic.authenticateUser(email, password)
         .then(id => {

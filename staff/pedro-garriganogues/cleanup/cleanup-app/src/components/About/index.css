@@ -1,16 +1,35 @@
+
+.title{
+    margin: 3%;
+}
+
+/* posicionamiento */
+
 .accordion {
 	margin: auto;
 	width: 400px;
 }
+
+/* cerrar cajas */
+
 .accordion input {
 	display: none;
 }
+
+/* cajas 1-2 */
+
 .box {
 	position: relative;
 	background: white;
     height: 64px;
-    transition: all .15s ease-in-out;
+	transition: all .15s ease-in-out;
+
 }
+
+
+
+/* vista caja cerrada */
+
 .box::before {
     content: '';
     position: absolute;
@@ -20,14 +39,21 @@
     left: 0;
     right: 0;
     pointer-events: none;
-    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+	box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+	
 }
+
+/* caja enunciado */
+
 header.box {
 	background: #00BCD4;
 	z-index: 100;
 	cursor: initial;
 	box-shadow: 0 -1px 0 #e5e5e5,0 0 2px -2px rgba(0,0,0,.12),0 2px 4px -4px rgba(0,0,0,.24);
 }
+
+/* efecto 3d caja enunciado */
+
 header .box-title {
 	margin: 0;
 	font-weight: normal;
@@ -35,6 +61,9 @@ header .box-title {
 	color: white;
 	cursor: initial;
 }
+
+
+
 .box-title {
 	width: calc(100% - 40px);
 	height: 64px;
@@ -44,6 +73,9 @@ header .box-title {
 	cursor: pointer;
 	-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
 }
+
+/* distribucion texto interno */
+
 .box-content {
 	width: calc(100% - 40px);
 	padding: 30px 20px;
@@ -51,6 +83,8 @@ header .box-title {
 	color: rgba(0,0,0,.54);
 	display: none;
 }
+
+/* clickar para cerrar */
 .box-close {
 	position: absolute;
 	height: 64px;
@@ -60,23 +94,33 @@ header .box-title {
 	cursor: pointer;
 	display: none;
 }
+
+/* texto interno */
+
 input:checked + .box {
 	height: auto;
 	margin: 16px 0;
-    box-shadow: 0 0 6px rgba(0,0,0,.16),0 6px 12px rgba(0,0,0,.32);
+	box-shadow: 0 0 6px rgba(0,0,0,.16),0 6px 12px rgba(0,0,0,.32);
+	
 }
+
+/* linea separacion interna */
+
 input:checked + .box .box-title {
 	border-bottom: 1px solid rgba(0,0,0,.18);
 }
+
+/* abre */
+
 input:checked + .box .box-content,
 input:checked + .box .box-close {
 	display: inline-block;
 }
-.arrows section .box-title {
+/* .arrows section .box-title {
 	padding-left: 44px;
 	width: calc(100% - 64px);
-}
-.arrows section .box-title:before {
+} */
+/* .arrows section .box-title:before {
 	position: absolute;
 	display: block;
 	content: '\203a';
@@ -85,7 +129,7 @@ input:checked + .box .box-close {
 	top: -2px;
 	transition: transform .15s ease-in-out;
 	color: rgba(0,0,0,.54);
-}
-input:checked + section.box .box-title:before {
+} */
+/* input:checked + section.box .box-title:before {
 	transform: rotate(90deg);
-}
+} */

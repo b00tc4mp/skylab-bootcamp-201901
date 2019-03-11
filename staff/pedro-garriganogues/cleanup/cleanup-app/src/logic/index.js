@@ -64,6 +64,50 @@ const logic = {
             .then(products => products)
     },
 
+    cart(cart) {
+        if (cart !== undefined) {
+            this._cart = cart
+
+            return
+        }
+
+        return this._cart
+    },
+
+    getDateOrder() {
+        // let hours = new Date().getHours()
+        this._date = Date.now()
+        return this._date.toString()
+
+    },
+
+
+    addProductToCart(productId) {
+        return Promise.resolve()
+            .then(() => {
+                const any = this.cart().some(_productId => _productId === productId)
+
+                if (any) throw Error('product already in cart')
+
+                this.cart().push(productId)
+
+                this.cart(this.cart())
+
+                return true
+            })
+    },
+
+
+    removeProductFromCart(productId) {
+        return this.cart(this.cart().filter(id => {
+            return id !== productId
+        }))
+    },
+
+
+    clearCart() {
+        this.cart(null)
+    },
 
 
 

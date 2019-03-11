@@ -5,7 +5,7 @@ const cleanUpApi = {
 
     registerUser(name, surname, email, password, passwordConfirm) {
 
-        return axios(`${this.url}/register`, {
+        return fetch(`${this.url}/register`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -26,7 +26,7 @@ const cleanUpApi = {
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
         if (!password.trim().length) throw Error('password is empty')
 
-        return axios(`${this.url}/user/auth`, {
+        return fetch(`${this.url}/user/auth`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -45,7 +45,7 @@ const cleanUpApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        return axios(`${this.url}/user`, {
+        return fetch(`${this.url}/user`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
@@ -64,7 +64,7 @@ const cleanUpApi = {
 
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
-        return axios(`${this.url}/user`, {
+        return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${token}`,
@@ -90,7 +90,7 @@ const cleanUpApi = {
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
         if (!password.trim().length) throw Error('password is empty')
 
-        return axios(`${this.url}/user`, {
+        return fetch(`${this.url}/user`, {
             method: 'DELETE',
             headers: {
                 authorization: `Bearer ${token}`,

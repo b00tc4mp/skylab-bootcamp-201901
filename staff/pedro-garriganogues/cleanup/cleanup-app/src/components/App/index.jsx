@@ -47,6 +47,54 @@ class App extends Component {
         }
     }
 
+    // onAddToCart = id => {
+    //     logic.addProductToCart(id)
+    //       .then(() => {
+
+    //         this.setState({ cartLength: logic.cart().length })
+
+    //         this.getItems()
+
+    //         var cart = $(".fa-shopping-cart")
+    //         var imgtodrag = $('#img-' + id);
+
+    //         if (imgtodrag !== 'undefined') {
+
+    //           var imgclone = imgtodrag.clone()
+    //             .offset({
+    //               top: imgtodrag.offset().top,
+    //               left: imgtodrag.offset().left
+    //             })
+    //             .css({
+    //               'opacity': '0.5',
+    //               'position': 'absolute',
+    //               'height': '200px',
+    //               'width': '200px',
+    //               'z-index': '100000'
+    //             })
+    //             .appendTo("body")
+    //             .animate({
+    //               'top': cart.offset().top - 10,
+    //               'left': cart.offset().left - 10,
+    //               'width': 30,
+    //               'height': 30
+    //             }, 1000, "linear");
+
+    //           setTimeout(function () {
+    //             $(imgclone).remove()
+    //           }, 1000)
+
+    //         }
+    //       })
+    //       .catch(err => swal(err.message))
+    //   }
+
+    //   onRemoveFromCart = id => {
+    //     logic.removeProductFromCart(id);
+
+    //     this.getItems();
+    //   }
+
 
     render() {
         const { state: { loginFeedback, registerFeedback }, handleLogin, handleRegister } = this

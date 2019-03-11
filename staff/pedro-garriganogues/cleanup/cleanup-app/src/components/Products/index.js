@@ -1,25 +1,3 @@
-// import React, { Component } from 'react'
-// import './index.css'
-
-
-// class Products extends Component {
-
-
-
-//     render() {
-//         return (
-//             <main>
-
-//                 <h1>Products</h1>
-
-
-//             </main>
-//         )
-//     }
-
-// }
-
-// export default Products
 
 import React, { Component } from 'react'
 import logic from '../../logic'
@@ -71,13 +49,12 @@ class Products extends Component {
     render() {
         return (
 
-            <main>
-                {this.state.categoryName && <h2 className="main-title category-titles">{this.state.categoryName}</h2>}
+            <main className="products">
+                {this.state.categoryName && <h2>{this.state.categoryName}</h2>}
                 <Indexitems
                     productDetail
                     items={this.state.products}
                 />
-
             </main>
         )
     }

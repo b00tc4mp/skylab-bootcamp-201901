@@ -24,7 +24,7 @@ function Landing(props) {
         <main>
 
 
-            {showProducts && <h1 className="cleanUp">CleanUp</h1>}
+            {showProducts && <h1 className="title">CleanUp</h1>}
             {showProducts && <LandingMain />}
 
 

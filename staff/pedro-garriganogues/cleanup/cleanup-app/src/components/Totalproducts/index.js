@@ -23,7 +23,7 @@ class Totalproducts extends Component {
 
         return (
             <main className="main">
-                <h2>The products</h2>
+                <h1 className="title">Products:</h1>
 
                 <Indexitems className="products"
                     productDetail

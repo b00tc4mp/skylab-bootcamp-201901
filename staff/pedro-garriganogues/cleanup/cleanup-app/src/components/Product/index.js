@@ -24,23 +24,19 @@ class Product extends Component {
     render() {
         return (
             <main>
-                <h2>Lorem</h2>
+
                 <section>
                     <div>
                         <div>
                             <img src={this.state.product.image} id={`img-${this.state.product._id}`} alt="404" />
                         </div>
                         <div >
-                            <h3>{this.state.product.name}</h3>
+                            <h2>{this.state.product.name}</h2>
                             <h3>{this.state.product.price} €</h3>
                             <p>{this.state.product.description}</p>
                         </div>
                     </div>
                 </section>
-                <div >
-                    <p>Lorem</p>
-                </div>
-
             </main>
         )
     }
