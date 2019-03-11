@@ -10,7 +10,7 @@ const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
 const cors = require('./cors')
 
-const { registerUser, authenticateUser, retrieveUser, updateUser,createHouse, updateHouse ,notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, updateUser,createHouse, updateHouse, retrieveHouse, deleteHouse ,notFound } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -27,6 +27,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.use(cors)
 
+        // user
         router.post('/user', jsonBodyParser, registerUser)
 
         router.post('/user/auth', jsonBodyParser, authenticateUser)
@@ -35,9 +36,16 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.put('/user/update', tokenVerifierMiddleware, jsonBodyParser, updateUser)
 
+        //house
+
         router.post('/user/house', tokenVerifierMiddleware, jsonBodyParser, createHouse)
 
+        router.get('/user/house', tokenVerifierMiddleware, jsonBodyParser, retrieveHouse)
+        
         router.put('/user/house', tokenVerifierMiddleware, jsonBodyParser, updateHouse)
+        
+        router.delete('/user/house', tokenVerifierMiddleware, jsonBodyParser, deleteHouse)
+        
 
         app.use('/api', router)
 
