@@ -18,6 +18,7 @@
     "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
     "coworking-data": "file:../coworking-data",
+    "coworking-validation": "file:../coworking-validation",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "isomorphic-fetch": "^2.2.1",

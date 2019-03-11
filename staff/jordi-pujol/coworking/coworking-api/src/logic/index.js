@@ -5,6 +5,7 @@ const { createToken } = tokenHelper
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
 const { models: { User, Workspace, Service, Comment } } = require('coworking-data')
+const validate = require('coworking-validation')
 
 const logic = {
 
@@ -18,25 +19,11 @@ const logic = {
         * @param {string} passwordConfirmation 
         */
     registerUser(name, surname, email, password, passwordConfirmation, isAdmin) {
-        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-
-        if (!name.trim().length) throw Error('name cannot be empty')
-
-        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
-
-        if (!surname.trim().length) throw Error('surname cannot be empty')
-
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
-        if (!email.trim().length) throw Error('email cannot be empty')
-
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
-        if (!password.trim().length) throw Error('password cannot be empty')
-
-        if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
-
-        if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
+        validate([{key: 'name', value: name, type: String},
+        {key: 'surname', value: surname, type: String},
+        {key: 'email', value: email, type: String},
+        {key: 'password', value: password, type: String},
+        {key: 'passwordConfirm', value: passwordConfirm, type: String}])
 
         // if (typeof isAdmin !== 'string') throw TypeError(isAdmin + ' is not a string')
 
@@ -61,11 +48,8 @@ const logic = {
      * @param {string} password 
      */
     authenticateUser(email, password) {
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-        if (!email.trim().length) throw Error('email cannot be empty')
-
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-        if (!password.trim().length) throw Error('password cannot be empty')
+        validate([{key: 'email', value: email, type: String},
+        {key: 'password', value: password, type: String}])
 
         let isAdmin
 
@@ -95,8 +79,7 @@ const logic = {
      * @param {string} userId 
      */
     retrieveUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
+        validate([{key: 'userId', value: userId, type: String}])
 
         return User.findById(userId).select('-password -__v').lean()
             .then(user => {
@@ -117,8 +100,7 @@ const logic = {
      * @param {string} data 
      */
     updateUser(userId, data) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
+        validate([{key: 'userId', value: userId, type: String}])
 
         if (!data) throw TypeError('data should be defined')
         if (data.constructor !== Object) throw Error(`${data} is not an object`)
@@ -134,11 +116,8 @@ const logic = {
      * @param {string} email 
      */
     removeUser(userId, email) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
-
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-        if (!email.trim().length) throw Error('email cannot be empty')
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'email', value: email, type: String}])
 
         let workspaceId
         let _userId
@@ -175,12 +154,8 @@ const logic = {
      * @param {string} userId 
      */
     createWorkspace(name, userId) {
-
-        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-        if (!name.trim().length) throw Error('name cannot be empty')
-
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
+        validate([{key: 'name', value: name, type: String},
+        {key: 'userId', value: userId, type: String}])
 
         let workspaceId
 
@@ -220,11 +195,8 @@ const logic = {
      * @param {string} userId 
      */
     addUserToWorkspace(workId, userId) {
-        if (typeof workId !== 'string') throw TypeError(workId + ' is not a string')
-        if (!workId.trim().length) throw Error('workspaceId cannot be empty')
-
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
+        validate([{key: 'workId', value: workId, type: String},
+        {key: 'userId', value: userId, type: String}])
 
         return Workspace.findOne({ _id: workId })
             .then(workspace => {
@@ -259,8 +231,7 @@ const logic = {
      * @param {string} userId 
      */
     createNewUserLink(userId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
+        validate([{key: 'userId', value: userId, type: String}])
 
         let workspaceId = ''
 
@@ -296,11 +267,8 @@ const logic = {
      * @param {string} link 
      */
     verifyNewUserLink(userId, link) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
-
-        if (typeof link !== 'string') throw TypeError(link + ' is not a string')
-        if (!link.trim().length) throw Error('link cannot be empty')
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'link', value: link, type: String}])
 
         let workspaceId
 
@@ -332,19 +300,11 @@ const logic = {
      */
     createService(userId, title, description, maxUsers, place) {
 
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
-
-        if (typeof title !== 'string') throw TypeError(title + ' is not a string')
-        if (!title.trim().length) throw Error('title cannot be empty')
-
-        if (typeof description !== 'string') throw TypeError(description + ' is not a string')
-        if (!description.trim().length) throw Error('description cannot be empty')
-
-        if (typeof maxUsers !== 'string') throw TypeError(maxUsers + ' is not a string')
-
-        if (typeof place !== 'string') throw TypeError(place + ' is not a string')
-        if (!place.trim().length) throw Error('place cannot be empty')
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'title', value: title, type: String},
+        {key: 'description', value: description, type: String},
+        {key: 'maxUsers', value: maxUsers, type: String},
+        {key: 'place', value: place, type: String}])
 
         let workspaceId
         let serviceId
@@ -375,11 +335,8 @@ const logic = {
      * @param {string} serviceId 
      */
     retrieveService(userId, serviceId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
-        if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'serviceId', value: serviceId, type: String}])
 
         let _service
         return Service.findById(serviceId).select('-password -__v').lean()
@@ -400,11 +357,8 @@ const logic = {
     },
 
     retrieveWorkspaceServices(userId, workspaceId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
-
-        if (typeof workspaceId !== 'string') throw TypeError(workspaceId + ' is not a string')
-        if (!workspaceId.trim().length) throw Error('workspaceId cannot be empty')
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'workspaceId', value: workspaceId, type: String}])
 
         let services
         let user
@@ -440,11 +394,8 @@ const logic = {
      * @param {Object} data 
      */
     updateService(userId, serviceId, data) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
-        if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'serviceId', value: serviceId, type: String}])
 
         if (!data) throw TypeError('data should be defined')
         if (data.constructor !== Object) throw Error(`${data} is not an object`)
@@ -457,11 +408,8 @@ const logic = {
     },
 
     addUserToService(userId, serviceId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
-        if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'serviceId', value: serviceId, type: String}])
 
         return Service.findById(serviceId)
             .then(service => {
@@ -482,11 +430,8 @@ const logic = {
      * @param {string} serviceId 
      */
     deleteService(userId, serviceId) {
-        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
-        if (!userId.trim().length) throw Error('userId cannot be empty')
-
-        if (typeof serviceId !== 'string') throw TypeError(serviceId + ' is not a string')
-        if (!serviceId.trim().length) throw Error('serviceId cannot be empty')
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'serviceId', value: serviceId, type: String}])
 
 
         return Service.findById(serviceId)
@@ -506,6 +451,9 @@ const logic = {
     },
 
     createComment(userId, serviceId, text) {
+        validate([{key: 'userId', value: userId, type: String},
+        {key: 'serviceId', value: serviceId, type: String},
+        {key: 'text', value: text, type: String}])
 
         return Service.findOneAndUpdate({ _id: serviceId }, { $push: { comments: { text, user: userId } } })
             .then(({ _id }) => Service.findById({ _id }))
@@ -513,6 +461,7 @@ const logic = {
     },
 
     retrieveServiceComments(serviceId) {
+        validate([{key: 'serviceId', value: serviceId, type: String}])
 
         let comments = []
         return Service.findById(serviceId).lean()
@@ -529,6 +478,8 @@ const logic = {
     },
 
     removeComment(serviceId, commentId){
+        validate([{key: 'serviceId', value: serviceId, type: String},
+        {key: 'commentId', value: commentId, type: String}])
 
         return Service.findById(serviceId)
             .then(service => {
