@@ -9,6 +9,7 @@
     background-color: #ffffff;
     border: 1px solid #f1eeea;
     border-radius: 2px;
+    margin: 2rem 0;
   }
 
   &__container {
@@ -70,6 +71,10 @@
     border-radius: 0;
     width: 100%;
     text-transform: none;
+
+    &:disabled {
+      background: #e8e5e5;
+    }
   }
 
   &__terms {

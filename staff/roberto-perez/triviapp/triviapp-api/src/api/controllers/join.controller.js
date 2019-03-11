@@ -14,16 +14,15 @@ exports.join = async (req, res) => {
 	} = req;
 
 	try {
-		if (authorization) {
-			const token = authorization.substring(7);
-
-			const { sub } = jwt.verify(token, jwtSecret);
-
-			if (sub) req.body.user = sub;
-		}
-
+		
 		const game = await gameLogic.joinGame(req.body);
-		res.status(httpStatus.CREATED);
+
+		if (req.body.user) {
+			res.status(httpStatus.CREATED).json({ game, user: req.body.user });
+		} else {
+			res.status(httpStatus.CREATED).json({ game });
+		}
+		
 		return res.json(game);
 	} catch (error) {
 		handleResponseError(error, res);

@@ -9,14 +9,12 @@ const router = express.Router();
 /**
  * Load quiz when API with quizId route parameter is hit
  */
-router.param('quizId', controller.load);
+router.param('gameId', controller.load);
 
-router
-	.route('/')
-	.post(authorize, controller.create)
-	.get(controller.get);
+router.route('/').post(authorize, controller.create);
 
+router.route('/:gameId/start').patch(authorize, controller.start);
 
-
+router.route('/:gameId').get(controller.get);
 
 module.exports = router;

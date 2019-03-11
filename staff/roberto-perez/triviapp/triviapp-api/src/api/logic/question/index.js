@@ -9,71 +9,88 @@ const { AlreadyExistsError, UnauthorizedError } = require('../../errors');
 module.exports = {
 
 	createQuestion(data) {
-		const { quiz, title, time } = data;
+		
+		const {
+			quiz = '',
+			title = '',
+			time = '',
+			answers: [
+				{ title: title1 = '', success: success1 = false },
+				{ title: title2 = '', success: success2 = false },
+				{ title: title3 = '', success: success3 = false },
+				{ title: title4 = '', success: success4 = false },
+			],
+		} = data;
 
 		validate([
-			{ key: 'quiz ID', value: quiz, type: String },
+			{ key: 'Quiz ID', value: quiz, type: String },
 			{ key: 'Title', value: title, type: String },
 			{ key: 'Time', value: time, type: String },
+			{ key: 'Answer 1', value: title1, type: String },
+			{ key: 'Answer 2', value: title2, type: String },
+			{ key: 'Answer 3', value: title3, type: String, optional: true},
+			{ key: 'Answer 4', value: title4, type: String, optional: true },
 		]);
+
+		if(
+			(!success1 && !success2 && !success3 && !success4) || 
+			(title3 === '' && title4 === '' && !success1 && !success2)
+		) {
+			throw new Error('Please choose at least one correct answer before continuing.');
+		}
+
+		if(title3 === '') data.answers[2].success = false;
+		if(title4 === '') data.answers[3].success = false;
 		
 		return (async data => {
-			const question = new Question(data);
-			await question.save();
+			const questionModel = new Question(data);
+			const question = await questionModel.save();
 
 			const currentQuiz = await Quiz.get(quiz);
 			currentQuiz.questions.push(question);
 			await currentQuiz.save();
-
-			return currentQuiz.normalize();
+			
+			return question.normalize();
 		})(data);
 	},
 
 	updateQuestion(question, data) {
+		
+		const {
+			title = '',
+			time = '',
+			answers: [
+				{ title: title1 = '', success: success1 = false },
+				{ title: title2 = '', success: success2 = false },
+				{ title: title3 = '', success: success3 = false },
+				{ title: title4 = '', success: success4 = false },
+			],
+		} = data;
+
+		validate([
+			{ key: 'Title', value: title, type: String },
+			{ key: 'Time', value: time, type: String },
+			{ key: 'Answer 1', value: title1, type: String },
+			{ key: 'Answer 2', value: title2, type: String },
+			{ key: 'Answer 3', value: title3, type: String, optional: true},
+			{ key: 'Answer 4', value: title4, type: String, optional: true },
+		]);
+
+		if(
+			(!success1 && !success2 && !success3 && !success4) || 
+			(title3 === '' && title4 === '' && !success1 && !success2)
+		) {
+			throw new Error('Please choose at least one correct answer before continuing.');
+		}
+
+		if(title3 === '') data.answers[2].success = false;
+		if(title4 === '') data.answers[3].success = false;
+
+
 		return (async (question, data) => {
-
-			// const { title, time, answers } = data;
-
 			const questionUpdated = Object.assign(question, data);
 			const savedQuestion = await questionUpdated.save();
 			return savedQuestion.normalize();
-
-
-
-			// if(answers) {
-			// 	const questionUpdated = await Question.findOneAndUpdate(
-			// 		{ _id: question.id },
-			// 		{
-			// 			$set: {
-			// 				'answers.$': answers,
-			// 			},
-			// 		}
-			// 	);
-			// }
-			
-			// return questionUpdated;
-
-
-			// const { title, time, answers } = data;
-
-			// const quiz = await Quiz.findOneAndUpdate(
-			// 	{ _id: quizId, 'questions._id': question.id },
-			// 	{
-			// 		$set: {
-			// 			'questions.$': { title, time },
-			// 		},
-			// 		$set: {
-			// 			'questions.$.answers': answers,
-			// 		},
-			// 	},
-			// 	{"multi": true}
-			// );
-			// return quiz;
-			// quiz.questions;
-
-			// const questionUpdated = Object.assign(question, data);
-			// const savedQuestion = await questionUpdated.save();
-			// return savedQuestion.normalize();
 		})(question, data);
 	},
 

@@ -6,7 +6,7 @@ const { MongooseError } = mongoose;
 const httpStatus = require('http-status');
 const expect = require('expect');
 const { Quiz } = require('../../models/quiz.model');
-const { Question } = require('../../models/quiz.model');
+const { Question } = require('../../models/question.model');
 const { User } = require('../../models/user.model');
 const logicQuestion = require('.');
 const logicQuiz = require('../quiz');
@@ -15,13 +15,15 @@ const { AlreadyExistsError, UnauthorizedError, NotFoundError } = require('../../
 describe('Question', () => {
 	before(() => mongoose.connect('mongodb://localhost:27017/quiz-test'));
 
-	beforeEach(() => Promise.all([User.deleteMany(), Quiz.deleteMany()]));
+	beforeEach(() =>
+		Promise.all([User.deleteMany(), Quiz.deleteMany(), Question.deleteMany()]),
+	);
 
 	describe('POST /v1/quiz/:quizId/question', () => {
 		let dataUser = {};
 		let dataQuiz = {};
+		let data = {};
 		let author;
-		let quizAdded;
 
 		beforeEach(async () => {
 			dataUser = {
@@ -45,123 +47,320 @@ describe('Question', () => {
 
 			const { id } = await logicQuiz.createQuiz(dataQuiz);
 
-			quizAdded = id.toString();
+			data = {
+				quiz: id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
 		});
 
 		it('should succeed on valid data', async () => {
-
-						
-			const data = {
-				quiz: quizAdded.id,
-				title: 'Enquesta numero 3312 22',
-				description: 'Lorem ipsum dolor i2s am 123123 et numero 1223 2',
-				picture:
-					'https://assets.awwwards.com/awards/media/cache/optimize/submissions/2019/02/5c5f0480554d4130295365.jpg',
-			};
-
 			const { id } = await logicQuestion.createQuestion(data);
 
-			let question = await Question.get(question);
+			let question = await Question.get(id);
 
 			expect(id).toBeDefined();
 			expect(typeof id).toBe('string');
 			expect(question.title).toBe(data.title);
 			expect(question.description).toBe(data.description);
 			expect(question.picture).toBe(data.picture);
+			expect(question.answers[0].title).toBe(data.answers[0].title);
+			expect(question.answers[1].title).toBe(data.answers[1].title);
+			expect(question.answers[0].success).toBe(data.answers[0].success);
+			expect(question.answers[1].success).toBe(data.answers[1].success);
 		});
 
-		// it('should fail when title is not a string', () => {
-		// 	dataQuiz.title = undefined;
-		// 	expect(() => {
-		// 		quiz.createQuiz(dataQuiz);
-		// 	}).toThrow(TypeError(undefined + ' is not a string'));
-		// });
+		it('should fail when title is empty', () => {
+			delete data.title;
 
-		// it('should fail when description is not a string', () => {
-		// 	dataQuiz.description = undefined;
-		// 	expect(() => {
-		// 		quiz.createQuiz(dataQuiz);
-		// 	}).toThrow(TypeError(undefined + ' is not a string'));
-		// });
+			expect(() => {
+				logicQuestion.createQuestion(data);
+			}).toThrow(TypeError('Title is empty or blank'));
+		});
 
-		// it('should report error when author ID is not provided', async () => {
-		// 	try {
-		// 		delete dataQuiz.author;
-		// 		await quiz.createQuiz(dataQuiz);
-		// 	} catch (err) {
-		// 		expect(err.name).toBe('ValidationError');
-		// 		expect(err.message).toEqual(
-		// 			`Quiz validation failed: author: Path \`author\` is required.`,
-		// 		);
-		// 	}
-		// });
+		it('should fail when Quiz ID is not provided', () => {
+			delete data.quiz;
 
-		// it('should report error when author is not the owner', async () => {
-		// 	try {
-		// 		dataUser = {
-		// 			name: `n-${Math.random()}`,
-		// 			surname: `s-${Math.random()}`,
-		// 			email: `john-doe2${Math.random()}@gmail.com`,
-		// 			password: `p-${Math.random()}`,
-		// 		};
+			expect(() => {
+				logicQuestion.createQuestion(data);
+			}).toThrow(TypeError('Quiz ID is empty or blank'));
+		});
 
-		// 		const user = new User(dataUser);
-		// 		const savedUser = await user.save();
-		// 		author = savedUser.normalize();
+		it('should fail when time is empty', () => {
+			delete data.time;
 
-		// 		dataQuiz.author = author.id;
+			expect(() => {
+				logicQuestion.createQuestion(data);
+			}).toThrow(TypeError('Time is empty or blank'));
+		});
 
-		// 		await quiz.createQuiz(dataQuiz);
-		// 	} catch (err) {
-		// 		expect(err.name).toBe('ValidationError');
-		// 		expect(err.message).toEqual(
-		// 			`Quiz validation failed: author: Path \`author\` is required.`,
-		// 		);
-		// 	}
-		// });
+		it('should fail when Answer 1 is empty', () => {
+			delete data.answers[0].title;
+
+			expect(() => {
+				logicQuestion.createQuestion(data);
+			}).toThrow(TypeError('Answer 1 is empty or blank'));
+		});
+
+		it('should fail when Answer 2 is empty', () => {
+			delete data.answers[1].title;
+
+			expect(() => {
+				logicQuestion.createQuestion(data);
+			}).toThrow(TypeError('Answer 2 is empty or blank'));
+		});
+
+		it('should fail when all checkbox are off', () => {
+			data.answers[0].success = false;
+
+			expect(() => {
+				logicQuestion.createQuestion(data);
+			}).toThrow(
+				Error('Please choose at least one correct answer before continuing.'),
+			);
+		});
+
+		it('should succeed with checkbox from answer 3 off', async () => {
+			data.answers[2].success = true;
+
+			const { id } = await logicQuestion.createQuestion(data);
+
+			let question = await Question.get(id);
+
+			expect(question.answers[2].success).toBeFalsy();
+		});
+
+		it('should succeed with checkbox from answer 4 off', async () => {
+			data.answers[3].success = true;
+
+			const { id } = await logicQuestion.createQuestion(data);
+
+			let question = await Question.get(id);
+
+			expect(question.answers[3].success).toBeFalsy();
+		});
+
+		it('should succeed and return two questions', async () => {
+			const { id: id1 } = await logicQuestion.createQuestion(data);
+			let question1 = await Question.get(id1);
+
+			const { id: id2 } = await logicQuestion.createQuestion(data);
+			let question2 = await Question.get(id2);
+
+			const quizModel = await Quiz.get(data.quiz);
+			const quiz = quizModel.normalize();
+
+			expect(quiz.questions.length).toBe(2);
+		});
 	});
 
 	describe('PATCH /v1/quiz/:id', () => {
-		// let dataUser = {};
-		// let dataQuiz = {};
-		// let author;
-		// let quizAdded;
-		// beforeEach(async () => {
-		// 	dataUser = {
-		// 		name: `n-${Math.random()}`,
-		// 		surname: `s-${Math.random()}`,
-		// 		email: `john-doe${Math.random()}@gmail.com`,
-		// 		password: `p-${Math.random()}`,
-		// 	};
-		// 	const user = new User(dataUser);
-		// 	const savedUser = await user.save();
-		// 	author = savedUser.normalize();
-		// 	dataQuiz = {
-		// 		author: author.id,
-		// 		title: `Quiz title-${Math.random()}`,
-		// 		description: `Quiz description-${Math.random()}`,
-		// 		picture: `Quiz image-${Math.random()}`,
-		// 		questions: [],
-		// 	};
-		// 	quizAdded = await quiz.createQuiz(dataQuiz);
-		// });
-		// it('should succeed on valid data', async () => {
-		// 	let data = {
-		// 		title: 'Enquesta numero 2',
-		// 		description: 'Lorem ipsum dolor is amet....',
-		// 	};
-		// 	const currentQUiz = await Quiz.get(quizAdded.id);
-		// 	const quizUpdated = await quiz.updateQuiz(currentQUiz, data);
-		// 	expect(quizUpdated.title).toBe(data.title);
-		// 	expect(quizUpdated.description).toBe(data.description);
-		// });
-		// it('should return the same Quiz if we pass a empty object', async () => {
-		// 	let data = {};
-		// 	const currentQUiz = await Quiz.get(quizAdded.id);
-		// 	const quizUpdated = await quiz.updateQuiz(currentQUiz, data);
-		// 	expect(quizUpdated.title).toBe(dataQuiz.title);
-		// 	expect(quizUpdated.description).toBe(dataQuiz.description);
-		// });
+		let dataUser = {};
+		let dataQuiz = {};
+		let author;
+		let question;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			const { id } = await logicQuiz.createQuiz(dataQuiz);
+
+			const data = {
+				quiz: id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			const { id: idQuestion } = await logicQuestion.createQuestion(data);
+
+			question = await Question.get(idQuestion);
+		});
+
+		it('should succeed on valid data', async () => {
+			const dataToUpdate = {
+				title: 'Question 2',
+				time: '25',
+				answers: [
+					{ title: 'Answer 11', success: false },
+					{ title: 'Answer 22', success: false },
+					{ title: 'Answer 33', success: true },
+					{ title: 'Answer 44', success: true },
+				],
+			};
+
+			const questionUpdated = await logicQuestion.updateQuestion(
+				question,
+				dataToUpdate,
+			);
+
+			expect(questionUpdated.title).toBe(dataToUpdate.title);
+			expect(questionUpdated.description).toBe(dataToUpdate.description);
+			expect(questionUpdated.picture).toBe(dataToUpdate.picture);
+			expect(questionUpdated.answers[0].title).toBe(dataToUpdate.answers[0].title);
+			expect(questionUpdated.answers[1].title).toBe(dataToUpdate.answers[1].title);
+			expect(questionUpdated.answers[0].success).toBe(
+				dataToUpdate.answers[0].success,
+			);
+			expect(questionUpdated.answers[1].success).toBe(
+				dataToUpdate.answers[1].success,
+			);
+		});
+
+		it('should fail when title is not a string', () => {
+			const dataToUpdate = {
+				title: 123,
+				time: '25',
+				answers: [
+					{ title: 'Answer 11', success: false },
+					{ title: 'Answer 22', success: false },
+					{ title: 'Answer 33', success: true },
+					{ title: 'Answer 44', success: true },
+				],
+			};
+
+			expect(() => {
+				logicQuestion.updateQuestion(question, dataToUpdate);
+			}).toThrow(TypeError('123 is not a string'));
+		});
+
+		it('should fail when time is not a string', () => {
+			const dataToUpdate = {
+				title: 'Question 2',
+				time: 30,
+				answers: [
+					{ title: 'Answer 11', success: false },
+					{ title: 'Answer 22', success: false },
+					{ title: 'Answer 33', success: true },
+					{ title: 'Answer 44', success: true },
+				],
+			};
+
+			expect(() => {
+				logicQuestion.updateQuestion(question, dataToUpdate);
+			}).toThrow(TypeError('30 is not a string'));
+		});
+
+		it('should fail when Answer 1 is empty', () => {
+			const dataToUpdate = {
+				title: 'Question 2',
+				time: '25',
+				answers: [
+					{ title: '', success: false },
+					{ title: 'Answer 22', success: false },
+					{ title: 'Answer 33', success: true },
+					{ title: 'Answer 44', success: true },
+				],
+			};
+
+			expect(() => {
+				logicQuestion.updateQuestion(question, dataToUpdate);
+			}).toThrow(TypeError('Answer 1 is empty or blank'));
+		});
+
+		it('should fail when Answer 2 is empty', () => {
+			const dataToUpdate = {
+				title: 'Question 2',
+				time: '25',
+				answers: [
+					{ title: 'Answer 11', success: false },
+					{ title: '', success: false },
+					{ title: 'Answer 33', success: true },
+					{ title: 'Answer 44', success: true },
+				],
+			};
+
+			expect(() => {
+				logicQuestion.updateQuestion(question, dataToUpdate);
+			}).toThrow(TypeError('Answer 2 is empty or blank'));
+		});
+
+		it('should fail when all checkbox are off', () => {
+			const dataToUpdate = {
+				title: 'Question 2',
+				time: '25',
+				answers: [
+					{ title: 'Answer 11', success: false },
+					{ title: 'Answer 22', success: false },
+					{ title: 'Answer 33', success: false },
+					{ title: 'Answer 44', success: false },
+				],
+			};
+
+			expect(() => {
+				logicQuestion.updateQuestion(question, dataToUpdate);
+			}).toThrow(
+				Error('Please choose at least one correct answer before continuing.'),
+			);
+		});
+
+		it('should succeed with checkbox from answer 3 off', async () => {
+			const dataToUpdate = {
+				title: 'Question 2',
+				time: '25',
+				answers: [
+					{ title: 'Answer 11', success: false },
+					{ title: 'Answer 22', success: false },
+					{ title: '', success: true },
+					{ title: 'Answer 44', success: true },
+				],
+			};
+
+			const { id } = await logicQuestion.updateQuestion(question, dataToUpdate);
+
+			let questionUpdate = await Question.get(id);
+
+			expect(questionUpdate.answers[2].success).toBeFalsy();
+		});
+
+		it('should succeed with checkbox from answer 4 off', async () => {
+			const dataToUpdate = {
+				title: 'Question 2',
+				time: '25',
+				answers: [
+					{ title: 'Answer 11', success: false },
+					{ title: 'Answer 22', success: false },
+					{ title: 'Answer 33', success: true },
+					{ title: '', success: true },
+				],
+			};
+
+			const { id } = await logicQuestion.updateQuestion(question, dataToUpdate);
+
+			let questionUpdate = await Question.get(id);
+
+			expect(questionUpdate.answers[3].success).toBeFalsy();
+		});
+
+		
 	});
 
 	describe('DELETE /v1/quiz/:id', () => {
@@ -215,8 +414,8 @@ describe('Question', () => {
 	});
 
 	after(() =>
-		Promise.all([User.deleteMany(), Quiz.deleteMany()]).then(() =>
-			mongoose.disconnect(),
+		Promise.all([User.deleteMany(), Quiz.deleteMany(), Question.deleteMany()]).then(
+			() => mongoose.disconnect(),
 		),
 	);
 });

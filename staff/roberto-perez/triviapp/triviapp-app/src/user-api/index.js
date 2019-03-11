@@ -2,7 +2,6 @@ const userApi = {
 	url: 'http://localhost:8000/v1',
 
 	signup(data) {
-		debugger
 		return fetch(`${this.url}/auth/signup`, {
 			method: 'POST',
 			headers: {

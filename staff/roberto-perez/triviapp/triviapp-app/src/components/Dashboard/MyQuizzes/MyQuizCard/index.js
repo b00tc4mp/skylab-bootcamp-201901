@@ -12,7 +12,7 @@ function MyQuizCard(props) {
 	const createGame = async id => {
 		try {
 			const game = await gameService.create(id);
-			props.history.push(`game/${game.id}`);
+			props.history.push(`game/${game.id}/welcome`);
 		} catch (error) {
 			console.error(error);
 		}

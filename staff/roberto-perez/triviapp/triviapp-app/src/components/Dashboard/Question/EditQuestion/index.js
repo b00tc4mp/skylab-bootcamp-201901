@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone';
 
 function EditQuestion(props) {
 	const [title, setTitle] = useState('');
-	const [time, setTime] = useState('');
+	const [time, setTime] = useState('10');
 	const [answer1, setAnswer1] = useState('');
 	const [answer2, setAnswer2] = useState('');
 	const [answer3, setAnswer3] = useState('');

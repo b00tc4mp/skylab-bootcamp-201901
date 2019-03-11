@@ -23,10 +23,18 @@ const gameSchema = new mongoose.Schema(
 				ref: 'User',
 			},
 		],
+		start: {
+			type: Boolean,
+			default: false
+		},
 		quiz: {
 			type: ObjectId,
 			required: true,
 			ref: 'Quiz',
+		},
+		host: {
+			type: ObjectId,
+			ref: 'User',
 		},
 	},
 	{ timestamps: true },
@@ -38,7 +46,7 @@ const gameSchema = new mongoose.Schema(
 gameSchema.method({
 	normalize() {
 		const quiz = {};
-		const fields = ['id', 'code', 'users', 'quiz', 'createdAt'];
+		const fields = ['id', 'code', 'users', 'quiz', 'host', 'createdAt'];
 
 		fields.forEach(field => (quiz[field] = this[field]));
 

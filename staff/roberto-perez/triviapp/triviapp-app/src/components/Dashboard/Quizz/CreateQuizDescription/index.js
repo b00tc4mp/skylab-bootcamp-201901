@@ -4,16 +4,18 @@ import quiz from '../../../../services/quiz';
 import imageService from '../../../../services/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDropzone } from 'react-dropzone';
+import Feedback from '../../../Feedback';
 
 function CreateQuizDescription(props) {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
+	const [image, setImage] = useState('');
 	const [uploading, setUploading] = useState(false);
-	const [image, setImage] = useState(null);
 	const [error, setError] = useState(null);
 
+
 	const onDrop = useCallback(async acceptedFiles => {
-		setUploading(true)
+		setUploading(true);
 		const imageUploaded = await imageService.upload(acceptedFiles[0]);
 		setImage(imageUploaded.secure_url);
 		setUploading(false);
@@ -21,29 +23,25 @@ function CreateQuizDescription(props) {
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+	
 	const create = async data => {
 		try {
 			if (image) {
 				data.picture = image;
 			}
-
 			const addQuiz = await quiz.create(data);
-			console.log(addQuiz);
 			props.history.push(`/dashboard/create/quiz/${addQuiz.id}/overview`);
 		} catch (error) {
 			setError(error.message);
-			console.log(error);
 		}
 	};
+
 
 	const handleSubmit = async Event => {
 		Event.preventDefault();
 		create({ title, description });
 	};
 
-	const onChangeImage = async Event => {
-		const file = Event.target.files[0];
-	};
 
 	return (
 		<section className="create-quiz-wrap">
@@ -123,6 +121,7 @@ function CreateQuizDescription(props) {
 								</div>
 							</div>
 						</div>
+						{error && <Feedback message={error} />}
 					</div>
 					<button className="btn__link btn__link--green create-quiz__submit">
 						Ok, go!

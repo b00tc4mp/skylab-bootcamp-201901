@@ -3,7 +3,7 @@ import validate from '../../utils/validate';
 
 const quiz = {
 	async get(quizId) {
-		validate([{ key: 'quizId', value: quizId, type: String }]);
+		validate([{ key: 'Quiz ID', value: quizId, type: String }]);
 
 		try {
 			return await quizApi.getQuiz(quizId);
@@ -27,9 +27,9 @@ const quiz = {
 		const { title, description } = data;
 
 		validate([
-			{ key: 'quizId', value: quizId, type: String },
-			{ key: 'title', value: title, type: String },
-			{ key: 'description', value: description, type: String },
+			{ key: 'Quiz ID', value: quizId, type: String },
+			{ key: 'Title', value: title, type: String },
+			{ key: 'Description', value: description, type: String },
 		]);
 
 		try {
@@ -48,11 +48,12 @@ const quiz = {
 	},
 
 	async create(data) {
-		const { title, description } = data;
+		const { title, description, picture } = data;
 
 		validate([
-			{ key: 'title', value: title, type: String },
-			{ key: 'description', value: description, type: String },
+			{ key: 'Title', value: title, type: String },
+			{ key: 'Description', value: description, type: String },
+			{ key: 'Image', value: picture, type: String },
 		]);
 
 		try {
@@ -64,7 +65,7 @@ const quiz = {
 
 	async delete(quizId) {
 		validate([
-			{ key: 'quizId', value: quizId, type: String }
+			{ key: 'Quiz ID', value: quizId, type: String }
 		]);
 		
 		try {

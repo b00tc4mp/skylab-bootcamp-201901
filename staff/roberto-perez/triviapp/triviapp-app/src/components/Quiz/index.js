@@ -31,7 +31,7 @@ function Quiz(props) {
 	};
 
 	return (
-		<Fragment>
+		<div className="container">
 			<section className="quiz-details">
 				
 				<QuizInfo quiz={currentQuiz} />
@@ -68,7 +68,7 @@ function Quiz(props) {
 					})}
 				</div>
 			</section>
-		</Fragment>
+		</div>
 	);
 }
 

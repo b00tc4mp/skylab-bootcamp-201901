@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import quiz from '../../../../services/quiz';
+import quizService from '../../../../services/quiz';
 import imageService from '../../../../services/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDropzone } from 'react-dropzone';
+import Feedback from '../../../Feedback';
+
+
+const UploadContext = React.createContext();
+
 
 function EditQuizDescription(props) {
 	const [title, setTitle] = useState('');
@@ -20,11 +25,15 @@ function EditQuizDescription(props) {
 	} = props;
 
 	const onDrop = useCallback(async acceptedFiles => {
-		setUploading(true);
-		const imageUploaded = await imageService.upload(acceptedFiles[0])
-		setImage(imageUploaded.secure_url);
-		await quiz.editQuizPicture(quizId, imageUploaded.secure_url)
-		setUploading(false);
+		try {
+			setUploading(true);
+			const imageUploaded = await imageService.upload(acceptedFiles[0]);
+			await quizService.editQuizPicture(quizId, imageUploaded.secure_url);
+			setImage(imageUploaded.secure_url);
+			setUploading(false);
+		} catch (error) {
+			setError(error.message);
+		}
 	}, []);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -35,23 +44,21 @@ function EditQuizDescription(props) {
 
 	const getQuizById = async quizId => {
 		try {
-			const newQuiz = await quiz.get(quizId);
+			const newQuiz = await quizService.get(quizId);
 			setTitle(newQuiz.title);
 			setDescription(newQuiz.description);
 			setImage(newQuiz.picture);
 		} catch (error) {
-			console.error(error);
+			setError(error.message);
 		}
 	};
 
 	const edit = async (quizId, data) => {
 		try {
-			const editedQuiz = await quiz.edit(quizId, data);
-			console.log(editedQuiz);
+			const editedQuiz = await quizService.edit(quizId, data);
 			props.history.push(`/dashboard/create/quiz/${editedQuiz.id}/overview`);
 		} catch (error) {
 			setError(error.message);
-			console.log(error);
 		}
 	};
 
@@ -61,6 +68,7 @@ function EditQuizDescription(props) {
 	};
 
 	return (
+		<UploadContext.Provider value={{image}}>
 		<section>
 			<form onSubmit={handleSubmit}>
 				<div className="form__container">
@@ -140,6 +148,7 @@ function EditQuizDescription(props) {
 								</div>
 							</div>
 						</div>
+						{error && <Feedback message={error} />}
 					</div>
 					<button className="btn__link btn__link--green create-quiz__submit">
 						Ok, go!
@@ -147,6 +156,7 @@ function EditQuizDescription(props) {
 				</div>
 			</form>
 		</section>
+		</UploadContext.Provider>
 	);
 }
 

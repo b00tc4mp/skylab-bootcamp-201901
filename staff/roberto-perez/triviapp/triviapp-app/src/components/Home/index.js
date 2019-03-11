@@ -34,16 +34,14 @@ function Home(props) {
 			<main className="main">
 				<Header />
 				<div className="content">
-					<div className="container">
-						<Switch>
-							<Route exact path="/signup" render={() => <Signup />} />
-							<Route exact path="/login" render={() => <Login />} />
-							<Route path="/quiz/:quizId" component={Quiz} />
-							<Route path="/dashboard" render={() => <Dashboard />} />
-							<Route path="/" render={() => <SearchResults />} />
-						</Switch>
-						<Footer />
-					</div>
+					<Switch>
+						<Route exact path="/signup" render={() => <Signup />} />
+						<Route exact path="/login" render={() => <Login />} />
+						<Route path="/quiz/:quizId" component={Quiz} />
+						<Route path="/dashboard" render={() => <Dashboard />} />
+						<Route path="/" render={() => <SearchResults />} />
+					</Switch>
+					<Footer />
 				</div>
 			</main>
 		</div>

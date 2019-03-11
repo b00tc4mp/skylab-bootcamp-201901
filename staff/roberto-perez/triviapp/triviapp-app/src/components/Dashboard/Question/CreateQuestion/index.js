@@ -7,7 +7,7 @@ import Checkbox from '../Checkbox';
 
 function CreateQuestion(props) {
 	const [title, setTitle] = useState('');
-	const [time, setTime] = useState(10);
+	const [time, setTime] = useState('10');
 	const [answer1, setAnswer1] = useState('');
 	const [answer2, setAnswer2] = useState('');
 	const [answer3, setAnswer3] = useState('');

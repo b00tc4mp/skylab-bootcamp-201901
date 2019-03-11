@@ -17,7 +17,23 @@ const game = {
 		} catch (error) {
 			throw Error(error.message);
 		}
-	}
+	},
+
+	async start(gameId) {
+		try {
+			return await gameApi.startGame(gameId);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
+
+	async join(code) {
+		try {
+			return await gameApi.joinGame(code);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
 	
 };
 

@@ -52,7 +52,7 @@ const auth = {
 	 * Checks user is logged in.
 	 */
 	get userLoggedIn() {
-		return !!this.__user__;
+		return this.__user__;
 	},
 
 	/**

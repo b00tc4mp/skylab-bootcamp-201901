@@ -29,7 +29,18 @@ exports.get = (req, res) => res.json(req.locals.game.normalize());
 
 exports.create = async (req, res) => {
 	try {
+		req.body.host = req.userId;
 		const game = await gameLogic.createGame(req.body);
+		res.status(httpStatus.CREATED);
+		return res.json(game);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+exports.start = async (req, res) => {
+	try {
+		const game = await gameLogic.startGame(req.locals.game);
 		res.status(httpStatus.CREATED);
 		return res.json(game);
 	} catch (error) {
