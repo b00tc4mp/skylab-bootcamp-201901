@@ -131,7 +131,6 @@ describe('logic', () => {
             }
         })
 
-        // TODO more unit test cases
     })
     describe('loginUser', () => {
 
