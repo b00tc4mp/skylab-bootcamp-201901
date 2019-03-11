@@ -9,9 +9,8 @@ const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
 
-const { env: { TEST_DB_URL, SPOTIFY_API_TOKEN } } = process
+const { env: { TEST_DB_URL } } = process
 
-// spotifyApi.token = SPOTIFY_API_TOKEN
 
 describe('logic', () => {
     before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
@@ -516,7 +515,7 @@ describe('logic', () => {
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ username, email, password: hash }))
-                .then(({ id }) => userId =  id)
+                .then(({ id }) => userId = id)
         )
 
         it('should succeed on correct data', () =>
@@ -528,7 +527,7 @@ describe('logic', () => {
 
                     return User.findById(userId).select('-password -__v')
                         .then(user => {
-                            expect(JSON.stringify(user.myHouses[0]) ).toBe(JSON.stringify(houseId) )
+                            expect(JSON.stringify(user.myHouses[0])).toBe(JSON.stringify(houseId))
 
 
                         })
@@ -574,15 +573,322 @@ describe('logic', () => {
                 logic.createHouse(userId, images, description, info, undefined)
             }).toThrow(Error(`${undefined} is not an object`))
         })
-        
+
     })
 
 
 
+    describe('update house', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => { return logic.createHouse(userId, images, description, info, adress) })
+                .then(house => houseId = house._id.toString())
+        )
+
+        it('should succeed on correct data', () =>
+            logic.updateHouse(houseId, images, 'new description', info, adress)
+                .then(house => {
+
+                    expect(house.id).toBe(houseId)
+                    expect(house.images.toString()).toBe(images.toString())
+                    expect(house.description.toString()).toBe('new description')
+                    expect(JSON.stringify(house.info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(house.adress)).toBe(JSON.stringify(adress))
+
+                    return User.findById(userId).select('-password -__v')
+                        .then(user => {
+                            expect(JSON.stringify(user.myHouses[0])).toBe(JSON.stringify(houseId))
+
+
+                        })
+
+                })
+
+
+        )
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                logic.updateHouse(undefined, images, description, info, adress)
+            }).toThrow(Error(`${undefined} is not a valid id`))
+        })
+        it('should fail on undefined images', () => {
+
+            expect(() => {
+                logic.updateHouse(houseId, undefined, description, info, adress)
+            }).toThrow(Error(`${undefined} is not an array`))
+        })
+        it('should fail on empty images', () => {
+
+            expect(() => {
+                logic.updateHouse(houseId, [], description, info, adress)
+            }).toThrow(Error('There must be at least one image'))
+        })
+        it('should fail on undefined description', () => {
+
+            expect(() => {
+                logic.updateHouse(houseId, images, undefined, info, adress)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+        it('should fail on undefined info', () => {
+
+            expect(() => {
+                logic.updateHouse(houseId, images, description, undefined, adress)
+            }).toThrow(Error(`${undefined} is not an object`))
+        })
+        it('should fail on undefined adress', () => {
+
+            expect(() => {
+                logic.updateHouse(houseId, images, description, info, undefined)
+            }).toThrow(Error(`${undefined} is not an object`))
+        })
+
+    })
 
 
 
-    // TODO updateUser and removeUser
+    describe('retrieve house', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => { return logic.createHouse(userId, images, description, info, adress) })
+                .then(house => houseId = house._id.toString())
+        )
+
+        it('should succeed on correct data', () =>
+            logic.retrieveHouse(houseId)
+                .then(house => {
+
+                    expect(house.id).toBe(houseId)
+                    expect(house.images.toString()).toBe(images.toString())
+                    expect(house.description.toString()).toBe(description)
+                    expect(JSON.stringify(house.info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(house.adress)).toBe(JSON.stringify(adress))
+
+                    return User.findById(userId).select('-password -__v')
+                        .then(user => {
+                            expect(JSON.stringify(user.myHouses[0])).toBe(JSON.stringify(houseId))
+
+
+                        })
+
+                })
+
+
+        )
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                logic.retrieveHouse(undefined)
+            }).toThrow(Error(`${undefined} is not a valid id`))
+        })
+        it('should fail on null houseId', () => {
+
+            expect(() => {
+                logic.retrieveHouse(null)
+            }).toThrow(Error(`${null} is not a valid id`))
+        })
+        it('should fail on numeric houseId', () => {
+
+            expect(() => {
+                logic.retrieveHouse(1)
+            }).toThrow(Error(`${1} is not a valid id`))
+        })
+        it('should fail on bool houseId', () => {
+
+            expect(() => {
+                logic.retrieveHouse(true)
+            }).toThrow(Error(`${true} is not a valid id`))
+        })
+        it('should fail on array houseId', () => {
+
+            expect(() => {
+                logic.retrieveHouse([])
+            }).toThrow(Error(`${[]} is not a valid id`))
+        })
+        it('should fail on object houseId', () => {
+
+            expect(() => {
+                logic.retrieveHouse({})
+            }).toThrow(Error(`${{}} is not a valid id`))
+        })
+    })
+
+
+    describe('delete house', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => { return logic.createHouse(userId, images, description, info, adress) })
+                .then(house => houseId = house._id.toString())
+        )
+
+        it('should succeed on correct data', () =>
+            logic.deleteHouse(houseId,userId)
+                .then(user => {
+
+                    expect(user.myHouses.length).toBe(0)
+
+                })
+        )
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                logic.deleteHouse(undefined,userId)
+            }).toThrow(Error(`${undefined} is not a valid id`))
+        })
+        it('should fail on null houseId', () => {
+
+            expect(() => {
+                logic.deleteHouse(null,userId)
+            }).toThrow(Error(`${null} is not a valid id`))
+        })
+        it('should fail on numeric houseId', () => {
+
+            expect(() => {
+                logic.deleteHouse(1,userId)
+            }).toThrow(Error(`${1} is not a valid id`))
+        })
+        it('should fail on bool houseId', () => {
+
+            expect(() => {
+                logic.deleteHouse(true,userId)
+            }).toThrow(Error(`${true} is not a valid id`))
+        })
+        it('should fail on array houseId', () => {
+
+            expect(() => {
+                logic.deleteHouse([],userId)
+            }).toThrow(Error(`${[]} is not a valid id`))
+        })
+        it('should fail on object houseId', () => {
+
+            expect(() => {
+                logic.deleteHouse({},userId)
+            }).toThrow(Error(`${{}} is not a valid id`))
+        })
+
+
+
+        it('should fail on undefined ownerId', () => {
+
+            expect(() => {
+                logic.deleteHouse(houseId,undefined)
+            }).toThrow(Error(`${undefined} is not a valid id`))
+        })
+        it('should fail on null ownerId', () => {
+
+            expect(() => {
+                logic.deleteHouse(houseId,null)
+            }).toThrow(Error(`${null} is not a valid id`))
+        })
+        it('should fail on numeric ownerId', () => {
+
+            expect(() => {
+                logic.deleteHouse(houseId,1)
+            }).toThrow(Error(`${1} is not a valid id`))
+        })
+        it('should fail on bool ownerId', () => {
+
+            expect(() => {
+                logic.deleteHouse(houseId,true)
+            }).toThrow(Error(`${true} is not a valid id`))
+        })
+        it('should fail on array ownerId', () => {
+
+            expect(() => {
+                logic.deleteHouse (houseId,[])
+            }).toThrow(Error(`${[]} is not a valid id`))
+        })
+        it('should fail on object ownerId', () => {
+
+            expect(() => {
+                logic.deleteHouse (houseId,{})
+            }).toThrow(Error(`${{}} is not a valid id`))
+        })
+        
+})
+
+
 
 
     after(() =>

@@ -10,6 +10,10 @@ module.exports = {
     createHouse: require('./create-house'),
 
     updateHouse: require('./update-house'),
+    
+    retrieveHouse: require('./retrieve-house'),
+
+    deleteHouse: require('./delete-house'),
 
     notFound: require('./not-found')
 }
