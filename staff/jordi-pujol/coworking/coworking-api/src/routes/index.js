@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createWorkspace, addUserToWorkSpace, createNewUserLink, verifyNewUserLink, createService, retrieveService, updateService, deleteService, retrieveWorkspaceServices, addUserToService, createComment, retrieveServiceComments, removeComment } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createWorkspace, addUserToWorkSpace, createNewUserLink, verifyNewUserLink, createService, retrieveService, updateService, deleteService, retrieveWorkspaceServices, addUserToService, createComment, retrieveServiceComments, removeComment, closeService } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 const router = express.Router()
@@ -43,6 +43,8 @@ router.get('/service/workspace/:workspaceId', tokenVerifierMiddleware, retrieveW
 router.put('/service/:serviceId', [tokenVerifierMiddleware, jsonBodyParser], updateService)
 
 router.delete('/service/:serviceId', tokenVerifierMiddleware, deleteService)
+
+router.post('/closeservice/:serviceId', tokenVerifierMiddleware, closeService)
 
 
 router.post('/comment/:serviceId', [tokenVerifierMiddleware, jsonBodyParser], createComment)

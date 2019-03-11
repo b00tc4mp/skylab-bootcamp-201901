@@ -2,10 +2,11 @@
 
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import logic from '../../logic'
 import Feedback from '../Feedback'
 
 class Workspace extends Component {
-    state = { email: '', password: '', name: '' }
+    state = { email: '', password: '', name: '', feedback: null }
 
     handleEmailInput = event => this.setState({ email: event.target.value })
 
@@ -16,14 +17,32 @@ class Workspace extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { email, password, name }, props: { onNewWorkspace } } = this
+        const { state: { email, password, invitation } } = this
 
-        onNewWorkspace(email, password, name)
+        try {
+            if (invitation) {
+
+                return logic.logInUser(email, password)
+                    .then(() => logic.verifyNewUserLink(invitation))
+                    .then(workspaceId => {
+                        return logic.addUserToWorkspace(workspaceId)
+                    })
+                    .then(() => this.props.history.push('/home/inbox'))
+                    .catch(({ message }) => this.setState({ feedback: message }))
+            }
+            else {
+                logic.logInUser(email, password)
+                    .then(() => this.props.history.push('/home/inbox'))
+                    .catch(({ message }) => this.setState({ feedback: message }))
+            }
+        } catch ({ message }) {
+            this.setState({ feedback: message })
+        }
     }
 
     render() {
 
-        const { props: { feedback }, handleEmailInput, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
+        const { state: { feedback }, handleEmailInput, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
 
         return <section className="login">
             <section className="login_content">

@@ -101,7 +101,7 @@ class FullService extends Component {
 
     render() {
 
-        const { state: { feedback, activeService: { title, description, user, submitedUsers, maxUsers, date, place }, comments }, handleDeleteComment, handleSubmitForm, handleCommentInput, handleSubmitComment } = this
+        const { state: { feedback, activeService: { title, description, user, submitedUsers, maxUsers, date, place, time, active }, comments }, handleDeleteComment, handleSubmitForm, handleCommentInput, handleSubmitComment } = this
 
         let formatedDate
 
@@ -114,18 +114,13 @@ class FullService extends Component {
             <p className="full__service--description">Submited users: {submitedUsers && submitedUsers.length ? submitedUsers.length : '0'}</p>
             <p className="full__service--description">Max users: {maxUsers}</p>
             <p className="full__service--description">Place: {place}</p>
+            <p className="full__service--description">Expected service duration: {time} mins</p>
+            <p className="full__service--description">Avilable to submit: {active? 'Yes': 'No'}</p>
             <p >Upload date and time: {formatedDate}</p>
             <form onSubmit={handleSubmitForm}>
                 <button className="full-service__button">Submit to this Service</button>
             </form>
             {comments && comments.map(comment => <Comment onDeleteComment={handleDeleteComment} comment={comment} />)}
-            {/* {comments && comments.map((comment) => {
-                return <section>
-                    <p>{comment.text}</p>
-                    <p>{comment.date.substring(0, 10) + ' ' + comment.date.substring(11, 16)}</p>
-                    <p>{comment.user}</p>
-                </section>
-            })} */}
             <form onSubmit={handleSubmitComment}>
                 <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/chat-circle-blue-512.png" alt="#" />
                 <input placeholder="comment..." onChange={handleCommentInput} />

@@ -13,11 +13,11 @@ class Inbox extends Component {
     componentWillMount() {
         try {
             logic.retrieveUser()
-            .then(({ workspace }) => {
-                return logic.retrieveWorkspaceServices(workspace)
-            })
-            .then(services => this.setState({ services }))
-            .catch(({message}) => this.setState({feedback: message}))
+                .then(({ workspace }) => {
+                    return logic.retrieveWorkspaceServices(workspace)
+                })
+                .then(services => this.setState({ services }))
+                .catch(({ message }) => this.setState({ feedback: message }))
         }
         catch ({ message }) {
             this.setState({ feedback: message })
@@ -31,11 +31,12 @@ class Inbox extends Component {
         const { state: { services, feedback }, handleServiceClick, handleSubmitService } = this
 
         return (<section className="inbox">
-            {services && services.map(service =>
-                <Service key={services.id} servicesFor={service} onServiceSelected={handleServiceClick} />
+            {services && services.map(service => {
+                if (service.active) {
+                return <Service key={services.id} servicesFor={service} onServiceSelected={handleServiceClick} />} }
             )}
             <Route path='/home/inbox/service/:id' render={(props) => <FullService service={props.match.params.id} onServiceSubmit={handleSubmitService} />} />
-            {feedback && <Feedback message={feedback}/>}
+            {feedback && <Feedback message={feedback} />}
         </section>)
     }
 }

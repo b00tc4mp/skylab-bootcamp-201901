@@ -29,6 +29,8 @@ module.exports = {
 
     deleteService: require('./delete-service'),
 
+    closeService: require('./close-service'),
+
     createComment: require('./create-comment'),
 
     retrieveServiceComments: require('./retrieve-service-comments'),

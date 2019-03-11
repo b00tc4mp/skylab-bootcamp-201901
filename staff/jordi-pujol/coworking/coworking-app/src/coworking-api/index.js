@@ -164,12 +164,13 @@ const coworkingApi = {
             })
     },
 
-    createService(token, title, description, maxUsers, place) {
+    createService(token, title, description, maxUsers, place, time) {
         validate([{key: 'token', value: token, type: String},
         {key: 'title', value: title, type: String},
         {key: 'description', value: description, type: String},
         {key: 'maxUsers', value: maxUsers, type: Number},
-        {key: 'place', value: place, type: String}])
+        {key: 'place', value: place, type: String},
+        {key: 'time', value: time, type: Number}])
 
         return fetch(`${this.url}/service`, {
             method: 'POST',
@@ -177,7 +178,7 @@ const coworkingApi = {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ title, description, maxUsers, place })
+            body: JSON.stringify({ title, description, maxUsers, place, time })
         })
             .then(response => response.json())
             .then(response => {
@@ -201,7 +202,6 @@ const coworkingApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
-
                 return response.services
             })
     },
@@ -229,6 +229,24 @@ const coworkingApi = {
         {key: 'serviceId', value: serviceId, type: String}])
 
         return fetch(`${this.url}/service/${serviceId}`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+    },
+
+    closeService(token, serviceId) {
+        validate([{key: 'token', value: token, type: String},
+        {key: 'serviceId', value: serviceId, type: String}])
+
+        return fetch(`${this.url}/closeservice/${serviceId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

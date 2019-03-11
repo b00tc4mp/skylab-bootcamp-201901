@@ -110,13 +110,14 @@ const logic = {
         return coworkingApi.addUserToWorkspace(this.__coworkingApiToken__, workspaceId)
     },  
 
-    createService(title, description, maxUsers, place){
+    createService(title, description, maxUsers, place, time){
         validate([{key: 'title', value: title, type: String},
         {key: 'description', value: description, type: String},
         {key: 'maxUsers', value: maxUsers, type: Number},
-        {key: 'place', value: place, type: String}])
+        {key: 'place', value: place, type: String},
+        {key: 'time', value: time, type: Number}])
 
-        return coworkingApi.createService(this.__coworkingApiToken__, title, description, maxUsers, place)
+        return coworkingApi.createService(this.__coworkingApiToken__, title, description, maxUsers, place, time)
     },
 
     retrieveWorkspaceServices(workspaceId){
@@ -135,6 +136,12 @@ const logic = {
         validate([{key: 'serviceId', value: serviceId, type: String}])
 
         return coworkingApi.addUserToService(this.__coworkingApiToken__, serviceId)
+    },
+
+    closeService(serviceId){
+        validate([{key: 'serviceId', value: serviceId, type: String}])
+
+        return coworkingApi.closeService(this.__coworkingApiToken__, serviceId)
     },
 
     createComment(serviceId, text){

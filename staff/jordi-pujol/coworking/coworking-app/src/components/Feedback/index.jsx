@@ -1,8 +1,10 @@
 import React from 'react'
 
-function Feedback ({message}) {
+function Feedback({ message }) {
 
-    return <section>{message}</section>
+    return <section className="feedback">
+        <i class="fas fa-caret-square-right"></i><p>{message}</p>
+    </section>
 }
 
 export default Feedback

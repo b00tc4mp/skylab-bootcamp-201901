@@ -6,6 +6,7 @@ import { Route, withRouter, Redirect } from 'react-router-dom'
 import Profile from '../Profile'
 import Inbox from '../Inbox'
 import NewService from '../Create-service'
+import ServiceClosed from '../Service-to-close'
 import Topbar from '../Topbar';
 import logic from '../../logic';
 import NewInvitation from '../New-invitation';
@@ -22,28 +23,36 @@ class Home extends Component {
 
     handleGoToNotifications = () => this.props.history.push('/home/notifications')
 
+    handleGoToClosedServices = () => this.props.history.push('/home/closedservices')
+
     handleCreateNewLink = () => {
 
         try {
             logic.createNewUserLink()
-            .then(result => this.setState({ link: result }), this.props.history.push('/home/invitation'))
-            .catch(({ message }) => this.setState({createServiceFeedback: message}))
+                .then(result => this.setState({ link: result }), this.props.history.push('/home/invitation'))
+                .catch(({ message }) => this.setState({ createServiceFeedback: message }))
         }
         catch ({ message }) {
-            this.setState({createServiceFeedback: message})
+            this.setState({ createServiceFeedback: message })
         }
     }
 
     handleLogOut = () => {
-        logic.logOutUser()
+        try {
+            logic.logOutUser()
+            .catch(({ message }) => console.error(message))
+        }
+        catch ({ message }) {
+            console.error(message)
+        }
 
         this.props.history.push('/login')
     }
 
-    handleCreateService = (title, description, maxUsers, place) => {
+    handleCreateService = (title, description, maxUsers, place, time) => {
 
         try {
-            logic.createService(title, description, maxUsers, place)
+            logic.createService(title, description, maxUsers, place, time)
                 .then(() => this.props.history.push('/home/inbox'))
                 .catch(({ message }) => this.setState({ createServiceFeedback: message }))
         }
@@ -54,14 +63,15 @@ class Home extends Component {
 
     render() {
 
-        const { state: { link, createServiceFeedback }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, invitation } = this
+        const { state: { link, createServiceFeedback }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, handleGoToClosedServices } = this
 
         return <section>
-            <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />
+            <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToClosedServices={handleGoToClosedServices} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />
             <Route exact path='/home/profile' render={() => <Profile />} />
             <Route path='/home/inbox' render={() => <Inbox />} />
             <Route path='/home/service' render={() => <NewService feedback={createServiceFeedback} onCreateService={handleCreateService} />} />
-            <Route path='/home/invitation' render={() => logic.isUserAdmin? <NewInvitation invitation={link}/> : <Redirect to='/home/inbox'/>} />
+            <Route path='/home/invitation' render={() => logic.isUserAdmin ? <NewInvitation invitation={link} /> : <Redirect to='/home/inbox' />} />
+            <Route path='/home/closedservices' render={() => logic.isUserLoggedIn? <ServiceClosed /> : <Redirect to='/login' />} />
             {/* <Route exact path='/home/inbox' render={()=> services && <Service services={services}/>}/> */}
         </section>
     }
