@@ -20,13 +20,6 @@ const data = {
             "picture": "https://i.imgur.com/rypOrFy.jpg",
             "name": "Yes",
 
-        },
-        {
-            "_id": "593e92973d4d15eedb129aee",
-            "index": 3,
-            "picture": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/474caac1-4a2b-456b-83bc-f7eaa73ea0bf/dbiilku-2f59d40d-8c2f-4d1f-a3fc-3208a912e122.jpg",
-            "name": "Devilish skinner",
-
         }
     ]
 }

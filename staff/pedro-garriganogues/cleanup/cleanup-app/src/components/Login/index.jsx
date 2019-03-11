@@ -24,9 +24,14 @@ class Login extends Component {
         return <section className="login">
             <h2>{title}</h2>
 
-            <form onSubmit={handleFormSubmit}>
+            <form className="formi" onSubmit={handleFormSubmit}>
                 <input type="text" name="email" onChange={handleEmailInput} placeholder="email" />
+                <br />
+                <br />
                 <input type="password" name="password" onChange={handlePasswordInput} placeholder="password" />
+                <br />
+                <br />
+                <br />
                 <button>Login</button>
             </form>
 

@@ -4,6 +4,7 @@ import Card from './Card';
 import data from './data/data'
 
 
+
 // class component
 class LandingMain extends Component {
 
@@ -56,6 +57,7 @@ class LandingMain extends Component {
         >Next</button>
         <div className="page">
         </div>
+        <img src="https://i.gyazo.com/a03279cbcd72c4890e8d03250d0efe96.png" className="bigImage" />
       </div>
     );
   }

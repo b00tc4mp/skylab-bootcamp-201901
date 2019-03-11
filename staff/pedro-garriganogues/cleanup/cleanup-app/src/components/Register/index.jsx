@@ -29,13 +29,23 @@ class Login extends Component {
 
         return <section className="register">
 
-            <form onSubmit={handleFormSubmit}>
+            <form className="form" onSubmit={handleFormSubmit}>
                 <input type="text" name="name" onChange={handleNameInput} placeholder="name" />
+                <br />
+                <br />
                 <input type="text" name="surname" onChange={handleSurnameInput} placeholder="surname" />
+                <br />
+                <br />
                 <input type="text" name="email" onChange={handleEmailInput} placeholder="email" />
+                <br />
+                <br />
                 <input type="password" name="password" onChange={handlePasswordInput} placeholder="password" />
+                <br />
+                <br />
                 <input type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password" />
-
+                <br />
+                <br />
+                <br />
                 <button>Register</button>
             </form>
 

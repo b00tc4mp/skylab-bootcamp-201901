@@ -21,12 +21,18 @@
 .box {
 	position: relative;
 	background: white;
-    height: 64px;
+    height: 100%;
 	transition: all .15s ease-in-out;
 
 }
 
-
+.text{
+	margin: 3%;
+	border: 1px solid black;
+	border-radius: 5px;
+	background-color: whitesmoke;
+	padding: 1%;
+  }
 
 /* vista caja cerrada */
 
@@ -46,7 +52,7 @@
 /* caja enunciado */
 
 header.box {
-	background: #00BCD4;
+	background: rgb(6, 92, 104);
 	z-index: 100;
 	cursor: initial;
 	box-shadow: 0 -1px 0 #e5e5e5,0 0 2px -2px rgba(0,0,0,.12),0 2px 4px -4px rgba(0,0,0,.24);

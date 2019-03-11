@@ -14,7 +14,7 @@ export default ({ items }) => (
                 </Link>
                 <div>
                     <br />
-                    <h5 >{item.name}</h5>
+                    <h3>{item.name}</h3>
                     <br />
                     <p className="description" >{item.description}</p>
                     <br />
