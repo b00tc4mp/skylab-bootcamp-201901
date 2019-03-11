@@ -46,6 +46,61 @@ const flymeApi = {
             .then(res => res)
     },
 
+    retrieveUser(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/user`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    updateUser(token, data) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/user/update`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    updateUserImage(token, image) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (!image) throw Error('image is empty')
+        // if (image.constructor !== Object) throw TypeError(`${image} is not an object`)
+
+        let formData = new FormData()
+        formData.append('image', image)
+
+        return fetch(`${this.url}/user/photo`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+
+    },
+
     startDrone(token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -102,6 +157,24 @@ const flymeApi = {
                 authorization: `Bearer ${token}`
             },
             body: JSON.stringify({ droneId, command })
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    sendEmail(token, data) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        console.log('data', data)
+
+        return fetch(`${this.url}/sendemail`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
         })
             .then(res => res.json())
             .then(res => res)

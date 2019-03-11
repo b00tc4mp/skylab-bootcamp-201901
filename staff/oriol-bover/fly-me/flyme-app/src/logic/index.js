@@ -34,6 +34,9 @@ const logic = {
             })
     },
 
+    /**
+     * logs user to the App
+     */
     logInUser(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
@@ -48,6 +51,50 @@ const logic = {
                 if (error) throw Error(error)
 
                 this.__userApiToken__ = token
+            })
+    },
+
+    /**
+     * retrieve user
+     */
+    retrieveUser() {
+        return flymeApi.retrieveUser(this.__userApiToken__)
+            .then(res => {
+                if (res.error) throw Error(res.error)
+
+                return res
+            })
+    },
+
+
+    /**
+     * Update user
+     * 
+     * @param {Object} data 
+     */
+    updateUser(data) {
+        return flymeApi.updateUser(this.__userApiToken__, data)
+            .then(res => {
+                if (res.error) throw Error(res.error)
+
+                return res
+            })
+    },
+
+    /**
+     * upload user Image
+     * 
+     * @param {Object} image 
+     */
+    uploadUserImage(image) {
+        if (!image) throw Error('image is empty')
+        // if (image.constructor !== Object) throw TypeError(`${image} is not an object`)
+
+        return flymeApi.updateUserImage(this.__userApiToken__, image)
+            .then(res => {
+                if (res.error) throw Error(res.error)
+
+                return res
             })
     },
 
@@ -83,6 +130,14 @@ const logic = {
         if (!command.trim().length) throw Error('command cannot be empty')
 
         return flymeApi.sendCommand(this.__userApiToken__, command)
+            .then(res => res)
+    },
+
+    sendReport(data) {
+        //check data
+
+        data.type = 'report'
+        return flymeApi.sendEmail(this.__userApiToken__, data)
             .then(res => res)
     }
 }

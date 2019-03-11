@@ -25,11 +25,16 @@ const User = new Schema({
         }
     },
 
+    image: {
+        type: String,
+        default: null
+    },
+
     password: {
         type: String,
         required: true
     }
-    
+
 }, { timestamps: true })
 
 module.exports = User

@@ -22,7 +22,7 @@ function CommandPannel() {
         logic.stopDrone()
     }
 
-    return (<section>
+    return (<section className="section">
         <div className="columns">
             <div className="column">
                 <a className="button is-success is-outlined" onClick={e => startDrone(e)}>ON</a>

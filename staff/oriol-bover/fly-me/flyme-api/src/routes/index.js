@@ -3,11 +3,15 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
+const imageParser = require('../imageParser')
+const cloudinaryUploader = require('../cloudinary')
+
 const { tokenVerifierMiddleware } = tokenHelper
 const { registerUser,
     authenticateUser,
     retrieveUser,
     updateUser,
+    uploadUserImage,
     deleteUser,
     notFound,
     addDrone,
@@ -24,7 +28,8 @@ const { registerUser,
     retrieveFlightsDrone,
     retrieveFlightsUserDrone,
     updateFlight,
-    deleteFlight } = require('./handlers')
+    deleteFlight,
+    sendMail } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 
@@ -42,6 +47,8 @@ router.post('/user/auth', jsonBodyParser, authenticateUser)
 router.get('/user', tokenVerifierMiddleware, retrieveUser)
 
 router.put('/user/update', [jsonBodyParser, tokenVerifierMiddleware], updateUser)
+
+router.post('/user/photo', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], uploadUserImage)
 
 router.delete('/user', tokenVerifierMiddleware, deleteUser)
 
@@ -78,6 +85,8 @@ router.put('/flight/update', [jsonBodyParser, tokenVerifierMiddleware], updateFl
 
 router.delete('/flight', [jsonBodyParser, tokenVerifierMiddleware], deleteFlight)
 
+//general routes
+router.post('/sendemail', [jsonBodyParser, tokenVerifierMiddleware], sendMail)
 
 //notfound
 router.all('*', notFound)

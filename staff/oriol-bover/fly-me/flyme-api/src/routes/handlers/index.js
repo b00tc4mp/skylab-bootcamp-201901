@@ -3,6 +3,7 @@ module.exports = {
     authenticateUser: require('./authenticate-user'),
     retrieveUser: require('./retrieve-user'),
     updateUser: require('./update-user'),
+    uploadUserImage: require('./update-user-photo'),
     deleteUser: require('./delete-user'),
     addDrone: require('./add-drone'),
     retrieveDrones: require('./retrieve-drones'),
@@ -19,5 +20,6 @@ module.exports = {
     retrieveFlightsUserDrone: require('./retrieve-flights-user-drone'),
     updateFlight: require('./update-flight'),
     deleteFlight: require('./delete-flight'),
+    sendMail: require('./send-email'),
     notFound: require('./not-found')
 }

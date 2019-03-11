@@ -16,8 +16,12 @@ Object.defineProperties(logic, {
         get() {
             return sessionStorage.getItem('__userApiToken__')
         }
-    }
+    },
 })
+
+logic.logOutUser = function () {
+    return sessionStorage.removeItem('__userApiToken__')
+}
 
 ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'));
 

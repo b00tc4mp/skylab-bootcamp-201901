@@ -5,6 +5,7 @@ const { models: { User, Drone, Flight } } = require('flyme-data')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('flyme-errors')
 const DroneApi = require('drone-api')
 const validate = require('flyme-validation')
+const mail_transporter = require('../mail')
 
 /**
  * 
@@ -104,6 +105,28 @@ const logic = {
                         }
                     })
             })
+    },
+
+    updateUserPhoto(userId, url) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
+        if (!url.trim().length) throw Error('url is empty')
+
+        return User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                user.id = user._id.toString()
+                delete user._id
+
+                return {
+                    status: 'OK',
+                    user: user,
+                }
+            })
+
     },
 
 
@@ -302,6 +325,33 @@ const logic = {
                 return { status: 'OK' }
             })
 
+    },
+
+    sendMail(userId, data) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'data', value: data, type: Object }])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new AuthError('Bad user authentication')
+
+                const mailOptions = {
+                    from: user.email,
+                    to: 'appflyme@gmail.com',
+                    subject: `REPORT: ${data.subject}`,
+                    html: `<h1>Report BUG</h1>
+                    <p>User ${user.name}, id(${user.id}) with email ${user.email} reports:</p>
+                    <p>${data.message}</p>
+                    <p>Flyme app</p>
+                `
+                }
+
+
+                mail_transporter.sendMail(mailOptions, function (err, res) {
+                    if (err) throw Error('The email could not be sent')
+                })
+
+                return { status: 'OK' }
+            })
     }
 
 }

@@ -5,14 +5,23 @@ const wait = require('waait')
 const dgram = require('dgram')
 
 const PORT = 8889
+const PORTVIDEO = 11111
 const HOST = '192.168.10.1'
 
 const drone = dgram.createSocket('udp4')
 drone.bind(PORT)
 
+const video = dgram.createSocket('udp4')
+video.bind(PORTVIDEO)
+
 drone.on('message', message => {
     console.log(`DRONE: ${message}`)
 })
+
+video.on('message', message => {
+    console.log(`VIDEO: ${message}`)
+})
+
 
 function handleError(error) {
     if (error) {
@@ -20,7 +29,7 @@ function handleError(error) {
     }
 }
 
-const commands = ['command', 'battery?'] //'takeoff', 'land'
+const commands = ['command', 'battery?', 'streamon'] //'takeoff', 'land'
 
 let i = 0
 
