@@ -364,49 +364,64 @@ describe('Question', () => {
 	});
 
 	describe('DELETE /v1/quiz/:id', () => {
-		// let dataUser = {};
-		// let dataQuiz = {};
-		// let author;
-		// let quizAdded;
-		// beforeEach(async () => {
-		// 	dataUser = {
-		// 		name: `n-${Math.random()}`,
-		// 		surname: `s-${Math.random()}`,
-		// 		email: `john-doe${Math.random()}@gmail.com`,
-		// 		password: `p-${Math.random()}`,
-		// 	};
-		// 	const user = new User(dataUser);
-		// 	const savedUser = await user.save();
-		// 	author = savedUser.normalize();
-		// 	dataQuiz = {
-		// 		author: author.id,
-		// 		title: `Quiz title-${Math.random()}`,
-		// 		description: `Quiz description-${Math.random()}`,
-		// 		picture: `Quiz image-${Math.random()}`,
-		// 		questions: [],
-		// 	};
-		// 	quizAdded = await quiz.createQuiz(dataQuiz);
-		// });
-		// it('should succeed on valid data', async () => {
-		// 	try {
-		// 		const currentQUiz = await Quiz.get(quizAdded.id);
-		// 		await quiz.deleteQuiz(currentQUiz);
-		//         const deletedQuiz = await Quiz.get(quizAdded.id);
-		//         expect(deletedQuiz).toBeUndefined();
-		// 	} catch (err) {
-		// 		expect(err).toBeInstanceOf(NotFoundError);
-		// 		expect(err.message).toEqual(`Quiz does not exist`);
-		// 	}
-		// });
-		// it('should not delete Quiz with bad ID', async () => {
-		// 	try {
-		// 		const currentQUiz = await Quiz.get('123');
-		// 		await quiz.deleteQuiz(currentQUiz);
-		// 	} catch (err) {
-		// 		// expect(err).toBeInstanceOf(MongooseError);
-		// 		expect(err.message).toEqual(`Cast to ObjectId failed for value "123" at path "_id" for model "Quiz"`);
-		// 	}
-		// });
+		let dataUser = {};
+		let dataQuiz = {};
+		let dataQuestion = {};
+		let author;
+		let quizAdded;
+		let questionAdded;
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+			
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+			quizAdded = await logicQuiz.createQuiz(dataQuiz);
+			
+			dataQuestion = {
+				quiz: quizAdded.id,
+				title: 'Question 1',
+				time: '25',
+				answers: [
+					{ title: 'Answer 11', success: false },
+					{ title: 'Answer 22', success: false },
+					{ title: 'Answer 33', success: true },
+					{ title: 'Answer 44', success: true },
+				],
+			};
+
+			questionAdded = await logicQuestion.createQuestion(dataQuestion);
+		});
+		it('should succeed on valid data', async () => {
+			try {
+				const currentQuestion = await Question.get(questionAdded.id);
+				await logicQuestion.deleteQuestion(currentQuestion);
+		        const deletedQuiz = await Question.get(questionAdded.id);
+			} catch (err) {
+				expect(err).toBeInstanceOf(NotFoundError);
+				expect(err.message).toEqual(`Question does not exist`);
+			}
+		});
+		it('should not delete Question with bad ID', async () => {
+			try {
+				const currentQuestion = await Question.get('123');
+			} catch (err) {
+				// expect(err).toBeInstanceOf(MongooseError);
+				expect(err.message).toEqual(`Cast to ObjectId failed for value "123" at path "_id" for model "Question"`);
+			}
+		});
 	});
 
 	describe('GET /v1/question', () => {

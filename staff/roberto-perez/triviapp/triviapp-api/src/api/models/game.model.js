@@ -25,7 +25,7 @@ const gameSchema = new mongoose.Schema(
 		],
 		start: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		quiz: {
 			type: ObjectId,
@@ -46,7 +46,7 @@ const gameSchema = new mongoose.Schema(
 gameSchema.method({
 	normalize() {
 		const quiz = {};
-		const fields = ['id', 'code', 'users', 'quiz', 'host', 'createdAt'];
+		const fields = ['id', 'code', 'users', 'quiz', 'host', 'start', 'createdAt'];
 
 		fields.forEach(field => (quiz[field] = this[field]));
 
@@ -84,8 +84,18 @@ gameSchema.statics = {
 	async get(id) {
 		try {
 			let game = await this.findById(id)
-				.populate('users')
-				.populate('quiz')
+				.populate({
+					path: 'users',
+					select: 'name surname email',
+				})
+				.populate({
+					path: 'quiz',
+					model: 'Quiz',
+					populate: {
+						path: 'questions',
+						model: 'Question',
+					},
+				})
 				.exec();
 
 			if (game) {

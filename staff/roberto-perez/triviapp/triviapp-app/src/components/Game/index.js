@@ -1,30 +1,31 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Welcome from './Welcome';
 import Start from './Start';
 import GetReady from './GetReady';
 import GameBlock from './GameBlock';
+import Questions from './Questions';
 
 function Game({ match }) {
+	const hostGame = useRef(null);
+
 	return (
-		<section className="host-game">
+		<section className="host-game" ref={hostGame}>
 			<Switch>
-				<Route path={`${match.url}/:gameId/welcome`} render={() => <Welcome />} />
-				
+				<Route
+					path={`${match.url}/:gameId/welcome`}
+					render={() => <Welcome hostGame={hostGame} />}
+				/>
+
 				<Route
 					path={`${match.url}/:gameId/start`}
-					render={() => <Start />}
+					render={() => <Start hostGame={hostGame} />}
 				/>
 
 				<Route
-					path={`${match.url}/:gameId/getready`}
-					render={() => <GetReady />}
-				/>
-
-				<Route
-					path={`${match.url}/:gameId/gameblock`}
-					render={() => <GameBlock />}
+					path={`${match.url}/:gameId/questions`}
+					render={() => <Questions hostGame={hostGame} />}
 				/>
 			</Switch>
 		</section>

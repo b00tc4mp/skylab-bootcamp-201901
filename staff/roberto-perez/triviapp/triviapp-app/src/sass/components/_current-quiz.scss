@@ -26,6 +26,11 @@
       padding: 2rem;
       font-weight: 900;
       color: #fff;
+      width: 10rem;
+      height: 10rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
@@ -73,17 +78,18 @@
   &__choices {
     display: flex;
     flex: 1;
-    flex-direction: column;
+    flex-direction: row;
     margin: 0.625rem 0;
     padding: 0.3125rem;
     flex-wrap: wrap;
-
+    align-items: flex-end;
     flex: 3;
   }
 
   &__item {
-    flex: 1 1 calc(50% - 2 * 0.3125rem);
     justify-content: flex-start;
+    // flex: 1 1 calc(50% - 2 * 0.3125rem);
+    flex: 1 1 calc(49%);
     width: calc(50% - 2 * 0.3125rem);
     height: calc(50% - 0.3125rem);
     margin: 0.3125rem;

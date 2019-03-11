@@ -7,27 +7,27 @@ import * as serviceWorker from './serviceWorker';
 
 import auth from './services/auth';
 
-Object.defineProperties(auth, {
-	__user__: {
-		set(user) {
-			sessionStorage.setItem('__user__', user);
-		},
+// Object.defineProperties(auth, {
+// 	__user__: {
+// 		set(user) {
+// 			sessionStorage.setItem('__user__', user);
+// 		},
 
-		get() {
-			return sessionStorage.getItem('__user__');
-		},
-	},
+// 		get() {
+// 			return sessionStorage.getItem('__user__');
+// 		},
+// 	},
 
-	__userApiToken__: {
-		set(token) {
-			sessionStorage.setItem('__userApiToken__', token);
-		},
+// 	__userApiToken__: {
+// 		set(token) {
+// 			sessionStorage.setItem('__userApiToken__', token);
+// 		},
 
-		get() {
-			return sessionStorage.getItem('__userApiToken__');
-		},
-	},
-});
+// 		get() {
+// 			return sessionStorage.getItem('__userApiToken__');
+// 		},
+// 	},
+// });
 
 ReactDOM.render(
 	<HashRouter>

@@ -10,7 +10,7 @@ const imageApi = {
 		return fetch(`${this.url}/image`, {
 			method: 'POST',
 			headers: {
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			},
 			body: formData,
 		})

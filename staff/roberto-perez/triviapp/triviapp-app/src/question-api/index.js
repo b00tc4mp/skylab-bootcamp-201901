@@ -25,7 +25,7 @@ const questionApi = {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			},
 			body: JSON.stringify(data),
 		})
@@ -42,7 +42,7 @@ const questionApi = {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			},
 			body: JSON.stringify(data),
 		})
@@ -59,7 +59,7 @@ const questionApi = {
 			method: 'DELETE',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			}
 		})
 			.then(response => response.json())

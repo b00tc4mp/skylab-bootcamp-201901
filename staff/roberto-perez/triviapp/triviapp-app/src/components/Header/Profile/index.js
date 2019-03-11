@@ -9,7 +9,7 @@ function Profile(props) {
 	const wrapperRef = useRef(null);
 	const [isHidden, setisHidden] = useState(true);
 
-	const currentUser = JSON.parse(auth.__user__);
+	const currentUser = auth.userLoggedIn;
 
 	useEffect(() => {
 		document.addEventListener('click', handleClickOutside, false);
@@ -30,7 +30,7 @@ function Profile(props) {
 
 	return (
 		<div className="header__profile">
-			<a className="btn__link header__btn-create black" href="#">
+			<a className="btn__link header__btn-create black" href="/">
 				<i className="fas fa-gamepad btn__link-icon" /> Join game
 			</a>
 

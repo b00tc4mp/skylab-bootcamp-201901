@@ -24,7 +24,7 @@ const quizApi = {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			},
 			body: JSON.stringify(data),
 		})
@@ -42,7 +42,7 @@ const quizApi = {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			},
 			body: JSON.stringify(data),
 		})
@@ -60,7 +60,7 @@ const quizApi = {
 			method: 'DELETE',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			},
 		})
 			.then(response => response.json())

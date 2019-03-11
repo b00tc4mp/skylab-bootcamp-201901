@@ -1,9 +1,11 @@
 import userApi from '../../user-api';
 import validate from '../../utils/validate';
+import Xtorage from '../xtorage';
 
 const auth = {
 	__userApiToken__: null,
 	__user__: null,
+	storage: sessionStorage,
 
 	async signup(data) {
 		const { name, surname, email, password } = data;
@@ -34,8 +36,13 @@ const auth = {
 
 		try {
 			const { token, user } = await userApi.login(data);
-			this.__userApiToken__ = token;
-			this.__user__ = JSON.stringify(user);
+			
+			const xtorage = new Xtorage(this.storage);
+			
+			xtorage.set('token', token);
+			xtorage.set('user', user);
+			// this.__userApiToken__ = token;
+			// this.__user__ = JSON.stringify(user);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -45,22 +52,37 @@ const auth = {
 	 * Checks user is logged in.
 	 */
 	get isUserLoggedIn() {
-		return !!this.__userApiToken__;
+		const xtorage = new Xtorage(this.storage);
+		return !!xtorage.get('token');
+		// return !!this.__userApiToken__;
 	},
 
 	/**
-	 * Checks user is logged in.
+	 * Return user token.
+	 */
+	get token() {
+		const xtorage = new Xtorage(this.storage);
+		return xtorage.get('token');
+		// return this.__user__;
+	},
+
+	/**
+	 * Return user logged in.
 	 */
 	get userLoggedIn() {
-		return this.__user__;
+		const xtorage = new Xtorage(this.storage);
+		return xtorage.get('user');
+		// return this.__user__;
 	},
 
 	/**
 	 * Logs out the user.
 	 */
 	logOutUser() {
-		this.__userApiToken__ = null;
-		this.__user__ = null;
+		const xtorage = new Xtorage(this.storage);
+		xtorage.clear();
+		// this.__userApiToken__ = null;
+		// this.__user__ = null;
 	},
 };
 

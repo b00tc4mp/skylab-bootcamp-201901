@@ -24,7 +24,7 @@ const gameApi = {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			},
 			body: JSON.stringify({ quiz: quizId }),
 		})
@@ -41,7 +41,7 @@ const gameApi = {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.__userApiToken__}`,
+				authorization: `Bearer ${auth.token}`,
 			},
 		})
 			.then(response => response.json())
@@ -54,14 +54,14 @@ const gameApi = {
 	joinGame(code) {
 		//VALIDACIONES DE TIPO
 
-		const toke = auth.__userApiToken__;
+		const toke = auth.token;
 
 		const headers = {
 			'content-type': 'application/json',
 		};
 
 		if (toke) {
-			headers.authorization = `Bearer ${auth.__userApiToken__}`;
+			headers.authorization = `Bearer ${auth.token}`;
 		}
 
 		return fetch(`${this.url}/join`, {

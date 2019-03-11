@@ -7,6 +7,7 @@ const {
 const httpStatus = require('http-status');
 const { answerSchema } = require('./answer.model');
 const { quizSchema } = require('./quiz.model');
+const { NotFoundError } = require('../errors/index');
 
 /**
  * Question Schema
@@ -104,10 +105,7 @@ questionSchema.statics = {
 				return question;
 			}
 
-			throw new Error({
-				message: 'Question does not exist',
-				status: httpStatus.NOT_FOUND,
-			});
+			throw new NotFoundError('Question does not exist');
 		} catch (error) {
 			throw error;
 		}
