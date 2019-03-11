@@ -167,11 +167,13 @@ const logic = {
       by: userId,
       body: text
     });
-    return Post.findById(postId).then(post => {
-      const { comments = [] } = post;
-      comments.push(newComment);
-      return post.save();
-    });
+    return Post.findById(postId)
+      .then(post => {
+        const { comments = [] } = post;
+        comments.push(newComment);
+        return post.save();
+      })
+      .then(() => Post.findById(postId).populate("comments.by", "username"));
   }
 };
 

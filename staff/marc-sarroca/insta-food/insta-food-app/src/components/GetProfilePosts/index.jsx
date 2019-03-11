@@ -17,8 +17,6 @@ function GetProfilePost() {
     logic.retrievePostByUser(id, token).then(posts => setPosts(posts));
   };
 
-  console.log(posts);
-
   return (
     <div className="card-listt">
       {posts.map(post => (

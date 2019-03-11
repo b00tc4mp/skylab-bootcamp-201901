@@ -4,16 +4,14 @@ import AddComment from "../AddComment";
 
 function Card({ title, image, description, comments, postId }) {
   const [commentsPost, setComments] = useState("");
-
+  console.log(comments);
   const refreshComments = comments => {
     setComments(comments);
-    console.log(comments);
   };
 
   useEffect(() => {
     setComments(comments);
   }, [comments]);
-
   return (
     <div className="card">
       {title && <p>{title}</p>}
@@ -22,7 +20,10 @@ function Card({ title, image, description, comments, postId }) {
       {commentsPost &&
         commentsPost.map(comment => (
           <Fragment>
-            <p>Comentario: </p> <p>{comment.body}</p>
+            <p>Comentario: </p>
+            <p>{comment.body}</p>
+            <p>Usuario: </p>
+            <p>{comment.by.username}</p>
           </Fragment>
         ))}
       <AddComment postId={postId} refreshComments={refreshComments} />

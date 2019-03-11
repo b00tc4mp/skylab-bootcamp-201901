@@ -11,7 +11,6 @@ function AddComment({ postId, refreshComments }) {
   const handleOnClick = event => {
     event.preventDefault();
     logic.addComment(postId, token, id, text).then(comment => {
-      console.log(comment.comments);
       refreshComments(comment.comments);
     });
   };

@@ -19,8 +19,8 @@ function CardList() {
   console.log(posts);
 
   return (
-    <div className="card-listt">
-      {posts.map(post => (
+    <div className="card-list">
+      {posts.reverse().map(post => (
         <Card
           title={post.title}
           image={post.image}
