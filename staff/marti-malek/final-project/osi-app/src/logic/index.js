@@ -77,6 +77,10 @@ const logic = {
         return osiApi.createRootDir(this.__userApiToken__)
     },
 
+    createDir(dirName) {
+        return osiApi.createDir(this.__userApiToken__, dirName)
+    },
+
     retrieveFile(filePath) {
         return osiApi.retrieveFile(this.__userApiToken__, filePath)
     },
@@ -87,6 +91,14 @@ const logic = {
 
     updatePositions(positions) {
         return osiApi.updatePositions(this.__userApiToken__, positions)
+    },
+
+    removeDir(dirPath) {
+        return osiApi.removeDir(this.__userApiToken__, dirPath)
+    },
+
+    rename(oldName, newName) {
+        return osiApi.rename(this.__userApiToken__, oldName, newName)
     }
 }
 

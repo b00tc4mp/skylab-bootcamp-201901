@@ -9,5 +9,7 @@ module.exports = {
     createDir: require('./create-dir'),
     retrieveFile: require('./retrieve-file'),
     retrieveDir: require('./retrieve-dir'),
-    updatePosition: require('./update-position')
+    updatePosition: require('./update-position'),
+    removeDir: require('./remove-dir'),
+    rename: require('./rename')
 }

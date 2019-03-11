@@ -229,6 +229,57 @@ const osiApi = {
                 if (response.error) throw response.error
                 else return response
             })
+    },
+
+    removeDir(token, dirPath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof dirPath !== 'string') throw TypeError(`${dirPath} should be a string`)
+
+        if (!dirPath.trim().length) throw Error('dirPath cannot be empty')
+        return fetch(this.url + `dir?dirPath=${dirPath}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    rename(token, oldName, newName) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof oldName !== 'string') throw TypeError(`${oldName} should be a string`)
+
+        if (!oldName.trim().length) throw Error('oldName cannot be empty')
+
+        if (typeof newName !== 'string') throw TypeError(`${newName} should be a string`)
+
+        if (!newName.trim().length) throw Error('newName cannot be empty')
+
+        return fetch(this.url + `rename?newName=${newName}&oldName=${oldName}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
     }
 
 }
