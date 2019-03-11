@@ -16,6 +16,8 @@ function CardList() {
     logic.retrieveAllPosts(token).then(posts => setPosts(posts));
   };
 
+  console.log(posts);
+
   return (
     <div className="card-listt">
       {posts.map(post => (
@@ -24,6 +26,7 @@ function CardList() {
           image={post.image}
           description={post.description}
           comments={post.comments}
+          postId={post._id}
         />
       ))}
     </div>

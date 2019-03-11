@@ -120,6 +120,22 @@ const instaApi = {
     })
       .then(response => response.json())
       .then(post => post);
+  },
+
+  addComment(postId, token, userId, text) {
+    return fetch(`${this.url}/user/${postId}/comments`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        userId,
+        text
+      })
+    })
+      .then(response => response.json())
+      .then(post => post);
   }
 };
 

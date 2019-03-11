@@ -3,13 +3,12 @@ const logic = require("../logic");
 module.exports = (req, res) => {
   const {
     params: { postId },
-    body: { body },
-    userId
+    body: { userId, text }
   } = req;
 
   try {
     logic
-      .addCommentPost(userId, postId, body)
+      .addCommentPost(userId, postId, text)
       .then(res.json.bind(res))
       .catch(({ message }) => {
         res.status(409).json({

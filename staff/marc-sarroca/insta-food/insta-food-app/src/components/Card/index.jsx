@@ -1,18 +1,31 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./index.sass";
+import AddComment from "../AddComment";
 
-function Card({ title, image, description, comments }) {
+function Card({ title, image, description, comments, postId }) {
+  const [commentsPost, setComments] = useState("");
+
+  const refreshComments = comments => {
+    setComments(comments);
+    console.log(comments);
+  };
+
+  useEffect(() => {
+    setComments(comments);
+  }, [comments]);
+
   return (
     <div className="card">
       {title && <p>{title}</p>}
       <img className="post-image" src={image} alt="Post" />
       {description && <p>{description}</p>}
-      {comments &&
-        comments.map(comment => (
+      {commentsPost &&
+        commentsPost.map(comment => (
           <Fragment>
             <p>Comentario: </p> <p>{comment.body}</p>
           </Fragment>
         ))}
+      <AddComment postId={postId} refreshComments={refreshComments} />
     </div>
   );
 }

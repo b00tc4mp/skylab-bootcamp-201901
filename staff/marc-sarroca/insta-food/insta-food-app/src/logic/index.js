@@ -103,6 +103,10 @@ const logic = {
   },
   retrievePostByUser(id, token) {
     return instaApi.retrievePostsByUser(id, token);
+  },
+
+  addComment(postId, token, id, text) {
+    return instaApi.addComment(postId, token, id, text);
   }
 };
 
