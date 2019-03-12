@@ -1,0 +1,27 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+.desktop
+    width: 100%
+    height: 100%
+    display: grid
+    grid-template-columns: 35% 65%
+    grid-template-rows: 20% 80%
+    background-image: url("../../media/background-image.jpeg")
+    background-repeat: no-repeat
+    background-position: bottom
+    background-size: cover
+    &__clock
+        grid-column: 1 / 2
+        grid-row: 1 / 2
+    &__todos
+        grid-column: 2 / 3
+        grid-row: 1 / 2
+    &__toolbar
+        grid-column: 1 / 2
+        grid-row: 2 / 3
+    &__dragzone
+        grid-column: 2 / 3
+        grid-row: 2 / 3
