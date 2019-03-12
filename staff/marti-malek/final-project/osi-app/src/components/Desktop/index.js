@@ -6,7 +6,7 @@ import Dragzone from '../Dragzone'
 import logic from '../../logic'
 import './index.sass'
 
-function Desktop({ handleState, handleNewFolder }) {
+function Desktop({ handleState, handleNewFolder, handleNewFile }) {
 
     let [level, setLevel] = useState([])
     let [positions, setPositions] = useState([])
@@ -45,6 +45,10 @@ function Desktop({ handleState, handleNewFolder }) {
             .then(() => handleState())
     }
 
+    handleNewFile = () => {
+        console.log('new file huhu')
+    }
+
     return <section className="desktop">
         <div className="desktop__clock">
             <Clock></Clock>
@@ -53,7 +57,7 @@ function Desktop({ handleState, handleNewFolder }) {
             <Todos></Todos>
         </div>
         <div className="desktop__toolbar">
-            <Toolbar newFolder={handleNewFolder}></Toolbar>
+            <Toolbar newFolder={handleNewFolder} newFile={handleNewFile}></Toolbar>
         </div>
         <div className="desktop__dragzone">
             <Dragzone dir={level} pos={positions}></Dragzone>

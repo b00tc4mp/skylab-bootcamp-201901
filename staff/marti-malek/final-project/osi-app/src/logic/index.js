@@ -80,13 +80,17 @@ const logic = {
     createDir(dirName) {
         return osiApi.createDir(this.__userApiToken__, dirName)
     },
+    
+    retrieveDir(dirPath) {
+        return osiApi.retrieveDir(this.__userApiToken__, dirPath)
+    },
+
+    createFile(fileContent) {
+        return osiApi.createFile(this.__userApiToken__, fileContent)
+    },
 
     retrieveFile(filePath) {
         return osiApi.retrieveFile(this.__userApiToken__, filePath)
-    },
-
-    retrieveDir(dirPath) {
-        return osiApi.retrieveDir(this.__userApiToken__, dirPath)
     },
 
     updatePositions(positions) {

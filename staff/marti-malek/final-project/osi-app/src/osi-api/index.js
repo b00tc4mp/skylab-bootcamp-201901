@@ -186,6 +186,27 @@ const osiApi = {
             })
     },
 
+    createFile(token, fileContent) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!fileContent) throw Error(`fileContent must exist`)
+
+        if (fileContent.constructor !== Object) throw TypeError(`${fileContent} should be an object`)
+
+        return fetch(this.url + `create/file`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
     retrieveFile(token, filePath) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
