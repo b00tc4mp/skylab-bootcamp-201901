@@ -11,7 +11,7 @@ describe('state', () => {
         expect(__state__.hello).to.equal('world')
     })
 
-    it('should keep state on multiple value', () => {
+    it('should keep state on multiple values', () => {
         const state = new State(sessionStorage, stateStorageKey)
 
         state.set({ hello: 'world' })
@@ -39,7 +39,7 @@ describe('state', () => {
         expect(__state__.hello).to.equal('mundo')
     })
 
-    it('should update state on multiple value', () => {
+    it('should update state on multiple values', () => {
         const state = new State(sessionStorage, stateStorageKey)
 
         state.set({ hello: 'world' })
