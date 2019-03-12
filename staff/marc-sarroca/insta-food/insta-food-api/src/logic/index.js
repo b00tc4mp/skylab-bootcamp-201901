@@ -128,6 +128,7 @@ const logic = {
   retrieveAllPosts() {
     return Post.find({})
       .populate("comments.by", "username")
+      .populate("user_id")
       .select("-__v -password")
       .lean()
 

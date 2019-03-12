@@ -11,6 +11,7 @@ function Card({
   comments,
   postId,
   userFavorites,
+  username,
   call
 }) {
   const [commentsPost, setComments] = useState("");
@@ -33,6 +34,7 @@ function Card({
 
   return (
     <div className="card">
+      <p>{username}</p>
       {title && <p>{title}</p>}
       <img className="post-image" src={image} alt="Post" />
       <i

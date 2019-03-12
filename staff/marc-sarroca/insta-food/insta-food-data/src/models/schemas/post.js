@@ -23,10 +23,12 @@ const Post = new Schema({
     type: String,
     required: true
   },
-  user_id: {
-    type: String,
-    required: true
-  },
+  user_id: [
+    {
+      type: ObjectId,
+      ref: "User"
+    }
+  ],
   comments: [Comment]
 });
 
