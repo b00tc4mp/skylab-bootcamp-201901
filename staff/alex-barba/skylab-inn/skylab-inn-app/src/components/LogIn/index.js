@@ -22,20 +22,26 @@ export default function LogIn({ onLogIn, onToSignUp }) {
     }
 
     return (
-        <div className='container'>
-            <div className='header'>
+        <div className='login-container'>
+            <div className='login-container__header'>
                 <h1>SkyLab Inn</h1>
             </div>
-            <form className='form' onSubmit={handleFormSubmit}>
-                <input autoFocus type='text' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} required></input>
-                <input type='password' name='password' placeholder='Password' onChange={e => setPassword(e.target.value)} required></input>
+            <form className='login-container__form' onSubmit={handleFormSubmit}>
+                <div className='login-container__form-input'>
+                    <i className='far fa-user-circle icon'></i>&nbsp;
+                    <input type='text' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} required></input>
+                </div>
+                <div className='login-container__form-input'>
+                    <i className='fas fa-key icon'></i>&nbsp;
+                    <input type='password' name='password' placeholder='Password' onChange={e => setPassword(e.target.value)} required></input>
+                </div>
                 {feedback && <Feedback />}
                 <button type='submit' className='btn btn--primary'>Log In</button>
             </form>
-            <div className='signup'>
-                <a onClick={handleToSignUp}>Not a member yet?<br/>Registration only by invitation</a>
+            <div className='login-container__link'>
+                <a onClick={handleToSignUp} className='signup'>Not a member yet?<br/>Registration only by invitation</a>
             </div>
-            <div className='footer'>
+            <div className='login-container__footer'>
                 <a href='https://www.skylabcoders.com/en' target='_blank'>Discover Skylab Coders Academy!</a>
             </div>
         </div>

@@ -16,9 +16,10 @@ $xlarge: 1.1rem
 /* Button */
 
 @mixin btn-bg($bg) 
-    background: $bg
+    background: none
+    color: darken($bg, 30%)
     &:hover
-        background: darken($bg,1%)
+        background: lighten($bg,60%)
         transition: all 0.3s ease
         // color: lighten($bg, 10%)
         border-bottom: 0.05rem dotted darken($bg,10%)
@@ -42,9 +43,9 @@ $xlarge: 1.1rem
 
     // Colors & Inverted
     &--primary
-        @include btn-bg($white)
+        @include btn-bg($primary)
         &-inverted
-            @include btn-inverted($white)
+            @include btn-inverted($primary)
     &--success
         @include btn-bg($success)
         &-inverted
@@ -61,7 +62,20 @@ $xlarge: 1.1rem
         font-size: $large
     &-xlarge 
         font-size: $xlarge 
-  
+
+
+/* Icons */
+.icon
+    color: $primary
+    align-self: center
+    font-size: $medium
+
+    &--link 
+        cursor: pointer
+
+    &:hover
+        color: darken($primary, 30%)
+
 /* Inputs */
 
 input 
@@ -71,4 +85,16 @@ input
     color: $secondary
     border: none
     background: none
+    width: 100%
+
+.input
+    &--small
+        width: 32%
+
+/* Links */
+
+a:link
+    color: $primary
+    &:visited
+        color: $primary
 

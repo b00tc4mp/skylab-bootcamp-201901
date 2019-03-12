@@ -166,7 +166,7 @@ const skylabInnApi = {
 
         let formData = new FormData()
         formData.append('image', data.image)
-
+        debugger
         return fetch(`${this.url}/user-photo`, {
             method: 'POST',
             headers: {

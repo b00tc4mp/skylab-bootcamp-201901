@@ -7,6 +7,8 @@ import Language from '../Language'
 import Education from '../Education'
 import Feedback from '../Feedback'
 
+import './index.sass'
+
 export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpdateInformation, onRemoveInformation, onUploadPhoto }) {
 
     const { feedback, userData, setFeedback } = useContext(AppContext)
@@ -14,6 +16,7 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
     const { name, surname, image } = userData
 
     const [_image, setImage] = useState(null)
+    const [editImage, setEditImage] = useState(null)
 
     const [editPersonal, setEditPersonal] = useState(null)
 
@@ -30,6 +33,7 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
     const [editEducation, setEditEducation] = useState(null)
 
     const handleOnUploadPhoto = () => {
+        setEditImage(null)
         onUploadPhoto(_image)
     }
 
@@ -105,42 +109,46 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
     }
 
     const handleOnEditPersonalInfo = () => {
-        if (!addWorkExperience && !editWork && !editPersonal && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setEditPersonal(true)
+        if (!addWorkExperience && !editWork && !editPersonal && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditPersonal(true)
     }
 
     const handleOnAddWork = () => {
-        if (!editPersonal && !editWork && !addTechnology && !addWorkExperience && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setAddWorkExperience(true)
+        if (!editPersonal && !editWork && !addTechnology && !addWorkExperience && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddWorkExperience(true)
     }
 
     const handleOnEditWork = id => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setEditWork(id)
+        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditWork(id)
     }
 
     const handleOnAddTech = () => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setAddTechnology(true)
+        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddTechnology(true)
     }
 
     const handleOnEditTech = id => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setEditTechnology(id)
+        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditTechnology(id)
     }
 
     const handleOnAddLanguage = () => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setAddLanguage(true)
+        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddLanguage(true)
     }
 
     const handleOnEditLanguage = id => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setEditLanguage(id)
+        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditLanguage(id)
     }
 
     const handleOnAddEducation = () => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setAddEducation(true)
+        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddEducation(true)
     }
 
     const handleOnEditEducation = id => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation) setEditEducation(id)
+        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditEducation(id)
     }
 
-    const handelOnCancelEditorAdd = () => {
+    const handleOnEditImage = () => {
+        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditImage(true)
+    }
+
+    const handleOnCancelEditorAdd = () => {
         editPersonal && setEditPersonal(null)
         addWorkExperience && setAddWorkExperience(null)
         editWork && setEditWork(null)
@@ -150,42 +158,48 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
         editLanguage && setEditLanguage(null)
         addEducation && setAddEducation(null)
         editEducation && setEditEducation(null)
+        handleOnEditImage && setEditImage(null)
     }
 
     return (
-        <section>
-            <h2>Hi {name} </h2>
-            <p>Update your profile</p>
-            <section>
-                <section>
-                    <h4>{name} {surname}</h4>
-                    {image ? <img src={`${image}`}></img> : <img src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif' height='42' width='42'></img> }
-                    <input type='file' name='image' onChange={e => setImage({image: e.target.files[0]})}></input>
-                    <button onClick={e => {e.preventDefault(); handleOnUploadPhoto()}}>Upload photo</button>
-                </section>
-                <section>
-                    <h5>Personal Information</h5>
-                    <PersonalInformation onEditPersonalInfo={handleOnEditPersonalInfo} onUpdatePersonalInfo={handleUpdatePersonalInfo} editPersonal={editPersonal} onCancel={handelOnCancelEditorAdd} />
-                </section>
-                <section>
-                    <h5>Work Experience</h5>
-                    <WorkExperience onAddWork={handleOnAddWork} onAddInformation={handleAddInformation} onEditWork={handleOnEditWork} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editWork={editWork} addWorkExperience={addWorkExperience} onCancel={handelOnCancelEditorAdd} />
-                </section>
-                <section>
-                    <h5>Technology</h5>
-                    <Technology onAddTech={handleOnAddTech} onAddInformation={handleAddInformation} onEditTech={handleOnEditTech} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editTechnology={editTechnology} addTechnology={addTechnology} onCancel={handelOnCancelEditorAdd} />
-                </section>
-                <section>
-                    <h5>Language</h5>
-                    <Language onAddLanguage={handleOnAddLanguage} onAddInformation={handleAddInformation} onEditLanguage={handleOnEditLanguage} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editLanguage={editLanguage} addLanguage={addLanguage} onCancel={handelOnCancelEditorAdd} />
-                </section>
-                <section>
-                    <h5>Education</h5>
-                    <Education onAddEducation={handleOnAddEducation} onAddInformation={handleAddInformation} onEditEducation={handleOnEditEducation} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editEducation={editEducation} addEducation={addEducation} onCancel={handelOnCancelEditorAdd} />
-                </section>
+        <div className='profile'>
+            <div className='profile-header'>
+                <h2>This is your profile {name}, <br/> is it up to date?</h2>
+            </div>
+            <div className='profile-container'>
+                <div className='profile-container__personalInformation'>
+                    <div className='profile-container__personalInformation-name'>
+                        <h4>{name}<br/>{surname}</h4>
+                    </div>
+                    {!editImage && <div className='profile-container__personalInformation-image'>
+                        {image ? <img src={`${image}`}></img> : <img src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
+                        <a onClick={handleOnEditImage}>Update profile image</a>
+                    </div>}
+                    {editImage && <div className='profile-container__personalInformation-image--edit'><input className='input--small' type='file' name='image' onChange={e => setImage({image: e.target.files[0]})}></input>
+                    <button className='btn btn--success' onClick={e => {e.preventDefault(); handleOnUploadPhoto()}}>Upload image</button>
+                    <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditorAdd() }}>Cancel</button></div>}
+                </div>
+                <div className='profile-container__contactInformation'>
+                    <PersonalInformation onEditPersonalInfo={handleOnEditPersonalInfo} onUpdatePersonalInfo={handleUpdatePersonalInfo} editPersonal={editPersonal} onCancel={handleOnCancelEditorAdd} />
+                </div>
+                <div className='profile-container__workExperience'>
+                    <WorkExperience onAddWork={handleOnAddWork} onAddInformation={handleAddInformation} onEditWork={handleOnEditWork} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editWork={editWork} addWorkExperience={addWorkExperience} onCancel={handleOnCancelEditorAdd} />
+                </div>
+                <div className='profile-container__technology'>
+                    <h5 className='subtitle'>Technology</h5>
+                    <Technology onAddTech={handleOnAddTech} onAddInformation={handleAddInformation} onEditTech={handleOnEditTech} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editTechnology={editTechnology} addTechnology={addTechnology} onCancel={handleOnCancelEditorAdd} />
+                </div>
+                <div className='profile-container__language'>
+                    <h5 className='subtitle'>Language</h5>
+                    <Language onAddLanguage={handleOnAddLanguage} onAddInformation={handleAddInformation} onEditLanguage={handleOnEditLanguage} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editLanguage={editLanguage} addLanguage={addLanguage} onCancel={handleOnCancelEditorAdd} />
+                </div>
+                <div className='profile-container__education'>
+                    <h5 className='subtitle'>Education</h5>
+                    <Education onAddEducation={handleOnAddEducation} onAddInformation={handleAddInformation} onEditEducation={handleOnEditEducation} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editEducation={editEducation} addEducation={addEducation} onCancel={handleOnCancelEditorAdd} />
+                </div>
                 {feedback && <Feedback />}
-            </section>
-        </section>
+            </div>
+        </div>
     )
 
 }

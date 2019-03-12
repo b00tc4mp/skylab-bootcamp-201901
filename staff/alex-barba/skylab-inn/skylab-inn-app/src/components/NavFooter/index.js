@@ -2,6 +2,7 @@
 
 import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
+import './index.sass'
 
 export default function NavFooter({ onToWelcome, onToProfile, onToSignOut }) {
     const { userData } = useContext(AppContext)
@@ -19,10 +20,10 @@ export default function NavFooter({ onToWelcome, onToProfile, onToSignOut }) {
     }
 
     return (
-        <nav>
-            <a onClick={handleToWelcome}>Home</a>
-            {userData.role === 'User' && <a onClick={handleToProfile}>Profile</a>}
-            <a onClick={handleToSignOut}>Sign Out</a>
+        <nav className='nav-footer'>
+            <i className='fas fa-home icon' onClick={handleToWelcome}/>
+            {userData.role === 'User' &&  <i className='far fa-user-circle icon' onClick={handleToProfile}/>}
+            <i className='fas fa-sign-out-alt icon' onClick={handleToSignOut}/>
         </nav>
     )
 }

@@ -1,0 +1,34 @@
+@import '../../utils.sass'
+
+.welcome-container
+    display: flex
+    flex-direction: column
+    height: 93vh
+    justify-content: flex-start
+    
+    &__header
+        order: 1
+        margin-top: 3rem
+        align-self: center
+        text-align: center
+        fontsize: $xlarge
+
+    &__menu
+        order: 2
+        width: 60%
+        align-self: center
+        display: flex
+        flex-direction: column
+        text-align: center
+        margin-top: 5rem
+
+        & > a
+            padding: 2rem
+            cursor: pointer
+            border: 0.05rem dotted $primary
+            margin-bottom: 0.2rem
+
+            &:hover
+                box-shadow: 0.2rem 0.2rem $primary
+
+

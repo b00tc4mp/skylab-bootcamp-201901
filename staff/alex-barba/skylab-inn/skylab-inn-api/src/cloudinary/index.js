@@ -20,11 +20,10 @@ function cloudinaryUploader(req, res, next) {
             path,
             function (err, image) {
                 if (err) return req.send(err)
-                console.log('file uploaded to Cloudinary')
-                // remove file from server
+        
                 const fs = require('fs')
                 fs.unlinkSync(path)
-                // return image details
+
                 req.image = image
                 next()
             })

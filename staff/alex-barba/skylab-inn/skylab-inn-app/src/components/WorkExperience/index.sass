@@ -1,0 +1,40 @@
+@import '../../utils.sass'
+
+.workExp
+    &-container
+        justify-content: center
+        align-content: center
+        display: flex
+        flex-direction: column
+        flex-wrap: nowrap
+
+        &__header
+            display: flex
+            justify-content: space-between
+
+        &__content
+            display: flex
+            flex-direction: column
+
+            & > a 
+                padding-bottom: 0.5rem
+
+        &__form
+            display: flex
+            flex-direction: column
+
+            &-input
+                display: flex    
+
+.subtitle
+    font-size: $large
+
+.checkbox
+    display: flex
+
+    & > input
+        width: 20%
+    
+    & > span
+        color: $primary
+

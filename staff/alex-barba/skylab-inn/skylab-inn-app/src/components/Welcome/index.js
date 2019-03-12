@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
+import './index.sass'
 
 export default function Welcome({ onToSearch, onToAdvancedSearch, onToManageSkylabers }) {
 
@@ -17,15 +18,17 @@ export default function Welcome({ onToSearch, onToAdvancedSearch, onToManageSkyl
         onToManageSkylabers()
     }
 
-
-
     return (
-        <section>
-            <h2>Hi {userData.name} </h2>
-            <a onClick={handleToSearch}>Look for a Skylaber</a>
-            <a onClick={handleToAdvancedSearch}>Advanced search</a>
-            {userData.role === 'Admin' && <a onClick={handleToManageSkylabers}>Manage Skylabers</a>}
-        </section>
+        <div className='welcome-container'>
+            <div className='welcome-container__header'>
+                <h2>Welcome {userData.name}! <br/> What would you like to do?</h2>
+            </div>
+            <div className='welcome-container__menu'>
+                <a onClick={handleToSearch}>Just a query? Click here!</a>
+                <a onClick={handleToAdvancedSearch}>More than one? <br/>Then, click here!</a>
+                {userData.role === 'Admin' && <a onClick={handleToManageSkylabers}>Manage Skylabers</a>}
+            </div>
+        </div>
     )
 
 }

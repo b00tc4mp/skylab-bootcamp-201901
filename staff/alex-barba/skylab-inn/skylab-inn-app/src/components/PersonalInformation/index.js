@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react'
 import { AppContext } from '../AppContext'
 
+import './index.sass'
+
 export default function PersonalInformation({ onEditPersonalInfo, onUpdatePersonalInfo, editPersonal, onCancel }) {
 
     const { userData } = useContext(AppContext)
@@ -27,23 +29,43 @@ export default function PersonalInformation({ onEditPersonalInfo, onUpdatePerson
     }
 
     return (
-        <section>
-            <a onClick={handleOnEditPersonalInfo}>Edit Personal Information</a>
-            {!editPersonal ? <div>
-                <a href={`mailto:${email}`} target='_top'>@: {email ? email : ''}</a>
-                <a href={`tel:${telephone}`}>Phone: {telephone}</a>
-                <a href={`${git}`} target='_blank'>GIT: {git}</a>
-                <a href={`${linkedin}`} target='_blank'>LinkedIn: {linkedin}</a>
-                <a href={`https://skylabcoders.slack.com/messages/${slack}`} target='_blank'>Slack ID: {slack}</a></div>
-                : <form onSubmit={e => handleUpdatePersonalInfo(e)}>
-                    <input type='email' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} defaultValue={email} required></input>
-                    <input type='text' name='telephone' placeholder='Telephone' onChange={e => setTelephone(e.target.value)} defaultValue={telephone}></input>
-                    <input type='text' name='git' placeholder='Git' onChange={e => setGit(e.target.value)} defaultValue={git}></input>
-                    <input type='text' name='linkedin' placeholder='Linkedin' onChange={e => setLinkedin(e.target.value)} defaultValue={linkedin}></input>
-                    <input type='text' name='slack' placeholder='Slack Id' onChange={e => setSlack(e.target.value)} defaultValue={slack}></input>
-                    <button type="submit">Update</button><button onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button></form>
+        <div className='contactInfo-container'>
+            <div className='contactInfo-container__header'>
+                <h5 className='subtitle'>Contact Information</h5>
+                <i className='fas fa-pencil-alt icon icon--link' onClick={handleOnEditPersonalInfo}></i>
+            </div>
+            {!editPersonal ? <div className='contactInfo-container__content'>
+                <a href={`mailto:${email}`} target='_top'><i className='far fa-envelope icon'></i>&nbsp;{email ? email : ''}</a>
+                <a href={`https://api.whatsapp.com/send?phone=${telephone}`} target='_blank'><i className='fab fa-whatsapp icon'></i>&nbsp;{telephone}</a>
+                <a href={`${git}`} target='_blank'><i className='fab fa-github icon'></i>&nbsp;{git}</a>
+                <a href={`${linkedin}`} target='_blank'><i className='fab fa-linkedin icon'></i>&nbsp;{linkedin}</a>
+                <a href={`https://skylabcoders.slack.com/messages/${slack}`} target='_blank'><i className='fab fa-slack icon'></i>&nbsp;{slack}</a></div>
+                : <form className='contactInfo-container__form' onSubmit={e => handleUpdatePersonalInfo(e)}>
+                    <div className='contactInfo-container__form-input'>
+                        <i className='far fa-envelope icon'></i>&nbsp;
+                        <input type='email' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} defaultValue={email} required></input>
+                    </div>
+                    <div className='contactInfo-container__form-input'>
+                        <i className='fab fa-whatsapp icon'></i>&nbsp;
+                        <input type='text' name='telephone' placeholder='Telephone' onChange={e => setTelephone(e.target.value)} defaultValue={telephone}></input>
+                    </div>
+                    <div className='contactInfo-container__form-input'>
+                        <i className='fab fa-github icon'></i>&nbsp;
+                        <input type='text' name='git' placeholder='Git' onChange={e => setGit(e.target.value)} defaultValue={git}></input>
+                    </div>
+                    <div className='contactInfo-container__form-input'>
+                        <i className='fab fa-linkedin icon'></i>&nbsp;
+                        <input type='text' name='linkedin' placeholder='Linkedin' onChange={e => setLinkedin(e.target.value)} defaultValue={linkedin}></input>
+                    </div>
+                    <div className='contactInfo-container__form-input'>
+                        <i className='fab fa-slack icon'></i>&nbsp;
+                        <input type='text' name='slack' placeholder='Slack Id' onChange={e => setSlack(e.target.value)} defaultValue={slack}></input>
+                    </div>
+                    <button className='btn btn--success' type='submit'>Update</button>
+                    <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                </form>
             }
-        </section>
+        </div>
 
     )
 }
