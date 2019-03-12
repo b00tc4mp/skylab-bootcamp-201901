@@ -1,28 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logic from '../../logic'
+import Terminal from './Terminal'
 
 function CommandPannel() {
-
+    const [history, setHistory] = useState([])
 
     function startDrone(e) {
         e.preventDefault()
 
         logic.startDrone()
+            .then(res => {
+                console.log(res)
+                if (res.start === 'OK') setHistory(res.history)
+            })
+
     }
 
     function sendCommand(e, command) {
         e.preventDefault()
 
         logic.sendDroneCommand(command)
+            .then(res => {
+                console.log(res)
+                if (res.command === 'OK') setHistory(res.history)
+            })
     }
 
     function stopDrone(e) {
         e.preventDefault()
 
         logic.stopDrone()
+            .then(res => {
+                console.log(res)
+                if (res.stop === 'OK') setHistory(res.history)
+            })
     }
 
     return (<section className="section">
+        <Terminal history={history} />
         <div className="columns">
             <div className="column">
                 <a className="button is-success is-outlined" onClick={e => startDrone(e)}>ON</a>

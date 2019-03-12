@@ -36,6 +36,16 @@ describe('logic', () => {
                 })
         })
 
+        it('should fail on duplicate email', () => {
+            return logic.registerUser(name, surname, email, password, passwordConfirmation)
+                .then(() => logic.registerUser(name, surname, email, password, passwordConfirmation))
+                .then(id => expect(id).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(`This email: ${email} is already used it`)
+                })
+        })
+
         it('should fail on undefined name', () => {
             const badName = undefined
             expect(() => {
@@ -275,6 +285,28 @@ describe('logic', () => {
                 })
         )
 
+        it('should fail on not registered email', () => {
+            const badEmail = 'notregistered@mail.com'
+
+            logic.authenticateUser(badEmail, password)
+                .then(res => expect(res).toBeDefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(`There is no User with this email: ${badEmail}`)
+                })
+        })
+
+        it('should fail on wrong credentials', () => {
+            const badPassword = 'wrongpass'
+
+            logic.authenticateUser(email, badPassword)
+                .then(res => expect(res).toBeDefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('wrong credentials')
+                })
+        })
+
         it('should fail on undefined email', () => {
             const badEmail = undefined
             expect(() => {
@@ -384,6 +416,15 @@ describe('logic', () => {
                 })
         )
 
+        it('should fail on unregistered id', () =>
+            logic.retrieveUser('5c864704b8fa957d61a34423')
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(`user with id 5c864704b8fa957d61a34423 does not exist`)
+                })
+        )
+
         it('should fail on undefined userId', () => {
             const badUserId = undefined
             expect(() => {
@@ -452,6 +493,15 @@ describe('logic', () => {
                     expect(res.status).toBe('OK')
                     expect(res.id).toBeDefined()
                     expect(typeof res.id).toBe('string')
+                })
+        )
+
+        it('should fail on unregistered id', () =>
+            logic.updateUser('5c864704b8fa957d61a34423', { name: newName, surname: newSurname })
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('user with id 5c864704b8fa957d61a34423 does not exist')
                 })
         )
 
@@ -525,6 +575,43 @@ describe('logic', () => {
         })
 
 
+    })
+
+    describe('update photo', () => {
+        const name = 'Leia'
+        const surname = 'Organa'
+        const email = `leia${Math.random()}@mail.com`
+        const password = `starwars${Math.random()}`
+
+        let userId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+        )
+
+        it('should succeed on correct data', () =>
+            logic.updateUserPhoto(userId, 'fakeUrlImage')
+                .then(res => {
+                    expect(res.status).toBe('OK')
+                    expect(res.user).toBeDefined()
+                    expect(res.user.image).toBeDefined()
+                    expect(res.user.image).toBe('fakeUrlImage')
+                    expect(res.user.name).toBe(name)
+                    expect(res.user.surname).toBe(surname)
+                    expect(res.user.email).toBe(email)
+                })
+        )
+
+        it('should fail on unregistered id', () =>
+            logic.updateUserPhoto('5c864704b8fa957d61a34423', 'fakeUrlImage')
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('user with id 5c864704b8fa957d61a34423 not found')
+                })
+        )
     })
 
     describe('delete user', () => {

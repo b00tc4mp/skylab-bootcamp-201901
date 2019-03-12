@@ -15,6 +15,7 @@ const mail_transporter = require('../mail')
 
 const logic = {
     activeDrones: new Map,
+    activeFLight: new Map,
 
     /**
      * 
@@ -80,7 +81,7 @@ const logic = {
 
         return User.findById(userId).select('-password -__v').lean()
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${id} does not exist`)
+                if (!user) throw new NotFoundError(`user with id ${userId} does not exist`)
 
                 user.id = user._id.toString()
 
@@ -95,7 +96,7 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${id} does not exist`)
+                if (!user) throw new NotFoundError(`user with id ${userId} does not exist`)
 
                 return User.findByIdAndUpdate(userId, data, { runValidators: true })
                     .then(user => {
@@ -108,11 +109,7 @@ const logic = {
     },
 
     updateUserPhoto(userId, url) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
-        if (!url.trim().length) throw Error('url is empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])
 
         return User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
             .then(user => {
@@ -190,27 +187,36 @@ const logic = {
     },
 
     startDrone(userId, droneId) {
+
         let drone = this.activeDrones.get(droneId)
 
         if (drone) throw Error(`drone ${droneId} already started`)
-
 
         return Drone.findById(droneId)
             .then(({ host, port }) => {
 
                 if (!host && !port) throw Error('drone not found it')
 
-                drone = new DroneApi(host, port)
+                return Flight.create({ userId, droneId })
+                    .then(flight => {
 
-                drone.start()
+                        if (this.activeFLight.get(flight.id)) throw Error(`Flight ${flightId} already exist`)
 
-                drone.onMessage(message => console.log(`DRONE: ${message}`))
+                        drone = new DroneApi(host, port)
 
-                drone.sendCommand('command')
+                        drone.start()
 
-                this.activeDrones.set(droneId, drone)
+                        // drone.onMessage(message => console.log(`DRONE: ${message}`))
+                        drone.onMessage(message => drone.history.length > 0 ? drone.history[drone.history.length - 1].response = message.toString() : console.log(`DRONE: ${message}`))
 
-                return { start: 'OK', on: true }
+                        drone.sendCommand('command', flight.id)
+
+                        this.activeDrones.set(droneId, drone)
+
+                        this.activeFLight.set('flightId', flight.id)
+
+                        return { start: 'OK', history: [{ flightId: flight.id, command: 'command', response: 'OK', date: new Date }] }
+                    })
             })
             .catch(({ message }) => {
                 throw Error(message)
@@ -225,16 +231,24 @@ const logic = {
 
         this.activeDrones.delete(droneId)
 
+        const flightId = this.activeFLight.get('flightId')
+
+        if (!flightId) throw Error(`there is no fligh`)
+
+        this.activeFLight.delete('flightId')
+
         return Drone.findById(droneId)
             .then(droneRes => {
 
                 if (!droneRes) throw Error('drone not found it')
 
-                drone.sendCommand('land')
+                drone.sendCommand('land', flightId)
+
+                const history = drone.history
 
                 drone.stop()
 
-                return { stop: 'OK', on: false }
+                return { stop: 'OK', history }
             })
     },
 
@@ -242,6 +256,8 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
 
         if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
+
+        const flightId = this.activeFLight.get('flightId')
 
         return User.findById(userId)
             .then(user => {
@@ -251,9 +267,9 @@ const logic = {
 
                 if (!drone) throw Error(`the drone with id ${droneId} is not active`)
 
-                drone.sendCommand(command)
+                drone.sendCommand(command, flightId)
 
-                return { command: 'OK' }
+                return { command: 'OK', history: drone.history }
             })
     },
 
