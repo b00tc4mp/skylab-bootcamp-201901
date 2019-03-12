@@ -40,9 +40,9 @@ class Product extends Component {
                         <div>
                             <img className="productImage" src={this.state.product.image} id={`img-${this.state.product._id}`} alt="404" />
                         </div>
+                        <h2 className="productName">{this.state.product.name}</h2>
                         <div >
-                            <div className="card-body">
-                                <h2 className="productName">{this.state.product.name}</h2>
+                            <div className="productCard">
                                 <h3 className="productPrice">{this.state.product.price} €</h3>
                                 <button onClick={() => logic.addProductToCart(this.state.product._id)}>Add to cart</button>
                             </div>
