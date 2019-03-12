@@ -18,7 +18,7 @@ class Home extends Component {
 
     logoutUser = () => {
         logic.logOutUser()
-        this.props.history.push('/welcome')
+        this.props.history.push('/')
     }
 
     loadBook = (bookid) => {

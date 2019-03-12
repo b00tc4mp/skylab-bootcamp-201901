@@ -16,15 +16,8 @@ class YourBooks extends Component {
     deleteBook = (id) => {
         return logic.deleteBook(id)
         .then(()=> {
-            this.notify()
+            // this.notify()
             this.retrieveYourBooks()
-        })
-    }
-
-    notify = () => {
-        toast("Default Notification !");
-        toast.success("Success Notification !", {
-          position: toast.POSITION.TOP_CENTER
         })
     }
 
@@ -34,6 +27,7 @@ class YourBooks extends Component {
             logic.retrieveBooks()
                 .then((books) => {
                     this.setState({books}, () => {})
+                    console.log(books)
             })
         } catch (error) {
             console.log(error)
@@ -63,8 +57,8 @@ class YourBooks extends Component {
         return (
             <Fragment>
                 <div className = "coverright">
-                    <div className="row justify-content-center">
-                        {books && books.map(book =>{
+                    <div className="cardContainer">
+                        {books.length && books.map(book =>{
                             return (<CardBook bookSelected={book} deleteBook = {this.deleteBook} editBook={this.editBook} loadBook = {this.props.loadBook} addBookToTemplates={this.addBookToTemplates} />)
                             })}
                     </div>  

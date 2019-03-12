@@ -8,7 +8,7 @@ import bookApi from '../bookApi';
 
 const logic = {
 
-     __userApiToken__: null,
+    __userApiToken__: null,
 
     get isUserLoggedIn() {
         return !!this.__userApiToken__
@@ -20,6 +20,7 @@ const logic = {
 
     logOutUser() {
         this.__userApiToken__ = null
+        sessionStorage.clear()
     },
 
 

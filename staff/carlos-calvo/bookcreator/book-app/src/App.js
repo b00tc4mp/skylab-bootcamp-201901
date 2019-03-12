@@ -17,10 +17,12 @@ class App extends Component {
   
 
   render() {
+    console.log(logic.isUserLoggedIn)
+    console.log(logic.__userApiToken__)
     return (
       <div className="App">
         <Switch>
-        <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" />: <Redirect to="/welcome" />}/>
+        <Route path exact="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" />: <Redirect to="/welcome" />}/>
         <Route path="/welcome" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> :<Welcome/> }/>
         <Route path="/login" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> :<Login updateToken = {this.updateToken}/> }/>
         <Route path="/register" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> :<Register/> }/>
@@ -31,5 +33,5 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
 

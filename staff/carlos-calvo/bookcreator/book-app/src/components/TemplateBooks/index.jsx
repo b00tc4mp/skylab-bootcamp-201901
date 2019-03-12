@@ -43,11 +43,16 @@ class TemplateBooks extends Component {
         return (
             <Fragment>
                 <div className = "coverright">
+                    <div className="container-inputSearch">
+                        <input className="inputSearch" type="text" name="search" placeholder="Search.."/>
+                    </div>
+                <form>
                     <div className="row justify-content-center">
                         {books.length && books.map(book =>{
                             return (<CardTemplate bookSelected={book} />)
                             })}
-                    </div>  
+                    </div> 
+                    </form> 
                 </div>
             </Fragment>
         )

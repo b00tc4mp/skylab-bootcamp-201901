@@ -12,7 +12,7 @@ class ContactForm extends Component {
                         <form action="">
                             <label htmlFor="fname">Subject</label>
                             <input type="text" id="fname" name="firstname" placeholder="Your name.." required/>
-                            <label htmlFor="country">Country</label>
+                            <label htmlFor="country">Zone</label>
                             <select id="country" name="country">
                                 <option value="Europe">Europe</option>
                                 <option value="America">America</option>

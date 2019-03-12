@@ -68,42 +68,42 @@ class CardBook extends Component {
     render() {
 
         const book = this.props.bookSelected
+        console.log(book.coverphoto)
         return (
             <Fragment>
-                <div className="bookCard col-sm-8 col-md-5 col-lg-3" >
-                    <div className="bookCard-photocontainer">
-                        <img className="card-img-top" src={book.coverphoto}/>
+                <div className="bookCard" >
+                    <div className="bookCard__photocontainer">
+                        <img className="imagen" src={book.coverphoto}/>
                     </div>
-                    <div className="card-body">
-                        <div>
-                            <h5 className="card-title">{book.title}</h5>
+                    <div className="cardBody">
+                        <div className="cardBody__title" data-toggle="tooltip" data-placement="top" title={book.title}>
+                            <p className="title">{book.title}</p>
                         </div>
-                        <div>
+                        <div className="cardBody__name">
                             {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')? 
-                            <p className="card-text">Name<i className="fas fa-user-circle"></i> {book.parameters.name}</p>:
-                            <p className="card-text">Name<i className="fas fa-user-circle"></i> No name tag in this book</p>
+                            <p className="cardBody__text"><i className="fas fa-user-circle"></i> {book.parameters.name}</p>:
+                            <p className="cardBody__text"><i className="fas fa-user-circle"></i> No editable name</p>
                             }
                         </div>
-                        <div>
+                        <div className="cardBody__place">
                             {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place') ? 
-                            <p className="card-text">Place :<i className="fas fa-user-circle"></i> {book.parameters.place}</p>
+                            <p className="cardBody__text"><i class="fas fa-place-of-worship"></i> {book.parameters.place}</p>
                                 :
-                            <p className="card-text">Place :<i className="fas fa-user-circle"></i> No place tag in this book</p>
+                            <p className="cardBody__text"><i class="fas fa-place-of-worship"></i> No editable place</p>
                             }
                         </div>
-                        <div className="bookCard-buttonContainer">
-                            <button onClick={this.loadBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
-                            <button onClick={this.editBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Edit Book"><i className="fas fa-edit"></i></button>
-                            <button onClick={this.deleteBook} className="btn btn-danger btn-deleteit" data-toggle="tooltip" data-placement="top" title="Delete Book"><i className="fas fa-trash-alt"></i></button>
-                            
+                        <div className="cardBody__buttonContainer">
+                            <button onClick={this.loadBook} className="butt butt--read" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
+                            <button onClick={this.editBook} className="butt butt--edit" data-toggle="tooltip" data-placement="top" title="Edit Book"><i className="fas fa-edit"></i></button>
+                            <button onClick={this.deleteBook} className="butt butt--delete" data-toggle="tooltip" data-placement="top" title="Delete Book"><i className="fas fa-trash-alt"></i></button>
                             {book.hasOwnProperty('isTemplate') && !book.isTemplate? 
-                            <button onClick={this.addBookToTemplates} className="btn btn-success btn-deleteit" data-toggle="tooltip" data-placement="top" title="Publish Book"><i class="fas fa-share"></i></button>
+                            <button onClick={this.addBookToTemplates} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="Publish Book"><i class="fas fa-share"></i></button>
                             :
-                            <button onClick={this.addBookToTemplates} className="btn btn-success btn-deleteit" data-toggle="tooltip" data-placement="top" title="This book is already a template" disabled><i class="fas fa-share"></i></button>
+                            <button onClick={this.addBookToTemplates} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="This book is already a template" disabled><i class="fas fa-share"></i></button>
                             }
-                            <button onClick={this.downloadEpubfase1}> popopo</button>
-                            <a onClick={this.downloadEpubfase2} className="btn btn-info btn-readit" data-toggle="tooltip" data-placement="top" title="Download Epub"><i class="fas fa-file-download" download></i></a>
-                            </div>
+                            {/* <button className="butt--gener" onClick={this.downloadEpubfase1}>gen</button> */}
+                            <button onClick={this.downloadEpubfase2} className="butt butt--download" data-toggle="tooltip" data-placement="top" title="Download Epub"><i class="fas fa-file-download" download></i></button>
+                        </div>
                     </div>
                 </div>
             </Fragment>

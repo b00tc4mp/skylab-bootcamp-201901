@@ -360,19 +360,21 @@ const logic = {
             if(book[0].hasOwnProperty('parameters') && book[0].parameters.hasOwnProperty('name')) text = text.replace(/<name>/g, book[0].parameters.name)
             if(book[0].hasOwnProperty('parameters') && book[0].parameters.hasOwnProperty('place')) text = text.replace(/<place>/g, book[0].parameters.place)
             let arraychapters = text.split('<Chapter>')
-            let content = {}
+            let content = []
 
             if(arraychapters.length == 0){
-                content = {
+                content = [{
                     title : "CHAPTER",
                     data : text
-                }
+                }]
             } else {
                 let i = 0
                 content = arraychapters.map(chapter => {
                     let obj = {}
                     if(i==0) obj.title =" "
-                    else obj.title = "CHAPTER" + i + "."
+                    else obj.title = "CHAPTER " + i + "."
+                    chapter = chapter.replace (/^/,'<p>');
+                    chapter = chapter.concat('</p>')
                     obj.data = chapter
                     i++
                     return obj
@@ -381,10 +383,10 @@ const logic = {
             const options ={
                 title: book[0].title,
                 author: 'Your Book Creator',
-                cover: book[0].coverphoto,
+                cover: "https://storage.googleapis.com/gd-wagtail-prod-assets/original_images/evolving_google_identity_share.jpg",
                 content: content
             }
-
+            debugger
             const a = await new Epub(options, __dirname + "/file.epub")
             return 'c:/Users/Usuario/Documents/collab/skylab-bootcamp-201901/staff/carlos-calvo/bookcreator/book-api/src/logic/file.epub'
         })()

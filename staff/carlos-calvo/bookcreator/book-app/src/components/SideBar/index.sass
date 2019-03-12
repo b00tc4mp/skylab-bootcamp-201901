@@ -1,41 +1,39 @@
 .bodycontainer
     display: flex
     flex-direction: row
-    height: 100vh
-    width: 100%
+    width: 100vw
     
 .coverright
-    height: 100vh
-    height: 100%
-    width: 100%
-    background-size: cover
-    background-attachment: fixed
-    background-position: center
-    background-repeat: no-repeat
-    background-image: url('https://images.pexels.com/photos/403571/pexels-photo-403571.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')
-    
+    margin-top: 5%
+
 .sidenav
-    height: 100%
-    width: 20%
+    height: 5%
+    width: 100%
+    display: flex
+    position: fixed
+    flex-direction: row
+    justify-content: space-around
+    align-content: center
     z-index: 1
     top: 0
     left: 0
     background-color: black
     overflow-x: hidden
     overflow-wrap: 
-    padding-top: 20px
+    padding-top: 2px
+    padding-bottom: 2px
     a
-        padding: 6px 6px 6px 32px
         text-decoration: none
-        font-size: 25px
-        color: #818181
+        font-size: 1rem
+        display: flex
+        justify-content: center
+        align-self: center
+        font-weight: bold
+        color: #1e1d1d
         display: block
         &:hover
            color: #f1f1f1
 
+    .fas, .far
+        color: #f1f1f1
 
-@media screen and (max-height: 450px)
-    .sidenav
-      padding-top: 15px
-      a
-        font-size: 18px

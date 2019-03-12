@@ -14,7 +14,7 @@ class Welcome extends Component {
             
         <Fragment>
             <Fragment>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light navigation">
+                <nav className="navbar navbar-expand-lg navbar-info bg-info navigation">
                 <a href="#" className="btn btn-info btn-lg">
                 <img width = "35px" height="35px" src="https://www.misskatecuttables.com/uploads/shopping_cart/9363/large_books-on-shelf.png"></img>
                 <span className="glyphicon glyphicon-book"></span> Your Book Creator
