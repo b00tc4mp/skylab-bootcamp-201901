@@ -41,7 +41,7 @@ class Cart extends Component {
                         <div>
                             <h2>Total price</h2>
                             <h2>{this.props.total.length && this.props.total.reduce((accumulated, currentValue) => accumulated + currentValue, 0)}€</h2>
-                            {logic.__userApiToken__ && <Link to="/">Buy products</Link>}
+                            {logic.__userApiToken__ && <Link to="/">Checkout</Link>}
                         </div>
                     </div>}
                 </section>

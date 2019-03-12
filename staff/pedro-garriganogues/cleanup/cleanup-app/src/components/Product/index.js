@@ -44,7 +44,7 @@ class Product extends Component {
                             <div className="card-body">
                                 <h2 className="productName">{this.state.product.name}</h2>
                                 <h3 className="productPrice">{this.state.product.price} €</h3>
-                                <button onClick={() => addProductToCart(this.state.product._id)}>Add to cart</button>
+                                <button onClick={() => logic.addProductToCart(this.state.product._id)}>Add to cart</button>
                             </div>
                             <p className="productDescription">{this.state.product.description}</p>
                         </div>

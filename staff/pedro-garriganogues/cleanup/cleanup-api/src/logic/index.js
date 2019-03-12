@@ -4,19 +4,21 @@ const { models: { User, Product } } = require('cleanup-data')
 
 const logic = {
 
-    async registerUser(name, surname, email, password, passwordConfirmation) {
+    registerUser(name, surname, email, password, passwordConfirmation) {
 
         if (typeof email !== 'string') throw Error('email is not a string')
+        return (async () => {
 
-        const user = await User.findOne({ email })
+            const user = await User.findOne({ email })
 
-        if (user) throw Error(`user with email ${email} already exists`)
+            if (user) throw Error(`user with email ${email} already exists`)
 
-        await User.create({ name, surname, email, password, passwordConfirmation })
+            await User.create({ name, surname, email, password, passwordConfirmation })
+        })()
 
     },
 
-    async authenticateUser(email, password) {
+    authenticateUser(email, password) {
 
         if (typeof email !== 'string') throw Error('user email is not a string')
 
@@ -26,22 +28,27 @@ const logic = {
 
         if ((password = password.trim()).length === 0) throw Error('user password is empty or blank')
 
-        const user = await User.findOne({ email, password })
+        return (async () => {
+            const user = await User.findOne({ email, password })
 
-        if (!user) throw Error('wrong credentials')
+            if (!user) throw Error('wrong credentials')
 
-        return user.id
+            return user.id
+        })()
     },
 
-    async retrieveUser(id) {
+    retrieveUser(id) {
 
         if (typeof id !== 'string') throw Error('user id is not a string')
 
-        const user = await User.findById(id).select({ _id: 0, name: 1, surname: 1, address: 1, email: 1, phone: 1, orders: 1 })
+        return (async () => {
 
-        if (!user) throw Error(`no user found with id ${id}`)
+            const user = await User.findById(id).select({ _id: 0, name: 1, surname: 1, address: 1, email: 1, phone: 1, orders: 1 })
 
-        return user
+            if (!user) throw Error(`no user found with id ${id}`)
+
+            return user
+        })()
     },
 
     // async updateUser(id, name, surname, phone, address, email, password, newEmail, newPassword) {
@@ -89,58 +96,101 @@ const logic = {
     //     return user.remove()
 
 
-    async listProducts(category) {
+    listProducts(category) {
+        return (async () => {
+            const products = await Product.find({ category })
 
-        const products = await Product.find({ category })
+            if (!products) throw Error(`no products found`)
 
-        if (!products) throw Error(`no products found`)
+            return products
+        })()
 
-        return products
+
+    },
+
+    retrieveProduct(productId) {
+        return (async () => {
+
+            if (typeof productId !== 'string') throw Error('user productId is not a string')
+
+            if (!(productId = productId.trim()).length) throw Error('user productId is empty or blank')
+
+            const product = await Product.findById(productId)
+
+            if (!product) throw Error(`no product found with id ${productId}`)
+
+            return product
+        })()
+
+    },
+
+
+    listTheProducts() {
+
+        return (async () => {
+
+            const products = await Product.find({})
+
+            if (!products) throw Error(`no products found`)
+
+            return products
+        })()
+
+    },
+
+    listProductsByIds(ids) {
+        return (async () => {
+
+            const idsArray = ids.split(',')
+
+            const products = await Product.find({
+                _id: { $in: idsArray }
+            })
+
+            if (!products) throw Error(`no products found`)
+
+            return products
+        })()
 
 
     },
 
-    async retrieveProduct(productId) {
-
-        if (typeof productId !== 'string') throw Error('user productId is not a string')
-
-        if (!(productId = productId.trim()).length) throw Error('user productId is empty or blank')
-
-        const product = await Product.findById(productId)
-
-        if (!product) throw Error(`no product found with id ${productId}`)
-
-        return product
+    getDateOrder() {
+        // let hours = new Date().getHours()
+        this._date = Date.now()
+        return this._date.toString()
 
     },
 
 
-    async listTheProducts() {
 
+    addProductToCart(productId) {
+        return Promise.resolve()
+            .then(() => {
+                const any = this.cart().some(_productId => _productId === productId)
 
+                if (any) throw Error('product already in cart')
 
-        const products = await Product.find({})
+                this.cart().push(productId)
 
-        if (!products) throw Error(`no products found`)
+                this.cart(this.cart())
 
-        return products
-
+                return true
+            })
     },
 
-    async listProductsByIds(ids) {
 
-        const idsArray = ids.split(',')
-
-        const products = await Product.find({
-            _id: { $in: idsArray }
-        })
-
-        if (!products) throw Error(`no products found`)
-
-        return products
-
-
+    removeProductFromCart(productId) {
+        return this.cart(this.cart().filter(id => {
+            return id !== productId
+        }))
     },
+
+
+    clearCart() {
+        this.cart(null)
+    },
+
 }
 
 module.exports = logic

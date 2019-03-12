@@ -25,39 +25,39 @@ describe('logic', () => {
             }).toThrow(TypeError('undefined is not a string'))
         })
 
-        // it('should fail on numeric name', () => {
-        //     const name = 10
-        //     const surname = 'test'
-        //     const email = 'test@mail.com'
-        //     const password = '123'
+        it('should fail on numeric name', () => {
+            const name = 10
+            const surname = 'test'
+            const email = 'test@mail.com'
+            const password = '123'
 
-        //     expect(() => {
-        //         logic.registerUser(name, surname, email, password, password)
-        //     }).toThrow(TypeError(name + ' is not a string'))
-        // })
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(name + ' is not a string'))
+        })
 
 
-        // it('should fail on boolean name', () => {
-        //     const name = true
-        //     const surname = 'test'
-        //     const email = 'test@mail.com'
-        //     const password = '123'
+        it('should fail on boolean name', () => {
+            const name = true
+            const surname = 'test'
+            const email = 'test@mail.com'
+            const password = '123'
 
-        //     expect(() => {
-        //         logic.registerUser(name, surname, email, password, password)
-        //     }).toThrow(TypeError(name + ' is not a string'))
-        // })
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(name + ' is not a string'))
+        })
 
-        // it('should fail on object name', () => {
-        //     const name = {}
-        //     const surname = 'test'
-        //     const email = 'test@mail.com'
-        //     const password = '123'
+        it('should fail on object name', () => {
+            const name = {}
+            const surname = 'test'
+            const email = 'test@mail.com'
+            const password = '123'
 
-        //     expect(() => {
-        //         logic.registerUser(name, surname, email, password, password)
-        //     }).toThrow(TypeError(name + ' is not a string'))
-        // })
+            expect(() => {
+                logic.registerUser(name, surname, email, password, password)
+            }).toThrow(TypeError(name + ' is not a string'))
+        })
 
 
 
@@ -73,7 +73,7 @@ describe('logic', () => {
     //     const passwordConfirmation = password
 
     //     beforeEach(() =>
-    //         cleanUpApi.registerUser(name, surname, email, password, passwordConfirmation)
+    //         logic.registerUser(name, surname, email, password, passwordConfirmation)
     //     )
 
     //     it('should succeed on correct credentials', () =>

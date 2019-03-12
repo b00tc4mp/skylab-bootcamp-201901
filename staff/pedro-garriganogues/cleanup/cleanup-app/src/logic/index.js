@@ -86,7 +86,6 @@ const logic = {
     },
 
 
-
     addProductToCart(productId) {
         return Promise.resolve()
             .then(() => {
@@ -113,7 +112,6 @@ const logic = {
     clearCart() {
         this.cart(null)
     },
-
 
 
 }
