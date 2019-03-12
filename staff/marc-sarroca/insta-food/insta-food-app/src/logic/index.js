@@ -82,9 +82,9 @@ const logic = {
   //   this.__userApiToken__ = null;
   // },
 
-  retrieveUser() {
+  retrieveUser(token) {
     return instaApi
-      .retrieveUser(this.__userId__, this.__userApiToken__)
+      .retrieveUser(token)
       .then(({ id, name, username, email, favorites = [] }) => ({
         id,
         name,
@@ -107,6 +107,10 @@ const logic = {
 
   addComment(postId, token, id, text) {
     return instaApi.addComment(postId, token, id, text);
+  },
+
+  toggleFavorites(token, postId) {
+    return instaApi.toggleFavorites(token, postId);
   }
 };
 

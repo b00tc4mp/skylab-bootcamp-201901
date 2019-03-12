@@ -76,7 +76,8 @@ const logic = {
   retrieveUser(userId) {
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
-    return User.findOne({ _id: userId })
+    return User.findById(userId)
+      .populate("favorites")
       .select("-__v -password")
       .then(user => {
         if (!user) throw Error(`user with id ${id} not found`);

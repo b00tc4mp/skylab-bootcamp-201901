@@ -136,6 +136,17 @@ const instaApi = {
     })
       .then(response => response.json())
       .then(post => post);
+  },
+
+  toggleFavorites(token, postId) {
+    return fetch(`${this.url}/user/favorites/${postId}`, {
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(post => post);
   }
 };
 
