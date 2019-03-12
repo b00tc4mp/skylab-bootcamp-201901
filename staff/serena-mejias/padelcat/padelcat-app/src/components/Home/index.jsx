@@ -9,7 +9,7 @@ export const Home = props => {
   const [matches, setMatches] = useState("");
 
   useEffect(() => {
-      if (!logic.getStoredtoken()) {
+    if (!logic.getStoredtoken()) {
       props.history.push("/login");
     }
     logic
@@ -33,6 +33,7 @@ export const Home = props => {
                 match={match}
                 handleSetAvailable={props.handleSetAvailable}
                 handleSetUnavailable={props.handleSetUnavailable}
+                playerlogged={props.playerlogged}
               />
             </li>
           ))}

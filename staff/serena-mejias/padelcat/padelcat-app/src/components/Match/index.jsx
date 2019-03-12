@@ -1,18 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import styles from "./index.module.scss";
+import ChosenPairs from "../ChosenPairs"
+
 export const Match = props => {
   const [available, setAvailable] = useState(false);
-  const handleSetAvailable = matchId => {
-    props.handleSetAvailable(matchId);
-    setAvailable(true);
-  };
-
-  const handleSetUnavailable = matchId => {
-    props.handleSetUnavailable(matchId);
-    setAvailable(false);
-  };
-
   const {
     matchId,
     date,
@@ -25,6 +17,29 @@ export const Match = props => {
     playersAvailable,
     playersChosen
   } = props.match;
+
+  const { _id } = props.playerlogged;
+
+  const handleSetAvailable = matchId => {
+    props.handleSetAvailable(matchId);
+    setAvailable(true);
+  };
+
+  const handleSetUnavailable = matchId => {
+    props.handleSetUnavailable(matchId);
+    setAvailable(false);
+  };
+
+  const handlePlayerChosen = e => e.target.value;
+
+  useEffect(() => {
+    if (playersAvailable.filter(playerId => playerId === _id).length) {
+      return setAvailable(true);
+    } else {
+      return setAvailable(false);
+    }
+  }, [props]);
+
   return (
     <div>
       <h4>{date}</h4>
@@ -39,43 +54,44 @@ export const Match = props => {
         </div>
       </div>
       <div>
-        <ul>
-          {playersAvailable &&
-            playersAvailable.map(playerAvailable => (
-              <li
-                className={styles.playerAvailable}
-                key={playerAvailable.playerId}
-              >
-                <p>{playerAvailable}</p>
-              </li>
-            ))}
-        </ul>
+        <form>
+          <label>
+            1st Match
+            <ChosenPairs match={props.match}/>
+          </label>
+          <label>
+            2nd Match
+            <ChosenPairs match={props.match}/>
+          </label>
+          <label>
+            3rd Match
+            <ChosenPairs match={props.match}/>
+          </label>
+        </form>
         <div>
           Are you available?
-          {!available && (
-            <Button
-              variant="contained"
-              color="primary"
-              className={styles.availableButton}
-              onClick={() => {
-                handleSetAvailable(matchId);
-              }}
-            >
-              I'm available
-            </Button>
-          )}
-          {available && (
-            <Button
-              variant="contained"
-              color="secondary"
-              className={`${styles.availableButton} ${styles.unavailable}`}
-              onClick={() => {
-                handleSetUnavailable(matchId);
-              }}
-            >
-              I'm NOT available
-            </Button>
-          )}
+          <Button
+            variant="contained"
+            color="primary"
+            className={styles.availableButton}
+            onClick={() => {
+              handleSetAvailable(matchId);
+            }}
+            disabled={available}
+          >
+            I'm available
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={`${styles.availableButton} ${styles.unavailable}`}
+            onClick={() => {
+              handleSetUnavailable(matchId);
+            }}
+            disabled={!available}
+          >
+            I'm NOT available
+          </Button>
         </div>
 
         <span>{result}</span>

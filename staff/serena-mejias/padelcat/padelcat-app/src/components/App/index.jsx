@@ -63,12 +63,10 @@ class App extends Component {
 
   handleSetAvailable = matchId => {
     logic.addAvalabilityPlayer(this.state.player._id, matchId);
-    console.log("available");
   };
 
   handleSetUnavailable = matchId => {
     logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
-    console.log("unavailable");
   };
 
   render() {
@@ -94,6 +92,7 @@ class App extends Component {
               <Home
                 handleSetAvailable={handleSetAvailable}
                 handleSetUnavailable={handleSetUnavailable}
+                playerlogged={this.state.player}
               />
             )}
           />
