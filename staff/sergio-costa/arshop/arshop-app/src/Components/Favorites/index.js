@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
 import Feedback from '../Feedback'
-import './index.sass'
-import Product from '../Product';
 
-class LandingPage extends Component {
+class Favorites extends Component {
 
     state = { products: [], feedback: null }
 
     componentDidMount() {
         try {
-            logic.retrieveProducts()
+            logic.retrieveFavs()
                 .then(products => {
                     this.setState({ products })
                     console.log(this.state.products)
@@ -25,15 +23,24 @@ class LandingPage extends Component {
 
     render() {
 
-        const { state: { feedback, products } } = this
+        const { state: { feedback, products }, onProductSelect } = this
 
 
         return <section>
             {feedback && <Feedback message={feedback} />}
-                {products.map(({ id, tittle, description, price, imageUrl, sold }) => {
-                    return <Product id={id} tittle={tittle} description={description} price={price} imageUrl={imageUrl} sold={sold} />
+            <div>
+                {products.map(({id, tittle, description, price, sold}) => {
+                    return <div key={id} onClick={() => onProductSelect(id)}>
+                        <div>
+                            {/* image */}
+                        </div>
+                        <h3>{tittle}</h3>
+                        <p>{description}</p>
+                        <p>{price}</p>
+                    </div>
                 })}
+            </div>
         </section>
     }
 }
-export default LandingPage
+export default Favorites

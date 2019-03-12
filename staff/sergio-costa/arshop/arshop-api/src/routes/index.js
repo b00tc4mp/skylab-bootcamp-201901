@@ -2,8 +2,11 @@ const express = require('express')
 const cors = require('../cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
+const imageParser = require('../image-parser')
+const cloudinaryUploader = require('../cloudinary')
+
 const { tokenVerifierMiddleware } = tokenHelper
-const { registerUser, authenticateUser, retrieveUser, updateUser, addProduct, retrieveProducts, retrieveProduct, toogleFav, retrieveFavs, searchProductsByCategory, searchProducts, updateProduct, retrieveUserProducts, toogleSold, notFound } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, addProduct, retrieveProducts, retrieveProduct, toogleFav, retrieveFavs, searchProductsByCategory, searchProducts, updateProduct, retrieveUserProducts, toogleSold, uploadProductImg, notFound } = require('./handlers')
 
 //#region cloudinary
 // const { parseImageUpload } = require('../../cloudinary/midlecloud')
@@ -43,6 +46,8 @@ router.get('/fav/user', tokenVerifierMiddleware, retrieveFavs)
 router.get('/search/category', searchProductsByCategory)
 
 router.get('/search', searchProducts)
+
+router.post('/product/photo/:id', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], uploadProductImg)
 
 router.get('*', notFound)
 

@@ -240,22 +240,46 @@ const logic = {
                 else user.favoriteProducts.splice(index, 1)
 
                 return user.save()
-                    .then(({ favoriteProducts }) => favoriteProducts)
+                    .then(() => {
+                        if(index<0)return true
+                        else return false
+                    })
             })
     },
 
     retrieveFavs(userId) {
-
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error(`user with id ${userId} not found`)
-
                 return user.favoriteProducts
             })
+            .then(idProducts => {
+                return Product.find({ _id: { $in: idProducts } }).select('-__v').lean()
+            })
+            .then(products => {
+                products.forEach(product => {
+                    product.id = product._id.toString()
+                    delete product._id
+                })
+                return products
+            })
     },
+
+    // retrieveFavs(userId) {
+
+    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+    //     if (!userId.trim().length) throw Error('userId cannot be empty')
+
+    //     return User.findById(userId)
+    //         .then(user => {
+    //             if (!user) throw Error(`user with id ${userId} not found`)
+
+    //             return user.favoriteProducts
+    //         })
+    // },
 
     searchProductsByCategory(q) {
 
@@ -363,6 +387,40 @@ const logic = {
             .then(_product => {
                 _product.sold = !_product.sold
                 return _product.save()
+            })
+    },
+
+    uploadProductImg(userId, productId, url) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
+        if (!url.trim().length) throw Error('url is empty')
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                const index = user.products.findIndex(_productid => _productid == productId)
+
+                if (index < 0) throw Error(`this user do not have any product with id ${productId}`)
+                else return productId
+            })
+            .then((productId) => {
+                return Product.findByIdAndUpdate(productId, { imageUrl: url }, { runValidators: true, new: true }).select('-__v').lean()
+                    .then(product => {
+                        if (!product) throw Error(`user with id ${productId} not found`)
+
+                        product.id = product._id.toString()
+
+                        delete product._id
+
+                        return product
+                    })
             })
     }
 

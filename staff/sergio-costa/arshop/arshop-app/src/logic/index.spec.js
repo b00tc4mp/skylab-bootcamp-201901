@@ -599,21 +599,20 @@ describe('logic', () => {
 
         it('should succed on correct credentials', () =>
             logic.toogleFav(_id)
-                .then(favproducts => {
-                    expect(favproducts).toBeDefined()
-                    expect(favproducts[0].toString()).toBe(_id)
-                    expect(favproducts.length).toBe(1)
+                .then(bool => {
+                    expect(bool).toBeDefined()
+                    expect(bool).toBe(true)
                 })
         )
 
         it('should remove fav', () =>
             logic.toogleFav(_id)
-                .then(favproducts => {
-                    expect(favproducts.length).toBe(1)
+                .then(bool => {
+                    expect(bool).toBe(true)
                 })
                 .then(() => logic.toogleFav(_id))
-                .then(_favproducts => {
-                    expect(_favproducts.length).toBe(0)
+                .then(_bool => {
+                    expect(_bool).toBe(false)
                 })
         )
     })

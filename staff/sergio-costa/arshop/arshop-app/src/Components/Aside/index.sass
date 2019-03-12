@@ -1,0 +1,78 @@
+.sidebar-overlay
+    display: none
+    background: rgba(27, 29, 30, 0.5)
+    position: fixed
+    top: 0px
+    left: 0px
+    height: 100%
+    z-index: 10
+    width: 100%
+
+.sidebar-overlay--show
+    display: block
+
+.sidebar--show
+    position: fixed
+    z-index: 100
+    left: 0px
+    height: 100%
+    display: flex
+    background-color: white
+    width: 80%
+    // transform: translateX(-100%)
+    // transition: transform 10s ease-out 0s
+
+.sidebar
+    background-color: #f4f4f4
+    // transform: translateX(0)
+    // transition: transform 10s ease-out 0s
+
+    &__scrolling-content
+        width: 100%
+
+    &__scrolling-content-scroll
+        // margin-left: 1em
+        height: 100%
+
+    &__user
+        display: flex
+        font-size: 2em
+        margin-top: 0.5em
+        padding-bottom: 10px
+        border-bottom: 1px solid lightgrey
+
+.menu
+    margin-top: 1em
+
+    &__list
+        list-style-type: none
+
+    &__btn
+        display: flex
+        background: none
+        border: 0
+        font-size: 1.3em
+
+        &--text
+            margin-left: 0.7em
+
+    &__items
+        margin-top: 1em
+
+    &__item
+        margin: 2em 0em
+        font-size: 1.1em
+        padding: .5em
+
+        &:active
+            background-color: lightgrey
+        
+    &__link
+        color: black
+        text-decoration: none
+
+    &__upload
+        padding: 1em
+        &:active
+            background-color: lightgrey
+

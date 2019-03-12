@@ -124,21 +124,21 @@ const logic = {
         return arshopApi.updateProduct(this.__userApiToken__, productId, data)
     },
 
-    toogleSold(productId){
+    toogleSold(productId) {
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
         if (!productId.trim().length) throw Error('productId cannot be empty')
 
         return arshopApi.toogleSold(this.__userApiToken__, productId)
     },
 
-    toogleFav(productId){
+    toogleFav(productId) {
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
         if (!productId.trim().length) throw Error('productId cannot be empty')
 
         return arshopApi.toogleFav(this.__userApiToken__, productId)
     },
 
-    retrieveFavs(){
+    retrieveFavs() {
         return arshopApi.retrieveFavs(this.__userApiToken__)
     },
 
@@ -147,7 +147,7 @@ const logic = {
             if (typeof q !== 'string') throw TypeError(`${q} is not a string`)
             if (!q.trim().length) throw Error('query cannot be empty')
         }
-        if (qcategory !== undefined ||null) {
+        if (qcategory !== undefined || null) {
             if (typeof qcategory !== 'string') throw TypeError(`${qcategory} is not a string`)
             if (!qcategory.trim().length) throw Error('category cannot be empty')
         }
@@ -156,7 +156,19 @@ const logic = {
             if (!qcity.trim().length) throw Error('city cannot be empty')
         }
         return arshopApi.searchProducts(q, qcategory, qcity)
+    },
+
+    uploadProductImg(productId, data) {
+        if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        if (!data) throw Error('data is empty')
+        // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return arshopApi.uploadProductImg(this.__userApiToken__, productId, data)
+            // .then(({ product }) => product)
     }
+
 }
 
 export default logic
