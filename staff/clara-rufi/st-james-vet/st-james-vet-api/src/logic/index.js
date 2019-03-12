@@ -177,15 +177,16 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return (async () => {
-            const user = await User.findOne({ email })
+            const user = await User.findOne({ email }).lean()
 
             if (!user) throw Error(`user with email ${email} not found`)
 
             const match = await bcrypt.compare(password, user.password)
 
             if (!match) throw Error('wrong credentials')
-
-            return user.id
+            debugger
+            const _user = {id: user.id, role: user.role} 
+            return _user
         })()
     },
 
@@ -195,24 +196,25 @@ const logic = {
      * 
      * @param {string} owner 
      * @param {string} pet 
-     * @param {string} dayDb 
+     * @param {string} dayDb
      */
 
     assignAppointment(owner, pet, dayDb) {
-        // if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
+        if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
-        // if (!owner.trim().length) throw Error('owner cannot be empty')
+        if (!owner.trim().length) throw Error('owner cannot be empty')
 
-        // if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
+        if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
 
-        // if (!pet.trim().length) throw Error('pet cannot be empty')
+        if (!pet.trim().length) throw Error('pet cannot be empty')
 
-        // if (dayDb instanceof 'date') throw TypeError(dayDb + ' is not a date')
+        if (dayDb instanceof 'date') throw TypeError(dayDb + ' is not a date')
 
-        // if (!dayDb.trim().length) throw Error('dayDb cannot be empty')
+        if (!dayDb.trim().length) throw Error('dayDb cannot be empty')
 
         return (async () => {
            
+            debugger
             const appointment = new Appointment ({owner, pet, dayDb})
     
             await appointment.save()

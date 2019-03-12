@@ -3,16 +3,15 @@ const logic = require('../../logic')
 const { createToken } = require('../../token-helper')
 
 module.exports = (req, res) => {
-    debugger
     
     const { body: { email, password } } = req
 
     try {
         logic.authenticateUser(email, password)
-            .then(userId => {
-                const token = createToken(userId)
-
-                res.json({ token })
+            .then(({id, role}) => {
+                const token = createToken(id)
+                debugger
+                res.json({ token, role })
             })
             .catch(({ message }) => {
                 res.status(401).json({

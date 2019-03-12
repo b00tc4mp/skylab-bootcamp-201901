@@ -6,15 +6,16 @@
  */
 const logic = {
     url: 'http://localhost:8000/api',
-    __userId__: null,
-    __userApiToken__: null,
-    __updateToken__(){
-        this.__userApiToken__ = sessionStorage.getItem('__userToken__')
-    },
+    // __userId__: null,
+    __userToken__: null,
+    __userAdmin__: null,
+    // __updateToken__(){
+    //     this.__userApiToken__ = sessionStorage.getItem('__userToken__')
+    // },
 
-    removeStorage(){
-        sessionStorage.clear()
-    },
+    // removeStorage(){
+    //     sessionStorage.clear()
+    // },
     /**
     * Registers a user.
     * 
@@ -205,7 +206,9 @@ const logic = {
             .then(response => {
                 if (response.error) throw Error(response.error)
 
-                return response.token
+                this.__userToken__ = response.token
+                this.__userAdmin__ = (response.role === 'admin')
+                //return response.token
             })
     },
 
@@ -213,16 +216,20 @@ const logic = {
      * Checks user is logged in.
      */
     get isUserLoggedIn() {
-        return !!this.__userId__
+        return !!this.__userToken__
     },
 
     /**
      * Logs out the user.
      */
     logOutUser() {
-        this.__userId__ = null
-        this.__userApiToken__ = null
-        this.removeStorage()
+        this.__userAdmin__ = null
+        this.__userToken__ = null
+        // this.removeStorage()
+    },
+
+    get isAdmin() {
+        return this.__userAdmin__ === 'true'
     },
 
     retrieveUsers() {
@@ -264,7 +271,7 @@ const logic = {
 
     retrievePets(userId){
 
-        this.__updateToken__()
+        // this.__updateToken__()
         return fetch(`${this.url}/pets/${userId}`, {
         
             headers:{
@@ -338,7 +345,7 @@ const logic = {
     retrieveUser(userId) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
-        this.__updateToken__()
+        // this.__updateToken__()
         return fetch(`${this.url}/user/${userId}`, {
 
             headers: {
@@ -360,7 +367,7 @@ const logic = {
         // this.__updateToken__()
         // return fetch(`${this.url}/user`, {
 
-         this.__updateToken__()
+        //  this.__updateToken__()
         return fetch(`${this.url}/pet/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userApiToken__}`
@@ -381,7 +388,7 @@ const logic = {
         // this.__updateToken__()
         // return fetch(`${this.url}/user`, {
 
-         this.__updateToken__()
+        //  this.__updateToken__()
         return fetch(`${this.url}/visit/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userApiToken__}`

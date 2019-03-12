@@ -4,7 +4,7 @@ import logic from '../../logic';
 
 
 
-class Register_Owner extends Component {
+class RegisterOwner extends Component {
 
     state = { name: '', surname: '', idCard: '', phone: '', adress: '', city: '', email: '', password: '', passwordConfirmation: '', error: null, isRegister: false, isLogin: true }
 
@@ -90,4 +90,4 @@ class Register_Owner extends Component {
     }
 }
 
-export default Register_Owner
+export default RegisterOwner

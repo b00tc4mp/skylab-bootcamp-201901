@@ -10,15 +10,15 @@ import './index.sass'
 
 
 Object.defineProperties(logic, {
-    __userId__: {
-        set(id) {
-            sessionStorage.setItem('__userId__', id)
-        },
+    // __userId__: {
+    //     set(id) {
+    //         sessionStorage.setItem('__userId__', id)
+    //     },
 
-        get() {
-            return sessionStorage.getItem('__userId__')
-        }
-    },
+    //     get() {
+    //         return sessionStorage.getItem('__userId__')
+    //     }
+    // },
     __userToken__: {
         set(token) {
             sessionStorage.setItem('__userToken__', token)
@@ -27,8 +27,21 @@ Object.defineProperties(logic, {
         get() {
             return sessionStorage.getItem('__userToken__')
         }
-    }
+    },
+    __userAdmin__: {
+        set(admin) {
+            sessionStorage.setItem('__userAdmin__', admin)
+        },
+
+        get() {
+            return sessionStorage.getItem('__userAdmin__')
+        }
+    },
+
+  
 })
+
+
 
 ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'))
 

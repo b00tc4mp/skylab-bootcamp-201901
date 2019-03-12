@@ -19,19 +19,27 @@ class Login extends Component {
     this.props.history.push('/home')
   }
   
-  login = async (email, password) => {
-    try {
-      const token = await logic.logInUser(email, password)
-      logic.__userToken__ = token
-      this.setState({isLogin:true, signIn: false,goHome: true, error: null})
-    } catch ({ message }) {
-      this.setState({ error: message })
-    }
+  // login = async (email, password) => {
+  //   try {
+  //     await logic.logInUser(email, password)
+  //     this.setState({isLogin:true, signIn: false,goHome: true, error: null})
+  //   } catch ({ message }) {
+  //     this.setState({ error: message })
+  //   }
+  // }
+
+  handleOnLogin = event => {
+    event.preventDefault()
+    
+    const {state: {email, password}, props: {onLogin}} = this
+
+    onLogin(email, password)
+
   }
 
   render() {
 
-    return <form className="form" onSubmit={this.handleLoginSubmit} >
+    return <form className="form" onSubmit={this.handleOnLogin} >
         <p className="title__form">Login:</p>
         <div className="input__form">
         <label>Email</label>
@@ -42,8 +50,8 @@ class Login extends Component {
         <label>Password</label>
           <input type="password" name="password" onChange={this.handleOnChange} required />
         
-        {this.state.error && <p p className= "feedback__error">{this.state.error}</p>}
-        {this.state.isLogin && <p className= "feedback__success">You have successfully logged in!</p>} 
+        {this.state.error && <p p className= "feedback feedback__error">{this.state.error}</p>}
+        {this.state.isLogin && <p className= "feedback feedback__success">You have successfully logged in!</p>} 
         {this.state.isLogin && <button className="button__home" onClick={this.handleGoHome}>Go Home</button>}
         {this.state.signIn &&<button type="submit" className="button">Sign in</button>}
         </div>
