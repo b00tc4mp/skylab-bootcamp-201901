@@ -4,24 +4,28 @@ import { NavLink } from 'react-router-dom'
 const Header = ({ isAdmin, isLoggedIn, onLogOut }) => {
   // {console.log(isAdmin, isLoggedIn)}
   return (
-  <header className="header">
-    <span className="icn-logo"><i className="material-icons">code</i></span>
+  <nav className="header" role="navigation" aria-label="main navigation">
+
     <ul className="main-nav">
 
-      <li><NavLink exact to="/" activeStyle={{ background: 'tomato' }}>Home</NavLink></li>
+      <a class="navbar-item" href="#">
+        <i className="material-icons">code</i>
+      </a>
 
-      <li>{!isLoggedIn && <NavLink to="/register" activeClassName="myActiveClass">Register</NavLink>}</li>
+      <li><NavLink exact to="/" className="navbar-item">Home</NavLink></li>
 
-      <li>{!isLoggedIn && <NavLink to="/login">Login</NavLink>}</li>
+      <li>{!isLoggedIn && <NavLink to="/register" className="navbar-item">Register</NavLink>}</li>
 
-      <li>{isLoggedIn && <NavLink to="/logout" onClick={onLogOut}>Logout</NavLink>}</li>
+      <li>{!isLoggedIn && <NavLink className="navbar-item" to="/login">Login</NavLink>}</li>
+
+      <li>{isLoggedIn && <NavLink className="navbar-item" to="/logout" onClick={onLogOut}>Logout</NavLink>}</li>
       
-      <li>{isAdmin && <NavLink exact to="/admin/exercises">Exercises</NavLink>}</li>
+      <li>{isAdmin && <NavLink className="navbar-item" exact to="/admin/exercises">Exercises</NavLink>}</li>
 
-      <li>{isAdmin && <NavLink exact to="/admin/invitations">Invitations</NavLink>}</li>
+      <li>{isAdmin && <NavLink className="navbar-item" exact to="/admin/invitations">Invitations</NavLink>}</li>
 
     </ul>
-  </header>
+  </nav>
 )}
 
 export default Header

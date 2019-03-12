@@ -1,19 +1,19 @@
 .header {
   background: #edeff0;
-  margin-bottom: 2em; }
-  .header .icn-logo {
-    background: #54606b;
-    color: #fff; }
-    .header .icn-logo i {
-      font-size: 2.45em;
-      line-height: 0;
-      margin-top: 30px; }
+  margin-bottom: 2em;
+  font-size: 0.95em;
+  color: #222;
+  text-align: center;
+  text-transform: uppercase;
+  display: block;
+  padding: 1em;
+  transition: 0.2s; }
   @media (min-width: 769px) and (max-width: 1023px) {
     .header .main-nav {
       display: flex;
       flex-wrap: wrap; } }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
 .register form {
@@ -22,7 +22,7 @@
   .register form input {
     margin-bottom: 1em; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
 .login form {
@@ -31,10 +31,10 @@
   .login form input {
     margin-bottom: 1em; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
 .start-intro {
@@ -45,26 +45,35 @@
 .start-intro {
   margin-bottom: 30px; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
-.exercise-list h3 {
-  text-transform: uppercase; }
+.itemlist__header {
+  margin-bottom: 3em; }
+.itemlist button {
+  margin-top: 1em; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.itemlist-item__header {
+  margin-bottom: 7px; }
+.itemlist-item__description {
+  margin-bottom: 2.5em; }
+.itemlist-item__button-delete {
+  max-width: 45px;
+  color: #ff3860;
+  border: 0; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
 .exercise-form form {
   display: flex;
   flex-direction: column; }
   .exercise-form form label {
-    margin-top: 2em;
-    font-size: 24px;
-    text-transform: uppercase; }
+    margin-top: 2em; }
   .exercise-form form button {
     margin-top: 10px; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-list {
   padding: 1em 2em; }
 
 * {

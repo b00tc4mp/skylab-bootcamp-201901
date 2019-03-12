@@ -74,7 +74,7 @@ button, textarea {
 
 /* MAIN NAV -------- */
 
-.main-nav a {
+/* .main-nav a {
   font-size: .95em;
   color: #222;
   text-align: center;
@@ -83,13 +83,14 @@ button, textarea {
   padding: 1em;
   transition: .2s;
 }
+
 .main-nav a:hover,
 .main-nav .active {
   color: #fff;
   background: #3b80d1;
-}
+} */
 
-/* COURSE NAV -------- */
+/* COURSE NAV ----- --- */
 
 .course-nav li {
   display: inline-block;
@@ -139,9 +140,9 @@ button, textarea {
      border-top: 2px solid transparent;
      border-bottom: 2px solid transparent;
    }
-   .main-nav a:hover {
+   /* .main-nav a:hover {
      border-color: rgba(0,0,0, .1);
-   }
+   } */
    .courses h2 {
      margin-bottom: 0;
    }
@@ -199,9 +200,9 @@ button, textarea {
     border-right: 3px solid transparent;
     padding: 1.25em 1.5em;
   }
-  .main-nav a:hover {
+  /* .main-nav a:hover {
     border-color: rgba(0,0,0, .1);
-  }
+  } */
   /* COURSE NAV -------- */
   .course-nav {
     float: right;

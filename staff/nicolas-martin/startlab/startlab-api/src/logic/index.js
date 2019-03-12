@@ -152,7 +152,7 @@ const logic = {
                         debugger
                         var pathToDeleteFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
                         fs.unlink(pathToDeleteFile, function (err) {
-                            if (err) throw Error('file not created')
+                            //if (err) throw Error('file not created')
                         })
 
                         return Exercise.deleteOne({ _id: exerciseId })

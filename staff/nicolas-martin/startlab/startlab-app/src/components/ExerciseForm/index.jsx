@@ -82,17 +82,34 @@ class ExerciseForm extends Component {
                     <h2>{pageTitle}</h2>
                     {feedback && <Feedback message={feedback} />}
                 </div>
+
                 <form onSubmit={handleFormSubmit}>
-                    <label htmlFor="title">Title</label>
-                    <input id="title" type="text" name="title" onChange={handleTitleInput} value={title} required />
 
-                    <label htmlFor="summary">Summary</label>
-                    <textarea id="summary" type="text" name="summary" onChange={handleSummaryInput} value={summary} required />
+                    <div className="field">
+                        <label className="label" htmlFor="title">Title</label>
+                        <div className="control">
+                            <input className="input" id="title" type="text" name="title" onChange={handleTitleInput} value={title} required />
+                        </div>
+                        <p className="help">This is a help text</p>
+                    </div>
 
-                    <label htmlFor="test">Test</label>
-                    <textarea id="test" type="text" name="test" onChange={handleTestInput} value={test} required />
+                    <div className="field">
+                        <label className="label" htmlFor="summary">Summary</label>
+                        <div className="control">
+                            <textarea className="textarea" id="summary" type="text" name="summary" onChange={handleSummaryInput} value={summary} required />
+                        </div>
+                        <p className="help">This is a help text</p>
+                    </div>
+                
+                    <div className="field">
+                        <label className="label" htmlFor="test">test</label>
+                        <div className="control">
+                            <textarea className="textarea" id="test" type="text" name="test" onChange={handleTestInput} value={test} required />
+                        </div>
+                        <p className="help">This is a help text</p>
+                    </div>
 
-                    <button type="submit">Save</button>
+                    <button className="button" type="submit">Save</button>
                 </form>
 
                 <AnswerForm manageChange={handleAnswerInput} manageSubmit={handleTestSubmit} previousAnswer={answer} />
