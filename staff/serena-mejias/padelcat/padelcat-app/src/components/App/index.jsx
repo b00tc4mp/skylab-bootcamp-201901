@@ -13,13 +13,14 @@ import { log } from "util";
 class App extends Component {
   state = {
     player: null
-  }
+  };
   handleLogin = (email, password) => {
     try {
+      debugger;
       logic
         .loginPlayer(email, password)
         .then(response => {
-          this.setState({player: response.player});
+          this.setState({ player: response.player });
           logic.storeToken(response.token);
           this.props.history.push("/home");
         })
@@ -60,12 +61,13 @@ class App extends Component {
     }
   };
 
-  handleSetAvailable = (matchId) => {
-    logic.addAvalabilityPlayer(this.state.player._id, matchId)
+  handleSetAvailable = matchId => {
+    logic.addAvalabilityPlayer(this.state.player._id, matchId);
     console.log("available");
   };
 
-  handleSetUnavailable = (playerId, matchId) => {
+  handleSetUnavailable = matchId => {
+    logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
     console.log("unavailable");
   };
 
@@ -76,6 +78,7 @@ class App extends Component {
       handleSetAvailable,
       handleSetUnavailable
     } = this;
+   
     return (
       <main>
         <Header />

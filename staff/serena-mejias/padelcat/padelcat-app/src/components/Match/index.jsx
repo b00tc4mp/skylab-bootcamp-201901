@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import styles from './index.module.scss';
+import styles from "./index.module.scss";
 export const Match = props => {
   const [available, setAvailable] = useState(false);
-
   const handleSetAvailable = matchId => {
     props.handleSetAvailable(matchId);
     setAvailable(true);
@@ -22,21 +21,35 @@ export const Match = props => {
     team2,
     imageTeam2,
     result,
-    location
+    location,
+    playersAvailable,
+    playersChosen
   } = props.match;
   return (
     <div>
       <h4>{date}</h4>
-      <div className="teams">
+      <div className="teams match">
         <div className="team1">
-          <h6>{team1}</h6>
           <img src={imageTeam1} />
+          <h6>{team1}</h6>
         </div>
         <div className="team2">
-          <h6>{team2}</h6>
           <img src={imageTeam2} />
+          <h6>{team2}</h6>
         </div>
-        <ul>Available Players</ul>
+      </div>
+      <div>
+        <ul>
+          {playersAvailable &&
+            playersAvailable.map(playerAvailable => (
+              <li
+                className={styles.playerAvailable}
+                key={playerAvailable.playerId}
+              >
+                <p>{playerAvailable}</p>
+              </li>
+            ))}
+        </ul>
         <div>
           Are you available?
           {!available && (

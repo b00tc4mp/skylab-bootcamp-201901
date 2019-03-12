@@ -9,19 +9,16 @@ export const Home = props => {
   const [matches, setMatches] = useState("");
 
   useEffect(() => {
-    if (!logic.getStoredtoken()) {
+      if (!logic.getStoredtoken()) {
       props.history.push("/login");
     }
     logic
-      .retrieveMatches()
+      .getMatchesWithData()
       .then(matches => setMatches(matches))
       .catch(error => {
         throw Error(error);
       });
-    //logic.retrieveAvailabilityPlayers(matches.matchId)
   }, []);
-
-
 
   return (
     <section className={styles.container}>

@@ -86,8 +86,8 @@ const padelcatApi = {
     return axios.get("/retrieveMatches");
   },
 
-  setIdMatches: () => {
-    return axios.put("/setScorePlayer");
+  getMatchesWithData: () => {
+    return axios.get("/getMatchesWithData");
   },
 
   addAvalabilityPlayer: (playerId, matchId) => {
@@ -100,9 +100,19 @@ const padelcatApi = {
     );
   },
 
-   retrieveAvailabilityPlayers: (matchId) => {
-     return axios.get(`/retrieveAvailabilityPlayers/${matchId}`)
-   }
+  deleteAvalabilityPlayer: (playerId, matchId) => {
+    return axios.put(
+      "/deleteAvailabilityPlayer",
+      JSON.stringify({ playerId, matchId }),
+      {
+        headers: { "content-type": "application/json" }
+      }
+    );
+  }
+
+  //  retrieveAvailabilityPlayers: (matchId) => {
+  //    return axios.get(`/retrieveAvailabilityPlayers/${matchId}`)
+  //  }
 };
 
 export default padelcatApi;
