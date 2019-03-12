@@ -24,6 +24,7 @@ class Register_Pet extends Component {
     }
 
     componentDidMount() {
+        debugger
         this.retrieveUsers()
     }
 

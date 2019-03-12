@@ -10,7 +10,7 @@ const logic = {
     __userToken__: null,
     __userAdmin__: null,
     __updateToken__(){
-        this.__userApiToken__ = sessionStorage.getItem('__userToken__')
+        this.__userToken__ = sessionStorage.getItem('__userToken__')
     },
 
  
@@ -244,7 +244,7 @@ const logic = {
         return fetch(`${this.url}/users`, {
 
             headers: {
-                authorization: `Bearer ${this.__userApiToken__}`
+                authorization: `Bearer ${this.__userToken__}`
             }
         })
             .then(response => response.json())
@@ -263,7 +263,7 @@ const logic = {
         return fetch(`${this.url}/appointments`, {
 
             headers: {
-                authorization: `Bearer ${this.__userApiToken__}`
+                authorization: `Bearer ${this.__userToken__}`
             }
         })
             .then(response => response.json())
@@ -282,7 +282,7 @@ const logic = {
         return fetch(`${this.url}/pets/${userId}`, {
         
             headers:{
-                authorization: `Bearer ${this.__userApiToken__}`
+                authorization: `Bearer ${this.__userToken__}`
             }
         })
             .then(response => response.json())
@@ -359,7 +359,7 @@ const logic = {
         return fetch(`${this.url}/user/${userId}`, {
 
             headers: {
-                authorization: `Bearer ${this.__userApiToken__}`
+                authorization: `Bearer ${this.__userToken__}`
             }
         })
             .then(response => response.json())
@@ -381,7 +381,7 @@ const logic = {
           this.__updateToken__()
         return fetch(`${this.url}/pet/${petsId}`, {
             headers: {
-                authorization: `Bearer ${this.__userApiToken__}`
+                authorization: `Bearer ${this.__userToken__}`
             }
         })
             .then(response => response.json())
@@ -403,7 +403,7 @@ const logic = {
           this.__updateToken__()
         return fetch(`${this.url}/visit/${petsId}`, {
             headers: {
-                authorization: `Bearer ${this.__userApiToken__}`
+                authorization: `Bearer ${this.__userToken__}`
             }
         })
             .then(response => response.json())
@@ -425,7 +425,7 @@ const logic = {
         return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
-                authorization: `Bearer ${this.__userApiToken__}`,
+                authorization: `Bearer ${this.__userToken__}`,
                 'content-type': 'application/json'
             },
             body: JSON.stringify({name, surname, idCard, phone, adress, city, email})
@@ -456,7 +456,7 @@ const logic = {
         return fetch(`${this.url}/pet`, {
             method: 'PUT',
             headers: {
-                authorization: `Bearer ${this.__userApiToken__}`,
+                authorization: `Bearer ${this.__userToken__}`,
                 'content-type': 'application/json'
             },
             body: JSON.stringify({petsId, name, microchip, petlicence})
@@ -479,7 +479,7 @@ const logic = {
         return fetch(`${this.url}/visit`, {
             method: 'PUT',
             headers: {
-                authorization: `Bearer ${this.__userApiToken__}`,
+                authorization: `Bearer ${this.__userToken__}`,
                 'content-type': 'application/json'
             },
             body: JSON.stringify({petsId, vaccionations, controls, details})

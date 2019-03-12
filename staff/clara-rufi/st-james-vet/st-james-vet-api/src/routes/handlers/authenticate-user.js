@@ -10,7 +10,7 @@ module.exports = (req, res) => {
         logic.authenticateUser(email, password)
             .then(({id, role}) => {
                 const token = createToken(id)
-                debugger
+            
                 res.json({ token, role })
             })
             .catch(({ message }) => {

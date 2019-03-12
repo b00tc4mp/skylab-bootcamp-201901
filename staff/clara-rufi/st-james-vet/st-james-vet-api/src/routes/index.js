@@ -16,6 +16,7 @@ router.use(cors)
 router.post('/user', jsonBodyParser, registerUser)
 
 router.post('/pet', jsonBodyParser, registerPet)
+
 router.post('/appointment', jsonBodyParser, assignAppointment)
 
 router.post('/user/auth', jsonBodyParser, authenticateUser)
@@ -39,4 +40,6 @@ router.put('/pet', [tokenVerifierMiddleware, jsonBodyParser], updatePet)
 router.put('/visit', [tokenVerifierMiddleware, jsonBodyParser], updateVisit)
 
 router.delete('/appointment', jsonBodyParser, deleteAppointment)
+
+
 module.exports = router
