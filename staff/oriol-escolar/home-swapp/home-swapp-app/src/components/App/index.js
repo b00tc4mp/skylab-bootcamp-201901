@@ -4,13 +4,14 @@ import logo from '../../logo.svg';
 import './index.sass';
 import Login from '../loginPanel'
 import Register from '../registerPanel'
+import MyHouses from '../myHouses'
 import LandingPage from '../LandingPage'
 import Header from '../Header'
 import logic from '../../logic'
 
 
 class App extends Component {
-  state = { token : "", user: "", loginFeedback: null, registerFeedback: null, registered: "" }
+  state = { token: "", user: "", loginFeedback: null, registerFeedback: null, registered: "" }
 
 
   handleLogin = (email, password) => {
@@ -22,10 +23,10 @@ class App extends Component {
           this.setState({ token })
           return logic.retrieveUser()
             .then(user => this.setState({ user }))
-            .catch(({message}) => {
+            .catch(({ message }) => {
               this.setState({ loginFeedback: message })
             })
-          .then(() => this.props.history.push('/'))
+            .then(() => this.props.history.push('/'))
         })
         .catch(({ message }) => {
           this.setState({ loginFeedback: message })
@@ -40,14 +41,14 @@ class App extends Component {
     try {
       return logic.registerUser(username, email, password, passwordConfirm)
         .then(() => {
-          
+
           this.setState({ registered: 'yes' })
           this.props.history.push('/login')
-      
-      
-      
-      })
-        .catch(({message}) => {
+
+
+
+        })
+        .catch(({ message }) => {
           this.setState({ registerFeedback: message })
         })
     } catch ({ message }) {
@@ -56,37 +57,37 @@ class App extends Component {
   }
 
   //#region  Header Functions 
-  
-  
+
+
   handleGoToLogout = () => {
     logic.logout();
-    this.setState({ user: "" , token:"" })
+    this.setState({ user: "", token: "" })
 
     // this.props.history.push('/');
   }
 
-  handleGoToRegister= ()=>{
+  handleGoToRegister = () => {
 
     this.props.history.push('/register');
 
   }
 
-  handleGoToLogin= ()=>{
+  handleGoToLogin = () => {
 
     this.props.history.push('/login');
 
   }
-  handleGoToLanding= ()=>{
+  handleGoToLanding = () => {
 
     this.props.history.push('/');
 
   }
-  handleGoToUser= ()=>{
+  handleGoToUser = () => {
 
     this.props.history.push('/user');
 
   }
-  handleGoToConversations= ()=>{
+  handleGoToConversations = () => {
 
     this.props.history.push('/conversations');
 
@@ -94,11 +95,11 @@ class App extends Component {
 
 
 
-//#endregion
+  //#endregion
 
   render() {
 
-    const { handleLogin, handleRegister,handleGoToConversations,handleGoToLogin,handleGoToLogout,handleGoToRegister,handleGoToUser,handleGoToLanding, state: { user, loginFeedback, registerFeedback, registered } } = this
+    const { handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister, handleGoToUser, handleGoToLanding, state: { user, loginFeedback, registerFeedback, registered,token } } = this
 
 
     return (
@@ -112,9 +113,9 @@ class App extends Component {
 
         <div className="content" >
           {/* <Route  exact path = '/' render={() => <LandingPage/>}/>  */}
-          
-          <Route  exact path ="/login" render={()=> <Login loginFeedback={loginFeedback} onLogin={handleLogin}  />}/> 
-          <Route  exact path ="/register" render={()=> <Register registerFeedback={registerFeedback} onRegister={handleRegister}/>}/> 
+          <Route exact path='/' render={() => <MyHouses user={user} token ={token} />} />
+          <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
+          <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
 
         </div>
 
@@ -124,4 +125,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App) ;
+export default withRouter(App);

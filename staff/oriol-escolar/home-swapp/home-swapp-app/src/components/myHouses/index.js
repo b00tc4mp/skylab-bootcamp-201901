@@ -1,43 +1,103 @@
 import React, { Component } from 'react'
 import './index.sass';
+import logic from '../../logic'
+import HouseCard from '../HouseCard'
 
 
-class myHouses extends Component{
+class MyHouses extends Component {
 
 
     state = {
 
-        user: ""
-
-
+        user: "",
+        token: "",
+        myHouses: []
     }
 
-    componentWillReceiveProps(props){
+    componentDidMount() {
 
-        this.setState({user:props.user})
+        Promise.all(
+            this.setState({ user: this.props.user }),
+            this.setState({ token: this.props.token }),
 
-    } 
+            this.retrieveHouses()
+
+        )
+    }
+
+
+    retrieveHouses = () => {
 
 
 
-    listMyHouses(){
+        if (this.state.user) {
 
-        if(this.state.user.myHouses){
 
-            let _myHouses = this.state.user.myHouses
+            let token = this.state.token
+            let user = this.state.user
 
-            _myHouses.forEach(house => {
-                
-            });
+            const myHouses = user.myHouses.map(houseId => {
 
+                return logic.retrieveHouse(token, houseId)
+
+            })
+
+            this.setState({ myHouses: myHouses })
 
         }
 
     }
 
+    componentWillReceiveProps(props) {
+
+        this.setState({ user: props.user })
+        this.setState({ token: props.token })
+        this.forceUpdate()
+
+    }
+
+
+
+
+    listMyHouses = () => {
+
+
+        this.state.myHouses.forEach(house => {
+
+
+            return <div className="HouseCard">
+
+                <img src={house.images[0]}></img>
+                <p>{house.adress.city}</p>
+                <p>{house.adress.sreet} + {house.adress.number}</p>
+
+
+            </div>
+
+        });
+
+
+
+    }
+
+
+
+    render() {
+
+        const { listMyHouses, state: { user, myHouses } } = this
+
+        return <div className="myHouses" >
+
+
+            {myHouses && listMyHouses()}
+
+
+
+        </div>
+    }
 
 
 }
 
 
-export default myHouses
+export default MyHouses
