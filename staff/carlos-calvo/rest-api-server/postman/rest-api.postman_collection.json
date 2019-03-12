@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "18813d1d-f595-435c-81ef-16cdbaa2ec06",
+		"name": "rest-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Manuel\",\n\t\"surname\": \"Barzi\",\n\t\"email\": \"manuelbarzi@gmail.com\",\n\t\"password\": \"p\",\n\t\"passwordConfirm\": \"p\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"manuelbarzi@gmail.com\",\n\t\"password\": \"p\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/user/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzcwMWRlNjg4YTcxMDQ0MGU5NDBlYzYiLCJpYXQiOjE1NTA4NTE1NjQsImV4cCI6MTU1MDg2NTk2NH0.lGb0qoRFK4DOpILvtWES2ucT2n2vZQe8QHSJMYmVyWQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/user/5c701de688a710440e940ec6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"5c701de688a710440e940ec6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search artists",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/artists?q=madonna",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"artists"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "madonna"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add comment to artist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzcwMWRlNjg4YTcxMDQ0MGU5NDBlYzYiLCJpYXQiOjE1NTA4NTE1NjQsImV4cCI6MTU1MDg2NTk2NH0.lGb0qoRFK4DOpILvtWES2ucT2n2vZQe8QHSJMYmVyWQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"5c701de688a710440e940ec6\",\n\t\"text\": \"me encanta esta artista, quiero un hijo suyo\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/artist/6tbjWDEIzxoDsBA1FuhfPW/comment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"artist",
+						"6tbjWDEIzxoDsBA1FuhfPW",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list comments from artist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/artist/6tbjWDEIzxoDsBA1FuhfPW/comment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"artist",
+						"6tbjWDEIzxoDsBA1FuhfPW",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,11 @@
+mixin albums(albums)
+    section.artists.p-l-10.p-r-10
+        .artists-list
+            each album in albums
+                .artist
+                    a(href=`/tracks/${album.id}`, alt=`See tracks of ${album.name}`)
+                        if album.images[1] !== undefined
+                            img(src=album.images[1].url)
+                        else
+                            img(src='/images/image-not-found.jpg')
+                    h4= album.name
