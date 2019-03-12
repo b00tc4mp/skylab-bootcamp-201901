@@ -2,22 +2,23 @@
 
 import logic from '.'
 import homeSwappApi from '../api';
+import expect from 'expect'
+
 
 describe('logic', () => {
 
     describe('registerUser', () => {
 
-        let email = `manolo${Math.random()}@hotmail.com`
-        let username = `ManoloSkywalker-${Math.random()}`
+        let email 
+        let username
         let password = '123'
 
-        beforeEach = () => {
+        beforeEach (() => {
 
             email = `manolo${Math.random()}@hotmail.com`
             username = `ManoloSkywalker-${Math.random()}`
 
-
-        }
+        })
 
         it('should succeed on correct data', () =>
 
@@ -134,14 +135,16 @@ describe('logic', () => {
     })
     describe('loginUser', () => {
 
-        let email = `manolo${Math.random()}@hotmail.com`
-        let username = `ManoloSkywalker-${Math.random()}`
+        let email
+        let username
         let password = '123'
 
-        beforeEach(() => {
+        beforeEach ( () => {
+
             email = `manolo${Math.random()}@hotmail.com`
             username = `ManoloSkywalker-${Math.random()}`
-            homeSwappApi.registerUser(username, email, password, password)
+            return homeSwappApi.registerUser(username, email, password, password)
+
         })
 
         it('should succeed on correct data', () =>
@@ -186,15 +189,17 @@ describe('logic', () => {
             homeSwappApi.registerUser(username, email, password, password)
                 .then(() => homeSwappApi.authenticateUser(email, password))
                 .then(token => {
+                    console.log(token)
                     _token = token
-                    console.log(_token)
+                    logic.setUserApiToken(_token)
+                    console.log(logic.__userApiToken__)
                 })
 
         )
 
         it('should succeed on correct data', () =>
 
-            logic.retrieveUser(_token)
+            logic.retrieveUser()
 
                 .then(({ id, myHouses, username, email }) => {
 
@@ -207,25 +212,8 @@ describe('logic', () => {
                 })
         )
 
-        it('should fail on undefined email', () => {
-            try {
-                logic.retrieveUser(undefined, password)
+       
 
-            } catch (error) {
-                expect(error).toBeDefined()
-                expect(error.message).toBe(`null is not a string`)
-            }
-        })
-
-        it('should fail on undefined password', () => {
-            try {
-                logic.retrieveUser(email, undefined)
-
-            } catch (error) {
-                expect(error).toBeDefined()
-                expect(error.message).toBe(`null is not a string`)
-            }
-        })
 
     })
 })
