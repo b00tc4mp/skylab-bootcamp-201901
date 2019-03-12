@@ -11,7 +11,7 @@ function Card({
   comments,
   postId,
   userFavorites,
-  call = () => {}
+  call
 }) {
   const [commentsPost, setComments] = useState("");
   const { user } = useContext(UserContext);

@@ -38,7 +38,6 @@ function CardList() {
           description={post.description}
           comments={post.comments}
           postId={post._id}
-          getPosts={getPosts}
           userFavorites={userFavorites}
           call={updatePosts}
         />

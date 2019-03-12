@@ -15,7 +15,6 @@ const Favorites = () => {
   useEffect(() => {
     retrieveUserFavs();
   }, []);
-  console.log(userFavorites, "joooooooooooooo");
   return (
     <div className="fav-list">
       {userFavorites &&
