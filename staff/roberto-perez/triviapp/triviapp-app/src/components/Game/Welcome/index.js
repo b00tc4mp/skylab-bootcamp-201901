@@ -19,7 +19,7 @@ function Welcome(props) {
 	} = props;
 
 	useEffect(() => {
-		console.log(props);
+		
 		getGameByQuizId(gameId);
 	}, [props.match.params.gameId]);
 

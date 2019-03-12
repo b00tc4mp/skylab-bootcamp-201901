@@ -116,7 +116,7 @@ quizSchema.statics = {
 	 *
 	 * @returns {Promise<Quiz[]>}
 	 */
-	list({ page = 1, perPage = 20 }) {
+	list({ page = 1, perPage = 9 }) {
 		return this.find()
 			.populate('author')
 			.sort({ createdAt: -1 })

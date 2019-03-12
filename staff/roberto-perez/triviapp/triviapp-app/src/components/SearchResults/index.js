@@ -5,15 +5,25 @@ import QuizCard from '../QuizCard';
 
 function SearchResults(props) {
 	const [quizzes, setQuizzes] = useState([]);
+	const [offset, setOffset] = useState(1);
+	const [loadMoreButton, setLoadMoreButton] = useState(false);
 
 	useEffect(() => {
 		handleListQuiz();
-	}, []);
+	}, [offset]);
+
+	const loadMore = () => {
+		setOffset(prevOffset => prevOffset + 1);
+	};
 
 	const handleListQuiz = async () => {
+		console.log(offset);
 		try {
-			const quizzes = await quiz.list();
-			setQuizzes(quizzes);
+			const newQuizzes = await quiz.list(offset);
+
+			setLoadMoreButton(!!newQuizzes.length);
+
+			setQuizzes([...quizzes, ...newQuizzes]);
 		} catch (error) {
 			console.error(error);
 		}
@@ -26,6 +36,11 @@ function SearchResults(props) {
 					<QuizCard key={quiz.id} quiz={quiz} />
 				))}
 			</div>
+			{loadMoreButton && (
+				<button className="load-more" onClick={loadMore}>
+					Load more
+				</button>
+			)}
 		</div>
 	);
 }

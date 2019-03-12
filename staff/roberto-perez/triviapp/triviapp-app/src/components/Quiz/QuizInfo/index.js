@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import auth from '../../../services/auth';
+
 function QuizInfo(props) {
-	console.log(props)
+	console.log(props);
 	const {
 		quiz: { title, description, author },
 	} = props;
@@ -25,14 +27,16 @@ function QuizInfo(props) {
 					</header>
 
 					<div className="quiz-details-header__action-buttons-wrapper">
-						<div className="quiz-details-header__action-buttons-group">
-							<button
-								className="btn__link btn__link--green green quiz-details-header__action-buttons-play"
-								disabled
-							>
-								Play
-							</button>
-						</div>
+						{auth.isUserLoggedIn && (
+							<div className="quiz-details-header__action-buttons-group">
+								<button
+									className="btn__link btn__link--green green quiz-details-header__action-buttons-play"
+									disabled
+								>
+									Play
+								</button>
+							</div>
+						)}
 						<div className="quiz-details-header__action-buttons-group">
 							<button className="quiz-details-header__action-buttons-favorite">
 								<i className="far fa-star" />

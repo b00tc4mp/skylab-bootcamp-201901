@@ -70,8 +70,8 @@ const quizApi = {
 			});
 	},
 
-	listQuizzes() {
-		return fetch(`${this.url}/quiz`, {
+	listQuizzes(offset) {
+		return fetch(`${this.url}/quiz/page/${offset}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',

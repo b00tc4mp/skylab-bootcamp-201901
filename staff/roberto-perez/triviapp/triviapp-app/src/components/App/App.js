@@ -16,7 +16,8 @@ import {
 	faDownload,
 	faPlayCircle,
 	faCogs,
-	faTrophy
+	faTrophy,
+	faGamepad
 } from '@fortawesome/free-solid-svg-icons';
 
 import Home from '../Home';
@@ -37,7 +38,8 @@ library.add(
 	faDownload,
 	faPlayCircle,
 	faCogs,
-	faTrophy
+	faTrophy,
+	faGamepad
 );
 
 

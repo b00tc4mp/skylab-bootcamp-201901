@@ -1,21 +1,18 @@
 import gameApi from '../../game-api';
 import validate from '../../utils/validate';
 import Xtorage from '../xtorage';
+import State from '../state';
 
 const game = {
 	currentGame: null,
 	storage: sessionStorage,
-	state: new State(sessionStorage, '__state__'),
+	state: new State(sessionStorage, 'game'),
 
 	async create(quizId) {
 		try {
 			const game = await gameApi.createGame(quizId);
 
-			const xtorage = new Xtorage(this.storage);
-
-			xtorage.set('game', game);
-
-			// this.state.set({ game })
+			this.state.set(game);
 
 			return game;
 		} catch (error) {
@@ -25,14 +22,14 @@ const game = {
 
 	async get(gameId) {
 		try {
-			const game = await gameApi.getGame(gameId);
-			const xtorage = new Xtorage(this.storage);
-			xtorage.set('game', game);
-			const gameStorage = xtorage.get('game');
-			// this.state.set({ game })
+			// const { game } = this.state.get();
 
-			return gameStorage;
-			// return game
+			// if (!game) {
+				const game = await gameApi.getGame(gameId);
+				this.state.set(game);
+			// }
+
+			return game;
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -40,13 +37,13 @@ const game = {
 
 	async start(gameId) {
 		try {
-			const xtorage = new Xtorage(this.storage);
-			let gameStorage = xtorage.get('game');
-			// let { game } = this.state.get()
-			gameStorage.gameStarted = true;
-			xtorage.set('game', gameStorage);
-			return gameStorage;
-			// return await gameApi.startGame(gameId);
+			let { game } = this.state.get();
+
+			game.gameStarted = true;
+
+			this.state.set(game);
+
+			return game;
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -61,19 +58,18 @@ const game = {
 	},
 
 	async next() {
-		const xtorage = new Xtorage(this.storage);
 		const questionStorage = this.currentQuestion;
 		questionStorage.questionAnswered = true;
 
-		const game = xtorage.get('game');
+		const { game } = this.state.get();
 
 		game.quiz.questions.map(_question => {
-			return (_question._id === questionStorage._id)
+			return _question._id === questionStorage._id
 				? Object.assign(_question, questionStorage)
 				: _question;
 		});
 
-		xtorage.set('game', game);
+		this.state.set(game);
 		return game;
 	},
 
@@ -81,14 +77,12 @@ const game = {
 	 * Return game code.
 	 */
 	get code() {
-		const xtorage = new Xtorage(this.storage);
-		const game = xtorage.get('game');
+		const { game } = this.state.get();
 		return game.code;
 	},
 
 	get currentQuestion() {
-		const xtorage = new Xtorage(this.storage);
-		const game = xtorage.get('game');
+		const { game } = this.state.get();
 
 		return game.quiz.questions.find(_questions => !_questions.questionAnswered);
 	},

@@ -7,7 +7,7 @@ import auth from '../../services/auth';
 
 import Profile from './Profile';
 
-function Header() {
+function Header(props) {
 	return (
 		<header className="header">
 			<div className="header__content-left">

@@ -39,9 +39,9 @@ const quiz = {
 		}
 	},
 
-	async list() {
+	async list(offset) {
 		try {
-			return await quizApi.listQuizzes();
+			return await quizApi.listQuizzes(offset);
 		} catch (error) {
 			throw Error(error.message);
 		}

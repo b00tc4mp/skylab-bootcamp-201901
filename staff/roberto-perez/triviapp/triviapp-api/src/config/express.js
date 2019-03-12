@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const http = require('http');
+const socketIo = require('socket.io');
 const busboy = require('connect-busboy');
 const compress = require('compression');
 const methodOverride = require('method-override');
@@ -15,7 +17,7 @@ const app = express();
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(busboy()); 
+app.use(busboy());
 
 // gzip compression
 app.use(compress());
@@ -32,6 +34,9 @@ app.use(cors());
 
 // mount api v1 routes
 app.use('/v1', routes);
+
+const server = http.createServer(app);
+const io = socketIo(server); // < Interesting!
 
 // if error is not an instanceOf APIError, convert it.
 // app.use(error.converter);

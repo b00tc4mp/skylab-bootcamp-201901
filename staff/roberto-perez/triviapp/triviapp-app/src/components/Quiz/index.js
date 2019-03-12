@@ -4,7 +4,6 @@ import React, { useState, useEffect, Fragment } from 'react';
 import quiz from '../../services/quiz';
 import Answer from './Answer';
 import QuizInfo from './QuizInfo';
-import requiereAuth from '../middlewares/requireAuth';
 
 function Quiz(props) {
 	const [currentQuiz, setCurrentQuiz] = useState('');
@@ -55,10 +54,11 @@ function Quiz(props) {
 									</div>
 									<div className="question-detail__answers question-detail__answers--open">
 										<ul className="question-detail__answers-list">
-											{question.answers.map(
-												(answers, indexAnswer) => (
-													<Answer key={answers._id} answers={answers} index={indexAnswer} />
-												),
+											{question.answers.map((answers, indexAnswer) => {
+													if(answers.title !== '') {
+														return (<Answer key={answers._id} answers={answers} index={indexAnswer} />)
+													}
+												},
 											)}
 										</ul>
 									</div>
@@ -72,4 +72,4 @@ function Quiz(props) {
 	);
 }
 
-export default requiereAuth(Quiz);
+export default Quiz;

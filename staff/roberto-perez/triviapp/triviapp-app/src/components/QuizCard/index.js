@@ -3,18 +3,14 @@ import { Link } from 'react-router-dom';
 
 function QuizCard(props) {
 	const {
-		quiz: { id, title, questions, author },
+		quiz: { id, title, questions, picture, author },
 	} = props;
 
 	return (
 		<div className="quiz">
 			<figure className="quiz__figure">
 				<Link to={`/quiz/${id}`} title={title} className="menu__link">
-					<img
-						src="https://assets.awwwards.com/awards/media/cache/optimize/submissions/2019/02/5c5f0480554d4130295365.jpg"
-						alt=""
-						className="quiz__image"
-					/>
+					<img src={picture} alt={title} className="quiz__image" />
 				</Link>
 				<div className="btn-favorite">
 					<i className="far fa-star" />

@@ -22,7 +22,7 @@ function Profile(props) {
 		if (wrapperRef.current && !wrapperRef.current.contains(Event.target)) {
 			setisHidden(!isHidden);
 		}
-	  };
+	};
 
 	const toggleHidden = () => {
 		setisHidden(!isHidden);
@@ -30,9 +30,17 @@ function Profile(props) {
 
 	return (
 		<div className="header__profile">
-			<a className="btn__link header__btn-create black" href="/">
+			<Link
+				to="/player/pin"
+				title="Settings"
+				className="btn__link header__btn-create black"
+			>
+				<FontAwesomeIcon icon="gamepad" className="btn__link-icon" /> Join game
+			</Link>
+
+			{/* <a className="btn__link header__btn-create black" href="/">
 				<i className="fas fa-gamepad btn__link-icon" /> Join game
-			</a>
+			</a> */}
 
 			<div className="user-profile user-profile--open">
 				<button className="user-profile__button" onClick={toggleHidden}>

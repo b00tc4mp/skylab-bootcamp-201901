@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import SearchResults from '../SearchResults';
-
 import Header from '../Header';
 import Aside from '../Aside';
 import Menu from '../Menu';
@@ -13,19 +13,19 @@ import Quiz from '../Quiz';
 import Dashboard from '../Dashboard';
 
 function Home(props) {
+
 	return (
 		<div className="wrapper">
-			{/* <div className="search__content">
-					<input
-						className="search__input"
-						type="search"
-						placeholder="Search..."
-						value=""
-					/>
-					<button className="search__button">
-						<i className="fas fa-search" />
-					</button>
-				</div> */}
+			<div className="search__content">
+				<input
+					className="search__input"
+					type="search"
+					placeholder="Search..."
+				/>
+				<button className="search__button">
+					<FontAwesomeIcon icon="search" />
+				</button>
+			</div>
 
 			<Aside>
 				<Menu />

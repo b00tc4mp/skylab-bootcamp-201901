@@ -39,7 +39,12 @@ exports.get = (req, res) => res.json(req.locals.quiz.normalize());
  * @public
  */
 exports.list = async (req, res) => {
+	const {
+		params: { offset = 0 },
+	} = req;
+
 	try {
+		req.body.page = offset;
 		const quizzes = await quiz.listQuizzes(req.body);
 		return res.json(quizzes);
 	} catch (error) {
