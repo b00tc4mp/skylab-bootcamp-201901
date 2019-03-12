@@ -7,15 +7,19 @@ const logic = {
     __userId__: null,
     __userApiToken__: null,
 
-    async registerUser(name, surname, email, password, passwordConfirmation) {
+    registerUser(name, surname, email, password, passwordConfirmation) {
 
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-        try {
-            const answer = await cleanUpApi.registerUser(name, surname, email, password, passwordConfirmation)
-            console.log(answer)
-        } catch (error) {
-            console.log(error)
-        }
+
+        return (async () => {
+            try {
+                const answer = await cleanUpApi.registerUser(name, surname, email, password, passwordConfirmation)
+                console.log(answer)
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+
     },
 
     logInUser(email, password) {
@@ -80,6 +84,7 @@ const logic = {
         return this._date.toString()
 
     },
+
 
 
     addProductToCart(productId) {

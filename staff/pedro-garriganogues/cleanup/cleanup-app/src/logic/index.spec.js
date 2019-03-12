@@ -20,15 +20,9 @@ describe('logic', () => {
         )
 
         it('should fail on undefined name', () => {
-            const name = undefined
-            const surname = 'test'
-            const email = 'test@mail.com'
-            const password = '123'
-            const passwordConfirmation = '123'
-
             expect(() => {
-                logic.registerUser(name, surname, email, password, passwordConfirmation)
-            }).toThrow(TypeError(name + ' is not a string'))
+                logic.registerUser()
+            }).toThrow(TypeError('undefined is not a string'))
         })
 
         // it('should fail on numeric name', () => {

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
-
+import { Link } from 'react-router-dom'
 import './index.css'
+
 
 class Product extends Component {
 
@@ -17,7 +18,16 @@ class Product extends Component {
 
         logic.retrieveProduct(this.props.productId)
             .then(product => this.setState({ product }))
+
+
+        logic.listTheProducts()
+            .then(products => {
+                this.setState({ products })
+            })
     }
+
+
+
 
 
 
@@ -31,9 +41,11 @@ class Product extends Component {
                             <img className="productImage" src={this.state.product.image} id={`img-${this.state.product._id}`} alt="404" />
                         </div>
                         <div >
-                            <h2 className="productName">{this.state.product.name}</h2>
-                            <h3 className="productPrice">{this.state.product.price} €</h3>
-                            <button>Add to the cart</button>
+                            <div className="card-body">
+                                <h2 className="productName">{this.state.product.name}</h2>
+                                <h3 className="productPrice">{this.state.product.price} €</h3>
+                                <button onClick={() => addProductToCart(this.state.product._id)}>Add to cart</button>
+                            </div>
                             <p className="productDescription">{this.state.product.description}</p>
                         </div>
                     </div>

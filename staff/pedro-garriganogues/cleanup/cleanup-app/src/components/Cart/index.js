@@ -1,69 +1,53 @@
 import React, { Component } from 'react'
 import './index.css'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import logic from '../../logic'
 
 class Cart extends Component {
 
     render() {
-        return <h1 className="title">CART</h1>
 
+        this.props.cart.map(item => this.props.total.push(item.price))
 
+        return (
+            <main>
+                <section>
+                    <h1 clasName="title">Cart</h1>
+                    <i></i>
+                </section>
+                <section>
 
-
-
-
+                    <table>
+                        <head>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Course</th>
+                                <th scope="col">Price</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </head>
+                        <body>
+                            {this.props.cart.map(item => (
+                                <tr key={item._id}>
+                                    <td ><img src={item.image} alt="404" /></td>
+                                    <td> <h4>{item.name}</h4></td>
+                                    <td> <h4>{item.price} €</h4></td>
+                                    <td><a onClick={() => this.props.onRemoveFromCart(item._id)}>Remove</a></td>
+                                </tr>
+                            ))}
+                        </body>
+                    </table>
+                    {<div>
+                        <div>
+                            <h2>Total price</h2>
+                            <h2>{this.props.total.length && this.props.total.reduce((accumulated, currentValue) => accumulated + currentValue, 0)}€</h2>
+                            {logic.__userApiToken__ && <Link to="/">Buy products</Link>}
+                        </div>
+                    </div>}
+                </section>
+            </main>
+        )
     }
 }
 
 export default Cart
-
-// render() {
-
-//     this.props.cart.map(item => this.props.total.push(item.price))
-
-//     return (
-//         <main>
-//             <section className="main-title my-cart-title">
-//                 <div className="flying-cart-title"> My Cart</div>
-//                 <i className="fas fa-shopping-cart title-shopping-cart"></i>
-//             </section>
-//             <section className="main-section-cart">
-
-//             <table className="table">
-//                 <thead>
-//                     <tr>
-//                         <th scope="col">#</th>
-//                         <th scope="col">Course</th>
-//                         <th scope="col">Units available</th>
-//                         <th scope="col">Discount</th>
-//                         <th scope="col">Price</th>
-//                         <th scope="col"></th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     {this.props.cart.map(item => (
-//                         <tr key={item._id}>
-//                             <td width="10%"><img className="card-img-top cart-image" src={item.image} alt="course or category" /></td>
-//                             <td> <h5 className="card-title">{item.name}</h5></td>
-//                             <td>{item.stock}</td>
-//                             <td>{item.discount}%</td>
-//                             <td> <h5 className="card-title">{item.price} €</h5></td>
-//                             {/* <td><a className="btn btn-outline-secondary" onClick={() => this.onRemoveFromCart(item._id)} role="button">Remove from cart</a></td> */}
-//                             <td><a className="btn btn-outline-secondary" onClick={() => this.props.onRemoveFromCart(item._id)} role="button">Remove from cart</a></td>
-//                         </tr>
-//                     ))}
-//                 </tbody>
-//             </table>
-//             {<div className="card text-right total-price-card">
-//                 <div className="card-body">
-//                 <h2>Total price</h2>
-//                     <h2 className="card-title">{this.props.total.length && this.props.total.reduce((accumulator, currentValue) => accumulator + currentValue, 0)}€</h2>
-//                     {this.props.loggedIn ? <Link to="/order" className="btn btn-outline-secondary" role="button">Buy the products</Link> : <a onClick={() => swal('You must be logged to purchase our products')} className="btn btn-outline-secondary" role="button">Buy the products</a> }
-//                 </div>
-//             </div>}
-//             </section>
-//             <Footer />
-//         </main>
-//     )
-// }
-// }

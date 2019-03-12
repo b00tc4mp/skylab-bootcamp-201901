@@ -17,14 +17,52 @@ import Product from '../Product'
 import Totalproducts from '../Totalproducts'
 
 
-
-
-
-
-
 import logic from '../../logic'
 class App extends Component {
-    state = { registerFeedback: null }
+    state = {
+        cart: [],
+        total: [],
+        loggedIn: logic.loggedIn,
+        // cartLength: logic.cart().length,
+    }
+
+
+
+    onLogin = () => {
+        this.setState({ loggedIn: true })
+
+        this.props.history.push('/')
+    }
+
+    onLogout = () => {
+        this.setState({ loggedIn: false })
+    }
+
+    onOrder = () => {
+        logic.clearCart()
+
+        logic._cart.length = 0;
+
+        this.getItems()
+
+        this.props.history.push('/')
+    }
+
+    // getItems = () => {
+    //     if (logic._cart.length && logic._cart !== 'undefined') {
+    //         logic.listProductsByIds()
+    //             .then(cart => this.setState({ cart, total: [], cartLength: logic.cart().length }))
+    //     } else {
+    //         this.setState({ cart: [], total: [], cartLength: logic.cart().length })
+    //     }
+    // }
+
+
+    onRemoveFromCart = id => {
+        logic.removeProductFromCart(id);
+
+        this.getItems();
+    }
 
 
     handleRegister = (name, surname, email, password, passwordConfirmation) => {
@@ -47,53 +85,7 @@ class App extends Component {
         }
     }
 
-    // onAddToCart = id => {
-    //     logic.addProductToCart(id)
-    //       .then(() => {
 
-    //         this.setState({ cartLength: logic.cart().length })
-
-    //         this.getItems()
-
-    //         var cart = $(".fa-shopping-cart")
-    //         var imgtodrag = $('#img-' + id);
-
-    //         if (imgtodrag !== 'undefined') {
-
-    //           var imgclone = imgtodrag.clone()
-    //             .offset({
-    //               top: imgtodrag.offset().top,
-    //               left: imgtodrag.offset().left
-    //             })
-    //             .css({
-    //               'opacity': '0.5',
-    //               'position': 'absolute',
-    //               'height': '200px',
-    //               'width': '200px',
-    //               'z-index': '100000'
-    //             })
-    //             .appendTo("body")
-    //             .animate({
-    //               'top': cart.offset().top - 10,
-    //               'left': cart.offset().left - 10,
-    //               'width': 30,
-    //               'height': 30
-    //             }, 1000, "linear");
-
-    //           setTimeout(function () {
-    //             $(imgclone).remove()
-    //           }, 1000)
-
-    //         }
-    //       })
-    //       .catch(err => swal(err.message))
-    //   }
-
-    //   onRemoveFromCart = id => {
-    //     logic.removeProductFromCart(id);
-
-    //     this.getItems();
-    //   }
 
 
     render() {
@@ -104,14 +96,12 @@ class App extends Component {
             <Landing />
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
-            {/* <Route exact path="/product" component={Product} /> */}
-            {/* <Route exact path="/products" component={Products} /> */}
             <Route exact path="/profile" component={Profile} />
 
             <Route exact path="/products" render={props => <Totalproducts categoryId={props.match.params.id} />} />
             <Route exact path="/product/:id" render={props => <Product productId={props.match.params.id} />} />
 
-            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/cart" render={() => <Cart cart={[]} total={[]} />} />
             <Route exact path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
             <Footer />
@@ -120,3 +110,4 @@ class App extends Component {
 }
 
 export default withRouter(App)
+
