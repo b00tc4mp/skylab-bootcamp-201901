@@ -5,7 +5,8 @@ import cleanUpApi from '../api'
 
 const logic = {
     __userId__: null,
-    __userApiToken__: null,
+    // __userApiToken__: null,
+    // __userApiProducts__: null,
 
     registerUser(name, surname, email, password, passwordConfirmation) {
 
@@ -86,21 +87,17 @@ const logic = {
     },
 
 
-    addProductToCart(productId) {
-        return Promise.resolve()
-            .then(() => {
-                const any = this.cart().some(_productId => _productId === productId)
+    addProductToCart(product) {
+        let _products = this.__userApiProducts__ || []
 
-                if (any) throw Error('product already in cart')
+        _products.push(product)
 
-                this.cart().push(productId)
-
-                this.cart(this.cart())
-
-                return true
-            })
+        this.__userApiProducts__ = _products
     },
 
+    getCart() {
+        return this.__userApiProducts__ || []
+    },
 
     removeProductFromCart(productId) {
         return this.cart(this.cart().filter(id => {

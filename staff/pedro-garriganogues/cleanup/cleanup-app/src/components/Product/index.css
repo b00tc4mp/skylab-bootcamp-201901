@@ -7,6 +7,11 @@
     border-radius: 5px;
 }
 
+.addcartbutton{
+    border-radius: 8px;
+    width: 13em;
+}
+
 .productImage{
     width: 40em;
     height: 28em;
@@ -23,6 +28,8 @@
 
 .productCard{
     display:flex;
+    justify-content: center;
+
 }
 
 .productPrice{

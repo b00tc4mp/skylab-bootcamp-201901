@@ -42,11 +42,11 @@ class Product extends Component {
                         </div>
                         <h2 className="productName">{this.state.product.name}</h2>
                         <div >
+                            <p className="productDescription">{this.state.product.description}</p>
                             <div className="productCard">
                                 <h3 className="productPrice">{this.state.product.price} €</h3>
-                                <button onClick={() => logic.addProductToCart(this.state.product._id)}>Add to cart</button>
+                                <button className="addcartbutton" onClick={() => logic.addProductToCart(this.state.product)}>Add to cart</button>
                             </div>
-                            <p className="productDescription">{this.state.product.description}</p>
                         </div>
                     </div>
                 </section>

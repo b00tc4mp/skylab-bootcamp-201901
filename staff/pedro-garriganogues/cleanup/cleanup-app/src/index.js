@@ -27,6 +27,16 @@ Object.defineProperties(logic, {
         get() {
             return sessionStorage.getItem('__userApiToken__')
         }
+    },
+
+    __userApiProducts__: {
+        set(product) {
+            sessionStorage.setItem('__userApiProducts__', JSON.stringify(product))
+        },
+
+        get() {
+            return JSON.parse(sessionStorage.getItem('__userApiProducts__'))
+        }
     }
 })
 

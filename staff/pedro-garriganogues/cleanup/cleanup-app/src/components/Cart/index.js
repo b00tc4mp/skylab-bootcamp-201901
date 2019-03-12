@@ -7,7 +7,6 @@ class Cart extends Component {
 
     render() {
 
-        this.props.cart.map(item => this.props.total.push(item.price))
 
         return (
             <main>
@@ -27,7 +26,7 @@ class Cart extends Component {
                             </tr>
                         </head>
                         <body>
-                            {this.props.cart.map(item => (
+                            {logic.getCart().map(item => (
                                 <tr key={item._id}>
                                     <td ><img src={item.image} alt="404" /></td>
                                     <td> <h4>{item.name}</h4></td>
@@ -40,7 +39,7 @@ class Cart extends Component {
                     {<div>
                         <div>
                             <h2>Total price</h2>
-                            <h2>{this.props.total.length && this.props.total.reduce((accumulated, currentValue) => accumulated + currentValue, 0)}€</h2>
+                            <h2>{logic.__userApiProducts__.reduce((accumulated, currentValue) => accumulated + currentValue.price, 0)}€</h2>
                             {logic.__userApiToken__ && <Link to="/">Checkout</Link>}
                         </div>
                     </div>}
