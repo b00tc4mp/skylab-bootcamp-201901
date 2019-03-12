@@ -44,15 +44,6 @@ const logic = {
 
         if (password !== passwordConfirmation) throw new MatchingError('passwords do not match')
 
-        // return User.findOne({ email })
-        //     .then(user => {
-        //         if (user) throw Error(`user with email ${email} already exists`)
-
-        //         return bcrypt.hash(password, 10)
-        //     })
-        //     .then(hash => User.create({ name, surname, email, password: hash }))
-        //     .then(({ id }) => id)
-
         return (async () => {
             const user = await User.findOne({ email })
 
@@ -365,7 +356,6 @@ const logic = {
         return (async () => {
             const book = await this.retrieveBook(id)
             let text = book[0].content
-            //personalize
 
             if(book[0].hasOwnProperty('parameters') && book[0].parameters.hasOwnProperty('name')) text = text.replace(/<name>/g, book[0].parameters.name)
             if(book[0].hasOwnProperty('parameters') && book[0].parameters.hasOwnProperty('place')) text = text.replace(/<place>/g, book[0].parameters.place)

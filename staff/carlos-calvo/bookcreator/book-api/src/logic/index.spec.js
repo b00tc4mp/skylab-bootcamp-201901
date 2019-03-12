@@ -223,7 +223,7 @@ describe('logic', () => {
             const password = ''
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                logic.registerUser(name, surname, email, password, 'password')
             }).toThrow(Error)
         })
 
@@ -235,6 +235,17 @@ describe('logic', () => {
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
+            }).toThrow(Error)
+        })
+
+        it('should fail on non-matching password and password confirmation', () => {
+            const name = 'Manuel'
+            const surname = 'Barzi'
+            const email = 'manue@mail.com'
+            const password = '1234567-invented'
+
+            expect(() => {
+                logic.registerUser(name, surname, email, password, 'password')
             }).toThrow(Error)
         })
     })
@@ -788,33 +799,102 @@ describe('logic', () => {
                 logic.retrieveTemplates([])
             }).toThrow(Error)
         })
+    })
+
+    describe('addTemplateToUserBooks', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const name2 = 'Manuel2'
+        const surname2 = 'Barzi2'
+        const email2 = `manuelbarzi-${Math.random()}@mail.com`
+        const password2 = `123-${Math.random()}`
 
 
-        describe('Retrieve Templates', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = `manuelbarzi-${Math.random()}@mail.com`
-            const password = `123-${Math.random()}`
-            const passwordConfirm = password
+        it('should succeed on adding a book from templates', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const user2 = await User.create({name: name2, surname: surname2, email: email2, password: password2})
+            const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {name: 'name-parameter'} })
+            const btemplate = await BookTemplate.create({title: result.title, content: result.content, 
+                coverphoto: result.coverphoto, parameters: result.parameters, images: result.images })
+            const book = await logic.addTemplateToUserBooks(btemplate._id.toString(), user2._id.toString())
+            const result2 = await Book.find({userId: user2._id.toString()})
+            expect(result2).toBeDefined()
+            expect(result2.length).toBe(1)
+            expect(result2[0].title).toBe('titulo1')
+            expect(result2[0].content).toBe('content')
+            expect(result2[0].coverphoto).toBe('co')
+            expect(result2[0].parameters.name).toBe('name-parameter')
+            expect(result2[0].isTemplate).toBe(true)
+        })
 
-            it('should succeed on correct', async () => {
-                const user  = await User.create({ name, surname, email, password })
-                const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
-                const route = logic.generateEpub(result._id.toString())
-                expect(true).toBe(true)
-            })
+        it('should fail on empty id', async () => {
+            let id = '--invented--id--12345'
+            let userId = '--invented--userid--1234567890'
+            try {
+                logic.addTemplateToUserBooks(id, userId)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`UserId ${userId} was not found`)
+            }
+        })
 
-            it('should fail on non-string id', async () => {
-                expect(() => {
-                    logic.generateEpub(true)
-                }).toThrow(Error)
-            })
+        it('should fail on empty id', async () => {
+            let id = ''
+            let userId = '-invented-123456789' 
+            expect(() => {
+                logic.addTemplateToUserBooks(id, userId)
+            }).toThrow(Error)
+        })
+        it('should fail on non-string id', async () => {
+            let id = true
+            let userId = '-invented-123456789' 
+            expect(() => {
+                logic.addTemplateToUserBooks(id, userId)
+            }).toThrow(Error)
+        })
 
-            it('should fail on empty id', async () => {
-                expect(() => {
-                    logic.generateEpub('')
-                }).toThrow(Error)
-            })
+        it('should fail on userId', async () => {
+            let id = '-invented-string'
+            let userId = '' 
+            expect(() => {
+                logic.addTemplateToUserBooks(id, userId)
+            }).toThrow(Error)
+        })
+        it('should fail on non-string id', async () => {
+            let id = '-invented-string'
+            let userId = {} 
+            expect(() => {
+                logic.addTemplateToUserBooks(id, userId)
+            }).toThrow(Error)
+        })
+    })
+
+    describe('Generate Epub', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const passwordConfirm = password
+
+        it('should succeed on correct', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            const route = logic.generateEpub(result._id.toString())
+            expect(route).toBeDefined()
+        })
+
+        it('should fail on non-string id', async () => {
+            expect(() => {
+                logic.generateEpub(true)
+            }).toThrow(Error)
+        })
+
+        it('should fail on empty id', async () => {
+            expect(() => {
+                logic.generateEpub('')
+            }).toThrow(Error)
         })
     })
 
