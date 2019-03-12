@@ -10,7 +10,7 @@ import logic from '../../logic';
 function Home(props) {
 
         let { journeys, moreInfo, editJourney } = props
-
+        debugger
         function getMarkers(journeys) {
                 let markers = []
                 journeys.forEach(journey => markers.push(journey.route))
@@ -19,7 +19,7 @@ function Home(props) {
 
         return (<main className="home">
                 <div className="journey__map">
-                        <MapDisplay sea={journeys[0].sea} markers={getMarkers(journeys)} />
+                        <MapDisplay seaId={journeys[0].seaId} markers={getMarkers(journeys)} />
                 </div>
                 <div className='row'>
                         {
@@ -34,7 +34,7 @@ function Home(props) {
                                                 </div>
                                                 <div>
                                                         <h2>Sailing Days</h2>
-                                                        <p>{journey.dates[0]}-{journey.dates[1]}</p>
+                                                        <p>{journey.dates[0].toString().substring(0, 15)}-{journey.dates[1].toString().substring(0, 15)}</p>
                                                 </div>
                                                 <div>
                                                         <p>{journey.description}</p>

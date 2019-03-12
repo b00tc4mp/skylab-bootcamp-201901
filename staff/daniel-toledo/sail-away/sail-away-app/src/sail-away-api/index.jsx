@@ -1,8 +1,45 @@
 'use strict'
 
+import moment from 'moment'
+
 const sailAwayApi = {
 
     url: `http://localhost:8000/api`,
+
+    registerUser(name, surname, email, password, passwordConfirm, kind) {
+        return fetch(`${this.url}/user`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, surname, email, password, passwordConfirm, kind })
+        })
+            .then(response => response.json())
+
+            .then(({ id, error }) => {
+
+                if (!error) return id
+
+                else throw Error(error)
+            })
+    },
+
+    authenticateUser(email, password) {
+        return fetch(`${this.url}/user/auth`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then(response => response.json())
+            .then(user => {
+                if (!user.error) return user
+
+                else throw Error(user.error)
+            })
+
+    },
 
     createJourney(title, seaId, route, dates, description, userId, boat, lookingFor) {
         debugger
@@ -22,7 +59,7 @@ const sailAwayApi = {
 
     },
 
-    listJourneys(){
+    listJourneys() {
         return fetch(`${this.url}/journeys/`)
             .then(journeys => journeys.json())
             .then(journeys => {
@@ -32,41 +69,52 @@ const sailAwayApi = {
             })
     },
 
-    searchBySea(query){
+    searchBySea(query) {
         return fetch(`${this.url}/search?query=${query}`)
-        .then(journeys => journeys.json())
-        .then(response => {
-            if (!response.error) return response.journeys
+            .then(journeys => journeys.json())
+            .then(response => {
+                if (!response.error) {
+                    response.journey = response.journeys.map(journey => {
 
-            else throw Error(response.error)
-        })
+                        journey.dates = journey.dates.map(date => moment(date.substring(0, 10)))
+                        return journey
+
+                    })
+
+                    return response.journeys
+                }
+                else throw Error(response.error)
+            })
     },
 
-    retrieveJourney(id){
+    retrieveJourney(id) {
         return fetch(`${this.url}/journey/${id}`)
-        .then(journey => journey.json())
-        .then(response => {
-            if (!response.error) return response.journey
+            .then(journey => journey.json())
+            .then(response => {
+                if (!response.error) {
+                    response.journey.dates = response.journey.dates.map(date => moment(date.substring(0, 10)))
+                    return response.journey
+                }
 
-            else throw Error(response.error)
-        })
+                else throw Error(response.error)
+            })
     },
 
-    updateJourney(id, sea, route, dates, description){
+    updateJourney(id, title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages) {
         debugger
         return fetch(`${this.url}/journey/${id}`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ sea, route, dates, description })
+            body: JSON.stringify({ title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages })
         })
-        .then(journey => journey.json())
-        .then(response => {
-            if (!response.error) return response.journey
+            .then(journey => journey.json())
+            .then(response => {
+                if (!response.error) return response.journey
 
-            else throw Error(response.error)
-        })
+                else throw Error(response.error)
+            })
     }
 }
 

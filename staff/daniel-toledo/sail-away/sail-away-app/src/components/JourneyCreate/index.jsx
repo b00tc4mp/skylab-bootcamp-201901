@@ -16,7 +16,7 @@ function JourneyCreate(props) {
 
     let [seaIdSelection, setSeaIdSelection] = useState('00')
     let [route, setRoute] = useState([])
-    let dates
+    let [dates, setDates]=useState([])
     let [title, setTitle] = useState('')
     let [description, setDescription] = useState('')
     let [talents, setTalents] = useState([])
@@ -40,7 +40,7 @@ function JourneyCreate(props) {
     }
 
     function handleDates(date1, date2) {
-        dates = [date1, date2]
+        setDates([date1, date2])
     }
 
     function handleTalents(talents) {
@@ -70,7 +70,6 @@ function JourneyCreate(props) {
                 description: 'amazing vessel'
             }
             let sailingTitles= []
-            debugger
             let id = await logic.generateJourney(title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
             console.log(id)
             props.history.push('/')
@@ -94,7 +93,7 @@ function JourneyCreate(props) {
 
         <h3 className='text-center'>Sailing days</h3>
         <div className='journey__calendar'>
-            <DateRange getDates={handleDates} />
+            <DateRange getDates={handleDates} initialDates={[null, null]}/>
         </div>
 
         <h3 className='text-center'>Title</h3>

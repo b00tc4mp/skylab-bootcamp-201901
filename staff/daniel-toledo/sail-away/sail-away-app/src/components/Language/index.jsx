@@ -8,10 +8,11 @@ import { data } from 'sail-away-data'
 function Languages({ getLanguages, initialLanguages }) {
 
     let [languages, setLanguages] = useState(initialLanguages)
-    let [counter, setCounter] = useState(1)
+    let [counter, setCounter] = useState(initialLanguages.length + 1)
 
     function handleChange(event) {
-        languages = [...languages, event.target.value]
+        let newLanguage = event.target.value
+        languages = newLanguage === 'Select language' ? [...languages] : [...languages, event.target.value]
 
         setLanguages(languages)
         getLanguages(languages)
@@ -19,8 +20,8 @@ function Languages({ getLanguages, initialLanguages }) {
 
     return (<main className="languages">
         {
-            [...Array(counter)].map(input =>
-                <select name="languages" onChange={handleChange}>
+            [...Array(counter)].map((input, index) =>
+                <select name="languages" onChange={handleChange} value={initialLanguages[index]}>
                     {
                         data.languages.map(language => <option value={language.name} key={language.code}>{language.name}</option>)
                     }
@@ -28,8 +29,8 @@ function Languages({ getLanguages, initialLanguages }) {
             )
 
         }
-        <button onClick={()=>setCounter(++counter)}>Add language</button>
-        <button onClick={()=>setCounter(--counter)}>Delete language</button>
+        <button onClick={() => setCounter(++counter)}>Add language</button>
+        <button onClick={() => setCounter(--counter)}>Delete language</button>
 
     </main>)
 }

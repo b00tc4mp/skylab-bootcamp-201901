@@ -1,14 +1,17 @@
 'use strict'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Map, InfoWindow, GoogleApiWrapper, Polyline, Marker } from 'google-maps-react'
 
+import logic from '../../logic'
 
-function MapDisplay({ google, markers, sea }) {
+function MapDisplay({ google, markers, seaId }) {
+
+    let [routes, setRoutes]=useState(getRoutes(markers))
+    let [sea, setSea]=useState(getSea(seaId))
 
     function getRoutes(markers) {
-        let routes = []
-        
+        routes=[]
         markers.forEach(marker => {
             let route=[]
             marker.forEach(mark=>route.push(mark.position))
@@ -17,8 +20,20 @@ function MapDisplay({ google, markers, sea }) {
 
         return routes
     }
+    
+    function getSea(id){
+        try{
+            return logic.retrieveSea(id)
+        }catch(error){
+            console.error(error)
+        }
+    }
 
-    let routes = getRoutes(markers)
+    useEffect(()=>{
+        setRoutes(getRoutes(markers))
+        setSea(getSea(seaId))
+     
+    },[])
 
     return (<Map
         google={google}
@@ -38,6 +53,7 @@ function MapDisplay({ google, markers, sea }) {
             routes.map(route => {
                 return <Polyline
                     path={route}
+                    key={route}
                     options={{
                         strokeColor: '#0000ff',
                         strokeOpacity: 1,

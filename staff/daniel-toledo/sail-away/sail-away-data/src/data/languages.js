@@ -1,4 +1,5 @@
 const languages = [
+    { code: 'select', name: 'Select language' },
     { code: 'ab', name: 'Abkhazian' },
     { code: 'aa', name: 'Afar' },
     { code: 'af', name: 'Afrikaans' },

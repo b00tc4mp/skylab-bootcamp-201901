@@ -14,8 +14,8 @@ function Experience({ getExperience, initialExperience }) {
         getExperience(experience)
     }
 
-    return (<main className="experience">
-        <input onChange={handleExperience} type="range" min="0" max='10000'/>
+    return (<main className="experienceRange">
+        <input onChange={handleExperience} type="range" min="0" max='10000' value={experience}/>
     </main>)
 }
 

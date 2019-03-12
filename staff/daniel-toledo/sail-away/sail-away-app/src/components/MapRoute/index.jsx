@@ -7,15 +7,18 @@ import logic from '../../logic'
 import './index.sass'
 
 function MapRoute({ google, getMarkers, seaIdSelection, initialMarkers}) {
- 
+
     let [markers, setMarkers] = useState(initialMarkers)
     let [sea, setSea] = useState(getSea(seaIdSelection))
+
+    useState(getSea(seaIdSelection))
  
     useEffect(() => {
         setSea(getSea(seaIdSelection))
         setMarkers(markers)
        
     }, [seaIdSelection, markers])
+
 
     function getSea(id){
         try{
@@ -31,7 +34,7 @@ function MapRoute({ google, getMarkers, seaIdSelection, initialMarkers}) {
         return route
     }
 
-    function onMarkerDragEnd(coord, index) {
+    function onMarkerDragEnd(t, map, coord, index) {
         const { latLng } = coord
         const lat = latLng.lat()
         const lng = latLng.lng()
@@ -79,10 +82,15 @@ function MapRoute({ google, getMarkers, seaIdSelection, initialMarkers}) {
             width: "100%",
             height: "100%"
         }}
-        center={{
+        initialCenter={{
             // lat: markers.length ? markers[markers.length - 1].position.lat : sea.center.lat,
             // lng: markers.length ? markers[markers.length - 1].position.lng : sea.center.lng
 
+            lat: sea.center.lat,
+            lng: sea.center.lng
+        }}
+
+        center={{
             lat: sea.center.lat,
             lng: sea.center.lng
         }}
@@ -96,7 +104,7 @@ function MapRoute({ google, getMarkers, seaIdSelection, initialMarkers}) {
                         position={marker.position}
                         draggable={true}
                         animation={google.maps.Animation.DROP}
-                        onDragend={(t, map, coord) => onMarkerDragEnd(coord, index)}
+                        onDragend={(t, map, coord) => onMarkerDragEnd(t, map, coord, index)}
                         onClick={() => onMarkerClick(index)}
                         name={marker.name}
                     >
@@ -107,7 +115,7 @@ function MapRoute({ google, getMarkers, seaIdSelection, initialMarkers}) {
                     return (<Marker
                         position={marker.position}
                         draggable={true}
-                        onDragend={(event, coord) => onMarkerDragEnd(coord, index)}
+                        onDragend={(t, map, coord)  => onMarkerDragEnd(t, map, coord, index)}
                         onClick={() => onMarkerClick(index)}
                         name={marker.name}
                         icon={{

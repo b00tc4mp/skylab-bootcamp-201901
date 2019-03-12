@@ -1,13 +1,13 @@
 'use strict'
 
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import moment from 'moment'
 
 import Calendar from '../Calendar'
 
 import './index.sass'
 
-function DateRange({getDates}) {
+function DateRange({getDates, initialDates}) {
 
     let [month1, setMonth1] = useState(moment().get('month') + 1)
     let [year1, setYear1] = useState(moment().get('year'))
@@ -15,8 +15,8 @@ function DateRange({getDates}) {
     let [month2, setMonth2] = useState(moment().add(1, 'month').get('month') + 1)
     let [year2, setYear2] = useState(moment().add(1, 'month').get('year'))
 
-    let [date1, setDate1] = useState(null)
-    let [date2, setDate2] = useState(null)
+    let [date1, setDate1] = useState(initialDates[0])
+    let [date2, setDate2] = useState(initialDates[1])
 
 
     function handleSelectDate(year, monthIndex, day) {
@@ -29,7 +29,11 @@ function DateRange({getDates}) {
         else if (newDate > date1 && newDate < date2) (Math.abs(newDate - date1) <= Math.abs(newDate - date2)) ? setDate1(newDate) : setDate2(newDate)   
     }
 
-    getDates(date1, date2)
+    useEffect(()=>{
+        getDates(date1, date2)
+
+    },[date1, date2])
+
 
     function increaseMonth() {
         setMonth1(moment(`${year1}-${month1}`).add(1, 'months').get('month') + 1)
