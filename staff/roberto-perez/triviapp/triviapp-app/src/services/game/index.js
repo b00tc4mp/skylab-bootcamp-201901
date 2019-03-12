@@ -5,6 +5,7 @@ import Xtorage from '../xtorage';
 const game = {
 	currentGame: null,
 	storage: sessionStorage,
+	state: new State(sessionStorage, '__state__'),
 
 	async create(quizId) {
 		try {
@@ -13,6 +14,8 @@ const game = {
 			const xtorage = new Xtorage(this.storage);
 
 			xtorage.set('game', game);
+
+			// this.state.set({ game })
 
 			return game;
 		} catch (error) {
@@ -26,8 +29,10 @@ const game = {
 			const xtorage = new Xtorage(this.storage);
 			xtorage.set('game', game);
 			const gameStorage = xtorage.get('game');
+			// this.state.set({ game })
 
 			return gameStorage;
+			// return game
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -37,6 +42,7 @@ const game = {
 		try {
 			const xtorage = new Xtorage(this.storage);
 			let gameStorage = xtorage.get('game');
+			// let { game } = this.state.get()
 			gameStorage.gameStarted = true;
 			xtorage.set('game', gameStorage);
 			return gameStorage;
@@ -58,7 +64,7 @@ const game = {
 		const xtorage = new Xtorage(this.storage);
 		const questionStorage = this.currentQuestion;
 		questionStorage.questionAnswered = true;
-		
+
 		const game = xtorage.get('game');
 
 		game.quiz.questions.map(_question => {
