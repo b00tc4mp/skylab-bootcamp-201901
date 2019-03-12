@@ -71,6 +71,10 @@ class CreateBook extends Component {
         }
     }
     
+
+    prevent = (e) => e.preventDefault()
+
+    
     render() {
         return (
         <Fragment>
@@ -113,7 +117,7 @@ class CreateBook extends Component {
                                 <div><input type="text" placeholder="You have not inserted a tag for place" disabled/> <br/></div> 
                             }
                             <div className="formButtonContainer">   
-                                <button className="btn btn-info" type="submit">Go!</button>    
+                                <button className="btn btn-info" type="submit" onClick={this.prevent} >Go!</button>    
                             </div>
                         </div>
                     </form>

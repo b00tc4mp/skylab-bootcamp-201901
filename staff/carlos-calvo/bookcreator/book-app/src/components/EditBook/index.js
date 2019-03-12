@@ -54,27 +54,24 @@ class EditBook extends Component {
             <Fragment>
                 <div className="coverright">
                     <div className="editFormcontainer">
-                        <form className="editForm" onSubmit={this.updateBook}> EDIT BOOK
-                            <div>
-                                <label htmlFor="uname"><b>Your book title is: </b></label>
+                        <form className="editForm" onSubmit={this.updateBook}> <p>EDIT BOOK</p>
                                 {book  && book.title ? 
-                                    <div><input type="text" placeholder="Your title is ..." value={title} onChange={this.handleTitleInput} required /> <br/></div> 
+                                    <div className="editForm__parameters"><label htmlFor="uname"><b>Your book title is: </b></label><input className="editForm__input" type="text" placeholder="Your title is ..." value={title} onChange={this.handleTitleInput} required /> <br/></div> 
                                     :
-                                    <div></div>
+                                    <div className="editForm__parameters"></div>
                                 }
                                 {book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name') ?  
-                                    <div><label htmlFor="uname"><b>Your main name is: </b></label><input type="text" placeholder="Your main name is ..." value={name} onChange={this.handleNameInput} required /> <br/></div> 
+                                    <div className="editForm__parameters"><label htmlFor="uname"><b>Your main name is: </b></label><input className="editForm__input" type="text" placeholder="Your main name is ..." value={name} onChange={this.handleNameInput} required /> <br/></div> 
                                     : 
-                                    <div><input type="text" placeholder="There is no parametizable name in this book" disabled/> <br/></div> 
+                                    <div className="editForm__parameters"><input type="text" placeholder="There is no parametizable name in this book" disabled/> <br/></div> 
                                 }
-                                <label htmlFor="uname"><b>Your main place is: </b></label>
+                                
                                 {book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place') ? 
-                                    <div><input type="text" placeholder="Your place is ..." value={place} onChange={this.handlePlaceInput} required />  <br/></div> 
+                                    <div className="editForm__parameters"><label htmlFor="uname"><b>Your main place is: </b></label><input className="editForm__input" type="text" placeholder="Your place is ..." value={place} onChange={this.handlePlaceInput} required />  <br/></div> 
                                     : 
-                                    <div><input type="text" placeholder="There is no parametizable name in this book" disabled/> <br/></div> 
+                                    <div className="editForm__parameters"><input type="text" placeholder="There is no parametizable name in this book" disabled/> <br/></div> 
                                 }
-                                <button className="btn btn-info" type="submit">Update Book!</button>    
-                            </div>
+                                <button className="editForm__submit" type="submit">Update Book!</button>    
                         </form>
                     </div>
                 </div>
