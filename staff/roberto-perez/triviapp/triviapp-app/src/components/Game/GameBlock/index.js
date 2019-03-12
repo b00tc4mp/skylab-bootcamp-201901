@@ -8,8 +8,7 @@ import CurrentQuestionResults from './CurrentQuestionResults';
 function GameBlock(props) {
 	let countDownTimeout;
 	const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
-	// const [count, setCount] = useState(props.currentQuestion.time);
-	const [count, setCount] = useState(1);
+	const [count, setCount] = useState(props.currentQuestion.time);
 	const [answers, setAnswers] = useState(props.currentQuestion.answers);
 
 	const [showResults, setShowResults] = useState(false);

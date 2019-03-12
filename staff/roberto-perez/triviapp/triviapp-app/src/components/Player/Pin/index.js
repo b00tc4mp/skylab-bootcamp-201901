@@ -12,7 +12,7 @@ function Pin(props) {
 		Event.preventDefault()
 		try {
 			const { game, user } = await gameService.join(code);
-			props.history.push(`/player/${game.id}/start`);
+			props.history.push(`/player/${game.id}/youarein`);
 		} catch (error) {
 			console.log(error);
 		}

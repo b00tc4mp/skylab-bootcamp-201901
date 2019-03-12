@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import gameService from '../../../services/game';
 import authService from '../../../services/auth';
+import socketApi from '../../../services/socket';
 
 import ExpandButton from '../ExpandButton';
 
@@ -19,9 +20,14 @@ function Welcome(props) {
 	} = props;
 
 	useEffect(() => {
-		
 		getGameByQuizId(gameId);
 	}, [props.match.params.gameId]);
+
+	useState(() => {
+		socketApi.joinGameHandler(game => {
+			getGameByQuizId();
+		});
+	}, []);
 
 	const getGameByQuizId = async () => {
 		try {
@@ -33,7 +39,7 @@ function Welcome(props) {
 				);
 			}
 
-			if(game.gameStarted) props.history.push(`/game/${gameId}/start`);
+			if (game.gameStarted) props.history.push(`/game/${gameId}/start`);
 
 			setIsHost(true);
 			setCode(game.code);
@@ -46,7 +52,6 @@ function Welcome(props) {
 	const startGame = async () => {
 		try {
 			const game = await gameService.start(gameId);
-			
 			props.history.push(`/game/${gameId}/start`);
 		} catch (error) {
 			console.error(error);
@@ -86,7 +91,7 @@ function Welcome(props) {
 						</h1>
 						<ol className="leaderboard__list">
 							{players.map(player => {
-								console.log(player)
+								console.log(player);
 								return (
 									<li className="leaderboard__item" key={player._id}>
 										<span className="leaderboard__player">

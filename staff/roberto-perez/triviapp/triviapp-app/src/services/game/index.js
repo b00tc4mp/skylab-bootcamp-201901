@@ -37,6 +37,9 @@ const game = {
 
 	async start(gameId) {
 		try {
+
+			await gameApi.startGame(gameId);
+
 			let { game } = this.state.get();
 
 			game.gameStarted = true;

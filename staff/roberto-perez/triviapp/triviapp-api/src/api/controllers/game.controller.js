@@ -6,6 +6,7 @@ const gameLogic = require('../logic/game');
 const { handleResponseError } = require('../routes/routes-helper');
 const { UnauthorizedError } = require('../errors');
 const { cloudName, apiKey, apiSecret } = require('../../config/vars');
+const socket = require('../logic/socket');
 
 /**
  * Load user and append to req.
@@ -41,6 +42,7 @@ exports.create = async (req, res) => {
 exports.start = async (req, res) => {
 	try {
 		const game = await gameLogic.startGame(req.locals.game);
+		req.app.io.in(`game-${game.id}`).emit('START_GAME', true)
 		res.status(httpStatus.CREATED);
 		return res.json(game);
 	} catch (error) {

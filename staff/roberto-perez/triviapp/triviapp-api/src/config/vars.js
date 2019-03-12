@@ -13,7 +13,7 @@ module.exports = {
 	jwtSecret: JWT_SECRET,
 	jwtExpirationInterval: JWT_EXPIRATION_HOURS,
 	mongo: {
-		uri: NODE_ENV === 'test' ? MONGO_URI_TESTS : MONGO_URI,
+		uri: MONGO_URI,
 	},
 	logs: NODE_ENV === 'production' ? 'combined' : 'dev',
 	cloudName: CLOUD_NAME,

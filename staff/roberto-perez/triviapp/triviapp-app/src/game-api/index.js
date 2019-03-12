@@ -1,4 +1,5 @@
 import auth from '../services/auth';
+import socketApi from '../services/socket';
 
 const gameApi = {
 	url: 'http://localhost:8000/v1',
@@ -31,6 +32,7 @@ const gameApi = {
 			.then(response => response.json())
 			.then(response => {
 				if (response.error) throw Error(response.error);
+				socketApi.createGame(`game-${response.id}`);
 				return response;
 			});
 	},
