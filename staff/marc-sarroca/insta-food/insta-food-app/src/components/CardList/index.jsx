@@ -2,8 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../userContext";
 import logic from "../../logic";
 import Card from "../../components/Card";
+import Masonry from "react-masonry-component";
 
 function CardList() {
+  const masonryOptions = {
+    transitionDuration: 0,
+    gutter: 20
+  };
   const { user } = useContext(UserContext);
   const { token } = user;
   const [posts, setPosts] = useState([]);
@@ -30,7 +35,12 @@ function CardList() {
   console.log(posts);
 
   return (
-    <div className="card-list">
+    <Masonry
+      elementType={"section"}
+      options={masonryOptions}
+      disableImagesLoaded={false}
+      updateOnEachImageLoad={false}
+    >
       {posts.map(post => (
         <Card
           title={post.title}
@@ -42,7 +52,7 @@ function CardList() {
           call={updatePosts}
         />
       ))}
-    </div>
+    </Masonry>
   );
 }
 

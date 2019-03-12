@@ -36,13 +36,14 @@ function Card({
       {title && <p>{title}</p>}
       <img className="post-image" src={image} alt="Post" />
       <i
-        className={`fas fa-star fa-7x ${
+        className={`fas fa-star ${
           (userFavorites || []).map(f => f._id).includes(postId)
             ? "fav-icon-enable"
             : "fav-icon-disable"
         }`}
         onClick={toggleFavorite}
       />
+      <AddComment postId={postId} refreshComments={refreshComments} />
       {description && <p>{description}</p>}
       {commentsPost &&
         commentsPost.map(comment => (
@@ -53,7 +54,6 @@ function Card({
             <p>{comment.by.username}</p>
           </Fragment>
         ))}
-      <AddComment postId={postId} refreshComments={refreshComments} />
     </div>
   );
 }

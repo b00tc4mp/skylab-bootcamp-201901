@@ -27,9 +27,6 @@ const Post = new Schema({
     type: String,
     required: true
   },
-  // postedBy: {
-  //   type: ObjectId,
-  //   ref: "User"
   comments: [Comment]
 });
 
