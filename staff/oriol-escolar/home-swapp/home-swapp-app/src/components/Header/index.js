@@ -50,6 +50,8 @@ class Header extends Component {
     goToLogout = event => {
         event.preventDefault()
 
+        this.setState({ user: "" })
+        
         const { props: {handleGoToLogout} } = this
 
         handleGoToLogout()

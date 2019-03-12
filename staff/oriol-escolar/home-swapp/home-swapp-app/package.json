@@ -14,9 +14,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "test": "react-scripts test",
+    "test": "react-scripts test --runInBand",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
-    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
+    "test-coverage": "npm test -- --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -26,5 +26,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "bcrypt": "^3.0.4",
+    "homeSwapp-data": "../home-swapp-data/"
+  }
 }

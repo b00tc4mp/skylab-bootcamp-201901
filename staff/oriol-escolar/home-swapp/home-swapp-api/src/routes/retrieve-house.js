@@ -1,8 +1,7 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { body: {houseId} } = req
-
+    const { params: { houseId } } = req
     try {
         logic.retrieveHouse(houseId)
             // .then(user => res.json(user))

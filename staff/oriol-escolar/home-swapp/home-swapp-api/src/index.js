@@ -14,7 +14,7 @@ const { registerUser, authenticateUser, retrieveUser, updateUser,createHouse, up
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
-mongoose.connect(DB_URL, { useNewUrlParser: true })
+mongoose.connect(DB_URL, { useNewUrlParser: true }) 
     .then(() => {
         tokenHelper.jwtSecret = JWT_SECRET
         // spotifyApi.token = SPOTIFY_API_TOKEN
@@ -40,7 +40,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.post('/user/house', tokenVerifierMiddleware, jsonBodyParser, createHouse)
 
-        router.get('/user/house', tokenVerifierMiddleware, jsonBodyParser, retrieveHouse)
+        router.get('/user/house/:houseId', tokenVerifierMiddleware, jsonBodyParser, retrieveHouse)
         
         router.put('/user/house', tokenVerifierMiddleware, jsonBodyParser, updateHouse)
         

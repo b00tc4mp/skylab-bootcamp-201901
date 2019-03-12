@@ -8,7 +8,7 @@ const logic = {
 
     __userApiToken__: null,
 
-    
+
 
     setUserApiToken(token) {
         this.__userApiToken__ = token
@@ -44,7 +44,7 @@ const logic = {
 
         if (!email.trim().length) throw Error('email cannot be empty')
 
-        if(!(/^\w+([\.-]?\w+)+@\w+([\.:]?\w+)+(\.[a-zA-Z0-9]{2,3})+$/.test(email))) throw Error ('Invalid email adress')
+        if (!(/^\w+([\.-]?\w+)+@\w+([\.:]?\w+)+(\.[a-zA-Z0-9]{2,3})+$/.test(email))) throw Error('Invalid email adress')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
@@ -56,7 +56,7 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        return homeSwappApi.register(username, email, password,passwordConfirmation)
+        return homeSwappApi.registerUser(username, email, password, passwordConfirmation)
     },
 
     /**
@@ -79,7 +79,7 @@ const logic = {
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        return homeSwappApi.authenticate(email, password)
+        return homeSwappApi.authenticateUser(email, password)
             .then((token) => {
                 this.setUserApiToken(token)
                 return token
@@ -101,8 +101,8 @@ const logic = {
      */
 
     retrieveUser() {
-        return homeSwappApi.retrieve(this.getUserApiToken())
-            
+        return homeSwappApi.retrieveUser(this.getUserApiToken())
+
     },
 
     /**
@@ -119,100 +119,63 @@ const logic = {
     updateUser(data) {
         if (data.constructor !== Object) throw TypeError(data + 'is not an Object')
 
-        return homeSwappApi.update(this.getUserApiToken(), data)
+        return homeSwappApi.updateUser(this.getUserApiToken(), data)
     },
 
+    createHouse(token, images, description, info, adress) {
 
-    /**
-     * 
-     * Toggle Favourite
-     * 
-     * Insert or delete an id of the favourites array
-     * 
-     * @param {string} favouriteId 
-     * 
-     * @returns {promise} - returns a promise with a boolean that indicates if the favourite id is favourite or none
-     */
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        if (typeof images !== 'object') throw Error(`${images} is not an array`)
+        if (images.length == 0) throw Error('There must be at least one image')
+        if (typeof description !== 'string') throw Error(`${description} is not a string`)
+        if (typeof info !== 'object') throw Error(`${info} is not an object`)
+        if (typeof adress !== 'object') throw Error(`${adress} is not an object`)
 
-    toggleFavourite(favouriteId) {
-        let isFav = false
+        return homeSwappApi.createHouse(token, images, description, info, adress)
 
-        return homeSwappApi.retrieve(this.getUserApiToken())
-            .then(({ favourites }) => {
 
-                const hasFav = favourites.some(function (fav) {
-                    return fav === favouriteId;
-                })
-
-                if (hasFav) {
-                    const index = favourites.indexOf(favouriteId);
-                    if (index > -1) {
-                        favourites.splice(index, 1);
-                    }
-                } else {
-                    isFav = true
-                    favourites.push(favouriteId)
-                }
-
-                return homeSwappApi.update(this.getUserApiToken(), { favourites: favourites })
-                    .then(() => isFav)
-
-            })
     },
 
-    /**
-     * 
-     * check favoruite
-     * 
-     * checks if the id favourite given is inside of the favourites array of the logged in user
-     * 
-     * @param {string} favouriteId 
-     * 
-     * @returns {promise} - a promise with a boolean that indicates if the favourite id is favourite or none
-     */
+    retrieveHouse(token, houseId) {
 
-    checkFavourite(favouriteId) {
-        return homeSwappApi.retrieve(this.getUserApiToken())
-            .then(({ favourites }) => {
-                return favourites.some(function (fav) {
-                    return fav === favouriteId;
-                })
-            })
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+
+        return homeSwappApi.retrieveHouse(token,houseId)
+
     },
 
-    /**
-     * 
-     * Get favourites
-     * 
-     * Retrieve all the favoruites events of an user
-     * 
-     * @param {Array} favourites 
-     * 
-     * @returns {promise} - returns a promise with a result an array of event objects
-     */
+    updateHouse(token, houseId, images, description, info, adress) {
 
-    getFavourites(favourites) {
-        let chain = Promise.resolve()
-        const favs = []
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+        if (typeof images !== 'object') throw Error(`${images} is not an array`)
+        if (images.length == 0) throw Error('There must be at least one image')
+        if (typeof description !== 'string') throw Error(`${description} is not a string`)
+        if (typeof info !== 'object') throw Error(`${info} is not an object`)
+        if (typeof adress !== 'object') throw Error(`${adress} is not an object`)
 
-        favourites.forEach(favourite => {
-            chain = chain
-                .then(() =>
-                    new Promise((resolve, reject) => {
-                        setTimeout(() =>
-                            this.retrieveEvent(favourite)
-                                .then(resolve)
-                                .catch(reject),
-                            1000
-                        )
-                    })
-                )
-                .then(values => favs.push(values))
-        })
+        return homeSwappApi.updateHouse(token, houseId, images, description, info, adress)
 
-        return chain.then(() => favs)
     },
 
+    deleteHouse(token, houseId) {
+
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        
+        if (typeof houseId!== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+
+
+        return homeSwappApi.deleteHouse(token,houseId)
+    },
 
 }
 
