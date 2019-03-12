@@ -189,10 +189,8 @@ describe('logic', () => {
             homeSwappApi.registerUser(username, email, password, password)
                 .then(() => homeSwappApi.authenticateUser(email, password))
                 .then(token => {
-                    console.log(token)
                     _token = token
                     logic.setUserApiToken(_token)
-                    console.log(logic.__userApiToken__)
                 })
 
         )
@@ -210,10 +208,60 @@ describe('logic', () => {
 
 
                 })
-        )
-
-       
-
+        )     
 
     })
+
+
+    describe('createHouse', () => {
+
+        const email = `manolo${Math.random()}@hotmail.com`
+        const username = `ManoloSkywalker-${Math.random()}`
+        const password = '123'
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+        let _token;
+
+        beforeEach(() =>
+
+            homeSwappApi.registerUser(username, email, password, password)
+                .then(() => homeSwappApi.authenticateUser(email, password))
+                .then(token => {
+                    _token = token
+                    logic.setUserApiToken(_token)
+                })
+
+        )
+
+        it('should succeed on correct data', () =>
+
+        logic.createHouse(_token, images, description, info, adress)
+        .then((house)=>expect(house._id).toBeDefined())
+
+           
+        )
+
+        
+
+        
+
+    })
+
+
+    
 })

@@ -39,11 +39,17 @@ class App extends Component {
 
     try {
       return logic.registerUser(username, email, password, passwordConfirm)
-        .then(() => this.setState({ registered: 'yes' }))
+        .then(() => {
+          
+          this.setState({ registered: 'yes' })
+          this.props.history.push('/login')
+      
+      
+      
+      })
         .catch(({message}) => {
           this.setState({ registerFeedback: message })
         })
-        .then(() => this.props.history.push('/login'))
     } catch ({ message }) {
       this.setState({ registerFeedback: message })
     }
@@ -54,8 +60,9 @@ class App extends Component {
   
   handleGoToLogout = () => {
     logic.logout();
+    this.setState({ user: "" , token:"" })
 
-    this.props.history.push('/');
+    // this.props.history.push('/');
   }
 
   handleGoToRegister= ()=>{
@@ -104,7 +111,8 @@ class App extends Component {
         </div>
 
         <div className="content" >
-          <Route  exact path = '/' render={() => <LandingPage/>}/> 
+          {/* <Route  exact path = '/' render={() => <LandingPage/>}/>  */}
+          
           <Route  exact path ="/login" render={()=> <Login loginFeedback={loginFeedback} onLogin={handleLogin}  />}/> 
           <Route  exact path ="/register" render={()=> <Register registerFeedback={registerFeedback} onRegister={handleRegister}/>}/> 
 

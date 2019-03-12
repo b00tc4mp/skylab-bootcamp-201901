@@ -8,7 +8,7 @@ const logic = {
 
     __userApiToken__: null,
 
-    
+
 
     setUserApiToken(token) {
         this.__userApiToken__ = token
@@ -44,7 +44,7 @@ const logic = {
 
         if (!email.trim().length) throw Error('email cannot be empty')
 
-        if(!(/^\w+([\.-]?\w+)+@\w+([\.:]?\w+)+(\.[a-zA-Z0-9]{2,3})+$/.test(email))) throw Error ('Invalid email adress')
+        if (!(/^\w+([\.-]?\w+)+@\w+([\.:]?\w+)+(\.[a-zA-Z0-9]{2,3})+$/.test(email))) throw Error('Invalid email adress')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
@@ -56,7 +56,7 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        return homeSwappApi.registerUser(username, email, password,passwordConfirmation)
+        return homeSwappApi.registerUser(username, email, password, passwordConfirmation)
     },
 
     /**
@@ -102,7 +102,7 @@ const logic = {
 
     retrieveUser() {
         return homeSwappApi.retrieveUser(this.getUserApiToken())
-            
+
     },
 
     /**
@@ -122,7 +122,60 @@ const logic = {
         return homeSwappApi.updateUser(this.getUserApiToken(), data)
     },
 
+    createHouse(token, images, description, info, adress) {
 
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        if (typeof images !== 'object') throw Error(`${images} is not an array`)
+        if (images.length == 0) throw Error('There must be at least one image')
+        if (typeof description !== 'string') throw Error(`${description} is not a string`)
+        if (typeof info !== 'object') throw Error(`${info} is not an object`)
+        if (typeof adress !== 'object') throw Error(`${adress} is not an object`)
+
+        return homeSwappApi.createHouse(token, images, description, info, adress)
+
+
+    },
+
+    retrieveHouse(token, houseId) {
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        if (typeof token !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+
+        return homeSwappApi.retrieveHouse(token,houseId)
+
+    },
+
+    updateHouse(token, houseId, images, description, info, adress) {
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+        if (typeof images !== 'object') throw Error(`${images} is not an array`)
+        if (images.length == 0) throw Error('There must be at least one image')
+        if (typeof description !== 'string') throw Error(`${description} is not a string`)
+        if (typeof info !== 'object') throw Error(`${info} is not an object`)
+        if (typeof adress !== 'object') throw Error(`${adress} is not an object`)
+
+        return homeSwappApi.updateHouse(token, houseId, images, description, info, adress)
+
+    },
+
+    deleteHouse(token, houseId) {
+
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        
+        if (typeof id !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+
+
+        return homeSwappApi.deleteHouse(token,houseId)
+    },
 
 }
 
