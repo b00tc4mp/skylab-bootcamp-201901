@@ -25,7 +25,7 @@ class Cart extends Component {
                                 <th scope="col"></th>
                             </tr>
                         </head>
-                        <body>
+                        <div>
                             {logic.getCart().map(item => (
                                 <tr className="box" key={item._id}>
                                     <td ><img className="cartImage" src={item.image} alt="404" /></td>
@@ -34,7 +34,7 @@ class Cart extends Component {
                                     <td><a onClick={() => this.props.onRemoveFromCart(item._id)}>Remove</a></td>
                                 </tr>
                             ))}
-                        </body>
+                        </div>
                     </table>
                     {<div>
                         <div>

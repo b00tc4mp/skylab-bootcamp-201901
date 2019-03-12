@@ -2,10 +2,11 @@
 
 *{
 	margin: 0;
+	font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 body{
-	background: #e4e4ee;
+		background: #e4e4ee;
 	font-family: 'Raleway';
     font-size: 14px;
     overflow-x: visible;

@@ -5,6 +5,7 @@
     margin: 1% auto;
     border: 1px solid black;
     border-radius: 5px;
+    background-color: ghostwhite;
 }
 
 .addcartbutton{
@@ -17,8 +18,9 @@
     height: 28em;
     padding: 0.5em;
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: 20px;
     margin: 1em;
+    background: #e4e4ee;
 }
 
 .productName{
