@@ -24,6 +24,11 @@ const User = new Schema({
         }
     },
 
+    image: {
+        type: String,
+        default: 'https://res.cloudinary.com/dnvdmcxqw/image/upload/v1552400419/default-profile-pic.png'
+    },
+
     password: {
         type: String,
         required: true

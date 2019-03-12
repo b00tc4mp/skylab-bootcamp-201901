@@ -10,7 +10,7 @@ class Watch extends Component {
 
     componentWillMount() {
         try {
-            logic.retrieveMessages()
+            logic.retrieveReceivedMessages()
                 .then(({ msgReceived }) => {
                     this.setState({ userMessages: msgReceived }, 
                     this.getPosition)
@@ -49,7 +49,7 @@ class Watch extends Component {
             let _launchDate = message.launchDate.slice(0,10)
 
             if(((position.coords.latitude > lowLatMessage && position.coords.latitude < highLatMessage) && (position.coords.longitude > lowLngMessage && position.coords.longitude < highLngMessage)) && actualDate >= _launchDate) {
-                // clear watchPosition
+                // when match --> clear watchPosition and redirect to show message  
                 navigator.geolocation.clearWatch(userPosition)
                 this.props.history.push({
                     pathname: '/read-message',

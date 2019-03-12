@@ -41,6 +41,7 @@ class ReadMessage extends Component {
             <p>{message.userIdFrom}</p>
             <p>{message.userIdTo}</p>
             <p>{message._id}</p>
+            <img src={message.image}/>
             <button onClick={handleClick}>DONE</button>
         </section>
     }

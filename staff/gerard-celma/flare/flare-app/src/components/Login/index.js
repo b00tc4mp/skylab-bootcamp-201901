@@ -14,7 +14,7 @@ class Login extends Component {
         event.preventDefault()
 
         const { state: { email, password } } = this
-        debugger
+       
         try {
             logic.logInUser(email, password)
                 .then(() => this.props.history.push('/home'))

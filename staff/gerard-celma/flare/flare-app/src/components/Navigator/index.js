@@ -10,6 +10,7 @@ class Navigator extends Component {
             <p>Navigator</p>
             <Link to="/send-message">Send Message</Link>
             <Link to="/watch">Watch mode</Link>
+            <Link to="/profile">Profile</Link>
         </section>
     }
 }

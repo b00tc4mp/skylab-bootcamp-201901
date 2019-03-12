@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { withRouter, Route } from 'react-router-dom'
 import Navigator from '../Navigator';
-import SendMessage from '../SendMessage'
+import MessagesSent from '../MessagesSent'
 
 class Home extends Component {
 
@@ -14,6 +14,7 @@ class Home extends Component {
             <p>Welcome Home</p>
 
             <Navigator />
+            <MessagesSent />
         </section>
     }
 }

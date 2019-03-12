@@ -9,15 +9,21 @@ module.exports = {
 
     updateUser: require('./update-user'),
 
+    updateUserPhoto: require('./update-user-photo'),
+
     removeUser: require('./remove-user'),
 
     createMessage: require('./create-message'),
+
+    uploadMessagePhoto: require('./upload-message-photo'),
 
     messageRead: require('./message-read'),
 
     messageDelete: require('./message-delete'),
     
-    retrieveReceivedMessages: require('./retrieve-received-messages')
+    retrieveReceivedMessages: require('./retrieve-received-messages'),
+
+    retrieveSentMessages: require('./retrieve-sent-messages')
 
 
     // notFound: require('./not-found')

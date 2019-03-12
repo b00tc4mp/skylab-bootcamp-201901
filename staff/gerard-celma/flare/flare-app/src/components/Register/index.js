@@ -10,6 +10,8 @@ class Register extends Component {
 
     handleInput = event => this.setState({[event.target.name] : event.target.value})
 
+    handleImageInput = event => this.setState({image: event.target.files[0]})
+
     handleFormSubmit = event => {
         event.preventDefault()
 

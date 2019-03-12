@@ -1,7 +1,7 @@
 'use strict'
 
 const flareApi = {
-    url: "http://192.168.0.16:8000/api",
+    url: "http://localhost:8000/api",
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
@@ -90,6 +90,88 @@ const flareApi = {
             })
     },
 
+    updateUser(token, name, surname, email) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+        if (!name.trim().length) throw Error('name cannot be empty')
+
+        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
+        if (!surname.trim().length) throw Error('surname cannot be empty')
+
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        return fetch(`${this.url}/user`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ name, surname, email })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    uploadMessagePhoto(token, data, msgId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== File) throw TypeError(`${data} is not an object`)
+
+        if (typeof msgId !== 'string') throw TypeError(msgId + ' is not a string')
+        if (!msgId.trim().length) throw Error('msgId cannot be empty')
+
+        let formData = new FormData()
+        formData.append('image', data)
+
+        return fetch(`${this.url}/message/photo/${msgId}`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
+    updateUserPhoto(token, data) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== File) throw TypeError(`${data} is not an object`)
+
+        let formData = new FormData()
+        formData.append('image', data)
+
+        return fetch(`${this.url}/user/photo`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
+
     createMessage(token, userIdTo, launchDate, position, text) {
         return fetch(`${this.url}/message/create`, {
             method: 'POST',
@@ -107,8 +189,22 @@ const flareApi = {
             })
     },
 
-    retrieveMessages(token) {
+    retrieveReceivedMessages(token) {
         return fetch(`${this.url}/message/received`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveSentMessages(token) {
+        return fetch(`${this.url}/message/sent`, {
             headers: {
                 authorization: `Bearer ${token}`
             }

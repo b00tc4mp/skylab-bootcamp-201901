@@ -3,6 +3,7 @@
 const { models: { User, Message } } = require('datify')
 const validate = require('flare-validation')
 const bcrypt = require('bcrypt')
+const nodemailer = require('nodemailer')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('errorify')
 
 
@@ -30,6 +31,34 @@ const logic = {
             const hash = await bcrypt.hash(password, 10)
 
             const { id } = await User.create({ name, surname, email, password: hash })
+
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'FlareWelcome@gmail.com',
+                    pass: 'jhg4qYIU7'
+                }
+            })
+
+            const mailOptions = {
+                from: 'FlareWelcome@gmail.com',
+                to: `${email}`,
+                subject: 'Welcome to Flare!',
+                html: `<h1>Thanks for registering ${name}!</h1>
+                    <p>We want to welcome you to Flare.<p>
+                    <p>Please click on the following <a href='http://localhost:3000'>link</a> in order to login and start shooting Flares!</p>
+                    <p>Remember to go to your profile and upload your profile picture so that other users can recognize you easily.</p>
+                    <p>Thanks</p>
+                    <p>The Flare team ;)</p>
+                `
+            }
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) throw new Error(`email could not be sent`)
+                else ('Email sent: ' + info.response)
+            })
+
 
             return id
         })()
@@ -117,6 +146,34 @@ const logic = {
             })
     },
 
+    uploadMessagePhoto(userId, url, msgId) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }, { key: 'msgId', value: msgId, type: String }])
+
+        return (async () => {
+            const message = await Message.findByIdAndUpdate(msgId, { image: url }, { new: true, runValidators: true }).select('-__v').lean()
+            if (!message) throw new Error(`message with msgId ${msgId} not found`)
+
+            message.id = message._id.toString()
+            delete message._id
+
+            return message
+        })()
+    },
+
+    updateUserPhoto(userId, url) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])
+
+        return (async () => {
+            const user = await User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            user.id = user._id.toString()
+            delete user._id
+
+            return user
+        })()
+    },
+
     removeUser(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -189,6 +246,13 @@ const logic = {
         validate([{ key: 'userId', value: userId, type: String }])
 
         return User.findById(userId).populate('msgReceived')
+                .then(user => user)
+    },
+
+    retrieveSentMessages(userId) {
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        return User.findById(userId).populate({path: 'msgSent', model: 'Message', populate:{ path: 'userIdTo', model: 'User'}})
                 .then(user => user)
     }
 }

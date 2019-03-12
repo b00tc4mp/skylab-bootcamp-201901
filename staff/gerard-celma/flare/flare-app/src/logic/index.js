@@ -68,6 +68,23 @@ const logic = {
         return !!this.__userApiToken__
     },
 
+    updateUser(name, surname, email) {
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+
+        if (!name.trim().length) throw Error('name cannot be empty')
+
+        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
+
+        if (!surname.trim().length) throw Error('surname cannot be empty')
+
+        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
+
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        return flareApi.updateUser(this.__userApiToken__, name, surname, email)
+            .then(user => user)
+    },
+
     retrieveUser() {
         return flareApi.retrieveUser(this.__userApiToken__)
             .then(user => user)
@@ -76,6 +93,25 @@ const logic = {
     retrieveUsers() {
         return flareApi.retrieveUsers(this.__userApiToken__)
             .then(users => users)
+    },
+
+    uploadMessagePhoto(data, msgId) {
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== File) throw TypeError(`${data} is not an object`)
+
+        if (typeof msgId !== 'string') throw TypeError(msgId + ' is not a string')
+        if (!msgId.trim().length) throw Error('msgId cannot be empty')
+
+        return flareApi.uploadMessagePhoto(this.__userApiToken__, data, msgId)
+            .then(({user}) => user)
+    },
+
+    updateUserPhoto(data) {
+        if (!data) throw Error('data is empty')
+        if (data.constructor !== File) throw TypeError(`${data} is not an object`)
+
+        return flareApi.updateUserPhoto(this.__userApiToken__, data)
+            .then(({user}) => user)
     },
 
     createMessage(userIdTo, launchDate, position, text) {
@@ -93,8 +129,13 @@ const logic = {
             .then(message => message)
     },
 
-    retrieveMessages() {
-        return flareApi.retrieveMessages(this.__userApiToken__)
+    retrieveReceivedMessages() {
+        return flareApi.retrieveReceivedMessages(this.__userApiToken__)
+            .then((messages) => messages)
+    },
+
+    retrieveSentMessages() {
+        return flareApi.retrieveSentMessages(this.__userApiToken__)
             .then((messages) => messages)
     },
 

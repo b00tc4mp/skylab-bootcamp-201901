@@ -1,28 +1,42 @@
-const cloudinary = require('cloudinary')
-const dotenv = require('dotenv').config()
+'use strict'
 
-const { env: { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SERCRET} } = process
+require('dotenv').config()
 
-cloudinary.config({
-    cloud_name: CLOUDINARY_CLOUD_NAME,
-    api_key: CLOUDINARY_API_KEY,
-    api_secret: CLOUDINARY_API_SERCRET
-})
+const cloudinary = require('cloudinary').v2
 
-const uploadImage = (image) => {
-    const cloudinaryOptions = {
-      resource_type: 'raw', 
-      folder: process.env.CLOUDINARY_CLOUD_FOLDER || '',
-    }
-    return new Promise((resolve, reject) => {
-      cloudinary.v2.uploader.upload_stream(cloudinaryOptions, function (error, result) {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result);
-        }
-      }).end(image.buffer);
+const { env: { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } } = process
+
+function cloudinaryUploader(req, res, next) {
+    cloudinary.config({
+        cloud_name: CLOUDINARY_CLOUD_NAME,
+        api_key: CLOUDINARY_API_KEY,
+        api_secret: CLOUDINARY_API_SECRET
     })
-  }
 
-module.exports = uploadImage
+    console.log(CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET)
+
+    const path = req.file.path
+
+    console.log(req.msgId)
+
+    try {
+        cloudinary.uploader.upload(
+            path,
+            function (err, image) {
+                if (err) return req.send(err)
+                console.log('file uploaded to Cloudinary')
+                // remove file from server
+                const fs = require('fs')
+                fs.unlinkSync(path)
+                // return image details
+                req.image = image
+                next()
+            })
+    } catch ({ message }) {
+        return res.status(401).json({ error: message })
+    }
+
+
+}
+
+module.exports = cloudinaryUploader
