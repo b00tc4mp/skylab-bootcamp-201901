@@ -802,7 +802,7 @@ describe('logic', () => {
         )
 
         it('should succeed on correct data', () =>
-            logic.deleteHouse(houseId,userId)
+            logic.deleteHouse(houseId, userId)
                 .then(user => {
 
                     expect(user.myHouses.length).toBe(0)
@@ -813,37 +813,37 @@ describe('logic', () => {
         it('should fail on undefined houseId', () => {
 
             expect(() => {
-                logic.deleteHouse(undefined,userId)
+                logic.deleteHouse(undefined, userId)
             }).toThrow(Error(`${undefined} is not a valid id`))
         })
         it('should fail on null houseId', () => {
 
             expect(() => {
-                logic.deleteHouse(null,userId)
+                logic.deleteHouse(null, userId)
             }).toThrow(Error(`${null} is not a valid id`))
         })
         it('should fail on numeric houseId', () => {
 
             expect(() => {
-                logic.deleteHouse(1,userId)
+                logic.deleteHouse(1, userId)
             }).toThrow(Error(`${1} is not a valid id`))
         })
         it('should fail on bool houseId', () => {
 
             expect(() => {
-                logic.deleteHouse(true,userId)
+                logic.deleteHouse(true, userId)
             }).toThrow(Error(`${true} is not a valid id`))
         })
         it('should fail on array houseId', () => {
 
             expect(() => {
-                logic.deleteHouse([],userId)
+                logic.deleteHouse([], userId)
             }).toThrow(Error(`${[]} is not a valid id`))
         })
         it('should fail on object houseId', () => {
 
             expect(() => {
-                logic.deleteHouse({},userId)
+                logic.deleteHouse({}, userId)
             }).toThrow(Error(`${{}} is not a valid id`))
         })
 
@@ -852,44 +852,239 @@ describe('logic', () => {
         it('should fail on undefined ownerId', () => {
 
             expect(() => {
-                logic.deleteHouse(houseId,undefined)
+                logic.deleteHouse(houseId, undefined)
             }).toThrow(Error(`${undefined} is not a valid id`))
         })
         it('should fail on null ownerId', () => {
 
             expect(() => {
-                logic.deleteHouse(houseId,null)
+                logic.deleteHouse(houseId, null)
             }).toThrow(Error(`${null} is not a valid id`))
         })
         it('should fail on numeric ownerId', () => {
 
             expect(() => {
-                logic.deleteHouse(houseId,1)
+                logic.deleteHouse(houseId, 1)
             }).toThrow(Error(`${1} is not a valid id`))
         })
         it('should fail on bool ownerId', () => {
 
             expect(() => {
-                logic.deleteHouse(houseId,true)
+                logic.deleteHouse(houseId, true)
             }).toThrow(Error(`${true} is not a valid id`))
         })
         it('should fail on array ownerId', () => {
 
             expect(() => {
-                logic.deleteHouse (houseId,[])
+                logic.deleteHouse(houseId, [])
             }).toThrow(Error(`${[]} is not a valid id`))
         })
         it('should fail on object ownerId', () => {
 
             expect(() => {
-                logic.deleteHouse (houseId,{})
+                logic.deleteHouse(houseId, {})
             }).toThrow(Error(`${{}} is not a valid id`))
         })
-        
-})
+
+    })
+
+    describe('retrive myHouses from user', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => { return logic.createHouse(userId, images, description, info, adress) })
+                .then(house => houseId = house._id.toString())
+        )
+
+        it('should retrieve myHouses from user', () =>
+            logic.retrieveMyHouses(userId)
+                .then(houses => {
+                    expect(JSON.stringify(houses[0].images)).toBe(JSON.stringify(images))
+                    expect(houses[0].description).toBe(description)
+                    expect(JSON.stringify(houses[0].info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(houses[0].adress)).toBe(JSON.stringify(adress))
+                    expect(JSON.stringify(houses[0].ownerId)).toBe(JSON.stringify(userId))
+
+                    expect(houses.length).toBe(1)
+                })
+        )
+
+        it('should fail on wrong userid', () =>
+            logic.retrieveMyHouses('hola')
+                .catch(err => {
+                    expect(err).toBeDefined()
+                })
+        )
+
+    })
+    describe('toggle favorite', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => { return logic.createHouse(userId, images, description, info, adress) })
+                .then(house => houseId = house._id.toString())
+        )
+
+        it('should retrieve favorites from user', () =>
+            logic.toggleFavorites(userId, houseId)
+                .then(user => {
+                    expect(JSON.stringify(user.favorites[0])).toBe(JSON.stringify(houseId))
 
 
+                    expect(user.favorites.length).toBe(1)
+                })
+        )
 
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                logic.toggleFavorites(userId, undefined)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                logic.toggleFavorites(undefined, houseId)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+    })
+
+
+    describe('retrive favorite houses from user', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => { return logic.createHouse(userId, images, description, info, adress) })
+                .then(house => houseId = house._id.toString())
+                .then(() => logic.toggleFavorites(userId, houseId))
+        )
+
+        it('should retrieve favorites from user', () =>
+            logic.retrieveMyFavorites(userId)
+                .then(houses => {
+                    expect(JSON.stringify(houses[0].images)).toBe(JSON.stringify(images))
+                    expect(houses[0].description).toBe(description)
+                    expect(JSON.stringify(houses[0].info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(houses[0].adress)).toBe(JSON.stringify(adress))
+                    expect(JSON.stringify(houses[0].ownerId)).toBe(JSON.stringify(userId))
+
+                    expect(houses.length).toBe(1)
+                })
+        )
+
+        it('should retrieve favorites from user', () =>
+            logic.retrieveMyFavorites(userId)
+                .then(houses => {
+                    expect(JSON.stringify(houses[0].images)).toBe(JSON.stringify(images))
+                    expect(houses[0].description).toBe(description)
+                    expect(JSON.stringify(houses[0].info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(houses[0].adress)).toBe(JSON.stringify(adress))
+                    expect(JSON.stringify(houses[0].ownerId)).toBe(JSON.stringify(userId))
+
+                    expect(houses.length).toBe(1)
+                })
+        )
+
+        it('should retrieve no favorites from user', () =>
+            logic.toggleFavorites(userId, houseId)
+                .then(() => {
+
+                    return logic.retrieveMyFavorites(userId)
+                        .then(houses => {
+
+                            expect(houses.length).toBe(0)
+                        })
+
+
+                })
+        )
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                logic.retrieveMyFavorites(undefined)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+    })
 
     after(() =>
         Promise.all([

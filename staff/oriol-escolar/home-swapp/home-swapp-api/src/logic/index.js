@@ -189,24 +189,24 @@ const logic = {
 
     retrieveHouse(houseId) {
         if (typeof houseId !== 'string') throw Error(`${houseId} is not a valid id`)
-        
+
         return House.findById(houseId)
-        .then(house => {
+            .then(house => {
 
-            if (!house) throw Error(`house with id ${houseId} not found`)
+                if (!house) throw Error(`house with id ${houseId} not found`)
 
 
-            house.id = house._id.toString()
+                house.id = house._id.toString()
 
-            delete house._id
+                delete house._id
 
-            return house
-        })
+                return house
+            })
 
     },
 
-    deleteHouse(houseId,ownerId) {
-        
+    deleteHouse(houseId, ownerId) {
+
         if (typeof houseId !== 'string') throw Error(`${houseId} is not a valid id`)
         if (typeof ownerId !== 'string') throw Error(`${ownerId} is not a valid id`)
 
@@ -216,16 +216,93 @@ const logic = {
 
                 return User.findById(ownerId)
                     .then(user => {
-                       let index =  user.myHouses.indexOf(houseId)
-                        user.myHouses.splice(index,1)
+                        let index = user.myHouses.indexOf(houseId)
+                        user.myHouses.splice(index, 1)
                         return user.save()
-                            
+
                     })
 
 
             })
 
+    },
+
+    retrieveMyHouses(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+                return user.myHouses
+            })
+            .then(houseId => {
+                return House.find({ _id: { $in: houseId } }).select('-__v').lean()
+            })
+            .then(houses => {
+                houses.forEach(house => {
+                    house.id = house._id.toString()
+                    delete house._id
+                })
+                return houses
+            })
+    },
+
+
+    toggleFavorites(userId, houseId) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+        if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId cannot be empty')
+
+        return User.findById(userId)
+            .then((user) => {
+
+                let index = user.favorites.indexOf(houseId)
+
+                if (index < 0) user.favorites.push(houseId)
+                else user.favorites.splice(index, 1)
+
+                return user.save()
+
+
+
+            })
+
+
+    },
+
+
+    retrieveMyFavorites(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+                return user.favorites
+            })
+            .then(houseId => {
+                return House.find({ _id: { $in: houseId } }).select('-__v').lean()
+            })
+            .then(houses => {
+                houses.forEach(house => {
+                    house.id = house._id.toString()
+                    delete house._id
+                })
+                return houses
+            })
+    },
+
+
+    retrieveHousesByQuery(query){
+        
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+
+        return House.find( {$or:[{"adress.city":query},{"adress.country":query}]})
     }
+
 
 }
 
