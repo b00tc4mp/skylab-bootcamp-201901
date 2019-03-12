@@ -1,8 +1,11 @@
 {
   "name": "osi-api",
   "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
-    "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js"
+    "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js",
+    "start": "node src",
+    "debug": "node debug src"
   },
   "dependencies": {
     "bcrypt": "^3.0.4",

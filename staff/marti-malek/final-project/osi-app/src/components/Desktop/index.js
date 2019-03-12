@@ -17,8 +17,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile }) {
     }, [])
 
     handleState = () => {
-        return logic.retrieveFile('.position.json')
-            .then(positionsArray => setPositions(positionsArray))
+        return logic.retrieveFile('.this.json')
+            .then(positionsArray => {
+                debugger
+                setPositions(positionsArray)})
             .then(() => logic.retrieveDir('/'))
             .then(dir => {
                 setLevel(dir)
