@@ -51,10 +51,10 @@ class Navbar extends Component {
                 <div className="navegacion">
                     <nav>
                         <ul>
-                            <li><Link to="/" >HOME</Link> <span className="icon icon-up-dir"></span></li>
-                            <li>  <Link to="/about" >About</Link><span className="icon icon-up-dir"></span></li>
-                            <li>  <Link to="/contact" >Contact</Link><span className="icon icon-up-dir"></span></li>
-                            <li>  <Link to="/products" >Products</Link><span className="icon icon-up-dir"></span></li>
+                            <li><Link to="/" ><img src="https://i.gyazo.com/7dd6933988eb4cbbe3915c6ce92de52f.png" className="bigLogo" alt="404" /></Link></li>
+                            <li>  <Link to="/about" >About</Link></li>
+                            <li>  <Link to="/contact" >Contact</Link></li>
+                            <li>  <Link to="/products" >Products</Link></li>
                             <li>
                                 <p>User</p>
                                 <div className="submenu">

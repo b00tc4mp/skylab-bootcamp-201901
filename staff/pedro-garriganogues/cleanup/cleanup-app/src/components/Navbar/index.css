@@ -10,6 +10,11 @@ body{
     font-size: 14px;
     overflow-x: visible;
 }
+.bigLogo{
+    margin: -1em;
+	height: 4em;
+	border-radius: 25px;
+}
 
 .navegacion{
 	width: 100%;

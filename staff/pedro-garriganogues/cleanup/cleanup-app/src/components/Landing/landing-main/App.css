@@ -9,22 +9,29 @@
   position: relative; }
 
 
-/* DEMO STYLES */
-/* .nav {
-  padding: 30px 0;
-  background-color: #222; } */
 
+
+  .text{
+    margin: 1%;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    padding: 1%;
+    }
 
 .bigImage{
   width: 100%;
   height: 100%;
-  margin-bottom: 3%;
   margin-top: 3%;
 
 }
 .bigImage2{
-  width: 100%;
-  max-height: 10em;
+
+  max-height: 6em;
+  border-radius: 25px;
+  margin-top: 6px;
+  display: flex;
+  padding-left: 5px;
  
 
 }

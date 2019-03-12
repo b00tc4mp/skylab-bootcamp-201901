@@ -39,10 +39,6 @@ class About extends Component {
 
                     <input type="radio" name="accordion" id="acc-close" />
                 </nav>
-
-
-
-
             </main>
         )
     }
