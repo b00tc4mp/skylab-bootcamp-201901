@@ -1,7 +1,7 @@
 describe('state', () => {
-    it('should keep state on single value', () => {
-        const stateStorageKey = '__state__'
+    const stateStorageKey = '__state__'
 
+    it('should keep state on single value', () => {
         const state = new State(sessionStorage, stateStorageKey)
 
         state.set({ hello: 'world' })
@@ -12,8 +12,6 @@ describe('state', () => {
     })
 
     it('should keep state on multiple value', () => {
-        const stateStorageKey = '__state__'
-
         const state = new State(sessionStorage, stateStorageKey)
 
         state.set({ hello: 'world' })
@@ -26,8 +24,6 @@ describe('state', () => {
     })
 
     it('should update state on single value', () => {
-        const stateStorageKey = '__state__'
-
         const state = new State(sessionStorage, stateStorageKey)
 
         state.set({ hello: 'world' })
@@ -44,8 +40,6 @@ describe('state', () => {
     })
 
     it('should update state on multiple value', () => {
-        const stateStorageKey = '__state__'
-
         const state = new State(sessionStorage, stateStorageKey)
 
         state.set({ hello: 'world' })
@@ -66,8 +60,6 @@ describe('state', () => {
     })
 
     it('should retrieve state of single value', () => {
-        const stateStorageKey = '__state__'
-
         const state = new State(sessionStorage, stateStorageKey)
 
         sessionStorage.setItem(JSON.stringify({ hello: 'world' }))
@@ -78,8 +70,6 @@ describe('state', () => {
     })
 
     it('should retrieve state of multiple values', () => {
-        const stateStorageKey = '__state__'
-
         const state = new State(sessionStorage, stateStorageKey)
 
         sessionStorage.setItem(JSON.stringify({ hello: 'world', hola: 'mundo' }))
