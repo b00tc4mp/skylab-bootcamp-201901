@@ -6,7 +6,7 @@ import AnswerForm from '../AnswerForm'
 import logic from '../../logic'
 
 class ExerciseForm extends Component {
-    state = { title: '', summary: '', test: '', answer: '', id: '', order: 0, feedback: '', pageTitle: 'New exercise' }
+    state = { title: '', summary: '', test: '', answer: '', id: '', order: 0, feedback: '', result: [], pageTitle: 'New exercise' }
 
     componentDidMount() {
         if (this.props.id) {
@@ -68,12 +68,8 @@ class ExerciseForm extends Component {
         const { state: { answer, id: exerciseId } } = this
 
         logic.checkCode(answer, exerciseId)
-            .then(result => {
-                this.setState({ feedback: 'Ok!' })
-            })
-            .catch(error => {
-                this.setState({ feedback: error.message })
-            })
+            .then(({ passes, failures }) => this.setState({ feedback: 'Ok!' }))
+            .catch(({ message }) => this.setState({ feedback: message }))
     }
 
     render() {
