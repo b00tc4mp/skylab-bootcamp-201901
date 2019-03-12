@@ -1,6 +1,6 @@
 module.exports = {
     registerUser: require('./register-user'),
-
+    
     authenticateUser: require('./authenticate-user'),
 
     retrieveUser: require('./retrieve-user'),
@@ -24,6 +24,10 @@ module.exports = {
     retrieveService: require('./retrieve-service'),
 
     retrieveWorkspaceServices: require('./retrieve-workspace-services'),
+
+    retrieveUserServices: require('./retrieve-user-services'),
+
+    retrieveUserSubmitedServices: require('./retrieve-user-submited-services'),
 
     updateService: require('./update-service'),
 

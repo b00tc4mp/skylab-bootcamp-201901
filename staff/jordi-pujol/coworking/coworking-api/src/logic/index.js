@@ -353,6 +353,59 @@ const logic = {
 
     },
 
+    retrieveUserServices(userId) {
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        let _services = []
+
+        return User.findById(userId)
+            .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service').lean())
+            .then(({ service }) => {
+
+                service.map(_service => {
+                    if (_service.user.toString() == userId) {
+                        _service.id = _service._id
+                        delete _service._id
+                        delete _service.__v
+                        _services.push(_service)
+                    }
+                })
+
+                return _services
+            })
+    },
+
+    retrieveUserSubmitedEvents(userId){
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        let _services = []
+
+        return User.findById(userId)
+        .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service user').lean())
+            .then(({ service, user }) => {
+
+                service.map(_service => {
+                    
+                    _service.submitedUsers.map(sub => {
+                        if (sub.toString() == userId){  
+                            _service.id = _service._id
+                            delete _service._id
+                            delete _service.__v
+
+                            user.map(_user => {
+                                if (_user._id.toString() == _service.user) {
+                                    _service.user = _user.name
+                                }})
+
+                            _services.push(_service)
+                        }
+                    })
+                })
+
+                return _services
+            })
+    },
+
     retrieveWorkspaceServices(userId, workspaceId) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'workspaceId', value: workspaceId, type: String }])
@@ -451,7 +504,7 @@ const logic = {
                 service.closed = true
                 return service.save()
             })
-            .then((service)=> User.find({ _id: service.submitedUsers }))
+            .then((service) => User.find({ _id: service.submitedUsers }))
             .then(users => {
                 users.map(user => {
                     user.time -= Math.round(_time / _submitedUsers.length)

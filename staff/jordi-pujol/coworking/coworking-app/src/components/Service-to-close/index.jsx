@@ -9,15 +9,10 @@ class ServiceClosed extends Component {
 
     componentWillMount() {
         let _services = []
-        return logic.retrieveUser()
-            .then(({ name, workspace }) => {
-                this.setState({ name })
-                return workspace
-            })
-            .then((workspace) => logic.retrieveWorkspaceServices(workspace))
+        return logic.retrieveUserServices()
             .then(services => {
                 services.map(service => {
-                    if (service.user.toString() === this.state.name.toString() && !service.active && !service.closed) {
+                    if (!service.active && !service.closed) {
                         _services.push(service)
                     }
                 })
@@ -30,10 +25,10 @@ class ServiceClosed extends Component {
         const { state: { myServices } } = this
 
         const index = myServices.findIndex(service => service.id === id)
-        const _services = myServices 
+        const _services = myServices
         _services.splice(index, 1)
 
-        this.setState({myServices: _services})
+        this.setState({ myServices: _services })
     }
 
     render() {

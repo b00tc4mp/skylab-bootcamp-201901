@@ -43,6 +43,7 @@ class FullService extends Component {
                     .then(service => this.setState({ activeService: service }))
                     .then(() => logic.retrieveWorkspaceComments(service))
                     .then(comments => this.setState({ comments }))
+                    .then(() => this.setState({feedback: null}))
                     .catch(({ message }) => this.setState({ feedback: message }))
             }
             catch ({ message }) {
@@ -115,7 +116,7 @@ class FullService extends Component {
             <p className="full__service--description">Max users: {maxUsers}</p>
             <p className="full__service--description">Place: {place}</p>
             <p className="full__service--description">Expected service duration: {time} mins</p>
-            <p className="full__service--description">Avilable to submit: {active? 'Yes': 'No'}</p>
+            <p className="full__service--description">Avilable to submit: {active ? 'Yes' : 'No'}</p>
             <p >Upload date and time: {formatedDate}</p>
             <form onSubmit={handleSubmitForm}>
                 <button className="full-service__button">Submit to this Service</button>

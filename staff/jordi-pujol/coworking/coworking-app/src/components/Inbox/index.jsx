@@ -33,7 +33,7 @@ class Inbox extends Component {
         return (<section className="inbox">
             {services && services.map(service => {
                 if (service.active) {
-                return <Service key={services.id} servicesFor={service} onServiceSelected={handleServiceClick} />} }
+                return <Service myservice={null} key={services.id} servicesFor={service} onServiceSelected={handleServiceClick} />} }
             )}
             <Route path='/home/inbox/service/:id' render={(props) => <FullService service={props.match.params.id} onServiceSubmit={handleSubmitService} />} />
             {feedback && <Feedback message={feedback} />}
