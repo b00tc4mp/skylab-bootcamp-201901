@@ -221,6 +221,31 @@ const homeSwappApi = {
             })
     },
 
+    retrieveHouse(token, houseId) {
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+        if (typeof token !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+
+
+
+
+        return fetch(`${this.url}/user/house/${houseId}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+              
+                if(response.error) throw Error (response.error)
+
+                return response
+            })
+    },
+
 
 }
 
