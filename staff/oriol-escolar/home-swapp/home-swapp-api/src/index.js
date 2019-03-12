@@ -41,9 +41,9 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.post('/user/toggleFav', tokenVerifierMiddleware, jsonBodyParser, toggleFavorite)
 
-        router.post('/user/retrieveMyHouses', tokenVerifierMiddleware, jsonBodyParser, retrieveMyHouses)
+        router.get('/user/retrieveMyHouses', tokenVerifierMiddleware, jsonBodyParser, retrieveMyHouses)
 
-        router.post('/user/retrieveFavs', tokenVerifierMiddleware, jsonBodyParser, retrieveFavorites)
+        router.get('/user/retrieveFavs', tokenVerifierMiddleware, jsonBodyParser, retrieveFavorites)
 
 
 
