@@ -43,6 +43,23 @@ const Service = new Schema({
         type: String,
         required: false,
         default: "Not specified"
+    },
+
+    active:{
+        type: Boolean,
+        default: true,
+        required: false,
+    },
+
+    closed:{
+        type: Boolean,
+        default: false,
+        required: false,
+    },
+
+    time: {
+        type: Number,
+        required: true,
     }
 })
 

@@ -6,13 +6,16 @@ import { Route, withRouter, Redirect } from 'react-router-dom'
 import Profile from '../Profile'
 import Inbox from '../Inbox'
 import NewService from '../Create-service'
+import MyServices from '../MyServices'
+import ServiceClosed from '../Service-to-close'
+import SubmitedServices from '../SubmitedServices'
 import Topbar from '../Topbar';
 import logic from '../../logic';
 import NewInvitation from '../New-invitation';
 
 class Home extends Component {
 
-    state = { services: '', link: null }
+    state = { services: '', link: null, createServiceFeedback: null }
 
     handleGoToHome = () => this.props.history.push('/home/inbox')
 
@@ -23,36 +26,54 @@ class Home extends Component {
     handleGoToNotifications = () => this.props.history.push('/home/notifications')
 
     handleCreateNewLink = () => {
-        
-        logic.createNewUserLink()
-            .then(result => this.setState({ link: result }), this.props.history.push('/home/invitation'))
-        
-        // .then((result) => console.log(result + 'dsadsadsadsadds'))
-        // .then(() => this.props.history.push('/home/notifications'))
+
+        try {
+            logic.createNewUserLink()
+                .then(result => this.setState({ link: result }), this.props.history.push('/home/invitation'))
+                .catch(({ message }) => this.setState({ createServiceFeedback: message }))
+        }
+        catch ({ message }) {
+            this.setState({ createServiceFeedback: message })
+        }
     }
 
     handleLogOut = () => {
-        logic.logOutUser()
+        try {
+            logic.logOutUser()
+            
+            this.props.history.push('/')
+        }
+        catch ({ message }) {
+            console.error(message)
+        }
 
-        this.props.history.push('/login')
     }
 
-    handleCreateService = (title, description, maxUsers, place) => {
+    handleCreateService = (title, description, maxUsers, place, time) => {
 
-        logic.createService(title, description, maxUsers, place)
-            .then(() => this.props.history.push('/home'))
+        try {
+            logic.createService(title, description, maxUsers, place, time)
+                .then(() => this.props.history.push('/home/inbox'))
+                .catch(({ message }) => this.setState({ createServiceFeedback: message }))
+        }
+        catch ({ message }) {
+            this.setState({ createServiceFeedback: message })
+        }
     }
 
     render() {
 
-        const { state: { link }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, invitation } = this
+        const { state: { link, createServiceFeedback }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService } = this
 
         return <section>
             <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />
             <Route exact path='/home/profile' render={() => <Profile />} />
             <Route path='/home/inbox' render={() => <Inbox />} />
-            <Route path='/home/service' render={() => <NewService onCreateService={handleCreateService} />} />
-            <Route path='/home/invitation' render={() => <NewInvitation invitation={link} /> } />
+            <Route path='/home/service' render={() => <NewService feedback={createServiceFeedback} onCreateService={handleCreateService} />} />
+            <Route path='/home/invitation' render={() => logic.isUserAdmin ? <NewInvitation invitation={link} /> : <Redirect to='/home/inbox' />} />
+            <Route path='/home/myownservices' render={() => logic.isUserLoggedIn? <MyServices /> : <Redirect to='/login' />} />
+            <Route path='/home/myservices/closed' render={() => logic.isUserLoggedIn ? <ServiceClosed /> : <Redirect to='/login' />} />
+            <Route path='/home/myservices/submited' render={() => logic.isUserLoggedIn ? <SubmitedServices /> : <Redirect to='/login' />} />
             {/* <Route exact path='/home/inbox' render={()=> services && <Service services={services}/>}/> */}
         </section>
     }

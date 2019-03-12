@@ -8,7 +8,7 @@ import validate from 'coworking-validation'
  */
 const logic = {
     __coworkingApiToken__: null,
-    __isAdmin__: false,
+    __isAdmin__: null,
 
     /**
     * Registers a user.
@@ -21,11 +21,11 @@ const logic = {
     */
     registerUser(name, surname, email, password, passwordConfirm) {
 
-        validate([{key: 'name', value: name, type: String},
-        {key: 'surname', value: surname, type: String},
-        {key: 'email', value: email, type: String},
-        {key: 'password', value: password, type: String},
-        {key: 'passwordConfirm', value: passwordConfirm, type: String}])
+        validate([{ key: 'name', value: name, type: String },
+        { key: 'surname', value: surname, type: String },
+        { key: 'email', value: email, type: String },
+        { key: 'password', value: password, type: String },
+        { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
         if (password !== passwordConfirm) throw Error('passwords do not match')
 
@@ -41,18 +41,18 @@ const logic = {
      */
     logInUser(email, password) {
 
-        validate([{key: 'email', value: email, type: String},
-        {key: 'password', value: password, type: String}])
+        validate([{ key: 'email', value: email, type: String },
+        { key: 'password', value: password, type: String }])
 
         return coworkingApi.authenticateUser(email, password)
-            .then(({token, isAdmin}) => {
+            .then(({ token, isAdmin }) => {
                 this.__coworkingApiToken__ = token
                 this.__isAdmin__ = isAdmin
 
                 return token
             })
     },
-    
+
     /**
      * Checks user is logged in.
      */
@@ -60,11 +60,11 @@ const logic = {
         return !!this.__coworkingApiToken__
     },
 
-        /**
-     * Checks user is logged in.
-     */
+    /**
+ * Checks user is logged in.
+ */
     get isUserAdmin() {
-        return this.__isAdmin__
+        return this.__isAdmin__ === 'true'
     },
 
     /**
@@ -79,79 +79,97 @@ const logic = {
     },
 
     removeUser(email, password) {
-        validate([{key: 'email', value: email, type: String},
-        {key: 'password', value: password, type: String}])
+        validate([{ key: 'email', value: email, type: String },
+        { key: 'password', value: password, type: String }])
 
         return coworkingApi.removeUser(this.__coworkingApiToken__, email, password)
     },
 
-    createWorkspace(name, userId){
-        validate([{key: 'name', value: name, type: String},
-        {key: 'userId', value: userId, type: String}])
+    retrieveUserServices() {
 
-        return coworkingApi.createWorkspace(name, userId)
+        return coworkingApi.retrieveUserServices(this.__coworkingApiToken__)
     },
 
-    createNewUserLink(){
-        this.__isAdmin__ = true
+    retrieveUserSubmitedServices() {
+
+        return coworkingApi.retrieveUserSubmitedServices(this.__coworkingApiToken__)
+    },
+
+    createWorkspace(name, userId) {
+        validate([{ key: 'name', value: name, type: String },
+        { key: 'userId', value: userId, type: String }])
+
+        return coworkingApi.createWorkspace(name, userId)
+            .then((id) => id)
+    },
+
+    createNewUserLink() {
+
         return coworkingApi.createNewUserLink(this.__coworkingApiToken__)
     },
 
-    verifyNewUserLink(link){
-        validate([{key: 'link', value: link, type: String}])
+    verifyNewUserLink(link) {
+        validate([{ key: 'link', value: link, type: String }])
 
         return coworkingApi.verifyNewUserLink(this.__coworkingApiToken__, link)
     },
 
-    addUserToWorkspace(workspaceId){
-        validate([{key: 'workspaceId', value: workspaceId, type: String}])
+    addUserToWorkspace(workspaceId) {
+        validate([{ key: 'workspaceId', value: workspaceId, type: String }])
 
         return coworkingApi.addUserToWorkspace(this.__coworkingApiToken__, workspaceId)
-    },  
-
-    createService(title, description, maxUsers, place){
-        validate([{key: 'title', value: title, type: String},
-        {key: 'description', value: description, type: String},
-        {key: 'maxUsers', value: maxUsers, type: String},
-        {key: 'place', value: place, type: String}])
-
-        return coworkingApi.createService(this.__coworkingApiToken__, title, description, maxUsers, place)
     },
 
-    retrieveWorkspaceServices(workspaceId){
-        validate([{key: 'workspaceId', value: workspaceId, type: String}])
+    createService(title, description, maxUsers, place, time) {
+        validate([{ key: 'title', value: title, type: String },
+        { key: 'description', value: description, type: String },
+        { key: 'maxUsers', value: maxUsers, type: Number },
+        { key: 'place', value: place, type: String },
+        { key: 'time', value: time, type: Number }])
+
+        return coworkingApi.createService(this.__coworkingApiToken__, title, description, maxUsers, place, time)
+    },
+
+    retrieveWorkspaceServices(workspaceId) {
+        validate([{ key: 'workspaceId', value: workspaceId, type: String }])
 
         return coworkingApi.retrieveWorkspaceServices(this.__coworkingApiToken__, workspaceId)
     },
 
-    retrieveService(serviceId){
-        validate([{key: 'serviceId', value: serviceId, type: String}])
+    retrieveService(serviceId) {
+        validate([{ key: 'serviceId', value: serviceId, type: String }])
 
         return coworkingApi.retrieveService(this.__coworkingApiToken__, serviceId)
     },
 
-    addUserToService(serviceId){
-        validate([{key: 'serviceId', value: serviceId, type: String}])
+    addUserToService(serviceId) {
+        validate([{ key: 'serviceId', value: serviceId, type: String }])
 
         return coworkingApi.addUserToService(this.__coworkingApiToken__, serviceId)
     },
 
-    createComment(serviceId, text){
-        validate([{key: 'serviceId', value: serviceId, type: String},
-        {key: 'text', value: text, type: String}])
+    closeService(serviceId) {
+        validate([{ key: 'serviceId', value: serviceId, type: String }])
+
+        return coworkingApi.closeService(this.__coworkingApiToken__, serviceId)
+    },
+
+    createComment(serviceId, text) {
+        validate([{ key: 'serviceId', value: serviceId, type: String },
+        { key: 'text', value: text, type: String }])
 
         return coworkingApi.createComment(this.__coworkingApiToken__, serviceId, text)
     },
 
     retrieveWorkspaceComments(serviceId) {
-        validate([{key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'serviceId', value: serviceId, type: String }])
 
         return coworkingApi.retrieveWorkspaceComments(this.__coworkingApiToken__, serviceId)
     },
 
     removeComment(serviceId, commentId) {
-        validate([{key: 'serviceId', value: serviceId, type: String},
-        {key: 'commentId', value: commentId, type: String}])
+        validate([{ key: 'serviceId', value: serviceId, type: String },
+        { key: 'commentId', value: commentId, type: String }])
 
         return coworkingApi.removeComment(this.__coworkingApiToken__, serviceId, commentId)
     }

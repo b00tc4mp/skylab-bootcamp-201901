@@ -6,11 +6,11 @@ const coworkingApi = {
     url: 'http://localhost:8000/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
-        validate([{key: 'name', value: name, type: String},
-        {key: 'surname', value: surname, type: String},
-        {key: 'email', value: email, type: String},
-        {key: 'password', value: password, type: String},
-        {key: 'passwordConfirm', value: passwordConfirm, type: String}])
+        validate([{ key: 'name', value: name, type: String },
+        { key: 'surname', value: surname, type: String },
+        { key: 'email', value: email, type: String },
+        { key: 'password', value: password, type: String },
+        { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -29,8 +29,8 @@ const coworkingApi = {
     },
 
     authenticateUser(email, password) {
-        validate([{key: 'email', value: email, type: String},
-        {key: 'password', value: password, type: String}])
+        validate([{ key: 'email', value: email, type: String },
+        { key: 'password', value: password, type: String }])
 
         return fetch(`${this.url}/user/auth`, {
             method: 'POST',
@@ -48,7 +48,7 @@ const coworkingApi = {
     },
 
     retrieveUser(token) {
-        validate([{key: 'token', value: token, type: String}])
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/user`, {
             method: 'GET',
@@ -65,9 +65,9 @@ const coworkingApi = {
     },
 
     removeUser(token, email, password) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'email', value: email, type: String},
-        {key: 'password', value: password, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'email', value: email, type: String },
+        { key: 'password', value: password, type: String }])
 
         return fetch(`${this.url}/user`, {
             method: 'DELETE',
@@ -86,8 +86,8 @@ const coworkingApi = {
     },
 
     createWorkspace(name, token) {
-        validate([{key: 'name', value: name, type: String},
-        {key: 'token', value: token, type: String}])
+        validate([{ key: 'name', value: name, type: String },
+        { key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/workspace`, {
             method: 'POST',
@@ -106,7 +106,7 @@ const coworkingApi = {
     },
 
     createNewUserLink(token) {
-        validate([{key: 'token', value: token, type: String}])
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/workspace/link`, {
             method: 'GET',
@@ -124,8 +124,8 @@ const coworkingApi = {
     },
 
     verifyNewUserLink(token, link) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'link', value: link, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'link', value: link, type: String }])
 
         return fetch(`${this.url}/workspace/link`, {
             method: 'POST',
@@ -144,8 +144,8 @@ const coworkingApi = {
     },
 
     addUserToWorkspace(token, workspaceId) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'workspaceId', value: workspaceId, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'workspaceId', value: workspaceId, type: String }])
 
         return fetch(`${this.url}/workspace/user`, {
             method: 'POST',
@@ -164,12 +164,13 @@ const coworkingApi = {
             })
     },
 
-    createService(token, title, description, maxUsers, place) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'title', value: title, type: String},
-        {key: 'description', value: description, type: String},
-        {key: 'maxUsers', value: maxUsers, type: String},
-        {key: 'place', value: place, type: String}])
+    createService(token, title, description, maxUsers, place, time) {
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'title', value: title, type: String },
+        { key: 'description', value: description, type: String },
+        { key: 'maxUsers', value: maxUsers, type: Number },
+        { key: 'place', value: place, type: String },
+        { key: 'time', value: time, type: Number }])
 
         return fetch(`${this.url}/service`, {
             method: 'POST',
@@ -177,7 +178,7 @@ const coworkingApi = {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ title, description, maxUsers, place })
+            body: JSON.stringify({ title, description, maxUsers, place, time })
         })
             .then(response => response.json())
             .then(response => {
@@ -188,8 +189,8 @@ const coworkingApi = {
     },
 
     retrieveWorkspaceServices(token, workspaceId) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'workspaceId', value: workspaceId, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'workspaceId', value: workspaceId, type: String }])
 
         return fetch(`${this.url}/service/workspace/${workspaceId}`, {
             method: 'GET',
@@ -201,14 +202,13 @@ const coworkingApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
-
                 return response.services
             })
     },
 
     retrieveService(token, serviceId) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
 
         return fetch(`${this.url}/service/${serviceId}`, {
             method: 'GET',
@@ -224,9 +224,43 @@ const coworkingApi = {
             })
     },
 
+    retrieveUserServices(token) {
+        validate([{ key: 'token', value: token, type: String }])
+
+        return fetch(`${this.url}/user/service`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response.services
+            })
+    },
+
+    retrieveUserSubmitedServices(token) {
+        validate([{ key: 'token', value: token, type: String }])
+
+        return fetch(`${this.url}/user/service/submited`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response.services
+            })
+    },
+
     addUserToService(token, serviceId) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
 
         return fetch(`${this.url}/service/${serviceId}`, {
             method: 'POST',
@@ -242,11 +276,29 @@ const coworkingApi = {
             })
     },
 
+    closeService(token, serviceId) {
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
+
+        return fetch(`${this.url}/closeservice/${serviceId}`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response
+            })
+    },
+
     createComment(token, serviceId, text) {
 
-        validate([{key: 'token', value: token, type: String},
-        {key: 'serviceId', value: serviceId, type: String},
-        {key: 'text', value: text, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'serviceId', value: serviceId, type: String },
+        { key: 'text', value: text, type: String }])
 
         return fetch(`${this.url}/comment/${serviceId}`, {
             method: 'POST',
@@ -259,14 +311,13 @@ const coworkingApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
-                console.log(response)
                 return
             })
     },
 
     retrieveWorkspaceComments(token, serviceId) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
 
         return fetch(`${this.url}/comment/${serviceId}`, {
             method: 'GET',
@@ -283,12 +334,12 @@ const coworkingApi = {
     },
 
     removeComment(token, serviceId, commentId) {
-        validate([{key: 'token', value: token, type: String},
-        {key: 'serviceId', value: serviceId, type: String},
-        {key: 'commentId', value: commentId, type: String}])
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'serviceId', value: serviceId, type: String },
+        { key: 'commentId', value: commentId, type: String }])
 
         return fetch(`${this.url}/comment/${serviceId}/${commentId}`, {
-            method: 'GET',
+            method: 'DELETE',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`

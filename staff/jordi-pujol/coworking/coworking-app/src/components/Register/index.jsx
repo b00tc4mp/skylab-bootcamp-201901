@@ -1,11 +1,18 @@
 'use strict'
 
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import logic from '../../logic'
+
+import Feedback from '../Feedback'
 
 class Register extends Component {
 
-    state = { name: '', surname: '', email: '', password: '', passwordConfirm: '' }
+    state = { name: '', surname: '', email: '', password: '', passwordConfirm: '', feedback: null }
 
+    componentWillMount() {
+        this.setState({ feedback: null })
+    }
 
     handleNameInput = event => this.setState({ name: event.target.value })
 
@@ -21,15 +28,26 @@ class Register extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { name, surname, email, password, passwordConfirm }, props: { onRegister } } = this
+        const { state: { name, surname, email, password, passwordConfirm } } = this
 
-        onRegister(name, surname, email, password, passwordConfirm)
+        try {
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => this.props.history.push('/login'))
+                .catch(({ message }) => this.setState({ feedback: message }))
+        } catch ({ message }) {
+            this.setState({ feedback: message })
+        }
     }
 
+    handleGoToLogin = event => {
+        event.preventDefault()
+
+        this.props.history.push('/login')
+    }
 
     render() {
 
-        const { handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, handleFormSubmit } = this
+        const { state: { feedback }, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, handleFormSubmit, handleGoToLogin } = this
 
 
         return <section className="login">
@@ -51,19 +69,16 @@ class Register extends Component {
                 </form>
             </section>
             <section className="login_subcontent">
-                <div className="img__text m--up">
-                    <h2>New here?</h2>
-                    <p>Sign up and discover great amount of new opportunities!</p>
-                </div>
                 <div className="img__text m--in">
                     <h2>One of us?</h2>
                     <p>If you already has an account, just sign in. We've missed you!</p>
                 </div>
-                <div className="img__btn">
-                    <span>Sign Up</span>
-                </div>
+                <form onSubmit={handleGoToLogin} className="img__btn">
+                    <button>Sign In</button>
+                </form>
             </section>
+            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }
-export default Register
+export default withRouter(Register)

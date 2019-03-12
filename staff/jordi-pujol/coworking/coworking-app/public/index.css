@@ -73,12 +73,16 @@
 .inbox {
   background-size: cover;
   margin-left: 6em;
-  max-width: 85%; }
+  max-width: 85%;
+  display: flex;
+  display-direction: row;
+  flex-wrap: wrap; }
 
 .service {
   background-image: url(https://vignette.wikia.nocookie.net/inciclopedia/images/9/94/Post-It.png/revision/latest?cb=20100719151648&format=original);
   height: 450px;
-  cursor: pointer; }
+  cursor: pointer;
+  width: 400px; }
   .service__title {
     padding-top: 3em;
     padding-left: 3em;
@@ -97,8 +101,32 @@ img {
   width: 50px;
   height: 50px; }
 
-profile {
-  border-bottom: 1px solid white; }
+.profile .profile__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
+  .profile .profile__form--info {
+    height: 50px;
+    width: 400px;
+    font-size: 20px;
+    color: black;
+    border: none;
+    border-bottom: 1px solid white;
+    background: transparent; }
+.profile button {
+  margin-top: 20px;
+  border-radius: 30px;
+  width: 8em;
+  height: 2em;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  background-image: linear-gradient(#0F0340, #360BE5); }
+
+img {
+  height: 200px;
+  width: 200px; }
 
 html {
   background-image: linear-gradient(#9BFF64, #00FF31);

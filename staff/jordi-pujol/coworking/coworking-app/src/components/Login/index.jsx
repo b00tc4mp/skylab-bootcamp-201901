@@ -2,15 +2,18 @@
 
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import logic from '../../logic'
+
+import Feedback from '../Feedback';
 
 
 class Login extends Component {
-    state = { email: '', password: '', invitation: '' }
+    state = { email: '', password: '', invitation: '', feedback: null }
 
     componentWillMount() {
         const { props: { link } } = this
 
-        this.setState({ invitation: link })
+        this.setState({ invitation: link, feedback: null })
     }
 
     handleEmailInput = event => this.setState({ email: event.target.value })
@@ -20,10 +23,32 @@ class Login extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { email, password, invitation }, props: { onLogin } } = this
+        const { state: { email, password, invitation } } = this
 
-        onLogin(email, password, invitation)
+        try {
+            if (invitation) {
+
+                return logic.logInUser(email, password)
+                    .then(() => logic.verifyNewUserLink(invitation))
+                    .then(workspaceId => {
+                        return logic.addUserToWorkspace(workspaceId)
+                    })
+                    .then(() => this.props.history.push('/home/inbox'))
+                    .catch(({ message }) => this.setState({ feedback: message }))
+            }
+            else {
+                logic.logInUser(email, password)
+                    .then(() => this.props.history.push('/home/inbox'))
+                    .catch(({ message }) => this.setState({ feedback: message }))
+            }
+        } catch ({ message }) {
+            this.setState({ feedback: message })
+        }
     }
+
+    handleGoToRegister = event => {
+        event.preventDefault()
+        this.props.history.push('/register')}
 
     handleNewFormSubmit = event => {
         event.preventDefault()
@@ -33,7 +58,7 @@ class Login extends Component {
 
     render() {
 
-        const { handleEmailInput, handlePasswordInput, handleFormSubmit, handleNewFormSubmit } = this
+        const { state: { feedback }, handleEmailInput, handlePasswordInput, handleFormSubmit, handleNewFormSubmit, handleGoToRegister } = this
 
         return <section className="login">
             <section className="login_content">
@@ -59,10 +84,11 @@ class Login extends Component {
                     <h2>One of us?</h2>
                     <p>If you already has an account, just sign in. We've missed you!</p>
                 </div>
-                <div className="img__btn">
-                    <span>Sign Up</span>
-                </div>
+                <form onSubmit={handleGoToRegister} className="img__btn">
+                    <button>Sign Up</button>
+                </form>
             </section>
+            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }

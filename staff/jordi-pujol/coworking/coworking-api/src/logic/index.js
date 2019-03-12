@@ -18,16 +18,12 @@ const logic = {
         * @param {string} password 
         * @param {string} passwordConfirmation 
         */
-    registerUser(name, surname, email, password, passwordConfirmation, isAdmin) {
-        validate([{key: 'name', value: name, type: String},
-        {key: 'surname', value: surname, type: String},
-        {key: 'email', value: email, type: String},
-        {key: 'password', value: password, type: String},
-        {key: 'passwordConfirm', value: passwordConfirm, type: String}])
-
-        // if (typeof isAdmin !== 'string') throw TypeError(isAdmin + ' is not a string')
-
-        // if (!isAdmin.trim().length) throw Error('isAdmin cannot be empty')
+    registerUser(name, surname, email, password, passwordConfirmation) {
+        validate([{ key: 'name', value: name, type: String },
+        { key: 'surname', value: surname, type: String },
+        { key: 'email', value: email, type: String },
+        { key: 'password', value: password, type: String },
+        { key: 'passwordConfirmation', value: passwordConfirmation, type: String }])
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
@@ -37,7 +33,7 @@ const logic = {
 
                 return bcrypt.hash(password, 10)
             })
-            .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+            .then(hash => User.create({ name, surname, email, password: hash }))
             .then(({ id }) => id)
     },
 
@@ -48,8 +44,8 @@ const logic = {
      * @param {string} password 
      */
     authenticateUser(email, password) {
-        validate([{key: 'email', value: email, type: String},
-        {key: 'password', value: password, type: String}])
+        validate([{ key: 'email', value: email, type: String },
+        { key: 'password', value: password, type: String }])
 
         let isAdmin
 
@@ -79,7 +75,7 @@ const logic = {
      * @param {string} userId 
      */
     retrieveUser(userId) {
-        validate([{key: 'userId', value: userId, type: String}])
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return User.findById(userId).select('-password -__v').lean()
             .then(user => {
@@ -100,7 +96,7 @@ const logic = {
      * @param {string} data 
      */
     updateUser(userId, data) {
-        validate([{key: 'userId', value: userId, type: String}])
+        validate([{ key: 'userId', value: userId, type: String }])
 
         if (!data) throw TypeError('data should be defined')
         if (data.constructor !== Object) throw Error(`${data} is not an object`)
@@ -116,8 +112,8 @@ const logic = {
      * @param {string} email 
      */
     removeUser(userId, email) {
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'email', value: email, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'email', value: email, type: String }])
 
         let workspaceId
         let _userId
@@ -154,15 +150,15 @@ const logic = {
      * @param {string} userId 
      */
     createWorkspace(name, userId) {
-        validate([{key: 'name', value: name, type: String},
-        {key: 'userId', value: userId, type: String}])
+        validate([{ key: 'name', value: name, type: String },
+        { key: 'userId', value: userId, type: String }])
 
         let workspaceId
 
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error('user does not exist')
-                if (user.workspace) throw Error('cannot create more than one workspace with same email')
+                if (user.workspace) throw Error('cannot be in more than one workspace with same email')
 
                 user.isAdmin = true
 
@@ -170,7 +166,7 @@ const logic = {
             })
             .then(() => Workspace.findOne({ name }))
             .then(workspace => {
-                if (workspace) throw Error(`${workspace} already exists`)
+                if (workspace) throw Error(`${workspace.name} already exists`)
 
                 return Workspace.create({ name, user: userId })
             })
@@ -195,8 +191,8 @@ const logic = {
      * @param {string} userId 
      */
     addUserToWorkspace(workId, userId) {
-        validate([{key: 'workId', value: workId, type: String},
-        {key: 'userId', value: userId, type: String}])
+        validate([{ key: 'workId', value: workId, type: String },
+        { key: 'userId', value: userId, type: String }])
 
         return Workspace.findOne({ _id: workId })
             .then(workspace => {
@@ -231,7 +227,7 @@ const logic = {
      * @param {string} userId 
      */
     createNewUserLink(userId) {
-        validate([{key: 'userId', value: userId, type: String}])
+        validate([{ key: 'userId', value: userId, type: String }])
 
         let workspaceId = ''
 
@@ -267,8 +263,8 @@ const logic = {
      * @param {string} link 
      */
     verifyNewUserLink(userId, link) {
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'link', value: link, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'link', value: link, type: String }])
 
         let workspaceId
 
@@ -298,13 +294,14 @@ const logic = {
      * @param {string} title 
      * @param {string} description 
      */
-    createService(userId, title, description, maxUsers, place) {
+    createService(userId, title, description, maxUsers, place, time) {
 
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'title', value: title, type: String},
-        {key: 'description', value: description, type: String},
-        {key: 'maxUsers', value: maxUsers, type: String},
-        {key: 'place', value: place, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'title', value: title, type: String },
+        { key: 'description', value: description, type: String },
+        { key: 'maxUsers', value: maxUsers, type: Number },
+        { key: 'place', value: place, type: String },
+        { key: 'time', value: time, type: Number }])
 
         let workspaceId
         let serviceId
@@ -315,7 +312,7 @@ const logic = {
 
                 workspaceId = user.workspace
             })
-            .then(() => Service.create({ title, description, user: userId, maxUsers, place })).then(({ id }) => serviceId = id)
+            .then(() => Service.create({ title, description, user: userId, maxUsers, place, time })).then(({ id }) => serviceId = id)
             .then(() => Workspace.findById(workspaceId))
             .then(workspace => {
                 workspace.service.push(serviceId)
@@ -335,8 +332,8 @@ const logic = {
      * @param {string} serviceId 
      */
     retrieveService(userId, serviceId) {
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
 
         let _service
         return Service.findById(serviceId).select('-password -__v').lean()
@@ -348,7 +345,7 @@ const logic = {
                 _service = service
                 return service
             })
-            .then((service)=> User.findById (service.user))
+            .then((service) => User.findById(service.user))
             .then(user => {
                 _service.user = user.name
                 return _service
@@ -356,9 +353,62 @@ const logic = {
 
     },
 
+    retrieveUserServices(userId) {
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        let _services = []
+
+        return User.findById(userId)
+            .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service').lean())
+            .then(({ service }) => {
+
+                service.map(_service => {
+                    if (_service.user.toString() == userId) {
+                        _service.id = _service._id
+                        delete _service._id
+                        delete _service.__v
+                        _services.push(_service)
+                    }
+                })
+
+                return _services
+            })
+    },
+
+    retrieveUserSubmitedEvents(userId){
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        let _services = []
+
+        return User.findById(userId)
+        .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service user').lean())
+            .then(({ service, user }) => {
+
+                service.map(_service => {
+                    
+                    _service.submitedUsers.map(sub => {
+                        if (sub.toString() == userId){  
+                            _service.id = _service._id
+                            delete _service._id
+                            delete _service.__v
+
+                            user.map(_user => {
+                                if (_user._id.toString() == _service.user) {
+                                    _service.user = _user.name
+                                }})
+
+                            _services.push(_service)
+                        }
+                    })
+                })
+
+                return _services
+            })
+    },
+
     retrieveWorkspaceServices(userId, workspaceId) {
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'workspaceId', value: workspaceId, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'workspaceId', value: workspaceId, type: String }])
 
         let services
         let user
@@ -372,13 +422,15 @@ const logic = {
                     delete service.__v
 
                     user = workspace.user.map(_user => {
-                        if (_user._id.toString() === service.user.toString()) {
+                        if (_user._id.toString() == service.user) {
                             return _user.name
                         }
                     })
 
-                    service.user = user
+                    const index = user.findIndex(_user => _user !== undefined)
 
+                    service.user = user.splice(index, 1)
+                    service.user = service.user.toString()
                     return service
                 })
                 return services
@@ -394,8 +446,8 @@ const logic = {
      * @param {Object} data 
      */
     updateService(userId, serviceId, data) {
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
 
         if (!data) throw TypeError('data should be defined')
         if (data.constructor !== Object) throw Error(`${data} is not an object`)
@@ -408,19 +460,61 @@ const logic = {
     },
 
     addUserToService(userId, serviceId) {
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
 
-        return Service.findById(serviceId)
+        return User.findById(userId)
+            .then(user => {
+                if (Number(user.time) <= -120) throw Error('you cannot ask for more services, please create a service to gain more time')
+            })
+            .then(() => Service.findById(serviceId))
             .then(service => {
+
+                if (service.submitedUsers.length >= service.maxUsers) throw Error('max submited users achieved, you cannot submit to this event')
+
                 service.submitedUsers.map(user => {
 
                     if (user == userId) throw Error('user is already submited to this service')
                 })
                 if (service.user.toString() === userId) throw Error('user cannot apply for his own service')
 
+                debugger
+
+                if (service.submitedUsers.length + 1 >= service.maxUsers) {
+                    service.active = false
+                }
+
                 service.submitedUsers.push(userId)
                 return service.save()
+            })
+    },
+
+    closeService(serviceId) {
+
+        let _time
+        let _provider
+        let _submitedUsers
+
+        return Service.findById(serviceId)
+            .then(service => {
+                _time = service.time
+                _provider = service.user
+                _submitedUsers = service.submitedUsers
+
+                service.closed = true
+                return service.save()
+            })
+            .then((service) => User.find({ _id: service.submitedUsers }))
+            .then(users => {
+                users.map(user => {
+                    user.time -= Math.round(_time / _submitedUsers.length)
+                    return user.save()
+                })
+            })
+            .then(() => User.findById(_provider))
+            .then(user => {
+                user.time += _time
+                return user.save()
             })
     },
 
@@ -430,8 +524,8 @@ const logic = {
      * @param {string} serviceId 
      */
     deleteService(userId, serviceId) {
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
 
 
         return Service.findById(serviceId)
@@ -451,9 +545,9 @@ const logic = {
     },
 
     createComment(userId, serviceId, text) {
-        validate([{key: 'userId', value: userId, type: String},
-        {key: 'serviceId', value: serviceId, type: String},
-        {key: 'text', value: text, type: String}])
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'serviceId', value: serviceId, type: String },
+        { key: 'text', value: text, type: String }])
 
         return Service.findOneAndUpdate({ _id: serviceId }, { $push: { comments: { text, user: userId } } })
             .then(({ _id }) => Service.findById({ _id }))
@@ -461,7 +555,7 @@ const logic = {
     },
 
     retrieveServiceComments(serviceId) {
-        validate([{key: 'serviceId', value: serviceId, type: String}])
+        validate([{ key: 'serviceId', value: serviceId, type: String }])
 
         let comments = []
         return Service.findById(serviceId).lean()
@@ -477,13 +571,13 @@ const logic = {
             })
     },
 
-    removeComment(serviceId, commentId){
-        validate([{key: 'serviceId', value: serviceId, type: String},
-        {key: 'commentId', value: commentId, type: String}])
+    removeComment(serviceId, commentId) {
+        validate([{ key: 'serviceId', value: serviceId, type: String },
+        { key: 'commentId', value: commentId, type: String }])
 
         return Service.findById(serviceId)
             .then(service => {
-                const index = service.comments.findIndex( comment => comment._id == commentId)
+                const index = service.comments.findIndex(comment => comment._id == commentId)
 
                 service.comments.splice(index, 1)
                 return service.save()
