@@ -16,37 +16,10 @@ class MyHouses extends Component {
 
     componentDidMount() {
 
-        Promise.all(
-            this.setState({ user: this.props.user }),
-            this.setState({ token: this.props.token }),
-
-            this.retrieveHouses()
-
-        )
+        this.setState({ user: this.props.user })
+        this.setState({ token: this.props.token })
     }
 
-
-    retrieveHouses = () => {
-
-
-
-        if (this.state.user) {
-
-
-            let token = this.state.token
-            let user = this.state.user
-
-            const myHouses = user.myHouses.map(houseId => {
-
-                return logic.retrieveHouse(token, houseId)
-
-            })
-
-            this.setState({ myHouses: myHouses })
-
-        }
-
-    }
 
     componentWillReceiveProps(props) {
 
@@ -58,38 +31,13 @@ class MyHouses extends Component {
 
 
 
-
-    listMyHouses = () => {
-
-
-        this.state.myHouses.forEach(house => {
-
-
-            return <div className="HouseCard">
-
-                <img src={house.images[0]}></img>
-                <p>{house.adress.city}</p>
-                <p>{house.adress.sreet} + {house.adress.number}</p>
-
-
-            </div>
-
-        });
-
-
-
-    }
-
-
-
     render() {
 
         const { listMyHouses, state: { user, myHouses } } = this
 
         return <div className="myHouses" >
 
-
-            {myHouses && listMyHouses()}
+            <h1>MY HOUSES</h1>
 
 
 

@@ -112,10 +112,10 @@ class App extends Component {
         </div>
 
         <div className="content" >
-          {/* <Route  exact path = '/' render={() => <LandingPage/>}/>  */}
-          <Route exact path='/' render={() => <MyHouses user={user} token ={token} />} />
+          <Route  exact path = '/' render={() => <LandingPage/>}/> 
           <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
           <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
+          <Route exact path="/user" render={() => <MyHouses user={user} token={token} />} />
 
         </div>
 

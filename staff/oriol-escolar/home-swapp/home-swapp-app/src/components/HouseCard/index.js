@@ -1,14 +1,10 @@
-import React, { Component } from 'react'
-import './index.sass';
-import logic from '../../logic'
+'use strict'
+import React from 'react'
 
 
-class HouseCard extends Component {
 
-    
-    render() {
 
-        const { props: { house } }
+function HouseCard(house){
 
         return <div className="HouseCard">
 
@@ -18,9 +14,6 @@ class HouseCard extends Component {
 
 
         </div>
-
-    }
-
 
 }
 
