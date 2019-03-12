@@ -48,9 +48,17 @@ const User = new Schema({
         required: true
     },
 
-    desiredgames: [String],
+    desired: {
+        type: [{ type: ObjectId, ref: "Game" }]
+    },
 
-    playedgames: [String],
+    played: {
+        type: [{ type: ObjectId, ref: "Game" }]
+    },
+
+    owned: {
+        type: [{ type: ObjectId, ref: "Game" }]
+    },
 
     reviews: {
         type: [{ type: ObjectId, ref: "Review" }]

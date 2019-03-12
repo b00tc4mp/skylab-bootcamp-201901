@@ -10,98 +10,119 @@ const Login = ({ history, gameId, refresh }) => {
     const fullStar = "game-review-stars fas fa-star";
     const emptyStar = "game-review-stars far fa-star";
 
-    const [reviewText, setReviewText] = useState("");
-    const [reviewScore, setReviewScore] = useState("");
-    const [starClass1, setStarClass1] = useState(emptyStar);
-    const [starClass2, setStarClass2] = useState(emptyStar);
-    const [starClass3, setStarClass3] = useState(emptyStar);
-    const [starClass4, setStarClass4] = useState(emptyStar);
-    const [starClass5, setStarClass5] = useState(emptyStar);
-    
-    const scoreWithStars = () => {
-        let stars = [];
-        stars.push(
-            <i
-                className={starClass1}
-                key={1}
-                onClick={() => {
-                    setReviewScore(1);
-
-                    setStarClass1(fullStar);
-                    setStarClass2(emptyStar);
-                    setStarClass3(emptyStar);
-                    setStarClass4(emptyStar);
-                    setStarClass5(emptyStar);
-                }}
-            />
-        );
-        stars.push(
-            <i
-                className={starClass2}
-                key={2}
-                onClick={() => {
-                    setReviewScore(2);
-
-                    setStarClass1(fullStar);
-                    setStarClass2(fullStar);
-                    setStarClass3(emptyStar);
-                    setStarClass4(emptyStar);
-                    setStarClass5(emptyStar);
-                }}
-            />
-        );
-        stars.push(
-            <i
-                className={starClass3}
-                key={3}
-                onClick={() => {
-                    setReviewScore(3);
-
-                    setStarClass1(fullStar);
-                    setStarClass2(fullStar);
-                    setStarClass3(fullStar);
-                    setStarClass4(emptyStar);
-                    setStarClass5(emptyStar);
-                }}
-            />
-        );
-        stars.push(
-            <i
-                className={starClass4}
-                key={4}
-                onClick={() => {
-                    setReviewScore(4);
-
-                    setStarClass1(fullStar);
-                    setStarClass2(fullStar);
-                    setStarClass3(fullStar);
-                    setStarClass4(fullStar);
-                    setStarClass5(emptyStar);
-                }}
-            />
-        );
-        stars.push(
-            <i
-                className={starClass5}
-                key={5}
-                onClick={() => {
-                    setReviewScore(5);
-
-                    setStarClass1(fullStar);
-                    setStarClass2(fullStar);
-                    setStarClass3(fullStar);
-                    setStarClass4(fullStar);
-                    setStarClass5(fullStar);
-                }}
-            />
-        );
-
-        return stars;
-    };
-
     // FULL STAR // <i class="fas fa-star"></i>
     // EMPTY STAR // <i class="far fa-star"></i>
     // HALF STAR // <i class="fas fa-star-half-alt"></i>
+
+    const [reviewText, setReviewText] = useState("");
+    const [reviewScore, setReviewScore] = useState("");
+    
+    const [starClass, setStarClass] = useState([emptyStar, emptyStar, emptyStar, emptyStar, emptyStar]);
+
+    const star = score => (
+        <i
+                className={starClass[score-1]}
+                key={score}
+                onClick={() => {
+                    let paintArray = [emptyStar, emptyStar, emptyStar, emptyStar, emptyStar]
+                    for (let i = 0; i<score; i++) {
+                        paintArray[i]=fullStar
+                    }
+                    setStarClass(paintArray)
+                    setReviewScore(score);
+                }}
+            />
+    )
+
+    const scoreWithStars = () => [star(1),star(2),star(3),star(4),star(5)];
+
+
+    // const [starClass1, setStarClass1] = useState(emptyStar);
+    // const [starClass2, setStarClass2] = useState(emptyStar);
+    // const [starClass3, setStarClass3] = useState(emptyStar);
+    // const [starClass4, setStarClass4] = useState(emptyStar);
+    // const [starClass5, setStarClass5] = useState(emptyStar);
+
+    // const scoreWithStars = () => {
+    //     let stars = [];
+    //     stars.push(
+    //         <i
+    //             className={starClass1}
+    //             key={1}
+    //             onClick={() => {
+    //                 setReviewScore(1);
+
+    //                 setStarClass1(fullStar);
+    //                 setStarClass2(emptyStar);
+    //                 setStarClass3(emptyStar);
+    //                 setStarClass4(emptyStar);
+    //                 setStarClass5(emptyStar);
+    //             }}
+    //         />
+    //     );
+    //     stars.push(
+    //         <i
+    //             className={starClass2}
+    //             key={2}
+    //             onClick={() => {
+    //                 setReviewScore(2);
+
+    //                 setStarClass1(fullStar);
+    //                 setStarClass2(fullStar);
+    //                 setStarClass3(emptyStar);
+    //                 setStarClass4(emptyStar);
+    //                 setStarClass5(emptyStar);
+    //             }}
+    //         />
+    //     );
+    //     stars.push(
+    //         <i
+    //             className={starClass3}
+    //             key={3}
+    //             onClick={() => {
+    //                 setReviewScore(3);
+
+    //                 setStarClass1(fullStar);
+    //                 setStarClass2(fullStar);
+    //                 setStarClass3(fullStar);
+    //                 setStarClass4(emptyStar);
+    //                 setStarClass5(emptyStar);
+    //             }}
+    //         />
+    //     );
+    //     stars.push(
+    //         <i
+    //             className={starClass4}
+    //             key={4}
+    //             onClick={() => {
+    //                 setReviewScore(4);
+
+    //                 setStarClass1(fullStar);
+    //                 setStarClass2(fullStar);
+    //                 setStarClass3(fullStar);
+    //                 setStarClass4(fullStar);
+    //                 setStarClass5(emptyStar);
+    //             }}
+    //         />
+    //     );
+    //     stars.push(
+    //         <i
+    //             className={starClass5}
+    //             key={5}
+    //             onClick={() => {
+    //                 setReviewScore(5);
+
+    //                 setStarClass1(fullStar);
+    //                 setStarClass2(fullStar);
+    //                 setStarClass3(fullStar);
+    //                 setStarClass4(fullStar);
+    //                 setStarClass5(fullStar);
+    //             }}
+    //         />
+    //     );
+
+    //     return stars;
+    // };
 
     const handleReviewTextInput = ({ target: { value: reviewText } }) => {
         setReviewText(reviewText);

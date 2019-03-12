@@ -13,7 +13,7 @@ const UserProfile = props => {
 
     useEffect(() => {
         retrieveUserInfo(props.match.params.username);
-        getUsernameLogged();
+        logic.isUserLoggedIn && getUsernameLogged();
     }, [props.match.params.username]);
 
     const retrieveUserInfo = async username =>
@@ -48,8 +48,12 @@ const UserProfile = props => {
                 {userInfo.reviews && !!userInfo.reviews.length && (
                     <div>
                         <h2>Reviews</h2>
-                        {userInfo.reviews.map(review => (
-                            <Review key={review._id} review={review} />
+                        {userInfo.reviews.reverse().map(review => (
+                            <Review
+                                key={review._id}
+                                review={review}
+                                printFrom={"userProfile"}
+                            />
                         ))}
                     </div>
                 )}

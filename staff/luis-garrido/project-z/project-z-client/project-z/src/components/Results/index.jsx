@@ -17,18 +17,31 @@ const Results = props => {
     const searchGames = async query =>
         setResults(await logic.searchGames(query));
 
+    const masonryOptions = {
+        transitionDuration: 0,
+        gutter: 20
+    };
+
     return (
         <Fragment>
             <div className="landing-page">
                 <div className="header">
                     <h1 className="header__title">RESULTS</h1>
                 </div>
-                <div className="results">
+                <Masonry
+                    className={"results content"}
+                    elementType={"section"}
+                    options={masonryOptions}
+                    disableImagesLoaded={false}
+                    updateOnEachImageLoad={false}
+                >
+                    {/* <div className="results"> */}
                     {results &&
                         results.map(game => {
                             return <Card game={game} key={game.id} />;
                         })}
-                </div>
+                    {/* </div> */}
+                </Masonry>
             </div>
         </Fragment>
     );
