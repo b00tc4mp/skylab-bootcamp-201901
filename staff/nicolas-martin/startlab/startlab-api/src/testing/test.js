@@ -1,71 +1,50 @@
-const expect = require('chai').expect
+const chai = require('chai')
+const sinon = require('sinon')
+const sinonChai = require('sinon-chai')
+// const salute = require('.')
 const vm = require('vm')
-const capcon = require('capture-console')
 
-function checkAnswer(answer, test) {
-  // 1. clean test
-  //test = test.replace(/\n/gi, "")
+chai.use(sinonChai)
 
-  if (typeof answer !== 'string') throw Error(`${answer} is not a string`)
-  if (!answer.trim().length) throw Error(`${answer} is empty`)
+const { expect } = chai
 
-  if (typeof test !== 'string') throw Error(`${test} is not a string`)
-  if (!test.trim().length) throw Error(`${test} is empty`)
+const answer = "var name = 'nico'; console.log(name);"
 
-  const context = { capcon }
-  vm.createContext(context)
+describe('log to console', () => {
+   const name = `Manuel-${Math.random()}`
+   const expected = `Hello, ${name}!`
 
-  var output = ''
+   it(`should output salutation for random name: "${expected}"`, () => {
+        sinon.spy(console, 'log')
 
-  capcon.startCapture(process.stdout, function (stdout) {
-    vm.runInContext("console.log('Holaaa')", context)
-    output += process.stdout
-  })
+        //salute(name)
 
-  capcon.stopCapture(process.stdout)
+        vm.runInThisContext(answer)
 
-  console.log('Capturing stdout:', output)
-
-  //return vm.runInContext(test, context)
-}
-
-// ***************************
-// Testing several expects
-
-var answer = "var numbers = [2, 5]"
-var test = "expect(numbers).to.be.an('array');expect(numbers[0]).to.equal(2);expect(numbers[1]).to.equal(5)"
+        expect(console.log).to.have.been.calledWith(expected)
+   })
+})
 
 
-// ***************************
-// Testing several expects and several lines of answer
 
-var answer = "var name = []; function createArray() {name[0] = 2; name[1] = 5;}createArray()"
-var test = "expect(name).to.be.an('array');expect(name[0]).to.equal(2);expect(name[1]).to.equal(5)"
-
-
-// ***************************
-// Testing console.log
-// Declara tu nombre y muéstralo por consola
-
-var answer = "var name = 'nico'; console.log(name);console.log('second console.log')"
-var test = "expect(name).to.be.an('array');expect(name[0]).to.equal(2);expect(name[1]).to.equal(5)"
+// function salute(name) {
+//     console.log(`Hello, ${name}!`)
+// }
 
 
-try {
-  var result = checkAnswer(answer, test)
-} catch (error) {
-  console.log('Error:',error)
-}
+// function checkAnswer(answer, test) {
 
-//console.log(result)
+//     validate([
+//         { key: 'answer', value: answer, type: String },
+//         { key: 'test', value: test, type: String }
+//     ])
+    
+//     test = test.replace(/\n/gi, "")
 
+//     const context = { expect }
+//     vm.createContext(context)
 
-// when answer pass the tests we get:
+//     vm.runInContext(answer, context)
 
-// Assertion {
-//   __flags:
-//    [Object: null prototype] {
-//      ssfi: [Function: proxyGetter],
-//      lockSsfi: undefined,
-//      object: [],
-//      message: undefined } }
+//     return vm.runInContext(test, context)
+// }

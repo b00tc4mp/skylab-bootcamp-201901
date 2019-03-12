@@ -4,6 +4,11 @@ const bcrypt = require('bcrypt')
 
 const { AuthError, DuplicateError, MatchingError, NotFoundError, PrivilegeError } = require('startlab-errors')
 const validate = require('startlab-validation')
+const fs = require('fs')
+const vm = require('vm')
+
+var Mocha = require('mocha')
+var path = require('path')
 
 const testing = require('../testing')
 const { User, Exercise, Invitation } = require('../models')
@@ -95,6 +100,12 @@ const logic = {
 
                 return Exercise.create({ title, summary, test }) // here I'm not calling to Exercise.create. instead I¡m calling to mongo DB create method, right?
                     .then(({ id }) => {
+                        var unitFile = path.join(process.cwd(), 'src', 'test-files', `${id}.js`)
+
+                        fs.appendFile(unitFile, test.toString(), function (err) {
+                            if (err) throw Error('file not created')
+                        })
+
                         return { message: `exercise with id ${id} created` }
                     })
             })
@@ -138,6 +149,11 @@ const logic = {
                 return Exercise.findById(exerciseId)
                     .then(exercise => {
                         if (!exercise) throw new NotFoundError(`exercise with id ${exerciseId} not found`)
+                        debugger
+                        var pathToDeleteFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
+                        fs.unlink(pathToDeleteFile, function (err) {
+                            if (err) throw Error('file not created')
+                        })
 
                         return Exercise.deleteOne({ _id: exerciseId })
                             .then((res) => {
@@ -164,6 +180,13 @@ const logic = {
                     .then(exercise => {
                         if (!exercise) throw new NotFoundError(`exercise with id ${id} not found`)
                         exercise.id = exercise._id.toString()
+
+                        var pathToUpdateFile = path.join(process.cwd(), 'src', 'test-files', `${exercise.id}.js`)
+
+                        fs.writeFile(pathToUpdateFile, exercise.test.toString(), function (err) {
+                            if (err) throw Error(`error updating the file`);
+                        })
+
                         return { status: 'ok', message: `exercise with id ${exercise._id} updated` }
                     })
             })
@@ -334,12 +357,11 @@ const logic = {
 
     },
 
-
     /********************/
     /*** Code methods ***/
     /********************/
 
-    checkAnswer(userId, answer, exerciseId) {
+    checkAnswer(userId, answer, exerciseId, callback) {
 
         validate([
             { key: 'userId', value: userId, type: String },
@@ -347,19 +369,40 @@ const logic = {
             { key: 'exerciseId', value: exerciseId, type: String }
         ])
 
-        return this.retrieveExercise(userId, exerciseId)
-            .then(exercise => {
-                if (!exercise) throw new NotFoundError(`exercise with id ${exerciseId} not found`)
+        const unit = `function target(){${answer}}module.exports = target` // we have to wrapped in a function target
 
-                const result = testing.checkAnswer(answer, exercise.test)
+        const script = new vm.Script(unit)
+        const ctx = { module, console }
+        script.runInNewContext(ctx) //ctx => { module: Module, console: Console, salute: [Function: salute] }
 
-                this.__changeStatusExerciseFromUser__(userId, answer, exercise.id)
-                return { status: 'ok' }
-            })
-            .catch(error => {   // {"error": "ReferenceError: favoriteFood is not defined"}
-                // goes to catch if the answer from user is not valid
-                if (error) return { error: error.message }
-            })
+        var MyReporter = require('./reporter')
+        
+        // MyReporter.callback =  function(result) {
+        //     console.log('Inside callback: ', result)
+        //     debugger
+        //     return result
+        // }
+
+        MyReporter.callback = callback
+
+        var mocha = new Mocha({ reporter: MyReporter })
+        var Suite = Mocha.Suite
+
+        /** passing target in mocha context **/
+        mocha.suite.on(Suite.constants.EVENT_FILE_PRE_REQUIRE, function (context) {
+            context.target = ctx.target
+        })
+
+        // we need to pass from mongo the file where test file is located
+        var unitFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
+
+        // Add the test to mocha before run
+        mocha.addFile(unitFile)
+
+        // Run the tests
+        mocha.run(function (failures) {
+            process.exitCode = failures ? 1 : 0  // exit with non-zero status if there were failures
+        })
     },
 
     __changeStatusExerciseFromUser__(userId, answer, exerciseId) {
@@ -394,10 +437,10 @@ const logic = {
             .then(invitation => {
                 invitation.status = 'sent'
                 return this.updateInvitation(userId, invitation)
-                            .then(({error, status}) => {
-                                if (error) throw Error(`an error ocurred changing the status of invitation after sending email`)
-                                return status
-                            })
+                    .then(({ error, status }) => {
+                        if (error) throw Error(`an error ocurred changing the status of invitation after sending email`)
+                        return status
+                    })
             })
     },
 
@@ -413,9 +456,9 @@ const logic = {
                 emailing.sendInvitation(email, user.name)
 
                 return this.__changeStatusInvitation__(userId, invitationId)
-                                .then(result => {
-                                    return {message: `email sent`}
-                                })
+                    .then(result => {
+                        return { message: `email sent` }
+                    })
             })
     }
 }
