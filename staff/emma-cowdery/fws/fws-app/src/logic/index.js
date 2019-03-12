@@ -106,7 +106,7 @@ const logic = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, eventTime, eventDate, reservationName) {
+    createEvent(restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation) {
         if (typeof restaurantId !== 'string') throw TypeError(restaurantId + ' is not a string')
         if (!restaurantId.trim().length) throw Error('restaurantId cannot be empty')
 
@@ -119,8 +119,13 @@ const logic = {
         if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
         if (!reservationName.trim().length) throw Error('reservationName cannot be empty')
 
+        if (typeof restaurantCategory !== 'string') throw TypeError(restaurantCategory + ' is not a string')
+        if (!restaurantCategory.trim().length) throw Error('restaurantCategory cannot be empty')
+
+        if (eventLocation.constructor !== Array) throw TypeError(eventLocation + ' is not an array') 
+
         return (async () => {
-            const eventId = await fwsApi.createEvent(restaurantId, this.__token__, eventTime, eventDate, reservationName)
+            const eventId = await fwsApi.createEvent(restaurantId, this.__token__, eventTime, eventDate, reservationName, restaurantCategory, eventLocation)
 
             if (!eventId) throw Error('event creation was unsuccessful')
 
@@ -150,6 +155,33 @@ const logic = {
             const events = fwsApi.userEvents(this.__token__)
 
             if (!events) throw Error('unable to retrieve users events')
+
+            return events
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} restaurantCategory 
+     */
+    findEventsByCategory(restaurantCategory) {
+        if (typeof restaurantCategory !== 'string') throw TypeError(restaurantCategory + ' is not a string')
+        if (!restaurantCategory.trim().length) throw Error('restaurantCategory cannot be empty')
+
+        return (async () => {
+            const events = await fwsApi.findEventsByCategory(this.__token__, restaurantCategory)
+
+            if (!events) throw Error('unable to retrieve events at this moment')
+
+            return events
+        })()
+    },
+
+    findEventsNearMe() {
+        return (async () => {
+            const events = await fwsApi.findEventsNearMe(this.__token__)
+
+            if (!events) throw Error('unable to retrieve events at this moment')
 
             return events
         })()
@@ -295,6 +327,16 @@ const logic = {
             if (!howTo) throw Error('how to not found')
 
             return howTo
+        })()
+    },
+
+    geolocation() {
+        return (async () => {
+            const geolocation = await fwsApi.geolocation(this.__token__)
+
+            if (!geolocation) throw Error('unable to retrieve current location')
+
+            return geolocation
         })()
     }
 }

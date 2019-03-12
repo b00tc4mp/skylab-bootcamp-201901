@@ -19,13 +19,13 @@ export default withRouter(function EventsNav(props) {
         <Fragment>
             <div>
                 <div>
-                    <button onClick={handleGoToCategories}>Categories</button>
+                    <button onClick={e => {e.preventDefault(); handleGoToCategories()}}>Categories</button>
                 </div>
                 <div>
-                    <button onClick={handleGoToNearMe}>Near me</button>
+                    <button onClick={e => {e.preventDefault(); handleGoToNearMe()}}>Near me</button>
                 </div>
                 <div>
-                    <button onClick={handleGoToMap}>Map</button>
+                    <button onClick={e => {e.preventDefault(); handleGoToMap()}}>Map</button>
                 </div>
             </div>
         </Fragment>

@@ -101,7 +101,7 @@ const fwsApi = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, token, eventTime, eventDate, reservationName) {
+    createEvent(restaurantId, token, eventTime, eventDate, reservationName, restaurantCategory, eventLocation) {
         if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
         if (!restaurantId.trim().length) throw Error('restaurantId is empty')
 
@@ -117,13 +117,18 @@ const fwsApi = {
         if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
         if (!reservationName.trim().length) throw Error('reservationName cannot be empty')
 
+        if (typeof restaurantCategory !== 'string') throw TypeError(restaurantCategory + ' is not a string')
+        if (!restaurantCategory.trim().length) throw Error('restaurantCategory cannot be empty')
+
+        if (eventLocation.constructor !== Array) throw TypeError(eventLocation + ' is not an array')
+
         return fetch(`${this.url}/event/${restaurantId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ eventTime, eventDate, reservationName })
+            body: JSON.stringify({ eventTime, eventDate, reservationName, restaurantCategory, eventLocation })
         })
         .then(response => response.json())
         .then(({ id, error }) => {
@@ -168,6 +173,52 @@ const fwsApi = {
         if (!token.trim().length) throw Error('token is empty')
 
         return fetch(`${this.url}/events`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
+     * @param {string} token 
+     * @param {string} restaurantCategory 
+     */
+    findEventsByCategory(token, restaurantCategory) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof restaurantCategory !== 'string') throw TypeError(`${restaurantCategory} is not a string`)
+        if (!restaurantCategory.trim().length) throw Error('restaurantCategory is empty')
+
+        return fetch(`${this.url}/event-categories/${restaurantCategory}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
+     * @param {string} token 
+     */
+    findEventsNearMe(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/events-nearme`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
@@ -394,6 +445,23 @@ const fwsApi = {
             if (response.error) throw Error(response.error)
 
             return response
+        })
+    },
+
+    geolocation(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/geolocation`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response.result
         })
     }
 }

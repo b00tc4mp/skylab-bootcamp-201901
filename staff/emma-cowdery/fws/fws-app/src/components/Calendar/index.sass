@@ -1,17 +1,32 @@
-.month
+.calendar
+    border-style: solid
+    border-width: 0.3em
+    color: yellow
+
+.dayNames
     display: grid
     grid-template-columns: repeat(7, 1fr)
-    grid-template-rows: repeat(5, 1fr)
-    cursor: pointer
+    border-style: solid
+    border-width: 0.1em
 
-.week 
+.name
     display: flex
     justify-content: center
 
+.rightWay
+    // display: grid
+    // grid-template-columns: repeat(7, 1fr)
+    // display: flex
+    // flex-direction: column
+    // color: red
 
-.day
+.dayNumbers
+    display: grid
+    grid-template-columns: repeat(7, 1fr)
+
+.oneDay
     display: flex
     justify-content: center
 
-.day.selected
-    background-color: #A9CFE4
+.selected
+    color: red

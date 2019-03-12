@@ -158,7 +158,7 @@ const logic = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, userId, eventTime, eventDate, reservationName) {
+    createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation) {
         if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
         if (!restaurantId.trim().length) throw Error('restaurantId is empty')
 
@@ -174,6 +174,11 @@ const logic = {
         if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
         if (!reservationName.trim().length) throw Error('reservationName cannot be empty')
 
+        if (typeof restaurantCategory !== 'string') throw TypeError(restaurantCategory + ' is not a string')
+        if (!restaurantCategory.trim().length) throw Error('restaurantCategory cannot be empty')
+
+        if (eventLocation.constructor !== Array) throw TypeError(eventLocation + ' is not an array')
+
         return (async () => {
             const restaurant = await Events.findOne({ restaurantId })
 
@@ -181,7 +186,7 @@ const logic = {
                 if (restaurant.eventTime === eventTime && restaurant.eventDate === eventDate) throw Error('an event at this place and time already exists, would you like to join that event?')
             }
 
-            const event = await Events.create({ restaurantId, eventTime, eventDate, reservationName })
+            const event = await Events.create({ restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation })
 
             const { participants = [], id } = event
 
@@ -262,7 +267,7 @@ const logic = {
             const { events } = user
 
             return await Promise.all(events.map(async eventId => {
-                const event = await Events.findById(eventId).select('-password -__v').lean()
+                const event = await Events.findById(eventId).select('-__v').lean()
 
                 event.id = event._id.toString()
 
@@ -270,6 +275,84 @@ const logic = {
 
                 return event
             }))
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} restaurantCategory 
+     */
+    findEventByCategory(userId, restaurantCategory) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof restaurantCategory !== 'string') throw TypeError(`${restaurantCategory} is not a string`)
+        if (!restaurantCategory.trim().length) throw Error('restaurantCategory is empty')
+
+        return (async () => {
+            const user = Users.findById({ userId })
+
+            if (!user) throw Error('you must be logged in to perform this action')
+            
+            const events = await Events.find({ restaurantCategory }).select('-__v').lean()
+
+            if (!events) throw Error('there are no events in this category')
+
+            events.forEach(event => {
+                event.id = event._id
+
+                delete event._id
+            })
+
+            return events
+        })()
+    },
+
+    findEventsNearMe(userId, distance) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            const userLocation = await googleMapsApi.geolocation()
+
+            const events = await Events.find().select('-__v').lean()
+
+            events.map(event => {
+                const { eventLocation} = event
+
+                const R = 6373 //earths radius in meters
+
+                const degToRad = (Math.PI / 180)
+
+                const lat1 = eventLocation[0] * degToRad
+
+                const lng1 = eventLocation[1] * degToRad
+
+                const lat2 = userLocation.lat * degToRad
+
+                const lng2 = userLocation.lng * degToRad
+
+                const latDiff = (lat1 - lat2)
+
+                const lngDiff = (lng1 - lng2)
+
+                const a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2)
+
+                const b = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+                const totalDist = Math.round((R * b) * 100) / 100
+
+                event.totalDist = totalDist
+
+                event.id = event._id.toString()
+
+                delete event._id
+
+                if (event.totalDist > distance) delete event
+            })
+
+            return events
         })()
     },
 
@@ -549,6 +632,19 @@ const logic = {
 
             return user.howTo
         })()
+    },
+
+    filterEvents(userId, filters) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (filters.constructor !== Object) throw TypeError(`${filters} is not an object`)
+
+        return (async () => {
+            if (filters.hasOwnProperty(distance)) {
+
+            }
+        })
     }
 }
 

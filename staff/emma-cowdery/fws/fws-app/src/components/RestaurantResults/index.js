@@ -16,7 +16,10 @@ export default function RestaurantResults() {
     const [createEvent, setCreateEvent] = useState(false)
     const [eventTime, setEventTime] = useState()
     const [eventDate, setEventDate] = useState()
-    const [reservationName, setReservationName] = useState()
+    const [reservationName, setReservationName] = useState(undefined)
+    const [restaurantCategory, setRestaurantCategory] = useState()
+    const [lat, setLat] = useState()
+    const [lng, setLng] = useState()
 
     useEffect(() => {
         logic.howTo()
@@ -43,9 +46,18 @@ export default function RestaurantResults() {
     }, [query])
 
     function handleEventCreation () {
-        logic.createEvent(selectedRestaurant, eventTime, eventDate, reservationName)
+        const eventLocation = []
+        eventLocation.push(lat, lng)
+
+        logic.createEvent(selectedRestaurant, eventTime, eventDate, reservationName, restaurantCategory, eventLocation)
             .then(() => {
                 setCreateEvent(false)
+                setEventDate()
+                setEventDate()
+                setReservationName()
+                setRestaurantCategory()
+                setLat()
+                setLng()
                 //set feedback message to event created successfully
             })
             .catch(err => {
@@ -54,23 +66,23 @@ export default function RestaurantResults() {
             })
     }
 
-    console.log(eventDate)
+    console.log(results)
 
     return (
         <Fragment>
             <Navbar setQuery={setQuery}/>
             <main>
                 <p>Results</p>
-                {results ? results.map(({ img, formatted_address, name, opening_hours: { open_now }, place_id, price_level, rating }) => {
+                {results ? results.map(({ img, geometry, formatted_address, name, opening_hours, place_id, price_level, rating }) => {
                     return <div key={place_id}>
                         <p>{name}</p>
                         <p>{formatted_address}</p>
-                        <p>{open_now ? 'yes' : 'no'}</p>
+                        {opening_hours && <p>{opening_hours.open_now ? 'yes' : 'no'}</p>}
                         <img src={img} alt='alt'/>
                         <p>{place_id}</p>
                         <p>{price_level}</p>
                         <p>{rating}</p>
-                        <button onClick={e => {e.preventDefault(); setSelectedRestaurant(place_id); setInfo(true)}}>+ info</button>
+                        <button onClick={e => {e.preventDefault(); setSelectedRestaurant(place_id); setInfo(true); setLat(geometry.location.lat); setLng(geometry.location.lng)}}>+ info</button>
                     </div>
                 }) : <BouncingLoader/>}
                 {info && <div className='more-restaurant-info'>
@@ -79,7 +91,7 @@ export default function RestaurantResults() {
                 </div>}
                 {createEvent && <div className='create-event'>
                     <button onClick={e => {e.preventDefault(); setCreateEvent(false)}}>x</button>
-                    <CreateEvent setEventTime={setEventTime} setEventDate={setEventDate} setReservationName={setReservationName}/>
+                    <CreateEvent setEventTime={setEventTime} setEventDate={setEventDate} setReservationName={setReservationName} setRestaurantCategory={setRestaurantCategory}/>
                     <button onClick={handleEventCreation}>create event</button>
                 </div>}
                 {showHowTo && <div className='how-to'><HowTo setShowHowTo={setShowHowTo}/></div>}

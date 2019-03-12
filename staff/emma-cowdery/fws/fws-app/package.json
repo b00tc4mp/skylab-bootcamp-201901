@@ -6,6 +6,7 @@
     "date-fns": "^1.30.1",
     "moment": "^2.24.0",
     "node-sass": "^4.11.0",
+    "rc-time-picker-date-fns": "^3.2.8",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1",

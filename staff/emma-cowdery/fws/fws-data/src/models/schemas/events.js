@@ -23,7 +23,17 @@ const Events = new Schema({
     reservationName: {
         type: String,
         required: true
-    }
+    },
+
+    restaurantCategory: {
+        type: String,
+        required: true
+    },
+
+    eventLocation: [{
+        type: Number,
+        required: true
+    }]
 })
 
 module.exports = Events

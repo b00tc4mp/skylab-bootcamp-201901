@@ -11,6 +11,10 @@ module.exports = {
 
     userEvents: require('./user-events'),
 
+    findEventByCategory: require('./find-event-by-category'),
+
+    findEventsNearMe: require('./find-events-near-me'),
+
     createChat: require('./create-chat'),
 
     joinChat: require('./join-chat'),

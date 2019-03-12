@@ -29,9 +29,10 @@ describe('logic', () => {
         const username = `manu-${Math.random()}`
         const password = `123-${Math.random()}`
         const passwordConfirmation = password
+        const howTo = true
 
         it('should succeed on valid data', async () => {
-            const id = await logic.registerUser(name, surname, email, username, password, passwordConfirmation)
+            const id = await logic.registerUser(name, surname, email, username, password, passwordConfirmation, howTo)
 
             expect(id).toBeDefined()
             expect(typeof id).toBe('string')
@@ -41,6 +42,7 @@ describe('logic', () => {
             expect(user.name).toBe(name)
             expect(user.surname).toBe(surname)
             expect(user.email).toBe(email)
+            expect(user.howTo).toBe(howTo)
 
             const match = await bcrypt.compare(password, user.password)
 
@@ -52,10 +54,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -64,10 +67,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -77,10 +81,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -89,10 +94,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -101,10 +107,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -113,10 +120,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(Error('name cannot be empty'))
         })
 
@@ -125,10 +133,11 @@ describe('logic', () => {
             const surname = undefined
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -137,10 +146,11 @@ describe('logic', () => {
             const surname = 10
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -150,10 +160,11 @@ describe('logic', () => {
             const surname = false
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -162,10 +173,11 @@ describe('logic', () => {
             const surname = {}
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -174,10 +186,11 @@ describe('logic', () => {
             const surname = []
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email,username, password, password)
+                logic.registerUser(name, surname, email,username, password, password, howTo)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -186,10 +199,11 @@ describe('logic', () => {
             const surname = ''
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(Error('surname cannot be empty'))
         })
 
@@ -198,10 +212,11 @@ describe('logic', () => {
             const surname = 'Barxi'
             const email = undefined
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -210,10 +225,11 @@ describe('logic', () => {
             const surname = 'Barxi'
             const email = 123
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -223,10 +239,11 @@ describe('logic', () => {
             const surname = 'Barxi'
             const email = true
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -235,10 +252,11 @@ describe('logic', () => {
             const surname = 'Barxi'
             const email = {}
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -247,10 +265,11 @@ describe('logic', () => {
             const surname = 'Barxi'
             const email = []
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email,username, password, password)
+                logic.registerUser(name, surname, email,username, password, password, howTo)
             }).toThrow(TypeError(email+ ' is not a string'))
         })
 
@@ -259,10 +278,11 @@ describe('logic', () => {
             const surname = 'Barxi'
             const email = ''
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(Error('email cannot be empty'))
         })
 
@@ -271,10 +291,11 @@ describe('logic', () => {
             const surname = 'Barzy'
             const email = 'manuelbarzi@mail.com'
             const username = undefined
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(username + ' is not a string'))
         })
 
@@ -283,10 +304,11 @@ describe('logic', () => {
             const surname = 'Barzy'
             const email = 'manuelbarzi@mail.com'
             const username = 123
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(username + ' is not a string'))
         })
 
@@ -296,10 +318,11 @@ describe('logic', () => {
             const surname = 'Barzy'
             const email = 'manuelbarzi@mail.com'
             const username = true
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(username + ' is not a string'))
         })
 
@@ -308,10 +331,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = {}
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(username + ' is not a string'))
         })
 
@@ -320,10 +344,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = []
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email,username, password, password)
+                logic.registerUser(name, surname, email,username, password, password, howTo)
             }).toThrow(TypeError(username + ' is not a string'))
         })
 
@@ -332,10 +357,11 @@ describe('logic', () => {
             const surname = 'Barzy'
             const email = 'manuelbarzi@mail.com'
             const username = ''
+            const howTo = true
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(Error('username cannot be empty'))
         })
 
@@ -344,10 +370,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = undefined
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -356,10 +383,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = 123
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -369,10 +397,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = false
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -381,10 +410,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = {}
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -393,10 +423,11 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = []
 
             expect(() => {
-                logic.registerUser(name, surname, email,username, password, password)
+                logic.registerUser(name, surname, email,username, password, password, howTo)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -405,12 +436,92 @@ describe('logic', () => {
             const surname = 'Barzi'
             const email = 'manuelbarzi@mail.com'
             const username = `manu-${Math.random()}`
+            const howTo = true
             const password = ''
 
             expect(() => {
-                logic.registerUser(name, surname, email, username, password, password)
+                logic.registerUser(name, surname, email, username, password, password, howTo)
             }).toThrow(Error('password cannot be empty'))
         })
+
+        // it('should fail on undefined how to', () => {
+        //     const name = 'Manuel'
+        //     const surname = 'Barzi'
+        //     const email = 'manuelbarzi@mail.com'
+        //     const username = `manu-${Math.random()}`
+        //     const howTo = undefined
+        //     const password = 'undefined'
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, username, password, password, howTo)
+        //     }).toThrow(TypeError(howTo + ' is not a boolean'))
+        // })
+
+        // it('should fail on numeric how to', () => {
+        //     const name = 'Manuel'
+        //     const surname = 'Barzi'
+        //     const email = 'manuelbarzi@mail.com'
+        //     const username = `manu-${Math.random()}`
+        //     const howTo = 123
+        //     const password = '123'
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, username, password, password, howTo)
+        //     }).toThrow(TypeError(howTo + ' is not a boolean'))
+        // })
+
+
+        // it('should fail on string how to', () => {
+        //     const name = 'Manuel'
+        //     const surname = 'Barzi'
+        //     const email = 'manuelbarzi@mail.com'
+        //     const username = `manu-${Math.random()}`
+        //     const howTo = 'true'
+        //     const password = 'false'
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, username, password, password, howTo)
+        //     }).toThrow(TypeError(howTo + ' is not a boolean'))
+        // })
+
+        // it('should fail on object how to', () => {
+        //     const name = 'Manuel'
+        //     const surname = 'Barzi'
+        //     const email = 'manuelbarzi@mail.com'
+        //     const username = `manu-${Math.random()}`
+        //     const howTo = {}
+        //     const password = '123'
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, username, password, password, howTo)
+        //     }).toThrow(TypeError(howTo + ' is not a boolean'))
+        // })
+
+        // it('should fail on array how to', () => {
+        //     const name = 'Manuel'
+        //     const surname = 'Barzi'
+        //     const email = 'manuelbarzi@mail.com'
+        //     const username = `manu-${Math.random()}`
+        //     const howTo = []
+        //     const password = '123'
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email,username, password, password, howTo)
+        //     }).toThrow(TypeError(howTo + ' is not a boolean'))
+        // })
+
+        // it('should fail on empty how to', () => {
+        //     const name = 'Manuel'
+        //     const surname = 'Barzi'
+        //     const email = 'manuelbarzi@mail.com'
+        //     const username = `manu-${Math.random()}`
+        //     const howTo = ''
+        //     const password = '123'
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, username, password, password, howTo)
+        //     }).toThrow(Error('howTo cannot be empty'))
+        // })
     })
 
     describe('authenticate user', () => {
@@ -419,10 +530,11 @@ describe('logic', () => {
         const email = `manuelbarzi-${Math.random()}@mail.com`
         const username = `manu-${Math.random()}`
         const password = `123-${Math.random()}`
+        const howTo = true
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => Users.create({ name, surname, email, username, password: hash }))
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
         )
 
         it('should succeed on correct credentials', () =>
@@ -438,9 +550,10 @@ describe('logic', () => {
         const userId = '23nx8d1347241sm'
         const eventTime = '13:30'
         const eventDate = '06/09/2019'
+        const reservationName = 'pepito'
 
         it('should succeed on correct data', async () => {
-            const id = await logic.createEvent(restaurantId, userId, eventTime, eventDate)
+            const id = await logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
 
             expect(id).toBeDefined()
 
@@ -449,16 +562,18 @@ describe('logic', () => {
             expect(event.restaurantId).toBe(restaurantId)
             expect(event.eventTime).toBe(eventTime)
             expect(event.eventDate).toBe(eventDate)
+            expect(event.reservationName).toBe(reservationName)
         })
 
         it('should fail on undefined restaurant id', () => {
             const restaurantId = undefined
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
@@ -466,10 +581,11 @@ describe('logic', () => {
             const restaurantId = 123
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
@@ -477,10 +593,11 @@ describe('logic', () => {
             const restaurantId = true
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
@@ -488,10 +605,11 @@ describe('logic', () => {
             const restaurantId = {}
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
@@ -499,10 +617,11 @@ describe('logic', () => {
             const restaurantId = []
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
@@ -510,10 +629,11 @@ describe('logic', () => {
             const restaurantId = ''
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error('restaurantId is empty'))
         })
 
@@ -523,10 +643,11 @@ describe('logic', () => {
             const restaurantId = 'djbjadvnjsfknvsjk'
             const userId = undefined
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -534,10 +655,11 @@ describe('logic', () => {
             const restaurantId = 'dknakd32231'
             const userId = 123
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -545,10 +667,11 @@ describe('logic', () => {
             const restaurantId = 'nsmn 3j54nj3fe'
             const userId = true
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -556,10 +679,11 @@ describe('logic', () => {
             const restaurantId = 'sd3vcvs'
             const userId = {}
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -567,10 +691,11 @@ describe('logic', () => {
             const restaurantId = '235ng'
             const userId = []
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -578,10 +703,11 @@ describe('logic', () => {
             const restaurantId = 'm2n3m1243 c'
             const userId = ''
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error('userId is empty'))
         })
 
@@ -591,10 +717,11 @@ describe('logic', () => {
             const restaurantId = 'undefined'
             const userId = '23nx8d1347241sm'
             const eventTime = undefined
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -602,10 +729,11 @@ describe('logic', () => {
             const restaurantId = '23'
             const userId = '23nx8d1347241sm'
             const eventTime = 123
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -613,10 +741,11 @@ describe('logic', () => {
             const restaurantId = 'true'
             const userId = '23nx8d1347241sm'
             const eventTime = true
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -624,10 +753,11 @@ describe('logic', () => {
             const restaurantId = '12n4fj3c2'
             const userId = '23nx8d1347241sm'
             const eventTime = {}
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -635,10 +765,11 @@ describe('logic', () => {
             const restaurantId = 'ascaksc'
             const userId = '23nx8d1347241sm'
             const eventTime = []
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -646,10 +777,11 @@ describe('logic', () => {
             const restaurantId = 'osd9d8'
             const userId = '23nx8d1347241sm'
             const eventTime = ''
+            const reservationName = 'pepito'
             const eventDate = '06/09/2019'
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error('eventTime is empty'))
         })
 
@@ -659,10 +791,11 @@ describe('logic', () => {
             const restaurantId = 'undefined'
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = undefined
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -670,10 +803,11 @@ describe('logic', () => {
             const restaurantId = '123'
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = 123
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -681,10 +815,11 @@ describe('logic', () => {
             const restaurantId = 'true'
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = true
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -692,10 +827,11 @@ describe('logic', () => {
             const restaurantId = '{}'
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = {}
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -703,10 +839,11 @@ describe('logic', () => {
             const restaurantId = '[]'
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = []
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -714,10 +851,11 @@ describe('logic', () => {
             const restaurantId = ' cm4cm2r3'
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
+            const reservationName = 'pepito'
             const eventDate = ''
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
             }).toThrow(Error('eventDate is empty'))
         })
     })
@@ -727,9 +865,10 @@ describe('logic', () => {
         const userId = '23nx8d1347241sm'
         const eventTime = '13:30'
         const eventDate = '06/09/2019'
+        const reservationName = 'pepito'
 
         beforeEach(() =>
-            Events.create({restaurantId, userId, eventTime, eventDate})
+            Events.create({restaurantId, userId, eventTime, eventDate, reservationName})
         )
 
         it('should suceed on correct data', async() => {
@@ -854,6 +993,10 @@ describe('logic', () => {
             }).toThrow(Error('userId is empty'))
         })
     })
+
+    // describe('user events' () => {
+
+    // })
 
     describe('create chat', ()  => {
         const userId = 'dnjkdafnjkanfd'
@@ -1053,6 +1196,165 @@ describe('logic', () => {
             }).toThrow(Error('eventId is empty'))
         })
     })
+
+    describe('join chat' , () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const username = `manu-${Math.random()}`
+        const password = `123-${Math.random()}`
+        const howTo = true
+
+        let userId 
+        let chatId
+
+        const eventId = '1mn3jk4ncjwe'
+        const chatName = 'chat'
+
+        beforeEach(async () => {
+            bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo}))
+
+            Users.findOne( {email} )
+                .then(user => {
+                    return userId = user.id
+                })
+
+            Chats.create({ chatName, eventId })
+
+            Chats.findOne({ eventId })
+            .then(chat => {return chatId = chat.id})
+
+            const userId = await logic.registerUser(name, surname, email, suername, password, howTo)
+
+            const chatId = await logic.createChat(userId, chatName, eventId)
+        })
+
+        it('should succeed on correct data', async () => {
+            const chat = await logic.joinChat(chatId, userId)
+
+            expect(chat).toBeDefined()
+
+            expect(chat.chatName).toBe(chatName)
+            expect(chat.eventId).toBe(eventId)
+        })
+
+        it('should fail on undefined user id', () => {
+            const userId = undefined
+            const chatId = 'lalalalalala'
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const userId = 123
+            const chatId = 'lalalalalala'
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const userId = true
+            const chatId = 'lalalalalala'
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on objerct user id', () => {
+            const userId = {}
+            const chatId = 'lalalalalala'
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const userId = []
+            const chatId = 'lalalalalala'
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const userId = ''
+            const chatId = 'lalalalalala'
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error('userId is empty'))
+        })
+
+        //chatId
+
+        it('should fail on undefined chat id', () => {
+            const userId = 'undefined'
+            const chatId = undefined
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on numeric chat id', () => {
+            const userId = '123'
+            const chatId = 123
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on boolean chat id', () => {
+            const userId = 'ksamask'
+            const chatId = true
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on objerct chat id', () => {
+            const userId = '{}'
+            const chatId = {}
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on array chat id', () => {
+            const userId = '[]'
+            const chatId = []
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on empty chat id', () => {
+            const userId = 'mmmm'
+            const chatId = ''
+
+            expect(() => {
+                logic.joinChat(chatId, userId)
+            }).toThrow(Error('chatId is empty'))
+        })
+    })
+
+    // describe('user chats', () => {
+
+    // })
+
+    
 })
 
 after(() =>

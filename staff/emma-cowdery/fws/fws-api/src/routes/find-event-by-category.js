@@ -1,11 +1,11 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { body: { eventTime, eventDate, reservationName, restaurantCategory, eventLocation }, params: { restaurantId }, userId } = req
-
+    const { userId, params: { restaurantCategory } } = req
+    
     try {
-        logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation)
-            .then(id => res.json({ id }))
+        logic.findEventByCategory(userId, restaurantCategory)
+            .then(events => res.json({ events }))
             .catch(({ message }) => {
                 res.status(409).json({
                     error: message
