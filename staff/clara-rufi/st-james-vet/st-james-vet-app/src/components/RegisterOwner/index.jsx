@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { withRouter } from 'react-router-dom'
 import logic from '../../logic';
 
 
@@ -32,7 +32,6 @@ class RegisterOwner extends Component {
         try {
             debugger
             await logic.registerUser(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation)
-            console.log('you have succesfully registered!!')
             this.setState({ isLogin: false, isRegister: true, error: null })
         } catch ({ message }) {
             this.setState({ error: message })
@@ -80,7 +79,7 @@ class RegisterOwner extends Component {
                     <label>Confirm Password</label>
                     <input type="password" name="passwordConfirmation" onChange={this.handleOnChange} required></input>
                 </div>
-                {this.state.isLogin && <button type="submit" className="button">Sign in</button>}
+                {this.state.isLogin &&<button type="submit" className="button">Sign in</button>}
                 <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
                 {this.state.isRegister && <button className="button" onClick={this.handleGoLogin}>Go Login</button>}
                 {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
@@ -90,4 +89,4 @@ class RegisterOwner extends Component {
     }
 }
 
-export default RegisterOwner
+export default withRouter(RegisterOwner)

@@ -9,13 +9,11 @@ const logic = {
     // __userId__: null,
     __userToken__: null,
     __userAdmin__: null,
-    // __updateToken__(){
-    //     this.__userApiToken__ = sessionStorage.getItem('__userToken__')
-    // },
+    __updateToken__(){
+        this.__userApiToken__ = sessionStorage.getItem('__userToken__')
+    },
 
-    // removeStorage(){
-    //     sessionStorage.clear()
-    // },
+ 
     /**
     * Registers a user.
     * 
@@ -193,7 +191,7 @@ const logic = {
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-
+      
         return fetch(`${this.url}/user/auth`, {
            
             method: 'POST',
@@ -225,7 +223,12 @@ const logic = {
     logOutUser() {
         this.__userAdmin__ = null
         this.__userToken__ = null
-        // this.removeStorage()
+        this.removeStorage()
+        window.location.reload()
+    },
+
+    removeStorage(){
+    sessionStorage.clear()
     },
 
     get isAdmin() {
@@ -235,6 +238,8 @@ const logic = {
     retrieveUsers() {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
+        // this.__updateToken__()
+        // this.__userToken__()
         this.__updateToken__()
         return fetch(`${this.url}/users`, {
 
@@ -253,7 +258,8 @@ const logic = {
     retrieveAppointments() {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
-        // this.__updateToken__()
+          // this.__userToken__()
+        this.__updateToken__()
         return fetch(`${this.url}/appointments`, {
 
             headers: {
@@ -271,7 +277,8 @@ const logic = {
 
     retrievePets(userId){
 
-        // this.__updateToken__()
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/pets/${userId}`, {
         
             headers:{
@@ -301,7 +308,8 @@ const logic = {
 
         console.log(owner, pet, dayDb)
 
-        
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/appointment`, {
             method: 'POST',
             headers:{
@@ -325,7 +333,8 @@ const logic = {
 
         console.log(appointmentId)
 
-        
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/appointment`, {
             method: 'DELETE',
             headers:{
@@ -345,7 +354,8 @@ const logic = {
     retrieveUser(userId) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
-        // this.__updateToken__()
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/user/${userId}`, {
 
             headers: {
@@ -367,7 +377,8 @@ const logic = {
         // this.__updateToken__()
         // return fetch(`${this.url}/user`, {
 
-        //  this.__updateToken__()
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/pet/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userApiToken__}`
@@ -388,7 +399,8 @@ const logic = {
         // this.__updateToken__()
         // return fetch(`${this.url}/user`, {
 
-        //  this.__updateToken__()
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/visit/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userApiToken__}`
@@ -408,7 +420,8 @@ const logic = {
         // if (!token.trim().length) throw Error('token is empty')
 
         // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-        debugger
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
@@ -433,11 +446,13 @@ const logic = {
     * 
     */
     updatePet(petsId, name, microchip, petlicence) {
+        debugger
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
 
         // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-        debugger
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/pet`, {
             method: 'PUT',
             headers: {
@@ -459,7 +474,8 @@ const logic = {
         // if (!token.trim().length) throw Error('token is empty')
 
         // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-        debugger
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/visit`, {
             method: 'PUT',
             headers: {
@@ -494,6 +510,8 @@ const logic = {
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
         if (!password.trim().length) throw Error('password is empty')
 
+          // this.__userToken__()
+          this.__updateToken__()
         return fetch(`${this.url}/user`, {
             method: 'DELETE',
             headers: {

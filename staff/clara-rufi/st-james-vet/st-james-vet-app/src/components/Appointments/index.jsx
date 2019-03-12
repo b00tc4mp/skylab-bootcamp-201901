@@ -1,4 +1,6 @@
 import React, { Component} from 'react'
+import { withRouter  } from 'react-router-dom'
+
 import Calendar from '../Calendar'
 import logic from '../../logic'
 import './index.sass'
@@ -118,7 +120,7 @@ class Appointments extends Component {
     }
   }
     
-  export default Appointments
+  export default withRouter(Appointments)
   
   
   

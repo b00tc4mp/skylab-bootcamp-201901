@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { withRouter  } from 'react-router-dom'
+
 import logic from '../../logic'
 
 
@@ -101,4 +103,4 @@ class Visit extends Component {
         }
     }
 
-export default Visit
+export default withRouter(Visit)

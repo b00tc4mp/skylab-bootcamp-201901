@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import logic from '../../logic'
+import logo from '../images/logo.png'
 
 import './index.sass'
 
 class Nav extends Component {
    
-    state = { isLogin: logic.__userToken__ }
+     state = { isLoggedIn: logic.__userToken__,  isAdmin:logic.isAdmin}
+    // state= {isAdmin: false, isLoggedIn: false} 
 
     handleOnLogin = event => {
         event.preventDefault()
@@ -32,7 +34,7 @@ class Nav extends Component {
     handleOnLogout = event => {
         event.preventDefault()
         logic.logOutUser()
-        this.setState({isLogin: null})  
+        // this.setState({isLoggedIn: null})  
     }
 
     handleRegisterPet = event => {
@@ -40,36 +42,45 @@ class Nav extends Component {
         this.props.history.push('/registerPet')
     }
     render() {
-        const isLogin = this.state.isLogin
+        const {state: {isAdmin, isLoggedIn}}= this
+
+        // const isLogin = this.state.isLogin
         let dropdownButton
 
-        if (isLogin) {
+        // if (isLogin) {
+        if (isLoggedIn) {
+
             dropdownButton = <div className="btn-group">
 
                 <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     <i className="fas fa-paw"></i>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li><Link to="/registerOwner" onClick={this.handleRegisterOwner} className="nav_menu">Register Owner</Link></li>
-                    <li><Link to= "/registerPet" onClick={this.handleEditOwner}>Edit Owner</Link></li>
-                    <li><Link to="/editPet" onClick={this.handleRegisterPet}>Register Pet</Link></li>
-                    <li><Link to="/editPet" onClick={this.handleEditPet}>Edit Pet</Link></li>
+                    {isAdmin &&<li><Link to="/registerOwner" onClick={this.handleRegisterOwner} className="nav_menu">Register Owner</Link></li>}
+                    {isAdmin && <li><Link to= "/registerPet" onClick={this.handleEditOwner}>Edit Owner</Link></li>}
+                    {isAdmin && <li><Link to="/editPet" onClick={this.handleRegisterPet}>Register Pet</Link></li>}
+                    {isAdmin && <li><Link to="/editPet" onClick={this.handleEditPet}>Edit Pet</Link></li>}
                     <li><Link to="/" onClick={this.handleOnLogout}>Logout</Link></li>
                 </ul>
             </div>
         }
 
         return <nav className="navbar navbar-dark bg-dark">
+            <div>
+            <img className= "logo" src={logo} alt=""></img>
             <div className="name__vet">St James Vet</div>
+            </div>
             <div className="information__vet">
                 <div>Weekdays: 10:00am - 8:00pm</div>
                 <div>Saturday: 9:00am - 2:00 pm</div>
             </div>
             <div className='navmenu'>
-                {!isLogin && <button onClick={this.handleOnLogin} className='button'>Login</button>}
+                {/* {!isLogin && <button onClick={this.handleOnLogin} className='button'>Login</button>} */}
+                {!isLoggedIn && <button onClick={this.handleOnLogin} className='button'>Login</button>}
                
-                {isLogin && dropdownButton}
-                {this.state.logic__userApiToken__ && dropdownButton}
+                {isLoggedIn && dropdownButton}
+                {/* {isLogin && dropdownButton} */}
+                {/* {this.state.logic__userApiToken__ && dropdownButton} */}
                 <div className="btn-group">
                 </div>
             </div>

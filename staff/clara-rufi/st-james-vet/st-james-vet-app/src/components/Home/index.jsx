@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import Nav from '../Nav'
 import cat_dog from '../images/cat_dog.png'
@@ -47,4 +48,4 @@ class Home extends Component {
 }
 
 
-export default Home
+export default withRouter(Home)
