@@ -83,6 +83,8 @@ class App extends Component {
 
   onEditInvitation = (id) => this.props.history.push(`/admin/invitation/${id}`)
 
+  onEdit = id => this.props.history.push(`/admin/exercise/${id}`)
+
   handleStart = () => this.props.history.push('/start')
 
   render() {
