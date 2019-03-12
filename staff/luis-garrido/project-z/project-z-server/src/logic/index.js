@@ -221,6 +221,7 @@ const logic = {
         return User.find({ username })
             .select("-password -__v")
             .lean()
+            .populate({ path: "reviews", populate: { path: "game" } })
             .then(userArray => {
                 let user = userArray[0];
                 if (!user)
@@ -334,7 +335,7 @@ const logic = {
 
             let addReviewToAuthor = await User.findById({ _id: userId });
 
-            addReviewToAuthor.reviewedGames.push(postedReview._id);
+            addReviewToAuthor.reviews.push(postedReview._id);
 
             await addReviewToAuthor.save();
 
@@ -427,7 +428,7 @@ const logic = {
         return Game.findOne({ id: gameId })
             .select("-_id -__v")
             .lean()
-            .populate("reviews")
+            .populate({ path: "reviews", populate: { path: "author" } })
             .then(gameInfo => {
                 if (gameInfo === null)
                     throw new NotFoundError(

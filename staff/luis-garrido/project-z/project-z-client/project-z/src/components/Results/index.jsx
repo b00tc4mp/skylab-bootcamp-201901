@@ -26,7 +26,7 @@ const Results = props => {
                 <div className="results">
                     {results &&
                         results.map(game => {
-                            return <Card key={game.id} game={game} />;
+                            return <Card game={game} key={game.id} />;
                         })}
                 </div>
             </div>

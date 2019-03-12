@@ -15,8 +15,9 @@ const Header = props => {
 
     const handleSearchSubmit = event => {
         event.preventDefault();
-
-        props.history.push(`/search/${query}`);
+        const _query = query;
+        setQuery("");
+        props.history.push(`/search/${_query}`);
     };
 
     return (
@@ -30,6 +31,7 @@ const Header = props => {
                     autoComplete="off"
                     autoCorrect="off"
                     spellCheck="false"
+                    value={query}
                     onChange={handleQueryInput}
                 />
             </form>

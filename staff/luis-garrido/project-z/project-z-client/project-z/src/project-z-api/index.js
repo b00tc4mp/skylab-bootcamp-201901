@@ -215,7 +215,28 @@ const projectZApi = {
 
                 return response;
             });
-    }
+    },
+
+    postReview(token, gameId, text, score) {
+        if (typeof token !== "string")
+            throw TypeError(`${token} is not a string`);
+        if (!token.trim().length) throw Error("token is empty");
+
+        return fetch(`${this.url}/game/${gameId}/review`, {
+            headers: {
+                "content-type": "application/json",
+                authorization: `Bearer ${token}`
+            },
+            method: "POST",
+            body: JSON.stringify({ text, score })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error);
+
+                return response;
+            });
+    },
 
     // /**
     //  * Searches artists.

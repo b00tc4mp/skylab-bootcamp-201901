@@ -1,14 +1,23 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { Route, withRouter, Link } from "react-router-dom";
+
 import logic from "../../logic";
+
+import Review from "../Review";
+import WriteReview from "../WriteReview";
 
 const { REACT_APP_THUMB: gameCover } = process.env;
 
-const GameProfile = props => {
+const GameProfile = ({
+    match: {
+        params: { gameId }
+    }
+}) => {
     const [gameInfo, setGameInfo] = useState([]);
 
     useEffect(() => {
-        retrieveGameInfo(props.match.params.gameId);
-    }, [props.match.params.gameId]);
+        retrieveGameInfo(gameId);
+    }, [gameId]);
 
     const retrieveGameInfo = async gameId =>
         setGameInfo(await logic.retrieveGameInfo(gameId));
@@ -26,11 +35,46 @@ const GameProfile = props => {
                         src={`${gameCover}${gameInfo.boxartUrl}`}
                         alt={gameInfo.game_title}
                     />
-                    <h2>{gameInfo.game_title}</h2>
-                    <p>{gameInfo.overview}</p>
-                    <h2>{gameInfo.finalScore}</h2>
+                    <h2>title: {gameInfo.game_title}</h2>
+                    <p>overview: {gameInfo.overview}</p>
+                    <h2>
+                        finalScore:{" "}
+                        {gameInfo.finalScore ? (
+                            Math.round(gameInfo.finalScore * 20)
+                        ) : (
+                            <p>Not rated yet, be the first!</p>
+                        )}
+                    </h2>
+                    <p>coop: {gameInfo.coop}</p>
+                    <p>developers: {gameInfo.developers}</p>
+                    <p>genres: {gameInfo.genres}</p>
+                    <p>platform: {gameInfo.platform}</p>
+                    <p>players: {gameInfo.players}</p>
+                    <p>publishers: {gameInfo.publishers}</p>
+
+                    {logic.isUserLoggedIn ? (
+                        <div>
+                            <h2>Write Review</h2>
+                            <WriteReview
+                                refresh={retrieveGameInfo}
+                                gameId={gameId}
+                            />
+                        </div>
+                    ) : (
+                        <div>
+                            <Link to="/login">Login to write a comment</Link>
+                        </div>
+                    )}
+
+                    {gameInfo.reviews && !!gameInfo.reviews.length && (
+                        <div>
+                            <h2>Reviews</h2>
+                            {gameInfo.reviews.map(review => (
+                                <Review key={review._id} review={review} />
+                            ))}
+                        </div>
+                    )}
                 </div>
-                {/* {logic.isUserLoggedIn && <Review />} */}
             </div>
         </Fragment>
     );

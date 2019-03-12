@@ -48,17 +48,14 @@ const User = new Schema({
         required: true
     },
 
-    desiredGames: [String],
+    desiredgames: [String],
 
-    playedGames: [String],
+    playedgames: [String],
 
-    reviewedGames: [
-        {
-            type: ObjectId,
-            ref: "Game",
-            required: true
-        }
-    ]
+    reviews: {
+        type: [{ type: ObjectId, ref: "Review" }]
+    }
+
 });
 
 module.exports = User;

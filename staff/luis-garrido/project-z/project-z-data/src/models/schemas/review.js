@@ -5,8 +5,7 @@ const {
 
 const Review = new Schema({
     text: {
-        type: String,
-        required: true
+        type: String
     },
 
     score: {

@@ -3,6 +3,8 @@ import { Route, withRouter, Link } from "react-router-dom";
 
 import logic from "../../logic";
 
+import Review from "../Review";
+
 const { REACT_APP_THUMB: gameCover } = process.env;
 
 const UserProfile = props => {
@@ -18,10 +20,7 @@ const UserProfile = props => {
         setUserInfo(await logic.retrieveUserInfoByUsername(username));
 
     const handleLogout = () => {
-        logic.logOutUser();
-        sessionStorage.clear();
-
-        props.history.push("/");
+        props.history.push("/logout");
     };
 
     const getUsernameLogged = async () => {
@@ -36,7 +35,7 @@ const UserProfile = props => {
                     <h1 className="header__title">USER PROFILE</h1>
                 </div>
                 <div className="user-profile">
-                    <h2>{userInfo.name}</h2>
+                    <h2>{`${userInfo.name} ${userInfo.surname}`}</h2>
                     <p>{userInfo.username}</p>
                     <h2>{userInfo.email}</h2>
                 </div>
@@ -45,6 +44,14 @@ const UserProfile = props => {
                         <i className="fas fa-lock" />
                         Logout
                     </button>
+                )}
+                {userInfo.reviews && !!userInfo.reviews.length && (
+                    <div>
+                        <h2>Reviews</h2>
+                        {userInfo.reviews.map(review => (
+                            <Review key={review._id} review={review} />
+                        ))}
+                    </div>
                 )}
             </div>
         </Fragment>

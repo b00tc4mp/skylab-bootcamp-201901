@@ -8,7 +8,6 @@ import projectZApi from "../project-z-api";
  */
 const logic = {
     __userApiToken__: null,
-    __userApiUsername__: null,
 
     /**
      * Registers a user.
@@ -108,7 +107,6 @@ const logic = {
      */
     logOutUser() {
         this.__userApiToken__ = null;
-        this.__userApiUsername__ = null;
     },
 
     retrieveUserInfo() {
@@ -160,6 +158,10 @@ const logic = {
             throw Error(`${gameId} should be an integer number`);
 
         return projectZApi.retrieveGameInfo(gameId);
+    },
+
+    postReview(gameId, text, score) {
+        return projectZApi.postReview(this.__userApiToken__, gameId, text, score)
     }
 
     // /**

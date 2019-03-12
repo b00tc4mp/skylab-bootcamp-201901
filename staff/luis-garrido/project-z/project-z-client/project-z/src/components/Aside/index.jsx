@@ -10,7 +10,7 @@ const Aside = props => {
     return (
         <Fragment>
             <div className='navbar-tablet__logo'>
-                <h2>P</h2>
+                <h2>Z</h2>
             </div>
             <div className="navbar-tablet__icons">
                 <i className="fas fa-user-ninja" />

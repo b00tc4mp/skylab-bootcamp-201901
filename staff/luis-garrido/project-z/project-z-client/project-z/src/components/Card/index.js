@@ -16,7 +16,7 @@ const Card = ({ key, game, history }) => {
             <div onClick={() => history.push(`/game/${game.id}`)}>
                 <img src={`${gameCover}${game.boxartUrl}`} alt={game.game_title} />
             </div>
-            <div>{game.id}</div>
+            <div>{game.finalScore && Math.round(game.finalScore * 20)}</div>
         </article>
     );
 };

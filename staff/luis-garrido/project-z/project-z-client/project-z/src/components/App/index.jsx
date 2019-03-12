@@ -25,7 +25,7 @@ const App = ({ history }) => {
     const [username, setUsername] = useState("");
 
     useEffect(() => {
-        getUsernameLogged();
+        if(logic.isUserLoggedIn) getUsernameLogged();
     }, []);
 
     const getUsernameLogged = async () => {
