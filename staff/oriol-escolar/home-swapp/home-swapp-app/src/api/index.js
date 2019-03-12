@@ -201,7 +201,7 @@ const homeSwappApi = {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
         
-        if (typeof id !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
         if (!houseId.trim().length) throw Error('houseId is empty')
 
         return fetch(`${this.url}/user/house`, {
