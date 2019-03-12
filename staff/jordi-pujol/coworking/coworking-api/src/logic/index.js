@@ -194,7 +194,12 @@ const logic = {
         validate([{ key: 'workId', value: workId, type: String },
         { key: 'userId', value: userId, type: String }])
 
-        return Workspace.findOne({ _id: workId })
+
+        return User.findById(userId)
+            .then(user => {
+                if (user.workspace == true) throw Error('user is already in a workspace')
+            })
+            .then(() => Workspace.findOne({ _id: workId }))
             .then(workspace => {
                 if (!workspace) throw Error(`workspace does not exists`)
 
@@ -359,7 +364,10 @@ const logic = {
         let _services = []
 
         return User.findById(userId)
-            .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service').lean())
+            .then((user) => {
+                if(!user) throw Error ('user does not exists')
+
+                return Workspace.findOne({ _id: user.workspace }).populate('service').lean()})
             .then(({ service }) => {
 
                 service.map(_service => {
@@ -375,76 +383,74 @@ const logic = {
             })
     },
 
-    retrieveUserSubmitedEvents(userId){
-        validate([{ key: 'userId', value: userId, type: String }])
+    // retrieveUserSubmitedEvents(userId){
+    //     validate([{ key: 'userId', value: userId, type: String }])
 
-        let _services = []
+    //     let _services = []
 
-        return User.findById(userId)
-        .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service user').lean())
-            .then(({ service, user }) => {
+    //     return User.findById(userId)
+    //     .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service user').lean())
+    //         .then(({ service, user }) => {
 
-                service.map(_service => {
-                    
-                    _service.submitedUsers.map(sub => {
-                        if (sub.toString() == userId){  
-                            _service.id = _service._id
-                            delete _service._id
-                            delete _service.__v
+    //             service.map(_service => {
 
-                            user.map(_user => {
-                                if (_user._id.toString() == _service.user) {
-                                    _service.user = _user.name
-                                }})
+    //                 _service.submitedUsers.map(sub => {
+    //                     if (sub.toString() == userId){  
+    //                         _service.id = _service._id
+    //                         delete _service._id
+    //                         delete _service.__v
 
-                            _services.push(_service)
-                        }
-                    })
-                })
+    //                         user.map(_user => {
+    //                             if (_user._id.toString() == _service.user) {
+    //                                 _service.user = _user.name
+    //                             }})
 
-                return _services
-            })
-    },
+    //                         _services.push(_service)
+    //                     }
+    //                 })
+    //             })
 
-    retrieveWorkspaceServices(userId, workspaceId) {
-        validate([{ key: 'userId', value: userId, type: String },
-        { key: 'workspaceId', value: workspaceId, type: String }])
+    //             return _services
+    //         })
+    // },
 
-        let services
-        let user
+    // retrieveWorkspaceServices(userId, workspaceId) {
+    //     validate([{ key: 'userId', value: userId, type: String },
+    //     { key: 'workspaceId', value: workspaceId, type: String }])
 
-        return Workspace.findById(workspaceId).populate('service user').lean()
-            .then(workspace => {
+    //     let services
+    //     let user
 
-                services = workspace.service.map(service => {
-                    service.id = service._id
-                    delete service._id
-                    delete service.__v
+    //     return Workspace.findById(workspaceId).populate('service user').lean()
+    //         .then(workspace => {
 
-                    user = workspace.user.map(_user => {
-                        if (_user._id.toString() == service.user) {
-                            return _user.name
-                        }
-                    })
+    //             services = workspace.service.map(service => {
+    //                 service.id = service._id
+    //                 delete service._id
+    //                 delete service.__v
 
-                    const index = user.findIndex(_user => _user !== undefined)
+    //                 user = workspace.user.map(_user => {
+    //                     if (_user._id.toString() == service.user) {
+    //                         return _user.name
+    //                     }
+    //                 })
 
-                    service.user = user.splice(index, 1)
-                    service.user = service.user.toString()
-                    return service
-                })
-                return services
-            })
-    },
+    //                 const index = user.findIndex(_user => _user !== undefined)
 
-    //TODO retrieve all services
+    //                 service.user = user.splice(index, 1)
+    //                 service.user = service.user.toString()
+    //                 return service
+    //             })
+    //             return services
+    //         })
+    // },
 
-    /**
-     * 
-     * @param {string} userId 
-     * @param {string} serviceId 
-     * @param {Object} data 
-     */
+    // /**
+    //  * 
+    //  * @param {string} userId 
+    //  * @param {string} serviceId 
+    //  * @param {Object} data 
+    //  */
     updateService(userId, serviceId, data) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'serviceId', value: serviceId, type: String }])
@@ -459,64 +465,64 @@ const logic = {
             .then(() => Service.findOneAndUpdate({ id: serviceId, $set: data }))
     },
 
-    addUserToService(userId, serviceId) {
-        validate([{ key: 'userId', value: userId, type: String },
-        { key: 'serviceId', value: serviceId, type: String }])
+    // addUserToService(userId, serviceId) {
+    //     validate([{ key: 'userId', value: userId, type: String },
+    //     { key: 'serviceId', value: serviceId, type: String }])
 
-        return User.findById(userId)
-            .then(user => {
-                if (Number(user.time) <= -120) throw Error('you cannot ask for more services, please create a service to gain more time')
-            })
-            .then(() => Service.findById(serviceId))
-            .then(service => {
+    //     return User.findById(userId)
+    //         .then(user => {
+    //             if (Number(user.time) <= -120) throw Error('you cannot ask for more services, please create a service to gain more time')
+    //         })
+    //         .then(() => Service.findById(serviceId))
+    //         .then(service => {
 
-                if (service.submitedUsers.length >= service.maxUsers) throw Error('max submited users achieved, you cannot submit to this event')
+    //             if (service.submitedUsers.length >= service.maxUsers) throw Error('max submited users achieved, you cannot submit to this event')
 
-                service.submitedUsers.map(user => {
+    //             service.submitedUsers.map(user => {
 
-                    if (user == userId) throw Error('user is already submited to this service')
-                })
-                if (service.user.toString() === userId) throw Error('user cannot apply for his own service')
+    //                 if (user == userId) throw Error('user is already submited to this service')
+    //             })
+    //             if (service.user.toString() === userId) throw Error('user cannot apply for his own service')
 
-                debugger
+    //             debugger
 
-                if (service.submitedUsers.length + 1 >= service.maxUsers) {
-                    service.active = false
-                }
+    //             if (service.submitedUsers.length + 1 >= service.maxUsers) {
+    //                 service.active = false
+    //             }
 
-                service.submitedUsers.push(userId)
-                return service.save()
-            })
-    },
+    //             service.submitedUsers.push(userId)
+    //             return service.save()
+    //         })
+    // },
 
-    closeService(serviceId) {
+    // closeService(serviceId) {
 
-        let _time
-        let _provider
-        let _submitedUsers
+    //     let _time
+    //     let _provider
+    //     let _submitedUsers
 
-        return Service.findById(serviceId)
-            .then(service => {
-                _time = service.time
-                _provider = service.user
-                _submitedUsers = service.submitedUsers
+    //     return Service.findById(serviceId)
+    //         .then(service => {
+    //             _time = service.time
+    //             _provider = service.user
+    //             _submitedUsers = service.submitedUsers
 
-                service.closed = true
-                return service.save()
-            })
-            .then((service) => User.find({ _id: service.submitedUsers }))
-            .then(users => {
-                users.map(user => {
-                    user.time -= Math.round(_time / _submitedUsers.length)
-                    return user.save()
-                })
-            })
-            .then(() => User.findById(_provider))
-            .then(user => {
-                user.time += _time
-                return user.save()
-            })
-    },
+    //             service.closed = true
+    //             return service.save()
+    //         })
+    //         .then((service) => User.find({ _id: service.submitedUsers }))
+    //         .then(users => {
+    //             users.map(user => {
+    //                 user.time -= Math.round(_time / _submitedUsers.length)
+    //                 return user.save()
+    //             })
+    //         })
+    //         .then(() => User.findById(_provider))
+    //         .then(user => {
+    //             user.time += _time
+    //             return user.save()
+    //         })
+    // },
 
     /**
      * 
@@ -540,49 +546,49 @@ const logic = {
                 const index = workspace.service.findIndex(service => service === serviceId)
 
                 workspace.service.splice(index, 1)
-                workspace.save()
+                return workspace.save()
             })
     },
 
-    createComment(userId, serviceId, text) {
-        validate([{ key: 'userId', value: userId, type: String },
-        { key: 'serviceId', value: serviceId, type: String },
-        { key: 'text', value: text, type: String }])
+    // createComment(userId, serviceId, text) {
+    //     validate([{ key: 'userId', value: userId, type: String },
+    //     { key: 'serviceId', value: serviceId, type: String },
+    //     { key: 'text', value: text, type: String }])
 
-        return Service.findOneAndUpdate({ _id: serviceId }, { $push: { comments: { text, user: userId } } })
-            .then(({ _id }) => Service.findById({ _id }))
-            .then(service => service.comments[service.comments.length - 1]._id)
-    },
+    //     return Service.findOneAndUpdate({ _id: serviceId }, { $push: { comments: { text, user: userId } } })
+    //         .then(({ _id }) => Service.findById({ _id }))
+    //         .then(service => service.comments[service.comments.length - 1]._id)
+    // },
 
-    retrieveServiceComments(serviceId) {
-        validate([{ key: 'serviceId', value: serviceId, type: String }])
+    // retrieveServiceComments(serviceId) {
+    //     validate([{ key: 'serviceId', value: serviceId, type: String }])
 
-        let comments = []
-        return Service.findById(serviceId).lean()
-            .then(service => {
-                comments = service.comments.map(_service => {
-                    _service.id = _service._id
-                    delete _service._id
+    //     let comments = []
+    //     return Service.findById(serviceId).lean()
+    //         .then(service => {
+    //             comments = service.comments.map(_service => {
+    //                 _service.id = _service._id
+    //                 delete _service._id
 
-                    return _service
-                })
+    //                 return _service
+    //             })
 
-                return comments
-            })
-    },
+    //             return comments
+    //         })
+    // },
 
-    removeComment(serviceId, commentId) {
-        validate([{ key: 'serviceId', value: serviceId, type: String },
-        { key: 'commentId', value: commentId, type: String }])
+    // removeComment(serviceId, commentId) {
+    //     validate([{ key: 'serviceId', value: serviceId, type: String },
+    //     { key: 'commentId', value: commentId, type: String }])
 
-        return Service.findById(serviceId)
-            .then(service => {
-                const index = service.comments.findIndex(comment => comment._id == commentId)
+    //     return Service.findById(serviceId)
+    //         .then(service => {
+    //             const index = service.comments.findIndex(comment => comment._id == commentId)
 
-                service.comments.splice(index, 1)
-                return service.save()
-            })
-    }
+    //             service.comments.splice(index, 1)
+    //             return service.save()
+    //         })
+    // }
 }
 
 module.exports = logic
