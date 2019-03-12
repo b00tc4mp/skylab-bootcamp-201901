@@ -11,7 +11,7 @@ class Cart extends Component {
         return (
             <main>
                 <section>
-                    <h1 clasName="title">Cart</h1>
+                    <h1 clasName="title">Cart:</h1>
                     <i></i>
                 </section>
                 <section>
@@ -27,8 +27,8 @@ class Cart extends Component {
                         </head>
                         <body>
                             {logic.getCart().map(item => (
-                                <tr key={item._id}>
-                                    <td ><img src={item.image} alt="404" /></td>
+                                <tr className="box" key={item._id}>
+                                    <td ><img className="cartImage" src={item.image} alt="404" /></td>
                                     <td> <h4>{item.name}</h4></td>
                                     <td> <h4>{item.price} €</h4></td>
                                     <td><a onClick={() => this.props.onRemoveFromCart(item._id)}>Remove</a></td>
