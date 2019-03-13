@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import styles from "./index.module.scss";
-import ChosenPairs from "../ChosenPairs"
+import ChosenPairs from "../ChosenPairs";
+import { Form, Field } from "react-final-form";
+import logic from "../../logic";
 
 export const Match = props => {
   const [available, setAvailable] = useState(false);
@@ -30,7 +32,22 @@ export const Match = props => {
     setAvailable(false);
   };
 
-  const handlePlayerChosen = e => e.target.value;
+  const handleChosenPairsSubmit = e => {
+    e.preventDefault();
+    console.log(e);
+    console.log(e.target.value);
+
+    // logic.addPlayersChosen();
+  };
+
+  const hanldeFirstPair = () => {
+    //onChosenPair()
+  };
+  // const isInvalidChosenPairs = () => {
+  //   return (
+  //     !playerAvailable
+  //   );
+  // };
 
   useEffect(() => {
     if (playersAvailable.filter(playerId => playerId === _id).length) {
@@ -54,20 +71,77 @@ export const Match = props => {
         </div>
       </div>
       <div>
-        <form>
-          <label>
-            1st Match
-            <ChosenPairs match={props.match}/>
-          </label>
-          <label>
-            2nd Match
-            <ChosenPairs match={props.match}/>
-          </label>
-          <label>
-            3rd Match
-            <ChosenPairs match={props.match}/>
-          </label>
-        </form>
+        <Form
+          onSubmit={handleChosenPairsSubmit}
+          initialValues={{ firstPair: "", secondPair: "", thirdPair: "" }}
+          render={({ handleSubmit, form, submitting, pristine, values }) => (
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label value="firstPair">1st Match</label>
+                <Field name="firstPairFirstPlayer" component="select">
+                  <option />
+                  {playersAvailable &&
+                    playersAvailable.map(playerAvailable => (
+                      <option value={"firstPlayer"}>{playerAvailable}</option>
+                    ))}
+                </Field>
+                <Field name="firstPairSecondPlayer" component="select">
+                  <option />
+                  {playersAvailable &&
+                    playersAvailable.map(playerAvailable => (
+                      <option value={"secondPlayer"}>{playerAvailable}</option>
+                    ))}
+                </Field>
+              </div>
+              <div>
+                <label value="secondPair">2nd Match</label>
+                <Field name="secondPairFirstPlayer" component="select">
+                  <option />
+                  {playersAvailable &&
+                    playersAvailable.map(playerAvailable => (
+                      <option value={"firstPlayer"}>{playerAvailable}</option>
+                    ))}
+                </Field>
+                <Field name="secondPairSecondPlayer" component="select">
+                  <option />
+                  {playersAvailable &&
+                    playersAvailable.map(playerAvailable => (
+                      <option value={"secondPlayer"}>{playerAvailable}</option>
+                    ))}
+                </Field>
+              </div>
+              <div>
+                <label value="thirdPair">3rd Match</label>
+                <Field name="thirdPairFirstPlayer" component="select">
+                  <option />
+                  {playersAvailable &&
+                    playersAvailable.map(playerAvailable => (
+                      <option value={"firstPlayer"}>{playerAvailable}</option>
+                    ))}
+                </Field>
+                <Field name="thirdPairSecondPlayer" component="select">
+                  <option />
+                  {playersAvailable &&
+                    playersAvailable.map(playerAvailable => (
+                      <option value={"secondPlayer"}>{playerAvailable}</option>
+                    ))}
+                </Field>
+              </div>
+              <div className="buttons">
+                <button type="submit" disabled={submitting || pristine}>
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  onClick={form.reset}
+                  disabled={submitting || pristine}
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          )}
+        />
         <div>
           Are you available?
           <Button
@@ -93,7 +167,6 @@ export const Match = props => {
             I'm NOT available
           </Button>
         </div>
-
         <span>{result}</span>
         <span>{location}</span>
       </div>
