@@ -7,7 +7,7 @@ module.exports = (req, res) => {
         logic.toogleEvent(userId, eventId)
             .then(response => res.json(response))
             .catch(({ message }) => {
-                res.status(402).json({
+                res.status(401).json({
                     error: message
                 })
             })

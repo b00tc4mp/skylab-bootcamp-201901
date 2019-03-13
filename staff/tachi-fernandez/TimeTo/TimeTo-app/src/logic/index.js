@@ -70,6 +70,7 @@ const logic = {
 
         return userApi.authenticate(email, password)
         .then(token => this.__userApiToken__ = token)
+        
     },
 
      /**
@@ -118,6 +119,27 @@ const logic = {
                 email,
                 events
             }))
+    },
+
+    updateUser(name,surname,age,description,email){
+        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
+        if (!name.trim().length) throw Error('name is empty')
+
+        if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
+        if (!surname.trim().length) throw Error('surname is empty')
+
+        if (typeof age !== 'number') throw TypeError(`${age} is not a string`)
+
+        if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
+        if (!description.trim().length) throw Error('description is empty')
+
+        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
+        if (!email.trim().length) throw Error('email is empty')
+
+        return userApi.updateUser(name, surname, age, description, email, this.__userApiToken__)
+            .then(() => {})
+       
+
     },
 
 

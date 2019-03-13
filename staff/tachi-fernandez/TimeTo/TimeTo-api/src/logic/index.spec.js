@@ -9,10 +9,13 @@ const {
 } = require("mongoose");
 
 const {
-    User,
-    Events,
-    Comments
-} = require("../models");
+    models:{
+      User,
+      Events,
+      Comments,
+      Categories
+    }
+  } = require('TimeTo-data');
 
 const mongoose = require('mongoose')
 const expect = require('expect')

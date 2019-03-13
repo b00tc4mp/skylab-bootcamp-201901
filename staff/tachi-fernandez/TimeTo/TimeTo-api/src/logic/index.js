@@ -1,13 +1,12 @@
 "use strict";
 const {
-    Types:{ObjectId}
-} = require("mongoose");
-const {
+  models:{
     User,
     Events,
     Comments,
     Categories
-} = require("../models");
+  }
+} = require('TimeTo-data');
 const bcrypt = require("bcrypt");
 const {EmptyError} = require('../errors')
 
@@ -88,6 +87,7 @@ const logic = {
    * @param {string} password
    */
   authenticateUser(email, password) {
+    debugger
     if (typeof email !== "string") throw TypeError(email + " is not a string");
 
     if (!email.trim().length) throw Error("email cannot be empty");
@@ -108,6 +108,7 @@ const logic = {
 
       const { id } = user;
 
+      
 
       return  id;
     })();
@@ -177,9 +178,8 @@ const logic = {
 
     if (!surname.trim().length) throw Error("surname cannot be empty");
 
-    if (typeof age !== "string") throw TypeError(age + " is not a string");
+    if (typeof age !== "number") throw TypeError(age + " is not a string");
 
-    if (!age.trim().length) throw Error("age cannot be empty");
 
     if (typeof description !== "string") throw TypeError(description + " is not a string");
 
@@ -199,9 +199,27 @@ const logic = {
 
       
 
-      if (!user) throw Error(`user with id ${userId} not found`);
 
-      return user
+    if (typeof user.name !== "string") throw TypeError(user.name + " is not a string");
+
+    if (!user.name.trim().length) throw Error("name cannot be empty");
+
+    if (typeof user.surname !== "string") throw TypeError(user.surname + " is not a string");
+
+    if (!user.surname.trim().length) throw Error("surname cannot be empty");
+
+    if (typeof user.age !== "number") throw TypeError(user.age + " is not a number");
+
+    if (typeof user.description !== "string") throw TypeError(user.description + " is not a string");
+
+    if (!user.description.trim().length) throw Error("description cannot be empty");
+
+    if (typeof user.email !== "string") throw TypeError(user.email + " is not a string");
+
+    if (!user.email.trim().length) throw Error("email cannot be empty");
+      
+    
+    return user
 
 
     })()
@@ -278,7 +296,19 @@ const logic = {
 
       delete userEvent._id
       
-      return {eventId : userEvent.id , userEvent}
+
+
+      const events = await Events.findById(userEvent.id).populate('members')
+
+      events.members.push(userId)
+
+      events.id = events._id.toString()
+
+      delete events._id
+
+      delete events.members[0].events
+      
+      return events
       
     })();
 
@@ -303,6 +333,7 @@ const logic = {
       const userEvent = await Events.findById(eventId)
       .populate('author', "name surname age"  )
       .populate('category')
+      .populate('members')
       .select('-__v').lean()
   
       if (!userEvent) throw Error(`event with id ${eventId} not found`);
@@ -373,12 +404,16 @@ const logic = {
 
     return(async () => {
       
+      const user = await User.findById(userId)
+
+      if (!user) throw Error(`user with id ${userId} not found`);
+
     const response = await Events.find({ title: { $regex: `${query}`, $options: "i" } } )
     .populate('author', "name surname age"  )
     .populate('category')
     .select('-__v').lean()
 
-    if (!response) throw Error(`user with id ${categoryId} not found`);
+    if (!response || response.length <= 0) throw Error('events not found');
 
     const events = await response.map(eventUser => {
     eventUser.id = eventUser._id.toString()
@@ -547,6 +582,12 @@ const logic = {
           else user.events.splice(index, 1)
 
           user.save()
+      
+      const indexEvent = events.members.findIndex(_userId =>  _userId.toString() === userId)
+          if (indexEvent < 0) events.members.push(userId)
+          else events.members.splice(index, 1)
+
+          events.save()
           
           const myEvents = await User.findById(userId).populate('events')
 

@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
+import{withRouter} from 'react-router-dom'
 
 class Search extends Component {
+    state = {query : null}
 
     handleQueryInput = event => this.setState({query : event.target.value})
 
     handleSearchSubmit = event => {
         event.preventDefault()
-        const {state: {query}, props: {onSearch}} = this
-        onSearch(query)
+        const {state: {query}, props} = this
+        props.history.push(`/results/${query}`)
+        this.setState({query:null})
     }   
 
     render() {
@@ -23,4 +26,4 @@ class Search extends Component {
     }
 }
 
-export default Search
+export default withRouter(Search)

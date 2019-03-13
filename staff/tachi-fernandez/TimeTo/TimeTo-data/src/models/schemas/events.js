@@ -43,7 +43,7 @@ const Events = new Schema ({
 
     members:[{
         type: ObjectId,
-        ref: 'Events'
+        ref: 'User'
     }],
     
 })

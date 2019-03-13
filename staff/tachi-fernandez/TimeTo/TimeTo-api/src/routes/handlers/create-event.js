@@ -7,12 +7,12 @@ module.exports = (req, res) => {
         logic.createEvents(userId , title, description, date, ubication , category)
             .then(response => res.json(response))
             .catch(({ message }) => {
-                res.status(402).json({
+                res.status(401).json({
                     error: message
                 })
             })
     } catch ({ message }) {
-        res.status(403).json({
+        res.status(400).json({
             error: message
         })
     }

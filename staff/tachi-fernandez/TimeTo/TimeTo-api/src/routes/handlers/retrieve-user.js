@@ -8,12 +8,12 @@ module.exports = (req, res) => {
         logic.retrieveUser(userId)
             .then(res.json.bind(res))
             .catch(({ message }) => {
-                res.status(400).json({
+                res.status(406).json({
                     error: message
                 })
             })
     } catch ({ message }) {
-        res.status(400).json({
+        res.status(403).json({
             error: message
         })
     }

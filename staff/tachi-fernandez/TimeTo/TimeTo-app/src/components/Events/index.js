@@ -45,6 +45,11 @@ class Events extends Component{
                         </div>
 
                         <div>
+                        <label>Date:</label>
+                        <p>{_event.date}</p>   
+                        </div>
+
+                        <div>
                         <label>Ubication:</label>
                         <p>{_event.ubication}</p>   
                         </div>

@@ -9,12 +9,12 @@ module.exports = (req, res) => {
         logic.updateUser(userId, name,surname,age,description,email)
             .then((response) => res.json(response))
             .catch(({ message }) => {
-                res.status(400).json({
+                res.status(401).json({
                     error: message
                 })
             })
     } catch ({ message }) {
-        res.status(400).json({
+        res.status(403).json({
             error: message
         })
     }

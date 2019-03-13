@@ -8,7 +8,7 @@
 }
 .login__input {
   height: 150px;
-  background-color: green;
+  background-color: orange;
   display: flex;
   justify-content: center;
 }

@@ -16,31 +16,57 @@ class Header extends Component {
         const {onLogout} = this
         return (<section className="header">
     
-        <div className="header__register">
+        {/* <div className="header__register">
         {!logic.isUserLoggedIn ? <Link to="/register" >Register</Link> : '' }
-        </div>
+        </div> */}
+
+        {!logic.isUserLoggedIn ? <button  
+            onClick={() => this.props.history.push('/register')}>Register
+        </button> : ''}
     
-        <div  className="header__login">
+        {/* <div  className="header__login">
         {!logic.isUserLoggedIn ? <Link to="/login" >Login</Link> : '' }    
-        </div>
+        </div> */}
+
+        {!logic.isUserLoggedIn ? <button  
+            onClick={() => this.props.history.push('/login')}>Login
+        </button> : ''}
     
-        <div className="header__link-create-event">
+        {/* <div className="header__link-create-event">
         {logic.isUserLoggedIn ? <Link to="/create-event" >Create Event</Link> : '' }      </div>
-        <div>
+        <div> */}
+
+        {logic.isUserLoggedIn ? <button  
+            onClick={() => this.props.history.push('/create-event')}>Create Event
+        </button> : ''}
     
-        <div>
+        {/* <div>
         {logic.isUserLoggedIn ? <button onClick={onLogout}>Logout</button> : <Redirect to ='/home' />}
-        </div>
+        </div> */}
+
+        {logic.isUserLoggedIn ? <button  
+            onClick={onLogout}>Logout
+        </button> : <Redirect to ='/home' />}
     
-        <div>
+        {/* <div>
         {logic.isUserLoggedIn ? <Link to="/user" > User</Link> : '' }
-        </div>
+        </div> */}
+
+        {logic.isUserLoggedIn ? <button  
+            onClick={() => this.props.history.push('/user')}>User
+        </button> : ''}
     
-        <div>
+        {/* <div>
         {logic.isUserLoggedIn ? <Link to="/my-events" > My events</Link> : '' }
         </div>
-    
-        </div>
+     */}
+
+        {logic.isUserLoggedIn ? <button  
+            onClick={() => this.props.history.push('/my-events')}> My Events
+        </button> : ''}
+
+
+        
         </section>
         )}
 }  

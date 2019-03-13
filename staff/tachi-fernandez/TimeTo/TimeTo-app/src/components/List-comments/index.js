@@ -4,22 +4,37 @@ import { Link } from 'react-router-dom'
 import Event from '../../plugins/bus'
 
 class ListComments extends Component {
-    state = { comments: '', eventId: '', commentId: '' }
+    state = { comments: '', eventId: '', commentId: '' , author : '',userId : ''}
     componentDidMount() {
         this.handleListComments()
         Event.$on('updateComments', () => {
             this.handleListComments()
         } )
-
+        try{
+            logic.retrieveUser()
+            .then(result => {
+                this.setState({ userId : result.id })
+            })
+            .catch( ({error}) => {
+                this.setState({ results: null })
+                console.log(error)
+            }) 
+        }
+             catch ({message}) {
+        this.setState({ results: null})
     }
+    }
+    
 
     handleListComments = () => {
         const { eventId } = this.props
+        const{author} = this.state
         try {
             logic.listComments(eventId)
                 .then(comments => {
-                    this.setState({ comments, eventId })
-                    console.log(comments)
+                    this.setState({ comments, eventId , author : comments.author})
+                    console.log(author)
+                    //
                 })
                 .catch(({ error }) => {
                     this.setState({ comments: null })
@@ -51,8 +66,10 @@ class ListComments extends Component {
         }
     }
 
+    
+
     render() {
-        const { state: { eventId, comments = [] }, deleteComment } = this
+        const { state: { eventId, comments = [], userId }, deleteComment } = this
         return (
             <section>
                 {comments && (comments || []).map(comment => (
@@ -64,7 +81,7 @@ class ListComments extends Component {
                                 {comment.commentAuthor.name + ' ' + comment.commentAuthor.surname}
                             </div>
                         </Link>
-                        <button value={comment.id} onClick={(event) => deleteComment(event, eventId)}>Delete Comment</button>
+                       {(comment.commentAuthor._id === userId) &&  <button value={comment.id} onClick={(event) => deleteComment(event, eventId)}>Delete Comment</button>}
                     </div>
                 )
                 )}

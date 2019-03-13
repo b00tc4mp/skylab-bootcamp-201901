@@ -6,7 +6,7 @@ class User extends Component{
     state = {results: ''} 
     componentDidMount(){
         try {
-            debugger
+            
             logic.retrieveUser()
                 .then(results => {
                     this.setState({ results })
@@ -61,6 +61,7 @@ class User extends Component{
 
             <div>
             <Link to="/home" className="user__link-home">Go home</Link>
+            <Link to="/user-modify">Modify User</Link>
             </div>  
             </section>
         )

@@ -9,7 +9,7 @@ module.exports = (req, res) => {
         logic.addComment(userId,eventId,text)
             .then(res.json.bind(res))
             .catch(({ message }) => {
-                res.status(400).json({
+                res.status(401).json({
                     error: message
                 })
             })

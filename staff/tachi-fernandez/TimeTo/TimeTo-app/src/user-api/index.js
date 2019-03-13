@@ -32,8 +32,8 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
-                const { id  } = response
-
+                 const { id , error } = response
+                 if(error) throw Error(error)
                  return id
 
                 //throw Error(response.error)
@@ -56,7 +56,11 @@ const userApi = {
         })
             .then(response => response.json())
             .then(response => {
-                const {token} = response
+                // const {token} = response
+
+                const {error,token} = response
+                // return token
+                if(error) throw Error(error)
 
                 return token
 
@@ -98,6 +102,42 @@ const userApi = {
                 return response
             })
     },
+
+    updateUser(name,surname,age,description,email,token){
+        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
+        if (!name.trim().length) throw Error('name is empty')
+
+        if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
+        if (!surname.trim().length) throw Error('surname is empty')
+
+        if (typeof age !== 'number') throw TypeError(`${age} is not a string`)
+
+        if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
+        if (!description.trim().length) throw Error('description is empty')
+
+        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
+        if (!email.trim().length) throw Error('email is empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/user/update`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ name, surname, age, description, email })
+        })
+            .then(response => response.json())
+            .then(response => {
+                
+                return response
+                //throw Error(response.error)
+            })
+    },
+
+   
 
     createEventUser(title, description, date, ubication, category, token){
         
@@ -163,10 +203,13 @@ const userApi = {
             },
         })
         .then(response => response.json())
-        .then(response => {
+        .then(response =>  {
+            const{error} = response
 
-         return response
-        })
+            if(error)throw Error(error)
+
+            return response
+        })   
     },
 
     listEventsByCategory(categoryId,token){
@@ -209,6 +252,7 @@ const userApi = {
         })
         .then(response => response.json())
         .then(response => {
+        
             return response
         })   
     },

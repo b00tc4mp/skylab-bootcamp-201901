@@ -29,8 +29,8 @@ class CreateEvent extends Component {
             <div className='createEvent__input'>
             <form onSubmit={handleFromSubmit}>
                 <input onChange={handleTitleInput} className="createEvent__input-title" type="text" placeholder="Title" required/>
-                <input onChange={handleDescriptionInput} className="createEvent__input-description" type="text" placeholder="Description" required/>
-                <input onChange={handleDateInput} className="createEvent__input-Date" type="date" placeholder="Date" required/>
+                <textarea onChange={handleDescriptionInput} className="createEvent__input-description" maxLength="200" type="text" placeholder="Description" required/>
+                <input onChange={handleDateInput} className="createEvent__input-Date" min="2018-03-21" type="date" placeholder="Date" required/>
                 <input onChange={handleUbicationInput} className="createEvent__input-ubication" type="text" placeholder="Ubication" required/>
                 {/* <input onChange={handleCategoryInput} className="createEvent__input-category" type="text" placeholder="Category" required/> */}
                 <select onChange={handleCategorySelect}>
