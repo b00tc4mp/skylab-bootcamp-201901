@@ -106,7 +106,7 @@ const logic = {
      * @param {string} userId 
      */
     retrieveUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a stringo`)
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId is empty')
 
         return (async () => {
@@ -515,11 +515,7 @@ const logic = {
 
             const { messages = [] } = _chat
 
-            console.log(message)
-
             messages.push(message)
-
-            console.log(_chat)
 
             await  _chat.save()
 

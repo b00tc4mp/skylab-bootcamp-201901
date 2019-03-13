@@ -543,17 +543,432 @@ describe('logic', () => {
                     expect(id).toBeDefined()
                 })
         )
+
+        it('should fail on undefined email', () => {
+            const email = undefined
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(email + ' is not a string'))
+        })
+
+        it('should fail on numeric email', () => {
+            const email = 123
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(email + ' is not a string'))
+        })
+
+
+        it('should fail on boolean email', () => {
+            const email = true
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(email + ' is not a string'))
+        })
+
+        it('should fail on object email', () => {
+            const email = {}
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(email + ' is not a string'))
+        })
+
+        it('should fail on array email', () => {
+            const email = []
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(email+ ' is not a string'))
+        })
+
+        it('should fail on empty email', () => {
+            const email = ''
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(Error('email or username cannot be empty'))
+        })
+
+        it('should fail on undefined username', () => {
+            const username = undefined
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(username, password)
+            }).toThrow(TypeError(username + ' is not a string'))
+        })
+
+        it('should fail on numeric username', () => {
+            const username = 123
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(username, password)
+            }).toThrow(TypeError(username + ' is not a string'))
+        })
+
+
+        it('should fail on boolean username', () => {
+            const username = true
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(username, password)
+            }).toThrow(TypeError(username + ' is not a string'))
+        })
+
+        it('should fail on object username', () => {
+            const username = {}
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(username, password)
+            }).toThrow(TypeError(username + ' is not a string'))
+        })
+
+        it('should fail on array username', () => {
+            const username = []
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(username, password)
+            }).toThrow(TypeError(username + ' is not a string'))
+        })
+
+        it('should fail on empty username', () => {
+            const username = ''
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.authenticateUser(username, password)
+            }).toThrow(Error('email or username cannot be empty'))
+        })
+
+        it('should fail on undefined password', () => {
+            const email = 'manuelbarzi@mail.com'
+            const password = undefined
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+        it('should fail on numeric password', () => {
+            const email = 'manuelbarzi@mail.com'
+            const password = 123
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+
+        it('should fail on boolean password', () => {
+            const email = 'manuelbarzi@mail.com'
+            const password = false
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+        it('should fail on object password', () => {
+            const email = 'manuelbarzi@mail.com'
+            const password = {}
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+        it('should fail on array password', () => {
+            const email = 'manuelbarzi@mail.com'
+            const password = []
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+        it('should fail on empty password', () => {
+            const email = 'manuelbarzi@mail.com'
+            const password = ''
+
+            expect(() => {
+                logic.authenticateUser(email, password)
+            }).toThrow(Error('password cannot be empty'))
+        })
+    })
+
+    describe('retrieve user', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const username = `manu-${Math.random()}`
+        const password = `123-${Math.random()}`
+        const howTo = true
+
+        let id
+
+        beforeEach(() => {
+            bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo })),
+
+            Users.findOne({ email })
+                .then(({id}) => id = id)
+        })
+
+        it('should suceed on correct data', () =>
+            logic.retrieveUser(id)
+                .then(user => {
+                    expect(user).toBeDefined()
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+                    expect(user.username).toBe(username)
+                    expect(user.howTo).toBe(howTo)
+                })
+        )
+
+        it('should fail on undefined user id', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.retrieveUser(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric user id', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.retrieveUser(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on boolean user id', () => {
+            const userId = true
+
+            expect(() => {
+                logic.retrieveUser(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on object user id', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.retrieveUser(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on array user id', () => {
+            const userId = []
+
+            expect(() => {
+                logic.retrieveUser(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on empty user id', () => {
+            const userId = ''
+
+            expect(() => {
+                logic.retrieveUser(userId)
+            }).toThrow(TypeError('userId is empty'))
+        })
+    })
+
+    describe('remove user', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const username = `manu-${Math.random()}`
+        const password = `123-${Math.random()}`
+        const howTo = true
+
+        let id
+
+        beforeEach(() => 
+            bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+                .then(() => {
+                    Users.findOne({email})
+                        .then(({id}) => id = id)
+                })
+
+            // Users.findOne({ email })
+            //     .then(() => console.log('mm'))
+            //     .then(({id}) => id = id)
+            //     .catch(() => console.log('errrrror'))
+        )
+
+        it('should suceed on correct data', () =>
+            logic.removeUser(id, password)
+                .then(() => {
+                    Users.findOne({email})
+                        .then(user => {
+                            expect(user).toBeUndefined()
+                            expect(user.name).toBeUndefined()
+                            expect(user.surname).toBeUndefined()
+                            expect(user.email).toBeUndefined()
+                            expect(user.username).toBeUndefined()
+                            expect(user.howTo).toBeUndefined()
+                        })
+                })
+        )
+
+        it('should fail on undefined user id', () => {
+            const userId = undefined
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric user id', () => {
+            const userId = 123
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on boolean user id', () => {
+            const userId = true
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on object user id', () => {
+            const userId = {}
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on array user id', () => {
+            const userId = []
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on empty user id', () => {
+            const userId = ''
+            const password = `123-${Math.random()}`
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on undefined password', () => {
+            const userId = 'mksmdkdmkemdaskmda'
+            const password = undefined
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+        it('should fail on numeric password', () => {
+            const userId = 'mksmdkdmkemdaskmda'
+            const password = 123
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+
+        it('should fail on boolean password', () => {
+            const userId = 'mksmdkdmkemdaskmda'
+            const password = false
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+        it('should fail on object password', () => {
+            const userId = 'mksmdkdmkemdaskmda'
+            const password = {}
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+        it('should fail on array password', () => {
+            const userId = 'mksmdkdmkemdaskmda'
+            const password = []
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(TypeError(password + ' is not a string'))
+        })
+
+        it('should fail on empty password', () => {
+            const userId = 'mksmdkdmkemdaskmda'
+            const password = ''
+
+            expect(() => {
+                logic.removeUser(userId, password)
+            }).toThrow(Error('password cannot be empty'))
+        })
     })
 
     describe('create event', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const username = `manu-${Math.random()}`
+        const password = `123-${Math.random()}`
+        const howTo = true
+
         const restaurantId = '998w9e8r90eqee'
-        const userId = '23nx8d1347241sm'
+        var userId
         const eventTime = '13:30'
         const eventDate = '06/09/2019'
         const reservationName = 'pepito'
+        const restaurantCategory = 'Tapas'
+        const eventLocation = [222222, 222222]
+        const priceLevel = 2
+        const rating = 3
+
+        beforeEach(() => {
+            console.log('lalala')
+            bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo })),
+
+            Users.findOne({ email })
+                .then(() => console.log('dskadjnfjdsnfjkdnsjdnsajn'))
+                .then(user => console.log(user))
+                .then(({id}) => userId = id)
+        })
 
         it('should succeed on correct data', async () => {
-            const id = await logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+            const id = await logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
 
             expect(id).toBeDefined()
 
@@ -563,6 +978,10 @@ describe('logic', () => {
             expect(event.eventTime).toBe(eventTime)
             expect(event.eventDate).toBe(eventDate)
             expect(event.reservationName).toBe(reservationName)
+            expect(event.restaurantCategory).toBe(restaurantCategory)
+            expect(event.eventLocation).toBe(eventLocation)
+            expect(event.priceLevel).toBe(priceLevel)
+            expect(event.rating).toBe(rating)
         })
 
         it('should fail on undefined restaurant id', () => {
@@ -571,9 +990,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
@@ -583,9 +1006,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
@@ -595,22 +1022,30 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
-        it('should fail on objerct restaurant id', () => {
+        it('should fail on object restaurant id', () => {
             const restaurantId = {}
             const userId = '23nx8d1347241sm'
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
-            }).toThrow(Error(`${restaurantId} is not a string`))
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`[object Object] is not a string`))
         })
 
         it('should fail on array restaurant id', () => {
@@ -619,9 +1054,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${restaurantId} is not a string`))
         })
 
@@ -631,9 +1070,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error('restaurantId is empty'))
         })
 
@@ -645,9 +1088,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -657,9 +1104,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -669,9 +1120,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -681,9 +1136,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -693,9 +1152,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${userId} is not a string`))
         })
 
@@ -705,9 +1168,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error('userId is empty'))
         })
 
@@ -719,9 +1186,13 @@ describe('logic', () => {
             const eventTime = undefined
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -731,9 +1202,13 @@ describe('logic', () => {
             const eventTime = 123
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -743,9 +1218,13 @@ describe('logic', () => {
             const eventTime = true
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -755,9 +1234,13 @@ describe('logic', () => {
             const eventTime = {}
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -767,9 +1250,13 @@ describe('logic', () => {
             const eventTime = []
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventTime} is not a string`))
         })
 
@@ -779,9 +1266,13 @@ describe('logic', () => {
             const eventTime = ''
             const reservationName = 'pepito'
             const eventDate = '06/09/2019'
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error('eventTime is empty'))
         })
 
@@ -793,9 +1284,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = undefined
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -805,9 +1300,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = 123
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -817,9 +1316,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = true
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -829,9 +1332,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = {}
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -841,9 +1348,13 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = []
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error(`${eventDate} is not a string`))
         })
 
@@ -853,10 +1364,406 @@ describe('logic', () => {
             const eventTime = '13:30'
             const reservationName = 'pepito'
             const eventDate = ''
+            const restaurantCategory = 'Tapas'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
 
             expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName)
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
             }).toThrow(Error('eventDate is empty'))
+        })
+
+        // restaurant category
+
+        it('should fail on undefined restaurant category', () => {
+            const restaurantId = 'undefined'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'undefined'
+            const restaurantCategory = undefined
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on numeric restaurant category', () => {
+            const restaurantId = '123'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '123'
+            const restaurantCategory = 123
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on boolean restaurant category', () => {
+            const restaurantId = 'true'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'true'
+            const restaurantCategory = true
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on objerct restaurant category', () => {
+            const restaurantId = '{}'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '{}'
+            const restaurantCategory = {}
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on array restaurant category', () => {
+            const restaurantId = '[]'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '[]'
+            const restaurantCategory = []
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on empty restaurant category', () => {
+            const restaurantId = ' cm4cm2r3'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'lslasl'
+            const restaurantCategory = ''
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error('restaurantCategory cannot be empty'))
+        })
+
+        // event location
+
+        it('should fail on undefined event Location', () => {
+            const restaurantId = 'undefined'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'undefined'
+            const restaurantCategory = 'undefined'
+            const eventLocation = undefined
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error("Cannot read property 'constructor' of undefined"))
+        })
+
+        it('should fail on numeric event Location', () => {
+            const restaurantId = '123'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '123'
+            const restaurantCategory = '123'
+            const eventLocation = 123
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${eventLocation} is not an array`))
+        })
+
+        it('should fail on boolean event Location', () => {
+            const restaurantId = 'true'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'true'
+            const restaurantCategory = 'true'
+            const eventLocation = true
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${eventLocation} is not an array`))
+        })
+
+        it('should fail on objerct event Location', () => {
+            const restaurantId = '{}'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '{}'
+            const restaurantCategory = '{}'
+            const eventLocation = {}
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${eventLocation} is not an array`))
+        })
+
+        it('should fail on string for event Location', () => {
+            const restaurantId = '[]'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '[]'
+            const restaurantCategory = '[]'
+            const eventLocation = 'smsmsm'
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${eventLocation} is not an array`))
+        })
+
+        it('should fail on empty event Location', () => {
+            const restaurantId = ' cm4cm2r3'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'lslasl'
+            const restaurantCategory = 'sdmsad'
+            const eventLocation = ''
+            const priceLevel = 2
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(eventLocation + ' is not an array'))
+        })
+
+        // price Level
+
+        it('should fail on undefined price level', () => {
+            const restaurantId = 'undefined'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'undefined'
+            const restaurantCategory = 'undefined'
+            const eventLocation = [222222, 222222]
+            const priceLevel = undefined
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${priceLevel} is not a number`))
+        })
+
+        it('should fail on string for price level', () => {
+            const restaurantId = '123'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '123'
+            const restaurantCategory = '123'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 'dksdmksm'
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${priceLevel} is not a number`))
+        })
+
+        it('should fail on boolean price level', () => {
+            const restaurantId = 'true'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'true'
+            const restaurantCategory = 'true'
+            const eventLocation = [222222, 222222]
+            const priceLevel = true
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${priceLevel} is not a number`))
+        })
+
+        it('should fail on object price level', () => {
+            const restaurantId = '{}'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '{}'
+            const restaurantCategory = '{}'
+            const eventLocation = [222222, 222222]
+            const priceLevel = {}
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${priceLevel} is not a number`))
+        })
+
+        it('should fail on srray for price level', () => {
+            const restaurantId = '[]'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '[]'
+            const restaurantCategory = '[]'
+            const eventLocation = [222222, 222222]
+            const priceLevel = []
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${priceLevel} is not a number`))
+        })
+
+        it('should fail on empty price level', () => {
+            const restaurantId = ' cm4cm2r3'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'lslasl'
+            const restaurantCategory = 'sdmsad'
+            const eventLocation = [222222, 222222]
+            const priceLevel = ''
+            const rating = 3
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${priceLevel} is not a number`))
+        })
+
+        // rating
+
+        it('should fail on undefined rating', () => {
+            const restaurantId = 'undefined'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'undefined'
+            const restaurantCategory = 'undefined'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = undefined
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${rating} is not a number`))
+        })
+
+        it('should fail on string for rating', () => {
+            const restaurantId = '123'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '123'
+            const restaurantCategory = '123'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = 'dkmsdkm'
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${rating} is not a number`))
+        })
+
+        it('should fail on boolean rating', () => {
+            const restaurantId = 'true'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'true'
+            const restaurantCategory = 'true'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = true
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${rating} is not a number`))
+        })
+
+        it('should fail on object rating', () => {
+            const restaurantId = '{}'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '{}'
+            const restaurantCategory = '{}'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = {}
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${rating} is not a number`))
+        })
+
+        it('should fail on srray for rating', () => {
+            const restaurantId = '[]'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = '[]'
+            const restaurantCategory = '[]'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = []
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${rating} is not a number`))
+        })
+
+        it('should fail on empty rating', () => {
+            const restaurantId = ' cm4cm2r3'
+            const userId = '23nx8d1347241sm'
+            const eventTime = '13:30'
+            const reservationName = 'pepito'
+            const eventDate = 'lslasl'
+            const restaurantCategory = 'sdmsad'
+            const eventLocation = [222222, 222222]
+            const priceLevel = 2
+            const rating = ''
+
+            expect(() => {
+                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            }).toThrow(Error(`${rating} is not a number`))
         })
     })
 
@@ -865,10 +1772,14 @@ describe('logic', () => {
         const userId = '23nx8d1347241sm'
         const eventTime = '13:30'
         const eventDate = '06/09/2019'
+        const restaurantCategory = 'Tapas'
+        const eventLocation = [222222, 222222]
+        const priceLevel = 2
+        const rating = 3
         const reservationName = 'pepito'
 
         beforeEach(() =>
-            Events.create({restaurantId, userId, eventTime, eventDate, reservationName})
+            Events.create({restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating})
         )
 
         it('should suceed on correct data', async() => {
@@ -948,7 +1859,7 @@ describe('logic', () => {
             }).toThrow(Error(`${userId} is not a string`))
         })
 
-        it('should fail on numeric event id', () => {
+        it('should fail on numeric user id', () => {
             const eventId = '123'
             const userId = 123
 
@@ -957,7 +1868,7 @@ describe('logic', () => {
             }).toThrow(Error(`${userId} is not a string`))
         })
 
-        it('should fail on boolean event id', () => {
+        it('should fail on boolean user id', () => {
             const eventId = 'true'
             const userId = true
 
@@ -966,7 +1877,7 @@ describe('logic', () => {
             }).toThrow(Error(`${userId} is not a string`))
         })
 
-        it('should fail on object event id', () => {
+        it('should fail on object user id', () => {
             const eventId = '{}'
             const userId = {}
 
@@ -975,7 +1886,7 @@ describe('logic', () => {
             }).toThrow(Error(`${userId} is not a string`))
         })
 
-        it('should fail on array event id', () => {
+        it('should fail on array user id', () => {
             const eventId = '[]'
             const userId = []
 
@@ -984,7 +1895,7 @@ describe('logic', () => {
             }).toThrow(Error(`${userId} is not a string`))
         })
 
-        it('should fail on empty event id', () => {
+        it('should fail on empty user id', () => {
             const eventId = 'asjndjafnad'
             const userId = ''
 
@@ -994,9 +1905,286 @@ describe('logic', () => {
         })
     })
 
-    // describe('user events' () => {
+    describe('user events', () => {
+        //before each
+        //register a user, get users id and create an event
 
-    // })
+        it('should fail on undefined user id', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.userEvents(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.userEvents(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const userId = true
+
+            expect(() => {
+                logic.userEvents(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on object user id', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.userEvents(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const userId = []
+
+            expect(() => {
+                logic.userEvents(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const userId = ''
+
+            expect(() => {
+                logic.userEvents(userId)
+            }).toThrow(Error('userId is empty'))
+        })
+    })
+
+    describe('find events by category', () => {
+        //before each register user, create events 
+
+        it('should fail on undefined user id', () => {
+            const restaurantCategory = 'Tapas'
+            const userId = undefined
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const restaurantCategory = 'Tapas'
+            const userId = 123
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const restaurantCategory = 'Tapas'
+            const userId = true
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on object user id', () => {
+            const restaurantCategory = 'Tapas'
+            const userId = {}
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const restaurantCategory = 'Tapas'
+            const userId = []
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const restaurantCategory = 'Tapas'
+            const userId = ''
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error('userId is empty'))
+        })
+
+        //event category
+
+        it('should fail on undefined user id', () => {
+            const restaurantCategory = undefined
+            const userId = 'undefined'
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const restaurantCategory = 123
+            const userId = '123'
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const restaurantCategory = true
+            const userId = 'true'
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on object user id', () => {
+            const restaurantCategory = {}
+            const userId = '{}'
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const restaurantCategory = []
+            const userId = '[]'
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error(`${restaurantCategory} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const restaurantCategory = ''
+            const userId = 'mmmmm'
+
+            expect(() => {
+                logic.findEventByCategory(userId, restaurantCategory)
+            }).toThrow(Error('restaurantCategory is empty'))
+        })
+    })
+
+    describe('find events near me', () => {
+        //before each register user, create events
+
+        it('should fail on undefined user id', () => {
+            const distance = 4
+            const userId = undefined
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const distance = 4
+            const userId = 123
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const distance = 4
+            const userId = true
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on object user id', () => {
+            const distance = 4
+            const userId = {}
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const distance = 4
+            const userId = []
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const distance = 4
+            const userId = ''
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error('userId is empty'))
+        })
+
+        //distance
+
+        it('should fail on undefined user id', () => {
+            const distance = undefined
+            const userId = 'undefined'
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${distance} is not a number`))
+        })
+
+        it('should fail on string user id', () => {
+            const distance = '123'
+            const userId = '123'
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${distance} is not a number`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const distance = true
+            const userId = 'true'
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${distance} is not a number`))
+        })
+
+        it('should fail on object user id', () => {
+            const distance = {}
+            const userId = '{}'
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${distance} is not a number`))
+        })
+
+        it('should fail on array user id', () => {
+            const distance = []
+            const userId = '[]'
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${distance} is not a number`))
+        })
+
+        it('should fail on empty user id', () => {
+            const distance = ''
+            const userId = 'mmmmm'
+
+            expect(() => {
+                logic.findEventsNearMe(userId, distance)
+            }).toThrow(Error(`${distance} is not a number`))
+        })
+    })
 
     describe('create chat', ()  => {
         const userId = 'dnjkdafnjkanfd'
@@ -1350,9 +2538,473 @@ describe('logic', () => {
         })
     })
 
-    // describe('user chats', () => {
+    describe('user chats', () => {
+        // before each register user, create chat with that id
 
-    // })
+        it('should fail on undefined user id', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.userChats(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.userChats(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const userId = true
+
+            expect(() => {
+                logic.userChats(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on object user id', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.userChats(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const userId = []
+
+            expect(() => {
+                logic.userChats(userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const userId = ''
+
+            expect(() => {
+                logic.userChats(userId)
+            }).toThrow(Error('userId is empty'))
+        })
+    })
+
+    describe('add message to chat', () => {
+        //before each register user, ger user id, create chat
+
+        it('should fail on undefined user id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = 'msmssmsm'
+            const userId = undefined
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = 'msmssmsm'
+            const userId = 123
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = 'msmssmsm'
+            const userId = true
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on object user id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = 'msmssmsm'
+            const userId = {}
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = 'msmssmsm'
+            const userId = []
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = 'msmssmsm'
+            const userId = ''
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error('userId is empty'))
+        })
+
+        //chatId
+
+        it('should fail on undefined chat id', () => {
+            const chatId = undefined
+            const text = 'msmssmsm'
+            const userId = 'undefined'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on numeric chat id', () => {
+            const chatId = 123
+            const text = 'msmssmsm'
+            const userId = '123'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on boolean chat id', () => {
+            const chatId = true
+            const text = 'msmssmsm'
+            const userId = 'true'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on object chat id', () => {
+            const chatId = {}
+            const text = 'msmssmsm'
+            const userId = '{}'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on array chat id', () => {
+            const chatId = []
+            const text = 'msmssmsm'
+            const userId = '[]'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on empty chat id', () => {
+            const chatId = ''
+            const text = 'msmssmsm'
+            const userId = 'msmsms'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error('chatId is empty'))
+        })
+
+        //text
+
+        it('should fail on undefined text id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = undefined
+            const userId = 'undefined'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${text} is not a string`))
+        })
+
+        it('should fail on numeric text id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = 123
+            const userId = '123'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${text} is not a string`))
+        })
+
+        it('should fail on boolean text id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = true
+            const userId = 'ddd'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${text} is not a string`))
+        })
+
+        it('should fail on object text id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = {}
+            const userId = '{}'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${text} is not a string`))
+        })
+
+        it('should fail on array text id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = []
+            const userId = '[]'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error(`${text} is not a string`))
+        })
+
+        it('should fail on empty text id', () => {
+            const chatId = 'kdmdksmskd'
+            const text = ''
+            const userId = 'ld,edewd'
+
+            expect(() => {
+                logic.userEvents(userId, chatId, text)
+            }).toThrow(Error('text is empty'))
+        })
+    }) 
+    
+    describe('messages from chat', () => {
+        //before each regis...
+
+        it('should fail on undefined user id', () => {
+            const chatId = 'kdmdksmskd'
+            const userId = undefined
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const chatId = 'kdmdksmskd'
+            const userId = 123
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const chatId = 'kdmdksmskd'
+            const userId = true
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on object user id', () => {
+            const chatId = 'kdmdksmskd'
+            const userId = {}
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const chatId = 'kdmdksmskd'
+            const userId = []
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const chatId = 'kdmdksmskd'
+            const userId = ''
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error('userId is empty'))
+        })
+
+        //chatId
+
+        it('should fail on undefined chat id', () => {
+            const chatId = undefined
+            const userId = 'undefined'
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on numeric chat id', () => {
+            const chatId = 123
+            const userId = '123'
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on boolean chat id', () => {
+            const chatId = true
+            const userId = 'true'
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on object chat id', () => {
+            const chatId = {}
+            const userId = '{}'
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on array chat id', () => {
+            const chatId = []
+            const userId = '[]'
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error(`${chatId} is not a string`))
+        })
+
+        it('should fail on empty chat id', () => {
+            const chatId = ''
+            const userId = 'msmssmsm'
+
+            expect(() => {
+                logic.messagesFromChat(userId, chatId)
+            }).toThrow(Error('chatId is empty'))
+        })
+    })
+
+    describe('search restaurants', () => {
+        //before each...
+
+        it('should fail on undefined user id', () => {
+            const query = 'kdmdksmskd'
+            const userId = undefined
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on numeric user id', () => {
+            const query = 'kdmdksmskd'
+            const userId = 123
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on boolean user id', () => {
+            const query = 'kdmdksmskd'
+            const userId = true
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on object user id', () => {
+            const query = 'kdmdksmskd'
+            const userId = {}
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on array user id', () => {
+            const query = 'kdmdksmskd'
+            const userId = []
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${userId} is not a string`))
+        })
+
+        it('should fail on empty user id', () => {
+            const query = 'kdmdksmskd'
+            const userId = ''
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error('userId is empty'))
+        })
+
+        //query
+
+        it('should fail on undefined query', () => {
+            const query = undefined
+            const userId = 'undefined'
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${query} is not a string`))
+        })
+
+        it('should fail on numeric query', () => {
+            const query = 1123
+            const userId = '123'
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${query} is not a string`))
+        })
+
+        it('should fail on boolean query', () => {
+            const query = true
+            const userId = 'dddd'
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${query} is not a string`))
+        })
+
+        it('should fail on object query', () => {
+            const query = {}
+            const userId = '{}'
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${query} is not a string`))
+        })
+
+        it('should fail on array query', () => {
+            const query = []
+            const userId = '[]'
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error(`${query} is not a string`))
+        })
+
+        it('should fail on empty query', () => {
+            const query = ''
+            const userId = ',,aa,aasdde'
+
+            expect(() => {
+                logic.searchRestaurants(query, userId)
+            }).toThrow(Error('query is empty'))
+        })
+    })
 
     
 })
