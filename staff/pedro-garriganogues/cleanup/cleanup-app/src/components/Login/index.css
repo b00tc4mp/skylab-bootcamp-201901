@@ -8,3 +8,9 @@
     justify-content: center;
     border-radius: 5px;
 }
+
+.decoration{
+    text: black;
+    text-decoration: none;
+    text-emphasis-color: black;
+}

@@ -11,3 +11,9 @@
 .form{
     
 }
+
+.decoration{
+    text: black;
+    text-decoration: none;
+    text-emphasis-color: black;
+}

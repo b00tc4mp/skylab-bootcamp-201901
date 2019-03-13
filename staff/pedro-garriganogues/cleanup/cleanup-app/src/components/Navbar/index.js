@@ -56,7 +56,7 @@ class Navbar extends Component {
                             <li>  <Link to="/contact" >Contact</Link></li>
                             <li>  <Link to="/products" >Products</Link></li>
                             <li>
-                                <p>User</p>
+                                <p >User</p>
                                 <div className="submenu">
                                     <div className="submenu-items">
                                         {logic.__userApiToken__ && < SignedIn />}

@@ -34,7 +34,11 @@ class Login extends Component {
                 <br />
                 <br />
                 <button>Login</button>
-                <Link to="/register">Register</Link>
+                <br />
+                <br />
+                <button>
+                    <Link className="decoration" to="/register">Register</Link>
+                </button>
             </form>
             {feedback && <Feedback message={feedback} level="warn" />}
         </section>

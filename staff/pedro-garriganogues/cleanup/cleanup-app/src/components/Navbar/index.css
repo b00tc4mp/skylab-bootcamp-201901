@@ -18,11 +18,13 @@ body{
 	margin-bottom: -20px;
 }
 
+
 .cartLogo{
 	margin: -1em;
     height: 3em;
     border-radius: 18px;
-    margin-bottom: -20px;
+    margin-bottom: -15px;
+    margin-left: 40em;
 }
 
 .navegacion{
