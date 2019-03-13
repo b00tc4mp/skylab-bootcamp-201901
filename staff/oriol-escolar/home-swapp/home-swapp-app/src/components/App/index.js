@@ -41,14 +41,21 @@ class App extends Component {
   }
 
   async userInfoRetriever() {
+    // const user = await logic.registerUser()
     const userFavs = await logic.retrieveFavorites()
     const userHouses = await  logic.retrieveMyHouses()
     this.setState({ userFavs, userHouses })
   }
 
+  async updateUser(){
 
-  
-  
+    const user = await logic.retrieveUser()
+    const userFavs = await logic.retrieveFavorites()
+    const userHouses = await  logic.retrieveMyHouses()
+    this.setState({user,userFavs, userHouses})
+
+
+  }
 
 
   handleLogin = (email, password) => {

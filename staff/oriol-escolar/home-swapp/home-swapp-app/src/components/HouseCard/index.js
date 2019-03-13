@@ -1,23 +1,28 @@
-'use strict'
-import React from 'react'
+import React, { Component } from 'react'
 import './index.sass';
 
 
 
 
 
-function HouseCard({adress,images,id},toggleFavs){
+class HouseCard extends Component {
 
-        
-        return <div className="HouseCard">
+    render() {
+
+        const { house: { adress, images, id }, retrieveHouse, origin } = this.props
+
+        return <div onClick={retrieveHouse} className="HouseCard">
 
             <img className="HouseCard__img" src={images[0]}></img>
             <p className="HouseCard__text-city">{adress.city}</p>
             <p className="HouseCard__text-adress" >{adress.street}  {adress.number}</p>
-            {/* <p onClick={toggleFavs(id)}>ADD TO FAVORITES</p> */}
+            {origin != 'myHouses' ? <p>ADD TO FAVORITES</p> : <div>   <p>DELETE</p>  <p>EDIT</p>  </div>  }
 
 
         </div>
+
+
+    }
 
 }
 

@@ -38,12 +38,11 @@ class SearchResults extends Component {
 
 
 
-    listresults(userHouses,toggleFavs) {
+    listresults(userHouses) {
 
-        console.log(userHouses)
         return userHouses.map(house => {
 
-            return HouseCard(house,toggleFavs)
+            return <HouseCard house={house} origin='search'/>
         });
     }
 

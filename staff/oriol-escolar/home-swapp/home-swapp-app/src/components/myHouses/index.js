@@ -26,11 +26,11 @@ class MyHouses extends Component {
     
 
 
-    listMyHouses(userHouses,toggleFavs) {
+    listMyHouses(userHouses) {
 
         return userHouses.map(house => {
 
-            return HouseCard(house,toggleFavs)
+            return <HouseCard house={house} origin='myHouses'/>
         });
     }
 
