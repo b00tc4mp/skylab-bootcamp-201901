@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css' 
 
 // App components
 import Header from '../Header'
@@ -13,25 +15,24 @@ import Start from '../Start'
 import NotFound from '../NotFound'
 
 import logic from '../../logic'
-import InvitationList from '../InvitationList';
+import InvitationList from '../InvitationList'
 
 class App extends Component {
   state = {
-    registerFeedback: null,
     isLoggedIn: logic.isUserLoggedIn,
-    loginFeedback: null,
-    isAdmin: logic.isAdmin,
-    exercisesFeedback: null,
-    invitationsFeedback: ''
+    isAdmin: logic.isAdmin
   }
 
   handleRegister = (name, surname, email, password, passwordConfirmation) => {
     try {
       logic.registerUser(name, surname, email, password, passwordConfirmation)
-        .then(() => this.props.history.push('/login'))
-        .catch(({ message }) => this.showFeedbackRegister(message))
+        .then(() => {
+          this.emitFeedback('Register sucessfully!', 'success')
+          this.props.history.push('/login')
+        })
+        .catch(({ message }) => this.emitFeedback(message, 'error'))
     } catch ({ message }) {
-      this.showFeedbackRegister(message)
+      this.emitFeedback(message, 'error')
     }
   }
 
@@ -39,13 +40,23 @@ class App extends Component {
     try {
       logic.logInUser(email, password)
         .then(() => {
-          this.setState({ loginFeedback: null, isAdmin: logic.isAdmin, isLoggedIn: logic.isUserLoggedIn })
+          this.emitFeedback('Login sucessfully!', 'success')
+          this.setState({ isAdmin: logic.isAdmin, isLoggedIn: logic.isUserLoggedIn })
         })
-        .catch(({ message }) => this.showFeedbackLogin(message))
+        .catch(({ message }) => this.emitFeedback(message, 'error'))
     } catch ({ message }) {
-      this.showFeedbackLogin(message)
+      this.emitFeedback(message, 'error')
     }
   }
+
+  emitFeedback = (message, level) => toast[level](message, {
+    position: 'top-right',
+    autoClose: false,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  })
 
   handleLogout = (event) => {
     event.preventDefault()
@@ -54,28 +65,18 @@ class App extends Component {
     this.props.history.push('/')
   }
 
-  showFeedbackRegister = (message) => {
-    this.setState({ registerFeedback: message })
-    setTimeout(() => this.setState({ registerFeedback: null }), 3000)
-  }
-
-  showFeedbackLogin = (message) => {
-    this.setState({ loginFeedback: message })
-    setTimeout(() => this.setState({ loginFeedback: null }), 3000)
-  }
-
   onExerciseEdit = (id) => this.props.history.push(`/admin/exercise/${id}`)
   onInvitationEdit = (id) => this.props.history.push(`/admin/invitation/${id}`)
 
   onNew = () => this.props.history.push('/admin/exercise/new')
 
-  handleNew = (message) => {
-    this.setState({ exercisesFeedback: message })
+  handleNew = message => {
+    this.emitFeedback(message, 'success')
     this.props.history.push('/admin/exercises')
   }
 
-  handleNewInvitation = (message) => {
-    this.setState({ invitationsFeedback: message })
+  handleNewInvitation = message => {
+    this.emitFeedback(message, 'success')
     this.props.history.push('/admin/invitations')
   }
 
@@ -88,7 +89,7 @@ class App extends Component {
   handleStart = () => this.props.history.push('/start')
 
   render() {
-    const { state: { isLoggedIn, isAdmin, registerFeedback, loginFeedback, exercisesFeedback, invitationsFeedback },
+    const { state: { isLoggedIn, isAdmin },
       handleRegister,
       handleLogin,
       handleLogout,
@@ -108,20 +109,19 @@ class App extends Component {
           <Route exact path="/" render={() => <Home onStart={handleStart} />} />
           <Route exact path="/start" component={Start} />
 
-          <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} feedback={registerFeedback} /> : <Redirect to='/' />} /> :
-          <Route exact path="/login" render={() => !isLoggedIn ? <Login onLogin={handleLogin} feedback={loginFeedback} /> : <Redirect to='/' />} />
+          <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} /> : <Redirect to='/' />} /> :
+          <Route exact path="/login" render={() => !isLoggedIn ? <Login onLogin={handleLogin} /> : <Redirect to='/' />} />
 
-          <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList feedbackNew={exercisesFeedback} handleEdit={onEdit} handleNew={onNew} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList handleEdit={onEdit} handleNew={onNew} /> : <Redirect to='/' />} />
           <Route exact path="/admin/exercise/new" render={() => isAdmin ? <ExerciseForm onNew={handleNew} /> : <Redirect to='/' />} />
           <Route exact path="/admin/exercise/:exerciseId" render={props => isAdmin ? <ExerciseForm id={props.match.params.exerciseId} /> : <Redirect to='/' />} />
 
-          <Route exact path="/admin/invitations" render={() => isAdmin ? <InvitationList feedbackNewInvitation={invitationsFeedback} handleEditInvitation={onEditInvitation} handleNewInvitation={onNewInvitation} /> : <Redirect to='/' />} />
+          <Route exact path="/admin/invitations" render={() => isAdmin ? <InvitationList handleEditInvitation={onEditInvitation} handleNewInvitation={onNewInvitation} /> : <Redirect to='/' />} />
           <Route exact path="/admin/invitation/new" render={() => isAdmin ? <InvitationForm onNewInvitation={handleNewInvitation} /> : <Redirect to='/' />} />
           <Route exact path="/admin/invitation/:invitationId" render={props => isAdmin ? <InvitationForm id={props.match.params.invitationId} /> : <Redirect to='/' />} />
-
-
           <Route component={NotFound} />
         </Switch>
+        <ToastContainer />
       </div>
     )
   }

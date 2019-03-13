@@ -1,47 +1,56 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
 
 import InvitationItem from '../InvitationItem'
-import Feedback from '../Feedback'
 import logic from '../../logic'
 
 class InvitationList extends Component {
-  state = { invitations: [], feedback: null }
+  state = { invitations: [] }
 
   componentDidMount() {
     logic.invitationList()
       .then(invitations => {
         this.setState({ invitations })
       })
-      .catch(({ error }) => console.log(error))
+      .catch(message => this.emitFeedback(message, 'error'))
   }
+
+  emitFeedback = (message, level) => toast[level](message, {
+    position: 'top-right',
+    autoClose: false,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  })
 
   handleDelete = (id) => {
     logic.deleteInvitation(id)
       .then(({ message }) =>
         logic.invitationList()
           .then(invitations => {
-            this.setState({ invitations, feedback: message })
+            this.emitFeedback(message, 'success')
+            this.setState({ invitations })
           })
-          .catch(({ error }) => console.log(error))
+          .catch(message => this.emitFeedback(message, 'error'))
       )
-      .catch(({ error }) => console.log(error))
+      .catch(message => this.emitFeedback(message, 'error'))
   }
 
   handleSendEmailInvitation = (id, email) => {
-    // const { state:  } = this
 
     logic.sendEmailInvitation({ id, email })
       .then(message => {
         logic.invitationList()
           .then(invitations => {
-            this.setState({ invitations, message})
+            this.setState({ invitations, message })
           })
-          .catch(({ error }) => console.log(error))
+          .catch(message => this.emitFeedback(message, 'error'))
       })
   }
 
   render() {
-    const { state: { invitations, feedback }, handleDelete, handleSendEmailInvitation, props: {handleNewInvitation } } = this
+    const { state: { invitations }, handleDelete, handleSendEmailInvitation, props: { handleNewInvitation } } = this
 
     return (
       <main className="itemlist invitation-list">
@@ -50,17 +59,15 @@ class InvitationList extends Component {
           <button className="itemlist__header__new button is-link is-warning" onClick={handleNewInvitation}>New</button>
         </div>
 
-        <div className="itemlist__feedback" >
-          {feedback && <Feedback message={feedback} />}
-        </div>
-
         <div className="itemlist__items" >
+        
           {invitations.map((invitation, index) => <InvitationItem
             key={index}
             results={invitation}
             onDelete={handleDelete}
             onSendInvitationEmail={handleSendEmailInvitation}
           />)}
+
         </div>
 
       </main>

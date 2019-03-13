@@ -107,7 +107,7 @@ const logic = {
                             if (err) throw Error('file not created')
                         })
 
-                        return { message: `exercise with id ${id} created` }
+                        return { message: `Exercise created` }
                     })
             })
 
@@ -158,7 +158,7 @@ const logic = {
 
                         return Exercise.deleteOne({ _id: exerciseId })
                             .then((res) => {
-                                if (res.ok === 1) return { status: 'ok', message: `exercise with id ${exerciseId} deleted` }
+                                if (res.ok === 1) return { status: 'ok', message: `Exercise deleted` }
                             })
                     })
             })
@@ -188,7 +188,7 @@ const logic = {
                             if (err) throw Error(`error updating the file`);
                         })
 
-                        return { status: 'ok', message: `exercise with id ${exercise._id} updated` }
+                        return { status: 'ok', message: `Exercise updated` }
                     })
             })
 
@@ -280,7 +280,7 @@ const logic = {
 
                 return Invitation.create({ email })
                     .then(({ id }) => {
-                        return { message: `invitation with id ${id} created` }
+                        return { message: `Invitation created` }
                     })
             })
 
@@ -328,7 +328,7 @@ const logic = {
 
                         return Invitation.deleteOne({ _id: invitationId })
                             .then((res) => {
-                                if (res.ok === 1) return { status: 'ok', message: `invitation with id ${invitationId} deleted` }
+                                if (res.ok === 1) return { status: 'ok', message: `Invitation deleted` }
                             })
                     })
             })
@@ -352,7 +352,7 @@ const logic = {
                         if (!invitation) throw new NotFoundError(`invitation with id ${id} not found`)
                         invitation.id = invitation._id.toString()
 
-                        return { status: 'ok', message: `invitation with id ${invitation._id} updated` }
+                        return { status: 'ok', message: `Invitation updated` }
                     })
             })
 
