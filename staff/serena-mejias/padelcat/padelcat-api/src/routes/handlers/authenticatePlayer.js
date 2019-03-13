@@ -9,14 +9,13 @@ module.exports = (req, res) => {
   try {
     logic
       .authenticatePlayer(email, password)
-      .then(playerId => {
-        const token = createToken(playerId);
-        res.json({ token });
+      .then(response => {
+        res.json({ player: response, token: createToken(response._id) });
       })
       .catch(err => {
-        res.status(409).json({ err: message });
+        res.status(409).json({ err: err.message });
       });
   } catch (err) {
-    res.status(409).json({ err: message });
+    res.status(409).json({ err: err.message });
   }
 };

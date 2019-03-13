@@ -11,7 +11,6 @@ const tokenHelper = {
 
   verifyToken(token) {
     const { sub } = jwt.verify(token, this.jwtSecret);
-
     if (!sub) throw Error(`subject not present in token ${token}`);
 
     return sub;
@@ -21,15 +20,14 @@ const tokenHelper = {
     const {
       headers: { authorization }
     } = req;
-
     const token = authorization.substring(7);
-
+    
     try {
       const playerId = this.verifyToken(token);
 
       req.playerId = playerId;
     } catch ({ message }) {
-      return res.status(401).json(error);
+      return res.status(401).json(message);
     }
 
     next();

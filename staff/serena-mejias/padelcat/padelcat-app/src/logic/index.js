@@ -106,13 +106,21 @@ const logic = {
     return padelcatApi.retrieveMatchesScrapping();
   },
 
-  setIdMatches: () => {
-    return padelcatApi.setIdMatches();
-  }
+  getMatchesWithData: () => {
+    return padelcatApi.getMatchesWithData();
+  },
 
-  // retrieveAvailabilityPlayers:(matchId) => {
-  //   return padelcatApi.retrieveMatchesScrapping(matchId, "tokenKey");
-  // }
+  addAvalabilityPlayer: (playerId, matchId) => {
+    return padelcatApi.addAvalabilityPlayer(playerId, matchId);
+  },
+
+  deleteAvalabilityPlayer: (playerId, matchId) => {
+    return padelcatApi.deleteAvalabilityPlayer(playerId, matchId);
+  },
+
+  retrieveAvailabilityPlayers:(matchId) => {
+    return padelcatApi.retrieveAvailabilityPlayers(matchId);
+  }
 };
 
 export default logic;

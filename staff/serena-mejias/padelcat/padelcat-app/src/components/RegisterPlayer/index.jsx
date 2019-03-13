@@ -98,6 +98,7 @@ const RegisterPlayer = props => {
         <label className={styles.label}>
           Prefered Position
           <select onChange={handlePreferedPositionInput}>
+            <option value={""}></option>
             <option value={"Left"}>Left</option>
             <option value={"Right"}>Right</option>
             <option value={"Both"}>Both</option>

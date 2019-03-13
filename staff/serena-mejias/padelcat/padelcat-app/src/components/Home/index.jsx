@@ -3,6 +3,7 @@ import logic from "../../logic";
 import styles from "./index.module.scss";
 import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
+import { Match } from "../Match";
 
 export const Home = props => {
   const [matches, setMatches] = useState("");
@@ -12,13 +13,13 @@ export const Home = props => {
       props.history.push("/login");
     }
     logic
-      .retrieveMatches()
+      .getMatchesWithData()
       .then(matches => setMatches(matches))
       .catch(error => {
         throw Error(error);
       });
-    //logic.retrieveAvailabilityPlayers(matches.matchId)
   }, []);
+
   return (
     <section className={styles.container}>
       <NavLink to={"/players"} className={styles.button}>
@@ -26,48 +27,17 @@ export const Home = props => {
       </NavLink>
       <ul>
         {matches &&
-          matches.map(
-            ({
-              matchId,
-              date,
-              team1,
-              imageTeam1,
-              team2,
-              imageTeam2,
-              result,
-              location
-            }) => (
-              <li className={styles.match} key={matchId}>
-                <h4>{date}</h4>
-                <div className="teams">
-                  <div className="team1">
-                    <h6>{team1}</h6>
-                    <img src={imageTeam1} />
-                  </div>
-                  <div className="team2">
-                    <h6>{team2}</h6>
-                    <img src={imageTeam2} />
-                  </div>
-                  <ul>Available Players</ul>
-                  <label>
-                    Are you available?
-                    <input type="checkbox" name="Availability" />
-                  </label>
-                  <div
-                    id="drop_zone"
-                    ondrop="dropHandler(event);"
-                    ondragover="dragOverHandler(event);"
-                  >
-                    <p>Arrastra y suelta uno o más archivos a esta zona ...</p>
-                  </div>
-                  <span>{result}</span>
-                  <span>{location}</span>
-                </div>
-              </li>
-            )
-          )}
+          matches.map(match => (
+            <li className={styles.match} key={match.matchId}>
+              <Match
+                match={match}
+                handleSetAvailable={props.handleSetAvailable}
+                handleSetUnavailable={props.handleSetUnavailable}
+                playerlogged={props.playerlogged}
+              />
+            </li>
+          ))}
       </ul>
-      
     </section>
   );
 };

@@ -97,7 +97,7 @@ const logic = {
 
       if (!match) throw Error("wrong credentials");
 
-      return player.id;
+      return player;
     })();
   },
 
@@ -150,10 +150,7 @@ const logic = {
 
   setScorePlayers(link) {
     return logic.retrieveScoreScrapping().then(response => {
-      console.log(response);
-
       const matchingPlayer = response.filter(player => player.link === link);
-      console.log(matchingPlayer);
       if (matchingPlayer.length === 1) {
         return Player.findOneAndUpdate(
           { link: link },
@@ -230,22 +227,87 @@ const logic = {
     })(urlMatches);
   },
 
-  setIdMatches() {
-    return logic.retrieveMatchesScrapping().then(response => {
-      return response.map(({ matchId }) => {
-        Match.create({ matchId: matchId });
+  getMatchesWithData() {
+    return (async () => {
+      const dataMatches = await logic.retrieveMatchesScrapping();
+      const newArray = dataMatches.map(async scrappingMatch => {
+        const match = await Match.findOne({ matchId: scrappingMatch.matchId });
+        const {
+          matchId,
+          date,
+          team1,
+          imageTeam1,
+          team2,
+          imageTeam2,
+          result,
+          location
+        } = scrappingMatch;
+        const { playersAvailable = [], playersChosen = [] } = match;
+
+        return {
+          matchId,
+          date,
+          team1,
+          imageTeam1,
+          team2,
+          imageTeam2,
+          result,
+          location,
+          playersAvailable,
+          playersChosen
+        };
       });
-    });
+      debugger;
+      return Promise.all(newArray).then((response) => response)
+    })();
   },
 
-  retrieveAvailabilityPlayers(id) {
-    const foundMatch = Match.findOne({ matchId: id }, (err, doc) => {
-      if (!err) {
-        throw Error(err);
+  addAvailabilityPlayer(playerId, matchId) {
+    return (async () => {
+      await Player.findByIdAndUpdate(
+        { _id: playerId },
+        { $push: { availability: matchId } }
+      );
+      const match = await Match.findOne({ matchId });
+      if (!match) {
+        await Match.create({ matchId, playersAvailable: playerId });
+      } else {
+        match.playersAvailable.push(playerId);
+        await match.save();
       }
-      return foundMatch.schema.obj.playersAvailable;
-    });
-  }
+    })();
+  },
+
+  deleteAvailabilityPlayer(playerId, matchId) {
+    return (async () => {
+      debugger;
+      const player = await Player.findById(playerId);
+      const index = player.availability.indexOf(matchId);
+      player.availability.splice(index, 1);
+      await player.save();
+
+      const match = await Match.findOne({ matchId });
+      if (!match) {
+        throw Error("match does not exist");
+      } else {
+        const match = await Match.findOne({ matchId });
+        const index = await match.playersAvailable.indexOf(playerId);
+        match.playersAvailable.splice(index, 1);
+        await match.save();
+      }
+    })();
+  },
+
+  // retrieveAvailabilityPlayers(matchId) {
+  //   return (async () => {
+  //     const match = await Match.findOne({ matchId });
+  //     if (match) {
+  //       return match.playersAvailable;
+  //     } else {
+  //       throw Error("match does not exist");
+  //     }
+  //   })();
+  // }
 };
 
 module.exports = logic;

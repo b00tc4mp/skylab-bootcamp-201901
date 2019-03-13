@@ -65,7 +65,6 @@ const padelcatApi = {
     if (typeof password !== "string")
       throw TypeError(`${password} is not a string`);
     if (!password.trim().length) throw Error("password is empty");
-
     return axios.post("/authenticate", JSON.stringify({ email, password }), {
       headers: { "content-type": "application/json" }
     });
@@ -79,35 +78,41 @@ const padelcatApi = {
     return axios.get("/retrieveScore");
   },
 
-  setScorePlayers: (link) => {
-    return axios.put("/setScorePlayer", JSON.stringify({ link }))
+  setScorePlayers: link => {
+    return axios.put("/setScorePlayer", JSON.stringify({ link }));
   },
 
   retrieveMatchesScrapping: () => {
     return axios.get("/retrieveMatches");
   },
 
-  setIdMatches: () => {
-    return axios.put("/setScorePlayer")
+  getMatchesWithData: () => {
+    return axios.get("/getMatchesWithData");
   },
 
-  // retrieveAvailabilityPlayers(matchId, token) {
-  //   return fetch(`${this.url}/retrieveAvailabilityPlayers`, {
-  //     method: "GET",
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //       "content-type": "application/json"
-  //     },
-  //     body: JSON.stringify({ matchId })
-  //   })
-  //   .then(response => response.json())
-  //   .then(response => {
-  //     debugger
-  //     if (response.error) throw Error(response.error);
+  addAvalabilityPlayer: (playerId, matchId) => {
+    return axios.put(
+      "/availabilityPlayer",
+      JSON.stringify({ playerId, matchId }),
+      {
+        headers: { "content-type": "application/json" }
+      }
+    );
+  },
 
-  //       return response;
-  //     });
-  // }
+  deleteAvalabilityPlayer: (playerId, matchId) => {
+    return axios.put(
+      "/deleteAvailabilityPlayer",
+      JSON.stringify({ playerId, matchId }),
+      {
+        headers: { "content-type": "application/json" }
+      }
+    );
+  }
+
+  //  retrieveAvailabilityPlayers: (matchId) => {
+  //    return axios.get(`/retrieveAvailabilityPlayers/${matchId}`)
+  //  }
 };
 
 export default padelcatApi;

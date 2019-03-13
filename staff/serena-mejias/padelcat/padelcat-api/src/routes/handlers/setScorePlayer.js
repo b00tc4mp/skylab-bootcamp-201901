@@ -8,8 +8,10 @@ module.exports = (req, res) => {
     logic
       .setScorePlayers(link)
       .then(res.json.bind(res))
-      .catch(err => console.log(err));
+      .catch(err => {
+        throw Error (err)
+    });
   } catch (err) {
-    console.log(err);
+    throw Error(err)
   }
 };

@@ -43,7 +43,7 @@ const Player = new Schema({
     type: String
   },
 
-  avalibility: {
+  availability: {
     type: Array
   },
 

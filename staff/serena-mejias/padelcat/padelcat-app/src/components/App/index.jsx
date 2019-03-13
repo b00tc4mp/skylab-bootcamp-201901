@@ -10,12 +10,20 @@ import { Header } from "../Header/Header";
 import Grid from "@material-ui/core/Grid";
 import { log } from "util";
 
+import { Form, Field } from "react-final-form";
+import ChosenPairs from '../ChosenPairs'
+
 class App extends Component {
+  state = {
+    player: null
+  };
   handleLogin = (email, password) => {
     try {
+      debugger;
       logic
         .loginPlayer(email, password)
         .then(response => {
+          this.setState({ player: response.player });
           logic.storeToken(response.token);
           this.props.history.push("/home");
         })
@@ -56,25 +64,55 @@ class App extends Component {
     }
   };
 
+  handleSetAvailable = matchId => {
+    logic.addAvalabilityPlayer(this.state.player._id, matchId);
+  };
+
+  handleSetUnavailable = matchId => {
+    logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
+  };
+
   render() {
-    const { handleLogin, handleRegister } = this;
+    const {
+      handleLogin,
+      handleRegister,
+      handleSetAvailable,
+      handleSetUnavailable
+    } = this;
+
     return (
       <main>
-        <Header />
+        <Form onSubmit={console.log} render={({ handleSubmit, form }) => 
+          <form onSubmit={handleSubmit}>
+            <ChosenPairs selectorName="firstPair" players={['manuel', 'serena'].map((name, index) => ({ id: index, name }))} />
+            <button type="submit">Choose this pair</button>
+          </form>
+        }>
+        </Form>
+        {/* <Header />
         <Grid container justify="center" spacing={24}>
           <Route
             path="/register"
             render={() => <RegisterPlayer onRegister={handleRegister} />}
           />
           <Route path="/login" render={() => <Login onLogin={handleLogin} />} />
-          <Route path="/home" component={Home} />
+          <Route
+            path="/home"
+            render={() => (
+              <Home
+                handleSetAvailable={handleSetAvailable}
+                handleSetUnavailable={handleSetUnavailable}
+                playerlogged={this.state.player}
+              />
+            )}
+          />
           <Route
             exact
             path="/"
             render={() => <Redirect to={{ pathname: "/home" }} />}
           />
-          <Route path="/players" component={Ranking}/>
-        </Grid>
+          <Route path="/players" component={Ranking} />
+        </Grid> */}
       </main>
     );
   }

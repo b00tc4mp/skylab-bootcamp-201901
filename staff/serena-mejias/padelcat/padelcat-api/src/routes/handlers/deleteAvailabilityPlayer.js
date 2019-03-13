@@ -1,13 +1,16 @@
 const logic = require("../../logic");
-module.exports = (req, res) => {
-  const {
-    body: {  },
-  } = req;
 
+module.exports = (req, res) => {
+  debugger;
+  const {
+    body: { playerId, matchId }
+  } = req;
   try {
     logic
-      .retrievePlayers()
-      .then(r => res.json(r))
+      .deleteAvailabilityPlayer(playerId, matchId)
+      .then(response => {
+        res.json(response);
+      })
       .catch(err => {
         throw Error(err);
       });
