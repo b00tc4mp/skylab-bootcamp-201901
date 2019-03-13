@@ -7,7 +7,7 @@ const bookApi ={
 
     url : 'http://localhost:8000/api',
     url_cloudinary:'https://api.cloudinary.com/v1_1/ccl1986/upload',
-    url_cloudinary_upload_preset :'v7oaakma',
+    url_cloudinary_upload_preset :'nbyfgfiw',
     /**
      * Add a book to the server
      * 
@@ -40,6 +40,7 @@ const bookApi ={
             },
             data: formData
         }).then(res => {
+            console.log(res)
             const { data : { secure_url } } = res
             return fetch(`${this.url}/book/add`, {
                     method: 'POST',
@@ -154,6 +155,16 @@ const bookApi ={
         if(arguments.length !== 0) throw new Error ('Too many args')
 
         return fetch(`${this.url}/book/retrieveTemplates`, {
+            method: 'GET'
+        })
+        .then(books => books.json())
+    },
+
+
+    retrieveTemplateBook(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+        return fetch(`${this.url}/book/retrieveTemplate/${id}`, {
             method: 'GET'
         })
         .then(books => books.json())

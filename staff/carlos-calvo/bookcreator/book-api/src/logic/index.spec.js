@@ -638,9 +638,9 @@ describe('logic', () => {
             const user  = await User.create({ name, surname, email, password })
             const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
             const book2 = await logic.retrieveBook(book1._id.toString())
-            expect(book2[0].title).toBe('titulo1')
-            expect(book2[0].content).toBe('content')
-            expect(book2[0].coverphoto).toBe('co')
+            expect(book2.title).toBe('titulo1')
+            expect(book2.content).toBe('content')
+            expect(book2.coverphoto).toBe('co')
         })
 
         it('should fail on non-string id', async () => {
@@ -740,6 +740,35 @@ describe('logic', () => {
         })
     })
 
+    describe('RetrieveTemplate', () => {
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const passwordConfirm = password
+
+        it('should succeed on retrieving a template', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            const book2 = await logic.addBookToTemplates(book1._id.toString())
+            const book3 = await logic.retrieveTemplate(book2._id.toString())
+            expect(book3.title).toBe('titulo1')
+            expect(book3.content).toBe('content')
+            expect(book3.coverphoto).toBe('co')
+        })
+
+        it('should fail on non-string id', async () => {
+            expect(() => {
+                logic.retrieveTemplate({})
+            }).toThrow(Error)
+        })
+
+        it('should fail on empty id', async () => {
+            expect(() => {
+                logic.retrieveTemplate('')
+            }).toThrow(Error)
+        })
+    })
 
     describe('AddBookToTemplates', () => {
         const name = 'Manuel'

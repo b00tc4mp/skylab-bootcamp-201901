@@ -15,14 +15,29 @@ class Books extends Component {
         pages : []
     }
     componentDidMount = () =>{
+        debugger
+        console.log(this.props.templateid)
+        if(this.props.bookid){
         return logic.retrieveBook(this.props.bookid)
             .then(book => {
-                this.book = book[0]
-                this.setState({title: book[0].title})
+                this.book = book
+                this.setState({title: book.title})
                 this.personalizeContent(this.book, ()=> {})
                 // this.pages = this.getArrayconPre(this.book)
                 // this.forceUpdate()
             }, () => {})
+        } else {
+            debugger
+            return logic.retrieveTemplateBook(this.props.templateid)
+            .then(book => {
+                this.book = book
+                this.setState({title: book.title})
+                this.personalizeContent(this.book, ()=> {})
+                // this.pages = this.getArrayconPre(this.book)
+                // this.forceUpdate()
+            }, () => {})
+        }
+
     }
 
     personalizeContent = (book) => {

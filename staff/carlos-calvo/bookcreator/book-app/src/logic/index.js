@@ -225,8 +225,26 @@ const logic = {
 
     },
 
+
     /**
-     * Retrieves template boos
+     * Retrieves a template book by id
+     * 
+     * @param {String} id 
+     */
+    retrieveTemplateBook(id){
+
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new Error('id  is empty')
+
+
+        return (async () => {
+            const book = await bookApi.retrieveTemplateBook(id)
+            return book
+        })()
+    },
+
+    /**
+     * Retrieves template books
      */
     retrieveTemplateBooks(){
 

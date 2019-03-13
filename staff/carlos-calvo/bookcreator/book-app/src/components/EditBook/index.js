@@ -22,7 +22,7 @@ class EditBook extends Component {
         try {
             logic.retrieveBook(this.props.bookid)
             .then(bookretieved => {
-                let book = bookretieved[0]
+                let book = bookretieved
                 if(book.title) this.setState({title: book.title})
                 if(book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')) this.setState({name : book.parameters.name}, ()=> {})
                 if(book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place')) this.setState({place : book.parameters.place}, ()=> {})

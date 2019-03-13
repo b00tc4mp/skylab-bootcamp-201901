@@ -26,18 +26,7 @@ class CardBook extends Component {
         try{
             logic.downloadEpub(this.props.bookSelected._id)
                 .then(res => res.blob())
-                .then(blob => {
-                    // // const contentDisposition = res.headers.get('Content-Disposition')
-                    // // const fileName = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition)[1]
-                    // // TODO improve using refs?
-                    // const url = window.URL.createObjectURL(blob)
-                    // const fileName = this.props.bookSelected.title
-                    // const link = document.createElement('a')
-                    // link.href = url
-                    // link.setAttribute('download', fileName)
-                    // document.body.appendChild(link)
-                    // link.click()
-                })
+                .then(blob => {})
         } catch (error){
             console.log(error)
         }

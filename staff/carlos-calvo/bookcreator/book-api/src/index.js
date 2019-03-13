@@ -24,6 +24,7 @@ const { registerUser,
     addBookToTemplates,
     retrieveTemplates,
     addTemplateToUserBooks,
+    retrieveTemplateBook,
     getEpub
  } = require('./routes')
 
@@ -71,6 +72,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/book/addTemplateToUserBooks',[jsonBodyParser, tokenVerifierMiddleware] , addTemplateToUserBooks)
 
         router.get('/book/getEpub/:id',[jsonBodyParser, tokenVerifierMiddleware] , getEpub)
+
+        router.get('/book/retrieveTemplate/:id',jsonBodyParser, retrieveTemplateBook )
 
         app.use('/api', router)
 

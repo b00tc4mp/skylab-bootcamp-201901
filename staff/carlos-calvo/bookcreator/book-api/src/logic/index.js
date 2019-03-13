@@ -252,7 +252,7 @@ const logic = {
 
         return (async () => {
 
-            const result = await Book.find({'_id': ObjectID(bookid)}).lean()
+            const result = await Book.findOne({'_id': ObjectID(bookid)}).lean()
 
             return result
         })()
@@ -308,7 +308,9 @@ const logic = {
 
     },
 
-
+    /**
+     * Retrieves all templates
+     */
     retrieveTemplates(){
         if(arguments.length !== 0) throw new Error('Too many args')
 
@@ -318,6 +320,19 @@ const logic = {
         })()
     },
 
+    /**
+     * 
+     * @param {String} id 
+     */
+    retrieveTemplate(id){
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw new EmptyError('id  is empty')
+
+        return (async () => {
+            const result = await BookTemplate.findOne({'_id': ObjectID(id)})
+            return result
+        })()
+    },
 
     /**
      * 
@@ -343,6 +358,8 @@ const logic = {
             return book
         })()
     },
+
+    
 
 
     /**

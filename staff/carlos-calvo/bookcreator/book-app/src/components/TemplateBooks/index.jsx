@@ -11,6 +11,10 @@ class TemplateBooks extends Component {
         toastId: null
     }
 
+    loadTemplateBook = (id) => {
+        this.props.loadTemplateBook(id)
+    }
+
     retrieveTemplateBooks = () =>{
         try {
             logic.retrieveTemplateBooks()
@@ -39,7 +43,7 @@ class TemplateBooks extends Component {
                 <form>
                     <div className="cardContainer">
                         {books.length && books.map(book =>{
-                            return (<CardTemplate bookSelected={book} />)
+                            return (<CardTemplate bookSelected={book} loadTemplateBook={this.loadTemplateBook} />)
                             })}
                     </div> 
                     </form> 

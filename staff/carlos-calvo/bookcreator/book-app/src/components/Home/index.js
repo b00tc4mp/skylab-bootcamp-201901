@@ -25,6 +25,10 @@ class Home extends Component {
         this.props.history.push(`/home/yourbooks/${bookid}`)
     }
 
+    loadTemplateBook = (templateid) => {
+        this.props.history.push(`/home/templates/${templateid}`)
+    }
+
     editBook = (bookid) => {
         this.props.history.push(`/home/editbook/${bookid}`)
     }
@@ -35,12 +39,12 @@ class Home extends Component {
                 <SideBar logoutUser = {this.logoutUser}></SideBar>
                 <Route path="/home/newbook" component = {CreateBook} />
                 <Route exact path="/home/yourbooks" render={() => <YourBooks loadBook={this.loadBook} editBook={this.editBook}/> }/>
-                <Route path="/home/templatebooks" render={() => <TemplateBooks/>} />
-                <Route path="/home/templatebooks/:templateid" render={() => <TemplateBooks/>} />
+                <Route path="/home/templatebooks" render={() => <TemplateBooks loadTemplateBook = {this.loadTemplateBook}/>} />
                 <Route path="/home/profile" component = {UpdateUser} />
                 <Route path="/home/contact" component = {ContactForm} />
                 <Route path="/home/editbook/:bookid" render={(props) => <EditBook bookid={props.match.params.bookid}/>} />
                 <Route exact path="/home/yourbooks/:bookid" render={(props) => <Books bookid={props.match.params.bookid}/>}/>
+                <Route exact path="/home/templates/:templateid" render={(props) => <Books templateid={props.match.params.templateid}/>}/>
             </div>
         )
     }

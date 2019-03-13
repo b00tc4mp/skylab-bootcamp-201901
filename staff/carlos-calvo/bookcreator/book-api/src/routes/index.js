@@ -22,11 +22,13 @@ module.exports = {
 
     updateBook: require('./update-book'),
 
-    addBookToTemplates: require('./addBookToTemplates'),
+    addBookToTemplates: require('./add-Book-To-Templates'),
 
-    retrieveTemplates: require('./retrieveTemplates'),
+    retrieveTemplates: require('./retrieve-Templates'),
 
-    addTemplateToUserBooks: require('./addTemplateToUserBooks'), 
+    addTemplateToUserBooks: require('./add-Template-To-User-Books'), 
 
-    getEpub: require('./generateEpub')
+    retrieveTemplateBook: require ('./retrieve-Template-Book'),
+
+    getEpub: require('./generate-Epub')
 }

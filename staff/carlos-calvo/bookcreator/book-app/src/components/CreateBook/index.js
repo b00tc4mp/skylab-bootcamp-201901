@@ -2,8 +2,6 @@ import React, {Component, Fragment} from 'react';
 import './index.sass'
 import logic from '../../logic'
 import ProgressBar from '../ProgressBar';
-import SideBar from '../SideBar';
-import Feedback from '../Feedback';
 class CreateBook extends Component {
   
     isnameTag = true
@@ -57,7 +55,8 @@ class CreateBook extends Component {
         }
     }
 
-    addBook = () => {
+    addBook = (e) => {
+        e.preventDefault()
         const {state:{name, place}} = this
         let parameters = {}
         if(this.isnameTag) parameters.name = name
