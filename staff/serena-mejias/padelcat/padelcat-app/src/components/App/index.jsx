@@ -16,10 +16,11 @@ class App extends Component {
   };
   handleLogin = (email, password) => {
     try {
-      debugger;
       logic
         .loginPlayer(email, password)
         .then(response => {
+          console.log(response);
+          
           this.setState({ player: response.player });
           logic.storeToken(response.token);
           this.props.history.push("/home");
@@ -69,6 +70,18 @@ class App extends Component {
     logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
   };
 
+  componentDidMount(){
+    if (!logic.getStoredtoken()) {
+      this.props.history.push("/login");
+    } else {
+      // retrieve player info using token 
+      // and set it in the state
+      // this.setState({ player: response.player });
+      console.log(logic.getStoredtoken());
+      
+    }
+  }
+  
   render() {
     const {
       handleLogin,

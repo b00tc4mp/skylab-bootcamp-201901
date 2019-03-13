@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import styles from "./index.module.scss";
 import ChosenPairs from "../ChosenPairs";
-import { Form, Field } from "react-final-form";
+import { Form, Field, Values } from "react-final-form";
 import logic from "../../logic";
+import { log } from "util";
 
 export const Match = props => {
   const [available, setAvailable] = useState(false);
@@ -32,22 +33,13 @@ export const Match = props => {
     setAvailable(false);
   };
 
-  const handleChosenPairsSubmit = e => {
-    e.preventDefault();
+  const onSubmit = e => {
+    
+    const playersId = e;
     console.log(e);
-    console.log(e.target.value);
-
-    // logic.addPlayersChosen();
+    
+    logic.addChosenPlayers(playersId, matchId);
   };
-
-  const hanldeFirstPair = () => {
-    //onChosenPair()
-  };
-  // const isInvalidChosenPairs = () => {
-  //   return (
-  //     !playerAvailable
-  //   );
-  // };
 
   useEffect(() => {
     if (playersAvailable.filter(playerId => playerId === _id).length) {
@@ -56,9 +48,10 @@ export const Match = props => {
       return setAvailable(false);
     }
   }, [props]);
+
   return (
     <div>
-      <h4>{date}</h4>
+      <h4>{date} - {matchId}</h4>
       <div className="teams match">
         <div className="team1">
           <img src={imageTeam1} />
@@ -71,8 +64,7 @@ export const Match = props => {
       </div>
       <div>
         <Form
-          onSubmit={handleChosenPairsSubmit}
-          initialValues={{ firstPair: "", secondPair: "", thirdPair: "" }}
+          onSubmit={onSubmit}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
               <div>

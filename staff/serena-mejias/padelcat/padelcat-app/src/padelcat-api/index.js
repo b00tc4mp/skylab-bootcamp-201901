@@ -108,7 +108,17 @@ const padelcatApi = {
         headers: { "content-type": "application/json" }
       }
     );
-  }
+  },
+
+  addChosenPlayers: (playersChosen, matchId) => {
+    return axios.put(
+      "/chosenPlayers",
+      JSON.stringify({ playersChosen, matchId }),
+      {
+        headers: { "content-type": "application/json" }
+      }
+    );
+  },
 
   //  retrieveAvailabilityPlayers: (matchId) => {
   //    return axios.get(`/retrieveAvailabilityPlayers/${matchId}`)
