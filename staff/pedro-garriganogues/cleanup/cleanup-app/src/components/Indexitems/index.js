@@ -23,5 +23,4 @@ export default ({ items }) => (
             </ul>
         ))}
     </div>
-
 );

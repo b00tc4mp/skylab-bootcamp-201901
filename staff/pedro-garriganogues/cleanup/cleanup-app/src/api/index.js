@@ -156,7 +156,6 @@ const cleanUpApi = {
 
         return (async () => {
 
-
             return axios.post(_thisorder.url + '/order', { paymentMethod: paymentMethod, status: status, products: products, userId: userId }).then(function (_reforder) {
                 var status = _reforder.status,
                     data = _reforder.data;
@@ -197,11 +196,7 @@ const cleanUpApi = {
                 })
         })()
     },
-
-
-
-
-
+    
 }
 
 export default cleanUpApi;

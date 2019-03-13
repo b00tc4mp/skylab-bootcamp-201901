@@ -1,8 +1,6 @@
-
-
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
-
+import { Route, withRouter, Redirect } from 'react-router-dom'
+import Order from '../Order'
 import Register from '../Register'
 import Login from '../Login'
 import About from '../About'
@@ -26,8 +24,6 @@ class App extends Component {
         // cartLength: logic.cart().length,
     }
 
-
-
     onLogin = () => {
         this.setState({ loggedIn: true })
 
@@ -48,8 +44,6 @@ class App extends Component {
         this.props.history.push('/')
     }
 
-
-
     // getItems = () => {
     //     if (logic._cart.length && logic._cart !== 'undefined') {
     //         logic.listProductsByIds()
@@ -65,7 +59,6 @@ class App extends Component {
 
         this.getItems();
     }
-
 
     handleRegister = (name, surname, email, password, passwordConfirmation) => {
         try {
@@ -99,13 +92,12 @@ class App extends Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/profile" component={Profile} />
-
             <Route exact path="/products" render={props => <Totalproducts categoryId={props.match.params.id} />} />
             <Route exact path="/product/:id" render={props => <Product productId={props.match.params.id} />} />
-
             <Route exact path="/cart" render={() => <Cart cart={[]} total={[]} />} />
             <Route exact path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
+            <Route exact path="/order" render={() => <Order onOrder={this.onOrder} />} />
             <Footer />
         </main>)
     }
