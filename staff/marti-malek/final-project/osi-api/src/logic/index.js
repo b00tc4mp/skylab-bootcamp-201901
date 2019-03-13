@@ -269,7 +269,7 @@ const logic = {
                 directory = await path.join(`${__dirname}/../data/${data}`, dirPath, dirName)
             }
 
-            /* Ascertains if the directory exists, which shouldn't and creates it */
+            /* Ascertains if the directory exists, which shouldn't, and creates it */
             if (!fs.existsSync(directory)) {
 
                 await fs.mkdir(directory, err => {
@@ -284,21 +284,34 @@ const logic = {
                     if (err) throw err
                 })
 
+                /* Parses the json buffer */
+                let jsonFile = JSON.parse(jsonBuffer)
+
+                /* Get positions which aren't available from @.this.json children */
+                let nonAvailablePositions = jsonFile.children.map(child => {
+                    return Number(child.position)
+                })
+
+                /* Searches for an available position */
+                let desiredPosition = 0
+
+                while (nonAvailablePositions.includes(desiredPosition)) {
+                    ++desiredPosition
+                }
+
                 /* Folder data model */
                 let newChild = {
                     name: dirName,
                     open: false,
                     type: 'folder',
                     children: [],
-                    position: null
+                    position: desiredPosition
                 }
-
-                /* Parses the json buffer */
-                let jsonFile = JSON.parse(jsonBuffer)
 
                 /* Pushes the child folder's data into the father's @.this.json file " */
                 await jsonFile.children.push(newChild)
 
+                debugger
                 /* Overwrites the father's current @.this.json file with the new one which has the child folder data */
                 await fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
                     if (err) throw err
@@ -353,6 +366,9 @@ const logic = {
                 return accum + '/' + slice
             })
 
+            /* Ascertains that the path to @.this.json is correct */
+            pathToJson = slices.length === 1 ? "" : pathToJson
+
             /* Joins to the exact path to @.this.json */
             let jsonPath = path.join(`${__dirname}/../data/${data}`, pathToJson, '.this.json')
 
@@ -361,17 +377,29 @@ const logic = {
                 if (err) throw err
             })
 
+            /* Parses the json buffer */
+            let jsonFile = JSON.parse(jsonBuffer)
+
+            /* Get positions which aren't available from @.this.json children */
+            let nonAvailablePositions = jsonFile.children.map(child => {
+                return Number(child.position)
+            })
+
+            /* Searches for an available position */
+            let desiredPosition = 0
+
+            while (nonAvailablePositions.includes(desiredPosition)) {
+                ++desiredPosition
+            }
+
             /* File data model */
             let newChild = {
                 name: fileContent.name + fileContent.type,
                 open: false,
                 type: 'file',
                 children: [],
-                position: null
+                position: desiredPosition
             }
-
-            /* Parses the json buffer */
-            let jsonFile = JSON.parse(jsonBuffer)
 
             /* Pushes the child folder's data into the father's @.this.json file " */
             await jsonFile.children.push(newChild)
@@ -425,7 +453,7 @@ const logic = {
             /* Extracts the user's id form it's token */
             const { data } = await jwt.verify(token, this.jwtSecret)
 
-            /* Builds the path to the user's root folder */
+            /* Builds the path to the file to retrieve */
             const dirPath = `${__dirname}/../data/${data}/${filePath}`
 
             /* Ascertains if the file exists, which should */
@@ -475,7 +503,7 @@ const logic = {
             const rs = await fs.readdirSync(resPath)
 
             /* Filters the contents found removing the @.this.json file */
-            let rsFiltered = rs.filter(elem => elem !== '.position.json')
+            let rsFiltered = rs.filter(elem => elem !== '.this.json')
 
             /* Returns the filtered contents */
             return rsFiltered
@@ -519,6 +547,64 @@ const logic = {
     //         return positions
     //     })()
     // },
+    updatePosition(token, elementPath, position) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof elementPath !== 'string') throw TypeError(`${elementPath} should be a string`)
+
+        if (!elementPath.trim().length) throw Error('elementPath cannot be empty')
+
+        if (typeof position !== 'string') throw TypeError(`${position} should be a string`)
+
+        if (!position.trim().length) throw Error('position cannot be empty')
+
+        return (async () => {
+            /* Extracts the user's id form it's token */
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            /* Builds the path to the user's root folder */
+            const resPath = `${__dirname}/../data/${data}`
+
+            let slices = elementPath.split('/')
+
+            /* Obtains the path to the scope of the desired @.this.json  */
+            let pathToJson = slices.reduce((accum, slice) => {
+                if (slice === slices[slices.length - 1]) return accum
+                return accum + '/' + slice
+            })
+
+            /* Ascertains that the path to @.this.json is correct */
+            pathToJson = slices.length === 1 ? "" : pathToJson
+
+            /* Joins to the exact path to @.this.json */
+            let jsonPath = path.join(resPath, pathToJson, '.this.json')
+
+            /* Reads the json file of the father directory, gets it as buffer */
+            let jsonBuffer = await fs.promises.readFile(jsonPath, err => {
+                if (err) throw err
+            })
+
+            /* Parses the json buffer */
+            let jsonFile = JSON.parse(jsonBuffer)
+
+            /* Finds the index of the child to update */
+            let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === slices[slices.length - 1])
+
+            /* Updates the child by it's index */
+            jsonFile.children[childToRemoveIndex].position = Number(position)
+
+            /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+            await fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
+                if (err) throw err
+            })
+
+            return 'Done'
+        })()
+    },
     /**
      * 
      * Recursively removes the desired directory by it's given path.
@@ -555,6 +641,9 @@ const logic = {
                 return accum + '/' + slice
             })
 
+            /* Ascertains that the path to @.this.json is correct */
+            pathToJson = slices.length === 1 ? "" : pathToJson
+
             /* Joins to the exact path to @.this.json */
             let jsonPath = path.join(`${__dirname}/../data/${data}`, pathToJson, '.this.json')
 
@@ -567,7 +656,7 @@ const logic = {
             let jsonFile = JSON.parse(jsonBuffer)
 
             /* Finds the index of the child directory to remove */
-            let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === slices[slices.length-1])
+            let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === slices[slices.length - 1])
 
             /* Removes the child by it's index */
             jsonFile.children.splice(childToRemoveIndex, 1)
@@ -618,6 +707,76 @@ const logic = {
             return deleteFolder(myPath)
         })()
     },
+
+    removeFile(token, filePath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        return (async () => {
+            /* Extracts the user's id form it's token */
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            /* Builds the path to the user's root folder */
+            const resPath = `${__dirname}/../data/${data}`
+
+            let slices = filePath.split('/')
+
+            /* Obtains the path to the scope of the desired @.this.json  */
+            let pathToJson = slices.reduce((accum, slice) => {
+                if (slice === slices[slices.length - 1]) return accum
+                return accum + '/' + slice
+            })
+
+            /* Ascertains that the path to @.this.json is correct */
+            pathToJson = slices.length === 1 ? "" : pathToJson
+
+            /* Joins to the exact path to @.this.json */
+            let jsonPath = path.join(`${__dirname}/../data/${data}`, pathToJson, '.this.json')
+
+            /* Reads the json file of the father directory, gets it as buffer */
+            let jsonBuffer = await fs.promises.readFile(jsonPath, err => {
+                if (err) throw err
+            })
+
+            /* Parses the json buffer */
+            let jsonFile = JSON.parse(jsonBuffer)
+
+            /* Finds the index of the child file to remove */
+            let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === slices[slices.length - 1])
+
+            /* Removes the child by it's index */
+            jsonFile.children.splice(childToRemoveIndex, 1)
+
+            /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+            await fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
+                if (err) throw err
+            })
+
+            /* Joins to the exact path to the file to remove */
+            const myPath = path.join(resPath, filePath)
+
+            /* Ascertains if the user's root folder exists, which should */
+            if (!fs.existsSync(resPath)) throw Error('Root folder for this user not found')
+
+            /* Ascertains if the file exists, which should */
+            if (!fs.existsSync(myPath)) throw Error('Folder to remove not found')
+
+            /* Removes file by it's path */
+            await fs.unlink(myPath, err => {
+                if (err) throw err
+            })
+
+            /* Ascertains if the file has been successfully removed */
+            if (fs.existsSync(myPath)) return 'Done'
+        })()
+    },
     /**
      * 
      * Renames the desired element from it's @oldName to it's @newName
@@ -629,39 +788,80 @@ const logic = {
      * @throws {Error} - On empty data
      * @throws {TypeError} - On invalid data type
      */
-    rename(token, oldName, newName) {
+    rename(token, oldPath, newPath) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
         if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
 
-        if (typeof oldName !== 'string') throw TypeError(`${oldName} should be a string`)
+        if (typeof oldPath !== 'string') throw TypeError(`${oldPath} should be a string`)
 
-        if (!oldName.trim().length) throw Error('oldName cannot be empty')
+        if (!oldPath.trim().length) throw Error('oldPath cannot be empty')
 
-        if (typeof newName !== 'string') throw TypeError(`${newName} should be a string`)
+        if (typeof newPath !== 'string') throw TypeError(`${newPath} should be a string`)
 
-        if (!newName.trim().length) throw Error('newName cannot be empty')
+        if (!newPath.trim().length) throw Error('newPath cannot be empty')
 
         return (async () => {
             /* Extracts the user's id form it's token */
             const { data } = await jwt.verify(token, this.jwtSecret)
 
             /* Builds the path to the element to rename */
-            const oldPath = `${__dirname}/../data/${data}/${oldName}`
+            const oldCompletePath = `${__dirname}/../data/${data}/${oldPath}`
 
             /* Builds the path to the element renamed */
-            const newPath = `${__dirname}/../data/${data}/${newName}`
+            const newCompletePath = `${__dirname}/../data/${data}/${newPath}`
 
             /* Ascertains if the old path exists, which should */
-            if (!fs.existsSync(oldPath)) throw Error('old path not found')
+            if (!fs.existsSync(oldCompletePath)) throw Error('old path not found')
 
             /* Ascertains if the new path folder exists, which shouldn't */
-            if (fs.existsSync(newPath)) throw Error('new path already exists')
+            if (fs.existsSync(newCompletePath)) throw Error('new path already exists')
+
+            let slices = oldPath.split('/')
+
+            /* Obtains the path to the scope of the desired @.this.json  */
+            let pathToJson = slices.reduce((accum, slice) => {
+                if (slices.length === 1) return ""
+                if (slice === slices[slices.length - 1]) return accum
+                return accum + '/' + slice
+            })
+
+            /* Ascertains that the path to @.this.json is correct */
+            pathToJson = slices.length === 1 ? "" : pathToJson
+
+            /* Joins to the exact path to @.this.json */
+            let jsonPath = path.join(`${__dirname}/../data/${data}`, pathToJson, '.this.json')
+
+            /* Reads the json file of the father directory, gets it as buffer */
+            let jsonBuffer = await fs.promises.readFile(jsonPath, err => {
+                if (err) throw err
+            })
+
+            /* Parses the json buffer */
+            let jsonFile = JSON.parse(jsonBuffer)
+
+            /* Finds the name of the child to rename in @.this.json and renames it */
+            let jsonChildrenUpdated = jsonFile.children.map(child => {
+                if (child.name === oldPath) {
+                    child.name = newPath
+                    return child
+                } else {
+                    return child
+                }
+            })
+
+            /* Sets the updated children as @.this.json's children */
+            jsonFile.children = jsonChildrenUpdated
+
+            /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+            await fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
+                if (err) throw err
+            })
 
             /* Renames the file */
-            await fs.promises.rename(oldPath, newPath, err => {
+            await fs.promises.rename(oldCompletePath, newCompletePath, err => {
                 if (err) throw err
             })
 
@@ -671,34 +871,34 @@ const logic = {
     },
     /**
      * 
-     * 
+     * Retrieves the first level of children of the 
      * 
      * @param {string} token 
      * @param {string} folder 
      */
-    retrieveLevel(token, folder) {
+    retrieveLevel(token) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
         if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
 
-        if (typeof folder !== 'string') throw TypeError(`${folder} should be a string`)
+        // if (typeof folder !== 'string') throw TypeError(`${folder} should be a string`)
 
-        if (!folder.trim().length) throw Error('folder cannot be empty')
+        // if (!folder.trim().length) throw Error('folder cannot be empty')
 
         return (async () => {
             /* Extracts the user's id form it's token */
             const { data } = await jwt.verify(token, this.jwtSecret)
 
-            /* Builds the path to the user's root folder */
-            const dirPath = `${__dirname}/../data/${data}/${filePath}`
+            /* Builds the path to the file to retrieve */
+            const resPath = `${__dirname}/../data/${data}/.this.json`
 
             /* Ascertains if the file exists, which should */
-            if (!fs.existsSync(dirPath)) throw Error('File not found')
+            if (!fs.existsSync(resPath)) throw Error('File not found')
 
             /* Reads the file, gets it as buffer */
-            const rs = await fs.promises.readFile(dirPath, err => {
+            const rs = await fs.promises.readFile(resPath, err => {
                 if (err) throw err
             })
 

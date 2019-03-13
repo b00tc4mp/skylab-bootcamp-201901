@@ -17,10 +17,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile }) {
     }, [])
 
     handleState = () => {
-        return logic.retrieveFile('.this.json')
+        return logic.retrieveLevel()
             .then(positionsArray => {
-                debugger
-                setPositions(positionsArray)})
+                setPositions(positionsArray.children)
+            })
             .then(() => logic.retrieveDir('/'))
             .then(dir => {
                 setLevel(dir)
@@ -28,27 +28,25 @@ function Desktop({ handleState, handleNewFolder, handleNewFile }) {
     }
 
     handleNewFolder = () => {
-        return logic.createDir('/.newFolder')
-            .then(() => logic.retrieveFile('.position.json'))
-            .then(oldPositions => {
-                let count = 0
-                let newPositions = oldPositions.map((position, index) => {
-                    if (count > 0) return position
-                    if (position.type === null) {
-                        count++
-                        return { position: index, type: 'folder', name: '.newFolder' }
-                    } else {
-                        return position
-                    }
-                })
-                return newPositions
+        return logic.createDir('/_newFolder')
+            .then(() => logic.retrieveLevel())
+            .then(newPositions => {
+                setLevel(newPositions.children)
             })
-            .then((newPositions) => logic.updatePositions(newPositions))
             .then(() => handleState())
     }
 
     handleNewFile = () => {
-        console.log('new file huhu')
+        let fileContent = {
+            type: ".txt",
+            content: ""
+        }
+        return logic.createFile(fileContent,'/_newFile')
+            .then(() => logic.retrieveLevel())
+            .then(newPositions => {
+                setLevel(newPositions.children)
+            })
+            .then(() => handleState())
     }
 
     return <section className="desktop">

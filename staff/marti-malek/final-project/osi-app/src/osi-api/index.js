@@ -1,5 +1,6 @@
 const osiApi = {
     url: 'http://localhost:8000/api/',
+    // url: 'https://immense-refuge-79832.herokuapp.com/api/',
 
     register(name, surname, email, password, passwordConfirm) {
 
@@ -186,7 +187,7 @@ const osiApi = {
             })
     },
 
-    createFile(token, fileContent) {
+    createFile(token, fileContent, filePath) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
@@ -195,10 +196,17 @@ const osiApi = {
 
         if (fileContent.constructor !== Object) throw TypeError(`${fileContent} should be an object`)
 
-        return fetch(this.url + `create/file`, {
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        return fetch(this.url + `create/file?filePath=${filePath}`, {
+            method: 'POST',
             headers: {
+                'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
+            body: JSON.stringify({ fileContent })
         })
             .then(response => response.json())
             .then(response => {
@@ -228,22 +236,23 @@ const osiApi = {
             })
     },
 
-    updatePositions(token, positions) {
+    updatePositions(token, path, position) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
-        if (!positions) throw Error('positions must be defined')
+        if (typeof path !== 'string') throw TypeError(`${path} should be a string`)
 
-        if (positions.constructor !== Array) throw TypeError(`${positions} is not an array`)
+        if (!path.trim().length) throw Error('path cannot be empty')
+
+        if (typeof position !== 'number') throw TypeError(`${position} should be a string`)
         
-        return fetch(this.url + `positions`, {
+        return fetch(this.url + `positions?elementPath=${path}&position=${position}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({ positions })
+            }
         })
             .then(response => response.json())
             .then(response => {
@@ -289,6 +298,27 @@ const osiApi = {
 
         return fetch(this.url + `rename?newName=${newName}&oldName=${oldName}`, {
             method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    retrieveLevel(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(this.url + `level`, {
+            method: 'GET',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`

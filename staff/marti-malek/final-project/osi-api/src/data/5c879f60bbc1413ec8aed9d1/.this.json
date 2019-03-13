@@ -1,0 +1,28 @@
+{
+    "open": false,
+    "type": "folder",
+    "name": "5c879f60bbc1413ec8aed9d1",
+    "children": [
+        {
+            "name": "hola",
+            "open": false,
+            "type": "folder",
+            "children": [],
+            "position": 0
+        },
+        {
+            "name": "hola2",
+            "open": false,
+            "type": "file",
+            "children": [],
+            "position": "6"
+        },
+        {
+            "name": "asjd",
+            "open": false,
+            "type": "file",
+            "children": [],
+            "position": "NaN"
+        }
+    ]
+}
