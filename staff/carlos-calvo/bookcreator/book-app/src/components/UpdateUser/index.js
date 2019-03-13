@@ -42,12 +42,12 @@ class UpdateUser extends Component {
 
     notify = (error) => {
         error ? 
-        toast.info("There was something wrong...", {
+        toast.warn("There was something wrong...", {
             position: toast.POSITION.BOTTOM_LEFT,
             autoClose: 1500
           })
           :
-        toast.warn("Book Updated", {
+        toast.info("User Updated", {
             position: toast.POSITION.BOTTOM_LEFT,
             autoClose: 1500
           });
