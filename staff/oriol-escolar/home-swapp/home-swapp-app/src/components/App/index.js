@@ -24,7 +24,10 @@ class App extends Component {
 
 
   }
-
+  componentDidMount(){
+    logic.getUserApiToken() && logic.retrieveUser()
+        .then(user => this.setState({user}))
+}
 
   handleLogin = (email, password) => {
 
@@ -75,7 +78,7 @@ class App extends Component {
     logic.logout();
     this.setState({ user: "", token: "" })
 
-    // this.props.history.push('/');
+    this.props.history.push('/');
   }
 
   handleGoToRegister = () => {

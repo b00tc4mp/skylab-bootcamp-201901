@@ -88,6 +88,7 @@ const logic = {
 
     logout() {
         this.__userApiToken__ = null;
+        sessionStorage.removeItem('homeSwapp-api-token')
     },
 
     /**
