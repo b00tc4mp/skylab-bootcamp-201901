@@ -18,6 +18,7 @@ function Home({ history }) {
     const { setFeedback, setSearchResults, setSkylaber, setAdSearchResults, setUserData, userData, setWhiteList, setUnverifiedEmails } = useContext(AppContext)
 
     const [hashedUrl, setHashedUrl] = useState('')
+    const [addToClipboard, setAddToClipboard] = useState(null)
 
     const handleSearch = query => {
         try {
@@ -63,6 +64,7 @@ function Home({ history }) {
         try {
             logic.shareResults(skylaberIds)
                 .then(url => setHashedUrl(url))
+                .then(() => setAddToClipboard())
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
             setFeedback(message)
@@ -129,7 +131,10 @@ function Home({ history }) {
                 .then(() => setFeedback('Skylaber added to the whitelist!'))
                 .then(() => logic.retrivevePendingSkylabers())
                 .then(preUsers => setWhiteList(preUsers))
-                .catch(({ message }) => setFeedback(message))
+                .catch(({ message }) => {
+                    debugger 
+                    setFeedback(message)
+                })
         } catch ({ message }) {
             setFeedback(message)
         }
@@ -184,7 +189,7 @@ function Home({ history }) {
         <Fragment>
             <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToManageSkylabers={handleToManageSkylabers} />} />
             <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber}/>} />
-            <Route path="/home/adsearch" render={() => <AdvancedSearch hashedUrl={hashedUrl} onShareResults={handleOnShareResults} onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber}/>} />
+            <Route path="/home/adsearch" render={() => <AdvancedSearch addToClipboard={addToClipboard}  hashedUrl={hashedUrl} onShareResults={handleOnShareResults} onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber}/>} />
             <Route path="/home/profile" render={() => userData.role === 'User' ? <Profile onUploadPhoto={handleOnUploadPhoto} onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation}/> : <Redirect to="/home" />} />
             <Route path="/home/manage-skylabers" render={() => userData.role === 'Admin' ? <ManagaSkylabers onToBack={handleToBack} onSubmit={handleOnAddSkylaber} /> : <Redirect to="/home" />} />
             <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId} onToBack={handleToBack}/>} />

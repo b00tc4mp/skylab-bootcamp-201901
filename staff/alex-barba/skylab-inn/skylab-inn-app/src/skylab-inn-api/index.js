@@ -166,7 +166,7 @@ const skylabInnApi = {
 
         let formData = new FormData()
         formData.append('image', data.image)
-        debugger
+
         return fetch(`${this.url}/user-photo`, {
             method: 'POST',
             headers: {
@@ -211,6 +211,7 @@ const skylabInnApi = {
         })
             .then(response => response.json())
             .then(response => {
+                debugger
                 if (response.error) throw new Error(response.error)
 
                 return response
@@ -297,7 +298,7 @@ const skylabInnApi = {
      * @returns {String} - added work id.  
      */
     addUserInformation(token, type, data) {
-        debugger
+
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
@@ -337,7 +338,7 @@ const skylabInnApi = {
      * @returns {String} - updated work id.  
      */
     updateUserInformation(token, infoId, type, data) {
-        debugger
+
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
@@ -379,7 +380,7 @@ const skylabInnApi = {
      * @returns {Promise} resolves or rejects. 
      */
     removeUserInformation(token, infoId, type) {
-        debugger
+
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
@@ -549,7 +550,7 @@ const skylabInnApi = {
         return fetch(`${this.url}/retrieve-skylaber/${encryptedIds}`)
             .then(response => response.json())
             .then(response => {
-                debugger
+
                 if (response.error) throw new Error(response.error)
 
                 return response

@@ -25,7 +25,7 @@ export default function Welcome({ onToSearch, onToAdvancedSearch, onToManageSkyl
             </div>
             <div className='welcome-container__menu'>
                 <a onClick={handleToSearch}>Just a query? Click here!</a>
-                <a onClick={handleToAdvancedSearch}>More than one? <br/>Then, click here!</a>
+                <a onClick={handleToAdvancedSearch}>In need to filter? <br/>Then click here!</a>
                 {userData.role === 'Admin' && <a onClick={handleToManageSkylabers}>Manage Skylabers</a>}
             </div>
         </div>

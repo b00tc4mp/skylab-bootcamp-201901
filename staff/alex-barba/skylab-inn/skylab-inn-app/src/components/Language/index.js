@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react'
 import { AppContext } from '../AppContext'
 
+import './index.sass'
+
 export default function Language({ onAddLanguage, onEditLanguage, onAddInformation, onRemoveInformation, onUpdateInformation, editLanguage, addLanguage, onCancel }) {
 
     const { userData } = useContext(AppContext)
@@ -38,8 +40,11 @@ export default function Language({ onAddLanguage, onEditLanguage, onAddInformati
     }
 
     return (
-        <section>
-            <a onClick={e => { e.preventDefault(); handleOnAddLanguage() }}>Add Language</a>
+        <div className='language-container'>
+            <div className='language-container__header'>
+                <h5 className='subtitle'>Languages</h5>
+                <i className='fas fa-plus-circle icon icon--link' onClick={e => { e.preventDefault(); handleOnAddLanguage() }}></i>
+            </div>
             {addLanguage && <form onSubmit={e => handleAddInformation(e, 'Language')}>
                 <input type='text' name='language' placeholder='Language' onChange={e => setLanguage(e.target.value)} required></input>
                 <select className='dropdown-content' onChange={e => setLevelLanguage(e.target.value)}>
@@ -50,15 +55,16 @@ export default function Language({ onAddLanguage, onEditLanguage, onAddInformati
                     <option value='Full professional proficiency'>Full professional proficiency</option>
                     <option value='Native or bilingual proficiency'>Native or bilingual proficiency</option>
                 </select>
-                <button type="submit">Add</button>
-                <button onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                <div>
+                    <button className='btn btn--success' type='submit'>Add</button>
+                    <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                </div>
             </form>}
             {language && language.map(lang => {
-                return <div>
-                    <a onClick={e => { e.preventDefault(); handleOnEditLanguage(lang._id) }}>Edit Language</a>
-                    <a onClick={e => handleRemoveInformation(e, 'Language', lang._id)}>Remove Language</a>
+                return <div  className='language-container__form'>
                     {editLanguage === lang._id ?
                         <form onSubmit={e => handleUpdateInformation(e, 'Language', lang._id)}>
+                             <div className='line'/> 
                             <input type='text' name='language' placeholder='Language' onChange={e => setLanguage(e.target.value)} defaultValue={lang.language} required></input>
                             <select className='dropdown-content' onChange={e => setLevelLanguage(e.target.value)} value={lang.level}>
                                 <option>Choose a level</option>
@@ -68,18 +74,27 @@ export default function Language({ onAddLanguage, onEditLanguage, onAddInformati
                                 <option value='Full professional proficiency'>Full professional proficiency</option>
                                 <option value='Native or bilingual proficiency'>Native or bilingual proficiency</option>
                             </select>
-                            <button type="submit">Update</button>
-                            <button onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                            <div>
+                                <button className='btn btn--success' type='submit'>Update</button>
+                                <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                            </div>
                         </form>
                         :
-                        <div>
-                            <p>Language: {lang.language}. Level: {lang.level}</p>
+                        <div className='language-container__content'>
+                            <div className='line'/> 
+                            <div className='language-container__form-header'>
+                                <p>{lang.language}</p>
+                                <div className='language-container__form-header-button'>
+                                    <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditLanguage(lang._id) }}></i> &nbsp;
+                                    <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Language', lang._id)}></i> 
+                                </div>
+                            </div>    
+                                <p>Level: {lang.level}</p>
                         </div>
                     }
                 </div>
             })
             }
-        </section>
-
+        </div>
     )
 }

@@ -1,0 +1,88 @@
+@import '../../utils.sass'
+
+.adSearch
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    height: 93vh
+    
+    &-header
+        flex-shrink: 0
+        padding-top: 1rem
+        align-self: center
+        text-align: center
+        fontsize: $xlarge
+        margin-left: 2rem
+        margin-right: 2rem
+
+    &-form
+        flex-shrink: 0
+        margin-top: 2rem
+        display: flex
+        flex-direction: column
+        justify-items: center
+        align-items: center
+        margin-left: 2rem
+        margin-right: 2rem
+
+        &__input
+            display: flex
+        
+        &__dropBtn 
+
+            &-content 
+            &__button
+
+    &-filters
+        flex-shrink: 0
+        margin-top: 0.5rem
+        display: flex
+        flex-direction: column
+        margin-left: 2rem
+        margin-right: 2rem
+
+        &__header
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            font-size: $medium
+
+        &__content
+            display: flex
+            flex-direction: row
+            flex-wrap: wrap
+            font-size: $medium
+
+            & > a
+                @extend %border
+                flex-shrink: 0
+                border-radius: 0.3rem
+
+    &-results
+        flex-grow: 1
+        overflow: auto
+        padding-top: 1rem
+        margin-bottom: 0.5rem
+        margin-left: 2rem
+        margin-right: 2rem
+
+        &__header
+            font-size: $large
+
+        &__content
+            font-size: $medium
+            text-align: center
+            margin-left: 2rem
+            margin-right: 2rem
+            @extend %border
+
+            & > i 
+                margin-left: 5rem  
+
+.url
+    text-align: center
+    font-size: $medium
+
+
+
+  

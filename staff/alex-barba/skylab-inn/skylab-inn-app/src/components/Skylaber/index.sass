@@ -1,0 +1,68 @@
+@import '../../utils.sass'
+
+.skylaber
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    height: 93vh
+    
+    &-header
+        flex-shrink: 0
+        padding-top: 1rem
+        align-self: center
+        text-align: center
+        fontsize: $xlarge
+
+    &-container
+        flex-grow: 1
+        overflow: auto
+        padding-top: 1rem
+        display: flex
+        flex-direction: column
+        margin-bottom: 0.5rem
+
+    
+    &-personalInformation-container
+        flex-shrink: 0
+        display: flex
+        flex-direction: row
+        justify-content: space-evenly
+        width: 100%
+
+        &__name
+            text-align: center
+            align-items: center
+            justify-items: center
+            display: flex
+            justify-content: center
+            flex-shrink: 0
+
+            & > h4 
+                font-size: $xlarge
+
+        &__image
+            display: flex
+            flex-direction: column
+            align-items: center
+            font-size: $xsmall
+
+            & > img
+                width: 4rem
+                height: 5rem 
+
+    &-data-container
+        margin-left: 2rem
+        margin-right: 2rem
+        flex-shrink: 0
+        font-size: $medium
+        @extend %border
+
+        &__header
+            display: flex
+
+        &__content
+            display: flex
+            flex-direction: column
+        
+
+

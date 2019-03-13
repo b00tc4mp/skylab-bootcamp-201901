@@ -25,13 +25,13 @@ $xlarge: 1.1rem
         border-bottom: 0.05rem dotted darken($bg,10%)
 
 @mixin btn-inverted($bg)
-    background: darken($bg, 20%)
-    color: lighten($bg, 30%)
+    background: darken($bg, 5%)
+    color: lighten($bg, 50%)
     &:hover
         // background: $bg
         // transition: all 0.3s ease
         // color: darken($bg, 50%)
-        border-bottom: 1em dotted $bg
+        border-bottom: 0.05rem dotted $bg
 
 .btn
     text-decoration: none
@@ -80,6 +80,7 @@ $xlarge: 1.1rem
 
 input 
     text-decoration: none
+    text-align: center
     font-size: $medium
     padding: 0.2rem
     color: $secondary
@@ -98,3 +99,32 @@ a:link
     &:visited
         color: $primary
 
+/* Border */
+%border
+    border: 0.05rem dotted $primary
+    padding: 0.3rem
+    margin-top: 0.2rem
+
+    &:hover
+        box-shadow: 0.2rem 0.2rem $primary
+
+
+/* Checkbox */
+.checkbox
+    display: inline
+
+    & > input
+        vertical-align: middle
+        width: 5%
+
+/* Line */
+.line
+    align-self: center
+    width: 97%
+    border-top: 0.05rem dashed $primary
+    margin-top: 0.5rem
+    margin-bottom: 0.5rem
+
+/* Cursor */
+.pointer
+    cursor: pointer

@@ -213,6 +213,8 @@ const logic = {
             resEdu && (results.resEdu = resEdu)
             resWork && (results.resWork = resWork)
 
+            if (!resContact.length && !resTechs.length && !resLang.length && !resEdu.length && !resWork.length) throw new Error('No matches found!')
+
             return results
         })()
     },

@@ -1,0 +1,42 @@
+@import '../../utils.sass'
+
+.search
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    height: 93vh
+    
+    &-header
+        flex-shrink: 0
+        padding-top: 1rem
+        align-self: center
+        text-align: center
+        fontsize: $xlarge
+
+    &-form
+        margin-top: 2rem
+        display: flex
+        flex-direction: row
+        justify-content: center
+        margin-left: 2rem
+        margin-right: 2rem
+
+        &__input
+            display: flex
+
+    &-results
+        padding-top: 1rem
+        margin-bottom: 0.5rem
+        margin-left: 2rem
+        margin-right: 2rem
+
+        &__header
+            font-size: $large
+
+        &__content
+            font-size: $medium
+            text-align: center
+            margin-left: 2rem
+            margin-right: 2rem
+            @extend %border    
+

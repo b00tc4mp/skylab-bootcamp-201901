@@ -158,7 +158,7 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
         editLanguage && setEditLanguage(null)
         addEducation && setAddEducation(null)
         editEducation && setEditEducation(null)
-        handleOnEditImage && setEditImage(null)
+        editImage && setEditImage(null)
     }
 
     return (
@@ -173,12 +173,13 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                     </div>
                     {!editImage && <div className='profile-container__personalInformation-image'>
                         {image ? <img src={`${image}`}></img> : <img src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
-                        <a onClick={handleOnEditImage}>Update profile image</a>
+                        <a className='pointer'onClick={handleOnEditImage}>Update profile image</a>
                     </div>}
                     {editImage && <div className='profile-container__personalInformation-image--edit'><input className='input--small' type='file' name='image' onChange={e => setImage({image: e.target.files[0]})}></input>
                     <button className='btn btn--success' onClick={e => {e.preventDefault(); handleOnUploadPhoto()}}>Upload image</button>
                     <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditorAdd() }}>Cancel</button></div>}
                 </div>
+                {feedback && <Feedback />}
                 <div className='profile-container__contactInformation'>
                     <PersonalInformation onEditPersonalInfo={handleOnEditPersonalInfo} onUpdatePersonalInfo={handleUpdatePersonalInfo} editPersonal={editPersonal} onCancel={handleOnCancelEditorAdd} />
                 </div>
@@ -186,18 +187,14 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                     <WorkExperience onAddWork={handleOnAddWork} onAddInformation={handleAddInformation} onEditWork={handleOnEditWork} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editWork={editWork} addWorkExperience={addWorkExperience} onCancel={handleOnCancelEditorAdd} />
                 </div>
                 <div className='profile-container__technology'>
-                    <h5 className='subtitle'>Technology</h5>
                     <Technology onAddTech={handleOnAddTech} onAddInformation={handleAddInformation} onEditTech={handleOnEditTech} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editTechnology={editTechnology} addTechnology={addTechnology} onCancel={handleOnCancelEditorAdd} />
                 </div>
                 <div className='profile-container__language'>
-                    <h5 className='subtitle'>Language</h5>
                     <Language onAddLanguage={handleOnAddLanguage} onAddInformation={handleAddInformation} onEditLanguage={handleOnEditLanguage} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editLanguage={editLanguage} addLanguage={addLanguage} onCancel={handleOnCancelEditorAdd} />
                 </div>
                 <div className='profile-container__education'>
-                    <h5 className='subtitle'>Education</h5>
                     <Education onAddEducation={handleOnAddEducation} onAddInformation={handleAddInformation} onEditEducation={handleOnEditEducation} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editEducation={editEducation} addEducation={addEducation} onCancel={handleOnCancelEditorAdd} />
                 </div>
-                {feedback && <Feedback />}
             </div>
         </div>
     )

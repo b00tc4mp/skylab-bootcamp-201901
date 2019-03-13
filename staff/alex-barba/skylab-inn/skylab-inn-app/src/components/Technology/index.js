@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react'
 import { AppContext } from '../AppContext'
 
+import './index.sass'
+
 export default function Technology({ onAddTech, onEditTech, onAddInformation, onRemoveInformation, onUpdateInformation, editTechnology, addTechnology, onCancel }) {
 
     const { userData } = useContext(AppContext)
@@ -38,8 +40,11 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
     }
 
     return (
-        <section>
-            <a onClick={e => { e.preventDefault(); handleOnAddTech() }}>Add Technology</a>
+        <div className='tech-container'>
+            <div className='tech-container__header'>
+                <h5 className='subtitle'>Technologies</h5>
+                <i className='fas fa-plus-circle icon icon--link' onClick={e => { e.preventDefault(); handleOnAddTech() }}></i>
+            </div>
             {addTechnology && <form onSubmit={e => handleAddInformation(e, 'Tech')}>
                 <input type='text' name='technology' placeholder='Technology' onChange={e => setTech(e.target.value)} required></input>
                 <select className='dropdown-content' onChange={e => setLevelTech(e.target.value)}>
@@ -50,15 +55,16 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                     <option value='Advance'>Advance</option>
                     <option value='Expert'>Expert</option>
                 </select>
-                <button type="submit">Add</button>
-                <button onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                <div>
+                    <button className='btn btn--success' type='submit'>Add</button>
+                    <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                </div>
             </form>}
             {technology && technology.map(tech => {
-                return <div>
-                    <a onClick={e => { e.preventDefault(); handleOnEditTech(tech._id) }}>Edit Tech</a>
-                    <a onClick={e => handleRemoveInformation(e, 'Tech', tech._id)}>Remove Tech Skill</a>
+                return <div  className='tech-container__form'>
                     {editTechnology === tech._id ?
                         <form onSubmit={e => handleUpdateInformation(e, 'Tech', tech._id)}>
+                            <div className='line'/> 
                             <input type='text' name='technology' placeholder='Technology' onChange={e => setTech(e.target.value)} defaultValue={tech.tech} required></input>
                             <select className='dropdown-content' onChange={e => setLevelTech(e.target.value)} value={tech.level}>
                                 <option>Choose a level</option>
@@ -68,18 +74,27 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                                 <option value='Advance'>Advance</option>
                                 <option value='Expert'>Expert</option>
                             </select>
-                            <button type="submit">Update</button>
-                            <button onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                            <div>
+                                <button className='btn btn--success' type='submit'>Update</button>
+                                <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
+                            </div>
                         </form>
                         :
-                        <div>
-                            <p>Tech: {tech.tech}. Level: {tech.level}</p>
+                        <div className='tech-container__content'>
+                            <div className='line'/> 
+                            <div className='tech-container__form-header'>
+                                <p>{tech.tech}</p>
+                                <div className='tech-container__form-header-button'>
+                                    <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditTech(tech._id) }}></i> &nbsp;
+                                    <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Tech', tech._id)}></i> 
+                                </div>
+                            </div>    
+                                <p>Level: {tech.level}</p>
                         </div>
                     }
                 </div>
             })
             }
-        </section>
-
+        </div>
     )
 }

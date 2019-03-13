@@ -19,6 +19,7 @@
         padding-top: 1rem
         display: flex
         flex-direction: column
+        margin-bottom: 0.5rem
 
     
         &__personalInformation
@@ -47,7 +48,7 @@
 
                 & > img
                     width: 4rem
-                    height: 4rem 
+                    height: 5rem 
                 
                 &--edit
                     display:  flex
@@ -58,16 +59,16 @@
             margin-left: 2rem
             margin-right: 2rem
             flex-shrink: 0
-            padding-top: 0.8rem
             font-size: $medium
+            @extend %border
             
-
         &__workExperience
             margin-left: 2rem
             margin-right: 2rem
             flex-shrink: 0
             padding-top: 0.5rem
             font-size: $medium
+            @extend %border
 
         &__technology
             margin-left: 2rem
@@ -75,13 +76,15 @@
             flex-shrink: 0
             padding-top: 0.5rem
             font-size: $medium
-        
+            @extend %border 
+
         &__language
             margin-left: 2rem
             margin-right: 2rem
             flex-shrink: 0
             padding-top: 0.5rem
             font-size: $medium
+            @extend %border
 
         &__education
             margin-left: 2rem
@@ -89,4 +92,5 @@
             flex-shrink: 0
             padding-top: 0.5rem
             font-size: $medium
+            @extend %border
 

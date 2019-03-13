@@ -1,0 +1,37 @@
+@import '../../utils.sass'
+
+.shared
+
+    &-container
+        display: flex
+        flex-direction: column
+        justify-content: center
+        flex-wrap: nowrap
+        height: 100vh
+    
+        &__header
+            flex-shrink: 0
+            padding-top: 1rem
+            align-self: center
+            text-align: center
+            fontsize: $xlarge
+
+        &__content
+            flex-grow: 1
+            padding-top: 1rem
+            overflow: auto
+            display: flex
+            flex-direction: column
+            margin-left: 2rem
+            margin-right: 2rem
+
+            &-res
+                display: flex
+                flex-direction: column
+                font-size: $medium
+                @extend %border
+                
+                & > p 
+                    text-align: center
+
+                
