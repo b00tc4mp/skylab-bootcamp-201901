@@ -1,40 +1,44 @@
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 2em; }
+
+.app {
+  min-height: 100vh; }
+
 .header {
   background: #edeff0;
-  margin-bottom: 2em; }
-  .header .icn-logo {
-    background: #54606b;
-    color: #fff; }
-    .header .icn-logo i {
-      font-size: 2.45em;
-      line-height: 0;
-      margin-top: 30px; }
+  margin-bottom: 2em;
+  font-size: 0.95em;
+  color: #222;
+  text-align: center;
+  text-transform: uppercase;
+  display: block;
+  padding: 1em;
+  transition: 0.2s; }
   @media (min-width: 769px) and (max-width: 1023px) {
     .header .main-nav {
       display: flex;
       flex-wrap: wrap; } }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
   padding: 1em 2em; }
 
-.register form {
-  display: flex;
-  flex-direction: column; }
-  .register form input {
-    margin-bottom: 1em; }
+.register__form input {
+  margin-bottom: 1em; }
+.register__form button {
+  max-width: 120px; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
   padding: 1em 2em; }
 
-.login form {
-  display: flex;
-  flex-direction: column; }
-  .login form input {
-    margin-bottom: 1em; }
+.login__form input {
+  margin-bottom: 1em; }
+.login__form button {
+  max-width: 120px; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
   padding: 1em 2em; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
   padding: 1em 2em; }
 
 .start-intro {
@@ -45,27 +49,99 @@
 .start-intro {
   margin-bottom: 30px; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
   padding: 1em 2em; }
 
-.exercise-list h3 {
-  text-transform: uppercase; }
+.itemlist__header {
+  margin-bottom: 3em;
+  display: flex;
+  justify-content: space-between; }
+  .itemlist__header__title {
+    padding: 0.8em 0; }
+.itemlist button {
+  margin-top: 1em; }
+  .itemlist button__new {
+    margin-right: 0; }
+.itemlist-item {
+  background-color: #f5f5f5; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.itemlist-item__header {
+  margin-bottom: 7px; }
+  .itemlist-item__header-delete {
+    background-color: #ff3860; }
+  .itemlist-item__header__buttons {
+    display: flex; }
+.itemlist-item__description {
+  margin-bottom: 2.5em; }
+.itemlist-item__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; }
+  .itemlist-item__footer-edit {
+    margin-left: 1.4em; }
+  .itemlist-item__footer-theme {
+    background-color: #39add1;
+    color: #ffffff;
+    font-size: 0.85em;
+    padding: 0.2em 0.8em;
+    border-radius: 0.25em;
+    transition: 0.2s;
+    height: 27px;
+    align-items: flex-end;
+    margin-right: 1.4em; }
+    .itemlist-item__footer-theme span {
+      background-color: #ffffff; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
   padding: 1em 2em; }
 
 .exercise-form form {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  margin-bottom: 50px; }
   .exercise-form form label {
-    margin-top: 2em;
-    font-size: 24px;
-    text-transform: uppercase; }
+    margin-top: 2em; }
   .exercise-form form button {
-    margin-top: 10px; }
+    margin-top: 10px;
+    max-width: 120px; }
 
-.register, .login, .home, .start, .exercise-list, .exercise-form, .invitation-list {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
   padding: 1em 2em; }
+
+.itemlist__header {
+  margin-bottom: 3em;
+  display: flex;
+  justify-content: space-between; }
+  .itemlist__header__title {
+    padding: 0.8em 0; }
+  .itemlist__header__new {
+    max-width: 50px; }
+.itemlist button {
+  margin-top: 1em; }
+.itemlist-item {
+  background-color: #f5f5f5; }
+
+.itemlist-item__header {
+  margin-bottom: 7px; }
+  .itemlist-item__header-delete {
+    background-color: #ff3860; }
+  .itemlist-item__header__buttons {
+    display: flex; }
+.itemlist-item__description {
+  margin-bottom: 2.5em; }
+.itemlist-item__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; }
+  .itemlist-item__footer-edit {
+    margin-left: 1.4em;
+    max-width: 120px; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 2em; }
+
+.invitation-new__form__button {
+  margin-top: 1em; }
 
 * {
   box-sizing: border-box; }

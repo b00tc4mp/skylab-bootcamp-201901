@@ -51,22 +51,23 @@ class InvitationForm extends Component {
   }
 
   render() {
-    const { state: { pageTitle, email, status, feedback }, handleFormSubmit, handleEmailInput } = this
+    const { state: { pageTitle, email, feedback }, handleFormSubmit, handleEmailInput } = this
 
     return (
-      <section className="invitation-form">
+      <section className="invitation-new">
 
         <div className="course-header group">
           <h2>{pageTitle}</h2>
           {feedback && <Feedback message={feedback} />}
         </div>
 
-        <form onSubmit={handleFormSubmit}>
-          <label htmlFor="email">Email</label>
-          <input id="title" type="email" name="email" onChange={handleEmailInput} value={email} required />
+        <form className="invitation-new__form" onSubmit={handleFormSubmit}>
 
-          <p>{status}</p>
-          <button type="submit">SAVE</button>
+          <div className="control">
+            <input className="input is-medium" placeholder="Email" type="email" name="email" onChange={handleEmailInput} value={email} required />          
+          </div>
+
+          <button className="invitation-new__form__button button is-info" type="submit">SAVE</button>
         </form>
       </section>
     )

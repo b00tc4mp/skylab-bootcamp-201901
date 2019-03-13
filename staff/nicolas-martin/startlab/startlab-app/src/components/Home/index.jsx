@@ -26,7 +26,7 @@ class Home extends Component {
 
         <hr />
 
-        <button onClick={onStart}>START</button>
+        <button className="button is-info is-medium" onClick={onStart}>Empezar</button>
 
       </div>
     )

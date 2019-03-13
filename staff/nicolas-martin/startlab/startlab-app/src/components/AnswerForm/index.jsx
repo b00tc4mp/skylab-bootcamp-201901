@@ -6,12 +6,14 @@ function AnswerForm({ manageSubmit, manageChange, previousAnswer }) {
         
             <textarea 
                 type="text" 
+                className="textarea " 
                 value={previousAnswer} 
                 placeholder="start coding your solution here..." 
                 onChange={manageChange} 
-            required />
+                required 
+            />
 
-            <button>SEND</button>
+            <button className="button is-primary">Send</button>
         </form>
     )
 }

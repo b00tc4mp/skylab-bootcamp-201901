@@ -4,9 +4,9 @@ const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
 
-    const { body: { title, summary, test, id, order }, userId } = req
+    const { body: { title, summary, test, id, order, theme }, userId } = req
 
-    const exercise = { title, summary, test, id, order }
+    const exercise = { title, summary, test, id, order, theme }
 
     try {
         logic.updateExercise(userId, exercise)

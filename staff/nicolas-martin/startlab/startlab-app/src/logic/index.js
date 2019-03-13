@@ -83,7 +83,7 @@ const logic = {
 
     exerciseList() {
         return skylabApi.exerciseList(this.__userApiToken__)
-                    .then(exercises => exercises)
+            .then(exercises => exercises)
     },
 
     deleteExercise(id) {
@@ -120,6 +120,10 @@ const logic = {
         if (!exerciseId.trim().length) throw Error('exerciseId cannot be empty')
 
         return skylabApi.checkCode(answer, exerciseId, this.__userApiToken__)
+            .then(result => {
+                if (!result.tests.length) throw Error('there was an error checking the answer. Please try again')
+                return { passes: result.passes, failures: result.failures }
+            })
     },
 
     retrieveExercisesFromUser() {
@@ -127,9 +131,9 @@ const logic = {
             .then(exercises => exercises)
     },
 
-    invitationList(){
+    invitationList() {
         return skylabApi.invitationList(this.__userApiToken__)
-                    .then(invitations => invitations)
+            .then(invitations => invitations)
     },
 
     deleteInvitation(id) {
@@ -154,11 +158,11 @@ const logic = {
 
     newInvitation(invitation) {
         //Todo validate input data
-        
+
         return skylabApi.createInvitation(invitation, this.__userApiToken__)
     },
 
-    sendEmailInvitation(invitation){
+    sendEmailInvitation(invitation) {
 
         //todo
 

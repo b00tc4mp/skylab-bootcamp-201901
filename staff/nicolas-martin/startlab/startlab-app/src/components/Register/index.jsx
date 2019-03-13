@@ -34,21 +34,21 @@ class Register extends Component {
         } = this
 
         return <section className="register">
-            <h1>Register</h1>
+            <h1 className="title">Register</h1>
 
             <p>Lorem fistrum amatomaa qué dise usteer amatomaa fistro me cago en tus 
                 muelas qué dise usteer a peich sexuarl. Pecador ahorarr sexuarl va usté 
                 muy cargadoo pecador. Ese pedazo de diodeno la caidita no puedor al 
                 ataquerl qué dise usteer te va a hasé pupitaa.</p>
             <hr />
-            <form onSubmit={handleFormSubmit}>
-                <input type="text" name="name" onChange={handleNameInput} placeholder="name" required/>
-                <input type="text" name="surname" onChange={handleSurnameInput} placeholder="surname" required/>
-                <input type="text" name="email" onChange={handleEmailInput} placeholder="email" required/>
-                <input type="password" name="password" onChange={handlePasswordInput} placeholder="password" required/>
-                <input type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password" required/>
+            <form className="register__form" onSubmit={handleFormSubmit} autoComplete="off">
+                <input className="input" type="text" name="name" onChange={handleNameInput} placeholder="name" autoComplete="off" required/>
+                <input className="input" type="text" name="surname" onChange={handleSurnameInput} placeholder="surname" required/>
+                <input className="input" type="text" name="email" onChange={handleEmailInput} placeholder="email" required/>
+                <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" required/>
+                <input className="input" type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password" required/>
 
-                <button>Register</button>
+                <button className="button is-info">Register</button>
             </form>
 
             {feedback && <Feedback message={feedback} />}

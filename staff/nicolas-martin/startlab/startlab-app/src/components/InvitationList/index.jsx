@@ -44,21 +44,24 @@ class InvitationList extends Component {
     const { state: { invitations, feedback }, handleDelete, handleSendEmailInvitation, props: {handleNewInvitation } } = this
 
     return (
-      <main className="invitation-list">
-        <div className="course-header group">
-          <h2>Invitations</h2>
-          <p>{invitations.length} invitations</p>
-          <button onClick={handleNewInvitation}>New</button>
+      <main className="itemlist invitation-list">
+        <div className="itemlist__header course-header group">
+          <h1 className="itemlist__header__title subtitle is-4">{invitations.length} invitations</h1>
+          <button className="itemlist__header__new button is-link is-warning" onClick={handleNewInvitation}>New</button>
         </div>
 
-        {feedback && <Feedback message={feedback} />}
+        <div className="itemlist__feedback" >
+          {feedback && <Feedback message={feedback} />}
+        </div>
 
-        {invitations.map((invitation, index) => <InvitationItem
-          key={index}
-          results={invitation}
-          onDelete={handleDelete}
-          onSendInvitationEmail={handleSendEmailInvitation}
-        />)}
+        <div className="itemlist__items" >
+          {invitations.map((invitation, index) => <InvitationItem
+            key={index}
+            results={invitation}
+            onDelete={handleDelete}
+            onSendInvitationEmail={handleSendEmailInvitation}
+          />)}
+        </div>
 
       </main>
     )

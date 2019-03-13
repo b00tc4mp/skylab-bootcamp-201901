@@ -102,7 +102,7 @@ class App extends Component {
     } = this
 
     return (
-      <div className="container">
+      <div className="app container">
         <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} onLogOut={handleLogout} />
         <Switch>
           <Route exact path="/" render={() => <Home onStart={handleStart} />} />
