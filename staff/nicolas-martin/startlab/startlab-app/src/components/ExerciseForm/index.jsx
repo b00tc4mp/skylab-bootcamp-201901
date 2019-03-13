@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
 
 import Feedback from '../Feedback'
 import AnswerForm from '../AnswerForm'
@@ -22,9 +23,18 @@ class ExerciseForm extends Component {
                         pageTitle: 'Edit exercise'
                     })
                 })
-                .catch(message => console.log(message))
+                .catch(message => this.emitFeedback(message, 'error'))
         }
     }
+
+    emitFeedback = (message, level) => toast[level](message, {
+        position: 'top-right',
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+    })
 
     handleTitleInput = event => this.setState({ title: event.target.value })
 
@@ -47,23 +57,23 @@ class ExerciseForm extends Component {
         try {
             const { title, summary, test, id, order, theme } = this.state
             logic.updateExercise({ title, summary, test, id, order, theme })
-                .then(message => this.setState({ feedback: message }))
-                .catch(({message}) => this.setState({ feedback: message }))
+                .then(message => this.emitFeedback(message, 'success'))
+                .catch(({message}) => this.emitFeedback(message, 'error'))
         } catch ({ message }) {
-            this.setState({ feedback: message })
+            this.emitFeedback(message, 'error')
         }
     }
 
     handleNew = () => {
         try {
-            const { state: { title, summary, test, id, order }, props: { onNew } } = this
-            logic.newExercise({ title, summary, test, id, order })
+            const { state: { title, summary, test, order, theme }, props: { onNew } } = this
+            logic.newExercise({ title, summary, test, order, theme })
                 .then(message => {
                     onNew(message)
                 })
-                .catch(({ message }) => this.setState({ feedback: message }))
+                .catch(({ message }) => this.emitFeedback(message, 'error'))
         } catch ({ message }) {
-            this.setState({ feedback: message })
+            this.emitFeedback(message, 'error')
         }
     }
 
@@ -72,8 +82,8 @@ class ExerciseForm extends Component {
         const { state: { answer, id: exerciseId } } = this
 
         logic.checkCode(answer, exerciseId)
-            .then(({ passes, failures }) => this.setState({ feedback: 'Ok!' }))
-            .catch(({ message }) => this.setState({ feedback: message }))
+            .then(({ passes, failures }) => this.emitFeedback('ok', 'success'))
+            .catch(({ message }) => this.emitFeedback(message, 'error'))
     }
 
     render() {
