@@ -10,7 +10,7 @@ Object.defineProperties(logic, {
 
     __coworkingApiToken__: {
         set(token) {
-            sessionStorage.setItem('__coworkingApiToken__', token)
+            token ? sessionStorage.setItem('__coworkingApiToken__', token) : sessionStorage.removeItem('__coworkingApiToken__')
         },
 
         get() {
@@ -20,7 +20,7 @@ Object.defineProperties(logic, {
 
     __isAdmin__: {
         set(isAdmin) {
-            sessionStorage.setItem('__isAdmin__', isAdmin)
+            isAdmin ? sessionStorage.setItem('__isAdmin__', isAdmin) : sessionStorage.removeItem('__isAdmin__')
         },
 
         get() {

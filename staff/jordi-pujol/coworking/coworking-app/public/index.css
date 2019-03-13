@@ -1,139 +1,68 @@
-.login {
-  display: grid;
-  grid-template-columns: 60% 40%;
-  grid-template-rows: 1;
-  height: 30rem;
-  width: 60rem;
-  padding: 0% 20%; }
-  .login_content {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center; }
-    .login_content-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-around;
-      height: 70%; }
-      .login_content-form input {
-        font-size: 16px;
-        border: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-        outline: none; }
-      .login_content-form button {
-        margin: 0 auto;
-        border-radius: 30px;
-        width: 8em;
-        height: 2em;
-        border: none;
-        color: #fff;
-        font-size: 15px;
-        cursor: pointer;
-        background-image: linear-gradient(#0F0340, #360BE5); }
-      .login_content-form button:hover {
-        background-image: linear-gradient(skyblue, #360BE5); }
-  .login_subcontent {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    background-image: url(https://www.wittobriens.com/wp-content/uploads/2018/08/bigstock-Young-People-Work-In-Modern-Of-214657102.jpg);
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    opacity: 0.8; }
+/*
+Error: Inconsistent indentation: 6 spaces were used for indentation, but the rest of the document was indented using 4 spaces.
+        on line 36 of src/components/Topbar/index.sass
+        from line 4 of src/index.sass
 
-.topBar {
-  color: white;
-  display: flex;
-  justify-content: space-around; }
+31:         text-align: left
+32:         color: white
+33:     
+34:     
+35:     .dropdown-content a:hover
+36:       background-color: #3d5bfe
+37:       color: white
+38:     
+39:     
+40:     .dropdown:hover .dropdown-content
+41:       display: block
 
-.topbar {
-  display: flex;
-  justify-content: space-around;
-  border-bottom: 1px solid white; }
-  .topbar__button {
-    font-size: 20px;
-    border: none;
-    cursor: pointer;
-    background-color: Transparent; }
-    .topbar__button--logout {
-      background-color: Transparent;
-      font-size: 20px;
-      border: none;
-      color: orange;
-      cursor: pointer; }
-    .topbar__button--icon {
-      background-image: url(https://nilquebe.com/img/coworking.png);
-      height: 125px;
-      width: 125px; }
-
-.inbox {
-  background-size: cover;
-  margin-left: 6em;
-  max-width: 85%;
-  display: flex;
-  display-direction: row;
-  flex-wrap: wrap; }
-
-.service {
-  background-image: url(https://vignette.wikia.nocookie.net/inciclopedia/images/9/94/Post-It.png/revision/latest?cb=20100719151648&format=original);
-  height: 450px;
-  cursor: pointer;
-  width: 400px; }
-  .service__title {
-    padding-top: 3em;
-    padding-left: 3em;
-    max-width: 300px; }
-  .service__description {
-    padding-left: 5em;
-    max-width: 300px; }
-
-.full__service {
-  position: absolute;
-  background-color: orange;
-  height: 400px;
-  width: 400px; }
-
-img {
-  width: 50px;
-  height: 50px; }
-
-.profile .profile__form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; }
-  .profile .profile__form--info {
-    height: 50px;
-    width: 400px;
-    font-size: 20px;
-    color: black;
-    border: none;
-    border-bottom: 1px solid white;
-    background: transparent; }
-.profile button {
-  margin-top: 20px;
-  border-radius: 30px;
-  width: 8em;
-  height: 2em;
-  border: none;
-  color: #fff;
-  font-size: 15px;
-  cursor: pointer;
-  background-image: linear-gradient(#0F0340, #360BE5); }
-
-img {
-  height: 200px;
-  width: 200px; }
-
-html {
-  background-image: linear-gradient(#9BFF64, #00FF31);
-  background-repeat: no-repeat;
-  background-size: cover; }
-  html body {
-    margin: 0;
-    padding: 100px; }
-
-/*# sourceMappingURL=index.css.map */
+Backtrace:
+src/components/Topbar/index.sass:36
+src/index.sass:4
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:494:in `block in tabulate'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:452:in `each'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:452:in `each_with_index'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:452:in `tabulate'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:417:in `_to_tree'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:321:in `to_tree'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:327:in `block in visit_import'
+/usr/lib/ruby/vendor_ruby/sass/stack.rb:88:in `block in with_import'
+/usr/lib/ruby/vendor_ruby/sass/stack.rb:135:in `with_frame'
+/usr/lib/ruby/vendor_ruby/sass/stack.rb:88:in `with_import'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:326:in `visit_import'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:36:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:162:in `block in visit'
+/usr/lib/ruby/vendor_ruby/sass/stack.rb:79:in `block in with_base'
+/usr/lib/ruby/vendor_ruby/sass/stack.rb:135:in `with_frame'
+/usr/lib/ruby/vendor_ruby/sass/stack.rb:79:in `with_base'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:162:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:52:in `map'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:52:in `visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:171:in `block in visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:183:in `with_environment'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:170:in `visit_children'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:36:in `block in visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:190:in `visit_root'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:36:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:161:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:10:in `visit'
+/usr/lib/ruby/vendor_ruby/sass/tree/root_node.rb:36:in `css_tree'
+/usr/lib/ruby/vendor_ruby/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:389:in `_render_with_sourcemap'
+/usr/lib/ruby/vendor_ruby/sass/engine.rb:307:in `render_with_sourcemap'
+/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:462:in `update_stylesheet'
+/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:209:in `each'
+/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:294:in `watch'
+/usr/lib/ruby/vendor_ruby/sass/plugin.rb:109:in `method_missing'
+/usr/lib/ruby/vendor_ruby/sass/exec/sass_scss.rb:356:in `watch_or_update'
+/usr/lib/ruby/vendor_ruby/sass/exec/sass_scss.rb:51:in `process_result'
+/usr/lib/ruby/vendor_ruby/sass/exec/base.rb:52:in `parse'
+/usr/lib/ruby/vendor_ruby/sass/exec/base.rb:19:in `parse!'
+/usr/bin/sass:8:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Inconsistent indentation: 6 spaces were used for indentation, but the rest of the document was indented using 4 spaces.\A         on line 36 of src/components/Topbar/index.sass\A         from line 4 of src/index.sass\A \A 31:         text-align: left\A 32:         color: white\A 33:     \A 34:     \A 35:     .dropdown-content a:hover\A 36:       background-color: #3d5bfe\A 37:       color: white\A 38:     \A 39:     \A 40:     .dropdown:hover .dropdown-content\A 41:       display: block"; }

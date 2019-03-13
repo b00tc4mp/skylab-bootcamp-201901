@@ -25,5 +25,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "bcrypt": "^3.0.4",
+    "dotenv": "^6.2.0"
+  }
 }

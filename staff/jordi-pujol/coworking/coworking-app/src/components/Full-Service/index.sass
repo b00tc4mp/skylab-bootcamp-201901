@@ -1,10 +1,46 @@
-   
-.full__service
-    position: absolute
-    background-color: orange
-    height: 400px
-    width: 400px    
+.fullservice
+    // background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgiYHdqvPxFcleRo1v2UgiO9VgWrpkZvX2ogtiWYwPhs74rtcpw)
+    // height: 400px
+    // width: 400px
+    display: block /* Hidden by default */
+    position: fixed /* Stay in place */
+    z-index: 1 /* Sit on top */
+    padding-top: 100px /* Location of the box */
+    left: 0
+    top: 0
+    width: 100% /* Full width */
+    height: 100% /* Full height */
+    overflow: auto /* Enable scroll if needed */
+    background-color: rgb(0,0,0) /* Fallback color */
+    background-color: rgba(0,0,0,0.4) /* Black w/ opacity */
+
+    &__content
+        background-image: url(http://www.stickpng.com/assets/images/580b585b2edbce24c47b2465.png)
+        background-size: cover
+        margin: auto
+        padding: 20px
+        border: 1px solid #888
+        width: 80%
+        height: 70%
+        border: none
+
+        &--title
+            margin-top: 3em
+            display: flex
+            justify-content: center
+
+        
+        &--item
 
 img
     width: 50px
     height: 50px
+
+.fas.fa-window-close
+        float: right
+    
+.fas.fa-window-close:hover
+        cursor: pointer
+
+.fas.fa-comment
+        float: left

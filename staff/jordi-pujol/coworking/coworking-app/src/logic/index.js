@@ -47,7 +47,7 @@ const logic = {
         return coworkingApi.authenticateUser(email, password)
             .then(({ token, isAdmin }) => {
                 this.__coworkingApiToken__ = token
-                this.__isAdmin__ = isAdmin
+                this.__isAdmin__ = isAdmin.toString()
 
                 return token
             })

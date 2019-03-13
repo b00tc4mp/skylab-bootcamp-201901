@@ -13,6 +13,7 @@
 
   
   &_content
+    padding-top: 2em
     grid-column-start: 1
     grid-column-end: 2
     background: #fff
@@ -39,16 +40,47 @@
         color: #fff
         font-size: 15px
         cursor: pointer
-        background-image: linear-gradient(#0F0340, #360BE5)
+        background-image: linear-gradient(#2C9200, #1C440B)
       
       button:hover 
         background-image: linear-gradient(skyblue, #360BE5)
+    
+    .submit
+      margin: 0 auto
+      border-radius: 30px
+      width: 20em
+      height: 2em
+      border: none
+      color: #fff
+      font-size: 15px
+      cursor: pointer
+      background-image: linear-gradient(#2C9200, #1C440B)
+
 
   &_subcontent
     grid-column-start: 2
     grid-column-end: 3
-    background-image: url(https://www.wittobriens.com/wp-content/uploads/2018/08/bigstock-Young-People-Work-In-Modern-Of-214657102.jpg)
+    display: flex
+    background-image: linear-gradient(#00ffb3, #3d5bfe)
     background-size: cover
     +flexin(flex, column, center)
-    opacity: 0.8
     
+
+    div
+      +flexin(flex, column, center)
+      padding: 4em 3em
+
+    button
+      margin: 0 auto
+      border-radius: 30px
+      width: 8em
+      height: 2em
+      border: none
+      color: #fff
+      font-size: 15px
+      cursor: pointer
+      background-image: linear-gradient(#3d5bfe, #1f0054)
+      color: white
+      
+      button:hover 
+        background-image: linear-gradient(skyblue, #360BE5)
