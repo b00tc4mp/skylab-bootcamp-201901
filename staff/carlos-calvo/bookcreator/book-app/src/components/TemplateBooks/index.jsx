@@ -11,16 +11,6 @@ class TemplateBooks extends Component {
         toastId: null
     }
 
-    deleteBook = (id) => {
-        return logic.deleteBook(id)
-        .then(()=> {
-            this.notify()
-            this.retrieveYourBooks()
-        })
-    }
-
-
-
     retrieveTemplateBooks = () =>{
         try {
             logic.retrieveTemplateBooks()
@@ -47,7 +37,7 @@ class TemplateBooks extends Component {
                         <input className="inputSearch" type="text" name="search" placeholder="Search.."/>
                     </div>
                 <form>
-                    <div className="row justify-content-center">
+                    <div className="cardContainer">
                         {books.length && books.map(book =>{
                             return (<CardTemplate bookSelected={book} />)
                             })}

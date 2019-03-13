@@ -17,30 +17,30 @@ class CardTemplate extends Component {
         const book = this.props.bookSelected
         return (
             <Fragment>
-                <div className="bookCard col-sm-8 col-md-5 col-lg-3" >
-                    <div className="bookCard-photocontainer">
-                        <img className="card-img-top" src={book.coverphoto}/>
+                <div className="bookCard" >
+                    <div className="bookCard__photocontainer">
+                        <img className="imagen" src={book.coverphoto}/>
                     </div>
-                    <div className="card-body">
-                        <div>
-                            <h5 className="card-title">{book.title}</h5>
+                    <div className="cardBody">
+                        <div className="cardBody__title" data-toggle="tooltip" data-placement="top" title={book.title}>
+                            <h5 className="title">{book.title}</h5>
                         </div>
-                        <div>
+                        <div className="cardBody__name">
                             {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')? 
-                            <p className="card-text">Name<i className="fas fa-user-circle"></i> {book.parameters.name}</p>:
-                            <p className="card-text">Name<i className="fas fa-user-circle"></i> No name tag in this book</p>
+                            <p className="cardBody__text">Name<i className="fas fa-user-circle"></i> {book.parameters.name}</p>:
+                            <p className="cardBody__text">Name<i className="fas fa-user-circle"></i> No name tag in this book</p>
                             }
                         </div>
-                        <div>
+                        <div className="cardBody__place">
                             {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place') ? 
-                            <p className="card-text">Place :<i className="fas fa-user-circle"></i> {book.parameters.place}</p>
+                            <p className="cardBody__text">Place :<i className="fas fa-user-circle"></i> {book.parameters.place}</p>
                                 :
-                            <p className="card-text">Place :<i className="fas fa-user-circle"></i> No place tag in this book</p>
+                            <p className="cardBody__text">Place :<i className="fas fa-user-circle"></i> No place tag in this book</p>
                             }
                         </div>
-                        <div className="bookCard-buttonContainer">
-                            <button onClick={this.loadBook} className="btn btn-primary btn-readit" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
-                            <button onClick={this.addTemplateToUserBooks} className="btn btn-success btn-deleteit" data-toggle="tooltip" data-placement="top" title="Add to your books"><i class="fas fa-bookmark"></i></button>
+                        <div className="cardBody__buttonContainer">
+                            <button onClick={this.loadBook} className="butt butt--read" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
+                            <button onClick={this.addTemplateToUserBooks} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="Add to your books"><i class="fas fa-bookmark"></i></button>
                         </div>
                     </div>
                 </div>
