@@ -5,16 +5,26 @@ const Match = new Schema({
     type: String
   },
 
-  playersAvailable: {
-    type: Array
-  },
+  playersAvailable: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Player'
+  }],
 
-  playersChosen: { firstPair: [], secondPair: [], thirdPair: [] },
+  playersChosen: {
+    type: Object,
+    properties: {
+      "firstPair-firstPlayer": { type: String },
+      "firstPair-secondPlayer": { type: String },
+      "secondPair-firstPlayer:": { type: String },
+      "secondPair-secondPlayer": { type: String },
+      "thirdPair-firstPlayer": { type: String },
+      "thirdPair-secondPlayer": { type: String }
+    }
+  },
 
   result: {
     type: String
-  },
-
+  }
 });
 
 module.exports = Match;

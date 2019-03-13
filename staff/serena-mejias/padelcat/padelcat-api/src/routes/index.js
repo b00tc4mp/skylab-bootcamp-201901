@@ -14,7 +14,8 @@ const {
   getMatchesWithData,
   retrieveAvailabilityPlayers,
   availabilityPlayer,
-  deleteAvailabilityPlayer
+  deleteAvailabilityPlayer,
+  addChosenPlayers
 } = require("./handlers");
 
 const jsonBodyParser = bodyParser.json();
@@ -59,5 +60,6 @@ router.put(
   jsonBodyParser,
   deleteAvailabilityPlayer
 );
+router.put("/chosenPlayers", jsonBodyParser, addChosenPlayers);
 
 module.exports = router;

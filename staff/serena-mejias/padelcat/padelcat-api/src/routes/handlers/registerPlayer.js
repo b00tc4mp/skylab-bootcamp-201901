@@ -7,10 +7,9 @@ module.exports = (req, res) => {
   try {
     logic
       .registerPlayer(name, surname, email, password, link, preferedPosition)
-      .then(res=>{
-        res.json.bind(res)})
-      .catch(err => console.log(err));
+      .then(id=> res.json({id}))
+      .catch(err => {throw Error(err)});
   } catch (err) {
-    console.log(err);
+    throw Error(err);
   }
 };
