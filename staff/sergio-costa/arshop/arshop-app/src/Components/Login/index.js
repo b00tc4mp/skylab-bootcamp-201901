@@ -35,10 +35,10 @@ class Login extends Component {
 
         return <section className="login">
             <div className="login__content">
-                <img className="login__img" src="/images/logoplaceholder.png"></img>
+                <img className="login__img" src="/images/logo.png"></img>
                 <form className="login__form" onSubmit={handleFormSubmit}>
                     <div className="login__inputrow">
-                        <input className="login__input" type="email" name="email" placeholder="Email" onChange={handleEmailInput} />
+                        <input className="login__input" type="email" name="email" placeholder="Email" autoComplete="off" onChange={handleEmailInput} />
                     </div>
                     <div className="login__inputrow">
                         <input className="login__input" type="password" name="password" placeholder="Password" onChange={handlePasswordInput} />

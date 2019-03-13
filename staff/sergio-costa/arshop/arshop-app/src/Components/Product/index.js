@@ -5,29 +5,56 @@ import './index.sass'
 
 class Product extends Component {
 
-    state = { fav: false }
-
-    // onProductSelect(id){
-    //     console.log(id)
-    // }       
+    state = { fav: false, userProduct: false}
 
     onFav = id => {
-        
+
         try {
-            logic.toogleFav(id)
+            return logic.toogleFav(id)
                 .then(fav => this.setState({ fav }))
-                .then(() => console.log(this.state.fav))
         } catch (error) {
 
         }
     }
 
+    handleProductSelect = id => {
+
+        this.props.onProductSelect(id)
+    }
+
+    onMatchWithUserProducts = () => {
+        try {
+            if(logic.isUserLoggedIn){
+                return logic.retrieveUserProducts()
+                    .then(userProducts =>{
+                        const index = userProducts.findIndex(({id}) => id == this.props.id)
+                        if(index >=0) this.setState({userProduct: true})
+                    })
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    componentDidMount(){
+        const index = this.props.idFav.findIndex(({ id }) => id == this.props.id)
+        if (index >= 0) this.setState({ fav: true })
+
+        this.onMatchWithUserProducts()
+    }
+
+
+    componentWillReceiveProps(products) {
+        const index = products.idFav.findIndex(({ id }) => id == this.props.id)
+        if (index >= 0) this.setState({ fav: true })
+    }
+
     render() {
 
-        const { props: { id, tittle, description, price, imageUrl }, onProductSelect, onFav, state: { fav } } = this
+        const { props: { id, tittle, description, price, imageUrl }, handleProductSelect, onFav, state: { fav } } = this
 
         return <section className="products">
-            <div className="product" key={id} onClick={() => onProductSelect(id)}>
+            <div className="product" key={id} onClick={() => handleProductSelect(id)}>
                 <div className="product__imgcontainer">
                     <img className="product__img" src={imageUrl} />
                 </div>
@@ -37,9 +64,9 @@ class Product extends Component {
                     <p className="product__description">{description}</p>
                 </div>
                 <div className="product__btncontainer" onClick={event => [onFav(id), event.stopPropagation()]}>
-                    <button className="product__btn">
+                    { !this.state.userProduct && <button className="product__btn">
                         <i className={fav ? "fas fa-heart product__logo" : "far fa-heart product__logo"}></i>
-                    </button>
+                    </button>}
                 </div>
             </div>
         </section>

@@ -6,14 +6,19 @@ import Product from '../Product';
 
 class LandingPage extends Component {
 
-    state = { products: [], feedback: null }
+    state = { products: [], feedback: null, favIds: [] }
 
     componentDidMount() {
         try {
             logic.retrieveProducts()
                 .then(products => {
                     this.setState({ products })
-                    console.log(this.state.products)
+                })
+                .then(() => {
+                    if (logic.isUserLoggedIn) {
+                        logic.retrieveFavs()
+                            .then(favIds => this.setState({ favIds }))
+                    }
                 })
                 .catch(({ message }) => {
                     this.setState({ feedback: message })
@@ -28,11 +33,11 @@ class LandingPage extends Component {
         const { state: { feedback, products } } = this
 
 
-        return <section>
+        return <section className="landingPage">
             {feedback && <Feedback message={feedback} />}
-                {products.map(({ id, tittle, description, price, imageUrl, sold }) => {
-                    return <Product id={id} tittle={tittle} description={description} price={price} imageUrl={imageUrl} sold={sold} />
-                })}
+            {products.map(({ id, tittle, description, price, imageUrl, sold }) => {
+                return <Product key={id} id={id} tittle={tittle} description={description} price={price} imageUrl={imageUrl} sold={sold} idFav={this.state.favIds} />
+            })}
         </section>
     }
 }

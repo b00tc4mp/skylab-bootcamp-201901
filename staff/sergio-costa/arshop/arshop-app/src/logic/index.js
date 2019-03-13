@@ -132,6 +132,7 @@ const logic = {
     },
 
     toogleFav(productId) {
+
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
         if (!productId.trim().length) throw Error('productId cannot be empty')
 

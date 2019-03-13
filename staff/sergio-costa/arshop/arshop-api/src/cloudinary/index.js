@@ -13,7 +13,7 @@ function cloudinaryUploader(req, res, next) {
         api_key: CLOUDINARY_API_KEY,
         api_secret: CLOUDINARY_API_SERCRET
     })
-
+debugger
     const path = req.file.path
 
     try {

@@ -43,7 +43,7 @@ class Register extends Component {
 
         return <section className="register">
             <div className="register__content">
-                <img className="register__img" src="/images/logoplaceholder.png"></img>
+                <img className="register__img" src="/images/logo.png"></img>
                 <form onSubmit={handleFormSubmit}>
                     <div className="register__inputrow">
                         <input className="register__input" type="text" name="name" onChange={handleNameInput} placeholder="name" />
