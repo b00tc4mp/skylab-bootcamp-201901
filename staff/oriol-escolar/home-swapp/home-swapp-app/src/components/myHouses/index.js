@@ -26,11 +26,11 @@ class MyHouses extends Component {
     
 
 
-    listMyHouses(userHouses) {
+    listMyHouses(userHouses,updateInfo) {
 
         return userHouses.map(house => {
 
-            return <HouseCard house={house} origin='myHouses'/>
+            return <HouseCard house={house} updateInfo={updateInfo} origin='myHouses'/>
         });
     }
 
@@ -38,7 +38,7 @@ class MyHouses extends Component {
 
     render() {
 
-        const { listMyHouses, state: { user, myHouses },props:{toggleFavs}  } = this
+        const { listMyHouses, state: { user, myHouses },props:{updateInfo}  } = this
 
 
         return <div className="myHouses" >
@@ -48,7 +48,7 @@ class MyHouses extends Component {
                 <CreateHouseCard></CreateHouseCard>
 
 
-                {myHouses && listMyHouses(myHouses,toggleFavs)}
+                {myHouses && listMyHouses(myHouses,updateInfo)}
 
 
             </div>

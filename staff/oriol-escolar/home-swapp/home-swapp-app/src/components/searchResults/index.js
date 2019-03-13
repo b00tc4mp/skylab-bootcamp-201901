@@ -38,11 +38,11 @@ class SearchResults extends Component {
 
 
 
-    listresults(userHouses) {
+    listresults(userHouses,updateInfo) {
 
         return userHouses.map(house => {
 
-            return <HouseCard house={house} origin='search'/>
+            return <HouseCard house={house} updateInfo={updateInfo} origin='search'/>
         });
     }
 
@@ -50,7 +50,7 @@ class SearchResults extends Component {
 
     render() {
 
-        const { listresults, state: { user, results }, props:{toggleFavs} } = this
+        const { listresults, state: { user, results }, props:{updateInfo} } = this
 
 
         return <div className="results" >
@@ -59,7 +59,7 @@ class SearchResults extends Component {
             <div className="results__content">
 
 
-                {results && listresults(results,toggleFavs )}
+                {results && listresults(results,updateInfo )}
 
 
             </div>

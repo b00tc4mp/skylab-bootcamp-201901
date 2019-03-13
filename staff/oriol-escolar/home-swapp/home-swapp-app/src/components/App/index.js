@@ -47,7 +47,7 @@ class App extends Component {
     this.setState({ userFavs, userHouses })
   }
 
-  async updateUser(){
+  async updateInfo(){
 
     const user = await logic.retrieveUser()
     const userFavs = await logic.retrieveFavorites()
@@ -163,7 +163,7 @@ class App extends Component {
   render() {
 
     const {
-      handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister, handleGoToUser, handleGoToLanding, toggleFavs,
+      handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister, handleGoToUser, handleGoToLanding, toggleFavs,updateInfo,
       state: { user, loginFeedback, registerFeedback, token, userHouses, userFavs }
     } = this
 
@@ -185,8 +185,8 @@ class App extends Component {
             <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
           </Switch>
           <Route exact path="/user" render={() => <div>
-            <MyHouses user={user} token={token} userHouses={userHouses} toggleFavs={toggleFavs} />
-            <Favorites user={user} token={token} userFavs={userFavs} toggleFavs={toggleFavs} />
+            <MyHouses user={user}  userHouses={userHouses} updateInfo={updateInfo} />
+            <Favorites user={user}  userFavs={userFavs} updateInfo={updateInfo} />
 
           </div>} />
 
