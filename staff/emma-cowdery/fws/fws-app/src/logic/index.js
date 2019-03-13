@@ -12,7 +12,16 @@ const logic = {
         else this.__storage__.removeItem('token')
     },
 
+    set __userId__ (userId) {
+        if (userId) this.__storage__.setItem('userId', userId)
+        else this.__storage__.removeItem('userId')
+    },
+
     get __token__ () {
+        if (this.__storage__.getItem('token')) return this.__storage__.getItem('token')
+    },
+
+    get __userId__ () {
         if (this.__storage__.getItem('token')) return this.__storage__.getItem('token')
     },
 
@@ -106,7 +115,7 @@ const logic = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation) {
+    createEvent(restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating) {
         if (typeof restaurantId !== 'string') throw TypeError(restaurantId + ' is not a string')
         if (!restaurantId.trim().length) throw Error('restaurantId cannot be empty')
 
@@ -124,8 +133,14 @@ const logic = {
 
         if (eventLocation.constructor !== Array) throw TypeError(eventLocation + ' is not an array') 
 
+        if (typeof priceLevel !== 'number') throw TypeError(priceLevel + ' is not a number')
+        //if (!priceLevel.trim().length) throw Error('priceLevel cannot be empty')
+
+        if (typeof rating !== 'number') throw TypeError(rating + ' is not a number')
+        //if (!rating.trim().length) throw Error('rating cannot be empty')
+
         return (async () => {
-            const eventId = await fwsApi.createEvent(restaurantId, this.__token__, eventTime, eventDate, reservationName, restaurantCategory, eventLocation)
+            const eventId = await fwsApi.createEvent(restaurantId, this.__token__, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
 
             if (!eventId) throw Error('event creation was unsuccessful')
 
@@ -177,9 +192,15 @@ const logic = {
         })()
     },
 
-    findEventsNearMe() {
+    /**
+     * 
+     * @param {number} distance 
+     */
+    findEventsNearMe(distance) {
+        if (typeof distance !== 'number') throw TypeError(`${distance} is not a number`)
+
         return (async () => {
-            const events = await fwsApi.findEventsNearMe(this.__token__)
+            const events = await fwsApi.findEventsNearMe(this.__token__, distance)
 
             if (!events) throw Error('unable to retrieve events at this moment')
 
@@ -226,7 +247,7 @@ const logic = {
     },
 
     /**
-     * Retrieves chats from the user that is logged in at that moment
+     * Retrieves chat information from the user that is logged in at that moment
      */
     userChats() {
         return (async () => {
@@ -256,6 +277,25 @@ const logic = {
             if (!chat) throw Error('messae failed to send')
 
             return chat
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} chatId 
+     */
+    messagesFromChat(chatId) {
+        if (typeof chatId !== 'string') throw TypeError(chatId + ' is not a string')
+        if (!chatId.trim().length) throw Error('chatId cannot be empty')
+
+        return (async () => {
+            const messages = await fwsApi.messagesFromChat(this.__token__, chatId)
+
+            if (!messages) throw Error('unable to get messages')
+
+            console.log(messages)
+
+            return messages
         })()
     },
 
@@ -337,6 +377,22 @@ const logic = {
             if (!geolocation) throw Error('unable to retrieve current location')
 
             return geolocation
+        })()
+    },
+
+    /**
+     * 
+     * @param {object} filters 
+     */
+    filterEvents(filters) {
+        if (filters.constructor !== Object) throw TypeError(`${filters} is not an object`)
+
+        return (async () => {
+            const events = await fwsApi.filterEvents(this.__token__, filters)
+
+            if (!events.events.length) throw Error('no events were fould with these specified filters')
+
+            return events.events
         })()
     }
 }

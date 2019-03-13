@@ -18,15 +18,21 @@ export default function EventsMap () {
     const [reservationName, setReservationName] = useState()
     const [restaurantCategory, setRestaurantCategory] = useState()
     const [mapInGrid, setMapInGrid] = useState('__no-info')
-    const [preferedTime, setPreferedTime] = useState()
+
+    //filter
+    const [timeRange, setTimeRange] = useState()
     const [preferedDate, setPreferedDate] = useState()
+    const [distance, setDistance] = useState(60)
+    const [rating, setRating] = useState()
+    const [priceRange, setPriceRange] = useState()
+    const [filteredCategory, setFilteredCategory] = useState()
 
     useEffect(() => {
         logic.geolocation()
             .then(geolocation => setUserLocation(geolocation)) //googles geolocation is not totally accurate
         
-        logic.findEventsNearMe()
-            .then(events => setEvents(events.events))
+        // logic.findEventsNearMe(distance)
+        //     .then(events => setEvents(events.events))
     }, [])
 
     useEffect(() => {
@@ -40,6 +46,30 @@ export default function EventsMap () {
         eventMarkers(map)
 
     }, [userLocation, events])
+
+    useEffect(() => {
+        let filters = {'distance': distance}
+
+        console.log(priceRange)
+
+        if (priceRange) Object.defineProperty(filters, 'priceRange', { value: priceRange, configurable: true, enumerable: true, writable: true })
+
+        if (timeRange) Object.defineProperty(filters, 'timeRange', { value: timeRange, configurable: true, enumerable: true, writable: true })
+
+        if (preferedDate) Object.defineProperty(filters, 'date', { value: preferedDate, configurable: true, enumerable: true, writable: true })
+
+        if (rating) Object.defineProperty(filters, 'rating', { value: rating, configurable: true, enumerable: true, writable: true })
+
+        if (filteredCategory) Object.defineProperty(filters, 'restaurantCategory', { value: filteredCategory, configurable: true, enumerable: true, writable: true })
+
+        console.log(filters)
+
+        logic.filterEvents(filters)
+            .then(events => setEvents(events))
+
+    }, [distance, timeRange, preferedDate, rating, priceRange, filteredCategory])
+
+    console.log(timeRange)
 
     function eventMarkers (map) {
         events && events.map(({ eventLocation, restaurantCategory, participants, eventDate, eventTime, restaurantId, reservationName }) => {
@@ -89,7 +119,7 @@ export default function EventsMap () {
             <div className='map-panel'>
                 {eventInfo && <InfoWindow className='info-window' setMapInGrid={setMapInGrid} setEventInfo={setEventInfo} participants={participants} eventDate={eventDate} eventTime={eventTime} restaurantId={restaurantId} reservationName={reservationName} restaurantCategory={restaurantCategory}/>}
                 <div id='map' className={'map-in-grid' + mapInGrid}></div>
-                <MapFilter setPreferedDate={setPreferedDate} setPreferedTime={setPreferedTime}/>
+                <MapFilter setPreferedDate={setPreferedDate} setTimeRange={setTimeRange} setDistance={setDistance} setRating={setRating} setPriceRange={setPriceRange} setFilteredCategory={setFilteredCategory}/>
             </div>
         </Fragment>
     )

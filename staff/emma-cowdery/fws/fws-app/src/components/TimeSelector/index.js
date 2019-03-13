@@ -12,7 +12,7 @@ export default function TimeSelector ({ setEventTime }) {
 
     useEffect(() => {
         setEventTime(timeHour.concat(':', timeMinute))
-    }, [(timeMinute || timeMinute)])  //fix thuis because if a user changes the hour after the minutes, eventTime doesnt get changed
+    }, [timeMinute, timeHour])  //fix this because if a user changes the hour after the minutes, eventTime doesnt get changed
 
     return (
         <div className='hourSelectorDiv'>

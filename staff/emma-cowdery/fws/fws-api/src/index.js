@@ -20,7 +20,7 @@ const { parseImageUpload } = require('./cloudinary/middleware')
 
 //nocloud
 
-const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, findEventByCategory, findEventsNearMe, createChat, joinChat, userChats, addMessageToChat, searchRestaurants, restaurantDetails, resizePhoto, geolocation, dontShowHowTo, howTo, uploadImage, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, findEventByCategory, findEventsNearMe, createChat, joinChat, userChats, addMessageToChat, messagesFromChat, searchRestaurants, restaurantDetails, resizePhoto, geolocation, dontShowHowTo, howTo, filterEvents, uploadImage, notFound } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -50,7 +50,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.get('/event-categories/:restaurantCategory', [tokenVerifierMiddleware], findEventByCategory)
 
-        router.get('/events-nearme', [tokenVerifierMiddleware, jsonBodyParser], findEventsNearMe)
+        router.post('/events-nearme', [tokenVerifierMiddleware, jsonBodyParser], findEventsNearMe)
 
         router.post('/chat/:eventId', [jsonBodyParser, tokenVerifierMiddleware], createChat)
 
@@ -59,6 +59,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/chats', [tokenVerifierMiddleware], userChats)
 
         router.post('/message/:chatId', [tokenVerifierMiddleware, jsonBodyParser], addMessageToChat)
+
+        router.get('/messages/:chatId', tokenVerifierMiddleware, messagesFromChat)
 
         router.get('/search-restaurants/:query', [tokenVerifierMiddleware], searchRestaurants)
 
@@ -71,6 +73,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/dontshowhowto', [tokenVerifierMiddleware, jsonBodyParser], dontShowHowTo)
 
         router.get('/howto', [tokenVerifierMiddleware], howTo)
+
+        router.post('/filter-events', [tokenVerifierMiddleware, jsonBodyParser], filterEvents)
 
         //router.post('/upload', [parseImageUpload, tokenVerifierMiddleware], uploadImage)
 

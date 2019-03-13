@@ -158,7 +158,7 @@ const logic = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation) {
+    createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating) {
         if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
         if (!restaurantId.trim().length) throw Error('restaurantId is empty')
 
@@ -179,6 +179,12 @@ const logic = {
 
         if (eventLocation.constructor !== Array) throw TypeError(eventLocation + ' is not an array')
 
+        if (typeof priceLevel !== 'number') throw TypeError(priceLevel + ' is not a number')
+        //if (!priceLevel.trim().length) throw Error('priceLevel cannot be empty')
+
+        if (typeof rating !== 'number') throw TypeError(rating + ' is not a number')
+        //if (!rating.trim().length) throw Error('rating cannot be empty')
+
         return (async () => {
             const restaurant = await Events.findOne({ restaurantId })
 
@@ -186,7 +192,7 @@ const logic = {
                 if (restaurant.eventTime === eventTime && restaurant.eventDate === eventDate) throw Error('an event at this place and time already exists, would you like to join that event?')
             }
 
-            const event = await Events.create({ restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation })
+            const event = await Events.create({ restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating })
 
             const { participants = [], id } = event
 
@@ -313,12 +319,17 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId is empty')
 
+        if (typeof distance !== 'number') throw TypeError(`${distance} is not a number`)
+        //if (!distance.trim().length) throw Error('distance is empty')
+
         return (async () => {
             const userLocation = await googleMapsApi.geolocation()
 
-            const events = await Events.find().select('-__v').lean()
+            const _events = await Events.find().select('-__v').lean()
 
-            events.map(event => {
+            let events = []
+
+            _events.map(event => {
                 const { eventLocation} = event
 
                 const R = 6373 //earths radius in meters
@@ -349,8 +360,10 @@ const logic = {
 
                 delete event._id
 
-                if (event.totalDist > distance) delete event
+                if (event.totalDist <= distance) events.push(event)
             })
+
+            if (events.length === 0) throw Error('no events were found at this specified distance')
 
             return events
         })()
@@ -460,6 +473,20 @@ const logic = {
 
                 delete chat._id
 
+                const index = chat.messages.length
+
+                const message = chat.messages[index - 1]
+                
+                delete message.__v
+
+                message.id = message._id
+
+                delete message._id
+
+                chat.message = message
+
+                delete chat.messages
+
                 return chat
             }))
         })()
@@ -503,6 +530,35 @@ const logic = {
             delete chat._id
 
             return chat
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} chatId 
+     */
+    messagesFromChat(userId, chatId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId is empty')
+
+        return (async () => {
+            const chat = await Chats.findById(chatId).select('-__v').lean()
+
+            const { messages } = chat
+
+            messages.map(message => {
+                delete message.__v
+
+                message.id = message._id
+
+                delete message._id
+            })
+
+            return messages
         })()
     },
 
@@ -608,7 +664,6 @@ const logic = {
         if (!userId.trim().length) throw Error('userId is empty')
 
         return (async () => {
-            console.log('logic')
             const user = await Users.findById(userId)
 
             if (!user) throw Error('user not found')
@@ -639,12 +694,35 @@ const logic = {
         if (!userId.trim().length) throw Error('userId is empty')
 
         if (filters.constructor !== Object) throw TypeError(`${filters} is not an object`)
+        //console.log(filters)
 
         return (async () => {
-            if (filters.hasOwnProperty(distance)) {
+            let events = []
 
-            }
-        })
+            if (filters.hasOwnProperty('distance')) 
+                events = await logic.findEventsNearMe(userId, filters.distance)
+            
+
+            if (filters.hasOwnProperty('restaurantCategory')) 
+                    events = events.filter(event => event.restaurantCategory === filters.restaurantCategory)
+            
+
+            if (filters.hasOwnProperty('priceRange')) 
+                    events = events.filter(event => filters.priceRange[0] <= event.priceLevel && event.priceLevel <= filters.priceRange[1])
+            
+
+            if (filters.hasOwnProperty('rating')) 
+                    events = events.filter(event => event.rating >= filters.rating)
+            
+
+            if (filters.hasOwnProperty('timeRange')) 
+                    events = events.filter(event => filters.timeRange[0] <= event.eventTime && event.eventTime <= filters.timeRange[1])
+            
+            if (filters.hasOwnProperty('date'))       
+                    events = events.filter(event => event.eventDate.substring(0, 15) === filters.date.substring(0, 15))
+                
+            return events
+        })()
     }
 }
 

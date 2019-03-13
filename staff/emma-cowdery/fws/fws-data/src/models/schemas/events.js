@@ -33,7 +33,17 @@ const Events = new Schema({
     eventLocation: [{
         type: Number,
         required: true
-    }]
+    }],
+
+    priceLevel: {
+        type: Number,
+        required: true
+    },
+
+    rating: {
+        type: Number,
+        required: true
+    }
 })
 
 module.exports = Events

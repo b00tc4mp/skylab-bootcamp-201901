@@ -11,6 +11,7 @@ import EventCategories from '../EventCategories'
 import EventsNearMe from '../EventsNearMe'
 import EventsMap from '../EventsMap'
 import Calendar from '../Calendar'
+import Chats from '../Chats'
 
 export default withRouter (function App() {
     return (
@@ -23,6 +24,7 @@ export default withRouter (function App() {
             <Route path="/events-nearme" render={() => logic.isUserLoggedIn ? <EventsNearMe/> : <Redirect to = '/landing'/>}/>
             <Route path="/events-map" render={() => logic.isUserLoggedIn ? <EventsMap/> : <Redirect to = '/landing'/>}/>
             <Route path="/calendar" component={Calendar}/>
+            <Route path="/chats" render={() => logic.isUserLoggedIn ? <Chats/> : <Redirect to = '/landing'/>}/>
         </Fragment>
     )
 })

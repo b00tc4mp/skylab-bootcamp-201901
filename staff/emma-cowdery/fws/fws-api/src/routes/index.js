@@ -25,6 +25,8 @@ module.exports = {
 
     uploadImage: require('./upload-image'),
 
+    messagesFromChat: require('./messages-from-chat'),
+
     searchRestaurants: require('./search-restaurants'),
 
     restaurantDetails: require('./restaurant-details'),
@@ -36,6 +38,8 @@ module.exports = {
     dontShowHowTo: require('./dont-show-how-to'),
 
     howTo: require('./how-to'),
+
+    filterEvents: require('./filter-events'),
 
     notFound: require('./not-found')
 }

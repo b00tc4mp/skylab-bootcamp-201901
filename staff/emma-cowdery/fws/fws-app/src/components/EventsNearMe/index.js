@@ -8,9 +8,10 @@ import BouncingLoader from '../BouncingLoader'
 
 export default function EventsNearMe() {
     const [eventsNearme, setEventsNearme] = useState()
+    const [distance, setDistance] = useState(20)
 
     useEffect(() => {
-        logic.findEventsNearMe()
+        logic.findEventsNearMe(distance)
             .then(events => setEventsNearme(events.events))
     }, [])
 
