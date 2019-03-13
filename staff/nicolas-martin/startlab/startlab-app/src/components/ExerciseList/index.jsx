@@ -32,8 +32,8 @@ class ExerciseList extends Component {
         return (
             <main className="itemlist">
                 <div className="itemlist__header course-header group">
-                    <h1 className="subtitle is-4">{exercises.length}  exercises</h1>
-                    <button className="button is-link is-warning" onClick={handleNew}>New</button>
+                    <h1 className="itemlist__header__title subtitle is-4">{exercises.length}  exercises</h1>
+                    <button className="itemlist__header__new button is-link is-warning" onClick={handleNew}>New</button>
                 </div>
 
                 <div className="itemlist__feedback" >

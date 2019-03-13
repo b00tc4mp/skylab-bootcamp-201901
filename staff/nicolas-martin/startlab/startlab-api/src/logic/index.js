@@ -84,13 +84,14 @@ const logic = {
     /** CRUD exercise ***/
     /********************/
 
-    createExercise(userId, title, summary, test) {
+    createExercise(userId, title, summary, test, theme) {
 
         validate([
             { key: 'userId', value: userId, type: String },
             { key: 'title', value: title, type: String },
             { key: 'summary', value: summary, type: String },
-            { key: 'test', value: test, type: String }
+            { key: 'test', value: test, type: String },
+            { key: 'theme', value: theme, type: Number }
         ])
 
         return User.findById(userId)
@@ -98,7 +99,7 @@ const logic = {
                 if (!user) throw new NotFoundError(`user with id ${userId} not found`)
                 if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
 
-                return Exercise.create({ title, summary, test }) // here I'm not calling to Exercise.create. instead I¡m calling to mongo DB create method, right?
+                return Exercise.create({ title, summary, test, theme }) // here I'm not calling to Exercise.create. instead I¡m calling to mongo DB create method, right?
                     .then(({ id }) => {
                         var unitFile = path.join(process.cwd(), 'src', 'test-files', `${id}.js`)
 

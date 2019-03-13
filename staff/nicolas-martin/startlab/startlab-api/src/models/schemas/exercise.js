@@ -19,6 +19,16 @@ const Exercise = new Schema({
     order: {
         type: Number,
         default: 0
+    },
+
+    theme: {
+        type: Number,
+        required: true,
+        default: 0,
+        validate: {
+            validator : Number.isInteger,
+            message   : '{VALUE} is not an integer value'
+        }
     }
 
 })

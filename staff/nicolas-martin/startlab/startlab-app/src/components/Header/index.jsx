@@ -4,11 +4,11 @@ import { NavLink } from 'react-router-dom'
 const Header = ({ isAdmin, isLoggedIn, onLogOut }) => {
   // {console.log(isAdmin, isLoggedIn)}
   return (
-  <nav className="header" role="navigation" aria-label="main navigation">
+  <nav className="header" aria-label="main navigation">
 
     <ul className="main-nav">
 
-      <a class="navbar-item" href="#">
+      <a className="navbar-item" href="/">
         <i className="material-icons">code</i>
       </a>
 

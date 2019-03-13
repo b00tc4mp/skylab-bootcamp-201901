@@ -19,7 +19,7 @@ class Login extends Component {
         const { props: { feedback }, handleFormSubmit, handleEmailInput, handlePasswordInput } = this
         return (
             <section className="login">
-                <h1>Login</h1>
+                <h1 className="title">Login</h1>
 
                 <p>Lorem fistrum amatomaa qué dise usteer amatomaa fistro me cago en tus
                 muelas qué dise usteer a peich sexuarl. Pecador ahorarr sexuarl va usté
@@ -27,10 +27,10 @@ class Login extends Component {
                 ataquerl qué dise usteer te va a hasé pupitaa.</p>
                 <hr />
 
-                <form onSubmit={handleFormSubmit}>
-                    <input type="text" name="email" onChange={handleEmailInput} placeholder="email" autoComplete="off" required />
-                    <input type="password" name="password" onChange={handlePasswordInput} placeholder="password" required />
-                    <button>Login</button>
+                <form className="login__form" onSubmit={handleFormSubmit} autoComplete="off">
+                    <input className="input" type="text" name="email" onChange={handleEmailInput} placeholder="email" autoComplete="off" required />
+                    <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" required />
+                    <button className="button is-info">Login</button>
                 </form>
 
                 {feedback && <Feedback message={feedback} />}

@@ -50,11 +50,11 @@ button, textarea {
   overflow: hidden;
 }
 
-.group:after {
+/* .group:after {
   content: "";
   display: table;
   clear: both;
-}
+} */
 .course {
   margin-bottom: 1em;
 }
