@@ -1,13 +1,15 @@
 const logic = require("../../logic");
 
 module.exports = (req, res) => {
+  
   const {
-    body: { playerId, matchId }
+    body: { playersChosen, matchId }
   } = req;
+  debugger
   try {
     logic
-      .addAvailabilityPlayer(playerId, matchId)
-      .then(response => {
+    .addChosenPlayers(playersChosen, matchId)
+    .then(response => {
         res.json(response);
       })
       .catch(err => {

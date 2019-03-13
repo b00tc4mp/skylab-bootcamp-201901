@@ -9,6 +9,7 @@ export const Home = props => {
   const [matches, setMatches] = useState("");
 
   useEffect(() => {
+    
     if (!logic.getStoredtoken()) {
       props.history.push("/login");
     }
@@ -23,7 +24,7 @@ export const Home = props => {
   return (
     <section className={styles.container}>
       <NavLink to={"/players"} className={styles.button}>
-        <Button color="inherit">Ranking</Button>
+        <Button color="primary">Ranking</Button>
       </NavLink>
       <ul>
         {matches &&

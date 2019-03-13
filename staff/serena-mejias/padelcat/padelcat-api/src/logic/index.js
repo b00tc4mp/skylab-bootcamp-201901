@@ -228,10 +228,11 @@ const logic = {
   },
 
   getMatchesWithData() {
+    debugger
     return (async () => {
       const dataMatches = await logic.retrieveMatchesScrapping();
       const newArray = dataMatches.map(async scrappingMatch => {
-        const match = await Match.findOne({ matchId: scrappingMatch.matchId });
+        const match = await Match.findOne({ matchId: scrappingMatch.matchId }).populate("playersAvailable");
         const {
           matchId,
           date,
@@ -257,8 +258,7 @@ const logic = {
           playersChosen
         };
       });
-      debugger;
-      return Promise.all(newArray).then((response) => response)
+      return Promise.all(newArray).then(response => response);
     })();
   },
 
@@ -297,6 +297,29 @@ const logic = {
       }
     })();
   },
+
+  addChosenPlayers(playersId, matchId) {
+    return (async () => {
+      const match = await Match.findOne({ matchId });
+      if (!match) {
+        await Match.create({
+          matchId,
+          playersChosen: {
+            playersId
+          }
+        });
+      } else {
+        await Match.findOneAndUpdate(
+          { matchId },
+          {
+            playersChosen: {
+              playersId
+            }
+          }
+        );
+      }
+    })();
+  }
 
   // retrieveAvailabilityPlayers(matchId) {
   //   return (async () => {

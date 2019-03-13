@@ -118,6 +118,11 @@ const logic = {
     return padelcatApi.deleteAvalabilityPlayer(playerId, matchId);
   },
 
+  addChosenPlayers: (playersId, matchId) => {
+    debugger
+    return padelcatApi.addChosenPlayers(playersId, matchId);
+  },
+
   retrieveAvailabilityPlayers:(matchId) => {
     return padelcatApi.retrieveAvailabilityPlayers(matchId);
   }

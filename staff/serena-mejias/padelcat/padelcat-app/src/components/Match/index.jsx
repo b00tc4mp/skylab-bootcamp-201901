@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import styles from "./index.module.scss";
 import ChosenPairs from "../ChosenPairs";
-import { Form, Field } from "react-final-form";
+import { Form, Field, Values } from "react-final-form";
 import logic from "../../logic";
+import { log } from "util";
 
 export const Match = props => {
   const [available, setAvailable] = useState(false);
@@ -32,22 +33,13 @@ export const Match = props => {
     setAvailable(false);
   };
 
-  const handleChosenPairsSubmit = e => {
-    e.preventDefault();
+  const onSubmit = e => {
+    
+    const playersId = e;
     console.log(e);
-    console.log(e.target.value);
-
-    // logic.addPlayersChosen();
+    
+    logic.addChosenPlayers(playersId, matchId);
   };
-
-  const hanldeFirstPair = () => {
-    //onChosenPair()
-  };
-  // const isInvalidChosenPairs = () => {
-  //   return (
-  //     !playerAvailable
-  //   );
-  // };
 
   useEffect(() => {
     if (playersAvailable.filter(playerId => playerId === _id).length) {
@@ -59,7 +51,7 @@ export const Match = props => {
 
   return (
     <div>
-      <h4>{date}</h4>
+      <h4>{date} - {matchId}</h4>
       <div className="teams match">
         <div className="team1">
           <img src={imageTeam1} />
@@ -72,60 +64,32 @@ export const Match = props => {
       </div>
       <div>
         <Form
-          onSubmit={handleChosenPairsSubmit}
-          initialValues={{ firstPair: "", secondPair: "", thirdPair: "" }}
+          onSubmit={onSubmit}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
               <div>
                 <label value="firstPair">1st Match</label>
-                <Field name="firstPairFirstPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"firstPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
-                <Field name="firstPairSecondPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"secondPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
+                <ChosenPairs
+                  selectName="firstPair"
+                  players={playersAvailable}
+                  match={"firstMatch"}
+                />
               </div>
               <div>
                 <label value="secondPair">2nd Match</label>
-                <Field name="secondPairFirstPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"firstPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
-                <Field name="secondPairSecondPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"secondPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
+                <ChosenPairs
+                  selectName="secondPair"
+                  players={playersAvailable}
+                  match={"secondMatch"}
+                />
               </div>
               <div>
                 <label value="thirdPair">3rd Match</label>
-                <Field name="thirdPairFirstPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"firstPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
-                <Field name="thirdPairSecondPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"secondPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
+                <ChosenPairs
+                  selectName="thirdPair"
+                  players={playersAvailable}
+                  match={"thirdMatch"}
+                />
               </div>
               <ChosenPairs selectorName="firstPair" players={playersAvailable} />
               <div className="buttons">
