@@ -56,7 +56,6 @@ export const Match = props => {
       return setAvailable(false);
     }
   }, [props]);
-
   return (
     <div>
       <h4>{date}</h4>
@@ -78,54 +77,27 @@ export const Match = props => {
             <form onSubmit={handleSubmit}>
               <div>
                 <label value="firstPair">1st Match</label>
-                <Field name="firstPairFirstPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"firstPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
-                <Field name="firstPairSecondPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"secondPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
+                <ChosenPairs
+                  selectName="firstPair"
+                  players={playersAvailable}
+                  match={"firstMatch"}
+                />
               </div>
               <div>
                 <label value="secondPair">2nd Match</label>
-                <Field name="secondPairFirstPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"firstPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
-                <Field name="secondPairSecondPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"secondPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
+                <ChosenPairs
+                  selectName="secondPair"
+                  players={playersAvailable}
+                  match={"secondMatch"}
+                />
               </div>
               <div>
                 <label value="thirdPair">3rd Match</label>
-                <Field name="thirdPairFirstPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"firstPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
-                <Field name="thirdPairSecondPlayer" component="select">
-                  <option />
-                  {playersAvailable &&
-                    playersAvailable.map(playerAvailable => (
-                      <option value={"secondPlayer"}>{playerAvailable}</option>
-                    ))}
-                </Field>
+                <ChosenPairs
+                  selectName="thirdPair"
+                  players={playersAvailable}
+                  match={"thirdMatch"}
+                />
               </div>
               <div className="buttons">
                 <button type="submit" disabled={submitting || pristine}>

@@ -1,26 +1,21 @@
-import React, { useState } from "react";
-import { Form, Field } from "react-final-form";
-export default function ChosenPairs(props) {
-  const onChosenPair = () => {
-    return props.playersChosen;
-  };
+import React from "react";
+import { Field } from "react-final-form";
 
-  const { playersAvailable } = props.match;
+export default function ChosenPairs(props) {
+  // const onChosenPair = () => {
+  //   return props.playersChosen;
+  // };
+
+  const { players, selectName } = props;
   return (
     <section>
-      <Field name="firstChosePair" component="select">
+      <Field name={`${selectName}-firstPlayer`} component="select">
         <option />
-        {playersAvailable &&
-          playersAvailable.map(playerAvailable => (
-            <option value={"firstPlayer"}>{playerAvailable}</option>
-          ))}
+        {players && players.map( id => <option value={id}>{id}</option>)}
       </Field>
-      <Field name="firstChosePair" component="select">
+      <Field name={`${selectName}-secondPlayer`} component="select">
         <option />
-        {playersAvailable &&
-          playersAvailable.map(playerAvailable => (
-            <option value={"secondPlayer"}>{playerAvailable}</option>
-          ))}
+        {players && players.map( id => <option value={id}>{id}</option>)}
       </Field>
     </section>
   );
