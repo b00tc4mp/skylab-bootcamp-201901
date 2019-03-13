@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import "./index.sass";
 import AddComment from "../AddComment";
 import logic from "../../logic";
@@ -12,6 +13,7 @@ function Card({
   postId,
   userFavorites,
   username,
+  postUserId,
   call
 }) {
   const [commentsPost, setComments] = useState("");
@@ -32,9 +34,10 @@ function Card({
     setComments(comments);
   }, [comments]);
 
+  console.log(commentsPost);
   return (
     <div className="card">
-      <p>{username}</p>
+      <Link to={`/profile/${postUserId}`}>{username}</Link>
       {title && <p>{title}</p>}
       <img className="post-image" src={image} alt="Post" />
       <i
@@ -49,12 +52,12 @@ function Card({
       {description && <p>{description}</p>}
       {commentsPost &&
         commentsPost.map(comment => (
-          <Fragment>
+          <div key={comment._id}>
             <p>Comentario: </p>
             <p>{comment.body}</p>
             <p>Usuario: </p>
             <p>{comment.by.username}</p>
-          </Fragment>
+          </div>
         ))}
     </div>
   );

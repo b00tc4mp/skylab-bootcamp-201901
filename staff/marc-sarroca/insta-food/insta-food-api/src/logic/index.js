@@ -110,11 +110,14 @@ const logic = {
   },
 
   retrievePostsByUser(userId) {
+    const res = {};
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
     return User.findOne({ _id: userId })
+      .select("-__v -password")
       .then(user => {
         if (!user) throw Error(`user with id ${id} not found`);
+        res.user = user;
       })
       .then(() =>
         Post.find({ user_id: userId })
@@ -122,7 +125,11 @@ const logic = {
           .select("-__v")
           .lean()
       )
-      .then(post => post);
+      .then(post => {
+        res.post = post;
+
+        return res;
+      });
   },
 
   retrieveAllPosts() {

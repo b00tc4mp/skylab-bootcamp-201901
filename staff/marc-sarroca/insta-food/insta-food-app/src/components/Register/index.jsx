@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Feedback from "../Feedback";
 import "./index.sass";
+import logic from "../../logic";
+import { withRouter } from "react-router-dom";
 
 function Register(props) {
   const [email, setEmail] = useState(null);
@@ -8,6 +10,7 @@ function Register(props) {
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
   const [passwordConfirm, setPasswordConfirm] = useState(null);
+  const [registerFeedback, setRegisterFeedback] = useState(null);
 
   const handleNameInput = event => setName(event.target.value);
   const handleUsernameInput = event => setUsername(event.target.value);
@@ -18,7 +21,14 @@ function Register(props) {
 
   const handleFormSubmit = event => {
     event.preventDefault();
-    props.onRegister(name, username, email, password, passwordConfirm);
+    try {
+      logic
+        .registerUser(name, username, email, password, passwordConfirm)
+        .then(() => props.history.push("/login"))
+        .catch(({ message }) => setRegisterFeedback(message));
+    } catch ({ message }) {
+      setRegisterFeedback(message);
+    }
   };
 
   return (
@@ -60,8 +70,8 @@ function Register(props) {
         <button>Register</button>
       </form>
 
-      {props.feedback && <Feedback message={props.feedback} level="warn" />}
+      {registerFeedback && <Feedback message={registerFeedback} level="warn" />}
     </section>
   );
 }
-export default Register;
+export default withRouter(Register);

@@ -34,6 +34,7 @@ function Search() {
         {hashtag &&
           hashtag.map(post => (
             <Card
+              key={post._id}
               title={post.title}
               image={post.image}
               description={post.description}

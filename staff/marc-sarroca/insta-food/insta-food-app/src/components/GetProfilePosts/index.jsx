@@ -2,28 +2,32 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../userContext";
 import logic from "../../logic";
 import Card from "../../components/Card";
+import { withRouter } from "react-router-dom";
 
-function GetProfilePost() {
+function GetProfilePost(props) {
   const { user } = useContext(UserContext);
   const { token } = user;
   const { id } = user;
-  const [posts, setPosts] = useState([]);
+  const [postsUser, setPostsUser] = useState([]);
 
   useEffect(() => {
-    getPosts();
+    const postUserId = props.match.params.userId;
+    getUserPosts(postUserId);
   }, []);
 
-  const getPosts = () => {
-    logic.retrievePostByUser(id, token).then(posts => setPosts(posts));
+  const getUserPosts = (postUserId = id) => {
+    logic
+      .retrievePostByUser(postUserId, token)
+      .then(res => setPostsUser(res.post));
   };
 
   return (
     <div className="card-listt">
-      {posts.map(post => (
-        <Card image={post.image} />
+      {postsUser.map(post => (
+        <Card key={post._id} image={post.image} />
       ))}
     </div>
   );
 }
 
-export default GetProfilePost;
+export default withRouter(GetProfilePost);

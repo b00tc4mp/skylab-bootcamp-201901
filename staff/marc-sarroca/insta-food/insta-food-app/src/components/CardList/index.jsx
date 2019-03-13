@@ -43,12 +43,14 @@ function CardList() {
     >
       {posts.map(post => (
         <Card
+          key={post._id}
           title={post.title}
           image={post.image}
           description={post.description}
           comments={post.comments}
           postId={post._id}
-          username={post.user_id[0].username}
+          username={post.user_id.username}
+          postUserId={post.user_id._id}
           userFavorites={userFavorites}
           call={updatePosts}
         />

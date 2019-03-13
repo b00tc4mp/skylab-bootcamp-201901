@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Route, withRouter, Redirect } from "react-router-dom";
 import { UserContext } from "../../userContext";
 import Login from "../Login";
@@ -10,36 +10,17 @@ import ListPage from "../../pages/List";
 import SearchPage from "../../pages/Search";
 import AddPostPage from "../../pages/AddPost";
 import LoadingPage from "../../pages/Loading";
-import logic from "../../logic";
 import useUser from "../../logic/user";
 import ButtonBar from "../ButtonBar";
 import "./index.sass";
 
 function App(props) {
-  const [registerFeedback, setRegisterFeedback] = useState(null);
   const { userState, getUser, logout, login } = useUser();
   const { user, isUserLoading, userError } = userState;
 
   useEffect(() => {
     getUser();
   }, []);
-
-  const handleRegister = (
-    name,
-    username,
-    email,
-    password,
-    passwordConfirmation
-  ) => {
-    try {
-      logic
-        .registerUser(name, username, email, password, passwordConfirmation)
-        .then(() => props.history.push("/login"))
-        .catch(({ message }) => setRegisterFeedback(message));
-    } catch ({ message }) {
-      setRegisterFeedback(message);
-    }
-  };
 
   const renderRoutes = () => (
     <Fragment>
@@ -50,20 +31,14 @@ function App(props) {
       />
       <Route
         path="/register"
-        render={() =>
-          user ? (
-            <Redirect to="/posts" />
-          ) : (
-            <Register onRegister={handleRegister} feedback={registerFeedback} />
-          )
-        }
+        render={() => (user ? <Redirect to="/posts" /> : <Register />)}
       />
       <Route
         path="/login"
         render={() => (user ? <Redirect to="/posts" /> : <Login />)}
       />
       <Route
-        path="/profile"
+        path="/profile/:userId?"
         render={() => (user ? <ProfilePage /> : <Redirect to="/login" />)}
       />
       <Route

@@ -22,6 +22,7 @@ const Favorites = () => {
           .reverse()
           .map(userFavorite => (
             <Card
+              key={userFavorite._id}
               title={userFavorite.title}
               image={userFavorite.image}
               description={userFavorite.description}
