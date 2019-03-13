@@ -6,14 +6,15 @@ import './index.sass';
 
 
 
-function HouseCard({adress,images},){
+function HouseCard({adress,images,id},toggleFavs){
 
         
         return <div className="HouseCard">
 
             <img className="HouseCard__img" src={images[0]}></img>
-            <p>{adress.city}</p>
-            <p>{adress.street}  {adress.number}</p>
+            <p className="HouseCard__text-city">{adress.city}</p>
+            <p className="HouseCard__text-adress" >{adress.street}  {adress.number}</p>
+            {/* <p onClick={toggleFavs(id)}>ADD TO FAVORITES</p> */}
 
 
         </div>
@@ -21,4 +22,4 @@ function HouseCard({adress,images},){
 }
 
 
-export default HouseCard
+export default HouseCard    

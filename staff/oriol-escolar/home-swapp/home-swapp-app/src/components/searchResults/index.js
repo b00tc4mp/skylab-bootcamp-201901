@@ -28,17 +28,22 @@ class SearchResults extends Component {
     async retrieveResults(query) {
 
         const results = await logic.searchByQuery(query)
+
+        if(results.length)
         this.setState({ results: results })
+        else this.setState({ results: ""})
+
 
     }
 
 
-    listresults(userHouses) {
+
+    listresults(userHouses,toggleFavs) {
 
         console.log(userHouses)
         return userHouses.map(house => {
 
-            return HouseCard(house)
+            return HouseCard(house,toggleFavs)
         });
     }
 
@@ -46,16 +51,16 @@ class SearchResults extends Component {
 
     render() {
 
-        const { listresults, state: { user, results }, } = this
+        const { listresults, state: { user, results }, props:{toggleFavs} } = this
 
 
         return <div className="results" >
-            <h1 className="results__title">{this.props.match.params.query.toUpperCase()}</h1>
+            {results ? <h1 className="results__title">{this.props.match.params.query.toUpperCase()}</h1>:<h1> No results for {this.props.match.params.query.toUpperCase()} </h1>}
 
             <div className="results__content">
 
 
-                {results && listresults(results)}
+                {results && listresults(results,toggleFavs )}
 
 
             </div>

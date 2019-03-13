@@ -9,34 +9,31 @@ class Favorites extends Component {
 
     state = {
 
-        user: "",
-        token: "",
-        favorites: []
+       
+        favorites: ""
     }
 
     componentDidMount() {
 
-        this.setState({ user: this.props.user })
-        this.setState({ token: this.props.token })
+        
         this.setState({ favorites: this.props.userFavs })
     }
 
 
     componentWillReceiveProps(props) {
 
-        this.setState({ user: props.user })
-        this.setState({ token: props.token })
-        this.setState({ favorites: this.props.userFavs })
+        
+        this.setState({ favorites: props.userFavs })
 
 
     }
 
 
-    listMyHouses(favorites) {
+    listMyHouses(favorites,toggleFavs) {
 
         return favorites.map(house => {
 
-            return HouseCard(house)
+            return HouseCard(house,toggleFavs)
         });
     }
 
@@ -44,7 +41,7 @@ class Favorites extends Component {
 
     render() {
 
-        const { listMyHouses, state: { user, favorites } } = this
+        const { listMyHouses, state: { user, favorites }, props:{toggleFavs} } = this
 
         return <div className="favorites" >
             <h1 className= "favorites__title">FAVORITES</h1>
@@ -52,7 +49,7 @@ class Favorites extends Component {
 
             <div className= "favorites__content">
 
-                {favorites && listMyHouses(favorites)}
+                {favorites && listMyHouses(favorites,toggleFavs)}
 
             </div>
 

@@ -10,26 +10,27 @@ class MyHouses extends Component {
 
     state = {
 
-        myHouses: []
+        myHouses: ""
     }
 
     componentDidMount() {
+
         this.setState({ myHouses: this.props.userHouses })
     }
 
 
     componentWillReceiveProps(props) {
-        this.setState({ myHouses: this.props.userHouses })
+        this.setState({ myHouses: props.userHouses })
     }
 
     
 
 
-    listMyHouses(userHouses) {
+    listMyHouses(userHouses,toggleFavs) {
 
         return userHouses.map(house => {
 
-            return HouseCard(house)
+            return HouseCard(house,toggleFavs)
         });
     }
 
@@ -37,7 +38,7 @@ class MyHouses extends Component {
 
     render() {
 
-        const { listMyHouses, state: { user, myHouses }, } = this
+        const { listMyHouses, state: { user, myHouses },props:{toggleFavs}  } = this
 
 
         return <div className="myHouses" >
@@ -47,7 +48,7 @@ class MyHouses extends Component {
                 <CreateHouseCard></CreateHouseCard>
 
 
-                {myHouses && listMyHouses(myHouses)}
+                {myHouses && listMyHouses(myHouses,toggleFavs)}
 
 
             </div>

@@ -24,10 +24,32 @@ class App extends Component {
 
 
   }
-  componentDidMount(){
+  componentDidMount() {
     logic.getUserApiToken() && logic.retrieveUser()
-        .then(user => this.setState({user}))
-}
+      .then(user => {
+        
+        this.setState({ user })
+        
+
+
+
+      })
+      .then(() => this.userInfoRetriever())
+
+
+      
+  }
+
+  async userInfoRetriever() {
+    const userFavs = await logic.retrieveFavorites()
+    const userHouses = await  logic.retrieveMyHouses()
+    this.setState({ userFavs, userHouses })
+  }
+
+
+  
+  
+
 
   handleLogin = (email, password) => {
 
@@ -97,6 +119,7 @@ class App extends Component {
     this.props.history.push('/');
 
   }
+  
   handleGoToUser = () => {
 
 
@@ -113,6 +136,19 @@ class App extends Component {
 
   }
 
+  toggleFavs = (id) => {
+
+    let favs = this.state.userFavs
+    let index = favs.indexOf(id)
+    if (index < 0) favs.push(id)
+    else favs.splice(index, 1)
+
+    this.setState({ userFavs: favs })
+
+    this.retrieveUser()
+
+
+  }
 
 
   //#endregion
@@ -120,8 +156,8 @@ class App extends Component {
   render() {
 
     const {
-      handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister, handleGoToUser, handleGoToLanding,
-      state: { user, loginFeedback, registerFeedback, registered, token, userHouses, userFavs }
+      handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister, handleGoToUser, handleGoToLanding, toggleFavs,
+      state: { user, loginFeedback, registerFeedback, token, userHouses, userFavs }
     } = this
 
 
@@ -135,15 +171,15 @@ class App extends Component {
         </div>
 
         <div className="content" >
-        <Switch>
-          <Route path = "/search/:query"  render={()=> <SearchResults />}/>
-          <Route exact path='/' render={() => <LandingPage />} />
-          <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
-          <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
+          <Switch>
+            <Route path="/search/:query" render={() => <SearchResults toggleFavs={toggleFavs} />} />
+            <Route exact path='/' render={() => <LandingPage />} />
+            <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
+            <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
           </Switch>
           <Route exact path="/user" render={() => <div>
-            <MyHouses user={user} token={token} userHouses={userHouses} />
-            <Favorites user={user} token={token} userFavs={userFavs} />
+            <MyHouses user={user} token={token} userHouses={userHouses} toggleFavs={toggleFavs} />
+            <Favorites user={user} token={token} userFavs={userFavs} toggleFavs={toggleFavs} />
 
           </div>} />
 
