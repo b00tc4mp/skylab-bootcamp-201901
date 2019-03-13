@@ -127,6 +127,7 @@ export const Match = props => {
                     ))}
                 </Field>
               </div>
+              <ChosenPairs selectorName="firstPair" players={playersAvailable} />
               <div className="buttons">
                 <button type="submit" disabled={submitting || pristine}>
                   Submit
