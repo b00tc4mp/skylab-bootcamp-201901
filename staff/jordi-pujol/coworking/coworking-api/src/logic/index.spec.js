@@ -18,7 +18,7 @@ tokenHelper.jwtSecret = JWT_SECRET
 describe('logic', () => {
     before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
 
-    beforeEach(() =>
+    afterEach(() =>
         Promise.all([
             Workspace.deleteMany(),
             User.deleteMany(),
@@ -2001,7 +2001,7 @@ describe('logic', () => {
         })
     })
 
-    describe('retrieve user services', ()=> {
+    describe('retrieve user services', () => {
 
         const name = 'Josepet'
         const surname = 'Pepet'
@@ -2044,10 +2044,427 @@ describe('logic', () => {
                 })
         })
 
-        it ('should fail on user not exists', ()=> {
+        it('should fail on user not exists', () => {
 
             return logic.retrieveUserServices('5c87e9a9bf25412cfbdccd0e')
-                .catch(({message}) => expect(message).toBe('user does not exists'))
+                .catch(({ message }) => expect(message).toBe('user does not exists'))
+        })
+    })
+
+    describe('retrieve user submited services', () => {
+
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const isAdmin = 'true'
+        let userId
+        let userId2
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let workspaceId
+        let serviceId
+        let maxUsers = 4
+        let place = 'here'
+        let time = 60
+
+        beforeEach(() => {
+
+            return logic.registerUser(name, surname, email, password, password)
+                .then(id => {
+                    userId = id.toString()
+                    return logic.createWorkspace('One piece', userId)
+                })
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => logic.registerUser(name, surname, 'joanet@mail.com', password, password))
+                .then(id => {
+                    userId2 = id.toString()
+                    return logic.addUserToWorkspace(workspaceId, userId2)
+                        .then(() => logic.addUserToService(userId2, serviceId))
+                })
+        })
+
+        it('should succed on valid data', () => {
+            return logic.retrieveUserSubmitedEvents(userId2)
+                .then(_services => {
+                    debugger
+                    expect(_services).toBeDefined()
+                    expect(_services).toEqual([])
+                })
+        })
+
+        it('should fail on non existing user', () => {
+            return logic.retrieveUserSubmitedEvents('5c83d50fd800e035752e32a7')
+                .catch(({ message }) => expect(message).toBe('User does not exists'))
+        })
+    })
+    describe('add user to service', () => {
+
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        let userId2
+        let userId3
+        let userId4
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let workspaceId
+        let serviceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let time2 = -200
+
+        beforeEach(() => {
+            return logic.registerUser(name, surname, email, password, password)
+                .then(id => {
+                    userId = id.toString()
+                    return logic.createWorkspace('One piece', userId)
+                })
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [] })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => logic.registerUser(name, surname, 'joanet@mail.com', password, password))
+                .then(id => {
+                    userId2 = id.toString()
+                    return logic.addUserToWorkspace(workspaceId, userId2)
+                })
+                .then(() => User.create({ name, surname, email: 'joanetaaa@mail.com', password, password, time: time2 }))
+                .then(({ _id }) => {
+                    userId3 = _id.toString()
+                    return logic.addUserToWorkspace(workspaceId, userId3)
+                })
+                .then(() => User.create({ name, surname, email: 'joanetaaaooo@mail.com', password, password, time }))
+                .then(({ _id }) => {
+                    userId4 = _id.toString()
+                    return logic.addUserToWorkspace(workspaceId, userId4)
+                })
+        })
+
+        it('should succed on valid data', () => {
+
+            return logic.addUserToService(userId2, serviceId)
+                .then(service => {
+                    expect(service).toBeDefined()
+                    expect(service._id.toString()).toBe(serviceId)
+                    expect(service.place).toBe(place)
+                    expect(service.maxUsers).toBe(maxUsers)
+                    expect(service.time).toBe(time)
+                    expect(service.title).toBe(title)
+                    expect(service.description).toBe(description)
+                })
+        })
+
+        it('should fail on user time has exceeded limit', () => {
+
+            return logic.addUserToService(userId3, serviceId)
+                .catch(({ message }) => expect(message).toBe('you cannot ask for more services, please create a service to gain more time'))
+        })
+
+        it('should fail on max submited users achieved', () => {
+
+            return logic.addUserToService(userId2, serviceId)
+                .then(() => logic.addUserToService(userId4, serviceId))
+                .then(() => logic.addUserToService(userId4, serviceId))
+                .catch(({ message }) => expect(message).toBe('max submited users achieved, you cannot submit to this event'))
+        })
+
+        it('should fail on user is aldready submited to this event', () => {
+
+            return logic.addUserToService(userId2, serviceId)
+                .then(() => logic.addUserToService(userId2, serviceId))
+                .catch(({ message }) => expect(message).toBe('user is already submited to this service'))
+        })
+
+        it('should fail on user cannot submit to his own service', () => {
+
+            return logic.addUserToService(userId, serviceId)
+                .catch(({ message }) => expect(message).toBe('user cannot apply to his own service'))
+        })
+    })
+    describe('retrieve workspace services', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+
+        beforeEach(() => {
+            return logic.registerUser(name, surname, email, password, password)
+                .then(id => {
+                    userId = id.toString()
+                    return logic.createWorkspace('One piece', userId)
+                })
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+        })
+
+        it('should succeed on valid data', () => {
+
+            return logic.retrieveWorkspaceServices(userId, workspaceId)
+                .then(services => {
+                    expect(services).toBeDefined()
+                    expect(services[0].place).toBe(place)
+                    expect(services[0].user).toBe(name)
+                    expect(services[0].title).toBe(title)
+                    expect(services[0].description).toBe(description)
+                    expect(services[0].maxUsers).toBe(maxUsers)
+                    expect(services[0].time).toBe(time)
+                    expect(services[0].id.toString()).toBe(serviceId)
+                })
+        })
+
+        it('should fail on workspace not existing', () => {
+
+            return logic.retrieveWorkspaceServices(userId, '5c83d50fd800e035752e32a7')
+                .catch(({ message }) => expect(message).toBe('workspace not found'))
+        })
+    })
+
+    describe('close service', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+
+        beforeEach(() => {
+            return logic.registerUser(name, surname, email, password, password)
+                .then(id => {
+                    userId = id.toString()
+                    return logic.createWorkspace('One piece', userId)
+                })
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+        })
+
+        it('should succed on valid data', () => {
+
+            return logic.closeService(serviceId)
+                .then(service => {
+                    expect(service).toBeDefined()
+                })
+                .then(()=> logic.retrieveService(userId, serviceId))
+                .then(service => {
+
+                    expect(service).toBeDefined()
+                    expect(service.closed).toBe(true)
+                    expect(service.user).toBe(name)
+                    expect(service.title).toBe(title)
+                    expect(service.description).toBe(description)
+                    expect(service.maxUsers).toBe(maxUsers)
+                    expect(service.time).toBe(time)
+                    expect(service.id.toString()).toBe(serviceId)
+                })
+        })
+
+        it('should fail on service not exists', () => {
+
+            return logic.closeService('5c83d50fd800e035752e32a7')
+                .catch(({message}) => expect(message).toBe('service not found'))
+        })
+    })
+
+    describe('create comment', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let text = 'me mola, muy guai'
+
+        beforeEach(() => {
+            return logic.registerUser(name, surname, email, password, password)
+                .then(id => {
+                    userId = id.toString()
+                    return logic.createWorkspace('One piece', userId)
+                })
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+        })
+
+        it('should succed on valid data', () => {
+
+            return logic.createComment(userId, serviceId, text)
+                .then(id => expect(id).toBeDefined())
+                .then(() => Service.findById(serviceId))
+                .then(service => {
+                    expect(service._id.toString()).toBe(serviceId)
+                    expect(service.user.toString()).toBe(userId)
+                    expect(service.title).toBe(title)
+                    expect(service.description).toBe(description)
+                    expect(service.maxUsers).toBe(maxUsers)
+                    expect(service.place).toBe(place)
+                    expect(service.time).toBe(time)
+                    expect(service.comments[0].text).toBe(text)
+                    expect(service.comments[0].user.toString()).toBe(userId)
+                })
+        })
+    })
+
+    describe('retrieve service comments', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let commentId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let text = 'me mola, muy guai'
+
+        beforeEach(() => {
+            return logic.registerUser(name, surname, email, password, password)
+                .then(id => {
+                    userId = id.toString()
+                    return logic.createWorkspace('One piece', userId)
+                })
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+                .then(() => logic.createComment(userId, serviceId, text))
+                .then(id => commentId = id.toString())
+        })
+
+        it('should succed on valid data', () => {
+
+            return logic.retrieveServiceComments(serviceId)
+                .then( comments => {
+                    expect(comments).toBeDefined()
+                    expect(comments[0].user.toString()).toBe(userId)
+                    expect(comments[0].text).toBe(text)
+                    expect(comments[0].id.toString()).toBe(commentId)
+                })
+        })
+
+        it('should fail on service not found', () => {
+            
+            return logic.retrieveServiceComments('5c83d50fd800e035752e32a7')
+                .catch(({message}) => expect(message).toBe('service not found'))
+        })
+    })
+
+    describe('remove comments', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let commentId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let text = 'me mola, muy guai'
+
+        beforeEach(() => {
+            return logic.registerUser(name, surname, email, password, password)
+                .then(id => {
+                    userId = id.toString()
+                    return logic.createWorkspace('One piece', userId)
+                })
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+                .then(() => logic.createComment(userId, serviceId, text))
+                .then(id => commentId = id.toString())
+        })
+
+        it('should succed on valid data', () => {
+
+            return logic.removeComment(serviceId, commentId)
+                .then(() => logic.retrieveServiceComments(serviceId))
+                .then(service => {
+                    expect(service).toBeDefined()
+                    expect(service).toEqual([])})
+        })
+
+        it('should fail on service not found', () => {
+
+            return logic.removeComment('5c83d50fd800e035752e32a7', commentId)
+                .catch(({message}) => expect(message).toBe('service not found'))
+        })
+
+        it('should fail on service has no comments to remove', () => {
+
+            return logic.removeComment(serviceId, commentId)
+                .then(() => logic.removeComment(serviceId, commentId))
+                .catch(({message}) => expect(message).toBe('comment not found'))
         })
     })
 })

@@ -4,7 +4,7 @@ const tokenHelper = require('../token-helper')
 const { createToken } = tokenHelper
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
-const { models: { User, Workspace, Service, Comment } } = require('coworking-data')
+const { models: { User, Workspace, Service } } = require('coworking-data')
 const validate = require('coworking-validation')
 
 const logic = {
@@ -383,74 +383,78 @@ const logic = {
             })
     },
 
-    // retrieveUserSubmitedEvents(userId){
-    //     validate([{ key: 'userId', value: userId, type: String }])
+    retrieveUserSubmitedEvents(userId){
+        validate([{ key: 'userId', value: userId, type: String }])
+        debugger
+        let _services = []
 
-    //     let _services = []
+        return User.findById(userId)
+        .then(user => {
+            if (!user) throw Error ('User does not exists')
+            return Workspace.findOne({ _id: user.workspace }).populate('service user').lean()})
+            .then(({ service, user }) => {
 
-    //     return User.findById(userId)
-    //     .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service user').lean())
-    //         .then(({ service, user }) => {
+                service.map(_service => {
 
-    //             service.map(_service => {
+                    _service.submitedUsers.map(sub => {
+                        if (sub.toString() == userId){  
+                            _service.id = _service._id
+                            delete _service._id
+                            delete _service.__v
 
-    //                 _service.submitedUsers.map(sub => {
-    //                     if (sub.toString() == userId){  
-    //                         _service.id = _service._id
-    //                         delete _service._id
-    //                         delete _service.__v
+                            user.map(_user => {
+                                if (_user._id.toString() == _service.user) {
+                                    _service.user = _user.name
+                                }})
 
-    //                         user.map(_user => {
-    //                             if (_user._id.toString() == _service.user) {
-    //                                 _service.user = _user.name
-    //                             }})
+                            _services.push(_service)
+                        }
+                    })
+                })
 
-    //                         _services.push(_service)
-    //                     }
-    //                 })
-    //             })
+                return _services
+            })
+    },
 
-    //             return _services
-    //         })
-    // },
+    retrieveWorkspaceServices(userId, workspaceId) {
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'workspaceId', value: workspaceId, type: String }])
 
-    // retrieveWorkspaceServices(userId, workspaceId) {
-    //     validate([{ key: 'userId', value: userId, type: String },
-    //     { key: 'workspaceId', value: workspaceId, type: String }])
+        let services
+        let user
 
-    //     let services
-    //     let user
+        return Workspace.findById(workspaceId).populate('service user').lean()
+            .then(workspace => {
 
-    //     return Workspace.findById(workspaceId).populate('service user').lean()
-    //         .then(workspace => {
+                if(!workspace) throw Error ('workspace not found')
 
-    //             services = workspace.service.map(service => {
-    //                 service.id = service._id
-    //                 delete service._id
-    //                 delete service.__v
+                services = workspace.service.map(service => {
+                    service.id = service._id
+                    delete service._id
+                    delete service.__v
 
-    //                 user = workspace.user.map(_user => {
-    //                     if (_user._id.toString() == service.user) {
-    //                         return _user.name
-    //                     }
-    //                 })
+                    user = workspace.user.map(_user => {
+                        if (_user._id.toString() == service.user) {
+                            return _user.name
+                        }
+                    })
 
-    //                 const index = user.findIndex(_user => _user !== undefined)
+                    const index = user.findIndex(_user => _user !== undefined)
 
-    //                 service.user = user.splice(index, 1)
-    //                 service.user = service.user.toString()
-    //                 return service
-    //             })
-    //             return services
-    //         })
-    // },
+                    service.user = user.splice(index, 1)
+                    service.user = service.user.toString()
+                    return service
+                })
+                return services
+            })
+    },
 
-    // /**
-    //  * 
-    //  * @param {string} userId 
-    //  * @param {string} serviceId 
-    //  * @param {Object} data 
-    //  */
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} serviceId 
+     * @param {Object} data 
+     */
     updateService(userId, serviceId, data) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'serviceId', value: serviceId, type: String }])
@@ -465,64 +469,67 @@ const logic = {
             .then(() => Service.findOneAndUpdate({ id: serviceId, $set: data }))
     },
 
-    // addUserToService(userId, serviceId) {
-    //     validate([{ key: 'userId', value: userId, type: String },
-    //     { key: 'serviceId', value: serviceId, type: String }])
+    addUserToService(userId, serviceId) {
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'serviceId', value: serviceId, type: String }])
 
-    //     return User.findById(userId)
-    //         .then(user => {
-    //             if (Number(user.time) <= -120) throw Error('you cannot ask for more services, please create a service to gain more time')
-    //         })
-    //         .then(() => Service.findById(serviceId))
-    //         .then(service => {
+        return User.findById(userId)
+            .then(user => {
+                if (Number(user.time) <= -120) throw Error('you cannot ask for more services, please create a service to gain more time')
+            })
+            .then(() => Service.findById(serviceId))
+            .then(service => {
 
-    //             if (service.submitedUsers.length >= service.maxUsers) throw Error('max submited users achieved, you cannot submit to this event')
+                if (service.submitedUsers.length >= service.maxUsers) throw Error('max submited users achieved, you cannot submit to this event')
 
-    //             service.submitedUsers.map(user => {
+                service.submitedUsers.map(user => {
 
-    //                 if (user == userId) throw Error('user is already submited to this service')
-    //             })
-    //             if (service.user.toString() === userId) throw Error('user cannot apply for his own service')
+                    if (user == userId) throw Error('user is already submited to this service')
+                })
+                if (service.user.toString() === userId) throw Error('user cannot apply to his own service')
 
-    //             debugger
+                debugger
 
-    //             if (service.submitedUsers.length + 1 >= service.maxUsers) {
-    //                 service.active = false
-    //             }
+                if (service.submitedUsers.length + 1 >= service.maxUsers) {
+                    service.active = false
+                }
 
-    //             service.submitedUsers.push(userId)
-    //             return service.save()
-    //         })
-    // },
+                service.submitedUsers.push(userId)
+                return service.save()
+            })
+    },
 
-    // closeService(serviceId) {
+    closeService(serviceId) {
 
-    //     let _time
-    //     let _provider
-    //     let _submitedUsers
+        let _time
+        let _provider
+        let _submitedUsers
 
-    //     return Service.findById(serviceId)
-    //         .then(service => {
-    //             _time = service.time
-    //             _provider = service.user
-    //             _submitedUsers = service.submitedUsers
+        return Service.findById(serviceId)
+            .then(service => {
 
-    //             service.closed = true
-    //             return service.save()
-    //         })
-    //         .then((service) => User.find({ _id: service.submitedUsers }))
-    //         .then(users => {
-    //             users.map(user => {
-    //                 user.time -= Math.round(_time / _submitedUsers.length)
-    //                 return user.save()
-    //             })
-    //         })
-    //         .then(() => User.findById(_provider))
-    //         .then(user => {
-    //             user.time += _time
-    //             return user.save()
-    //         })
-    // },
+                if(!service) throw Error ('service not found')
+
+                _time = service.time
+                _provider = service.user
+                _submitedUsers = service.submitedUsers
+
+                service.closed = true
+                return service.save()
+            })
+            .then((service) => User.find({ _id: service.submitedUsers }))
+            .then(users => {
+                users.map(user => {
+                    user.time -= Math.round(_time / _submitedUsers.length)
+                    return user.save()
+                })
+            })
+            .then(() => User.findById(_provider))
+            .then(user => {
+                user.time += _time
+                return user.save()
+            })
+    },
 
     /**
      * 
@@ -550,45 +557,53 @@ const logic = {
             })
     },
 
-    // createComment(userId, serviceId, text) {
-    //     validate([{ key: 'userId', value: userId, type: String },
-    //     { key: 'serviceId', value: serviceId, type: String },
-    //     { key: 'text', value: text, type: String }])
+    createComment(userId, serviceId, text) {
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'serviceId', value: serviceId, type: String },
+        { key: 'text', value: text, type: String }])
 
-    //     return Service.findOneAndUpdate({ _id: serviceId }, { $push: { comments: { text, user: userId } } })
-    //         .then(({ _id }) => Service.findById({ _id }))
-    //         .then(service => service.comments[service.comments.length - 1]._id)
-    // },
+        return Service.findOneAndUpdate({ _id: serviceId }, { $push: { comments: { text, user: userId } } })
+            .then(({ _id }) => Service.findById({ _id }))
+            .then(service => service.comments[service.comments.length - 1]._id)
+    },
 
-    // retrieveServiceComments(serviceId) {
-    //     validate([{ key: 'serviceId', value: serviceId, type: String }])
+    retrieveServiceComments(serviceId) {
+        validate([{ key: 'serviceId', value: serviceId, type: String }])
 
-    //     let comments = []
-    //     return Service.findById(serviceId).lean()
-    //         .then(service => {
-    //             comments = service.comments.map(_service => {
-    //                 _service.id = _service._id
-    //                 delete _service._id
+        let comments = []
+        return Service.findById(serviceId).lean()
+            .then(service => {
 
-    //                 return _service
-    //             })
+                if (!service) throw Error ('service not found')
 
-    //             return comments
-    //         })
-    // },
+                comments = service.comments.map(_service => {
+                    _service.id = _service._id
+                    delete _service._id
 
-    // removeComment(serviceId, commentId) {
-    //     validate([{ key: 'serviceId', value: serviceId, type: String },
-    //     { key: 'commentId', value: commentId, type: String }])
+                    return _service
+                })
 
-    //     return Service.findById(serviceId)
-    //         .then(service => {
-    //             const index = service.comments.findIndex(comment => comment._id == commentId)
+                return comments
+            })
+    },
 
-    //             service.comments.splice(index, 1)
-    //             return service.save()
-    //         })
-    // }
+    removeComment(serviceId, commentId) {
+        validate([{ key: 'serviceId', value: serviceId, type: String },
+        { key: 'commentId', value: commentId, type: String }])
+
+        return Service.findById(serviceId)
+            .then(service => {
+
+                if (!service) throw Error ('service not found')
+
+                const index = service.comments.findIndex(comment => comment._id == commentId)
+
+                if (index < 0) throw Error ('comment not found')
+
+                service.comments.splice(index, 1)
+                return service.save()
+            })
+    }
 }
 
 module.exports = logic
