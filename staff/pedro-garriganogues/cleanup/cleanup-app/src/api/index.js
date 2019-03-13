@@ -106,60 +106,49 @@ const cleanUpApi = {
             })
     },
     listProducts(categoryId) {
-        return Promise.resolve()
-            .then(() => {
+        return (async () => {
 
-                return axios.get(`${this.url}/categories/${categoryId}`)
-                    .then(({ status, data }) => {
-                        if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
+            return axios.get(`${this.url}/categories/${categoryId}`)
+                .then(({ status, data }) => {
+                    if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
 
-                        return data.data
-                    })
-                    .catch(err => {
-                        if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
+                    return data.data
+                })
+                .catch(err => {
+                    if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
 
-                        if (err.response) {
-                            const { response: { data: { error: message } } } = err
+                    if (err.response) {
+                        const { response: { data: { error: message } } } = err
 
-                            throw Error(message)
-                        } else throw err
-                    })
-            })
+                        throw Error(message)
+                    } else throw err
+                })
+        })()
     },
 
 
-    /**
-      * Retrieves product
-      * 
-      * @param {string} productId
-      * 
-      * @throws {Error} - If invalid type of input, unexpected response of status or unable to reach the server
-      * 
-      * @returns {Promise<Product>} 
-      */
     getProduct(productId) {
-        return Promise.resolve()
-            .then(() => {
-                if (!(productId = productId.trim()).length) throw Error('user productId is empty or blank')
+        return (async () => {
+            if (!(productId = productId.trim()).length) throw Error('user productId is empty or blank')
 
-                if (typeof productId !== 'string') throw Error('user productId is not a string')
+            if (typeof productId !== 'string') throw Error('user productId is not a string')
 
-                return axios.get(`${this.url}/categories/products/${productId}`)
-                    .then(({ status, data }) => {
-                        if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
+            return axios.get(`${this.url}/categories/products/${productId}`)
+                .then(({ status, data }) => {
+                    if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
 
-                        return data.data
-                    })
-                    .catch(err => {
-                        if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
+                    return data.data
+                })
+                .catch(err => {
+                    if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
 
-                        if (err.response) {
-                            const { response: { data: { error: message } } } = err
+                    if (err.response) {
+                        const { response: { data: { error: message } } } = err
 
-                            throw Error(message)
-                        } else throw err
-                    })
-            })
+                        throw Error(message)
+                    } else throw err
+                })
+        })()
     },
 
     makeOrder: function makeOrder(status, products, userId, paymentMethod) {
@@ -189,32 +178,24 @@ const cleanUpApi = {
     },
 
 
-    /**
-     *  
-     * Lists all products
-     * 
-     * @throws {Error} - If invalid type of input, unexpected response of status or unable to reach the server
-     * 
-     * @returns {Promise<[Product]>} 
-    */
+
     listTheProducts() {
-        return Promise.resolve()
-            .then(() => {
+        return (async () => {
 
-                return axios.get(`${this.url}/products`)
-                    .then(({ status, data }) => {
-                        if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
+            return axios.get(`${this.url}/products`)
+                .then(({ status, data }) => {
+                    if (status !== 200 || data.status !== 'OK') throw Error(`unexpected response status ${status} (${data.status})`)
 
-                        return data.data
-                    })
-                    .catch(err => {
-                        if (err.response) {
-                            const { response: { data: { error: message } } } = err
+                    return data.data
+                })
+                .catch(err => {
+                    if (err.response) {
+                        const { response: { data: { error: message } } } = err
 
-                            throw Error(message)
-                        } else throw err
-                    })
-            })
+                        throw Error(message)
+                    } else throw err
+                })
+        })()
     },
 
 
