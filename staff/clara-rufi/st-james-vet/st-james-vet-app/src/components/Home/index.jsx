@@ -2,12 +2,16 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import Nav from '../Nav'
+import logic from '../../logic';
+
 import cat_dog from '../images/cat_dog.png'
 import Footer from '../Footer'
 
 import './index.sass'
 
 class Home extends Component {
+
+    state = { isAdmin:logic.isAdmin}
 
     handleVisit = event => {
         event.preventDefault()
@@ -27,15 +31,17 @@ class Home extends Component {
 
     render(){
 
+        const {state: {isAdmin}}= this
+
     return <Fragment>
-    <Nav className= "fixed"></Nav>
-     <div className= "home"> 
+        <Nav className= "fixed"></Nav>
+        <div className= "home"> 
         {/* <button className= "button__home" onClick={this.handleRegisterOwner}>Register Owner</button> */}
         {/* <button className= "button__home" onClick={this.handleEditOwner}>Edit Owner</button> */}
         {/* <button className= "button__home" onClick={this.handleRegisterPet}>Register Pet</button> */}
-        <button className= "button__home" onClick={this.handleVisit}>Visit</button>
+        {isAdmin && <button className= "button__home" onClick={this.handleVisit}>Visit</button>}
         {/* <button className= "button__home" onClick={this.handleEditPet}> Edit Pet</button> */}
-        <button className= "button__home" onClick={this.handleAppointments}>Appointment</button>
+        {isAdmin &&<button className= "button__home" onClick={this.handleAppointments}>Appointment</button>}
         <button className= "button__home" onClick={this.handleVisitOwner}>Visit Owner</button>
     </div>   
     <div>

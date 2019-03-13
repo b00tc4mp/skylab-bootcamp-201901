@@ -67,8 +67,7 @@ class Nav extends Component {
 
         return <nav className="navbar navbar-dark bg-dark">
             <div>
-            <img className= "logo" src={logo} alt=""></img>
-            <div className="name__vet">St James Vet</div>
+            <img className= "logo" src={logo} alt=""></img><div className="name__vet">St James Vet</div>
             </div>
             <div className="information__vet">
                 <div>Weekdays: 10:00am - 8:00pm</div>

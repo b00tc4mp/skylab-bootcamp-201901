@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import moment from 'moment';
 import logic from '../../logic';
@@ -7,14 +8,13 @@ import './index.sass'
 
 class Calendar extends Component {
 
-    state = { users: [], owner: '', pets: [], appointments: [], pet: '', hour: '', dayDb: [], visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false, buttonConfirm: true, error: null, errorDate: false }
-    // state = { users: [], owner: '', pets: [], appointments: [], pet: '', hour: '', visitConfirmed: false, year: 2019, month: 3, day: 1, askConfirmation: false,  buttonConfirm: true, error: null, errorDate: false }
+    state = { users: [], owner: '', pets: [], appointments: [], pet: '', date: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false, buttonConfirm: true, error: null, errorDate: false }
+   
 
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
     componentDidMount() {
-        debugger
         this.retrieveUsers()
         this.retrieveAppointments()
     }
@@ -79,54 +79,37 @@ class Calendar extends Component {
         }
     }
 
+    handleDatePicker = event => {
+        event.preventDefault()
+        const date = event.target.value;
+        this.setState({ date }) 
+        const dateSelected = new Date(date)
+        const today = new Date()
+        if (dateSelected < today) {
+            this.setState({ errorDate: true, askConfirmation: false, buttonConfirm: false })
+        } else if (dateSelected > today) {
+            this.setState({ buttonConfirm: true })
+        }
+        function getDate(date) {
+            let result = date.split('-');
+            return result;
+        }
+            let splitDate = getDate(date);
+            let yearVisit = splitDate[0];
+            let monthVisit = splitDate[1];
+            let dayVisit = splitDate[2];
+
+            let year = yearVisit;
+            let month = monthVisit;
+            let day = dayVisit;
+            this.setState({ year, month, day });
+        }   
+
     handleSelectHour = event => {
         event.preventDefault()
         const hour = event.target.value;
         this.setState({ hour })
         console.log(hour)
-        this.setState({ dayDb: this.state.dayDb + ' ' + hour }, () => console.log("state dmmmmb " + this.state.dayDb))
-    }
-
-
-
-    handleDatePicker = event => {
-        event.preventDefault()
-        const date = event.target.value;
-        const dateSelected = new Date(date)
-
-        console.log('date ' + date)
-        // let daySelected= moment(date).format('DD/MM/YYYY')
-        // console.log("day visit " + daySelected)
-        let dayDb = []
-        dayDb.push(date)
-        console.log('dayDb ' + dayDb)
-        this.setState({ dayDb }, () => console.log("state dmmmmb " + this.state.dayDb))
-
-        const today = new Date()
-        console.log(date)
-        if (dateSelected < today) {
-
-            this.setState({ errorDate: true, askConfirmation: false, buttonConfirm: false })
-
-        } else if (dateSelected > today) {
-
-            console.log("corect")
-            this.setState({ buttonConfirm: true })
-        }
-        function getDate(date) {
-
-            let result = date.split('-');
-            return result;
-        }
-        let splitDate = getDate(date);
-        let yearVisit = splitDate[0];
-        let monthVisit = splitDate[1];
-        let dayVisit = splitDate[2];
-
-        let year = yearVisit;
-        let month = monthVisit;
-        let day = dayVisit;
-        this.setState({ year, month, day });
     }
 
     handleCorrectDate = event => {
@@ -137,14 +120,14 @@ class Calendar extends Component {
     handleConfirmVisitOK = event => {
         event.preventDefault()
         this.setState({ visitConfirmed: false, askConfirmation: false, error: false, errorDate: false })
-        // let dayVisit= moment(dateSelected).format('MM/dd/YYYY')
-        const { state: { owner, pet, dayDb } } = this
-        this.assignVisit(owner, pet, dayDb)
+        const { state: { owner, pet, date, hour } } = this
+        this.assignVisit(owner, pet, date, hour)
     }
 
-    assignVisit = async (owner, pet, dayDb) => {
+    assignVisit = async (owner, pet, date, hour) => {
         try {
-            await logic.assignAppointment(owner, pet, dayDb)
+            date = date.concat(' ' + hour)
+            await logic.assignAppointment(owner, pet, date)
             this.setState({ error: false, visitConfirmed: true, errorDate: false })
             this.retrieveAppointments()
         } catch ({ message }) {
@@ -222,12 +205,8 @@ class Calendar extends Component {
                 {this.state.errorDate && <div><p className="feedback feedback__error">Select a correct date</p></div>}
                 {this.state.errorDate && <button onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
                 {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
-
-                {/* {<option></option>}{this.state.hour.map(appointment => <option name="hour" value={appointment.id}>{appointment.hour}</option>)} */}
-                {/* </select> */}
             </div>
-            <div className="arrows">
-                {/* <button className="button_calendar" onClick={this.handleNextMonth}>Next Month</button>            */}
+            <div className="arrows">    
                 <i className="fas fa-arrow-left arrow" onClick={this.handleLastMont}></i>
                 <i className="fas fa-arrow-right arrow" onClick={this.handleNextMonth}></i>
             </div>
@@ -236,14 +215,11 @@ class Calendar extends Component {
             {
                 (() => {
                     const days = []
-                    // const year = []
                     const weeks = Math.ceil((m.day() + m.daysInMonth()) / 7)
 
                     let paint = false
                     let count = 1
-                    // let dayweek= 1
-                    // let weekday=0
-
+                  
                     for (let w = 0; w < weeks; w++) {
                         for (let d = 0; d < 7; d++) {
                             if (d === m.day()) paint = true;
@@ -287,7 +263,6 @@ class Calendar extends Component {
                                     </tr>
                                 </table>
                                 </div>)
-
                             } else
                                 days.push(<div className="day" key={`${w}-${d}`}></div>)
                         }
@@ -299,4 +274,4 @@ class Calendar extends Component {
     }
 }
 
-export default Calendar
+export default withRouter(Calendar)

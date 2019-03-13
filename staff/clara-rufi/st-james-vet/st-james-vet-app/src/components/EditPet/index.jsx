@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import logic from '../../logic'
 
 
@@ -100,4 +101,4 @@ class EditPet extends Component {
         </form>
     }
 }
-export default EditPet
+export default withRouter(EditPet)

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-
+import { withRouter } from 'react-router-dom'
 import logic from '../../logic';
 
 
 
-class Register_Pet extends Component {
+class RegisterPet extends Component {
 
     state = { users: [], owner: null, name: '', specie: '', breed: '', color: '', gender: '', birthdate: '', microchip: '', petlicence: '', neutered: '', vaccionations: '', controls: '', details: '', isRegisterPet: false, error: null }
 
@@ -147,4 +147,5 @@ class Register_Pet extends Component {
 
             }
         }
-        export default Register_Pet
+
+export default withRouter(RegisterPet)

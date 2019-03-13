@@ -44,8 +44,7 @@ class App extends Component {
                 <Route path='/editPet' render={() => isAdmin? <EditPet/> : <Redirect to='/'/>}/>
                 <Route path='/visit' render={() => isAdmin? <Visit/> : <Redirect to='/'/>}/>
                 <Route path='/appointments'  render={() => isAdmin ? <Appointments/> : <Redirect to='/'/>}/>
-                <Route path='/visitOwner' render={() => isLoggedIn ? <VisitOwner/> : <Redirect to='/'/>}/>
-                <Route path='/editOwner' render={() => isAdmin? <EditOwner/> : <Redirect to='/'/>}/>                
+                <Route path='/visitOwner' render={() => isLoggedIn ? <VisitOwner/> : <Redirect to='/'/>}/>               
             </Fragment>    
     }
 }

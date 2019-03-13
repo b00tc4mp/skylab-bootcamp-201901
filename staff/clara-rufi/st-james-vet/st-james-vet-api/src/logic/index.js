@@ -198,23 +198,24 @@ const logic = {
      * @param {string} dayDb
      */
 
-    assignAppointment(owner, pet, dayDb) {
-        if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
+    assignAppointment(owner, pet, date) {
+        // if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
-        if (!owner.trim().length) throw Error('owner cannot be empty')
+        // if (!owner.trim().length) throw Error('owner cannot be empty')
 
-        if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
+        // if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
 
-        if (!pet.trim().length) throw Error('pet cannot be empty')
+        // if (!pet.trim().length) throw Error('pet cannot be empty')
 
-        if (dayDb instanceof 'date') throw TypeError(dayDb + ' is not a date')
+        // if (dayDb instanceof 'date') throw TypeError(dayDb + ' is not a date')
 
-        if (!dayDb.trim().length) throw Error('dayDb cannot be empty')
+        // if (!dayDb.trim().length) throw Error('dayDb cannot be empty')
 
         return (async () => {
-           
+            // var date = new Date(dayDb)
+            // let date = dayDb.toISOString()
             debugger
-            const appointment = new Appointment ({owner, pet, dayDb})
+            const appointment = new Appointment ({owner, pet, date})
     
             await appointment.save()
             
@@ -307,7 +308,7 @@ const logic = {
             return {
                 owner: appointment.owner,
                 pet: appointment.pet,
-                dayDb : appointment.dayDb,
+                date : appointment.date,
                 // id: appointment.id             
             }
         })

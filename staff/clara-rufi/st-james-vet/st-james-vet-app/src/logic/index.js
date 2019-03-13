@@ -293,7 +293,7 @@ const logic = {
             })
     },
 
-    assignAppointment(owner, pet, dayDb){
+    assignAppointment(owner, pet, date){
         if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
         if (!owner.trim().length) throw Error('owner cannot be empty')
@@ -302,11 +302,11 @@ const logic = {
 
         if (!pet.trim().length) throw Error('pet cannot be empty')
 
-        if (typeof dayDb !== 'string') throw TypeError(dayDb + ' is not a string')
+        // if (typeof dayDb !== 'string') throw TypeError(dayDb + ' is not a string')
 
-        if (!dayDb.trim().length) throw Error(' dayDb cannot be empty') /////////////
+        // if (!dayDb.trim().length) throw Error(' dayDb cannot be empty') /////////////
 
-        console.log(owner, pet, dayDb)
+        console.log(owner, pet, date)
 
           // this.__userToken__()
           this.__updateToken__()
@@ -316,7 +316,7 @@ const logic = {
                 // authorization: `Bearer ${this.__userApiToken__}`
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ owner, pet, dayDb})
+            body: JSON.stringify({ owner, pet, date})
         })
             .then(response => response.json())
             .then(response => {
