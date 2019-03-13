@@ -1,16 +1,19 @@
 'use strict'
 import React from 'react'
+import './index.sass';
 
 
 
 
-function HouseCard(house){
 
+function HouseCard({adress,images},){
+
+        
         return <div className="HouseCard">
 
-            <img src={house.images[0]}></img>
-            <p>{house.adress.city}</p>
-            <p>{house.adress.sreet} + {house}</p>
+            <img className="HouseCard__img" src={images[0]}></img>
+            <p>{adress.city}</p>
+            <p>{adress.street}  {adress.number}</p>
 
 
         </div>

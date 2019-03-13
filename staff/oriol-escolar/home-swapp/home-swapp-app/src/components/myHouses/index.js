@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './index.sass';
 import logic from '../../logic'
 import HouseCard from '../HouseCard'
+import CreateHouseCard from '../createHouseCard'
 
 
 class MyHouses extends Component {
@@ -9,37 +10,47 @@ class MyHouses extends Component {
 
     state = {
 
-        user: "",
-        token: "",
         myHouses: []
     }
 
     componentDidMount() {
-
-        this.setState({ user: this.props.user })
-        this.setState({ token: this.props.token })
+        this.setState({ myHouses: this.props.userHouses })
     }
 
 
     componentWillReceiveProps(props) {
+        this.setState({ myHouses: this.props.userHouses })
+    }
 
-        this.setState({ user: props.user })
-        this.setState({ token: props.token })
-        this.forceUpdate()
+    
 
+
+    listMyHouses(userHouses) {
+
+        return userHouses.map(house => {
+
+            return HouseCard(house)
+        });
     }
 
 
 
     render() {
 
-        const { listMyHouses, state: { user, myHouses } } = this
+        const { listMyHouses, state: { user, myHouses }, } = this
+
 
         return <div className="myHouses" >
+                <h1 className= "myHouses__title">MY HOUSES</h1>
 
-            <h1>MY HOUSES</h1>
+            <div className= "myHouses__content">
+                <CreateHouseCard></CreateHouseCard>
 
 
+                {myHouses && listMyHouses(myHouses)}
+
+
+            </div>
 
         </div>
     }

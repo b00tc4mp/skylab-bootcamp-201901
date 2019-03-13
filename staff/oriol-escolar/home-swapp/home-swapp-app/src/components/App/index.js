@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
-import { Route, Redirect, withRouter } from 'react-router-dom'
+import { Route, Redirect, withRouter, Switch } from 'react-router-dom'
 import logo from '../../logo.svg';
 import './index.sass';
 import Login from '../loginPanel'
 import Register from '../registerPanel'
 import MyHouses from '../myHouses'
+import Favorites from '../favorites'
 import LandingPage from '../LandingPage'
 import Header from '../Header'
+import SearchResults from '../searchResults'
 import logic from '../../logic'
 
 
 class App extends Component {
-  state = { token: "", user: "", loginFeedback: null, registerFeedback: null, registered: "" }
+  state = {
+    token: "",
+    user: "",
+    userFavs: "",
+    userHouses: "",
+    loginFeedback: null,
+    registerFeedback: null,
+    registered: ""
+
+
+  }
 
 
   handleLogin = (email, password) => {
@@ -84,7 +96,12 @@ class App extends Component {
   }
   handleGoToUser = () => {
 
-    this.props.history.push('/user');
+
+    logic.retrieveFavorites()
+      .then((houses) => this.setState({ userFavs: houses }))
+      .then(() => logic.retrieveMyHouses())
+      .then(houses => this.setState({ userHouses: houses }))
+      .then(() => this.props.history.push('/user'))
 
   }
   handleGoToConversations = () => {
@@ -99,23 +116,33 @@ class App extends Component {
 
   render() {
 
-    const { handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister, handleGoToUser, handleGoToLanding, state: { user, loginFeedback, registerFeedback, registered,token } } = this
+    const {
+      handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister, handleGoToUser, handleGoToLanding,
+      state: { user, loginFeedback, registerFeedback, registered, token, userHouses, userFavs }
+    } = this
 
 
     return (
 
 
-      <div className="App">
+      <div className="App" >
         <div className="navbar">
           <Header user={user} handleGoToConversations={handleGoToConversations} handleGoToLogin={handleGoToLogin} handleGoToLogout={handleGoToLogout} handleGoToRegister={handleGoToRegister} handleGoToUser={handleGoToUser} handleGoToLanding={handleGoToLanding} ></Header>
 
         </div>
 
         <div className="content" >
-          <Route  exact path = '/' render={() => <LandingPage/>}/> 
+        <Switch>
+          <Route path = "/search/:query"  render={()=> <SearchResults />}/>
+          <Route exact path='/' render={() => <LandingPage />} />
           <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
           <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
-          <Route exact path="/user" render={() => <MyHouses user={user} token={token} />} />
+          </Switch>
+          <Route exact path="/user" render={() => <div>
+            <MyHouses user={user} token={token} userHouses={userHouses} />
+            <Favorites user={user} token={token} userFavs={userFavs} />
+
+          </div>} />
 
         </div>
 
