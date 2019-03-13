@@ -2,6 +2,7 @@
 
 const flareApi = {
     url: "http://localhost:8000/api",
+    // url: 'https://stark-basin-28669.herokuapp.com/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
@@ -217,8 +218,39 @@ const flareApi = {
             })
     },
 
+    retrieveAllMessages(token) {
+        return fetch(`${this.url}/message/all`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
     messageRead(token, msgId) {
         return fetch(`${this.url}/message/read`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ msgId })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    messageDelete(token, msgId) {
+        return fetch(`${this.url}/message/delete`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -236,3 +268,4 @@ const flareApi = {
 }
 
 export default flareApi
+

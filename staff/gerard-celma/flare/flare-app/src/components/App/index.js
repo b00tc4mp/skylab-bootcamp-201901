@@ -8,6 +8,7 @@ import Fail from '../Fail'
 import Watch from '../Watch'
 import Profile from '../Profile'
 import ReadMessage from '../ReadMessage'
+import FlaresMap from '../FlaresMap'
 import logic from '../../logic'
 import SendMessage from '../SendMessage';
 
@@ -22,6 +23,7 @@ class App extends Component {
         <Route path="/watch" render={() => <Watch />} />
         <Route path="/profile" render={() => <Profile />} />
         <Route path="/read-message" render={() => <ReadMessage />} />
+        <Route path="/flares-map" render={() => <FlaresMap />} />
         <Route path="/success" render={() => <Success />} />
         <Route path="/fail" render={() => <Fail />} />
     </main>

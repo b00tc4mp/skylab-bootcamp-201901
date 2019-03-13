@@ -3,7 +3,7 @@ const cors = require('../cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
-const { registerUser, authenticateUser, retrieveUser, retrieveUsers, updateUser, updateUserPhoto, removeUser, createMessage, uploadMessagePhoto, messageRead, messageDelete, retrieveReceivedMessages, retrieveSentMessages, notFound } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, retrieveUsers, updateUser, updateUserPhoto, removeUser, createMessage, uploadMessagePhoto, messageRead, messageDelete, retrieveReceivedMessages, retrieveSentMessages, retrieveAllMessages, notFound } = require('./handlers')
 const imageParser = require('../imageParser')
 const cloudinaryUploader = require('../cloudinary')
 const jsonBodyParser = bodyParser.json()
@@ -37,6 +37,8 @@ router.post('/message/delete', [jsonBodyParser, tokenVerifierMiddleware], messag
 router.get('/message/received', tokenVerifierMiddleware, retrieveReceivedMessages)
 
 router.get('/message/sent', tokenVerifierMiddleware, retrieveSentMessages)
+
+router.get('/message/all', tokenVerifierMiddleware, retrieveAllMessages)
 
 // router.get('*', notFound)
 

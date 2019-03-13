@@ -36,7 +36,7 @@ class SendMessage extends Component {
         
         try {
             logic.createMessage(userIdTo, launchDate, [selectedLat, selectedLng], text)
-                .then(({_id}) => logic.uploadMessagePhoto(image, _id))
+                .then(({_id}) => image && logic.uploadMessagePhoto(image, _id))
                 .then(() => this.props.history.push('/success'))
                 .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
@@ -48,12 +48,12 @@ class SendMessage extends Component {
         const { handleFormSubmit, handleInput, handleImageInput, handlePosition, handleInitialPosition, state: { users, feedback, selectedLat, selectedLng } } = this
 
         return <section className="sendMessage">
-            <p>hola</p>
+            <p>Send Message</p>
             {feedback && <Feedback message={ feedback } />}
             <form onSubmit={ handleFormSubmit }>
             <select name="userIdTo" onChange={ handleInput } >
                 <option>Select user</option>
-                {users && users.map(({ id, name, surname }) => <option value={id}>{`${name} ${surname} `}</option>)}
+                {users && users.map(({ id, name, surname }) => <option value={id}> {` ${name} ${surname} `}</option>)}
             </select>
                 <textarea name="text" placeholder="Text" onChange={ handleInput } required />
                 <input type="file" name="image" onChange={handleImageInput} placeholder="profile image" accept=".gif, .png, .jpeg" />

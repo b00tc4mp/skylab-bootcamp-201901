@@ -217,7 +217,7 @@ const logic = {
     },
   
     messageDelete(userId, msgId){
-        validate([{ key: 'userIdTo', value: userIdTo, type: String }, { key: 'msgId', value: msgId, type: String }])
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'msgId', value: msgId, type: String }])
 
         return Promise.all([
             User.findById(userId)
@@ -254,6 +254,13 @@ const logic = {
 
         return User.findById(userId).populate({path: 'msgSent', model: 'Message', populate:{ path: 'userIdTo', model: 'User'}})
                 .then(user => user)
+    },
+
+    retrieveAllMessages(userId) {
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        return Message.find()
+            .then(messages => messages)
     }
 }
 

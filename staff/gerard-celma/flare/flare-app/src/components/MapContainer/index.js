@@ -40,6 +40,7 @@ class MapContainer extends Component {
         this.setState(prevState => {
           const markers = [...this.state.markers];
           markers[index] = { ...markers[index], position: { lat, lng } };
+          console.log(markers)
           return { markers };
         });
       };

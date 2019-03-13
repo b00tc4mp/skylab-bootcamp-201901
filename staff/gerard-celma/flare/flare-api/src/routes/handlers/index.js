@@ -23,7 +23,9 @@ module.exports = {
     
     retrieveReceivedMessages: require('./retrieve-received-messages'),
 
-    retrieveSentMessages: require('./retrieve-sent-messages')
+    retrieveSentMessages: require('./retrieve-sent-messages'),
+
+    retrieveAllMessages: require('./retrieve-all-messages')
 
 
     // notFound: require('./not-found')

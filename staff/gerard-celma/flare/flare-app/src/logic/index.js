@@ -139,8 +139,18 @@ const logic = {
             .then((messages) => messages)
     },
 
+    retrieveAllMessages() {
+        return flareApi.retrieveAllMessages(this.__userApiToken__)
+            .then((messages) => messages)
+    },
+
     messageRead(msgId) {
         return flareApi.messageRead(this.__userApiToken__, msgId)
+        .then((messages) => messages)
+    },
+
+    messageDelete(msgId) {
+        return flareApi.messageDelete(this.__userApiToken__, msgId)
         .then((messages) => messages)
     }
 }
