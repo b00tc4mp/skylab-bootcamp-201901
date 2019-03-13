@@ -3,6 +3,7 @@ import Toolbar from '../Toolbar'
 import Clock from '../Clock'
 import Todos from '../Todos'
 import Dragzone from '../Dragzone'
+import File from '../File'
 import logic from '../../logic'
 import './index.sass'
 

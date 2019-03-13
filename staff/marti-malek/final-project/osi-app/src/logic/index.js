@@ -101,12 +101,20 @@ const logic = {
         return osiApi.removeDir(this.__userApiToken__, dirPath)
     },
 
+    removeFile(filePath) {
+        return osiApi.removeFile(this.__userApiToken__, filePath)
+    },
+
     rename(oldName, newName) {
         return osiApi.rename(this.__userApiToken__, oldName, newName)
     },
 
     retrieveLevel() {
         return osiApi.retrieveLevel(this.__userApiToken__)
+    },
+
+    moveFile(oldPath, newPath) {
+        return osiApi.moveFile(this.__userApiToken__, oldPath, newPath)
     }
 }
 

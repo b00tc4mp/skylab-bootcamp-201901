@@ -276,6 +276,19 @@ const logic = {
                     if (err) throw err
                 })
 
+                /* Builds the path to the @.this.json file of the child directory */
+                let pathToChildJson = path.join(directory, '.this.json')
+
+                /* Writes the @.this.json in the child directory */
+                await fs.writeFile(pathToChildJson, JSON.stringify({
+                    open: false,
+                    type: 'folder',
+                    name: dirName,
+                    children: []
+                }, null, 4), err => {
+                    if (err) throw err
+                })
+
                 /* Joins to the exact path to @.this.json */
                 let jsonPath = path.join(`${__dirname}/../data/${data}`, pathToJson, '.this.json')
 
@@ -304,14 +317,12 @@ const logic = {
                     name: dirName,
                     open: false,
                     type: 'folder',
-                    children: [],
                     position: desiredPosition
                 }
 
                 /* Pushes the child folder's data into the father's @.this.json file " */
                 await jsonFile.children.push(newChild)
 
-                debugger
                 /* Overwrites the father's current @.this.json file with the new one which has the child folder data */
                 await fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
                     if (err) throw err
@@ -883,10 +894,6 @@ const logic = {
 
         if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
 
-        // if (typeof folder !== 'string') throw TypeError(`${folder} should be a string`)
-
-        // if (!folder.trim().length) throw Error('folder cannot be empty')
-
         return (async () => {
             /* Extracts the user's id form it's token */
             const { data } = await jwt.verify(token, this.jwtSecret)
@@ -904,6 +911,124 @@ const logic = {
 
             /* Returns the parsed file contents */
             return JSON.parse(rs)
+        })()
+    },
+
+    moveFile(token, oldFilePath, newFilePath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof oldFilePath !== 'string') throw TypeError(`${oldFilePath} should be a string`)
+
+        if (!oldFilePath.trim().length) throw Error('oldFilePath cannot be empty')
+
+        if (typeof newFilePath !== 'string') throw TypeError(`${newFilePath} should be a string`)
+
+        if (!newFilePath.trim().length) throw Error('newFilePath cannot be empty')
+
+        return (async () => {
+            /* Extracts the user's id form it's token */
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            /* Builds the path to the file to move */
+            const oldFileCompletePath = path.join(`${__dirname}/../data/${data}`, oldFilePath)
+
+            /* Builds the path to the folder where the file will be moved */
+            const newFileCompletePath = path.join(`${__dirname}/../data/${data}`, newFilePath)
+
+            /* Ascertains if the file path exists, which should */
+            if (!fs.existsSync(oldFileCompletePath)) throw Error('path to file not found')
+
+            /* Ascertains if the new file path exists, which shouldn't */
+            if (fs.existsSync(newFileCompletePath)) throw Error('path to new file already exists')
+            
+            let slices = oldFilePath.split('/')
+
+            /* Obtains the path to the scope of the desired @.this.json  */
+            let pathToJson = slices.reduce((accum, slice) => {
+                if (slices.length === 1) return ""
+                if (slice === slices[slices.length - 1]) return accum
+                return accum + '/' + slice
+            })
+
+            /* Ascertains that the path to @.this.json is correct */
+            pathToJson = slices.length === 1 ? "" : pathToJson
+
+            /* Joins to the exact path to @.this.json */
+            let jsonPath = path.join(`${__dirname}/../data/${data}`, pathToJson, '.this.json')
+
+            /* Reads the json file of the father directory, gets it as buffer */
+            let jsonBuffer = await fs.promises.readFile(jsonPath, err => {
+                if (err) throw err
+            })
+
+            /* Parses the json buffer */
+            let jsonFile = JSON.parse(jsonBuffer)
+
+            /* Finds the index of the child file to remove */
+            let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === slices[slices.length - 1])
+
+            /* Removes the child by it's index */
+            jsonFile.children.splice(childToRemoveIndex, 1)
+
+            /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+            await fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
+                if (err) throw err
+            })
+
+            let pathToNewFolderJson = newFilePath.split('/').reverse()[1]
+
+            /* Joins to the exact path to @.this.json */
+            let jsonPathToNewFolder = path.join(`${__dirname}/../data/${data}`, pathToNewFolderJson, '.this.json')
+
+            /* Reads the json file of the new father directory, gets it as buffer */
+            let newJsonBuffer = await fs.promises.readFile(jsonPathToNewFolder, err => {
+                if (err) throw err
+            })
+
+            /* Parses the json buffer */
+            let newJsonFile = JSON.parse(newJsonBuffer)
+
+            /*  */
+
+            /* Get positions which aren't available from @.this.json children */
+            let nonAvailablePositions = newJsonFile.children.map(child => {
+                return Number(child.position)
+            })
+
+            /* Searches for an available position */
+            let desiredPosition = 0
+
+            while (nonAvailablePositions.includes(desiredPosition)) {
+                ++desiredPosition
+            }
+
+            /* File data model */
+            let newChild = {
+                name: newFilePath.split('/').reverse()[0],
+                open: false,
+                type: 'file',
+                position: desiredPosition
+            }
+
+            /* Pushes the child folder's data into the father's @.this.json file " */
+            await newJsonFile.children.push(newChild)
+
+            
+            /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+            await fs.promises.writeFile(jsonPathToNewFolder, JSON.stringify(newJsonFile, null, 4), err => {
+                if (err) throw err
+            })
+
+            /* Moves file */
+            await fs.rename(oldFileCompletePath, newFileCompletePath, err => {
+                if (err) throw err
+            })
+
+            return 'Done'
         })()
     }
 }

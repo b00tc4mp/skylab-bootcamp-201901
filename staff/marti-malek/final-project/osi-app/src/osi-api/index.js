@@ -283,6 +283,28 @@ const osiApi = {
             })
     },
 
+    removeFile(token, filePath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+        return fetch(this.url + `file?filePath=${filePath}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
     rename(token, oldName, newName) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
@@ -319,6 +341,35 @@ const osiApi = {
 
         return fetch(this.url + `level`, {
             method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    moveFile(token, oldPath, newPath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof oldPath !== 'string') throw TypeError(`${oldPath} should be a string`)
+
+        if (!oldPath.trim().length) throw Error('oldPath cannot be empty')
+
+        if (typeof newPath !== 'string') throw TypeError(`${newPath} should be a string`)
+
+        if (!newPath.trim().length) throw Error('newPath cannot be empty')
+
+        return fetch(this.url + `move/file?oldPath=${oldPath}&newPath=${newPath}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
