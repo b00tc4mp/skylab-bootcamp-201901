@@ -372,10 +372,10 @@ const logic = {
 
         return (async () => {
             const book = await this.retrieveBook(id)
-            let text = book[0].content
+            let text = book.content
 
-            if(book[0].hasOwnProperty('parameters') && book[0].parameters.hasOwnProperty('name')) text = text.replace(/<name>/g, book[0].parameters.name)
-            if(book[0].hasOwnProperty('parameters') && book[0].parameters.hasOwnProperty('place')) text = text.replace(/<place>/g, book[0].parameters.place)
+            if(book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')) text = text.replace(/<name>/g, book.parameters.name)
+            if(book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place')) text = text.replace(/<place>/g, book.parameters.place)
             let arraychapters = text.split('<Chapter>')
             let content = []
 
@@ -398,7 +398,7 @@ const logic = {
                 })
             }
             const options ={
-                title: book[0].title,
+                title: book.title,
                 author: 'Your Book Creator',
                 cover: "https://storage.googleapis.com/gd-wagtail-prod-assets/original_images/evolving_google_identity_share.jpg",
                 content: content

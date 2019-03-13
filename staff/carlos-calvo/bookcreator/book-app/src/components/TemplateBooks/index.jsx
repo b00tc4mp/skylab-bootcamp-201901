@@ -20,9 +20,8 @@ class TemplateBooks extends Component {
         try {
             logic.retrieveTemplateBooks()
                 .then((books) => {
-                    return this.setState({books}, () => {})
+                    this.setState({books}, () => {})})
                 .catch(error => this.notify()) 
-            })
         } catch (error) {
             this.notify()
         }

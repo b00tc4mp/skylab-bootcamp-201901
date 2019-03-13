@@ -7,16 +7,18 @@ import TwoPages from '../twoPages'
 class Books extends Component {
 
     intervalPre =  25
-    interval = 0
-    flipPage = null
-    
+    interval = 1700 
     book = null
+
     state = {
         title: '',
-        currentPage: 0,
         pages : [],
         width: 1500,
         heigth: 0
+    }
+
+    componentWillMount = () => {
+        this.updateWindowDimensions()
     }
 
     updateWindowDimensions = ()=> {
@@ -30,6 +32,7 @@ class Books extends Component {
     }
 
     componentDidMount = () =>{
+        
         if(this.props.bookid){
             this.updateWindowDimensions()
             window.addEventListener('resize', this.updateWindowDimensions);
@@ -41,14 +44,13 @@ class Books extends Component {
                 // this.pages = this.getArrayconPre(this.book)
                 // this.forceUpdate()
             }, () => {})
-        } else {
+        } else if(this.props.templateid) {
             return logic.retrieveTemplateBook(this.props.templateid)
             .then(book => {
+                debugger
                 this.book = book
                 this.setState({title: book.title})
                 this.personalizeContentbywords(this.book, ()=> {})
-                // this.pages = this.getArrayconPre(this.book)
-                // this.forceUpdate()
             }, () => {})
         }
 
@@ -73,7 +75,6 @@ class Books extends Component {
         while(this.interval < texto.length) {
             j = 0
             if(texto[this.interval] == ' ' || texto[this.interval] == '\n' || texto[this.interval] == '\r'){
-                console.log(texto[this.interval])
                 arrayreturn.push(texto.substring(0, this.interval))
             } else {
                 j = 1
@@ -86,7 +87,8 @@ class Books extends Component {
         }
         arrayreturn.push(texto)
         let newArray = arrayreturn.map(page => page.replace(/<Chapter>/g, '\n\n CHAPTER  \n\n'))
-        this.setState({pages: newArray})
+        this.setState({pages: newArray}, () => {})
+
     }
     //personalize content by paragrafs
     // personalizeContentbyParagrah = (book) => {
@@ -185,7 +187,7 @@ class Books extends Component {
 
 
     render = () => {
-        let isMobile = (this.state.width < 400)
+        debugger
         return (
             <Fragment>
             <div className = "coverright">
@@ -193,7 +195,7 @@ class Books extends Component {
                     <h2> {this.state.title}</h2>
                             <FlipPage
                                 ref={(FlipPage) => { this.flipPage = FlipPage; }}
-                                height ={0.8*this.state.heigth}
+                                height ={0.85*this.state.heigth}
                                 width ={0.8*this.state.width}
                                 showSwipeHint
                                 orientation='horizontal'
