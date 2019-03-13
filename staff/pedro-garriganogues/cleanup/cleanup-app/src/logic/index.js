@@ -101,7 +101,7 @@ const logic = {
     },
 
     removeProductFromCart() {
-        sessionStorage.removeItem()
+        sessionStorage.removeItem('__userApiProducts__')
         window.location.reload()
     },
 

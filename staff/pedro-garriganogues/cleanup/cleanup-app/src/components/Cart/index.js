@@ -39,9 +39,9 @@ class Cart extends Component {
                     {<div>
                         <div>
                             <h2>Total price</h2>
-                            <h2>{logic.__userApiProducts__.reduce((accumulated, currentValue) => accumulated + currentValue.price, 0)}€</h2>
+                            {logic.__userApiProducts__ && <h2>{logic.__userApiProducts__.reduce((accumulated, currentValue) => accumulated + currentValue.price, 0)}€</h2>}
                             {logic.__userApiToken__ && <Link to="/">Comprar</Link>}
-                            {!logic.__userApiToken__ && <Link to="/login">Registrate para comprar!</Link>}
+                            {!logic.__userApiToken__ && <Link to="/register">Registrate para comprar!</Link>}
                         </div>
                     </div>}
                 </section>

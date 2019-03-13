@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom'
 import './index.css'
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
@@ -47,6 +47,7 @@ class Login extends Component {
                 <br />
                 <br />
                 <button>Register</button>
+                <Link to="/login">Login</Link>
             </form>
 
             {feedback && <Feedback message={feedback} level="warn" />}

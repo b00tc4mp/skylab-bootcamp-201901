@@ -162,15 +162,15 @@ const cleanUpApi = {
             })
     },
 
-    makeOrder: function makeOrder(paymentMethod, status, products, userId) {
-        var _this11 = this;
+    makeOrder: function makeOrder(status, products, userId, paymentMethod) {
+        var _thisorder = this;
 
         return (async () => {
 
 
-            return axios.post(_this11.url + '/order', { paymentMethod: paymentMethod, status: status, products: products, userId: userId }).then(function (_ref11) {
-                var status = _ref11.status,
-                    data = _ref11.data;
+            return axios.post(_thisorder.url + '/order', { paymentMethod: paymentMethod, status: status, products: products, userId: userId }).then(function (_reforder) {
+                var status = _reforder.status,
+                    data = _reforder.data;
 
                 if (status !== 201 || data.status !== 'OK') throw Error('unexpected response status ' + status + ' (' + data.status + ')');
 
@@ -208,8 +208,6 @@ const cleanUpApi = {
                         return data.data
                     })
                     .catch(err => {
-                        if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
-
                         if (err.response) {
                             const { response: { data: { error: message } } } = err
 

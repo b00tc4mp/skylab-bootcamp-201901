@@ -1,8 +1,8 @@
 
 import './index.css'
-
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
+import { Link } from 'react-router-dom'
 
 class Login extends Component {
     state = { email: '', password: '' }
@@ -34,8 +34,8 @@ class Login extends Component {
                 <br />
                 <br />
                 <button>Login</button>
+                <Link to="/register">Register</Link>
             </form>
-
             {feedback && <Feedback message={feedback} level="warn" />}
         </section>
     }
