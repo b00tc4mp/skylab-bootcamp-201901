@@ -109,10 +109,9 @@ const projectZApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error);
-                console.log(response)
+                console.log(response);
                 return response;
             });
-
     },
 
     updateUser(token, data) {
@@ -237,6 +236,15 @@ const projectZApi = {
                 return response;
             });
     },
+
+    getRandomGame() {
+        return fetch(`${this.url}/random`)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error);
+                return response;
+            });
+    }
 
     // /**
     //  * Searches artists.

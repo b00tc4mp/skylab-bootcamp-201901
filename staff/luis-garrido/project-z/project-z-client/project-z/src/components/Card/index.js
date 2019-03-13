@@ -13,7 +13,7 @@ const Card = ({ key, game, history }) => {
             <div>
                 <Link to={`/game/${game.id}`}>{game.game_title}</Link>
             </div>
-            <div onClick={() => history.push(`/game/${game.id}`)}>
+            <div className='card__image' onClick={() => history.push(`/game/${game.id}`)}>
                 <img className='card__image' src={`${gameCover}${game.boxartUrl}`} alt={game.game_title} />
             </div>
             <div>{game.finalScore && Math.round(game.finalScore * 20)}</div>

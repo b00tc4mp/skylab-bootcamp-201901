@@ -13,7 +13,9 @@ module.exports = {
 
     rankingGames: require('./ranking-games'),
 
-    retrieveUserByUsername: require('./retrieve-user-by-username')
+    retrieveUserByUsername: require('./retrieve-user-by-username'),
+
+    retrieveRandomGame: require('./retrieve-random-game')
 
     // listCommentsFromArtist: require('./list-comments-from-artist'),
 

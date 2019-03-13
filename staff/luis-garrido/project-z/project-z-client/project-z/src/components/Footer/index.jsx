@@ -12,6 +12,10 @@ const Footer = props => {
         props.history.push(`/user/${lol.username}`);
     };
 
+    const onSearchClick = () => {
+        props.searchFocus.current.focus();
+    };
+
     return (
         <Fragment>
             <div className="nav-mobile">
@@ -25,8 +29,14 @@ const Footer = props => {
                 >
                     <i className="fas fa-user-ninja" />
                 </div>
-                <div className="nav-mobile__icons">
+                <div onClick={onSearchClick} className="nav-mobile__icons">
                     <i className="fas fa-search" />
+                </div>
+                <div className="nav-mobile__icons">
+                    <i
+                        className="game-review-stars fas fa-star"
+                        onClick={() => props.history.push("/random")}
+                    />
                 </div>
                 <div
                     onClick={() => props.history.push("/")}

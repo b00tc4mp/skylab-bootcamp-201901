@@ -493,6 +493,15 @@ const logic = {
                 gameInfo = await Promise.all(gameInfoMap);
                 return gameInfo;
             });
+    },
+
+    retrieveRandomGame() {
+        return Game.count()
+            .then(count => {
+                const random = Math.floor(Math.random() * count);
+                return Game.findOne().skip(random).select('id -_id');
+            })
+            .then(response => response);
     }
 };
 

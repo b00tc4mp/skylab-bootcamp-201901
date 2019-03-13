@@ -19,11 +19,12 @@ const Header = props => {
         setQuery("");
         props.history.push(`/search/${_query}`);
     };
-
+    
     return (
         <Fragment>
             <form className="search" onSubmit={handleSearchSubmit}>
                 <input
+                    ref={props.searchFocus}
                     className="search__input"
                     type="text"
                     name="query"

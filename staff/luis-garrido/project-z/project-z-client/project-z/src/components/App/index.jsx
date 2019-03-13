@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Route, withRouter, Link, Switch, Redirect } from "react-router-dom";
 
 // import Register from '../Register'
@@ -18,6 +18,7 @@ import GameProfile from "../GameProfile";
 import Login from "../Login";
 import Register from "../Register";
 import UserProfile from "../UserProfile";
+import Random from "../Random";
 
 const App = ({ history }) => {
     const [loginFeedback, setLoginFeedback] = useState(null);
@@ -25,13 +26,15 @@ const App = ({ history }) => {
     const [username, setUsername] = useState("");
 
     useEffect(() => {
-        if(logic.isUserLoggedIn) getUsernameLogged();
+        if (logic.isUserLoggedIn) getUsernameLogged();
     }, []);
 
     const getUsernameLogged = async () => {
         const user = await logic.retrieveUserInfo();
         setUsername(user.username);
     };
+
+    const searchFocus = useRef(null);
 
     return (
         <div className="main">
@@ -40,7 +43,7 @@ const App = ({ history }) => {
             </div>
 
             <div className="container">
-                <Header />
+                <Header searchFocus={searchFocus} />
 
                 <div className="content">
                     <Switch>
@@ -90,10 +93,11 @@ const App = ({ history }) => {
                                 return <Redirect to="/" />;
                             }}
                         />
+                        <Route exact patch="/random" component={Random} />
                     </Switch>
                 </div>
 
-                <Footer />
+                <Footer searchFocus={searchFocus} />
             </div>
         </div>
     );

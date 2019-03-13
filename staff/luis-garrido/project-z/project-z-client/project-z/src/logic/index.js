@@ -162,6 +162,10 @@ const logic = {
 
     postReview(gameId, text, score) {
         return projectZApi.postReview(this.__userApiToken__, gameId, text, score)
+    },
+
+    getRandomGame() {
+        return projectZApi.getRandomGame()
     }
 
     // /**
