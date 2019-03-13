@@ -255,21 +255,27 @@ const logic = {
             })
     },
 
-    retrieveAppointments() {
+    retrieveAppointments(year, month) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
           // this.__userToken__()
+          
         this.__updateToken__()
-        return fetch(`${this.url}/appointments`, {
-
+        return fetch(`${this.url}/appointments/${year}/${month}`, {
+          
+            method: 'GET',
             headers: {
-                authorization: `Bearer ${this.__userToken__}`
-            }
+                authorization: `Bearer ${this.__userToken__}`,
+                'content-type': 'application/json'
+            },
+            // body: JSON.stringify({ year, month })
         })
             .then(response => response.json())
             .then(response => {
 
                 if (response.error) throw Error(response.error)
+
+                response.forEach(appointment => appointment.date = new Date(appointment.date))
 
                 return response
             })

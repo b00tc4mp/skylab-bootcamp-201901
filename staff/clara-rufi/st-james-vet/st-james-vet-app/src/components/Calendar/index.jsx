@@ -16,7 +16,6 @@ class Calendar extends Component {
 
     componentDidMount() {
         this.retrieveUsers()
-        this.retrieveAppointments()
     }
 
     retrieveUsers = async () => {
@@ -25,10 +24,14 @@ class Calendar extends Component {
     }
 
     retrieveAppointments = async () => {
-        const appointments = await logic.retrieveAppointments()
-        this.setState({ appointments })
+      
+        let year= this.state.year
+        let month = this.state.month
+        const appointments = await logic.retrieveAppointments(year, month )
+        this.setState({ appointments})
     }
 
+  
     handleSelectOwner = async event => {
         event.preventDefault()
         const usersId = event.target.value
@@ -52,8 +55,6 @@ class Calendar extends Component {
         this.setState({ pet: petsId })
     }
 
-
-
     handleNextMonth = event => {
         event.preventDefault()
         let yearNumber = parseInt(this.state.year)
@@ -65,6 +66,9 @@ class Calendar extends Component {
         if (this.state.month === 12) {
             this.setState({ year: yearNumber + 1, month: 1 })
         }
+        
+        
+        
     }
 
     handleLastMont = event => {
@@ -82,6 +86,7 @@ class Calendar extends Component {
     handleDatePicker = event => {
         event.preventDefault()
         const date = event.target.value;
+        this.retrieveAppointments()
         this.setState({ date }) 
         const dateSelected = new Date(date)
         const today = new Date()
@@ -103,10 +108,12 @@ class Calendar extends Component {
             let month = monthVisit;
             let day = dayVisit;
             this.setState({ year, month, day });
+         
         }   
 
     handleSelectHour = event => {
         event.preventDefault()
+     
         const hour = event.target.value;
         this.setState({ hour })
         console.log(hour)
@@ -129,7 +136,7 @@ class Calendar extends Component {
             date = date.concat(' ' + hour)
             await logic.assignAppointment(owner, pet, date)
             this.setState({ error: false, visitConfirmed: true, errorDate: false })
-            this.retrieveAppointments()
+            // this.retrieveAppointments()
         } catch ({ message }) {
             this.setState({ error: message, askConfirmation: false, visitConfirmed: false, errorDate: false })
         }

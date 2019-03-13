@@ -25,7 +25,7 @@ router.get('/users', tokenVerifierMiddleware, retrieveUsers)
 
 router.get('/pets/:ownerId', tokenVerifierMiddleware, retrievePets)
 
-router.get('/appointments', tokenVerifierMiddleware, retrieveAppointments)
+router.get('/appointments/:year/:month', tokenVerifierMiddleware, retrieveAppointments)
 
 router.get('/user/:userId', tokenVerifierMiddleware, retrieveUser)
 

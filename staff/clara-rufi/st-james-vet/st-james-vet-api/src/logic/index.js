@@ -2,7 +2,7 @@
 
 const { models: { User, Pet, Appointment } }= require('st-james-vet-data')
 const bcrypt = require('bcrypt')
-
+const moment = require( 'moment')
 
 /**
  * Abstraction of business logic.
@@ -297,13 +297,32 @@ const logic = {
     /**
      * Retrieve all owner's appointments
      */
-    async retrieveAppointments() { 
+    async retrieveAppointments( year, month) { 
+        debugger
         //const _appointments = await Appointment.find({}).populate('owner pet')
-        //const _appointments = await Appointment.find({})
-        const _appointments = await Appointment.find({}).populate('user').exec()
+        // const _appointments = await Appointment.find({$gte:{year, month}, $lte:{year, month}}).populate('user').exec()
+        
+
+        // var start = new Date(startOfMonth);
+        // var end = new Date(endOfMonth);
+
+        const toDate = new Date(year, month, 0);
+        const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 0);
+        console.log(fromDate, toDate)
+
+
+        const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate}});
+        // const _appointments = await Appointment.find({})
+        // let toDate = new Date (fromDate.getFullYear(), fromDate.getMonth() + 1, 0)
+        // let condition = {date: {'$gte': date, '$lte': lastDay}}
+        // const _appointments = await Appointment.find(condition, function(err, response){
+        //     if(!err){
+        //         console.log(response)
+        //     }
+        // }
         //const _appointments = await Appointment.find({}).populate('user pet')
         // const _appointments = await Appointment.find({}).populate[{path:'owner', select:'name'}, {path: 'pet', select: 'name'}]
-
+    
         const appointments = _appointments.map(appointment => {
             return {
                 owner: appointment.owner,
