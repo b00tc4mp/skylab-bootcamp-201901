@@ -10,6 +10,9 @@ import { Header } from "../Header/Header";
 import Grid from "@material-ui/core/Grid";
 import { log } from "util";
 
+import { Form, Field } from "react-final-form";
+import ChosenPairs from '../ChosenPairs'
+
 class App extends Component {
   state = {
     player: null
@@ -89,10 +92,17 @@ class App extends Component {
       handleSetAvailable,
       handleSetUnavailable
     } = this;
-   
+
     return (
       <main>
-        <Header />
+        <Form onSubmit={console.log} render={({ handleSubmit, form }) => 
+          <form onSubmit={handleSubmit}>
+            <ChosenPairs selectorName="firstPair" players={['manuel', 'serena'].map((name, index) => ({ id: index, name }))} />
+            <button type="submit">Choose this pair</button>
+          </form>
+        }>
+        </Form>
+         <Header />
         <Grid container justify="center" spacing={24}>
           <Route
             path="/register"
