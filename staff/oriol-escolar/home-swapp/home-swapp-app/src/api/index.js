@@ -221,19 +221,17 @@ const homeSwappApi = {
             })
     },
 
-    searchByQuery(token, query) {
+    searchByQuery(query) {
 
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
         if (!query.trim().length) throw Error('query is empty')
 
 
 
 
-        return fetch(`${this.url}/user/search/${query}`, {
+        return fetch(`${this.url}/search/${query}`, {
             headers: {
-                authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
         })
@@ -245,6 +243,9 @@ const homeSwappApi = {
                 return response
             })
     },
+
+
+    
     retrieveMyHouses(token) {
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
@@ -268,7 +269,7 @@ const homeSwappApi = {
             })
     },
 
-    retrieveMyHouses(token) {
+    retrieveFavorites(token) {
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -281,6 +282,32 @@ const homeSwappApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
+        })
+            .then(response => response.json())
+            .then(response => {
+              
+                if(response.error) throw Error (response.error)
+
+                return response
+            })
+    },
+
+    toggleFavorite(token, houseId) {
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+       
+        if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+
+
+        return fetch(`${this.url}/user/toggleFav`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({houseId})
         })
             .then(response => response.json())
             .then(response => {

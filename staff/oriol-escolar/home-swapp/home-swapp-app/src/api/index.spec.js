@@ -640,7 +640,7 @@ describe('homeSwappApi ', () => {
 
 
         it('should succeed on correct data', () =>
-            homeSwappApi.updateHouse(_token,houseId, images, 'new description', info, adress)
+            homeSwappApi.updateHouse(_token, houseId, images, 'new description', info, adress)
                 .then(house => {
 
                     expect(house._id).toBe(houseId)
@@ -670,7 +670,7 @@ describe('homeSwappApi ', () => {
         it('should fail on undefined houseId', () => {
 
             expect(() => {
-                homeSwappApi.updateHouse(_token,undefined, images, description, info, adress)
+                homeSwappApi.updateHouse(_token, undefined, images, description, info, adress)
             }).toThrow(Error(`${undefined} is not a string`))
         })
         it('should fail on undefined images', () => {
@@ -754,8 +754,8 @@ describe('homeSwappApi ', () => {
                 })
         )
         it('should succeed on correct data', () =>
-            
-        homeSwappApi.retrieveHouse(_token,houseId)
+
+            homeSwappApi.retrieveHouse(_token, houseId)
                 .then(house => {
 
                     expect(house._id).toBe(houseId)
@@ -939,6 +939,333 @@ describe('homeSwappApi ', () => {
 
     })
 
+
+    describe('retrive myHouses from user', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+        let _token
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ _id }) => {
+                    userId = _id
+                    return homeSwappApi.authenticateUser(email, password)
+
+                })
+                .then((token) => {
+                    _token = token;
+                })
+                .then(() => homeSwappApi.createHouse(_token, images, description, info, adress)
+                )
+                .then(({ _id }) => {
+
+                    houseId = _id
+
+                })
+        )
+        it('should retrieve myHouses from user', () =>
+            homeSwappApi.retrieveMyHouses(_token)
+                .then(houses => {
+                    expect(JSON.stringify(houses[0].images)).toBe(JSON.stringify(images))
+                    expect(houses[0].description).toBe(description)
+                    expect(JSON.stringify(houses[0].info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(houses[0].adress)).toBe(JSON.stringify(adress))
+                    expect(JSON.stringify(houses[0].ownerId)).toBe(JSON.stringify(userId))
+
+                    expect(houses.length).toBe(1)
+                })
+        )
+
+        it('should fail on wrong userid', () =>
+            homeSwappApi.retrieveMyHouses('hola')
+                .catch(err => {
+                    expect(err).toBeDefined()
+                })
+        )
+
+    })
+    describe('toggle favorite', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+        let _token
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ _id }) => {
+                    userId = _id
+                    return homeSwappApi.authenticateUser(email, password)
+
+                })
+                .then((token) => {
+                    _token = token;
+                })
+                .then(() => homeSwappApi.createHouse(_token, images, description, info, adress)
+                )
+                .then(({ _id }) => {
+
+                    houseId = _id
+
+                })
+        )
+
+        it('should retrieve favorites from user', () =>
+            homeSwappApi.toggleFavorite(_token, houseId)
+                .then(user => {
+                    expect(JSON.stringify(user.favorites[0])).toBe(JSON.stringify(houseId))
+
+
+                    expect(user.favorites.length).toBe(1)
+                })
+        )
+
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                homeSwappApi.toggleFavorite(_token, undefined)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                homeSwappApi.toggleFavorite(undefined, houseId)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+    })
+
+
+    describe('retrive favorite houses from user', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+        let _token
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ _id }) => {
+                    userId = _id
+                    return homeSwappApi.authenticateUser(email, password)
+
+                })
+                .then((token) => {
+                    _token = token;
+                })
+                .then(() => homeSwappApi.createHouse(_token, images, description, info, adress)
+                )
+                .then(({ _id }) => {
+
+                    houseId = _id
+
+                })
+                .then(() => homeSwappApi.toggleFavorite(_token, houseId)
+                )
+        )
+
+        it('should retrieve favorites from user', () =>
+            homeSwappApi.retrieveFavorites(_token)
+                .then(houses => {
+                    expect(JSON.stringify(houses[0].images)).toBe(JSON.stringify(images))
+                    expect(houses[0].description).toBe(description)
+                    expect(JSON.stringify(houses[0].info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(houses[0].adress)).toBe(JSON.stringify(adress))
+                    expect(JSON.stringify(houses[0].ownerId)).toBe(JSON.stringify(userId))
+
+                    expect(houses.length).toBe(1)
+                })
+        )
+
+        it('should retrieve no favorites from user', () =>
+            homeSwappApi.toggleFavorite(_token, houseId)
+                .then(() => {
+
+                    return homeSwappApi.retrieveFavorites(_token)
+                        .then(houses => {
+
+                            expect(houses.length).toBe(0)
+                        })
+
+
+                })
+        )
+
+        it('should fail on undefined houseId', () => {
+
+            expect(() => {
+                homeSwappApi.retrieveFavorites(undefined)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+    })
+
+
+    describe('retrieve houses by query', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const images = ['https://ichef.bbci.co.uk/news/660/cpsprodpb/13F00/production/_95146618_bills.jpg']
+        const adress =
+        {
+            country: 'spain',
+            city: 'badalona',
+            street: 'tamariu',
+            number: '29'
+
+        }
+        const description = 'this is a sample description of a house'
+
+        const info = {
+
+            petsAllowed: 'no',
+            smokersAllowed: 'no',
+            numberOfBeds: '5'
+        }
+
+        let userId
+        let houseId
+
+        let query = 'badalona'
+        let _token
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ _id }) => {
+                    userId = _id
+                    return homeSwappApi.authenticateUser(email, password)
+
+                })
+                .then((token) => {
+                    _token = token;
+                })
+                .then(() => homeSwappApi.createHouse(_token, images, description, info, adress)
+                )
+                .then(({ _id }) => {
+
+                    houseId = _id
+
+                })
+                .then(() => homeSwappApi.toggleFavorite(_token, houseId)
+                )
+        )
+
+
+        it('should retrieve houses by city', () =>
+            homeSwappApi.searchByQuery(query)
+                .then(houses => {
+                    expect(JSON.stringify(houses[0].images)).toBe(JSON.stringify(images))
+                    expect(houses[0].description).toBe(description)
+                    expect(JSON.stringify(houses[0].info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(houses[0].adress)).toBe(JSON.stringify(adress))
+                    expect(JSON.stringify(houses[0].ownerId)).toBe(JSON.stringify(userId))
+
+                    expect(houses.length).toBe(1)
+                })
+        )
+
+        it('should retrieve houses by country', () => {
+            query = 'spain'
+
+            return homeSwappApi.searchByQuery(query)
+                .then(houses => {
+                    expect(JSON.stringify(houses[0].images)).toBe(JSON.stringify(images))
+                    expect(houses[0].description).toBe(description)
+                    expect(JSON.stringify(houses[0].info)).toBe(JSON.stringify(info))
+                    expect(JSON.stringify(houses[0].adress)).toBe(JSON.stringify(adress))
+                    expect(JSON.stringify(houses[0].ownerId)).toBe(JSON.stringify(userId))
+
+                    expect(houses.length).toBe(1)
+                })
+        })
+
+        it('should retrieve no houses', () => {
+            query = 'jhsbadjsbdjasjkd'
+
+            homeSwappApi.searchByQuery(query)
+                .then((houses) => {
+
+                    expect(houses.length).toBe(0)
+
+
+                })
+        })
+
+        it('should fail on undefined query', () => {
+            query = 'badalona'
+            expect(() => {
+                homeSwappApi.searchByQuery(3)
+            }).toThrow(Error(`3 is not a string`))
+        })
+
+        
+
+    })
 
 
 
