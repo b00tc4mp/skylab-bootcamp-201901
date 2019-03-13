@@ -79,12 +79,12 @@ const logic = {
         return this._cart
     },
 
-    getDateOrder() {
-        // let hours = new Date().getHours()
-        this._date = Date.now()
-        return this._date.toString()
+    // getDateOrder() {
+    //     // let hours = new Date().getHours()
+    //     this._date = Date.now()
+    //     return this._date.toString()
 
-    },
+    // },
 
 
     addProductToCart(product) {
@@ -99,16 +99,15 @@ const logic = {
         return this.__userApiProducts__ || []
     },
 
-    removeProductFromCart(productId) {
-        return this.cart(this.cart().filter(id => {
-            return id !== productId
-        }))
+    removeProductFromCart() {
+        this.__userApiProducts__.clear()
+
     },
 
 
-    clearCart() {
-        this.cart(null)
-    },
+    // clearCart() {
+    //     this.cart(null)
+    // },
 
 
 }

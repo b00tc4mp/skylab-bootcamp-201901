@@ -36,6 +36,18 @@ class LandingMain extends Component {
       <div className="App">
         <img src="https://i.gyazo.com/a03279cbcd72c4890e8d03250d0efe96.png" className="bigImage" alt="404" />
         <p className="text" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <div className="buttons">
+          <button
+            onClick={() => this.prevProperty()}
+            disabled={property.index === 0}
+          >Prev</button>
+          <button
+            onClick={() => this.nextProperty()}
+            disabled={property.index === data.properties.length - 1}
+          >Next</button>
+        </div>
+
         <div className="col">
           <div className={`cards-slider active-slide-${property.index}`}>
             <div className="cards-slider-wrapper" style={{
@@ -48,17 +60,8 @@ class LandingMain extends Component {
           </div>
         </div>
 
-        <button
-          onClick={() => this.prevProperty()}
-          disabled={property.index === 0}
-        >Prev</button>
-
-        <button
-          onClick={() => this.nextProperty()}
-          disabled={property.index === data.properties.length - 1}
-        >Next</button>
-        <div className="page">
-        </div>
+        {/* <div className="page">
+        </div> */}
       </div>
     );
   }

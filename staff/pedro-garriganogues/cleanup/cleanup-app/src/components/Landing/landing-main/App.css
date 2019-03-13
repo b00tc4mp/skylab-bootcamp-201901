@@ -33,7 +33,10 @@
   display: flex;
   padding-left: 5px;
  
+}
 
+.buttons{
+  margin:0.5%;
 }
 
 .nav a {
