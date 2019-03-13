@@ -41,6 +41,38 @@ const sailAwayApi = {
 
     },
 
+    retrieveUser(token){
+        return fetch(`${this.url}/user/`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(user => {
+                if (!user.error) return user
+
+                else throw Error(user.error)
+            })
+    },
+
+    updateUser(token, pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages){
+        return fetch(`${this.url}/user/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages })
+        })
+            .then(response => response.json())
+            .then(user => {
+                if (!user.error) return user
+
+                else throw Error(user.error)
+            })
+    },
+
     createJourney(title, seaId, route, dates, description, userId, boat, lookingFor) {
         debugger
         return fetch(`${this.url}/journey/`, {

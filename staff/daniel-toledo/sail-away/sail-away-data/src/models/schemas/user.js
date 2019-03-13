@@ -2,6 +2,7 @@ const { Schema } = require('mongoose')
 const { Types: { ObjectId } } = Schema
 
 const User = new Schema({
+
     name: {
         type: String,
         required: true
@@ -28,6 +29,8 @@ const User = new Schema({
         type: String,
         required: true
     },
+
+    pictures: Array,
 
     gender: String,
 

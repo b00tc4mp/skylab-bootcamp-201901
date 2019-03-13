@@ -2,9 +2,9 @@
 
 import sailAwayApi from '../sail-away-api'
 // import seaData from '../sea-data'
-import {data} from 'sail-away-data'
+import { data } from 'sail-away-data'
 
-const  logic = {
+const logic = {
 
     __userToken__: null,
 
@@ -37,7 +37,30 @@ const  logic = {
         if (!password.trim().length) throw Error('password cannot be empty');
 
         return sailAwayApi.authenticateUser(email, password)
-            .then(({token}) => this.__userToken__ = token)
+            .then(({ token }) => this.__userToken__ = token)
+    },
+
+    retrieveUser(){
+        let token= this.__userToken__
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+        if (!token.trim().length) throw Error('token cannot be empty');
+        debugger
+        return sailAwayApi.retrieveUser(token)
+     },
+
+    updateUser(pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages){
+        //TODO
+
+        let token= this.__userToken__
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+        if (!token.trim().length) throw Error('token cannot be empty');
+
+
+        return sailAwayApi.updateUser(token, pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages)
+        .then(user => console.log(user))
+
     },
 
     get isUserLoggedIn() {
@@ -48,11 +71,11 @@ const  logic = {
         this.__userApiToken__ = null
     },
 
-    generateJourney(title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages){
+    generateJourney(title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages) {
 
         if (typeof seaId !== 'string') throw TypeError(seaId + ' is not a string')
         if (!seaId.trim().length) throw Error('seaId cannot be empty')
-        
+
         if (route.constructor !== Array) throw TypeError(route + ' is not an Array')
         if (!route.length) throw Error('route cannot be empty')
 
@@ -64,7 +87,7 @@ const  logic = {
 
         //TODO
 
-        let lookingFor={
+        let lookingFor = {
             talents,
             experience,
             sailingTitles: [],
@@ -74,52 +97,52 @@ const  logic = {
         return sailAwayApi.createJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
     },
 
-    listJourneys(){
+    listJourneys() {
         return sailAwayApi.listJourneys()
     },
 
-    searchBySea(query){
+    searchBySea(query) {
         if (typeof query !== 'string') throw TypeError(query + ' is not a string')
         if (!query.trim().length) throw Error('query cannot be empty')
-       
+
         return sailAwayApi.searchBySea(query)
     },
 
-    findSeaId(seaName){
+    findSeaId(seaName) {
         if (typeof seaName !== 'string') throw TypeError(seaName + ' is not a string')
         if (!seaName.trim().length) throw Error('seaName cannot be empty')
 
-        let sea=data.seas.find(sea => { 
+        let sea = data.seas.find(sea => {
             if (sea.name === seaName) return sea
         })
         if (sea) return sea.id
-        else throw Error('sea not found') 
+        else throw Error('sea not found')
     },
 
-    retrieveSea(seaId){
+    retrieveSea(seaId) {
         if (typeof seaId !== 'string') throw TypeError(seaId + ' is not a string')
         if (!seaId.trim().length) throw Error('seaId cannot be empty')
 
-        let sea=data.seas.find(sea => { 
+        let sea = data.seas.find(sea => {
             if (sea.id === seaId) return sea
         })
         if (sea) return sea
-        else throw Error('sea not found') 
+        else throw Error('sea not found')
     },
 
-    retrieveJourney(id){
+    retrieveJourney(id) {
         if (typeof id !== 'string') throw TypeError(id + ' is not a string')
         if (!id.trim().length) throw Error('id cannot be empty')
 
         return sailAwayApi.retrieveJourney(id)
     },
 
-    updateJourney(id, title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages){
+    updateJourney(id, title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages) {
         debugger
 
         if (typeof id !== 'string') throw TypeError(id + ' is not a string')
         if (!id.trim().length) throw Error('id cannot be empty')
-        
+
         if (typeof seaId !== 'string') throw TypeError(seaId + ' is not a string')
         if (!seaId.trim().length) throw Error('seaId cannot be empty')
 
@@ -134,7 +157,7 @@ const  logic = {
 
         //TO DO
 
-        let lookingFor={
+        let lookingFor = {
             talents,
             experience,
             sailingTitles,
