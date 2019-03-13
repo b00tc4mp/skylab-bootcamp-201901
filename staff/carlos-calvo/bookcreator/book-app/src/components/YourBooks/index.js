@@ -1,11 +1,11 @@
 import React, {Component, Fragment} from 'react'
-import SideBar from '../SideBar'
 import logic from '../../logic';
 import CardBook from '../CardBook';
 import './index.sass'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class YourBooks extends Component {
+
 
     state = {
         books: [],
@@ -16,9 +16,36 @@ class YourBooks extends Component {
     deleteBook = (id) => {
         return logic.deleteBook(id)
         .then(()=> {
-            // this.notify()
             this.retrieveYourBooks()
+            this.notify()
         })
+    }
+
+    notify = (error) => {
+        error ? 
+        toast.warn("There was something wrong...", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          })
+          :
+        toast.info("Book Deleted", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          });
+    }
+
+    notifyUpdate = (error) => {
+        error ? 
+        toast.warn("There was an error...", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          })
+        :
+        toast.info("Book Added to Public Templates", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          });
+
     }
 
 
@@ -26,11 +53,11 @@ class YourBooks extends Component {
         try {
             logic.retrieveBooks()
                 .then((books) => {
-                    this.setState({books}, () => {})
                     console.log(books)
+                    this.setState({books}, () => {})
             })
         } catch (error) {
-            console.log(error)
+            this.notify(error)
         }
     }
 
@@ -41,9 +68,11 @@ class YourBooks extends Component {
     addBookToTemplates = (id, isTemplate) =>{
         try {
             logic.addBookToTemplates(id, isTemplate)
-                .then((books) => {})
+                .then((books) => {
+                    this.notifyUpdate()
+                })
         } catch (error) {
-            console.log(error)
+            this.notifyUpdate(error)
         }
     }
 

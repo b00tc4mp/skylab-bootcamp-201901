@@ -3,6 +3,7 @@ import './index.sass'
 import SideBar from '../SideBar';
 import logic from '../../logic'
 import Feedback from '../Feedback'
+import { toast } from 'react-toastify';
 
 class UpdateUser extends Component {
 
@@ -32,19 +33,24 @@ class UpdateUser extends Component {
         try {
             this.setState({ loginFeedback: '' })
             logic.updateUser(this.state.name, this.state.surname, this.state.email, this.state.password, this.state.passwordConf)
-                .then(() => true) //Aquí dar feedback
-                .catch(({ message }) => this.showLoginFeedback(message))
+                .then(() => this.notify()) //Aquí dar feedback
+                .catch(({ message }) => this.notify(message))
         } catch ({ message }) {
-          this.showLoginFeedback(message)
+          this.notify(message)
         }
     }
 
-
-    hideLoginFeedback = () => this.setState({ loginFeedback: '' })
-    
-    showLoginFeedback = message => {
-        this.setState({ loginFeedback: message })
-        setTimeout(this.hideLoginFeedback, 2000)
+    notify = (error) => {
+        error ? 
+        toast.info("There was something wrong...", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          })
+          :
+        toast.warn("Book Updated", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          });
     }
 
     render() {

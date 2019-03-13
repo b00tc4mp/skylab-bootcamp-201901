@@ -11,6 +11,7 @@ import EditBook from '../EditBook'
 import TemplateBooks from '../TemplateBooks'
 import { ToastContainer, toast } from 'react-toastify';
 import './index.sass'
+import 'react-toastify/dist/ReactToastify.min.css' 
 
 
 class Home extends Component {
@@ -45,6 +46,7 @@ class Home extends Component {
                 <Route path="/home/editbook/:bookid" render={(props) => <EditBook bookid={props.match.params.bookid}/>} />
                 <Route exact path="/home/yourbooks/:bookid" render={(props) => <Books bookid={props.match.params.bookid}/>}/>
                 <Route exact path="/home/templates/:templateid" render={(props) => <Books templateid={props.match.params.templateid}/>}/>
+                <ToastContainer />
             </div>
         )
     }

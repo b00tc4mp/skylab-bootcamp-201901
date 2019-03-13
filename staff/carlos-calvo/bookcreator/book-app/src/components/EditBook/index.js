@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react'
-import SideBar from '../SideBar'
 import './index.sass'
 import logic from '../../logic';
+import { toast } from 'react-toastify';
 
 class EditBook extends Component {
 
@@ -28,11 +28,23 @@ class EditBook extends Component {
                 if(book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place')) this.setState({place : book.parameters.place}, ()=> {})
                 this.setState({book}, () => {})
             })
+            .catch(error => this.notify(error))
         } catch (error) {
-            console.log(error)
+            this.notify(error)
         }
     }
 
+    notify = (error) => {
+        error ? 
+        toast.warn("There was something wrong...", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          })
+          :
+        toast.info("Book Updated", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          });
+    }
 
     updateBook = () =>{
         const { state: { name, place, title } } = this
@@ -42,8 +54,10 @@ class EditBook extends Component {
         if(place) parameters.place= place
         try{
             logic.updateBook(bookid, title, parameters)
+            .then(()=> this.notify())
+            .catch(error => this.notify(error))
         } catch(error){
-            console.log(error)
+            this.notify(error)
         }
     }
 

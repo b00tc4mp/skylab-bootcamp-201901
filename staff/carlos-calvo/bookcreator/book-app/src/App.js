@@ -29,6 +29,7 @@ class App extends Component {
         <Route path="/home" render ={() => logic.isUserLoggedIn ? <Home/> : <Redirect to="/welcome" /> }/>
         </Switch>
       </div>
+      
     );
   }
 }

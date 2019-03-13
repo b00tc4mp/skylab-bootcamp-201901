@@ -240,7 +240,7 @@ const logic = {
             const user = await User.findOne({'_id': ObjectID(userId)})
             if(!user) throw new Error(`UserId ${userId} was not found`)
 
-            const result = await Book.find({userId})
+            const result = await Book.find({userId}).lean().select('-content')
 
             return result
         })()
@@ -315,7 +315,7 @@ const logic = {
         if(arguments.length !== 0) throw new Error('Too many args')
 
         return (async () => {
-            const templateBooks = await BookTemplate.find({})
+            const templateBooks = await BookTemplate.find({}).lean().select('-content')
             return templateBooks
         })()
     },

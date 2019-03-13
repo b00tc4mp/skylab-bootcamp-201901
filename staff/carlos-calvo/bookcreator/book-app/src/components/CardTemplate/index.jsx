@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
 import logic from '../../logic';
+import { toast } from 'react-toastify';
 
 
 class CardTemplate extends Component {
@@ -9,9 +10,23 @@ class CardTemplate extends Component {
         event.preventDefault()
         try {
             logic.addTemplateToUserBooks(this.props.bookSelected._id)
+            .then(() => this.notify())
         } catch (error) {
             
         }
+    }
+
+    notify = (error) => {
+        error ? 
+        toast.warn("There was something wrong...", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          })
+          :
+        toast.info("Template added", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          });
     }
 
     loadTemplateBook = (event) => {

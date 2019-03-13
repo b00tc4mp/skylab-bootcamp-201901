@@ -204,7 +204,7 @@ const logic = {
         if (!title.trim().length) throw new Error('title  is empty')
         if (!(parameters instanceof Object)) throw TypeError(`${parameters} is not a array`)
 
-        bookApi.updateBook(bookid, title, parameters, this.getToken)
+        return bookApi.updateBook(bookid, title, parameters, this.getToken)
     },
 
 

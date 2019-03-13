@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react'
 import logic from '../../logic';
 import CardTemplate from '../CardTemplate'
 import './index.sass'
+import { toast } from 'react-toastify';
 
 class TemplateBooks extends Component {
 
@@ -20,10 +21,20 @@ class TemplateBooks extends Component {
             logic.retrieveTemplateBooks()
                 .then((books) => {
                     return this.setState({books}, () => {})
+                .catch(error => this.notify()) 
             })
         } catch (error) {
-            console.log(error)
+            this.notify()
         }
+    }
+
+    notify = (error) => {
+        error ? 
+        toast.warn("There was something wrong...", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          })
+          :
+        console.log()
     }
 
 
