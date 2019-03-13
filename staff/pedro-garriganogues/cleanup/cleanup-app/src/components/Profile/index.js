@@ -9,12 +9,12 @@ class Profile extends Component {
 
     render() {
         return (
-            <main>
+            <section>
 
                 <h1 className="title">Profile</h1>
 
 
-            </main>
+            </section>
         )
     }
 

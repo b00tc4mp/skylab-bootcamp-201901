@@ -89,7 +89,7 @@ router.post('/user/auth', jsonBodyParser, (req, res) => {
 router.get('/categories/products/:productId', (req, res) => {
     const { params: { productId } } = req
 
-    return logic.retrieveProduct(productId)
+    return logic.getProduct(productId)
         .then(product => {
             res.status(200)
             res.json({ status: 'OK', data: product })
@@ -113,6 +113,20 @@ router.get('/categories/:id', (req, res) => {
             res.json({ status: 'KO', error: message })
         })
 
+})
+
+router.post('/order', jsonBodyParser, (req, res) => {
+    const { body: { paymentMethod, status, products, userId } } = req
+
+    return logic.makeOrder(paymentMethod, status, products, userId)
+        .then(orderId => {
+            res.status(201)
+            res.json({ status: 'OK', data: orderId })
+        })
+        .catch(({ message }) => {
+            res.status(400)
+            res.json({ status: 'KO', error: message })
+        })
 })
 
 

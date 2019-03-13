@@ -9,7 +9,7 @@ class Cart extends Component {
 
 
         return (
-            <main>
+            <section>
                 <section>
                     <h1 clasName="title">Cart:</h1>
                     <i></i>
@@ -31,7 +31,7 @@ class Cart extends Component {
                                     <td ><img className="cartImage" src={item.image} alt="404" /></td>
                                     <td> <h4>{item.name}</h4></td>
                                     <td> <h4>{item.price} €</h4></td>
-                                    <td><button onClick={() => logic.removeProductFromCart(item)}>Remove</button></td>
+                                    <td><button onClick={() => logic.removeProductFromCart()}>Remove</button></td>
                                 </tr>
                             ))}
                         </div>
@@ -40,11 +40,12 @@ class Cart extends Component {
                         <div>
                             <h2>Total price</h2>
                             <h2>{logic.__userApiProducts__.reduce((accumulated, currentValue) => accumulated + currentValue.price, 0)}€</h2>
-                            {logic.__userApiToken__ && <Link to="/">Checkout</Link>}
+                            {logic.__userApiToken__ && <Link to="/">Comprar</Link>}
+                            {!logic.__userApiToken__ && <Link to="/login">Registrate para comprar!</Link>}
                         </div>
                     </div>}
                 </section>
-            </main>
+            </section>
         )
     }
 }

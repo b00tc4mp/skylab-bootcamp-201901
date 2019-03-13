@@ -57,8 +57,8 @@ const logic = {
     },
 
 
-    retrieveProduct(productId) {
-        return cleanUpApi.retrieveProduct(productId)
+    getProduct(productId) {
+        return cleanUpApi.getProduct(productId)
             .then(product => product)
     },
 
@@ -88,6 +88,7 @@ const logic = {
 
 
     addProductToCart(product) {
+
         let _products = this.__userApiProducts__ || []
 
         _products.push(product)
@@ -100,8 +101,8 @@ const logic = {
     },
 
     removeProductFromCart() {
-        this.__userApiProducts__.clear()
-
+        sessionStorage.removeItem()
+        window.location.reload()
     },
 
 

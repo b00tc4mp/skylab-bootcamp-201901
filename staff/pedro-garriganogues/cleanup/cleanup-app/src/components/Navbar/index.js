@@ -47,7 +47,7 @@ class Navbar extends Component {
 
 
 
-            <main>
+            <section>
                 <div className="navegacion">
                     <nav>
                         <ul>
@@ -67,21 +67,22 @@ class Navbar extends Component {
                                     {/* <div className="submenu-items">
                                             <p>Submenu #3</p>
                                             <ul>
-                                                <li><a href="#">Item #1</a></li>
-                                                <li><a href="#">Item #2</a></li>
-                                                <li><a href="#">Item #3</a></li>
+                                            <li><a href="#">Item #1</a></li>
+                                            <li><a href="#">Item #2</a></li>
+                                            <li><a href="#">Item #3</a></li>
                                             </ul>
                                         </div> */}
                                 </div>
                             </li>
+                            <li><Link to="/cart" ><img src="https://i.gyazo.com/7a5ababebdcc9837031e78b33e91b156.png" className="cartLogo" alt="404" /></Link></li>
 
                             <span className="py-2 d-none d-md-inline-block">
-                                <Link to="/cart"><span role="img" aria-label="cart"><i className="fas fa-shopping-cart">{this.props.cartLength ? <span className="badge badge-pill badge-info">{this.props.cartLength}</span> : ''}</i> </span></Link>
+
                             </span>
                         </ul>
                     </nav>
                 </div>
-            </main>
+            </section>
 
 
 

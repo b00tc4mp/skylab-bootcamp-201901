@@ -48,6 +48,8 @@ class App extends Component {
         this.props.history.push('/')
     }
 
+
+
     // getItems = () => {
     //     if (logic._cart.length && logic._cart !== 'undefined') {
     //         logic.listProductsByIds()

@@ -16,7 +16,7 @@ class Product extends Component {
     componentDidMount() {
         window.scrollTo(0, 0)
 
-        logic.retrieveProduct(this.props.productId)
+        logic.getProduct(this.props.productId)
             .then(product => this.setState({ product }))
 
 
@@ -33,7 +33,7 @@ class Product extends Component {
 
     render() {
         return (
-            <main>
+            <section>
 
                 <section className="section3">
                     <div>
@@ -50,7 +50,7 @@ class Product extends Component {
                         </div>
                     </div>
                 </section>
-            </main>
+            </section>
         )
     }
 

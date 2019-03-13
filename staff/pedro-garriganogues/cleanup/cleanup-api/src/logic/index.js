@@ -108,7 +108,7 @@ const logic = {
 
     },
 
-    retrieveProduct(productId) {
+    getProduct(productId) {
         return (async () => {
 
             if (typeof productId !== 'string') throw Error('user productId is not a string')
@@ -155,12 +155,11 @@ const logic = {
 
     },
 
-    getDateOrder() {
-        // let hours = new Date().getHours()
-        this._date = Date.now()
-        return this._date.toString()
 
-    },
+
+
+
+
 
 
 

@@ -21,7 +21,7 @@ function Landing(props) {
 
 
     return (
-        <main>
+        <section>
 
 
             {/* {showProducts && <h1 className="title">CleanUp</h1>} */}
@@ -29,7 +29,7 @@ function Landing(props) {
 
 
 
-        </main>
+        </section>
     )
 }
 

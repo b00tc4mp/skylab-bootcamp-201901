@@ -137,12 +137,12 @@ const cleanUpApi = {
       * 
       * @returns {Promise<Product>} 
       */
-    retrieveProduct(productId) {
+    getProduct(productId) {
         return Promise.resolve()
             .then(() => {
-                if (typeof productId !== 'string') throw Error('user productId is not a string')
-
                 if (!(productId = productId.trim()).length) throw Error('user productId is empty or blank')
+
+                if (typeof productId !== 'string') throw Error('user productId is not a string')
 
                 return axios.get(`${this.url}/categories/products/${productId}`)
                     .then(({ status, data }) => {
@@ -160,6 +160,32 @@ const cleanUpApi = {
                         } else throw err
                     })
             })
+    },
+
+    makeOrder: function makeOrder(paymentMethod, status, products, userId) {
+        var _this11 = this;
+
+        return (async () => {
+
+
+            return axios.post(_this11.url + '/order', { paymentMethod: paymentMethod, status: status, products: products, userId: userId }).then(function (_ref11) {
+                var status = _ref11.status,
+                    data = _ref11.data;
+
+                if (status !== 201 || data.status !== 'OK') throw Error('unexpected response status ' + status + ' (' + data.status + ')');
+
+                return data.data;
+            }).catch(function (err) {
+                if (err.code === 'ECONNREFUSED') throw Error('could not reach server');
+
+                if (err.response) {
+                    var message = err.response.data.error;
+
+                    throw Error(message);
+                } else throw err;
+            });
+        })()
+
     },
 
 
