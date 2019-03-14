@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="./function-bind-unbind-polyfill.js"></script>
+    <script>
+        function me() {
+            return this;
+        }
+
+        console.log(me());
+
+        var o = { hello: 'world' };
+
+        var me2 = me.bind(o);
+
+        console.log(me2());
+
+        var me3 = me2.bind(o);
+
+        console.log(me3());
+
+        var me2 = me2.unbind();
+
+        console.log(me2());
+
+        var me3 = me3.unbind();
+
+        console.log(me3());
+    </script>
+</body>
+
+</html>
