@@ -21,24 +21,31 @@ import Feedback from '../Feedback'
 
 class App extends Component {
   state = {loginFeedback: null , registerFeedback : null}
-  handleRegister = (name, surname, age, description, email, password, passwordConfirmation) => {
+  handleRegister = (name, surname, userName ,age, description, email, password, passwordConfirmation) => {
     try {
-        logic.registerUser(name, surname, age, description, email, password, passwordConfirmation)
+        logic.registerUser(name, surname, userName ,age, description, email, password, passwordConfirmation)
         .then( () => {
+          this.setState({registerFeedback: null})
           this.props.history.push('/login')
           alert('you have successfully registered')
           
         })
         .catch( ({message}) => {
-          console.log(message)
-          this.setState({ registerFeedback: message })
+      this.showMessage(message)
+
       })
     }catch ({message}){ 
-      console.log(message)
-      this.setState({ registerFeedback: message })
+      this.showMessage(message)
 
 
     }
+  }
+
+  showMessage = message => {
+    this.setState({ registerFeedback: message })
+    setTimeout(()=> {
+      this.setState({ registerFeedback: null })
+    }, 5000)
   }
 
   handleLogin = (email,password) => {
@@ -47,9 +54,9 @@ class App extends Component {
       logic.logInUser(email,password)
         .then( () => {            
           debugger
-            this.props.history.push('/home') 
-            alert('you have successfully login')
             this.setState({ loginFeedback: null })
+            alert('you have successfully login')
+            this.props.history.push('/home') 
         }).catch( ({message}) => {
             console.log(message)
             this.setState({ loginFeedback: message })
@@ -62,10 +69,10 @@ class App extends Component {
     }
   }
 
-  handleCreateEvent = (title, description, date, ubication, category) => {
+  handleCreateEvent = (title, description, date, city, address, category) => {
     try {
       debugger
-        logic.createEvent(title, description, date, ubication, category)
+        logic.createEvent(title, description, date, city, address , category)
         .then( () => {
           this.props.history.push('/home')
           alert('you have successfully create event')
@@ -86,7 +93,7 @@ class App extends Component {
       const  {handleRegister,handleLogin,handleCreateEvent , state:{loginFeedback,registerFeedback}} = this
     return (  
     <section className="App">
-        <Header />
+        <Header loginFeedback={loginFeedback} registerFeedback={registerFeedback} />
         <Switch>
             <Route path='/home' component={Home} />
             <Route exact path='/category/:categoryId' component={EventsByCategory} />
@@ -96,11 +103,11 @@ class App extends Component {
             <Route path= '/user-modify' render={() => logic.isUserLoggedIn ? <UserModify /> : ''} />
             <Route path= '/my-events' render={() => logic.isUserLoggedIn ? <Events  />:  '' }  />
             <Route path='/register' render={props => !logic.isUserLoggedIn? <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to = '/home'/>} /> 
-            <Route path='/login' render={props => !logic.isUserLoggedIn? <Login onLogin={handleLogin} feedback={loginFeedback} />  : <Redirect to  = '/home' /> } />
+            <Route path='/login' render={props => !logic.isUserLoggedIn? <Login onLogin={handleLogin} feedback={loginFeedback}  />  : <Redirect to  = '/home' /> } />
             <Route path= '/login-or-register' render={() => <RedirectLoginOrRegister />} />
             <Route path='/create-event' render={props => logic.isUserLoggedIn ? <CreateEvent onCreateEvent={handleCreateEvent}/> : <Redirect to ='/register' />} />
             {/* <Route path= '/results/:query' render={() => <Results /> } /> */}
-            <Route path='/:userId' render={() => <UserById /> } />
+            <Route path='/:userName' render={() => <UserById /> } />
             <Route exact path= '/' render={()=> <Redirect to='/home' />} />
         </Switch>
         <Footer />

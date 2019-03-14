@@ -6,7 +6,6 @@ class User extends Component{
     state = {results: ''} 
     componentDidMount(){
         try {
-            
             logic.retrieveUser()
                 .then(results => {
                     this.setState({ results })
@@ -29,10 +28,20 @@ class User extends Component{
         return( 
             <section>
             <div>
+                
+            <div>
+            {(results !== '') && (<img className="image" src={results.image} alt={results.name} />)}
+            </div>
+
             <div>
             <label>Name:</label>
             <p>{results.name}</p> 
             <p>{results.surname}</p>
+            </div>
+
+            <div>
+            <label>userName:</label>
+            <p>{results.userName}</p>
             </div>
 
             <div>
@@ -44,6 +53,7 @@ class User extends Component{
             <label>Age:</label>
             <p>{results.age}</p>
             </div>
+
 
             {/* <div>
                 {events.map(_event => {

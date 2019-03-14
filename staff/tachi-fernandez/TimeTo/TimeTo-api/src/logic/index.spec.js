@@ -9,6 +9,7 @@ const {
 } = require("mongoose");
 
 const {
+    mongoose,
     models:{
       User,
       Events,
@@ -17,7 +18,7 @@ const {
     }
   } = require('TimeTo-data');
 
-const mongoose = require('mongoose')
+
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -41,6 +42,7 @@ describe('logic', () => {
     describe('register user', () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -48,7 +50,7 @@ describe('logic', () => {
         const passwordConfirm = password
 
         it('should succeed on valid data', async () => {
-            const id = await logic.registerUser(name, surname,age ,description,email, password, passwordConfirm)
+            const id = await logic.registerUser(name, surname,userName,age ,description,email, password, passwordConfirm)
 
             expect(id).toBeDefined()
             expect(typeof id).toBe('object')
@@ -69,6 +71,7 @@ describe('logic', () => {
         it('should fail on undefined name', () => {
             const name = undefined
             const surname = 'Fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = 'holaaaa'
             const email = 'TachiFernandez@mail.com'
@@ -77,13 +80,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError(name + ' is not a string'))
         })
         
         it('should fail on undefined surname', () => {
             const name = 'tachi'
             const surname = undefined
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = 'holaaaa'
             const email = 'TachiFernandez@mail.com'
@@ -92,13 +96,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
         it('should fail on undefined age', () => {
             const name = 'tachi'
             const surname = 'Fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = undefined
             const description = 'holaaaa'
             const email = 'TachiFernandez@mail.com'
@@ -107,13 +112,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError(age + ' is not a number'))
         })
 
         it('should fail on undefined description', () => {
             const name = 'tachi'
             const surname = 'fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = undefined
             const email = 'TachiFernandez@mail.com'
@@ -122,13 +128,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError(description + ' is not a string'))
         })
 
         it('should fail on undefined email', () => {
             const name = 'tachi'
             const surname = 'fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = 'hola'
             const email = undefined
@@ -137,13 +144,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
         it('should fail on undefined password', () => {
             const name = 'tachi'
             const surname = 'fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = 'hola'
             const email = 'TachiFernandez@mail.com'
@@ -152,13 +160,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
         it('should fail on empty name', () => {
             const name = ''
             const surname = 'fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = 'hola'
             const email = 'TachiFernandez@mail.com'
@@ -167,13 +176,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError('name cannot be empty'))
         })
 
         it('should fail on empty surname', () => {
             const name = 'tachi'
             const surname = ''
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = 'hola'
             const email = 'TachiFernandez@mail.com'
@@ -182,13 +192,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError('surname cannot be empty'))
         })
 
         it('should fail on negative age', () => {
             const name = 'tachi'
             const surname = 'Fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = -22
             const description = 'hola'
             const email = 'TachiFernandez@mail.com'
@@ -197,7 +208,7 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError("age cannot is posible"))
         })
 
@@ -205,6 +216,7 @@ describe('logic', () => {
         it('should fail on empty description', () => {
             const name = 'tachi'
             const surname = 'fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = ''
             const email = 'TachiFernandez@mail.com'
@@ -213,13 +225,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError('description cannot be empty'))
         })
 
         it('should fail on empty email', () => {
             const name = 'tachi'
             const surname = 'fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = 'hola'
             const email = ''
@@ -228,13 +241,14 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError('email cannot be empty'))
         })
 
         it('should fail on empty password', () => {
             const name = 'tachi'
             const surname = 'fernandez'
+            const userName = `Tachi1010-${Math.random()}`
             const age = 22
             const description = 'hola'
             const email = 'TachiFernandez@mail.com'
@@ -243,7 +257,7 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname,age,description, email, password, passwordConfirm)
+                logic.registerUser(name, surname,userName,age,description, email, password, passwordConfirm)
             }).toThrow(TypeError('password cannot be empty'))
         })
         
@@ -254,6 +268,7 @@ describe('logic', () => {
     describe('authenticate user', () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -261,7 +276,7 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
+                .then(hash => User.create({ name, surname,userName,age, email,description, password: hash }))
         )
 
         it('should succeed on correct credentials', () => 
@@ -316,6 +331,7 @@ describe('logic', () => {
     describe('retrieve user', () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -324,7 +340,7 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age,description, email, password: hash }))
+                .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
                 .then(({id}) => userId = id)
         )
 
@@ -369,6 +385,7 @@ describe('logic', () => {
     describe("delete user" , () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -377,7 +394,7 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
+                .then(hash => User.create({ name, surname,userName,age, email,description, password: hash }))
                 .then(({id}) => {
                     userId = id
                 })
@@ -413,6 +430,7 @@ describe('logic', () => {
 
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -421,7 +439,7 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
+                .then(hash => User.create({ name, surname,userName,age, email,description, password: hash }))
                 .then(({id}) => {
                     userId = id
                 })
@@ -430,10 +448,11 @@ describe('logic', () => {
             const title = "Fiesta pagana"
             const description = "lo peta"
             const date = "11/04/2019"
-            const ubicacion = "pau piferrer 6"
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'
             const category = "5c7e95f564f6cfa555e483d6"
 
-            logic.createEvents(userId,title,description,date,ubicacion,category)
+            logic.createEvents(userId,title,description,date,city,address,category)
                 .then(({eventId}) => {
                 expect(eventId).toBeDefined()
             })
@@ -444,11 +463,12 @@ describe('logic', () => {
             const title = "Fiesta pagana"
             const description = "lo peta"
             const date = "11/04/2019"
-            const ubicacion = "pau piferrer 6"
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'            
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError(userId + ' is not a string'))
         })
 
@@ -456,11 +476,12 @@ describe('logic', () => {
             const title = undefined
             const description = "lo peta"
             const date = "11/04/2019"
-            const ubicacion = "pau piferrer 6"
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'             
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError(title + ' is not a string'))
         })
 
@@ -469,11 +490,12 @@ describe('logic', () => {
             const title = 'hola'
             const description = undefined
             const date = "11/04/2019"
-            const ubicacion = "pau piferrer 6"
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'             
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError(description + ' is not a string'))
         })
 
@@ -482,35 +504,51 @@ describe('logic', () => {
             const title = 'hola'
             const description = 'muy buenas'
             const date = undefined
-            const ubicacion = "pau piferrer 6"
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'  
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError(date + ' is not a string'))
         })
 
-        it('should fail on undefined ubication', () => {
+        it('should fail on undefined city', () => {
             const title = 'hola'
             const description = 'muy buenas'
             const date = '11/04/2020'
-            const ubication = undefined
+            const city = undefined
+            const address = 'Roc Boronat 35'  
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubication,category)
-            }).toThrow(TypeError(ubication + ' is not a string'))
+                logic.createEvents(userId,title,description,date,city,address,category)
+            }).toThrow(TypeError(city + ' is not a string'))
+        })
+
+        it('should fail on undefined address', () => {
+            const title = 'hola'
+            const description = 'muy buenas'
+            const date = '11/04/2020'
+            const city = "Barcelona"
+            const address = undefined  
+            const category = "5c7e95f564f6cfa555e483d6"
+
+            expect(() => {
+                logic.createEvents(userId,title,description,date,city,address,category)
+            }).toThrow(TypeError(address + ' is not a string'))
         })
 
         it('should fail on undefined category', () => {
             const title = 'hola'
             const description = 'muy buenas'
             const date = '11/04/2020'
-            const ubicacion = 'pau piferrer'
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'  
             const category = undefined
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError(category + ' is not a string'))
         })
 
@@ -518,11 +556,12 @@ describe('logic', () => {
             const title = ''
             const description = 'muy buenas'
             const date = '11/04/2020'
-            const ubicacion = 'pau piferrer'
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'  
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError('title cannot be empty'))
         })
 
@@ -531,11 +570,12 @@ describe('logic', () => {
             const title = 'hola'
             const description = 'muy buenas'
             const date = '11/04/2020'
-            const ubicacion = 'pau piferrer'
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError('userId cannot be empty'))
         })
 
@@ -543,11 +583,12 @@ describe('logic', () => {
             const title = 'hola'
             const description = ''
             const date = '11/04/2020'
-            const ubicacion = 'pau piferrer'
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'            
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError('description cannot be empty'))
         })
 
@@ -556,35 +597,51 @@ describe('logic', () => {
             const title = 'hola'
             const description = 'holaaa'
             const date = ''
-            const ubicacion = 'pau piferrer'
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubicacion,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError('date cannot be empty'))
         })
 
-        it('should fail on empty ubication', () => {
+        it('should fail on empty city', () => {
             const title = 'hola'
             const description = 'holaaa'
             const date = '22/10/2012'
-            const ubication = ''
+            const city = ''
+            const address = 'Roc Boronat 35'
             const category = "5c7e95f564f6cfa555e483d6"
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubication,category)
-            }).toThrow(TypeError('ubication cannot be empty'))
+                logic.createEvents(userId,title,description,date,city,address,category)
+            }).toThrow(TypeError('city cannot be empty'))
+        })
+
+        it('should fail on empty address', () => {
+            const title = 'hola'
+            const description = 'holaaa'
+            const date = '22/10/2012'
+            const city = 'Barcelona'
+            const address = ''
+            const category = "5c7e95f564f6cfa555e483d6"
+
+            expect(() => {
+                logic.createEvents(userId,title,description,date,city,address,category)
+            }).toThrow(TypeError('address cannot be empty'))
         })
 
         it('should fail on empty category', () => {
             const title = 'hola'
             const description = 'holaaa'
             const date = '22/10/2012'
-            const ubication = 'pau piferrer'
+            const city = "Barcelona"
+            const address = 'Roc Boronat 35'
             const category = ''
 
             expect(() => {
-                logic.createEvents(userId,title,description,date,ubication,category)
+                logic.createEvents(userId,title,description,date,city,address,category)
             }).toThrow(TypeError('category cannot be empty'))
         })
 
@@ -594,6 +651,7 @@ describe('logic', () => {
     describe("list event by id" , () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -602,19 +660,21 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
-                .then(({id}) => {
+            .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
+            .then(({id}) => {
+                debugger
                     userId = id
         
                     const title = "Fiesta pagana"
                     const description = "lo peta"
                     const date = "11/04/2019"
-                    const ubication = "pau piferrer 6"
+                    const city = "Barcelona"
+                    const address = 'Roc Boronat 35'                    
                     const category = "5c7e95f564f6cfa555e483d6"
 
-                    return Events.create({author: userId,title,description,date,ubication,category})
-                }).then(({_id}) =>{
-                    eventId = _id.toString()
+                    return Events.create({author: userId,title,description,date,city,address,category})
+                }).then(userEvent =>{
+                    eventId = userEvent.id
                 }
             )   
         )
@@ -624,7 +684,6 @@ describe('logic', () => {
                 expect(events.title).toBeDefined()
                 expect(events.description).toBeDefined()
                 expect(events.date).toBeDefined()
-                expect(events.ubication).toBeDefined()
                 expect(events.category).toBeDefined()
             })
         })
@@ -670,6 +729,7 @@ describe('logic', () => {
     describe("list event by category" , () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -678,17 +738,18 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
-                .then(({id}) => {
+            .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
+            .then(({id}) => {
                     userId = id
         
                     const title = "Fiesta pagana"
                     const description = "lo peta"
                     const date = "11/04/2019"
-                    const ubication = "pau piferrer 6"
+                    const city = "Barcelona"
+                    const address = 'Roc Boronat 35'
                     const category = "5c7e95f564f6cfa555e483d6"
 
-                    return Events.create({author: userId,title,description,date,ubication,category})
+                    return Events.create({author: userId,title,description,date,city,address,category})
                 }).then(userEvent =>{
                     categoryId = userEvent.category.toString()
                 }
@@ -747,6 +808,7 @@ describe('logic', () => {
     describe("list event by query" , () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -756,17 +818,18 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
-                .then(({id}) => {
+            .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
+            .then(({id}) => {
                     userId = id
         
                     const title = "Fiesta pagana"
                     const description = "lo peta"
                     const date = "11/04/2019"
-                    const ubication = "pau piferrer 6"
+                    const city = "Barcelona"
+                    const address = 'Roc Boronat 35'                    
                     const category = "5c7e95f564f6cfa555e483d6"
 
-                    return Events.create({author: userId,title,description,date,ubication,category})
+                    return Events.create({author: userId,title,description,date,city,address,category})
                 }).then(userEvent => userEvent)
         )
         it('should succed on correct data' , () => {
@@ -818,6 +881,7 @@ describe('logic', () => {
     describe("add comment" , () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -826,24 +890,24 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
-                .then(({id}) => {
+            .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
+            .then(({id}) => {
                     userId = id
         
                     const title = "Fiesta pagana"
                     const description = "lo peta"
                     const date = "11/04/2019"
-                    const ubication = "pau piferrer 6"
+                    const city = "Barcelona"
+                    const address = 'Roc Boronat 35'                    
                     const category = "5c7e95f564f6cfa555e483d6"
 
-                    return Events.create({author: userId,title,description,date,ubication,category})
+                    return Events.create({author: userId,title,description,date,city,address,category})
                 }).then(({_id}) =>{
                     eventId = _id.toString()
                 })   
         )
         it('should succed on correct data' , () => {
             const text = 'HOLOOOOO'
-            debugger
             return logic.addComment(userId, eventId,text)
             .then(comment => {
                 expect(comment.text).toBeDefined()
@@ -909,6 +973,7 @@ describe('logic', () => {
     describe("list comment" , () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -918,29 +983,30 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
-                .then(({id}) => {
+            .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
+            .then(({id}) => {
                     userId = id
         
                     const title = "Fiesta pagana"
                     const description = "lo peta"
                     const date = "11/04/2019"
-                    const ubication = "pau piferrer 6"
+                    const city = "Barcelona"
+                    const address = 'Roc Boronat 35'
                     const category = "5c7e95f564f6cfa555e483d6"
 
-                    return Events.create({author: userId,title,description,date,ubication,category})
+                    return Events.create({author: userId,title,description,date,city,address,category})
                 }).then(({_id}) =>{
                     eventId = _id.toString()
 
                     const text = 'HOLOOOO'
-                    debugger
+                    
                     return Comments.create({commentAuthor : userId , commentEvent : eventId , text})
                 }).then(comment => comment))
 
                 it('should succed on correct data' , () => {
                     return logic.listComments(userId,eventId)
                     .then(comments => {
-                        debugger
+                        
                         expect(comments).toBeDefined()
                     })
                 })  
@@ -949,6 +1015,7 @@ describe('logic', () => {
     describe("delete comment" , () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
         const age = 22
         const description = 'Hola muy buenas'
         const email = `Tachiii-${Math.random()}@mail.com`
@@ -959,17 +1026,18 @@ describe('logic', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname,age, email,description, password: hash }))
-                .then(({id}) => {
+            .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
+            .then(({id}) => {
                     userId = id
         
                     const title = "Fiesta pagana"
                     const description = "lo peta"
                     const date = "11/04/2019"
-                    const ubication = "pau piferrer 6"
+                    const city = "Barcelona"
+                    const address = 'Roc Boronat 35'                    
                     const category = "5c7e95f564f6cfa555e483d6"
 
-                    return Events.create({author: userId,title,description,date,ubication,category})
+                    return Events.create({author: userId,title,description,date,city,address,category})
                 }).then(({_id}) =>{
                     eventId = _id.toString()
 

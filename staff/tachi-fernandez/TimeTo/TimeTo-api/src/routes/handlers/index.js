@@ -7,6 +7,8 @@ module.exports = {
 
     updateUser: require('./update-user'),
 
+    updateImage: require('./update-image'),
+
     deleteUser : require('./delete-user'),
 
     createEvent: require('./create-event'),

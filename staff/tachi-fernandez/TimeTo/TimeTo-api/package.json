@@ -18,11 +18,13 @@
     "TimeTo-data": "file:../TimeTo-data",
     "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
+    "cloudinary": "^1.13.2",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.19",
+    "multer": "^1.4.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

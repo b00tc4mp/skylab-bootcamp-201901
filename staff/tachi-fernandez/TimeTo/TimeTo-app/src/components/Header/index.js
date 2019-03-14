@@ -6,6 +6,8 @@ import logic from '../../logic'
 
 class Header extends Component {
 
+    state = {loginFeedback : null,registerFeedback : null} 
+
     onLogout = () => {
         logic.logOutUser()
         sessionStorage.clear()
@@ -15,13 +17,16 @@ class Header extends Component {
     render(){
         const {onLogout} = this
         return (<section className="header">
+
+        <h4>TimeTo</h4>
     
         {/* <div className="header__register">
         {!logic.isUserLoggedIn ? <Link to="/register" >Register</Link> : '' }
         </div> */}
 
         {!logic.isUserLoggedIn ? <button  
-            onClick={() => this.props.history.push('/register')}>Register
+            onClick={() => 
+                this.props.history.push('/register')}>Register
         </button> : ''}
     
         {/* <div  className="header__login">

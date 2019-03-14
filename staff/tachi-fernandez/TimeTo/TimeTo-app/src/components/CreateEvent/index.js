@@ -3,25 +3,26 @@ import { Link } from 'react-router-dom'
 
 
 class CreateEvent extends Component {
-    state = { title: '', description: '' , date: '' , ubication : '' , category: ''}
+    state = { title: '', description: '' , date: '' , city : '', address: '' , category: ''}
 
     handleTitleInput = event => this.setState({ title: event.target.value })
     handleDescriptionInput = event => this.setState({ description: event.target.value })
     handleDateInput = event => this.setState({ date: event.target.value })
-    handleUbicationInput = event => this.setState({ ubication: event.target.value })
+    handleCityInput = event => this.setState({ city: event.target.value })
+    handleAddressInput = event => this.setState({ address: event.target.value })
     handleCategorySelect = event => this.setState({ category: event.target.value })
 
 
     handleFromSubmit = event => {
         event.preventDefault()
-        const { state: { title, description, date, ubication, category}, props: { onCreateEvent } } = this
-        onCreateEvent(title, description, date, ubication, category)
+        const { state: { title, description, date, city, address, category}, props: { onCreateEvent } } = this
+        onCreateEvent(title, description, date, city, address, category)
     }
     
   
 
     render() {
-        const { handleTitleInput, handleDescriptionInput, handleDateInput , handleUbicationInput, handleCategorySelect , handleFromSubmit, handleGoBack } = this
+        const { handleTitleInput, handleDescriptionInput, handleDateInput , handleCityInput, handleAddressInput ,handleCategorySelect , handleFromSubmit, handleGoBack } = this
         return (
 
           <section className="createEvent">
@@ -31,8 +32,8 @@ class CreateEvent extends Component {
                 <input onChange={handleTitleInput} className="createEvent__input-title" type="text" placeholder="Title" required/>
                 <textarea onChange={handleDescriptionInput} className="createEvent__input-description" maxLength="200" type="text" placeholder="Description" required/>
                 <input onChange={handleDateInput} className="createEvent__input-Date" min="2018-03-21" type="date" placeholder="Date" required/>
-                <input onChange={handleUbicationInput} className="createEvent__input-ubication" type="text" placeholder="Ubication" required/>
-                {/* <input onChange={handleCategoryInput} className="createEvent__input-category" type="text" placeholder="Category" required/> */}
+                <input onChange={handleCityInput} className="createEvent__input-city" type="text" placeholder="City" required/>
+                <input onChange={handleAddressInput} className="createEvent__input-Address" type="text" placeholder="address" required/>
                 <select onChange={handleCategorySelect}>
                     <option value="5c7e95f564f6cfa555e483d6">Party</option>
                     <option value="5c7e961964f6cfa555e483e8">Food</option>

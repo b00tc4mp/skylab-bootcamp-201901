@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
 import {Link} from 'react-router-dom'
+import './index.css'
 
 class Events extends Component{
     state = {results: ''} 
@@ -24,17 +25,16 @@ class Events extends Component{
     render(){
         const {results} = this.state
         const {events = []} = results
-        //const {state:{results}} = this
 
         return( 
-            <section>
+            <section className="my-events">
             <Link to="/home">Go home</Link>
             <div>
                 {(events || [] ).map(_event => {
                     return(
-                        <div>
+                        <div className="my-events__event">
 
-                        <div>
+                        <div className="my-events__event-title">
                         <label>Title:</label>
                         <p>{_event.title}</p>   
                         </div>    
@@ -50,8 +50,13 @@ class Events extends Component{
                         </div>
 
                         <div>
-                        <label>Ubication:</label>
-                        <p>{_event.ubication}</p>   
+                        <label>City:</label>
+                        <p>{_event.city}</p>   
+                        </div>
+
+                        <div>
+                        <label>Address:</label>
+                        <p>{_event.address}</p>   
                         </div>
 
                         <div>

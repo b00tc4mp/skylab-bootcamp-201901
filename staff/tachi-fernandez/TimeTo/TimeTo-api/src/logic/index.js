@@ -25,8 +25,8 @@ const logic = {
    * @param {string} password
    * @param {string} passwordConfirmation
    */
-  registerUser(name, surname,age,description, email, password, passwordConfirmation) {
-    debugger
+  registerUser(name, surname, userName,age,description, email, password, passwordConfirmation) {
+    
     if (typeof name !== "string") throw TypeError(name + " is not a string");
 
     if (!name.trim().length) throw Error("name cannot be empty");
@@ -34,6 +34,10 @@ const logic = {
     if (typeof surname !== "string") throw TypeError(surname + " is not a string");
     
     if (!surname.trim().length) throw Error("surname cannot be empty");
+
+    if (typeof userName !== "string") throw TypeError(userName + " is not a string");
+    
+    if (!userName.trim().length) throw Error("userName cannot be empty");
 
     if (isNaN(age)) throw TypeError(age + " is not a number");
 
@@ -70,6 +74,7 @@ const logic = {
       const { id } = await User.create({
         name,
         surname,
+        userName,
         age,
         description,
         email,
@@ -87,7 +92,7 @@ const logic = {
    * @param {string} password
    */
   authenticateUser(email, password) {
-    debugger
+    
     if (typeof email !== "string") throw TypeError(email + " is not a string");
 
     if (!email.trim().length) throw Error("email cannot be empty");
@@ -137,24 +142,25 @@ const logic = {
     })();
   },
 
-  retrieveUserById(otherUserId,userId){
-    debugger
-    if (typeof otherUserId !== "string") throw TypeError(otherUserId + " is not a string");
+  retrieveUserById(userName,userId){
+    
+    if (typeof userName !== "string") throw TypeError(userName + " is not a string");
 
-    if (!otherUserId.trim().length) throw Error("otherUserId cannot be empty");
+    if (!userName.trim().length) throw Error("userName cannot be empty");
 
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
     if (!userId.trim().length) throw Error("userId cannot be empty");
 
     return (async () => {
+      
       const user = await User.findById(userId).select('-password -__v',).lean()
 
       if (!user) throw Error(`user with id ${userId} not found`);
 
-      const otherUser = await User.findById(otherUserId).select('-password -__v',).lean()
+      const otherUser = await User.findOne({userName: new RegExp('^'+userName+'$', "i")}).select('-password -__v',).lean()
 
-      if (!otherUser) throw Error(`user with id ${otherUserId} not found`);
+      if (!otherUser) throw Error(`user with id ${userName} not found`);
 
       otherUser.id = otherUser._id.toString()
 
@@ -165,7 +171,7 @@ const logic = {
   },
 
   updateUser(userId,name,surname,age,description,email) {
-    debugger
+    
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
     if (!userId.trim().length) throw Error("userId cannot be empty");
@@ -247,8 +253,8 @@ const logic = {
 
   },
 
-  createEvents( userId, title, description, date , ubication , category) {
-    debugger
+  createEvents( userId, title, description, date , city ,address , category) {
+    
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
     if (!userId.trim().length) throw Error("userId cannot be empty");
@@ -265,9 +271,13 @@ const logic = {
 
     if (!date.trim().length) throw Error("date cannot be empty");
 
-    if (typeof ubication !== "string") throw TypeError(ubication + " is not a string");
+    if (typeof city !== "string") throw TypeError(city + " is not a string");
 
-    if (!ubication.trim().length) throw Error("ubication cannot be empty");
+    if (!city.trim().length) throw Error("city cannot be empty");
+
+    if (typeof address !== "string") throw TypeError(address + " is not a string");
+
+    if (!address.trim().length) throw Error("address cannot be empty");
 
     if (typeof category !== "string") throw TypeError(category + " is not a string");
 
@@ -286,7 +296,8 @@ const logic = {
         title,
         description,
         date,
-        ubication,
+        city,
+        address,
         category
 
       })
@@ -308,6 +319,8 @@ const logic = {
 
       delete events.members[0].events
       
+      events.save()
+
       return events
       
     })();
@@ -331,7 +344,7 @@ const logic = {
       if (!user) throw Error(`user with id ${userId} not found`);
 
       const userEvent = await Events.findById(eventId)
-      .populate('author', "name surname age"  )
+      .populate('author', "name surname userName age"  )
       .populate('category')
       .populate('members')
       .select('-__v').lean()
@@ -339,9 +352,9 @@ const logic = {
       if (!userEvent) throw Error(`event with id ${eventId} not found`);
 
       userEvent.id = userEvent._id.toString()
-  
-      delete userEvent._id
 
+      delete userEvent._id
+      
       userEvent.category.id =  userEvent.category._id.toString()
 
       delete userEvent.category._id
@@ -393,7 +406,7 @@ const logic = {
   },
 
   listEventsByQuery(userId , query){
-    debugger
+    
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
     if (!userId.trim().length) throw Error("userId cannot be empty");
@@ -409,7 +422,7 @@ const logic = {
       if (!user) throw Error(`user with id ${userId} not found`);
 
     const response = await Events.find({ title: { $regex: `${query}`, $options: "i" } } )
-    .populate('author', "name surname age"  )
+    .populate('author', "name surname userName age"  )
     .populate('category')
     .select('-__v').lean()
 
@@ -495,7 +508,7 @@ const logic = {
       if (!(eventUser)) throw Error(`event with id ${commentEvent} not found`);
 
       const comments = await Comments.find({commentEvent}).select('-__v')
-      .populate('commentAuthor', "name surname age"  )
+      .populate('commentAuthor', "name surname age userName"  )
       .populate('commentEvent' , "title , author").lean()
       
       const comment = await comments.map(commentUser => {
@@ -515,7 +528,7 @@ const logic = {
   },
 
   deleteComment(userId,commentEvent ,commentId){
-    debugger
+    
     
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
@@ -543,7 +556,7 @@ const logic = {
       const comment = await Comments.findById(commentId)
 
       if (!(comment)) throw Error(`event with id ${commentId} not found`);
-      debugger
+      
       await comment.remove()
 
 
@@ -557,7 +570,7 @@ const logic = {
   },
 
   toogleEvent(userId,eventId){
-    debugger
+    
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
     if (!userId.trim().length) throw Error("userId cannot be empty");
@@ -567,7 +580,7 @@ const logic = {
     if (!eventId.trim().length) throw Error("eventId cannot be empty");
 
     return(async () => {
-      debugger
+      
       const user = await User.findById(userId)
 
       if (!user) throw Error(`user with id ${userId} not found`);
@@ -595,9 +608,32 @@ const logic = {
           return myEvents
 
     })()
-  }  
+  
+  },
 
- }
+  updateImage(userId,image){
+    if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
+    if (!userId.trim().length) throw Error("userId cannot be empty");
+
+    if (typeof image !== "string") throw TypeError(image + " is not a string");
+
+    if (!image.trim().length) throw Error("image cannot be empty");
+
+
+    return(async () => {
+      
+      const user = await User.findOneAndUpdate({_id : userId} , {image}, {runValidators: true} )
+      .select('-password -__v')
+      .lean()
+
+      if (!user) throw Error(`user with id ${userId} not found`);
+      
+      return user
+
+    })()
+    }
+
+}
 
 module.exports = logic;

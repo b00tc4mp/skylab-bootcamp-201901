@@ -16,7 +16,7 @@ const logic = {
     * @param {string} password 
     * @param {string} passwordConfirmation 
     */
-    registerUser(name, surname, age, description, email, password, passwordConfirmation) {
+    registerUser(name, surname, userName ,age, description, email, password, passwordConfirmation) {
 
         debugger
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
@@ -26,6 +26,10 @@ const logic = {
         if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
 
         if (!surname.trim().length) throw Error('surname cannot be empty')
+
+        if (typeof userName !== 'string') throw TypeError(userName + ' is not a string')
+
+        if (!userName.trim().length) throw Error('userName cannot be empty')
 
         if (typeof age !== 'string') throw TypeError(age + ' is not a string')
 
@@ -49,7 +53,7 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        return userApi.register(name, surname,age,description, email, password, passwordConfirmation)
+        return userApi.register(name, surname, userName , age,description, email, password, passwordConfirmation)
             .then(() => { })
     },
 
@@ -93,31 +97,35 @@ const logic = {
     retrieveUser() {
         debugger
         return userApi.retrieveUser(this.__userApiToken__)
-            .then(({id,name, surname,age,description, email,events = []}) => ({
+            .then(({id,name, surname,userName,age,description, email,events = [],image}) => ({
                 id,
                 name,
                 surname,
+                userName,
                 age,
                 description,      
                 email,
-                events
+                events,
+                image
             }))
     },
 
-    retrieveUserById(usersId) {
-        if (typeof usersId !== 'string') throw TypeError(usersId + ' is not a string')
+    retrieveUserById(userName) {
+        if (typeof userName !== 'string') throw TypeError(userName + ' is not a string')
 
-        if (!usersId.trim().length) throw Error('usersId cannot be empty')
+        if (!userName.trim().length) throw Error('userName cannot be empty')
 
-        return userApi.retireveUserById(usersId,this.__userApiToken__)
-            .then(({id,name, surname,age,description, email,events = []}) => ({
+        return userApi.retireveUserById(userName,this.__userApiToken__)
+            .then(({id,name, surname, userName,age,description, email,events = [],image}) => ({
                 id,
                 name,
                 surname,
+                userName,
                 age,
                 description,      
                 email,
-                events
+                events,
+                image
             }))
     },
 
@@ -144,7 +152,7 @@ const logic = {
 
 
 
-    createEvent(title, description, date, ubication, category){
+    createEvent(title, description, date, city,address, category){
 
         
         if (typeof title !== 'string') throw TypeError(title + ' is not a string')
@@ -159,16 +167,20 @@ const logic = {
         
         if (!date.trim().length) throw Error('date cannot be empty')
         
-        if (typeof ubication !== 'string') throw TypeError(ubication + ' is not a string')
+        if (typeof city !== 'string') throw TypeError(city + ' is not a string')
         
-        if (!ubication.trim().length) throw Error('ubication cannot be empty')
+        if (!city.trim().length) throw Error('city cannot be empty')
+
+        if (typeof address !== 'string') throw TypeError(address + ' is not a string')
+        
+        if (!address.trim().length) throw Error('address cannot be empty')
 
         if (typeof category !== 'string') throw TypeError(category + ' is not a string')
         
         if (!category.trim().length) throw Error('category cannot be empty')
     
         
-        return userApi.createEventUser(title, description, date, ubication, category, this.__userApiToken__)
+        return userApi.createEventUser(title, description, date, city, address, category, this.__userApiToken__)
             .then(() => {})
     },
 
@@ -245,6 +257,13 @@ const logic = {
                return  response
             }) 
     },
+
+    updateImage(image){
+        return userApi.updateImage(image,this.__userApiToken__)
+            .then(response => {
+                return response
+            })
+    }
 
 }
 

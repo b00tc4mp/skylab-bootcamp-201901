@@ -7,20 +7,21 @@ import CreateComment from '../Create-comment'
 import Event from '../../plugins/bus'
 
 class EventById extends Component {
-    state = { events: '', eventId: '', user: null, button: false, y : '',m : '', d : '' , h : '', min: '' , s:''   }
-    componentWillMount() {
+    state = { events: '', eventId: '', user: null, button: false, y : '',m : '', d : '' , h : '', min: '' , s:'',members : []  }
+    componentDidMount() {
+        this.listEvents()
+    }
+
+    listEvents(){
         const { match: { params: { eventId = '' } } } = this.props
         try {
             logic.listEventById(eventId)
                 .then(_events => {
-                    this.setState({ events: _events })
+                    this.setState({ events: _events , members: _events.memebrs})
                     const date = new Date(_events.date);
                         this.setState({y: date.getFullYear()});
                         this.setState({m : date.getMonth() + 1});
                         this.setState({d : date.getDate()});
-                        this.setState({h : date.getHours()});
-                        this.setState({min : date.getMinutes()});
-                        this.setState({s : date.getSeconds()});
                     return logic.retrieveUser()
                         .then(user => {
                             this.setState({ user }, () => {
@@ -57,15 +58,14 @@ class EventById extends Component {
         }
     }
 
-    toogleEvent(eventId) {
+    toogleEvent = (eventId) => {
         // const{state:{button}} = this
         // console.log(event)
         try {
             debugger
             logic.toogleEvent(eventId)
                 .then(response => {
-                    // button === true ? alert('saliste de el evento') : 
-                    // alert('entraste en el evento')
+                    this.listEvents()
                 })
                 .catch(({ message }) => {
                     this.setState({ registerFeedback: message })
@@ -90,6 +90,9 @@ class EventById extends Component {
                     <Link to={`/category/${events.category && events.category.id}`}>Go category</Link>
                 </div>
                 <div>
+                        <div>
+                        {events.category && <img className="image" src={events.category.image} alt={events.title} /> }
+                        </div>
                     <div>
                         <label>Title:</label>
                         <p>{events.title}</p>
@@ -97,9 +100,9 @@ class EventById extends Component {
 
                     <div>
                         <label>Creator of the event:</label>
-                        <Link to={`/${events.author && events.author._id}`} >
+                        <Link to={`/${events.author && events.author.userName}`} >
                             <div>
-                                <p>{events.author && events.author.name}</p>
+                                <p>{events.author && events.author.userName}</p>
                             </div>
                         </Link>
                     </div>
@@ -111,12 +114,17 @@ class EventById extends Component {
 
                     <div>
                         <label>Date:</label>
-                        <p>Date: {`${y} / ${m} / ${d} - ${h}:${min}:${s}`}</p>
+                        <p>Date: {`${y} / ${m} / ${d} `}</p>
                     </div>
 
                     <div>
-                        <label>Ubication:</label>
-                        <p>{events.ubication}</p>
+                        <label>City:</label>
+                        <p>{events.city}</p>
+                    </div>
+
+                    <div>
+                        <label>Address:</label>
+                        <p>{events.address}</p>
                     </div>
 
                     <div>
@@ -129,9 +137,12 @@ class EventById extends Component {
 
                         {events.members && (events.members || []).map(member => (
                             <div>
-                                <Link type="text" to={`/${member._id}`}>
+                                <Link type="text" to={`/${member.userName}/${member._id}`}>
                                     <div>
-                                        {member.name}
+                                    <img className="image" src={member.image} alt={member.name} />
+                                    </div>
+                                    <div>
+                                        {member.userName}
                                     </div>
                                 </Link>
                             </div>

@@ -3,6 +3,9 @@ const cors = require('../cors')
 const bodyParser = require("body-parser");
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
+const multer = require('multer')
+const updload = multer({dest : 'uploads/'})
+const cloudinaryUploader = require('../cloudinary')
 
 const {
     registerUser,
@@ -10,6 +13,7 @@ const {
     retrieveUser,
     retrieveUserById,
     updateUser,
+    updateImage,
     deleteUser,
     createEvent,
     listEvents,
@@ -34,9 +38,11 @@ const {
 
   router.get("/retrieve-user",jsonBodyParser, tokenVerifierMiddleware,retrieveUser);
 
-  router.get("/retrieve-userId/:otherUserId",jsonBodyParser,tokenVerifierMiddleware,retrieveUserById);
+  router.get("/retrieve-userId/:userName",jsonBodyParser,tokenVerifierMiddleware,retrieveUserById);
 
   router.put('/user/update' , jsonBodyParser,tokenVerifierMiddleware , updateUser )
+
+  router.post('/image' , updload.single('image'), cloudinaryUploader, jsonBodyParser,tokenVerifierMiddleware , updateImage )
 
   router.delete("/user/delete/:userId" , jsonBodyParser , deleteUser)
 

@@ -21,6 +21,12 @@ const User = new Schema({
     required: true
   },
 
+  userName:{
+    type: String,
+    required: true,
+    unique: true
+  },
+
   age: {
     type: Number,
     required: true
@@ -53,6 +59,12 @@ const User = new Schema({
     type: ObjectId,
     ref: 'Events'
 }],
+
+  image:{
+    type: String,
+    required:true,
+    default:"https://res.cloudinary.com/dj6yymmpj/image/upload/v1552478235/avatar.png"
+  }
 
 });
 

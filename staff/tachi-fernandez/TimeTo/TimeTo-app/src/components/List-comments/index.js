@@ -34,6 +34,7 @@ class ListComments extends Component {
                 .then(comments => {
                     this.setState({ comments, eventId , author : comments.author})
                     console.log(author)
+                    console.log(comments)
                     //
                 })
                 .catch(({ error }) => {
@@ -76,9 +77,9 @@ class ListComments extends Component {
                     <div>
                         <p>{comment.text}</p>
                         <p>{comment.date}</p>
-                        <Link type="text" to={`/${comment.commentAuthor._id}`}>
+                        <Link type="text" to={`/${comment.commentAuthor.userName}`}>
                             <div>
-                                {comment.commentAuthor.name + ' ' + comment.commentAuthor.surname}
+                                {comment.commentAuthor.userName}
                             </div>
                         </Link>
                        {(comment.commentAuthor._id === userId) &&  <button value={comment.id} onClick={(event) => deleteComment(event, eventId)}>Delete Comment</button>}

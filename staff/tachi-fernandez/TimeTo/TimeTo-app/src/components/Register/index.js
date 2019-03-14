@@ -6,10 +6,11 @@ import Feedback from '../Feedback'
 
 class Register extends Component {
 
-    state = {name: null, surname: null, email: null, password: null, passwordConfirmation: null}
+    state = {name: null, surname: null,userName: null ,  email: null, password: null, passwordConfirmation: null}
     
     handleNameInput = event => this.setState ({name: event.target.value})
     handleSurnameInput = event => this.setState({surname: event.target.value})
+    handleUserNameInput = event => this.setState({userName: event.target.value})
     handleAgeInput = event => this.setState({ age:event.target.value })
     handleDescriptionArea = event => this.setState({ description:event.target.value })
     handleEmailInput = event => this.setState ({email: event.target.value})
@@ -18,16 +19,16 @@ class Register extends Component {
     
     handleOnSubmit = event => {
       event.preventDefault()
-      const { state: {name, surname, age, description, email, password, passwordConfirmation}, props: {onRegister}} = this
+      const { state: {name, surname, userName ,age, description, email, password, passwordConfirmation}, props: {onRegister}} = this
       
-      onRegister(name, surname, age, description, email, password, passwordConfirmation)
+      onRegister(name, surname, userName ,age, description, email, password, passwordConfirmation)
     }
     
     
     
     render(){
       
-      const {handleOnSubmit, handleNameInput, handleSurnameInput, handleAgeInput, handleDescriptionArea, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput} = this
+      const {handleOnSubmit, handleNameInput, handleSurnameInput,handleUserNameInput , handleAgeInput, handleDescriptionArea, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput} = this
       const {feedback} = this.props
       
       return (
@@ -39,6 +40,8 @@ class Register extends Component {
                   <input onChange={handleNameInput} className="input" type="text" placeholder="Name" autoFocus required />
                   <label className="label">Surname</label>
                     <input onChange={handleSurnameInput} className="input" type="text" placeholder="Surname" required />
+                    <label className="label">username:</label>
+                    <input onChange={handleUserNameInput} className="input" type="text" placeholder="Username" required />
                     <label className="label">Age</label>
                     <input onChange={handleAgeInput} className="input" type="number" placeholder="Age" required />
                     <label className="label">Description</label>

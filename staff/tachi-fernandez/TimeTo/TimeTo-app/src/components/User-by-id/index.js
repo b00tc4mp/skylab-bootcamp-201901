@@ -3,13 +3,14 @@ import logic from '../../logic'
 import {Link,withRouter} from 'react-router-dom'
 
 class UserById extends Component{
-    state = {results: '',userId : ''} 
+    state = {results: '',userName : ''} 
     componentDidMount(){
+        debugger
         try {
             debugger
-        const {match:{params:{userId}}} = this.props   
+        const {match:{params:{userName}}} = this.props   
         debugger         
-            logic.retrieveUserById(userId)
+            logic.retrieveUserById(userName)
 
                 .then(results => {
                     this.setState({ results })
@@ -38,6 +39,11 @@ class UserById extends Component{
             </div>
 
             <div>
+            <label>Username:</label>
+            <p>{results.userName}</p>
+            </div>
+
+            <div>
             <label>Description:</label>
             <p>{results.description}</p>
             </div>
@@ -47,6 +53,9 @@ class UserById extends Component{
             <p>{results.age}</p>
             </div>
 
+            <div>
+            <img className="image" src={results.image} alt={results.name} />
+            </div>
 
             </div>
 

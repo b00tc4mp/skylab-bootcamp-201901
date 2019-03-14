@@ -30,9 +30,14 @@ const Events = new Schema ({
         default: Date.now
     },
 
-    ubication:{
+    city:{
         type: String,
         require: true
+    },
+
+    address:{
+        type:String,
+        required: true
     },
 
     category: {
@@ -45,6 +50,8 @@ const Events = new Schema ({
         type: ObjectId,
         ref: 'User'
     }],
+
+
     
 })
 

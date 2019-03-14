@@ -1,12 +1,15 @@
 const userApi = {
     url: 'http://localhost:8000/final-proyect/api',
 
-    register(name, surname, age, description, email, password, passwordConfirmation) {
+    register(name, surname, userName,age, description, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
         if (!name.trim().length) throw Error('name is empty')
 
         if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
         if (!surname.trim().length) throw Error('surname is empty')
+
+        if (typeof userName !== 'string') throw TypeError(userName + ' is not a string')
+        if (!userName.trim().length) throw Error('userName cannot be empty')
 
         if (typeof age !== 'string') throw TypeError(`${age} is not a string`)
         if (!age.trim().length) throw Error('age is empty')
@@ -28,7 +31,7 @@ const userApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, age, description, email, password ,passwordConfirmation })
+            body: JSON.stringify({ name, surname, userName ,age, description, email, password ,passwordConfirmation })
         })
             .then(response => response.json())
             .then(response => {
@@ -84,14 +87,14 @@ const userApi = {
             })
     },
 
-    retireveUserById(usersId ,token){
-        if (typeof usersId !== 'string') throw TypeError(`${usersId} is not a string`)
-        if (!usersId.trim().length) throw Error('usersId is empty')
+    retireveUserById(userName ,token){
+        if (typeof userName !== 'string') throw TypeError(`${userName} is not a string`)
+        if (!userName.trim().length) throw Error('userName is empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        return fetch(`${this.url}/retrieve-userId/${usersId}`, {
+        return fetch(`${this.url}/retrieve-userId/${userName}`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
@@ -139,7 +142,7 @@ const userApi = {
 
    
 
-    createEventUser(title, description, date, ubication, category, token){
+    createEventUser(title, description, date, city, address, category, token){
         
         if (typeof title !== 'string') throw TypeError(title + ' is not a string')
         
@@ -153,11 +156,13 @@ const userApi = {
         
         if (!date.trim().length) throw Error('date cannot be empty')
         
-        if (typeof ubication !== 'string') throw TypeError(ubication + ' is not a string')
+        if (typeof city !== 'string') throw TypeError(city + ' is not a string')
         
-        if (!ubication.trim().length) throw Error('ubication cannot be empty')
+        if (!city.trim().length) throw Error('city cannot be empty')
         
-        debugger
+        if (typeof address !== 'string') throw TypeError(address + ' is not a string')
+        
+        if (!address.trim().length) throw Error('address cannot be empty')
         
         if (typeof category !== 'string') throw TypeError(category + ' is not a string')
         
@@ -174,7 +179,7 @@ const userApi = {
                 authorization: `Bearer ${token}` 
 
             },
-            body: JSON.stringify({ title, description, date, ubication, category })
+            body: JSON.stringify({ title, description, date, city,address, category })
         })
         .then(response => response.json())
         .then(response => {
@@ -353,8 +358,27 @@ const userApi = {
         .then(response => response.json())
         .then(response => response)
         
-    }
-    
+    },
+
+    updateImage(image,token){
+        debugger
+        let formData = new FormData();
+		formData.append('image', image);
+
+		return fetch(`${this.url}/image`, {
+			method: 'POST',
+			headers: {
+				authorization: `Bearer ${token}`,
+			},
+			body: formData,
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw new Error(response.error);
+
+				return response;
+			});
+	},
 }
 
 export default userApi

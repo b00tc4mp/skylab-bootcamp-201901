@@ -4,7 +4,7 @@ import {Link,withRouter} from 'react-router-dom'
 import Feedback from '../Feedback';
 
 class UserModify extends Component{
-    state = {name:'',surname:'',age:'',description: '',email: '',updateFeedback: null} 
+    state = {name:'',surname:'',age:'',description: '',email: '',image: '',updateFeedback: null} 
     componentDidMount(){
         debugger
         try {
@@ -16,7 +16,8 @@ class UserModify extends Component{
                         surname: results.surname,
                         age: results.age,
                         description: results.description,
-                        email: results.email
+                        email: results.email,
+                        image: results.image
                     })
                 })
                 .catch( ({error}) => {
@@ -33,13 +34,23 @@ class UserModify extends Component{
     handleAgeInput = event => this.setState({ age: event.target.value })
     handleDescriptionInput = event => this.setState({ description: event.target.value })
     handleEmailInput = event => this.setState({ email: event.target.value })
+    handleImageInput = event => {
+        let files = event.target.files[0]
+
+        logic.updateImage(files)
+            .then(image => {
+                this.setState({ image:image.secure_url})
+                this.props.history.push('/user')
+            })
+        this.setState({ image: files })
+    }
+
 
     updateUser = event => {
         event.preventDefault()
         const {state:{name,surname,age,description,email}} = this
         console.log(name)
         try {
-            debugger
             logic.updateUser(name,surname,age,description,email)
                 .then(() => {
                     alert('Usuario modificado')
@@ -61,12 +72,14 @@ class UserModify extends Component{
             handleDescriptionInput,
             handleAgeInput,
             handleEmailInput,
+            handleImageInput,
             updateUser,
             state:{name,
                 surname,
                 age,
                 description,
                 email,
+                image,
                 updateFeedback}}
             = this
 
@@ -100,6 +113,10 @@ class UserModify extends Component{
             <input onChange={handleEmailInput} defaultValue={email} type="text"></input>
             </div>
 
+            <div>
+            {image && (<img className="image" src={image} alt={image} />)}
+                <input onChange={handleImageInput} defaultValue={image} name="image" type="file"></input>
+            </div>
         
 
            

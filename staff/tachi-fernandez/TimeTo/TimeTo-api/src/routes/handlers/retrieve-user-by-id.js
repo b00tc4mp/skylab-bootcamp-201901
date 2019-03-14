@@ -1,12 +1,12 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { params:{otherUserId} , userId  } = req
+    const { params:{userName} , userId  } = req
 
 
     try {
         debugger
-        logic.retrieveUserById(otherUserId,userId)
+        logic.retrieveUserById(userName,userId)
             .then(res.json.bind(res))
             .catch(({ message }) => {
                 res.status(404).json({

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import logic  from '../../logic'
 import {Link,Redirect} from 'react-router-dom'
-import RedirectLoginOrRegister from '../Redirect-Login-or-Register';
 
 class EventsByCategory extends Component {
     state ={results : ''}
