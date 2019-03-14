@@ -30,6 +30,11 @@ const { registerUser,
     retrieveFlightsUserDrone,
     updateFlight,
     deleteFlight,
+    addProgram,
+    retrievePrograms,
+    retrieveProgramsUser,
+    updateProgram,
+    deleteProgram,
     sendMail } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
@@ -87,6 +92,18 @@ router.get('/user/:userId/drone/:droneId/flights', tokenVerifierMiddleware, retr
 router.put('/flight/update', [jsonBodyParser, tokenVerifierMiddleware], updateFlight)
 
 router.delete('/flight', [jsonBodyParser, tokenVerifierMiddleware], deleteFlight)
+
+
+//programs
+router.post('/program', [jsonBodyParser, tokenVerifierMiddleware], addProgram)
+
+router.get('/programs', tokenVerifierMiddleware, retrievePrograms)
+
+router.get('/user/:userId/programs', tokenVerifierMiddleware, retrieveProgramsUser)
+
+router.put('/program/update', [jsonBodyParser, tokenVerifierMiddleware], updateProgram)
+
+router.delete('/program', [jsonBodyParser, tokenVerifierMiddleware], deleteProgram)
 
 //general routes
 router.post('/sendemail', [jsonBodyParser, tokenVerifierMiddleware], sendMail)

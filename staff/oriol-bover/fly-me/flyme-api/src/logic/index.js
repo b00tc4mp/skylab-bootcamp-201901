@@ -1,7 +1,7 @@
 'use strict'
 
 const bcrypt = require('bcrypt')
-const { models: { User, Drone, Flight } } = require('flyme-data')
+const { models: { User, Drone, Flight, Program } } = require('flyme-data')
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('flyme-errors')
 const DroneApi = require('drone-api')
 const validate = require('flyme-validation')
@@ -422,12 +422,56 @@ const logic = {
 
                 return { status: 'OK' }
             })
-    }
+    },
 
     //END  MAILING
 
+    addProgram(userId, name, orders) {
 
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} is not defined`)
 
+                return Program.create({ name, userId, orders })
+                    .then(program => program.id)
+            })
+    },
+
+    retrieveProgramsByUser(userId) {
+        return Program.find({ userId }).select('-__v').lean()
+            .then(programs => programs)
+    },
+
+    retrievePrograms() {
+        return Program.find().select('-__v').lean()
+            .then(programs => programs)
+    },
+
+    updateProgram(userId, programId, name, orders) {
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error('auth permissions denied')
+
+                return Program.findByIdAndUpdate(programId, { userId, name, orders }, { runValidators: true })
+                    .then(program => {
+                        if (!program) throw Error('update error')
+
+                        return { status: 'OK', programId: program.id }
+                    })
+            })
+    },
+
+    deleteProgram(userId, programId) {
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error('auth permissions denied')
+
+                return Program.findByIdAndDelete(programId)
+            })
+            .then(() => {
+                return { status: 'OK' }
+            })
+    }
 }
 
 module.exports = logic
