@@ -11,25 +11,30 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
 
     const [_company, setCompany] = useState('')
     const [_position, setPosition] = useState('')
-    const [_startDate, setStartDate] = useState('')
-    const [_endDate, setEndDate] = useState('')
+    const [_startDate, setStartDate] = useState(new Date().toISOString().substr(0, 10))
+    const [_endDate, setEndDate] = useState(new Date().toISOString().substr(0, 10))
     const [_current, setCurrent] = useState('')
 
     const handleOnEditWork = exp => {
         setCurrent(exp.current)
+        setStartDate(new Date(exp.startDate).toISOString().substr(0, 10))
+        exp.endDate && setEndDate(new Date(exp.endDate).toISOString().substr(0, 10))
         onEditWork(exp._id)
     }
 
     const handleOnAddWork = () => {
         setCurrent(false)
+        setStartDate(new Date().toISOString().substr(0, 10))
+        setEndDate(new Date().toISOString().substr(0, 10))
         onAddWork()
     }
 
     const handleAddInformation = (e, type) => {
         e.preventDefault()
+        if (!_startDate) return setFeedback('Failed to add. Start date is mandatory')
         if (new Date(_startDate) > new Date()) return setFeedback('Failed to add. Start date should not be greater than today.')
-
         if (_current) onAddInformation(type, { company: _company, position: _position, startDate: _startDate, current: _current })
+        if (new Date(_endDate) > new Date()) return setFeedback('Failed to add. End date should not be greater than today.')
         else  new Date(_endDate) > new Date(_startDate) ? onAddInformation(type, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current }) : setFeedback('Failed to add. End date should be greater than the starting date.')
         
         setCurrent(false)
@@ -37,10 +42,11 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
 
     const handleUpdateInformation = (e, type, id) => {
         e.preventDefault()
-        if (new Date(_startDate) > new Date()) return setFeedback('Failed to add. Start date should not be greater than today.')
-
+        if (!_startDate) return setFeedback('Failed to update. Start date is mandatory')
+        if (new Date(_startDate) > new Date()) return setFeedback('Failed to update. Start date should not be greater than today.')
         if (_current) onUpdateInformation(type, id, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current })
-        else  new Date(_endDate) > new Date(_startDate) ? onUpdateInformation(type, id, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current }) : setFeedback('Failed to add. End date should be greater than the starting date.')
+        if (new Date(_endDate) > new Date()) return setFeedback('Failed to update. End date should not be greater than today.')
+        else  new Date(_endDate) > new Date(_startDate) ? onUpdateInformation(type, id, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current }) : setFeedback('Failed to update. End date should be greater than the starting date.')
     }
 
     const handleRemoveInformation = (e, type, id) => {
@@ -60,8 +66,8 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
             </div>
             {addWorkExperience && <div className='workExp-container__form'><form onSubmit={e => handleAddInformation(e, 'Work')}><input type='text' name='company' placeholder='Company' onChange={e => setCompany(e.target.value)} required></input>
                 <input type='text' name='position' placeholder='Position' onChange={e => setPosition(e.target.value)} required></input>
-                <input type='date' name='startDate' placeholder='Start date' onChange={e => setStartDate(e.target.value)} defaultValue={new Date().toISOString().substr(0, 10)} required></input>
-                {_current ? null : <input type='date' name='endDate' placeholder='End Date' onChange={e => setEndDate(e.target.value)} defaultValue={new Date().toISOString().substr(0, 10)} ></input>}
+                <input type='date' name='startDate' placeholder='Start date' onChange={e => setStartDate(e.target.value)} defaultValue={_startDate} required></input>
+                {_current ? null : <input type='date' name='endDate' placeholder='End Date' onChange={e => setEndDate(e.target.value)} defaultValue={_endDate} ></input>}
                 &nbsp;<div className='checkbox'><input type='checkbox' id='current' name='current'  onChange={e => setCurrent(e.target.checked)}/><label for='current'>&nbsp; Current job</label></div>
                 <div>
                     <button className='btn btn--success' type='submit'>Add</button>
@@ -77,8 +83,8 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
                             <input type='text' name='company' placeholder='Company' onChange={e => setCompany(e.target.value)} defaultValue={exp.company} required></input>
                             <input type='text' name='position' placeholder='Position' onChange={e => setPosition(e.target.value)} defaultValue={exp.position} required></input>
                             <input type='date' name='startDate' placeholder='Start date' onChange={e => setStartDate(e.target.value)} defaultValue={new Date(exp.startDate).toISOString().substr(0, 10)} required></input>
-                            {_current ? null : <input type='date' name='endDate' placeholder='End Date' onChange={e => setEndDate(e.target.value)} defaultValue={new Date(exp.endDate).toISOString().substr(0, 10)}></input>}
-                            <div className='checkbox'><input type='checkbox' id='current' name='current'  onChange={e => setCurrent(e.target.checked)} defaultChecked={exp.current}/><label for='current'>&nbsp; Current job</label></div>
+                            {_current ? null : <input type='date' name='endDate' placeholder='End Date' onChange={e => setEndDate(e.target.value)} defaultValue={new Date(_endDate).toISOString().substr(0, 10)}></input>}
+                            <div className='checkbox'><input type='checkbox' id='current' name='current' onChange={e => setCurrent(e.target.checked)} defaultChecked={exp.current}/><label for='current'>&nbsp; Current job</label></div>
                             <div>
                                 <button className='btn btn--success' type='submit'>Update</button>
                                 <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>

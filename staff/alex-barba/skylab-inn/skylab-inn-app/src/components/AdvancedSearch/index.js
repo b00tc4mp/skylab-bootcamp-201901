@@ -33,6 +33,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
     }
 
     const handleOnAddParam = (e) => {
+        debugger
         e.preventDefault()
         setFeedback(null)
         if (!query) {
@@ -42,7 +43,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
             setFeedback('Please choose your filter')
             inputQuery.current.blur()
         } else {
-            setSearch([...search, [param, query]])
+            search === null ? setSearch([[param, query]]) : setSearch([...search, [param, query]])
             e.target.value = null
             inputQuery.current.blur()
         }

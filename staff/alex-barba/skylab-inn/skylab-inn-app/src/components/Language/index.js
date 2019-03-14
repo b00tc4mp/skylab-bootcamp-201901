@@ -3,11 +3,9 @@ import { AppContext } from '../AppContext'
 
 import './index.sass'
 
-export default function Language({ onAddLanguage, onEditLanguage, onAddInformation, onRemoveInformation, onUpdateInformation, editLanguage, addLanguage, onCancel }) {
+export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformation, onRemoveInformation, onUpdateInformation, editLanguage, addLanguage, onCancel }) {
 
-    const { userData } = useContext(AppContext)
-
-    const { language, setFeedback } = userData
+    const { userData:{ language }, setFeedback } = useContext(AppContext)
 
     const [_language, setLanguage] = useState('')
     const [_levelLanguage, setLevelLanguage] = useState('')
