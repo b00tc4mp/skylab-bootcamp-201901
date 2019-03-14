@@ -24,7 +24,7 @@ function CardList() {
   };
 
   const getPosts = () => {
-    logic.retrieveAllPosts(token).then(posts => setPosts(posts.reverse()));
+    logic.retrieveAllPosts().then(posts => setPosts(posts.reverse()));
   };
 
   const updatePosts = () => {

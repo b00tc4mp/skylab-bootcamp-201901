@@ -15,32 +15,21 @@ const logic = {
    */
   registerUser(name, username, email, password, passwordConfirmation) {
     if (typeof name !== "string") throw TypeError(name + " is not a string");
-
     if (!name.trim().length) throw Error("name cannot be empty");
-
     if (typeof username !== "string")
       throw TypeError(username + " is not a string");
-
     if (!username.trim().length) throw Error("username cannot be empty");
-
     if (typeof email !== "string") throw TypeError(email + " is not a string");
-
     if (!email.trim().length) throw Error("email cannot be empty");
-
     if (typeof password !== "string")
       throw TypeError(password + " is not a string");
-
     if (!password.trim().length) throw Error("password cannot be empty");
-
     if (typeof passwordConfirmation !== "string")
       throw TypeError(passwordConfirmation + " is not a string");
-
     if (!passwordConfirmation.trim().length)
       throw Error("password confirmation cannot be empty");
-
     if (password !== passwordConfirmation)
       throw Error("passwords do not match");
-
     return instaApi
       .registerUser(name, username, email, password, passwordConfirmation)
       .then(() => {});
@@ -75,14 +64,14 @@ const logic = {
     );
   },
 
-  retrieveAllPosts(token) {
-    return instaApi.retrieveAllPosts(token);
+  retrieveAllPosts() {
+    return instaApi.retrieveAllPosts(this.__userApiToken__);
   },
   retrievePostByUser(id, token) {
     return instaApi.retrievePostsByUser(id, token);
   },
 
-  addComment(postId, id, text) {
+  addComment(postId, text) {
     if (typeof postId !== "string")
       throw TypeError(`${postId} is not a string`);
     if (!postId.trim().length) throw Error("postId is empty");
@@ -90,9 +79,12 @@ const logic = {
       throw TypeError(`${postId} is not a string`);
     if (!text.trim().length) throw Error("text is empty");
     if (typeof text !== "string") throw TypeError(`${text} is not a string`);
-    if (typeof id !== "string") throw TypeError(`${id} is not a string`);
-    if (!id.trim().length) throw Error("id is empty");
-    return instaApi.addComment(postId, this.__userApiToken__, id, text);
+    return instaApi.addComment(
+      postId,
+      this.__userApiToken__,
+      this.__userId__,
+      text
+    );
   },
 
   toggleFavorites(postId) {
