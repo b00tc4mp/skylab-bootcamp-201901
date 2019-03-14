@@ -23,8 +23,7 @@ class Cart extends Component {
                     email: user.email
                 })
             })
-
-        this.getItems()
+        // this.getItems()
     }
 
     getItems = () => {
@@ -41,7 +40,7 @@ class Cart extends Component {
 
         if (paymentMethod !== "" || email !== "") {
 
-            logic.createOrder(paymentMethod, cart)
+            logic.makeOrder(paymentMethod, cart)
                 .then(
                     this.props.onOrder()
 
@@ -59,8 +58,6 @@ class Cart extends Component {
         this.setState({ email: e.target.value })
     }
 
-
-
     render() {
         return (
             <main>
@@ -69,7 +66,7 @@ class Cart extends Component {
                 </section>
                 <ul>
                     <div>
-                        {this.state.cart.map(item => (
+                        {/* {this.state.cart.map(item => (
                             <li key={item._id} >
                                 <div>
                                     <img src={item.image} alt="404" />
@@ -78,7 +75,7 @@ class Cart extends Component {
                                     </div>
                                 </div>
                             </li>
-                        ))}
+                        ))} */}
 
                         <form onSubmit={this.handleSubmitOrder}>
                             <div >
@@ -95,8 +92,6 @@ class Cart extends Component {
                         </form>
                     </div>
                 </ul>
-
-
             </main>
         )
     }

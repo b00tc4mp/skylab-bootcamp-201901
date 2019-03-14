@@ -18,10 +18,9 @@ class Cart extends Component {
                     <table>
                         <head>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Course</th>
-                                <th scope="col">Price</th>
-                                <th scope="col"></th>
+                                <th >#</th>
+                                <th >Course</th>
+                                <th >Price</th>
                             </tr>
                         </head>
                         <div>

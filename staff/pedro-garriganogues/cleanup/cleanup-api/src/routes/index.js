@@ -13,9 +13,9 @@ const { env: { TOKEN_SECRET, TOKEN_EXP } } = process
 const jwtValidator = jwtValidation(TOKEN_SECRET)
 
 // router.patch('/users/:userId', [jwtValidator, jsonBodyParser], (req, res) => {
-//     const { params: { userId }, body: { name, surname, phone, address, email, password, newEmail, newPassword } } = req
+//     const { params: { userId }, body: { name, surname, email, password, newEmail, newPassword } } = req
 
-//     logic.updateUser(userId, name, surname, phone, address, email, password, newEmail, newPassword)
+//     logic.updateUser(userId, name, surname, email, password, newEmail, newPassword)
 //         .then(() => {
 //             res.status(200)
 //             res.json({ status: 'OK' })
@@ -86,21 +86,6 @@ router.post('/user/auth', jsonBodyParser, (req, res) => {
 })
 
 
-router.get('/categories/products/:productId', (req, res) => {
-    const { params: { productId } } = req
-
-    return logic.getProduct(productId)
-        .then(product => {
-            res.status(200)
-            res.json({ status: 'OK', data: product })
-        })
-        .catch(({ message }) => {
-            res.status(400)
-            res.json({ status: 'KO', error: message })
-        })
-})
-
-
 router.post('/order', jsonBodyParser, (req, res) => {
     const { body: { paymentMethod, status, products, userId } } = req
 
@@ -115,11 +100,19 @@ router.post('/order', jsonBodyParser, (req, res) => {
         })
 })
 
+router.get('/categories/products/:productId', (req, res) => {
+    const { params: { productId } } = req
 
-// router.get('/order/:id', (req, res) => {
-//     let { query: { ids } } = req
-
-// })
+    return logic.getProduct(productId)
+        .then(product => {
+            res.status(200)
+            res.json({ status: 'OK', data: product })
+        })
+        .catch(({ message }) => {
+            res.status(400)
+            res.json({ status: 'KO', error: message })
+        })
+})
 
 
 router.get('/products', (req, res) => {
@@ -150,6 +143,21 @@ router.get('/products', (req, res) => {
                 res.status(400)
                 res.json({ status: 'KO', error: message })
             })
+})
+
+
+router.post('/order/:id', jsonBodyParser, (req, res) => {
+    const { body: { paymentMethod, status, products, userId, productId } } = req
+
+    return logic.makeOrder(paymentMethod, status, products, userId, productId)
+        .then(orderId => {
+            res.status(201)
+            res.json({ status: 'OK', data: orderId })
+        })
+        .catch(({ message }) => {
+            res.status(400)
+            res.json({ status: 'KO', error: message })
+        })
 })
 
 

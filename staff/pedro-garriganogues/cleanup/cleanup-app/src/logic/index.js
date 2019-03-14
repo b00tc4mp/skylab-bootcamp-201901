@@ -6,9 +6,10 @@ import cleanUpApi from '../api'
 const logic = {
     __userId__: null,
     // __userApiToken__: null,
-    // __userApiProducts__: null,
+    __userApiProducts__: null,
     _userId: null,
     _orderStatus: 'transaction pending',
+
 
     registerUser(name, surname, email, password, passwordConfirmation) {
 
@@ -57,7 +58,6 @@ const logic = {
             .then(res => res)
     },
 
-
     listProducts(category) {
         return cleanUpApi.listProducts(category)
             .then(products => {
@@ -66,7 +66,11 @@ const logic = {
     },
 
     listProductsByIds() {
-        return cleanUpApi.listProductsByIds(this.__userApiProducts__.map(p => p._id))
+        if (this.__userApiProducts__ !== null) {
+            return cleanUpApi.listProductsByIds(this.__userApiProducts__.map(productbyid => productbyid._id))
+        } else {
+            console.log('QQ')
+        }
     },
 
     getProduct(productId) {
@@ -74,15 +78,11 @@ const logic = {
             .then(product => product)
     },
 
-
     listTheProducts() {
 
         return cleanUpApi.listTheProducts()
             .then(products => products)
     },
-
-
-
 
     addProductToCart(product) {
 
@@ -102,8 +102,20 @@ const logic = {
         window.location.reload()
     },
 
+    makeOrder(paymentMethod, products) {
 
-}
+        return cleanUpApi.makeOrder(paymentMethod, this._orderStatus, products, this.__userApiToken__)
+    },
+
+    clearCart() {
+        sessionStorage.removeItem('__userApiProducts__')
+    },
+
+
+};
+
+
+
 
 export default logic
 

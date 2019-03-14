@@ -128,13 +128,13 @@ const cleanUpApi = {
         })()
     },
 
-    listProductsByIds(cart) {
-
+    listProductsByIds(ids) {
+        console.log(ids);
+        // (ids = ids.split(','))
+        // console.log(ids);
         return (async () => {
 
-            cart.push('jjj')
-
-            return axios.get(this.url + '/products/?ids=' + cart).then(function (_refbyId) {
+            return axios.get(this.url + '/products/?ids=' + ids).then(function (_refbyId) {
 
             }).catch(function (err) {
 
@@ -172,29 +172,6 @@ const cleanUpApi = {
         })()
     },
 
-    makeOrder(status, products, userId, paymentMethod) {
-        var _thisorder = this;
-
-        return (async () => {
-
-            return axios.post(_thisorder.url + '/order', { paymentMethod: paymentMethod, status: status, products: products, userId: userId }).then(function (_reforder) {
-                var status = _reforder.status,
-                    data = _reforder.data;
-
-                if (status !== 201 || data.status !== 'OK') throw Error('unexpected response status ' + status + ' (' + data.status + ')');
-
-                return data.data;
-            }).catch(function (err) {
-
-                if (err.response) {
-                    var message = err.response.data.error;
-
-                    throw Error(message);
-                } else throw err;
-            });
-        })()
-
-    },
 
 
 
@@ -216,6 +193,26 @@ const cleanUpApi = {
                 })
         })()
     },
+    makeOrder: function makeOrder(paymentMethod, status, products, userId) {
+        var _thismakeorder = this;
+
+        return (async () => {
+
+            return axios.post(_thismakeorder.url + '/order', { paymentMethod: paymentMethod, status: status, products: products, userId: userId }).then(function (_refmakeorder) {
+
+            }).catch(function (err) {
+
+                if (err.response) {
+                    var message = err.response.data.error;
+
+
+                    throw Error(message);
+                } else throw err;
+            });
+        })();
+    },
+
+
 
 }
 
