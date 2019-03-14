@@ -35,66 +35,22 @@ const logic = {
   registerPlayer(name, surname, email, password, link, preferedPosition) {
     if (typeof name !== "string") throw TypeError(`${name} is not string`);
     if (!name.trim().length) throw Error("name cannot be empty");
-
     if (typeof surname !== "string")
       throw TypeError(`${surname} is not string`);
     if (!surname.trim().length) throw Error("surname cannot be empty");
-
     if (typeof email !== "string") throw TypeError(`${email} is not string`);
-    if (!email.trim().length) throw Er
-
-  const { _id } = props.playerlogged;
-
-  const handleSetAvailable = matchId => {
-    props.handleSetAvailable(matchId);
-    setAvailable(true);
-  };
-
-  const handleSetUn("email cannot be empty");
-
+    if (!email.trim().length) throw Error("email cannot be empty");
     if (typeof password !== "string")
-      throw TypeError(`${password} is 
-
-  const { _id } = props.playerlogged;
-
-  const handleSetAvailable = matchId => {
-    props.handleSetAvailable(matchId);
-    setAvailable(true);
-  };
-
-  const handleSetUn string`);
-    if (!password.trim().length) throw
-
-  const { _id } = props.playerlogged;
-
-  const handleSetAvailable = matchId => {
-    props.handleSetAvailable(matchId);
-    setAvailable(true);
-  };
-
-  const handleSetUnror("password cannot be empty");
-
-    if (typeof link !== "string") thro
-
-  const { _id } = props.playerlogged;
-
-  const handleSetAvailable = matchId => {
-    props.handleSetAvailable(matchId);
-    setAvailable(true);
-  };
-
-  const handleSetUnypeError(`${link} is not string`);
+      throw TypeError(`${password} is not string`);
+    if (!password.trim().length) throw Error("password cannot be empty");
+    if (typeof link !== "string") throw TypeError(`${link} is not string`);
     if (!link.trim().length) throw Error("link cannot be empty");
-
     return (async () => {
       const player = await Player.findOne({ email });
-
       if (player) {
         throw Error(`player wiith email ${player.email} already exists`);
       }
-
       const hash = await bcrypt.hash(password, 10);
-
       const { id } = await Player.create({
         name,
         surname,
@@ -107,6 +63,7 @@ const logic = {
       return id;
     })();
   },
+
 
   /**
    * Authenticates player by its credentials.
@@ -137,14 +94,22 @@ const logic = {
     })();
   },
 
-  retrievePlayers(token) {
-    return Player.find({token}, (err, players) => {
+  retrievePlayers() {
+    return Player.find({}, (err, players) => {
       if (!err) {
         return players;
       } else {
         throw err;
       }
     });
+  },
+
+  getPlayerById(playerId) {
+    return (async () => {
+      const player = await Player.findById(playerId); 
+      return player;
+      
+    })()
   },
 
   retrieveScoreScrapping() {
@@ -316,7 +281,6 @@ const logic = {
 
   deleteAvailabilityPlayer(playerId, matchId) {
     return (async () => {
-      debugger;
       const player = await Player.findById(playerId);
       const index = player.availability.indexOf(matchId);
       player.availability.splice(index, 1);

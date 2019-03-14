@@ -70,8 +70,12 @@ const padelcatApi = {
     });
   },
 
-  retrievePlayer: () => {
+  retrievePlayers: () => {
     return axios.get("/retrievePlayers");
+  },
+
+  getPlayerById: (token) => {
+    return axios.get("/getPlayerById");
   },
 
   retrieveScoreScrapping: () => {

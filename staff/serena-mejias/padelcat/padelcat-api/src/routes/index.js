@@ -8,6 +8,7 @@ const {
   registerPlayer,
   authenticatePlayer,
   retrievePlayers,
+  getPlayerById,
   retrieveScore,
   setScorePlayer,
   retrieveMatchesScrapping,
@@ -29,6 +30,11 @@ router.get(
   "/retrievePlayers",
   [jsonBodyParser, tokenVerifierMiddleware],
   retrievePlayers
+);
+router.get(
+  "/getPlayerById",
+  [jsonBodyParser, tokenVerifierMiddleware],
+  getPlayerById
 );
 router.get(
   "/retrieveScore",

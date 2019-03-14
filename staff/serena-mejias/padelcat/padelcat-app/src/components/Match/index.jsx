@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import styles from "./index.module.scss";
 import ChosenPairs from "../ChosenPairs";
-import { Form, Field,Values } from "react-final-form";
+import { Form, Field, Values } from "react-final-form";
 import logic from "../../logic";
 import { log } from "util";
 
@@ -39,16 +39,15 @@ export const Match = props => {
   };
 
   useEffect(() => {
-    if (playersAvailable.filter(playerId => playerId === _id).length) {
+    if (playersAvailable.filter(player => player._id === _id).length) {
       return setAvailable(true);
     } else {
       return setAvailable(false);
     }
   }, [props]);
-
   return (
     <div>
-      <h4>{date} - {matchId}</h4>
+      <h4>{date}</h4>
       <div className="teams match">
         <div className="team1">
           <img src={imageTeam1} />
@@ -103,6 +102,34 @@ export const Match = props => {
             </form>
           )}
         />
+        <div>
+          <div>
+            <h4>1st Match</h4>
+            {playersChosen &&
+              playersChosen.playersId &&
+              playersChosen.playersId.playersId && (
+                <p>
+                  {playersChosen.playersId.playersId["firstPair-firstPlayer"]} - {playersChosen.playersId.playersId["firstPair-secondPlayer"]}
+                </p>
+              )}
+            <h4>2nd Match</h4>
+            {playersChosen &&
+              playersChosen.playersId &&
+              playersChosen.playersId.playersId && (
+                <p>
+                  {playersChosen.playersId.playersId["secondPair-firstPlayer"]} - {playersChosen.playersId.playersId["secondPair-secondPlayer"]}
+                </p>
+              )}
+            <h4>3rd Match</h4>
+            {playersChosen &&
+              playersChosen.playersId &&
+              playersChosen.playersId.playersId && (
+                <p>
+                  {playersChosen.playersId.playersId["thirdPair-firstPlayer"]} - {playersChosen.playersId.playersId["thirdPair-secondPlayer"]}
+                </p>
+              )}
+          </div>
+        </div>
         <div>
           Are you available?
           <Button

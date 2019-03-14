@@ -11,7 +11,6 @@ import Grid from "@material-ui/core/Grid";
 import { log } from "util";
 
 import { Form, Field } from "react-final-form";
-import ChosenPairs from '../ChosenPairs'
 
 class App extends Component {
   state = {
@@ -22,8 +21,6 @@ class App extends Component {
       logic
         .loginPlayer(email, password)
         .then(response => {
-          console.log(response);
-          
           this.setState({ player: response.player });
           logic.storeToken(response.token);
           this.props.history.push("/home");
@@ -73,17 +70,16 @@ class App extends Component {
     logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
   };
 
-  componentDidMount(){
-    if (!logic.getStoredtoken()) {
+  componentDidMount() {
+    const token = logic.getStoredtoken();
+    if (!token) {
       this.props.history.push("/login");
     } else {
-      // retrieve player info using token 
-      // and set it in the state
-      // this.setState({ player: response.player });
-      console.log(logic.getStoredtoken());
+      logic.getPlayerById(token).then(response => {
+        this.setState({ player: response });
+      });
     }
   }
-
 
   render() {
     const {
@@ -104,12 +100,17 @@ class App extends Component {
           <Route path="/login" render={() => <Login onLogin={handleLogin} />} />
           <Route
             path="/home"
-            render={() => ( logic.isPlayerLoggedIn()?            
+            render={() =>
+              logic.isPlayerLoggedIn() ? (
                 <Home
-                handleSetAvailable={handleSetAvailable}
-                handleSetUnavailable={handleSetUnavailable}
-                playerlogged={this.state.player}
-            /> : <Redirect to={{ pathname: "/login" }} />)}
+                  handleSetAvailable={handleSetAvailable}
+                  handleSetUnavailable={handleSetUnavailable}
+                  playerlogged={this.state.player}
+                />
+              ) : (
+                <Redirect to={{ pathname: "/login" }} />
+              )
+            }
           />
           <Route
             exact

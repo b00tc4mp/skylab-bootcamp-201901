@@ -91,13 +91,18 @@ const logic = {
 
     return !!token
   },
+  
   storeToken: token => {
     padelcatApi.setUptokenOnRequest(token);
     sessionStorage.setItem("tokenKey", token);
   },
 
   retrievePlayers: () => {
-    return padelcatApi.retrievePlayer();
+    return padelcatApi.retrievePlayers();
+  },
+
+  getPlayerById: (token) => {
+    return padelcatApi.getPlayerById(token);
   },
 
   retrieveScoresScapping: () => {
