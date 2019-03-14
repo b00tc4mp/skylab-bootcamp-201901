@@ -78,6 +78,10 @@ const logic = {
         return coworkingApi.retrieveUser(this.__coworkingApiToken__)
     },
 
+    updateUser (...data) {
+        return coworkingApi.updateUser(this.__coworkingApiToken__, data)
+    },
+
     removeUser(email, password) {
         validate([{ key: 'email', value: email, type: String },
         { key: 'password', value: password, type: String }])
@@ -173,7 +177,5 @@ const logic = {
 
         return coworkingApi.removeComment(this.__coworkingApiToken__, serviceId, commentId)
     }
-
-    // TODO updateUser
 }
 export default logic

@@ -98,10 +98,12 @@ const logic = {
     updateUser(userId, data) {
         validate([{ key: 'userId', value: userId, type: String }])
 
+        let _data = data.data[0]
+
         if (!data) throw TypeError('data should be defined')
         if (data.constructor !== Object) throw Error(`${data} is not an object`)
 
-        return User.findOneAndUpdate({ id: userId, $set: data })
+        return User.findOneAndUpdate({_id: userId}, {$set: _data})
     },
 
     /**

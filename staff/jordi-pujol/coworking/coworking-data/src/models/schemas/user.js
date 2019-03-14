@@ -45,6 +45,21 @@ const User = new Schema({
         type: Number,
         default: 0,
         required: false
+    },
+
+    age:{
+        type: Number,
+        required: false
+    },
+
+    companyName: {
+        type: String,
+        required: false
+    },
+
+    interests:{
+        type: String,
+        required: false
     }
 })
 

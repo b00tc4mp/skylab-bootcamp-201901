@@ -1,18 +1,49 @@
 .profile
 
+
+    h2
+        padding: 1em
+        width: 0
+        margin: 0 auto
+
+    &__content
+        margin: 0
+        display: flex
+        flex-direction: row
+        justify-content: space-around
+        padding: 0 10em
+
     .profile__form
         display: flex
         flex-direction: column
         justify-content: space-between
 
+        div
+            display: flex
+            flex-direction: column
+            align-items: center
+            padding-top: 1em
+
+            label
+                font-size: 18px
+
+            input
+                align-items: center
+                
+
         &--info
             height: 50px
             width: 400px
-            font-size: 20px
+            font-size: 18px
             color: black
             border: none
             border-bottom: 1px solid white
             background: transparent
+            outline: none
+
+    textarea
+        scrollbar-base-color: blue
+        scrollbar-highlight-color: blue
 
     button
         margin-top: 20px
@@ -28,3 +59,4 @@
 img
     height: 200px
     width: 200px
+    float: center

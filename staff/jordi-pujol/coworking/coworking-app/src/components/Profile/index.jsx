@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 import logic from '../../logic';
+import Feedback from '../Feedback'
 
 class Profile extends Component {
 
-    state = { active: true, name: '', surname: '', email: '', companyName: '' }
+    state = { active: true, name: '', surname: '', email: '', companyName: '', interests: '', age: '', feedback: null }
 
     componentWillMount() {
         logic.retrieveUser()
-            .then(({ name, surname, email }) => {
+            .then(({ name, surname, email, companyName, interests, age }) => {
                 this.setState({ name })
                 this.setState({ surname })
                 this.setState({ email })
+                this.setState({ companyName })
+                this.setState({ age })
+                this.setState({ interests })
             })
     }
 
@@ -24,39 +28,77 @@ class Profile extends Component {
 
     handleCompanyNameInput = event => this.setState({ companyName: event.target.value })
 
+    handleAgeInput = event => this.setState({ age: event.target.value })
+
+    handleInterestsInput = event => this.setState({ interests: event.target.value })
+
 
     handleSubmitForm = event => {
-        event.target.value()
+        event.preventDefault()
 
-        const { state: { name, surname, email, companyName } } = this
+        const { state: { name, surname, email, companyName, interests, age, feedback } } = this
 
-        // call logic updateUser
+        try {
+            return logic.updateUser({ name: name, surname: surname, companyName: companyName, age: age, interests: interests })
+                .then(() => this.setState({ feedback: null, active: true }))
+                .catch(({ message }) => this.setState({ feedback: message }))
+        } catch ({ message }) {
+            this.setState({ feedback: message })
+        }
     }
 
     handleEditProfile = event => {
         event.preventDefault()
 
-        this.setState({ active: false })
+        if (this.state.active) this.setState({ active: false })
     }
 
     render() {
 
-        const { state: { active, name, surname, email }, handleNameInput, handleSurnameInput, handleEmailInput, handleCompanyNameInput, handleSubmitForm, handleEditProfile } = this
+        const { state: { active, name, surname, email, companyName, age, interests, feedback }, handleNameInput, handleSurnameInput, handleEmailInput, handleCompanyNameInput, handleInterestsInput, handleAgeInput, handleSubmitForm, handleEditProfile } = this
 
         return <section className="profile">
             <h2>Profile</h2>
-            <img src="https://pm1.narvii.com/6345/537c878cad3a8b3630df52f128b12ce5d3bcdf6b_00.jpg"></img>
-            <h3>Basic Info</h3>
-            <form onSubmit={handleSubmitForm} className="profile__form">
-                <input className="profile__form--info" type="text" onChange={handleNameInput} placeholder={name} disabled={active} />
-                <input className="profile__form--info" type="text" onChange={handleSurnameInput} placeholder={surname} disabled={active} />
-                <input className="profile__form--info" type="email" onChange={handleEmailInput} placeholder={email} />
-                <input className="profile__form--info" type="text" onChange={handleCompanyNameInput} />
-                <button>Save Changes</button>
-            </form>
-            <form onSubmit={handleEditProfile}>
-                <button>Edit info</button>
-            </form>
+            <div className="profile__content">
+                <div className="profile__content--img">
+                    <p>Profile Image</p>
+                    <img src="https://pm1.narvii.com/6345/537c878cad3a8b3630df52f128b12ce5d3bcdf6b_00.jpg" />
+                </div>
+                <div className="">
+                    <h3>Basic Info</h3>
+                    <form onSubmit={handleSubmitForm} className="profile__form">
+                        <div>
+                            <label>Name</label>
+                            <input className="profile__form--info" type="text" onChange={handleNameInput} value={name} disabled={active} />
+                        </div>
+                        <div>
+                            <label>Surname</label>
+                            <input className="profile__form--info" type="text" onChange={handleSurnameInput} value={surname} disabled={active} />
+                        </div>
+                        <div>
+                            <label>Email</label>
+                            <input className="profile__form--info" type="email" onChange={handleEmailInput} value={email} disabled={true} />
+                        </div>
+                        <div>
+                            <label>Company Name</label>
+                            <input className="profile__form--info" type="text" onChange={handleCompanyNameInput} value={companyName} disabled={active} />
+                        </div>
+                        <div>
+                            <label>Age</label>
+                            <input className="profile__form--info" type="text" onChange={handleAgeInput} value={age} disabled={active} />
+                        </div>
+                        <div>
+                            <label>Interests</label>
+                            <textarea className="profile__form--info interests" type="text" onChange={handleInterestsInput} value={interests} disabled={active} />
+                        </div>
+                        <button>Save Changes</button>
+                    </form>
+                    <form onSubmit={handleEditProfile}>
+                        <button>Edit info</button>
+                    </form>
+                </div>
+            </div>
+            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }

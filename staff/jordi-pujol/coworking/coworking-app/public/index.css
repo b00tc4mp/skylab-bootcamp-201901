@@ -1,68 +1,344 @@
-/*
-Error: Inconsistent indentation: 6 spaces were used for indentation, but the rest of the document was indented using 4 spaces.
-        on line 36 of src/components/Topbar/index.sass
-        from line 4 of src/index.sass
+.login {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  grid-template-rows: 1;
+  height: 30rem;
+  width: 60rem;
+  padding: 0% 20%; }
+  .login_content {
+    padding-top: 2em;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .login_content-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 70%; }
+      .login_content-form input {
+        font-size: 16px;
+        border: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+        outline: none; }
+      .login_content-form button {
+        margin: 0 auto;
+        border-radius: 30px;
+        width: 8em;
+        height: 2em;
+        border: none;
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+        background-image: linear-gradient(#2C9200, #1C440B); }
+      .login_content-form button:hover {
+        background-image: linear-gradient(skyblue, #360BE5); }
+    .login_content .submit {
+      margin: 0 auto;
+      border-radius: 30px;
+      width: 20em;
+      height: 2em;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      background-image: linear-gradient(#2C9200, #1C440B); }
+  .login_subcontent {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    background-image: linear-gradient(#00ffb3, #3d5bfe);
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .login_subcontent div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4em 3em; }
+    .login_subcontent button {
+      margin: 0 auto;
+      border-radius: 30px;
+      width: 8em;
+      height: 2em;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      background-image: linear-gradient(#3d5bfe, #1f0054);
+      color: white; }
+      .login_subcontent button button:hover {
+        background-image: linear-gradient(skyblue, #360BE5); }
 
-31:         text-align: left
-32:         color: white
-33:     
-34:     
-35:     .dropdown-content a:hover
-36:       background-color: #3d5bfe
-37:       color: white
-38:     
-39:     
-40:     .dropdown:hover .dropdown-content
-41:       display: block
+.home {
+  height: 100%; }
+  .home .topBar {
+    color: white;
+    display: flex;
+    justify-content: space-around; }
 
-Backtrace:
-src/components/Topbar/index.sass:36
-src/index.sass:4
-/usr/lib/ruby/vendor_ruby/sass/engine.rb:494:in `block in tabulate'
-/usr/lib/ruby/vendor_ruby/sass/engine.rb:452:in `each'
-/usr/lib/ruby/vendor_ruby/sass/engine.rb:452:in `each_with_index'
-/usr/lib/ruby/vendor_ruby/sass/engine.rb:452:in `tabulate'
-/usr/lib/ruby/vendor_ruby/sass/engine.rb:417:in `_to_tree'
-/usr/lib/ruby/vendor_ruby/sass/engine.rb:321:in `to_tree'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:327:in `block in visit_import'
-/usr/lib/ruby/vendor_ruby/sass/stack.rb:88:in `block in with_import'
-/usr/lib/ruby/vendor_ruby/sass/stack.rb:135:in `with_frame'
-/usr/lib/ruby/vendor_ruby/sass/stack.rb:88:in `with_import'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:326:in `visit_import'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:36:in `visit'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:162:in `block in visit'
-/usr/lib/ruby/vendor_ruby/sass/stack.rb:79:in `block in with_base'
-/usr/lib/ruby/vendor_ruby/sass/stack.rb:135:in `with_frame'
-/usr/lib/ruby/vendor_ruby/sass/stack.rb:79:in `with_base'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:162:in `visit'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:52:in `block in visit_children'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:52:in `map'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:52:in `visit_children'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:171:in `block in visit_children'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:183:in `with_environment'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:170:in `visit_children'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:36:in `block in visit'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:190:in `visit_root'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/base.rb:36:in `visit'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:161:in `visit'
-/usr/lib/ruby/vendor_ruby/sass/tree/visitors/perform.rb:10:in `visit'
-/usr/lib/ruby/vendor_ruby/sass/tree/root_node.rb:36:in `css_tree'
-/usr/lib/ruby/vendor_ruby/sass/tree/root_node.rb:29:in `render_with_sourcemap'
-/usr/lib/ruby/vendor_ruby/sass/engine.rb:389:in `_render_with_sourcemap'
-/usr/lib/ruby/vendor_ruby/sass/engine.rb:307:in `render_with_sourcemap'
-/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:462:in `update_stylesheet'
-/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:209:in `each'
-/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:209:in `update_stylesheets'
-/usr/lib/ruby/vendor_ruby/sass/plugin/compiler.rb:294:in `watch'
-/usr/lib/ruby/vendor_ruby/sass/plugin.rb:109:in `method_missing'
-/usr/lib/ruby/vendor_ruby/sass/exec/sass_scss.rb:356:in `watch_or_update'
-/usr/lib/ruby/vendor_ruby/sass/exec/sass_scss.rb:51:in `process_result'
-/usr/lib/ruby/vendor_ruby/sass/exec/base.rb:52:in `parse'
-/usr/lib/ruby/vendor_ruby/sass/exec/base.rb:19:in `parse!'
-/usr/bin/sass:8:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Inconsistent indentation: 6 spaces were used for indentation, but the rest of the document was indented using 4 spaces.\A         on line 36 of src/components/Topbar/index.sass\A         from line 4 of src/index.sass\A \A 31:         text-align: left\A 32:         color: white\A 33:     \A 34:     \A 35:     .dropdown-content a:hover\A 36:       background-color: #3d5bfe\A 37:       color: white\A 38:     \A 39:     \A 40:     .dropdown:hover .dropdown-content\A 41:       display: block"; }
+.topbar {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid white; }
+  .topbar__item {
+    display: flex;
+    align-self: center; }
+  .topbar__item:hover {
+    size: 30px;
+    color: white; }
+  .topbar .dropdown {
+    align-self: center; }
+  .topbar .dropdown:hover {
+    color: white; }
+    .topbar .dropdown:hover .dropbtn {
+      padding: 1em 1em; }
+  .topbar .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1f0054;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1; }
+  .topbar .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    color: white; }
+  .topbar .dropdown-content a:hover {
+    background-color: #3d5bfe;
+    color: white; }
+  .topbar .dropdown:hover .dropdown-content {
+    display: block; }
+  .topbar button {
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    background-color: Transparent;
+    color: #1f0054;
+    padding: 0 1em;
+    outline: none; }
+    .topbar button--logout {
+      background-color: Transparent;
+      font-size: 20px;
+      border: none;
+      color: orange;
+      cursor: pointer;
+      color: white; }
+  .topbar__icon {
+    background-image: url(https://nilquebe.com/img/coworking.png);
+    height: 4em;
+    width: 4em;
+    background-size: cover; }
+  .topbar .fa-stopwatch {
+    cursor: pointer; }
+
+.inbox {
+  background-size: cover;
+  margin-left: 6em;
+  max-width: 85%;
+  display: flex;
+  display-direction: row;
+  flex-wrap: wrap; }
+  .inbox div {
+    padding-top: 3em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 18px; }
+    .inbox div .fas {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 10%; }
+      .inbox div .fas.red {
+        color: red; }
+      .inbox div .fas.blue {
+        color: #65b2fe; }
+      .inbox div .fas.purple {
+        color: #c700fd; }
+      .inbox div .fas p {
+        color: black; }
+
+.service__ {
+  height: 450px;
+  cursor: pointer;
+  width: 400px;
+  color: #1f0054; }
+  .service__title {
+    padding-top: 4em;
+    padding-left: 1em;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+  .service__item {
+    padding-top: 1em;
+    padding-left: 3em;
+    max-width: 300px; }
+
+.service__yellow {
+  background-image: url(https://9044c4.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/15/15c3a611dfcbd8c4aa081b8bace8cbafb0b5456c/positvioleta.png);
+  height: 400px;
+  cursor: pointer;
+  width: 350px;
+  color: #1f0054;
+  padding: 2em;
+  background-size: cover; }
+
+.service__blue {
+  background-image: url(https://www.peritacionesdanielgarcia.com/wp-content/uploads/2016/08/postit-azul1.png);
+  height: 400px;
+  cursor: pointer;
+  width: 350px;
+  color: #1f0054;
+  padding: 2em;
+  background-size: cover; }
+
+.service__red {
+  background-image: url(http://www.clker.com/cliparts/F/v/R/m/O/4/lighpink-sticky-md.png);
+  height: 380px;
+  cursor: pointer;
+  width: 350px;
+  color: #1f0054;
+  padding: 2em;
+  background-size: cover;
+  color: white; }
+
+.fullservice {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4); }
+  .fullservice__content {
+    background-image: url(https://img.papyrusonline.com/media/catalog/product/LCI/OD/U1/ZmU2NWY5ZjQ2YjEzZDkzYTM2NTE2ZDE4YWNiOTkzMDk2OTg2YmZkM2NiZThmZGI3Mjk0Yzg3ODFiMWZjYTp7ImRzIjoiaW1hZ2UiLCJmIjoiXC81XC83XC81NzU0NjJfZGVmYXVsdC5qcGciLCJmYSI6dHJ1ZSwiZmYiOnRydWUsImZxIjo5MCwiZnQiOnRydWV9.jpg);
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    height: 70%;
+    border: none;
+    display: flex;
+    flex-direction: column; }
+    .fullservice__content--title {
+      margin-top: 3em;
+      display: flex;
+      justify-content: center; }
+
+img {
+  width: 50px;
+  height: 50px; }
+
+.fas.fa-window-close {
+  float: right; }
+
+.fas.fa-window-close:hover {
+  cursor: pointer; }
+
+.fas.fa-comment {
+  float: left; }
+
+.profile h2 {
+  padding: 1em;
+  width: 0;
+  margin: 0 auto; }
+.profile__content {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0 10em; }
+.profile .profile__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
+  .profile .profile__form div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1em; }
+    .profile .profile__form div label {
+      font-size: 18px; }
+    .profile .profile__form div input {
+      align-items: center; }
+  .profile .profile__form--info {
+    height: 50px;
+    width: 400px;
+    font-size: 18px;
+    color: black;
+    border: none;
+    border-bottom: 1px solid white;
+    background: transparent;
+    outline: none; }
+.profile textarea {
+  scrollbar-base-color: blue;
+  scrollbar-highlight-color: blue; }
+.profile button {
+  margin-top: 20px;
+  border-radius: 30px;
+  width: 8em;
+  height: 2em;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  background-image: linear-gradient(#0F0340, #360BE5); }
+
+img {
+  height: 200px;
+  width: 200px;
+  float: center; }
+
+.feedback {
+  margin: 2em;
+  display: flex;
+  flex-direction: row; }
+  .feedback p {
+    margin: 0px;
+    margin-left: 1em;
+    color: red;
+    font-size: 20px; }
+  .feedback .fas {
+    margin-top: 0.35em;
+    color: red; }
+
+.submited {
+  background-size: cover;
+  margin-left: 6em;
+  max-width: 85%;
+  display: flex;
+  display-direction: row;
+  flex-wrap: wrap; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+html {
+  background-image: url(http://www.hdfondos.eu/pictures/2014/0212/1/purple-gradient-wallpaper-59063.jpg);
+  background-image: url(https://img-cdn.hipertextual.com/files/2017/03/color-degradado-fondos-degradados-multicolor-51200.jpg?strip=all&lossy=1&quality=60&ssl=1);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100%;
+  width: 100%; }
+  html body {
+    margin: 0;
+    padding: 1em 100px;
+    height: 100%; }
+
+/*# sourceMappingURL=index.css.map */

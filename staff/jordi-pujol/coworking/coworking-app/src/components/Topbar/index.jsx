@@ -20,6 +20,7 @@ function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices
             <button className="topbar__button" onClick={onGoToServices}>Create Service</button>
         </div>
         <div className="dropdown">
+            <i class="fas fa-caret-square-down"></i>
             <button className="dropbtn">My Services</button>
             <div className="dropdown-content">
                 <a href='#/home/myownservices'>My own services</a>
@@ -32,6 +33,9 @@ function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices
             <i class="fas fa-sign-out-alt"></i>
             {/* <button className="topbar__button--logout" onClick={onLogOut}>Log Out</button> */}
             <NavLink onClick={onLogOut} to="/login">Log Out</NavLink>
+        </div>
+        <div className="topbar__item">
+            <i className="fas fa-stopwatch fa-3x"></i>
         </div>
     </section>
 }
