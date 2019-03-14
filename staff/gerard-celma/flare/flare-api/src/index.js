@@ -7,7 +7,7 @@ const package = require('../package.json')
 const router = require('./routes')
 
 
-const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
+const { env: { MONGODB_URI: DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {
