@@ -1,0 +1,20 @@
+extends ../home/index
+
+block artistResults
+          section
+            .columns.is-multiline.is-mobile.is-centered
+              each artist in artists
+                .column.is-three-quarters-mobile.is-two-fifths-tablet.is-one-third-desktop
+                  .card.is-shady
+                    .card-image
+                      figure.image.is-4by3
+                        img.modal-button(src=`${artist.images.length > 0 ? `${artist.images[0].url}`: 'https://media.idownloadblog.com/wp-content/uploads/2016/10/latest.jpg'}`, alt=`${artist.name}`)
+                    .card-content
+                      .content
+                        h4= artist.name
+                        progress.progress(value=`${artist.popularity}`, max='100') 15%
+                        if artist.genres.length > 0
+                          .tags
+                          each genre in artist.genres
+                            span.tag= genre
+                        a.button(href=`/home/albums/${artist.id}`) Albums
