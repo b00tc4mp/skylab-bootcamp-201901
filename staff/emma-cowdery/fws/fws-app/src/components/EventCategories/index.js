@@ -9,15 +9,65 @@ import SelectedCategory from '../SelectedCategory'
 export default withRouter( function EventCategories (props) {
     const [selectedCategory, setSelectedCategory] = useState('event-categories')
     const [viewCategory, setViewCategory] = useState(false)
-    const categories = ['American', 'Arabian', 'Asian', 'Bar', 'Breakfast', 'Burguers', 'Burritos', 'Chicken', 'Chinese', 'Dessert', 'Healthy', 'Indian', 'Italian', 'Japanese', 'Juices', 'Kebab', 'Mediterranean', 'Mexican', 'Oriental', 'Pasta', 'Pizza', 'Poke', 'Salads', 'Sandwitches', 'South American', 'Spanish', 'Sushi', 'Tapas', 'Thai', 'Vegan', 'Vegetarian']
 
     return (
         <Fragment>
             <NavBar setShowRightBar={props.setShowRightBar}/>
-            <EventsNav setViewCategory={setViewCategory}/>
-            {!viewCategory && categories.map(category => <div onClick={e => {e.preventDefault(); setSelectedCategory(category); setViewCategory(true)}}><p>{category}</p></div>)}
-            {viewCategory && <SelectedCategory selectedCategory={selectedCategory} setViewCategory={setViewCategory}/>}
-            {/* {selectedCategory && <SelectedCategory selectedCategory={selectedCategory}/>} */}
+            <div className='event-categories'>
+                <EventsNav setViewCategory={setViewCategory}/>
+                {!viewCategory && <div className='event-categories__elements'>
+                    <div className='event-categories__food event-categories__american' onClick={e => {e.preventDefault(); setSelectedCategory('American'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>American</p>
+                    </div>
+                    <div className='event-categories__food event-categories__arabian' onClick={e => {e.preventDefault(); setSelectedCategory('Arabian'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Arabian</p>
+                    </div>
+                    <div className='event-categories__food event-categories__bar' onClick={e => {e.preventDefault(); setSelectedCategory('Bar'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Bar</p>
+                    </div>
+                    <div className='event-categories__food event-categories__breakfast' onClick={e => {e.preventDefault(); setSelectedCategory('Breakfast'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Breakfast</p>
+                    </div>
+                    <div className='event-categories__food event-categories__chinese' onClick={e => {e.preventDefault(); setSelectedCategory('Chinese'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Chinese</p>
+                    </div>
+                    <div className='event-categories__food event-categories__healthy' onClick={e => {e.preventDefault(); setSelectedCategory('Healthy'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Healthy</p>
+                    </div>
+                    <div className='event-categories__food event-categories__indian' onClick={e => {e.preventDefault(); setSelectedCategory('Indian'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Indian</p>
+                    </div>
+                    <div className='event-categories__food event-categories__italian' onClick={e => {e.preventDefault(); setSelectedCategory('Italian'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Italian</p>
+                    </div>
+                    <div className='event-categories__food event-categories__japanese' onClick={e => {e.preventDefault(); setSelectedCategory('Japanese'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Japanese</p>
+                    </div>
+                    <div className='event-categories__food event-categories__kebab' onClick={e => {e.preventDefault(); setSelectedCategory('Kebab'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Kebab</p>
+                    </div>
+                    <div className='event-categories__food event-categories__mexican' onClick={e => {e.preventDefault(); setSelectedCategory('Mexican'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Mexican</p>
+                    </div>
+                    <div className='event-categories__food event-categories__south-american' onClick={e => {e.preventDefault(); setSelectedCategory('South American'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>South american</p>
+                    </div>
+                    <div className='event-categories__food event-categories__spanish' onClick={e => {e.preventDefault(); setSelectedCategory('Spanish'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Spanish</p>
+                    </div>
+                    <div className='event-categories__food event-categories__thai' onClick={e => {e.preventDefault(); setSelectedCategory('Thai'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Thai</p>
+                    </div>
+                    <div className='event-categories__food event-categories__vegetarian' onClick={e => {e.preventDefault(); setSelectedCategory('Vegetarian'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Vegetarian</p>
+                    </div>
+                    <div className='event-categories__food event-categories__vegan' onClick={e => {e.preventDefault(); setSelectedCategory('Vegan'); setViewCategory(true)}}>
+                        <p className='event-categories__title'>Vegan</p>
+                    </div>
+                    {viewCategory && <SelectedCategory selectedCategory={selectedCategory} setViewCategory={setViewCategory}/>}
+                    {/* {selectedCategory && <SelectedCategory selectedCategory={selectedCategory}/>} */}
+                </div>}
+            </div>
         </Fragment>
     )
 })

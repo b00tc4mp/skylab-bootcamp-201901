@@ -1,0 +1,18 @@
+@import '../../utils.sass'
+    
+.events-nav
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    position: fixed
+    width: 100%
+    z-index: 5
+
+    &__element
+        background-color: $light-pink
+        border-width: 0.1em
+        padding: 0.5em
+        border-style: solid
+        border-color: $dark-gray
+
+        &-selected
+            background-color: #ff7777
