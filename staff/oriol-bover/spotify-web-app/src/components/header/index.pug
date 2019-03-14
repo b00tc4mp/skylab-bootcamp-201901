@@ -1,0 +1,13 @@
+mixin header(user = null)
+  section.hero.is-small.is-dark
+    .hero-body
+      .block.is-pulled-left
+        a(href='/home')
+          h1.title
+            i.fab.fa-spotify
+            |  Spotify web app
+      if user
+        .block.is-pulled-right.header-icons
+          a.navbar-item(href='/')= user.name
+          form(action='/logout', method='POST')
+            input.button.is-danger(type='submit',value='Logout')
