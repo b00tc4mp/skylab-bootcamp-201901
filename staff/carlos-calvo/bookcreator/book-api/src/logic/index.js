@@ -413,7 +413,6 @@ const logic = {
                 cover: "https://storage.googleapis.com/gd-wagtail-prod-assets/original_images/evolving_google_identity_share.jpg",
                 content: content
             }
-            debugger
             const a = await new Epub(options, __dirname + "/file.epub")
             return 'c:/Users/Usuario/Documents/collab/skylab-bootcamp-201901/staff/carlos-calvo/bookcreator/book-api/src/logic/file.epub'
         })()

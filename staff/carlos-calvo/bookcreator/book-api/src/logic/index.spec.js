@@ -777,7 +777,7 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
         const passwordConfirm = password
 
-        it('should succeed on retrieving a book', async () => {
+        it('should succeed on adding a book', async () => {
             const user  = await User.create({ name, surname, email, password })
             const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
             const book2 = await logic.addBookToTemplates(book1._id.toString())
@@ -787,7 +787,7 @@ describe('logic', () => {
             expect(book3.coverphoto).toBe('co')
         })
 
-        it('should succeed on retrieving a book', async () => {
+        it('should fail on adding a book to template when repeated', async () => {
             const user  = await User.create({ name, surname, email, password })
             const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
             const book2 = await logic.addBookToTemplates(book1._id.toString())
@@ -800,6 +800,17 @@ describe('logic', () => {
             } catch (error) {
                 expect(error).toBeDefined()  
             }
+        })
+
+        it('should fail on adding a book', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            try {
+                const book2 = await logic.addBookToTemplates('123456abcdef')
+            } catch (error) {
+                expect(error).toBeDefined()
+            }
+            
         })
 
         it('should fail on non-string id', async () => {
@@ -888,7 +899,7 @@ describe('logic', () => {
             }
         })
 
-        it('should fail on empty id', async () => {
+        it('should fail on non-existing id', async () => {
             let id = '--invented--id--12345'
             let userId = '--invented--userid--1234567890'
             try {
@@ -937,9 +948,29 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
         const passwordConfirm = password
 
-        it('should succeed on correct', async () => {
+        it('should succeed on correct two params', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {name:'Carlos', place:'Bcn'} })
+            const route = logic.generateEpub(result._id.toString())
+            expect(route).toBeDefined()
+        })
+        it('should succeed on correct 0 params', async () => {
             const user  = await User.create({ name, surname, email, password })
             const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            const route = logic.generateEpub(result._id.toString())
+            expect(route).toBeDefined()
+        })
+
+        it('should succeed on correct 1 params', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {name: 'Carlos'} })
+            const route = logic.generateEpub(result._id.toString())
+            expect(route).toBeDefined()
+        })
+
+        it('should succeed on correct various chapters', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const result  = await Book.create({title: 'titulo1', content:'content <chapter> content <chapter> content <chapter>', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
             const route = logic.generateEpub(result._id.toString())
             expect(route).toBeDefined()
         })
