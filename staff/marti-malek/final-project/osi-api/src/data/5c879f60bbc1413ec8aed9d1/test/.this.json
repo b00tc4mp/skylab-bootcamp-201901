@@ -1,0 +1,13 @@
+{
+    "open": false,
+    "type": "folder",
+    "name": "test",
+    "children": [
+        {
+            "name": "test2",
+            "open": false,
+            "type": "folder",
+            "position": 0
+        }
+    ]
+}

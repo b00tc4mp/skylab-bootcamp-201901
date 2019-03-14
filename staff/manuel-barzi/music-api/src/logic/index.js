@@ -1,9 +1,10 @@
 'use strict'
 
 const spotifyApi = require('../spotify-api')
-const { User, Comment } = require('../models')
+const { models: { User, Comment } } = require('music-data')
 const bcrypt = require('bcrypt')
-const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('../errors')
+const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('music-errors')
+const validate = require('music-validation')
 
 /**
  * Abstraction of business logic.
@@ -19,25 +20,7 @@ const logic = {
     * @param {string} passwordConfirmation 
     */
     registerUser(name, surname, email, password, passwordConfirmation) {
-        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-
-        if (!name.trim().length) throw new EmptyError('name cannot be empty')
-
-        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
-
-        if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
-
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
-        if (!email.trim().length) throw new EmptyError('email cannot be empty')
-
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
-        if (!password.trim().length) throw new EmptyError('password cannot be empty')
-
-        if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
-
-        if (!passwordConfirmation.trim().length) throw new EmptyError('password confirmation cannot be empty')
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, , { key: 'passwordConfirmation', value: passwordConfirmation, type: String }])
 
         if (password !== passwordConfirmation) throw new MatchingError('passwords do not match')
 
@@ -79,15 +62,15 @@ const logic = {
         if (!password.trim().length) throw new EmptyError('password cannot be empty')
 
         return (async () => {
-                const user = await User.findOne({ email })
-                
-                if (!user) throw new NotFoundError(`user with email ${email} not found`)
-                
-                const match = await bcrypt.compare(password, user.password)
-                
-                if (!match) throw new AuthError('wrong credentials')
-                
-                return user.id
+            const user = await User.findOne({ email })
+
+            if (!user) throw new NotFoundError(`user with email ${email} not found`)
+
+            const match = await bcrypt.compare(password, user.password)
+
+            if (!match) throw new AuthError('wrong credentials')
+
+            return user.id
         })()
     },
 
