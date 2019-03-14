@@ -1,0 +1,36 @@
+main .artistpanel {
+  border: 1px solid red;
+}
+main .albumpanel {
+  border: 1px solid blue;
+}
+main .songPanel {
+  border: 1px solid black;
+}
+main .mp3Panel {
+  border: 1px solid purple;
+}
+main .tituloamarillo {
+  color: yellow;
+}
+
+#root {
+  background-color: #1CD760;
+}
+
+header {
+  background-color: #1CD760;
+}
+
+body {
+  background-image: #1CD760;
+}
+
+.welcomepanel {
+  display: flex;
+}
+.welcomepanel h6 {
+  justify-items: end;
+}
+
+/*# sourceMappingURL=main.css.map */
