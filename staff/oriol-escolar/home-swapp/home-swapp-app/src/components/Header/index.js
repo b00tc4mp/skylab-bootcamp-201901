@@ -17,6 +17,7 @@ class Header extends Component {
 
 
         this.setState({ user: this.props.user })
+        
 
     }
 
@@ -96,9 +97,8 @@ class Header extends Component {
     renderloggedButtons(goToLogout, goToConversations, goToUser) {
 
         return <div className="header-loggedButtons">
-
-            <img className="header-loggedButtons__messages" src="http://cdn.onlinewebfonts.com/svg/img_326000.png" onClick={goToConversations}></img>
-            <img className="header-loggedButtons__logout" src="http://cdn.onlinewebfonts.com/svg/img_235476.png" onClick={goToLogout}></img>
+            <i className="fas fa-envelope header-loggedButtons__messages" onClick={goToConversations}></i>
+            <i class="fas fa-sign-out-alt header-loggedButtons__logout" onClick={goToLogout}></i>
             <img className="header-loggedButtons__userProfile" src="http://monumentfamilydentistry.com/wp-content/uploads/2015/11/user-placeholder.png" onClick={goToUser}></img>
         </div>
 

@@ -47,7 +47,7 @@ class App extends Component {
     this.setState({ userFavs, userHouses })
   }
 
-  async updateInfo(){
+  updateInfo = async () =>{
 
     const user = await logic.retrieveUser()
     const userFavs = await logic.retrieveFavorites()
