@@ -18,8 +18,8 @@ class SearchResults extends Component {
 
     componentDidMount() {
 
-        this.setState({ favorites: this.props.userFavs })
         this.retrieveResults(this.props.match.params.query)
+        this.setState({ favorites: this.props.userFavs })
 
 
     }
@@ -38,7 +38,6 @@ class SearchResults extends Component {
         let index = favorites.findIndex(fav => fav.id === house.id)
 
         if (index < 0) {
-            console.log('done')
             favorites.push(house)
         } else {
             favorites.splice(index, 1)
@@ -68,10 +67,17 @@ class SearchResults extends Component {
         if (this.state.favorites) {
 
             return results.map(house => {
+                
                 let index = this.state.favorites.filter(fav => fav.id == house.id)
-                return  <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={!!index.length} origin='search' />
+                
+                return  <HouseCard key={house.id} house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={!!index.length} origin='search' />
             })
 
+        }else{
+
+            return results.map(house => {
+                return  <HouseCard key={house.id} house={house} origin='search' />
+            })
         }
     }
 

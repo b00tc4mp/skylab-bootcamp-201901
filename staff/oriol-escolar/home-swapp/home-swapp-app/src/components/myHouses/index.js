@@ -33,7 +33,7 @@ class MyHouses extends Component {
         myHouses.splice(index,1)
 
         this.setState({myHouses})
-        // updateInfo()
+        updateInfo()
 
     }
 
