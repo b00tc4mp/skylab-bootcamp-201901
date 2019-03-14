@@ -9,3 +9,5 @@
 [slides](https://docs.google.com/presentation/d/1IjYoagx1l2gp1Z8yCDO05V4t1yQ9nqzhFyer4GrOJD8/edit?usp=sharing)
 
 [shares](https://drive.google.com/drive/u/0/folders/19i4TINyvB2mMKlDqy9YXHz3lvK2IPAZo)
+
+[misc](https://drive.google.com/open?id=14GTfri1zDmgqZIXQkjgzhcX0IEIt0Fub)

@@ -1,0 +1,10 @@
+extends ../artists/index
+
+block albums     
+  section.search.container
+    if albums
+      ul
+        each album in albums
+          li
+            a(href=`/album/${album.id}`)= album.name
+  block tracksBlock
