@@ -4,8 +4,8 @@ import './App.css';
 import Welcome from '../src/components/Welcome';
 import Login from '../src/components/Login';
 import Home from '../src/components/Home';
-import logic from '../src/logic';
 import Register from '../src/components/Register'
+import logic from './logic'
 
 class App extends Component {
 

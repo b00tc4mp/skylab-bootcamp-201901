@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
 import SideBar from '../SideBar';
-import logic from '../../logic'
 import Feedback from '../Feedback'
 import { toast } from 'react-toastify';
+import logic from '../../logic'
 
 class UpdateUser extends Component {
 

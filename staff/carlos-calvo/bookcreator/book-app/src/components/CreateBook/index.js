@@ -1,8 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import './index.sass'
-import logic from '../../logic'
+import cloudinary from '../../cloudinary'
 import ProgressBar from '../ProgressBar';
 import { toast } from 'react-toastify';
+
+import logic from '../../logic'
 
 class CreateBook extends Component {
   
@@ -65,9 +67,12 @@ class CreateBook extends Component {
         if(this.isplaceTag ) parameters.place = place
         
         try{
-            logic.addBook( this.state.title, this.state.textContent, this.state.imageCover, parameters )
-            .then((book) => this.notify())
-            .catch(error => this.notify(error)) //Para la siguiente pantalla mostrar 
+            cloudinary.addImage(this.state.imageCover)
+            .then(url => {
+                return logic.addBook( this.state.title, this.state.textContent, url, parameters )
+                    .then((book) => this.notify())
+                    .catch(error => this.notify(error)) //Para la siguiente pantalla mostrar 
+            })
         } catch (error){
             this.notify(error)
         }

@@ -12,6 +12,12 @@ const { env: { TEST_DB_URL } } = process
 
 describe('logic', () => {
 
+    /*
+
+    USER
+
+    */
+
     describe('register user', () => {
         const name = 'Carlos'
         const surname = 'Calvo'
@@ -290,5 +296,154 @@ describe('logic', () => {
                 logic.updateUser(name, surname, email, password, '--invented---password')
             }).toThrow(Error)
         })
+    })
+
+
+    /*
+
+
+
+
+
+    BOOK
+
+
+
+
+
+
+    */
+
+    describe('add book', () => {
+        const name = 'Carlos'
+        const surname = 'Calvo'
+        const email = `Carlos-${Math.random()}@mail.com`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on valid data', async () => {
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            const book = await logic.addBook('title1', 'content', 'url', {}, [])
+            expect(book).toBeDefined()
+            expect(book.title).toBe('title1')
+            expect(book.content).toBe('content')
+        })
+
+        it('should succeed on non-valid data', async () => {
+            const name = 'Carlos'
+            const surname = 'Calvo'
+            const email = `Carlos-${Math.random()}@mail.com`
+            const password = '123'
+            const passwordConfirm = password
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            expect(id).toBeDefined()
+            const token = await userApi.authenticateUser(email, password)
+            expect(token).toBeDefined() //as token is taken from stateful logic
+            const book = await logic.addBook('title1', 'content', 'url', {}, [])
+            expect(book).toBeDefined()
+        })
+
+        it('should fail on non-string title', () => {
+            expect(() => {
+                logic.addBook(true, content, coverphoto, userId, images, parameters)
+            }).toThrow(Error)
+        })
+        it('should fail on empty title', () => {
+            expect(() => {
+                logic.addBook('', content, coverphoto, userId, images, parameters)
+            }).toThrow(Error)
+        })
+        it('should fail on non-string content', () => {
+            expect(() => {
+                logic.addBook(title, true, coverphoto, userId, images, parameters)
+            }).toThrow(Error)
+        })
+        it('should fail on empty content', () => {
+            expect(() => {
+                logic.addBook(title, '', coverphoto, userId, images, parameters)
+            }).toThrow(Error)
+        })
+
+        it('should fail on non-string coverphoto', () => {
+            expect(() => {
+                logic.addBook(title, content, true, userId, images, parameters)
+            }).toThrow(Error)
+        })
+        it('should fail on empty coverphoto', () => {
+            expect(() => {
+                logic.addBook(title, content, '', userId, images, parameters)
+            }).toThrow(Error)
+        })
+
+        it('should fail on non-string userId', () => {
+            expect(() => {
+                logic.addBook(title, content, coverphoto, true, images, parameters)
+            }).toThrow(Error)
+        })
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.addBook(title, content, coverphoto, '', images, parameters)
+            }).toThrow(Error)
+        })
+
+        it('should fail on non-array image', () => {
+            expect(() => {
+                logic.addBook(title, content, coverphoto, userId, true, parameters)
+            }).toThrow(Error)
+        })
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.addBook(title, content, coverphoto, userId, '', parameters)
+            }).toThrow(Error)
+        })
+        it('should fail on non-object parameters', () => {
+            expect(() => {
+                logic.addBook(title, content, coverphoto, userId, images, true)
+            }).toThrow(Error)
+        })
+        it('should fail on empty parameters', () => {
+            expect(() => {
+                logic.addBook(title, content, coverphoto, userId, images, '')
+            }).toThrow(Error)
+        })
+    })
+
+
+    describe('Retrieve books', () => {
+        const name = 'Carlos'
+        const surname = 'Calvo'
+        const email = `Carlos-${Math.random()}@mail.com`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on valid data', async () => {
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            const book = await bookApi.addBook('title1', 'content', 'url', {}, [], token)
+            const arrayBooks = await logic.retrieveBooks()
+            console.log(arrayBooks)
+            expect(arrayBooks).toBeDefined()
+            expect(arrayBooks.length).toBe(1)
+            expect(arrayBooks[0].title).toBe('title1')
+        })
+
+        it('should succeed on valid data', async () => {
+            const name = 'Carlos'
+            const surname = 'Calvo'
+            const email = `Carlos-${Math.random()}@mail.com`
+            const password = '123'
+            const passwordConfirm = password
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            const book = await bookApi.addBook('title1', 'content', 'url', {}, [], token)
+            const book2 = await bookApi.addBook('title2', 'content2', 'url2', {}, [], token)
+            const arrayBooks = await logic.retrieveBooks()
+            expect(arrayBooks).toBeDefined()
+            expect(arrayBooks.length).toBe(2)
+            expect(arrayBooks[0].title).toBe('title1')
+            expect(arrayBooks[1].title).toBe('title2')
+        })
+
     })
 })

@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
-import logic from '../../logic';
 import { toast } from 'react-toastify';
+import logic from '../../logic'
 
 class EditBook extends Component {
 

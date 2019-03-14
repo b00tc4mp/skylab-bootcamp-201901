@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react'
-import logic from '../../logic'
 import { Route, withRouter } from 'react-router-dom'
 import SideBar from '../SideBar'
 import UpdateUser from '../UpdateUser'
@@ -12,6 +11,7 @@ import TemplateBooks from '../TemplateBooks'
 import { ToastContainer, toast } from 'react-toastify';
 import './index.sass'
 import 'react-toastify/dist/ReactToastify.min.css' 
+import logic from '../../logic'
 
 
 class Home extends Component {

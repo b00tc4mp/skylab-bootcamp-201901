@@ -1,13 +1,9 @@
 'use strict'
 
-const axios = require('axios')
 
-
-const bookApi ={
+const bookApi = {
 
     url : 'http://localhost:8000/api',
-    url_cloudinary:'https://api.cloudinary.com/v1_1/ccl1986/upload',
-    url_cloudinary_upload_preset :'nbyfgfiw',
     /**
      * Add a book to the server
      * 
@@ -27,32 +23,19 @@ const bookApi ={
         if (!(parameters instanceof Object)) throw TypeError(`${parameters} is not a Object`)
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token  is empty')
-        console.log(token)
 
-        var formData = new FormData()
-        formData.append('file', coverphoto)
-        formData.append('upload_preset', this.url_cloudinary_upload_preset)
-        return axios({
-            url: this.url_cloudinary,
-            method: 'POST',
-            header: {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            },
-            data: formData
-        }).then(res => {
-            console.log(res)
-            const { data : { secure_url } } = res
-            return fetch(`${this.url}/book/add`, {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json',
-                        authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ title, content, 'coverphoto' : secure_url, images, parameters })
-                })
-                .then(response => response.json())
         
-        })
+            return fetch(`${this.url}/book/add`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ title, content, coverphoto, images, parameters })
+            })
+            .then(response => {
+                return response.json()}
+            )
     },
     
     /**
@@ -157,7 +140,8 @@ const bookApi ={
         return fetch(`${this.url}/book/retrieveTemplates`, {
             method: 'GET'
         })
-        .then(books => books.json())
+        .then(books => {
+            return books.json()})
     },
 
 
@@ -223,6 +207,4 @@ const bookApi ={
 
     }
 }
-
-
 module.exports = bookApi

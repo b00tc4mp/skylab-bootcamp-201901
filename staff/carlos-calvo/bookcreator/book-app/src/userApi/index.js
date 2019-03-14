@@ -1,7 +1,7 @@
 'use strict'
 
 
-const userApi ={
+const userApi = {
 
     url : 'http://localhost:8000/api',
 

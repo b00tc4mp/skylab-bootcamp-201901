@@ -2,8 +2,8 @@ import React, {Component, Fragment} from 'react'
 import './index.sass'
 import { Route, withRouter, Link } from 'react-router-dom'
 import Welcome from '../Welcome';
-import logic from '../../logic/index'
 import Feedback from '../Feedback'
+import logic from '../../logic'
 
 class Login extends Component {
 
@@ -26,8 +26,11 @@ class Login extends Component {
 
         try {
             this.setState({ loginFeedback: '' })
-            logic.authenticateUser(email, password)
-                .then(() => this.props.updateToken())
+            return logic.authenticateUser(email, password)
+                .then(({token}) => {
+                    this.props.updateToken()
+                    this.goBack()
+                })
                 .catch(({ message }) => this.showLoginFeedback(message))
         } catch ({ message }) {
           this.showLoginFeedback(message)

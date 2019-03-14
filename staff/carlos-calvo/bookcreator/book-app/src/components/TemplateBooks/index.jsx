@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react'
-import logic from '../../logic';
 import CardTemplate from '../CardTemplate'
 import './index.sass'
 import { toast } from 'react-toastify';
+import logic from '../../logic'
 
 class TemplateBooks extends Component {
 

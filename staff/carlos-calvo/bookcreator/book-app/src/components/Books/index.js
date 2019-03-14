@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
-import logic from '../../logic';
 import FlipPage from 'react-flip-page'
 import TwoPages from '../twoPages'
+import logic from '../../logic'
 
 class Books extends Component {
 
