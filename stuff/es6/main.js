@@ -157,7 +157,7 @@ class Panel {
 	show() { console.log('show me') }
 }
 
-function LoginPanel extends Panel {
+class LoginPanel extends Panel {
 }
 
 var loginPanel = new LoginPanel
