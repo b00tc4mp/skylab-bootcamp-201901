@@ -59,7 +59,7 @@ const GameProfile = ({
                         <p>platform: {gameInfo.platform}</p>
                         <p>players: {gameInfo.players}</p>
                         <p>publishers: {gameInfo.publishers}</p>
-
+                        
                         {logic.isUserLoggedIn ? (
                             gameInfo.reviews.some(
                                 review => review.author.username === username
@@ -69,6 +69,7 @@ const GameProfile = ({
                                 <div>
                                     <h2>Write Review</h2>
                                     <WriteReview
+                                        gameInfo={gameInfo}
                                         refresh={retrieveGameInfo}
                                         gameId={gameId}
                                     />

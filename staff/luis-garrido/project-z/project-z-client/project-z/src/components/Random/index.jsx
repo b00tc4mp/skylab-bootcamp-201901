@@ -7,15 +7,14 @@ import "./index.sass";
 // import Feedback from "../Feedback";
 
 const Random = props => {
-
     useEffect(() => {
-        getRandomGame()
+        getRandomGame();
     });
 
     const getRandomGame = async () => {
         const randomGame = await logic.getRandomGame();
-        // console.log(randomGame.id.toString())
-        props.history.push(`/game/${randomGame.id.toString()}`)
+
+        props.history.push(`/game/${randomGame.id.toString()}`);
     };
 
     return null;

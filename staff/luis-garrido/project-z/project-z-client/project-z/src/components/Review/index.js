@@ -55,7 +55,7 @@ const Review = ({ review, printFrom }) => {
                         <p>
                             {" "}
                             Author:{" "}
-                            <Link to={`/user/${review.author.username}`}>
+                            <Link to={`/${review.author.username}`}>
                                 {review.author.username}
                             </Link>
                         </p>

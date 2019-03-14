@@ -15,7 +15,9 @@ module.exports = {
 
     retrieveUserByUsername: require('./retrieve-user-by-username'),
 
-    retrieveRandomGame: require('./retrieve-random-game')
+    retrieveRandomGame: require('./retrieve-random-game'),
+
+    retrievePredictedScore: require('./retrieve-predicted-score')
 
     // listCommentsFromArtist: require('./list-comments-from-artist'),
 

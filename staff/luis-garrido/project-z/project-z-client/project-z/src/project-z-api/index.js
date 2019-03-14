@@ -244,6 +244,28 @@ const projectZApi = {
                 if (response.error) throw Error(response.error);
                 return response;
             });
+    },
+
+    getPreScore(token, gameId, gameInfo) {
+        if (typeof gameId !== "string")
+            throw TypeError(`${gameId} is not a string`);
+        if (!gameId.trim().length) throw Error("gameId is empty");
+
+        return fetch(`${this.url}/game/${gameId}/prediction`, {
+            headers: {
+                "content-type": "application/json",
+                authorization: `Bearer ${token}`
+            },
+            method: "POST",
+            body: JSON.stringify({ gameInfo })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error);
+
+                return response;
+            });        
+
     }
 
     // /**

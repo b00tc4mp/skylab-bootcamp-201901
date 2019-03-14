@@ -72,18 +72,7 @@ const App = ({ history }) => {
                                 )
                             }
                         />
-                        <Route path="/user/:username" component={UserProfile} />
-                        <Route
-                            exact
-                            path="/user"
-                            render={() =>
-                                logic.isUserLoggedIn ? (
-                                    <Redirect to={`/user/${username}`} />
-                                ) : (
-                                    <Redirect to="/login" />
-                                )
-                            }
-                        />
+
                         <Route
                             exact
                             path="/logout"
@@ -93,7 +82,9 @@ const App = ({ history }) => {
                                 return <Redirect to="/" />;
                             }}
                         />
-                        <Route exact patch="/random" component={Random} />
+
+                        <Route exact path="/random" component={Random} />
+                        <Route path="/:username" component={UserProfile} />
                     </Switch>
                 </div>
 

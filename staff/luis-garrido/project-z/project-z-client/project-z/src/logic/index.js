@@ -166,6 +166,15 @@ const logic = {
 
     getRandomGame() {
         return projectZApi.getRandomGame()
+    },
+
+    getPreScore(gameId, gameInfo) {
+        if (typeof gameId !== "string")
+            throw TypeError(`${gameId} is not a string`);
+
+        if (!gameId.trim().length) throw Error("gameId is empty");
+
+        return projectZApi.getPreScore(this.__userApiToken__, gameId, gameInfo)
     }
 
     // /**

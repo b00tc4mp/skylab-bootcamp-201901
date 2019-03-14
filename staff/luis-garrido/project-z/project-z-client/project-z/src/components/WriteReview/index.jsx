@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Route, withRouter, Link } from "react-router-dom";
 
 import logic from "../../logic";
@@ -6,7 +6,7 @@ import "./index.sass";
 
 // import Feedback from "../Feedback";
 
-const Login = ({ history, gameId, refresh }) => {
+const Login = ({ history, gameId, gameInfo, refresh }) => {
     const fullStar = "game-review-stars fas fa-star";
     const emptyStar = "game-review-stars far fa-star";
 
@@ -16,6 +16,17 @@ const Login = ({ history, gameId, refresh }) => {
 
     const [reviewText, setReviewText] = useState("");
     const [reviewScore, setReviewScore] = useState("");
+    const [preScore, setPreScore] = useState('')
+
+    useEffect(() => {
+        getPreScore()
+    },[])
+
+    const getPreScore = async () => {
+        const _preScore = await logic.getPreScore(gameId, gameInfo)
+        setPreScore([_preScore.star1, _preScore.star2, _preScore.star3, _preScore.star4, _preScore.star5])
+
+    }
     
     const [starClass, setStarClass] = useState([emptyStar, emptyStar, emptyStar, emptyStar, emptyStar]);
 
@@ -187,6 +198,13 @@ const Login = ({ history, gameId, refresh }) => {
                     </div>
                     <button className="review-form__button">Rate!</button>
                 </form>
+                <div>
+                    <h3>Star 1 : {preScore[0]}</h3>
+                    <h3>Star 2 : {preScore[1]}</h3>
+                    <h3>Star 3 : {preScore[2]}</h3>
+                    <h3>Star 4 : {preScore[3]}</h3>
+                    <h3>Star 5 : {preScore[4]}</h3>
+                </div>
             </div>
         </Fragment>
     );

@@ -13,6 +13,7 @@ const {
     rankingGames,
     retrieveUserByUsername,
     retrieveRandomGame,
+    retrievePredictedScore,
     notFound
 } = require("./handlers");
 
@@ -39,6 +40,8 @@ router.get('/ranking', rankingGames)
 router.get('/user/:username', retrieveUserByUsername)
 
 router.get('/random', retrieveRandomGame)
+
+router.post('/game/:gameId/prediction', [jsonBodyParser, tokenVerifierMiddleware], retrievePredictedScore)
 
 // router.get('/artist/:artistId/comment', tokenVerifierMiddleware, listCommentsFromArtist)
 

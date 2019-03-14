@@ -441,9 +441,16 @@ const logic = {
                 const cover = await Boxart.find({ id_game: gameId })
                     .select("-_id -__v")
                     .lean();
-                gameInfo.boxartUrl = cover[0].images.find(
-                    image => image.side === "front"
-                ).filename;
+                    
+                    console.log(cover)
+                if (cover.length === 0) {
+                    gameInfo.boxartUrl =
+                        false;
+                } else {
+                    gameInfo.boxartUrl = cover[0].images.find(
+                        image => image.side === "front"
+                    ).filename;
+                }
 
                 if (gameInfo.scores !== undefined) {
                     gameInfo.finalScore =
@@ -499,9 +506,88 @@ const logic = {
         return Game.count()
             .then(count => {
                 const random = Math.floor(Math.random() * count);
-                return Game.findOne().skip(random).select('id -_id');
+                return Game.findOne()
+                    .skip(random)
+                    .select("id -_id");
             })
             .then(response => response);
+    },
+
+    retrievePredictedScore(userId, gameId, body) {
+        if (typeof userId !== "string")
+            throw TypeError(`${userId} is not a string`);
+
+        if (!userId.trim().length)
+            throw new EmptyError("userId cannot be empty");
+
+        if (typeof gameId !== "string")
+            throw TypeError(`${gameId} is not a string`);
+
+        if (!gameId.trim().length)
+            throw new EmptyError("gameId cannot be empty");
+
+        // if (!(body instanceof Object))
+        //     throw TypeError(`${body} is not an object`);
+
+        // if (!body.trim().length)
+        //     throw new EmptyError("body cannot be empty");
+
+        const { gameInfo: { finalScore, developers, genres, platform, publishers } } = body;
+
+        return User.findById(userId)
+            .populate({ path: "reviews", populate: { path: "game" } })
+            .select("reviews -_id")
+            .lean()
+            .then(user => {
+                if (!user)
+                    throw new NotFoundError(`user with id ${userId} not found`);
+
+                const { reviews } = user;
+
+                const dataToTrain = reviews.map(review => {
+                    const input = {};
+
+                    // if (!!review.game.finalScore) input.f = review.game.finalScore;
+                    // if (!!review.game.developers)
+                    //     input.d = review.game.developers[0];
+                    if (!!review.game.genres)
+                        input.g = review.game.genres[0];
+                    // if (!!review.game.platform) input.pl = review.game.platform[0];
+                    // if (!!review.game.publishers)
+                    //     input.pu = review.game.publishers[0];
+
+                    const outputKey = `star${review.score.toString()}`;
+                    const output = {};
+                    output[outputKey] = 1;
+
+                    return { input, output };
+                });
+
+                const brain = require("brain.js");
+
+                const precog = new brain.NeuralNetwork({
+                    // iterations: 40000,
+
+                    activation: "sigmoid",
+                    //  leakyReluAlpha: 0.01,
+                    hiddenLayers: [4]
+                });
+
+                console.log("Training IA : ", precog.train(dataToTrain));
+
+                const dataToPrecog = {};
+                // if(!!finalScore) dataToPrecog.f = finalScore
+                if (!!genres) dataToPrecog.g = genres[0];
+
+                const precogScore = precog.run(dataToPrecog);
+                console.log(dataToTrain)
+                console.log('precog data: ', dataToPrecog)
+                console.log(genres)
+                
+                console.log("Running IA : ", precogScore);
+
+                return precogScore;
+            });
     }
 };
 
