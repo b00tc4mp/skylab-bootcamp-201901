@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "bcrypt": "^3.0.4"
+  },
+  "devDependencies": {
+    "skylab-inn-data": "file:skylab-inn/skylab-inn-data"
+  }
+}
