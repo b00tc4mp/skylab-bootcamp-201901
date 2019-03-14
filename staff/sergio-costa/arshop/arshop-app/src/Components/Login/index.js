@@ -1,9 +1,13 @@
 'use strict'
 
 import React, { Component } from 'react'
+import logic from '../../logic'
+import Feedback from '../Feedback'
+import { withRouter, Link } from 'react-router-dom'
+import './index.sass'
 
 class Login extends Component {
-    state = { email: '', password: '' }
+    state = { email: '', password: '', feedback: null }
 
     handleEmailInput = event => this.setState({ email: event.target.value })
 
@@ -12,23 +16,44 @@ class Login extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { email, password }, props: { onLogin } } = this
+        const { state: { email, password } } = this
 
-        onLogin(email, password)
+        try {
+            logic.logInUser(email, password)
+                .then(() => {
+                    this.setState({ feedback: '' })
+                    this.props.history.push('/')
+                })
+                .catch(({ message }) => this.setState({ feedback: message }))
+        } catch ({ message }) {
+            this.setState({ feedback: message })
+        }
     }
 
     render() {
         const { handleEmailInput, handlePasswordInput, handleFormSubmit } = this
 
         return <section className="login">
-            <h2>Login</h2>
-            <form onSubmit={handleFormSubmit}>
-                <input type="text" name="email" onChange={handleEmailInput} />
-                <input type="password" name="password" onChange={handlePasswordInput} />
-                <button>Login</button>
-            </form>
-        </section>
+            <div className="login__content">
+                <img className="login__img" src="/images/logo.png"></img>
+                <form className="login__form" onSubmit={handleFormSubmit}>
+                    <div className="login__inputrow">
+                        <input className="login__input" type="email" name="email" placeholder="Email" autoComplete="off" onChange={handleEmailInput} />
+                    </div>
+                    <div className="login__inputrow">
+                        <input className="login__input" type="password" name="password" placeholder="Password" onChange={handlePasswordInput} />
+                    </div>
+                    <button className="login__btn">Login</button>
+                </form>
+                <div className="login__register">
+                    <p className="login__register-text">
+                        <Link to="/register" className="login__link">Register Now</Link>
+                    </p>
+                </div>
+            </div>
+            {this.state.feedback && <Feedback message={this.state.feedback} />}
+        </section >
     }
 }
 
-export default Login
+export default withRouter(Login)

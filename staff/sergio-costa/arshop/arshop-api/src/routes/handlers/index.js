@@ -27,5 +27,7 @@ module.exports = {
 
     searchProducts: require('./search-products'),
 
+    uploadProductImg: require('./upload-product-img'),
+
     notFound: require('./not-found')
 }

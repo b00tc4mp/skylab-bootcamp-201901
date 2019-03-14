@@ -25,6 +25,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "arshop-data": "file:../arshop-data",
+    "bcrypt": "^3.0.4",
     "dotenv": "^6.2.0"
   }
 }

@@ -759,7 +759,7 @@ describe('logic', () => {
                 })
         )
 
-        it('should remove fav', () =>
+        it('should return false sold', () =>
             User.findById(userId)
                 .then(user => {
                     return logic.toogleSold(user.id, _id)
@@ -869,8 +869,7 @@ describe('logic', () => {
         it('should succed on correct credentials', () =>
             logic.toogleFav(userId, _id)
                 .then(favproducts => {
-                    expect(favproducts).toBeDefined()
-                    expect(favproducts[0].toString()).toBe(_id)
+                    expect(favproducts).toBe(true)
                 })
         )
 
@@ -878,14 +877,13 @@ describe('logic', () => {
             User.findById(userId)
                 .then(user => {
                     return logic.toogleFav(user.id, _id)
-                        .then((favproducts) => {
-                            expect(favproducts.length).toBe(1)
-                            expect(user.favoriteProducts[0]).toBeUndefined()
+                        .then((bool) => {
+                            expect(bool).toBe(true)
                         })
                         .then(() => {
                             return logic.toogleFav(userId, _id)
-                                .then(_favproduct => {
-                                    expect(_favproduct.length).toBe(0)
+                                .then(_bool => {
+                                    expect(_bool).toBe(false)
                                 })
                         })
                 })
@@ -955,7 +953,7 @@ describe('logic', () => {
     })
     //#endregion
 
-    //#region RETRIEVE ALL FAVS
+    //#region RETRIEVE FAVS FROM USER
     describe('retrieve favs from user', () => {
         let name = 'sergio'
         let surname = 'costa'
@@ -986,7 +984,11 @@ describe('logic', () => {
                 .then((favorites) => {
                     expect(favorites).toBeDefined()
                     expect(favorites.length).toBe(1)
-                    expect(favorites[0].toString()).toBe(_id)
+                    expect(favorites[0].tittle).toBe(product.tittle)
+                    expect(favorites[0].description).toBe(product.description)
+                    expect(favorites[0].price).toBe(product.price)
+                    expect(favorites[0].category).toBe(product.category)
+                    expect(favorites[0].city).toBe(product.city)
                 })
         )
 
