@@ -2,6 +2,7 @@
 
 const { models: { User, Product } } = require('cleanup-data')
 
+
 const logic = {
 
     registerUser(name, surname, email, password, passwordConfirmation) {
@@ -51,7 +52,7 @@ const logic = {
         })()
     },
 
-    // async updateUser(id, name, surname, phone, address, email, password, newEmail, newPassword) {
+    // async updateUser(id, name, surname, email, password, newEmail, newPassword) {
 
     //     if (typeof id !== 'string') throw Error('user id is not a string')
 
@@ -72,8 +73,6 @@ const logic = {
     //     then(() => {
     //         user.name = name
     //         user.surname = surname
-    //         user.phone = phone
-    //         user.address = address
     //         user.email = newEmail ? newEmail : email
     //         user.password = newPassword ? newPassword : password
 
@@ -107,6 +106,24 @@ const logic = {
 
 
     },
+
+
+    listProductsByIds(ids) {
+        const idsArray = ids.split(',')
+
+        return Promise.resolve()
+            .then(() => {
+                return Product.find({
+                    _id: { $in: idsArray }
+                })
+                    .then(products => {
+                        if (!products) throw Error(`no products where found`)
+
+                        return products
+                    })
+            })
+    },
+
 
     getProduct(productId) {
         return (async () => {
@@ -152,16 +169,7 @@ const logic = {
             return products
         })()
 
-
     },
-
-
-
-
-
-
-
-
 
     addProductToCart(productId) {
         return Promise.resolve()

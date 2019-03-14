@@ -44,15 +44,15 @@ class App extends Component {
         this.props.history.push('/')
     }
 
-    // getItems = () => {
-    //     if (logic._cart.length && logic._cart !== 'undefined') {
-    //         logic.listProductsByIds()
-    //             .then(cart => this.setState({ cart, total: [], cartLength: logic.cart().length }))
-    //     } else {
-    //         this.setState({ cart: [], total: [], cartLength: logic.cart().length })
-    //     }
-    // }
 
+    getItems = () => {
+        if (logic._cart.length && logic._cart !== 'undefined') {
+            logic.listProductsByIds()
+                .then(cart => this.setState({ cart, total: [], cartLength: logic.cart().length }))
+        } else {
+            this.setState({ cart: [], total: [], cartLength: logic.cart().length })
+        }
+    }
 
     onRemoveFromCart = id => {
         logic.removeProductFromCart(id);
@@ -97,6 +97,7 @@ class App extends Component {
             <Route exact path="/cart" render={() => <Cart cart={[]} total={[]} />} />
             <Route exact path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
+
             <Route exact path="/order" render={() => <Order onOrder={this.onOrder} />} />
             <Footer />
         </main>)

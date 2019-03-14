@@ -7,6 +7,8 @@ const logic = {
     __userId__: null,
     // __userApiToken__: null,
     // __userApiProducts__: null,
+    _userId: null,
+    _orderStatus: 'transaction pending',
 
     registerUser(name, surname, email, password, passwordConfirmation) {
 
@@ -33,9 +35,11 @@ const logic = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return cleanUpApi.authenticateUser(email, password)
-            .then(token => this.__userApiToken__ = token)
+            .then(({ token, id }) => {
+                this.__userApiToken__ = token
+                this.__userId__ = id
+            })
     },
-
 
     get isUserLoggedIn() {
         return !!this.__userApiToken__
@@ -48,6 +52,11 @@ const logic = {
         window.location.reload()
     },
 
+    retrieveUser() {
+        return cleanUpApi.retrieveUser(this.__userId__, this.__userApiToken__)
+            .then(res => res)
+    },
+
 
     listProducts(category) {
         return cleanUpApi.listProducts(category)
@@ -56,6 +65,10 @@ const logic = {
             })
     },
 
+    listProductsByIds() {
+
+        return cleanUpApi.listProductsByIds(this.cart)
+    },
 
     getProduct(productId) {
         return cleanUpApi.getProduct(productId)
@@ -79,12 +92,7 @@ const logic = {
         return this._cart
     },
 
-    // getDateOrder() {
-    //     // let hours = new Date().getHours()
-    //     this._date = Date.now()
-    //     return this._date.toString()
 
-    // },
 
 
     addProductToCart(product) {
@@ -104,11 +112,6 @@ const logic = {
         sessionStorage.removeItem('__userApiProducts__')
         window.location.reload()
     },
-
-
-    // clearCart() {
-    //     this.cart(null)
-    // },
 
 
 }

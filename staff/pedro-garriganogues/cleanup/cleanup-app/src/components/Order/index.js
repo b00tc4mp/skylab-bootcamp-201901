@@ -20,7 +20,6 @@ class Cart extends Component {
         logic.retrieveUser()
             .then(user => {
                 this.setState({
-                    address: user.address,
                     email: user.email
                 })
             })
@@ -29,22 +28,20 @@ class Cart extends Component {
     }
 
     getItems = () => {
-        if (logic._cart.length && logic._cart !== 'undefined') {
-            logic.listProductsByIds()
-                .then(cart => this.setState({ cart }))
-        } else {
-            this.setState({ cart: [] })
-        }
+
+        logic.listProductsByIds()
+            .then(cart => this.setState({ cart }))
+
     }
 
     handleSubmitOrder = (e) => {
         e.preventDefault()
 
-        const { paymentMethod, cart, address, phone, email } = this.state
+        const { paymentMethod, cart, email } = this.state
 
-        if (paymentMethod !== "" || address !== "" || email !== "" || phone !== "") {
+        if (paymentMethod !== "" || email !== "") {
 
-            logic.createOrder(paymentMethod, cart, address)
+            logic.createOrder(paymentMethod, cart)
                 .then(
                     this.props.onOrder()
 
@@ -62,13 +59,7 @@ class Cart extends Component {
         this.setState({ email: e.target.value })
     }
 
-    handlerCapturingAddress = (e) => {
-        this.setState({ address: e.target.value })
-    }
 
-    handlerCapturingPhone = (e) => {
-        this.setState({ phone: e.target.value })
-    }
 
     render() {
         return (
@@ -93,26 +84,13 @@ class Cart extends Component {
                             <div >
                                 <div >
                                     <label htmlFor="firstName">Payment Method</label>
-                                    <input type="text" name="payment method" placeholder="Payment Method" autoFocus="" onChange={this.handlerCapturingPaymentMethod} value={this.state.paymentMethod} />
+                                    <input type="text" name="payment method" placeholder="Payment Method" onChange={this.handlerCapturingPaymentMethod} value={this.state.paymentMethod} />
                                 </div>
                                 <div >
                                     <label htmlFor="lastName">email</label>
                                     <input type="text" name="email" placeholder="email" onChange={this.handlerCapturingEmail} value={this.state.email} />
                                 </div>
                             </div>
-                            <div >
-                                <label htmlFor="username">Phone</label>
-                                <div >
-                                    <input type="text" name="phone" placeholder="Phone" onChange={this.handlerCapturingPhone} value={this.state.phone} />
-                                </div>
-                            </div>
-                            <div >
-                                <label htmlFor="username">Address</label>
-                                <div >
-                                    <input type="text" name="address" placeholder="Address" onChange={this.handlerCapturingAddress} value={this.state.address} />
-                                </div>
-                            </div>
-
                             <button type="submit">Submit payment</button>
                         </form>
                     </div>

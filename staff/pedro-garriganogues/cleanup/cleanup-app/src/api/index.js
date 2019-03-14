@@ -36,16 +36,16 @@ const cleanUpApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
-
-                return response.token
+                return response.data
             })
     },
 
-    retrieveUser(token) {
+
+    retrieveUser(userId, token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        return fetch(`${this.url}/user`, {
+        return fetch(`${this.url}/users/${userId}`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
@@ -57,6 +57,9 @@ const cleanUpApi = {
                 return response
             })
     },
+
+
+
 
     updateUser(token, data) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
@@ -115,7 +118,6 @@ const cleanUpApi = {
                     return data.data
                 })
                 .catch(err => {
-                    if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
 
                     if (err.response) {
                         const { response: { data: { error: message } } } = err
@@ -124,6 +126,26 @@ const cleanUpApi = {
                     } else throw err
                 })
         })()
+    },
+
+    listProductsByIds: function listProductsByIds(cart) {
+        var _thisbyid = this;
+
+        return (async () => {
+            var ids = cart.join(',');
+
+            return axios.get(_thisbyid.url + '/products/?ids=' + ids).then(function (_refbyId) {
+
+            }).catch(function (err) {
+
+                if (err.response) {
+                    var message = err.response.data.error;
+
+
+                    throw Error(message);
+                } else throw err;
+            });
+        })();
     },
 
 
@@ -140,7 +162,6 @@ const cleanUpApi = {
                     return data.data
                 })
                 .catch(err => {
-                    if (err.code === 'ECONNREFUSED') throw Error('could not reach server')
 
                     if (err.response) {
                         const { response: { data: { error: message } } } = err
@@ -164,7 +185,6 @@ const cleanUpApi = {
 
                 return data.data;
             }).catch(function (err) {
-                if (err.code === 'ECONNREFUSED') throw Error('could not reach server');
 
                 if (err.response) {
                     var message = err.response.data.error;
@@ -196,7 +216,7 @@ const cleanUpApi = {
                 })
         })()
     },
-    
+
 }
 
 export default cleanUpApi;
