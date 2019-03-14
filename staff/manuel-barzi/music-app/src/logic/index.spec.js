@@ -156,11 +156,7 @@ describe('logic', () => {
     describe('log in user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-<<<<<<< HEAD
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-=======
         const email = `manuelbarzi-${Math.random()}@mail.com`
->>>>>>> upstream/develop
         const password = '123'
         const passwordConfirm = password
 
@@ -177,11 +173,7 @@ describe('logic', () => {
     describe('check user is logged in', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-<<<<<<< HEAD
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-=======
         const email = `manuelbarzi-${Math.random()}@mail.com`
->>>>>>> upstream/develop
         const password = '123'
         const passwordConfirm = password
 
@@ -198,11 +190,7 @@ describe('logic', () => {
     describe('log out user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-<<<<<<< HEAD
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-=======
         const email = `manuelbarzi-${Math.random()}@mail.com`
->>>>>>> upstream/develop
         const password = '123'
         const passwordConfirm = password
 
@@ -221,11 +209,7 @@ describe('logic', () => {
     describe('retrieve user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-<<<<<<< HEAD
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-=======
         const email = `manuelbarzi-${Math.random()}@mail.com`
->>>>>>> upstream/develop
         const password = '123'
         const passwordConfirm = password
 

@@ -28,6 +28,7 @@ process.on('SIGINT', () => {
     mongoose.disconnect()
         .then(() => {
             console.log(`\n ${package.name} stopped`)
+
             process.exit(0)
         })
 })
