@@ -298,6 +298,8 @@ const logic = {
 
     retrieveHousesByQuery(query){
         
+        query = query.toLowerCase()
+        
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
         return House.find( {$or:[{"adress.city":query},{"adress.country":query}]}).select('-__v').lean()

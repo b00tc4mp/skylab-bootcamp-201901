@@ -7,9 +7,9 @@ import './index.sass';
 
 class LandingPage extends Component {
 
-    state={
+    state = {
 
-        query:""
+        query: ""
 
 
     }
@@ -20,14 +20,14 @@ class LandingPage extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { query}, props: { history } } = this
+        const { state: { query }, props: { history } } = this
 
         history.push(`/search/${query}`)
     }
 
     render() {
 
-        const{handleFormSubmit,handleInput} = this
+        const { handleFormSubmit, handleInput } = this
 
         return <section className="landingPage">
 
@@ -35,7 +35,7 @@ class LandingPage extends Component {
             <h2> Where do you want to go? </h2>
             <form className="LandingPage-form" onSubmit={handleFormSubmit}>
 
-                <input required type="text" name= "query" placeholder="" onChange={handleInput}></input>
+                <input required type="text" name="query" placeholder="" onChange={handleInput}></input>
 
                 <button>Search</button>
 

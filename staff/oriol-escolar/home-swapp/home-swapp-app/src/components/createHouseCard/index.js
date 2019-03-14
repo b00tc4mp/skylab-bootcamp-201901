@@ -6,15 +6,25 @@ import './index.sass';
 
 
 
-class CreateHouseCard extends Component{
+class CreateHouseCard extends Component {
 
-    render(){
+    onCreateHousePage = () => {
 
-        return <div className="createHouseCard">
 
-            
+
+        this.props.onCreateHousePage()
+    }
+
+
+    render() {
+
+        const { onCreateHousePage } = this
+
+        return <div className="createHouseCard" onClick={onCreateHousePage}>
+
+
             <p>New House</p>
-            
+
 
 
         </div>
