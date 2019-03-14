@@ -1,0 +1,52 @@
+@import '../../utils.sass'
+
+.right-bar
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    background-color: rgba(0,0,0,0.7)
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    height: 100%
+
+    &__empty
+        grid-column-start: 1
+        grid-column-end: 2
+        cursor: pointer
+
+    &__options
+        background-color: $dark-gray
+        grid-column-start: 2
+        grid-column-end: 3
+        display: flex
+        flex-flow: column
+        opacity: 0.9
+
+    &__button
+        border-style: solid
+        border-width: 0
+        border-bottom-width: 0.2em
+        border-bottom-color: $dark-gray
+        width: 100%
+        background-color: $light-pink
+        padding: 1em
+
+    &__profile
+        display: flex
+        flex-flow: row
+        align-items: center
+        margin: 1em
+        color: white
+
+    &__img
+        font-size: 1.5em
+        padding: 1em
+
+    &__username
+        margin-bottom: 0.2em
+
+    &__email
+        font-size: 0.6em
+        margin-top: 0.2em

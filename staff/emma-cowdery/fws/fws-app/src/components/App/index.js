@@ -12,20 +12,24 @@ import EventsNearMe from '../EventsNearMe'
 import EventsMap from '../EventsMap'
 import Calendar from '../Calendar'
 import Chats from '../Chats'
+import RightBar from '../RightBar'
 
 export default withRouter (function App() {
+    const [showRightBar, setShowRightBar] = useState(false)
+
     return (
         <Fragment>
             <Route path="/" render={() => <Redirect to = '/landing'/>}/>
             <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Login/>}/>
             <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Register/>}/>
             <Route path="/landing" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Landing/>}/>
-            <Route path="/restaurant-results" render={() => logic.isUserLoggedIn ? <RestautantResults/> : <Redirect to = '/landing'/>}/>
-            <Route path="/event-categories" render={() => logic.isUserLoggedIn ? <EventCategories/> : <Redirect to = '/landing'/>}/>
-            <Route path="/events-nearme" render={() => logic.isUserLoggedIn ? <EventsNearMe/> : <Redirect to = '/landing'/>}/>
+            <Route path="/restaurant-results" render={() => logic.isUserLoggedIn ? <RestautantResults setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
+            <Route path="/event-categories" render={() => logic.isUserLoggedIn ? <EventCategories setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
+            <Route path="/events-nearme" render={() => logic.isUserLoggedIn ? <EventsNearMe setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
             <Route path="/events-map" render={() => logic.isUserLoggedIn ? <EventsMap/> : <Redirect to = '/landing'/>}/>
             <Route path="/calendar" component={Calendar}/>
-            <Route path="/chats" render={() => logic.isUserLoggedIn ? <Chats/> : <Redirect to = '/landing'/>}/>
+            <Route path="/chats" render={() => logic.isUserLoggedIn ? <Chats setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
+            {showRightBar && <div className='nav-bar__right-bar'><RightBar setShowRightBar={setShowRightBar}/></div>}
         </Fragment>
     )
 })

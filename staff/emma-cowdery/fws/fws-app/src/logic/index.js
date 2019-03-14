@@ -101,7 +101,7 @@ const logic = {
      */
     retrieveUser() {
         return (async () => {
-            const user = await fwsApi.registerUser(this.__token__)
+            const user = await fwsApi.retrieveUser(this.__token__)
 
             if (!user) throw Error('user not found')
 

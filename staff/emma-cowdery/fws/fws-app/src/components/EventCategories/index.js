@@ -13,7 +13,7 @@ export default withRouter( function EventCategories (props) {
 
     return (
         <Fragment>
-            <NavBar/>
+            <NavBar setShowRightBar={props.setShowRightBar}/>
             <EventsNav setViewCategory={setViewCategory}/>
             {!viewCategory && categories.map(category => <div onClick={e => {e.preventDefault(); setSelectedCategory(category); setViewCategory(true)}}><p>{category}</p></div>)}
             {viewCategory && <SelectedCategory selectedCategory={selectedCategory} setViewCategory={setViewCategory}/>}
