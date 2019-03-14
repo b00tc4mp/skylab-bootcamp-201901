@@ -11,7 +11,7 @@ var Mocha = require('mocha')
 var path = require('path')
 
 const testing = require('../testing')
-const { User, Exercise, Invitation } = require('../models')
+const { Historical, User, Exercise, Invitation } = require('../models')
 const emailing = require('../emailing')
 
 /**
@@ -37,14 +37,51 @@ const logic = {
 
         if (passwordConfirm.trim() !== password.trim()) throw new MatchingError('password and password confirmation does not match')
 
-        return User.findOne({ email })
-            .then(user => {
-                if (user) throw new DuplicateError(`user with email ${email} already exists`)
+        return this.__isEmailInvited__(email)
+            .then(isInvited => {
+                if (!isInvited) throw Error('only invited users can registered')
 
-                return bcrypt.hash(password, 10)
+                return User.findOne({ email })
+                    .then(user => {
+                        if (user) throw new DuplicateError(`user with email ${email} already exists`)
+                        return bcrypt.hash(password, 10)
+                    })
+                    .then(hash => User.create({ name, surname, email, password: hash }))
+                    .then(({ id }) => {
+
+                        return this.__fillExercisesToUser__(id)
+                    })
+                    .then(({ id }) => id)
             })
-            .then(hash => User.create({ name, surname, email, password: hash }))
-            .then(({ id }) => id)
+    },
+
+    __fillExercisesToUser__(userId) {
+        validate([{ key: 'userId', value: userId, type: String }])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${user.id} not found`)
+
+                return Exercise.find()
+                    .then(exercises => {
+
+                        exercises.forEach(exercise => {
+                            user.historical.push(new Historical({ exercise: exercise.id }))
+                        })
+                        
+                        return user.save()
+                            .then(user => user)
+                    })
+
+            })
+    },
+
+    __isEmailInvited__(email) {
+        return Invitation.findOne({ email }).select('-__v -_id').lean()
+            .then(invitation => {
+                if (!invitation) throw Error('only invited users can registered')
+                return (invitation.status === 'sent')
+            })
     },
 
     retrieveUser(userId) {
@@ -194,27 +231,19 @@ const logic = {
 
     },
 
-    listExercises(userId) {
+    listExercises() {
 
-        validate([{ key: 'userId', value: userId, type: String }])
+        return Exercise.find().select('-__v').lean()
+            .then(exercises => {
 
-        return User.findById(userId)
-            .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                let _exercises = []
+                exercises.forEach(ex => {
+                    ex.id = ex._id
+                    delete ex._id
+                    _exercises.push(ex)
+                })
 
-                return Exercise.find().select('-__v').lean()
-                    .then(exercises => {
-
-                        let _exercises = []
-                        exercises.forEach(ex => {
-                            ex.id = ex._id
-                            delete ex._id
-                            _exercises.push(ex)
-                        })
-
-                        return _exercises
-                    })
+                return _exercises
             })
     },
 
@@ -234,8 +263,8 @@ const logic = {
                     return userExercise
                 })
 
-                return historical
 
+                return historical
             })
     },
 
@@ -377,14 +406,11 @@ const logic = {
         script.runInNewContext(ctx) //ctx => { module: Module, console: Console, salute: [Function: salute] }
 
         var MyReporter = require('./reporter')
-        
-        // MyReporter.callback =  function(result) {
-        //     console.log('Inside callback: ', result)
-        //     debugger
-        //     return result
-        // }
 
         MyReporter.callback = callback
+
+        // we need to pass from mongo the file where test file is located
+        var unitFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
 
         var mocha = new Mocha({ reporter: MyReporter })
         var Suite = Mocha.Suite
@@ -394,8 +420,8 @@ const logic = {
             context.target = ctx.target
         })
 
-        // we need to pass from mongo the file where test file is located
-        var unitFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
+        delete require.cache[require.resolve(unitFile)] // clean cache from mocha "confirmed bug"
+        // https://github.com/mochajs/mocha/issues/1938
 
         // Add the test to mocha before run
         mocha.addFile(unitFile)

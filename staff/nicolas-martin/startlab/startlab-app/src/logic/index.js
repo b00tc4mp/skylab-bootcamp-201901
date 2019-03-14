@@ -69,7 +69,7 @@ const logic = {
     /**
      * Logs out the user.
      */
-    logOutUser() {
+    logOutUser() { 
         this.__userApiToken__ = null
         this.__isAdmin__ = null
     },
@@ -101,13 +101,13 @@ const logic = {
     },
 
     updateExercise(exercise) {
-        //Todo validate input data
+        if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
 
         return skylabApi.updateExercise(exercise, this.__userApiToken__)
     },
 
     newExercise(exercise) {
-        //Todo validate input data
+        if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
 
         return skylabApi.createExercise(exercise, this.__userApiToken__)
     },
@@ -126,8 +126,8 @@ const logic = {
             })
     },
 
-    retrieveExercisesFromUser() {
-        return skylabApi.getExercisesFromUser(this.__userApiToken__)
+    getExercises() {
+        return skylabApi.exerciseList()
             .then(exercises => exercises)
     },
 
@@ -151,20 +151,19 @@ const logic = {
     },
 
     updateInvitation(invitation) {
-        //Todo validate input data
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
         return skylabApi.updateInvitation(invitation, this.__userApiToken__)
     },
 
     newInvitation(invitation) {
-        //Todo validate input data
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
         return skylabApi.createInvitation(invitation, this.__userApiToken__)
     },
 
     sendEmailInvitation(invitation) {
-
-        //todo
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
         return skylabApi.sendEmailInvitation(this.__userApiToken__, invitation)
     }

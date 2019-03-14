@@ -1,4 +1,4 @@
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
 .app {
@@ -19,7 +19,7 @@
       display: flex;
       flex-wrap: wrap; } }
 
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
 .register__form input {
@@ -27,7 +27,7 @@
 .register__form button {
   max-width: 120px; }
 
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
 .login__form input {
@@ -35,10 +35,10 @@
 .login__form button {
   max-width: 120px; }
 
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
 .start-intro {
@@ -49,7 +49,7 @@
 .start-intro {
   margin-bottom: 30px; }
 
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
 .itemlist__header {
@@ -92,7 +92,7 @@
     .itemlist-item__footer-theme span {
       background-color: #ffffff; }
 
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
 .exercise-form form {
@@ -105,7 +105,7 @@
     margin-top: 10px;
     max-width: 120px; }
 
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
 .itemlist__header {
@@ -137,11 +137,17 @@
     margin-left: 1.4em;
     max-width: 120px; }
 
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
   padding: 1em 2em; }
 
 .invitation-new__form__button {
   margin-top: 1em; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
+  padding: 1em 2em; }
+
+.results-test {
+  font-size: 12px; }
 
 * {
   box-sizing: border-box; }

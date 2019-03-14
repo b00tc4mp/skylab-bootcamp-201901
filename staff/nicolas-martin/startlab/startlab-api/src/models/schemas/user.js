@@ -1,12 +1,13 @@
 const { Schema } = require('mongoose')
 const { Types: { ObjectId } } = Schema
+const Historical = require('../schemas/historical')
 
-const User = new Schema ({
+const User = new Schema({
     name: {
         type: String,
         required: true,
     },
-    
+
     surname: {
         type: String,
         required: true
@@ -34,22 +35,7 @@ const User = new Schema ({
         default: false
     },
 
-    historical: [{
-        exercise: {
-            type: ObjectId,
-            answer: String,
-            required: true,
-            ref: 'Exercise'
-        },
-        answer: {
-            type: String,
-            default: ''
-        },
-        completed: {
-            type: Boolean,
-            default: false
-        },
-    }]
+    historical: [Historical]
 
 })
 

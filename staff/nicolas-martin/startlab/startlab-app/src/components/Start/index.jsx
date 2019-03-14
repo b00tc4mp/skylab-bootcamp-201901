@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
 
 import Feedback from '../Feedback/'
 import ActiveExercise from '../ActiveExercise'
@@ -10,24 +11,28 @@ import logic from '../../logic';
 class Start extends Component {
     state = { exercises: [], activeExercise: null, startFeedback: '', answer: '' }
 
-    componentDidMount() {
-        this.getExercisesFromUser()
-    }
-
-    getExercisesFromUser() {
+    componentWillMount() {
         try {
-            logic.retrieveExercisesFromUser()
+            logic.getExercises()
                 .then(exercises => {
-                    // const activeExercise = exercises.find(exercise => !exercise.completed).exercise
-                    const progress = exercises.find(exercise => !exercise.completed)
-                    const activeExercise = progress? progress.exercise : null
-                    this.setState({ exercises, activeExercise, startFeedback: '', answer: '' })
+                    // const progress = exercises.find(exercise => !exercise.completed)
+                    // const activeExercise = progress? progress.exercise : null
+                    this.setState({ exercises })
                 })
-                .catch(error => console.log(error))
-        } catch (error) {
-            console.log(error)
+                .catch(message => this.emitFeedback(message, 'error'))
+        } catch ({ message }) {
+            this.emitFeedback(message, 'error')
         }
     }
+
+    emitFeedback = (message, level) => toast[level](message, {
+        position: 'top-right',
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+    })
 
     handleAnswerSubmit = event => {
         event.preventDefault()

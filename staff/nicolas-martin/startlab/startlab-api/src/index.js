@@ -61,7 +61,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         // CRUD Exercises
         router.post('/admin/exercise/create', [jsonBodyParser, tokenVerifierMiddleware], createExercise)
-        router.get('/admin/exercise/list', [tokenVerifierMiddleware], listExercises)
+        router.get('/admin/exercise/list', listExercises)
         router.get('/admin/exercise/:exerciseId', [jsonBodyParser, tokenVerifierMiddleware], retrieveExercise)
         router.post('/admin/exercise/update', [jsonBodyParser, tokenVerifierMiddleware], updateExercise)
         router.delete('/admin/exercise/delete/:exerciseId', [jsonBodyParser, tokenVerifierMiddleware], deleteExercise)

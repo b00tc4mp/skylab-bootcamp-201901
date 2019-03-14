@@ -54,21 +54,13 @@ const skylabApi = {
             })
     },
 
-    exerciseList(token) {
-        // /admin/exercise/list
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        return fetch(`${this.url}/admin/exercise/list`, {
-            headers: {
-                authorization: `Bearer ${token}`
-            }
+    exerciseList() {
+        return fetch(`${this.url}/admin/exercise/list`)
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+            return response
         })
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error)
-                return response
-            })
     },
 
     deleteExercise(id, token) {
@@ -134,7 +126,7 @@ const skylabApi = {
     },
 
     createExercise(exercise, token) {
-        //Todo validate exercise as object
+        if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -154,22 +146,6 @@ const skylabApi = {
                 return message
             })
 
-    },
-
-    getExercisesFromUser(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-        
-        return fetch(`${this.url}/student/start`, {
-            headers: {
-                authorization: `Bearer ${token}`
-            }
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error)
-                return response
-            })
     },
 
     checkCode(answer, exerciseId, token) {
