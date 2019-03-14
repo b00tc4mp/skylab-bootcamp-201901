@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './index.sass'
-import Hammer from 'hammerjs'
+// import Hammer from 'hammerjs'
 import logic from '../../logic';
 
-function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, tryRight }) {
+function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir }) {
 
     let [divs, setDivs] = useState(new Array(48).fill(null))
     // // let [newName, setNewName] = useState(null)
@@ -23,10 +23,6 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
         handleDivs()
     }, [dir])
 
-    tryRight = (e) => {
-        e.preventDefault()
-        console.log('right click')
-    }
     // useEffect(() => {
     //     checkNews()
     // }, [divs])
@@ -108,7 +104,10 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
             return logic.moveFile(oldPath, newPath)
                 .then(() => handleDivs())
         } else if (draggableTest.id === "folder" && droppingTest.id === "folder") {
-            return logic.moveFolder()    
+            let oldPath = '/' + draggableTest.firstChild.innerText
+            let newPath = '/' + droppingTest.firstChild.innerText + oldPath
+            debugger
+            return logic.moveDir(oldPath, newPath)
         } else if (draggableTest.id === "folder" && droppingTest.id === "file") {
             console.error('Cannot move a folder into a file')
         } else {
@@ -126,7 +125,7 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
                     let position = pos.find(e => e.position == index)
                     if (position) {
                         if (position.type === 'folder') {
-                            return <div className="droppable" key={index} keys={index} id={index} onClick={(e) => changeName(e)} onContextMenu={(e) => tryRight(e)} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}>
+                            return <div className="droppable" key={index} keys={index} id={index} /* onClick={(e) => changeName(e)} */ onDoubleClick={(e) => openDir(e)} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}>
                                 <span id={position.type} keys={`span${index}`} className="fas fa-folder fa-3x dragzone__folder" draggable="true" onDragStart={(e) => onDragStart(e)}>
                                     <p className="name" id="inputId">{`${position.name}`}</p>
                                 </span>

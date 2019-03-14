@@ -1238,8 +1238,6 @@ const logic = {
                         /* Ascertain if the file exists */
                         let fileStatus = fs.existsSync(currentCompleteChildPath)
 
-                        debugger
-
                         if (fileStatus) {
                             /* Moves file */
                             await fs.rename(currentCompleteChildPath, newCompleteChildPath, err => {
@@ -1250,7 +1248,6 @@ const logic = {
                     }
                 })
 
-                debugger
                 /* Recursively deletes the desired folder by it's path */
                 const deleteFolder = async (myPath) => {
 
@@ -1264,7 +1261,6 @@ const logic = {
                     } catch(err) {
                         if (err) throw err
                     }
-                    debugger
 
                     /* Maps through the folder's children and ascertains if they are folders or files */
                     content.map(async (file, index) => {

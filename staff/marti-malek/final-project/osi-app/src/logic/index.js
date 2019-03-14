@@ -115,6 +115,10 @@ const logic = {
 
     moveFile(oldPath, newPath) {
         return osiApi.moveFile(this.__userApiToken__, oldPath, newPath)
+    },
+
+    moveDir(oldPath, newPath) {
+        return osiApi.moveDir(this.__userApiToken__, oldPath, newPath)
     }
 }
 
