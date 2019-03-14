@@ -235,7 +235,6 @@ describe('logic', () => {
             expect(id).toBeDefined()
             const updation = await logic.updateUser('Carlos123', 'Calvo123', email, newPassword, newPassword)
             const result = await userApi.authenticateUser(email, newPassword)
-            console.log(result)
             expect(result).toBeDefined()
         })
 
@@ -422,7 +421,6 @@ describe('logic', () => {
             const token = await userApi.authenticateUser(email, password)
             const book = await bookApi.addBook('title1', 'content', 'url', {}, [], token)
             const arrayBooks = await logic.retrieveBooks()
-            console.log(arrayBooks)
             expect(arrayBooks).toBeDefined()
             expect(arrayBooks.length).toBe(1)
             expect(arrayBooks[0].title).toBe('title1')
@@ -445,5 +443,308 @@ describe('logic', () => {
             expect(arrayBooks[1].title).toBe('title2')
         })
 
+        it('should fail on too many args', () => {
+            expect(() => {
+                logic.retrieveBooks(true)
+            }).toThrow(Error)
+        })
     })
+
+
+    describe('RetrieveBook by id', () => {
+        const name = 'Carlos'
+        const surname = 'Calvo'
+        const email = `Carlos-${Math.random()}@mail.com`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on valid data', async () => {
+            const title = `Title-${Math.random()}`
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            const book = await bookApi.addBook(title, 'content12', 'url12', {}, [], token)
+            logic.__userApiToken__ = token
+            const bookretrieved = await logic.retrieveBook(book._id)
+            expect(bookretrieved).toBeDefined()
+            expect(bookretrieved.title).toBe(title)
+        })
+
+        it('should fail on non-string id', () => {
+            expect(() => {
+                logic.retrieveBook(true)
+            }).toThrow(Error)
+        })
+
+        it('should fail on empty id', () => {
+            expect(() => {
+                logic.retrieveBook('')
+            }).toThrow(Error)
+        })
+    })
+
+    describe('UpdateBook', () => {
+
+        //updateBook(bookid, title, parameters)
+        const name = 'Carlos'
+        const surname = 'Calvo'
+        const email = `Carlos-${Math.random()}@mail.com`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on valid data', async () => {
+            const title = `Title-${Math.random()}`
+            const newTitle = `Title-${Math.random()}`
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            logic.__userApiToken__ = token
+            const book = await bookApi.addBook(title, 'content12', 'url12', {}, [], token)
+            const newBook = await logic.updateBook(book._id, newTitle, {name})
+            const bookretrieved = await bookApi.retrieveBook(token, book._id)
+            expect(bookretrieved).toBeDefined()
+            expect(bookretrieved.title).toBe(newTitle)
+            expect(bookretrieved.parameters.name).toBe(name)
+        })
+
+        it('should fail on non-string bookid', () => {
+            expect(() => {
+                logic.updateBook(true, 'title', {})
+            }).toThrow(Error)
+        })
+        it('should fail on empty bookid', () => {
+            expect(() => {
+                logic.updateBook('', 'title', {})
+            }).toThrow(Error)
+        })
+        it('should fail on non-string title', () => {
+            expect(() => {
+                logic.updateBook('true', true, {})
+            }).toThrow(Error)
+        })
+        it('should fail on empty title', () => {
+            expect(() => {
+                logic.updateBook('sdsds', '', {})
+            }).toThrow(Error)
+        })
+        it('should fail on non-Object parameters', () => {
+            expect(() => {
+                logic.updateBook('true', 'true', true)
+            }).toThrow(Error)
+        })
+    })
+
+    describe('DeleteBook', () => {
+
+        //updateBook(bookid, title, parameters)
+        const name = 'Carlos'
+        const surname = 'Calvo'
+        const email = `Carlos-${Math.random()}@mail.com`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on deleting data', async () => {
+            const title = `Title-${Math.random()}`
+            const content = `Content-${Math.random()}`
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            logic.__userApiToken__ = token
+            const book = await bookApi.addBook(title, content, 'url12', {}, [], token)
+            const deletedBook = await logic.deleteBook(book._id)
+            expect(deletedBook).toBeDefined()
+            expect(deletedBook.title).toBe(title)
+            expect(deletedBook.content).toBe(content)
+        })
+
+        it('should fail on non-string bookid', () => {
+            expect(() => {
+                logic.deleteBook(true)
+            }).toThrow(Error)
+        })
+
+        it('should fail on empty bookid', () => {
+            expect(() => {
+                logic.deleteBook('')
+            }).toThrow(Error)
+        })
+
+        //retrieveTemplateBook
+    })
+
+    describe('Add Book to Templates', () => {
+        const name = 'Carlos'
+        const surname = 'Calvo'
+        const email = `Carlos-${Math.random()}@mail.com`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on adding to templates a book', async () => {
+            const title = `Title-${Math.random()}`
+            const content = `Content-${Math.random()}`
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            logic.__userApiToken__ = token
+            const book = await bookApi.addBook(title, content, 'url12', {}, [], token)
+            const bookadded = await logic.addBookToTemplates(book._id, false)
+            const retrievedTemplates = await bookApi.retrieveTemplateBooks()
+            expect(retrievedTemplates).toBeDefined()
+            expect(retrievedTemplates instanceof Array).toBe(true)
+            expect(retrievedTemplates.length).toBeGreaterThan(0)
+        })
+
+        it('should fail on non-string bookid', () => {
+            expect(() => {
+                logic.addBookToTemplates(true, false)
+            }).toThrow(Error)
+        })
+
+        it('should fail on empty bookid', () => {
+            expect(() => {
+                logic.addBookToTemplates('', false)
+            }).toThrow(Error)
+        }) 
+
+        it('should fail on is a template=true', () => {
+            expect(() => {
+                logic.addBookToTemplates('true', true)
+            }).toThrow(Error)
+        })
+
+        it('should fail on non-boolean', () => {
+            expect(() => {
+                logic.addBookToTemplates('dfdfdf', 0)
+            }).toThrow(Error)
+        }) 
+    })
+
+    describe('RetrieveTemplateBook', () => {
+        const name = 'Carlos'
+        const surname = 'Calvo'
+        const email = `Carlos-${Math.random()}@mail.com`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on retrieving a template book', async () => {
+            const title = `Title-${Math.random()}`
+            const content = `Content-${Math.random()}`
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            logic.__userApiToken__ = token
+            const book = await bookApi.addBook(title, content, 'url12', {}, [], token)
+            const bookadded = await bookApi.addBookToTemplates(book._id)
+            const retrievedTemplate = await logic.retrieveTemplateBook(bookadded._id)
+            expect(retrievedTemplate).toBeDefined()
+            expect(retrievedTemplate.title).toBe(title)
+            expect(retrievedTemplate.content).toBe(content)
+            expect(retrievedTemplate.coverphoto).toBe('url12')
+        })
+
+        it('should fail on too many args', () => {
+            expect(() => {
+                logic.addBookToTemplates('arg1', 'arg2')
+            }).toThrow(Error)
+        }) 
+    })
+
+    describe('RetrieveTemplateBooks', () => {
+        const name = 'Carlos'
+        const surname = 'Calvo'
+        const email = `Carlos-${Math.random()}@mail.com`
+        const password = '123'
+        const passwordConfirm = password
+
+        it('should succeed on adding to templates a book', async () => {
+            const title = `Title-${Math.random()}`
+            const content = `Content-${Math.random()}`
+            const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+            const token = await userApi.authenticateUser(email, password)
+            logic.__userApiToken__ = token
+            const book = await bookApi.addBook(title, content, 'url12', {}, [], token)
+            const bookadded = await bookApi.addBookToTemplates(book._id)
+            const retrievedTemplates = await logic.retrieveTemplateBooks()
+            expect(retrievedTemplates).toBeDefined()
+            expect(retrievedTemplates instanceof Array).toBe(true)
+            expect(retrievedTemplates.length).toBeGreaterThan(0)
+        })
+
+        it('should fail on too many args', () => {
+            expect(() => {
+                logic.retrieveTemplateBooks('arg1', 'arg2')
+            }).toThrow(Error)
+        }) 
+    })
+
+    //addTemplateToUserBooks(id){
+        describe('Add Template to User Books', () => {
+            const name = 'Carlos'
+            const surname = 'Calvo'
+            const email = `Carlos-${Math.random()}@mail.com`
+            const password = '123'
+            const passwordConfirm = password
+
+            const name2 = 'Cesc'
+            const surname2 = 'Caballero'
+            const email2 = `Carlos-${Math.random()}@mail.com`
+    
+            it('should succeed on adding a template to user books', async () => {
+                try {
+                    const title = `Title-${Math.random()}`
+                    const content = `Content-${Math.random()}`
+                    const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+                    const token = await userApi.authenticateUser(email, password)
+                    logic.__userApiToken__ = token
+                    const book = await bookApi.addBook(title, content, 'url12', {}, [], token)
+                    const bookadded = await bookApi.addBookToTemplates(book._id)
+                    const bookcheck = await logic.addTemplateToUserBooks(bookadded._id)
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBe('Already existing template in your books')
+                }
+            })
+
+            it('should fail on not-string id ', () => {
+                expect(() => {
+                    logic.addTemplateToUserBooks(true)
+                }).toThrow(Error)
+            }) 
+
+            it('should fail on empty id', () => {
+                expect(() => {
+                    logic.addTemplateToUserBooks('')
+                }).toThrow(Error)
+            }) 
+    
+        })
+
+        describe('Download epub', () => {
+            const name = 'Carlos'
+            const surname = 'Calvo'
+            const email = `Carlos-${Math.random()}@mail.com`
+            const password = '123'
+            const passwordConfirm = password
+
+            const name2 = 'Cesc'
+            const surname2 = 'Caballero'
+            const email2 = `Carlos-${Math.random()}@mail.com`
+    
+            it('should not throw error on downloading epub', async () => {
+                    const title = `Title-${Math.random()}`
+                    const content = `Content-${Math.random()}`
+                    const id = await userApi.registerUser(name, surname, email, password, passwordConfirm)
+                    const token = await userApi.authenticateUser(email, password)
+                    logic.__userApiToken__ = token
+                    const book = await bookApi.addBook(title, content, 'url12', {}, [], token)
+                    const epub = await logic.downloadEpub(book._id)
+                    expect(epub).toBeDefined()
+            })
+
+            it('should fail on not-string id ', () => {
+                expect(() => {
+                    logic.downloadEpub(true)
+                }).toThrow(Error)
+            })
+            it('should fail on empty id ', () => {
+                expect(() => {
+                    logic.downloadEpub('')
+                }).toThrow(Error)
+            })
+        })
 })

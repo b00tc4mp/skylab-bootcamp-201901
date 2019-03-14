@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     try {
         logic.addBookToTemplates(id)
             .then(book => {
-                return res.json({ book })})
+                return res.json( book )})
             .catch(({ message }) => {
                 res.status(409).json({
                     error: message

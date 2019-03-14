@@ -140,8 +140,7 @@ const bookApi = {
         return fetch(`${this.url}/book/retrieveTemplates`, {
             method: 'GET'
         })
-        .then(books => {
-            return books.json()})
+        .then(books => books.json())
     },
 
 

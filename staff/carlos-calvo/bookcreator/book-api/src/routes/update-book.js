@@ -5,7 +5,7 @@ module.exports = (req, res) => {
 
     try {
         logic.updateBook(title, parameters, id, userId)
-            .then(id => res.json({ id }))
+            .then(id => res.json( id ))
             .catch(({ message }) => {
                 res.status(409).json({
                     error: message

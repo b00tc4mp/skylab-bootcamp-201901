@@ -5,7 +5,7 @@ module.exports = (req, res) => {
 
     try {
         logic.deleteBook(id)
-            .then(id => res.json({ id }))
+            .then(id => res.json( id ))
             .catch(({ message }) => {
                 console.log(message)
                 res.status(409).json({

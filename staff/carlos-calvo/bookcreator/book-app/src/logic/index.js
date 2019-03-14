@@ -267,6 +267,7 @@ const logic = {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw new Error('id  is empty')
         if(isTemplate) throw new Error('Can not add a template to templates!!')
+        if(typeof isTemplate !== 'boolean') throw new Error('id is not boolean')
         return (async () => {
             const book = await bookApi.addBookToTemplates(id)
             return book
