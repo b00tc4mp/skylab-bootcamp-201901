@@ -23,13 +23,13 @@ class Calendar extends Component {
         this.setState({ users })
     }
 
-    retrieveAppointments = async () => {
+    // retrieveAppointments = async () => {
       
-        let year= this.state.year
-        let month = this.state.month
-        const appointments = await logic.retrieveAppointments(year, month )
-        this.setState({ appointments})
-    }
+    //     let year= this.state.year
+    //     let month = this.state.month
+    //     const appointments = await logic.retrieveAppointments(year, month )
+    //     this.setState({ appointments})
+    // }
 
   
     handleSelectOwner = async event => {
@@ -61,15 +61,23 @@ class Calendar extends Component {
         let monthNumber = parseInt(this.state.month)
         let dayNumber = parseInt(this.state.day)
         console.log(yearNumber, monthNumber, dayNumber)
-        this.setState({ month: monthNumber + 1 });
-        console.log(this.state.month)
+        this.setState({ month: monthNumber + 1 },()  => this.retrieveAppointments());
         if (this.state.month === 12) {
             this.setState({ year: yearNumber + 1, month: 1 })
         }
-        
-        
-        
     }
+
+    // handleLastMont = event => {
+    //     event.preventDefault()
+    //     let yearNumber = parseInt(this.state.year)
+    //     let monthNumber = parseInt(this.state.month)
+    //     let dayNumber = parseInt(this.state.day)
+    //     console.log(yearNumber, monthNumber, dayNumber)
+    //     this.setState({ month: monthNumber - 1 },() => this.retrieveAppointments());
+    //     if (this.state.month === 1) {
+    //         this.setState({ year: yearNumber - 1, month: monthNumber = 12 })
+    //     }
+    // }
 
     handleLastMont = event => {
         event.preventDefault()
@@ -77,16 +85,37 @@ class Calendar extends Component {
         let monthNumber = parseInt(this.state.month)
         let dayNumber = parseInt(this.state.day)
         console.log(yearNumber, monthNumber, dayNumber)
-        this.setState({ month: monthNumber - 1 });
+        this.setState({ month: monthNumber - 1 },() => this.retrieveAppointments());
         if (this.state.month === 1) {
             this.setState({ year: yearNumber - 1, month: monthNumber = 12 })
         }
     }
 
+    retrieveAppointments = async () => {
+        let year= this.state.year
+        let month = this.state.month
+        console.log(year, month)
+        const appointments = await logic.retrieveAppointments(year, month )
+        this.setState({ appointments})
+    }
+
+       
+
+    //   retrieveAppointments = async () => {
+      
+    //     let year= this.state.year 
+    //     let month = this.state.month
+    //     console.log(year, month)
+    //     const appointments = await logic.retrieveAppointments(year, month )
+    //     this.setState({ appointments})
+    // }
+
+
+   
+
     handleDatePicker = event => {
         event.preventDefault()
         const date = event.target.value;
-        this.retrieveAppointments()
         this.setState({ date }) 
         const dateSelected = new Date(date)
         const today = new Date()
@@ -99,21 +128,19 @@ class Calendar extends Component {
             let result = date.split('-');
             return result;
         }
-            let splitDate = getDate(date);
-            let yearVisit = splitDate[0];
-            let monthVisit = splitDate[1];
-            let dayVisit = splitDate[2];
-
-            let year = yearVisit;
-            let month = monthVisit;
-            let day = dayVisit;
-            this.setState({ year, month, day });
-         
-        }   
+        let splitDate = getDate(date);
+        let yearVisit = splitDate[0];
+        let monthVisit = splitDate[1];
+        let dayVisit = splitDate[2];
+        
+        let year = yearVisit;
+        let month = monthVisit;
+        let day = dayVisit;
+        this.setState({ year, month, day }, () => this.retrieveAppointments());       
+    }   
 
     handleSelectHour = event => {
         event.preventDefault()
-     
         const hour = event.target.value;
         this.setState({ hour })
         console.log(hour)
@@ -133,7 +160,7 @@ class Calendar extends Component {
 
     assignVisit = async (owner, pet, date, hour) => {
         try {
-            date = date.concat(' ' + hour)
+            // date = date.concat(' ' + hour)
             await logic.assignAppointment(owner, pet, date)
             this.setState({ error: false, visitConfirmed: true, errorDate: false })
             // this.retrieveAppointments()
@@ -142,11 +169,11 @@ class Calendar extends Component {
         }
     }
 
-    handleDeleteVisit = event => {
-        event.preventDefault()
-        debugger
-        const appointmentId = event.target.value;
-        this.deleteVisit(appointmentId)
+    handleDeleteVisit = (event, id) => {
+     
+
+        console.log(id)
+      //  this.deleteVisit(appointmentId)
     }
 
     deleteVisit = async (appointmentId) => {
@@ -239,8 +266,8 @@ class Calendar extends Component {
                                 </tr>
                                     <tr>
                                         <th>17:00
-                                        {this.state.appointments.map(appointment => <p name="appointment" value={appointment.id}>owner: {appointment.owner}{' '}pet:{appointment.pet}</p>)}
-                                            <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
+                                        {this.state.appointments.map(({id, owner, pet}) => <p name="appointment" value={id}>owner: {owner}{' '}pet:{pet}<button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button></p>)}
+                                            
                                         </th>
                                     </tr>
                                     <tr>

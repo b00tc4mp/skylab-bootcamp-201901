@@ -328,7 +328,7 @@ const logic = {
                 owner: appointment.owner,
                 pet: appointment.pet,
                 date : appointment.date,
-                // id: appointment.id             
+                id: appointment._id             
             }
         })
         
