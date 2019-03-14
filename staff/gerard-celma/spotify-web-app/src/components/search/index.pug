@@ -1,0 +1,9 @@
+include ../feedback/index
+
+mixin search()
+    section.search
+        form(method='POST', action='/home')
+            input(type='text', name='query', placeholder='Search an artist...')
+            button(type='submit') Search
+        if feedback
+            +feedback(feedback, 'danger')
