@@ -1,17 +1,34 @@
-module.exports = {
-    registerUser: require('./register-user'),
+const express = require('express')
+const cors = require('../cors')
+const bodyParser = require('body-parser')
+const tokenHelper = require('../token-helper')
+const { tokenVerifierMiddleware } = tokenHelper
+const { registerUser, authenticateUser, retrieveUser, searchArtists, addCommentToArtist, listCommentsFromArtist, notFound } = require('./handlers')
 
-    authenticateUser: require('./authenticate-user'),
+const jsonBodyParser = bodyParser.json()
 
-    retrieveUser: require('./retrieve-user'),
+const router = express.Router()
 
-    searchArtists: require('./search-artists'),
+router.use(cors)
 
-    addCommentToArtist: require('./add-comment-to-artist'),
+router.post('/user', jsonBodyParser, registerUser)
 
-    listCommentsFromArtist: require('./list-comments-from-artist'),
+router.post('/user/auth', jsonBodyParser, authenticateUser)
 
-    // TODO other route handlers
+router.get('/user', tokenVerifierMiddleware, retrieveUser)
 
-    notFound: require('./not-found')
-}
+router.get('/artists', searchArtists)
+
+router.post('/artist/:artistId/comment', [jsonBodyParser, tokenVerifierMiddleware], addCommentToArtist)
+
+router.get('/artist/:artistId/comment', tokenVerifierMiddleware, listCommentsFromArtist)
+
+// router.get('/artist/:id', retrieveArtist)
+
+// router.get('/album/:id', retrieveAlbum)
+
+// router.get('/track/:id', retrieveTrack)
+
+// router.get('*', notFound)
+
+module.exports = router

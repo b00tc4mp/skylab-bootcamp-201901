@@ -9,7 +9,7 @@ describe('logic', () => {
     describe('register user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
 
@@ -156,7 +156,11 @@ describe('logic', () => {
     describe('log in user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
+<<<<<<< HEAD
         const email = `manuelbarzi@mail.com-${Math.random()}`
+=======
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+>>>>>>> upstream/develop
         const password = '123'
         const passwordConfirm = password
 
@@ -173,7 +177,11 @@ describe('logic', () => {
     describe('check user is logged in', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
+<<<<<<< HEAD
         const email = `manuelbarzi@mail.com-${Math.random()}`
+=======
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+>>>>>>> upstream/develop
         const password = '123'
         const passwordConfirm = password
 
@@ -190,7 +198,11 @@ describe('logic', () => {
     describe('log out user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
+<<<<<<< HEAD
         const email = `manuelbarzi@mail.com-${Math.random()}`
+=======
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+>>>>>>> upstream/develop
         const password = '123'
         const passwordConfirm = password
 
@@ -209,7 +221,11 @@ describe('logic', () => {
     describe('retrieve user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
+<<<<<<< HEAD
         const email = `manuelbarzi@mail.com-${Math.random()}`
+=======
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+>>>>>>> upstream/develop
         const password = '123'
         const passwordConfirm = password
 
@@ -272,7 +288,7 @@ describe('logic', () => {
     false && describe('toggle favorite artist', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
@@ -348,7 +364,7 @@ describe('logic', () => {
     false && describe('toggle favorite album', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
         const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
@@ -429,7 +445,7 @@ describe('logic', () => {
     false && describe('toggle favorite track', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = '123'
         const passwordConfirm = password
         const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live)
