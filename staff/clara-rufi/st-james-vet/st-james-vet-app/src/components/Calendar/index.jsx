@@ -1,3 +1,4 @@
+ /* eslint-disable */
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
@@ -16,13 +17,23 @@ class Calendar extends Component {
 
     componentDidMount() {
         this.retrieveUsers()
+       
     }
+
+    // componentWillMount(){
+        // this.setState({appointments})
+    // }
 
     retrieveUsers = async () => {
         const users = await logic.retrieveUsers()
         this.setState({ users })
     }
 
+    // filteredAppointments = (appointmentsFilter) => {
+    //     let filteredAppointments = filterAppointments.filter((appointment) => {
+    //         let date
+    //     })
+    // }
     // retrieveAppointments = async () => {
       
     //     let year= this.state.year
@@ -99,8 +110,9 @@ class Calendar extends Component {
         this.setState({ appointments})
     }
 
-       
 
+
+ 
     //   retrieveAppointments = async () => {
       
     //     let year= this.state.year 
@@ -160,7 +172,7 @@ class Calendar extends Component {
 
     assignVisit = async (owner, pet, date, hour) => {
         try {
-            // date = date.concat(' ' + hour)
+            date = date.concat(' ' + hour)
             await logic.assignAppointment(owner, pet, date)
             this.setState({ error: false, visitConfirmed: true, errorDate: false })
             // this.retrieveAppointments()
@@ -186,6 +198,8 @@ class Calendar extends Component {
         }
     }
 
+
+
     handleConfirmVisitNO = event => {
         event.preventDefault()
         this.setState({ askConfirmation: false, error: false, confirmVisit: false, errorDate: false })
@@ -197,6 +211,7 @@ class Calendar extends Component {
     }
 
 
+    
     render() {
         const { state: { year, month } } = this
 
@@ -260,17 +275,49 @@ class Calendar extends Component {
 
                             const mNow = moment(`${year}-${month}-${count}`)
 
+                            console.log('count'+ count)
+                         
+                            
+                            
+                            
+                            // console.log(dayVisit)
                             if (paint && count <= m.daysInMonth()) {
 
-                                days.push(<div><table><tr className="month-day" key={count}>{`${mNow.format('dddd')} ${count++}`}
+                            // if({dayVisit} === {dayVisit})
+                            // console.log('dayVisit' + dayVisit)
+        
+             
+                            days.push(<div><table><tr className="month-day" key={count}>{mNow.format('dddd')} {count++}
+
+
                                 </tr>
+                                
+                                {
+                                    this.state.appointments.map(({id, owner, pet, date}) => {
+                                        if (count -1 === date.getDate()) {
+                                            return (
+                                                <p className="appointment" value={id}>
+                                                        
+                                                    {date.getDate()}{' ' }{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+
+                                                        
+                                                        <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                    </p>
+                                            )
+                                        } else {
+                                            return <p>Libre</p>
+                                        }
+            
+                                    })
+                               
+                                }
+
                                     <tr>
                                         <th>17:00
-                                        {this.state.appointments.map(({id, owner, pet}) => <p name="appointment" value={id}>owner: {owner}{' '}pet:{pet}<button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button></p>)}
-                                            
+                                                                     
                                         </th>
                                     </tr>
-                                    <tr>
+                                    {/* <tr>
                                         <th>17:30
                                         <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
                                         </th>
@@ -294,7 +341,7 @@ class Calendar extends Component {
                                         <th>19:30
                                         <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
                                         </th>
-                                    </tr>
+                                    </tr> */}
                                 </table>
                                 </div>)
                             } else

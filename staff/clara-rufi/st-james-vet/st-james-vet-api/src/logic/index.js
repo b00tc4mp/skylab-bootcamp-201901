@@ -311,7 +311,8 @@ const logic = {
         console.log(fromDate, toDate)
 
 
-        const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate}});
+        // const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate}});
+        const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate}}).populate('owner pet')
         // const _appointments = await Appointment.find({})
         // let toDate = new Date (fromDate.getFullYear(), fromDate.getMonth() + 1, 0)
         // let condition = {date: {'$gte': date, '$lte': lastDay}}
@@ -324,6 +325,7 @@ const logic = {
         // const _appointments = await Appointment.find({}).populate[{path:'owner', select:'name'}, {path: 'pet', select: 'name'}]
     
         const appointments = _appointments.map(appointment => {
+            debugger
             return {
                 owner: appointment.owner,
                 pet: appointment.pet,
