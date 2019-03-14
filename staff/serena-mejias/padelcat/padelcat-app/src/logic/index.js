@@ -128,10 +128,9 @@ const logic = {
     return padelcatApi.addChosenPlayers(playersChosen, matchId);
   },
 
-
-  retrieveAvailabilityPlayers:(matchId) => {
-    return padelcatApi.retrieveAvailabilityPlayers(matchId);
-  }
+  // retrieveAvailabilityPlayers:(matchId) => {
+  //   return padelcatApi.retrieveAvailabilityPlayers(matchId);
+  // }
 };
 
 export default logic;

@@ -41,13 +41,49 @@ const logic = {
     if (!surname.trim().length) throw Error("surname cannot be empty");
 
     if (typeof email !== "string") throw TypeError(`${email} is not string`);
-    if (!email.trim().length) throw Error("email cannot be empty");
+    if (!email.trim().length) throw Er
+
+  const { _id } = props.playerlogged;
+
+  const handleSetAvailable = matchId => {
+    props.handleSetAvailable(matchId);
+    setAvailable(true);
+  };
+
+  const handleSetUn("email cannot be empty");
 
     if (typeof password !== "string")
-      throw TypeError(`${password} is not string`);
-    if (!password.trim().length) throw Error("password cannot be empty");
+      throw TypeError(`${password} is 
 
-    if (typeof link !== "string") throw TypeError(`${link} is not string`);
+  const { _id } = props.playerlogged;
+
+  const handleSetAvailable = matchId => {
+    props.handleSetAvailable(matchId);
+    setAvailable(true);
+  };
+
+  const handleSetUn string`);
+    if (!password.trim().length) throw
+
+  const { _id } = props.playerlogged;
+
+  const handleSetAvailable = matchId => {
+    props.handleSetAvailable(matchId);
+    setAvailable(true);
+  };
+
+  const handleSetUnror("password cannot be empty");
+
+    if (typeof link !== "string") thro
+
+  const { _id } = props.playerlogged;
+
+  const handleSetAvailable = matchId => {
+    props.handleSetAvailable(matchId);
+    setAvailable(true);
+  };
+
+  const handleSetUnypeError(`${link} is not string`);
     if (!link.trim().length) throw Error("link cannot be empty");
 
     return (async () => {
@@ -228,6 +264,7 @@ const logic = {
   },
 
   getMatchesWithData() {
+    debugger
     return (async () => {
       const dataMatches = await logic.retrieveMatchesScrapping();
       const newArray = dataMatches.map(async scrappingMatch => {
@@ -257,7 +294,7 @@ const logic = {
           playersChosen
         };
       });
-      return Promise.all(newArray).then((response) => response)
+      return Promise.all(newArray).then(response => response);
     })();
   },
 

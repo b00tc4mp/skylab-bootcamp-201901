@@ -1,7 +1,6 @@
 const logic = require("../../logic");
 
 module.exports = (req, res) => {
-  debugger;
   const {
     body: { playerId, matchId }
   } = req;

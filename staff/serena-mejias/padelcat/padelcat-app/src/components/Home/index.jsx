@@ -9,6 +9,7 @@ export const Home = props => {
   const [matches, setMatches] = useState("");
 
   useEffect(() => {
+    
     if (!logic.getStoredtoken()) {
       props.history.push("/login");
     }

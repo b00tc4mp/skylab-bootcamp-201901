@@ -5,6 +5,7 @@ module.exports = (req, res) => {
   const {
     body: { playersChosen, matchId }
   } = req;
+
   try {
     logic
     .addChosenPlayers(playersChosen, matchId)

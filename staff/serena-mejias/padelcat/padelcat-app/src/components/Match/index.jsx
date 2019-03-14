@@ -6,7 +6,6 @@ import { Form, Field,Values } from "react-final-form";
 import logic from "../../logic";
 import { log } from "util";
 
-
 export const Match = props => {
   const [available, setAvailable] = useState(false);
   const {
@@ -36,7 +35,6 @@ export const Match = props => {
 
   const onSubmit = e => {
     console.log(e);
-
     logic.addChosenPlayers(playersChosen, matchId);
   };
 
@@ -50,7 +48,7 @@ export const Match = props => {
 
   return (
     <div>
-      <h4>{date}</h4>
+      <h4>{date} - {matchId}</h4>
       <div className="teams match">
         <div className="team1">
           <img src={imageTeam1} />

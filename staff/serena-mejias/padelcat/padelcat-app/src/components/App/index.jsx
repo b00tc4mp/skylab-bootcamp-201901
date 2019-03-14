@@ -19,10 +19,11 @@ class App extends Component {
   };
   handleLogin = (email, password) => {
     try {
-      debugger;
       logic
         .loginPlayer(email, password)
         .then(response => {
+          console.log(response);
+          
           this.setState({ player: response.player });
           logic.storeToken(response.token);
           this.props.history.push("/home");
@@ -80,9 +81,9 @@ class App extends Component {
       // and set it in the state
       // this.setState({ player: response.player });
       console.log(logic.getStoredtoken());
-
     }
   }
+
 
   render() {
     const {
@@ -108,7 +109,7 @@ class App extends Component {
                 handleSetAvailable={handleSetAvailable}
                 handleSetUnavailable={handleSetUnavailable}
                 playerlogged={this.state.player}
-            /> : <Redirect to={{ pathname: "/home" }} />)}
+            /> : <Redirect to={{ pathname: "/login" }} />)}
           />
           <Route
             exact
@@ -116,7 +117,7 @@ class App extends Component {
             render={() => <Redirect to={{ pathname: "/home" }} />}
           />
           <Route path="/players" component={Ranking} />
-        </Grid> s
+        </Grid>
       </main>
     );
   }
