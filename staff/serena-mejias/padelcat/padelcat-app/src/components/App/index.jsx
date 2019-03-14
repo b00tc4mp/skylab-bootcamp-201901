@@ -72,6 +72,18 @@ class App extends Component {
     logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
   };
 
+  componentDidMount(){
+    if (!logic.getStoredtoken()) {
+      this.props.history.push("/login");
+    } else {
+      // retrieve player info using token 
+      // and set it in the state
+      // this.setState({ player: response.player });
+      console.log(logic.getStoredtoken());
+
+    }
+  }
+
   render() {
     const {
       handleLogin,
@@ -82,14 +94,7 @@ class App extends Component {
 
     return (
       <main>
-        <Form onSubmit={console.log} render={({ handleSubmit, form }) => 
-          <form onSubmit={handleSubmit}>
-            <ChosenPairs selectorName="firstPair" players={['manuel', 'serena'].map((name, index) => ({ id: index, name }))} />
-            <button type="submit">Choose this pair</button>
-          </form>
-        }>
-        </Form>
-        {/* <Header />
+        <Header />
         <Grid container justify="center" spacing={24}>
           <Route
             path="/register"
@@ -98,13 +103,12 @@ class App extends Component {
           <Route path="/login" render={() => <Login onLogin={handleLogin} />} />
           <Route
             path="/home"
-            render={() => (
-              <Home
+            render={() => ( logic.isPlayerLoggedIn()?            
+                <Home
                 handleSetAvailable={handleSetAvailable}
                 handleSetUnavailable={handleSetUnavailable}
                 playerlogged={this.state.player}
-              />
-            )}
+            /> : <Redirect to={{ pathname: "/home" }} />)}
           />
           <Route
             exact
@@ -112,7 +116,7 @@ class App extends Component {
             render={() => <Redirect to={{ pathname: "/home" }} />}
           />
           <Route path="/players" component={Ranking} />
-        </Grid> */}
+        </Grid> s
       </main>
     );
   }

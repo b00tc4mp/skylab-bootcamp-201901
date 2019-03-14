@@ -85,6 +85,12 @@ const logic = {
     }
     return token;
   },
+
+  isPlayerLoggedIn: () => {
+    const token = sessionStorage.getItem("tokenKey");
+
+    return !!token
+  },
   storeToken: token => {
     padelcatApi.setUptokenOnRequest(token);
     sessionStorage.setItem("tokenKey", token);
@@ -117,6 +123,11 @@ const logic = {
   deleteAvalabilityPlayer: (playerId, matchId) => {
     return padelcatApi.deleteAvalabilityPlayer(playerId, matchId);
   },
+
+  addChosenPlayers: (playersChosen, matchId) => {
+    return padelcatApi.addChosenPlayers(playersChosen, matchId);
+  },
+
 
   retrieveAvailabilityPlayers:(matchId) => {
     return padelcatApi.retrieveAvailabilityPlayers(matchId);
