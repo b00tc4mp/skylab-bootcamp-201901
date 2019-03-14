@@ -1,0 +1,285 @@
+
+body::-webkit-scrollbar,
+    .DetailPanel-otherInfo__moves::-webkit-scrollbar
+        width: 0.5em
+        height: 0.4em
+
+
+body::-webkit-scrollbar-thumb,
+    .DetailPanel-otherInfo__moves::-webkit-scrollbar-thumb,
+
+        background-color: rgba(0,0,0,0.2)
+
+
+.DetailPanel-otherInfo__moves
+  scrollbar-arrow-color: #009688
+  scrollbar-face-color: #eeeeee
+  scrollbar-highlight-color: #eeeeee
+  scrollbar-shadow-color: #dddddd
+    
+.DetailPanelContainer
+    margin-top: 5%
+    display: block
+    width: 100%
+    height: 100%
+    background-image: url('http://pngimg.com/uploads/pokeball/pokeball_PNG8.png')
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center
+    order: 2
+
+    .img
+        margin-top: 0 
+        width: 30%
+
+
+
+    ul
+        padding: 0
+        margin-right: 0
+        list-style: none
+
+.DetailPanel
+    display: flex
+    justify-content: center
+    width: 100%
+
+
+
+    &__backButton
+        
+       
+    
+    button
+        display: inline-block
+        cursor: pointer
+
+    .button
+        width: 10px
+
+
+    
+    &-mainInfo
+        border: 10px solid blue
+        height: 550px
+        width: 500px
+        margin-top: 5rem 
+        box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
+        border-radius: 1.2rem
+        border: 5px solid #3B3B3B
+        background-color: white
+        margin-right: 1%
+        
+        h2
+            background-color: #FF0032
+            border-top-left-radius: .7rem
+            border-top-right-radius: .7rem
+            color: white
+            order: 2
+            align-self: flex-end
+            text-indent: 3em
+        &-TitleRow
+            display: flex
+            flex-flow: row wrap
+            background-color: #FF0032
+            border-top-left-radius: .7rem
+            border-top-right-radius: .7rem
+            color: white
+
+
+    &-otherInfo
+        border: 10px solid green
+        width: 500px
+        height: 550px
+        margin-top: 5em
+        box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 16px 16px 5px rgba(0, 0, 0, 0.19)
+        border-radius: 1.2rem
+        border: 5px solid #3B3B3B
+        background-color: white
+        margin-left: 1%
+        ul
+            display: flex
+            justify-content: center
+
+
+        &__buttons
+            margin-bottom: 1rem
+            background-color: #FF0032
+            border-top-left-radius: .7rem
+            border-top-right-radius: .7rem
+            font-size: 1.5em
+
+
+            &-button
+                border-radius: .5rem
+                border-top-left-radius: 0rem
+                border-top-right-radius: 0rem
+                background-color: #FF0032
+                color: white
+                border: 0px solid #FF0032
+            
+            
+
+        &__moves
+            ul
+                display: flex
+                flex-flow: row wrap
+                height: 400px
+                width: 100%
+                overflow: scroll
+                overflow-x: hidden
+                
+.type
+    display: flex
+    margin: 10px
+    align-content: center
+    justify-content: center
+    align-items: center
+    cursor: default
+    width: 100px
+    height: 50px
+    color: white
+    background-color: black
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 2px rgba(0, 0, 0, 0.19)
+    border-radius: 1.2rem
+    &-bug
+        background-color: #A8B820
+    &-dragon
+        background-color: #7038F8
+    &-ice
+        background-color: #98D8D8
+    &-fighting
+        background-color: #C03028
+    &-fire
+        background-color: #F08030
+    &-flying
+        background-color: #A890F0
+    &-grass
+        background-color: #78C850
+    &-ghost
+        background-color: #705898
+    &-ground
+        background-color: #E0C068
+    &-electric
+        background-color: #F8D030
+    &-normal
+        background-color: #A8A878
+    &-poison
+        background-color: #A040A0
+    &-psychic
+        background-color: #F85888
+    &-rock
+        background-color: #B8A038
+    &-water
+        background-color: #6890F0
+
+.stat
+    cursor: default
+span
+    margin-left: .25em
+.badge 
+    font-size: 1em
+    background-color: blue
+.ability
+    display: flex
+    flex-flow: column nowrap
+    align-content: center
+    justify-content: center
+    align-items: center
+    cursor: default
+    width: 100px
+    height: 50px
+    color: white
+    background-color: #A8A878
+    margin: 10px
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 2px rgba(0, 0, 0, 0.19)
+    border-radius: 1.2rem
+
+.move
+    display: flex
+    flex-flow: column nowrap
+    align-content: center
+    justify-content: center
+    align-items: center
+    cursor: default
+    width: 100px
+    height: 50px
+    color: white
+    background-color: #E0C068
+    margin: 10px
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 2px rgba(0, 0, 0, 0.19)
+    border-radius: 1.2rem
+
+.item
+    display: flex
+    flex-flow: column nowrap
+    align-content: center
+    justify-content: center
+    align-items: center
+    cursor: default
+    width: 100px
+    height: 50px
+    color: white
+    background-color: #6890F0
+    margin: 10px
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 2px rgba(0, 0, 0, 0.19)
+    border-radius: 1.2rem
+    
+
+
+.DetailPanel-otherInfo__buttons-button-selected
+    background-color: white
+    border: 0px solid white
+    border-radius: .1rem
+    border-top-left-radius: 0rem
+    border-top-right-radius: 0rem
+    margin: 0px
+
+@media screen and (max-width: 640px)
+    
+    .DetailPanel
+        &-mainInfo        
+            h2
+                text-indent: 0em
+    
+    .DetailPanel__backButton
+        bottom: 1%
+        left: 1%
+    .DetailPanelContainer
+    
+
+        .img
+            width: 60%
+
+    .DetailPanel
+        flex-flow: row wrap
+        width: 90%
+
+    
+    .DetailPanel-otherInfo
+        margin-bottom: 1em
+        margin-left: 2em
+        margin-right: 0em
+    .DetailPanel-mainInfo
+        margin-left: 2em
+        margin-right: 0em
+
+@media screen and (min-width: 641px) and (max-width: 1080px)
+
+    .DetailPanel__backButton
+        bottom: 1%
+    .DetailPanelContainer
+    
+
+        .img
+            width: 40%
+    .DetailPanel
+        flex-flow: row wrap
+    
+    .DetailPanel-otherInfo
+        margin-bottom: 1em
+        margin-left: 0em
+        margin-right: 0em
+    .DetailPanel-mainInfo
+        margin-left: 0em
+        margin-right: 0em
