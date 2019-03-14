@@ -5,6 +5,8 @@ module.exports = {
 
     retrieveUser: require('./retrieve-user'),
 
+    retrieveUserLogged: require('./retrieve-user-logged'),
+
     updateUser:require('./update-user'),
 
     addJourney: require('./add-journey'),

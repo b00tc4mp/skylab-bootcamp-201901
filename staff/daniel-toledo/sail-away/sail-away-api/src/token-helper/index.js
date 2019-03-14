@@ -6,11 +6,10 @@ const tokenHelper = {
     jwtSecret: null,
 
     createToken(userId) {
-        return jwt.sign({ sub: userId }, this.jwtSecret, { expiresIn: '4h' })
+        return jwt.sign({ sub: userId }, this.jwtSecret, { expiresIn: '30d' })
     },
 
     verifyToken(token) {
-        debugger
         const { sub } = jwt.verify(token, this.jwtSecret)
 
         if (!sub) throw Error(`subject not present in token ${token}`)

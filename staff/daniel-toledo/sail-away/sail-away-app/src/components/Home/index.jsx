@@ -1,6 +1,7 @@
 'use strict'
 
 import React, { Component } from 'react'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 
 import MapDisplay from '../MapDisplay'
 
@@ -27,7 +28,7 @@ function Home(props) {
                                         return (<section className='col-12 col-md-6 col-lg-4'>
                                                 <div>
                                                         <button onClick={() => moreInfo(journey.id)}>more</button>
-                                                        <button>capitan</button>
+                                                        <button onClick={()=>props.history.push(`/user/${journey.userId}`)}>capitan</button>
                                                         <button>contact</button>
                                                         <button onClick={() => editJourney(journey.id)}>edit</button>
                                                         <button className='fas fa-heart'></button>
@@ -46,4 +47,4 @@ function Home(props) {
         </main>)
 }
 
-export default Home
+export default withRouter(Home)

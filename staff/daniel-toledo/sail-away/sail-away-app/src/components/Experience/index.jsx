@@ -9,9 +9,8 @@ function Experience({ getExperience, initialExperience }) {
     let [experience, setExperience] = useState(initialExperience)
 
     function handleExperience(event) {
-       
         setExperience(event.target.value)
-        getExperience(experience)
+        getExperience(event.target.value)
     }
 
     return (<main className="experienceRange">

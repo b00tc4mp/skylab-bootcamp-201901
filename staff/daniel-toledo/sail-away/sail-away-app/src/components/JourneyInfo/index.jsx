@@ -5,6 +5,7 @@ import { Route, withRouter, Link } from 'react-router-dom'
 
 import logic from '../../logic'
 import MapDisplay from '../MapDisplay'
+import BoatInfo from '../BoatInfo'
 
 import './index.sass'
 
@@ -49,6 +50,8 @@ function JourneyInfo(props) {
 
             <h3 className='text-center'>Boat</h3>
 
+            <BoatInfo boat={journey.boat} />
+
             <div>
                 <h3 className='text-center'>Looking for</h3>
                 <h5>Talents</h5>
@@ -72,7 +75,7 @@ function JourneyInfo(props) {
                     }
             </div>
 
-            <button onClick={() => props.history.push('/home')}>go Back</button>
+            <button onClick={() => props.history.push('/home')}>go Home</button>
 
         </div>}
     </main>)

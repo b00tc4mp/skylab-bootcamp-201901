@@ -40,13 +40,20 @@ const logic = {
             .then(({ token }) => this.__userToken__ = token)
     },
 
-    retrieveUser(){
+    retrieveUserLogged(){
         let token= this.__userToken__
         
         if (typeof token !== 'string') throw TypeError(token + ' is not a string');
         if (!token.trim().length) throw Error('token cannot be empty');
         debugger
-        return sailAwayApi.retrieveUser(token)
+        return sailAwayApi.retrieveUserLogged(token)
+     },
+
+     retrieveUser(id){
+        if (typeof id !== 'string') throw TypeError(id + ' is not a string');
+        if (!id.trim().length) throw Error('id cannot be empty');
+        debugger
+        return sailAwayApi.retrieveUser(id)
      },
 
     updateUser(pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages){
@@ -59,8 +66,6 @@ const logic = {
 
 
         return sailAwayApi.updateUser(token, pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages)
-        .then(user => console.log(user))
-
     },
 
     get isUserLoggedIn() {

@@ -95,7 +95,7 @@ const logic = {
     },
 
     updateUser(userId, data) {
-
+        debugger
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 

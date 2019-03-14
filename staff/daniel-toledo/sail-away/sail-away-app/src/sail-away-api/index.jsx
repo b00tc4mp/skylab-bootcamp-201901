@@ -41,13 +41,23 @@ const sailAwayApi = {
 
     },
 
-    retrieveUser(token){
+    retrieveUserLogged(token){
         return fetch(`${this.url}/user/`, {
             method: 'GET',
             headers: {
                 authorization: `Bearer ${token}`
             },
         })
+            .then(response => response.json())
+            .then(user => {
+                if (!user.error) return user
+
+                else throw Error(user.error)
+            })
+    },
+
+    retrieveUser(id){
+        return fetch(`${this.url}/user/${id}`)
             .then(response => response.json())
             .then(user => {
                 if (!user.error) return user
@@ -67,6 +77,7 @@ const sailAwayApi = {
         })
             .then(response => response.json())
             .then(user => {
+                debugger
                 if (!user.error) return user
 
                 else throw Error(user.error)
@@ -132,14 +143,14 @@ const sailAwayApi = {
             })
     },
 
-    updateJourney(id, title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages) {
+    updateJourney(id, title, seaId, route, dates, description, userId, boat, lookingFor) {
         debugger
         return fetch(`${this.url}/journey/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages })
+            body: JSON.stringify({ title, seaId, route, dates, description, userId, boat, lookingFor })
         })
             .then(journey => journey.json())
             .then(response => {

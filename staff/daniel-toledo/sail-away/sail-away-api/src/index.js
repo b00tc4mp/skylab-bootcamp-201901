@@ -15,6 +15,7 @@ const {
     registerUser,
     authenticateUser,
     retrieveUser,
+    retrieveUserLogged,
     updateUser,
 
     addJourney, 
@@ -44,7 +45,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.post('/user', jsonBodyParser, registerUser)
         router.post('/user/auth', jsonBodyParser, authenticateUser)
-        router.get('/user',  tokenVerifierMiddleware, retrieveUser)
+        router.get('/user/:id', jsonBodyParser, retrieveUser)
+        router.get('/user',  tokenVerifierMiddleware, retrieveUserLogged)
         router.put('/user',tokenVerifierMiddleware,jsonBodyParser, updateUser)
 
         router.post('/journey', jsonBodyParser, addJourney)

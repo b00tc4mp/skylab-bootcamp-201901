@@ -10,7 +10,7 @@ import logic from '../../logic'
 
 function Boat({ getBoat, initialBoat, cancelBoat }) {
     const emptyBoat = {
-        id: `boat-${Math.floor(Math.random() * 10 ^ 5).toString()}`,
+        id: `boat-${Math.floor(Math.random() * 100000).toString()}`,
         pictures: ['https://ak2.picdn.net/shutterstock/videos/22004452/thumb/2.jpg'],
         name: '',
         type: '',

@@ -36,7 +36,7 @@ const User = new Schema({
 
     birthday: Date,
 
-    nacionality: String,
+    nationality: String,
 
     description: String,
 

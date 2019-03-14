@@ -5,6 +5,7 @@ import { Route, withRouter, Redirect } from 'react-router-dom'
 import Home from '../Home'
 import Register from '../Register'
 import ProfileEdit from '../ProfileEdit'
+import ProfileInfo from '../ProfileInfo'
 import Login from '../Login'
 import JourneyCreate from '../JourneyCreate'
 import JourneyInfo from '../JourneyInfo'
@@ -100,11 +101,12 @@ function App(props) {
         <Route exact path='/' render={() => <Landing search={handleSearch} />} />
         <Route path="/register" render={() => <Register />} />
         <Route path="/edit-profile" render={() => <ProfileEdit initialUser={initialUser} />} />
+        <Route path='/user/:id' render={()=> <ProfileInfo />} />
         <Route path="/login" render={() => <Login />} />
         <Route path="/home" render={() => journeys.length ? <Home journeys={journeys} moreInfo={handleMoreInfo} editJourney={handleEditJourney} /> : <Redirect to="/" />} />
         <Route path="/create-journey" render={() => <JourneyCreate />} />
         <Route path="/edit-journey/:id" render={() => <JourneyEdit journey={journey} />} />
-        <Route path="/journey/:id" render={() => <JourneyInfo journey={journey} />} />
+        <Route path="/journey/:id" render={() => <JourneyInfo />} />
         <button onClick={handleGoHome}>go Home</button>
         <button onClick={handleGoJourney}>create Journey</button>
     </main>)

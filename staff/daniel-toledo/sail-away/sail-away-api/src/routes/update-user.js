@@ -1,8 +1,8 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { userId, body: { name, surname, gender, birthday, nacionality, description, lookingFor}} = req
-    let data={name, surname, gender, birthday, nacionality, description, lookingFor}
+    const { userId, body: { pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages}} = req
+    let data={pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages}
     debugger
     try {
         logic.updateUser(userId, data)

@@ -37,8 +37,8 @@ function BoatInfo({ getEdit, getDelete, boat }) {
             </div>
 
         </div>
-        <button onClick={() => getEdit(boat)}>Edit boat</button>
-        <button onClick={() => getDelete(boat)}>Delete boat</button>
+        {getEdit && <button onClick={() => getEdit(boat)}>Edit boat</button>}
+        {getDelete && <button onClick={() => getDelete(boat)}>Delete boat</button>}
 
     </section>)
 }

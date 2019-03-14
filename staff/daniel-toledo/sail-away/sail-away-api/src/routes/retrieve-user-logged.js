@@ -1,10 +1,10 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { params: { id } } = req
+    const { userId } = req
 
     try {
-        logic.retrieveUser(id)
+        logic.retrieveUser(userId)
             .then(res.json.bind(res))
             .catch(({ message }) => {
                 res.status(400).json({

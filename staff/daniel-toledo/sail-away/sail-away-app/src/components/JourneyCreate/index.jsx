@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
-import { data, mongoose, models} from 'sail-away-data'
+import { data, mongoose, models } from 'sail-away-data'
 import logic from '../../logic'
 import MapRoute from '../MapRoute'
 import DateRange from '../DateRange'
 import Talents from '../Talents'
 import Experience from '../Experience'
 import Language from '../Language'
+import BoatInfo from '../BoatInfo'
 
 import './index.sass'
 
@@ -16,12 +17,19 @@ function JourneyCreate(props) {
 
     let [seaIdSelection, setSeaIdSelection] = useState('00')
     let [route, setRoute] = useState([])
-    let [dates, setDates]=useState([])
+    let [dates, setDates] = useState([])
     let [title, setTitle] = useState('')
     let [description, setDescription] = useState('')
     let [talents, setTalents] = useState([])
     let [experience, setExperience] = useState(0)
     let [languages, setLanguages] = useState([])
+    let [boatSelected, setBoatSelected] = useState(null)
+    let [boats, setBoats] = useState([])
+    let [userId, setUserId] =useState('')
+
+    useEffect(() => {
+        getUser()
+    }, [boatSelected])
 
     function handleSeaSelection(event) {
         let seaName = event.target.value
@@ -35,41 +43,26 @@ function JourneyCreate(props) {
         }
     }
 
-    function handleMarkers(coordenates) {
-        setRoute(coordenates)  //rute is an array of markers
+    async function getUser() {
+        try {
+            debugger
+            let user = await logic.retrieveUserLogged()
+            setUserId(user.id)
+            setBoats(user.boats)
+
+        } catch (error) {
+            console.error(error)
+        }
     }
 
-    function handleDates(date1, date2) {
-        setDates([date1, date2])
+    function getBoat(boatSelected){
+        return boats.find(boat => boat.id === boatSelected)
     }
-
-    function handleTalents(talents) {
-        setTalents(talents)
-        console.log(talents)
-    }
-
-    function handleExperience(experience){
-        setExperience(experience)
-        console.log(experience)
-    }
-
-    function handleLanguage(languages){
-        setLanguages(languages)
-        console.log(languages)
-    }
-
 
     async function handleOnSubmit() {
         try {
-            let userId=mongoose.Types.ObjectId('5c86b278745af708ec95bbbe') //To practice
-        
-            let boat={
-                name: 'saphiro',
-                type: 'Yacht',
-                model: 416,
-                description: 'amazing vessel'
-            }
-            let sailingTitles= []
+            let sailingTitles = []
+            let boat=getBoat(boatSelected)
             let id = await logic.generateJourney(title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
             console.log(id)
             props.history.push('/')
@@ -77,6 +70,11 @@ function JourneyCreate(props) {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    function handleBoatSelection(event){
+        let boatId= event.target.value ==='select your boat'? null : event.target.value
+        setBoatSelected(boatId) 
     }
 
     return (<main className="journey">
@@ -88,12 +86,12 @@ function JourneyCreate(props) {
         </select>
         <h3 className='text-center'>Design your journey</h3>
         <div className='journey__map'>
-            <MapRoute getMarkers={handleMarkers} seaIdSelection={seaIdSelection} initialMarkers={[]} />
+            <MapRoute getMarkers={coordenates => setRoute(coordenates)} seaIdSelection={seaIdSelection} initialMarkers={[]} />
         </div>
 
         <h3 className='text-center'>Sailing days</h3>
         <div className='journey__calendar'>
-            <DateRange getDates={handleDates} initialDates={[null, null]}/>
+            <DateRange getDates={(date1, date2) => setDates([date1, date2])} initialDates={[null, null]} />
         </div>
 
         <h3 className='text-center'>Title</h3>
@@ -107,19 +105,26 @@ function JourneyCreate(props) {
         </div>
 
         <h3 className='text-center'>Boat</h3>
+        <select name="boats" onChange={handleBoatSelection}>
+            <option value={null} key=''>select your boat</option>
+            {boats &&
+                boats.map(boat => <option value={boat.id} key={boat.id}>{boat.name}</option>)
+            }
+        </select>
+        {boatSelected && <BoatInfo boat={getBoat(boatSelected)} />}
 
         <div>
             <h3 className='text-center'>Looking for</h3>
             <h5>Talents</h5>
-            <Talents getChecks={handleTalents} initialChecks={[]} />
+            <Talents getChecks={talents => setTalents(talents)} initialChecks={[]} />
             <h5>Experience</h5>
-            <Experience getExperience={handleExperience} initialExperience={0} />
+            <Experience getExperience={experience => setExperience(experience)} initialExperience={0} />
             <h5>Sailing titles</h5>
             <h5>Language</h5>
-            <Language getLanguages={handleLanguage} initialLanguages={[]} />
+            <Language getLanguages={languages => setLanguages(languages)} initialLanguages={[]} />
         </div>
 
-        <button onClick={handleOnSubmit}>Submit</button>
+        <button onClick={handleOnSubmit}>Create Journey</button>
     </main>)
 }
 

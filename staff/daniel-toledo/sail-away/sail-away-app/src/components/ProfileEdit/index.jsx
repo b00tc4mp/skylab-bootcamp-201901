@@ -32,12 +32,12 @@ function EditProfile(props) {
     let [boats, setBoats] = useState([])
     let [boatIdToEdit, setBoatIdToEdit] = useState('')
     let [talents, setTalents] = useState([])
-    let [experience, setExperience] = useState(0)
+    let [experience, setExperience] = useState(null)
     let [languages, setLanguages] = useState([])
 
     async function getUser() {
         try {
-            let user = await logic.retrieveUser()
+            let user = await logic.retrieveUserLogged()
 
             setPictures(user.pictures)
             setName(user.name)
@@ -45,10 +45,10 @@ function EditProfile(props) {
             setGender(user.gender)
             setNationality(user.nationality)
             setBirthday(user.birthday)
-            setDescription(user.birthday)
+            setDescription(user.description)
             setBoats(user.boats)
             setTalents(user.talents)
-            setExperience(user.experience)
+            setExperience(Number(user.experience))
             setLanguages(user.languages)
             debugger
         
@@ -95,6 +95,7 @@ function EditProfile(props) {
 
     async function handleOnSubmit() {
         try {
+            debugger
             let id = await logic.updateUser(pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages)
             console.log(id)
             props.history.push('/')
@@ -165,12 +166,12 @@ function EditProfile(props) {
         <div>
             <h3 className='text-center'>Find the best match!</h3>
             <h5>Talents</h5>
-            <Talents getChecks={talents => setTalents(talents)} initialChecks={[]} />
+            {talents.length &&<Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
             <h5>Experience</h5>
-            <Experience getExperience={experience => setExperience(experience)} initialExperience={0} />
+            {experience !== null && <Experience getExperience={experience => setExperience(experience)} initialExperience={experience} />}
             <h5>Sailing titles</h5>
             <h5>Language</h5>
-            <Language getLanguages={languages => setLanguages(languages)} initialLanguages={[]} />
+            {languages.length && <Language getLanguages={languages => setLanguages(languages)} initialLanguages={languages} />}
         </div>
 
         <button onClick={handleOnSubmit}>Submit</button>
