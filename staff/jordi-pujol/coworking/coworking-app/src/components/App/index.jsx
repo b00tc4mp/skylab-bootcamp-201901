@@ -31,10 +31,10 @@ class App extends Component {
 
         return <main className='app'>
             <Route exact path='/register' render={() => !logic.isUserLoggedIn ? <Register /> : <Redirect to='/home/inbox' />} />
-            <Route path='/login/:link' render={(props) => !logic.isUserLoggedIn ? <Login link={props.match.params.link} /> : <Redirect to='/home/inbox' />} />
-            <Route exact path='/login' render={(props) => !logic.isUserLoggedIn ? <Login link={props.match.params.link} /> : <Redirect to='/home/inbox' />} />
+            <Route path='/login/:link' render={(props) => !logic.isUserLoggedIn ? <Login link={props.match.params.link} /> : <Redirect to='/home' />} />
+            <Route exact path='/login' render={(props) => !logic.isUserLoggedIn ? <Login link={props.match.params.link} /> : <Redirect to='/home' />} />
             <Route exact path='/workspace' render={() => <Workspace onNewWorkspace={handleNewWorkspace} feedback={workspaceFeedback} />} />
-            {/* <Route path='/home' render={()=> <Redirect to='/home/inbox'/>}/>  */}
+            <Route exact path='/' render={()=> <Redirect to='/home/inbox'/>}/> 
             <Route path='/home' render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to='/login' />} />
         </main>
     }

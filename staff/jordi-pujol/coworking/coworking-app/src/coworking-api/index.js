@@ -64,6 +64,26 @@ const coworkingApi = {
             })
     },
 
+    updateUser(token, data){
+        validate([{ key: 'token', value: token, type: String }])
+
+        return fetch(`${this.url}/user`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ data })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                console.log(response)
+                return response
+            })
+
+    },
+
     removeUser(token, email, password) {
         validate([{ key: 'token', value: token, type: String },
         { key: 'email', value: email, type: String },

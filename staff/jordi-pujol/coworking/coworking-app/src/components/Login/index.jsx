@@ -69,7 +69,7 @@ class Login extends Component {
                     <span>Password</span>
                     <input type="password" onChange={handlePasswordInput} required />
                     <p className="contentforgot-pass">Forgot password?</p>
-                    <button className="submit">Log In</button>
+                    <button className="">Log In</button>
                 </form>
                 <form onSubmit={handleNewFormSubmit}>
                     <button className="submit">Create new Workspace and Log In</button>
@@ -80,13 +80,13 @@ class Login extends Component {
                     <h2>New here?</h2>
                     <p>Sign up and discover great amount of new opportunities!</p>
                 </div>
+                <form onSubmit={handleGoToRegister} className="img__btn">
+                    <button>Sign Up</button>
+                </form>
                 <div className="img__text m--in">
                     <h2>One of us?</h2>
                     <p>If you already has an account, just sign in. We've missed you!</p>
                 </div>
-                <form onSubmit={handleGoToRegister} className="img__btn">
-                    <button>Sign Up</button>
-                </form>
             </section>
             {feedback && <Feedback message={feedback} />}
         </section>

@@ -4,7 +4,7 @@ const tokenHelper = require('../token-helper')
 const { createToken } = tokenHelper
 const bcrypt = require('bcrypt')
 const uuid = require('uuid')
-const { models: { User, Workspace, Service, Comment } } = require('coworking-data')
+const { models: { User, Workspace, Service } } = require('coworking-data')
 const validate = require('coworking-validation')
 
 const logic = {
@@ -98,10 +98,12 @@ const logic = {
     updateUser(userId, data) {
         validate([{ key: 'userId', value: userId, type: String }])
 
+        let _data = data.data[0]
+
         if (!data) throw TypeError('data should be defined')
         if (data.constructor !== Object) throw Error(`${data} is not an object`)
 
-        return User.findOneAndUpdate({ id: userId, $set: data })
+        return User.findOneAndUpdate({_id: userId}, {$set: _data})
     },
 
     /**
@@ -194,7 +196,12 @@ const logic = {
         validate([{ key: 'workId', value: workId, type: String },
         { key: 'userId', value: userId, type: String }])
 
-        return Workspace.findOne({ _id: workId })
+
+        return User.findById(userId)
+            .then(user => {
+                if (user.workspace == true) throw Error('user is already in a workspace')
+            })
+            .then(() => Workspace.findOne({ _id: workId }))
             .then(workspace => {
                 if (!workspace) throw Error(`workspace does not exists`)
 
@@ -359,7 +366,10 @@ const logic = {
         let _services = []
 
         return User.findById(userId)
-            .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service').lean())
+            .then((user) => {
+                if(!user) throw Error ('user does not exists')
+
+                return Workspace.findOne({ _id: user.workspace }).populate('service').lean()})
             .then(({ service }) => {
 
                 service.map(_service => {
@@ -377,15 +387,17 @@ const logic = {
 
     retrieveUserSubmitedEvents(userId){
         validate([{ key: 'userId', value: userId, type: String }])
-
+        debugger
         let _services = []
 
         return User.findById(userId)
-        .then(({ workspace }) => Workspace.findOne({ _id: workspace }).populate('service user').lean())
+        .then(user => {
+            if (!user) throw Error ('User does not exists')
+            return Workspace.findOne({ _id: user.workspace }).populate('service user').lean()})
             .then(({ service, user }) => {
 
                 service.map(_service => {
-                    
+
                     _service.submitedUsers.map(sub => {
                         if (sub.toString() == userId){  
                             _service.id = _service._id
@@ -416,6 +428,8 @@ const logic = {
         return Workspace.findById(workspaceId).populate('service user').lean()
             .then(workspace => {
 
+                if(!workspace) throw Error ('workspace not found')
+
                 services = workspace.service.map(service => {
                     service.id = service._id
                     delete service._id
@@ -436,8 +450,6 @@ const logic = {
                 return services
             })
     },
-
-    //TODO retrieve all services
 
     /**
      * 
@@ -476,7 +488,7 @@ const logic = {
 
                     if (user == userId) throw Error('user is already submited to this service')
                 })
-                if (service.user.toString() === userId) throw Error('user cannot apply for his own service')
+                if (service.user.toString() === userId) throw Error('user cannot apply to his own service')
 
                 debugger
 
@@ -497,6 +509,9 @@ const logic = {
 
         return Service.findById(serviceId)
             .then(service => {
+
+                if(!service) throw Error ('service not found')
+
                 _time = service.time
                 _provider = service.user
                 _submitedUsers = service.submitedUsers
@@ -540,7 +555,7 @@ const logic = {
                 const index = workspace.service.findIndex(service => service === serviceId)
 
                 workspace.service.splice(index, 1)
-                workspace.save()
+                return workspace.save()
             })
     },
 
@@ -560,6 +575,9 @@ const logic = {
         let comments = []
         return Service.findById(serviceId).lean()
             .then(service => {
+
+                if (!service) throw Error ('service not found')
+
                 comments = service.comments.map(_service => {
                     _service.id = _service._id
                     delete _service._id
@@ -577,7 +595,12 @@ const logic = {
 
         return Service.findById(serviceId)
             .then(service => {
+
+                if (!service) throw Error ('service not found')
+
                 const index = service.comments.findIndex(comment => comment._id == commentId)
+
+                if (index < 0) throw Error ('comment not found')
 
                 service.comments.splice(index, 1)
                 return service.save()

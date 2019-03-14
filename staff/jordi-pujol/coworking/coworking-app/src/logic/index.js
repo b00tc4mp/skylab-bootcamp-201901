@@ -47,7 +47,7 @@ const logic = {
         return coworkingApi.authenticateUser(email, password)
             .then(({ token, isAdmin }) => {
                 this.__coworkingApiToken__ = token
-                this.__isAdmin__ = isAdmin
+                this.__isAdmin__ = isAdmin.toString()
 
                 return token
             })
@@ -76,6 +76,10 @@ const logic = {
     },
     retrieveUser() {
         return coworkingApi.retrieveUser(this.__coworkingApiToken__)
+    },
+
+    updateUser (...data) {
+        return coworkingApi.updateUser(this.__coworkingApiToken__, data)
     },
 
     removeUser(email, password) {
@@ -173,7 +177,5 @@ const logic = {
 
         return coworkingApi.removeComment(this.__coworkingApiToken__, serviceId, commentId)
     }
-
-    // TODO updateUser
 }
 export default logic

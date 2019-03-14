@@ -43,7 +43,7 @@ class FullService extends Component {
                     .then(service => this.setState({ activeService: service }))
                     .then(() => logic.retrieveWorkspaceComments(service))
                     .then(comments => this.setState({ comments }))
-                    .then(() => this.setState({feedback: null}))
+                    .then(() => this.setState({ feedback: null }))
                     .catch(({ message }) => this.setState({ feedback: message }))
             }
             catch ({ message }) {
@@ -100,34 +100,40 @@ class FullService extends Component {
         }
     }
 
+    handleCloseModal = event => {
+        this.props.history.push('/home/inbox')
+    }
+
     render() {
 
-        const { state: { feedback, activeService: { title, description, user, submitedUsers, maxUsers, date, place, time, active }, comments }, handleDeleteComment, handleSubmitForm, handleCommentInput, handleSubmitComment } = this
+        const { state: { feedback, activeService: { title, description, user, submitedUsers, maxUsers, date, place, time, active }, comments }, handleDeleteComment, handleSubmitForm, handleCommentInput, handleSubmitComment, handleCloseModal } = this
 
         let formatedDate
 
         if (date) formatedDate = date.substring(0, 10) + ' ' + date.substring(11, 16)
 
-        return <section className="full-service">
-            <h2 className="full__service--title">Title: {title}</h2>
-            <p className="full__service--description"> Description: {description}</p>
-            <p className="full__service--description">Service provider: {user}</p>
-            <p className="full__service--description">Submited users: {submitedUsers && submitedUsers.length ? submitedUsers.length : '0'}</p>
-            <p className="full__service--description">Max users: {maxUsers}</p>
-            <p className="full__service--description">Place: {place}</p>
-            <p className="full__service--description">Expected service duration: {time} mins</p>
-            <p className="full__service--description">Avilable to submit: {active ? 'Yes' : 'No'}</p>
-            <p >Upload date and time: {formatedDate}</p>
-            <form onSubmit={handleSubmitForm}>
-                <button className="full-service__button">Submit to this Service</button>
-            </form>
-            {comments && comments.map(comment => <Comment onDeleteComment={handleDeleteComment} comment={comment} />)}
-            <form onSubmit={handleSubmitComment}>
-                <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/chat-circle-blue-512.png" alt="#" />
-                <input placeholder="comment..." onChange={handleCommentInput} />
-                <button className="full-service__button">Add a comment</button>
-            </form>
-            {feedback && <Feedback message={feedback} />}
+        return <section className="fullservice">
+            <div className="fullservice__content">
+                <i onClick={handleCloseModal} className="fas fa-window-close fa-2x"></i>
+                <h2 className="fullservice__content--title">Title: {title}</h2>
+                <p className="fullservice__content--item"> Description: {description}</p>
+                <p className="fullservice__content--item">Service provider: {user}</p>
+                <p className="fullservice__content--item">Submited users: {submitedUsers && submitedUsers.length ? submitedUsers.length : '0'}</p>
+                <p className="fullservice__content--item">Max users: {maxUsers}</p>
+                <p className="fullservice__content--item">Place: {place}</p>
+                <p className="fullservice__content--item">Expected service duration: {time} mins</p>
+                <p className="fullservice__content--item">Avilable to submit: {active ? 'Yes' : 'No'}</p>
+                <p >Upload date and time: {formatedDate}</p>
+                <form onSubmit={handleSubmitForm}>
+                    <button className="fullservice__button">Submit to this Service</button>
+                </form>
+                {comments && comments.map(comment => <Comment onDeleteComment={handleDeleteComment} comment={comment} />)}
+                <form onSubmit={handleSubmitComment}>
+                <i class="fas fa-comment"></i><input placeholder="comment..." onChange={handleCommentInput} />
+                    <button className="full-service__button">Add a comment</button>
+                </form>
+                {feedback && <Feedback message={feedback} />}
+            </div>
         </section>
     }
 }

@@ -2,13 +2,67 @@
     display: flex
     justify-content: space-around 
     border-bottom: 1px solid white
+    // background-color: #67ceb3
+
+    // a:hover, .dropdown:hover .dropbtn
+    //     background-color: red
+
+    &__item
+        display: flex
+        align-self: center
+
+    &__item:hover
+        size: 30px
+        color: white
+        // background-color: #3d5bfe
 
 
-    &__button
-        font-size: 20px
+    .dropdown
+        align-self: center
+
+    .dropdown:hover
+        color: white
+
+        .dropbtn
+            padding: 1em 1em
+            // color: white
+
+    .dropdown-content
+        display: none
+        position: absolute
+        background-color: #1f0054
+        min-width: 160px
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+        z-index: 1
+
+
+    .dropdown-content a
+        float: none
+        color: black
+        padding: 12px 16px
+        text-decoration: none
+        display: block
+        text-align: left
+        color: white
+    
+    
+    .dropdown-content a:hover
+        background-color: #3d5bfe
+        color: white
+    
+    
+    .dropdown:hover .dropdown-content
+        display: block
+
+    button
+        font-size: 17px
         border: none
         cursor: pointer
         background-color: Transparent
+        color: #1f0054
+        padding: 0 1em
+        outline: none
+
 
         &--logout
             background-color: Transparent
@@ -16,8 +70,13 @@
             border: none
             color: orange
             cursor: pointer
+            color: white
 
-        &--icon
-            background-image: url(https://nilquebe.com/img/coworking.png)
-            height: 125px
-            width: 125px
+    &__icon
+        background-image: url(https://nilquebe.com/img/coworking.png)
+        height: 4em
+        width: 4em
+        background-size: cover
+
+    .fa-stopwatch
+        cursor: pointer
