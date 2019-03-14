@@ -1,5 +1,4 @@
 const express = require('express')
-const cors = require('../cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
@@ -9,8 +8,6 @@ const cloudinaryUploader = require('../cloudinary')
 const jsonBodyParser = bodyParser.json()
 const router = express.Router()
 
-
-router.use(cors)
 
 router.post('/user', jsonBodyParser, registerUser)
 

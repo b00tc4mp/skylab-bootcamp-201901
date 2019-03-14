@@ -3,6 +3,7 @@ require('dotenv').config()
 const { mongoose } = require('datify')
 const express = require('express')
 const tokenHelper = require('./token-helper')
+const cors = require('cors')
 const package = require('../package.json')
 const router = require('./routes')
 
@@ -15,6 +16,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         const app = express()
         
+        app.use(cors())
 
         app.use('/api', router)
 
