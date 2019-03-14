@@ -1,0 +1,34 @@
+extends ../layout
+
+include ../feedback/index
+include ../header/index
+include ../footer/index
+
+block content
+  +header
+  .main
+    section.container.login
+      .columns.is-mobile.is-centered
+        .column.is-half
+          .has-text-centered.section.title
+            h2.title Login
+          form(action='/login', method='POST')
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='email', placeholder='Email', name="email")
+                span.icon.is-small.is-left
+                  i.fas.fa-envelope
+            .field
+              p.control.has-icons-left
+                input.input(type='password', placeholder='Password', name="password")
+                span.icon.is-small.is-left
+                  i.fas.fa-lock
+            .field
+              input.button.is-dark(type='submit', value='login')
+          if feedback
+            +feedback(feedback, 'is-danger')
+          .has-text-centered
+            p
+              | If you aren't a member register 
+              a(href='/register') here
+  +footer

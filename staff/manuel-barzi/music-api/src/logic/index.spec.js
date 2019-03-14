@@ -4,21 +4,18 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
-const { User, Comment } = require('../models')
+const { mongoose, models: { User, Comment } } = require('music-data')
 const expect = require('expect')
 const spotifyApi = require('../spotify-api')
 const logic = require('.')
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 
-const { env: { DB_URL, SPOTIFY_API_TOKEN, JWT_SECRET } } = process
+const { env: { TEST_DB_URL, SPOTIFY_API_TOKEN } } = process
 
 spotifyApi.token = SPOTIFY_API_TOKEN
-logic.jwtSecret = JWT_SECRET
 
 describe('logic', () => {
-    before(() => mongoose.connect(DB_URL, { useNewUrlParser: true }))
+    before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
 
     beforeEach(() =>
         Promise.all([
@@ -115,7 +112,7 @@ describe('logic', () => {
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('name cannot be empty'))
+            }).toThrow(Error('name is empty or blank'))
         })
 
         it('should fail on undefined surname', () => {
@@ -182,14 +179,14 @@ describe('logic', () => {
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('surname cannot be empty'))
+            }).toThrow(Error('surname is empty or blank'))
         })
     })
 
-    false && describe('authenticate user', () => {
+    describe('authenticate user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
 
         beforeEach(() =>
@@ -199,34 +196,33 @@ describe('logic', () => {
 
         it('should succeed on correct credentials', () =>
             logic.authenticateUser(email, password)
-                .then(token => expect(token).toBeDefined())
+                .then(id => expect(id).toBeDefined())
         )
     })
 
-    false && describe('retrieve user', () => {
+    describe('retrieve user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
 
-        let userId, token
+        let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => {
-                    userId = id
-                    token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
+                .then(({ id }) => userId = id)
         )
 
         it('should succeed on correct credentials', () =>
-            logic.retrieveUser(token)
+            logic.retrieveUser(userId)
                 .then(user => {
                     expect(user.id).toBe(userId)
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
+
+                    expect(user.save).toBeUndefined()
                 })
         )
     })
@@ -275,23 +271,20 @@ describe('logic', () => {
     false && describe('toggle favorite artist', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
 
-        let userId, token
+        let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => {
-                    userId = id
-                    token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
+                .then(({ id }) => userId = id)
         )
 
         it('should succeed on correct data', () =>
-            logic.toggleFavoriteArtist(token, artistId)
+            logic.toggleFavoriteArtist(userId, artistId)
                 .then(() => User.findById(userId))
                 .then(user => {
                     expect(user.id).toBe(userId)
@@ -303,7 +296,7 @@ describe('logic', () => {
                     expect(user.favoriteArtists.length).toBe(1)
                     expect(user.favoriteArtists[0]).toBe(artistId)
 
-                    return logic.toggleFavoriteArtist(token, artistId)
+                    return logic.toggleFavoriteArtist(userId, artistId)
                 })
                 .then(() => User.findById(userId))
                 .then(user => {
@@ -321,24 +314,21 @@ describe('logic', () => {
     false && describe('add comment to artist', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
         const text = `comment ${Math.random()}`
 
-        let userId, token
+        let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => {
-                    userId = id
-                    token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
+                .then(({ id }) => userId = id)
         )
 
         it('should succeed on correct data', () =>
-            logic.addCommentToArtist(token, artistId, text)
+            logic.addCommentToArtist(userId, artistId, text)
                 .then(({ id }) => {
                     expect(id).toBeDefined()
 
@@ -358,7 +348,7 @@ describe('logic', () => {
     false && describe('list comments from artist', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
         const text = `comment ${Math.random()}`
@@ -366,22 +356,19 @@ describe('logic', () => {
         const text3 = `comment ${Math.random()}`
         let comment, comment2, comment3
 
-        let userId, token
+        let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => {
-                    userId = id
-                    token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
+                .then(({ id }) => userId = id)
                 .then(() => artistComments.add(comment = { userId, artistId, text }))
                 .then(() => artistComments.add(comment2 = { userId, artistId, text: text2 }))
                 .then(() => artistComments.add(comment3 = { userId, artistId, text: text3 }))
         )
 
         it('should succeed on correct data', () =>
-            logic.listCommentsFromArtist(token, artistId)
+            logic.listCommentsFromArtist(userId, artistId)
                 .then(comments => {
                     expect(comments).toBeDefined()
                     expect(comments.length).toBe(3)
@@ -441,23 +428,20 @@ describe('logic', () => {
     false && describe('toggle favorite album', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
 
-        let userId, token
+        let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => {
-                    userId = id
-                    token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
+                .then(({ id }) => userId = id)
         )
 
         it('should succeed on correct data', () =>
-            logic.toggleFavoriteAlbum(token, albumId)
+            logic.toggleFavoriteAlbum(userId, albumId)
                 .then(() => users.findById(userId))
                 .then(user => {
                     expect(user.id).toBe(userId)
@@ -469,7 +453,7 @@ describe('logic', () => {
                     expect(user.favoriteAlbums.length).toBe(1)
                     expect(user.favoriteAlbums[0]).toBe(albumId)
 
-                    return logic.toggleFavoriteAlbum(token, albumId)
+                    return logic.toggleFavoriteAlbum(userId, albumId)
                 })
                 .then(() => users.findById(userId))
                 .then(user => {
@@ -529,23 +513,20 @@ describe('logic', () => {
     false && describe('toggle favorite track', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
+        const email = `manuelbarzi-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live)
 
-        let userId, token
+        let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => {
-                    userId = id
-                    token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
+                .then(({ id }) => userId = id)
         )
 
         it('should succeed on correct data', () =>
-            logic.toggleFavoriteTrack(token, trackId)
+            logic.toggleFavoriteTrack(userId, trackId)
                 .then(() => users.findById(userId))
                 .then(user => {
                     expect(user.id).toBe(userId)
@@ -557,7 +538,7 @@ describe('logic', () => {
                     expect(user.favoriteTracks.length).toBe(1)
                     expect(user.favoriteTracks[0]).toBe(trackId)
 
-                    return logic.toggleFavoriteTrack(token, trackId)
+                    return logic.toggleFavoriteTrack(userId, trackId)
                 })
                 .then(() => users.findById(userId))
                 .then(user => {

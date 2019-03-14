@@ -1,0 +1,13 @@
+extends ../home/index.pug
+
+block artists
+    section(class="artists")
+        if artists
+            h2 Artists
+                ul
+                    each artist in artists
+                        li
+                            form(method='POST', action=`/albums=${artist.id}`)
+                                img(src=`${artist.images[0] ? artist.images[0].url :  'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'}`, class='image', alt="")
+                                button(name='artistId', type='submit', value=artist.id, class='button_artist')= artist.name
+    block albums

@@ -1,0 +1,30 @@
+extends ../layout
+
+include ../feedback/index
+
+block content
+    section.uk-container.uk-text-center
+      h2.uk-heading-bullet  Sign Up
+      form.uk-container.uk-container-small.uk-text-center(method='POST', action='/register')
+        div.uk-inline
+          span(class='uk-form-icon', uk-icon="user" )
+          input.uk-input.uk-form-small.uk-form-blank.uk-form-width-large(name='name', type='text', placeholder='name', required='')
+        div.uk-inline
+          span(class='uk-form-icon', uk-icon="user")  
+          input.uk-input.uk-form-small.uk-form-blank.uk-form-width-large(name='surname', type='text', placeholder='surname', required='')
+        div.uk-inline
+          span(class='uk-form-icon', uk-icon="mail")
+          input.uk-input.uk-form-small.uk-form-blank.uk-form-width-large(name='email', type='email', placeholder='email', required='')
+        div.uk-inline
+          span(class='uk-form-icon', uk-icon="lock")
+          input.uk-input.uk-form-small.uk-form-blank.uk-form-width-large(name='password', type='password', placeholder='password', required='')
+        div.uk-inline
+          span(class='uk-form-icon', uk-icon="lock")
+          input.uk-input.uk-form-small.uk-form-blank.uk-form-width-large(name='passwordConfirm', type='password', placeholder='confirm password', required='')
+        button.uk-button.uk-button-default.uk-button-small.uk-form-width-large(type='submit') Sign Up
+        if feedback
+          +feedback(feedback, 'warning')
+      | Go 
+      a(href='/' class='uk-link-heading') Home
+      |  or 
+      a(href='/login' class='uk-link-heading') Log In
