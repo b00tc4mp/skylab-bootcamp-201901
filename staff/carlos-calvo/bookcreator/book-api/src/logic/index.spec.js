@@ -787,6 +787,21 @@ describe('logic', () => {
             expect(book3.coverphoto).toBe('co')
         })
 
+        it('should succeed on retrieving a book', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const book1  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {} })
+            const book2 = await logic.addBookToTemplates(book1._id.toString())
+            const book3 = await BookTemplate.findOne({title: 'titulo1'})
+            expect(book3.title).toBe('titulo1')
+            expect(book3.content).toBe('content')
+            expect(book3.coverphoto).toBe('co')
+            try { 
+                const book4 = await logic.addBookToTemplates(book1._id.toString())
+            } catch (error) {
+                expect(error).toBeDefined()  
+            }
+        })
+
         it('should fail on non-string id', async () => {
             expect(() => {
                 logic.addBookToTemplates({})
@@ -843,19 +858,34 @@ describe('logic', () => {
 
         it('should succeed on adding a book from templates', async () => {
             const user  = await User.create({ name, surname, email, password })
-            const user2 = await User.create({name: name2, surname: surname2, email: email2, password: password2})
-            const result  = await Book.create({title: 'titulo1', content:'content', coverphoto: 'co','userId' : ObjectID(user._id.toString()), images: [], parameters: {name: 'name-parameter'} })
-            const btemplate = await BookTemplate.create({title: result.title, content: result.content, 
-                coverphoto: result.coverphoto, parameters: result.parameters, images: result.images })
-            const book = await logic.addTemplateToUserBooks(btemplate._id.toString(), user2._id.toString())
-            const result2 = await Book.find({userId: user2._id.toString()})
+            const btemplate = await BookTemplate.create({title: 'title', content: 'content', 
+                coverphoto: 'coverphoto', parameters: {}, images: [] })
+            const book = await logic.addTemplateToUserBooks(btemplate._id.toString(), user._id.toString())
+            const result2 = await Book.findOne({userId: user._id.toString()})
             expect(result2).toBeDefined()
-            expect(result2.length).toBe(1)
-            expect(result2[0].title).toBe('titulo1')
-            expect(result2[0].content).toBe('content')
-            expect(result2[0].coverphoto).toBe('co')
-            expect(result2[0].parameters.name).toBe('name-parameter')
-            expect(result2[0].isTemplate).toBe(true)
+            expect(result2.title).toBe('title')
+            expect(result2.content).toBe('content')
+            expect(result2.coverphoto).toBe('coverphoto')
+            expect(result2.isTemplate).toBe(true)
+        })
+
+        it('should succeed on non - adding a book from templates when repeated', async () => {
+            const user  = await User.create({ name, surname, email, password })
+            const btemplate = await BookTemplate.create({title: 'title', content: 'content', 
+                coverphoto: 'coverphoto', parameters: {}, images: [] })
+            const book = await logic.addTemplateToUserBooks(btemplate._id.toString(), user._id.toString())
+            const result2 = await Book.findOne({userId: user._id.toString()})
+            expect(result2).toBeDefined()
+            expect(result2.title).toBe('title')
+            expect(result2.content).toBe('content')
+            expect(result2.coverphoto).toBe('coverphoto')
+            expect(result2.isTemplate).toBe(true)
+
+            try{
+                const book2 = await logic.addTemplateToUserBooks(btemplate._id.toString(), user._id.toString())
+            } catch(error){
+                expect(error).toBeDefined()
+            }
         })
 
         it('should fail on empty id', async () => {

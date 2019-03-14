@@ -9,12 +9,15 @@ class Books extends Component {
     intervalPre =  25
     interval = 1700 
     book = null
+    flipPage = null
+    
 
     state = {
         title: '',
         pages : [],
         width: 1500,
-        heigth: 0
+        height: 0,
+        c : ''
     }
 
     componentWillMount = () => {
@@ -22,13 +25,18 @@ class Books extends Component {
     }
 
     updateWindowDimensions = ()=> {
-        this.setState({ width: window.innerWidth, heigth: window.innerHeight }, () => {})
-        const {state :{ width } } = this
-        if(width > 1400) this.interval = 1700
-        if(width > 1200 && width < 1400) this.interval = 1250
-        if(width > 1000 && width < 1200) this.interval = 1000
-        if(width > 750 && width < 100) this.interval = 800
-        if(width < 750 ) this.interval = 600
+        console.log('updateWindowDimensions')
+        this.setState({ width: window.innerWidth, height: window.innerHeight }, () => {})
+        debugger
+        console.log(this.state.width, this.state.height)
+        if(this.state.width > 1400) this.interval = 1400///PC Screen
+        else if((this.state.width == 1366 && this.state.height == 1024)) this.interval = 1400
+        else if(this.state.width > 1000 && this.state.height < 1200) this.interval = 1200
+        else if(this.state.width > 750 && this.state.height < 100) this.interval = 800
+        else if(this.state.width < 750 ) this.interval = 1650
+        console.log('this.state.width is ' + this.state.width)
+        console.log('interval is ' + this.interval)
+        this.book? this.personalizeContentbywords(this.book, ()=> {}) : this.c=''
     }
 
     componentDidMount = () =>{
@@ -39,18 +47,17 @@ class Books extends Component {
         return logic.retrieveBook(this.props.bookid)
             .then(book => {
                 this.book = book
-                this.setState({title: book.title})
                 this.personalizeContentbywords(this.book, ()=> {})
+                this.setState({title: book.title})
                 // this.pages = this.getArrayconPre(this.book)
                 // this.forceUpdate()
             }, () => {})
         } else if(this.props.templateid) {
             return logic.retrieveTemplateBook(this.props.templateid)
             .then(book => {
-                debugger
                 this.book = book
-                this.setState({title: book.title})
                 this.personalizeContentbywords(this.book, ()=> {})
+                this.setState({title: book.title})
             }, () => {})
         }
 
@@ -65,12 +72,11 @@ class Books extends Component {
     personalizeContentbywords = (book) => {
         if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')) book.content = book.content.replace(/<name>/g, book.parameters.name)
         if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place')) book.content = book.content.replace(/<place>/g, book.parameters.place)
-        // book.content = book.content.replace(/(\r?\n|\r?\n){2,}/g, '<br/><br/>')
+        // book.content = book.content.replace(/(\r?\n|\r?\n){2,}/g, '<p><br/><br/></p>')
         // book.content = book.content.replace(/(\r|\n)/g, ' ')
         // let arraysinsaltos = book.content.split("<br/><br/>")
         let texto = book.content
         let arrayreturn = []
-        debugger
         let j = 0
         while(this.interval < texto.length) {
             j = 0
@@ -86,7 +92,7 @@ class Books extends Component {
             texto = texto.substring(this.interval + j, texto.length)
         }
         arrayreturn.push(texto)
-        let newArray = arrayreturn.map(page => page.replace(/<Chapter>/g, '\n\n CHAPTER  \n\n'))
+        let newArray = arrayreturn.map(page => page.replace(/<Chapter>/g, ' <- - - - - - - - - - - - NEW CHAPTER- - - - - - - - - - - - >'))
         this.setState({pages: newArray}, () => {})
 
     }
@@ -187,19 +193,22 @@ class Books extends Component {
 
 
     render = () => {
-        debugger
+
         return (
             <Fragment>
             <div className = "coverright">
                 <div className="book-container">
-                    <h2> {this.state.title}</h2>
+                    <h2> {this.state.title} - Preview</h2>
                             <FlipPage
-                                ref={(FlipPage) => { this.flipPage = FlipPage; }}
-                                height ={0.85*this.state.heigth}
-                                width ={0.8*this.state.width}
+                                ref={(component) => { this.flipPage = component }}
+                                height ={0.77*this.state.height}
+                                width ={0.82*this.state.width}
+                                animationDuration = '300'
                                 showSwipeHint
+                                pageBackground= 'url(https://image.freepik.com/free-photo/white-paper-background_1154-683.jpg)'
                                 orientation='horizontal'
                                 className="flip"
+                                uncutPages= 'true'
                                 >
                             {this.state.pages.length && this.state.pages.map((page,i) => {
                                 return <div className="all">
@@ -208,18 +217,19 @@ class Books extends Component {
                                 </div>
                             })}
                             </FlipPage>
+                            {this.flipPage?
+                            <div>
+                                <button className="buttonArrow" onClick={()=>{this.flipPage.gotoPreviousPage();this.setState({c: ''})}}><i class="fas fa-arrow-left"></i></button>
+                                <button className="buttonArrow" onClick={()=>{this.flipPage.gotoNextPage();this.setState({c: ''})}}><i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            :
+                            <div></div>
+                            }
                 </div>
             </div>
             </Fragment>
-
         )
     }    
-
 }
-
 export default Books
 
-
-/*
-
-*/

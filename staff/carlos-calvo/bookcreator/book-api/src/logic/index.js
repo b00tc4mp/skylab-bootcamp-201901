@@ -298,9 +298,14 @@ const logic = {
         if (!id.trim().length) throw new EmptyError('id  is empty')
         
         return (async () => {
-
+            //Check that book exists
             const result = await Book.findOne({'_id': ObjectID(id)})
             if(!result) throw new Error('Book not existing')
+
+            //Check that template already have template
+            const result2 = await BookTemplate.findOne({title: result.title, content: result.content})
+            if(result2) throw new Error('Already existing Template')
+
             const book = await BookTemplate.create({title: result.title, content: result.content, 
                 coverphoto: result.coverphoto, parameters: result.parameters, images: result.images })
             return book
@@ -348,9 +353,14 @@ const logic = {
         if (!userId.trim().length) throw new EmptyError('userId  is empty')
 
         return (async () => {
-
+            //Check that template exists
             const result = await BookTemplate.findOne({'_id': ObjectID(id)})
             if(!result) throw new Error('Book not existing')
+
+            //Check that book has been already been added
+            const result2 = await Book.findOne({title: result.title, content: result.content})
+            if(result2) throw new Error('Already existing template in your books')
+            
             const book = Book.create({'title': result.title, 'content': result.content, 
                 'coverphoto': result.coverphoto, 'parameters': result.parameters, 'images': result.images,
                 'userId': ObjectID(userId), isTemplate: true })

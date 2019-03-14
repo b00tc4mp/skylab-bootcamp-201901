@@ -82,13 +82,13 @@ class CardBook extends Component {
                             }
                         </div>
                         <div className="cardBody__buttonContainer">
-                            <button onClick={this.loadBook} className="butt butt--read" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
+                            <button onClick={this.loadBook} className="butt butt--read" data-toggle="tooltip" data-placement="top" title="Preview Book"><i className="fas fa-book-reader"></i></button>
                             <button onClick={this.editBook} className="butt butt--edit" data-toggle="tooltip" data-placement="top" title="Edit Book"><i className="fas fa-edit"></i></button>
                             <button onClick={this.deleteBook} className="butt butt--delete" data-toggle="tooltip" data-placement="top" title="Delete Book"><i className="fas fa-trash-alt"></i></button>
                             {book.hasOwnProperty('isTemplate') && book.isTemplate? 
                             <div></div>
                             :
-                            <button onClick={this.addBookToTemplates} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="This book is already a template"><i class="fas fa-share"></i></button>
+                            <button onClick={this.addBookToTemplates} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="Make this book a public template"><i class="fas fa-share"></i></button>
                             }
                             {/* <button className="butt--gener" onClick={this.downloadEpubfase1}>gen</button> */}
                             <button onClick={this.downloadEpubfase2} className="butt butt--download" data-toggle="tooltip" data-placement="top" title="Download Epub"><i class="fas fa-file-download" download></i></button>

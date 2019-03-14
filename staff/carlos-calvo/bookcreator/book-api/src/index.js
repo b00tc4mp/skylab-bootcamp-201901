@@ -81,16 +81,3 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
     })
     .catch(console.error)
 
-        // router.get('/artists', searchArtists)
-
-        // router.post('/artist/:artistId/comment', [jsonBodyParser, tokenVerifierMiddleware], addCommentToArtist)
-
-        // router.get('/artist/:artistId/comment', tokenVerifierMiddleware, listCommentsFromArtist)
-
-        // router.get('/artist/:id', retrieveArtist)
-
-        // router.get('/album/:id', retrieveAlbum)
-
-        // router.get('/track/:id', retrieveTrack)
-
-        // app.get('*', notFound)

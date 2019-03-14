@@ -2,6 +2,8 @@ import React, {Component, Fragment} from 'react';
 import './index.sass'
 import logic from '../../logic'
 import ProgressBar from '../ProgressBar';
+import { toast } from 'react-toastify';
+
 class CreateBook extends Component {
   
     isnameTag = true
@@ -64,37 +66,63 @@ class CreateBook extends Component {
         
         try{
             logic.addBook( this.state.title, this.state.textContent, this.state.imageCover, parameters )
-            .then((book) => console.log(book)) //Para la siguiente pantalla mostrar 
+            .then((book) => this.notify())
+            .catch(error => this.notify(error)) //Para la siguiente pantalla mostrar 
         } catch (error){
-            console.log(error)
+            this.notify(error)
         }
     }
+
+
+    
+    notify = (error) => {
+        error ? 
+        toast.warn("There was something wrong when reating a book...", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          })
+          :
+        toast.info("Book Created!", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 1500
+          });
+    }
+
 
     render() {
         return (
         <Fragment>
             <div className="coverright ">
              {this.state.step1 ? 
-                <div className = "formCreateBook" >
-                    <form onSubmit={this.nextStep}>
-                        <div className="formCreateBook_step">STEP 1
-                        </div>
-                        <ProgressBar level={this.medida1}></ProgressBar><br/>
-                        <label htmlFor="uname"><b>Your books title</b></label>
-                        <input type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required /> <br/>
-                        <div className="inputContainer">
-                            <label htmlFor="uname" className="col-5"><i class="fa fa-cloud-upload">Enter a file txt</i></label>
-                            <input onChange={this.handleFileTextChange} accept=".txt" id="inputtext" name="textContent" className="inputfile" type="file" required/>
-                        </div>    
-                        <div className="inputContainer">
-                            <label htmlFor="uname" className="col-5"><i class="fa fa-cloud-upload">Enter a coverphoto</i></label>
-                            <input onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp " name="imageCover" className="inputfile" type="file" required/>
-                        </div>
-                        <div className="formButtonContainer">   
-                            <button className="btn btn-info" type="submit">To Next Step!</button>   
-                        </div> 
-                    </form>
-                </div> :
+                <Fragment>
+                    <div className = "formCreateBook" >
+                        <form onSubmit={this.nextStep}>
+                            <div className="formCreateBook_step"><h2>STEP 1 / 2</h2>
+                            </div>
+                            <ProgressBar level={this.medida1}></ProgressBar><br/>
+                            <div className="inputTitleContainer">
+                                <label className="inputTitleContainer__label" htmlFor="uname"><b>Your books title</b></label>
+                                <input className="inputTitleContainer__title" type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required /> <br/>
+                            </div>
+                            <div className="inputContainer">
+                                <label htmlFor="uname" className="col-5"><i class="fa fa-cloud-upload">Enter a coverphoto</i></label>
+                                <input onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp " name="imageCover" className="inputfile" type="file" required/>
+                            </div>
+                            <div className="inputContainer">
+                                <label htmlFor="uname" className="col-5"><i class="fa fa-cloud-upload">Enter a file txt</i></label>
+                                <input onChange={this.handleFileTextChange} accept=".txt" id="inputtext" name="textContent" className="inputfile" type="file" required/>
+                            </div>    
+                            <div className="formButtonContainer">   
+                                <button className="btn btn-info" type="submit">To Next Step!</button>   
+                            </div> 
+                        </form>
+                    </div> 
+                    <div className="instructionsContainer">
+                        <p className="typewriter">Tag with &lt;chapter&gt; so you can split the book into chapters </p>
+                        <p className="typewriter">Tag with &lt;name&gt; so you can personalize the main protagonist </p>
+                        <p className="typewriter">Tag with &lt;place&gt; so you can personalize the main place </p>
+                    </div>
+                </Fragment>
+                :
                 <div className="formCreateBook">
                     <form onSubmit={this.addBook}>STEP 2
                         <ProgressBar level={this.medida2}></ProgressBar><br/>
