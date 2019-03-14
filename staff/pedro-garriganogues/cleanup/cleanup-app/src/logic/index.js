@@ -8,7 +8,7 @@ const logic = {
     // __userApiToken__: null,
     __userApiProducts__: null,
     _userId: null,
-    _orderStatus: 'transaction pending',
+    _orderStatus: 'paid',
 
 
     registerUser(name, surname, email, password, passwordConfirmation) {

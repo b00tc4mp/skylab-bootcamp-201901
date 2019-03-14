@@ -7,8 +7,8 @@ module.exports = new Schema({
     },
     status: {
         type: String,
-        enum: ['transaction pending', 'rejected', 'processing', 'paid'],
-        default: 'transaction pending'
+        enum: [paid],
+        default: 'paid'
     },
     products: [{
         type: ObjectId,
