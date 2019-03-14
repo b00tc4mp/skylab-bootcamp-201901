@@ -66,8 +66,7 @@ const logic = {
     },
 
     listProductsByIds() {
-
-        return cleanUpApi.listProductsByIds(this.cart)
+        return cleanUpApi.listProductsByIds(this.__userApiProducts__.map(p => p._id))
     },
 
     getProduct(productId) {
@@ -80,16 +79,6 @@ const logic = {
 
         return cleanUpApi.listTheProducts()
             .then(products => products)
-    },
-
-    cart(cart) {
-        if (cart !== undefined) {
-            this._cart = cart
-
-            return
-        }
-
-        return this._cart
     },
 
 

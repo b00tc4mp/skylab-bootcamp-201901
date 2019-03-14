@@ -100,20 +100,6 @@ router.get('/categories/products/:productId', (req, res) => {
         })
 })
 
-router.get('/categories/:id', (req, res) => {
-    const { params: { id } } = req
-
-    return logic.listProducts(id)
-        .then(products => {
-            res.status(200)
-            res.json({ status: 'OK', data: products })
-        })
-        .catch(({ message }) => {
-            res.status(400)
-            res.json({ status: 'KO', error: message })
-        })
-
-})
 
 router.post('/order', jsonBodyParser, (req, res) => {
     const { body: { paymentMethod, status, products, userId } } = req
@@ -130,10 +116,18 @@ router.post('/order', jsonBodyParser, (req, res) => {
 })
 
 
+// router.get('/order/:id', (req, res) => {
+//     let { query: { ids } } = req
+
+// })
+
+
 router.get('/products', (req, res) => {
-    const { query: { ids } } = req
+    let { query: { ids } } = req
 
+    //     (ids = ids.split(','))
 
+    // console.log(ids)
 
     if (!ids)
         logic.listTheProducts()

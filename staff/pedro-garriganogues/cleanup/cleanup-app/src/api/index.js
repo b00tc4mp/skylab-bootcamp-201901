@@ -128,13 +128,13 @@ const cleanUpApi = {
         })()
     },
 
-    listProductsByIds: function listProductsByIds(cart) {
-        var _thisbyid = this;
+    listProductsByIds(cart) {
 
         return (async () => {
-            var ids = cart.join(',');
 
-            return axios.get(_thisbyid.url + '/products/?ids=' + ids).then(function (_refbyId) {
+            cart.push('jjj')
+
+            return axios.get(this.url + '/products/?ids=' + cart).then(function (_refbyId) {
 
             }).catch(function (err) {
 
@@ -172,7 +172,7 @@ const cleanUpApi = {
         })()
     },
 
-    makeOrder: function makeOrder(status, products, userId, paymentMethod) {
+    makeOrder(status, products, userId, paymentMethod) {
         var _thisorder = this;
 
         return (async () => {
