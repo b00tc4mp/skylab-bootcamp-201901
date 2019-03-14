@@ -98,7 +98,7 @@ class Header extends Component {
 
         return <div className="header-loggedButtons">
             <i className="fas fa-envelope header-loggedButtons__messages" onClick={goToConversations}></i>
-            <i class="fas fa-sign-out-alt header-loggedButtons__logout" onClick={goToLogout}></i>
+            <i className="fas fa-sign-out-alt header-loggedButtons__logout" onClick={goToLogout}></i>
             <img className="header-loggedButtons__userProfile" src="http://monumentfamilydentistry.com/wp-content/uploads/2015/11/user-placeholder.png" onClick={goToUser}></img>
         </div>
 

@@ -300,7 +300,15 @@ const logic = {
         
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
-        return House.find( {$or:[{"adress.city":query},{"adress.country":query}]})
+        return House.find( {$or:[{"adress.city":query},{"adress.country":query}]}).lean()
+        .then(houses => {
+            houses.forEach(house => {
+                house.id = house._id.toString()
+                delete house._id
+                return house
+            })
+            return houses
+        })
     }
 
 

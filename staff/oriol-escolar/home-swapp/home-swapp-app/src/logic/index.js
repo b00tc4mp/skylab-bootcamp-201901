@@ -194,7 +194,6 @@ const logic = {
     },
     
     toggleFavorite(houseId) {
-
         if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
         if (!houseId.trim().length) throw Error('houseId is empty')
         

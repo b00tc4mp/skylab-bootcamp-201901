@@ -9,6 +9,8 @@ import Favorites from '../favorites'
 import LandingPage from '../LandingPage'
 import Header from '../Header'
 import SearchResults from '../searchResults'
+import CreateHouse from '../createHouse'
+import EditHouse from '../editHouse'
 import logic from '../../logic'
 
 
@@ -113,17 +115,22 @@ class App extends Component {
   handleGoToRegister = () => {
 
     this.props.history.push('/register');
+    this.setState({loginFeedback:""})
 
   }
 
   handleGoToLogin = () => {
 
     this.props.history.push('/login');
+    this.setState({registerFeedback:""})
+
 
   }
   handleGoToLanding = () => {
 
     this.props.history.push('/');
+    this.setState({registerFeedback:"", loginFeedback:""})
+
 
   }
   
@@ -179,7 +186,9 @@ class App extends Component {
 
         <div className="content" >
           <Switch>
-            <Route path="/search/:query" render={() => <SearchResults toggleFavs={toggleFavs} />} />
+            <Route path="/search/:query" render={() => <SearchResults toggleFavs={toggleFavs} updateInfo={updateInfo} userFavs={userFavs}  />} />
+            <Route path="/editHouse/:houseId" render={() => <EditHouse  />} />
+            <Route exact path="/createHouse" render={() => <CreateHouse  />} />
             <Route exact path='/' render={() => <LandingPage />} />
             <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
             <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />

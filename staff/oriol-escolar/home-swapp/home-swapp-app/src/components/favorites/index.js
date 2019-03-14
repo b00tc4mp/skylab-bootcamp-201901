@@ -9,39 +9,48 @@ class Favorites extends Component {
 
     state = {
 
-       
         favorites: ""
     }
 
     componentDidMount() {
 
-        
         this.setState({ favorites: this.props.userFavs })
     }
 
 
     componentWillReceiveProps(props) {
-
-        
         this.setState({ favorites: props.userFavs })
+    }
 
+
+    toggleFavorite = (id)=> {
+
+        const { state: { favorites }, props:{updateInfo}} = this
+
+        let index = favorites.indexOf(id)
+
+        favorites.splice(index,1)
+
+        this.setState({favorites})
+        updateInfo()
 
     }
 
 
-    listMyHouses(favorites,updateInfo) {
+    listMyFavorites = (favorites, updateInfo) => {
 
         return favorites.map(house => {
 
-            return <HouseCard house={house} updateInfo={updateInfo} origin = 'favorites'/>
+            return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} origin='favorites' />
         });
     }
 
 
+    
 
     render() {
 
-        const { listMyHouses, state: { user, favorites }, props:{updateInfo} } = this
+        const { listMyFavorites, state: {  favorites }, props:{updateInfo} } = this
 
         return <div className="favorites" >
             <h1 className= "favorites__title">FAVORITES</h1>
@@ -49,7 +58,7 @@ class Favorites extends Component {
 
             <div className= "favorites__content">
 
-                {favorites && listMyHouses(favorites,updateInfo)}
+                {favorites && listMyFavorites(favorites,updateInfo)}
 
             </div>
 
