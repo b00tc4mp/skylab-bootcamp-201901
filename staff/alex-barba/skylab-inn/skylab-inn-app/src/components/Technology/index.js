@@ -5,7 +5,7 @@ import './index.sass'
 
 export default function Technology({ onAddTech, onEditTech, onAddInformation, onRemoveInformation, onUpdateInformation, editTechnology, addTechnology, onCancel }) {
 
-    const { userData } = useContext(AppContext)
+    const { userData, setFeedback } = useContext(AppContext)
 
     const { technology } = userData
 
@@ -22,11 +22,13 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
 
     const handleAddInformation = (e, type) => {
         e.preventDefault()
+        if (!_levelTech || _levelTech === 'Choose a level') return setFeedback('Failed to add. Level must be selected')
         onAddInformation(type, { tech: _tech, level: _levelTech })
     }
 
     const handleUpdateInformation = (e, type, id) => {
         e.preventDefault()
+        if (!_levelTech || _levelTech === 'Choose a level') return setFeedback('Failed to update. Level must be selected')
         onUpdateInformation(type, id, { tech: _tech, level: _levelTech })
     }
 
@@ -66,8 +68,8 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                         <form onSubmit={e => handleUpdateInformation(e, 'Tech', tech._id)}>
                             <div className='line'/> 
                             <input type='text' name='technology' placeholder='Technology' onChange={e => setTech(e.target.value)} defaultValue={tech.tech} required></input>
-                            <select className='dropdown-content' onChange={e => setLevelTech(e.target.value)} value={tech.level}>
-                                <option>Choose a level</option>
+                            <select className='dropdown-content' onChange={e => setLevelTech(e.target.value)} defaultValue={tech.level}>
+                                <option value='Choose a level'>Choose a level</option>
                                 <option value='Fundamental awareness'>Fundamental awareness</option>
                                 <option value='Novice'>Novice</option>
                                 <option value='Intermediate'>Intermediate</option>

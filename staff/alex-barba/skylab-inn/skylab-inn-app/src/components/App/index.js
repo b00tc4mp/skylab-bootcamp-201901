@@ -7,6 +7,7 @@ import LogIn from '../LogIn'
 import SignUp from '../SignUp'
 import Home from '../Home'
 import SharedSkylabers from '../SharedSkylabers'
+import Modal from '../Modal'
 
 import logic from '../../logic'
 
@@ -16,11 +17,13 @@ function App({ history }) {
     const [userData, setUserData] = useState({})
     const [query, setQuery] = useState(null)
     const [searchResults, setSearchResults] = useState(null)
-    const [adSearchResults, setAdSearchResults] = useState(null)
-    const [skylaber, setSkylaber] = useState(null)
+    const [adSearchResults, setAdSearchResults] = useState([])
     const [whiteList, setWhiteList] = useState(null)
     const [unverifiedEmails, setUnverifiedEmails] = useState(null)
     const [skylabersShared, setSkylabersShared] = useState(null)
+    const [search, setSearch] = useState([])
+    const [showModal, setShowModal] = useState(null)
+    const [modalMessage, setModalMessage] = useState(null)
 
     useEffect(() => {
         logic.isUserLoggedIn && logic.retrieveUser()
@@ -32,6 +35,8 @@ function App({ history }) {
             logic.registerUser(name, surname, email, password, passwordConfirmation)
                 .then(() => {
                     setFeedback(null)
+                    setShowModal(true)
+                    setModalMessage('You have been successfully registered!')
                     history.push('/')
                 })
                 .catch(({ message }) => setFeedback(message))
@@ -76,7 +81,8 @@ function App({ history }) {
 
     return (
         <Fragment>
-            <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, skylaber, setSkylaber, whiteList, setWhiteList, unverifiedEmails, setUnverifiedEmails }}>
+            <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults,whiteList, setWhiteList, unverifiedEmails, setUnverifiedEmails, search, setSearch, showModal, setShowModal, modalMessage, setModalMessage }}>
+                <Modal/>
                 <Route exact path='/' render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to='/home' />} />
                 <Route path='/signup' render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn} /> : <Redirect to='/home' />} />
                 <Route path='/home' render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to='/' />} />

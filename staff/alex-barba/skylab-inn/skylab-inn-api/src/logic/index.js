@@ -269,6 +269,8 @@ const logic = {
 
             let match = await User.find({ $and: adSearch })
 
+            if (!match.length) throw new Error('No matches found!')
+
             return match
         })()
     },

@@ -7,7 +7,7 @@ export default function Language({ onAddLanguage, onEditLanguage, onAddInformati
 
     const { userData } = useContext(AppContext)
 
-    const { language } = userData
+    const { language, setFeedback } = userData
 
     const [_language, setLanguage] = useState('')
     const [_levelLanguage, setLevelLanguage] = useState('')
@@ -22,11 +22,13 @@ export default function Language({ onAddLanguage, onEditLanguage, onAddInformati
 
     const handleAddInformation = (e, type) => {
         e.preventDefault()
+        if (!_levelLanguage || _levelLanguage === 'Choose a level') return setFeedback('Failed to add. Level must be selected')
         onAddInformation(type, { language: _language, level: _levelLanguage })
     }
 
     const handleUpdateInformation = (e, type, id) => {
         e.preventDefault()
+        if (!_levelLanguage || _levelLanguage === 'Choose a level') return setFeedback('Failed to update. Level must be selected')
         onUpdateInformation(type, id, { language: _language, level: _levelLanguage })
     }
 
@@ -67,7 +69,7 @@ export default function Language({ onAddLanguage, onEditLanguage, onAddInformati
                              <div className='line'/> 
                             <input type='text' name='language' placeholder='Language' onChange={e => setLanguage(e.target.value)} defaultValue={lang.language} required></input>
                             <select className='dropdown-content' onChange={e => setLevelLanguage(e.target.value)} value={lang.level}>
-                                <option>Choose a level</option>
+                                <option value='Choose a level'>Choose a level</option>
                                 <option value='Elementary proficiency'>Elementary proficiency</option>
                                 <option value='Limited working proficiency'>Limited working proficiency</option>
                                 <option value='Professional working proficiency'>Professional working proficiency</option>

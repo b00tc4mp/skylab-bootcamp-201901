@@ -5,7 +5,7 @@ import './index.sass'
 
 export default function WorkExperience({ onAddWork, onEditWork, onAddInformation, onRemoveInformation, onUpdateInformation, editWork, addWorkExperience, onCancel }) {
 
-    const { userData } = useContext(AppContext)
+    const { userData, setFeedback } = useContext(AppContext)
 
     const { workExperience } = userData
 
@@ -27,13 +27,20 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
 
     const handleAddInformation = (e, type) => {
         e.preventDefault()
-        onAddInformation(type, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current })
+        if (new Date(_startDate) > new Date()) return setFeedback('Failed to add. Start date should not be greater than today.')
+
+        if (_current) onAddInformation(type, { company: _company, position: _position, startDate: _startDate, current: _current })
+        else  new Date(_endDate) > new Date(_startDate) ? onAddInformation(type, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current }) : setFeedback('Failed to add. End date should be greater than the starting date.')
+        
         setCurrent(false)
     }
 
     const handleUpdateInformation = (e, type, id) => {
         e.preventDefault()
-        onUpdateInformation(type, id, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current })
+        if (new Date(_startDate) > new Date()) return setFeedback('Failed to add. Start date should not be greater than today.')
+
+        if (_current) onUpdateInformation(type, id, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current })
+        else  new Date(_endDate) > new Date(_startDate) ? onUpdateInformation(type, id, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current }) : setFeedback('Failed to add. End date should be greater than the starting date.')
     }
 
     const handleRemoveInformation = (e, type, id) => {

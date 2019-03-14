@@ -47,7 +47,7 @@ export default function PersonalInformation({ onEditPersonalInfo, onUpdatePerson
                     </div>
                     <div className='contactInfo-container__form-input'>
                         <i className='fab fa-whatsapp icon'></i>&nbsp;
-                        <input type='text' name='telephone' placeholder='Telephone' onChange={e => setTelephone(e.target.value)} defaultValue={telephone}></input>
+                        <input type='number' name='telephone' placeholder='Telephone' onChange={e => setTelephone(e.target.value)} defaultValue={telephone}></input>
                     </div>
                     <div className='contactInfo-container__form-input'>
                         <i className='fab fa-github icon'></i>&nbsp;

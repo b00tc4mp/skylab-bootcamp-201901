@@ -4,42 +4,52 @@ import { AppContext } from '../AppContext'
 
 import './index.sass'
 
-export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback, onShareResults, hashedUrl, addToClipboard }) {
+export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareResults, hashedUrl, addToClipboard }) {
 
-    const { adSearchResults, setFeedback, setAdSearchResults, userData } = useContext(AppContext)
+    const { adSearchResults, setFeedback, setAdSearchResults, userData, feedback, search, setSearch } = useContext(AppContext)
 
     const [query, setQuery] = useState(null)
-    const [param, setParam] = useState('Choose filter')
-    let [search, setSearch] = useState([])
+    const [param, setParam] = useState('Choose a filter')
 
-    useEffect(() => {
-        setFeedback(null)
-        onAdvancedSearch(search)
-    }, [search])
+
+    const inputQuery = useRef('')
 
     useEffect(() => {
         handleOnAddUrlToClipboard()
     },[addToClipboard])
 
-    const queryInput = useRef('')
     
     const handleAdvancedSearch = (e) => {
         e.preventDefault()
         setFeedback(null)
-        onAdvancedSearch(search)
-        e.target.value = null
-    }
-
-    const handleKeyPress = (e) => {
-        setFeedback(null)
-        if (e.key == 'Enter') {
-            setSearch([...search, [param, query]])
+        if (!search.length) {
+            setFeedback('Please, set at least one filter')
+            inputQuery.current.blur()
+        } else {
+            onAdvancedSearch(search)
             e.target.value = null
-            queryInput.current.blur()
+            inputQuery.current.blur()
         }
     }
 
+    const handleOnAddParam = (e) => {
+        e.preventDefault()
+        setFeedback(null)
+        if (!query) {
+            setFeedback('Please type in your query')
+            inputQuery.current.blur()
+        } else if (param === 'Choose a filter'|| !param ) {
+            setFeedback('Please choose your filter')
+            inputQuery.current.blur()
+        } else {
+            setSearch([...search, [param, query]])
+            e.target.value = null
+            inputQuery.current.blur()
+        }
+    } 
+
     const handleRemove = id => {
+        debugger
         const skylabers = adSearchResults.filter(skylaber => skylaber._id !== id)
 
         adSearchResults.length === 0 ? setAdSearchResults([]) : setAdSearchResults(skylabers)
@@ -53,10 +63,19 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback,
         e.target.value = null
     }
 
-    const handleOnParam = value => {
-        const results = search.filter(searchParam => searchParam[1] !== value)
+    const handleOnParam = param => {
 
-        results.length === 0 ? setSearch([]) : setSearch(results)
+        let results
+        
+        if (search) results = search.filter(filter => filter !== param)
+        else return 
+
+        if (results.length === 0) {
+            setSearch([])
+            setAdSearchResults([])
+        } else {
+            setSearch(results)
+        }        
     }
 
     const handleOnSkylaber = id => {
@@ -64,7 +83,6 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback,
     }
 
     const handleOnShareResults = (e) => {
-        debugger
         e.preventDefault()
 
         let skylaberIds = adSearchResults.map(skylaber => skylaber._id)
@@ -89,7 +107,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback,
             <form className='adSearch-form'>
                 <div className='adSearch-form__dropBtn'>
                     <select className='adSearch-form__dropBtn-content' onChange={e => setParam(e.target.value)}>
-                        <option>Choose a filter</option>
+                        <option value='Choose a filter'>Choose a filter</option>
                         <option value='Contact Information'>Contact Information</option>
                         <option value='Technology'>Technologies</option>
                         <option value='Work'>Work Experience</option>
@@ -98,26 +116,31 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, feedback,
                     </select>
                 </div>
                 <div className='adSearch-form__input'>
-                    <input ref={queryInput} type='text' name='query' placeholder='Type in the query!' tabIndex='0' onChange={e => setQuery(e.target.value)} onKeyDown={e => handleKeyPress(e)}></input>
+                    <input ref={inputQuery} type='text' name='query' placeholder='Type in the query!' tabIndex='0' onChange={e => setQuery(e.target.value)} ></input>
                 </div>
-                <button className='btn btn--primary' type='submit' onClick={e => handleAdvancedSearch(e)}>Search</button>
-                {feedback && <Feedback />}
+                <div className='adSearch-form__add'>
+                    <button className='btn btn--primary' type='submit' onClick={e => handleOnAddParam(e)}>Add</button>
+                </div>  
             </form>
             <div className='adSearch-filters'>
                 {search && !!search.length && 
                     <div className='adSearch-filters__header'> 
-                        <h5 className='subtitle'>Filters</h5>
+                        <h5 >Filters</h5>
                         <button className='btn btn--danger' type='submit' onClick={e => handleOnReset(e)}>Reset filters</button>
                     </div>
                 }
                 <div className='adSearch-filters__content'>
                 {search && !!search.length && search.map(res => { 
                     return (
-                        <a className='pointer' onClick={e => { e.preventDefault(); handleOnParam(`${res[1]}`) }} key={res[0]}>{res[0]}: {res[1]}</a> 
-                    )
-                })}
+                        <a className='pointer' onClick={e => { e.preventDefault(); handleOnParam(res) }} key={res}>{res[0]}: {res[1]}</a> 
+                        )
+                    })}
                 </div>
             </div>
+            <div className='adSearch-search'>
+                <button className='btn btn--primary' type='submit' onClick={e => handleAdvancedSearch(e)}>Search</button>
+            </div>
+            {feedback && <Feedback />}
             <div className='adSearch-results'>
             {adSearchResults && !!adSearchResults.length && 
                 <div className='adSearch-results__header'>

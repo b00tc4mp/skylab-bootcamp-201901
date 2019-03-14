@@ -11,7 +11,7 @@
         padding-top: 1rem
         align-self: center
         text-align: center
-        fontsize: $xlarge
+        font-size: $xlarge
         margin-left: 2rem
         margin-right: 2rem
 
@@ -19,19 +19,35 @@
         flex-shrink: 0
         margin-top: 2rem
         display: flex
-        flex-direction: column
-        justify-items: center
-        align-items: center
+        flex-direction: row
+        justify-content: center
         margin-left: 2rem
         margin-right: 2rem
+        font-size: $medium
 
-        &__input
+        &__dropBtn
+            flex-shrink: 1
             display: flex
-        
-        &__dropBtn 
 
             &-content 
-            &__button
+                flex-shrink: 1
+                font-size: $small
+
+                & > option 
+                    font-size: $small
+
+        &__input
+            flex-shrink: 1
+        
+        &__add
+            flex-shrink: 0 
+            
+    &-search
+        margin-left: 2rem
+        margin-right: 2rem
+        font-size: $medium
+        align-self: center
+        margin-top: 0.2rem
 
     &-filters
         flex-shrink: 0
@@ -83,6 +99,6 @@
     text-align: center
     font-size: $medium
 
-
-
-  
+input
+    width: 90%
+    

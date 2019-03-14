@@ -13,8 +13,13 @@ export default function Search({ onSearch, onSkylaber }) {
     const handleSearch = e => {
         e.preventDefault()
         setFeedback(null)
-        onSearch(query)
-        queryInput.current.blur()
+        if (!query) {
+            setFeedback('Please type in your query')
+        } else {
+            onSearch(query)
+            e.target.value = null
+            queryInput.current.blur()
+        }
     }
 
     const handleOnSkylaber = id => {

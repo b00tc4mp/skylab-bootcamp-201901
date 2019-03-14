@@ -1,20 +1,19 @@
-import React, { useContext } from 'react'
-import { AppContext } from '../AppContext'
+import React, { useEffect } from 'react'
 
 import './index.sass'
-import Technology from '../Technology';
 
-export default function Skylaber({ onToBack }) {
+export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skylaber }) {
 
-    const { skylaber } = useContext(AppContext)
-
-    const { name, surname, image, email, telephone, git, linkedin, slack, workExperience, technology, language, education } = skylaber
-
+    useEffect(() => {
+        retrieveSkylaber(skylaberId)
+    },[skylaberId])
+    
     const handleToBack = () => {
         onToBack()
     }
+    
 
-    return (
+    return (  
         <div className='skylaber'>
             <div className='skylaber-header'>
                 <h2>Is this your Skylaber?</h2>
@@ -24,10 +23,10 @@ export default function Skylaber({ onToBack }) {
                 <div className='skylaber-container'>
                     <div className='skylaber-personalInformation-container'>
                         <div className='skylaber-personalInformation-container__name'>
-                            <h4>{name}<br/>{surname}</h4>
+                            <h4>{skylaber.name}<br/>{skylaber.surname}</h4>
                         </div>
                         <div className='skylaber-personalInformation-container__image'>
-                            {image ? <img src={`${image}`}></img> : <img src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
+                            {skylaber.image ? <img src={`${skylaber.image}`}></img> : <img src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
                         </div>
                     </div>
                     <div className='skylaber-data-container'>
@@ -35,11 +34,11 @@ export default function Skylaber({ onToBack }) {
                             <h5 className='subtitle'>Contact Information</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
-                            {email && <a href={`mailto:${email}`} target='_top'><i className='far fa-envelope icon'></i>&nbsp;{email ? email : ''}</a>}
-                            {telephone && <a href={`https://api.whatsapp.com/send?phone=${telephone}`} target='_blank'><i className='fab fa-whatsapp icon'></i>&nbsp;{telephone}</a>}
-                            {git && <a href={`${git}`} target='_blank'><i className='fab fa-github icon'></i>&nbsp;{git}</a>}
-                            {linkedin && <a href={`${linkedin}`} target='_blank'><i className='fab fa-linkedin icon'></i>&nbsp;{linkedin}</a>}
-                            {slack && <a href={`https://skylabcoders.slack.com/messages/${slack}`} target='_blank'><i className='fab fa-slack icon'></i>&nbsp;{slack}</a>}
+                            {skylaber.email && <a href={`mailto:${skylaber.email}`} target='_top'><i className='far fa-envelope icon'></i>&nbsp;{skylaber.email ? skylaber.email : ''}</a>}
+                            {skylaber.telephone && <a href={`https://api.whatsapp.com/send?phone=${skylaber.telephone}`} target='_blank'><i className='fab fa-whatsapp icon'></i>&nbsp;{skylaber.telephone}</a>}
+                            {skylaber.git && <a href={`${skylaber.git}`} target='_blank'><i className='fab fa-github icon'></i>&nbsp;{skylaber.git}</a>}
+                            {skylaber.linkedin && <a href={`${skylaber.linkedin}`} target='_blank'><i className='fab fa-linkedin icon'></i>&nbsp;{skylaber.linkedin}</a>}
+                            {skylaber.slack && <a href={`https://skylabcoders.slack.com/messages/${skylaber.slack}`} target='_blank'><i className='fab fa-slack icon'></i>&nbsp;{skylaber.slack}</a>}
                         </div>
                     </div>
                     <div className='skylaber-data-container'>
@@ -47,7 +46,7 @@ export default function Skylaber({ onToBack }) {
                             <h5 className='subtitle'>Work Experience</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
-                            {workExperience && workExperience.map(exp => {
+                            {skylaber.workExperience && skylaber.workExperience.map(exp => {
                                 return (
                                     <div className='wrapped-container'>
                                         <div className='line'/> 
@@ -67,7 +66,7 @@ export default function Skylaber({ onToBack }) {
                             <h5 className='subtitle'>Technologies</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
-                            {technology && technology.map(tech => {
+                            {skylaber.technology && skylaber.technology.map(tech => {
                                 return (
                                     <div className='wrapped-container'>
                                         <div className='line'/> 
@@ -85,7 +84,7 @@ export default function Skylaber({ onToBack }) {
                             <h5 className='subtitle'>Languages</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
-                            {language && language.map(lang => {
+                            {skylaber.language && skylaber.language.map(lang => {
                                 return (
                                     <div className='wrapped-container'>
                                         <div className='line'/> 
@@ -103,7 +102,7 @@ export default function Skylaber({ onToBack }) {
                             <h5 className='subtitle'>Education</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
-                            {education && education.map(edu => {
+                            {skylaber.education && skylaber.education.map(edu => {
                                 return (
                                     <div className='wrapped-container'>
                                         <div className='line'/> 

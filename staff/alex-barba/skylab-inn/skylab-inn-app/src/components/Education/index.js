@@ -73,7 +73,7 @@ export default function Education({ onAddEducation, onEditEducation, onAddInform
                                 <p>{edu.college}</p>
                                 <div className='education-container__form-header-button'>
                                     <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditEducation(edu._id) }}></i> &nbsp;
-                                    <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Language', edu._id)}></i> 
+                                    <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Education', edu._id)}></i> 
                                 </div>
                             </div>    
                                 <p>{edu.degree}</p>

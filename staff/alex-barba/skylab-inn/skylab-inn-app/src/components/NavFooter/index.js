@@ -5,17 +5,20 @@ import { AppContext } from '../AppContext'
 import './index.sass'
 
 export default function NavFooter({ onToWelcome, onToProfile, onToSignOut }) {
-    const { userData } = useContext(AppContext)
+    const { userData, setFeedback } = useContext(AppContext)
 
     const handleToWelcome = () => {
+        setFeedback(null)
         onToWelcome()
     }
 
     const handleToProfile = () => {
+        setFeedback(null)
         onToProfile()
     }
 
     const handleToSignOut = () => {
+        setFeedback(null)
         onToSignOut()
     }
 
