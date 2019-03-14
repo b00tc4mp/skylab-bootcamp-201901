@@ -1,0 +1,25 @@
+.feedback, .register {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.feedback, .register {
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.feedback {
+  background-color: limegreen;
+}
+.feedback--warn {
+  background-color: gold;
+}
+.feedback--error {
+  background-color: tomato;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,241 @@
+@charset "UTF-8";
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  line-height: 13px;
+}
+
+.head {
+  padding: 0.8rem 0.6rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+.head__title {
+  color: #269289;
+  font-weight: 700;
+}
+.head__icon {
+  border: 1px solid #dedede;
+  border-radius: 20%;
+  padding: 0.6rem;
+  height: 0.7rem;
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+.head__menu {
+  color: #333;
+  font-weight: 500;
+  font-size: 0.6rem;
+  display: flex;
+  flex-direction: row;
+  margin: 0.6rem 0.8rem;
+}
+.head__menu__item {
+  margin-right: 0.8rem;
+}
+
+.sub-header {
+  background-color: #333;
+  padding: 2rem 0.6rem;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.post__title {
+  font-weight: 700;
+  padding: 2rem 0.6rem 0.6rem 0.6rem;
+  font-size: 1.5rem;
+}
+.post__text {
+  font-size: 0.6rem;
+  font-weight: 500;
+  padding: 0.8rem 0.6rem;
+  width: 100%;
+  text-align: left;
+}
+.post__btn {
+  background-color: white;
+  border-radius: 5%;
+  outline: 0;
+  border: 1px solid #dedede;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+.container__features {
+  background-color: #269289;
+  flex: 4;
+  font-weight: 700;
+  padding: 3rem 4rem 0.8rem 3rem;
+  line-height: 35px;
+}
+.container__features__title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.container__features__list {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 0.8rem;
+}
+.container__features__list__item:before {
+  content: "✓";
+  font-size: 1.5rem;
+}
+.container__features__ad {
+  width: 75%;
+  margin: 0.8rem;
+}
+.container__info {
+  background-color: #363535;
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  padding: 0.8rem 2rem;
+  align-items: center;
+}
+.container__info__list {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.6rem;
+  padding: 0.8rem 0;
+  flex: 1;
+}
+.container__info__list__item {
+  margin-right: 0.8rem;
+}
+.container__info__list__item__lastchild {
+  margin-right: none;
+}
+.container__info__foot {
+  font-size: 0.6rem;
+  padding: 0.8rem 3rem;
+  flex: 1;
+}
+
+@media screen and (max-width: 450px) {
+  .head {
+    justify-content: space-between;
+  }
+  .head .head__menu {
+    display: none;
+  }
+}
+@media screen and (min-width: 450px) and (max-width: 580px) {
+  .head {
+    padding: 0.8rem 3rem;
+  }
+  .head__icon {
+    display: none;
+  }
+
+  .container__info__list {
+    align-self: flex-start;
+  }
+  .container__info__foot {
+    align-self: flex-end;
+  }
+}
+@media screen and (min-width: 580px) and (max-width: 900px) {
+  main {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem 3rem 0 3rem;
+    height: 100%;
+  }
+
+  .column :first-child {
+    padding: 0.8rem 0.6rem 0.6rem 0.6rem;
+    flex: 2;
+  }
+
+  .column :last-child {
+    flex: 1;
+  }
+
+  .head__icon {
+    display: none;
+  }
+
+  .container__features {
+    display: flex;
+    flex-direction: row;
+    padding-right: 5rem;
+  }
+  .container__features__column :first-child {
+    flex: 1;
+  }
+  .container__features__column :last-child {
+    align-content: center;
+    flex: 1;
+  }
+  .container__info__list {
+    align-self: flex-start;
+  }
+  .container__info__foot {
+    align-self: flex-end;
+  }
+}
+@media screen and (min-width: 900px) and (max-width: 1400px) {
+  main {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem 3rem 0 3rem;
+    height: 100%;
+  }
+
+  .column :first-child {
+    padding: 0.8rem 0.6rem 0.6rem 0.6rem;
+    flex: 2;
+  }
+
+  .column :last-child {
+    flex: 1;
+  }
+
+  .head__icon {
+    display: none;
+  }
+
+  .container__features {
+    display: flex;
+    flex-direction: row;
+    padding-right: 5rem;
+  }
+  .container__features__column :first-child {
+    flex: 1;
+  }
+  .container__features__column :last-child {
+    align-content: center;
+    flex: 1;
+  }
+  .container__info__list {
+    align-self: flex-start;
+  }
+  .container__info__foot {
+    align-self: flex-end;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

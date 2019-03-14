@@ -1,0 +1,86 @@
+body {
+    background-color: rgb(77, 77, 77);
+    color: white;
+    margin: 2em;
+}
+
+.login {
+    background-color: rgb(150, 152, 153);
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: yellow;
+    color: white;
+}
+
+.alert.alert-warning {
+    display: none;
+    background-color: rgb(255, 255, 98);
+}
+
+.btn.btn-primary {
+    background-color: rgb(150, 152, 153);
+    border-color:  rgb(255, 187, 0);
+    border-width: 0.2em;
+    color: rgb(255, 187, 0);
+    width: 7em;
+}
+
+.btn.btn-outline-primary {
+    border-color: yellow;
+    border-width: 0.2em;
+    color: yellow;
+    width: 7em;
+    margin-bottom: 0.5em;
+}
+
+.margin {
+    margin-left: 1.2em;
+}
+
+.register {
+    display: none;
+    background-color: rgb(150, 152, 153);
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: yellow;
+    color: white;
+}
+
+.home {
+    display: none;
+    background-color: rgb(150, 152, 153);
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: yellow;
+    color: white;
+}
+
+.list {
+    list-style-type: none;
+    border-style: solid;
+    border-width: 0.3em;
+    border-color: yellow;
+    color: yellow;
+    border-radius: 0.3em;
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5em
+}
+
+/* .duckTitle {
+    border-style: solid;
+    border-width: 0.3em;
+    border-color: yellow;
+    color: yellow;
+    border-radius: 0.3em;
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5em
+} */

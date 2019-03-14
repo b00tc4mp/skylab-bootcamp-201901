@@ -1,0 +1,18 @@
+extends ../layout
+
+include ../feedback/index
+
+block content
+    section.register
+      h2 Register
+      form(method='POST', action='/register')
+        input(name='name', type='text', placeholder='name', class='input' required='')
+        input(name='surname', type='text', placeholder='surname', class='input' required='')
+        input(name='email', type='email', placeholder='email', class='input' required='')
+        input(name='password', type='password', placeholder='password', class='input' required='')
+        input(name='passwordConfirm', type='password', placeholder='confirm password', class='input' required='')
+        button(type='submit' class='input_button') Register
+      if feedback
+        +feedback(feedback, 'warn')
+      div(class='go')
+        a(href='/login') Login

@@ -1,0 +1,19 @@
+.results
+    &__list
+        &__artist //mejorrar a BEM
+            width: 70px
+            height: 320px
+            & .layer
+                @include background-opacity(#000000, 0.5)
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 100%
+                &:hover
+                    @include background-opacity(#000000, 0.6)
+            & h4
+                @include text(21, 42, $base__weight__heading2, $text__family__header, $color__light)
+                text-transform: uppercase
+            & span
+                display: none

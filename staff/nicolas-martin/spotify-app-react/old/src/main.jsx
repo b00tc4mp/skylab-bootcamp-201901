@@ -1,0 +1,2 @@
+spotifyApi.token = 'BQAhwhI9pMu3pbCgEWBwkXjJ1GdVx0b3i8hjLKWeuV62E_4RCu7b7tRUU1ZkWPYUWoJh_m-s4wED31wMHGR9B6domjeN0LcXD_wHCD_p5a9lM8MLMi4rC0New1InF9h0e5cgtIkzU8PyUQ'
+ReactDOM.render(<App />, document.getElementById('root'))

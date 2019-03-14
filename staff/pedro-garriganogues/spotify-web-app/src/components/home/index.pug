@@ -1,0 +1,15 @@
+extends ../layout
+
+include ../feedback/index
+include ../search/index
+
+block content
+  section.home
+    | This is HOME!
+    if feedback
+        +feedback(feedback, 'error')
+    
+    +search()
+
+    form(action='/logout', method='POST')
+      button(type='submit') Logout  

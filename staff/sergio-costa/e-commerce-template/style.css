@@ -1,0 +1,148 @@
+body{
+    margin:0;
+    height: 100vh;
+    padding: 0;
+    background-color: white;
+}
+
+header{
+    position: fixed;
+    background-color: lightgreen;
+    /* z-index: 1; */
+    width: 100%;
+    height: 150px;
+    top:0;
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+}
+
+main{
+    margin-top:175px;
+}
+
+article{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin:25px;
+    border-radius:10px;
+    box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+article p{
+    padding: 20px;
+}
+
+article img{
+    width: 250px;
+    height: 200px;
+}
+
+header #logoSearch{
+    font-size: 1.5em; 
+}
+button{
+    padding:5px;
+}
+
+header #logoCSS{
+    font-size: 4em;
+}
+
+header #logoBars{
+    font-size: 3em;
+}
+
+header #textSearch{
+    width: 200px;
+    padding:5px;
+    /* transition: 1s; */
+}
+/* #textSearch:focus{
+    width: 200px;
+} */
+
+nav{
+    display:none;
+}
+
+span{
+    display: none;
+}
+
+@media only screen and (min-width:768px){
+    header #textSearch{
+        width: 300px;
+    }
+    article{
+        display: flex;   
+        max-width: 35%;
+        flex-direction:row;
+        align-items: center;
+        display: inline-block;
+        margin: 30px;
+    }
+    article img{
+        max-width: 95%;
+        max-height: 95%;
+    }
+    nav{
+        display: block;
+        margin: 0;
+    }
+    nav ul li{
+        display: inline-block;
+        margin:15px;
+        font-size: 2em;
+    }
+    header #logoBars{
+        display: none;
+    }
+    nav ul li a{
+        text-decoration: none;
+        color: rgb(1, 70, 1);
+    }
+    article h2{
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width:992px){
+    header #textSearch{
+        width: 100%;
+    }
+    form{
+        width: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    article{
+        max-width: 25%;
+        display: inline-block;    
+    }
+    main{
+        display:flex;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    article img{
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 95%;
+        max-height: 95%;
+    }
+    article h2{
+        text-align: center;
+    }
+
+    span{
+        display: inline-block;
+        font-size: 100%;
+    }
+    
+}

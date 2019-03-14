@@ -1,0 +1,21 @@
+@function em($px,  $base: $base__font-size)
+    @return ($px  /  $base) *  1em
+
+=text($size: $base__font-size, $line: $base__line, $weight: $base__weight__text, $family: $text__family__text, $color: $color__light)
+    font-size: +em($size)
+    line-height: ($line/$size)
+    font-family: $family
+    color: $color
+    font-weight: $weight
+
+
+=background-opacity($color, $opacity: 0.3) 
+    background: $color
+    background: rgba($color, $opacity)
+
+    
+=round-border($radius, $color, $style, $width)
+    border-radius: $radius
+    border-color: $color
+    border-style: $style
+    border-width: $width

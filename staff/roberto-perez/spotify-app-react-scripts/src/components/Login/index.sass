@@ -1,0 +1,39 @@
+@import ../../utils
+
+.login
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    &__content
+        width: 100%
+        background-color: rgba(0, 0, 0, 0.3)
+        max-width: 450px
+        padding: 25px
+        color: #fff
+        margin: 0px auto
+    &__row
+        margin-bottom: 15px
+    &__title
+        margin: 0px 0px 20px 0px
+    &__label
+        display: none
+    &__input
+        width: 100%
+        height: 40px
+        padding: 6px 12px
+        background-color: #fff
+        background-image: none
+        border: 1px solid #d9dadc
+        outline: none
+        font-size: 1em
+    &__btn
+        margin: 25px 0px
+    &__register-text
+        font-size: 0.75em
+        margin: 0
+        & a
+            color: $greenSpotify
+            text-decoration: none
+            &:hover
+                text-decoration: underline

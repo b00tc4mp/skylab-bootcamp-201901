@@ -1,0 +1,7 @@
+mixin tracks(tracks)
+    section.artists.tracks.p-l-10.p-r-10
+        .artists-list
+            each track in tracks
+                .artist.track
+                    h5= track.name
+                    audio(src=`${track.preview_url}`, controls)

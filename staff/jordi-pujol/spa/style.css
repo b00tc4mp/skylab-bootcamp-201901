@@ -1,0 +1,78 @@
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    padding-top: 3%;
+    background-image: url(https://actioncoach.com.mx/mariainesmoran/wp-content/uploads/sites/3/2016/01/patos-volando-4259.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login {
+    background-color: skyblue;
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: gray;
+    color: white;
+}
+
+.error {
+    display: none;
+    background-color: red;
+    color: white;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: white;
+}
+
+.register {
+    display: none;
+    background-color: lightgoldenrodyellow;
+    padding: 2em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: gray;
+}
+
+.home {
+    display: none;
+    color: white;
+}
+
+.btn {
+    background-color: white
+}
+
+.badge-info {
+    margin-top: 1em;
+    padding: 0.4em;
+    font-size: 19px;
+}
+
+.badge-dark {
+    margin-top: 1em;
+    padding: 0.4em;
+    font-size: 19px;
+}
+.card-title {
+    background-color: orange;
+}
+
+.card {
+    background-color:inherit;
+    padding-bottom: 2em;
+}
+
+.btn-danger {
+    background-color: red;
+}
+
+.img {
+    transition: all .2s ease-in-out;
+}
+
+.btn-success {
+    background-color: #68f281;
+}

@@ -1,0 +1,49 @@
+.green {
+  background-color: #1CD760;
+  color: black;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: #1CD760;
+  text-align: center;
+}
+
+.error {
+  color: #E50745;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.margin-top {
+  margin-top: 1em;
+}
+
+.hover:hover {
+  transform: scale(0.9);
+}
+
+audio {
+  height: 50px
+}
+
+.marginauto {
+  margin: 0 auto;
+}
+
+.sm-image {
+  height: 22em;
+  width: 22em;
+}
+
+.icon {
+  height: 3em;
+  width: 3em;
+}
+
+
+/*# sourceMappingURL=main.css.map */

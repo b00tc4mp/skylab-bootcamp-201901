@@ -1,0 +1,17 @@
+.feedback {
+    border: 1px solid gray;
+    border-radius: 0.5em;
+    background-color: greenyellow;
+    color: black;
+    padding: 5px 20px;
+}
+
+.feedback--warn {
+    background-color: yellow;
+    color: black;
+}
+
+.feedback--error {
+    background-color: tomato;
+    color: white;
+}

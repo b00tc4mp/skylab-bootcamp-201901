@@ -1,0 +1,36 @@
+.body{
+    background-color: #edeff0;
+}
+.login {
+    background-color: rgba(153, 153, 153, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 6px;
+    color: #4b5658;
+}
+
+.alert {
+    display: none;
+}
+
+.register {
+    display: none;
+    background-color: rgba(153, 153, 153, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 6px;
+    color: #4b5658;
+}
+
+.home {
+    display: none;
+    background-color: rgba(153, 153, 153, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 6px;
+}
+
+button.btn-secondary{
+    width: 80px;
+}
+
+.card{
+    width: 33.33%
+}

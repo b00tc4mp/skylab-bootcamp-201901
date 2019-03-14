@@ -1,0 +1,52 @@
+.slide
+  color: white
+  background-color: #1b222a
+  padding: 1rem 1rem 3.5rem 1rem
+  display: flex
+  justify-content: center
+  flex-flow: row wrap
+  &__left
+    display: flex
+    flex-direction: column
+    align-items: center
+    &__title
+      font-size: 3rem
+      span
+        color: #1caa98
+    &__text 
+      font-size: 1.5rem
+      text-align: center
+      color: white
+    &__figure 
+      display: flex
+      flex-flow: column
+      align-items: center
+      @media screen and (min-width: 900px)
+        margin: 2rem 0 1rem 0
+        justify-content: space-between
+  &__img
+    max-width: 85%  
+
+  & > &__img
+    display: none
+    @media screen and (min-width: 1400px)
+      display: flex
+
+  @media screen and (min-width: 580px)
+    background-image: url('images/site_showcase_bg.jpg')
+    background-repeat: no-repeat
+    justify-content: flex-start
+    padding: 5% 10%
+    &__left
+      align-items: flex-start
+      &__figure
+        display: flex
+        flex-flow: row
+        justify-content: flex-start
+        margin-top: 2rem 0
+        &__img
+          max-width: 50%
+  @media screen and (min-width: 1400px)
+    flex-flow: row nowrap
+    justify-content: space-between
+    padding-bottom: 0px

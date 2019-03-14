@@ -1,0 +1,55 @@
+.container__form
+    display: flex
+    width: 70em
+    justify-content: center
+
+.form
+    display: flex 
+
+    &__search
+        align-self: center
+        justify-self: center
+        height: 50%
+        width: 10em
+        border: 1px solid #303030 
+        justify-self: center
+        font-size: 1em
+        padding: 1.2em
+
+        &-dark
+            background-color: #121212
+            color: white
+
+        &-light
+            background-color: white
+            color: black
+
+    &__button
+        justify-self: center
+        align-self: center
+        height: 66%
+        z-index: 1
+        width: 3em
+
+        &-dark
+            background-color: #343434
+            border: none
+
+        &-light
+            background-color: white
+
+        &:hover
+            cursor: pointer
+
+.fa-search
+
+    &-dark
+        background-color: #343434
+
+    &-light
+        background-color: white
+
+@media (min-width: 992px)
+    .form__search
+        width: 30em
+    

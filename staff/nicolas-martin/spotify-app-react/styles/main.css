@@ -1,0 +1,61 @@
+html, body {
+  background-color: #1CD760;
+}
+
+button {
+  border-radius: 0.5em;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+input {
+  border-radius: 0.5em;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  padding: 0.25em;
+}
+
+.app {
+  border: 1px solid blue;
+  border-radius: 1em;
+  padding: 1em;
+}
+
+.feedback {
+  border-radius: 0.5em;
+  border-color: blue;
+  border-style: solid;
+  border-width: 1px;
+  padding: 1em;
+  background-color: greenyellow;
+}
+
+.feedback--warn {
+  background-color: yellow;
+}
+
+.feedback--error {
+  background-color: tomato;
+  color: white;
+}
+
+.login {
+  border: 1px solid green;
+  border-radius: 1em;
+  padding: 1em;
+}
+
+.search {
+  border-radius: 0.5em;
+  border-color: solid;
+  border-style: plum;
+  border-width: 1px;
+}
+
+.results__item {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=main.css.map */

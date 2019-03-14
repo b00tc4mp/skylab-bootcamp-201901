@@ -1,0 +1,14 @@
+.landing {
+    background-image: url("./background.jpg");
+    height: 100%;
+    background-size: cover;
+    padding-top: 4rem;
+   }
+
+.landing__image{
+    max-width: 32%;
+}
+
+.landing__title{
+    font-size: 1.3em;
+}
