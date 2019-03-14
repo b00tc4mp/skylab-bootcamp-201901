@@ -4,10 +4,13 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "book-data": "file:../book-data",
     "cloudinary": "^1.13.2",
     "flipping-pages": "^2.1.2",
+    "isomorphic-fetch": "^2.2.1",
     "mocha": "^6.0.2",
     "node-sass": "^4.11.0",
+    "nyc": "^13.3.0",
     "rc-banner-anim": "^2.2.2",
     "rc-queue-anim": "^1.6.12",
     "rc-tween-one": "^2.3.3",
@@ -22,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 **/*.spec.js"
   },
   "eslintConfig": {
     "extends": "react-app"

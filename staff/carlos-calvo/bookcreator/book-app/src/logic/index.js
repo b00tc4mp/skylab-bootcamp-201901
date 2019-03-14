@@ -2,8 +2,11 @@
  * Abstraction of business logic.
  */
 
-import userApi from '../userApi'
-import bookApi from '../bookApi';
+const userApi = require('../userApi')
+const bookApi = require('../bookApi')
+
+
+//USER LOGIC
 
 
 const logic = {
@@ -79,10 +82,15 @@ const logic = {
     if (password !== passwordConfirmation) throw Error('passwords do not match')
 
     return userApi.registerUser(name, surname, email, password, passwordConfirmation)
-        .then(() => { })
+        .then((id) => id)
     },
 
+
+    /**
+     * Retrieves data from current user
+     */
     retrieveUser () {
+        if(arguments.length!==0) throw new Error()
         return userApi.retrieveUser( this.__userApiToken__)
             .then(user => user)
     },
@@ -112,12 +120,6 @@ const logic = {
         return userApi.updateUser(name, surname, email, password, passwordConfirmation)
             .then(user => user)
     },
-
-
-
-
-
-
 
 
 
@@ -302,4 +304,5 @@ const logic = {
 }
 
 
-export default logic
+
+module.exports = logic

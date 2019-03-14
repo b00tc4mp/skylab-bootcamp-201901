@@ -42,6 +42,8 @@ const userApi ={
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
         if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
 
+        if (password !== passwordConfirm) throw Error('passwords do not match')
+
         return fetch(`${this.url}/user`, {
             method: 'POST',
             headers: {
@@ -71,6 +73,8 @@ const userApi ={
 
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
         if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
+
+        if (password !== passwordConfirm) throw Error('passwords do not match')
 
         return fetch(`${this.url}/user/update`, {
             method: 'PUT',
@@ -104,5 +108,4 @@ const userApi ={
     },
 }
 
-
-export default userApi;
+module.exports = userApi
