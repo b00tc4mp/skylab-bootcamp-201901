@@ -101,8 +101,8 @@ const logic = {
     })();
   },
 
-  retrievePlayers() {
-    return Player.find({}, (err, players) => {
+  retrievePlayers(token) {
+    return Player.find({token}, (err, players) => {
       if (!err) {
         return players;
       } else {
@@ -231,7 +231,7 @@ const logic = {
     return (async () => {
       const dataMatches = await logic.retrieveMatchesScrapping();
       const newArray = dataMatches.map(async scrappingMatch => {
-        const match = await Match.findOne({ matchId: scrappingMatch.matchId });
+        const match = await Match.findOne({ matchId: scrappingMatch.matchId }).populate("playersAvailable");
         const {
           matchId,
           date,
@@ -257,7 +257,6 @@ const logic = {
           playersChosen
         };
       });
-      debugger;
       return Promise.all(newArray).then((response) => response)
     })();
   },
@@ -294,6 +293,29 @@ const logic = {
         const index = await match.playersAvailable.indexOf(playerId);
         match.playersAvailable.splice(index, 1);
         await match.save();
+      }
+    })();
+  },
+
+  addChosenPlayers(playersId, matchId) {
+    return (async () => {
+      const match = await Match.findOne({ matchId });
+      if (!match) {
+        await Match.create({
+          matchId,
+          playersChosen: {
+            playersId
+          }
+        });
+      } else {
+        await Match.findOneAndUpdate(
+          { matchId },
+          {
+            playersChosen: {
+              playersId
+            }
+          }
+        );
       }
     })();
   },

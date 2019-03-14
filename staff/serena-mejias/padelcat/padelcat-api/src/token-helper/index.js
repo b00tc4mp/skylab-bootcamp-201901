@@ -12,7 +12,7 @@ const tokenHelper = {
   verifyToken(token) {
     const { sub } = jwt.verify(token, this.jwtSecret);
     if (!sub) throw Error(`subject not present in token ${token}`);
-
+    console.log(sub)
     return sub;
   },
 

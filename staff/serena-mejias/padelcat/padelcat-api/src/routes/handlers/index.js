@@ -8,5 +8,6 @@ module.exports = {
     getMatchesWithData: require("./getMatchesWithData"),
     retrieveAvailabilityPlayers: require("./retrieveAvailabilityPlayers"),
     availabilityPlayer: require("./availabilityPlayer"),
-    deleteAvailabilityPlayer: require("./deleteAvailabilityPlayer")
+    deleteAvailabilityPlayer: require("./deleteAvailabilityPlayer"),
+    addChosenPlayers: require("./addChosenPlayers")
 }
