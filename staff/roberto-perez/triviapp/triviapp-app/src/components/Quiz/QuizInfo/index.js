@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import PlayGame from '../../PlayGame';
+
 import auth from '../../../services/auth';
 
 function QuizInfo(props) {
 	console.log(props);
 	const {
-		quiz: { title, description, author },
+		quiz: { id, title, description, author, picture },
 	} = props;
 
 	return (
@@ -14,11 +16,7 @@ function QuizInfo(props) {
 			<div className="quiz-details-header">
 				<div className="quiz-details-header__image">
 					<figure className="quiz-details-header__figure">
-						<img
-							src="https://assets.awwwards.com/awards/media/cache/optimize/submissions/2019/02/5c5f0480554d4130295365.jpg"
-							alt=""
-							className="quiz__image"
-						/>
+						<img src={picture} alt={title} className="quiz__image" />
 					</figure>
 				</div>
 				<div className="quiz-details-header__info">
@@ -29,12 +27,13 @@ function QuizInfo(props) {
 					<div className="quiz-details-header__action-buttons-wrapper">
 						{auth.isUserLoggedIn && (
 							<div className="quiz-details-header__action-buttons-group">
-								<button
+								<PlayGame id={id} />
+								{/* <button
 									className="btn__link btn__link--green green quiz-details-header__action-buttons-play"
 									disabled
 								>
 									Play
-								</button>
+								</button> */}
 							</div>
 						)}
 						<div className="quiz-details-header__action-buttons-group">

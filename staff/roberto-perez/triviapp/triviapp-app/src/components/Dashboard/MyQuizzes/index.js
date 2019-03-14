@@ -5,19 +5,31 @@ import quiz from '../../../services/quiz';
 
 import MyQuizCard from './MyQuizCard';
 
+import SearchResults from '../../SearchResults';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function MyQuizzes() {
 	const [quizzes, setQuizzes] = useState([]);
+	const [offset, setOffset] = useState(1);
+	const [loadMoreButton, setLoadMoreButton] = useState(false);
 
 	useEffect(() => {
 		handleListQuiz();
-	}, []);
+	}, [offset]);
+
+	const loadMore = () => {
+		setOffset(prevOffset => prevOffset + 1);
+	};
 
 	const handleListQuiz = async () => {
+		console.log(offset);
 		try {
-			const quizzes = await quiz.list();
-			setQuizzes(quizzes);
+			const newQuizzes = await quiz.myQuizzes(offset);
+
+			setLoadMoreButton(!!newQuizzes.length);
+
+			setQuizzes([...quizzes, ...newQuizzes]);
 		} catch (error) {
 			console.error(error);
 		}
@@ -42,11 +54,7 @@ function MyQuizzes() {
 					</h2>
 				</header>
 
-				<div className="quiz-grid">
-					{quizzes.map((quiz, index) => (
-						<MyQuizCard key={quiz.id} quiz={quiz} />
-					))}
-				</div>
+				<SearchResults />
 			</section>
 		</Fragment>
 	);

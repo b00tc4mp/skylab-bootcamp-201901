@@ -20,7 +20,7 @@ function Profile(props) {
 
 	const handleClickOutside = Event => {
 		if (wrapperRef.current && !wrapperRef.current.contains(Event.target)) {
-			setisHidden(!isHidden);
+			setisHidden(true);
 		}
 	};
 
@@ -38,11 +38,8 @@ function Profile(props) {
 				<FontAwesomeIcon icon="gamepad" className="btn__link-icon" /> Join game
 			</Link>
 
-			{/* <a className="btn__link header__btn-create black" href="/">
-				<i className="fas fa-gamepad btn__link-icon" /> Join game
-			</a> */}
 
-			<div className="user-profile user-profile--open">
+			<div className="user-profile user-profile--open" ref={wrapperRef}>
 				<button className="user-profile__button" onClick={toggleHidden}>
 					<img
 						src="https://lh3.googleusercontent.com/-0kr9v-5o9RM/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcc3TZ7vPev4bzJ8FioZBz6Qs7Rpw/s64-c-mo/photo.jpg"
@@ -52,7 +49,7 @@ function Profile(props) {
 				</button>
 
 				{!isHidden && (
-					<div className="user-dropdown user-dropdown--open" ref={wrapperRef}>
+					<div className="user-dropdown user-dropdown--open">
 						<div className="user-dropdown__details">
 							<ul>
 								<li className="user-dropdown__username">

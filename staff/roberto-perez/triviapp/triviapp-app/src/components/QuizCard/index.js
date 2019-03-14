@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import PlayGame from '../PlayGame';
+
 function QuizCard(props) {
 	const {
 		quiz: { id, title, questions, picture, author },
@@ -45,6 +47,7 @@ function QuizCard(props) {
 							</Link>
 						</div>
 						<div className="quiz__stats">
+							<PlayGame id={id} />
 							<span className="purple">{questions.length}Qs</span>
 							<span className="red">2.3k plays</span>
 						</div>

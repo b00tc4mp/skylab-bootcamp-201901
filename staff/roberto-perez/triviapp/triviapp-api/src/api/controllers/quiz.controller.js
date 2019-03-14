@@ -52,6 +52,25 @@ exports.list = async (req, res) => {
 	}
 };
 
+/**
+ * Get quiz list
+ * @public
+ */
+exports.listByAuthor = async (req, res) => {
+	const {
+		params: { offset = 0 },
+	} = req;
+
+	try {
+		req.body.page = offset;
+		req.body.author = req.userId;
+		const quizzes = await quiz.listQuizzesByAuthor(req.body);
+		return res.json(quizzes);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
 exports.create = async (req, res) => {
 	try {
 		console.log(req.image)

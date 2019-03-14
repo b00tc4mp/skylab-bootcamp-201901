@@ -13,7 +13,11 @@ const server = app.listen(port, () =>
 const io = require('socket.io')(server);
 
 io.sockets.on('connection', socket => {
-	console.log('client connected');
+	console.log(`Socket ${socket.id} connected.`);
+
+	socket.on('disconnect', () => {
+		console.log(`Socket ${socket.id} disconnected.`);
+	});
 
 	socket.on('NEW_GAME', room => {
 		console.log('joining room', room);
@@ -22,23 +26,6 @@ io.sockets.on('connection', socket => {
 });
 
 app.io = io;
-
-// io.on('connection', socket => {
-// 	socket.on('subscribe', function(room) {
-// 		console.log('joining room', room);
-// 		socket.join(room);
-// 	});
-
-// 	socket.on('unsubscribe', function(room) {
-// 		console.log('leaving room', room);
-// 		socket.leave(room);
-// 	});
-
-// 	socket.on('send', function(data) {
-// 		console.log('sending message');
-// 		io.sockets.in(data.room).emit('message', data);
-// 	});
-// });
 
 process.on('SIGINT', async () => {
 	await mongoose.disconnect();

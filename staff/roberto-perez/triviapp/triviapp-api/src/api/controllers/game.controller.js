@@ -10,7 +10,6 @@ const socket = require('../logic/socket');
 
 /**
  * Load user and append to req.
- * @public
  */
 exports.load = async (req, res, next, id) => {
 	try {
@@ -24,10 +23,12 @@ exports.load = async (req, res, next, id) => {
 
 /**
  * Get game
- * @public
  */
 exports.get = (req, res) => res.json(req.locals.game.normalize());
 
+/**
+ * Create game
+ */
 exports.create = async (req, res) => {
 	try {
 		req.body.host = req.userId;
@@ -39,13 +40,108 @@ exports.create = async (req, res) => {
 	}
 };
 
+/**
+ * Join to game
+ */
+exports.join = async (req, res) => {
+	try {
+		const game = await gameLogic.joinGame(req.body);
+
+		req.app.io.in(`game-${game.id}`).emit('playerJoinedRoom', true);
+
+		if (req.body.user) {
+			return res.status(httpStatus.OK).json({ game, user: req.body.user });
+		} else {
+			return res.status(httpStatus.OK).json({ game });
+		}
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+/**
+ * Start game
+ */
 exports.start = async (req, res) => {
 	try {
 		const game = await gameLogic.startGame(req.locals.game);
-		req.app.io.in(`game-${game.id}`).emit('START_GAME', true)
-		res.status(httpStatus.CREATED);
+
+		req.app.io.in(`game-${game.id}`).emit('beginNewGame', true);
+
+		res.status(httpStatus.OK);
+
 		return res.json(game);
 	} catch (error) {
 		handleResponseError(error, res);
 	}
+};
+
+exports.emitQuestion = async (req, res) => {
+	req.app.io.in(`game-${req.body.id}`).emit('showQuestion', true);
+};
+
+exports.answer = async (req, res) => {
+	try {
+		req.body.user = req.userId;
+
+		const answerGame = await gameLogic.answerQuestion(req.body);
+
+		console.log(`EMIT to ${req.body.gameId} GAME`);
+
+		req.app.io.in(`game-${req.body.gameId}`).emit('answerQuestion', true);
+
+		res.status(httpStatus.OK);
+
+		return res.json(answerGame);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+exports.questionResults = async (req, res) => {
+	try {
+		const questionResult = await gameLogic.questionResults(req.body);
+
+		res.status(httpStatus.OK);
+
+		return res.json(questionResult);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+exports.lastAnswer = async (req, res) => {
+	try {;
+		const answer = await gameLogic.getLastAnswer({game: req.locals.game, user:req.userId});
+		res.status(httpStatus.OK);
+		return res.json(answer);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+exports.setNextQuestion = async (req, res) => {
+	try {;
+		const question = await gameLogic.setNextQuestion({game: req.locals.game});
+		
+		req.app.io.in(`game-${req.locals.game.id}`).emit('nextQuestion', true);
+
+		res.status(httpStatus.OK);
+		
+		return res.json(question);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+
+
+exports.currentQuestion = async (req, res) => {
+	// try {
+	// 	const game = await gameLogic.startGame(req.locals.game);
+	// 	res.status(httpStatus.CREATED);
+	// 	return res.json(game);
+	// } catch (error) {
+	// 	handleResponseError(error, res);
+	// }
 };

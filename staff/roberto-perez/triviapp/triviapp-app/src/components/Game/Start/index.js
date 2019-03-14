@@ -1,9 +1,17 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
+import gameService from '../../../services/game';
 
 import ExpandButton from '../ExpandButton';
 
 function GetReady(props) {
+
+	const {
+		match: {
+			params: { gameId },
+		},
+	} = props;
+
 	let countDownTimeout;
 
 	let fillHeight = 100;
@@ -12,16 +20,25 @@ function GetReady(props) {
 	const countFill = useRef(null);
 
 	const [count, setCount] = useState(initSeconds);
-
-	const {
-		match: {
-			params: { gameId },
-		},
-	} = props;
+	const [title, setTitle] = useState('');
 
 	useEffect(() => {
 		countDown();
 	}, [count]);
+
+	useEffect(() => {
+		getGameByQuizId();
+	}, []);
+
+	const getGameByQuizId = async () => {
+		try {
+			const game = await gameService.get(gameId);
+			setTitle(game.quiz.title);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 
 	const countDown = () => {
 		const fill = countFill.current;
@@ -46,7 +63,7 @@ function GetReady(props) {
 		<Fragment>
 			<header className="header-game-top">
 				<h1 className="header-game-top__title">
-					Our Solar System: Where are the Small Worlds
+					{title}
 				</h1>
 				<ExpandButton hostGame={props.hostGame} />
 			</header>

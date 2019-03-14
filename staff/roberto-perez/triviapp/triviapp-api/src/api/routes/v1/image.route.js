@@ -4,8 +4,8 @@ const cloudinaryUploader = require('../../midelware/cloudinary')
 
 const controller = require('../../controllers/image.controller');
 
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 // var multer  = require('multer')
 

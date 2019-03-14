@@ -1,12 +1,11 @@
-import auth from '../services/auth';
-import socketApi from '../services/socket';
+import auth from '../../services/auth';
 
-const gameApi = {
+const questionApi = {
 	url: 'http://localhost:8000/v1',
 
-	getGame(gameId) {
+	getQuestion(quizId, questionId) {
 		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/game/${gameId}`, {
+		return fetch(`${this.url}/quiz/${quizId}/question/${questionId}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
@@ -19,32 +18,33 @@ const gameApi = {
 			});
 	},
 
-	createGame(quizId) {
+
+	createQuestion(quizId, data) {
 		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/game`, {
+		return fetch(`${this.url}/quiz/${quizId}/question`, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
 			},
-			body: JSON.stringify({ quiz: quizId }),
+			body: JSON.stringify(data),
 		})
 			.then(response => response.json())
 			.then(response => {
 				if (response.error) throw Error(response.error);
-				socketApi.createGame(`game-${response.id}`);
 				return response;
 			});
 	},
 
-	startGame(gameId) {
+	editQuestion(quizId, questionId, data) {
 		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/game/${gameId}/start`, {
+		return fetch(`${this.url}/quiz/${quizId}/question/${questionId}`, {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
 			},
+			body: JSON.stringify(data),
 		})
 			.then(response => response.json())
 			.then(response => {
@@ -53,23 +53,14 @@ const gameApi = {
 			});
 	},
 
-	joinGame(code) {
+	deleteQuestion(quizId, questionId) {
 		//VALIDACIONES DE TIPO
-
-		const toke = auth.token;
-
-		const headers = {
-			'content-type': 'application/json',
-		};
-
-		if (toke) {
-			headers.authorization = `Bearer ${auth.token}`;
-		}
-
-		return fetch(`${this.url}/join`, {
-			method: 'PATCH',
-			headers,
-			body: JSON.stringify({ code }),
+		return fetch(`${this.url}/quiz/${quizId}/question/${questionId}`, {
+			method: 'DELETE',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			}
 		})
 			.then(response => response.json())
 			.then(response => {
@@ -77,6 +68,8 @@ const gameApi = {
 				return response;
 			});
 	},
+
+	
 };
 
-export default gameApi;
+export default questionApi;

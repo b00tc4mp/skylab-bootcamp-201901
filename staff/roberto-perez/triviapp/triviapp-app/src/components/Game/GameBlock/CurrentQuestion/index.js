@@ -1,24 +1,53 @@
-import React, { Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
+import gameService from '../../../../services/game';
 
-function CurrentQuestion({count}) {
+function CurrentQuestion(props) {
+
+	const {
+		picture,
+		count,
+		totalUsers,
+		showResultsScreen,
+		match: {
+			params: { gameId },
+		},
+	} = props;
+
+	const [countAnswer, setCountAnswer] = useState(0);
+	
+	useEffect(() => {
+		gameService.onAnswerQuestion(() => {
+
+			let currentAnswer = countAnswer + 1;
+
+			setCountAnswer(currentAnswer);
+
+			if(totalUsers === currentAnswer) {
+				showResultsScreen();
+			}
+		});
+	}, [countAnswer]);
+
+
 	return (
 		<Fragment>
 			<div className="current-quiz__countdown">
 				<div className="current-quiz__countdown-digit">{count}</div>
 			</div>
 			<div className="current-quiz__image-container">
-				<img
-					src="https://assets.awwwards.com/awards/media/cache/optimize/submissions/2019/02/5c5f0480554d4130295365.jpg"
+				{picture && (<img
+					src={picture}
 					alt=""
 					className="current-quiz__image"
-				/>
+				/>)}
 			</div>
 			<div className="current-quiz__answers">
-				<span className="current-quiz__answers-number">0</span>
+				<span className="current-quiz__answers-number">{countAnswer}</span>
 				Answers
 			</div>
 		</Fragment>
 	);
 }
 
-export default CurrentQuestion;
+export default withRouter(CurrentQuestion);

@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
-import { withRouter, Link } from 'react-router-dom';
-
-import authService from '../../../services/auth';
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import socketApi from '../../../services/socket';
 
 function Start(props) {
+
+	const {
+		match: {
+			params: { gameId },
+		},
+	} = props;
+
+	
+	useEffect(() => {
+		socketApi.getReadyEvents(() => {
+			props.history.push(`/player/${gameId}/gameblock`);		
+		});
+	}, []);
+
+
 	return (
 		<div className="player-game player-game--green">
 			<div className="player-game__getready">

@@ -17,12 +17,14 @@ import {
 	faPlayCircle,
 	faCogs,
 	faTrophy,
-	faGamepad
+	faGamepad,
+	faCheckCircle
 } from '@fortawesome/free-solid-svg-icons';
 
 import Home from '../Home';
 import Game from '../Game/';
 import Player from '../Player/';
+import Pin from '../Player/Pin';
 
 library.add(
 	faHeart,
@@ -39,15 +41,18 @@ library.add(
 	faPlayCircle,
 	faCogs,
 	faTrophy,
-	faGamepad
+	faGamepad,
+	faCheckCircle
 );
 
 
 function App() {
 	return (
 		<Switch>
+
+			<Route exact path="/pin" render={() => <Pin />} />
 			<Route path="/game" render={() => <Game />} />
-			<Route path="/player" render={() => <Player />} />
+			<Route path="/player/:gameId" render={() => <Player />} />
 			<Route path="/" render={() => <Home />} />
 		</Switch>
 	);

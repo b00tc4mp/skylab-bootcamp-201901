@@ -1,7 +1,11 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const {
+	SchemaTypes: { ObjectId },
+} = mongoose;
 const httpStatus = require('http-status');
+const { NotFoundError } = require('../errors/index');
 
 /**
  * Answer Schema
@@ -9,9 +13,25 @@ const httpStatus = require('http-status');
  */
 const answerGameSchema = new mongoose.Schema(
 	{
+		user: {
+			type: ObjectId,
+			ref: 'User',
+		},
+		game: {
+			type: ObjectId,
+			ref: 'Game',
+		},
+		question: {
+			type: ObjectId,
+			ref: 'Question',
+		},
 		answer: {
 			type: ObjectId,
 			ref: 'Answer',
+		},
+		score: {
+			type: Number,
+			default: 0,
 		},
 	},
 	{ timestamps: true },
@@ -23,11 +43,7 @@ const answerGameSchema = new mongoose.Schema(
 answerGameSchema.method({
 	normalize() {
 		const answer = {};
-		const fields = [
-			'id',
-			'answer',
-			'createdAt',
-		];
+		const fields = ['id', 'game', 'question', 'answer', 'createdAt'];
 
 		fields.forEach(field => (answer[field] = this[field]));
 
@@ -61,12 +77,80 @@ answerGameSchema.statics = {
 			throw error;
 		}
 	},
+
+	/**
+	 * Get answers game by gameID & answerID
+	 *
+	 * @returns {Promise<Quiz[]>}
+	 */
+	async getBy(option) {
+		try {
+			return await this.findOne(option)
+				.populate('user')
+				.populate('answer')
+				.sort({ createdAt: -1 });
+		} catch (error) {
+			throw error;
+		}
+	},
+
+	/**
+	 * Get answers game by gameID & answerID
+	 *
+	 * @returns {Promise<Quiz[]>}
+	 */
+	// async getAnswersQuestion(option) {
+	// 	return await this.find(option)
+	// 		.populate('user')
+	// 		.populate({
+	// 			path: 'question',
+	// 			model: 'Question',
+	// 			populate: {
+	// 				path: 'answer',
+	// 				model: 'Answer',
+	// 			},
+	// 		})
+	// 		.sort({ createdAt: -1 });
+	// },
+
+	/**
+	 * Get answers game by gameID & answerID
+	 *
+	 * @returns {Promise<Quiz[]>}
+	 */
+	async getAnswersQuestion(gameId, questionId) {
+		debugger;
+
+		return await this.aggregate([
+			{ $match: { 'game': gameId, 'question': questionId } },
+			{
+				$group: {
+					_id: '$question.answer',
+					total: {
+						$sum: 1,
+					},
+				},
+			},
+		]);
+
+	// 	// return this.aggregate([
+	// 	// 	{ $match: { 'game': gameId, 'question': questionId } },
+	// 	// 	{
+	// 	// 		$group: {
+	// 	// 			_id: '$answer',
+	// 	// 			count: {
+	// 	// 				$sum: 1,
+	// 	// 			},
+	// 	// 		},
+	// 	// 	},
+	// 	// ]);
+	},
 };
 
 /**
  * @typedef AnswerGame
  */
 module.exports = {
-	answerGame: mongoose.model('answerGame', answerGameSchema),
-	answerGameSchema
+	AnswerGame: mongoose.model('answerGame', answerGameSchema),
+	answerGameSchema,
 };

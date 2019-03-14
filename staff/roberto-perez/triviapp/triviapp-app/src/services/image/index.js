@@ -1,4 +1,4 @@
-import imageApi from '../../image-api';
+import imageApi from '../../api/image-api';
 
 const image = {
 	

@@ -1,11 +1,11 @@
 import auth from '../services/auth';
 
-const questionApi = {
+const quizApi = {
 	url: 'http://localhost:8000/v1',
 
-	getQuestion(quizId, questionId) {
+	getQuiz(quizId) {
 		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/quiz/${quizId}/question/${questionId}`, {
+		return fetch(`${this.url}/quiz/${quizId}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
@@ -18,10 +18,9 @@ const questionApi = {
 			});
 	},
 
-
-	createQuestion(quizId, data) {
+	createQuiz(data) {
 		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/quiz/${quizId}/question`, {
+		return fetch(`${this.url}/quiz`, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
@@ -36,9 +35,10 @@ const questionApi = {
 			});
 	},
 
-	editQuestion(quizId, questionId, data) {
+	editQuiz(quizId, data) {
 		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/quiz/${quizId}/question/${questionId}`, {
+
+		return fetch(`${this.url}/quiz/${quizId}`, {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
@@ -53,14 +53,15 @@ const questionApi = {
 			});
 	},
 
-	deleteQuestion(quizId, questionId) {
+	deleteQuiz(quizId) {
 		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/quiz/${quizId}/question/${questionId}`, {
+
+		return fetch(`${this.url}/quiz/${quizId}`, {
 			method: 'DELETE',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
-			}
+			},
 		})
 			.then(response => response.json())
 			.then(response => {
@@ -69,7 +70,36 @@ const questionApi = {
 			});
 	},
 
-	
+	listQuizzes(offset) {
+		return fetch(`${this.url}/quiz/page/${offset}`, {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json',
+			},
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				return response;
+			});
+	},
+
+	myListQuizzes(offset) {
+		return fetch(`${this.url}/quiz/page/${offset}`, {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			},
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				return response;
+			});
+	},
+
+
 };
 
-export default questionApi;
+export default quizApi;

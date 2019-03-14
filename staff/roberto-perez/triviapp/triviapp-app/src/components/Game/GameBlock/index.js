@@ -1,6 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
+import gameService from '../../../services/game';
+
+import socketApi from '../../../services/socket';
+
+
 import ExpandButton from '../ExpandButton';
 import CurrentQuestion from './CurrentQuestion';
 import CurrentQuestionResults from './CurrentQuestionResults';
@@ -25,11 +30,13 @@ function GameBlock(props) {
 		countDown();
 	}, [count]);
 
+	useEffect(() => {
+		gameService.showQuestionToPlayer(gameId);
+	}, []);
+
 	const countDown = () => {
 		if (count === 0) {
-			clearTimeout(countDownTimeout);
-			setShowResults(true);
-			// props.history.push(`/game/${gameId}/questions/gameblock`);
+			showResultsScreen()
 			return;
 		}
 
@@ -37,6 +44,15 @@ function GameBlock(props) {
 			setCount(count - 1);
 		}, 1000);
 	};
+
+	const showResultsScreen = async () => {
+		clearTimeout(countDownTimeout);
+		const results = await gameService.showQuestionsResults(currentQuestion._id, gameId);
+		console.log("##############")
+		console.log(results);
+		console.log("##############")
+		setShowResults(true);
+	}
 
 	return (
 		<Fragment>
@@ -51,7 +67,7 @@ function GameBlock(props) {
 						{showResults ? (
 							<CurrentQuestionResults nextQuestion={props.nextQuestion} />
 						) : (
-							<CurrentQuestion count={count} />
+							<CurrentQuestion image={currentQuestion.picture} totalUsers={props.totalUsers} showResultsScreen={showResultsScreen} count={count} />
 						)}
 					</div>
 					<div className="current-quiz__choices">

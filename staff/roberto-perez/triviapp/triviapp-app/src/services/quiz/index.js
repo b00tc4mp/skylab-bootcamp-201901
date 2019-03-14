@@ -47,6 +47,14 @@ const quiz = {
 		}
 	},
 
+	async myQuizzes(offset = 1) {
+		try {
+			return await quizApi.myListQuizzes(offset);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
+
 	async create(data) {
 		const { title, description, picture } = data;
 

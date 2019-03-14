@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 
 import quiz from '../../services/quiz';
 import QuizCard from '../QuizCard';
@@ -30,7 +30,7 @@ function SearchResults(props) {
 	};
 
 	return (
-		<div className="container">
+		<Fragment>
 			<div className="quiz-grid">
 				{quizzes.map((quiz, index) => (
 					<QuizCard key={quiz.id} quiz={quiz} />
@@ -41,7 +41,7 @@ function SearchResults(props) {
 					Load more
 				</button>
 			)}
-		</div>
+		</Fragment>
 	);
 }
 

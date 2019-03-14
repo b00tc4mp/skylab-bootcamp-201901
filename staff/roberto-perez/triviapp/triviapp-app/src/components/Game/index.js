@@ -3,8 +3,6 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Welcome from './Welcome';
 import Start from './Start';
-import GetReady from './GetReady';
-import GameBlock from './GameBlock';
 import Questions from './Questions';
 
 function Game({ match }) {
@@ -14,11 +12,13 @@ function Game({ match }) {
 		<section className="host-game" ref={hostGame}>
 			<Switch>
 				<Route
+					exact
 					path={`${match.url}/:gameId/welcome`}
 					render={() => <Welcome hostGame={hostGame} />}
 				/>
 
 				<Route
+					exact
 					path={`${match.url}/:gameId/start`}
 					render={() => <Start hostGame={hostGame} />}
 				/>

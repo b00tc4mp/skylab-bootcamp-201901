@@ -15,6 +15,14 @@ module.exports = {
 		})(data);
 	},
 
+	listQuizzesByAuthor(data) {
+		return (async data => {
+			const quizzes = await Quiz.listByAuthor(data);
+			const transformedQuiz = quizzes.map(quiz => quiz.normalize());
+			return transformedQuiz;
+		})(data);
+	},
+	
 	searchQuizzesByQuery(query) {
 		return (async query => {
 			const quizzes = await Quiz.search(query);

@@ -13,15 +13,10 @@ import Quiz from '../Quiz';
 import Dashboard from '../Dashboard';
 
 function Home(props) {
-
 	return (
 		<div className="wrapper">
 			<div className="search__content">
-				<input
-					className="search__input"
-					type="search"
-					placeholder="Search..."
-				/>
+				<input className="search__input" type="search" placeholder="Search..." />
 				<button className="search__button">
 					<FontAwesomeIcon icon="search" />
 				</button>
@@ -35,11 +30,13 @@ function Home(props) {
 				<Header />
 				<div className="content">
 					<Switch>
-						<Route exact path="/signup" render={() => <Signup />} />
-						<Route exact path="/login" render={() => <Login />} />
+						<Route path="/signup" component={Signup} />
+						<Route path="/login" component={Login} />
 						<Route path="/quiz/:quizId" component={Quiz} />
-						<Route path="/dashboard" render={() => <Dashboard />} />
-						<Route path="/" render={() => <SearchResults />} />
+						<Route path="/dashboard" component={Dashboard} />
+						<div className="container">
+							<Route path="/" component={SearchResults} />
+						</div>
 					</Switch>
 					<Footer />
 				</div>

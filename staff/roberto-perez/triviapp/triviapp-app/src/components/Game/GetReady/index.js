@@ -8,7 +8,7 @@ function GetReady(props) {
     let countDownTimeout;
     const initSeconds = 5;
     const [count, setCount] = useState(initSeconds);
-	const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
+	// const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
 
 	const {
 		match: {
@@ -40,7 +40,7 @@ function GetReady(props) {
 	return (
 		<Fragment>
 			<header className="header-game-top">
-				<h1 className="header-game-top__title">Question 1 of 9</h1>
+				<h1 className="header-game-top__title">Question 1 of {props.totalQuestions}</h1>
 				<ExpandButton hostGame={props.hostGame} />
 			</header>
 
@@ -50,7 +50,7 @@ function GetReady(props) {
 
 			<div className="start-game">
 				<div className="ready-question">
-					<h3>{currentQuestion.title}</h3>
+					<h3>{props.currentQuestion.title}</h3>
 				</div>
 			</div>
 

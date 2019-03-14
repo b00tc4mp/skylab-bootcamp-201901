@@ -1,3 +1,5 @@
+import State from '.';
+
 describe('state', () => {
     const stateStorageKey = '__state__'
 

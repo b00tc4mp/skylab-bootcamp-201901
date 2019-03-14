@@ -70,7 +70,7 @@ function Login(props) {
 						</fieldset>
 					</div>
 				</form>
-				{error && <Feedback message={error} />}
+				<Feedback message={error} />
 				<footer className="login__footer">
 					¿New in Triviapp?{' '}
 					<Link to="/signup" title="Sign up" className="login__signup">

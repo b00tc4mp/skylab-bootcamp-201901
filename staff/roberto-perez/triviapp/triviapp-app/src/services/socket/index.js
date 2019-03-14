@@ -1,25 +1,37 @@
 const io = require('socket.io-client');
 
 const socketApi = {
-    
-    socket: io.connect('http://localhost:8000'),
+	socket: io.connect('http://localhost:8000'),
 
-    joinGameHandler(onMessageReceived) {
-        this.socket.on('JOIN_GAME', onMessageReceived);
-    },
-    
-    unJoinGameHandler() {
-        this.socket.off('JOIN_GAME');
-    },
+	createGame(data) {
+		this.socket.emit('NEW_GAME', data);
+	},
 
-    startGameHandler(onMessageReceived) {
-        this.socket.on('START_GAME', onMessageReceived);
-    },
+	//HOST
+	welcomeEvents(cb) {
+		this.socket.on('playerJoinedRoom', cb );
+		// this.socket.on('beginNewGame', cb );
+	},
 
-    createGame(data) {
-        this.socket.emit('NEW_GAME', data);
-    }
 
+	//PLAYER
+	youAreInEvents(cb) {
+		this.socket.on('beginNewGame', cb );
+	},
+
+	getReadyEvents(cb) {
+		this.socket.on('NEXT_QUESTION', cb );
+	},
+
+
+	
+	// joinGameHandler(cb) {
+	// 	this.socket.on('JOIN_GAME', cb);
+	// },
+
+	// startGameHandler(cb) {
+	// 	this.socket.on('START_GAME', cb);
+	// },
 };
 
 export default socketApi;

@@ -126,6 +126,20 @@ quizSchema.statics = {
 	},
 
 	/**
+	 * List quizzes in descending order of 'createdAt' timestamp by author
+	 *
+	 * @returns {Promise<Quiz[]>}
+	 */
+	listByAuthor({ page = 1, perPage = 9, author }) {
+		return this.find({author})
+			.populate('author')
+			.sort({ createdAt: -1 })
+			.skip(perPage * (page - 1))
+			.limit(perPage)
+			.exec();
+	},
+
+	/**
 	 * List quizzes in descending order of 'createdAt' timestamp.
 	 *
 	 * @returns {Promise<Quiz[]>}

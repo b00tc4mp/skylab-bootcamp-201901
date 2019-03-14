@@ -6,8 +6,13 @@
 	margin-bottom: 4rem;
 	&__wrap {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto auto;
 		grid-gap: 20px;
+
+		@include respond-above(sm) {
+			grid-template-columns: 1fr 1fr;
+			grid-auto-rows: auto ;
+		}
 	}
 
 	& fieldset {
@@ -19,8 +24,13 @@
 	&__answers {
 		margin-top: 2rem;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-gap: 2rem;
+		grid-template-rows: auto auto;
+
+		@include respond-above(sm) {
+			grid-template-columns: 1fr 1fr;
+			grid-gap: 2rem;
+		}
+
 
 		& div.form__p {
 			display: grid;
@@ -36,7 +46,7 @@
 		position: relative;
 		// width: 20px;
 		// height: 20px;
-		margin: 0 auto;
+		margin: 0;
 
 		& input[type='checkbox'] {
 			visibility: hidden;
@@ -81,9 +91,12 @@
 	clear: both;
 	margin: 0 auto;
 	width: 100%;
-	max-width: 600px;
 	height: 100%;
 	color: #5f6982;
+	min-height: 320px;
+	@include respond-above(sm) {
+		max-width: 600px;
+	}
 
 	&__body {
 		height: 100%;
@@ -96,7 +109,7 @@
 		justify-content: center;
 		align-items: center;
 		width: 100%;
-		padding: 2rem 1.5rem;
+		padding: 2rem 2rem;
 		text-align: center;
 		background: #fff;
 		border-radius: 7px;
@@ -115,7 +128,7 @@
 		margin: 0 auto 0.5rem auto;
 		width: auto;
 		height: auto;
-		max-width: 180px;
+		max-width: 400px;
 	}
 
 	&__star {

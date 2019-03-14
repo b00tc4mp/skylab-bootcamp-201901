@@ -10,7 +10,7 @@
   @include respond-above(sm) {
     grid-template-columns: repeat(3, 1fr);
   }
-  @include respond-above(md) {
-    grid-template-columns: repeat(4, 1fr);
+  @include respond-above(lg) {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
