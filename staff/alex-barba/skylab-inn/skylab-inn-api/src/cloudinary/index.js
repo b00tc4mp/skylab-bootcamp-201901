@@ -2,6 +2,8 @@
 
 require('dotenv').config()
 
+const streamifier = require('streamifier')
+
 const cloudinary = require('cloudinary').v2
 
 const { env: { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } } = process
@@ -13,25 +15,14 @@ function cloudinaryUploader(req, res, next) {
         api_secret: CLOUDINARY_API_SECRET
     })
 
-    const path = req.file.path
+    const path = req.file.buffer
 
-    try {
-        cloudinary.uploader.upload(
-            path,
-            function (err, image) {
-                if (err) return req.send(err)
-        
-                const fs = require('fs')
-                fs.unlinkSync(path)
-
-                req.image = image
-                next()
-            })
-    } catch ({ message }) {
-        return res.status(401).json({ error: message })
-    }
-
-
+    const upload_stream= cloudinary.uploader.upload_stream(function(err,image) {
+            req.image = image
+            next()
+    });
+    
+    streamifier.createReadStream(path).pipe(upload_stream);
 }
 
 module.exports = cloudinaryUploader

@@ -25,7 +25,7 @@ const logic = {
      *
      * @returns {String} - id. 
      */
-    registerUser(name, surname, email, password, passwordConfirm) {
+    registerUser(name, surname, email, password, passwordConfirm, role) {
 
         if (typeof name !== 'string') throw new TypeError(`${name} is not a string`)
         if (!name.trim().length) throw new Error('name is empty')
@@ -47,6 +47,16 @@ const logic = {
         return (async () => {
             const user = await User.findOne({ email })
             if (user) throw new Error(`user with email ${email} already exists`)
+            debugger
+
+            if (role === 'Admin') {
+
+                const hashAdmin = await bcrypt.hash(password, 11)
+
+                const admin = await User.create({ name, surname, email, password: hashAdmin, role })
+
+                return admin.id
+            }
 
             const preUser = await EmailWhitelist.findOneAndUpdate({ email }, { state: 'registered' })
             if (!preUser) throw new Error(`The email ${email} is not authorised to sign up`)

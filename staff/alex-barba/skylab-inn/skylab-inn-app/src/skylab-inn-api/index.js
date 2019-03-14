@@ -1,8 +1,8 @@
 'use strict'
 
 const skylabInnApi = {
-    // url: 'http://localhost:8000/api',
-    url: 'https://fast-taiga-93895.herokuapp.com/',
+    url: 'http://localhost:8000/api',
+    // url: 'https://fast-taiga-93895.herokuapp.com/api',
 
     /**
      * Registers a user.

@@ -26,6 +26,7 @@
     "jsonwebtoken": "^8.5.0",
     "multer": "^1.4.1",
     "nodemailer": "^5.1.1",
-    "skylab-inn-data": "file:../skylab-inn-data"
+    "skylab-inn-data": "file:../skylab-inn-data",
+    "streamifier": "^0.1.1"
   }
 }
