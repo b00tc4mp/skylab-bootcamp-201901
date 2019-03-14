@@ -26,7 +26,7 @@ class Favorites extends Component {
     toggleFavorite = (house) => {
 
         const { state: { favorites }, props: { updateInfo } } = this
-        debugger
+        
         let index = favorites.findIndex(fav => fav.id === house.id)
         if (index < 0) {
             console.log('done')
@@ -35,7 +35,7 @@ class Favorites extends Component {
             favorites.splice(index, 1)
         }
         this.setState({ favorites })
-        // updateInfo()
+        updateInfo()
 
     }
 

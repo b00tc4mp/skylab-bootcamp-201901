@@ -13,7 +13,7 @@ class HouseCard extends Component {
 
         logged: false,
         thisHouse:"",
-        isFav: false
+        isFav: this.props.isFav
 
 
     }
@@ -34,7 +34,7 @@ class HouseCard extends Component {
 
         if (this.props.deleteHouseList) {
 
-            logic.deleteHouse(this.state.house.id)
+            logic.deleteHouse(this.state.thisHouse.id)
 
             this.props.deleteHouseList(this.state.house)
 
@@ -44,14 +44,16 @@ class HouseCard extends Component {
 
     }
 
+    ChangeHeart = () =>  this.setState({isFav: !this.state.isFav})
+
 
     toggleFavorite = () => {
 
         if (this.props.toggleFavorite) {
 
-            // logic.toggleFavorite(this.state.house.id)
+            logic.toggleFavorite(this.state.thisHouse.id)
 
-            this.props.toggleFavorite(this.state.thisHouse)
+            this.props.toggleFavorite(this.state.thisHouse, this.ChangeHeart)
 
         }
 

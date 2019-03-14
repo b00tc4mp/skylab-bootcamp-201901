@@ -31,19 +31,20 @@ class SearchResults extends Component {
 
     }
 
-    toggleFavorite = (house) => {
+    toggleFavorite = (house, ChangeHeart) => {
 
         const { state: { favorites }, props: { updateInfo } } = this
         
         let index = favorites.findIndex(fav => fav.id === house.id)
+
         if (index < 0) {
             console.log('done')
             favorites.push(house)
         } else {
             favorites.splice(index, 1)
         }
-        this.setState({ favorites })
-        // updateInfo()
+        this.setState({ favorites }, () => ChangeHeart())
+        updateInfo()
 
     }
 
@@ -63,26 +64,14 @@ class SearchResults extends Component {
 
     listresults = (results, updateInfo) => {
        
-        debugger
 
         if (this.state.favorites) {
 
             return results.map(house => {
-                let index = this.state.favorites.findIndex(fav => fav.id == house.id)
-                if (index < 0) {
-                    return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={false} origin='search' />
-
-                } else {
-                    return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={true} origin='search' />
-
-                }
+                let index = this.state.favorites.filter(fav => fav.id == house.id)
+                return  <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={!!index.length} origin='search' />
             })
 
-        } else {
-            return results.map(house => {
-                return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={false} origin='search' />
-
-            })
         }
     }
 
