@@ -9,6 +9,7 @@ import "./index.sass";
 const Login = props => {
     const [userData, setUserData] = useState("");
     const [userPassword, setUserPassword] = useState("");
+    const [feedbackLogin, setFeedbackLogin] = useState('')
 
     const handleUserDataInput = ({ target: { value: userData } }) => {
         setUserData(userData);
@@ -28,10 +29,10 @@ const Login = props => {
                     props.history.push("/");
                 })
                 .catch(error => {
-                    // setFeedbackLogin(error.message);
+                    setFeedbackLogin(error.message);
                 });
         } catch ({ message }) {
-            // setFeedbackLogin(message);
+            setFeedbackLogin(message);
         }
     };
 
@@ -42,6 +43,7 @@ const Login = props => {
                     <h1 className="header__title">LOGIN PAGE</h1>
                 </div>
                 <div className="forms">
+                    {feedbackLogin && <h2>{feedbackLogin}</h2>}
                     <form className="login-form" onSubmit={handleLoginSubmit}>
                         <input
                             className="login-form__input"

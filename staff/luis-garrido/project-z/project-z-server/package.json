@@ -25,6 +25,7 @@
     "mongoose": "^5.4.17",
     "project-z-data": "file:../project-z-data",
     "project-z-errors": "file:../project-z-errors",
+    "project-z-validation": "file:../project-z-validation",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
