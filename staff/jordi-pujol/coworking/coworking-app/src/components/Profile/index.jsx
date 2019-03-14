@@ -66,35 +66,35 @@ class Profile extends Component {
                 </div>
                 <div className="">
                     <h3>Basic Info</h3>
+                    <form className="profile__form" onSubmit={handleEditProfile}>
+                        <button className="edit">Edit</button>
+                    </form>
                     <form onSubmit={handleSubmitForm} className="profile__form">
                         <div>
-                            <label>Name</label>
+                            <label>Name:</label>
                             <input className="profile__form--info" type="text" onChange={handleNameInput} value={name} disabled={active} />
                         </div>
                         <div>
-                            <label>Surname</label>
+                            <label>Surname:</label>
                             <input className="profile__form--info" type="text" onChange={handleSurnameInput} value={surname} disabled={active} />
                         </div>
                         <div>
-                            <label>Email</label>
+                            <label>Email:</label>
                             <input className="profile__form--info" type="email" onChange={handleEmailInput} value={email} disabled={true} />
                         </div>
                         <div>
-                            <label>Company Name</label>
+                            <label>Company Name:</label>
                             <input className="profile__form--info" type="text" onChange={handleCompanyNameInput} value={companyName} disabled={active} />
                         </div>
                         <div>
-                            <label>Age</label>
+                            <label>Age:</label>
                             <input className="profile__form--info" type="text" onChange={handleAgeInput} value={age} disabled={active} />
                         </div>
                         <div>
-                            <label>Interests</label>
+                            <label>Interests:</label>
                             <textarea className="profile__form--info interests" type="text" onChange={handleInterestsInput} value={interests} disabled={active} />
                         </div>
-                        <button>Save Changes</button>
-                    </form>
-                    <form onSubmit={handleEditProfile}>
-                        <button>Edit info</button>
+                        <button hidden={active}>Save Changes</button>
                     </form>
                 </div>
             </div>

@@ -1,7 +1,4 @@
 .fullservice
-    // background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgiYHdqvPxFcleRo1v2UgiO9VgWrpkZvX2ogtiWYwPhs74rtcpw)
-    // height: 400px
-    // width: 400px
     display: block /* Hidden by default */
     position: fixed /* Stay in place */
     z-index: 1 /* Sit on top */
@@ -28,32 +25,64 @@
         .fas.fa-window-close:hover
             cursor: pointer
 
-        .fas.fa-comment
-            float: left
-
-    &__content
-        background-image: url(http://tedium.imgix.net/2017/03/0322_purple.jpg)
-        // background-size: cover
-        // margin: auto
-        // padding: 20px
-        // border: 1px solid #888
-        // width: 80%
-        // height: 70%
-        // border: none
-        // background-color: #93def9
+    .fullservice__content
+        background-image: linear-gradient(#3d93b5, #360BE5)
         margin: 5% 10% /* 15% from the top and centered */
         padding: 20px
         border: 1px solid #888
         color: white
+        display: grid
+        grid-template-columns: 40% 40%
 
         &--title
-            display: flex
-            justify-content: center
+            // display: flex
+            // justify-content: center
 
+        div
+            width: 100%
+            padding-top: 1em
         
+        &--info
+            grid-column-start: 1
+            grid-column-end: 2
+
+
+
+        .full__content--comments
+            grid-column-start: 2
+            grid-column-end: 3
+            display: flex
+
         &--item
+
+        .fullservice__button
+            margin-top: 20px
+            border-radius: 30px
+            width: 15em
+            height: 2em
+            border: none
+            color: #fff
+            font-size: 15px
+            cursor: pointer
+            background-image: linear-gradient(#0F0340, #0a4a7f)
+            align-self: center
 
 img
     width: 50px
     height: 50px
 
+// .fas.fa-comment
+//     position: relative
+//     float: left
+//     width: 0
+.full-service__button
+    margin-top: 20px
+    border-radius: 30px
+    width: 10em
+    height: 1.3em
+    border: none
+    color: #fff
+    font-size: 15px
+    cursor: pointer
+    background-image: linear-gradient(#30373d, #0f3233)
+    align-self: right

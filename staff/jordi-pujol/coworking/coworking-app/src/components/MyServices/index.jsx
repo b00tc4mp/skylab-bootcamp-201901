@@ -13,7 +13,7 @@ class MyServices extends Component {
         return logic.retrieveUserServices()
             .then(services => {
                 services.map(service => {
-                    if (!service.active && service.closed) {
+                    if (!service.closed) {
                         _services.push(service)
                     }
                 })
@@ -36,8 +36,8 @@ class MyServices extends Component {
 
         const { state: { myServices }, handleServiceClick } = this
 
-        return <section>
-            <h2>Services to close</h2>
+        return <section className="myServices">
+            <h2 className="title">Services I am offering:</h2>
             {myServices && myServices.map(service =>
                 <Service myservice={true} key={service.id} servicesFor={service} onServiceSelected={handleServiceClick} />)}
         </section>

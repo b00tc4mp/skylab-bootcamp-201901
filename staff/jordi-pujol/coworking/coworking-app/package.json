@@ -27,6 +27,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "coworking-data": "file:../coworking-data",
     "bcrypt": "^3.0.4",
     "dotenv": "^6.2.0"
   }

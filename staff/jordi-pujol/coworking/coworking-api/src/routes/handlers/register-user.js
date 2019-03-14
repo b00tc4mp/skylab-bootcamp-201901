@@ -4,7 +4,6 @@ module.exports = (req, res) => {
     const { body: { name, surname, email, password, passwordConfirm } } = req
 
     try {
-        console.log(name, surname, email, password, passwordConfirm)
         logic.registerUser(name, surname, email, password, passwordConfirm)
             .then(id => res.json({ id }))
             .catch(({ message }) => {
