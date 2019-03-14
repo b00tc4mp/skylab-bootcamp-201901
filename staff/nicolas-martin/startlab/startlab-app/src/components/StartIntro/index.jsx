@@ -1,11 +1,11 @@
 import React from 'react'
 
 function StartIntro({ exercises }) {
+
     return (
-        <ul className="start-intro">
-            {exercises.map(({ exercise, completed }, index) => 
-                <li className={`${completed}`} key={index}>{exercise.title}</li>)}
-        </ul>
+        <section className="start__intro">
+            {exercises.map(({ exercise, completed }, index) => <li className={`${completed}`} key={index}>{exercise.title}</li>)}
+        </section>
     )
 }
 

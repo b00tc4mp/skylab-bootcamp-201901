@@ -1,6 +1,6 @@
 var mocha = require('mocha')
 
-function MyReporter (runner, options) { 
+function MyReporter (runner) { 
 
         const SILENT = false
         const SAVEJSON = true // options.reporterOptions.savejson
@@ -18,12 +18,6 @@ function MyReporter (runner, options) {
         function write(str){
           if(!SILENT) process.stdout.write(str)
         }
-
-        // function update(){
-        //   write(`\r${runner.stats.tests}/${runner.total} - ${runner.stats.passes} passed. ${runner.stats.failures} failed.                       `)
-        // }
-
-        //write("APB Mocha Reporter\n")
 
         runner.on('test end', function(test) {
           json_tests.push(test)
@@ -57,20 +51,10 @@ function MyReporter (runner, options) {
               passes: json_passes.map(clean)
             }
 
-            // obj =>
-            // { tests: Array(1),
-            //   pending: Array(0),
-            //   failures: Array(1),
-            //   passes: Array(0) }
-
-            runner.testResults = obj
             let json = JSON.stringify(obj, null, 2)
             
             if (MyReporter.callback)  return MyReporter.callback(obj)
 
-            //return json
-            // runner.results = json
-            //write(json)
           }
         })
 }

@@ -10,21 +10,7 @@ module.exports = (req, res) => {
 
     try {
         logic.checkAnswer(userId, answer, exerciseId, callback)
-                // .then(result => {
-                //     console.log('handler:', result)
-                //     return res.json(result)
-                // })
-                // .catch(error => handleResponseError(error, res))
-
-        // console.log('handler', result)
-        // debugger
-        // res.json(result)
-            // .then(result => res.json(result))
-            // .catch(error => handleResponseError(error, res)) // error when user is student
     } catch (error) {
         handleResponseError(error, res)
     }
 }
-
-
-// OK - all tests have passed

@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
+import ReactMarkdown from 'react-markdown'
 
-class ActiveExercise extends Component {
+function ActiveExercise({ activeExercise: { exercise: { title, summary } } }) {
+    return (
+        <section className="start__active-exercise">
 
-    render() {
-        const { props: { onExercise: { title, summary } } } = this
-        return (
-            <div className="start-exercise">
-                <h3>{title}</h3>
-                <p>{summary}</p>
-            </div>
-        )
-    }
+            <h2 className="start__active-exercise__title">{title}</h2>
+
+            <ReactMarkdown className="start__active-exercise__summary" source={summary} escapeHtml={false} />
+
+        </section>
+    )
 }
 
 export default ActiveExercise

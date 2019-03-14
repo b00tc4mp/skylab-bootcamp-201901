@@ -42,11 +42,11 @@ class Register extends Component {
                 ataquerl qué dise usteer te va a hasé pupitaa.</p>
             <hr />
             <form className="register__form" onSubmit={handleFormSubmit} autoComplete="off">
-                <input className="input" type="text" name="name" onChange={handleNameInput} placeholder="name" autoComplete="off" required/>
-                <input className="input" type="text" name="surname" onChange={handleSurnameInput} placeholder="surname" required/>
-                <input className="input" type="text" name="email" onChange={handleEmailInput} placeholder="email" required/>
-                <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" required/>
-                <input className="input" type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password" required/>
+                <input className="input" type="text" name="name" onChange={handleNameInput} placeholder="name" autoComplete="off" autoCorrect="off" required/>
+                <input className="input" type="text" name="surname" onChange={handleSurnameInput} placeholder="surname"  autoComplete="off" autoCorrect="off" required/>
+                <input className="input" type="text" name="email" onChange={handleEmailInput} placeholder="email" placeholder="email"  autoComplete="off" autoCorrect="off" required/>
+                <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" autoComplete="off" autoCorrect="off" required/>
+                <input className="input" type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password"  autoComplete="off" autoCorrect="off" required/>
 
                 <button className="button is-info">Register</button>
             </form>

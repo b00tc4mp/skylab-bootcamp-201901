@@ -69,7 +69,7 @@ const logic = {
     /**
      * Logs out the user.
      */
-    logOutUser() {
+    logOutUser() { 
         this.__userApiToken__ = null
         this.__isAdmin__ = null
     },
@@ -93,21 +93,21 @@ const logic = {
         return skylabApi.deleteExercise(id, this.__userApiToken__)
     },
 
-    retrieveExercise(id) {
-        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
-        if (!id.trim().length) throw Error('id cannot be empty')
+    retrieveExercise(exerciseId) {
+        if (typeof exerciseId !== 'string') throw TypeError(exerciseId + ' is not a string')
+        if (!exerciseId.trim().length) throw Error('exerciseId cannot be empty')
 
-        return skylabApi.retrieveExercise(id, this.__userApiToken__)
+        return skylabApi.retrieveExercise(exerciseId, this.__userApiToken__)
     },
 
     updateExercise(exercise) {
-        //Todo validate input data
+        if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
 
         return skylabApi.updateExercise(exercise, this.__userApiToken__)
     },
 
     newExercise(exercise) {
-        //Todo validate input data
+        if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
 
         return skylabApi.createExercise(exercise, this.__userApiToken__)
     },
@@ -126,9 +126,20 @@ const logic = {
             })
     },
 
-    retrieveExercisesFromUser() {
-        return skylabApi.getExercisesFromUser(this.__userApiToken__)
-            .then(exercises => exercises)
+    updateExerciseFromUser(historicalId, answer) {
+        if (typeof historicalId !== 'string') throw TypeError(historicalId + ' is not a string')
+        if (!historicalId.trim().length) throw Error('historicalId cannot be empty')
+
+        if (typeof answer !== 'string') throw TypeError(answer + ' is not a string')
+        if (!answer.trim().length) throw Error('answer cannot be empty')
+
+        return skylabApi.updateExerciseFromUser(historicalId, answer, this.__userApiToken__)
+                    .then(() => {})
+    },
+
+    getExercisesFromUser(){
+        return skylabApi.exerciseFromUser(this.__userApiToken__)
+            .then(userExercises => userExercises)
     },
 
     invitationList() {
@@ -151,20 +162,19 @@ const logic = {
     },
 
     updateInvitation(invitation) {
-        //Todo validate input data
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
         return skylabApi.updateInvitation(invitation, this.__userApiToken__)
     },
 
     newInvitation(invitation) {
-        //Todo validate input data
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
         return skylabApi.createInvitation(invitation, this.__userApiToken__)
     },
 
     sendEmailInvitation(invitation) {
-
-        //todo
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
         return skylabApi.sendEmailInvitation(this.__userApiToken__, invitation)
     }

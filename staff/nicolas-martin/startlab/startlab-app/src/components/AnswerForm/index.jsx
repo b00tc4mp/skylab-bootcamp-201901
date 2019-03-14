@@ -2,7 +2,7 @@ import React from 'react'
 
 function AnswerForm({ manageSubmit, manageChange, previousAnswer }) {
     return (
-        <form onSubmit={manageSubmit} >
+        <form onSubmit={manageSubmit}>
         
             <textarea 
                 type="text" 
@@ -13,7 +13,7 @@ function AnswerForm({ manageSubmit, manageChange, previousAnswer }) {
                 required 
             />
 
-            <button className="button is-primary">Send</button>
+            <button className="button is-info">Send</button>
         </form>
     )
 }

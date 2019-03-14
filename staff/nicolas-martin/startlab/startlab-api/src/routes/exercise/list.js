@@ -3,9 +3,9 @@ const logic = require('../../logic')
 const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
- 
-    const { userId } = req
 
+    const {userId } = req
+    
     try {
         logic.listExercises(userId)
             .then(exercise => res.json(exercise))
