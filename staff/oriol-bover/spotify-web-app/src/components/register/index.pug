@@ -1,0 +1,48 @@
+extends ../layout
+
+include ../feedback/index
+include ../header/index
+include ../footer/index
+
+block content
+  +header
+  .main
+    section.container.register
+      .columns.is-mobile.is-centered
+        .column.is-half
+          .has-text-centered.section.title
+            h2.title Register
+          form(action='/register', method='POST')
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='text', placeholder='Name', name='name', required)
+                span.icon.is-small.is-left
+                  i.fas.fa-user
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='text', placeholder='Surname', name='surname', required)
+                span.icon.is-small.is-left
+                  i.fas.fa-user
+            .field
+              p.control.has-icons-left.has-icons-right
+                input.input(type='email', placeholder='Email', name='email', required)
+                span.icon.is-small.is-left
+                  i.fas.fa-envelope
+            .field
+              p.control.has-icons-left
+                input.input(type='password', placeholder='Password', name='password', required)
+                span.icon.is-small.is-left
+                  i.fas.fa-lock
+            .field
+              p.control.has-icons-left
+                input.input(type='password', placeholder='Confirm password', name='passwordConfirmation', required)
+                span.icon.is-small.is-left
+                  i.fas.fa-lock
+            .field
+              input.button.is-dark(type='submit', value='Register')
+          if feedback
+            +feedback(feedback, 'is-warning')
+          .has-text-centered
+            p
+              a(href='/login') Login
+  +footer

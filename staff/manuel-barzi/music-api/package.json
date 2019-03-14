@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.0",
     "music-data": "file:../music-data",
     "music-errors": "file:../music-errors",
+    "music-validation": "file:../music-validation",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
