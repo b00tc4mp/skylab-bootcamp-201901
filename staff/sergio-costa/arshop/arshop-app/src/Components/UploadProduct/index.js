@@ -34,9 +34,13 @@ class UploadProduct extends Component {
         }
     }
 
+    goToCity = () => {
+        this.props.history.push('/select/city')
+    }
+
     render() {
 
-        const { handleInput, handleFormSubmit } = this
+        const { handleInput, handleFormSubmit, goToCity } = this
 
         return <section className="uploadProduct">
             <div className="uploadProduct__header">
@@ -60,7 +64,7 @@ class UploadProduct extends Component {
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">City</label>
-                    <input className="form__input" type="text" name="city" onChange={handleInput} />
+                    <input className="form__input" type="text" name="city" onChange={handleInput} onClick={() => goToCity()} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Category</label>

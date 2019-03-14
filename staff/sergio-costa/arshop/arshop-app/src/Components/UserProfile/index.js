@@ -7,9 +7,22 @@ import './index.sass'
 
 class UserProfile extends Component {
 
-    state = { products: [], feedback: null, favIds: [] }
+    state = { products: [], feedback: null, favIds: [], username: null }
 
     componentDidMount() {
+
+        this.handleRetrieveProducts()
+        this.retrieveUserName()
+    }
+
+    retrieveUserName = () => {
+        if(logic.isUserLoggedIn){
+            logic.retrieveUser()
+                .then(user => this.setState({username: user.name}))
+        }
+    }
+
+    handleRetrieveProducts = () => {
         try {
             logic.retrieveUserProducts()
                 .then(products => {
@@ -34,7 +47,7 @@ class UserProfile extends Component {
                     </Link>
                 </div>
                 <div className="profile__user">
-                    <h3 className="profile__user--text">USERNAME</h3>
+                    <h3 className="profile__user--text">{this.state.username}</h3>
                     <img className="profile__user--img" src="/images/logoplaceholder.png"></img>
                 </div>
             </div>

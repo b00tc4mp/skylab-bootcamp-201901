@@ -315,7 +315,7 @@ const logic = {
 
         let criteria = {}
 
-        if (q) criteria.$or = [{ tittle: q }, { description: { $regex: q, $options: 'i' } }]
+        if (q) criteria.$or = [{ tittle: { $regex: q, $options: 'i' } }, { description: { $regex: q, $options: 'i' } }]
         if (qcategory) criteria.category = qcategory
         if (qcity) criteria.city = qcity
 

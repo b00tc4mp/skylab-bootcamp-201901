@@ -59,7 +59,7 @@ class Aside extends Component {
                                         </li>
                                         <li className="menu__item" onClick={() => this.onLogout()}>
                                             <p title="logout" className="menu__link">
-                                            <i class="fas fa-sign-out-alt"></i>
+                                            <i className="fas fa-sign-out-alt"></i>
                                                 Logout
                                             </p>
                                         </li>

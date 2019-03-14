@@ -25,7 +25,6 @@ class ProductDetails extends Component {
                         const index = userProducts.findIndex(({id}) => id == this.props.productId)
                         if(index >=0) this.setState({userProduct: true})
                     })
-                    .then(() => console.log(this.state.userProduct))
             }
         } catch (error) {
 
@@ -68,7 +67,7 @@ class ProductDetails extends Component {
         if (logic.isUserLoggedIn) {
             try {
                 return logic.toogleFav(id)
-                    .then(fav => this.setState({ fav: !fav }))
+                    .then(fav => this.setState({ fav }))
             } catch (error) {
 
             }

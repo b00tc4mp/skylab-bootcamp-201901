@@ -1,17 +1,30 @@
 import React, { Component } from 'react'
-import logic from '../../logic'
 import Feedback from '../Feedback'
-import Header from '../Header'
-import './index.sass'
-import Product from '../Product';
+import Product from '../Product'
+import logic from '../../logic'
 
-class LandingPage extends Component {
+class Results extends Component {
 
     state = { products: [], feedback: null, favIds: [] }
 
     componentDidMount() {
+
+        const { props:{ query } } = this
+
+        this.handleSearch(query)
+    }
+
+    componentWillReceiveProps(props){
+
+        const { query } = props
+
+        this.handleSearch(query)
+    }
+
+    handleSearch = (query) => {
         try {
-            logic.retrieveProducts()
+            const q = this.props.query
+            logic.searchProducts(query)
                 .then(products => {
                     this.setState({ products })
                 })
@@ -42,4 +55,5 @@ class LandingPage extends Component {
         </section>
     }
 }
-export default LandingPage
+
+export default Results

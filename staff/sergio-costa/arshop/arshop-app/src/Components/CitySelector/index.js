@@ -4,7 +4,7 @@ class CitySelector extends Component{
 
     state = { city: null }
 
-    handleInput = event => console.log('afdsadsads')
+    handleInput = event => this.setState({ city: event.target.value })
 
     
     // handleInput = event => {
@@ -15,13 +15,13 @@ class CitySelector extends Component{
     render(){
         return <section className="categories">
             <ul className="categories__list">
-                <li className="categories__item" name="city" onClick={() => this.handleInput}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput}>Madrid</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput}>Barcelona</li>
+                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Barcelona</li>
+                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Madrid</li>
+                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Barcelona</li>
+                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Barcelona</li>
+                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Barcelona</li>
+                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Madrid</li>
+                <li className="categories__item" name="city" onClick={e => console.log(e.target.name)}>Barcelona</li>
             </ul>
         </section>
     }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import logic from '../../logic'
 import Feedback from '../Feedback'
 import Product from '../Product'
 
 class Favorites extends Component {
-
 
     render() {
         const { props: { feedback, products } } = this
@@ -19,4 +19,4 @@ class Favorites extends Component {
         </section>
     }
 }
-export default Favorites
+export default withRouter(Favorites)

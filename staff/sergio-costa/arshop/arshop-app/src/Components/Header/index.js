@@ -11,13 +11,15 @@ class Header extends Component {
         aside.className = 'sidebar sidebar--show'
     }
 
+    
     render() {
+
         return <section>
             <header className="header">
                 <button className="header__btn" onClick={() => this._showAside()}>
                     <i className="fas fa-bars" />
                 </button>
-                <Search />
+                <Search onSearch={this.props.onSearch}/>
                 <button className="header__btn1">
                 <i className="fas fa-cogs"></i>
                 </button>
