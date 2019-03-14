@@ -12,7 +12,7 @@ class HouseCard extends Component {
 
 
         logged: false,
-        id: "",
+        thisHouse:"",
         isFav: false
 
 
@@ -21,7 +21,7 @@ class HouseCard extends Component {
     componentDidMount() {
 
         if (logic.getUserApiToken()) {
-            this.setState({ logged: true, id: this.props.house.id, isFav: this.props.isFav })
+            this.setState({ logged: true, thisHouse: this.props.house, isFav: this.props.isFav })
 
 
         }
@@ -34,9 +34,9 @@ class HouseCard extends Component {
 
         if (this.props.deleteHouseList) {
 
-            logic.deleteHouse(this.state.id)
+            logic.deleteHouse(this.state.house.id)
 
-            this.props.deleteHouseList(this.state.id)
+            this.props.deleteHouseList(this.state.house)
 
         }
 
@@ -49,9 +49,9 @@ class HouseCard extends Component {
 
         if (this.props.toggleFavorite) {
 
-            logic.toggleFavorite(this.state.id)
+            // logic.toggleFavorite(this.state.house.id)
 
-            this.props.toggleFavorite(this.state.id)
+            this.props.toggleFavorite(this.state.thisHouse)
 
         }
 
@@ -61,14 +61,14 @@ class HouseCard extends Component {
 
     render() {
 
-        const { state: { logged }, props: { house: { adress, images, id }, retrieveHouse, origin }, deleteHouse,toggleFavorite } = this
+        const { state: { logged,isFav }, props: { house: { adress, images, id }, retrieveHouse, origin }, deleteHouse,toggleFavorite } = this
 
         return <div onClick={retrieveHouse} className="HouseCard">
 
             <img className="HouseCard__img" src={images[0]}></img>
             <p className="HouseCard__text HouseCard__text-city">{adress.city}</p>
             <p className="HouseCard__text HouseCard__text-adress" >{adress.street}  {adress.number}</p>
-            {logged && (origin != 'myHouses' ? <i class="fas fa-heart" onClick={toggleFavorite}></i> : <div>  <i class="fas fa-ban" onClick={deleteHouse}></i>  <i class="fas fa-pen"></i>  </div>)}
+            {logged && (origin != 'myHouses' ? ( isFav ? <i class="fas fa-heart favTrue" onClick={toggleFavorite}></i> :<i class="fas fa-heart" onClick={toggleFavorite}></i>) : <div>  <i class="fas fa-ban" onClick={deleteHouse}></i>  <i class="fas fa-pen"></i>  </div>)}
 
 
         </div>

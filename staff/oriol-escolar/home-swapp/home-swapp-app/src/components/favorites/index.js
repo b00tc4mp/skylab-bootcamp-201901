@@ -23,16 +23,19 @@ class Favorites extends Component {
     }
 
 
-    toggleFavorite = (id)=> {
+    toggleFavorite = (house) => {
 
-        const { state: { favorites }, props:{updateInfo}} = this
-
-        let index = favorites.indexOf(id)
-
-        favorites.splice(index,1)
-
-        this.setState({favorites})
-        updateInfo()
+        const { state: { favorites }, props: { updateInfo } } = this
+        debugger
+        let index = favorites.findIndex(fav => fav.id === house.id)
+        if (index < 0) {
+            console.log('done')
+            favorites.push(house)
+        } else {
+            favorites.splice(index, 1)
+        }
+        this.setState({ favorites })
+        // updateInfo()
 
     }
 
@@ -41,24 +44,24 @@ class Favorites extends Component {
 
         return favorites.map(house => {
 
-            return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} origin='favorites' />
+            return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={true} origin='favorites' />
         });
     }
 
 
-    
+
 
     render() {
 
-        const { listMyFavorites, state: {  favorites }, props:{updateInfo} } = this
+        const { listMyFavorites, state: { favorites }, props: { updateInfo } } = this
 
         return <div className="favorites" >
-            <h1 className= "favorites__title">FAVORITES</h1>
+            <h1 className="favorites__title">FAVORITES</h1>
 
 
-            <div className= "favorites__content">
+            <div className="favorites__content">
 
-                {favorites && listMyFavorites(favorites,updateInfo)}
+                {favorites && listMyFavorites(favorites, updateInfo)}
 
             </div>
 

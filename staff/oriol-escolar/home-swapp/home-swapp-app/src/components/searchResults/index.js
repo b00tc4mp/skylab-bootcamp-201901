@@ -17,7 +17,7 @@ class SearchResults extends Component {
     }
 
     componentDidMount() {
-       
+
         this.setState({ favorites: this.props.userFavs })
         this.retrieveResults(this.props.match.params.query)
 
@@ -31,16 +31,19 @@ class SearchResults extends Component {
 
     }
 
-    toggleFavorite = (id)=> {
+    toggleFavorite = (house) => {
 
-        const { state: { favorites }, props:{updateInfo}} = this
-
-        let index = favorites.indexOf(id)
-
-        favorites.splice(index,1)
-
-        this.setState({favorites})
-        updateInfo()
+        const { state: { favorites }, props: { updateInfo } } = this
+        
+        let index = favorites.findIndex(fav => fav.id === house.id)
+        if (index < 0) {
+            console.log('done')
+            favorites.push(house)
+        } else {
+            favorites.splice(index, 1)
+        }
+        this.setState({ favorites })
+        // updateInfo()
 
     }
 
@@ -50,44 +53,54 @@ class SearchResults extends Component {
 
         const results = await logic.searchByQuery(query)
 
-        if(results.length)
-        this.setState({ results: results })
-        else this.setState({ results: ""})
+        if (results.length)
+            this.setState({ results: results })
+        else this.setState({ results: "" })
 
 
     }
 
 
     listresults = (results, updateInfo) => {
+       
+        debugger
 
-        return results.map(house => {
-            let index = this.state.favorites.indexOf(house)
-            if(index<0)
-            {
-                return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={true} origin='search' />
+        if (this.state.favorites) {
 
-            }else{
-                return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={true} origin='search' />
+            return results.map(house => {
+                let index = this.state.favorites.findIndex(fav => fav.id == house.id)
+                if (index < 0) {
+                    return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={false} origin='search' />
 
-            }
-        });
+                } else {
+                    return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={true} origin='search' />
+
+                }
+            })
+
+        } else {
+            return results.map(house => {
+                return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={false} origin='search' />
+
+            })
+        }
     }
 
 
-    
+
 
     render() {
 
-        const { listresults, state: { results }, props:{updateInfo} } = this
+        const { listresults, state: { results }, props: { updateInfo } } = this
 
 
         return <div className="results" >
-            {results ? <h1 className="results__title">{this.props.match.params.query.toUpperCase()}</h1>:<h1> No results for {this.props.match.params.query.toUpperCase()} </h1>}
+            {results ? <h1 className="results__title">{this.props.match.params.query.toUpperCase()}</h1> : <h1> No results for {this.props.match.params.query.toUpperCase()} </h1>}
 
             <div className="results__content">
 
 
-                {results && listresults(results,updateInfo )}
+                {results && listresults(results, updateInfo)}
 
 
             </div>
