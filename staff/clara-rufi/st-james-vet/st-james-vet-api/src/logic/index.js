@@ -212,6 +212,10 @@ const logic = {
         // if (!dayDb.trim().length) throw Error('dayDb cannot be empty')
 
         return (async () => {
+
+            let _date = await Appointment.findOne({ date })
+    
+            if (_date) throw Error(`user with date ${date} already exists`)
             // var date = new Date(dayDb)
             // let date = dayDb.toISOString()
             debugger

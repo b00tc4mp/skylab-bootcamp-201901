@@ -7,8 +7,10 @@ const Appointment = new Schema({
 
     pet: { type: Schema.Types.ObjectId, ref: 'Pet' },
     
-    date: { type: Date}
-
+    date: { 
+        unique: true,
+        type: Date,
+    }
    
 })
 
