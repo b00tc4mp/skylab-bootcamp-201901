@@ -1,19 +1,33 @@
 import React, { useState } from "react";
 import logic from "../../logic";
 import storage from "../../firebase";
+import Feedback from "../Feedback";
+import { withRouter } from "react-router-dom";
 
-function AddPost() {
+function AddPost({ history }) {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [image, setImage] = useState(null);
   const [percentage, setPercentage] = useState(0);
+  const [addFeedback, setAddFeedback] = useState(null);
 
   const handleTitleInput = event => setTitle(event.target.value);
   const handleDescriptionInput = event => setDescription(event.target.value);
 
   const handleFormSubmit = event => {
-    event.preventDefault();
-    logic.createPost(title, description, image);
+    try {
+      event.preventDefault();
+      logic
+        .createPost(title, description, image)
+        .then(() => history.push("/profile"));
+    } catch ({ message }) {
+      showAddFeedback(message);
+    }
+  };
+  const hideAddFeedback = () => setAddFeedback(null);
+  const showAddFeedback = message => {
+    setAddFeedback(message);
+    setTimeout(hideAddFeedback, 2000);
   };
 
   const handleImageInput = e => {
@@ -28,9 +42,11 @@ function AddPost() {
         const percentage =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setPercentage(percentage);
+
+        //pushToLogin(percentage);
       },
       error => {
-        console.error(error.message);
+        setAddFeedback(error.message);
       },
       () => {
         // Upload complete
@@ -68,7 +84,8 @@ function AddPost() {
         <p>{percentage} %</p>
         <button>Create Post</button>
       </form>
+      {addFeedback && <Feedback message={addFeedback} />}
     </div>
   );
 }
-export default AddPost;
+export default withRouter(AddPost);

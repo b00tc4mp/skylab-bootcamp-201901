@@ -18,8 +18,6 @@ function GetProfilePost({ match }) {
     logic.retrievePostByUser(postUserId).then(res => setPostsUser(res));
   };
 
-  console.log("post user", postsUser.user && postsUser.user.username);
-
   return (
     <div className="card-listt">
       <h2>{postsUser.user && postsUser.user.username}</h2>
