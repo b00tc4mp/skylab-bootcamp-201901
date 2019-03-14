@@ -93,7 +93,6 @@ const logic = {
   },
   
   logout: () => {
-    debugger
     sessionStorage.clear();
   }, 
 

@@ -3,8 +3,6 @@
 const { Player, Match, Team } = require("../models");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
-const fs = require("fs");
-const webData = require("../models/scrapping/webData.json");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -45,12 +43,13 @@ const logic = {
     if (typeof link !== "string") throw TypeError(`${link} is not string`);
     if (!link.trim().length) throw Error("link cannot be empty");
     return (async () => {
+      debugger
       const player = await Player.findOne({ email });
       if (player) {
         throw Error(`player wiith email ${player.email} already exists`);
       }
       const hash = await bcrypt.hash(password, 10);
-      const playerscore = await Player.create({
+      const {id} = await Player.create({
         name,
         surname,
         email,
@@ -58,9 +57,8 @@ const logic = {
         link,
         preferedPosition
       });
-      setScorePlayers(link)
-      //a player le anyado un campo que es id
-      return playerscore;
+      await this.setScorePlayers(link)
+      return id;
     })();
   },
 
@@ -150,7 +148,8 @@ const logic = {
   },
 
   setScorePlayers(link) {
-    return logic.retrieveScoreScrapping().then(response => {
+    debugger
+    return this.retrieveScoreScrapping().then(response => {
       const matchingPlayer = response.filter(player => player.link === link);
       if (matchingPlayer.length === 1) {
         return Player.findOneAndUpdate(
@@ -231,7 +230,7 @@ const logic = {
   getMatchesWithData() {
     debugger
     return (async () => {
-      const dataMatches = await logic.retrieveMatchesScrapping();
+      const dataMatches = await this.retrieveMatchesScrapping();
       const newArray = dataMatches.map(async scrappingMatch => {
         const match = await Match.findOne({ matchId: scrappingMatch.matchId }).populate("playersAvailable");
         const {
