@@ -52,7 +52,20 @@ function Card({
       />
       {countfavs && <p>{countfavs}</p>}
       <AddComment postId={postId} refreshComments={refreshComments} />
-      {description && <p>{description}</p>}
+      {description && (
+        <p>
+          {description.split(" ").map(res => {
+            if (res.includes("#"))
+              return (
+                <Fragment>
+                  <Link to={`/search/${res.substring(1)}`}>{res}</Link>
+                  <span> </span>
+                </Fragment>
+              );
+            return <span>{res + " "}</span>;
+          })}
+        </p>
+      )}
       {commentsPost &&
         commentsPost.map(comment => (
           <div key={comment._id}>
