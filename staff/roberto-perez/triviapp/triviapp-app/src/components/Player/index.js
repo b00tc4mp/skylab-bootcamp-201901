@@ -3,7 +3,7 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 
 import gameService from '../../services/game';
 
-import Pin from './Pin';
+// import Pin from './Pin';
 import YouAreIn from './YouAreIn';
 import GetReady from './GetReady';
 import GameBlock from './GameBlock';

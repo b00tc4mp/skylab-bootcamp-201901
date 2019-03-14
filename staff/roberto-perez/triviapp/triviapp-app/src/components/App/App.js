@@ -51,7 +51,7 @@ function App() {
 		<Switch>
 
 			<Route exact path="/pin" render={() => <Pin />} />
-			<Route path="/game" render={() => <Game />} />
+			<Route path="/game/:gameId" render={() => <Game />} />
 			<Route path="/player/:gameId" render={() => <Player />} />
 			<Route path="/" render={() => <Home />} />
 		</Switch>

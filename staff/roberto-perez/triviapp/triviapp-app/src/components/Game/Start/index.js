@@ -1,44 +1,24 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
-import gameService from '../../../services/game';
+// import gameService from '../../../services/game';
 
 import ExpandButton from '../ExpandButton';
 
 function GetReady(props) {
 
-	const {
-		match: {
-			params: { gameId },
-		},
-	} = props;
-
 	let countDownTimeout;
 
 	let fillHeight = 100;
+
 	let initSeconds = 5;
 
 	const countFill = useRef(null);
 
 	const [count, setCount] = useState(initSeconds);
-	const [title, setTitle] = useState('');
 
 	useEffect(() => {
 		countDown();
 	}, [count]);
-
-	useEffect(() => {
-		getGameByQuizId();
-	}, []);
-
-	const getGameByQuizId = async () => {
-		try {
-			const game = await gameService.get(gameId);
-			setTitle(game.quiz.title);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
 
 	const countDown = () => {
 		const fill = countFill.current;
@@ -49,7 +29,7 @@ function GetReady(props) {
 			clearTimeout(countDownTimeout);
 			fill.style.height = '100%';
 			setTimeout(() => {
-				props.history.push(`/game/${gameId}/questions/getready`);
+				props.history.push(`/game/${props.gameID}/questions/getready`);
 			}, 1000);
 			return;
 		}
@@ -63,7 +43,7 @@ function GetReady(props) {
 		<Fragment>
 			<header className="header-game-top">
 				<h1 className="header-game-top__title">
-					{title}
+					{props.title}
 				</h1>
 				<ExpandButton hostGame={props.hostGame} />
 			</header>

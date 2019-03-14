@@ -8,17 +8,12 @@ import GetReady from '../GetReady';
 import GameBlock from '../GameBlock';
 
 function Questions(props) {
-	const {
-		match: {
-			params: { gameId },
-		},
-	} = props;
-
 	const hostGame = useRef(null);
 
 	const [totalQuestions, setTotalQuestions] = useState(null);
 	const [currentQuestion, setCurrentQuestion] = useState(null);
 	const [totalUsers, setTotalUsers] = useState(0);
+	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
 	useEffect(() => {
 		getGame();
@@ -26,7 +21,12 @@ function Questions(props) {
 
 	const getGame = async () => {
 		try {
-			const game = await gameService.get(gameId);
+			const game = await gameService.get(props.gameID);
+
+			const _currentQuestionIndex = game.quiz.questions.findIndex(question => question._id === game.currentQuestion._id);
+
+			setCurrentQuestionIndex(_currentQuestionIndex);
+
 			setCurrentQuestion(game.currentQuestion);
 			setTotalQuestions(game.quiz.questions.length);
 			setTotalUsers(game.users.length);
@@ -37,7 +37,7 @@ function Questions(props) {
 
 	const nextQuestion = async () => {
 		try {
-			const game = await gameService.next(gameId);
+			const game = await gameService.next(props.gameID);
 			setCurrentQuestion(game.currentQuestion);
 
 			if(currentQuestion) {
@@ -61,6 +61,7 @@ function Questions(props) {
 						render={() => (
 							<GetReady
 								hostGame={hostGame}
+								currentQuestionIndex= {currentQuestionIndex}
 								totalQuestions={totalQuestions}
 								currentQuestion={currentQuestion}
 							/>
