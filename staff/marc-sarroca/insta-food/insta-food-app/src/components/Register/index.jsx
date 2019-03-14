@@ -70,7 +70,7 @@ function Register(props) {
         <button>Register</button>
       </form>
 
-      {registerFeedback && <Feedback message={registerFeedback} level="warn" />}
+      {registerFeedback && <Feedback message={registerFeedback} />}
     </section>
   );
 }

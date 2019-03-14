@@ -6,7 +6,6 @@ import { withRouter } from "react-router-dom";
 
 function GetProfilePost({ match }) {
   const { user } = useContext(UserContext);
-  const { token } = user;
   const { id } = user;
   const [postsUser, setPostsUser] = useState([]);
 
@@ -16,7 +15,7 @@ function GetProfilePost({ match }) {
   }, []);
 
   const getUserPosts = (postUserId = id) => {
-    logic.retrievePostByUser(postUserId, token).then(res => setPostsUser(res));
+    logic.retrievePostByUser(postUserId).then(res => setPostsUser(res));
   };
 
   console.log("post user", postsUser.user && postsUser.user.username);

@@ -1,14 +1,8 @@
-"use strict";
-
 import React from "react";
 import "./index.sass";
 
-function Feedback({ message, level }) {
-  return (
-    <section className={`feedback ${level ? `feedback--${level}` : ""}`}>
-      {message}
-    </section>
-  );
+function Feedback({ message }) {
+  return <section>{message}</section>;
 }
 
 export default Feedback;

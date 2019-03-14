@@ -7,12 +7,17 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { userError, login } = useContext(UserContext);
+  const [loginFeedback, setLoginFeedback] = useState(null);
 
   const handleEmailInput = event => setEmail(event.target.value);
   const handlePasswordInput = event => setPassword(event.target.value);
   const handleFormSubmit = e => {
     e.preventDefault();
-    login(email, password);
+    try {
+      login(email, password);
+    } catch ({ message }) {
+      setLoginFeedback(message);
+    }
   };
 
   return (
@@ -29,7 +34,8 @@ function Login() {
           <button>Login</button>
         </form>
       </div>
-      {userError && <Feedback message={userError} level="warn" />}
+      {loginFeedback && <Feedback message={loginFeedback} />}
+      {userError && <Feedback message={userError} />}
     </section>
   );
 }

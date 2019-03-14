@@ -36,6 +36,8 @@ const logic = {
   },
 
   retrieveUser(token) {
+    if (typeof token !== "string") throw TypeError(`${token} is not a string`);
+    if (!token.trim().length) throw Error("token is empty");
     return instaApi
       .retrieveUser(token)
       .then(({ id, name, username, email, favorites = [] }) => ({
@@ -67,16 +69,17 @@ const logic = {
   retrieveAllPosts() {
     return instaApi.retrieveAllPosts(this.__userApiToken__);
   },
-  retrievePostByUser(id, token) {
-    return instaApi.retrievePostsByUser(id, token);
+  retrievePostByUser(postUserId) {
+    if (typeof postUserId !== "string")
+      throw TypeError(`${postUserId} is not a string`);
+    if (!postUserId.trim().length) throw Error("postUserId is empty");
+    return instaApi.retrievePostsByUser(postUserId, this.__userApiToken__);
   },
 
   addComment(postId, text) {
     if (typeof postId !== "string")
       throw TypeError(`${postId} is not a string`);
     if (!postId.trim().length) throw Error("postId is empty");
-    if (typeof postId !== "string")
-      throw TypeError(`${postId} is not a string`);
     if (!text.trim().length) throw Error("text is empty");
     if (typeof text !== "string") throw TypeError(`${text} is not a string`);
     return instaApi.addComment(

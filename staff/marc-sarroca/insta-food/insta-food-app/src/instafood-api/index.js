@@ -4,18 +4,14 @@ const instaApi = {
   registerUser(name, username, email, password, passwordConfirm) {
     if (typeof name !== "string") throw TypeError(`${name} is not a string`);
     if (!name.trim().length) throw Error("name is empty");
-
     if (typeof username !== "string")
       throw TypeError(`${username} is not a string`);
     if (!username.trim().length) throw Error("username is empty");
-
     if (typeof email !== "string") throw TypeError(`${email} is not a string`);
     if (!email.trim().length) throw Error("email is empty");
-
     if (typeof password !== "string")
       throw TypeError(`${password} is not a string`);
     if (!password.trim().length) throw Error("password is empty");
-
     if (typeof passwordConfirm !== "string")
       throw TypeError(`${passwordConfirm} is not a string`);
     if (!passwordConfirm.trim().length)
@@ -39,11 +35,9 @@ const instaApi = {
   authenticateUser(email, password) {
     if (typeof email !== "string") throw TypeError(`${email} is not a string`);
     if (!email.trim().length) throw Error("email is empty");
-
     if (typeof password !== "string")
       throw TypeError(`${password} is not a string`);
     if (!password.trim().length) throw Error("password is empty");
-
     return fetch(`${this.url}/user/auth`, {
       method: "POST",
       headers: {
@@ -117,6 +111,10 @@ const instaApi = {
   },
 
   retrievePostsByUser(id, token) {
+    if (typeof id !== "string") throw TypeError(`${id} is not a string`);
+    if (!id.trim().length) throw Error("id is empty");
+    if (typeof token !== "string") throw TypeError(`${token} is not a string`);
+    if (!token.trim().length) throw Error("token is empty");
     return fetch(`${this.url}/user/${id}/posts`, {
       headers: {
         "content-type": "application/json",

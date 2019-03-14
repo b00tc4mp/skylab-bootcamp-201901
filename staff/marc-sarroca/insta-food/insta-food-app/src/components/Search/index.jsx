@@ -1,19 +1,16 @@
-import React, { useState, useContext, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import logic from "../../logic";
-import { UserContext } from "../../userContext";
 import Card from "../../components/Card";
 import { withRouter } from "react-router-dom";
 
 function Search({ history, match }) {
   const [posts, setPosts] = useState([]);
   const [tag, setTag] = useState("");
-  const { user } = useContext(UserContext);
-  const { token } = user;
   const handleHashtagInput = event => setTag(event.target.value);
 
   const searchByTag = initTag => {
     logic
-      .retrieveAllPosts(token)
+      .retrieveAllPosts()
       .then(posts => posts.filter(obj => obj.tags.includes(`#${initTag}`)))
       .then(posts => setPosts(posts));
   };

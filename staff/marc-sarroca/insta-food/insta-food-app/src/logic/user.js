@@ -43,26 +43,29 @@ export default function useUser() {
     setUserState({
       isUserLoading: true
     });
-
-    instaApi
-      .authenticateUser(email, password)
-      .then(({ id, token }) => {
-        const user = { id, token };
-        setUserState({
-          user,
-          isUserLoading: false,
-          userError: null
-        });
-        sessionStorage.setItem("__userId__", id);
-        sessionStorage.setItem("__userApiToken__", token);
-      })
-      .catch(({ message }) =>
-        setUserState({
-          user: null,
-          isUserLoading: false,
-          userError: message
+    try {
+      instaApi
+        .authenticateUser(email, password)
+        .then(({ id, token }) => {
+          const user = { id, token };
+          setUserState({
+            user,
+            isUserLoading: false,
+            userError: null
+          });
+          sessionStorage.setItem("__userId__", id);
+          sessionStorage.setItem("__userApiToken__", token);
         })
-      );
+        .catch(({ message }) =>
+          setUserState({
+            user: null,
+            isUserLoading: false,
+            userError: message
+          })
+        );
+    } catch (error) {
+      setUserState({ userError: error.message });
+    }
   }
 
   return { userState, login, logout, getUser };
