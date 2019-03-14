@@ -4,6 +4,7 @@ import styles from "./index.module.scss";
 import { Button, TextField } from "@material-ui/core";
 
 const RegisterPlayer = props => {
+
   const [name, setName] = useState(null);
   const [surname, setSurname] = useState(null);
   const [email, setEmail] = useState(null);

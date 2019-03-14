@@ -16,6 +16,7 @@ const logic = {
    *
    * Register a new player
    *
+   * @param {boolean} name
    * @param {string} name
    * @param {string} surname
    * @param {string} playername
@@ -29,7 +30,9 @@ const logic = {
    *
    */
 
-  registerPlayer(name, surname, email, password, link, preferedPosition) {
+  registerPlayer(admin, name, surname, email, password, link, preferedPosition) {
+    //if (typeof admin !== "boolean") throw TypeError(`${admin} is not boolean`);
+
     if (typeof name !== "string") throw TypeError(`${name} is not string`);
     if (!name.trim().length) throw Error("name cannot be empty");
     if (typeof surname !== "string")
@@ -43,13 +46,13 @@ const logic = {
     if (typeof link !== "string") throw TypeError(`${link} is not string`);
     if (!link.trim().length) throw Error("link cannot be empty");
     return (async () => {
-      debugger
       const player = await Player.findOne({ email });
       if (player) {
         throw Error(`player wiith email ${player.email} already exists`);
       }
       const hash = await bcrypt.hash(password, 10);
       const {id} = await Player.create({
+        admin,
         name,
         surname,
         email,
@@ -148,7 +151,6 @@ const logic = {
   },
 
   setScorePlayers(link) {
-    debugger
     return this.retrieveScoreScrapping().then(response => {
       const matchingPlayer = response.filter(player => player.link === link);
       if (matchingPlayer.length === 1) {
@@ -228,7 +230,6 @@ const logic = {
   },
 
   getMatchesWithData() {
-    debugger
     return (async () => {
       const dataMatches = await this.retrieveMatchesScrapping();
       const newArray = dataMatches.map(async scrappingMatch => {

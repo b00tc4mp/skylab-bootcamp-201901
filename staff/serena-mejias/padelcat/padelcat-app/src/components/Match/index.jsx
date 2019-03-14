@@ -20,8 +20,7 @@ export const Match = props => {
     playersAvailable,
     playersChosen
   } = props.match;
-
-  const { _id } = props.playerlogged;
+  const { _id, admin } = props.playerlogged;
 
   const handleSetAvailable = matchId => {
     props.handleSetAvailable(matchId);
@@ -58,8 +57,7 @@ export const Match = props => {
           <h6>{team2}</h6>
         </div>
       </div>
-      <div>
-        <Form
+      {admin && <Form
           onSubmit={onSubmit}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
@@ -101,7 +99,7 @@ export const Match = props => {
               </div>
             </form>
           )}
-        />
+        />}
         <div>
           <div>
             <h4>1st Match</h4>
@@ -130,7 +128,7 @@ export const Match = props => {
               )}
           </div>
         </div>
-        <div>
+        {!admin && <div>
           Are you available?
           <Button
             variant="contained"
@@ -154,10 +152,9 @@ export const Match = props => {
           >
             I'm NOT available
           </Button>
-        </div>
+        </div>}
         <span>{result}</span>
         <span>{location}</span>
-      </div>
     </div>
   );
 };

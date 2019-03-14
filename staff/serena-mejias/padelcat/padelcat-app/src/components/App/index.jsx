@@ -16,25 +16,23 @@ class App extends Component {
   state = {
     player: null
   };
-
   handleLogin = (email, password) => {
     try {
-      debugger;
       logic
-        .loginPlayer(email, password)
-        .then(response => {
-          this.setState({ player: response.player });
-          logic.storeToken(response.token);
-          this.props.history.push("/home");
-        })
-        .catch(error => {
-          throw Error(error);
-        });
+      .loginPlayer(email, password)
+      .then(response => {
+        this.setState({ player: response.player });
+        logic.storeToken(response.token);
+        this.props.history.push("/home");
+      })
+      .catch(error => {
+        throw Error(error);
+      });
     } catch (error) {
       throw Error(error);
     }
   };
-
+  
   handleRegister = (
     name,
     surname,
@@ -43,9 +41,9 @@ class App extends Component {
     passwordConfirm,
     preferedPosition,
     link
-  ) => {
-    try {
-      logic
+    ) => {
+      try {
+        logic
         .registerPlayer(
           name,
           surname,
@@ -54,29 +52,29 @@ class App extends Component {
           passwordConfirm,
           preferedPosition,
           link
-        )
+          )
         .then(() => this.props.history.push("/login"))
         .catch(error => {
           throw Error(error);
         });
-    } catch (error) {
-      throw Error(error);
+      } catch (error) {
+        throw Error(error);
     }
   };
-
+  
   handleSetAvailable = matchId => {
     logic.addAvalabilityPlayer(this.state.player._id, matchId);
   };
-
+  
   handleSetUnavailable = matchId => {
     logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
   };
 
   handleLogout = () => {
      logic.logout();
-    this.props.history.push("/login");
+     this.props.history.push("/login");
   };
-
+  
   componentDidMount() {
     const token = logic.getStoredtoken();
     if (!token) {

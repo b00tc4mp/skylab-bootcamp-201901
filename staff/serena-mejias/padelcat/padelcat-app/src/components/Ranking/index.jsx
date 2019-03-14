@@ -29,7 +29,9 @@ export const Ranking = props => {
       </NavLink>
       <ul>
         {players &&
-          players.map(({ name, score }) => (
+          players.sort((a,b)=> {
+            debugger
+            b.score - a.score}).map(({ name, score }) => (
             <li className={styles.player} key={players.id}>
               <h6>{name}</h6>
               <span>{score}</span>

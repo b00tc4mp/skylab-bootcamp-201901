@@ -1,6 +1,11 @@
 const { Schema } = require("mongoose");
 
 const Player = new Schema({
+  admin: {
+    type: Boolean,
+    default: false
+  },
+
   name: {
     type: String,
     required: true
