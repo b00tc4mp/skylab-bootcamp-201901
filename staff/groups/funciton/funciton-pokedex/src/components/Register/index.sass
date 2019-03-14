@@ -1,0 +1,86 @@
+*
+    box-sizing: border-box
+
+
+    
+.containerRegister
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 1000
+    width: 100vw
+    height: 100vh
+    background-color: rgba(0,0,0,0.6)
+    padding: 0
+    margin: 0
+    padding-top: 50px
+
+    label
+        font-weight: bold
+        
+    button
+       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+       border: 2px solid white
+
+    form
+        width: 50vw
+        height: 50vh
+        position: absolute
+        top: 10vh
+        left: 25vw
+        color: white
+        display: flex
+        flex-flow: column wrap
+
+    .colum
+        width: 50%
+        align-self: center
+
+
+
+.containerRegisterNone
+    display: none
+
+.goBack__button
+    margin-left: 10px
+
+
+@media screen and (min-width: 641px) and (max-width: 1080px)
+    .containerRegister
+        font-size: 2rem
+    ::-webkit-input-placeholder 
+        font-size: 20px !important
+
+
+    form
+        width: 50vw
+        height: 50vh
+        position: absolute
+        top: 10vh
+        left: 25vw
+        color: white
+        font-size: 2.0rem
+
+        button
+            width: 20%
+            font-size: 2.0rem
+
+@media screen and (min-width: 1081px) and (max-width: 1300px)
+
+    .containerRegister
+        font-size: 2.5rem
+    ::-webkit-input-placeholder 
+        font-size: 25px !important
+
+
+    form
+        width: 50vw
+        height: 50vh
+        position: absolute
+        top: 10vh
+        left: 25vw
+        color: white
+
+        button
+            width: 20%
+            font-size: 2.5rem
