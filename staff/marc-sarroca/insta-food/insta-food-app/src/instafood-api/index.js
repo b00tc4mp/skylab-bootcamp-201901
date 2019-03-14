@@ -84,6 +84,11 @@ const instaApi = {
     if (!description.trim().length) throw Error("description is empty");
     if (typeof image !== "string") throw TypeError(`${image} is not a string`);
     if (!image.trim().length) throw Error("image is empty");
+    if (typeof userId !== "string")
+      throw TypeError(`${userId} is not a string`);
+    if (!userId.trim().length) throw Error("userId is empty");
+    if (typeof token !== "string") throw TypeError(`${token} is not a string`);
+    if (!token.trim().length) throw Error("token is empty");
 
     return fetch(`${this.url}/user/post`, {
       method: "POST",
@@ -139,6 +144,11 @@ const instaApi = {
   },
 
   toggleFavorites(token, postId) {
+    if (typeof token !== "string") throw TypeError(`${token} is not a string`);
+    if (!token.trim().length) throw Error("token is empty");
+    if (typeof postId !== "string")
+      throw TypeError(`${postId} is not a string`);
+    if (!postId.trim().length) throw Error("postId is empty");
     return fetch(`${this.url}/user/favorites/${postId}`, {
       headers: {
         "content-type": "application/json",

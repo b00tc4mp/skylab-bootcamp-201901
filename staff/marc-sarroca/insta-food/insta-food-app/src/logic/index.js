@@ -46,42 +46,6 @@ const logic = {
       .then(() => {});
   },
 
-  /**
-   * Logs in the user by its credentials.
-   *
-   * @param {string} email
-   * @param {string} password
-   */
-  // logInUser(email, password) {
-  //   if (typeof email !== "string") throw TypeError(email + " is not a string");
-
-  //   if (!email.trim().length) throw Error("email cannot be empty");
-
-  //   if (typeof password !== "string")
-  //     throw TypeError(password + " is not a string");
-
-  //   if (!password.trim().length) throw Error("password cannot be empty");
-
-  //   return instaApi.authenticateUser(email, password).then(({ id, token }) => {
-  //     this.__userId__ = id;
-  //     this.__userApiToken__ = token;
-  //   });
-  //
-  /**
-   * Checks user is logged in.
-   */
-  // get isUserLoggedIn() {
-  //   return !!this.__userId__;
-  // },
-
-  /**
-   * Logs out the user.
-   */
-  // logOutUser() {
-  //   this.__userId__ = null;
-  //   this.__userApiToken__ = null;
-  // },
-
   retrieveUser(token) {
     return instaApi
       .retrieveUser(token)
@@ -95,6 +59,13 @@ const logic = {
   },
 
   createPost(title, description, image) {
+    if (typeof title !== "string") throw TypeError(`${title} is not a string`);
+    if (!title.trim().length) throw Error("title is empty");
+    if (typeof description !== "string")
+      throw TypeError(`${description} is not a string`);
+    if (!description.trim().length) throw Error("description is empty");
+    if (typeof image !== "string") throw TypeError(`${image} is not a string`);
+    if (!image.trim().length) throw Error("image is empty");
     return instaApi.createPost(
       title,
       description,
@@ -115,8 +86,11 @@ const logic = {
     return instaApi.addComment(postId, token, id, text);
   },
 
-  toggleFavorites(token, postId) {
-    return instaApi.toggleFavorites(token, postId);
+  toggleFavorites(postId) {
+    if (typeof postId !== "string")
+      throw TypeError(`${postId} is not a string`);
+    if (!postId.trim().length) throw Error("postId is empty");
+    return instaApi.toggleFavorites(this.__userApiToken__, postId);
   }
 };
 

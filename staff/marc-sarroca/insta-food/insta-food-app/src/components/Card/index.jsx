@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./index.sass";
 import AddComment from "./AddComment";
 import logic from "../../logic";
-import { UserContext } from "../../userContext";
 
 function Card({
   title,
@@ -18,11 +17,9 @@ function Card({
   call = () => {}
 }) {
   const [commentsPost, setComments] = useState("");
-  const { user } = useContext(UserContext);
-  const { token } = user;
   const toggleFavorite = event => {
     event.preventDefault();
-    logic.toggleFavorites(token, postId).then(() => {
+    logic.toggleFavorites(postId).then(() => {
       call();
     });
   };
