@@ -4,14 +4,14 @@ import logic from "../../logic";
 import Card from "../../components/Card";
 import { withRouter } from "react-router-dom";
 
-function GetProfilePost(props) {
+function GetProfilePost({ match }) {
   const { user } = useContext(UserContext);
   const { token } = user;
   const { id } = user;
   const [postsUser, setPostsUser] = useState([]);
 
   useEffect(() => {
-    const postUserId = props.match.params.userId;
+    const postUserId = match.params.userId;
     getUserPosts(postUserId);
   }, []);
 

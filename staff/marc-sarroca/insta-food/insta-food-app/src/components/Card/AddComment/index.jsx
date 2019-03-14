@@ -1,6 +1,6 @@
 import React, { useState, useContext, Fragment } from "react";
-import { UserContext } from "../../userContext";
-import logic from "../../logic";
+import { UserContext } from "../../../userContext";
+import logic from "../../../logic";
 
 function AddComment({ postId, refreshComments }) {
   const { user } = useContext(UserContext);

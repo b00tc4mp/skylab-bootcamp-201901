@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./index.sass";
-import AddComment from "../AddComment";
+import AddComment from "./AddComment";
 import logic from "../../logic";
 import { UserContext } from "../../userContext";
 
@@ -14,6 +14,7 @@ function Card({
   userFavorites,
   username,
   postUserId,
+  countfavs,
   call
 }) {
   const [commentsPost, setComments] = useState("");
@@ -35,6 +36,7 @@ function Card({
   }, [comments]);
 
   console.log(commentsPost);
+
   return (
     <div className="card">
       <Link to={`/profile/${postUserId}`}>{username}</Link>
@@ -48,6 +50,7 @@ function Card({
         }`}
         onClick={toggleFavorite}
       />
+      {countfavs && <p>{countfavs}</p>}
       <AddComment postId={postId} refreshComments={refreshComments} />
       {description && <p>{description}</p>}
       {commentsPost &&
@@ -56,7 +59,7 @@ function Card({
             <p>Comentario: </p>
             <p>{comment.body}</p>
             <p>Usuario: </p>
-            <p>{comment.by.username}</p>
+            <Link to={`/profile/${postUserId}`}>{comment.by.username}</Link>
           </div>
         ))}
     </div>

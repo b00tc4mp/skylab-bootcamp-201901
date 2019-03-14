@@ -50,7 +50,7 @@ function App(props) {
         render={() => (user ? <ListPage /> : <Redirect to="/login" />)}
       />
       <Route
-        path="/search"
+        path="/search/:tag?"
         render={() => (user ? <SearchPage /> : <Redirect to="/login" />)}
       />
       <Route

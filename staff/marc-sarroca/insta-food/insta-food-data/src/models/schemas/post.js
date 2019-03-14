@@ -27,7 +27,12 @@ const Post = new Schema({
     type: ObjectId,
     ref: "User"
   },
-  comments: [Comment]
+  comments: [Comment],
+
+  countfavs: {
+    type: Number,
+    default: 0
+  }
 });
 
 module.exports = Post;

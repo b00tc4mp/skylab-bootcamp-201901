@@ -1,24 +1,32 @@
-import React, { useState, useContext, Fragment } from "react";
+import React, { useState, useContext, Fragment, useEffect } from "react";
 import logic from "../../logic";
 import { UserContext } from "../../userContext";
 import Card from "../../components/Card";
+import { withRouter } from "react-router-dom";
 
-function Search() {
-  const [hashtag, setHashTag] = useState(false);
-  const [input, setInput] = useState("");
+function Search({ history, match }) {
+  const [posts, setPosts] = useState([]);
+  const [tag, setTag] = useState("");
   const { user } = useContext(UserContext);
   const { token } = user;
-  const handleHashtagInput = event => setInput(event.target.value);
+  const handleHashtagInput = event => setTag(event.target.value);
 
-  const onHandleOnClick = event => {
-    event.preventDefault();
+  const searchByTag = initTag => {
     logic
       .retrieveAllPosts(token)
-      .then(posts => posts.filter(obj => obj.tags.includes(`#${input}`)))
-      .then(hashtagPost => setHashTag(hashtagPost));
+      .then(posts => posts.filter(obj => obj.tags.includes(`#${initTag}`)))
+      .then(posts => setPosts(posts));
   };
 
-  console.log(hashtag);
+  const handleClick = () => {
+    history.push(`/search/${tag}`);
+  };
+
+  useEffect(() => {
+    const initTag = match.params.tag;
+    searchByTag(initTag);
+  }, [match.params.tag]);
+
   return (
     <Fragment>
       <div>
@@ -28,11 +36,11 @@ function Search() {
           onChange={handleHashtagInput}
           placeholder="Put your title"
         />
-        <button onClick={onHandleOnClick}>Search by hashtag</button>
+        <button onClick={handleClick}>Search by posts</button>
       </div>
       <div className="card-list">
-        {hashtag &&
-          hashtag.map(post => (
+        {posts &&
+          posts.map(post => (
             <Card
               key={post._id}
               title={post.title}
@@ -46,4 +54,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default withRouter(Search);

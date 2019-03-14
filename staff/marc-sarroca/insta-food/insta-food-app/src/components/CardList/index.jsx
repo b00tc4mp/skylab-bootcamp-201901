@@ -53,6 +53,7 @@ function CardList() {
           postUserId={post.user_id._id}
           userFavorites={userFavorites}
           call={updatePosts}
+          countfavs={post.countfavs}
         />
       ))}
     </Masonry>

@@ -147,16 +147,27 @@ const logic = {
       throw TypeError(userId + " is not a string");
     if (typeof postId !== "string")
       throw TypeError(postId + " is not a string");
+    let _index;
+
     return User.findById(userId)
       .then(user => {
         const { favorites = [] } = user;
         const index = favorites.findIndex(
           _postId => _postId.toString() === postId
         );
-        if (index < 0) favorites.push(postId);
-        else favorites.splice(index, 1);
-        user.favorites = favorites;
+        _index = index;
+        console.log(_index);
+        if (index < 0) {
+          favorites.push(postId);
+        } else favorites.splice(index, 1);
         user.save();
+      })
+      .then(() => Post.findById(postId))
+      .then(post => {
+        if (_index < 0) {
+          post.countfavs = post.countfavs + 1;
+        } else post.countfavs = post.countfavs - 1;
+        post.save();
       })
       .then(() => {
         return User.findById(userId)
