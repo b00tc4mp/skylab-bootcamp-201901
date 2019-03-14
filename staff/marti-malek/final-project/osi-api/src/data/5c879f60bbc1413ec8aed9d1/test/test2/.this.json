@@ -2,5 +2,12 @@
     "open": false,
     "type": "folder",
     "name": "test2",
-    "children": []
+    "children": [
+        {
+            "name": "testFile.txt",
+            "open": false,
+            "type": "file",
+            "position": 0
+        }
+    ]
 }
