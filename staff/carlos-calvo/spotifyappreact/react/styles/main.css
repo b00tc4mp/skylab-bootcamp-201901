@@ -1,0 +1,89 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+body #root {
+  display: flex;
+  justify-content: center;
+}
+body #root main {
+  padding: 2%;
+  margin: 0;
+}
+body .App {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(72, 196, 70, 0.1);
+}
+body .App .cardContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  flex-wrap: wrap;
+  background-color: rgba(86, 95, 173, 0.5);
+}
+body .App .cardContainer__Artist {
+  width: 20%;
+  position: relative;
+}
+body .App .cardContainer__Artist:focus {
+  border: 50px solid black;
+}
+body .App .cardContainer__Artist img {
+  width: 100%;
+}
+body .App .cardContainer__Artist h3 {
+  color: black;
+  font-size: 1rem;
+}
+body .App .albumContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  flex-wrap: wrap;
+  background-color: rgba(170, 95, 86, 0.5);
+}
+body .App .albumContainer__album {
+  width: 20%;
+  position: relative;
+}
+body .App .albumContainer__album img {
+  width: 100%;
+}
+body .App .albumContainer__album h3 {
+  font-size: 1rem;
+  color: black;
+}
+body .App .dropdown-item h3 {
+  font-size: 1rem;
+}
+body .loginPanel {
+  max-width: 100%;
+}
+body .loginPanel .div__buttonlogin {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+body .loginPanel .div__buttonlogin section {
+  color: red;
+}
+body .loginPanel .div__buttonlogin button {
+  width: 25%;
+}
+body .registersection {
+  display: flex;
+  justify-content: center;
+}
+body .registersection button {
+  width: 25%;
+}
+
+.form-row {
+  margin: 0;
+}
+
+/*# sourceMappingURL=main.css.map */

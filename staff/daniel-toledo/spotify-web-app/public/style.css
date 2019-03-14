@@ -1,0 +1,211 @@
+.btn-outline-info {
+  color: #008d97;
+  border-color: #008d97;
+}
+
+.btn-outline-info:hover {
+  background-color: #008d97;
+}
+
+.feedback, .landing, .login, .register {
+  border: 2px black solid;
+  border: radius 0.5em;
+  background-color: rgba(215, 215, 215, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-outline-info {
+  color: #008d97;
+  border-color: #008d97;
+}
+
+.btn-outline-info:hover {
+  background-color: #008d97;
+}
+
+.feedback, .landing, .login, .register {
+  border: 2px black solid;
+  border: radius 0.5em;
+  background-color: rgba(215, 215, 215, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login__margins {
+  padding: 10% 20%;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.searchPanel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.searchPanel form {
+  margin: 0;
+}
+
+.resultsNav {
+  background-color: white;
+  border-top: solid 2px #008d97;
+  border-bottom: solid 1px lightgray;
+}
+.resultsNav__list {
+  display: flex;
+  margin: 0.2em;
+}
+.resultsNav a {
+  color: #008d97;
+}
+.resultsNav a:hover {
+  color: black;
+}
+
+.btn-outline-info {
+  color: #008d97;
+  border-color: #008d97;
+}
+
+.btn-outline-info:hover {
+  background-color: #008d97;
+}
+
+.feedback, .landing, .register, .login {
+  border: 2px black solid;
+  border: radius 0.5em;
+  background-color: rgba(215, 215, 215, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.landing {
+  padding-top: 10%;
+  width: 100%;
+}
+.landing h2 {
+  font-weight: lighter;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+ul .card {
+  padding: 0;
+}
+ul .card li {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-content: center;
+}
+ul .card li img {
+  width: 100%;
+}
+ul .card li p {
+  text-align: center;
+}
+
+.link:hover {
+  text-decoration: none;
+  color: #008d97;
+}
+
+.card:hover {
+  border-color: #008d97;
+  background-color: rgba(0, 141, 151, 0.2);
+}
+
+.results__image {
+  height: 30em;
+  width: 30em;
+}
+.results li {
+  padding: 0;
+  padding-top: 5px;
+}
+.results form {
+  margin: 0;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.button-list {
+  border-width: 0px;
+  background-color: white;
+}
+
+.button-list:hover {
+  color: #008d97;
+  font-size: 1.2em;
+}
+
+.player {
+  background-color: rgba(0, 141, 151, 0.5);
+}
+
+.btn-outline-info {
+  color: #008d97;
+  border-color: #008d97;
+}
+
+.btn-outline-info:hover {
+  background-color: #008d97;
+}
+
+.feedback, .register, .login, .landing {
+  border: 2px black solid;
+  border: radius 0.5em;
+  background-color: rgba(215, 215, 215, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feedback {
+  background-color: limegreen;
+}
+.feedback--warn {
+  background-color: gold;
+}
+.feedback--error {
+  background-color: tomato;
+}
+
+main, body, html {
+  height: 100%;
+}
+
+.welcome {
+  background-image: url("https://www.beon.com/wp-content/uploads/2018/03/conciertos.width-1200.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-sb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/*# sourceMappingURL=style.css.map */
