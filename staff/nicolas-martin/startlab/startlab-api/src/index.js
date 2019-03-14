@@ -25,6 +25,7 @@ const {
     listExercises,
 
     getExercisesFromUser,
+    updateExerciseFromUser,
 
     checkAnswer,
 
@@ -61,12 +62,14 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         // CRUD Exercises
         router.post('/admin/exercise/create', [jsonBodyParser, tokenVerifierMiddleware], createExercise)
-        router.get('/admin/exercise/list', listExercises)
+        router.get('/admin/exercise/list', [tokenVerifierMiddleware], listExercises)
         router.get('/admin/exercise/:exerciseId', [jsonBodyParser, tokenVerifierMiddleware], retrieveExercise)
         router.post('/admin/exercise/update', [jsonBodyParser, tokenVerifierMiddleware], updateExercise)
         router.delete('/admin/exercise/delete/:exerciseId', [jsonBodyParser, tokenVerifierMiddleware], deleteExercise)
 
-        router.get('/student/start', [jsonBodyParser, tokenVerifierMiddleware], getExercisesFromUser)
+        router.post('/user/historical/update', [jsonBodyParser, tokenVerifierMiddleware], updateExerciseFromUser)
+
+        router.get('/student/start', [tokenVerifierMiddleware], getExercisesFromUser)
 
         // Code sanity
         router.post('/checkanswer', [jsonBodyParser, tokenVerifierMiddleware], checkAnswer)

@@ -14,6 +14,7 @@ module.exports = {
     listExercises: require('./exercise/list'),
 
     getExercisesFromUser: require('./get-exercises-from-user'),
+    updateExerciseFromUser: require('./update-exercise-from-user'),
 
     checkAnswer: require('./check-answer'),
 

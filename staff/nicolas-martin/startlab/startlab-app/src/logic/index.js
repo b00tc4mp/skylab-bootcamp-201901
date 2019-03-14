@@ -93,11 +93,11 @@ const logic = {
         return skylabApi.deleteExercise(id, this.__userApiToken__)
     },
 
-    retrieveExercise(id) {
-        if (typeof id !== 'string') throw TypeError(id + ' is not a string')
-        if (!id.trim().length) throw Error('id cannot be empty')
+    retrieveExercise(exerciseId) {
+        if (typeof exerciseId !== 'string') throw TypeError(exerciseId + ' is not a string')
+        if (!exerciseId.trim().length) throw Error('exerciseId cannot be empty')
 
-        return skylabApi.retrieveExercise(id, this.__userApiToken__)
+        return skylabApi.retrieveExercise(exerciseId, this.__userApiToken__)
     },
 
     updateExercise(exercise) {
@@ -126,9 +126,20 @@ const logic = {
             })
     },
 
-    getExercises() {
-        return skylabApi.exerciseList()
-            .then(exercises => exercises)
+    updateExerciseFromUser(historicalId, answer) {
+        if (typeof historicalId !== 'string') throw TypeError(historicalId + ' is not a string')
+        if (!historicalId.trim().length) throw Error('historicalId cannot be empty')
+
+        if (typeof answer !== 'string') throw TypeError(answer + ' is not a string')
+        if (!answer.trim().length) throw Error('answer cannot be empty')
+
+        return skylabApi.updateExerciseFromUser(historicalId, answer, this.__userApiToken__)
+                    .then(() => {})
+    },
+
+    getExercisesFromUser(){
+        return skylabApi.exerciseFromUser(this.__userApiToken__)
+            .then(userExercises => userExercises)
     },
 
     invitationList() {

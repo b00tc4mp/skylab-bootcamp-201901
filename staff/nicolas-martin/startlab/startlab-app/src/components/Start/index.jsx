@@ -1,29 +1,75 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
 
-import Feedback from '../Feedback/'
 import ActiveExercise from '../ActiveExercise'
 import StartIntro from '../StartIntro'
 import AnswerForm from '../AnswerForm'
 import FinalMessage from '../FinalMessage'
+import ResultsTest from '../ResultsTest'
 import logic from '../../logic';
 
 class Start extends Component {
-    state = { exercises: [], activeExercise: null, startFeedback: '', answer: '' }
+    state = {
+        exercises: [],
+        activeExercise: null,
+        answer: '',
+        showResults: false,
+        checkResponse: false
+    }
 
     componentWillMount() {
         try {
-            logic.getExercises()
-                .then(exercises => {
-                    // const progress = exercises.find(exercise => !exercise.completed)
-                    // const activeExercise = progress? progress.exercise : null
-                    this.setState({ exercises })
-                })
+            this.getExercises()
+        } catch ({ message }) {
+            this.emitFeedback(message, 'error')
+        }
+    }
+
+    getExercises = () => {
+        logic.getExercisesFromUser()
+            .then(exercises => {
+                const activeExercise = exercises.find(exercise => !exercise.completed)
+                this.setState({ exercises, activeExercise, answer: '', failures: [], checkReponse: false })
+            })
+            .catch(message => this.emitFeedback(message, 'error'))
+    }
+
+    handleAnswerSubmit = event => {
+        event.preventDefault()
+        const { state: { answer, activeExercise: { exercise: { _id } } } } = this
+        try {
+            logic.checkCode(answer, _id)
+                .then(({ passes, failures }) => this.checkReponse(passes, failures))
                 .catch(message => this.emitFeedback(message, 'error'))
         } catch ({ message }) {
             this.emitFeedback(message, 'error')
         }
     }
+
+    checkReponse = (passes, failures) => {
+        const { state: { activeExercise: { _id }, answer } } = this
+
+        if (!failures.length) {    // right answer!
+            try {
+                logic.updateExerciseFromUser(_id, answer)
+                    .then(() => {
+                        this.getExercises()
+                        this.emitFeedback('right answer!', 'success')
+                    })
+                    .catch(message => this.emitFeedback(message, 'error'))
+            } catch ({ message }) {
+                this.emitFeedback(message, 'error')
+            }
+        } else {    // wrong answer!
+            try {
+                this.setState({ failures, checkResponse: true })
+            } catch ({ message }) {
+                this.emitFeedback(message, 'error')
+            }
+        }
+    }
+
+    handleAnswerChange = event => this.setState({ answer: event.target.value })
 
     emitFeedback = (message, level) => toast[level](message, {
         position: 'top-right',
@@ -31,38 +77,23 @@ class Start extends Component {
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        draggable: true,
+        draggable: true
     })
 
-    handleAnswerSubmit = event => {
-        event.preventDefault()
-        const { state: { answer, activeExercise: { id: exerciseId } } } = this
-        logic.checkCode(answer, exerciseId)
-            .then(result => {
-                this.getExercisesFromUser()
-            })
-            .catch(error => {
-                this.setState({ startFeedback: error.message })
-            })
-    }
-
-    handleAnswerChange = event => this.setState({ answer: event.target.value })
-
     render() {
-        const { state: { activeExercise, exercises, startFeedback, answer }, handleAnswerSubmit, handleAnswerChange } = this
-
+        const { state: { activeExercise, exercises, failures, checkResponse }, handleAnswerSubmit, handleAnswerChange } = this
         return (
             <main className="start">
 
-                {exercises && <StartIntro exercises={exercises} />}
+                {activeExercise && <StartIntro exercises={exercises} />}
 
-                {activeExercise && <ActiveExercise onExercise={activeExercise} />}
+                {activeExercise && <ActiveExercise activeExercise={activeExercise} />}
 
-                {activeExercise && <AnswerForm previousAnswer={answer} manageChange={handleAnswerChange} manageSubmit={handleAnswerSubmit} />}
+                {activeExercise && <AnswerForm manageChange={handleAnswerChange} manageSubmit={handleAnswerSubmit} />}
 
-                {startFeedback && <Feedback message={startFeedback} />}
+                {checkResponse && <ResultsTest failures={failures} /*failures={} passes={}*/ />}
 
-                {!activeExercise && <FinalMessage />}
+                {/* {!activeExercise && <FinalMessage />} */}
 
             </main>
         )

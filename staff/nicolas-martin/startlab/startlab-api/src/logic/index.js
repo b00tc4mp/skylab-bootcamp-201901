@@ -48,7 +48,6 @@ const logic = {
                     })
                     .then(hash => User.create({ name, surname, email, password: hash }))
                     .then(({ id }) => {
-
                         return this.__fillExercisesToUser__(id)
                     })
                     .then(({ id }) => id)
@@ -66,13 +65,13 @@ const logic = {
                     .then(exercises => {
 
                         exercises.forEach(exercise => {
-                            user.historical.push(new Historical({ exercise: exercise.id }))
+
+                            user.historical.push(new Historical({ exercise: exercise.id, answer: '', completed: false }))
                         })
-                        
+
                         return user.save()
                             .then(user => user)
                     })
-
             })
     },
 
@@ -231,7 +230,9 @@ const logic = {
 
     },
 
-    listExercises() {
+    listExercises(userId) {
+
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return Exercise.find().select('-__v').lean()
             .then(exercises => {
@@ -254,17 +255,30 @@ const logic = {
         return User.findById(userId).populate('historical.exercise').lean()
             .then(user => {
                 if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                return user.historical
+            })
+    },
 
-                const historical = user.historical.filter(userExercise => {
+    updateExerciseFromUser(userId, historicalId, answer) {
 
-                    userExercise.exercise.id = userExercise.exercise._id
-                    delete userExercise.exercise._id
-                    delete userExercise.exercise.__v
-                    return userExercise
+        validate([
+            { key: 'userId', value: userId, type: String },
+            { key: 'historicalId', value: historicalId, type: String },
+            { key: 'answer', value: answer, type: String }
+        ])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                let newHistorical = user.historical.map(historicalItem => {
+                    if (historicalItem.id === historicalId) {
+                        historicalItem.answer = answer
+                        historicalItem.completed = true
+                    }
+                    return historicalItem
                 })
-
-
-                return historical
+                user.historical = newHistorical
+                return user.save()
             })
     },
 

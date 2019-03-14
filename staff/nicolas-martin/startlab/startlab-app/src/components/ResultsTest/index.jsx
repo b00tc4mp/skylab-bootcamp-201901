@@ -1,7 +1,7 @@
 import React from 'react'
 
-function ResultsTest({ failures, passes }) {
-    
+function ResultsTest({ failures }) {
+
     return (
         <section className="results-test">
 
@@ -11,8 +11,7 @@ function ResultsTest({ failures, passes }) {
             </section> */}
 
             <section className="results-test__fails">
-                <h4 className="results-test__fails__header">Fails</h4>
-                {failures.length && failures.map((item, index) => <li key={index} className="help">{item.err.message}</li>)}
+                {failures.map((test, index) => <li key={index}>{test.err.message}</li>)}
             </section>
 
         </section>

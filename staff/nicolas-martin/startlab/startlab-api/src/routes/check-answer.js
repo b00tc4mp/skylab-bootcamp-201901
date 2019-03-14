@@ -7,7 +7,6 @@ module.exports = (req, res) => {
     const { body: { answer, exerciseId }, userId } = req
 
     const callback = result => res.json(result)
-    
 
     try {
         logic.checkAnswer(userId, answer, exerciseId, callback)

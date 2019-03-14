@@ -27,8 +27,8 @@ class Login extends Component {
                 <hr />
 
                 <form className="login__form" onSubmit={handleFormSubmit} autoComplete="off">
-                    <input className="input" type="email" name="email" onChange={handleEmailInput} placeholder="email" autoComplete="off" required />
-                    <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" required />
+                    <input className="input" type="email" name="email" onChange={handleEmailInput} placeholder="email" autoComplete="off" autoCorrect="off" required />
+                    <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password"  autoComplete="off" autoCorrect="off" required />
                     <button className="button is-info">Login</button>
                 </form>
             </section>

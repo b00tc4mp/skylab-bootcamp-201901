@@ -63,9 +63,7 @@ class InvitationForm extends Component {
 
         <form className="invitation-new__form" onSubmit={handleFormSubmit}>
 
-          <div className="control">
-            <input autoCorrect={false} className="input is-medium" placeholder="Email" type="email" name="email" onChange={handleEmailInput} value={email} required />          
-          </div>
+            <input className="input is-medium" placeholder="Email" type="email" name="email" onChange={handleEmailInput} value={email}  autoComplete="off" autoCorrect="off" required />
 
           <button className="invitation-new__form__button button is-info" type="submit">SAVE</button>
         </form>

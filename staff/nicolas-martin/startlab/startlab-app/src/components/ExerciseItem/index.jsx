@@ -21,6 +21,7 @@ function ExerciseItem({ results: {title, order, summary, id, theme}, myKey, onEd
                 source={summary}
                 escapeHtml={false}
             />
+
             <div className="itemlist-item__footer">
                 <button className="itemlist-item__footer-edit button is-small" onClick={() => onEdit(id)}>edit</button>
                 <p className="itemlist-item__footer-theme">{theme}</p>
