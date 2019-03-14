@@ -128,6 +128,16 @@ const instaApi = {
   },
 
   addComment(postId, token, userId, text) {
+    if (typeof postId !== "string")
+      throw TypeError(`${postId} is not a string`);
+    if (!postId.trim().length) throw Error("postId is empty");
+    if (typeof token !== "string") throw TypeError(`${token} is not a string`);
+    if (!token.trim().length) throw Error("token is empty");
+    if (typeof text !== "string") throw TypeError(`${text} is not a string`);
+    if (!text.trim().length) throw Error("text is empty");
+    if (typeof userId !== "string")
+      throw TypeError(`${userId} is not a string`);
+    if (!userId.trim().length) throw Error("userId is empty");
     return fetch(`${this.url}/user/${postId}/comments`, {
       method: "POST",
       headers: {

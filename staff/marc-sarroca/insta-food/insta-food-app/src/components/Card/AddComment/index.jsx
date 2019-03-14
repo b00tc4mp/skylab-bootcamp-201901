@@ -4,13 +4,12 @@ import logic from "../../../logic";
 
 function AddComment({ postId, refreshComments }) {
   const { user } = useContext(UserContext);
-  const { token } = user;
   const { id } = user;
   const [text, setText] = useState("");
   const handleAddComment = event => setText(event.target.value);
   const handleOnClick = event => {
     event.preventDefault();
-    logic.addComment(postId, token, id, text).then(comment => {
+    logic.addComment(postId, id, text).then(comment => {
       refreshComments(comment.comments);
     });
   };

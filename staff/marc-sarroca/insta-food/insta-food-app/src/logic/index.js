@@ -82,8 +82,17 @@ const logic = {
     return instaApi.retrievePostsByUser(id, token);
   },
 
-  addComment(postId, token, id, text) {
-    return instaApi.addComment(postId, token, id, text);
+  addComment(postId, id, text) {
+    if (typeof postId !== "string")
+      throw TypeError(`${postId} is not a string`);
+    if (!postId.trim().length) throw Error("postId is empty");
+    if (typeof postId !== "string")
+      throw TypeError(`${postId} is not a string`);
+    if (!text.trim().length) throw Error("text is empty");
+    if (typeof text !== "string") throw TypeError(`${text} is not a string`);
+    if (typeof id !== "string") throw TypeError(`${id} is not a string`);
+    if (!id.trim().length) throw Error("id is empty");
+    return instaApi.addComment(postId, this.__userApiToken__, id, text);
   },
 
   toggleFavorites(postId) {
