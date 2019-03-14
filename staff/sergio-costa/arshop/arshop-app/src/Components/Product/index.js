@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 import Feedback from '../Feedback'
 import './index.sass'
+import { withRouter } from 'react-router-dom'
 
 class Product extends Component {
 
@@ -9,11 +10,15 @@ class Product extends Component {
 
     onFav = id => {
 
-        try {
-            return logic.toogleFav(id)
-                .then(fav => this.setState({ fav }))
-        } catch (error) {
-
+        if(logic.isUserLoggedIn){
+            try {
+                return logic.toogleFav(id)
+                    .then(fav => this.setState({ fav }))
+            } catch (error) {
+    
+            }
+        }else{
+            this.props.history.push('/login')
         }
     }
 
@@ -63,14 +68,14 @@ class Product extends Component {
                     <p className="product__tittle">{tittle}</p>
                     <p className="product__description">{description}</p>
                 </div>
-                <div className="product__btncontainer" onClick={event => [onFav(id), event.stopPropagation()]}>
-                    { !this.state.userProduct && <button className="product__btn">
+                {!this.state.userProduct && <div className="product__btncontainer" onClick={event => [onFav(id), event.stopPropagation()]}>
+                    <button className="product__btn">
                         <i className={fav ? "fas fa-heart product__logo" : "far fa-heart product__logo"}></i>
-                    </button>}
-                </div>
+                    </button>
+                </div>}
             </div>
         </section>
     }
 }
 
-export default Product
+export default withRouter(Product)

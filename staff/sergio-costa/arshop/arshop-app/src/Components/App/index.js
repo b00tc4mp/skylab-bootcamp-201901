@@ -17,25 +17,21 @@ import ProductDetails from '../ProductDetails'
 
 class App extends Component {
 
-    hideIfIncludesPath = () => {
-        const pathname = this.props.location.pathname
-        return (
-            pathname.includes('login') || pathname.includes('register') || pathname.includes('/upload/product') || pathname.includes('/user/profile')
-        )
+    productSelected = id => {
+        this.setState({productId: id})
+        this.props.history.push(`/product/${id}`)
     }
 
     render() {
         return <main className="app">
-        {/* <ProductDetails></ProductDetails> */}
-            {!this.hideIfIncludesPath() && <Header/>}
             <Aside></Aside>
+            <Route path="/product/:id" render={props => <ProductDetails productId={props.match.params.id}/>}/>
             <Route exact path="/register" render={() => logic.isUserLoggedIn ? <Redirect to='/'/>: <Register/>} />
             <Route exact path="/login" render={() => logic.isUserLoggedIn ? <Redirect to='/'/>: <Login />} />
             <Route exact path="/upload/product" render={() => !logic.isUserLoggedIn ? <Redirect to='/'/> : <UploadProduct />}/>
-            <Route  path="/user/profile" render={() => !logic.isUserLoggedIn ? <Redirect to='/'/> : <UserProfile />}/>
-            {/* <Route exact path="/user/products" render={() => !logic.isUserLoggedIn ? <Redirect to='/'/> : <UserProducts />}/> */}
+            <Route  path="/user/profile" render={() => !logic.isUserLoggedIn ? <Redirect to='/'/> : <UserProfile onProductSelect={this.productSelected}/>}/>
             <Route exact path="/"/>
-            <Route exact path="/" render={() => <LandingPage />}/>
+            <Route exact path="/" render={() => <LandingPage onProductSelect={this.productSelected}/>}/>
             
         </main>
     }

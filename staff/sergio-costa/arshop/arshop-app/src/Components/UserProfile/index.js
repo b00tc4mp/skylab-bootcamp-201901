@@ -48,8 +48,8 @@ class UserProfile extends Component {
                     <p className="profile__link--text">Favorites</p>
                 </Link>
             </div>
-            <Route path="/user/profile/products" render={() => <UserProducts products={this.state.products} favIds={this.state.favIds} feedback={this.state.feedback}/>} />
-            <Route path="/user/profile/favorites" render={() => <Favorites products={this.state.favIds} feedback={this.state.feedback}/>} />
+            <Route path="/user/profile/products" render={() => <UserProducts products={this.state.products} favIds={this.state.favIds} feedback={this.state.feedback} onProductSelect={this.props.onProductSelect}/>} />
+            <Route path="/user/profile/favorites" render={() => <Favorites products={this.state.favIds} feedback={this.state.feedback} onProductSelect={this.props.onProductSelect}/>} />
         </section>
     }
 }

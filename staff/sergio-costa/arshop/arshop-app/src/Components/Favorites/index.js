@@ -13,7 +13,7 @@ class Favorites extends Component {
             {feedback && <Feedback message={feedback} />}
             <div className="products">
                 {products.map(({ id, tittle, description, price, imageUrl, sold }) => {
-                    return <Product key={id} id={id} tittle={tittle} description={description} price={price} imageUrl={imageUrl} sold={sold} idFav={products} />
+                    return <Product key={id} id={id} tittle={tittle} description={description} price={price} imageUrl={imageUrl} sold={sold} idFav={products} onProductSelect={this.props.onProductSelect} />
                 })}
             </div>
         </section>

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import logic from '../../logic'
 import './index.sass'
-import Feedback from '../Feedback';
+import Feedback from '../Feedback'
+import CitySelector from '../CitySelector'
 
 class UploadProduct extends Component {
 
@@ -63,20 +64,9 @@ class UploadProduct extends Component {
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Category</label>
-                    <ul className="form__list">
-                        <li className="form__item">
-                            <input type="radio" id="1" name="category" value="vehicle" onChange={handleInput} />
-                            <label className="form__label" for="1">Vehicle</label>
-                        </li>
-                        <li className="form__item">
-                            <input type="radio" id="2" name="category" value="living room" onChange={handleInput} />
-                            <label className="form__label" for="2">Living Room</label>
-                        </li>
-                        <li className="form__item">
-                            <input type="radio" id="3" name="category" value="electronic" onChange={handleInput} />
-                            <label className="form__label" for="3">Electronic</label>
-                        </li>
-                    </ul>
+                    <input className="form__input" type="text" name="category" onChange={handleInput} />
+                </div>
+                <div className="form__inputrow">                    
                     <div className="form__img">
                         <input className="form__img--input" type="file" name="image" onChange={e => this.setState({image: e.target.files[0]})} />
                     </div>

@@ -13,6 +13,11 @@ class Aside extends Component {
         aside.className = 'sidebar'
     }
 
+    onLogout = () => {
+        this.props.history.push('/upload/product') //Chapu pero funcional
+        return logic.logOutUser()
+    }
+
     goToUploadProduct = () => {
         this.props.history.push('/upload/product')
     }
@@ -51,6 +56,12 @@ class Aside extends Component {
                                             <Link to="/user/profile/favorites" title="favoroites" className="menu__link">
                                                 Favorites
                                             </Link>
+                                        </li>
+                                        <li className="menu__item" onClick={() => this.onLogout()}>
+                                            <p title="logout" className="menu__link">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                                Logout
+                                            </p>
                                         </li>
                                     </div>
                                 </ul>
