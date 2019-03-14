@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import logic from '../../logic'
 import './index.sass'
 
-export default function Search({ setQuery }) {
+export default function Search({ setQuery, setSearch, setSearchButton, setLogo, setUserButton, setEventsButton }) {
     //const [query, setQuery] = useState()
     const [ query, setNewQuery ] = useState()
 
@@ -11,14 +11,13 @@ export default function Search({ setQuery }) {
     }
 
     function handleSearchSubmit(e) {
-        e.preventDefault()
-        setQuery(query)
+        // setQuery(query)
     }
 
     return (
-        <form onSubmit={handleSearchSubmit} className="search">
-             <input name="search" type="text" placeholder="search" onChange={handleQueryChange} className="search__input"></input>
-             <button type="submit">Search</button>
+        <form className="search">
+            <input name="search" type="text" placeholder="search..." onChange={handleQueryChange} className="search__input"></input>
+            <i class="fas fa-search search__button" onClick={e => {e.preventDefault(); handleSearchSubmit(); setSearch('no-search'); setSearchButton('search-button'); setLogo('logo'); setUserButton('user-button'); setEventsButton('events-button')}}></i>
         </form>
     )
 }

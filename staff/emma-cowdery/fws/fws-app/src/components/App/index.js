@@ -16,9 +16,10 @@ import Chats from '../Chats'
 export default withRouter (function App() {
     return (
         <Fragment>
-            <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to = '/restaurant-results'/> : <Login/>}/>
-            <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to = '/restaurant-results'/> : <Register/>}/>
-            <Route path="/landing" render={() => logic.isUserLoggedIn ? <Redirect to = '/restaurant-results'/> : <Landing/>}/>
+            <Route path="/" render={() => <Redirect to = '/landing'/>}/>
+            <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Login/>}/>
+            <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Register/>}/>
+            <Route path="/landing" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Landing/>}/>
             <Route path="/restaurant-results" render={() => logic.isUserLoggedIn ? <RestautantResults/> : <Redirect to = '/landing'/>}/>
             <Route path="/event-categories" render={() => logic.isUserLoggedIn ? <EventCategories/> : <Redirect to = '/landing'/>}/>
             <Route path="/events-nearme" render={() => logic.isUserLoggedIn ? <EventsNearMe/> : <Redirect to = '/landing'/>}/>

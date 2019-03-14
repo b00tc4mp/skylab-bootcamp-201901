@@ -1,11 +1,46 @@
+@import '../../utils.sass'
+    
 .nav-bar
     display: flex
     flex-flow: row
     justify-content: space-between
     align-items: center
-    background-color: salmon
-    padding-left: 1em
-    padding-right: 1em
+    background-color: $salmon
+    //position: fixed
+    //padding-left: 1em
+    //padding-right: 1em
+    //width: 100%
+
+    &__no-search
+        display: none
 
     &__search
+        width: 100%
+        border-style: solid
+        border-width: 0
+        border-bottom-width: 0.2em
+        border-color: $dark-gray
+        height: 3em
+        // position: fixed
+        // margin-top: 1.5em
+
+    &__search-button
+
+    &__no-search-button
+        display: none
+
+    &__logo
+
+    &__no-logo
+        display: none
+
+    &__user-button
+
+    &__no-user-button
+        display: none
+
+    &__events-button
+
+    &__no-events-button
+        display: none
         

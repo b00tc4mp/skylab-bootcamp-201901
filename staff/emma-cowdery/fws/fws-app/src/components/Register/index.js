@@ -38,39 +38,39 @@ export default withRouter( function Register(props) {
         <main className="register-page">
             <div className="register-panel">
                 <div className="register-panel__box">
-                    <form onSubmit={handleRegisterSubmit}>
+                    <h1>LOGO</h1>
+                    <form onSubmit={handleRegisterSubmit} className='login-panel-form'>
                         <div className="register-panel__row">
-                            <p>Name</p>
-                            <input type="text" placeholder="name" value={name} onChange={handleNameChange}></input>
+                            <p className='register-panel__input-title'>Name</p>
+                            <input type="text" placeholder="name" value={name} onChange={handleNameChange} className='register-panel__input'></input>
                         </div>
                         <div className="register-panel__row">
-                            <p>Surname</p>
-                            <input type="text" placeholder="surname" value={surname} onChange={handleSurnameChange}></input>
+                            <p className='register-panel__input-title'>Surname</p>
+                            <input type="text" placeholder="surname" value={surname} onChange={handleSurnameChange} className='register-panel__input'></input>
                         </div>
                         <div className="register-panel__row">
-                            <p>Email</p>
-                            <input type="text" placeholder="email" value={email} onChange={handleEmailChange}></input>
+                            <p className='register-panel__input-title'>Email</p>
+                            <input type="text" placeholder="email" value={email} onChange={handleEmailChange} className='register-panel__input'></input>
                         </div>
                         <div className="register-panel__row">
-                            <p>Username</p>
-                            <input type="text" placeholder="username" value={username} onChange={handleUsernameChange}></input>
+                            <p className='register-panel__input-title'>Username</p>
+                            <input type="text" placeholder="username" value={username} onChange={handleUsernameChange} className='register-panel__input'></input>
                         </div>
                         <div className="register-panel__row">
-                            <p>Password</p>
-                            <input type="password" placeholder="password" value={password} onChange={handlePasswordChange}></input>
+                            <p className='register-panel__input-title'>Password</p>
+                            <input type="password" placeholder="password" value={password} onChange={handlePasswordChange} className='register-panel__input'></input>
                         </div>
                         <div className="register-panel__row">
-                            <p>Password Confirmation</p>
-                            <input type="password" placeholder="passwordConfirmation" value={passwordConfirmation} onChange={handlePasswordConfirmationChange}></input> 
+                            <p className='register-panel__input-title'>Password Confirmation</p>
+                            <input type="password" placeholder="passwordConfirmation" value={passwordConfirmation} onChange={handlePasswordConfirmationChange} className='register-panel__input'></input> 
                         </div>
-                        <button>Register</button>
+                        <button className='register-panel__register-button'>REGISTER</button>
                     </form>
-                    <div>
-                        <p>Already a user?</p>
-                        <button onClick={handleGoToLogin}>Login</button>    
+                    <div className='register-panel__login'>
+                        <p className='register-panel__login-text'>Already a user?</p>
+                        <button onClick={handleGoToLogin} className='register-panel__login-button'>sign in</button>    
                     </div>
-                </div>
-                
+                </div> 
             </div>
         </main>
     )

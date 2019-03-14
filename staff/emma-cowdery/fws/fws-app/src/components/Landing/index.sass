@@ -1,10 +1,25 @@
+@import '../../utils.sass'
+
 .landing-header
     display: flex
     flex-flow: row
     justify-content: space-between
-    background-color: salmon
+    background-color: $salmon
     align-items: center
     
 
     &__logo
         color: red
+        margin-left: 2em
+
+    &__sign-in
+        border-style: solid
+        background-color: $light-pink
+        border-radius: 0.5em
+        border-color: $button-gray
+        color: $button-gray
+        //font-weight: bold
+        border-width: 0.125em
+        padding: 0.5em
+        margin-right: 2em
+        cursor: pointer
