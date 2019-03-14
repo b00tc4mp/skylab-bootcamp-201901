@@ -112,7 +112,7 @@ describe('logic', () => {
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('name cannot be empty'))
+            }).toThrow(Error('name is empty or blank'))
         })
 
         it('should fail on undefined surname', () => {
@@ -179,7 +179,7 @@ describe('logic', () => {
 
             expect(() => {
                 logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('surname cannot be empty'))
+            }).toThrow(Error('surname is empty or blank'))
         })
     })
 

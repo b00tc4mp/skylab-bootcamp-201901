@@ -1,0 +1,22 @@
+extends ../layout
+
+include ../feedback/index
+
+block content
+      section(class='welcome')
+        section(class='login__margins')
+          div(class='login container pl-lg-5 pr-lg-5')
+            h2(class='center-text mt-3') Login
+            form(method='POST', action='/login', class='form-group container mb-3 ')
+              div(class='row')
+                label(htmlfor='email', class='col col-md-3 col-sm-12 flex-sb mt-1') Email
+                input(type='email', class='col col-md-9 col-12 form-control mt-1', name='email', placeholder='Email', required='')
+                label(htmlfor='password', class='col col-md-3 col-sm-12 flex-sb mt-1') Password
+                input(type='password', class='col col-md-9 col-12 form-control mt-1', name='password', placeholder='Password', required='')
+                if feedback
+                  +feedback(feedback, 'error')
+              div(class='row flex-center mt-3')
+                div(class='col-md-3 col-0')
+                button(type='submit', class='btn btn-dark col-12 col-sm-6 mr-2') Login
+                div(class='pt-2 pt-sm-0')
+                  a(href='/register', class='btn btn-outline-secondary') Register
