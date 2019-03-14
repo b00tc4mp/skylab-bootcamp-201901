@@ -1,4 +1,4 @@
- /* eslint-disable */
+/* eslint-disable */
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
@@ -10,18 +10,18 @@ import './index.sass'
 class Calendar extends Component {
 
     state = { users: [], owner: '', pets: [], appointments: [], pet: '', date: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false, buttonConfirm: true, error: null, errorDate: false }
-   
+
 
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
     componentDidMount() {
         this.retrieveUsers()
-       
+
     }
 
     // componentWillMount(){
-        // this.setState({appointments})
+    // this.setState({appointments})
     // }
 
     retrieveUsers = async () => {
@@ -35,14 +35,14 @@ class Calendar extends Component {
     //     })
     // }
     // retrieveAppointments = async () => {
-      
+
     //     let year= this.state.year
     //     let month = this.state.month
     //     const appointments = await logic.retrieveAppointments(year, month )
     //     this.setState({ appointments})
     // }
 
-  
+
     handleSelectOwner = async event => {
         event.preventDefault()
         const usersId = event.target.value
@@ -72,7 +72,7 @@ class Calendar extends Component {
         let monthNumber = parseInt(this.state.month)
         let dayNumber = parseInt(this.state.day)
         console.log(yearNumber, monthNumber, dayNumber)
-        this.setState({ month: monthNumber + 1 },()  => this.retrieveAppointments());
+        this.setState({ month: monthNumber + 1 }, () => this.retrieveAppointments());
         if (this.state.month === 12) {
             this.setState({ year: yearNumber + 1, month: 1 })
         }
@@ -96,25 +96,25 @@ class Calendar extends Component {
         let monthNumber = parseInt(this.state.month)
         let dayNumber = parseInt(this.state.day)
         console.log(yearNumber, monthNumber, dayNumber)
-        this.setState({ month: monthNumber - 1 },() => this.retrieveAppointments());
+        this.setState({ month: monthNumber - 1 }, () => this.retrieveAppointments());
         if (this.state.month === 1) {
             this.setState({ year: yearNumber - 1, month: monthNumber = 12 })
         }
     }
 
     retrieveAppointments = async () => {
-        let year= this.state.year
+        let year = this.state.year
         let month = this.state.month
         console.log(year, month)
-        const appointments = await logic.retrieveAppointments(year, month )
-        this.setState({ appointments})
+        const appointments = await logic.retrieveAppointments(year, month)
+        this.setState({ appointments })
     }
 
 
 
- 
+
     //   retrieveAppointments = async () => {
-      
+
     //     let year= this.state.year 
     //     let month = this.state.month
     //     console.log(year, month)
@@ -123,12 +123,12 @@ class Calendar extends Component {
     // }
 
 
-   
+
 
     handleDatePicker = event => {
         event.preventDefault()
         const date = event.target.value;
-        this.setState({ date }) 
+        this.setState({ date })
         const dateSelected = new Date(date)
         const today = new Date()
         if (dateSelected < today) {
@@ -144,12 +144,12 @@ class Calendar extends Component {
         let yearVisit = splitDate[0];
         let monthVisit = splitDate[1];
         let dayVisit = splitDate[2];
-        
+
         let year = yearVisit;
         let month = monthVisit;
         let day = dayVisit;
-        this.setState({ year, month, day }, () => this.retrieveAppointments());       
-    }   
+        this.setState({ year, month, day }, () => this.retrieveAppointments());
+    }
 
     handleSelectHour = event => {
         event.preventDefault()
@@ -182,10 +182,10 @@ class Calendar extends Component {
     }
 
     handleDeleteVisit = (event, id) => {
-     
+
 
         console.log(id)
-      //  this.deleteVisit(appointmentId)
+        //  this.deleteVisit(appointmentId)
     }
 
     deleteVisit = async (appointmentId) => {
@@ -211,7 +211,7 @@ class Calendar extends Component {
     }
 
 
-    
+
     render() {
         const { state: { year, month } } = this
 
@@ -255,7 +255,7 @@ class Calendar extends Component {
                 {this.state.errorDate && <button onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
                 {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
             </div>
-            <div className="arrows">    
+            <div className="arrows">
                 <i className="fas fa-arrow-left arrow" onClick={this.handleLastMont}></i>
                 <i className="fas fa-arrow-right arrow" onClick={this.handleNextMonth}></i>
             </div>
@@ -268,80 +268,107 @@ class Calendar extends Component {
 
                     let paint = false
                     let count = 1
-                  
+
                     for (let w = 0; w < weeks; w++) {
                         for (let d = 0; d < 7; d++) {
                             if (d === m.day()) paint = true;
 
                             const mNow = moment(`${year}-${month}-${count}`)
 
-                            console.log('count'+ count)
-                         
-                            
-                            
-                            
-                            // console.log(dayVisit)
                             if (paint && count <= m.daysInMonth()) {
-
-                            // if({dayVisit} === {dayVisit})
-                            // console.log('dayVisit' + dayVisit)
-        
-             
-                            days.push(<div><table><tr className="month-day" key={count}>{mNow.format('dddd')} {count++}
-
-
+                                days.push(<div><table><tr className="month-day" key={count}>{mNow.format('dddd')} {count++}
                                 </tr>
-                                
-                                {
-                                    this.state.appointments.map(({id, owner, pet, date}) => {
-                                        if (count -1 === date.getDate()) {
-                                            return (
+                                    {
+                                        this.state.appointments.map(({ id, owner, pet, date }) => {
+                                           
+                                            if (count - 1 === date.getDate() || count === 31 && count === date.getDate()|| count === 30 && count === date.getDate()) {
+                                                console.log(count)
+                                                if(date.getHours() === 17){
+                                                return (
+                                                    <tr>
+                                                        <p className="appointment" value={id}>
+                                                            <th>17:00
+                                                    {date.getDate()}{'  '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+                                                                <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                            </th>
+                                                        </p>
+                                                    </tr>
+                                                )
+                                           }else if(date.getHours() === 17 && date.getMinutes() === 1730){
+                                                return (
+                                                    <tr>
+                                                        <p className="appointment" value={id}>
+                                                            <th>17:00
+                                                    {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+                                                                <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                            </th>
+                                                        </p>
+                                                    </tr>
+                                                )
+                                            }else if(date.getHours() === 18){
+                                                return (
+                                                    <tr>
+                                                        <p className="appointment" value={id}>
+                                                            <th>18:00
+                                                    {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+                                                                <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                            </th>
+                                                        </p>
+                                                    </tr>
+                                                )
+                                            }else if(date.getHours() === 18 && date.getMinutes() === 1830){
+                                                return (
+                                                    <tr>
+                                                        <p className="appointment" value={id}>
+                                                            <th>18:30
+                                                    {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+                                                                <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                            </th>
+                                                        </p>
+                                                    </tr>
+                                                )
+                                            }else if(date.getHours() === 19){
+                                                return (
+                                                    <tr>
+                                                        <p className="appointment" value={id}>
+                                                            <th>19:00
+                                                    {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+                                                                <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                            </th>
+                                                        </p>
+                                                    </tr>
+                                                )
+                                            }else if(date.getHours() === 19 && date.getMinutes() === 1930){
+                                                return (
+                                                    <tr>
+                                                        <p className="appointment" value={id}>
+                                                            <th>19:30
+                                                    {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+                                                                <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                            </th>
+                                                        </p>
+                                                    </tr>
+                                                )
+                                            } else {
+                                                return  <tr>
                                                 <p className="appointment" value={id}>
-                                                        
-                                                    {date.getDate()}{' ' }{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
-
-                                                        
-                                                        <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
-                                                    </p>
-                                            )
-                                        } else {
-                                            return <p>Libre</p>
+                                                    <th>
+                                                        Hora lliure 
+                                          
+                                                    </th>
+                                                </p>
+                                            </tr>
+                                            }
+                                            
+                                        }else{
+                                            return <p>dia lliure</p>
                                         }
-            
-                                    })
-                               
-                                }
+                                        })
 
-                                    <tr>
-                                        <th>17:00
-                                                                     
-                                        </th>
-                                    </tr>
-                                    {/* <tr>
-                                        <th>17:30
-                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>18:00
-                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>18:30
-                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>19:00
-                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>19:30
-                                        <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
-                                        </th>
-                                    </tr> */}
+                                    }
+
+                                   
+                                 
                                 </table>
                                 </div>)
                             } else
@@ -356,3 +383,24 @@ class Calendar extends Component {
 }
 
 export default withRouter(Calendar)
+
+
+
+// {
+//     this.state.appointments.map(({ id, owner, pet, date }) => {
+//         if (count - 1 === date.getDate()) {
+//             if(date.getHours() + date.getMinutes() === 170){
+//             return (
+//                 <tr>
+//                     <p className="appointment" value={id}>
+//                         <th>17:00
+//                 {date.getDate()}{' 17 00 '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+//                             <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+//                         </th>
+//                     </p>
+//                 </tr>
+//             )
+//         } else {
+//             return <p>Hora lliure</p>
+        
+//          } 
