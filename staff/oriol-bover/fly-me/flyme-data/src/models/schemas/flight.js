@@ -27,6 +27,11 @@ const Flight = new Schema({
         default: null
     },
 
+    history: {
+        type: [Object],
+        default: []
+    }
+
 
 }, { timestamps: true })
 

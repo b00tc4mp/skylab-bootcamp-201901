@@ -12,6 +12,7 @@ export default function Terminal({ history }) {
             <h1 className="title">TERMINAL</h1>
             <section className="block terminal">
                 {history && history.map(hist => <pre className="terminal--output"><output>{hist.date} - DRONE: {hist.response} </output></pre>)}
+                {/* {history && history.map(hist => <pre className="terminal--output"><output>TEST</output></pre>)} */}
             </section>
         </div>
     </div>)

@@ -3,5 +3,6 @@
 module.exports = {
     User: require('./user'),
     Drone: require('./drone'),
-    Flight: require('./flight')
+    Flight: require('./flight'),
+    Program: require('./program')
 }

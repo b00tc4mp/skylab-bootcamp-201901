@@ -10,10 +10,10 @@ function CommandPannel() {
 
         logic.startDrone()
             .then(res => {
-                console.log(res)
-                if (res.start === 'OK') setHistory(res.history)
+                if (res.start === 'OK')
+                    logic.historyDrone()
+                        .then(res => setHistory(res.history))
             })
-
     }
 
     function sendCommand(e, command) {
@@ -21,8 +21,9 @@ function CommandPannel() {
 
         logic.sendDroneCommand(command)
             .then(res => {
-                console.log(res)
-                if (res.command === 'OK') setHistory(res.history)
+                if (res.command === 'OK')
+                    logic.historyDrone()
+                        .then(res => setHistory(res.history))
             })
     }
 
@@ -30,10 +31,7 @@ function CommandPannel() {
         e.preventDefault()
 
         logic.stopDrone()
-            .then(res => {
-                console.log(res)
-                if (res.stop === 'OK') setHistory(res.history)
-            })
+            .then(res => console.log(res))
     }
 
     return (<section className="section">

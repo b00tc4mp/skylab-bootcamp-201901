@@ -112,7 +112,6 @@ const logic = {
         this.__userApiToken__ = null
     },
 
-
     //TODO DRONE ID
     startDrone() {
         return flymeApi.startDrone(this.__userApiToken__)
@@ -121,6 +120,11 @@ const logic = {
 
     stopDrone() {
         return flymeApi.stopDrone(this.__userApiToken__)
+            .then(res => res)
+    },
+
+    historyDrone() {
+        return flymeApi.getHistory(this.__userApiToken__)
             .then(res => res)
     },
 

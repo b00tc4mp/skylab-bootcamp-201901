@@ -140,6 +140,26 @@ const flymeApi = {
     },
 
 
+    getHistory(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        //TODO droneId
+        const droneId = '5c80f001cdda345041068f1c'
+
+        return fetch(`${this.url}/drone/history`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ droneId })
+        })
+            .then(res => res.json())
+            .then(res => res)
+
+    },
+
     sendCommand(token, command) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')

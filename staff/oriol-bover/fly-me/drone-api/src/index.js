@@ -5,7 +5,6 @@ class Drone {
     constructor(host, port) {
         this.host = host
         this.port = port
-        this.history = []
     }
 
     start() {
@@ -21,20 +20,15 @@ class Drone {
 
         this.__on__ = false
 
-        this.history = []
     }
 
     onMessage(callback) {
         this.socket.on('message', callback)
     }
 
-    sendCommand(command, flightId) {
+    sendCommand(command, callback) {
         if (this.__on__) {
-            this.socket.send(command, 0, command.length, this.port, this.host, error => {
-                if (error) throw new DroneError(error)
-
-                this.history.push({ flightId, command, date: new Date })
-            })
+            this.socket.send(command, 0, command.length, this.port, this.host, callback)
         } else {
             throw new DroneError(`drone at ${this.host}: ${this.port} is offline`)
         }

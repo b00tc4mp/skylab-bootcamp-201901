@@ -863,6 +863,17 @@ describe('logic', () => {
                 })
         })
 
+        it('should fail on badUserId', () => {
+            const badUserId = '5c864704b8fa957d61a34423'
+
+            return logic.updateDrone(badUserId, droneId, { brand: 'Samsung', model: 'Diablo' })
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('You dont have permissions to update this drone')
+                })
+        })
+
         it('should fail on undefined userId', () => {
             const badUserId = undefined
             expect(() => {
@@ -992,6 +1003,17 @@ describe('logic', () => {
                 })
         })
 
+        it('should fail on unregistered user Id', () => {
+            const badUserId = '5c864704b8fa957d61a34423'
+
+            return logic.deleteDrone(badUserId, droneId)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('You dont have permissions to delete this drone')
+                })
+        })
+
         it('should fail on undefined userId', () => {
             const badUserId = undefined
             expect(() => {
@@ -1106,6 +1128,17 @@ describe('logic', () => {
                 .then(id => {
                     expect(id).toBeDefined()
                     expect(typeof id).toBe('string')
+                })
+        })
+
+        it('should fail on bad drone Id', () => {
+            const badDroneId = '5c80f001cdda345041068f1c'
+
+            return logic.addFlight(userId, badDroneId)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(`No drone with id ${badDroneId}`)
                 })
         })
 
@@ -1492,6 +1525,40 @@ describe('logic', () => {
                 })
         })
 
+        it('should fail on badUserId', () => {
+            const badUserId = '5c7e9271c926d43423d72b28'
+
+            return logic.updateFlight(badUserId, flightId, { end })
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('You dont have permissions to update this flight')
+                })
+        })
+
+        it('should fail on badFlightId', () => {
+            const badFlightId = '5c7e9271c926d43423d72b28'
+
+            return logic.updateFlight(userId, badFlightId, { end })
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('You dont have permissions to update this flight')
+                })
+        })
+
+        it('should fail on badUserId and badFlightId', () => {
+            const badUserId = '5c7e9271c926d43423d72b28'
+            const badFlightId = '5c7e9271c926d43423d72b28'
+
+            return logic.updateFlight(badUserId, badFlightId, { end })
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('You dont have permissions to update this flight')
+                })
+        })
+
         it('should fail on undefined userId', () => {
             const badUserId = undefined
             expect(() => {
@@ -1625,6 +1692,40 @@ describe('logic', () => {
                 })
         })
 
+        it('should fail on badUserId', () => {
+            const badUserId = '5c7e9271c926d43423d72b28'
+
+            return logic.deleteFlight(badUserId, flightId)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('You dont have permissions to delete this flight')
+                })
+        })
+
+        it('should fail on badFlightId', () => {
+            const badFlightId = '5c7e9271c926d43423d72b28'
+
+            return logic.deleteFlight(userId, badFlightId)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('You dont have permissions to delete this flight')
+                })
+        })
+
+        it('should fail on badUserId and badFlightId', () => {
+            const badUserId = '5c7e9271c926d43423d72b28'
+            const badFlightId = '5c7e9271c926d43423d72b28'
+
+            return logic.deleteFlight(badUserId, badFlightId)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('You dont have permissions to delete this flight')
+                })
+        })
+
         it('should fail on undefined userId', () => {
             const badUserId = undefined
             expect(() => {
@@ -1707,6 +1808,115 @@ describe('logic', () => {
             expect(() => {
                 logic.deleteFlight(userId, badFlightId)
             }).toThrow(Error('flightId is empty or blank'))
+        })
+    })
+
+
+    describe('send mail', () => {
+        const name = 'Leia'
+        const surname = 'Organa'
+        const email = `leia${Math.random()}@mail.com`
+        const password = `starwars${Math.random()}`
+
+        let userId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+        )
+
+        it('should succeed on correct data', () =>
+            logic.sendMail(userId, { subject: "bug drone", message: "The drone is bugged and i cant take off, SOS!!" })
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.status).toBe('OK')
+                })
+        )
+
+        it('should fail on unregistered user id', () =>
+            logic.sendMail('5c7e9271c926d43423d72b28', { subject: "bug drone", message: "The drone is bugged and i cant take off, SOS!!" })
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('Bad user authentication')
+                })
+        )
+
+        it('should fail on undefined userId', () => {
+            const badUserId = undefined
+            expect(() => {
+                logic.sendMail(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on numeric userId', () => {
+            const badUserId = 123
+            expect(() => {
+                logic.sendMail(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on boolean userId', () => {
+            const badUserId = true
+            expect(() => {
+                logic.sendMail(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on array userId', () => {
+            const badUserId = ['leia']
+            expect(() => {
+                logic.sendMail(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on object userId', () => {
+            const badUserId = { name: 'leia' }
+            expect(() => {
+                logic.sendMail(badUserId)
+            }).toThrow(TypeError(`${badUserId} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            const badUserId = ''
+            expect(() => {
+                logic.sendMail(badUserId)
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined object', () => {
+            const badObject = undefined
+            expect(() => {
+                logic.sendMail(userId, badObject)
+            }).toThrow(TypeError(`${badObject} is not an Object`))
+        })
+
+        it('should fail on numeric Object', () => {
+            const badObject = 123
+            expect(() => {
+                logic.sendMail(userId, badObject)
+            }).toThrow(TypeError(`${badObject} is not an Object`))
+        })
+
+        it('should fail on boolean Object', () => {
+            const badObject = true
+            expect(() => {
+                logic.sendMail(userId, badObject)
+            }).toThrow(TypeError(`${badObject} is not an Object`))
+        })
+
+        it('should fail on array userId', () => {
+            const badObject = ['leia']
+            expect(() => {
+                logic.sendMail(userId, badObject)
+            }).toThrow(TypeError(`${badObject} is an array`))
+        })
+
+        it('should fail on empty data', () => {
+            expect(() => {
+                logic.sendMail(userId, {})
+            }).toThrow(Error('data is empty or blank'))
         })
     })
 

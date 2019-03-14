@@ -162,7 +162,7 @@ const logic = {
 
         return Drone.findOne({ _id: droneId, owner: userId })
             .then(drone => {
-                if (!drone) throw new AuthError('You dont have permissions to delete this drone')
+                if (!drone) throw new AuthError('You dont have permissions to update this drone')
 
                 return Drone.findByIdAndUpdate(droneId, data, { runValidators: true })
             })
@@ -204,24 +204,48 @@ const logic = {
 
                         drone = new DroneApi(host, port)
 
+                        drone.history = []
+
                         drone.start()
 
-                        // drone.onMessage(message => console.log(`DRONE: ${message}`))
-                        drone.onMessage(message => drone.history.length > 0 ? drone.history[drone.history.length - 1].response = message.toString() : console.log(`DRONE: ${message}`))
+                        const onDroneMessage = new Promise(function (resolve, reject) {
+                            drone.onMessage(message => resolve(message))
+                        })
 
-                        drone.sendCommand('command', flight.id)
+                        drone.sendCommand('command', function (err) {
+                            if (err) throw Error(err)
 
-                        this.activeDrones.set(droneId, drone)
+                            drone.history.push({ command: 'command', date: new Date })
+                        })
 
-                        this.activeFLight.set('flightId', flight.id)
+                        this.activeDrones.set(droneId, { machine: drone, history: drone.history, flightId: flight.id })
 
-                        return { start: 'OK', history: [{ flightId: flight.id, command: 'command', response: 'OK', date: new Date }] }
+                        return onDroneMessage.then(message => {
+                            if (drone.history.length > 0) drone.history[drone.history.length - 1].response = message.toString()
+
+                            return { start: 'OK', history: drone.history }
+                        })
+
                     })
             })
             .catch(({ message }) => {
                 throw Error(message)
             })
 
+    },
+
+
+    getDroneHistory(userId, droneId) {
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error('You don\'t have permissions')
+
+                let drone = this.activeDrones.get(droneId)
+
+                if (!drone) throw Error(`drone ${droneId} has been stopped`)
+
+                return { status: 'OK', history: drone.history }
+            })
     },
 
     stopDrone(userId, droneId) {
@@ -231,24 +255,41 @@ const logic = {
 
         this.activeDrones.delete(droneId)
 
-        const flightId = this.activeFLight.get('flightId')
-
-        if (!flightId) throw Error(`there is no fligh`)
-
-        this.activeFLight.delete('flightId')
-
         return Drone.findById(droneId)
             .then(droneRes => {
 
                 if (!droneRes) throw Error('drone not found it')
 
-                drone.sendCommand('land', flightId)
+                const onDroneMessage = new Promise(function (resolve, reject) {
+                    drone.machine.onMessage(message => resolve(message))
+                })
 
-                const history = drone.history
+                drone.machine.sendCommand('land', function (err) {
+                    if (err) throw new DroneError(err)
 
-                drone.stop()
+                    drone.history.push({ command: 'land', date: new Date })
+                })
 
-                return { stop: 'OK', history }
+                return onDroneMessage.then(message => {
+                    if (drone.history.length > 0) drone.history[drone.history.length - 1].response = message.toString()
+
+                    drone.machine.stop()
+
+                    const history = drone.history
+
+                    drone.history = []
+
+                    console.log('history')
+
+                    return Flight.findByIdAndUpdate(drone.flightId, { end: new Date, history })
+                        .then(res => {
+                            console.log('hello world')
+
+                            if (!res) throw Error('impossible to update the flight')
+
+                            return { stop: 'OK', history }
+                        })
+                })
             })
     },
 
@@ -256,8 +297,6 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
 
         if (!userId.trim().length) throw new EmptyError('userId cannot be empty')
-
-        const flightId = this.activeFLight.get('flightId')
 
         return User.findById(userId)
             .then(user => {
@@ -267,9 +306,21 @@ const logic = {
 
                 if (!drone) throw Error(`the drone with id ${droneId} is not active`)
 
-                drone.sendCommand(command, flightId)
+                const onDroneMessage = new Promise(function (resolve, reject) {
+                    drone.machine.onMessage(message => resolve(message))
+                })
 
-                return { command: 'OK', history: drone.history }
+                drone.machine.sendCommand(command, function (err) {
+                    if (err) throw new DroneError(err)
+
+                    drone.history.push({ command, date: new Date })
+                })
+
+                return onDroneMessage.then(message => {
+                    if (drone.history.length > 0) drone.history[drone.history.length - 1].response = message.toString()
+
+                    return { command: 'OK', history: drone.history }
+                })
             })
     },
 
@@ -280,7 +331,7 @@ const logic = {
 
         return Drone.findById(droneId)
             .then(drone => {
-                if (!drone) throw new EmptyError(`No drone with id ${drone.id}`)
+                if (!drone) throw new EmptyError(`No drone with id ${droneId}`)
 
                 return Flight.create({ userId, droneId })
             })
@@ -318,7 +369,7 @@ const logic = {
 
         return Flight.findOne({ _id: flightId, userId: userId })
             .then(flight => {
-                if (!flight) throw new AuthError('You dont have permissions to delete this flight')
+                if (!flight) throw new AuthError('You dont have permissions to update this flight')
 
                 return Flight.findByIdAndUpdate(flightId, data, { runValidators: true })
 
@@ -342,6 +393,9 @@ const logic = {
             })
 
     },
+
+
+    // END FLIGHT CRUD
 
     sendMail(userId, data) {
         validate([{ key: 'userId', value: userId, type: String }, { key: 'data', value: data, type: Object }])
@@ -369,6 +423,10 @@ const logic = {
                 return { status: 'OK' }
             })
     }
+
+    //END  MAILING
+
+
 
 }
 

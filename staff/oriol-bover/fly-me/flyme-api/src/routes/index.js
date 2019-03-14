@@ -20,6 +20,7 @@ const { registerUser,
     updateDrone,
     deleteDrone,
     startDrone,
+    getDroneHistory,
     stopDrone,
     sendDroneCommand,
     addFlight,
@@ -69,6 +70,8 @@ router.post('/drone/start', [jsonBodyParser, tokenVerifierMiddleware], startDron
 router.post('/drone/stop', [jsonBodyParser, tokenVerifierMiddleware], stopDrone)
 
 router.post('/drone/command', [jsonBodyParser, tokenVerifierMiddleware], sendDroneCommand)
+
+router.post('/drone/history', [jsonBodyParser, tokenVerifierMiddleware], getDroneHistory)
 
 //flights
 router.post('/flight', [jsonBodyParser, tokenVerifierMiddleware], addFlight)

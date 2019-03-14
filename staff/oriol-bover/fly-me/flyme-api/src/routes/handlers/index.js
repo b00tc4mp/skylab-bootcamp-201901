@@ -12,6 +12,7 @@ module.exports = {
     deleteDrone: require('./delete-drone'),
     startDrone: require('./start-drone'),
     stopDrone: require('./stop-drone'),
+    getDroneHistory: require('./get-history'),
     sendDroneCommand: require('./send-drone-command'),
     addFlight: require('./add-flight'),
     retrieveFlights: require('./retrieve-flights'),
