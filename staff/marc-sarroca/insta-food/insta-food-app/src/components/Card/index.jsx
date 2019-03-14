@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./index.sass";
 import AddComment from "./AddComment";
@@ -15,7 +15,7 @@ function Card({
   username,
   postUserId,
   countfavs,
-  call
+  call = () => {}
 }) {
   const [commentsPost, setComments] = useState("");
   const { user } = useContext(UserContext);
@@ -34,8 +34,6 @@ function Card({
   useEffect(() => {
     setComments(comments);
   }, [comments]);
-
-  console.log(commentsPost);
 
   return (
     <div className="card">
@@ -57,10 +55,10 @@ function Card({
           {description.split(" ").map(res => {
             if (res.includes("#"))
               return (
-                <Fragment>
+                <div>
                   <Link to={`/search/${res.substring(1)}`}>{res}</Link>
                   <span> </span>
-                </Fragment>
+                </div>
               );
             return <span>{res + " "}</span>;
           })}

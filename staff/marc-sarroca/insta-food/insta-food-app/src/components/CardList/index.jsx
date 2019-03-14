@@ -32,8 +32,6 @@ function CardList() {
     retrieveUserFavs();
   };
 
-  console.log(posts);
-
   return (
     <Masonry
       elementType={"section"}

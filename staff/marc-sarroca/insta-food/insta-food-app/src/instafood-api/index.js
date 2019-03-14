@@ -76,7 +76,7 @@ const instaApi = {
       });
   },
 
-  createPost({ title, description, image, token, userId }) {
+  createPost(title, description, image, userId, token) {
     if (typeof title !== "string") throw TypeError(`${title} is not a string`);
     if (!title.trim().length) throw Error("title is empty");
     if (typeof description !== "string")

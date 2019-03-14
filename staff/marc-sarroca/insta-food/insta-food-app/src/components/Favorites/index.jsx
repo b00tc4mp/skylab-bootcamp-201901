@@ -30,6 +30,7 @@ const Favorites = () => {
               postId={userFavorite._id}
               userFavorites={userFavorites}
               call={retrieveUserFavs}
+              countfavs={userFavorite.countfavs}
             />
           ))}
     </div>

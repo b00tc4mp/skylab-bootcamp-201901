@@ -1,22 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import logic from "../../logic";
 import storage from "../../firebase";
-import { UserContext } from "../../userContext";
 
 function AddPost() {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [image, setImage] = useState(null);
   const [percentage, setPercentage] = useState(0);
-  const { user } = useContext(UserContext);
-  const { token } = user;
 
   const handleTitleInput = event => setTitle(event.target.value);
   const handleDescriptionInput = event => setDescription(event.target.value);
 
   const handleFormSubmit = event => {
     event.preventDefault();
-    logic.createPost({ title, description, image, token });
+    logic.createPost(title, description, image);
   };
 
   const handleImageInput = e => {
