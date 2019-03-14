@@ -4,9 +4,9 @@
     "name": "test",
     "children": [
         {
-            "name": "testFile.txt",
+            "name": "test2",
             "open": false,
-            "type": "file",
+            "type": "folder",
             "position": 0
         }
     ]

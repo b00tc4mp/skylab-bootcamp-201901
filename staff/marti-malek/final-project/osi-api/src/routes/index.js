@@ -14,5 +14,6 @@ module.exports = {
     rename: require('./rename'),
     retrieveLevel: require('./retrieve-level'),
     removeFile: require('./remove-file'),
-    moveFile: require('./move-file')
+    moveFile: require('./move-file'),
+    moveDir: require('./move-dir')
 }

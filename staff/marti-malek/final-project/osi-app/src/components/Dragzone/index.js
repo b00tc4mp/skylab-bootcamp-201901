@@ -108,7 +108,7 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
             return logic.moveFile(oldPath, newPath)
                 .then(() => handleDivs())
         } else if (draggableTest.id === "folder" && droppingTest.id === "folder") {
-            return logic.moveFolderToFolder()    
+            return logic.moveFolder()    
         } else if (draggableTest.id === "folder" && droppingTest.id === "file") {
             console.error('Cannot move a folder into a file')
         } else {

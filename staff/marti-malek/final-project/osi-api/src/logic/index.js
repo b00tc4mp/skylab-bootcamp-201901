@@ -944,7 +944,7 @@ const logic = {
 
             /* Ascertains if the new file path exists, which shouldn't */
             if (fs.existsSync(newFileCompletePath)) throw Error('path to new file already exists')
-            
+
             let slices = oldFilePath.split('/')
 
             /* Obtains the path to the scope of the desired @.this.json  */
@@ -979,6 +979,7 @@ const logic = {
                 if (err) throw err
             })
 
+            /* Builds the path to the new @.this.json file */
             let pathToNewFolderJson = newFilePath.split('/').reverse()[1]
 
             /* Joins to the exact path to @.this.json */
@@ -991,8 +992,6 @@ const logic = {
 
             /* Parses the json buffer */
             let newJsonFile = JSON.parse(newJsonBuffer)
-
-            /*  */
 
             /* Get positions which aren't available from @.this.json children */
             let nonAvailablePositions = newJsonFile.children.map(child => {
@@ -1017,7 +1016,7 @@ const logic = {
             /* Pushes the child folder's data into the father's @.this.json file " */
             await newJsonFile.children.push(newChild)
 
-            
+
             /* Overwrites the father's current @.this.json file with the new one which has the updated children */
             await fs.promises.writeFile(jsonPathToNewFolder, JSON.stringify(newJsonFile, null, 4), err => {
                 if (err) throw err
@@ -1029,6 +1028,243 @@ const logic = {
             })
 
             return 'Done'
+        })()
+    },
+
+    moveDir(token, oldFolderPath, newFolderPath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof oldFolderPath !== 'string') throw TypeError(`${oldFolderPath} should be a string`)
+
+        if (!oldFolderPath.trim().length) throw Error('oldFolderPath cannot be empty')
+
+        if (typeof newFolderPath !== 'string') throw TypeError(`${newFolderPath} should be a string`)
+
+        if (!newFolderPath.trim().length) throw Error('newFolderPath cannot be empty')
+
+        return (async () => {
+            /* Extracts the user's id form it's token */
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            /* Builds the path to the folder to move */
+            const oldFolderCompletePath = path.join(`${__dirname}/../data/${data}`, oldFolderPath)
+
+            /* Builds the path to the parent folder where the folder will be moved */
+            const newFolderCompletePath = path.join(`${__dirname}/../data/${data}`, newFolderPath)
+
+            /* Ascertains if the folder path exists, which should */
+            if (!fs.existsSync(oldFolderCompletePath)) throw Error('path to file not found')
+
+            /* Ascertains if the new folder path exists, which shouldn't */
+            if (fs.existsSync(newFolderCompletePath)) throw Error('path to new file already exists')
+
+            /* Extracts the name of the directory to create */
+            let dirName = newFolderPath.split('/').reverse()[0]
+
+            let slices = newFolderPath.split('/')
+
+            /* Obtains the path to the scope of the desired @.this.json  */
+            let pathToJson = slices.reduce((accum, slice) => {
+                if (slice === slices[slices.length - 1]) return accum
+                return accum + '/' + slice
+            })
+
+            /* Builds the directory path based on the @newFolderPath given */
+            let directory = await path.join(`${__dirname}/../data/${data}`, newFolderPath)
+            
+            debugger
+
+            /* Ascertains if the directory exists, which shouldn't, and creates it */
+            if (!fs.existsSync(directory)) {
+
+                await fs.mkdir(directory, err => {
+                    if (err) throw err
+                })
+
+                debugger
+
+                /* Builds the path to the @.this.json file of the child directory */
+                let pathToChildJson = path.join(directory, '.this.json')
+
+                /* Writes the @.this.json in the child directory */
+                await fs.writeFile(pathToChildJson, JSON.stringify({
+                    open: false,
+                    type: 'folder',
+                    name: dirName,
+                    children: []
+                }, null, 4), err => {
+                    if (err) throw err
+                })
+
+                debugger
+
+                /* Joins to the exact path to @.this.json */
+                let jsonPath = path.join(`${__dirname}/../data/${data}`, pathToJson, '.this.json')
+
+                /* Reads the json file of the father directory, gets it as buffer */
+                let jsonBuffer = await fs.promises.readFile(jsonPath, err => {
+                    if (err) throw err
+                })
+
+                /* Parses the json buffer */
+                let jsonFile = JSON.parse(jsonBuffer)
+
+                /* Get positions which aren't available from @.this.json children */
+                let nonAvailablePositions = jsonFile.children.map(child => {
+                    return Number(child.position)
+                })
+
+                /* Searches for an available position */
+                let desiredPosition = 0
+
+                while (nonAvailablePositions.includes(desiredPosition)) {
+                    ++desiredPosition
+                }
+
+                /* Folder data model */
+                let newChild = {
+                    name: dirName,
+                    open: false,
+                    type: 'folder',
+                    position: desiredPosition
+                }
+
+                /* Pushes the child folder's data into the father's @.this.json file " */
+                await jsonFile.children.push(newChild)
+
+                /* Overwrites the father's current @.this.json file with the new one which has the child folder data */
+                await fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
+                    if (err) throw err
+                })
+
+                /* AT THIS POINT: New Folder created with empty @.this.json, parent folder's @.this.json file updated with new folder child */
+                /* TODO: Recreate contents of the old folder in the new one, with updated @.this.json, remove old folder recursively */
+
+            } else {
+                throw Error(`Folder ${dirName} already exists in ${directory}`)
+            }
+
+            debugger
+
+            // let slices = oldFolderPath.split('/')
+
+            // /* Obtains the path to the scope of the desired @.this.json  */
+            // let pathToJson = slices.reduce((accum, slice) => {
+            //     if (slices.length === 1) return ""
+            //     if (slice === slices[slices.length - 1]) return accum
+            //     return accum + '/' + slice
+            // })
+
+            // /* Ascertains that the path to @.this.json is correct */
+            // pathToJson = slices.length === 1 ? "" : pathToJson
+
+            // /* Joins to the exact path to @.this.json */
+            // let jsonPath = path.join(`${__dirname}/../data/${data}`, pathToJson, '.this.json')
+
+            // /* Reads the json file of the father directory, gets it as buffer */
+            // let jsonBuffer = await fs.promises.readFile(jsonPath, err => {
+            //     if (err) throw err
+            // })
+
+            // /* Parses the json buffer */
+            // let jsonFile = JSON.parse(jsonBuffer)
+
+            // /* Finds the index of the child folder to remove */
+            // let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === slices[slices.length - 1])
+
+            // /* Removes the child by it's index */
+            // jsonFile.children.splice(childToRemoveIndex, 1)
+
+            // /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+            // await fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
+            //     if (err) throw err
+            // })
+
+            // /* Builds the path to the new @.this.json file */
+            // let pathToNewFolderJson = newFolderPath.split('/').reverse()[1]
+
+            // /* Joins to the exact path to @.this.json */
+            // let jsonPathToNewFolder = path.join(`${__dirname}/../data/${data}`, pathToNewFolderJson, '.this.json')
+
+            // /* Reads the json file of the new father directory, gets it as buffer */
+            // let newJsonBuffer = await fs.promises.readFile(jsonPathToNewFolder, err => {
+            //     if (err) throw err
+            // })
+
+            // /* Parses the json buffer */
+            // let newJsonFile = JSON.parse(newJsonBuffer)
+
+            // // /* Get positions which aren't available from @.this.json children */
+            // // let nonAvailablePositions = newJsonFile.children.map(child => {
+            // //     return Number(child.position)
+            // // })
+
+            // // /* Searches for an available position */
+            // // let desiredPosition = 0
+
+            // // while (nonAvailablePositions.includes(desiredPosition)) {
+            // //     ++desiredPosition
+            // // }
+
+            // // /* File data model */
+            // // let newChild = {
+            // //     name: newFolderPath.split('/').reverse()[0],
+            // //     open: false,
+            // //     type: 'file',
+            // //     position: desiredPosition
+            // // }
+
+            // // /* Pushes the child folder's data into the father's @.this.json file " */
+            // // await newJsonFile.children.push(newChild)
+
+
+            // /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+            // await fs.promises.writeFile(jsonPathToNewFolder, JSON.stringify(newJsonFile, null, 4), err => {
+            //     if (err) throw err
+            // })
+
+            // /* Creates the new folder */
+            // await fs.mkdir(newFolderCompletePath, err => {
+            //     if (err) throw err
+            // })
+
+            // /* Searches for the children of the folder to move */
+            // let dirChildren = await fs.promises.readdir(oldFolderCompletePath, err => {
+            //     if (err) throw err
+            // })
+
+            // /* Filters the children to remove the @.this.json file */
+            // let filteredChildren = dirChildren.filter(child => child !== '.this.json')
+
+            // filteredChildren.forEach(async child => {
+            //     let currentCompleteChildPath = path.join(oldFolderCompletePath, child)
+
+            //     let currentChildPath = path.join(oldFolderPath, child)
+
+            //     let newCompleteChildPath = path.join(newFolderCompletePath, child)
+
+            //     let newChildPath = path.join(newFolderPath, child)
+
+            //     /* Gets the childs status */
+            //     let fileStatus = await fs.lstat(currentCompleteChildPath)
+
+            //     /* Checks if the child is a directory and if so reruns the recursive movement on it, else moves the file */
+            //     if (fileStatus.isDirectory()) {
+            //         await moveDir(token, currentChildPath, newChildPath)
+            //     } else {
+            //         await fs.rename(currentCompleteChildPath, newCompleteChildPath, err => {
+            //             if (err) throw err
+            //         })
+            //     }
+
+            // })
+
+
+            // return 'Done'
         })()
     }
 }
