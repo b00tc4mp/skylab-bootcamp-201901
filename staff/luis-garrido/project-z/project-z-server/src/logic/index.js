@@ -551,7 +551,7 @@ const logic = {
                     // if (!!review.game.developers)
                     //     input.d = review.game.developers[0];
                     if (!!review.game.genres)
-                        input.g = review.game.genres[0];
+                        input.g = review.game.genres[0].toString();
                     // if (!!review.game.platform) input.pl = review.game.platform[0];
                     // if (!!review.game.publishers)
                     //     input.pu = review.game.publishers[0];
@@ -577,7 +577,7 @@ const logic = {
 
                 const dataToPrecog = {};
                 // if(!!finalScore) dataToPrecog.f = finalScore
-                if (!!genres) dataToPrecog.g = genres[0];
+                if (!!genres) dataToPrecog.g = genres[0].toString();
 
                 const precogScore = precog.run(dataToPrecog);
                 console.log(dataToTrain)
