@@ -1,6 +1,6 @@
 'use strict'
 
-const { models: { User, Product } } = require('cleanup-data')
+const { models: { User, Product, Order } } = require('cleanup-data')
 
 
 const logic = {
@@ -122,6 +122,15 @@ const logic = {
                         return products
                     })
             })
+    },
+
+    makeOrder(paymentMethod, status, products, userId) {
+        return (async () => {
+            console.log(userId);
+
+
+            await Order.create({ paymentMethod, status, products, userId })
+        })()
     },
 
 

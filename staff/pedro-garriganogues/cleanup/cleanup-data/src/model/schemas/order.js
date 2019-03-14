@@ -7,18 +7,15 @@ module.exports = new Schema({
     },
     status: {
         type: String,
-        enum: ['unpaid', 'rejected', 'processing', 'paid'],
-        default: 'unpaid'
+        enum: ['transaction pending', 'rejected', 'processing', 'paid'],
+        default: 'transaction pending'
     },
     products: [{
         type: ObjectId,
         ref: 'Product',
         required: true
     }],
-    orderAdress: {
-        type: String,
-        // required: true
-    },
+
     userId: {
         type: ObjectId,
         ref: 'User',

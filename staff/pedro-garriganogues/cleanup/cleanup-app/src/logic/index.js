@@ -104,12 +104,13 @@ const logic = {
 
     makeOrder(paymentMethod, products) {
 
-        return cleanUpApi.makeOrder(paymentMethod, this._orderStatus, products, this.__userApiToken__)
+        return cleanUpApi.makeOrder(paymentMethod, this._orderStatus, products, this.__userId__)
     },
 
     clearCart() {
         sessionStorage.removeItem('__userApiProducts__')
     },
+
 
 
 };

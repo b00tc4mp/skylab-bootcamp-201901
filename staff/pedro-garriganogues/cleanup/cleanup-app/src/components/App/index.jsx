@@ -44,7 +44,7 @@ class App extends Component {
 
 
     getItems = () => {
-        if (__userApiProducts__ && logic._cart !== 'undefined') {
+        if (logic._cart.length && logic._cart !== 'undefined') {
             logic.listProductsByIds()
                 .then(cart => this.setState({ cart, total: [], cartLength: logic.cart().length }))
         } else {

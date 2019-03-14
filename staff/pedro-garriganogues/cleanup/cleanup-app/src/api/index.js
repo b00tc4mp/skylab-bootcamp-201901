@@ -173,7 +173,23 @@ const cleanUpApi = {
     },
 
 
+    makeOrder(paymentMethod, status, products, userId) {
 
+        return (async () => {
+
+            return axios.post(this.url + '/order', { paymentMethod, status, products, userId }).then((_refmakeorder) => {
+
+            }).catch((err) => {
+
+                if (err.response) {
+                    var message = err.response.data.error;
+
+
+                    throw Error(message);
+                } else throw err;
+            });
+        })();
+    },
 
     listTheProducts() {
         return (async () => {
@@ -193,24 +209,7 @@ const cleanUpApi = {
                 })
         })()
     },
-    makeOrder: function makeOrder(paymentMethod, status, products, userId) {
-        var _thismakeorder = this;
 
-        return (async () => {
-
-            return axios.post(_thismakeorder.url + '/order', { paymentMethod: paymentMethod, status: status, products: products, userId: userId }).then(function (_refmakeorder) {
-
-            }).catch(function (err) {
-
-                if (err.response) {
-                    var message = err.response.data.error;
-
-
-                    throw Error(message);
-                } else throw err;
-            });
-        })();
-    },
 
 
 
