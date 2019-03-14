@@ -1,0 +1,20 @@
+extends ../layout
+
+include ../feedback/index
+include ../search/index
+include ../nav/index
+include ../nav-results/index
+
+block content
+    +nav(true)
+    +navResults(query, artistId)
+    section(class='results container p-3')
+        ul(class='row container')
+            each album in albums
+                li(class="card col-12 col-sm-6 col-md-4 col-lg-3 p-2")
+                        a(href=`/search&album=${album.id}` class='text-dark text-center link')
+                            if album.images[0]
+                                img(name='card-img-top', src=`${album.images[0].url}`, width='250px')
+                            else 
+                                img(name='card-img-top', src=`https://cdn.pixabay.com/photo/2016/06/01/09/21/music-1428660_960_720.jpg`, width='250px')
+                            p(name='card-title')= album.name

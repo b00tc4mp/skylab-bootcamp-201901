@@ -1,0 +1,8 @@
+mixin artists(artists)
+    section.artists.p-l-50.p-r-50.p-t-30.p-b-30
+        .artists-list
+            each artist in artists.items
+                - let image = artist.images[1] === undefined? '/images/image-not-found.jpg' : artist.images[1].url
+                a(href=`/albums/${artist.id}`, alt=`See albums of ${artist.name}`)
+                    .artist(style=`background-image: url('${image}');`)
+                    //- h4= artist.name
