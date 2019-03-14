@@ -16,8 +16,10 @@ class App extends Component {
   state = {
     player: null
   };
+
   handleLogin = (email, password) => {
     try {
+      debugger;
       logic
         .loginPlayer(email, password)
         .then(response => {
@@ -70,6 +72,11 @@ class App extends Component {
     logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
   };
 
+  handleLogout = () => {
+     logic.logout();
+    this.props.history.push("/login");
+  };
+
   componentDidMount() {
     const token = logic.getStoredtoken();
     if (!token) {
@@ -84,6 +91,7 @@ class App extends Component {
   render() {
     const {
       handleLogin,
+      handleLogout,
       handleRegister,
       handleSetAvailable,
       handleSetUnavailable
@@ -91,7 +99,7 @@ class App extends Component {
 
     return (
       <main>
-        <Header />
+        <Header onLogout={handleLogout} />
         <Grid container justify="center" spacing={24}>
           <Route
             path="/register"

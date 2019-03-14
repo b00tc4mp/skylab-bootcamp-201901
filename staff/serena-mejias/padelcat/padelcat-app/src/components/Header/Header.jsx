@@ -5,8 +5,15 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
+import logic from "../../logic";
 
 export const Header = props => {
+  
+  const handleOnClick = event => {
+    event.preventDefault();
+    props.onLogout();
+  };
+
   return (
     <div className={styles.container}>
       <AppBar position="static">
@@ -14,9 +21,21 @@ export const Header = props => {
           <Typography variant="h6" color="inherit" className={styles.grow}>
             <NavLink to={"/home"}>Padelcat</NavLink>
           </Typography>
-          <NavLink to={"/login"} className={styles.button}>
-            <Button color="inherit">Login</Button>
-          </NavLink>
+          {logic.isPlayerLoggedIn() && (
+            <Button
+              className={styles.button}
+              variant="contained"
+              color="inherit"
+              onClick={handleOnClick}
+            >
+              Logout
+            </Button>
+          )}
+          {!logic.isPlayerLoggedIn() && (
+            <NavLink to={"/register"} className={styles.button}>
+              <Button color="inherit">Register</Button>
+            </NavLink>
+          )}
         </Toolbar>
       </AppBar>
     </div>

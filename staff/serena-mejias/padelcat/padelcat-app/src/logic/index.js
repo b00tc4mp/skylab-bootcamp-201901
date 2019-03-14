@@ -92,6 +92,11 @@ const logic = {
     return !!token
   },
   
+  logout: () => {
+    debugger
+    sessionStorage.clear();
+  }, 
+
   storeToken: token => {
     padelcatApi.setUptokenOnRequest(token);
     sessionStorage.setItem("tokenKey", token);

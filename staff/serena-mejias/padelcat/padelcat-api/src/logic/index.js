@@ -3,7 +3,6 @@
 const { Player, Match, Team } = require("../models");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
-//const webData = require("../models/scrapping");
 const fs = require("fs");
 const webData = require("../models/scrapping/webData.json");
 const axios = require("axios");
@@ -51,7 +50,7 @@ const logic = {
         throw Error(`player wiith email ${player.email} already exists`);
       }
       const hash = await bcrypt.hash(password, 10);
-      const { id } = await Player.create({
+      const playerscore = await Player.create({
         name,
         surname,
         email,
@@ -59,8 +58,9 @@ const logic = {
         link,
         preferedPosition
       });
+      setScorePlayers(link)
       //a player le anyado un campo que es id
-      return id;
+      return playerscore;
     })();
   },
 

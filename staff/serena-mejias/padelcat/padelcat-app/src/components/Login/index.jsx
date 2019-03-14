@@ -9,8 +9,8 @@ const Login = props => {
 
   const { onLogin } = props;
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = event => {
+    event.preventDefault();
     onLogin(email, password);
   };
 
@@ -44,33 +44,5 @@ const Login = props => {
     </Grid>
   );
 };
-
-/*class Login extends Component {
-  state = { email: "", password: "" };
-
-  handleEmailInput = event => this.setState({ email: event.target.value });
-
-  handlePasswordInput = event =>
-    // esto sería
-    // setPassowrd(event.target.value)
-    this.setState({ password: event.target.value });
-
-  handleLoginSubmit = event => {
-    event.preventDefault();
-
-    const {
-      state: { email, password }
-    } = this;
-
-    const {
-      props: { onLogin }
-    } = this;
-    onLogin(email, password);
-  };
-
-  render() {
-    const { handleEmailInput, handlePasswordInput, handleLoginSubmit } = this;
-  }
-}*/
 
 export default Login;
