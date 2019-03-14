@@ -88,6 +88,7 @@ const logic = {
 
     logout() {
         this.__userApiToken__ = null;
+        sessionStorage.removeItem('homeSwapp-api-token')
     },
 
     /**
@@ -122,36 +123,30 @@ const logic = {
         return homeSwappApi.updateUser(this.getUserApiToken(), data)
     },
 
-    createHouse(token, images, description, info, adress) {
+    createHouse(images, description, info, adress) {
 
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
         if (typeof images !== 'object') throw Error(`${images} is not an array`)
         if (images.length == 0) throw Error('There must be at least one image')
         if (typeof description !== 'string') throw Error(`${description} is not a string`)
         if (typeof info !== 'object') throw Error(`${info} is not an object`)
         if (typeof adress !== 'object') throw Error(`${adress} is not an object`)
 
-        return homeSwappApi.createHouse(token, images, description, info, adress)
+        return homeSwappApi.createHouse(this.getUserApiToken(), images, description, info, adress)
 
 
     },
 
-    retrieveHouse(token, houseId) {
+    retrieveHouse(houseId) {
 
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
         if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
         if (!houseId.trim().length) throw Error('houseId is empty')
 
-        return homeSwappApi.retrieveHouse(token,houseId)
+        return homeSwappApi.retrieveHouse(this.getUserApiToken(), houseId)
 
     },
 
-    updateHouse(token, houseId, images, description, info, adress) {
+    updateHouse( houseId, images, description, info, adress) {
 
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
         if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
         if (!houseId.trim().length) throw Error('houseId is empty')
         if (typeof images !== 'object') throw Error(`${images} is not an array`)
@@ -160,23 +155,51 @@ const logic = {
         if (typeof info !== 'object') throw Error(`${info} is not an object`)
         if (typeof adress !== 'object') throw Error(`${adress} is not an object`)
 
-        return homeSwappApi.updateHouse(token, houseId, images, description, info, adress)
+        return homeSwappApi.updateHouse(this.getUserApiToken(), houseId, images, description, info, adress)
 
     },
 
-    deleteHouse(token, houseId) {
+    deleteHouse(houseId) {
 
 
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+
+
+        return homeSwappApi.deleteHouse(this.getUserApiToken(), houseId)
+    },
+
+
+    searchByQuery(query) {
+
+        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
+        if (!query.trim().length) throw Error('query is empty')
+
+        return homeSwappApi.searchByQuery(query)
+    },
+
+    retrieveMyHouses() {
+
         
-        if (typeof houseId!== 'string') throw TypeError(`${houseId} is not a string`)
-        if (!houseId.trim().length) throw Error('houseId is empty')
+        return homeSwappApi.retrieveMyHouses(this.getUserApiToken())
 
-
-        return homeSwappApi.deleteHouse(token,houseId)
     },
 
+    retrieveFavorites() {
+
+        
+        return homeSwappApi.retrieveFavorites(this.getUserApiToken())
+
+    },
+    
+    toggleFavorite(houseId) {
+        if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
+        if (!houseId.trim().length) throw Error('houseId is empty')
+        
+        return homeSwappApi.toggleFavorite(this.getUserApiToken(),houseId)
+
+    },
 }
 
 export default logic

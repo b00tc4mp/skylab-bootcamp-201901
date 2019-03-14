@@ -15,5 +15,13 @@ module.exports = {
 
     deleteHouse: require('./delete-house'),
 
-    notFound: require('./not-found')
+    notFound: require('./not-found'),
+
+    toggleFavorite : require('./toggle-favorites'),
+
+    retrieveMyHouses: require('./retrieve-user-myHouses'),
+
+    retrieveFavorites: require('./retrieve-user-favorites'),
+
+    retrieveHousesByQuery: require('./retrieve-housesQuery'),
 }

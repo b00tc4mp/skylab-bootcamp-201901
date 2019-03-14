@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+
 import './index.sass';
 
 
@@ -18,9 +20,9 @@ class LandingPage extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { query}, props: { onSearch } } = this
+        const { state: { query}, props: { history } } = this
 
-        onSearch(query)
+        history.push(`/search/${query}`)
     }
 
     render() {
@@ -56,4 +58,4 @@ class LandingPage extends Component {
 }
 
 
-export default LandingPage
+export default withRouter(LandingPage)

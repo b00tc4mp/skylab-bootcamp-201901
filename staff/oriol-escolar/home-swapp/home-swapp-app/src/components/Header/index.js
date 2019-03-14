@@ -13,33 +13,41 @@ class Header extends Component {
 
     }
 
-    componentWillReceiveProps(props){
+    componentDidMount(){
 
-        this.setState({user:props.user})
 
-    }    
-
-    goToRegister = event => {
-        event.preventDefault()
-
-        const { props: {handleGoToRegister} } = this
-
-        handleGoToRegister()
+        this.setState({ user: this.props.user })
         
 
     }
 
-    goToLogin= event => {
+    componentWillReceiveProps(props) {
+
+        this.setState({ user: props.user })
+
+    }
+
+    goToRegister = event => {
         event.preventDefault()
-        const { props: {handleGoToLogin} } = this
+
+        const { props: { handleGoToRegister } } = this
+
+        handleGoToRegister()
+
+
+    }
+
+    goToLogin = event => {
+        event.preventDefault()
+        const { props: { handleGoToLogin } } = this
         handleGoToLogin()
 
     }
 
     goToLanding = event => {
         event.preventDefault()
-        
-        const { props: {handleGoToLanding} } = this
+
+        const { props: { handleGoToLanding } } = this
 
         handleGoToLanding()
 
@@ -51,8 +59,8 @@ class Header extends Component {
         event.preventDefault()
 
         this.setState({ user: "" })
-        
-        const { props: {handleGoToLogout} } = this
+
+        const { props: { handleGoToLogout } } = this
 
         handleGoToLogout()
 
@@ -60,7 +68,7 @@ class Header extends Component {
     goToUser = event => {
         event.preventDefault()
 
-        const { props: {handleGoToUser} } = this
+        const { props: { handleGoToUser } } = this
 
         handleGoToUser()
 
@@ -69,29 +77,28 @@ class Header extends Component {
     goToConversations = event => {
         event.preventDefault()
 
-        const { props: {handleGoToConversations} } = this
+        const { props: { handleGoToConversations } } = this
 
         handleGoToConversations()
 
     }
 
 
-    renderUnloggedButtons(goToLogin,goToRegister){
-        
+    renderUnloggedButtons(goToLogin, goToRegister) {
+
         return <div className="header-unLoggedButtons">
 
             <button className="header-unLoggedButtons__login" onClick={goToLogin}>Login</button>
-            <button className="header-unLoggedButtons__register" onClick ={goToRegister}>Register</button>
+            <button className="header-unLoggedButtons__register" onClick={goToRegister}>Register</button>
         </div>
 
     }
 
-    renderloggedButtons(goToLogout,goToConversations,goToUser){
+    renderloggedButtons(goToLogout, goToConversations, goToUser) {
 
         return <div className="header-loggedButtons">
-
-            <img className="header-loggedButtons__messages" src="http://cdn.onlinewebfonts.com/svg/img_326000.png" onClick={goToConversations}></img>
-            <img className="header-loggedButtons__logout" src="http://cdn.onlinewebfonts.com/svg/img_235476.png" onClick ={goToLogout}></img>
+            <i className="fas fa-envelope header-loggedButtons__messages" onClick={goToConversations}></i>
+            <i className="fas fa-sign-out-alt header-loggedButtons__logout" onClick={goToLogout}></i>
             <img className="header-loggedButtons__userProfile" src="http://monumentfamilydentistry.com/wp-content/uploads/2015/11/user-placeholder.png" onClick={goToUser}></img>
         </div>
 
@@ -100,14 +107,14 @@ class Header extends Component {
 
     render() {
 
-        const { goToLogin, goToRegister, goToLanding, goToLogout,goToConversations,goToUser, renderUnloggedButtons,renderloggedButtons, state: { user } } = this
+        const { goToLogin, goToRegister, goToLanding, goToLogout, goToConversations, goToUser, renderUnloggedButtons, renderloggedButtons, state: { user } } = this
 
         return <div className="header">
 
 
             <img className="header__logo" src="https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo1.png" onClick={goToLanding}></img>
 
-            {user ? renderloggedButtons(goToLogout,goToConversations,goToUser):renderUnloggedButtons(goToLogin,goToRegister)}
+            {user ? renderloggedButtons(goToLogout, goToConversations, goToUser) : renderUnloggedButtons(goToLogin, goToRegister)}
 
 
         </div>

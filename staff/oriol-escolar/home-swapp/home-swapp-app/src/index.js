@@ -4,6 +4,10 @@ import {HashRouter} from 'react-router-dom'
 import './index.sass';
 import App from './components/App/';
 import * as serviceWorker from './serviceWorker';
+import logic from './logic'
+
+logic.setUserApiToken = token => token? sessionStorage.setItem('homeSwapp-api-token', token) : sessionStorage.removeItem('homeSwapp-api-token')
+logic.getUserApiToken = () => sessionStorage.getItem('homeSwapp-api-token')
 
 ReactDOM.render(
 
