@@ -14,8 +14,7 @@ class Welcome extends Component {
     }
 
     render() {
-        return (
-            
+        return ( 
         <Fragment>
             <Fragment>
                 <nav className="navbar navbar-expand-lg navigation fixed">
@@ -29,10 +28,10 @@ class Welcome extends Component {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="row navbar-nav mr-auto">
                         <li className="nav-item col-5">
-                            <Link to="/register">New? Register <i class="fas fa-user-plus"></i></Link>
+                            <Link to="/register">New? Register <i className="fas fa-user-plus"></i></Link>
                         </li>
                         <li className="nav-item col-5">
-                            <Link to="/login">Personal Area<i class="fas fa-users"></i></Link>
+                            <Link to="/login">Personal Area<i className="fas fa-users"></i></Link>
                         </li>
                     </ul>
                 </div>

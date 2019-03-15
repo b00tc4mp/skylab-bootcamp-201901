@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 import SideBar from '../SideBar'
 import UpdateUser from '../UpdateUser'
 import ContactForm from '../Contact'
@@ -34,10 +34,13 @@ class Home extends Component {
         this.props.history.push(`/home/editbook/${bookid}`)
     }
 
+
+    //render={() => logic.isUserLoggedIn ? <Redirect to="/home" />: <Redirect to="/welcome" />}/>
     render() {
         return (
             <div className="bodycontainer">
                 <SideBar logoutUser = {this.logoutUser}></SideBar>
+                <Route path="/home" render={() => logic.isUserLoggedIn ? <Redirect to="home/yourbooks" />: <Redirect to="/welcome" />}/>
                 <Route path="/home/newbook" component = {CreateBook} />
                 <Route exact path="/home/yourbooks" render={() => <YourBooks loadBook={this.loadBook} editBook={this.editBook}/> }/>
                 <Route path="/home/templatebooks" render={() => <TemplateBooks loadTemplateBook = {this.loadTemplateBook}/>} />

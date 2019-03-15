@@ -1,6 +1,6 @@
 'use strict'
 
-const { User, Book, BookTemplate} = require('../models')
+const { User, Book, BookTemplate} = require('book-data')
 const bcrypt = require('bcrypt')
 const Epub = require("epub-gen");
 const ObjectID = require('mongodb').ObjectID

@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
 import logic from '../../logic'
-import { toast } from 'react-toastify';
 
 
 class CardBook extends Component {
@@ -27,21 +26,14 @@ class CardBook extends Component {
         try{
             logic.downloadEpub(this.props.bookSelected._id)
                 .then(res => res.blob())
-                .then(blob => {
-                    toast.info("Generating epub... please wait", {
-                        position: toast.POSITION.BOTTOM_LEFT,
-                        autoClose: 5000
-                      });
-                    setTimeout(()=>{
-                        this.downloadEpubfase2()
-                    }, 5000)
-                })
+                .then(blob => {})
         } catch (error){
             console.log(error)
         }
     }
 
-    downloadEpubfase2 = () => {
+    downloadEpubfase2 = (event) => {
+        event.preventDefault()
         try{
             logic.downloadEpub(this.props.bookSelected._id)
                 .then(res => res.blob())
@@ -63,7 +55,9 @@ class CardBook extends Component {
     }
 
     render() {
+
         const book = this.props.bookSelected
+        console.log(book.coverphoto)
         return (
             <Fragment>
                 <div className="bookCard" >
@@ -97,9 +91,8 @@ class CardBook extends Component {
                             <button onClick={this.addBookToTemplates} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="Make this book a public template"><i class="fas fa-share"></i></button>
                             }
                             {/* <button className="butt--gener" onClick={this.downloadEpubfase1}>gen</button> */}
-                            <button onClick={this.downloadEpubfase1} className="butt butt--download" data-toggle="tooltip" data-placement="top" title="Download Epub"><i class="fas fa-file-download" download></i></button>
+                            <button onClick={this.downloadEpubfase2} className="butt butt--download" data-toggle="tooltip" data-placement="top" title="Download Epub"><i class="fas fa-file-download" download></i></button>
                         </div>
-                        <div className="containerSpinner"></div>
                     </div>
                 </div>
             </Fragment>

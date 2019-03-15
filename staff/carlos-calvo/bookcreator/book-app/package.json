@@ -19,7 +19,8 @@
     "react-flip-page": "^1.5.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
-    "react-toastify": "^4.5.2"
+    "react-toastify": "^4.5.2",
+    "spin.js": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

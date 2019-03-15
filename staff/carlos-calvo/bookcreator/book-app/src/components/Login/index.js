@@ -31,9 +31,9 @@ class Login extends Component {
                     this.props.updateToken()
                     this.goBack()
                 })
-                .catch(({ message }) => this.showLoginFeedback(message))
+                .catch(({ message }) => this.showLoginFeedback('Incorrect credentials'))
         } catch ({ message }) {
-          this.showLoginFeedback(message)
+          this.showLoginFeedback('Incorrect credentials')
         }
       }
 

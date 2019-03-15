@@ -1,7 +1,7 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
+const {mongoose, User, Book, BookTemplate} = require('book-data')
 const express = require('express')
 const bodyParser = require('body-parser')
 const tokenHelper = require('./token-helper')
@@ -28,7 +28,7 @@ const { registerUser,
     getEpub
  } = require('./routes')
 
-const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
+const { env: { MONGODB_URI: DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {

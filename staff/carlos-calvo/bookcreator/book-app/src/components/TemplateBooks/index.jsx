@@ -79,8 +79,7 @@ class TemplateBooks extends Component {
                     </div> 
                     :
                     <div className="cardContainer"><b>Ooops no books matching criteria</b></div>
-                }
-                    
+                }        
                 </div>
             </Fragment>
         )

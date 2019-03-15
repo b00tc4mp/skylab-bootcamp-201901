@@ -29,7 +29,7 @@ class Register extends Component {
 
         try {
             this.setState({ loginFeedback: '' })
-            logic.registerUser(name, surname, email, password, passwordConf)
+            return logic.registerUser(name, surname, email, password, passwordConf)
                 .then(() => this.props.history.push("/welcome"))
                 .catch(({ message }) => this.showLoginFeedback(message))
         } catch ({ message }) {
@@ -61,14 +61,10 @@ class Register extends Component {
                         <input type="password" value={this.state.password} placeholder="Enter Password" onChange={this.handlePasswordInput} required /><br/> 
                         <label htmlFor="psw"><b>Password</b></label>
                         <input type="password" value={this.state.passwordConf} placeholder="Re-Enter Password" onChange={this.handlePasswordConfInput} required /><br/>
-                        
-                        {/* <label>
-                        <input type="checkbox" checked="checked" name="remember"/> Remember me
-                        </label> */}
                     </div>
                     {this.state.loginFeedback && <Feedback message={this.state.loginFeedback} level="warn" />}
                     <div className="container-buttons">
-                        <button type="submit" className="but but--login">Login</button>
+                        <button type="submit" className="but but--login">Register</button>
                         <button type="button" className="but but--cancel" onClick={this.goBack}>Cancel</button>
                     </div>
 

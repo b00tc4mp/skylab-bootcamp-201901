@@ -18,6 +18,9 @@ class SideBar extends Component {
                         <Link className="sidenav-text" to="/home/profile">Your Profile <i className="far fa-user"></i></Link>
                         <Link className="sidenav-text" to="/home/contact">Contact Us <i className="far fa-envelope"></i></Link>
                         <Link className="sidenav-text" to ="/welcome" onClick={this.logoutUser}>LogOut <i className="fas fa-sign-out-alt"></i></Link>
+                        <a className="sidenav__icon" onclick="myFunction()">
+                            <i class="fa fa-bars"></i>
+                        </a>
                     </div>
             </Fragment>
         )

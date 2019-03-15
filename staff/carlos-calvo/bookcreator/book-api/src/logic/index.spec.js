@@ -3,8 +3,7 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
-const { User, Book, BookTemplate } = require('../models')
+const { mongoose, User, Book, BookTemplate } = require('book-data')
 const ObjectID = require('mongodb').ObjectID
 const expect = require('expect')
 const logic = require('.')

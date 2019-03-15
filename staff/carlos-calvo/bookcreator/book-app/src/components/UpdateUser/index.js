@@ -56,7 +56,6 @@ class UpdateUser extends Component {
     render() {
         return (
             <Fragment>
-
                 <div className="coverright">
                     <div className="formcontact">
                         <form onSubmit={this.handleFormSubmit}>
@@ -75,7 +74,6 @@ class UpdateUser extends Component {
                                     <button type="submit" className="btn btn-info">Update</button>
                                 </div>
                                 {this.state.loginFeedback && <Feedback message={this.state.loginFeedback} level="warn" />}
-
                             </div>
                         </form>
                     </div>
