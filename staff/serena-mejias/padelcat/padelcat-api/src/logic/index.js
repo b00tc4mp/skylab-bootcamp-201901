@@ -1,15 +1,11 @@
 "use strict";
 
-const { Player, Match, Team } = require("../models");
+const {
+  models: { Player, Match, Team }
+} = require("padelcat-data");
 const bcrypt = require("bcrypt");
-const mongoose = require("mongoose");
 const axios = require("axios");
 const cheerio = require("cheerio");
-
-const {
-  SchemaTypes: { ObjectId },
-  Schema
-} = mongoose;
 
 const logic = {
   /**
@@ -30,7 +26,15 @@ const logic = {
    *
    */
 
-  registerPlayer(admin, name, surname, email, password, link, preferedPosition) {
+  registerPlayer(
+    name,
+    surname,
+    email,
+    password,
+    link,
+    preferedPosition,
+    admin
+  ) {
     //if (typeof admin !== "boolean") throw TypeError(`${admin} is not boolean`);
 
     if (typeof name !== "string") throw TypeError(`${name} is not string`);
@@ -50,21 +54,34 @@ const logic = {
       if (player) {
         throw Error(`player wiith email ${player.email} already exists`);
       }
-      const hash = await bcrypt.hash(password, 10);
-      const {id} = await Player.create({
-        admin,
-        name,
-        surname,
-        email,
-        password: hash,
-        link,
-        preferedPosition
-      });
-      await this.setScorePlayers(link)
-      return id;
+      if (admin) {
+        const hash = await bcrypt.hash(password, 10);
+        const { id } = await Player.create({
+          name,
+          surname,
+          email,
+          password: hash,
+          link,
+          preferedPosition,
+          admin
+        });
+        await this.setScorePlayers(link);
+        return id;
+      } else {
+        const hash = await bcrypt.hash(password, 10);
+        const { id } = await Player.create({
+          name,
+          surname,
+          email,
+          password: hash,
+          link,
+          preferedPosition
+        });
+        await this.setScorePlayers(link);
+        return id;
+      }
     })();
   },
-
 
   /**
    * Authenticates player by its credentials.
@@ -96,21 +113,22 @@ const logic = {
   },
 
   retrievePlayers() {
-    return Player.find({}, (err, players) => {
-      if (!err) {
-        return players;
-      } else {
-        throw err;
-      }
-    });
+    return (async () => {
+      const players = await Player.find()
+      if(!players) throw Error(`There are no players in data`)
+      return players
+    })();
   },
 
   getPlayerById(playerId) {
+    //if (typeof playerId !== "string") throw TypeError(`${playerId} is not string`);
+    //if (!playerId.trim().length) throw Error("playerId cannot be empty");
     return (async () => {
-      const player = await Player.findById(playerId); 
+      const player = await Player.findById(playerId);
+      if(!player) throw Error(`playerId doesn't exist`)
+
       return player;
-      
-    })()
+    })();
   },
 
   retrieveScoreScrapping() {
@@ -233,7 +251,9 @@ const logic = {
     return (async () => {
       const dataMatches = await this.retrieveMatchesScrapping();
       const newArray = dataMatches.map(async scrappingMatch => {
-        const match = await Match.findOne({ matchId: scrappingMatch.matchId }).populate("playersAvailable");
+        const match = await Match.findOne({
+          matchId: scrappingMatch.matchId
+        }).populate("playersAvailable");
         const {
           matchId,
           date,
@@ -319,7 +339,7 @@ const logic = {
         );
       }
     })();
-  },
+  }
 
   // retrieveAvailabilityPlayers(matchId) {
   //   return (async () => {

@@ -2,14 +2,14 @@ require("dotenv").config();
 
 require("isomorphic-fetch");
 
-const mongoose = require("mongoose");
+const { mongoose } = require("padelcat-data");
 const express = require("express");
 const tokenHelper = require("./token-helper");
 const router = require("./routes");
 
 const {
   env: { DB_URL, PORT, JWT_SECRET },
-  argv: [, , port = PORT || 8000]
+  argv: [, , port = PORT || 8080]
 } = process;
 
 mongoose

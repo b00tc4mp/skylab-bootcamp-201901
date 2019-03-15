@@ -1,14 +1,14 @@
 const logic = require("../../logic");
 module.exports = (req, res) => {
   const {
-    body: { admin, name, surname, email, password, link, preferedPosition }
+    body: { name, surname, email, password, link, preferedPosition, admin }
   } = req;
   try {
-    debugger
     logic
-      .registerPlayer(admin, name, surname, email, password, link, preferedPosition)
+      .registerPlayer(name, surname, email, password, link, preferedPosition,admin)
       .then(id=> res.json({id}))
-      .catch(err => {throw Error(err)});
+      .catch(err => {
+        throw Error(err)});
   } catch (err) {
     throw Error(err);
   }

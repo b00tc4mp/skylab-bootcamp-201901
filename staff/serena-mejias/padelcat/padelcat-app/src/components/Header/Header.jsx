@@ -36,6 +36,11 @@ export const Header = props => {
               <Button color="inherit">Register</Button>
             </NavLink>
           )}
+          {"pathname=/register?" && (
+            <NavLink to={"/login"} className={styles.button}>
+              <Button color="inherit">Login</Button>
+            </NavLink>
+          )}
         </Toolbar>
       </AppBar>
     </div>

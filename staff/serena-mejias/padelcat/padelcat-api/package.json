@@ -26,6 +26,8 @@
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.15",
     "nodemon": "^1.18.10",
+    "nyc": "^13.3.0",
+    "padelcat-data": "file:../padelcat-data",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

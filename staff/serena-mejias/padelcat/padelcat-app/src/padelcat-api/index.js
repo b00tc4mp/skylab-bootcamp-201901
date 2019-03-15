@@ -43,7 +43,6 @@ const padelcatApi = {
       throw TypeError(`${passwordConfirm} is not a string`);
     if (!passwordConfirm.trim().length)
       throw Error("password confirm is empty");
-
     return axios.post(
       "/register",
       JSON.stringify({
@@ -54,8 +53,9 @@ const padelcatApi = {
         passwordConfirm,
         preferedPosition,
         link
-      })
-    );
+      }), {
+        headers: { "content-type": "application/json" }
+      });
   },
 
   authenticatePlayer: (email, password) => {

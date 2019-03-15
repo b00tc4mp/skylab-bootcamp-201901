@@ -48,16 +48,15 @@ const logic = {
     if (typeof link !== "string") throw TypeError(link + " is not a string");
 
     if (!link.trim().length) throw Error("link cannot be empty");
-
     return padelcatApi
-      .registerPlayer(
-        name,
-        surname,
-        email,
-        password,
-        passwordConfirm,
-        preferedPosition,
-        link
+    .registerPlayer(
+      name,
+      surname,
+      email,
+      password,
+      passwordConfirm,
+      preferedPosition,
+      link
       )
       .then(() => {});
   },
