@@ -190,17 +190,24 @@ const logic = {
     retrieveHouse(houseId) {
         if (typeof houseId !== 'string') throw Error(`${houseId} is not a valid id`)
 
-        return House.findById(houseId)
+        return House.findById(houseId).lean()
+
             .then(house => {
 
                 if (!house) throw Error(`house with id ${houseId} not found`)
 
+                
+                return User.findById(house.ownerId).lean()
+                .then(user=>{
 
-                house.id = house._id.toString()
+                    house.id = house._id.toString()
+                    delete house._id
 
-                delete house._id
+                    house.owner = user.username
+    
+                    return house
 
-                return house
+                })
             })
 
     },

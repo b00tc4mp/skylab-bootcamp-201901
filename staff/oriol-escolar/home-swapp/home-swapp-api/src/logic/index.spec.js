@@ -704,7 +704,7 @@ describe('logic', () => {
                 .then(hash => User.create({ username, email, password: hash }))
                 .then(({ id }) => userId = id)
                 .then(() => { return logic.createHouse(userId, images, description, info, adress) })
-                .then(house => houseId = house._id.toString())
+                .then(house => houseId = house.id.toString())
         )
 
         it('should succeed on correct data', () =>
