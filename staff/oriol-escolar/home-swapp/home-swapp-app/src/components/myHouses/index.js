@@ -24,24 +24,30 @@ class MyHouses extends Component {
     }
 
 
-    deleteHouseList = (id)=> {
+    deleteHouseList = (id) => {
 
-        const { state: { myHouses }, props:{updateInfo}} = this
+        const { state: { myHouses }, props: { updateInfo } } = this
 
         let index = myHouses.indexOf(id)
 
-        myHouses.splice(index,1)
+        myHouses.splice(index, 1)
 
-        this.setState({myHouses})
+        this.setState({ myHouses })
         updateInfo()
 
     }
 
-    listMyHouses = (userHouses, updateInfo) => {
+
+    onCreateHousePage = () => {
+
+        this.props.onCreateHousePage()
+    }
+
+    listMyHouses = (userHouses, updateInfo,retrieveHouse) => {
 
         return userHouses.map(house => {
 
-            return <HouseCard house={house} updateInfo={updateInfo} deleteHouseList={this.deleteHouseList} origin='myHouses' />
+            return <HouseCard house={house} updateInfo={updateInfo} deleteHouseList={this.deleteHouseList} retrieveHouse={retrieveHouse} origin='myHouses' />
         });
     }
 
@@ -49,17 +55,17 @@ class MyHouses extends Component {
 
     render() {
 
-        const { listMyHouses, state: {  myHouses }, props: { updateInfo } } = this
+        const { listMyHouses, onCreateHousePage, state: { myHouses }, props: { updateInfo,retrieveHouse } } = this
 
 
         return <div className="myHouses" >
-            <h1 className="myHouses__title">MY HOUSES</h1>
+            <h1 className="myHouses__title" >MY HOUSES</h1>
 
             <div className="myHouses__content">
-                <CreateHouseCard></CreateHouseCard>
+                <CreateHouseCard onCreateHousePage={onCreateHousePage} />
 
 
-                {myHouses && listMyHouses(myHouses, updateInfo)}
+                {myHouses && listMyHouses(myHouses, updateInfo,retrieveHouse)}
 
 
             </div>

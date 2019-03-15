@@ -5,7 +5,7 @@ import { debug } from "util";
 const homeSwappApi = {
     url: 'http://localhost:8000/api/',
 
-    registerUser(username, email, password,passwordConfirm) {
+    registerUser(username, email, password, passwordConfirm) {
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
         if (!email.trim().length) throw Error('email is empty')
@@ -19,7 +19,7 @@ const homeSwappApi = {
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
         if (!passwordConfirm.trim().length) throw Error('passwordConfirm is empty')
 
-        if(password !== passwordConfirm) throw Error ('Password and Password confirmation do not match')
+        if (password !== passwordConfirm) throw Error('Password and Password confirmation do not match')
 
 
 
@@ -33,8 +33,8 @@ const homeSwappApi = {
         })
             .then(response => response.json())
             .then(response => {
-                
-                if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response
 
@@ -57,15 +57,15 @@ const homeSwappApi = {
         })
             .then(response => response.json())
             .then(response => {
-                
-           if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response.token
             })
     },
 
     retrieveUser(token) {
-        
+
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -78,10 +78,10 @@ const homeSwappApi = {
             .then(response => response.json())
             .then(response => {
 
-           if(response.error) throw Error (response.error)
+                if (response.error) throw Error(response.error)
 
                 return response
-                
+
             })
     },
 
@@ -105,7 +105,7 @@ const homeSwappApi = {
             .then(response => response.json())
             .then(response => {
 
-                if(response.error) throw Error (response.error)
+                if (response.error) throw Error(response.error)
 
                 return response
             })
@@ -131,21 +131,20 @@ const homeSwappApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({images, description, info, adress})
+            body: JSON.stringify({ images, description, info, adress })
         })
             .then(response => response.json())
             .then(response => {
-              
-                if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response
             })
     },
 
-    retrieveHouse(token, houseId) {
+    retrieveHouse(houseId) {
 
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+
         if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
         if (!houseId.trim().length) throw Error('houseId is empty')
 
@@ -154,20 +153,18 @@ const homeSwappApi = {
 
         return fetch(`${this.url}/user/house/${houseId}`, {
             headers: {
-                authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
         })
             .then(response => response.json())
             .then(response => {
-              
-                if(response.error) throw Error (response.error)
 
+                if (response.error) throw Error(response.error)
                 return response
             })
     },
     updateHouse(token, houseId, images, description, info, adress) {
-        
+
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -186,21 +183,21 @@ const homeSwappApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({houseId, images, description, info, adress})
+            body: JSON.stringify({ houseId, images, description, info, adress })
         })
             .then(response => response.json())
             .then(response => {
-             
-                if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response
             })
     },
-    deleteHouse(token,houseId) {
-        
+    deleteHouse(token, houseId) {
+
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-        
+
         if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
         if (!houseId.trim().length) throw Error('houseId is empty')
 
@@ -210,12 +207,12 @@ const homeSwappApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({houseId})
+            body: JSON.stringify({ houseId })
         })
             .then(response => response.json())
             .then(response => {
-               
-                if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response
             })
@@ -223,7 +220,7 @@ const homeSwappApi = {
 
     searchByQuery(query) {
 
-        
+
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
         if (!query.trim().length) throw Error('query is empty')
 
@@ -237,20 +234,20 @@ const homeSwappApi = {
         })
             .then(response => response.json())
             .then(response => {
-              
-                if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response
             })
     },
 
 
-    
+
     retrieveMyHouses(token) {
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-        
+
 
 
 
@@ -262,8 +259,8 @@ const homeSwappApi = {
         })
             .then(response => response.json())
             .then(response => {
-              
-                if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response
             })
@@ -273,7 +270,7 @@ const homeSwappApi = {
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-        
+
 
 
 
@@ -285,8 +282,8 @@ const homeSwappApi = {
         })
             .then(response => response.json())
             .then(response => {
-              
-                if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response
             })
@@ -296,7 +293,7 @@ const homeSwappApi = {
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-       
+
         if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
         if (!houseId.trim().length) throw Error('houseId is empty')
 
@@ -307,12 +304,12 @@ const homeSwappApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({houseId})
+            body: JSON.stringify({ houseId })
         })
             .then(response => response.json())
             .then(response => {
-              
-                if(response.error) throw Error (response.error)
+
+                if (response.error) throw Error(response.error)
 
                 return response
             })

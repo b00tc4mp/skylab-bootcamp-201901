@@ -61,7 +61,7 @@ class SearchResults extends Component {
     }
 
 
-    listresults = (results, updateInfo) => {
+    listresults = (results, updateInfo,retrieveHouse) => {
        
 
         if (this.state.favorites) {
@@ -70,13 +70,13 @@ class SearchResults extends Component {
                 
                 let index = this.state.favorites.filter(fav => fav.id == house.id)
                 
-                return  <HouseCard key={house.id} house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={!!index.length} origin='search' />
+                return  <HouseCard key={house.id} house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={!!index.length} retrieveHouse={retrieveHouse} origin='search' />
             })
 
         }else{
 
             return results.map(house => {
-                return  <HouseCard key={house.id} house={house} origin='search' />
+                return  <HouseCard key={house.id} house={house} retrieveHouse={retrieveHouse} origin='search' />
             })
         }
     }
@@ -86,7 +86,7 @@ class SearchResults extends Component {
 
     render() {
 
-        const { listresults, state: { results }, props: { updateInfo } } = this
+        const { listresults, state: { results }, props: { updateInfo,retrieveHouse } } = this
 
 
         return <div className="results" >
@@ -95,7 +95,7 @@ class SearchResults extends Component {
             <div className="results__content">
 
 
-                {results && listresults(results, updateInfo)}
+                {results && listresults(results, updateInfo,retrieveHouse)}
 
 
             </div>

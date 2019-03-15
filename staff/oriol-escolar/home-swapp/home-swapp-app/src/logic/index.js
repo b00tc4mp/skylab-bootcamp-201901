@@ -141,7 +141,7 @@ const logic = {
         if (typeof houseId !== 'string') throw TypeError(`${houseId} is not a string`)
         if (!houseId.trim().length) throw Error('houseId is empty')
 
-        return homeSwappApi.retrieveHouse(this.getUserApiToken(), houseId)
+        return homeSwappApi.retrieveHouse(houseId)
 
     },
 

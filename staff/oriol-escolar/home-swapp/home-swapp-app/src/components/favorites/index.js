@@ -40,11 +40,11 @@ class Favorites extends Component {
     }
 
 
-    listMyFavorites = (favorites, updateInfo) => {
+    listMyFavorites = (favorites, updateInfo,retrieveHouse) => {
 
         return favorites.map(house => {
 
-            return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={true} origin='favorites' />
+            return <HouseCard house={house} updateInfo={updateInfo} toggleFavorite={this.toggleFavorite} isFav={true} retrieveHouse={retrieveHouse} origin='favorites' />
         });
     }
 
@@ -53,7 +53,7 @@ class Favorites extends Component {
 
     render() {
 
-        const { listMyFavorites, state: { favorites }, props: { updateInfo } } = this
+        const { listMyFavorites, state: { favorites }, props: { updateInfo,retrieveHouse } } = this
 
         return <div className="favorites" >
             <h1 className="favorites__title">FAVORITES</h1>
@@ -61,7 +61,7 @@ class Favorites extends Component {
 
             <div className="favorites__content">
 
-                {favorites && listMyFavorites(favorites, updateInfo)}
+                {favorites && listMyFavorites(favorites, updateInfo,retrieveHouse)}
 
             </div>
 
