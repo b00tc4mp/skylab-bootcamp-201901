@@ -78,7 +78,6 @@ const coworkingApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
-                console.log(response)
                 return response
             })
 
@@ -121,7 +120,7 @@ const coworkingApi = {
             .then(response => {
                 if (response.error) throw Error(response.error)
 
-                return response
+                return response.id
             })
     },
 
@@ -204,7 +203,7 @@ const coworkingApi = {
             .then(response => {
                 if (response.error) throw Error(response.error)
 
-                return response.serviceId
+                return response.id
             })
     },
 

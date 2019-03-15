@@ -13,8 +13,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "react-scripts build",    
+    "test": "react-scripts test --runInBand",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "test-coverage": "npm test -- --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -30,7 +30,6 @@ const logic = {
         if (password !== passwordConfirm) throw Error('passwords do not match')
 
         return coworkingApi.registerUser(name, surname, email, password, passwordConfirm)
-            .then(() => { })
     },
 
     /**
@@ -79,6 +78,7 @@ const logic = {
     },
 
     updateUser (...data) {
+
         return coworkingApi.updateUser(this.__coworkingApiToken__, data)
     },
 
@@ -99,11 +99,10 @@ const logic = {
         return coworkingApi.retrieveUserSubmitedServices(this.__coworkingApiToken__)
     },
 
-    createWorkspace(name, userId) {
-        validate([{ key: 'name', value: name, type: String },
-        { key: 'userId', value: userId, type: String }])
+    createWorkspace(name) {
+        validate([{ key: 'name', value: name, type: String }])
 
-        return coworkingApi.createWorkspace(name, userId)
+        return coworkingApi.createWorkspace(name, this.__coworkingApiToken__)
             .then((id) => id)
     },
 
