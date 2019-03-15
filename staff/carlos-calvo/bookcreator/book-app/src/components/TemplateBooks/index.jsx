@@ -49,7 +49,7 @@ class TemplateBooks extends Component {
     render = () => {
 
         const {state : { books } } = this
-
+        console.log(books)
         let booksfiltered = books.filter(book => {
                                 if(this.state.search = '') return true
                                 else {

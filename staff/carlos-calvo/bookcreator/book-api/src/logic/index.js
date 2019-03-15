@@ -183,7 +183,7 @@ const logic = {
         if (!(parameters instanceof Object)) throw TypeError(`${parameters} is not a Object`)
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new EmptyError('userId  is empty')
-        console.log(title, content, coverphoto, images, parameters, userId)
+
         
 
         return (async () => {
@@ -196,7 +196,6 @@ const logic = {
             
             //Check that user exists.
             const user = await User.findById(userId)
-            console.log(user)
             if(!user) throw new Error('UserId does not exist')
 
             const id  = await Book.create({title, content, coverphoto, images, parameters, 'userId' : ObjectID(userId)})
@@ -351,20 +350,21 @@ const logic = {
         if (!id.trim().length) throw new EmptyError('id  is empty')
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw new EmptyError('userId  is empty')
-
+        
         return (async () => {
             //Check that template exists
-            const result = await BookTemplate.findOne({'_id': ObjectID(id)})
+            const result = await BookTemplate.findOne({'_id': ObjectID(id)}).lean()
             if(!result) throw new Error('Book not existing')
-
+            let numDownloads = result.numDownloads + 1
+            
             //Check that book has been already been added
             const result2 = await Book.findOne({title: result.title, content: result.content, userId })
             if(result2) throw new Error('Already existing template in your books')
             
-            const book = Book.create({'title': result.title, 'content': result.content, 
+            const result3 = await BookTemplate.findOneAndUpdate({'_id': ObjectID(id)},{$set:{numDownloads}})
+            const book = await Book.create({'title': result.title, 'content': result.content, 
                 'coverphoto': result.coverphoto, 'parameters': result.parameters, 'images': result.images,
                 'userId': ObjectID(userId), isTemplate: true })
-
             return book
         })()
     },

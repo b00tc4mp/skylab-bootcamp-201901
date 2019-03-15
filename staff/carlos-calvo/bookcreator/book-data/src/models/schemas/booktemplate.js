@@ -21,6 +21,10 @@ const BookTemplate = new Schema({
 
     images: [String], //Array de strings de URL de photos
 
+    numDownloads: {
+        type: Number,
+        default: 0
+    }
 })
 
 
