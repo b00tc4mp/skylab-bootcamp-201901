@@ -52,7 +52,6 @@ class YourBooks extends Component {
         try {
             logic.retrieveBooks()
                 .then((books) => {
-                    console.log(books)
                     this.setState({books}, () => {})
             })
         } catch (error) {
