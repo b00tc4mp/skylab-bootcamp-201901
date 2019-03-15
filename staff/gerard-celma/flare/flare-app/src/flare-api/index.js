@@ -1,8 +1,8 @@
 'use strict'
 
 const flareApi = {
-    url: "http://localhost:8000/api",
-    // url: 'https://stark-basin-28669.herokuapp.com/api',
+    // url: "http://localhost:8000/api",
+    url: 'https://stark-basin-28669.herokuapp.com/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
