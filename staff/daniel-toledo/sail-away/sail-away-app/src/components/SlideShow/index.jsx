@@ -7,8 +7,7 @@ import logic from '../../logic'
 import './index.sass'
 
 function SlideShow({ pictures }) {
-    debugger
-    
+     
     pictures = pictures.length? pictures : ['https://www.pngkey.com/png/detail/107-1072091_computer-icons-user-profile-facebook-instagram-instagram-profile.png']
     let [slideIndex, setSlideIndex] = useState(0)
 

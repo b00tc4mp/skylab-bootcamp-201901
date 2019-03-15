@@ -1,5 +1,5 @@
 const logic = require('../logic')
-const {createToken} = require('../token-helper')
+const {createToken} = require('../middlewares/token-helper')
 
 module.exports = (req, res) => {
     const { body: { email, password } } = req

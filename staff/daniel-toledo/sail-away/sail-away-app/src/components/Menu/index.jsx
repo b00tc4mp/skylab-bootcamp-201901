@@ -21,10 +21,10 @@ function Menu(props) {
     return (
         <section className="menu">
             <button onClick={handleMyProfile}>My Profile</button>
-            <button onClick={() => props.history.push(`/edit-profile/userId`)}>Edit Profile</button>
-            <button onClick={() => props.history.push(`/journyes/userId`)}>My Journeys</button>
+            <button onClick={() => props.history.push(`/edit-profile`)}>Edit Profile</button>
+            <button onClick={() => props.history.push(`/my-journeys`)}>My Journeys</button>
             <button onClick={() => props.history.push(`/create-journey/userId`)}>Create Journey</button>
-            <button onClick={() => props.history.push(`/favorites/userId`)}>Favorites</button>
+            <button onClick={() => props.history.push(`/favorites/`)}>Favorites</button>
         </section>)
 }
 

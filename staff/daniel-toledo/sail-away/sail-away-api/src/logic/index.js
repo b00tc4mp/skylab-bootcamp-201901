@@ -91,11 +91,43 @@ const logic = {
 
                 return user
             })
-            .catch(error=> {throw Error(`user with id ${userId} not found`)})
+            .catch(error => { throw Error(`user with id ${userId} not found`) })
+    },
+
+    searchUsers(talents, languages) {
+        //TODO
+
+        return (async () => {
+            let results
+            let talentsToFilter = []
+            let languagesToFilter = []
+
+            talents.forEach(talent => talentsToFilter.push({ "talents": talent }))
+            languages.forEach(language => languagesToFilter.push({ "languages": language }))
+
+            if (!talents.length && !languages.length) results = await User.find()
+            else if (!talents.length) results = await User.find({ $or: languagesToFilter }).lean()
+            else if (!languages.length) results = await User.find({ $or: talentsToFilter }).lean()
+            else results = await User.find({ $and: [{ $or: talentsToFilter }, { $or: languagesToFilter }] }).lean()
+          
+            results.map(result => {
+                result.id = result._id.toString()
+                delete result._id
+                delete result.__v
+              
+                return result
+            })
+          
+
+            return results
+
+        })()
+
+
     },
 
     updateUser(userId, data) {
-        debugger
+      
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -103,7 +135,7 @@ const logic = {
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
         return (async () => {
-            const result = await User.findByIdAndUpdate(userId, { $set: data }, { new: true }).select('-__v').lean()
+            const result = await User.findByIdAndUpdate(userId, { $set: data }, { new: true, runValidators: true }).select('-__v').lean()
 
             if (!result) throw Error('journey could not be updated')
             else {
@@ -111,6 +143,27 @@ const logic = {
                 delete result._id
                 return result
             }
+        })()
+    },
+
+    updateUserPicture(userId, url) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
+        if (!url.trim().length) throw Error('url is empty')
+
+        return (async () => {
+            let user = await User.findById(userId).select('-password -__v').lean()
+            let pictures = [...user.pictures, url]
+
+            user = await User.findByIdAndUpdate(userId, { pictures }, { new: true, runValidators: true }).select('-__v ').lean()
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            user.id = user._id.toString()
+            delete user._id
+
+            return user
         })()
     },
 
@@ -151,12 +204,12 @@ const logic = {
         if (!Object.keys(lookingFor).length) throw Error('lookingFor cannot be empty')
 
         let user = await User.findById(userId.toString())
-      
+
         if (user.kind != 'captain') throw Error('user cannot create a journey')
         if (!(user.boats.find(b => b.toString() === boat.toString()))) throw Error('boat dose not belong to user')
 
         return (async () => {
-           
+
             const journey = new Journey({ title, seaId, route, dates, description, userId, boat, lookingFor })
             await journey.save()
             return journey.id
@@ -168,32 +221,33 @@ const logic = {
         if (!id.trim().length) throw Error('id cannot be empty')
 
 
-            return (async () => {
-                const result = await Journey.findById(id).select('-__v').lean()
-                if (!result) return { error: 'journey not found' }
-                else {
-                    result.id = result._id.toString()
-                    delete result._id
-                    return result
-                }
-            })()
+        return (async () => {
+            const result = await Journey.findById(id).select('-__v').lean()
+            if (!result) return { error: 'journey not found' }
+            else {
+                result.id = result._id.toString()
+                delete result._id
+                return result
+            }
+        })()
 
     },
 
-    // listJourneys() {
-    //     return (async () => {
-    //         const results = await Journey.find().lean()
+    myJourneys(userId) {
+        return (async () => {
+            userId = ObjectId(userId)
+            const results = await Journey.find({ userId }).lean()
 
-    //         results.map(result => {
-    //             result.id = result._id.toString()
-    //             delete result._id
-    //             delete result.__v
-    //             return result
-    //         })
+            results.map(result => {
+                result.id = result._id.toString()
+                delete result._id
+                delete result.__v
+                return result
+            })
 
-    //         return results
-    //     })()
-    // },
+            return results
+        })()
+    },
 
     searchJourneys(query) {
         if (typeof query !== 'string') throw TypeError(query + ' is not a string')
@@ -201,7 +255,7 @@ const logic = {
 
         return (async () => {
             const results = await Journey.find({ seaId: query }).lean()
-            debugger
+
             results.map(result => {
                 result.id = result._id.toString()
                 delete result._id
@@ -243,7 +297,63 @@ const logic = {
     //         return id
     //     })()
 
-    // }
+    // },
+
+    toggleFavoriteJourney(userId, journeyId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string');
+        if (!userId.trim().length) throw Error('userId cannot be empty');
+
+        if (typeof journeyId !== 'string') throw TypeError(journeyId + ' is not a string')
+        if (!journeyId.trim().length) throw Error('journeyId cannot be empty')
+
+        return (async () => {
+            let user = await User.findById(userId).select('-password -__v').lean()
+            
+            let favoriteJourneys = user.favoriteJourneys
+
+            let index = favoriteJourneys.indexOf(journeyId)
+        
+            if (index != -1) favoriteJourneys.splice(index, 1) 
+            else favoriteJourneys.push(journeyId)
+
+            user = await User.findByIdAndUpdate(userId, { favoriteJourneys }, { new: true, runValidators: true }).select('-__v ').lean()
+        
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            user.id = user._id.toString()
+            delete user._id
+
+            return user
+        })()
+    },
+
+    toggleFavoriteCrew(userId, crewId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string');
+        if (!userId.trim().length) throw Error('userId cannot be empty');
+
+        if (typeof crewId !== 'string') throw TypeError(crewId + ' is not a string')
+        if (!crewId.trim().length) throw Error('crewId cannot be empty')
+
+        return (async () => {
+            let user = await User.findById(userId).select('-password -__v').lean()
+            
+            let favoriteCrew = user.favoriteCrew
+
+            let index = favoriteCrew.indexOf(crewId)
+        
+            if (index != -1) favoriteCrew.splice(index, 1) 
+            else favoriteCrew.push(crewId)
+            debugger
+            user = await User.findByIdAndUpdate(userId, { favoriteCrew }, { new: true, runValidators: true }).select('-__v ').lean()
+        
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            user.id = user._id.toString()
+            delete user._id
+
+            return user
+        })()
+    }
 
 }
 

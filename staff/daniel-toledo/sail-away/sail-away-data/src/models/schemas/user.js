@@ -57,9 +57,9 @@ const User = new Schema({
 
     reviews: [Object],
 
-    favoriteJourneys: [ObjectId],
+    favoriteJourneys: [String],
 
-    favoriteCrew: [ObjectId]
+    favoriteCrew: [String]
 
 })
 

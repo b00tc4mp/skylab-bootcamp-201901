@@ -45,15 +45,21 @@ const logic = {
         
         if (typeof token !== 'string') throw TypeError(token + ' is not a string');
         if (!token.trim().length) throw Error('token cannot be empty');
-        debugger
+     
         return sailAwayApi.retrieveUserLogged(token)
      },
 
-     retrieveUser(id){
+    retrieveUser(id){
         if (typeof id !== 'string') throw TypeError(id + ' is not a string');
         if (!id.trim().length) throw Error('id cannot be empty');
-        debugger
+     
         return sailAwayApi.retrieveUser(id)
+     },
+
+    searchUseres(talents, languages){
+        //TODO
+
+        return sailAwayApi.searchUser(talents, languages)
      },
 
     updateUser(pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages){
@@ -66,6 +72,20 @@ const logic = {
 
 
         return sailAwayApi.updateUser(token, pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages)
+    },
+
+    updatePicture(picture) {
+
+        if (!picture) throw Error('picture is empty')
+        if (picture.constructor !== Object) throw TypeError(`${picture} is not an object`)
+
+        let token= this.__userToken__
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+        if (!token.trim().length) throw Error('token cannot be empty');
+
+        return sailAwayApi.updatePicture(token, picture)
+
     },
 
     get isUserLoggedIn() {
@@ -142,8 +162,18 @@ const logic = {
         return sailAwayApi.retrieveJourney(id)
     },
 
+    retrieveMyJourneys(){
+        let token= this.__userToken__
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+        if (!token.trim().length) throw Error('token cannot be empty');
+     
+        return sailAwayApi.retrieveJourneysByUserId(token)
+
+    },
+
     updateJourney(id, title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages) {
-        debugger
+     
 
         if (typeof id !== 'string') throw TypeError(id + ' is not a string')
         if (!id.trim().length) throw Error('id cannot be empty')
@@ -172,6 +202,31 @@ const logic = {
 
         return sailAwayApi.updateJourney(id, title, seaId, route, dates, description, userId, boat, lookingFor)
 
+    },
+
+    toggleJourneyFavorite(journeyId){
+        let token= this.__userToken__
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+        if (!token.trim().length) throw Error('token cannot be empty');
+
+
+        if (typeof journeyId !== 'string') throw TypeError(journeyId + ' is not a string')
+        if (!journeyId.trim().length) throw Error('journeyId cannot be empty')
+     
+        return sailAwayApi.toggleJourneyFavorite(token, journeyId)
+    },
+
+    toggleCrewFavorite(crewId){
+        let token= this.__userToken__
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+        if (!token.trim().length) throw Error('token cannot be empty');
+
+        if (typeof crewId !== 'string') throw TypeError(crewId + ' is not a string')
+        if (!crewId.trim().length) throw Error('crewId cannot be empty')
+     
+        return sailAwayApi.toggleCrewFavorite(token, crewId)
     }
 
 }

@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 
 import MapDisplay from '../MapDisplay'
@@ -10,13 +10,43 @@ import logic from '../../logic';
 
 function Home(props) {
 
-        let { journeys, moreInfo, editJourney } = props
-        debugger
+        let { journeys } = props
+        let [user, setUser] = useState(null)
+        let isFavorite
+
         function getMarkers(journeys) {
                 let markers = []
                 journeys.forEach(journey => markers.push(journey.route))
                 return markers
         }
+
+        async function getUserLogged() {
+                try {
+                        let userLogged = await logic.retrieveUserLogged()
+                        setUser(userLogged)
+                } catch (error) {
+                        console.error(error)
+                }
+        }
+
+        async function toggleFavorite(journeyId) {
+                try {
+                        let userUpdated = await logic.toggleJourneyFavorite(journeyId)
+                        setUser(userUpdated)
+                } catch (error) {
+                        console.error(error)
+                }
+        }
+
+        useEffect(() => {
+                getUserLogged()
+        }, [])
+
+        useEffect(() => {
+                setUser(user)
+        }, [user])
+
+
 
         return (<main className="home">
                 <div className="journey__map">
@@ -25,13 +55,13 @@ function Home(props) {
                 <div className='row'>
                         {
                                 journeys.map(journey => {
+                                        if (user) isFavorite = user.favoriteJourneys.includes(journey.id) ? isFavorite = "danger" : isFavorite = "default"
                                         return (<section className='col-12 col-md-6 col-lg-4'>
                                                 <div>
-                                                        <button onClick={() => moreInfo(journey.id)}>more</button>
-                                                        <button onClick={()=>props.history.push(`/user/${journey.userId}`)}>capitan</button>
+                                                        <button onClick={() => props.history.push(`/journey/${journey.id}`)}>more</button>
+                                                        <button onClick={() => props.history.push(`/user/${journey.userId}`)}>capitan</button>
                                                         <button>contact</button>
-                                                        <button onClick={() => editJourney(journey.id)}>edit</button>
-                                                        <button className='fas fa-heart'></button>
+                                                        <button onClick={() => toggleFavorite(journey.id)} className={`favorite btn btn-outline-${isFavorite} col-1 fas fa-heart`}></button>
                                                 </div>
                                                 <div>
                                                         <h2>Sailing Days</h2>

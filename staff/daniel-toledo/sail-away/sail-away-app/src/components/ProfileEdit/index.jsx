@@ -9,6 +9,7 @@ import Boat from '../Boat'
 import Talents from '../Talents'
 import Experience from '../Experience'
 import Language from '../Language'
+import UpdatePictures from '../UpdatePictures'
 
 import { data, mongoose, models } from 'sail-away-data'
 import logic from '../../logic'
@@ -51,7 +52,7 @@ function EditProfile(props) {
             setExperience(Number(user.experience))
             setLanguages(user.languages)
             debugger
-        
+
         } catch (error) {
             console.error(error)
         }
@@ -95,7 +96,6 @@ function EditProfile(props) {
 
     async function handleOnSubmit() {
         try {
-            debugger
             let id = await logic.updateUser(pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages)
             console.log(id)
             props.history.push('/')
@@ -119,6 +119,8 @@ function EditProfile(props) {
 
             </div>
         </div>
+
+        <UpdatePictures getPictures={pictures => setPictures(pictures)} />
 
         <h3 className='text-center'>General Info</h3>
         <div className='general-info'>
@@ -166,7 +168,7 @@ function EditProfile(props) {
         <div>
             <h3 className='text-center'>Find the best match!</h3>
             <h5>Talents</h5>
-            {talents.length &&<Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
+            {talents.length && <Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
             <h5>Experience</h5>
             {experience !== null && <Experience getExperience={experience => setExperience(experience)} initialExperience={experience} />}
             <h5>Sailing titles</h5>

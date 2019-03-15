@@ -9,17 +9,25 @@ module.exports = {
 
     updateUser:require('./update-user'),
 
+    updateUserPicture: require('./update-user-picture'),
+
+    searchUsers: require('./search-users'),
+
     addJourney: require('./add-journey'),
 
     retrieveJourney: require('./retrieve-journey'),
 
-    listJourneys: require('./list-journeys'),
+    myJourneys: require('./my-journeys'),
 
     searchJourneys: require('./search-journeys'),
 
     updateJourney: require('./update-journey'),
 
     deleteJourney: require('./delete-journey'),
+
+    toggleFavoriteJourney: require('./favorite-journey'),
+
+    toggleFavoriteCrew: require('./favorite-crew'),
 
     notFound: require('./not-found'),
 }

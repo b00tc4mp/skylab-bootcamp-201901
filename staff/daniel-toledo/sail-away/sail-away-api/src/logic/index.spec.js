@@ -685,7 +685,7 @@ describe('logic', () => {
                 name: 'Rita',
                 surname: 'Medina-updated',
                 gender: 'Feminine',
-                nacionality: 'Portuguese',
+                nationality: 'Portuguese',
                 description: 'I am a nice girl willing to travel',
                 talents: ['art', 'musician', 'writter'],
                 boats: [{
@@ -705,7 +705,7 @@ describe('logic', () => {
                     expect(user.surname).toBe(data.surname)
                     expect(user.email).toBe(email)
                     expect(user.gender).toEqual('Feminine')
-                    expect(user.nacionality).toEqual('Portuguese')
+                    expect(user.nationality).toEqual('Portuguese')
                     expect(user.description).toEqual('I am a nice girl willing to travel')
                     expect(user.talents.toString()).toEqual(['art', 'musician', 'writter'].toString())
                     expect(user.boats[0].toString()).toEqual({
@@ -724,7 +724,7 @@ describe('logic', () => {
                 name: 'Rita',
                 surname: 'Medina-updated',
                 gender: 'Feminine',
-                nacionality: 'Portuguese',
+                nationality: 'Portuguese',
                 description: 'I am a nice girl willing to travel',
                 talents: ['art', 'musician', 'writter'],
                 boats: [],
@@ -739,7 +739,7 @@ describe('logic', () => {
                     expect(user.surname).toBe(data.surname)
                     expect(user.email).toBe(email)
                     expect(user.gender).toEqual('Feminine')
-                    expect(user.nacionality).toEqual('Portuguese')
+                    expect(user.nationality).toEqual('Portuguese')
                     expect(user.description).toEqual('I am a nice girl willing to travel')
                     expect(user.talents.toString()).toEqual(['art', 'musician', 'writter'].toString())
                     expect(user.experience).toEqual(200)
@@ -767,6 +767,33 @@ describe('logic', () => {
         it('should fail on non data userId', function () {
 
             expect(() => logic.updateUser(userId).toThrowError('data should be defined'))
+        })
+    })
+
+    describe('update user picture', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, userId
+
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user = await User.create({ name, surname, email, password: hash, kind })
+            userId = user.id.toString()
+            return userId
+        })
+
+        it('should succeed on correct credentials', () => {
+            let url = 'https://i.pinimg.com/originals/24/3c/e9/243ce978cc67ff88acfa7bec6315c9ff.png'
+            return logic.updateUserPicture(userId, url)
+                .then(() => User.findById(userId))
+                .then(user => {
+                    expect(user.id).toEqual(userId)
+                    expect(user.pictures.length).toBe(1)
+                    expect(user.pictures[0]).toBe(url)
+                })
         })
     })
 
@@ -804,6 +831,73 @@ describe('logic', () => {
 
     })
 
+    describe('search user', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        const password = '123'
+
+
+        beforeEach(async () => {
+            email1 = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user1 = await User.create({ name, surname, email: email1, password: hash, kind, talents: ['music', 'photographer'], languages: ['English', 'Arabic'] })
+            userId1 = user1._id.toString()
+
+            email2 = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user2 = await User.create({ name, surname, email: email2, password: hash, kind, talents: ['music', 'cleaning'], languages: ['Spanish', 'Arabic'] })
+            userId2 = user2._id.toString()
+
+            email3 = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user3 = await User.create({ name, surname, email: email3, password: hash, kind, talents: ['music', 'cleaning', 'teacher'], languages: ['Catalan'] })
+            userId3 = user3._id.toString()
+
+            email4 = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user4 = await User.create({ name, surname, email: email4, password: hash, kind, talents: ['cleaning', 'teacher'], language: ['Spanish', 'English'] })
+            userId4 = user4._id.toString()
+
+
+        })
+
+        it('should succeed on valid data', async () => {
+            let talents = ['music']
+            let languages = ['Spanish', 'English']
+
+            const users = await logic.searchUsers(talents, languages)
+
+            expect(users.length).toEqual(2)
+            expect(users.find(user => user.email === user1.email)).toBeTruthy
+            expect(users.find(user => user.email === user2.email)).toBeTruthy
+
+        })
+
+        it('should succeed on valid data', async () => {
+            let talents = ['teacher', 'cleaning']
+            let languages = ['Catalan']
+
+            const users = await logic.searchUsers(talents, languages)
+
+            expect(users.length).toEqual(1)
+            expect(users.find(user => user.email === user3.email)).toBeTruthy
+
+        })
+
+        it('should succeed on valid data', async () => {
+            let talents = ['teacher', 'cleaning']
+            let languages = ['Spanish']
+
+            const users = await logic.searchUsers(talents, languages)
+
+            expect(users.length).toEqual(1)
+            expect(users.find(user => user.email === user4.email)).toBeTruthy
+            expect(users.find(user => user.email === user2.email)).toBeTruthy
+        })
+
+    })
+
     describe('create Journeys', () => {
         const title = 'Mediterranean trip'
         const seaId = '08'
@@ -835,7 +929,7 @@ describe('logic', () => {
                 name: 'Rita',
                 surname: 'Medina-updated',
                 gender: 'Feminine',
-                nacionality: 'Portuguese',
+                nationality: 'Portuguese',
                 description: 'I am a nice girl willing to travel',
                 talents: ['art', 'musician', 'writter'],
                 boats: [{
@@ -1060,7 +1154,7 @@ describe('logic', () => {
                 name: 'Rita',
                 surname: 'Medina-updated',
                 gender: 'Feminine',
-                nacionality: 'Portuguese',
+                nationality: 'Portuguese',
                 description: 'I am a nice girl willing to travel',
                 talents: ['art', 'musician', 'writter'],
                 boats: [{
@@ -1185,7 +1279,7 @@ describe('logic', () => {
             name: 'Rita',
             surname: 'Medina-updated',
             gender: 'Feminine',
-            nacionality: 'Portuguese',
+            nationality: 'Portuguese',
             description: 'I am a nice girl willing to travel',
             talents: ['art', 'musician', 'writter'],
             boats: [{
@@ -1312,7 +1406,7 @@ describe('logic', () => {
             name: 'Rita',
             surname: 'Medina-updated',
             gender: 'Feminine',
-            nacionality: 'Portuguese',
+            nationality: 'Portuguese',
             description: 'I am a nice girl willing to travel',
             talents: ['art', 'musician', 'writter'],
             boats: [{
@@ -1436,51 +1530,133 @@ describe('logic', () => {
         it('should fail on string data', function () {
             const data = ''
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
         })
         it('should fail on boolean data', function () {
             const data = true
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
         })
         it('should fail on number data', function () {
             const data = 4
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
         })
         it('should fail on array data', function () {
             const data = []
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
         })
-        it('should fail on null data', function () {
-            const data = null
+        // it('should fail on null data', function () {
+        //     const data = null
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
-        })
-        it('should fail on undefined data', function () {
-            const data = undefined
+        //     expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
+        // })
+        // it('should fail on undefined data', function () {
+        //     const data = undefined
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
-        })
+        //     expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
+        // })
         it('should fail on function data', function () {
             const data = function a() { }
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
         })
         it('should fail on date data', function () {
             const data = new Date
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
         })
         it('should fail on error data', function () {
             const data = Error
 
-            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not a Object`)
+            expect(() => logic.updateJourney(journeyId, data)).toThrowError(`${data} is not an Object`)
         })
     })
 
-    describe('delete Journey', ()=>{})
+    describe('delete Journey', () => { })
+
+    describe('toggle journey favorite', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, userId
+
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user = await User.create({ name, surname, email, password: hash, kind })
+            userId = user.id.toString()
+            return userId
+        })
+
+        it('should succeed on adding favorite', () => {
+            let journeyId = '123456789'
+            return logic.toggleFavoriteJourney(userId, journeyId)
+                .then(() => User.findById(userId))
+                .then(user => {
+                    expect(user.id).toEqual(userId)
+                    expect(user.favoriteJourneys.length).toBe(1)
+                    expect(user.favoriteJourneys[0]).toBe(journeyId)
+
+                })
+        })
+
+        it('should succeed on deleting favorite', () => {
+            let journeyId = '123456789'
+            return logic.toggleFavoriteJourney(userId, journeyId)
+                .then(()=> logic.toggleFavoriteJourney(userId, journeyId))
+                .then(() => User.findById(userId))
+                .then(user => {
+                    expect(user.id).toEqual(userId)
+                    expect(user.favoriteJourneys.length).toBe(0)
+                    expect(user.favoriteJourneys[0]).toBeUndefined
+
+                })
+        })
+    })
+
+    describe('toggle crew favorite', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, userId
+
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user = await User.create({ name, surname, email, password: hash, kind })
+            userId = user.id.toString()
+            return userId
+        })
+
+        it('should succeed on adding favorite', () => {
+            let crewId = '123456789'
+            return logic.toggleFavoriteCrew(userId, crewId)
+                .then(() => User.findById(userId))
+                .then(user => {
+                    expect(user.id).toEqual(userId)
+                    expect(user.favoriteCrew.length).toBe(1)
+                    expect(user.favoriteCrew[0]).toBe(crewId)
+
+                })
+        })
+
+        it('should succeed on deleting favorite', () => {
+            let crewId = '123456789'
+            return logic.toggleFavoriteCrew(userId, crewId)
+                .then(()=> logic.toggleFavoriteCrew(userId, crewId))
+                .then(() => User.findById(userId))
+                .then(user => {
+                    expect(user.id).toEqual(userId)
+                    expect(user.favoriteCrew.length).toBe(0)
+                    expect(user.favoriteCrew[0]).toBeUndefined
+
+                })
+        })
+    })
 
 
     after(() =>

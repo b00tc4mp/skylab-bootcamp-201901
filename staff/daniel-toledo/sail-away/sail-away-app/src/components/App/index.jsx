@@ -6,13 +6,17 @@ import Home from '../Home'
 import Register from '../Register'
 import ProfileEdit from '../ProfileEdit'
 import ProfileInfo from '../ProfileInfo'
+import Users from '../Users'
 import Login from '../Login'
 import JourneyCreate from '../JourneyCreate'
 import JourneyInfo from '../JourneyInfo'
 import JourneyEdit from '../JourneyEdit'
+import MyJourneys from '../MyJourneys'
 import Nav from '../Nav'
 import Menu from '../Menu'
 import Landing from '../Landing'
+import Favorites from '../Favorites' 
+
 import './index.sass'
 import logic from '../../logic';
 
@@ -28,7 +32,7 @@ function App(props) {
     }
 
     async function handleSearch(seaId) {
-        debugger
+       
         try {
             let response = await logic.searchBySea(seaId)
             setJourneys(response)
@@ -102,11 +106,14 @@ function App(props) {
         <Route path="/register" render={() => <Register />} />
         <Route path="/edit-profile" render={() => <ProfileEdit initialUser={initialUser} />} />
         <Route path='/user/:id' render={()=> <ProfileInfo />} />
+        <Route path='/users/' render={()=> <Users />} />
         <Route path="/login" render={() => <Login />} />
         <Route path="/home" render={() => journeys.length ? <Home journeys={journeys} moreInfo={handleMoreInfo} editJourney={handleEditJourney} /> : <Redirect to="/" />} />
         <Route path="/create-journey" render={() => <JourneyCreate />} />
         <Route path="/edit-journey/:id" render={() => <JourneyEdit journey={journey} />} />
+        <Route path="/my-journeys" render={() => <MyJourneys />} />
         <Route path="/journey/:id" render={() => <JourneyInfo />} />
+        <Route path="/favorites" render={() => <Favorites />} />
         <button onClick={handleGoHome}>go Home</button>
         <button onClick={handleGoJourney}>create Journey</button>
     </main>)

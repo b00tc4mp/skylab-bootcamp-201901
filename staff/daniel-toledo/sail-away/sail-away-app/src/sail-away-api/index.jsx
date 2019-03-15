@@ -1,6 +1,7 @@
 'use strict'
 
 import moment from 'moment'
+import Users from '../components/Users';
 
 const sailAwayApi = {
 
@@ -66,6 +67,22 @@ const sailAwayApi = {
             })
     },
 
+    searchUser(talents, languages){
+        return fetch(`${this.url}/users/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ talents, languages })
+        })
+        .then(response => response.json())
+        .then(users => {
+            if (!users.error) return users
+
+            else throw Error(users.error)
+        })
+    },
+
     updateUser(token, pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages){
         return fetch(`${this.url}/user/`, {
             method: 'PUT',
@@ -82,6 +99,28 @@ const sailAwayApi = {
 
                 else throw Error(user.error)
             })
+    },
+
+    updatePicture(token, picture){
+        debugger
+        let formData = new FormData()
+        formData.append('image', picture.image)
+
+        return fetch(`${this.url}/update-picture`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(user => {
+            debugger
+            if (!user.error) return user
+
+            else throw Error(user.error)
+        })
+
     },
 
     createJourney(title, seaId, route, dates, description, userId, boat, lookingFor) {
@@ -135,7 +174,7 @@ const sailAwayApi = {
             .then(journey => journey.json())
             .then(response => {
                 if (!response.error) {
-                    response.journey.dates = response.journey.dates.map(date => moment(date.substring(0, 10)))
+                    response.journey.dates = (response.journey.dates || []).map(date => moment(date.substring(0, 10)))
                     return response.journey
                 }
 
@@ -143,8 +182,31 @@ const sailAwayApi = {
             })
     },
 
+    retrieveJourneysByUserId(token){
+        return fetch(`${this.url}/my-journeys/`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                debugger
+                if (!response.error) {
+                    response.journey = response.journeys.map(journey => {
+
+                        journey.dates = journey.dates.map(date => moment(date.substring(0, 10)))
+                        return journey
+
+                    })
+
+                    return response.journeys
+                }
+                else throw Error(response.error)
+            })
+    },
+
     updateJourney(id, title, seaId, route, dates, description, userId, boat, lookingFor) {
-        debugger
         return fetch(`${this.url}/journey/${id}`, {
             method: 'PUT',
             headers: {
@@ -158,6 +220,39 @@ const sailAwayApi = {
 
                 else throw Error(response.error)
             })
+    },
+
+    toggleJourneyFavorite(token, journeyId){
+        return fetch(`${this.url}/favorite-journey/${journeyId}`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(journey => journey.json())
+            .then(user => {
+                if (!user.error) return user
+
+                else throw Error(user.error)
+            })
+    },
+
+    toggleCrewFavorite(token, crewId){
+        debugger
+        return fetch(`${this.url}/favorite-crew/${crewId}`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(journey => journey.json())
+            .then(user => {
+                debugger
+                if (!user.error) return user
+    
+                else throw Error(user.error)
+            })
+    
     }
 }
 
