@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/components/Results/Favorites/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">All files</a> / <a href="index.html">src/components/Results/Favorites</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/37</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100</td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import React, { Component } from 'react';</span>
+<span class="cstat-no" title="statement not covered" >import { withRouter } from 'react-router-dom';</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >import logic from '../../../logic';</span>
+<span class="cstat-no" title="statement not covered" >import NoResults from '../../NotFound';</span>
+<span class="cstat-no" title="statement not covered" >import Results from '../index';</span>
+&nbsp;
+class Favorites extends Component <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >{</span></span>
+    state = {
+        results: [],
+        favorites: [],
+        loading: true
+    };
+&nbsp;
+    _updateGamesAftersearch = <span class="fstat-no" title="function not covered" >({</span> data: { games }, include: { boxart, platform }, pages }) =&gt; {
+<span class="cstat-no" title="statement not covered" >        this.setState({</span>
+            loading: false,
+            results: games.map(<span class="fstat-no" title="function not covered" >game</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >                game.base_url = boxart.base_url;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                game.platform = platform.data</span>
+                    ? platform.data[game.platform]
+                    : platform[game.platform];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                game.boxart = boxart.data[game.id].find(<span class="fstat-no" title="function not covered" >image</span> =&gt; <span class="cstat-no" title="statement not covered" >image.side === 'front');</span></span>
+<span class="cstat-no" title="statement not covered" >                return game;</span>
+            })
+        });
+    };
+&nbsp;
+    getFavoritesPage = <span class="fstat-no" title="function not covered" >() =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >        if (logic.userLoggedIn) {</span>
+<span class="cstat-no" title="statement not covered" >            logic.retrieveUser().then(<span class="fstat-no" title="function not covered" >({</span> favorites }) =&gt; {</span>
+                // this.setState({ loading: false });
+<span class="cstat-no" title="statement not covered" >                try {</span>
+                    // favorites.length &gt; 0 &amp;&amp;
+<span class="cstat-no" title="statement not covered" >                        logic</span>
+                            .retrieveGame(favorites.join(','), '', 'boxart,platform')
+                            .then(<span class="fstat-no" title="function not covered" >response</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >                                this._updateGamesAftersearch(response);</span>
+                            })
+                            .catch(<span class="fstat-no" title="function not covered" >({</span> message }) =&gt; <span class="cstat-no" title="statement not covered" >this.setState({ feedbackResult: message }));</span>
+                } catch ({ message }) <span class="cstat-no" title="statement not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >                    this.setState({loading: false});</span>
+<span class="cstat-no" title="statement not covered" >                    this.setState({ feedbackResult: message });</span>
+                }
+            });
+        }
+    };
+&nbsp;
+    getFavorites = <span class="fstat-no" title="function not covered" >() =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >        try {</span>
+<span class="cstat-no" title="statement not covered" >            logic.userLoggedIn &amp;&amp;</span>
+                logic.retrieveUser().then(<span class="fstat-no" title="function not covered" >({</span> favorites }) =&gt; {
+<span class="cstat-no" title="statement not covered" >                    this.setState({</span>
+                        favorites
+                    });
+                });
+        } catch ({ message }) <span class="cstat-no" title="statement not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            this.setState({ feedbackResult: message });</span>
+        }
+    };
+&nbsp;
+    toggleFeedback = <span class="fstat-no" title="function not covered" >prop</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >        this.setState({</span>
+            feedbackResult: prop
+        });
+    };
+&nbsp;
+<span class="fstat-no" title="function not covered" >    componentDidMount</span>() {
+<span class="cstat-no" title="statement not covered" >        this.getFavoritesPage();</span>
+<span class="cstat-no" title="statement not covered" >        this.getFavorites();</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    componentWillReceiveProps</span>() {
+<span class="cstat-no" title="statement not covered" >        this.getFavoritesPage();</span>
+<span class="cstat-no" title="statement not covered" >        this.getFavorites();</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    render</span>() <span class="cstat-no" title="statement not covered" >{</span>
+        const {
+            state: { results, favorites, loading }
+        } = <span class="cstat-no" title="statement not covered" >this;</span>
+       
+<span class="cstat-no" title="statement not covered" >        if (loading) {</span>
+<span class="cstat-no" title="statement not covered" >            return (</span>
+                &lt;div className="loading"&gt;
+                    &lt;i className="fas fa-sync fa-spin" /&gt;
+                &lt;/div&gt;
+            );
+        } else <span class="cstat-no" title="statement not covered" >if (results.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >            return &lt;Results results={results} favorites={favorites} loading={false} /&gt;;</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            return &lt;NoResults /&gt;;</span>
+        }
+    }
+}
+&nbsp;
+export default withRouter(Favorites);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Feb 08 2019 11:46:13 GMT+0100 (GMT+01:00)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

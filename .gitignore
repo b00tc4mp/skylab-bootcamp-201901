@@ -5,3 +5,4 @@ package-lock.json
 yarn.lock
 .nyc_output
 .vscode
+bash.exe.stackdump
