@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import logic from '../../logic'
-
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import logic from '../../logic';
+import moment from 'moment';
 
 class VisitOwner extends Component {
 
-    state = { appointments: [], error: false }
+    state = { appointments: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false }
 
 
     componentDidMount() {
@@ -13,7 +13,10 @@ class VisitOwner extends Component {
     }
 
     retrieveAppointments = async () => {
-        const appointments = await logic.retrieveAppointments()
+        let year = this.state.year
+        let month = this.state.month
+        console.log(year, month)
+        const appointments = await logic.retrieveAppointments(year, month)
         this.setState({ appointments })
     }
 
@@ -47,25 +50,33 @@ class VisitOwner extends Component {
 
     render() {
 
-        return <form>
-             <section className="form">
-            <p className="title__form">Owner's visits:</p>
-            <div className="input__form">
-            <div>
-                <table>
+        return <section className="calendar">
+                <h1>Appointments</h1>
+                    <div className="input__form">
+            {
+                this.state.appointments.map(({ id, owner, pet, date }) => {
                   
-                        
-                {this.state.appointments.map(appointment => <h3 name="appointment_owner" value={appointment.id}>pet:{appointment.pet}{' '} date: {appointment.dayDb}</h3>)}
-                <button onClick={this.handleDeleteVisit} className="button__delete">Delete</button>
-                
-                
-                </table>
-            </div>
-            </div>
-            <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
-            </section>
-        </form>
-
+                    this.state.appointments.sort(function (a, b) {
+                        return a.date - b.date
+                    })
+                    // if (owner.name === )
+                    return (
+                        <tr>
+                            <p className="appointment" value={id}>
+                                <th>
+                                    <p>Day: {date.getDate()}{'/'}{date.getMonth()}</p>
+                                  
+                                    <p>Hour: {date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}</p>
+                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete</button>
+                                </th>
+                            </p>
+                        </tr>
+                    )
+                })
+            }
+        </div>
+            <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button> 
+        </section>
     }
 }
 

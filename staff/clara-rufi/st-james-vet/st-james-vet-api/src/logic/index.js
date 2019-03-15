@@ -185,6 +185,7 @@ const logic = {
 
             if (!match) throw Error('wrong credentials')
             const _user = {id: user._id, role: user.role} 
+            console.log(user._id)
             return _user
         })()
     },
@@ -215,7 +216,7 @@ const logic = {
 
             let _date = await Appointment.findOne({ date })
     
-            if (_date) throw Error(`user with date ${date} already exists`)
+            if (_date) throw Error(`This date has been selected. Please, select another`)
             // var date = new Date(dayDb)
             // let date = dayDb.toISOString()
             debugger
@@ -291,7 +292,8 @@ const logic = {
         const users = _users.map(user => {
             return {
                 name: user.name,
-                id: user._id                
+                id: user._id,
+                email: user.email              
             }
         })
 
@@ -302,32 +304,12 @@ const logic = {
      * Retrieve all owner's appointments
      */
     async retrieveAppointments( year, month) { 
-        debugger
-        //const _appointments = await Appointment.find({}).populate('owner pet')
-        // const _appointments = await Appointment.find({$gte:{year, month}, $lte:{year, month}}).populate('user').exec()
-        
-
-        // var start = new Date(startOfMonth);
-        // var end = new Date(endOfMonth);
 
         const toDate = new Date(year, month, 0);
         const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 0);
         console.log(fromDate, toDate)
 
-
-        // const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate}});
         const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate}}).populate('owner pet')
-        // const _appointments = await Appointment.find({})
-        // let toDate = new Date (fromDate.getFullYear(), fromDate.getMonth() + 1, 0)
-        // let condition = {date: {'$gte': date, '$lte': lastDay}}
-        // const _appointments = await Appointment.find(condition, function(err, response){
-        //     if(!err){
-        //         console.log(response)
-        //     }
-        // }
-        //const _appointments = await Appointment.find({}).populate('user pet')
-        // const _appointments = await Appointment.find({}).populate[{path:'owner', select:'name'}, {path: 'pet', select: 'name'}]
-    
         const appointments = _appointments.map(appointment => {
             debugger
             return {
