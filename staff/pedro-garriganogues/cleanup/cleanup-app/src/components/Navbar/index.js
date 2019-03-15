@@ -9,30 +9,6 @@ import logic from '../../logic'
 
 class Navbar extends Component {
 
-    // retrieveUser() {
-    //     if (this.props.loggedIn)
-    //         logic.retrieveUser()
-    //             .then(user => {
-    //                 this.setState({ user })
-    //             })
-    // }
-
-    // componentDidMount() {
-    //     if (this.props.loggedIn) {
-    //         this.retrieveUser()
-    //     }
-
-
-    // }
-
-    // componentWillReceiveProps(props) {
-    //     if (props.loggedIn) {
-    //         this.retrieveUser()
-    //     }
-    // }
-
-
-
     render() {
         // caso individual:
 
@@ -64,14 +40,7 @@ class Navbar extends Component {
                                     <div className="submenu-items">
                                         {!logic.__userApiToken__ && <SignedOut />}
                                     </div>
-                                    {/* <div className="submenu-items">
-                                            <p>Submenu #3</p>
-                                            <ul>
-                                            <li><a href="#">Item #1</a></li>
-                                            <li><a href="#">Item #2</a></li>
-                                            <li><a href="#">Item #3</a></li>
-                                            </ul>
-                                        </div> */}
+
                                 </div>
                             </li>
                             <li><Link to="/cart" ><img src="https://i.gyazo.com/7a5ababebdcc9837031e78b33e91b156.png" className="cartLogo" alt="404" /></Link></li>

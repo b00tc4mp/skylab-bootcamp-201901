@@ -43,11 +43,11 @@ class Cart extends Component {
             logic.makeOrder(paymentMethod, cart)
                 .then(
                     this.props.onOrder()
-
                 ).catch(err => console.log(err.message))
         } else {
             console.log('Please, fill all fields')
         }
+        alert('Thanks for your purchase!')
     }
 
     handlerCapturingPaymentMethod = (e) => {
@@ -57,42 +57,46 @@ class Cart extends Component {
     handlerCapturingEmail = (e) => {
         this.setState({ email: e.target.value })
     }
-
     render() {
         return (
-            <main>
-                <section>
-                    <h1>Order</h1>
-                </section>
-                <ul>
-                    <div>
-                        {/* {this.state.cart.map(item => (
-                            <li key={item._id} >
-                                <div>
-                                    <img src={item.image} alt="404" />
-                                    <div >
-                                        <h3 >{item.name}</h3>
-                                    </div>
-                                </div>
-                            </li>
-                        ))} */}
-
-                        <form onSubmit={this.handleSubmitOrder}>
-                            <div >
-                                <div >
-                                    <label htmlFor="firstName">Payment Method</label>
-                                    <input type="text" name="payment method" placeholder="Payment Method" onChange={this.handlerCapturingPaymentMethod} value={this.state.paymentMethod} />
-                                </div>
-                                <div >
-                                    <label htmlFor="lastName">email</label>
+            <section>
+                <h1 className="title">Payment info:</h1>
+                <section className="globalsectionorder">
+                    <ul>
+                        <div>
+                            <form onSubmit={this.handleSubmitOrder}>
+                                <div className="paymentemail" >
+                                    <label>Email:</label>
+                                    <br />
+                                    <br />
                                     <input type="text" name="email" placeholder="email" onChange={this.handlerCapturingEmail} value={this.state.email} />
+                                    <br />
+                                    <br />
+                                    <label>Payment Method:</label>
+                                    <br />
+                                    <br />
+                                    <input type="text" name="payment method" placeholder="Payment Method" onChange={this.handlerCapturingPaymentMethod} value={this.state.paymentMethod} />
+                                    <br />
+                                    <br />
+                                    <label>Card number:</label>
+                                    <br />
+                                    <br />
+                                    <input type="number" placeholder="Card number" />
+                                    <br />
+                                    <br />
+                                    <label>Secret number:</label>
+                                    <br />
+                                    <br />
+                                    <input type="number" placeholder="Secret number" />
+                                    <br />
+                                    <br />
+                                    <button type="submit" className="submitbutton" >Submit payment</button>
                                 </div>
-                            </div>
-                            <button type="submit">Submit payment</button>
-                        </form>
-                    </div>
-                </ul>
-            </main>
+                            </form>
+                        </div>
+                    </ul>
+                </section>
+            </section>
         )
     }
 }

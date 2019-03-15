@@ -7,7 +7,6 @@ module.exports = new Schema({
     },
     status: {
         type: String,
-        enum: [paid],
         default: 'paid'
     },
     products: [{

@@ -42,6 +42,8 @@ const logic = {
             })
     },
 
+
+
     get isUserLoggedIn() {
         return !!this.__userApiToken__
     },

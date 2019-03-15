@@ -59,30 +59,6 @@ const cleanUpApi = {
     },
 
 
-
-
-    updateUser(token, data) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-
-        return fetch(`${this.url}/user`, {
-            method: 'PUT',
-            headers: {
-                authorization: `Bearer ${token}`,
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error)
-
-                return response
-            })
-    },
-
     removeUser(token, email, password) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -129,11 +105,10 @@ const cleanUpApi = {
     },
 
     listProductsByIds(ids) {
-        console.log(ids);
         // (ids = ids.split(','))
         // console.log(ids);
-        return (async () => {
 
+        return (async () => {
             return axios.get(this.url + '/products/?ids=' + ids).then(function (_refbyId) {
 
             }).catch(function (err) {

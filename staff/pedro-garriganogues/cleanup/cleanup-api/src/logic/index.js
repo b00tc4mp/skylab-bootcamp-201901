@@ -52,48 +52,6 @@ const logic = {
         })()
     },
 
-    // async updateUser(id, name, surname, email, password, newEmail, newPassword) {
-
-    //     if (typeof id !== 'string') throw Error('user id is not a string')
-
-    //     const user = await User.findOne({ email, password })
-
-    //     if (!user) throw Error('wrong credentials')
-
-    //     if (user.id !== id) throw Error(`no user found with id ${id} for given credentials`)
-
-    //     if (newEmail) {
-    //         const user = await User.findOne({ email: newEmail })
-
-    //         if (_user && _user.id !== id) throw Error(`user with email ${newEmail} already exists`)
-
-    //         return user
-    //     }
-
-    //     then(() => {
-    //         user.name = name
-    //         user.surname = surname
-    //         user.email = newEmail ? newEmail : email
-    //         user.password = newPassword ? newPassword : password
-
-    //         return user.save()
-    //     })
-    //     then(() => true)
-    // },
-
-    // async unregisterUser(id, email, password) {
-
-    //     if (typeof id !== 'string') throw Error('user id is not a string')
-
-    //     const user = User.findOne({ email, password })
-
-
-    //     if (!user) throw Error('wrong credentials')
-
-    //     if (user.id !== id) throw Error(`no user found with id ${id} for given credentials`)
-
-    //     return user.remove()
-
 
     listProducts(category) {
         return (async () => {
@@ -126,8 +84,6 @@ const logic = {
 
     makeOrder(paymentMethod, status, products, userId) {
         return (async () => {
-            console.log(userId);
-
 
             await Order.create({ paymentMethod, status, products, userId })
         })()

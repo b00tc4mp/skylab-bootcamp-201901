@@ -137,21 +137,7 @@ describe('Clean api', () => {
                 .then(_token => token = _token)
         )
 
-        it('should succeed on correct data', () => {
-            const data = { name: 'Pepito', surname: 'Grillo', age: 32 }
 
-            return cleanUpApi.updateUser(token, data)
-                .then(() => cleanUpApi.retrieveUser(token))
-                .then(user => {
-                    expect(user.id).toBe(userId)
-                    expect(user.name).toBe(data.name)
-                    expect(user.surname).toBe(data.surname)
-                    expect(user.age).toBe(data.age)
-                    expect(user.email).toBe(email)
-                })
-        })
-
-        // TODO more unit test cases
     })
 
     // TODO build endpoint for this in API first! (it does not exist yet)

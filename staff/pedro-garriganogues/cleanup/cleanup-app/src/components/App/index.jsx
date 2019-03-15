@@ -44,12 +44,13 @@ class App extends Component {
 
 
     getItems = () => {
-        if (logic._cart.length && logic._cart !== 'undefined') {
-            logic.listProductsByIds()
-                .then(cart => this.setState({ cart, total: [], cartLength: logic.cart().length }))
-        } else {
-            this.setState({ cart: [], total: [], cartLength: logic.cart().length })
-        }
+        // if (logic._cart.length && logic._cart !== 'undefined') {
+        //     logic.listProductsByIds()
+        //         .then(cart => this.setState({ cart, total: [], cartLength: logic.cart().length }))
+        // } else {
+        //     this.setState({ cart: [], total: [], cartLength: logic.cart().length })
+        // }
+        console.log('getitems')
     }
 
     onRemoveFromCart = id => {
