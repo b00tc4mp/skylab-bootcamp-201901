@@ -14,8 +14,8 @@ function cloudinaryUploader(req, res, next) {
         api_secret: CLOUDINARY_API_SECRET
     })
 
-    const path = req.file.path
-
+    const path = req.file.buffer
+    debugger
     const upload_stream= cloudinary.uploader.upload_stream(function(err,image) {
         req.image = image
         next()

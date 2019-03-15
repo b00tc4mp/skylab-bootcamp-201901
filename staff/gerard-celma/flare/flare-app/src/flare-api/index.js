@@ -1,8 +1,8 @@
 'use strict'
 
 const flareApi = {
-    // url: "http://localhost:8000/api",
-    url: 'https://stark-basin-28669.herokuapp.com/api',
+    url: "http://localhost:8000/api",
+    // url: 'https://stark-basin-28669.herokuapp.com/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
@@ -103,7 +103,7 @@ const flareApi = {
 
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
         if (!email.trim().length) throw Error('email cannot be empty')
-
+        debugger
         return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
@@ -131,7 +131,7 @@ const flareApi = {
         if (!msgId.trim().length) throw Error('msgId cannot be empty')
 
         let formData = new FormData()
-        formData.append('image', data.image)
+        formData.append('image', data)
 
         return fetch(`${this.url}/message/photo/${msgId}`, {
             method: 'POST',
@@ -156,7 +156,7 @@ const flareApi = {
         if (data.constructor !== File) throw TypeError(`${data} is not an object`)
 
         let formData = new FormData()
-        formData.append('image', data.image)
+        formData.append('image', data)
 
         return fetch(`${this.url}/user/photo`, {
             method: 'PUT',

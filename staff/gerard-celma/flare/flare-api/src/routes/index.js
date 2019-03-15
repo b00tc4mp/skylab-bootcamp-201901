@@ -1,12 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
+const cors = require('cors')
 const { tokenVerifierMiddleware } = tokenHelper
 const { registerUser, authenticateUser, retrieveUser, retrieveUsers, updateUser, updateUserPhoto, removeUser, createMessage, uploadMessagePhoto, messageRead, messageDelete, retrieveReceivedMessages, retrieveSentMessages, retrieveAllMessages, notFound } = require('./handlers')
 const imageParser = require('../imageParser')
 const cloudinaryUploader = require('../cloudinary')
 const jsonBodyParser = bodyParser.json()
 const router = express.Router()
+
+router.use(cors())
 
 
 router.post('/user', jsonBodyParser, registerUser)
