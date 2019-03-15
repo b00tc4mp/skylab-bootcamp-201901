@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import Feedback from '../Feedback'
 import { withRouter, Link } from 'react-router-dom'
 import logic from '../../logic'
+import './index.sass'
 
 class Login extends Component {
     state = { email: null, password: null, feedback: null }
@@ -28,14 +29,17 @@ class Login extends Component {
         const { handleFormSubmit, handleInput, state: { feedback } } = this
 
         return <section className="login">
-            <h2>Login</h2>
-            <form onSubmit={handleFormSubmit}>
-                <input type="text" name="email" placeholder="email" onChange={handleInput} />
-                <input type="password" name="password" placeholder="password" onChange={handleInput} />
-                <button>Login</button>
-            </form>
-            <p>Not a member? Go to <Link to="/register">Register</Link></p>
-            {feedback && <Feedback message={feedback} />}
+                <div className="loginBox">
+                    <h2>Login</h2>
+                    <form className="loginForm" onSubmit={handleFormSubmit}>
+                        <input type="text" name="email" placeholder="email" onChange={handleInput} />
+                        <input type="password" name="password" placeholder="password" onChange={handleInput} />
+                        <button>Login</button>
+                    </form>
+                    <p>Not a member? Go to <Link to="/register">Register</Link></p>
+                    {feedback && <Feedback message={feedback} />}
+                </div>
+                <button>Back to landing</button>
         </section>
     }
 }
