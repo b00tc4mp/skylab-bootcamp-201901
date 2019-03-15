@@ -358,12 +358,12 @@ const logic = {
             })
     },
 
-    retrieveUser(userId) {
+    retrieveUser() {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')
           // this.__userToken__()
           this.__updateToken__()
-        return fetch(`${this.url}/user/${userId}`, {
+        return fetch(`${this.url}/user/`, {
 
             headers: {
                 authorization: `Bearer ${this.__userToken__}`
@@ -377,6 +377,26 @@ const logic = {
             })
         },
         
+    
+        // retrieveUser(userId) {
+        //     // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        //     // if (!token.trim().length) throw Error('token is empty')
+        //       // this.__userToken__()
+        //       this.__updateToken__()
+        //     return fetch(`${this.url}/user/${userId}`, {
+    
+        //         headers: {
+        //             authorization: `Bearer ${this.__userToken__}`
+        //         }
+        //     })
+        //         .then(response => response.json())
+        //         .then(response => {
+        //             if (response.error) throw Error(response.error)
+    
+        //             return response
+        //         })
+        //     },
+            
     retrievePet(petsId) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         // if (!token.trim().length) throw Error('token is empty')

@@ -10,6 +10,10 @@ class EditOwner extends Component {
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
 
+    componentDidMount() {
+        this.retrieveUsers()
+    }
+
     retrieveUsers = async () => {
         const users = await logic.retrieveUsers()
         this.setState({ users })
@@ -22,10 +26,6 @@ class EditOwner extends Component {
         if (!userId) return
         const { name, surname, idCard, phone, adress, city, email } = await logic.retrieveUser(userId)
         this.setState({ name, surname, idCard, phone, adress, city, email })
-    }
-
-    componentDidMount() {
-        this.retrieveUsers()
     }
 
 
@@ -58,9 +58,9 @@ class EditOwner extends Component {
             <section class="form">
                 <div className="input__form">
                     <p className="title__form">Owner's details:</p>
-                    <label onClick={this.handleSelect}>Select Owner</label>
+                    <label>Select Owner</label>
                     <select name="owner" onChange={this.handleSelectChange}>
-                    {<option></option>}{this.state.users.map(user => <option name="owner" value={user.id}>{user.name}{' - '}{user.email}</option>)}
+                        {<option></option>}{this.state.users.map(user => <option name="owner" value={user.id}>{user.name}{' - '}{user.email}</option>)}
                     </select>
                 </div>
                 <div className="input__form">

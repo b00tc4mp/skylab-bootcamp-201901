@@ -87,6 +87,7 @@ class Calendar extends Component {
 
     handleDatePicker = event => {
         event.preventDefault()
+        // const date = event.target.value;
         const date = event.target.value;
         this.setState({ date })
         const dateSelected = new Date(date)
@@ -136,7 +137,7 @@ class Calendar extends Component {
             debugger
             await logic.assignAppointment(owner, pet, date)
             this.setState({ error: false, visitConfirmed: true, errorDate: false })
-            // this.retrieveAppointments()
+            this.retrieveAppointments()
         } catch ({ message }) {
             this.setState({ error: message, askConfirmation: false, visitConfirmed: false, errorDate: false })
         }
@@ -192,6 +193,7 @@ class Calendar extends Component {
             <div className="input__form">
                 <label>Date</label>
                 <input type="date" defaultValue={`${this.state.year}-${this.state.month}-${this.state.day}`} onChange={this.handleDatePicker} />
+                {/* <input type="date"  onChange={this.handleDatePicker} /> */}
             </div>
             <div className="input__form">
                 <label>Hour</label>
@@ -262,7 +264,7 @@ class Calendar extends Component {
                                                                 <p className="appointment" value={id}>
                                                                     <th>
                                                             {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
-                                                                        <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                                        <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete</button>
                                                                     </th>
                                                                 </p>
                                                             </tr>
@@ -273,7 +275,7 @@ class Calendar extends Component {
                                                             <p className="appointment" value={id}>
                                                                 <th>
                                                         {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
-                                                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete</button>
                                                                 </th>
                                                             </p>
                                                         </tr>
@@ -284,7 +286,7 @@ class Calendar extends Component {
                                                             <p className="appointment" value={id}>
                                                                 <th>
                                                         {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
-                                                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete</button>
                                                                 </th>
                                                             </p>
                                                         </tr>
@@ -295,7 +297,7 @@ class Calendar extends Component {
                                                             <p className="appointment" value={id}>
                                                                 <th>
                                                         {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
-                                                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete</button>
                                                                 </th>
                                                             </p>
                                                         </tr>
@@ -306,37 +308,38 @@ class Calendar extends Component {
                                                             <p className="appointment" value={id}>
                                                                 <th>
                                                         {date.getDate()}{' '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
-                                                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
+                                                                    <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete</button>
                                                                     </th>
                                                                 </p>
                                                     </tr>
                                                     )
-                                                } else {
-                                                    return  (
-                                                    <tr>
-                                                    <p className="appointment" value={id}>
-                                                    <tr>
-                                                        <th>
-                                                            Hora lliure 
+                                                // } else {
+                                                // //     return  (
+                                                // //     <tr>
+                                                // //     <p className="appointment" value={id}>
+                                                // //     <tr>
+                                                // //         <th>
+                                                // //             Hora lliure 
                                             
-                                                        </th>
-                                                        </tr>
-                                                    </p>
-                                                </tr>
-                                                    )
+                                                // //         </th>
+                                                // //         </tr>
+                                                // //     </p>
+                                                // // </tr>
+                                                // //     )
                                                 
                                             }
-                                        }else{
-                                            return (
-                                                <tr>
-                                                     <p className="appointment" value={id}>
-                                                    <th>
-                                                        Dia lliure                      
-                                                    </th>
-                                                </p>
-                                                    </tr>
-                                            )
                                         }
+                                        // else{
+                                        //     // return (
+                                        //     //     <tr>
+                                        //     //          <p className="appointment" value={id}>
+                                        //     //         <th>
+                                        //     //             Dia lliure                      
+                                        //     //         </th>
+                                        //     //     </p>
+                                        //     //         </tr>
+                                        //     // )
+                                        // }
                                         })
 
                                     }

@@ -1,7 +1,7 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { params: {userId} } = req
+    const  {userId}  = req
 
     try {
         logic.retrieveUser(userId)

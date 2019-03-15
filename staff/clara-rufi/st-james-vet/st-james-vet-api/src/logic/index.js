@@ -216,7 +216,7 @@ const logic = {
 
             let _date = await Appointment.findOne({ date })
     
-            if (_date) throw Error(`This date has been selected. Please, select another`)
+            if (_date) throw Error(`This date & hour has been selected. Please, select another one`)
             // var date = new Date(dayDb)
             // let date = dayDb.toISOString()
             debugger
@@ -273,6 +273,7 @@ const logic = {
                     adress: user.adress,
                     city: user.city,
                     email: user.email,
+                    id: user._id,
                 }
     
                 return _user
@@ -314,6 +315,7 @@ const logic = {
             debugger
             return {
                 owner: appointment.owner,
+                // ownerId: appointment.owner.id,
                 pet: appointment.pet,
                 date : appointment.date,
                 id: appointment._id             
@@ -379,6 +381,7 @@ const logic = {
                     adress: user.adress,
                     city: user.city,
                     email: user.email,
+                    id: user._id,
                 }
                 return _user
             })

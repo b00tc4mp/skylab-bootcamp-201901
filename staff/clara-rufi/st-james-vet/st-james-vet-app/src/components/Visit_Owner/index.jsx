@@ -5,11 +5,12 @@ import moment from 'moment';
 
 class VisitOwner extends Component {
 
-    state = { appointments: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false }
+    state = { user: '', appointments: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false }
 
 
     componentDidMount() {
         this.retrieveAppointments()
+        this.retrieveUser()
     }
 
     retrieveAppointments = async () => {
@@ -18,6 +19,15 @@ class VisitOwner extends Component {
         console.log(year, month)
         const appointments = await logic.retrieveAppointments(year, month)
         this.setState({ appointments })
+    }
+
+    retrieveUser = async () => {
+        debugger
+        const user = await logic.retrieveUser()
+        this.setState({ user : user.id })
+        console.log(user)
+        // , () => console.log(this.state.user))
+      
     }
 
 
@@ -51,17 +61,22 @@ class VisitOwner extends Component {
     render() {
 
         return <section className="calendar">
-                <h1>Appointments</h1>
                     <div className="input__form">
+                    <label>Appointments:</label>
             {
                 this.state.appointments.map(({ id, owner, pet, date }) => {
                   
                     this.state.appointments.sort(function (a, b) {
                         return a.date - b.date
                     })
-                    // if (owner.name === )
-                    return (
-                        <tr>
+                    console.log(this.state.user)
+                    
+                    // if (owner._id === this.state.user ){
+                        if (owner._id === this.state.user ){
+                            return (
+                                // <h1>Owner {owner._id}</h1>
+                                <div>
+                                <tr>
                             <p className="appointment" value={id}>
                                 <th>
                                     <p>Day: {date.getDate()}{'/'}{date.getMonth()}</p>
@@ -71,7 +86,14 @@ class VisitOwner extends Component {
                                 </th>
                             </p>
                         </tr>
+                        </div>
                     )
+                    // }else{
+                    //     return(
+                    //     <p>There ara no appointments</p>
+                    //     )
+                    // }
+                            }
                 })
             }
         </div>
