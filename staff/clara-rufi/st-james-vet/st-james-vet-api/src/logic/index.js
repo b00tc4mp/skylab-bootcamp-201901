@@ -37,7 +37,7 @@ const logic = {
 
         if (!idCard.trim().length) throw Error('idCard cannot be empty')
 
-        if (typeof phone !== 'string') throw TypeError ('phone is not a string') 
+        if (typeof phone !== 'string') throw TypeError (phone + ' is not a string') 
 
         if (!phone.trim().length) throw Error ('phone cannot be empty')
 
@@ -76,6 +76,8 @@ const logic = {
             user = new User ({name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation: hash})
 
             await user.save()
+
+            return user
 
         })()
     },
@@ -200,26 +202,25 @@ const logic = {
      */
 
     assignAppointment(owner, pet, date) {
-        // if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
-        // if (!owner.trim().length) throw Error('owner cannot be empty')
+        if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
-        // if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
+        if (!owner.trim().length) throw Error('owner cannot be empty')
 
-        // if (!pet.trim().length) throw Error('pet cannot be empty')
+        if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
 
-        // if (dayDb instanceof 'date') throw TypeError(dayDb + ' is not a date')
+        if (!pet.trim().length) throw Error('pet cannot be empty')
 
-        // if (!dayDb.trim().length) throw Error('dayDb cannot be empty')
+        if (date instanceof Date) throw TypeError(date + ' is not type date')
+
+        if (!date.trim().length) throw Error('date cannot be empty')
 
         return (async () => {
 
             let _date = await Appointment.findOne({ date })
     
             if (_date) throw Error(`This date & hour has been selected. Please, select another one`)
-            // var date = new Date(dayDb)
-            // let date = dayDb.toISOString()
-            debugger
+       
             const appointment = new Appointment ({owner, pet, date})
     
             await appointment.save()
@@ -306,16 +307,34 @@ const logic = {
      */
     async retrieveAppointments( year, month) { 
 
-        const toDate = new Date(year, month, 0);
-        const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 0);
+        if (typeof year !== 'string') throw TypeError(`${year} is not a string`)
+
+        if (!year.trim().length) throw new EmptyError('year is empty')
+
+        if (typeof month !== 'string') throw TypeError(`${month} is not a string`)
+
+        if (!month.trim().length) throw new EmptyError('month is empty')
+
+        // const fromDate = moment().startOf(month).format('YYYY-MM-DD hh:mm');
+        // var toDate = moment ().endOf(month).format('YYYY-MM-DD hh:mm');
+
+        // const toDate = new Date(year, month, 0);////////////
+        // const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 0);/////////////////
+
+        const toDate = new Date(year, month ,0);  //30/3
+        const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 1); //29 del 4
+
+        // const startOfMonth = new Date (moment().startOf(month).format('YYYY-MM-DD hh:mm'));
+        // const endOfMonth   = new Date(moment().endOf(month).format('YYYY-MM-DD hh:mm'));
+    
         console.log(fromDate, toDate)
 
-        const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate}}).populate('owner pet')
+        const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lte': toDate}}).populate('owner pet')
+        // const _appointments= await Appointment.find({"date": {'$gte': startOfMonth, '$lte': endOfMonth}}).populate('owner pet')/////
         const appointments = _appointments.map(appointment => {
             debugger
             return {
                 owner: appointment.owner,
-                // ownerId: appointment.owner.id,
                 pet: appointment.pet,
                 date : appointment.date,
                 id: appointment._id             

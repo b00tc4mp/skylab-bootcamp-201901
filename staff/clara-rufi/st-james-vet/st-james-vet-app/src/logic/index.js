@@ -256,9 +256,7 @@ const logic = {
     },
 
     retrieveAppointments(year, month) {
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
-          // this.__userToken__()
+        
           
         this.__updateToken__()
         return fetch(`${this.url}/appointments/${year}/${month}`, {
