@@ -8,11 +8,7 @@ module.exports = {
             const logic = new Logic(session)
 
             logic.logOutUser = function () {
-                // logic.__proto__.logOutUser() // WARN __proto__ is a different context from logic instance itself!
-
-                // Logic.prototype.logOutUser.call(logic)
                 Logic.prototype.logOutUser.call(this)
-
                 session.destroy()
             }
 

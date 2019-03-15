@@ -134,7 +134,7 @@ const skylabApi = {
 
     createExercise(exercise, token) {
         if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
-
+        debugger
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 

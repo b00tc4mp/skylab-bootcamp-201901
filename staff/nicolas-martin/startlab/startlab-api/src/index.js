@@ -1,7 +1,8 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
+const { mongoose } = require('startlab-data')
 const express = require('express')
 const bodyParser = require('body-parser')
 

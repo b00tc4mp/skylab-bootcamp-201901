@@ -4,23 +4,13 @@ const { handleResponseError } = require('../route-helper')
 
 module.exports = (req, res) => {
 
-    const { body: { title, summary, test, theme }, userId } = req
+    const { body: { title, summary, test, theme, order }, userId } = req
 
     try {
-        logic.createExercise(userId, title, summary, test, theme)
+        logic.createExercise(userId, title, summary, test, theme, order)
             .then(response => res.json(response))
             .catch(error => handleResponseError(error, res))
     } catch (error) {
         handleResponseError(error, res)
     }
 }
-
-
-// OK
-// { "id": "5c77c4f06359ba34e89f82ee"}
-
-// Empty title
-// {"error": "title is empty" }
-
-// NOK - student
-// {"error": "user with id 5c77c89209ad473de1078938 has not privileges"}

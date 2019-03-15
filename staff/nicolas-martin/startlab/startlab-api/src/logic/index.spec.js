@@ -1,589 +1,360 @@
-'use strict'
+require("dotenv").config()
+const expect = require("expect")
+const bcrypt = require("bcrypt")
 
-require('dotenv').config()
-
-require('isomorphic-fetch')
-
-const { MongoClient } = require('mongodb')
-const expect = require('expect')
-const artistComments = require('../data/artist-comments')
+const { mongoose, models: { User, Exercise, Invitation, Historical } } = require('startlab-data')
 const logic = require('.')
-const users = require('../data/users')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const { env: { DB_URL } } = process
 
-const { env: { DB_URL, SPOTIFY_API_TOKEN, JWT_SECRET } } = process
 
-spotifyApi.token = SPOTIFY_API_TOKEN
-logic.jwtSecret = JWT_SECRET
-
-describe('logic', () => {
-    let client
-
-    before(() =>
-        MongoClient.connect(DB_URL, { useNewUrlParser: true })
-            .then(_client => {
-                client = _client
-
-                users.collection = client.db().collection('users')
-            })
-    )
+describe("logic", () => {
+    before(() => mongoose.connect(DB_URL, { useNewUrlParser: true }))
 
     beforeEach(() =>
-        Promise.all([
-            artistComments.removeAll(),
-            users.collection.deleteMany()
-        ])
+        Promise.all([User.deleteMany(), Exercise.deleteMany(), Invitation.deleteMany(), Historical.deleteMany()])
     )
 
     describe('register user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = `123-${Math.random()}`
+        const name = 'Nico'
+        const surname = 'Nico'
+        const email = `nico-${Math.random()}@mail.com`
+        const password = `456-${Math.random()}`
         const passwordConfirm = password
 
-        it('should succeed on valid data', () =>
-            logic.registerUser(name, surname, email, password, passwordConfirm)
+        beforeEach(() => {
+            const invitation = { email, status: 'sent' }
+            return Invitation.create(invitation)
+        })
+
+        it('should succeed on valid data', () => {
+            return logic.registerUser(name, surname, email, password, passwordConfirm)
                 .then(id => {
                     expect(id).toBeDefined()
-                    expect(typeof id).toBe('string')
-
-                    return users.findByEmail(email)
+                    return User.findOne({ email })
+                        .then(user => {
+                            expect(user.name).toBe(name)
+                            expect(user.surname).toBe(surname)
+                            expect(user.email).toBe(email)
+                            bcrypt.compare(password, user.password)
+                                .then(match => {
+                                    expect(match).toBeTruthy()
+                                })
+                        })
+                        .catch(error => {
+                            expect(error).not.toBeDefined()
+                        })
                 })
-                .then(user => {
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-
-                    return bcrypt.compare(password, user.password)
-                        .then(match => expect(match).toBeTruthy())
-                })
-        )
-
-        it('should fail on undefined name', () => {
-            const name = undefined
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
         })
 
-        it('should fail on numeric name', () => {
-            const name = 10
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
+        it('should fail not valid name', () => {
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
-        })
-
-
-        it('should fail on boolean name', () => {
-            const name = true
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
-        })
-
-        it('should fail on object name', () => {
-            const name = {}
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
-        })
-
-        it('should fail on array name', () => {
-            const name = []
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(name + ' is not a string'))
+                logic.registerUser([], surname, email, password, passwordConfirm)
+            }).toThrow(TypeError([] + ' is not a string'))
         })
 
         it('should fail on empty name', () => {
-            const name = ''
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('name cannot be empty'))
-        })
-
-        it('should fail on undefined surname', () => {
-            const name = 'Manuel'
-            const surname = undefined
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(surname + ' is not a string'))
-        })
-
-        it('should fail on numeric surname', () => {
-            const name = 'Manuel'
-            const surname = 10
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(surname + ' is not a string'))
-        })
-
-
-        it('should fail on boolean surname', () => {
-            const name = 'Manuel'
-            const surname = false
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(surname + ' is not a string'))
-        })
-
-        it('should fail on object surname', () => {
-            const name = 'Manuel'
-            const surname = {}
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(surname + ' is not a string'))
-        })
-
-        it('should fail on array surname', () => {
-            const name = 'Manuel'
-            const surname = []
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(TypeError(surname + ' is not a string'))
+                logic.registerUser('', surname, email, password, passwordConfirm)
+            }).toThrow('name cannot be empty')
         })
 
         it('should fail on empty surname', () => {
-            const name = 'Manuel'
-            const surname = ''
-            const email = 'manuelbarzi@mail.com'
-            const password = `123-${Math.random()}`
-
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
-            }).toThrow(Error('surname cannot be empty'))
+                logic.registerUser(name, '', email, password, passwordConfirm)
+            }).toThrow('surname cannot be empty')
         })
-    })
 
-    describe('authenticate user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = `123-${Math.random()}`
+        it('should fail on empty email', () => {
+            expect(() => {
+                logic.registerUser(name, surname, '', password, passwordConfirm)
+            }).toThrow('email cannot be empty')
+        })
 
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => users.add({ name, surname, email, password: hash }))
-        )
+        it('should fail on empty password', () => {
+            expect(() => {
+                logic.registerUser(name, surname, email, '', passwordConfirm)
+            }).toThrow('password cannot be empty')
+        })
 
-        it('should succeed on correct credentials', () =>
-            logic.authenticateUser(email, password)
-                .then(({ id, token }) => {
-                    expect(id).toBeDefined()
-                    expect(token).toBeDefined()
+        it('should fail on empty passwordConfirm', () => {
+            expect(() => {
+                logic.registerUser(name, surname, email, password, '')
+            }).toThrow('password confirmation cannot be empty')
+        })
+
+        it('should fail not valid surname', () => {
+            expect(() => {
+                logic.registerUser(name, [], email, password, passwordConfirm)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail not valid email', () => {
+            expect(() => {
+                logic.registerUser(name, surname, [], password, passwordConfirm)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail not valid password', () => {
+            expect(() => {
+                logic.registerUser(name, surname, email, [], passwordConfirm)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail not valid passwordConfirm', () => {
+            expect(() => {
+                logic.registerUser(name, surname, email, password, [])
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail with different passwords', () => {
+            expect(() => {
+                logic.registerUser(name, surname, email, '123', '1234')
+            }).toThrow(Error('passwords do not match'))
+        })
+
+        it('should fail with non-invited user', () => {
+            return logic.registerUser(name, surname, 'non-invited-user@gmail.com', password, passwordConfirm)
+                .then(() => {
+                    console.log('should fail with non-invited user - it should not passed over here')
                 })
-        )
-    })
+                .catch(({ message }) => expect(message).toBe('only invited users can registered'))
+        })
 
-    describe('retrieve user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = `123-${Math.random()}`
-        let _id, _token
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => users.add({ name, surname, email, password: hash }))
+        it('should fail on existing user', () => {
+            return logic.registerUser(name, surname, email, password, passwordConfirm)
                 .then(id => {
-                    _id = id
-                    _token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
-        )
+                    return logic.registerUser(name, surname, email, password, passwordConfirm)
+                        .then(() => {
 
-        it('should succeed on correct credentials', () =>
-            logic.retrieveUser(_id, _token)
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-                })
-        )
-    })
-
-    // TODO updateUser and removeUser
-
-    describe('search artists', () => {
-        it('should succeed on mathing query', () => {
-            const query = 'madonna'
-
-            return logic.searchArtists(query)
-                .then(artists => {
-                    expect(artists).toBeDefined()
-                    expect(artists instanceof Array).toBeTruthy()
-                    expect(artists.length).toBeGreaterThan(0)
-
-                    artists.forEach(({ name }) => expect(name.toLowerCase()).toContain(query))
-                })
-        })
-
-        it('should fail on empty query', () => {
-            const query = ''
-
-            expect(() => logic.searchArtists(query, function (error, artists) { })).toThrowError('query is empty')
-        })
-    })
-
-    describe('retrieve artist', () => {
-        it('should succeed on mathing query', () => {
-            const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-
-            return logic.retrieveArtist(artistId)
-                .then(({ id, name }) => {
-                    expect(id).toBe(artistId)
-                    expect(name).toBe('Madonna')
-                })
-        })
-
-        it('should fail on empty artistId', function () {
-            const artistId = ''
-
-            expect(() => logic.retrieveArtist(artistId)).toThrowError('artistId is empty')
-        })
-    })
-
-    describe('toggle favorite artist', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = `123-${Math.random()}`
-        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-        let _id, _token
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => users.add({ name, surname, email, password: hash }))
-                .then(id => {
-                    _id = id
-                    _token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
-        )
-
-        it('should succeed on correct data', () =>
-            logic.toggleFavoriteArtist(_id, _token, artistId)
-                .then(() => users.findById(_id))
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-
-                    expect(user.favoriteArtists).toBeDefined()
-                    expect(user.favoriteArtists.length).toBe(1)
-                    expect(user.favoriteArtists[0]).toBe(artistId)
-
-                    return logic.toggleFavoriteArtist(_id, _token, artistId)
-                })
-                .then(() => users.findById(_id))
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-
-                    expect(user.favoriteArtists).toBeDefined()
-                    expect(user.favoriteArtists.length).toBe(0)
-                })
-        )
-    })
-
-    describe('add comment to artist', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = `123-${Math.random()}`
-        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-        const text = `comment ${Math.random()}`
-        let _id, _token
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => users.add({ name, surname, email, password: hash }))
-                .then(id => {
-                    _id = id
-                    _token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
-        )
-
-        it('should succeed on correct data', () =>
-            logic.addCommentToArtist(_id, _token, artistId, text)
-                .then(id => {
-                    expect(id).toBeDefined()
-
-                    return artistComments.retrieve(id)
-                        .then(_comment => {
-                            expect(_comment.id).toBe(id)
-                            expect(_comment.userId).toBe(_id)
-                            expect(_comment.artistId).toBe(artistId)
-                            expect(_comment.text).toBe(text)
-                            expect(_comment.date).toBeDefined()
-                            expect(_comment.date instanceof Date).toBeTruthy()
+                        })
+                        .catch(error => {
+                            expect(error).toBeDefined()
+                            expect(error.message).toBe(`user with email ${email} already exists`)
                         })
                 })
-        )
-    })
-
-    describe('list comments from artist', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = `123-${Math.random()}`
-        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-        const text = `comment ${Math.random()}`
-        const text2 = `comment ${Math.random()}`
-        const text3 = `comment ${Math.random()}`
-        let comment, comment2, comment3
-        let _id, _token
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => users.add({ name, surname, email, password: hash }))
-                .then(id => {
-                    _id = id
-                    _token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
+                .catch(error => {
+                    expect(error).not.toBeDefined()
                 })
-                .then(() => artistComments.add(comment = { userId: _id, artistId, text }))
-                .then(() => artistComments.add(comment2 = { userId: _id, artistId, text: text2 }))
-                .then(() => artistComments.add(comment3 = { userId: _id, artistId, text: text3 }))
-        )
-
-        it('should succeed on correct data', () =>
-            logic.listCommentsFromArtist(artistId)
-                .then(comments => {
-                    expect(comments).toBeDefined()
-                    expect(comments.length).toBe(3)
-
-                    comments.forEach(({ id, userId, artistId: _artistId, date }) => {
-                        expect(id).toBeDefined()
-                        expect(userId).toEqual(_id)
-                        expect(_artistId).toEqual(artistId)
-                        expect(date).toBeDefined()
-                        expect(date instanceof Date).toBeTruthy()
-                    })
-
-                    expect(comments[0].text).toEqual(text)
-                    expect(comments[1].text).toEqual(text2)
-                    expect(comments[2].text).toEqual(text3)
-                })
-        )
-    })
-
-    describe('retrieve albums', () => {
-        it('should succeed on mathing query', () => {
-            const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-
-            return logic.retrieveAlbums(artistId)
-                .then(albums => {
-                    expect(albums).toBeDefined()
-                    expect(albums instanceof Array).toBeTruthy()
-                    expect(albums.length).toBeGreaterThan(0)
-                })
-        })
-
-        it('should fail on empty artistId', function () {
-            const artistId = ''
-
-            expect(() => logic.retrieveAlbums(artistId)).toThrowError('artistId is empty')
         })
     })
 
-    describe('retrieve album', () => {
-        it('should succeed on mathing query', () => {
-            const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
-
-            return logic.retrieveAlbum(albumId)
-                .then(({ id, name }) => {
-                    expect(id).toBe(albumId)
-                    expect(name).toBe('Rebel Heart Tour (Live)')
-                })
+    describe('fill exercises to user', () => {
+        
+        it('should fail on empty email', () => {
+            expect(() => {
+                logic.__fillExercisesToUser__('')
+            }).toThrow('userId cannot be empty')
         })
 
-        it('should fail on empty albumId', function () {
-            const albumId = ''
-
-            expect(() => logic.retrieveAlbum(albumId)).toThrowError('albumId is empty')
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.__fillExercisesToUser__([])
+            }).toThrow([] + ' is not a string')
         })
     })
 
-    describe('toggle favorite album', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = `123-${Math.random()}`
-        const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
-        let _id, _token
 
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => users.add({ name, surname, email, password: hash }))
-                .then(id => {
-                    _id = id
-                    _token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
-        )
-
-        it('should succeed on correct data', () =>
-            logic.toggleFavoriteAlbum(_id, _token, albumId)
-                .then(() => users.findById(_id))
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-
-                    expect(user.favoriteAlbums).toBeDefined()
-                    expect(user.favoriteAlbums.length).toBe(1)
-                    expect(user.favoriteAlbums[0]).toBe(albumId)
-
-                    return logic.toggleFavoriteAlbum(_id, _token, albumId)
-                })
-                .then(() => users.findById(_id))
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-
-                    expect(user.favoriteAlbums).toBeDefined()
-                    expect(user.favoriteAlbums.length).toBe(0)
-                })
-        )
-    })
-
-    describe('retrieve tracks', () => {
-        it('should succeed on mathing query', () => {
-            const albumId = '4hBA7VgOSxsWOf2N9dJv2X' // Rebel Heart Tour (Live)
-
-            return logic.retrieveTracks(albumId)
-                .then(tracks => {
-                    expect(tracks).toBeDefined()
-                    expect(tracks instanceof Array).toBeTruthy()
-                    expect(tracks.length).toBeGreaterThan(0)
-                })
+    describe('is email invited', () => {
+        
+        it('should fail on empty email', () => {
+            expect(() => {
+                logic.__isEmailInvited__('')
+            }).toThrow('email cannot be empty')
         })
 
-        it('should fail on empty albumId', function () {
-            const albumId = ''
-
-            expect(() => logic.retrieveTracks(albumId)).toThrowError('albumId is empty')
+        it('should fail on not valid email', () => {
+            expect(() => {
+                logic.__isEmailInvited__([])
+            }).toThrow( [] + ' is not a string')
         })
     })
 
-    describe('retrieve track', () => {
-        it('should succeed on mathing query', () => {
-            const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live
-            const trackName = 'Rebel Heart Tour Intro - Live'
-
-            return logic.retrieveTrack(trackId)
-                .then(track => {
-                    expect(track).toBeDefined()
-
-                    const { id, name } = track
-
-                    expect(id).toBe(trackId)
-                    expect(name).toBe(trackName)
-                })
-        })
-
-        it('should fail on empty trackId', function () {
-            const trackId = ''
-
-            expect(() => logic.retrieveTrack(trackId)).toThrowError('trackId is empty')
-        })
-    })
-
-    describe('toggle favorite track', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = `123-${Math.random()}`
-        const trackId = '5U1tMecqLfOkPDIUK9SVKa' // Rebel Heart Tour Intro - Live)
-        let _id, _token
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => users.add({ name, surname, email, password: hash }))
-                .then(id => {
-                    _id = id
-                    _token = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '30m' })
-                })
-        )
-
-        it('should succeed on correct data', () =>
-            logic.toggleFavoriteTrack(_id, _token, trackId)
-                .then(() => users.findById(_id))
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-
-                    expect(user.favoriteTracks).toBeDefined()
-                    expect(user.favoriteTracks.length).toBe(1)
-                    expect(user.favoriteTracks[0]).toBe(trackId)
-
-                    return logic.toggleFavoriteTrack(_id, _token, trackId)
-                })
-                .then(() => users.findById(_id))
-                .then(user => {
-                    expect(user.id).toBe(_id)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-
-                    expect(user.favoriteTracks).toBeDefined()
-                    expect(user.favoriteTracks.length).toBe(0)
-                })
-        )
-    })
 
     after(() =>
         Promise.all([
-            artistComments.removeAll(),
-            users.collection.deleteMany()
-                .then(() => client.close())
-        ])
+            User.deleteMany(), Exercise.deleteMany(), Invitation.deleteMany(), Historical.deleteMany()]).then(() =>
+                mongoose.disconnect()
+            )
     )
+
 })
+
+        // it('should fail on undefined name', () => {
+        //     const name = undefined
+        //     const surname = "Barzi"
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(name + " is not a string"))
+        // })
+
+        // it("should fail on numeric name", () => {
+        //     const name = 10
+        //     const surname = "Barzi"
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(name + " is not a string"))
+        // })
+
+        // it("should fail on boolean name", () => {
+        //     const name = true
+        //     const surname = "Barzi"
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(name + " is not a string"))
+        // })
+
+        // it("should fail on object name", () => {
+        //     const name = {}
+        //     const surname = "Barzi"
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(name + " is not a string"))
+        // })
+
+        // it("should fail on array name", () => {
+        //     const name = []
+        //     const surname = "Barzi"
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(name + " is not a string"))
+        // })
+
+        // it("should fail on empty name", () => {
+        //     const name = ""
+        //     const surname = "Barzi"
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(Error("name is empty or blank"))
+        // })
+
+        // it("should fail on undefined surname", () => {
+        //     const name = "Manuel"
+        //     const surname = undefined
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(surname + " is not a string"))
+        // })
+
+        // it("should fail on numeric surname", () => {
+        //     const name = "Manuel"
+        //     const surname = 10
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(surname + " is not a string"))
+        // })
+
+        // it("should fail on boolean surname", () => {
+        //     const name = "Manuel"
+        //     const surname = false
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(surname + " is not a string"))
+        // })
+
+        // it("should fail on object surname", () => {
+        //     const name = "Manuel"
+        //     const surname = {}
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(surname + " is not a string"))
+        // })
+
+        // it("should fail on array surname", () => {
+        //     const name = "Manuel"
+        //     const surname = []
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(TypeError(surname + " is not a string"))
+        // })
+
+        // it("should fail on empty surname", () => {
+        //     const name = "Manuel"
+        //     const surname = ""
+        //     const email = "manuelbarzi@mail.com"
+        //     const password = `123-${Math.random()}`
+
+        //     expect(() => {
+        //         logic.registerUser(name, surname, email, password, password)
+        //     }).toThrow(Error("surname is empty or blank"))
+        // })
+
+
+
+    // describe("authenticate user", () => {
+    //     const name = "Manuel"
+    //     const surname = "Barzi"
+    //     const email = `manuelbarzi-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
+
+    //     beforeEach(() =>
+    //         bcrypt
+    //             .hash(password, 10)
+    //             .then(hash => User.create({ name, surname, email, password: hash }))
+    //     )
+
+    //     it("should succeed on correct credentials", () =>
+    //         logic
+    //             .authenticateUser(email, password)
+    //             .then(id => expect(id).toBeDefined()))
+    // })
+
+    // describe("retrieve user", () => {
+    //     const name = "Manuel"
+    //     const surname = "Barzi"
+    //     const email = `manuelbarzi-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
+
+    //     let userId
+
+    //     beforeEach(() =>
+    //         bcrypt
+    //             .hash(password, 10)
+    //             .then(hash => User.create({ name, surname, email, password: hash }))
+    //             .then(({ id }) => (userId = id))
+    //     )
+
+    //     it("should succeed on correct credentials", () =>
+    //         logic.retrieveUser(userId).then(user => {
+    //             expect(user.id).toBe(userId)
+    //             expect(user.name).toBe(name)
+    //             expect(user.surname).toBe(surname)
+    //             expect(user.email).toBe(email)
+
+    //             expect(user.save).toBeUndefined()
+    //         }))
+    // })
+
+
