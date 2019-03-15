@@ -6,6 +6,7 @@ import gameService from '../../../services/game';
 
 import GetReady from '../GetReady';
 import GameBlock from '../GameBlock';
+import GameOver from '../GameOver';
 
 function Questions(props) {
 	const hostGame = useRef(null);
@@ -20,15 +21,20 @@ function Questions(props) {
 	}, []);
 
 	const getGame = async () => {
+		console.log('GET!');
 		try {
 			const game = await gameService.get(props.gameID);
 
-			const _currentQuestionIndex = game.quiz.questions.findIndex(question => question._id === game.currentQuestion._id);
+			const _currentQuestionIndex = game.quiz.questions.findIndex(
+				question => question._id === game.currentQuestion._id,
+			);
 
 			setCurrentQuestionIndex(_currentQuestionIndex);
 
 			setCurrentQuestion(game.currentQuestion);
+
 			setTotalQuestions(game.quiz.questions.length);
+
 			setTotalUsers(game.users.length);
 		} catch (error) {
 			console.error(error);
@@ -36,21 +42,29 @@ function Questions(props) {
 	};
 
 	const nextQuestion = async () => {
+		console.log('NEXT!');
 		try {
 			const game = await gameService.next(props.gameID);
+
+			const _currentQuestionIndex = game.quiz.questions.findIndex(
+				question => question._id === game.currentQuestion._id,
+			);
+
+			setCurrentQuestionIndex(_currentQuestionIndex);
+
 			setCurrentQuestion(game.currentQuestion);
 
-			if(currentQuestion) {
+			if (currentQuestion) {
 				props.history.push(`/game/${game.id}/questions/getready`);
 			} else {
 				props.history.push(`/game/${game.id}/gameover`);
 			}
-
-		} catch(error) {
-			console.log(error)
+		} catch (error) {
+			console.log(error);
 		}
-		console.log('NEXT');
 	};
+
+	
 
 	return (
 		<section className="host-game" ref={hostGame}>
@@ -61,7 +75,7 @@ function Questions(props) {
 						render={() => (
 							<GetReady
 								hostGame={hostGame}
-								currentQuestionIndex= {currentQuestionIndex}
+								currentQuestionIndex={currentQuestionIndex}
 								totalQuestions={totalQuestions}
 								currentQuestion={currentQuestion}
 							/>
@@ -75,7 +89,10 @@ function Questions(props) {
 							<GameBlock
 								hostGame={hostGame}
 								currentQuestion={currentQuestion}
+								currentQuestionIndex={currentQuestionIndex}
+								totalQuestions={totalQuestions}
 								nextQuestion={nextQuestion}
+								gameOver={props.gameOver}
 								totalUsers={totalUsers}
 							/>
 						)}

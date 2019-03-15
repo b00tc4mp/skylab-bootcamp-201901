@@ -7,6 +7,7 @@ const {
 const httpStatus = require('http-status');
 const { questionSchema } = require('./question.model');
 const { NotFoundError } = require('../errors/index');
+const { Game } = require('./game.model');
 
 /**
  * Quiz Schema
@@ -40,6 +41,10 @@ const quizSchema = new mongoose.Schema(
 				ref: 'Question',
 			},
 		],
+		games: {
+			type: Number,
+			default: 0
+		}
 	},
 	{ timestamps: true },
 );
@@ -57,6 +62,7 @@ quizSchema.method({
 			'description',
 			'questions',
 			'picture',
+			'games',
 			'createdAt',
 		];
 
@@ -131,7 +137,7 @@ quizSchema.statics = {
 	 * @returns {Promise<Quiz[]>}
 	 */
 	listByAuthor({ page = 1, perPage = 9, author }) {
-		return this.find({author})
+		return this.find({ author })
 			.populate('author')
 			.sort({ createdAt: -1 })
 			.skip(perPage * (page - 1))

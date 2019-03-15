@@ -3,8 +3,7 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 
 import gameService from '../../../services/game';
 
-import socketApi from '../../../services/socket';
-
+// import socketApi from '../../../services/socket';
 
 import ExpandButton from '../ExpandButton';
 import CurrentQuestion from './CurrentQuestion';
@@ -15,6 +14,7 @@ function GameBlock(props) {
 	const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
 	const [count, setCount] = useState(props.currentQuestion.time);
 	const [answers, setAnswers] = useState(props.currentQuestion.answers);
+	const [results, setResults] = useState([]);
 
 	const [showResults, setShowResults] = useState(false);
 
@@ -28,15 +28,24 @@ function GameBlock(props) {
 
 	useEffect(() => {
 		countDown();
+
+		return () => {
+			clearTimeout(countDownTimeout);
+		};
 	}, [count]);
 
 	useEffect(() => {
 		gameService.showQuestionToPlayer(gameId);
+
+		return () => {
+			clearTimeout(countDownTimeout);
+		};
 	}, []);
 
-	const countDown = () => {
+	const countDown = async () => {
 		if (count === 0) {
-			showResultsScreen()
+			showResultsScreen();
+			await gameService.showTimeOutScreen(gameId);
 			return;
 		}
 
@@ -47,12 +56,15 @@ function GameBlock(props) {
 
 	const showResultsScreen = async () => {
 		clearTimeout(countDownTimeout);
-		const results = await gameService.showQuestionsResults(currentQuestion._id, gameId);
-		console.log("##############")
-		console.log(results);
-		console.log("##############")
+		const _results = await gameService.showQuestionsResults(
+			currentQuestion._id,
+			gameId,
+		);
+
+		setResults(_results);
+		
 		setShowResults(true);
-	}
+	};
 
 	return (
 		<Fragment>
@@ -65,14 +77,24 @@ function GameBlock(props) {
 				<div className="current-quiz__wrapper">
 					<div className="current-quiz__details">
 						{showResults ? (
-							<CurrentQuestionResults nextQuestion={props.nextQuestion} />
+							<CurrentQuestionResults
+								nextQuestion={props.nextQuestion}
+								gameOver={props.gameOver}
+								currentQuestionIndex={props.currentQuestionIndex}
+								totalQuestions={props.totalQuestions}
+								results={results}
+							/>
 						) : (
-							<CurrentQuestion image={currentQuestion.picture} totalUsers={props.totalUsers} showResultsScreen={showResultsScreen} count={count} />
+							<CurrentQuestion
+								image={currentQuestion.picture}
+								totalUsers={props.totalUsers}
+								showResultsScreen={showResultsScreen}
+								count={count}
+							/>
 						)}
 					</div>
 					<div className="current-quiz__choices">
 						{answers.map((answer, index) => {
-							console.log(answer);
 							if (answer.title !== '') {
 								return (
 									<div
@@ -85,6 +107,7 @@ function GameBlock(props) {
 									</div>
 								);
 							}
+							return '';
 						})}
 					</div>
 				</div>

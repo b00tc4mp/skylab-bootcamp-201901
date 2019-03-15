@@ -59,5 +59,9 @@ module.exports = {
 			return quiz.remove();
 		})(quiz);
 	},
+
+	addGame(quiz) {
+		this.updateQuiz(quiz, {games: (quiz.games + 1)})
+	},
 	
 };

@@ -20,6 +20,11 @@ function GetReady(props) {
     
     useEffect(() => {
 		countDown();
+
+		return () => {
+			clearTimeout(countDownTimeout);
+		}
+		
 	}, [count]);
 
 	const countDown = () => {
@@ -40,7 +45,7 @@ function GetReady(props) {
 	return (
 		<Fragment>
 			<header className="header-game-top">
-				<h1 className="header-game-top__title">Question {props.currentQuestionIndex} of {props.totalQuestions}</h1>
+				<h1 className="header-game-top__title">Question {(props.currentQuestionIndex + 1)} of {props.totalQuestions}</h1>
 				<ExpandButton hostGame={props.hostGame} />
 			</header>
 

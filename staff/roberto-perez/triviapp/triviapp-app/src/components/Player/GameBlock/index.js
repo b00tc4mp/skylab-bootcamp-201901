@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import gameService from '../../../services/game';
 
 function GameBlock(props) {
-
 	const [currentQuestion, setCurrentQuestion] = useState(null);
 	const [answers, setAnswers] = useState([]);
 	const [answerSuccess, setAnswerSuccess] = useState(null);
@@ -28,7 +27,7 @@ function GameBlock(props) {
 			setCurrentQuestion(game.currentQuestion);
 			setAnswers(gameAnswers);
 			setTotalAnswers(gameAnswers.length);
-			setAnswerSuccess(null)
+			setAnswerSuccess(null);
 		} catch (error) {
 			console.error(error);
 		}
@@ -36,9 +35,13 @@ function GameBlock(props) {
 
 	const answerSelected = async answer => {
 		try {
-			if(answerSuccess === null) {
-				await gameService.answeQuestion(props.gameId, currentQuestion._id, answer._id);
-				
+			if (answerSuccess === null) {
+				await gameService.answeQuestion(
+					props.gameId,
+					currentQuestion._id,
+					answer,
+				);
+
 				setAnswerSuccess(answer.success);
 			}
 		} catch (error) {
@@ -52,9 +55,19 @@ function GameBlock(props) {
 		<Fragment>
 			<div className="current-quiz">
 				<div className="current-quiz__wrapper">
-
 					<Fragment>
-						{(answerSuccess !== null && answerSuccess === true) && (
+						{props.timeOut && (
+							<div className="player-game player-game--red">
+								<div className="player-game__getready game-result">
+									<h2>TimeOut</h2>
+									<h4>
+										<FontAwesomeIcon icon="clock" />
+									</h4>
+								</div>
+							</div>
+						)}
+
+						{answerSuccess !== null && answerSuccess === true && (
 							<div className="player-game player-game--green">
 								<div className="player-game__getready game-result">
 									<h2>Correct</h2>
@@ -65,7 +78,7 @@ function GameBlock(props) {
 							</div>
 						)}
 
-						{(answerSuccess !== null && answerSuccess === false) && (
+						{answerSuccess !== null && answerSuccess === false && (
 							<div className="player-game player-game--red">
 								<div className="player-game__getready game-result">
 									<h2>Incorrect</h2>

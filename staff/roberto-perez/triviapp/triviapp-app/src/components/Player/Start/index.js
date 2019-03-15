@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import socketApi from '../../../services/socket';
+// import socketApi from '../../../services/socket';
+import gameService from '../../../services/game';
 
 function Start(props) {
 
@@ -12,7 +13,7 @@ function Start(props) {
 
 	
 	useEffect(() => {
-		socketApi.getReadyEvents(() => {
+		gameService.onNextQuestion(() => {
 			props.history.push(`/player/${gameId}/gameblock`);		
 		});
 	}, []);

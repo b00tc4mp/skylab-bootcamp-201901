@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -11,6 +11,7 @@ import Login from '../Login';
 import Signup from '../Signup';
 import Quiz from '../Quiz';
 import Dashboard from '../Dashboard';
+import Landing from '../Landing';
 
 function Home(props) {
 	return (
@@ -34,9 +35,7 @@ function Home(props) {
 						<Route path="/login" component={Login} />
 						<Route path="/quiz/:quizId" component={Quiz} />
 						<Route path="/dashboard" component={Dashboard} />
-						<div className="container">
-							<Route path="/" component={SearchResults} />
-						</div>
+						<Route path="/" component={Landing} />
 					</Switch>
 					<Footer />
 				</div>

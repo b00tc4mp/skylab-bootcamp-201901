@@ -25,7 +25,19 @@ const game = {
 	onAnswerQuestion(cb) {
 		gameApi.onEvent('answerQuestion', cb)
 	},
+	
+	onTimeOut(cb) {
+		gameApi.onEvent('timeOut', cb)
+	},
+	
+	onGameOver(cb) {
+		gameApi.onEvent('gameOver', cb)
+	},
 
+	
+
+
+	
 	
 	
 	async create(quizId) {
@@ -98,11 +110,27 @@ const game = {
 	},
 
 
+	
 
 
+	async getPodium(gameId) {
+		try {
+			return await gameApi.getPodium(gameId);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
+
+	async getScore(gameId) {
+		try {
+			return await gameApi.getScore(gameId);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
 
 
-
+	
 
 
 
@@ -123,22 +151,14 @@ const game = {
 		} catch (error) {
 			throw Error(error.message);
 		}
+	},
 
-		// const questionStorage = this.currentQuestion;
-
-		// questionStorage.questionAnswered = true;
-
-		// const { game } = this.state.get();
-
-		// game.quiz.questions.map(_question => {
-		// 	return _question._id === questionStorage._id
-		// 		? Object.assign(_question, questionStorage)
-		// 		: _question;
-		// });
-
-		// this.state.set(game);
-		
-		// return game;
+	async showTimeOutScreen(gameId) {
+		try {
+			return await gameApi.emitTimeOutScreen(gameId);
+		} catch (error) {
+			throw Error(error.message);
+		}
 	},
 
 	/**

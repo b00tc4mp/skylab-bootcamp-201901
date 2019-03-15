@@ -154,6 +154,23 @@ const gameApi = {
 			});
 	},
 
+	emitTimeOutScreen(gameId) {
+		return fetch(`${this.url}/game/time-out-question`, {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			},
+			body: JSON.stringify({ id: gameId }),
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				this.emitCreateGame(`game-${response.id}`);
+				return response;
+			});
+	},
+	
 	setNxtQuestion(gameId) {
 		return fetch(`${this.url}/game/${gameId}/next-question`, {
 			method: 'GET',
@@ -169,6 +186,37 @@ const gameApi = {
 			});
 	},
 
+	getPodium(gameId) {
+		
+		return fetch(`${this.url}/game/${gameId}/podium`, {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			},
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				return response;
+			});
+	},
+
+	getScore(gameId) {
+		
+		return fetch(`${this.url}/game/${gameId}/score`, {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			},
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				return response;
+			});
+	},
 	
 };
 

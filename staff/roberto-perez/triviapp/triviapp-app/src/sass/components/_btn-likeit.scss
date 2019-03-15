@@ -20,3 +20,11 @@
     font-size: 0.875em;
   }
 }
+
+.btn-edit-quiz a {
+  color: #fff;
+  &:after {
+    background: rgba(221, 152, 152, 0);
+  }
+}
+

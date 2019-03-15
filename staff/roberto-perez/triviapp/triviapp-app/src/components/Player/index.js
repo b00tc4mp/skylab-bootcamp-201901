@@ -8,6 +8,7 @@ import YouAreIn from './YouAreIn';
 import GetReady from './GetReady';
 import GameBlock from './GameBlock';
 import GameResults from './GameResults';
+import GameOver from './GameOver';
 
 function Player(props) {
 	const {
@@ -18,6 +19,8 @@ function Player(props) {
 	} = props;
 
 	const [gameID, setGameID] = useState(gameId);
+
+	const [timeOut, setTimeOut] = useState(false);
 
 	useEffect(() => {
 		gameService.onBeginNewGame(() => {
@@ -33,8 +36,20 @@ function Player(props) {
 
 	useEffect(() => {
 		gameService.onNextQuestion(() => {
-			console.log('NEXT!!!!!!');
+			setTimeOut(false)
 			props.history.push(`/player/${gameID}/getready`);
+		});
+	}, []);
+
+	useEffect(() => {
+		gameService.onGameOver(() => {
+			props.history.push(`/player/${gameID}/game-over`);
+		});
+	}, []);
+
+	useEffect(() => {
+		gameService.onTimeOut(() => {
+			setTimeOut(true)
 		});
 	}, []);
 
@@ -50,11 +65,15 @@ function Player(props) {
 			/>
 			<Route
 				path={`${match.url}/gameblock`}
-				render={() => <GameBlock gameId={gameID} />}
+				render={() => <GameBlock gameId={gameID} timeOut={timeOut} />}
 			/>
 			<Route
 				path={`${match.url}/gameresults`}
 				render={() => <GameResults gameId={gameID} />}
+			/>
+			<Route
+				path={`${match.url}/game-over`}
+				render={() => <GameOver gameId={gameID} />}
 			/>
 		</Switch>
 	);

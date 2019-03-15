@@ -31,7 +31,7 @@ function Profile(props) {
 	return (
 		<div className="header__profile">
 			<Link
-				to="/player/pin"
+				to="/pin"
 				title="Settings"
 				className="btn__link header__btn-create black"
 			>

@@ -18,7 +18,8 @@ import {
 	faCogs,
 	faTrophy,
 	faGamepad,
-	faCheckCircle
+	faCheckCircle,
+	faClock
 } from '@fortawesome/free-solid-svg-icons';
 
 import Home from '../Home';
@@ -42,14 +43,14 @@ library.add(
 	faCogs,
 	faTrophy,
 	faGamepad,
-	faCheckCircle
+	faCheckCircle,
+	faClock
 );
 
 
 function App() {
 	return (
 		<Switch>
-
 			<Route exact path="/pin" render={() => <Pin />} />
 			<Route path="/game/:gameId" render={() => <Game />} />
 			<Route path="/player/:gameId" render={() => <Player />} />

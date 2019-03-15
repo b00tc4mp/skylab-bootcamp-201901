@@ -36,6 +36,11 @@
         background: #ffa601;
       }
     }
+
+    & svg {
+      display: block;
+      margin: 0px auto;
+    }
   }
 
   &__bar {

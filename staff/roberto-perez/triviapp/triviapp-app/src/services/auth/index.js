@@ -1,4 +1,4 @@
-import userApi from '../../user-api';
+import userApi from '../../api/user-api';
 import validate from '../../utils/validate';
 import Xtorage from '../xtorage';
 

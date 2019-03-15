@@ -99,6 +99,18 @@ answerGameSchema.statics = {
 	 *
 	 * @returns {Promise<Quiz[]>}
 	 */
+	list(options = {}) {
+		return this.find(options)
+			.populate('user')
+			.populate('answer')
+			.exec();
+	},
+
+	/**
+	 * Get answers game by gameID & answerID
+	 *
+	 * @returns {Promise<Quiz[]>}
+	 */
 	// async getAnswersQuestion(option) {
 	// 	return await this.find(option)
 	// 		.populate('user')
@@ -122,7 +134,7 @@ answerGameSchema.statics = {
 		debugger;
 
 		return await this.aggregate([
-			{ $match: { 'game': gameId, 'question': questionId } },
+			{ $match: { game: gameId, question: questionId } },
 			{
 				$group: {
 					_id: '$question.answer',
@@ -133,17 +145,17 @@ answerGameSchema.statics = {
 			},
 		]);
 
-	// 	// return this.aggregate([
-	// 	// 	{ $match: { 'game': gameId, 'question': questionId } },
-	// 	// 	{
-	// 	// 		$group: {
-	// 	// 			_id: '$answer',
-	// 	// 			count: {
-	// 	// 				$sum: 1,
-	// 	// 			},
-	// 	// 		},
-	// 	// 	},
-	// 	// ]);
+		// 	// return this.aggregate([
+		// 	// 	{ $match: { 'game': gameId, 'question': questionId } },
+		// 	// 	{
+		// 	// 		$group: {
+		// 	// 			_id: '$answer',
+		// 	// 			count: {
+		// 	// 				$sum: 1,
+		// 	// 			},
+		// 	// 		},
+		// 	// 	},
+		// 	// ]);
 	},
 };
 

@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import auth from '../../services/auth';
 
 import PlayGame from '../PlayGame';
 
 function QuizCard(props) {
 	const {
-		quiz: { id, title, questions, picture, author },
+		quiz: { id, title, questions, picture, author, games },
 	} = props;
 
 	return (
@@ -17,10 +20,13 @@ function QuizCard(props) {
 				<div className="btn-favorite">
 					<i className="far fa-star" />
 				</div>
-				<div className="btn-likeit">
-					<i className="far fa-heart" />
-					<span className="btn-likeit__number">54</span>
-				</div>
+				{(auth.userLoggedIn && (auth.userLoggedIn.id === author._id)) && (
+					<div className="btn-likeit btn-edit-quiz">
+						<Link to={`dashboard/create/quiz/${id}/overview`}>
+							<FontAwesomeIcon icon="pen" />
+						</Link>
+					</div>
+				)}
 			</figure>
 			<div className="quiz__info">
 				<div className="quiz__info-content">
@@ -47,9 +53,11 @@ function QuizCard(props) {
 							</Link>
 						</div>
 						<div className="quiz__stats">
-							<PlayGame id={id} />
+							{questions.length > 0 && (<PlayGame id={id} />)}
 							<span className="purple">{questions.length}Qs</span>
-							<span className="red">2.3k plays</span>
+							<span className="red">
+								{games} play{games > 1 && 's'}
+							</span>
 						</div>
 					</footer>
 				</div>

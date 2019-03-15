@@ -18,15 +18,11 @@ function MyQuizzes() {
 		handleListQuiz();
 	}, [offset]);
 
-	const loadMore = () => {
-		setOffset(prevOffset => prevOffset + 1);
-	};
-
 	const handleListQuiz = async () => {
-		console.log(offset);
+		
 		try {
 			const newQuizzes = await quiz.myQuizzes(offset);
-
+			console.log(newQuizzes);
 			setLoadMoreButton(!!newQuizzes.length);
 
 			setQuizzes([...quizzes, ...newQuizzes]);

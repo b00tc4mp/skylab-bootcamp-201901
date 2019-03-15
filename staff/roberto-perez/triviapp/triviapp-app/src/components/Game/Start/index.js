@@ -10,7 +10,7 @@ function GetReady(props) {
 
 	let fillHeight = 100;
 
-	let initSeconds = 5;
+	let initSeconds = 1;
 
 	const countFill = useRef(null);
 

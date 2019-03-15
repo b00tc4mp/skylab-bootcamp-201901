@@ -3,6 +3,7 @@
 const httpStatus = require('http-status');
 const { Game } = require('../models/game.model');
 const gameLogic = require('../logic/game');
+const quizLogic = require('../logic/quiz');
 const { handleResponseError } = require('../routes/routes-helper');
 const { UnauthorizedError } = require('../errors');
 const { cloudName, apiKey, apiSecret } = require('../../config/vars');
@@ -66,6 +67,8 @@ exports.start = async (req, res) => {
 	try {
 		const game = await gameLogic.startGame(req.locals.game);
 
+		await quizLogic.addGame(game.quiz);
+
 		req.app.io.in(`game-${game.id}`).emit('beginNewGame', true);
 
 		res.status(httpStatus.OK);
@@ -78,6 +81,10 @@ exports.start = async (req, res) => {
 
 exports.emitQuestion = async (req, res) => {
 	req.app.io.in(`game-${req.body.id}`).emit('showQuestion', true);
+};
+
+exports.emitTimeOut = async (req, res) => {
+	req.app.io.in(`game-${req.body.id}`).emit('timeOut', true);
 };
 
 exports.answer = async (req, res) => {
@@ -129,6 +136,34 @@ exports.setNextQuestion = async (req, res) => {
 		res.status(httpStatus.OK);
 		
 		return res.json(question);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+exports.podium = async (req, res) => {
+	try {
+		const podium = await gameLogic.getPodium({game: req.locals.game});
+		
+		req.app.io.in(`game-${req.locals.game.id}`).emit('gameOver', true);
+
+		res.status(httpStatus.OK);
+		
+		return res.json(podium);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+exports.score = async (req, res) => {
+	try {
+		req.body.user = req.userId;
+
+		const score = await gameLogic.getScore({game: req.locals.game, user:req.userId});
+
+		res.status(httpStatus.OK);
+		
+		return res.json(score);
 	} catch (error) {
 		handleResponseError(error, res);
 	}

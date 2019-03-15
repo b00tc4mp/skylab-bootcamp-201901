@@ -1,4 +1,4 @@
-import auth from '../services/auth';
+import auth from '../../services/auth';
 
 const quizApi = {
 	url: 'http://localhost:8000/v1',

@@ -19,7 +19,13 @@ router.route('/:gameId/question').patch(authorize, controller.currentQuestion);
 
 router.route('/:gameId').get(controller.get);
 
+router.route('/:gameId/podium').get(authorize, controller.podium);
+
+router.route('/:gameId/score').get(authorize, controller.score);
+
 router.route('/emit-question').post(authorize, controller.emitQuestion);
+
+router.route('/time-out-question').post(authorize, controller.emitTimeOut);
 
 router.route('/:gameId/next-question').get(authorize, controller.setNextQuestion);
 

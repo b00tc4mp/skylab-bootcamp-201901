@@ -7,6 +7,7 @@ import authService from '../../services/auth';
 import Welcome from './Welcome';
 import Start from './Start';
 import Questions from './Questions';
+import GameOver from './GameOver';
 
 function Game(props) {
 
@@ -21,7 +22,7 @@ function Game(props) {
 	const hostGame = useRef(null);
 
 	const [gameID, setGameID] = useState(gameId);
-	const [title, setTitle] = useState(gameId);
+	const [title, setTitle] = useState('');
 	const [code, setCode] = useState('Connecting...');
 	const [isHost, setIsHost] = useState(false);
 	const [players, setPlayers] = useState([]);
@@ -60,6 +61,15 @@ function Game(props) {
 		}
 	};
 
+	const gameOver = async () => {
+		console.log('GAMEOVER!');
+		try {
+			props.history.push(`/game/${gameId}/game-over`);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<section className="host-game" ref={hostGame}>
 			<Switch>
@@ -77,7 +87,12 @@ function Game(props) {
 
 				<Route
 					path={`${match.url}/questions`}
-					render={() => <Questions hostGame={hostGame} gameID={gameID} title={title} />}
+					render={() => <Questions hostGame={hostGame} gameOver={gameOver} gameID={gameID} title={title} />}
+				/>
+
+				<Route
+					path={`${match.url}/game-over`}
+					render={() => <GameOver hostGame={hostGame} gameID={gameID} title={title} />}
 				/>
 			</Switch>
 		</section>

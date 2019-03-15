@@ -1,4 +1,4 @@
-import quizApi from '../../quiz-api';
+import quizApi from '../../api/quiz-api';
 import validate from '../../utils/validate';
 
 const quiz = {

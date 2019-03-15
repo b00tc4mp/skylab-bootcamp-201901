@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import gameService from '../../services/game';
 
 function PlayGame(props) {
-	const create = async id => {
+
+	const create = async () => {
 		try {
-			const game = await gameService.create(id);
+			const game = await gameService.create(props.id);
+			console.log(game)
 			props.history.push(`game/${game.id}/welcome`);
 		} catch (error) {
 			console.error(error);
@@ -15,7 +17,7 @@ function PlayGame(props) {
 	};
 
 	return (
-		<button className="quiz__play" onClick={e => create(props.id, e)}>
+		<button className="quiz__play" onClick={create}>
 			<FontAwesomeIcon icon="play-circle" /> Play
 		</button>
 	);
