@@ -138,7 +138,7 @@ describe("logic", () => {
         })
     })
 
-    describe('fill exercises to user', () => {
+    describe('__fill exercises to user', () => {
         
         it('should fail on empty email', () => {
             expect(() => {
@@ -153,8 +153,7 @@ describe("logic", () => {
         })
     })
 
-
-    describe('is email invited', () => {
+    describe('__is email invited', () => {
         
         it('should fail on empty email', () => {
             expect(() => {
@@ -169,6 +168,576 @@ describe("logic", () => {
         })
     })
 
+    describe('retrieve user', () => {
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.retrieveUser('')
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.retrieveUser([])
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+    })
+
+    describe('authenticate user', () => {
+        
+        it('should fail on empty email', () => {
+            expect(() => {
+                logic.authenticateUser('', '123')
+            }).toThrow('email cannot be empty')
+        })
+
+        it('should fail on not valid email', () => {
+            expect(() => {
+                logic.authenticateUser([])
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail on empty password', () => {
+            expect(() => {
+                logic.authenticateUser('123', '')
+            }).toThrow('password cannot be empty')
+        })
+
+        it('should fail on not valid password', () => {
+            expect(() => {
+                logic.authenticateUser([])
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+    })
+
+    describe('create exercise', () => {
+        const userId = 'Nico'
+        const title = 'Nico'
+        const summary = `lorem-ipsum`
+        const test = `test-to-execute`
+        const theme = 2
+        const order = 1
+        
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.createExercise('', title, summary, test, theme, order)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.createExercise([], title, summary, test, theme, order)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail on empty title', () => {
+            expect(() => {
+                logic.createExercise(userId, '', summary, test, theme, order)
+            }).toThrow('title cannot be empty')
+        })
+
+        it('should fail on not valid title', () => {
+            expect(() => {
+                logic.createExercise(userId, [], summary, test, theme, order)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail on empty summary', () => {
+            expect(() => {
+                logic.createExercise(userId, title, '', test, theme, order)
+            }).toThrow('summary cannot be empty')
+        })
+
+        it('should fail on not valid summary', () => {
+            expect(() => {
+                logic.createExercise(userId, title, [], test, theme, order)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail on empty test', () => {
+            expect(() => {
+                logic.createExercise(userId, title, summary, '', theme, order)
+            }).toThrow('test cannot be empty')
+        })
+
+        it('should fail on not valid test', () => {
+            expect(() => {
+                logic.createExercise(userId, title, summary, [], theme, order)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail on not valid theme', () => {
+            expect(() => {
+                logic.createExercise(userId, title, summary, test, '', order)
+            }).toThrow(TypeError(' is not a number'))
+        })
+
+        it('should fail on negative theme', () => {
+            expect(() => {
+                logic.createExercise(userId, title, summary, test, Number(-7), order)
+            }).toThrow('theme cannot be negative')
+        })
+
+        it('should fail on not valid order', () => {
+            expect(() => {
+                logic.createExercise(userId, title, summary, test, theme, '')
+            }).toThrow(TypeError(' is not a number'))
+        })
+
+        it('should fail on negative order', () => {
+            expect(() => {
+                logic.createExercise(userId, title, summary, test, theme, Number(-7))
+            }).toThrow('order cannot be negative')
+        })
+    })
+
+    describe('retrieve exercise', () => {
+        const exerciseId = `exerciseId-${Math.random()}`
+        const userId = `userId-${Math.random()}`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.retrieveExercise('', exerciseId)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.retrieveExercise([], exerciseId)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail on empty exerciseId', () => {
+            expect(() => {
+                logic.retrieveExercise(userId, '')
+            }).toThrow('exerciseId cannot be empty')
+        })
+
+        it('should fail on not valid exerciseId', () => {
+            expect(() => {
+                logic.retrieveExercise(userId, [])
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+    })
+
+    describe('delete exercise', () => {
+        const exerciseId = `exerciseId-${Math.random()}`
+        const userId = `userId-${Math.random()}`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.deleteExercise('', exerciseId)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.deleteExercise([], exerciseId)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail on empty exerciseId', () => {
+            expect(() => {
+                logic.deleteExercise(userId, '')
+            }).toThrow('exerciseId cannot be empty')
+        })
+
+        it('should fail on not valid exerciseId', () => {
+            expect(() => {
+                logic.deleteExercise(userId, [])
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+    })
+
+    describe('update exercise', () => {
+        const exercise = {}
+        const userId = `userId-${Math.random()}`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.updateExercise('', exercise)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.updateExercise([], exercise)
+            }).toThrow(TypeError([] + ' is not a string'))
+        })
+
+        it('should fail on not valid exercise Object', () => {
+            expect(() => {
+                logic.updateExercise(userId, '')
+            }).toThrow(TypeError(` is not an object`))
+        })
+    })
+
+    describe('list exercises', () => {
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.listExercises('')
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.listExercises({})
+            }).toThrow(TypeError(`${{}} is not a string`))
+        })
+    })
+
+    describe('get exercises from user', () => {
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.getExercisesFromUser('')
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.getExercisesFromUser({})
+            }).toThrow(TypeError(`${{}} is not a string`))
+        })
+    })
+
+    describe('list invitations', () => {
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.listInvitations('')
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.listInvitations({})
+            }).toThrow(TypeError(`${{}} is not a string`))
+        })
+    })
+
+    describe('retrieve invitation', () => {
+        const userId = `userId-${Math.random()}`
+        const invitationId = `invitationId-${Math.random()}`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.retrieveInvitation('', invitationId)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.retrieveInvitation([], invitationId)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.retrieveInvitation(userId, '')
+            }).toThrow('invitationId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.retrieveInvitation(userId, {})
+            }).toThrow(TypeError(`${{}} is not a string`))
+        })
+    })
+
+    describe('update exercise from user', () => {
+        const userId = `userId-${Math.random()}`
+        const historicalId = `historicalId-${Math.random()}`
+        const answer = 'console.log("7")'
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.updateExerciseFromUser('', historicalId, answer) 
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.updateExerciseFromUser([], historicalId, answer) 
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.updateExerciseFromUser(userId, '', answer) 
+            }).toThrow('historicalId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.updateExerciseFromUser(userId, [], answer) 
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.updateExerciseFromUser(userId, historicalId, '') 
+            }).toThrow('answer cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.updateExerciseFromUser(userId, historicalId, []) 
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+
+    })
+
+    describe('create invitation', () => {
+        const userId = `userId-${Math.random()}`
+        const invitedEmail = `invitedEmail-${Math.random()}@mail.com`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.createInvitation('', invitedEmail)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.createInvitation([], invitedEmail)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty email', () => {
+            expect(() => {
+                logic.createInvitation(userId, '')
+            }).toThrow('email cannot be empty')
+        })
+
+        it('should fail on not valid email', () => {
+            expect(() => {
+                logic.createInvitation(userId, {})
+            }).toThrow(TypeError(`${{}} is not a string`))
+        })
+    })
+
+    describe('update invitation', () => {
+        const userId = `userId-${Math.random()}`
+        const invitation = {}
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.updateInvitation('', invitation)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.updateInvitation([], invitation)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on not valid invitation', () => {
+            expect(() => {
+                logic.updateInvitation(userId, '')
+            }).toThrow('is not an object')
+        })
+
+    })
+
+    describe('check answer', () => {
+        const userId = `userId-${Math.random()}`
+        const exerciseId = `exerciseId-${Math.random()}`
+        const historicalId = `historicalId-${Math.random()}`
+        const answer = 'console.log("7")'
+        const callback = () => {}
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.checkAnswer('', answer, exerciseId, callback)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.checkAnswer([], answer, exerciseId, callback)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty answer', () => {
+            expect(() => {
+                logic.checkAnswer(userId, '', exerciseId, callback)
+            }).toThrow('answer cannot be empty')
+        })
+
+        it('should fail on not valid answer', () => {
+            expect(() => {
+                logic.checkAnswer(userId, [], exerciseId, callback)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty exerciseId', () => {
+            expect(() => {
+                logic.checkAnswer(userId, answer, '', callback)
+            }).toThrow('exerciseId cannot be empty')
+        })
+
+        it('should fail on not valid exerciseId', () => {
+            expect(() => {
+                logic.checkAnswer(userId, answer, [], callback)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on non valid callback', () => {
+            expect(() => {
+                logic.checkAnswer(userId, answer, exerciseId, [])
+            }).toThrow(TypeError(`${[]} is not a function`))
+        })
+
+    })
+
+    describe('change status exercise from user', () => {
+        const userId = `userId-${Math.random()}`
+        const answer = 'console.log("7")'
+        const exerciseId = `exerciseId-${Math.random()}`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.__changeStatusExerciseFromUser__('', answer, exerciseId)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.__changeStatusExerciseFromUser__([], answer, exerciseId)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty answer', () => {
+            expect(() => {
+                logic.__changeStatusExerciseFromUser__(userId, '', exerciseId)
+            }).toThrow('answer cannot be empty')
+        })
+
+        it('should fail on not valid answer', () => {
+            expect(() => {
+                logic.__changeStatusExerciseFromUser__(userId, [], exerciseId)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on exerciseId answer', () => {
+            expect(() => {
+                logic.__changeStatusExerciseFromUser__(userId, answer, '')
+            }).toThrow('exerciseId cannot be empty')
+        })
+
+        it('should fail on not valid answer', () => {
+            expect(() => {
+                logic.__changeStatusExerciseFromUser__(userId, answer, [])
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+
+    })
+
+    describe('change status invitation', () => {
+        const userId = `userId-${Math.random()}`
+        const invitationId = `invitationId-${Math.random()}`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.__changeStatusInvitation__('', invitationId)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.__changeStatusInvitation__([], invitationId)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.__changeStatusInvitation__(userId, '')
+            }).toThrow('invitationId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.__changeStatusInvitation__(userId, {})
+            }).toThrow(TypeError(`${{}} is not a string`))
+        })
+    })
+
+    describe('change status invitation', () => {
+        const userId = `userId-${Math.random()}`
+        const invitationId = `invitationId-${Math.random()}`
+        const email = `email-${Math.random()}@mail.com`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.sendInvitationEmail('', email, invitationId)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.sendInvitationEmail([], email, invitationId)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty email', () => {
+            expect(() => {
+                logic.sendInvitationEmail(userId, '', invitationId)
+            }).toThrow('email cannot be empty')
+        })
+
+        it('should fail on not valid email', () => {
+            expect(() => {
+                logic.sendInvitationEmail(userId, {}, invitationId)
+            }).toThrow(TypeError(`${{}} is not a string`))
+        })
+
+        it('should fail on empty invitationId', () => {
+            expect(() => {
+                logic.sendInvitationEmail(userId, email, '')
+            }).toThrow('invitationId cannot be empty')
+        })
+
+        it('should fail on not valid invitationId', () => {
+            expect(() => {
+                logic.sendInvitationEmail(userId, email, {})
+            }).toThrow(TypeError(`${{}} is not a string`))
+        })
+    })
+
+    describe('delete invitation', () => {
+        const userId = `userId-${Math.random()}`
+        const invitationId = `invitationId-${Math.random()}`
+
+        it('should fail on empty userId', () => {
+            expect(() => {
+                logic.deleteInvitation('', invitationId)
+            }).toThrow('userId cannot be empty')
+        })
+
+        it('should fail on not valid userId', () => {
+            expect(() => {
+                logic.deleteInvitation([], invitationId)
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+        it('should fail on empty invitationId', () => {
+            expect(() => {
+                logic.deleteInvitation(userId, '')
+            }).toThrow('invitationId cannot be empty')
+        })
+
+        it('should fail on not valid invitationId', () => {
+            expect(() => {
+                logic.deleteInvitation(userId, [])
+            }).toThrow(TypeError(`${[]} is not a string`))
+        })
+
+    })
 
     after(() =>
         Promise.all([

@@ -1,17 +1,14 @@
 'use strict'
 
 const bcrypt = require('bcrypt')
-
-//const { AuthError, DuplicateError, MatchingError, NotFoundError, PrivilegeError } = require('startlab-errors')
-//const validate = require('startlab-validation')
 const fs = require('fs')
 const vm = require('vm')
 
 var Mocha = require('mocha')
 var path = require('path')
 
-// const testing = require('../testing')
 const { models: { Historical, User, Exercise, Invitation } } = require('startlab-data')
+
 const emailing = require('../emailing')
 
 /**
@@ -67,7 +64,7 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${user.id} not found`)
+                if (!user) throw Error(`user with id ${user.id} not found`)
 
                 return Exercise.find()
                     .then(exercises => {
@@ -88,21 +85,18 @@ const logic = {
 
         return Invitation.findOne({ email }).select('-__v -_id').lean()
             .then(invitation => {
-                debugger
                 if (!invitation) throw Error('only invited users can registered')
                 return (invitation.status === 'sent')
             })
     },
 
     retrieveUser(userId) {
-
-        // validate([{ key: 'userId', value: userId, type: String }])
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
         return User.findById(userId).select('-password -__v').lean()
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${id} not found`)
+                if (!user) throw Error(`user with id ${id} not found`)
 
                 user.id = user._id
                 delete user._id
@@ -120,11 +114,11 @@ const logic = {
 
         return User.findOne({ email })
             .then(user => {
-                if (!user) throw new NotFoundError(`user with email ${email} not found`)
+                if (!user) throw Error(`user with email ${email} not found`)
 
                 return bcrypt.compare(password, user.password)
                     .then(match => {
-                        if (!match) throw new AuthError('wrong credentials')
+                        if (!match) throw Error('wrong credentials')
                         return user
                     })
             })
@@ -155,8 +149,8 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 return Exercise.create({ title, summary, test, theme, order })
                     .then(({ id }) => {
@@ -174,11 +168,6 @@ const logic = {
 
     retrieveExercise(userId, exerciseId) {
 
-        // validate([
-        //     { key: 'userId', value: userId, type: String },
-        //     { key: 'exerciseId', value: exerciseId, type: String }
-        // ])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -187,11 +176,11 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user) throw Error(`user with id ${userId} not found`)
 
                 return Exercise.findById(exerciseId).select('-__v').lean()
                     .then(exercise => {
-                        if (!exercise) throw new NotFoundError(`exercise with id ${exerciseId} not found`)
+                        if (!exercise) throw Error(`exercise with id ${exerciseId} not found`)
 
                         exercise.id = exercise._id.toString()
                         delete exercise._id
@@ -202,11 +191,6 @@ const logic = {
 
     deleteExercise(userId, exerciseId) {
 
-        // validate([
-        //     { key: 'userId', value: userId, type: String },
-        //     { key: 'exerciseId', value: exerciseId, type: String }
-        // ])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -215,16 +199,16 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 return Exercise.findById(exerciseId)
                     .then(exercise => {
-                        if (!exercise) throw new NotFoundError(`exercise with id ${exerciseId} not found`)
-                        debugger
+                        if (!exercise) throw Error(`exercise with id ${exerciseId} not found`)
+
                         var pathToDeleteFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
                         fs.unlink(pathToDeleteFile, function (err) {
-                            //if (err) throw Error('file not created')
+                            if (err) throw Error('file not created')
                         })
 
                         return Exercise.deleteOne({ _id: exerciseId })
@@ -237,8 +221,6 @@ const logic = {
 
     updateExercise(userId, exercise) {
 
-        // validate([{ key: 'userId', value: userId, type: String }])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -246,14 +228,14 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 const { id, ..._exercise } = exercise
 
                 return Exercise.findByIdAndUpdate(id, _exercise, { runValidators: true, new: true }).select('-__v').lean()
                     .then(exercise => {
-                        if (!exercise) throw new NotFoundError(`exercise with id ${id} not found`)
+                        if (!exercise) throw Error(`exercise with id ${id} not found`)
                         exercise.id = exercise._id.toString()
 
                         var pathToUpdateFile = path.join(process.cwd(), 'src', 'test-files', `${exercise.id}.js`)
@@ -269,8 +251,6 @@ const logic = {
     },
 
     listExercises(userId) {
-
-        // validate([{ key: 'userId', value: userId, type: String }])
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -291,25 +271,17 @@ const logic = {
 
     getExercisesFromUser(userId) {
 
-        // validate([{ key: 'userId', value: userId, type: String }])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
         return User.findById(userId).populate('historical.exercise').lean()
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user) throw Error(`user with id ${userId} not found`)
                 return user.historical
             })
     },
 
     updateExerciseFromUser(userId, historicalId, answer) {
-
-        // validate([
-        //     { key: 'userId', value: userId, type: String },
-        //     { key: 'historicalId', value: historicalId, type: String },
-        //     { key: 'answer', value: answer, type: String }
-        // ])
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -322,7 +294,7 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user) throw Error(`user with id ${userId} not found`)
                 let newHistorical = user.historical.map(historicalItem => {
                     if (historicalItem.id === historicalId) {
                         historicalItem.answer = answer
@@ -341,11 +313,6 @@ const logic = {
 
     retrieveInvitation(userId, invitationId) {
 
-        // validate([
-        //     { key: 'userId', value: userId, type: String },
-        //     { key: 'invitationId', value: invitationId, type: String }
-        // ])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -354,12 +321,12 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user) throw Error(`user with id ${userId} not found`)
 
                 return Invitation.findById(invitationId).select('-__v').lean()
                     .then(invitation => {
-                        if (!invitation) throw new NotFoundError(`invitation with id ${invitationId} not found`)
-                        if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                        if (!invitation) throw Error(`invitation with id ${invitationId} not found`)
+                        if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                         invitation.id = invitation._id.toString()
                         delete invitation._id
@@ -370,11 +337,6 @@ const logic = {
 
     createInvitation(userId, email) {
 
-        // validate([
-        //     { key: 'userId', value: userId, type: String },
-        //     { key: 'email', value: email, type: String }
-        // ])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -383,8 +345,8 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 return Invitation.create({ email })
                     .then(({ id }) => {
@@ -396,15 +358,13 @@ const logic = {
 
     listInvitations(userId) {
 
-        // validate([{ key: 'userId', value: userId, type: String }])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 return Invitation.find().select('-__v').lean()
                     .then(invitations => {
@@ -423,11 +383,6 @@ const logic = {
 
     deleteInvitation(userId, invitationId) {
 
-        // validate([
-        //     { key: 'userId', value: userId, type: String },
-        //     { key: 'invitationId', value: invitationId, type: String }
-        // ])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -436,12 +391,12 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 return Invitation.findById(invitationId)
                     .then(invitation => {
-                        if (!invitation) throw new NotFoundError(`invitation with id ${invitationId} not found`)
+                        if (!invitation) throw Error(`invitation with id ${invitationId} not found`)
 
                         return Invitation.deleteOne({ _id: invitationId })
                             .then((res) => {
@@ -456,20 +411,18 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
-        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
-
-        // How to validate exercise -> Object ??
+        if (invitation.constructor !== Object) throw TypeError(`invitation is not an object`)
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 const { id, ..._invitation } = invitation
 
                 return Invitation.findByIdAndUpdate(id, _invitation, { runValidators: true, new: true }).select('-__v').lean()
                     .then(invitation => {
-                        if (!invitation) throw new NotFoundError(`invitation with id ${id} not found`)
+                        if (!invitation) throw Error(`invitation with id ${id} not found`)
                         invitation.id = invitation._id.toString()
 
                         return { status: 'ok', message: `Invitation updated` }
@@ -484,12 +437,6 @@ const logic = {
 
     checkAnswer(userId, answer, exerciseId, callback) {
 
-        // validate([
-        //     { key: 'userId', value: userId, type: String },
-        //     { key: 'answer', value: answer, type: String },
-        //     { key: 'exerciseId', value: exerciseId, type: String }
-        // ])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -499,7 +446,7 @@ const logic = {
         if (typeof exerciseId !== 'string') throw TypeError(exerciseId + ' is not a string')
         if (!exerciseId.trim().length) throw Error('exerciseId cannot be empty')
 
-        // cómo verificar que callback es una función ??
+        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
         const unit = `function target(){${answer}}module.exports = target` // we have to wrapped in a function target
 
@@ -536,12 +483,6 @@ const logic = {
 
     __changeStatusExerciseFromUser__(userId, answer, exerciseId) {
 
-        // validate([
-        //     { key: 'userId', value: userId, type: String },
-        //     { key: 'answer', value: answer, type: String },
-        //     { key: 'exerciseId', value: exerciseId, type: String }
-        // ])
-
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -553,7 +494,7 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
+                if (!user) throw Error(`user with id ${userId} not found`)
 
                 let newHistorical = user.historical.map(exerciseItem => {
                     if (exerciseItem.exercise.toString() === exerciseId) {
@@ -587,7 +528,6 @@ const logic = {
     },
 
     sendInvitationEmail(userId, email, invitationId) {
-        // validate([{ key: 'userId', value: userId, type: String }])
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -600,8 +540,8 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw new NotFoundError(`user with id ${userId} not found`)
-                if (!user.isAdmin) throw new PrivilegeError(`user with id ${userId} has not privileges`)
+                if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 emailing.sendInvitation(email, user.name)
 
