@@ -101,7 +101,7 @@ const fwsApi = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, token, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating) {
+    createEvent(restaurantId, token, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName) {
         if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
         if (!restaurantId.trim().length) throw Error('restaurantId is empty')
 
@@ -128,13 +128,16 @@ const fwsApi = {
         if (typeof rating !== 'number') throw TypeError(rating + ' is not a number')
         //if (!rating.trim().length) throw Error('rating cannot be empty')
 
+        if (typeof restaurantName !== 'string') throw TypeError(restaurantName + ' is not a string')
+        if (!restaurantName.trim().length) throw Error('restaurantName cannot be empty')
+
         return fetch(`${this.url}/event/${restaurantId}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating })
+            body: JSON.stringify({ eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName })
         })
         .then(response => response.json())
         .then(({ id, error }) => {

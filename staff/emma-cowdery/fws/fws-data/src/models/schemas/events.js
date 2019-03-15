@@ -43,6 +43,11 @@ const Events = new Schema({
     rating: {
         type: Number,
         required: true
+    },
+
+    restaurantName: {
+        type: String,
+        required: true
     }
 })
 

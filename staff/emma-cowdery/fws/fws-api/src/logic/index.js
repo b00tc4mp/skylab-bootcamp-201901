@@ -110,7 +110,7 @@ const logic = {
         if (!userId.trim().length) throw Error('userId is empty')
 
         return (async () => {
-            const user = await Users.findById(userId)
+            const user = await Users.findById(userId)//.select('__v').lean()
 
             if (!user) throw Error(`user with id ${userId} not found`)
 
@@ -158,7 +158,7 @@ const logic = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating) {
+    createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName) {
         if (typeof restaurantId !== 'string') throw TypeError(`${restaurantId} is not a string`)
         if (!restaurantId.trim().length) throw Error('restaurantId is empty')
 
@@ -185,14 +185,18 @@ const logic = {
         if (typeof rating !== 'number') throw TypeError(rating + ' is not a number')
         //if (!rating.trim().length) throw Error('rating cannot be empty')
 
+        if (typeof restaurantName !== 'string') throw TypeError(restaurantName + ' is not a string')
+        if (!restaurantName.trim().length) throw Error('restaurantName cannot be empty')
+
         return (async () => {
             const restaurant = await Events.findOne({ restaurantId })
 
             if (restaurant) {
                 if (restaurant.eventTime === eventTime && restaurant.eventDate === eventDate) throw Error('an event at this place and time already exists, would you like to join that event?')
             }
+            console.log(restaurantName)
 
-            const event = await Events.create({ restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating })
+            const event = await Events.create({ restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName })
 
             const { participants = [], id } = event
 

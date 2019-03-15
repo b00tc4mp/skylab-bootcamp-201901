@@ -17,11 +17,12 @@ export default function RestaurantResults() {
     const [eventTime, setEventTime] = useState()
     const [eventDate, setEventDate] = useState()
     const [reservationName, setReservationName] = useState(undefined)
-    const [restaurantCategory, setRestaurantCategory] = useState()
+    const [restaurantCategory, setRestaurantCategory] = useState('American')
     const [lat, setLat] = useState()
     const [lng, setLng] = useState()
     const [priceLevel, setPriceLevel] = useState()
     const [rating, setRating] = useState()
+    const [restaurantName, setRestaurantName] = useState()
 
     useEffect(() => {
         logic.howTo()
@@ -51,7 +52,7 @@ export default function RestaurantResults() {
         const eventLocation = []
         eventLocation.push(lat, lng)
 
-        logic.createEvent(selectedRestaurant, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+        logic.createEvent(selectedRestaurant, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName)
             .then(() => {
                 setCreateEvent(false)
                 setEventDate()
@@ -62,6 +63,7 @@ export default function RestaurantResults() {
                 setLng()
                 setRating()
                 setPriceLevel()
+                setRestaurantName()
                 //set feedback message to event created successfully
             })
             .catch(err => {
@@ -92,7 +94,7 @@ export default function RestaurantResults() {
                         <p>{place_id}</p>
                         <p>{price_level}</p>
                         <p>{rating}</p>
-                        <button onClick={e => {e.preventDefault(); setSelectedRestaurant(place_id); setInfo(true); setLat(geometry.location.lat); setLng(geometry.location.lng); handleNoPriceLevel(price_level); setRating(rating)}}>+ info</button>
+                        <button onClick={e => {e.preventDefault(); setSelectedRestaurant(place_id); setInfo(true); setLat(geometry.location.lat); setLng(geometry.location.lng); handleNoPriceLevel(price_level); setRating(rating); setRestaurantName(name)}}>+ info</button>
                     </div>
                 }) : <BouncingLoader/>}
                 {info && <div className='more-restaurant-info'>

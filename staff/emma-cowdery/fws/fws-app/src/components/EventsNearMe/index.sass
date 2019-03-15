@@ -9,36 +9,32 @@
 
     &__elements
         position: absolute
-        top: 1.9em
+        top: 3.5em
         left: 0
         bottom: 0
         right: 0
         display: grid
-        grid-template-columns: 1fr 1fr
+        grid-template-columns: 1fr
         //height: 7em
 
     &__event
+        margin: 1em
+        box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+        border-radius: 1em
 
-        &-red
-            background-color: red
+@media (min-width: 768px)
 
-        &-yellow
-            background-color: yellow
+    .events-nearme__elements
+        grid-template-columns: repeat(2, 1fr)
 
-        &-dark-gray
-            background-color: gray
+    .events-nearme__event
+        margin: 2em
 
-        &-green
-            background-color: #DDFED1
+@media (min-width: 1200px)
 
-        &-orange
-            background-color: orange
-            
-        &-purple
-            background-color: purple
+    .events-nearme__elements
+        grid-template-columns: repeat(3, 1fr)
+        margin: 2em
+        margin-left: 4em
+        margin-right: 4em
 
-        &-blue
-            background-color: blue
-
-        &-dark-green
-            background-color: #93BF96

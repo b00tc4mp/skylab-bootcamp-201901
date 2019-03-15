@@ -115,7 +115,7 @@ const logic = {
      * @param {string} eventTime 
      * @param {string} eventDate 
      */
-    createEvent(restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating) {
+    createEvent(restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName) {
         if (typeof restaurantId !== 'string') throw TypeError(restaurantId + ' is not a string')
         if (!restaurantId.trim().length) throw Error('restaurantId cannot be empty')
 
@@ -139,8 +139,11 @@ const logic = {
         if (typeof rating !== 'number') throw TypeError(rating + ' is not a number')
         //if (!rating.trim().length) throw Error('rating cannot be empty')
 
+        if (typeof restaurantName !== 'string') throw TypeError(restaurantName + ' is not a string')
+        if (!restaurantName.trim().length) throw Error('restaurantName cannot be empty')
+
         return (async () => {
-            const eventId = await fwsApi.createEvent(restaurantId, this.__token__, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+            const eventId = await fwsApi.createEvent(restaurantId, this.__token__, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName)
 
             if (!eventId) throw Error('event creation was unsuccessful')
 
