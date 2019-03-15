@@ -363,7 +363,7 @@ describe('logic', () => {
             logic.retrieveHouse( houseId)
                 .then((house) =>{
 
-                    expect(house._id).toBe(houseId)
+                    expect(house.id).toBe(houseId)
                     expect(JSON.stringify(house.images) ).toBe(JSON.stringify(images) )
                     expect(house.description).toBe(description)
                     expect(JSON.stringify(house.info) ).toBe(JSON.stringify(info) )
