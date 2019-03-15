@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom' 
+import { withRouter } from 'react-router-dom' 
+import './index.sass'
 
 
 class CreateEvent extends Component {
@@ -22,19 +23,48 @@ class CreateEvent extends Component {
   
 
     render() {
-        const { handleTitleInput, handleDescriptionInput, handleDateInput , handleCityInput, handleAddressInput ,handleCategorySelect , handleFromSubmit, handleGoBack } = this
+        const { handleTitleInput, 
+            handleDescriptionInput, 
+            handleDateInput , 
+            handleCityInput, 
+            handleAddressInput,
+            handleCategorySelect ,
+            handleFromSubmit } = this
         return (
 
           <section className="createEvent">
-              <h1 className="createEvent__title">Create event</h1>
-            <div className='createEvent__input'>
+            <div className="createEvent__form">
             <form onSubmit={handleFromSubmit}>
-                <input onChange={handleTitleInput} className="createEvent__input-title" type="text" placeholder="Title" required/>
-                <textarea onChange={handleDescriptionInput} className="createEvent__input-description" maxLength="200" type="text" placeholder="Description" required/>
-                <input onChange={handleDateInput} className="createEvent__input-Date" min="2018-03-21" type="date" placeholder="Date" required/>
-                <input onChange={handleCityInput} className="createEvent__input-city" type="text" placeholder="City" required/>
-                <input onChange={handleAddressInput} className="createEvent__input-Address" type="text" placeholder="address" required/>
-                <select onChange={handleCategorySelect}>
+              <h1 className="createEvent__form-h1">Create event</h1>
+
+                <div className="createEvent__form-title">
+                <label className="createEvent__form-title-label">Title:</label>
+                <input onChange={handleTitleInput} className="createEvent__form-title-input" type="text" placeholder="Title" required/>
+                </div>
+
+                <div className="createEvent__form-description">
+                <label className="createEvent__form-description-label" >Description:</label>
+                <textarea onChange={handleDescriptionInput} className="createEvent__form-description-input" maxLength="200" type="text" placeholder="Max: 250 characters" required/>
+                </div>
+
+                <div className="createEvent__form-date">
+                <label className="createEvent__form-date-label">Date:</label>
+                <input onChange={handleDateInput}className="createEvent__form-date-input" min="2018-03-21" type="date" placeholder="Date" required/>
+                </div>
+
+                <div className="createEvent__form-city">
+                <label className="createEvent__form-city-label" >City:</label>
+                <input onChange={handleCityInput} className="createEvent__form-city-input" type="text" placeholder="City" required/>
+                </div>
+
+                <div className="createEvent__form-address" >
+                <label className="createEvent__form-address-label">Address:</label>
+                <input onChange={handleAddressInput} className="createEvent__form-address-input" type="text" placeholder="address" required/>
+                </div>
+
+                <div className="createEvent__form-category">
+                <label className="createEvent__form-category-label" >Category:</label>
+                <select className="createEvent__form-category-select" onChange={handleCategorySelect}>
                     <option value="5c7e95f564f6cfa555e483d6">Party</option>
                     <option value="5c7e961964f6cfa555e483e8">Food</option>
                     <option value="5c7e965a64f6cfa555e483ff">See Matches</option>
@@ -48,13 +78,20 @@ class CreateEvent extends Component {
                     <option value="5c7e971964f6cfa555e4844f">Photografy</option>
                     <option value="5c7e972664f6cfa555e48454">Video Games</option>
                 </select>
-                <button className="createEvent__button">Create event</button>
-            </form>
-            </div>
-            <div className="createEvent__link">
-                <div>
-                <Link to="/home" className="createEvent__link-home">Go home</Link>
                 </div>
+
+                <button className="createEvent__form-button-create">
+                Create event
+                </button>
+
+                <div className="createEvent__form-text">
+                <p>Do not you want to create any event?</p>
+                </div>
+                <button className="createEvent__form-button-home" onClick={() => this.props.history.push('/home')}>
+                        Home
+                </button>
+
+            </form>
             </div>
           </section>     
       )
@@ -63,4 +100,4 @@ class CreateEvent extends Component {
     }
 }
 
-export default  CreateEvent
+export default  withRouter(CreateEvent)

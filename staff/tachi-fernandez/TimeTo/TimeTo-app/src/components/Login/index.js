@@ -29,34 +29,41 @@ class Login extends Component {
         const {feedback} = this.props
         return (
 
-          <section className="login" class="container">
-          <div>
-              <h1 className="login__title">Login</h1>
-          </div>
+          <section className="login">
             <div className='login__form'>
             <form onSubmit={handleFromSubmit}>
+              <h1 className="login__form-title">Login</h1>
                 <div className="login__form-email">
-                    <label className = 'login__label-email'>E-mail:</label>
-                    <input onChange={handleEmailInput} className="login__input-email" type="email" placeholder="Email" autoFocus required/>
+                    <label className = 'login__form-email-label'>E-mail:</label>
+                    <input onChange={handleEmailInput} className="login__form-email-input" type="email" placeholder="Email" autoFocus required/>
                 </div>
-                <div className="login_form-password">
-                    <label className = 'login__label-password'>Password:</label>
-                    <input onChange={handlePasswordInput} className="login__input-password" type="password" placeholder="Password" required/>
+                <div className="login__form-password">
+                    <label className = 'login__form-password-label'>Password:</label>
+                    <input onChange={handlePasswordInput} className="login__form-password-input" type="password" placeholder="Password" required/>
+                
+                    <button className="login__form-button-login">
+                    Login
+                    </button>
+
+                <div className="login__form-text-register">
+                    <p>You are not yet registered? </p>
                 </div>
-                <button class='btn btn-primarys' className="login__button">Login</button>
+
+                    <button className="login__form-button-register" onClick={() => onGoToRegister()  }>
+                    Register
+                    </button>
+
+                <div className="login__form-text-home">
+                    <p>You want to see the categories?</p>
+                </div>
+                    <button className="login__form-button-home" onClick={() => this.props.history.push('/home')}>
+                    Home
+                    </button>
+                </div>
             </form>
             { feedback && <Feedback message={feedback} level="warn" /> }
             </div>
-            <div className="login__button-home">
-                <button  onClick={() => this.props.history.push('/home')}>
-                    Home
-                </button>
-            </div>
-            <div className="login__button-Register" > 
-                <button  onClick={() => onGoToRegister()  }>
-                    Register
-                </button>
-            </div>
+            
           </section>     
       )
 

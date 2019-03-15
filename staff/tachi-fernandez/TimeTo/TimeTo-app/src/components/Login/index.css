@@ -1,23 +1,73 @@
-.login__title {
+.login {
+  background: #e6e6e6;
+  height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .login__form {
-  height: 500px;
-  background-color: grey;
+  background: white;
+  height: 70%;
   display: flex;
   justify-content: center;
   width: 70%;
-  margin-left: 15%;
   border: 2px solid black;
   border-radius: 10%;
 }
-.login__form-email {
+.login__form-title {
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
-.login__button {
+.login__form-email-label {
   display: flex;
+  justify-content: space-around;
+}
+.login__form-email-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.login__form-password-label {
+  display: flex;
+  justify-content: space-around;
+}
+.login__form-password-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.login__form-button-login {
+  background: #008080;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  margin-left: 2%;
+  margin-top: 10%;
+  border: 2px solid #008080;
+  border-radius: 5px;
+}
+.login__form-button-register {
+  background: #008080;
+  color: white;
+  display: flex;
+  justify-content: center;
+  margin-left: 32%;
+  border: 2px solid #008080;
+  border-radius: 5px;
+}
+.login__form-button-home {
+  background: #008080;
+  color: white;
+  display: flex;
+  justify-content: center;
+  margin-left: 35%;
+  border: 2px solid #008080;
+  border-radius: 5px;
+}
+.login__form-text-register {
+  display: flex;
+  justify-content: center;
+  margin-top: 15%;
 }
 .login__link {
   display: flex;

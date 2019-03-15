@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link,withRouter } from 'react-router-dom' 
 import Feedback from '../Feedback'
+import "./index.css"
 
 
 
@@ -33,37 +34,55 @@ class Register extends Component {
       
       return (
         
-        <section className="register columns">
-              <h1 className="title">Register</h1>
-           <form onSubmit={handleOnSubmit}>
-                <label className="label">Name</label>
-                  <input onChange={handleNameInput} className="input" type="text" placeholder="Name" autoFocus required />
-                  <label className="label">Surname</label>
-                    <input onChange={handleSurnameInput} className="input" type="text" placeholder="Surname" required />
-                    <label className="label">username:</label>
-                    <input onChange={handleUserNameInput} className="input" type="text" placeholder="Username" required />
-                    <label className="label">Age</label>
-                    <input onChange={handleAgeInput} className="input" type="number" placeholder="Age" required />
-                    <label className="label">Description</label>
-                    <textarea onChange={handleDescriptionArea} className="textarea" type="text" placeholder="Description" maxLength="300" required />
-                <label className="label">Email</label>
-                  <input onChange={handleEmailInput} className="input" type="email" placeholder="Email"  required />
-                  <label className="label">Password</label>
-                    <input onChange={handlePasswordInput} className="input" type="password" placeholder="Password" required />
-                  <label className="label">Confirm Password</label>
-                    <input onChange={handlePasswordConfirmInput} className="input" type="password" placeholder="Confirm Password" required />
-                      <button className="button is-success">Register</button>
+        <section className="register">
+           <form className="register__form" onSubmit={handleOnSubmit}>
+              <h1 className="register__form-title">Register</h1>
+                <div className="register__form-name">
+                  <label className="register__form-name-label">Name</label>
+                  <input onChange={handleNameInput} className="register__form-name-input" type="text" placeholder="Name" autoFocus required />
+                </div >
+                <div className="register__form-surname">
+                    <label className="register__form-surname-label">Surname</label>
+                    <input onChange={handleSurnameInput} className="register__form-surname-input"type="text" placeholder="Surname" required />
+                </div>
+                <div className="register__form-username">
+                    <label className="register__form-username-label">Username:</label>
+                    <input onChange={handleUserNameInput} className="register__form-username-input" type="text" placeholder="Username" required />
+                </div>
+                <div className="register__form-age">
+                    <label className="register__form-age-label">Age</label>
+                    <input onChange={handleAgeInput} className="register__form-age-input" type="number" placeholder="Age" required />
+                </div>
+                <div className="register__form-description">
+                    <label className="register__form-description-label">Description</label>
+                    <textarea onChange={handleDescriptionArea} className="register__form-description-input" type="text" placeholder="Description" maxLength="300" required />
+                </div>
+                <div className="register__form-email">
+                    <label className="register__form-email-label">Email</label>
+                    <input onChange={handleEmailInput} className="register__form-email-input" type="email" placeholder="Email"  required />
+                </div>
+                <div className="register__form-password">
+                    <label className="register__form-password-label">Password</label>
+                    <input onChange={handlePasswordInput} className="register__form-password-input" type="password" placeholder="Password" required />
+                </div>
+                <div className="register__form-confirmPassword">
+                    <label className="register__form-confirmPassword-label">Confirm Password</label>
+                    <input onChange={handlePasswordConfirmInput} className="register__form-confirmPassword-input" type="password" placeholder="Confirm Password" required />
+                </div>
+                      <button className="register__form-button-register">
+                        Register
+                      </button>
 
-                      
+                      <button className="register__form-button-login"  onClick={() => this.props.history.push('/login')}>
+                        Login
+                      </button>
+
+                      <button  className="register__form-button-home" onClick={() => this.props.history.push('/home')}>
+                        Home
+                      </button>
            </form>
            { feedback && <Feedback message={feedback} level="warn" /> }
 
-                    <button  onClick={() => this.props.history.push('/home')}>
-                      Home
-                    </button>
-                    <button  onClick={() => this.props.history.push('/login')}>
-                      Login
-                    </button>
         </section>
 
         )

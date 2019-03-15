@@ -17,6 +17,8 @@ import Results from '../Results';
 import Events from '../Events';
 import { debug } from 'util';
 import Feedback from '../Feedback'
+import './index.css'
+
 
 
 class App extends Component {
@@ -94,6 +96,7 @@ class App extends Component {
     return (  
     <section className="App">
         <Header loginFeedback={loginFeedback} registerFeedback={registerFeedback} />
+        <main>
         <Switch>
             <Route path='/home' component={Home} />
             <Route exact path='/category/:categoryId' component={EventsByCategory} />
@@ -110,6 +113,7 @@ class App extends Component {
             <Route path='/:userName' render={() => <UserById /> } />
             <Route exact path= '/' render={()=> <Redirect to='/home' />} />
         </Switch>
+        </main>
         <Footer />
     </section>
    

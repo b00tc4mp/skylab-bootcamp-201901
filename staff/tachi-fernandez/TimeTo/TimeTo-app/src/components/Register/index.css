@@ -1,0 +1,131 @@
+.register {
+  background: #e6e6e6;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.register__form {
+  background: white;
+  border: 2px solid black;
+  border-radius: 10%;
+  width: 70%;
+  height: 90%;
+}
+.register__form-title {
+  display: flex;
+  justify-content: center;
+}
+.register__form-name-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-name-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.register__form-surname-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-surname-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.register__form-username-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-username-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.register__form-username-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-username-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.register__form-age-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-age-input {
+  width: 20%;
+  order: 2px solid;
+  border-radius: 5px;
+  margin-left: 40%;
+}
+.register__form-description-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-description-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.register__form-email-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-email-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.register__form-password-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-password-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.register__form-confirmPassword-label {
+  display: flex;
+  justify-content: space-around;
+}
+.register__form-confirmPassword-input {
+  width: 95%;
+  order: 2px solid;
+  border-radius: 5px;
+}
+.register__form-button-register {
+  background: #008080;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  border: 2px solid #008080;
+  border-radius: 5px;
+  margin-top: 5%;
+  margin-left: 34%;
+}
+.register__form-button-login {
+  background: #008080;
+  color: white;
+  display: flex;
+  justify-content: center;
+  border: 2px solid #008080;
+  border-radius: 5px;
+  margin-top: 5%;
+  margin-left: 2%;
+}
+.register__form-button-home {
+  background: #008080;
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 70%;
+  border: 2px solid #008080;
+  border-radius: 5px;
+}
+
+/*# sourceMappingURL=index.css.map */
