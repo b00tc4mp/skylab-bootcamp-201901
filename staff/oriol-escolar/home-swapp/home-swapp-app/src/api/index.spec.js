@@ -755,10 +755,10 @@ describe('homeSwappApi ', () => {
         )
         it('should succeed on correct data', () =>
 
-            homeSwappApi.retrieveHouse(_token, houseId)
+            homeSwappApi.retrieveHouse(houseId)
                 .then(house => {
 
-                    expect(house._id).toBe(houseId)
+                    expect(house.id).toBe(houseId)
                     expect(house.images.toString()).toBe(images.toString())
                     expect(house.description.toString()).toBe(description)
                     expect(JSON.stringify(house.info)).toBe(JSON.stringify(info))
