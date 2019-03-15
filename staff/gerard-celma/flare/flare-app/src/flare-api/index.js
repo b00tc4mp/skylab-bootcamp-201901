@@ -131,7 +131,7 @@ const flareApi = {
         if (!msgId.trim().length) throw Error('msgId cannot be empty')
 
         let formData = new FormData()
-        formData.append('image', data)
+        formData.append('image', data.image)
 
         return fetch(`${this.url}/message/photo/${msgId}`, {
             method: 'POST',
@@ -156,7 +156,7 @@ const flareApi = {
         if (data.constructor !== File) throw TypeError(`${data} is not an object`)
 
         let formData = new FormData()
-        formData.append('image', data)
+        formData.append('image', data.image)
 
         return fetch(`${this.url}/user/photo`, {
             method: 'PUT',
