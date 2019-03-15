@@ -13,6 +13,7 @@ class Profile extends Component {
             name: '',
             surname: '',
             email: '',
+            order: '',
 
         }
     }
@@ -26,20 +27,28 @@ class Profile extends Component {
                     email: user.data.email,
                 })
             })
+        logic.retrieveOrder()
+            .then(order => {
+                console.log(order);
+                this.setState({
+                    order: order.data.paymentMethod
+                })
+            })
     }
+
 
     render() {
         return (<section>
             <h1 className="title">Profile:</h1>
             <div className="userinfo">
                 <label>Name</label>
-                <input placeholder={`${this.state.name}`} />
+                <input value={`${this.state.name}`} />
                 <label>Surname</label>
-                <input placeholder={`${this.state.surname}`} />
+                <input value={`${this.state.surname}`} />
                 <label>Email:</label>
-                <input placeholder={`${this.state.email}`} />
-                <label>Purchashing history:</label>
-                <input placeholder={`${this.state.email}`} />
+                <input value={`${this.state.email}`} />
+                <label>Payment method:</label>
+                <input value={`${this.state.paymentMethod}`} />
             </div>
         </section>
         )

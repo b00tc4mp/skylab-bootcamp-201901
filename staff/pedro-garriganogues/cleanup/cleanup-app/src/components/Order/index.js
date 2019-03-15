@@ -26,12 +26,17 @@ class Cart extends Component {
         // this.getItems()
     }
 
+
     getItems = () => {
 
         logic.listProductsByIds()
             .then(cart => this.setState({ cart }))
 
     }
+
+    // truefunction() {
+    //     getElementById("demo").innerHTML = "Hello World";
+    // }
 
     handleSubmitOrder = (e) => {
         e.preventDefault()
@@ -47,7 +52,7 @@ class Cart extends Component {
         } else {
             console.log('Please, fill all fields')
         }
-        alert('Thanks for your purchase!')
+        alert('Thank you for your purchase!')
     }
 
     handlerCapturingPaymentMethod = (e) => {
@@ -61,6 +66,7 @@ class Cart extends Component {
         return (
             <section>
                 <h1 className="title">Payment info:</h1>
+                {<p id="demo"></p>}
                 <section className="globalsectionorder">
                     <ul>
                         <div>
@@ -90,7 +96,7 @@ class Cart extends Component {
                                     <input type="number" placeholder="Secret number" />
                                     <br />
                                     <br />
-                                    <button type="submit" className="submitbutton" >Submit payment</button>
+                                    <button type="submit" onClick={this.truefunction} className="submitbutton" >Submit payment</button>
                                 </div>
                             </form>
                         </div>

@@ -60,6 +60,11 @@ const logic = {
             .then(res => res)
     },
 
+    retrieveOrder() {
+        return cleanUpApi.retrieveOrder(this.__userId__)
+            .then(res => res)
+    },
+
     listProducts(category) {
         return cleanUpApi.listProducts(category)
             .then(products => {

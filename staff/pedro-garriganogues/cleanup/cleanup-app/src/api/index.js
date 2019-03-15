@@ -58,6 +58,18 @@ const cleanUpApi = {
             })
     },
 
+    retrieveOrder(userId) {
+
+        return fetch(`${this.url}/profile/${userId}`)
+            .then(response => console.log(response))
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
 
     removeUser(token, email, password) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)

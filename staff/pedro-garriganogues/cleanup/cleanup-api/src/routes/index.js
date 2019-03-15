@@ -44,6 +44,21 @@ router.get('/users/:userId', jwtValidator, (req, res) => {
         })
 })
 
+
+
+router.get('/order/:userId', (req, res) => {
+    const { params: { userId } } = req
+
+    return logic.retrieveOrder(userId)
+        .then(user => {
+            res.status(200)
+            res.json({ status: 'OK', data: user })
+        })
+        .catch(({ message }) => {
+            res.status(400)
+            res.json({ status: 'KO', error: message })
+        })
+})
 router.post('/user/auth', jsonBodyParser, (req, res) => {
 
 
@@ -59,6 +74,8 @@ router.post('/user/auth', jsonBodyParser, (req, res) => {
             res.json({ status: 'KO', error: message })
         })
 })
+
+
 
 
 router.post('/order', jsonBodyParser, (req, res) => {

@@ -10,7 +10,7 @@ class Cart extends Component {
 
         return (
             <section>
-                <h1 clasName="title">Cart:</h1>
+                <h1 className="title">Cart:</h1>
                 <section className="globalsection">
                     <section className="sectioncart">
                         <table>

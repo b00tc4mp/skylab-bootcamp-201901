@@ -44,11 +44,26 @@ const logic = {
 
         return (async () => {
 
-            const user = await User.findById(id).select({ _id: 0, name: 1, surname: 1, address: 1, email: 1, phone: 1, orders: 1 })
+            const user = await User.findById(id).select({ _id: 0, name: 1, surname: 1, email: 1, orders: 1 })
 
             if (!user) throw Error(`no user found with id ${id}`)
 
             return user
+        })()
+    },
+
+
+    retrieveOrder(userId) {
+
+        if (typeof userId !== 'string') throw Error('order order is not a string')
+
+        return (async () => {
+
+            const orders = await Order.find({ userId }).select({ _id: 0, paymentMethod: 1, status: 1, products: 1, userId: 1 })
+
+            if (!orders.length) throw Error(`no order found with order ${order}`)
+
+            return orders
         })()
     },
 
