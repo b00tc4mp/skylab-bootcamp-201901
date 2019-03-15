@@ -3,17 +3,23 @@ import Toolbar from '../Toolbar'
 import Clock from '../Clock'
 import Todos from '../Todos'
 import Dragzone from '../Dragzone'
-import File from '../File'
+// import File from '../File'
+import Menu from '../Menu'
 import Finder from '../Finder'
 import logic from '../../logic'
 import './index.sass'
 
-function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder }) {
+function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut }) {
 
     let [level, setLevel] = useState([])
     let [positions, setPositions] = useState([])
     let [finder, setFinder] = useState(null)
     let [finderOpen, setFinderOpen] = useState(false)
+    let [showMenu, setShowMenu] = useState(false)
+    let [menuX, setMenuX] = useState(null)
+    let [menuY, setMenuY] = useState(null)
+
+
     // let positionsTest
 
     useEffect(() => {
@@ -21,7 +27,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     }, [])
 
     handleState = () => {
-        return logic.retrieveLevel()
+        return logic.retrieveLevel('/')
             .then(positionsArray => {
                 setPositions(positionsArray.children)
             })
@@ -33,7 +39,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
 
     handleNewFolder = () => {
         return logic.createDir('/_newFolder')
-            .then(() => logic.retrieveLevel())
+            .then(() => logic.retrieveLevel('/'))
             .then(newPositions => {
                 setLevel(newPositions.children)
             })
@@ -46,7 +52,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             content: ""
         }
         return logic.createFile(fileContent,'/_newFile')
-            .then(() => logic.retrieveLevel())
+            .then(() => logic.retrieveLevel('/'))
             .then(newPositions => {
                 setLevel(newPositions.children)
             })
@@ -55,7 +61,15 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
 
     openDir = (e) => {
         let dirPath = '/' + e.target.firstChild.innerText
-        return logic.retrieveDir(dirPath) // TODO in API => retrieveDir gives entire level from @.this.json 
+        return logic.retrieveLevel(dirPath)
+            .then(content => {
+                setFinderOpen(true)
+                setFinder(content)
+            })
+    }
+
+    openFinderRoot = () => {
+        return logic.retrieveLevel('/')
             .then(content => {
                 setFinderOpen(true)
                 setFinder(content)
@@ -66,6 +80,21 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
         setFinderOpen(false)
     }
 
+    // TODO
+    refreshFinder = () => {
+
+    }
+
+    openMenu = (e) => {
+        setMenuX(e.clientX)
+        setMenuY(e.clientY)
+        setShowMenu(true)
+    }
+
+    logOut = () => {
+        return logic.logOutUser()
+    }
+
     return <section className="desktop">
         <div className="desktop__clock">
             <Clock></Clock>
@@ -74,13 +103,16 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             <Todos></Todos>
         </div>
         <div className="desktop__toolbar">
-            <Toolbar newFolder={handleNewFolder} newFile={handleNewFile}></Toolbar>
+            <Toolbar newFolder={handleNewFolder} newFile={handleNewFile} openFinder={openFinderRoot} openMenu={openMenu}></Toolbar>
         </div>
         <div className="desktop__dragzone">
-            <Dragzone dir={level} pos={positions} openDir={openDir}></Dragzone>
+            <Dragzone dir={level} pos={positions} openDir={openDir} refresh={refreshFinder}></Dragzone>
         </div>
         {
             finder && finderOpen ? <Finder content={finder} close={closeFinder}></Finder> : null
+        }
+        {
+            showMenu ? <Menu menuX={menuX} menuY={menuY} logOut={logOut}></Menu> : null
         }
     </section>
 }

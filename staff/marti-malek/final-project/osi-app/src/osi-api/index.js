@@ -334,12 +334,12 @@ const osiApi = {
             })
     },
 
-    retrieveLevel(token) {
+    retrieveLevel(token, dirPath) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
-        return fetch(this.url + `level`, {
+        return fetch(this.url + `level?dirPath=${dirPath}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -385,7 +385,6 @@ const osiApi = {
     },
 
     moveDir(token, oldPath, newPath) {
-        debugger
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
@@ -406,7 +405,6 @@ const osiApi = {
             },
         })
             .then(response => {
-                debugger
                 return response.json()
             })
             .then(response => {

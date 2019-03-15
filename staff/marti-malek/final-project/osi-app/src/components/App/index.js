@@ -32,9 +32,9 @@ function App({ history, handleGoToLogin, handleGoToRegister, handleLogin, handle
   }
 
   return <main className="App">
-    <Route exact path="/" render={() => <Landing goToLogin={handleGoToLogin} goToRegister={handleGoToRegister} />}></Route>
-    <Route path="/login" render={() => <Login onLogin={handleLogin} goToRegister={handleGoToRegister}/>}></Route>
-    <Route path="/register" render={() => <Register onRegister={handleRegister} goToLogin={handleGoToLogin}/>}></Route>
+    <Route exact path="/" render={() => !logic.isUserLoggedIn ? <Landing goToLogin={handleGoToLogin} goToRegister={handleGoToRegister} />: <Redirect to="/desktop"/>}></Route>
+    <Route path="/login" render={() => !logic.isUserLoggedIn ? <Login onLogin={handleLogin} goToRegister={handleGoToRegister}/> : <Redirect to="/desktop"/>}></Route>
+    <Route path="/register" render={() => !logic.isUserLoggedIn ? <Register onRegister={handleRegister} goToLogin={handleGoToLogin}/>: <Redirect to="/desktop"/>}></Route>
     <Route path="/desktop" render={() => logic.isUserLoggedIn ? <Desktop /> : <Redirect to="/"/>}></Route>
   </main>
 }

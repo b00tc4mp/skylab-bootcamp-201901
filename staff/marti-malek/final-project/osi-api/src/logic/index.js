@@ -212,7 +212,7 @@ const logic = {
                 await fs.writeFile(`${dirPath}/.this.json`, JSON.stringify({
                     open: false,
                     type: 'folder',
-                    name: data,
+                    name: 'Desktop',
                     children: []
                 }, null, 4), err => {
                     if (err) throw err
@@ -864,25 +864,35 @@ const logic = {
      * @param {string} token 
      * @param {string} folder 
      */
-    retrieveLevel(token) {
+    retrieveLevel(token, dirPath) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
         if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
 
+        if (typeof dirPath !== 'string') throw TypeError(`${dirPath} should be a string`)
+
+        if (!dirPath.trim().length) throw Error('dirPath cannot be empty')
+
         return (async () => {
             /* Extracts the user's id form it's token */
             const { data } = await jwt.verify(token, this.jwtSecret)
 
             /* Builds the path to the file to retrieve */
-            const resPath = `${__dirname}/../data/${data}/.this.json`
+            const resPath = `${__dirname}/../data/${data}/${dirPath}`
 
-            /* Ascertains if the file exists, which should */
+            /* Build path to @.this.json file */
+            const jsonPath = path.join(resPath, '.this.json')
+
+            /* Ascertains if the folder exists, which should */
             if (!fs.existsSync(resPath)) throw Error('File not found')
 
+            /* Ascertains if the file exists, which should */
+            if (!fs.existsSync(jsonPath)) throw Error('File not found')
+
             /* Reads the file, gets it as buffer */
-            const rs = await fs.promises.readFile(resPath, err => {
+            const rs = await fs.promises.readFile(jsonPath, err => {
                 if (err) throw err
             })
 

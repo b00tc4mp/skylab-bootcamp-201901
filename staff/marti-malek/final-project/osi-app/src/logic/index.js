@@ -109,8 +109,8 @@ const logic = {
         return osiApi.rename(this.__userApiToken__, oldName, newName)
     },
 
-    retrieveLevel() {
-        return osiApi.retrieveLevel(this.__userApiToken__)
+    retrieveLevel(dirPath) {
+        return osiApi.retrieveLevel(this.__userApiToken__, dirPath)
     },
 
     moveFile(oldPath, newPath) {

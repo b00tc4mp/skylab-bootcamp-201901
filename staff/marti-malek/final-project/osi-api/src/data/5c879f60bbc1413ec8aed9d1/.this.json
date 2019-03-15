@@ -1,13 +1,31 @@
 {
     "open": false,
     "type": "folder",
-    "name": "5c879f60bbc1413ec8aed9d1",
+    "name": "Desktop",
     "children": [
         {
-            "name": "test",
+            "name": "test2",
+            "open": false,
+            "type": "folder",
+            "position": 2
+        },
+        {
+            "name": "test4",
+            "open": false,
+            "type": "folder",
+            "position": 8
+        },
+        {
+            "name": "test5",
             "open": false,
             "type": "folder",
             "position": 0
+        },
+        {
+            "name": "test6",
+            "open": false,
+            "type": "folder",
+            "position": 1
         }
     ]
 }

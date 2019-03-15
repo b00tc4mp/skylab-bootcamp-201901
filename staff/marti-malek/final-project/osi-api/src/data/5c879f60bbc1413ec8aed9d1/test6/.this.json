@@ -4,15 +4,15 @@
     "name": "_newFolder",
     "children": [
         {
-            "name": "hello",
+            "name": "file1",
             "open": false,
-            "type": "folder",
+            "type": "file",
             "position": 0
         },
         {
-            "name": "hey",
+            "name": "file2",
             "open": false,
-            "type": "folder",
+            "type": "file",
             "position": 1
         }
     ]
