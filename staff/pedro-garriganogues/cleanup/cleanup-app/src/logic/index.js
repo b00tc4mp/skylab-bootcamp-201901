@@ -23,7 +23,6 @@ const logic = {
                 console.log(error)
             }
         })()
-
     },
 
     logInUser(email, password) {

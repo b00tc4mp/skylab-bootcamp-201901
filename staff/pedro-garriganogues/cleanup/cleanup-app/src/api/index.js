@@ -60,13 +60,12 @@ const cleanUpApi = {
 
     retrieveOrder(userId) {
 
-        return fetch(`${this.url}/profile/${userId}`)
-            .then(response => console.log(response))
+        return fetch(`${this.url}/order/${userId}`)
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
 
-                return response
+                return response.data
             })
     },
 
