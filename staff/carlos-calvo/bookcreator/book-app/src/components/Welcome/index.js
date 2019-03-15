@@ -5,6 +5,10 @@ import './index.sass'
 
 class Welcome extends Component {
 
+    componentDidMount(){
+        this.forceUpdate()
+    }
+
     goToRoute = (name) => {
         this.props.history.push(name)
     }

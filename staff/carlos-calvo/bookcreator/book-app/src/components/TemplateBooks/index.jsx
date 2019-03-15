@@ -9,9 +9,14 @@ class TemplateBooks extends Component {
     state = {
         books: [],
         editBookVisible: false,
-        toastId: null
+        toastId: null,
+        searchText: ''
     }
-
+    handleSearch = event => {
+        this.setState({
+          searchText: event.target.value
+        });
+    }
     loadTemplateBook = (id) => {
         this.props.loadTemplateBook(id)
     }
@@ -37,26 +42,45 @@ class TemplateBooks extends Component {
     }
 
 
-    componentDidMount(){
+    componentDidMount =() => {
         this.retrieveTemplateBooks()
     }
 
-    render() {
+    render = () => {
 
-        const {state : { books} } = this
+        const {state : { books } } = this
+
+        let booksfiltered = books.filter(book => {
+                                if(this.state.search = '') return true
+                                else {
+                                    let lowerCasetitle = book.title.toLowerCase()
+                                    return lowerCasetitle.includes(this.state.searchText.toLowerCase())
+                                }})
         return (
             <Fragment>
                 <div className = "coverright">
+                <form> 
                     <div className="container-inputSearch">
-                        <input className="inputSearch" type="text" name="search" placeholder="Search.."/>
+                        <input className="inputSearch" type="text" name="search" placeholder="Search.." onChange={this.handleSearch}/>
                     </div>
-                <form>
+                </form>
+
+                    {booksfiltered && booksfiltered.length?
                     <div className="cardContainer">
-                        {books.length && books.map(book =>{
-                            return (<CardTemplate bookSelected={book} loadTemplateBook={this.loadTemplateBook} />)
+                        
+                            {booksfiltered.length && booksfiltered.map(book =>{
+                                return (<CardTemplate bookSelected={book} loadTemplateBook={this.loadTemplateBook} />)
                             })}
+                            {!booksfiltered.length?
+                                <div>Ooops no books matching criteria</div>
+                                :
+                                null
+                            }
                     </div> 
-                    </form> 
+                    :
+                    <div className="cardContainer"><b>Ooops no books matching criteria</b></div>
+                }
+                    
                 </div>
             </Fragment>
         )

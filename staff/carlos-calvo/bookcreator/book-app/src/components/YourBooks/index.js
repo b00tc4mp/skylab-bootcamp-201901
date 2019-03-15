@@ -86,9 +86,13 @@ class YourBooks extends Component {
             <Fragment>
                 <div className = "coverright">
                     <div className="cardContainer">
-                        {books.length && books.map(book =>{
+                        {books.length?
+                        books.length && books.map(book =>{
                             return (<CardBook bookSelected={book} deleteBook = {this.deleteBook} editBook={this.editBook} loadBook = {this.props.loadBook} addBookToTemplates={this.addBookToTemplates} />)
-                            })}
+                            })
+                        :
+                        <div>Ooops You have no Books! Retrieve from templates or create a new one</div>
+                    }
                     </div>  
                 </div>
             </Fragment>

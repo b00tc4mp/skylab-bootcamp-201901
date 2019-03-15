@@ -44,19 +44,19 @@ class CardTemplate extends Component {
                     </div>
                     <div className="cardBody">
                         <div className="cardBody__title" data-toggle="tooltip" data-placement="top" title={book.title}>
-                            <h5 className="title">{book.title}</h5>
+                            <h3 className="title">{book.title}</h3>
                         </div>
                         <div className="cardBody__name">
                             {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')? 
                             <p className="cardBody__text">Name<i className="fas fa-user-circle"></i> {book.parameters.name}</p>:
-                            <p className="cardBody__text">Name<i className="fas fa-user-circle"></i> No name tag in this book</p>
+                            <p className="cardBody__text">Name<i className="fas fa-user-circle"></i> No name tag</p>
                             }
                         </div>
                         <div className="cardBody__place">
                             {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place') ? 
                             <p className="cardBody__text">Place :<i className="fas fa-user-circle"></i> {book.parameters.place}</p>
                                 :
-                            <p className="cardBody__text">Place :<i className="fas fa-user-circle"></i> No place tag in this book</p>
+                            <p className="cardBody__text">Place :<i className="fas fa-user-circle"></i> No place tag</p>
                             }
                         </div>
                         <div className="cardBody__buttonContainer">

@@ -358,7 +358,7 @@ const logic = {
             if(!result) throw new Error('Book not existing')
 
             //Check that book has been already been added
-            const result2 = await Book.findOne({title: result.title, content: result.content})
+            const result2 = await Book.findOne({title: result.title, content: result.content, userId })
             if(result2) throw new Error('Already existing template in your books')
             
             const book = Book.create({'title': result.title, 'content': result.content, 

@@ -46,7 +46,8 @@ class EditBook extends Component {
           });
     }
 
-    updateBook = () =>{
+    updateBook = (event) =>{
+        event.preventDefault()
         const { state: { name, place, title } } = this
         const { props: { bookid } } = this
         let parameters = {}
@@ -77,13 +78,13 @@ class EditBook extends Component {
                                 {book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name') ?  
                                     <div className="editForm__parameters"><label htmlFor="uname"><b>Your main name is: </b></label><input className="editForm__input" type="text" placeholder="Your main name is ..." value={name} onChange={this.handleNameInput} required /> <br/></div> 
                                     : 
-                                    <div className="editForm__parameters"><input type="text" placeholder="There is no parametizable name in this book" disabled/> <br/></div> 
+                                    <div></div> 
                                 }
                                 
                                 {book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place') ? 
                                     <div className="editForm__parameters"><label htmlFor="uname"><b>Your main place is: </b></label><input className="editForm__input" type="text" placeholder="Your place is ..." value={place} onChange={this.handlePlaceInput} required />  <br/></div> 
                                     : 
-                                    <div className="editForm__parameters"><input type="text" placeholder="There is no parametizable name in this book" disabled/> <br/></div> 
+                                    <div></div> 
                                 }
                                 <button className="editForm__submit" type="submit">Update Book!</button>    
                         </form>

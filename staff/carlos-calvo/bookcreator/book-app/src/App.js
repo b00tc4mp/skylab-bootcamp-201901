@@ -17,8 +17,6 @@ class App extends Component {
   
 
   render() {
-    console.log(logic.isUserLoggedIn)
-    console.log(logic.__userApiToken__)
     return (
       <div className="App">
         <Switch>

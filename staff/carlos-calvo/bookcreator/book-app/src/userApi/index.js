@@ -108,4 +108,4 @@ const userApi = {
     },
 }
 
-module.exports = userApi
+export default userApi

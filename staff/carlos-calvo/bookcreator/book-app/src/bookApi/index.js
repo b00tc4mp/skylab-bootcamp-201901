@@ -205,7 +205,6 @@ const bookApi = {
             }
         })
         .then(response => response)
-
     }
 }
-module.exports = bookApi
+export default bookApi

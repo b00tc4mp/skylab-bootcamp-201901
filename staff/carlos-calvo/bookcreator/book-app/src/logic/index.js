@@ -2,11 +2,11 @@
  * Abstraction of business logic.
  */
 
-// import userApi from '../userApi'
-// import bookApi from '../bookApi'
+import userApi from '../userApi'
+import bookApi from '../bookApi'
 
-const userApi = require('../userApi')
-const bookApi = require('../bookApi')
+// const userApi = require('../userApi')
+// const bookApi = require('../bookApi')
 //USER LOGIC
 
 
@@ -299,10 +299,6 @@ const logic = {
             return book
         })()
     }
-
-
-
-
 }
 
-module.exports = logic
+export default logic
