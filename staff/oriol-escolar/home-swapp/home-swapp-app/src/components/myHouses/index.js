@@ -43,11 +43,11 @@ class MyHouses extends Component {
         this.props.onCreateHousePage()
     }
 
-    listMyHouses = (userHouses, updateInfo) => {
+    listMyHouses = (userHouses, updateInfo,retrieveHouse) => {
 
         return userHouses.map(house => {
 
-            return <HouseCard house={house} updateInfo={updateInfo} deleteHouseList={this.deleteHouseList} origin='myHouses' />
+            return <HouseCard house={house} updateInfo={updateInfo} deleteHouseList={this.deleteHouseList} retrieveHouse={retrieveHouse} origin='myHouses' />
         });
     }
 
@@ -55,7 +55,7 @@ class MyHouses extends Component {
 
     render() {
 
-        const { listMyHouses, onCreateHousePage, state: { myHouses }, props: { updateInfo } } = this
+        const { listMyHouses, onCreateHousePage, state: { myHouses }, props: { updateInfo,retrieveHouse } } = this
 
 
         return <div className="myHouses" >
@@ -65,7 +65,7 @@ class MyHouses extends Component {
                 <CreateHouseCard onCreateHousePage={onCreateHousePage} />
 
 
-                {myHouses && listMyHouses(myHouses, updateInfo)}
+                {myHouses && listMyHouses(myHouses, updateInfo,retrieveHouse)}
 
 
             </div>

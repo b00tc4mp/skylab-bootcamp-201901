@@ -12,7 +12,7 @@ class HouseCard extends Component {
 
 
         logged: false,
-        thisHouse:"",
+        thisHouse: "",
         isFav: this.props.isFav
 
 
@@ -24,17 +24,29 @@ class HouseCard extends Component {
             this.setState({ logged: true, thisHouse: this.props.house, isFav: this.props.isFav })
 
 
+        }else{
+            
+            this.setState({ thisHouse: this.props.house})
+
         }
 
 
 
     }
 
-    componentDidUpdate(prepProvs){
-        if(prepProvs.isFav !== this.props.isFav) {
-            const {isFav} = this.props
-            this.setState({isFav})
+    componentDidUpdate(prepProvs) {
+        if (prepProvs.isFav !== this.props.isFav) {
+            const { isFav } = this.props
+            this.setState({ isFav })
         }
+
+        if(prepProvs.house !== this.state.thisHouse){
+            const{house}=this.props
+            this.setState({ thisHouse:house })
+
+
+        }        
+
     }
 
     deleteHouse = () => {
@@ -51,7 +63,7 @@ class HouseCard extends Component {
 
     }
 
-    ChangeHeart = () =>  this.setState({isFav: !this.state.isFav})
+    ChangeHeart = () => this.setState({ isFav: !this.state.isFav })
 
 
     toggleFavorite = () => {
@@ -65,14 +77,21 @@ class HouseCard extends Component {
         }
 
 
+    }
+    retrieveHouse = () => {
 
+        const { props: { retrieveHouse } } = this
+
+        
+        retrieveHouse(this.state.thisHouse.id)
     }
 
     render() {
 
-        const { state: { logged,isFav }, props: { house: { adress, images, id }, retrieveHouse, origin }, deleteHouse,toggleFavorite } = this
-        const iSreadHeart = logged && origin != 'myHouses' 
+        const { state: { logged, isFav }, props: { house: { adress, images, id }, origin }, deleteHouse, toggleFavorite, retrieveHouse } = this
+        const iSreadHeart = logged && origin != 'myHouses'
         const iSwhiteHeart = logged && origin != 'myHouses'
+
         return <div onClick={retrieveHouse} className="HouseCard">
 
             <img className="HouseCard__img" src={images[0]}></img>
