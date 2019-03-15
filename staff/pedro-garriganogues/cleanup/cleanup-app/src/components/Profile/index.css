@@ -2,3 +2,15 @@
 .title{
     margin: 3%;
   }
+
+  .userinfo{
+    display: flex;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: ghostwhite;
+    flex-direction: column;
+    max-width: 20em;
+    padding: 20px;
+    margin-left: 10em;
+    margin-bottom: 5em;
+  }

@@ -20,23 +20,28 @@ class Profile extends Component {
     componentDidMount() {
         logic.retrieveUser()
             .then(user => {
-
                 this.setState({
-                    name: user.name,
-                    surname: user.surname,
-                    email: user.email,
-                    phone: user.phone
+                    name: user.data.name,
+                    surname: user.data.surname,
+                    email: user.data.email,
                 })
             })
     }
 
     render() {
-        return (
-            <div>
-                <h1 className="title">Profile:</h1>
-                <label htmlFor="firstName">First name</label>
-                <input type="text" placeholder={this.state.name} />
+        return (<section>
+            <h1 className="title">Profile:</h1>
+            <div className="userinfo">
+                <label>Name</label>
+                <input placeholder={`${this.state.name}`} />
+                <label>Surname</label>
+                <input placeholder={`${this.state.surname}`} />
+                <label>Email:</label>
+                <input placeholder={`${this.state.email}`} />
+                <label>Purchashing history:</label>
+                <input placeholder={`${this.state.email}`} />
             </div>
+        </section>
         )
     }
 }
