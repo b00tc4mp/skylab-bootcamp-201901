@@ -333,12 +333,12 @@ const logic = {
             })
     },
 
-    deleteAppointment(appointmentId){
-        if (typeof appointmentId !== 'string') throw TypeError(appointmentId + ' is not a string')
+    deleteAppointment(Id){
+        // if (typeof appointmentId !== 'string') throw TypeError(appointmentId + ' is not a string')
 
-        if (!appointmentId.trim().length) throw Error('appointmentId cannot be empty')
+        // if (!appointmentId.trim().length) throw Error('appointmentId cannot be empty')
 
-        console.log(appointmentId)
+        console.log(Id)
 
           // this.__userToken__()
           this.__updateToken__()
@@ -348,7 +348,7 @@ const logic = {
                 // authorization: `Bearer ${this.__userApiToken__}`
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ appointmentId })
+            body: JSON.stringify({ Id })
         })
             .then(response => response.json())
             .then(response => {

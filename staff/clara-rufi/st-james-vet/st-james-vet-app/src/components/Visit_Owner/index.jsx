@@ -16,7 +16,7 @@ class VisitOwner extends Component {
     retrieveAppointments = async () => {
         let year = this.state.year
         let month = this.state.month
-        console.log(year, month)
+        // console.log(year, month)
         const appointments = await logic.retrieveAppointments(year, month)
         this.setState({ appointments })
     }
@@ -25,7 +25,7 @@ class VisitOwner extends Component {
         debugger
         const user = await logic.retrieveUser()
         this.setState({ user : user.id })
-        console.log(user)
+        // console.log(user)
         // , () => console.log(this.state.user))
       
     }
@@ -71,10 +71,8 @@ class VisitOwner extends Component {
                     })
                     console.log(this.state.user)
                     
-                    // if (owner._id === this.state.user ){
                         if (owner._id === this.state.user ){
                             return (
-                                // <h1>Owner {owner._id}</h1>
                                 <div>
                                 <tr>
                             <p className="appointment" value={id}>
@@ -88,12 +86,7 @@ class VisitOwner extends Component {
                         </tr>
                         </div>
                     )
-                    // }else{
-                    //     return(
-                    //     <p>There ara no appointments</p>
-                    //     )
-                    // }
-                            }
+                    }
                 })
             }
         </div>
