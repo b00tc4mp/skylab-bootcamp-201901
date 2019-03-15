@@ -40,10 +40,14 @@ const logic = {
       })
       .then(() => User.findOne({ username }))
       .then(user => {
-        if (user) throw Error(`user with email ${username} already exists`);
+        if (user) throw Error(`user with username ${username} already exists`);
         return bcrypt.hash(password, 10);
       })
-      .then(hash => User.create({ name, username, email, password: hash }));
+      .then(hash =>
+        User.create({ name, username, email, password: hash }).then(
+          user => user._id
+        )
+      );
   },
 
   /**
@@ -91,14 +95,15 @@ const logic = {
 
   createPost(title, description, image, user_id) {
     if (typeof title !== "string") throw TypeError(title + " is not a string");
-    if (!title.trim().length) throw Error("name cannot be empty");
+    if (!title.trim().length) throw Error("title cannot be empty");
     if (typeof description !== "string")
       throw TypeError(description + " is not a string");
     if (!description.trim().length) throw Error("description cannot be empty");
-    if (typeof image !== "string") throw TypeError(title + " is not a string");
+    if (typeof image !== "string") throw TypeError(image + " is not a string");
+    if (!image.trim().length) throw Error("image cannot be empty");
     if (typeof user_id !== "string")
-      throw TypeError(title + " is not a string");
-    if (!user_id.trim().length) throw Error("user_id cannot be empty");
+      throw TypeError(user_id + " is not a string");
+    if (!user_id.trim().length) throw Error(" user_id cannot be empty");
 
     let t = description.split(" ").filter(w => w.includes("#"));
 

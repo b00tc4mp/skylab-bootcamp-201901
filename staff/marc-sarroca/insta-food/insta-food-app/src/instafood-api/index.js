@@ -173,7 +173,7 @@ const instaApi = {
     if (typeof postId !== "string")
       throw TypeError(`${postId} is not a string`);
     if (!postId.trim().length) throw Error("postId is empty");
-    return fetch(`${this.url}/user/delete/${postId}`, {
+    return fetch(`${this.url}/post/delete/${postId}`, {
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${token}`
