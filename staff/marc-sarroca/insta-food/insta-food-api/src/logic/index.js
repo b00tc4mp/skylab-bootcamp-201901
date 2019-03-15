@@ -85,7 +85,7 @@ const logic = {
       .populate("favorites")
       .select("-__v -password")
       .then(user => {
-        if (!user) throw Error(`user with id ${id} not found`);
+        if (!user) throw Error(`user with id ${userId} not found`);
 
         delete user.password;
 

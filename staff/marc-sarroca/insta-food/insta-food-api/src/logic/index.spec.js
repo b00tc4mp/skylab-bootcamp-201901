@@ -10,11 +10,11 @@ const logic = require(".");
 const bcrypt = require("bcrypt");
 
 const {
-  env: { DB_URL }
+  env: { DB_URL_TEST }
 } = process;
 
 describe("logic", () => {
-  before(() => mongoose.connect(DB_URL, { useNewUrlParser: true }));
+  before(() => mongoose.connect(DB_URL_TEST, { useNewUrlParser: true }));
 
   beforeEach(() =>
     Promise.all([Comment.deleteMany(), User.deleteMany(), Post.deleteMany()])
@@ -537,44 +537,239 @@ describe("logic", () => {
 
   describe("authenticate user", () => {
     const name = "hulio";
-    const username = "123";
-    const email = `hulio123-${Math.random()}@mail.com`;
+    let username, email;
     const password = `123-${Math.random()}`;
 
-    beforeEach(() =>
-      bcrypt
-        .hash(password, 10)
-        .then(hash => User.create({ name, username, email, password: hash }))
-    );
+    beforeEach(() => {
+      username = "hulio123";
+      email = "hulio123999@mail.com";
+      return bcrypt.hash(password, 10).then(hash =>
+        User.create({
+          name,
+          username,
+          email,
+          password: hash
+        })
+      );
+    });
 
-    it("should succeed on correct credentials", () =>
+    it("should succeed on correct credentials when authenticate with email", () =>
       logic
         .authenticateUser(email, password)
         .then(id => expect(id).toBeDefined()));
+
+    it("should fail on authenticate with incorrect email", async () => {
+      let errorCatched;
+      const email = "fake@email.com";
+
+      try {
+        const auth = await logic.authenticateUser(email, password);
+      } catch (error) {
+        errorCatched = error;
+      }
+
+      expect(errorCatched.message).toBe(`user with email ${email} not found`);
+    });
+
+    it("should fail on authenticate with incorrect password", async () => {
+      let errorCatched;
+      const password = "fakePassword69";
+
+      try {
+        const auth = await logic.authenticateUser(email, password);
+      } catch (error) {
+        errorCatched = error;
+      }
+
+      expect(errorCatched.message).toBe(`wrong credentials`);
+    });
+
+    it("should fail on undefined authenticate data", () => {
+      const email = undefined;
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(email + " is not a string"));
+    });
+
+    it("should fail on numeric authenticate data", () => {
+      const email = 10;
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(email + " is not a string"));
+    });
+
+    it("should fail on boolean authenticate data", () => {
+      const email = false;
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(email + " is not a string"));
+    });
+
+    it("should fail on object authenticate data", () => {
+      const email = {};
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(email + " is not a string"));
+    });
+
+    it("should fail on array authenticate data", () => {
+      const email = [];
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(email + " is not a string"));
+    });
+
+    it("should fail on empty password", () => {
+      const password = "";
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(Error("password cannot be empty"));
+    });
+
+    it("should fail on undefined password", () => {
+      const password = undefined;
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(password + " is not a string"));
+    });
+
+    it("should fail on numeric password", () => {
+      const password = 10;
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(password + " is not a string"));
+    });
+
+    it("should fail on boolean password", () => {
+      const password = false;
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(password + " is not a string"));
+    });
+
+    it("should fail on object password", () => {
+      const password = {};
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(password + " is not a string"));
+    });
+
+    it("should fail on array password", () => {
+      const password = [];
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(TypeError(password + " is not a string"));
+    });
+    it("should fail on empty email", () => {
+      const email = "";
+
+      expect(() => {
+        logic.authenticateUser(email, password);
+      }).toThrow(Error("email cannot be empty"));
+    });
   });
 
   describe("retrieve user", () => {
     const name = "hulio";
-    const username = "123";
+    const username = `hulio123-${Math.random()}@mail.com`;
     const email = `hulio123-${Math.random()}@mail.com`;
     const password = `123-${Math.random()}`;
+    const passwordConfirm = password;
 
     let userId;
 
     beforeEach(() =>
-      bcrypt
-        .hash(password, 10)
-        .then(hash => User.create({ name, username, email, password: hash }))
-        .then(({ id }) => (userId = id))
+      bcrypt.hash(password, 10).then(hash =>
+        User.create({
+          name,
+          username,
+          email,
+          password: hash,
+          passwordConfirm
+        }).then(({ _id }) => (userId = _id.toString()))
+      )
     );
+    console.log(userId);
 
     it("should succeed on correct credentials", () =>
       logic.retrieveUser(userId).then(user => {
-        expect(user.id).toBe(userId);
+        expect(user._id.toString()).toBe(userId);
         expect(user.name).toBe(name);
         expect(user.username).toBe(username);
         expect(user.email).toBe(email);
       }));
+
+    it("should fail on incorrect userId", async () => {
+      let errorCatched;
+      const userId = "5c7d5fdbba3aed8dc820ece0";
+
+      try {
+        const auth = await logic.retrieveUser(userId);
+      } catch (error) {
+        errorCatched = error;
+      }
+
+      expect(errorCatched.message).toBe(`user with id ${userId} not found`);
+    });
+
+    it("should fail on empty userId", () => {
+      const userId = "";
+
+      expect(() => {
+        logic.retrieveUser(userId);
+      }).toThrow(Error("userId cannot be empty"));
+    });
+
+    it("should fail on undefined userId", () => {
+      const userId = undefined;
+
+      expect(() => {
+        logic.retrieveUser(userId);
+      }).toThrow(TypeError(userId + " is not a string"));
+    });
+
+    it("should fail on numeric userId", () => {
+      const userId = 10;
+
+      expect(() => {
+        logic.retrieveUser(userId);
+      }).toThrow(TypeError(userId + " is not a string"));
+    });
+
+    it("should fail on boolean userId", () => {
+      const userId = false;
+
+      expect(() => {
+        logic.retrieveUser(userId);
+      }).toThrow(TypeError(userId + " is not a string"));
+    });
+
+    it("should fail on object userId", () => {
+      const userId = {};
+
+      expect(() => {
+        logic.retrieveUser(userId);
+      }).toThrow(TypeError(userId + " is not a string"));
+    });
+
+    it("should fail on array userId", () => {
+      const userId = [];
+
+      expect(() => {
+        logic.retrieveUser(userId);
+      }).toThrow(TypeError(userId + " is not a string"));
+    });
   });
 
   describe("Create Post", () => {
@@ -706,14 +901,14 @@ describe("logic", () => {
       }).toThrow(TypeError(description + " is not a string"));
     });
 
-    it("should fail on empty image", () => {
+    it("should fail on empty description", () => {
       const title = "jojoj";
-      const description = "lololo";
-      const image = "";
+      const description = "";
+      const image = "http://google.es";
 
       expect(() => {
         logic.createPost(title, description, image, user_id);
-      }).toThrow(TypeError(image + "image cannot be empty"));
+      }).toThrow(TypeError(description + "description cannot be empty"));
     });
 
     it("should fail on undefined description", () => {
@@ -879,66 +1074,41 @@ describe("logic", () => {
     });
 
     it("should fail on object user_id", () => {
-      const title = "jojoj";
-      const description = "lololo";
-      const image = "http://image.es";
       user_id = {};
-
       expect(() => {
-        logic.createPost(title, description, image, user_id);
+        logic.retrievePostsByUser(user_id);
       }).toThrow(TypeError(user_id + " is not a string"));
     });
 
     it("should fail on empty user_id", () => {
-      const title = "jojoj";
-      const description = "lololo";
-      const image = "http://image.es";
-      user_id = "";
-      expect(() => {
-        logic.createPost(title, description, image, user_id);
-      }).toThrow(TypeError(user_id + " user_id cannot be empty"));
-    });
-    it("should fail on empty user_id", () => {
-      const title = "jojoj";
-      const description = "lololo";
-      const image = "htt://image.es";
       user_id = "";
 
       expect(() => {
-        logic.createPost(title, description, image, user_id);
-      }).toThrow(TypeError(user_id + " user_id cannot be empty"));
+        logic.retrievePostsByUser(user_id);
+      }).toThrow(TypeError(user_id + "userId cannot be empty"));
     });
 
     it("should fail on undefined user_id", () => {
-      const title = "jojoj";
-      const description = "lololo";
-      const image = "htt://image.es";
       user_id = undefined;
 
       expect(() => {
-        logic.createPost(title, description, image, user_id);
+        logic.retrievePostsByUser(user_id);
       }).toThrow(TypeError(user_id + " is not a string"));
     });
 
     it("should fail on array user_id", () => {
-      const title = "jojoj";
-      const description = "lololo";
-      const image = "htt://image.es";
       user_id = [];
 
       expect(() => {
-        logic.createPost(title, description, image, user_id);
+        logic.retrievePostsByUser(user_id);
       }).toThrow(TypeError(user_id + " is not a string"));
     });
 
     it("should fail on boolean user_id", () => {
-      const title = "jojoj";
-      const description = "lololo";
-      const image = "http://image.es";
       user_id = true;
 
       expect(() => {
-        logic.createPost(title, description, image, user_id);
+        logic.retrievePostsByUser(user_id);
       }).toThrow(TypeError(user_id + " is not a string"));
     });
   });
