@@ -2,7 +2,7 @@
 
 const httpStatus = require('http-status');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models/user.model');
+const { User } = require('triviapp-data');
 const { UnauthorizedError } = require('../errors');
 const { jwtSecret } = require('../../config/vars');
 

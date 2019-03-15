@@ -105,6 +105,22 @@ const gameApi = {
 			});
 	},
 
+	getCurrentQuestion(gameId) {
+		
+		return fetch(`${this.url}/game/${gameId}/question`, {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			},
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				return response;
+			});
+	},
+
 	getQuestionsResults(data) {
 		return fetch(`${this.url}/game/question/results`, {
 			method: 'POST',
@@ -122,7 +138,7 @@ const gameApi = {
 	},
 
 	getLastAnswer(gameId) {
-		debugger
+		
 		return fetch(`${this.url}/game/${gameId}/answer/last`, {
 			method: 'GET',
 			headers: {

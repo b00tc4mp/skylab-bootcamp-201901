@@ -1,13 +1,9 @@
-const mongoose = require('mongoose');
+const { Game, Question, Quiz, AnswerGame, mongoose } = require('triviapp-data');
 const {
 	Types: { ObjectId },
 } = mongoose;
-const { Game } = require('../../models/game.model');
-const { Question } = require('../../models/question.model');
-const { Quiz } = require('../../models/quiz.model');
-const { AnswerGame } = require('../../models/answer-game.model');
-const validate = require('../../utils/validate');
-const { AlreadyExistsError, UnauthorizedError, NotFoundError } = require('../../errors');
+const validate = require('triviapp-data');
+const { AlreadyExistsError, UnauthorizedError, NotFoundError } = require('triviapp-errors');
 const { cloudName, apiKey, apiSecret } = require('../../../config/vars');
 var randomize = require('randomatic');
 
@@ -191,5 +187,13 @@ module.exports = {
 			await game.save();
 			return game.normalize();
 		})(data);
+	},
+
+	currentQuestion(game) {
+		return (async (game) => {
+			const question = await Game.getCurrentQuestion(game.id);
+			debugger
+			return question;
+		})(game);
 	},
 };

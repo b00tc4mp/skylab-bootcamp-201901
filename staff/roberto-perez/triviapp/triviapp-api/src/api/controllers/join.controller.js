@@ -1,7 +1,7 @@
 'use sctric';
 
 const httpStatus = require('http-status');
-const { Game } = require('../models/game.model');
+const { Game } = require('triviapp-data');
 const gameLogic = require('../logic/game');
 const { handleResponseError } = require('../routes/routes-helper');
 // const socket = require('../logic/socket');

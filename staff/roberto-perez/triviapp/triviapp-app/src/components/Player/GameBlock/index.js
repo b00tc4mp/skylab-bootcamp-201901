@@ -14,9 +14,10 @@ function GameBlock(props) {
 	}, []);
 
 	const getGame = async () => {
+		
 		try {
 			const game = await gameService.get(props.gameId);
-
+			
 			const gameAnswers = [];
 
 			game.currentQuestion.answers.map((answer, index) => {
@@ -94,7 +95,6 @@ function GameBlock(props) {
 						className={`current-quiz__choices-player current-quiz__choices-player--${totalAnswers}`}
 					>
 						{answers.map((answer, index) => {
-							console.log(answer);
 							return (
 								<button
 									key={answer._id}

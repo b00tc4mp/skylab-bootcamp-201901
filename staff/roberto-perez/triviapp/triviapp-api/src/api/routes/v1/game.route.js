@@ -15,7 +15,7 @@ router.route('/').post(authorize, controller.create);
 
 router.route('/:gameId/start').patch(authorize, controller.start);
 
-router.route('/:gameId/question').patch(authorize, controller.currentQuestion);
+router.route('/:gameId/question').get(authorize, controller.currentQuestion);
 
 router.route('/:gameId').get(controller.get);
 

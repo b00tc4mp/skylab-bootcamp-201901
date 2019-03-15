@@ -1,7 +1,7 @@
 'use sctric';
 
 const httpStatus = require('http-status');
-const { Game } = require('../models/game.model');
+const { Game } = require('triviapp-data');
 const gameLogic = require('../logic/game');
 const quizLogic = require('../logic/quiz');
 const { handleResponseError } = require('../routes/routes-helper');
@@ -172,11 +172,12 @@ exports.score = async (req, res) => {
 
 
 exports.currentQuestion = async (req, res) => {
-	// try {
-	// 	const game = await gameLogic.startGame(req.locals.game);
-	// 	res.status(httpStatus.CREATED);
-	// 	return res.json(game);
-	// } catch (error) {
-	// 	handleResponseError(error, res);
-	// }
+	try {
+		debugger
+		const question = await gameLogic.currentQuestion(req.locals.game);
+		res.status(httpStatus.OK);
+		return res.json(question);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
 };

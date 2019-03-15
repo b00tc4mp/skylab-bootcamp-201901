@@ -1,6 +1,6 @@
-const { User } = require('../../models/user.model');
-const validate = require('../../utils/validate');
-const { AlreadyExistsError, UnauthorizedError } = require('../../errors');
+const { User } = require('triviapp-data');
+const validate = require('triviapp-validation');
+const { AlreadyExistsError, UnauthorizedError } = require('triviapp-errors');
 
 /**
  * Abstraction of auth logic.
@@ -44,6 +44,7 @@ module.exports = {
 		]);
 
 		return (async data => {
+			debugger
 			const { user, token } = await User.findAndGenerateToken(data);
 			const userTransformed = user.normalize();
 			return { token, user: userTransformed };

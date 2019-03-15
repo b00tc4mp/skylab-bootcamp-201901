@@ -109,7 +109,14 @@ const game = {
 		}
 	},
 
-
+	async getCurrentQuestion(gameId) {
+		debugger
+		try {
+			return await gameApi.getCurrentQuestion(gameId);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
 	
 
 

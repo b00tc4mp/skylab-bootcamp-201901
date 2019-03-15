@@ -1,7 +1,6 @@
-const { Quiz } = require('../../models/quiz.model');
-const { Question } = require('../../models/question.model');
-const validate = require('../../utils/validate');
-const { AlreadyExistsError, UnauthorizedError } = require('../../errors');
+const { Quiz, Question } = require('triviapp-data');
+const validate = require('triviapp-validation');
+const { AlreadyExistsError, UnauthorizedError } = require('triviapp-errors');
 
 /**
  * Abstraction of auth logic.
