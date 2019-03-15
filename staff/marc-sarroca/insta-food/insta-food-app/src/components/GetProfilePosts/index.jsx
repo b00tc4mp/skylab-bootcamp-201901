@@ -31,6 +31,7 @@ function GetProfilePost({ match }) {
             comments={post.comments}
             countfavs={post.countfavs}
             postId={post && post._id}
+            call={getUserPosts}
           />
         ))}
     </div>

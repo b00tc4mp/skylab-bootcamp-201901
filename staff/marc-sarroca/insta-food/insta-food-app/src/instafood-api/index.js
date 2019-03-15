@@ -165,6 +165,22 @@ const instaApi = {
     })
       .then(response => response.json())
       .then(post => post);
+  },
+
+  removePost(token, postId) {
+    if (typeof token !== "string") throw TypeError(`${token} is not a string`);
+    if (!token.trim().length) throw Error("token is empty");
+    if (typeof postId !== "string")
+      throw TypeError(`${postId} is not a string`);
+    if (!postId.trim().length) throw Error("postId is empty");
+    return fetch(`${this.url}/user/delete/${postId}`, {
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(res => res);
   }
 };
 

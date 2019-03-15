@@ -15,7 +15,8 @@ const {
   retrieveAllPosts,
   retrieveUserPosts,
   addFavorites,
-  addComments
+  addComments,
+  deletePost
 } = require("./routes");
 
 const {
@@ -53,6 +54,7 @@ mongoose
       jsonBodyParser,
       addComments
     );
+    router.get("/user/delete/:postId", tokenVerifierMiddleware, deletePost);
 
     app.use("/api", router);
     app.listen(port, () => console.log(`server running on port ${port}`));

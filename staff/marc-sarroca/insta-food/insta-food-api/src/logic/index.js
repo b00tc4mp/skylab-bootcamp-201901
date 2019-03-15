@@ -76,6 +76,7 @@ const logic = {
   retrieveUser(userId) {
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
+    if (!userId.trim().length) throw Error("userId cannot be empty");
     return User.findById(userId)
       .populate("favorites")
       .select("-__v -password")
@@ -97,6 +98,7 @@ const logic = {
     if (typeof image !== "string") throw TypeError(title + " is not a string");
     if (typeof user_id !== "string")
       throw TypeError(title + " is not a string");
+    if (!user_id.trim().length) throw Error("user_id cannot be empty");
 
     let t = description.split(" ").filter(w => w.includes("#"));
 
@@ -113,6 +115,7 @@ const logic = {
     const res = {};
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
+    if (!userId.trim().length) throw Error("userId cannot be empty");
     return User.findOne({ _id: userId })
       .select("-__v -password")
       .then(user => {
@@ -147,16 +150,18 @@ const logic = {
       throw TypeError(userId + " is not a string");
     if (typeof postId !== "string")
       throw TypeError(postId + " is not a string");
+    if (!userId.trim().length) throw Error("userId cannot be empty");
+    if (!postId.trim().length) throw Error("postId cannot be empty");
     let _index;
 
     return User.findById(userId)
       .then(user => {
+        if (!user) throw Error(`user with id ${userId} not found`);
         const { favorites = [] } = user;
         const index = favorites.findIndex(
           _postId => _postId.toString() === postId
         );
         _index = index;
-        console.log(_index);
         if (index < 0) {
           favorites.push(postId);
         } else favorites.splice(index, 1);
@@ -164,6 +169,7 @@ const logic = {
       })
       .then(() => Post.findById(postId))
       .then(post => {
+        if (!post) throw Error(`post with id ${postId} not found`);
         if (_index < 0) {
           post.countfavs = post.countfavs + 1;
         } else post.countfavs = post.countfavs - 1;
@@ -177,10 +183,13 @@ const logic = {
   },
 
   addCommentPost(userId, postId, text) {
+    if (!userId.trim().length) throw Error("userId cannot be empty");
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
+    if (!postId.trim().length) throw Error("postId cannot be empty");
     if (typeof postId !== "string")
       throw TypeError(postId + " is not a string");
+    if (!text.trim().length) throw Error("text cannot be empty");
     if (typeof text !== "string") throw TypeError(text + " is not a string");
 
     const newComment = new Comment({
@@ -189,11 +198,26 @@ const logic = {
     });
     return Post.findById(postId)
       .then(post => {
+        if (!post) throw Error(`post with id ${postId} not found`);
         const { comments = [] } = post;
         comments.push(newComment);
         return post.save();
       })
       .then(() => Post.findById(postId).populate("comments.by", "username"));
+  },
+
+  deletePost(userId, postId) {
+    if (!userId.trim().length) throw Error("userId cannot be empty");
+    if (typeof userId !== "string")
+      throw TypeError(userId + " is not a string");
+    if (!postId.trim().length) throw Error("postId cannot be empty");
+    if (typeof postId !== "string")
+      throw TypeError(postId + " is not a string");
+    return Post.find({ _id: postId, user_id: userId })
+      .remove()
+      .then(() => {
+        return { message: "ok" };
+      });
   }
 };
 

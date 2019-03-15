@@ -32,6 +32,10 @@ function Card({
     setComments(comments);
   }, [comments]);
 
+  const removePost = () => {
+    logic.removePost(postId).then(() => call());
+  };
+
   return (
     <div className="card">
       <Link to={`/profile/${postUserId}`}>{username}</Link>
@@ -46,6 +50,7 @@ function Card({
         onClick={toggleFavorite}
       />
       {countfavs && <p>{countfavs}</p>}
+      <i className="far fa-trash-alt" onClick={removePost} />
       <AddComment postId={postId} refreshComments={refreshComments} />
       {description && (
         <p>

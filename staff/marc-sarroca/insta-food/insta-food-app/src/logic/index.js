@@ -95,6 +95,12 @@ const logic = {
       throw TypeError(`${postId} is not a string`);
     if (!postId.trim().length) throw Error("postId is empty");
     return instaApi.toggleFavorites(this.__userApiToken__, postId);
+  },
+  removePost(postId) {
+    if (typeof postId !== "string")
+      throw TypeError(`${postId} is not a string`);
+    if (!postId.trim().length) throw Error("postId is empty");
+    return instaApi.removePost(this.__userApiToken__, postId);
   }
 };
 
