@@ -196,6 +196,8 @@ const bookApi = {
     downloadEpub(id, token){
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw new Error('id  is empty')
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token  is empty')
         return fetch(`${this.url}/book/getEpub/${id}`, {
             method: 'GET',
             headers: {
