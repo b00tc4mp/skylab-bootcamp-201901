@@ -69,29 +69,31 @@ class SimpleModal extends React.Component {
     const { isInvalidForm } = this;
 
     return (
-      <div>
+      <section>
         <Button
           variant="contained"
           color="primary"
           type={"submit"}
           disabled={isInvalidForm()}
           onClick={this.handleOpen}
-        >Register
-        </Button>
-        <Modal
-          aria-labelledby=""
-          aria-describedby="Succesfully registered"
-          open={this.state.open}
-          onClick={this.handleClose}
         >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-            Succesfully registered!
-            </Typography>
-            <SimpleModalWrapped />
-          </div>
-        </Modal>
-      </div>
+          Register
+        </Button> 
+        <div>
+          <Modal
+            aria-labelledby=""
+            aria-describedby="Succesfully registered"
+            open={this.state.open}
+            onClose={this.handleClose}
+          >
+            <div style={getModalStyle()} className={classes.paper}>
+              <Typography variant="h6" id="modal-title">
+                Succesfully registered!
+              </Typography>
+            </div>
+          </Modal>
+        </div>
+      </section>
     );
   }
 }

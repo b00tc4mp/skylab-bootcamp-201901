@@ -47,7 +47,7 @@ export const Match = props => {
   return (
     <div>
       <h4>{date}</h4>
-      <div className="teams match">
+      <div className={styles.teams}>
         <div className="team1">
           <img src={imageTeam1} />
           <h6>{team1}</h6>
@@ -57,33 +57,36 @@ export const Match = props => {
           <h6>{team2}</h6>
         </div>
       </div>
-      {admin && <Form
+      {admin && (
+        <Form
           onSubmit={onSubmit}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
-            <form onSubmit={handleSubmit}>
+            <form classname={styles.form_select} onSubmit={handleSubmit}>
               <div>
-                <label value="firstPair">1st Match</label>
-                <ChosenPairs
-                  selectName="firstPair"
-                  players={playersAvailable}
-                  match={"firstMatch"}
-                />
-              </div>
-              <div>
-                <label value="secondPair">2nd Match</label>
-                <ChosenPairs
-                  selectName="secondPair"
-                  players={playersAvailable}
-                  match={"secondMatch"}
-                />
-              </div>
-              <div>
-                <label value="thirdPair">3rd Match</label>
-                <ChosenPairs
-                  selectName="thirdPair"
-                  players={playersAvailable}
-                  match={"thirdMatch"}
-                />
+                <div className={styles.select}>
+                  <label value="firstPair">1st Match</label>
+                  <ChosenPairs
+                    selectName="firstPair"
+                    players={playersAvailable}
+                    match={"firstMatch"}
+                  />
+                </div>
+                <div className={styles.select}>
+                  <label value="secondPair">2nd Match</label>
+                  <ChosenPairs
+                    selectName="secondPair"
+                    players={playersAvailable}
+                    match={"secondMatch"}
+                  />
+                </div>
+                <div className={styles.select}>
+                  <label value="thirdPair">3rd Match</label>
+                  <ChosenPairs
+                    selectName="thirdPair"
+                    players={playersAvailable}
+                    match={"thirdMatch"}
+                  />
+                </div>
               </div>
               <div className="buttons">
                 <button type="submit" disabled={submitting || pristine}>
@@ -99,36 +102,41 @@ export const Match = props => {
               </div>
             </form>
           )}
-        />}
+        />
+      )}
+      <div>
         <div>
-          <div>
-            <h4>1st Match</h4>
-            {playersChosen &&
-              playersChosen.playersId &&
-              playersChosen.playersId.playersId && (
-                <p>
-                  {playersChosen.playersId.playersId["firstPair-firstPlayer"]} - {playersChosen.playersId.playersId["firstPair-secondPlayer"]}
-                </p>
-              )}
-            <h4>2nd Match</h4>
-            {playersChosen &&
-              playersChosen.playersId &&
-              playersChosen.playersId.playersId && (
-                <p>
-                  {playersChosen.playersId.playersId["secondPair-firstPlayer"]} - {playersChosen.playersId.playersId["secondPair-secondPlayer"]}
-                </p>
-              )}
-            <h4>3rd Match</h4>
-            {playersChosen &&
-              playersChosen.playersId &&
-              playersChosen.playersId.playersId && (
-                <p>
-                  {playersChosen.playersId.playersId["thirdPair-firstPlayer"]} - {playersChosen.playersId.playersId["thirdPair-secondPlayer"]}
-                </p>
-              )}
-          </div>
+          <h4>1st Match</h4>
+          {playersChosen &&
+            playersChosen.playersId &&
+            playersChosen.playersId.playersId && (
+              <p>
+                {playersChosen.playersId.playersId["firstPair-firstPlayer"]} -{" "}
+                {playersChosen.playersId.playersId["firstPair-secondPlayer"]}
+              </p>
+            )}
+          <h4>2nd Match</h4>
+          {playersChosen &&
+            playersChosen.playersId &&
+            playersChosen.playersId.playersId && (
+              <p>
+                {playersChosen.playersId.playersId["secondPair-firstPlayer"]} -{" "}
+                {playersChosen.playersId.playersId["secondPair-secondPlayer"]}
+              </p>
+            )}
+          <h4>3rd Match</h4>
+          {playersChosen &&
+            playersChosen.playersId &&
+            playersChosen.playersId.playersId && (
+              <p>
+                {playersChosen.playersId.playersId["thirdPair-firstPlayer"]} -{" "}
+                {playersChosen.playersId.playersId["thirdPair-secondPlayer"]}
+              </p>
+            )}
         </div>
-        {!admin && <div>
+      </div>
+      {!admin && (
+        <div>
           Are you available?
           <Button
             variant="contained"
@@ -152,9 +160,10 @@ export const Match = props => {
           >
             I'm NOT available
           </Button>
-        </div>}
-        <span>{result}</span>
-        <span>{location}</span>
+        </div>
+      )}
+      <div>Result: {result}</div>
+      <div>Location: {location}</div>
     </div>
   );
 };

@@ -1,6 +1,19 @@
 @import "../../styles/_index.scss";
 
-div.teams{
+div.teams {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
+}
+
+form.form_select {
+    display: flex;
+    justify-content: row;
+}
+
+div.select {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
 }

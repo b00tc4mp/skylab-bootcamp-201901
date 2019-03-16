@@ -1,0 +1,12 @@
+@import "../../styles/_index.scss";
+
+section.select_pair {
+    display: flex;
+    justify-content: space-around;
+   
+}
+
+select.select_player {
+    margin: $size-s;
+    
+}

@@ -24,19 +24,16 @@ export const Header = props => {
           {logic.isPlayerLoggedIn() && (
             <Button
               className={styles.button}
-              variant="contained"
               color="inherit"
               onClick={handleOnClick}
             >
               Logout
             </Button>
           )}
-          {!logic.isPlayerLoggedIn() && (
-            <NavLink to={"/register"} className={styles.button}>
+           {!logic.isPlayerLoggedIn() && (<NavLink to={"/register"} className={styles.button}>
               <Button color="inherit">Register</Button>
-            </NavLink>
-          )}
-          {"pathname=/register?" && (
+            </NavLink>)}
+          {!logic.isPlayerLoggedIn() && (
             <NavLink to={"/login"} className={styles.button}>
               <Button color="inherit">Login</Button>
             </NavLink>

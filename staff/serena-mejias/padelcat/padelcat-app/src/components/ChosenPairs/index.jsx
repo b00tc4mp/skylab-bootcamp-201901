@@ -1,5 +1,6 @@
 import React from "react";
 import { Field } from "react-final-form";
+import styles from "./index.module.scss";
 
 export default function ChosenPairs(props) {
   // const onChosenPair = () => {
@@ -9,15 +10,15 @@ export default function ChosenPairs(props) {
   const { players, selectName } = props;
 
   return (
-    <section>
-      <Field name={`${selectName}-firstPlayer`} component="select">
+    <section className={styles.select_pair}>
+      <Field className={styles.select_player} name={`${selectName}-firstPlayer`} component="select">
         <option />
         {players &&
           players.map(player => (
             <option value={player.id}>{player.name}</option>
           ))}
       </Field>
-      <Field name={`${selectName}-secondPlayer`} component="select">
+      <Field className={styles.select_player} name={`${selectName}-secondPlayer`} component="select">
         <option />
         {players &&
           players.map(player => (

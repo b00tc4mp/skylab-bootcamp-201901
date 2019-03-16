@@ -1,7 +1,11 @@
 @import "../../styles/_index.scss";
 
+ul.matches_list {
+    margin-bottom: $size-s;
+}
 li.match {
-  border: solid 1px;
-  padding: 1rem;
-  margin-bottom: 2rem;
+    margin-bottom: 0;
+    padding: 0;
+    text-indent: 0;
+    list-style-type: none;
 }

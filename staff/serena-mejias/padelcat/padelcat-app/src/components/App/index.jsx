@@ -8,9 +8,6 @@ import RegisterPlayer from "../RegisterPlayer";
 import Ranking from "../Ranking";
 import { Header } from "../Header/Header";
 import Grid from "@material-ui/core/Grid";
-import { log } from "util";
-
-import { Form, Field } from "react-final-form";
 
 class App extends Component {
   state = {
