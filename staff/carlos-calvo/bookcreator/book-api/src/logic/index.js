@@ -305,7 +305,7 @@ const logic = {
             const result2 = await BookTemplate.findOne({title: result.title, content: result.content})
             if(result2) throw new Error('Already existing Template')
 
-            const book = await BookTemplate.create({title: result.title, content: result.content, 
+            const book = await BookTemplate.create({title: result.title, content: result.content.toString("utf8"), 
                 coverphoto: result.coverphoto, parameters: result.parameters, images: result.images })
             return book
         })()

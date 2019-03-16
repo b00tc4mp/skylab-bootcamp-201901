@@ -5,12 +5,45 @@
     flex-direction: column
     align-items: center
     justify-content: flex-start
-
+    &__controls
+        display: flex
+        flex-direction: row
+        justify-content: center
+        form
+            input
+                width: 100%
+                -webkit-appearance: none
+                width: 100%
+                height: 25px
+                background: #d3d3d3
+                outline: none
+                opacity: 0.7
+                -webkit-transition: .2s
+                transition: opacity .2s
+            input::-webkit-slider-thumb 
+                -webkit-appearance: none
+                appearance: none
+                width: 25px
+                height: 25px
+                background: #4CAF52
+                cursor: pointer        
     .button
         border-radius: 50%
+        height: 20px
         border: 2px solid black
         &-disabled
             display: none
+
+    &__mobile
+        width: 100%
+        overflow-y: scroll
+            
+        pre
+            white-space: pre-wrap       
+            white-space: -moz-pre-wrap  
+            white-space: -pre-wrap      
+            white-space: -o-pre-wrap
+            word-wrap: break-word  
 .buttonArrow
     border-radius: 50%
     background-color: #3c415e
@@ -31,3 +64,5 @@
         padding-left: 2%
         border-left: 1px solid grey
 
+.rangeContainer
+    width: 50%

@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
 import FlipPage from 'react-flip-page'
-import TwoPages from '../twoPages'
 import logic from '../../logic'
 
 class Books extends Component {
@@ -21,45 +20,40 @@ class Books extends Component {
     }
 
     componentWillMount = () => {
-        console.log('willmount')
-        console.log(this.state.width, this.state.height)
         this.updateWindowDimensions()
     }
 
     updateWindowDimensions = ()=> {
-        console.log('updateWindowDimensions')
+        // console.log('updateWindowDimensions')
         this.setState({ width: window.innerWidth, height: window.innerHeight }, () => {})
-        console.log(this.state.width, this.state.height)
-        if(this.state.width > 1400) this.interval = 1400///PC Screen
+        // console.log(this.state.width, this.state.height)
+        if(this.state.width > 1400) this.interval = 1300///PC Screen
         else if((this.state.width == 1366 && this.state.height == 1024)) this.interval = 1450
-        else if(this.state.width > 1000 && this.state.height < 1200) this.interval = 1200
-        else if(this.state.width > 750 && this.state.height < 100) this.interval = 800
-        else if(this.state.width < 750 ) this.interval = 1650
-        console.log('this.state.width is ' + this.state.width)
-        console.log('interval is ' + this.interval)
+        else if(this.state.width > 1000 && this.state.height < 1200) this.interval = 1100
         this.book? this.personalizeContentbywords(this.book, ()=> {}) : this.c=''
+        this.forceUpdate()
     }
 
     componentDidMount = () =>{
-        
+        this.updateWindowDimensions()
+        window.addEventListener('resize', this.updateWindowDimensions);
         if(this.props.bookid){
-            this.updateWindowDimensions()
-            window.addEventListener('resize', this.updateWindowDimensions);
-        return logic.retrieveBook(this.props.bookid)
-            .then(book => {
-                this.book = book
-                this.personalizeContentbywords(this.book, ()=> {})
-                this.setState({title: book.title})
-                // this.pages = this.getArrayconPre(this.book)
-                // this.forceUpdate()
-            }, () => {})
+            return logic.retrieveBook(this.props.bookid)
+                .then(book => {
+                    this.book = book
+                    this.personalizeContentbywords(this.book, ()=> {})
+                    this.setState({title: book.title})
+                    // this.pages = this.getArrayconPre(this.book)
+                    // this.forceUpdate()
+                }, () => {})
         } else if(this.props.templateid) {
+            
             return logic.retrieveTemplateBook(this.props.templateid)
-            .then(book => {
-                this.book = book
-                this.personalizeContentbywords(this.book, ()=> {})
-                this.setState({title: book.title})
-            }, () => {})
+                .then(book => {
+                    this.book = book
+                    this.personalizeContentbywords(this.book, ()=> {})
+                    this.setState({title: book.title})
+                }, () => {})
         }
 
     }
@@ -223,11 +217,10 @@ class Books extends Component {
         }
     }
 
-    advancePage(){
+    advancePage(event){
         this.setState({currentPage: this.state.currentPage + 2}, ()=> {})
         this.flipPage.gotoNextPage()
-        this.setState({currentPage: this.state.currentPage + 2})
-        if(!(this.state.currentPage <= (this.state.pages.length))){
+        if((this.state.currentPage >= (this.state.pages.length))){
             return  
         } else {
             var button = document.getElementsByClassName('advancePage')[0]
@@ -243,42 +236,66 @@ class Books extends Component {
     }
 
     goToPage = (event) =>{
-        if(event.target.value == ""){
-            this.setState({currentPage: 0}, ()=>{})
-            this.flipPage.gotoPage(0)
-            return
-        }
-        let toNumber = parseInt(event.target.value, 10)
-        if(toNumber > this.state.pages.length){
-            toNumber = this.state.pages.length
-            this.flipPage.gotoPage(toNumber)
-            return
-        }
-        if(toNumber%2 == 0) toNumber = toNumber/2
-        else toNumber = ((toNumber-1)/2)
-        this.setState({currentPage: toNumber}, ()=>{})
-        this.flipPage.gotoPage(toNumber)
+        // console.log(this.state.pages.length)
+        // // if(event.target.value == ""){ //Caso se borra.
+        // //     this.setState({currentPage: 0}, ()=>{})
+        // //     this.flipPage.gotoPage(0)
+        // //     return
+        // // }
+        // let toNumber = parseInt(event.target.value, 10) 
+        // // if(toNumber > this.state.pages.length){//Caso numero fuera de rango
+        // //     toNumber = this.state.pages.length
+        // //     this.setState({currentPage: toNumber}, ()=>{})
+        // //     this.flipPage.gotoPage(toNumber-1)
+        // //     return
+        // // }
+        // if(toNumber%2 == 0) toNumber = toNumber/2
+        // else toNumber = ((toNumber-1)/2)
+        // this.setState({currentPage: toNumber}, ()=>{})
+        // this.flipPage.gotoPage(toNumber)
     }
 
     render = () => {
-
+        console.log(this.state.width)
+        console.log(this.state.height)
+        debugger
         return (
-            <Fragment>
-            <div className = "coverright">
-                <div className="book-container">
-                <div className="book-container__firstLine">
-                    <h2> {this.state.title} - Preview</h2>
-                    <form>
-                        <input type="number" value={this.state.currentPage} onChange={this.goToPage} max={this.state.pages.length}></input>
-                    </form>
-                </div>
+            this.state.width && (this.state.width > 700 && this.state.height > 500) ?
+                <Fragment>
+                <div className = "coverright">
+                    {<div className="book-container">
+                        <div className="book-container__firstLine">
+                            <h2> {this.state.title} - Preview</h2>
+                            
+                            {this.flipPage?
+                                    <div className="book-container__controls">
+                                        {this.state.currentPage !== 0?
+                                        <button className="buttonArrow backPage" onClick={()=>{this.backPage()}}><i class="fas fa-arrow-left"></i></button>
+                                        :
+                                        <button className="buttonArrow backPage" disabled><i class="fas fa-arrow-left"></i></button>
+                                        }
+                                        <form>
+                                            <input id="range_weight" className ="slider" oninput="range_weight_disp.value = range_weight.value" value={this.state.currentPage} type="range" step="2" onChange={this.goToPage} min="0" max={this.state.pages.length + 2} disabled/>
+                                        </form>
+                                        {(this.state.currentPage < (this.state.pages.length + 1))?
+                                        <button className="buttonArrow advancePage" onClick={()=>{this.advancePage()}}><i class="fas fa-arrow-right"></i></button>
+                                        :
+                                        <button className="buttonArrow advancePage" disabled><i class="fas fa-arrow-right"></i></button>
+                                        }
+                                        
+                                    </div>
+                                    :
+                                    <div></div>
+                            }
+                        </div>
                             <FlipPage
                                 ref={(component) => { this.flipPage = component }}
                                 height ={0.77*this.state.height}
                                 width ={0.82*this.state.width}
-                                animationDuration = '500'
+                                animationDuration = '600'
                                 disableSwipe = 'true'
-                                flipOnTouch='true'
+                                flipOnTouch='false'
+                                flipOnTouchZone = '0'
                                 pageBackground= 'url(https://image.freepik.com/free-photo/white-paper-background_1154-683.jpg)'
                                 orientation='horizontal'
                                 className="flip"
@@ -286,32 +303,29 @@ class Books extends Component {
                                 >
                             {this.state.pages.length && this.state.pages.map((page,i) => {
                                 return <div className="all">
-                                   <div className="page1">{this.state.pages[i === 0 ? i : 2*i]}</div>
-                                   <div className="page2">{this.state.pages[i === 0 ? i + 1: 2*i + 1]}</div>
+                                    <div className="page1">{this.state.pages[i === 0 ? i : 2*i]}</div>
+                                    <div className="page2">{this.state.pages[i === 0 ? i + 1: 2*i + 1]}</div>
                                 </div>
                             })}
 
                             </FlipPage>
-                            {this.flipPage?
-                            <div>
-                                {this.state.currentPage !== 0?
-                                <button className="buttonArrow backPage" onClick={()=>{this.backPage()}}><i class="fas fa-arrow-left"></i></button>
-                                :
-                                <button className="buttonArrow backPage" disabled><i class="fas fa-arrow-left"></i></button>
-                                }
-                                {(this.state.currentPage <= (this.state.pages.length))?
-                                <button className="buttonArrow advancePage" onClick={()=>{this.advancePage()}}><i class="fas fa-arrow-right"></i></button>
-                                :
-                                <button className="buttonArrow advancePage" disabled><i class="fas fa-arrow-right"></i></button>
-                                }
-                                
-                            </div>
-                            :
-                            <div></div>
-                            }
+                                    
+                        </div>}
                 </div>
+                </Fragment>
+            :
+            <div>
+                {this.book ? 
+                <div className="book-container__mobile" >
+                    <h2>{this.state.title} - Preview</h2>
+                    <pre>
+                        {this.book.content}
+                    </pre>
+                </div>
+                :
+                <div></div>
+                }
             </div>
-            </Fragment>
         )
     }    
 }
