@@ -123,31 +123,31 @@ const logic = {
 
         if (!gender.trim().length) throw Error('gender cannot be empty')
 
-        if(typeof birthdate != 'string') throw TypeError (birthdate + 'is not a string')
+        if(typeof birthdate != 'string') throw TypeError (birthdate + ' is not a string')
 
         if (!birthdate.trim().length) throw Error ('birthdate cannot be empty')
 
-        if(typeof microchip != 'string') throw TypeError (microchip + 'is not a string')
+        if(typeof microchip != 'string') throw TypeError (microchip + ' is not a string')
 
         if (!microchip.trim().length) throw Error ('microchip cannot be empty')
 
-        if(typeof petlicence != 'string') throw TypeError (petlicence + 'is not a string')
+        if(typeof petlicence != 'string') throw TypeError (petlicence + ' is not a string')
 
         if (!petlicence.trim().length) throw Error ('petlicence cannot be empty')
 
-        if(typeof neutered != 'string') throw TypeError (neutered + 'is not a string')
+        if(typeof neutered != 'string') throw TypeError (neutered + ' is not a string')
 
         if (!neutered.trim().length) throw Error ('neutered cannot be empty')
 
-        if(typeof vaccionations != 'string') throw TypeError (vaccionations + 'is not a string')
+        if(typeof vaccionations != 'string') throw TypeError (vaccionations + ' is not a string')
 
         if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
 
-        if(typeof controls != 'string') throw TypeError (controls + 'is not a string')
+        if(typeof controls != 'string') throw TypeError (controls + ' is not a string')
 
         if (!controls.trim().length) throw Error ('controls cannot be empty')
 
-        if(typeof details != 'string') throw TypeError (details + 'is not a string')
+        if(typeof details != 'string') throw TypeError (details + ' is not a string')
 
         if (!details.trim().length) throw Error ('details cannot be empty')
 
@@ -211,7 +211,7 @@ const logic = {
 
         if (!pet.trim().length) throw Error('pet cannot be empty')
 
-        if (date instanceof Date) throw Error(date + ' is not type date')
+        if (date instanceof Date) throw TypeError('date is not type date')
 
         // if (!date.trim().length) throw Error('date cannot be empty')
 
@@ -248,43 +248,43 @@ const logic = {
             })
     },
     
-     /**
-     * Retrieve an user by its credentials.
-     * 
-     * @param {string} userId  
-     */
-    retrieveUser(userId) {
+    //  /**
+    //  * Retrieve an user by its credentials.
+    //  * 
+    //  * @param {string} userId  
+    //  */
+    // retrieveUser(userId) {
 
-        if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
+    //     if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
 
-        if (!userId.trim().length) throw new EmptyError('userId is empty')
+    //     if (!userId.trim().length) throw new EmptyError('userId is empty')
 
-        return User.findById(userId)
+    //     return User.findById(userId)
         
-            .then(user => {
-                if (!user) throw Error(`user with id ${userId} not found`)
+    //         .then(user => {
+    //             if (!user) throw Error(`user with id ${userId} not found`)
 
-                user.id = user._id.toString()
+    //             user.id = user._id.toString()
 
-                const _user = {
-                    name: user.name,
-                    surname : user.surname,
-                    idCard : user.idCard,
-                    phone : user.phone,
-                    adress: user.adress,
-                    city: user.city,
-                    email: user.email,
-                    id: user._id,
-                }
+    //             const _user = {
+    //                 name: user.name,
+    //                 surname : user.surname,
+    //                 idCard : user.idCard,
+    //                 phone : user.phone,
+    //                 adress: user.adress,
+    //                 city: user.city,
+    //                 email: user.email,
+    //                 id: user._id,
+    //             }
     
-                return _user
-            })
-    },
+    //             return _user
+    //         })
+    // },
 
     /**
      * Retrieve users by its credentials.
      * 
-     * @param {string} 
+     * 
      */
 
     async retrieveUsers() { 
@@ -302,9 +302,12 @@ const logic = {
         return users
     },
 
-    /**
-     * Retrieve all owner's appointments
-     */
+   /**
+    * Retrieve all owner's appointments
+    * 
+    * @param {string} year 
+    * @param {string} month 
+    */
     async retrieveAppointments( year, month) { 
 
         if (typeof year !== 'string') throw TypeError(`${year} is not a string`)
@@ -381,9 +384,10 @@ const logic = {
      * @param {string} userId 
      */
      retrieveUser(userId) {
+
         if (typeof userId !== 'string') throw TypeError(userId +' is not a string')
 
-        if (!userId.trim().length) throw Error('user id is empty')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
 
         return User.findById(userId)
         
@@ -551,9 +555,9 @@ const logic = {
      * Update pet visit's information
      * 
      * @param {string} petsId 
-     * @param {vaccionations} vaccionations 
-     * @param {controls} controls 
-     * @param {details} details 
+     * @param {string} vaccionations 
+     * @param {string} controls 
+     * @param {string} details 
      */
 
     updateVisit(petsId, vaccionations, controls, details){
@@ -564,7 +568,7 @@ const logic = {
         
         if(typeof vaccionations != 'string') throw TypeError (vaccionations + 'is not a string')
 
-        // if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
+        //if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
 
         if(typeof controls != 'string') throw TypeError (controls + 'is not a string')
 

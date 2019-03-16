@@ -17,12 +17,7 @@ class Calendar extends Component {
 
     componentDidMount() {
         this.retrieveUsers()
-
     }
-
-    // componentWillMount(){
-    // this.setState({appointments})
-    // }
 
     retrieveUsers = async () => {
         const users = await logic.retrieveUsers()
@@ -171,7 +166,7 @@ class Calendar extends Component {
     }
 
 
-    test = (id, owner, pet, date) => {
+    printVisit = (id, owner, pet, date) => {
         return (
             <tr>
                 <p className="appointment" value={id}>
@@ -186,11 +181,11 @@ class Calendar extends Component {
 
 
     render() {
-        const { state: { year, month, appointments }, test } = this
+        const { state: { year, month, appointments }, printVisit } = this
 
 
         const m = moment(`${year}-${month}`)
-        return <section className="calendar">
+        return <form className="calendar">
             <h1>Appointments</h1>
             <div className="input__form">
                 <label>Select Owner</label>
@@ -206,8 +201,7 @@ class Calendar extends Component {
             </div>
             <div className="input__form">
                 <label>Date</label>
-                <input type="date" defaultValue={`${this.state.year}-${this.state.month}-${this.state.day}`} onChange={this.handleDatePicker} />
-                {/* <input type="date"  onChange={this.handleDatePicker} /> */}
+                <input type="date" className= "input__date" defaultValue={`${this.state.year}-${this.state.month}-${this.state.day}`} onChange={this.handleDatePicker} />
             </div>
             <div className="input__form">
                 <label>Hour</label>
@@ -263,7 +257,7 @@ class Calendar extends Component {
                                             })
 
                                             if (count === date.getDate()) {
-                                                    return test(id, owner, pet, date)
+                                                    return printVisit(id, owner, pet, date)
                                             }
                                         })
                                     }
@@ -278,7 +272,7 @@ class Calendar extends Component {
                     return days
                 })()
             }
-        </section>
+        </form>
     }
 }
 
