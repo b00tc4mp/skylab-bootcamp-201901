@@ -1,3 +1,16 @@
+/* Media Queries */
+
+$tablet-width: 768px
+$desktop-width: 1024px
+
+@mixin tablet
+  @media (min-width: #{$tablet-width}) 
+    @content
+
+@mixin desktop
+  @media (min-width: #{$desktop-width}) 
+    @content
+    
 /* Colors */
 
 $primary: #575757 
@@ -14,13 +27,18 @@ $medium: 0.9rem
 $large: 1.1rem
 $xlarge: 1.2rem
 
+$xsmall--tablet: 0.9rem
+$small--tablet: 1rem
+$medium--tablet: 1.1rem
+$large--tablet: 1.4rem
+$xlarge--tablet: 1.8rem
+
 /* Button */
 
 @mixin btn-bg($bg) 
     background: none
     color: darken($bg, 30%)
     &:hover
-        background: lighten($bg,60%)
         transition: all 0.3s ease
         border-bottom: 0.05rem dotted darken($bg,10%)
 
@@ -38,6 +56,10 @@ $xlarge: 1.2rem
     color: $secondary
     border: none
 
+    @include tablet
+        font-size: $medium--tablet
+        padding: 0.3rem
+
     // Colors & Inverted
     &--primary
         @include btn-bg($primary)
@@ -52,20 +74,15 @@ $xlarge: 1.2rem
         &-inverted
             @include btn-inverted($danger)
 
-    //Size
-    &-xsmall 
-        font-size: $xsmall
-    &-large
-        font-size: $large
-    &-xlarge 
-        font-size: $xlarge 
-
 
 /* Icons */
 .icon
     color: $primary
     align-self: center
-    font-size: $medium
+    font-size: $xsmall
+
+    @include tablet
+        font-size: $xsmall--tablet
 
     &--link 
         cursor: pointer
@@ -83,11 +100,16 @@ input
     color: $secondary
     border: none
     background: none
-    width: 100%
+
+    @include tablet
+        font-size: $medium--tablet
 
 .input
     &--small
-        width: 32%
+        width: 60%
+
+        @include tablet
+            width: 70%
 
 /* Links */
 
@@ -105,23 +127,29 @@ a:link
     &:hover
         box-shadow: 0.2rem 0.2rem $primary
 
-
-/* Checkbox */
-.checkbox
-    display: inline
-
-    & > input
-        vertical-align: middle
-        width: 5%
-
+                         
 /* Line */
 .line
-    align-self: center
-    width: 97%
     border-top: 0.08rem dashed $primary
     margin-top: 0.5rem
     margin-bottom: 0.5rem
+    margin-left: 0.05rem
+    margin-right: 0.05rem
+ 
 
 /* Cursor */
 .pointer
     cursor: pointer
+
+/* Select */
+select
+    background: none
+    width: 100%
+    font-size: $xsmall
+    text-align-last: center
+
+    @include tablet
+        width: 100%
+        text-align-last: center
+        font-size: $xsmall--tablet
+        background: none

@@ -2,7 +2,6 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    debugger
     const { userId, image : {secure_url} } = req
 
     try {

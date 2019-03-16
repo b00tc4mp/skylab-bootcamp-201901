@@ -2,7 +2,6 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    debugger
     const { userId, body: { skylaberIds } } = req
 
     try {

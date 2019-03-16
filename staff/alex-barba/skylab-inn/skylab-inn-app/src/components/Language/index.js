@@ -39,6 +39,7 @@ export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformatio
             return setModalMessage('Failed to update. Level must be selected')
         }
         onUpdateInformation(type, id, { language: _language, level: _levelLanguage })
+        setLevelLanguage(null)
     }
 
     const handleRemoveInformation = (e, type, id) => {
@@ -53,7 +54,7 @@ export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformatio
     return (
         <div className='language-container'>
             <div className='language-container__header'>
-                <h5 className='subtitle'>Languages</h5>
+                <h5>Languages</h5>
                 <i className='fas fa-plus-circle icon icon--link' onClick={e => { e.preventDefault(); handleOnAddLanguage() }}></i>
             </div>
             {addLanguage && <form onSubmit={e => handleAddInformation(e, 'Language')}>
@@ -66,7 +67,7 @@ export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformatio
                     <option value='Full professional proficiency'>Full professional proficiency</option>
                     <option value='Native or bilingual proficiency'>Native or bilingual proficiency</option>
                 </select>
-                <div>
+                <div className='language-container__form-button'>
                     <button className='btn btn--success' type='submit'>Add</button>
                     <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
                 </div>
@@ -77,7 +78,7 @@ export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformatio
                         <form onSubmit={e => handleUpdateInformation(e, 'Language', lang._id)}>
                              <div className='line'/> 
                             <input type='text' name='language' placeholder='Language' onChange={e => setLanguage(e.target.value)} defaultValue={lang.language} required></input>
-                            <select className='dropdown-content' onChange={e => setLevelLanguage(e.target.value)} value={lang.level}>
+                            <select className='dropdown-content' onChange={e => setLevelLanguage(e.target.value)} defaultValue={lang.level}>
                                 <option value='Choose a level'>Choose a level</option>
                                 <option value='Elementary proficiency'>Elementary proficiency</option>
                                 <option value='Limited working proficiency'>Limited working proficiency</option>
@@ -97,7 +98,7 @@ export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformatio
                                 <p>{lang.language}</p>
                                 <div className='language-container__form-header-button'>
                                     <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditLanguage(lang) }}></i> &nbsp;
-                                    <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Language', lang._id)}></i> 
+                                    <i className='far fa-trash-alt icon icon--link' onClick={e => window.confirm('Are you sure you wish to delete this Language?') && handleRemoveInformation(e, 'Language', lang._id)}></i> 
                                 </div>
                             </div>    
                                 <p>Level: {lang.level}</p>

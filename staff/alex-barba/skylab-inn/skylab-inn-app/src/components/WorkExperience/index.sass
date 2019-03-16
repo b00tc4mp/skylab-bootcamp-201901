@@ -11,32 +11,72 @@
         &__header
             display: flex
             justify-content: space-between
+            padding-left: 1rem
+            padding-right: 1rem
+            font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
             
 
         &__content
             display: flex
             flex-direction: column
-            font-size: $small
 
             & > a 
                 padding-bottom: 0.5rem
 
+            & > p 
+                font-size: $medium
+
+                @include tablet
+                    font-size: $medium--tablet
+
         &__form
             display: flex
             flex-direction: column
+            padding-left: 1rem
+            padding-right: 1rem
 
             &-header
                 display: flex
                 justify-content: space-between
+                
+                & > p 
+                font-size: $medium
+
+                @include tablet
+                    font-size: $medium--tablet
 
                 &-button
                     display: flex
                     justify-content: center
 
-            &-input
-                display: flex    
+            &-button
+                display: flex
+                justify-content: space-evenly  
 
-.subtitle
-    font-size: $large
+.checkbox
+    display: flex
 
+    & > p
+        flex-shrink: 0
+        font-size: $medium
 
+        @include tablet
+            font-size: $medium--tablet
+
+    & > input
+        flex-shrink: 1
+        vertical-align: middle
+        width: 10%
+
+.add
+    justify-content: center
+    
+    @include tablet
+        padding-right: 1.7rem
+    
+    & > input
+        width: 10%
+          

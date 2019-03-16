@@ -1480,76 +1480,6 @@ describe('logic', () => {
             expect(() => logic.retrievePendingSkylabers(true)).toThrowError(`true is not a string`))
     })
 
-    describe('update user photo', () => {
-        const name = 'Àlex'
-        const surname = 'Barba'
-        const url = 'http://test-url.png'
-        let email, password, _id
-
-        beforeEach(async () => {
-            email = `alex.barba-${Math.random()}@gmail.com`
-            password = `Pass-${Math.random()}`
-
-           
-
-            const hash = await bcrypt.hash(password, 10)
-            await User.create({ name, surname, email, password: hash })
-
-            const user = await User.findOne({ email })
-            _id = user.id
-        })
-
-        it('should succeed on correct url', async () => {
-            const user = await logic.updateUserPhoto(_id, url)
-
-            expect(user.id).toEqual(_id)
-            expect(user.image).toBe(url)
-            expect(user.__v).toBeUndefined()
-            expect(user.password).toBeUndefined()
-        })
-
-        it('should fail on not registered user', async () => {
-            await User.deleteMany()
-            try {
-                await logic.updateUserPhoto(_id, url)
-            } catch (error) {
-                expect(error).toBeDefined()
-                expect(error.message).toBe(`user with userId ${_id} not found`)
-            }
-        })
-
-        it('should fail on empty userId', () =>
-            expect(() => logic.updateUserPhoto('', url)).toThrowError('userId is empty'))
-
-        it('should fail when userId is a number', () =>
-            expect(() => logic.updateUserPhoto(1, url)).toThrowError(`1 is not a string`))
-
-        it('should fail when userId is an object', () =>
-            expect(() => logic.updateUserPhoto({}, url)).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when userId is an array', () =>
-            expect(() => logic.updateUserPhoto([1, 2, 3], url)).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when userId is a boolean', () =>
-            expect(() => logic.updateUserPhoto(true, url)).toThrowError(`true is not a string`))
-
-        it('should fail on empty url', () =>
-            expect(() => logic.updateUserPhoto(_id,'')).toThrowError('url is empty'))
-
-        it('should fail when url is a number', () =>
-            expect(() => logic.updateUserPhoto(_id, 1)).toThrowError(`1 is not a string`))
-
-        it('should fail when url is an object', () =>
-            expect(() => logic.updateUserPhoto(_id, {})).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when url is an array', () =>
-            expect(() => logic.updateUserPhoto(_id, [1, 2, 3])).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when url is a boolean', () =>
-            expect(() => logic.updateUserPhoto(_id, true)).toThrowError(`true is not a string`))
-    })
-
-
     describe('verify email', () => {
         const name = 'Àlex'
         const surname = 'Barba'
@@ -1804,8 +1734,6 @@ describe('logic', () => {
             let _idB = userB.id
 
             let skylaberIds = [_idA, _idB]
-
-            console.log(skylaberIds)
 
             token = await createToken(skylaberIds)
         })

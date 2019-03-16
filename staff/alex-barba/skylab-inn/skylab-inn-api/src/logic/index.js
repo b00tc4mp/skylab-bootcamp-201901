@@ -47,7 +47,6 @@ const logic = {
         return (async () => {
             const user = await User.findOne({ email })
             if (user) throw new Error(`user with email ${email} already exists`)
-            debugger
 
             if (role === 'Admin') {
 

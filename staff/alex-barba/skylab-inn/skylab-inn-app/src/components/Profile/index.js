@@ -33,7 +33,6 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
     const [editEducation, setEditEducation] = useState(null)
 
     const handleOnUploadPhoto = () => {
-        debugger
         setEditImage(null)
         onUploadPhoto(_image)
     }
@@ -181,7 +180,7 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                     <div className='profile-container__personalInformation-name'>
                         <h4>{name}<br/>{surname}</h4>
                     </div>
-                    {!editImage && <div className='profile-container__personalInformation-image'>
+                    {!editImage && <div className='profile-container__personalInformation-image pointer'>
                         {image ? <img alt='Default' onClick={handleOnEditImage} src={`${image}`}></img> : <img alt='Uploaded'onClick={handleOnEditImage} src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
                     </div>}
                     {editImage && <div className='profile-container__personalInformation-image--edit'><input className='input--small' type='file' name='image' onChange={e => setImage(e.target.files[0])}></input>

@@ -26,7 +26,6 @@ const tokenHelper = {
      * @returns {String} - sub
      */
     verifyToken(token) {
-        debugger
         if (typeof token !== 'string') throw new TypeError(`${token} should be a string`)
         if (!token.trim().length) throw new Error('token is empty')
 

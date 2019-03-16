@@ -30,7 +30,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
             inputQuery.current.blur()
         } else {
             onAdvancedSearch(search)
-            e.target.value = null
+            inputQuery.current.value = null
             inputQuery.current.blur()
         }
     }
@@ -46,7 +46,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
             inputQuery.current.blur()
         } else {
             search === null ? setSearch([[param, query]]) : setSearch([...search, [param, query]])
-            e.target.value = null
+            inputQuery.current.value = null
             inputQuery.current.blur()
         }
     }
@@ -66,7 +66,6 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
     }
 
     const handleOnParam = param => {
-
         let results
 
         if (search) results = search.filter(filter => filter !== param)
@@ -93,7 +92,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
         let skylaberIds = adSearchResults.map(skylaber => skylaber._id)
 
         if (skylaberIds.length) onShareResults(skylaberIds)
-        else return setFeedback('No Skylabers to be added!')
+        else return setFeedback('No Skylabers to share!')
     }
 
     const handleOnAddUrlToClipboard = () => {

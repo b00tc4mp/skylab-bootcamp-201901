@@ -8,10 +8,14 @@
     
     &-header
         flex-shrink: 0
-        padding-top: 2rem
+        padding-top: 3rem
         font-size: $xlarge
         align-self: center
         text-align: center
+
+        @include tablet
+            padding-top: 4rem
+            font-size: $xlarge--tablet
 
     &-form
         flex-shrink: 0
@@ -26,6 +30,9 @@
         &__input
             display: flex
 
+            @include tablet
+                width: 40%
+
     &-results
         flex-grow: 1
         overflow: auto
@@ -33,15 +40,30 @@
         margin-bottom: 0.5rem
         margin-left: 2rem
         margin-right: 2rem
+        padding-bottom: 0.2rem
 
+        @include tablet
+            margin-left: 10rem
+            margin-right: 10rem
+        
+        @include desktop
+                margin-left: 20rem
+                margin-right: 20rem
+            
         &__header
             flex-shrink: 0
             font-size: $large
             margin-top: 0.8rem
 
+            @include tablet
+                font-size: $large--tablet
+
         &__content
             flex-shrink: 0
             font-size: $medium
             text-align: center
-            @extend %border   
+            @extend %border 
+
+            @include tablet
+                font-size: $medium--tablet  
 

@@ -13,6 +13,10 @@
         align-self: center
         text-align: center
 
+        @include tablet
+            padding-top: 4rem
+            font-size: $xlarge--tablet
+
     &__menu
         align-self: center
         display: flex
@@ -21,6 +25,11 @@
         margin-top: 5rem
         margin-left: 2rem
         margin-right: 2rem
+        font-size: $medium
+
+        @include tablet
+            font-size: $medium--tablet
+            width: 50%
 
         & > a
             padding: 2rem

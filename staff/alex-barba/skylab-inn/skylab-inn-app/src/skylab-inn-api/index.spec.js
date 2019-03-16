@@ -1077,7 +1077,7 @@ describe('skylab inn api', () => {
             await skylabInnApi.removeUserInformation(_token, infoIdW.id, type)
 
             const _user = await User.findById(_id)
-            console.log(user)
+
             expect(_user.workExperience[1]).toBeUndefined()
         })
 
@@ -1474,79 +1474,6 @@ describe('skylab inn api', () => {
         it('should fail when token is a boolean', () =>
             expect(() => skylabInnApi.retrievePendingSkylabers(true)).toThrowError(`true is not a string`))
     })
-
-    describe.skip('update user photo', () => {
-        const name = 'Àlex'
-        const surname = 'Barba'
-
-        var image = new Blob(['https://upload.wikimedia.org/wikipedia/commons/7/77/Delete_key1.jpg'], { type: 'image/jpeg'})
-       
-        let email, password, _id, _token
-
-        beforeEach(async () => {
-            email = `alex.barba-${Math.random()}@gmail.com`
-            password = `Pass-${Math.random()}`
-
-            const hash = await bcrypt.hash(password, 10)
-            await User.create({ name, surname, email, password: hash })
-
-            const user = await User.findOne({ email })
-            _id = user.id
-
-            _token = await skylabInnApi.authenticateUser(email, password)
-        })
-
-        it('should succeed on correct image', async () => {
-            const user = await skylabInnApi.updateUserPhoto(_token, image)
-
-            expect(user.id).toEqual(_id)
-            expect(user.image).toBeDefined()
-            expect(user.image).toBeTruthy()
-            expect(user.__v).toBeUndefined()
-            expect(user.password).toBeUndefined()
-        })
-
-        it('should fail on not registered user', async () => {
-            await User.deleteMany()
-            try {
-                await skylabInnApi.updateUserPhoto(_token, image)
-            } catch (error) {
-                expect(error).toBeDefined()
-                expect(error.message).toBe(`user with userId ${_id} not found`)
-            }
-        })
-
-        it('should fail on empty token', () =>
-            expect(() => skylabInnApi.updateUserPhoto('', image)).toThrowError('token is empty'))
-
-        it('should fail when token is a number', () =>
-            expect(() => skylabInnApi.updateUserPhoto(1, image)).toThrowError(`1 is not a string`))
-
-        it('should fail when token is an object', () =>
-            expect(() => skylabInnApi.updateUserPhoto({}, image)).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when token is an array', () =>
-            expect(() => skylabInnApi.updateUserPhoto([1, 2, 3], image)).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when token is a boolean', () =>
-            expect(() => skylabInnApi.updateUserPhoto(true, image)).toThrowError(`true is not a string`))
-
-        it('should fail on empty image', () =>
-            expect(() => skylabInnApi.updateUserPhoto(_id,'')).toThrowError('image is empty'))
-
-        it('should fail when image is a number', () =>
-            expect(() => skylabInnApi.updateUserPhoto(_id, 1)).toThrowError(`1 is not a blob`))
-
-        it('should fail when image is a string', () =>
-            expect(() => skylabInnApi.updateUserPhoto(_id, '123')).toThrowError(`123 is not a blob`))
-
-        it('should fail when image is an array', () =>
-            expect(() => skylabInnApi.updateUserPhoto(_id, [1, 2, 3])).toThrowError(`1,2,3 is not a blob`))
-
-        it('should fail when image is a boolean', () =>
-            expect(() => skylabInnApi.updateUserPhoto(_id, true)).toThrowError(`true is not a blob`))
-    })
-
 
     describe('retrieve unverified emails', () => {
         const name = 'Àlex'

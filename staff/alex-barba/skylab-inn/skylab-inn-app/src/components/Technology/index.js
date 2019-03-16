@@ -5,9 +5,7 @@ import './index.sass'
 
 export default function Technology({ onAddTech, onEditTech, onAddInformation, onRemoveInformation, onUpdateInformation, editTechnology, addTechnology, onCancel }) {
 
-    const { userData, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
-
-    const { technology } = userData
+    const { userData: {technology}, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
 
     const [_tech, setTech] = useState('')
     const [_levelTech, setLevelTech] = useState('')
@@ -56,7 +54,7 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
     return (
         <div className='tech-container'>
             <div className='tech-container__header'>
-                <h5 className='subtitle'>Technologies</h5>
+                <h5>Technologies</h5>
                 <i className='fas fa-plus-circle icon icon--link' onClick={e => { e.preventDefault(); handleOnAddTech() }}></i>
             </div>
             {addTechnology && <form onSubmit={e => handleAddInformation(e, 'Tech')}>
@@ -69,13 +67,13 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                     <option value='Advance'>Advance</option>
                     <option value='Expert'>Expert</option>
                 </select>
-                <div>
+                <div className='tech-container__form-button'>
                     <button className='btn btn--success' type='submit'>Add</button>
                     <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
                 </div>
             </form>}
             {technology && technology.map(tech => {
-                return <div  className='tech-container__form'>
+                return <div className='tech-container__form'>
                     {editTechnology === tech._id ?
                         <form onSubmit={e => handleUpdateInformation(e, 'Tech', tech._id)}>
                             <div className='line'/> 
@@ -88,7 +86,7 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                                 <option value='Advance'>Advance</option>
                                 <option value='Expert'>Expert</option>
                             </select>
-                            <div>
+                            <div className='tech-container__form-button'>
                                 <button className='btn btn--success' type='submit'>Update</button>
                                 <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditOrAdd() }}>Cancel</button>
                             </div>

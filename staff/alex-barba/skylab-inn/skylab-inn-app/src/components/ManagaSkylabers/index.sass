@@ -15,6 +15,10 @@
         margin-left: 2rem
         margin-right: 2rem
 
+        @include tablet
+            padding-top: 4rem
+            font-size: $xlarge--tablet
+
     &-form
         flex-shrink: 0
         margin-top: 2rem
@@ -26,12 +30,23 @@
         margin-right: 2rem
         margin-bottom: 0.5rem
 
+        @include tablet
+            margin-left: 6rem
+            margin-right: 6rem
+
         &__header
             font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
 
         &__form
             display: flex
             flex-direction: column
+
+            @include tablet
+                margin-top: 1rem
+                flex-direction: row
 
         &__input
             display: flex
@@ -44,16 +59,26 @@
         margin-right: 2rem
         margin-bottom: 1rem
 
+        @include tablet
+            margin-left: 6rem
+            margin-right: 6rem
+
 
         &__header
             flex-shrink: 0
             font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
 
         &__content
             flex-shrink: 0
             font-size: $medium
             text-align: center
             @extend %border
+
+            @include tablet
+                font-size: $medium--tablet
 
     &-pendEmail
         flex-grow: 1
@@ -63,13 +88,23 @@
         margin-left: 2rem
         margin-right: 2rem
 
+        @include tablet
+            margin-left: 6rem
+            margin-right: 6rem
+
         &__header
             font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
 
         &__content
             font-size: $medium
             text-align: center
             @extend %border
+
+            @include tablet
+                font-size: $medium--tablet
 
 
   

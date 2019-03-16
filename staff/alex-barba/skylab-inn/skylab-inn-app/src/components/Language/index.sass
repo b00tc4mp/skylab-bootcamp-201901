@@ -11,23 +11,44 @@
         &__header
             display: flex
             justify-content: space-between
+            font-size: $large
+            padding-left: 1rem
+            padding-right: 1rem
+
+            @include tablet
+                font-size: $large--tablet
 
         &__content
             display: flex
             flex-direction: column
             font-size: $small
 
+
             & > a 
                 padding-bottom: 0.5rem
+
+            & > p 
+                font-size: $small
+
+                @include tablet
+                    font-size: $small--tablet
 
         &__form
             display: flex
             flex-direction: column
             font-size: $small
+            padding-left: 1rem
+            padding-right: 1rem
 
             &-header
                 display: flex
                 justify-content: space-between
+
+                & > p 
+                    font-size: $medium
+
+                    @include tablet
+                        font-size: $medium--tablet
 
                 &-button
                     display: flex
@@ -35,6 +56,3 @@
 
             &-input
                 display: flex    
-
-.subtitle
-    font-size: $large

@@ -31,8 +31,9 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                     </div>
                     <div className='skylaber-data-container'>
                         <div className='skylaber-data-container__header'>
-                            <h5 className='subtitle'>Contact Information</h5>
+                            <h5>Contact Information</h5>
                         </div>
+                        <div className='line'/> 
                         <div className='skylaber-data-container__content'>
                             {skylaber.email && <a href={`mailto:${skylaber.email}`} target='_top'><i className='far fa-envelope icon'></i>&nbsp;{skylaber.email ? skylaber.email : ''}</a>}
                             {skylaber.telephone && <a rel="noopener noreferrer" href={`https://api.whatsapp.com/send?phone=${skylaber.telephone}`} target='_blank'><i className='fab fa-whatsapp icon'></i>&nbsp;{skylaber.telephone}</a>}
@@ -43,7 +44,7 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                     </div>
                     <div className='skylaber-data-container'>
                         <div className='skylaber-data-container__header'>
-                            <h5 className='subtitle'>Work Experience</h5>
+                            <h5>Work Experience</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
                             {skylaber.workExperience && skylaber.workExperience.map(exp => {
@@ -63,7 +64,7 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                     </div>
                     <div className='skylaber-data-container'>
                         <div className='skylaber-data-container__header'>
-                            <h5 className='subtitle'>Technologies</h5>
+                            <h5>Technologies</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
                             {skylaber.technology && skylaber.technology.map(tech => {
@@ -81,7 +82,7 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                     </div>
                     <div className='skylaber-data-container'>
                         <div className='skylaber-data-container__header'>
-                            <h5 className='subtitle'>Languages</h5>
+                            <h5>Languages</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
                             {skylaber.language && skylaber.language.map(lang => {
@@ -99,7 +100,7 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                     </div>
                     <div className='skylaber-data-container'>
                         <div className='skylaber-data-container__header'>
-                            <h5 className='subtitle'>Education</h5>
+                            <h5>Education</h5>
                         </div>
                         <div className='skylaber-data-container__content'>
                             {skylaber.education && skylaber.education.map(edu => {
@@ -108,7 +109,7 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                                         <div className='line'/> 
                                         <div className='wrapped-container__content'>
                                             <p>{edu.college}</p>
-                                            <p>Level: {edu.degree}</p>
+                                            <p>{edu.degree}</p>
                                         </div>
                                     </div>    
                                 )

@@ -11,14 +11,13 @@ export default function Search({ onSearch, onSkylaber }) {
     const queryInput = useRef('null')
 
     const handleSearch = e => {
-        debugger
         e.preventDefault()
         setFeedback(null)
         if (!query) {
             setFeedback('Please type in your query')
         } else {
             onSearch(query)
-            e.target.value = null
+            queryInput.current.value = null
             queryInput.current.blur()
         }
     }
@@ -42,61 +41,61 @@ export default function Search({ onSearch, onSkylaber }) {
             </form>
             {feedback && <Feedback />}
             <div className='search-results'>
-            {searchResults && !!searchResults.resContact.length &&
+                {searchResults && !!searchResults.resContact.length &&
                     <div className='search-results__header'>
-                        <h5 className='subtitle'>Contact Information</h5>
+                        <h5>Contact Information</h5>
                     </div>}
-            {searchResults && !!searchResults.resContact.length && searchResults.resContact.map(res => {
-                return (
-                    <div className='search-results__content'>
-                        <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
-                    </div>
-                )
-            })}
-            {searchResults && !!searchResults.resTechs.length &&
+                {searchResults && !!searchResults.resContact.length && searchResults.resContact.map(res => {
+                    return (
+                        <div className='search-results__content'>
+                            <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
+                        </div>
+                    )
+                })}
+                {searchResults && !!searchResults.resTechs.length &&
                     <div className='search-results__header'>
-                        <h5 className='subtitle'>Technologies</h5>
+                        <h5>Technologies</h5>
                     </div>}
-            {searchResults && !!searchResults.resTechs.length && searchResults.resTechs.map(res => {
-                return (
-                    <div className='search-results__content'>
-                        <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
-                    </div>
-                )
-            })}
-            {searchResults && !!searchResults.resWork.length &&
-                <div className='search-results__header'>
-                    <h5 className='subtitle'>Work Experience</h5>
-                </div>}
-            {searchResults && !!searchResults.resWork.length && searchResults.resWork.map(res => {
-                return (
-                    <div className='search-results__content'>
-                        <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
-                    </div>
-                )
-            })}
-            {searchResults && !!searchResults.resLang.elgnth &&
-                <div className='search-results__header'>
-                    <h5 className='subtitle'>Languages</h5>
-                </div>}
-            {searchResults && !!searchResults.resLang.length && searchResults.resLang.map(res => {
-                return (
-                    <div className='search-results__content'>
-                        <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
-                    </div>
-                )
-            })}
-            {searchResults && !!searchResults.resEdu.length &&
-                <div className='search-results__header'>
-                    <h5 className='subtitle'>Education</h5>
-                </div>}
-            {searchResults && !!searchResults.resEdu.length && searchResults.resEdu.map(res => {
-                return (
-                    <div className='search-results__content'>
-                        <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
-                    </div>
-                )
-            })}
+                {searchResults && !!searchResults.resTechs.length && searchResults.resTechs.map(res => {
+                    return (
+                        <div className='search-results__content'>
+                            <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
+                        </div>
+                    )
+                })}
+                {searchResults && !!searchResults.resWork.length &&
+                    <div className='search-results__header'>
+                        <h5>Work Experience</h5>
+                    </div>}
+                {searchResults && !!searchResults.resWork.length && searchResults.resWork.map(res => {
+                    return (
+                        <div className='search-results__content'>
+                            <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
+                        </div>
+                    )
+                })}
+                {searchResults && !!searchResults.resLang.elgnth &&
+                    <div className='search-results__header'>
+                        <h5>Languages</h5>
+                    </div>}
+                {searchResults && !!searchResults.resLang.length && searchResults.resLang.map(res => {
+                    return (
+                        <div className='search-results__content'>
+                            <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
+                        </div>
+                    )
+                })}
+                {searchResults && !!searchResults.resEdu.length &&
+                    <div className='search-results__header'>
+                        <h5>Education</h5>
+                    </div>}
+                {searchResults && !!searchResults.resEdu.length && searchResults.resEdu.map(res => {
+                    return (
+                        <div className='search-results__content'>
+                            <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )

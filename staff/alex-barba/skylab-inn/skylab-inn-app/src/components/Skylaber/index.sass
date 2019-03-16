@@ -13,6 +13,10 @@
         align-self: center
         text-align: center
 
+        @include tablet
+            padding-top: 4rem
+            font-size: $xlarge--tablet
+
     &-container
         flex-grow: 1
         overflow: auto
@@ -39,31 +43,60 @@
             flex-shrink: 0
 
             & > h4 
-                font-size: $xlarge
+                font-size: $large
+
+                @include tablet
+                    font-size: $large--tablet
 
         &__image
             display: flex
             flex-direction: column
             align-items: center
-            font-size: $xsmall
+
+            @include tablet
+                    font-size: $xsmall--tablet
 
             & > img
                 width: 4rem
                 height: 5rem 
 
+                @include tablet
+                    width: 8rem
+                    height: 10rem 
+
     &-data-container
         margin-left: 2rem
         margin-right: 2rem
         flex-shrink: 0
-        font-size: $medium
+        margin-bottom: 0.5rem
+        padding-bottom: 0.2rem
+        padding-left: 1rem
+        padding-right: 1rem
+
         @extend %border
+
+        @include tablet
+            margin-left: 10rem
+            margin-right: 10rem
+
+        @include desktop
+                margin-left: 20rem
+                margin-right: 20rem
 
         &__header
             display: flex
+            font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
 
         &__content
             display: flex
             flex-direction: column
+            font-size: $medium
+
+            @include tablet
+                font-size: $medium--tablet
         
 
 

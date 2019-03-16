@@ -11,22 +11,33 @@
         &__header
             display: flex
             justify-content: space-between
+            font-size: $large
+            padding-left: 1rem
+            padding-right: 1rem
+
+            @include tablet
+                font-size: $large--tablet
 
         &__content
             display: flex
             flex-direction: column
             font-size: $small
+            padding-left: 1rem
+            padding-right: 1rem
 
             & > a 
                 padding-top: 0.5rem
+                font-size: $small
+
+                @include tablet
+                    font-size: $small--tablet
 
         &__form
             display: flex
             flex-direction: column
             font-size: $small
+            padding-left: 1rem
+            padding-right: 1rem
 
             &-input
                 display: flex    
-
-.subtitle
-    font-size: $large
