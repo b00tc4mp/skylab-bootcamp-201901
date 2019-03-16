@@ -3,13 +3,20 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const { GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY } = process.env
-debugger
+
 
 const geocodeApi = {
 
 
 
     retrievePoint(number, street, city, country) {
+
+
+        if (typeof number !== 'string') throw TypeError(`${number} is not a string`)
+        if (typeof street !== 'string') throw TypeError(`${street} is not a string`)
+        if (typeof city !== 'string') throw TypeError(`${city} is not a string`)
+        if (typeof country !== 'string') throw TypeError(`${country} is not a string`)
+
 
         return fetch(`${GOOGLE_MAPS_API_URL}address=${number}+${street},+${city},+${country}&key=${GOOGLE_MAPS_API_KEY}`, {
             headers: {

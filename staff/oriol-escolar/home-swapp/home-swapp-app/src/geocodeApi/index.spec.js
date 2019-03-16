@@ -31,7 +31,7 @@ describe('geocodeApi ', () => {
 
         })
 
-        it('should succeed on valid spanish data', async () => {
+        it('should succeed on valid usa data', async () => {
 
             let city = 'Los Angeles'
             let country = 'usa'
@@ -44,6 +44,73 @@ describe('geocodeApi ', () => {
             expect(location.lng).toBeDefined()
 
 
+        })
+
+        it('should fail on undefined number', () => {
+            let city = 'badalona'
+            let country = 'spain'
+            let street = 'tamariu'
+            let number = '29'
+            try {
+                geocodeApi.retrievePoint(undefined,street,city,country)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on undefined street', () => {
+            let city = 'badalona'
+            let country = 'spain'
+            let street = 'tamariu'
+            let number = '29'
+            try {
+                geocodeApi.retrievePoint(number,undefined,city,country)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+        it('should fail on undefined city', () => {
+            let city = 'badalona'
+            let country = 'spain'
+            let street = 'tamariu'
+            let number = '29'
+            try {
+                geocodeApi.retrievePoint(number,street,undefined,country)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+        it('should fail on undefined country', () => {
+            let city = 'badalona'
+            let country = 'spain'
+            let street = 'tamariu'
+            let number = '29'
+            try {
+                geocodeApi.retrievePoint(number,street,city,undefined)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`undefined is not a string`)
+            }
+        })
+
+        it('should fail on undefined country', () => {
+           let number = 'sjbdjkasbdj'
+           let street = 'sjbdjkasbdj'
+           let city = 'sjbdjkasbdj'
+           let country = 'sjbdjkasbdj'
+            try {
+                geocodeApi.retrievePoint(number,street,city,country)
+
+            } catch (error) {
+                expect(error).toBeDefined()
+            }
         })
     })
 })

@@ -11,7 +11,6 @@ import Header from '../Header'
 import SearchResults from '../searchResults'
 import CreateHouse from '../createHouse'
 import DetailedHouse from '../detailedHouse'
-import EditHouse from '../editHouse'
 import logic from '../../logic'
 
 
@@ -230,7 +229,7 @@ class App extends Component {
           <Switch>
             <Route path="/search/:query" render={() => <SearchResults toggleFavs={toggleFavs} updateInfo={updateInfo} userFavs={userFavs} retrieveHouse={retrieveHouse} />} />
             <Route path="/house/:houseId" render={() => <DetailedHouse toggleFavs={toggleFavs} favorites={userFavs} />} />
-            <Route path="/editHouse/:houseId" render={() => <EditHouse />} />
+            {/* <Route path="/editHouse/:houseId" render={() => <EditHouse />} /> */}
             <Route exact path="/createHouse" render={() => <CreateHouse onCreateHouse={onCreateHouse} createHouseFeedback={createHouseFeedback} />} />
             <Route exact path='/' render={() => <LandingPage />} />
             <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />

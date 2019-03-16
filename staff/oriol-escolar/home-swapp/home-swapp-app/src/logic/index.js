@@ -1,5 +1,6 @@
 'use strict'
 import homeSwappApi from '../api'
+import geocodeApi from '../geocodeApi'
 
 /**
  * Abstraction of business logic.
@@ -200,6 +201,17 @@ const logic = {
         return homeSwappApi.toggleFavorite(this.getUserApiToken(),houseId)
 
     },
+
+    retrievePoint(number, street, city, country){
+
+        if (typeof number !== 'string') throw TypeError(`${number} is not a string`)
+        if (typeof street !== 'string') throw TypeError(`${street} is not a string`)
+        if (typeof city !== 'string') throw TypeError(`${city} is not a string`)
+        if (typeof country !== 'string') throw TypeError(`${country} is not a string`)
+
+        return geocodeApi.retrievePoint(number, street, city, country)
+
+    }
 }
 
 export default logic
