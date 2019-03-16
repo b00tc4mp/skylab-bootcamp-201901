@@ -1151,6 +1151,652 @@ describe("logic", () => {
     });
   });
 
+  describe("Favorites", () => {
+    const title = "hguguh";
+    const description = "ijij";
+    const image = "http://image";
+    const tags = ["#rico"];
+    let user_id;
+    const name = "hulio222222";
+    const username = `hulio123-${Math.random()}@mail.com`;
+    const email = `hulio123-${Math.random()}@mail.com`;
+    const password = `123-${Math.random()}`;
+    let postId;
+    beforeEach(() =>
+      User.create({ name, username, email, password })
+        .then(user => {
+          user_id = user._id.toString();
+        })
+        .then(() =>
+          Post.create({
+            tags,
+            title,
+            description,
+            image,
+            user_id
+          })
+        )
+        .then(post => {
+          postId = post._id.toString();
+        })
+    );
+    it("should succeed on valid data", async () => {
+      const Favorites = await logic.toggleFavoritesUser(user_id, postId);
+      expect(Favorites.favorites[0].title).toBe(title);
+      expect(Favorites.favorites[0].description).toBe(description);
+      expect(Favorites.favorites[0].image).toBe(image);
+    });
+    it("should fail on empty postId", () => {
+      user_id = "";
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(Error("userId cannot be empty"));
+    });
+
+    it("should fail on undefined user_id", () => {
+      user_id = undefined;
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on array user_id", () => {
+      user_id = [];
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on boolean user_id", () => {
+      user_id = true;
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on object user_id", () => {
+      user_id = {};
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+    it("should fail on empty user_id", () => {
+      user_id = "";
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(Error("userId cannot be empty"));
+    });
+
+    it("should fail on undefined user_id", () => {
+      user_id = undefined;
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on array user_id", () => {
+      user_id = [];
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on boolean user_id", () => {
+      user_id = true;
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on object user_id", () => {
+      user_id = {};
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on empty postId", () => {
+      postId = "";
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(Error("postId cannot be empty"));
+    });
+
+    it("should fail on undefined postId", () => {
+      postId = undefined;
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on array postId", () => {
+      postId = [];
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on boolean postId", () => {
+      postId = true;
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on object postId", () => {
+      postId = {};
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+    it("should fail on empty postId", () => {
+      postId = "";
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(Error("postId cannot be empty"));
+    });
+
+    it("should fail on undefined postId", () => {
+      postId = undefined;
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on array postId", () => {
+      postId = [];
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on boolean postId", () => {
+      postId = true;
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on object postId", () => {
+      postId = {};
+
+      expect(() => {
+        logic.toggleFavoritesUser(user_id, postId);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+  });
+
+  describe("addCommentPost", () => {
+    const title = "hguguh";
+    const description = "ijij";
+    const image = "http://image";
+    const tags = ["#rico"];
+    let user_id;
+    const name = "hulio222222";
+    const username = `hulio123-${Math.random()}@mail.com`;
+    const email = `hulio123-${Math.random()}@mail.com`;
+    const password = `123-${Math.random()}`;
+    let text = "hola este es mi comentatio eta toh wapoh premoh";
+    let postId;
+    beforeEach(() =>
+      User.create({ name, username, email, password })
+        .then(user => {
+          user_id = user._id.toString();
+        })
+        .then(() =>
+          Post.create({
+            tags,
+            title,
+            description,
+            image,
+            user_id
+          })
+        )
+        .then(post => {
+          postId = post._id.toString();
+        })
+    );
+    it("should succeed on valid data", async () => {
+      const Comments = await logic.addCommentPost(user_id, postId, text);
+      console.log(Comments);
+      expect(Comments.comments[0]._id).toBeDefined();
+      expect(Comments.comments[0].body).toBe(text);
+    });
+    it("should fail on empty postId", () => {
+      user_id = "";
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(Error("userId cannot be empty"));
+    });
+
+    it("should fail on undefined user_id", () => {
+      user_id = undefined;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on array user_id", () => {
+      user_id = [];
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on boolean user_id", () => {
+      user_id = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on object user_id", () => {
+      user_id = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+    it("should fail on empty user_id", () => {
+      user_id = "";
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(Error("userId cannot be empty"));
+    });
+
+    it("should fail on undefined user_id", () => {
+      user_id = undefined;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on array user_id", () => {
+      user_id = [];
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on boolean user_id", () => {
+      user_id = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on object user_id", () => {
+      user_id = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on empty postId", () => {
+      postId = "";
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(Error("postId cannot be empty"));
+    });
+
+    it("should fail on undefined postId", () => {
+      postId = undefined;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on array postId", () => {
+      postId = [];
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on boolean postId", () => {
+      postId = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on object postId", () => {
+      postId = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+    it("should fail on empty postId", () => {
+      postId = "";
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(Error("postId cannot be empty"));
+    });
+
+    it("should fail on undefined postId", () => {
+      postId = undefined;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on array postId", () => {
+      postId = [];
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on boolean postId", () => {
+      postId = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on object postId", () => {
+      postId = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on empty text", () => {
+      text = "";
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(Error("text cannot be empty"));
+    });
+
+    it("should fail on undefined text", () => {
+      text = undefined;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(text + " is not a string"));
+    });
+
+    it("should fail on array text", () => {
+      text = [];
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(text + " is not a string"));
+    });
+
+    it("should fail on boolean text", () => {
+      text = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(text + " is not a string"));
+    });
+
+    it("should fail on object text", () => {
+      text = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(text + " is not a string"));
+    });
+    it("should fail on empty text", () => {
+      text = "";
+      expect(() => {
+        logic.addCommentPost(text, postId, text);
+      }).toThrow(Error("text cannot be empty"));
+    });
+
+    it("should fail on undefined text", () => {
+      text = undefined;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(text + " is not a string"));
+    });
+
+    it("should fail on array text", () => {
+      text = [];
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(text + " is not a string"));
+    });
+
+    it("should fail on boolean text", () => {
+      text = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(text + " is not a string"));
+    });
+
+    it("should fail on object text", () => {
+      text = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(text + " is not a string"));
+    });
+  });
+  describe("delete", () => {
+    const title = "hguguh";
+    const description = "ijij";
+    const image = "http://image";
+    const tags = ["#rico"];
+    let user_id;
+    const name = "hulio222222";
+    const username = `hulio123-${Math.random()}@mail.com`;
+    const email = `hulio123-${Math.random()}@mail.com`;
+    const password = `123-${Math.random()}`;
+    let text = "hola este es mi comentatio eta toh wapoh premoh";
+    let postId;
+    beforeEach(() =>
+      User.create({ name, username, email, password })
+        .then(user => {
+          user_id = user._id.toString();
+        })
+        .then(() =>
+          Post.create({
+            tags,
+            title,
+            description,
+            image,
+            user_id
+          })
+        )
+        .then(post => {
+          postId = post._id.toString();
+        })
+    );
+    it("should succeed on valid data", async () => {
+      const Delete = await logic.deletePost(user_id, postId);
+      expect(Delete.message).toBe("ok");
+    });
+    it("should fail on empty postId", () => {
+      user_id = "";
+      expect(() => {
+        logic.deletePost(user_id, postId);
+      }).toThrow(Error("userId cannot be empty"));
+    });
+
+    it("should fail on undefined user_id", () => {
+      user_id = undefined;
+
+      expect(() => {
+        logic.deletePost(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on array user_id", () => {
+      user_id = [];
+
+      expect(() => {
+        logic.deletePost(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on boolean user_id", () => {
+      user_id = true;
+
+      expect(() => {
+        logic.deletePost(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on object user_id", () => {
+      user_id = {};
+
+      expect(() => {
+        logic.deletePost(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+    it("should fail on empty user_id", () => {
+      user_id = "";
+      expect(() => {
+        logic.deletePost(user_id, postId);
+      }).toThrow(Error("userId cannot be empty"));
+    });
+
+    it("should fail on undefined user_id", () => {
+      user_id = undefined;
+
+      expect(() => {
+        logic.deletePost(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on array user_id", () => {
+      user_id = [];
+
+      expect(() => {
+        logic.deletePost(user_id, postId);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on boolean user_id", () => {
+      user_id = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on object user_id", () => {
+      user_id = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(user_id + " is not a string"));
+    });
+
+    it("should fail on empty postId", () => {
+      postId = "";
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(Error("postId cannot be empty"));
+    });
+
+    it("should fail on undefined postId", () => {
+      postId = undefined;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on array postId", () => {
+      postId = [];
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on boolean postId", () => {
+      postId = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on object postId", () => {
+      postId = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+    it("should fail on empty postId", () => {
+      postId = "";
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(Error("postId cannot be empty"));
+    });
+
+    it("should fail on undefined postId", () => {
+      postId = undefined;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on array postId", () => {
+      postId = [];
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on boolean postId", () => {
+      postId = true;
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+
+    it("should fail on object postId", () => {
+      postId = {};
+
+      expect(() => {
+        logic.addCommentPost(user_id, postId, text);
+      }).toThrow(TypeError(postId + " is not a string"));
+    });
+  });
+
   after(() =>
     Promise.all([
       Comment.deleteMany(),

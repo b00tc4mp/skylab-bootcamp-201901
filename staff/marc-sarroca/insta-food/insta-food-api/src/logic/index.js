@@ -188,15 +188,14 @@ const logic = {
   },
 
   addCommentPost(userId, postId, text) {
-    if (!userId.trim().length) throw Error("userId cannot be empty");
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
-    if (!postId.trim().length) throw Error("postId cannot be empty");
     if (typeof postId !== "string")
       throw TypeError(postId + " is not a string");
-    if (!text.trim().length) throw Error("text cannot be empty");
     if (typeof text !== "string") throw TypeError(text + " is not a string");
-
+    if (!text.trim().length) throw Error("text cannot be empty");
+    if (!userId.trim().length) throw Error("userId cannot be empty");
+    if (!postId.trim().length) throw Error("postId cannot be empty");
     const newComment = new Comment({
       by: userId,
       body: text
@@ -212,12 +211,12 @@ const logic = {
   },
 
   deletePost(userId, postId) {
-    if (!userId.trim().length) throw Error("userId cannot be empty");
     if (typeof userId !== "string")
       throw TypeError(userId + " is not a string");
-    if (!postId.trim().length) throw Error("postId cannot be empty");
     if (typeof postId !== "string")
       throw TypeError(postId + " is not a string");
+    if (!postId.trim().length) throw Error("postId cannot be empty");
+    if (!userId.trim().length) throw Error("userId cannot be empty");
     return Post.find({ _id: postId, user_id: userId })
       .remove()
       .then(() => {
