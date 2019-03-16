@@ -506,7 +506,7 @@ describe('coworkingApi', () => {
         )
 
         it('should fail on user not found', () => {
-            return coworkingApi.retrieveUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhjYzZiMWZkMTliNjBkNWY1MmE0OTIiLCJpYXQiOjE1NTI3Mjk4MTEsImV4cCI6MTU1Mjc0NDIxMX0.Cj8q2fMY1XCp0VSUU2Z1QIWyebm9IBeynLX1Y20FaYQ')
+            return coworkingApi.retrieveUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
                 .catch(({ message }) => expect(message).toBe('id is not defined'))
         })
 
@@ -679,7 +679,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user not found', () => {
 
-            return coworkingApi.createWorkspace(name, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhjYzZiMWZkMTliNjBkNWY1MmE0OTIiLCJpYXQiOjE1NTI3Mjk4MTEsImV4cCI6MTU1Mjc0NDIxMX0.Cj8q2fMY1XCp0VSUU2Z1QIWyebm9IBeynLX1Y20FaYQ')
+            return coworkingApi.createWorkspace(name, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
                 .catch(({ message }) => expect(message).toBe('user does not exist'))
         })
 
@@ -991,8 +991,8 @@ describe('coworkingApi', () => {
         })
 
         it('should fail on user does not exist', () => {
-            return coworkingApi.createNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhjYzZiMWZkMTliNjBkNWY1MmE0OTIiLCJpYXQiOjE1NTI3Mjk4MTEsImV4cCI6MTU1Mjc0NDIxMX0.Cj8q2fMY1XCp0VSUU2Z1QIWyebm9IBeynLX1Y20FaYQ')
-                .catch(({ message }) => expect(message).toBe('5c8cc6b1fd19b60d5f52a492 does not exists'))
+            return coworkingApi.createNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
+                .catch(({ message }) => expect(message).toBe('5c8d187e43c9060fd539e676 does not exists'))
         })
 
 
@@ -1253,8 +1253,8 @@ describe('coworkingApi', () => {
 
         it('should fail on user does not exists', () => {
 
-            return coworkingApi.verifyNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhjYzZiMWZkMTliNjBkNWY1MmE0OTIiLCJpYXQiOjE1NTI3Mjk4MTEsImV4cCI6MTU1Mjc0NDIxMX0.Cj8q2fMY1XCp0VSUU2Z1QIWyebm9IBeynLX1Y20FaYQ', link)
-                .catch(({ message }) => expect(message).toBe('5c8cc6b1fd19b60d5f52a492 does not exists'))
+            return coworkingApi.verifyNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ', link)
+                .catch(({ message }) => expect(message).toBe('5c8d187e43c9060fd539e676 does not exists'))
         })
 
         it('should fail on link not found', () => {
@@ -1407,8 +1407,8 @@ describe('coworkingApi', () => {
 
         it('should fail on user does not exists', () => {
 
-            return coworkingApi.createService('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhjYzZiMWZkMTliNjBkNWY1MmE0OTIiLCJpYXQiOjE1NTI3Mjk4MTEsImV4cCI6MTU1Mjc0NDIxMX0.Cj8q2fMY1XCp0VSUU2Z1QIWyebm9IBeynLX1Y20FaYQ', title, description, maxUsers, place, time)
-                .catch(({ message }) => expect(message).toBe('5c8cc6b1fd19b60d5f52a492 does not exists'))
+            return coworkingApi.createService('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ', title, description, maxUsers, place, time)
+                .catch(({ message }) => expect(message).toBe('5c8d187e43c9060fd539e676 does not exists'))
         })
 
         it('should fail on undefined token', () => {
@@ -1749,7 +1749,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user not exists', () => {
 
-            return coworkingApi.retrieveUserServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhjYzZiMWZkMTliNjBkNWY1MmE0OTIiLCJpYXQiOjE1NTI3Mjk4MTEsImV4cCI6MTU1Mjc0NDIxMX0.Cj8q2fMY1XCp0VSUU2Z1QIWyebm9IBeynLX1Y20FaYQ')
+            return coworkingApi.retrieveUserServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
                 .catch(({ message }) => expect(message).toBe('user does not exists'))
         })
     })
@@ -1804,7 +1804,7 @@ describe('coworkingApi', () => {
         })
 
         it('should fail on non existing user', () => {
-            return coworkingApi.retrieveUserSubmitedServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhjYzZiMWZkMTliNjBkNWY1MmE0OTIiLCJpYXQiOjE1NTI3Mjk4MTEsImV4cCI6MTU1Mjc0NDIxMX0.Cj8q2fMY1XCp0VSUU2Z1QIWyebm9IBeynLX1Y20FaYQ')
+            return coworkingApi.retrieveUserSubmitedServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
                 .catch(({ message }) => expect(message).toBe('User does not exists'))
         })
     })
@@ -1890,6 +1890,289 @@ describe('coworkingApi', () => {
 
             return coworkingApi.addUserToService(_token, serviceId)
                 .catch(({ message }) => expect(message).toBe('user cannot apply to his own service'))
+        })
+    })
+
+    describe('retrieve workspace services', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let _token
+
+        beforeEach(() => {
+            return coworkingApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id.toString())
+                .then(() => coworkingApi.authenticateUser(email, password))
+                .then(({token})=> _token = token)
+                .then( () => coworkingApi.createWorkspace('One piece', _token))
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+        })
+
+        it('should succeed on valid data', () => {
+
+            return coworkingApi.retrieveWorkspaceServices(_token, workspaceId)
+                .then(services => {
+                    expect(services).toBeDefined()
+                    expect(services[0].place).toBe(place)
+                    expect(services[0].user).toBe(name)
+                    expect(services[0].title).toBe(title)
+                    expect(services[0].description).toBe(description)
+                    expect(services[0].maxUsers).toBe(maxUsers)
+                    expect(services[0].time).toBe(time)
+                    expect(services[0].id.toString()).toBe(serviceId)
+                })
+        })
+
+        it('should fail on workspace not existing', () => {
+
+            return coworkingApi.retrieveWorkspaceServices(_token, '5c83d50fd800e035752e32a7')
+                .catch(({ message }) => expect(message).toBe('workspace not found'))
+        })
+    })
+
+    describe('close service', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let _token
+
+        beforeEach(() => {
+            return coworkingApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id.toString())
+                .then(() => coworkingApi.authenticateUser(email, password))
+                .then(({token}) => _token = token)
+                .then(() => coworkingApi.createWorkspace('One piece', _token))
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+        })
+
+        it('should succed on valid data', () => {
+
+            return coworkingApi.closeService(_token, serviceId)
+                .then(service => {
+                    expect(service).toBeDefined()
+                })
+                .then(()=> coworkingApi.retrieveService(_token, serviceId))
+                .then(service => {
+
+                    expect(service).toBeDefined()
+                    expect(service.closed).toBe(true)
+                    expect(service.user).toBe(name)
+                    expect(service.title).toBe(title)
+                    expect(service.description).toBe(description)
+                    expect(service.maxUsers).toBe(maxUsers)
+                    expect(service.time).toBe(time)
+                    expect(service.id.toString()).toBe(serviceId)
+                })
+        })
+
+        it('should fail on service not exists', () => {
+
+            return coworkingApi.closeService( _token, '5c83d50fd800e035752e32a7')
+                .catch(({message}) => expect(message).toBe('service not found'))
+        })
+    })
+
+    describe('create comment', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let text = 'me mola, muy guai'
+        let _token
+
+        beforeEach(() => {
+            return coworkingApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id.toString())
+                .then(() => coworkingApi.authenticateUser(email, password))
+                .then(({token}) => _token = token)
+                .then(()=> coworkingApi.createWorkspace('One piece', _token))
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+        })
+
+        it('should succed on valid data', () => {
+
+            return coworkingApi.createComment(_token, serviceId, text)
+                .then(id => expect(id).toBeDefined())
+                .then(() => Service.findById(serviceId))
+                .then(service => {
+                    expect(service._id.toString()).toBe(serviceId)
+                    expect(service.user.toString()).toBe(userId)
+                    expect(service.title).toBe(title)
+                    expect(service.description).toBe(description)
+                    expect(service.maxUsers).toBe(maxUsers)
+                    expect(service.place).toBe(place)
+                    expect(service.time).toBe(time)
+                    expect(service.comments[0].text).toBe(text)
+                    expect(service.comments[0].user.toString()).toBe(userId)
+                })
+        })
+    })
+
+    describe('retrieve service comments', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let commentId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let text = 'me mola, muy guai'
+        let _token
+
+        beforeEach(() => {
+            return coworkingApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id.toString())
+                .then(() => coworkingApi.authenticateUser(email, password))
+                .then(({token}) => _token = token)
+                .then(()=> coworkingApi.createWorkspace('One piece', _token))
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+                .then(() => coworkingApi.createComment(_token, serviceId, text))
+                .then(({id}) => commentId = id.toString())
+        })
+
+        it('should succed on valid data', () => {
+
+            return coworkingApi.retrieveWorkspaceComments(_token, serviceId)
+                .then( comments => {
+                    expect(comments).toBeDefined()
+                    expect(comments[0].user.toString()).toBe(userId)
+                    expect(comments[0].text).toBe(text)
+                    expect(comments[0].id.toString()).toBe(commentId)
+                })
+        })
+
+        it('should fail on service not found', () => {
+            
+            return coworkingApi.retrieveWorkspaceComments(_token, '5c83d50fd800e035752e32a7')
+                .catch(({message}) => expect(message).toBe('service not found'))
+        })
+    })
+
+    describe('remove comments', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let commentId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        let text = 'me mola, muy guai'
+        let _token
+
+        beforeEach(() => {
+            return coworkingApi.registerUser(name, surname, email, password, password)
+                .then(id => userId = id.toString())
+                .then(() => coworkingApi.authenticateUser(email, password))
+                .then(({token}) => _token = token)
+                .then(() => coworkingApi.createWorkspace('One piece', _token))
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+                .then(() => coworkingApi.createComment(_token, serviceId, text))
+                .then(({id}) => commentId = id.toString())
+        })
+
+        it('should succed on valid data', () => {
+
+            return coworkingApi.removeComment(_token, serviceId, commentId)
+                .then(() => coworkingApi.retrieveWorkspaceComments(_token, serviceId))
+                .then(service => {
+                    expect(service).toBeDefined()
+                    expect(service).toEqual([])})
+        })
+
+        it('should fail on service not found', () => {
+
+            return coworkingApi.removeComment(_token, '5c83d50fd800e035752e32a7', commentId)
+                .catch(({message}) => expect(message).toBe('service not found'))
+        })
+
+        it('should fail on service has no comments to remove', () => {
+
+            return coworkingApi.removeComment(_token, serviceId, commentId)
+                .then(() => coworkingApi.removeComment(_token, serviceId, commentId))
+                .catch(({message}) => expect(message).toBe('comment not found'))
         })
     })
 
