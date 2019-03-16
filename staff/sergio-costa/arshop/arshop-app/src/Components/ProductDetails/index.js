@@ -96,11 +96,12 @@ class ProductDetails extends Component {
                     <Link to="/">
                         <i className="fas fa-long-arrow-alt-left productDetails__icons--back"></i>
                     </Link>
-                    {product.sold && <i className="fas fa-check-square productDetails__icons--check"></i>}
+                    
                     {!this.state.userProduct && <i className={fav ? "fas fa-heart productDetails__icons--heart" : "far fa-heart productDetails__icons--heart"} onClick={() => this.onFav(product.id)}></i>}
                 </div>
                 <div className="productDetails__content">
                     <div className="productDetails__imgcontainer">
+                    {product.sold && <p className="productDetails__icons--sold">Sold</p>}
                         <img className="productDetails__img" src={product.imageUrl} />
                     </div>
                     <div className="productDetails__details">
@@ -111,7 +112,7 @@ class ProductDetails extends Component {
                     <Link to="/ar/camera" className="productDetails__icons">
                         <i className="fas fa-vr-cardboard productDetails__icons--ar"></i>
                     </Link>
-                    {this.state.userProduct && <button className="productDetails__btn" onClick={() => this.handleOnSell(product.id)}>Sold</button>}
+                    {this.state.userProduct && <button className="productDetails__btn" onClick={() => this.handleOnSell(product.id)}>{product.sold ? "In Stock" : "Check as Sold"}</button>}
                     {!this.state.userProduct && <button className="productDetails__btn">Chat</button>}
                 </div>
             </div>
