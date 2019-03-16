@@ -30,17 +30,19 @@ class Register extends Component {
         const { handleInput, handleFormSubmit, state: { feedback } } = this
 
         return <section className="register">
+            <div className="registerBox">
             <h2>Register</h2>
-            <form onSubmit={handleFormSubmit}>
-                <input type="text" name="name" onChange={handleInput} placeholder="name" />
-                <input type="text" name="surname" onChange={handleInput} placeholder="surname" />
-                <input type="text" name="email" onChange={handleInput} placeholder="email" />
-                <input type="password" name="password" onChange={handleInput} placeholder="password" />
-                <input type="password" name="passwordConfirmation" onChange={handleInput} placeholder="confirm password" />
-                <button>Register</button>                
-            </form>
-            <p>Already a member? Go to <Link to="/login">Login</Link></p>
-            {feedback && <Feedback message={ feedback } />}
+                <form className="registerForm" onSubmit={handleFormSubmit}>
+                    <input type="text" name="name" onChange={handleInput} placeholder="name" />
+                    <input type="text" name="surname" onChange={handleInput} placeholder="surname" />
+                    <input type="text" name="email" onChange={handleInput} placeholder="email" />
+                    <input type="password" name="password" onChange={handleInput} placeholder="password" />
+                    <input type="password" name="passwordConfirmation" onChange={handleInput} placeholder="confirm password" />
+                    <button>GO!</button>                
+                </form>
+                <p>Already a member? go to <Link to="/login">login</Link></p>
+                {feedback && <Feedback message={ feedback } />}
+            </div>    
         </section>
     }
 }

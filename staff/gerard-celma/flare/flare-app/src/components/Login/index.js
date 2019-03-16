@@ -34,12 +34,12 @@ class Login extends Component {
                     <form className="loginForm" onSubmit={handleFormSubmit}>
                         <input type="text" name="email" placeholder="email" onChange={handleInput} />
                         <input type="password" name="password" placeholder="password" onChange={handleInput} />
-                        <button>Login</button>
+                        <button>GO!</button>
                     </form>
-                    <p>Not a member? Go to <Link to="/register">Register</Link></p>
+                    <p>Not a member? go to <Link to="/register">register</Link></p>
                     {feedback && <Feedback message={feedback} />}
                 </div>
-                <button>Back to landing</button>
+                <div className="landing-down"><Link to="/landing" className="landing-down__text">back</Link></div>
         </section>
     }
 }

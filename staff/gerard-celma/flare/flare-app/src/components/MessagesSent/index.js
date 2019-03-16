@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import Accordion from '../Accordion'
 import Feedback from '../Feedback'
 import logic from '../../logic';
 

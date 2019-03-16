@@ -1,7 +1,11 @@
 .login
     height: 100vh
     width: 100vw
-    background-color: #EEEEEE
+    background-image: url('https://res.cloudinary.com/dnvdmcxqw/image/upload/v1552719229/bkg.png')
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
+    background-attachment: fixed
     display: flex
     flex-flow: column nowrap
     justify-content: center
@@ -13,18 +17,138 @@
 .loginBox
     display: flex
     flex-flow: column nowrap
-    justify-content: center
     align-items: center
     border-radius: 10px
     margin: 50px 10px 5px 10px
-    background-color: rgba(139, 110, 120, 1)    
+    background-color: rgba(138, 161, 163, 0.8)    
 
     & h2
+        color: white
         // margin: 0px 0px 10px 0px
+
+    & p
+        color: white
+
+@media (min-width: 768px)
+    .loginBox
+          margin: 50px 60px 5px 60px        
+
+@media (min-width: 992px)
+    .loginBox
+          margin: 50px 100px 5px 100px
+
+@media (min-width: 1200px)
+    .loginBox
+          margin: 50px 350px 5px 350px      
 
 .loginForm
     display: flex
     flex-flow: column nowrap
 
     & input
-       width:  
+        background: rgba(255, 255, 255, 0.1)
+        border: none
+        border-radius: 5px
+        font-size: 16px
+        height: auto
+        width: 220px
+        margin: 0px 0px 10px 0px
+        outline: 0
+        padding: 15px 
+        background-color: #e8eeef
+        color: #8a97a0
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset
+
+    & button
+        border: 1px solid #8B6E78
+        border-radius: 5px
+        background-color: transparent
+        color: #8B6E78
+        font-size: 16px
+        text-decoration: none
+        height: 40px
+
+    & button:hover
+        background-color: rgba(139, 110, 120, 0.8)
+        color: white    
+
+@media (min-width: 576px)
+    .loginForm
+        & input
+            width: 320px
+
+@media (min-width: 768px)
+    .loginForm
+        & input
+            width: 420px
+
+@media (min-width: 992px)
+        & input
+            width: 220px
+            margin: 0px 5px 10px 5px  
+
+.landing-down
+	position: absolute
+	left: 42%
+	bottom: 50px
+	display: block
+	text-align: center
+	font-size: 30px
+	z-index: 100
+	text-decoration: none
+	text-shadow: 0
+	z-index: 9
+	-webkit-transform: translate(-50%, 0%) 
+	-moz-transform: translate(-50%, 0%) 
+	transform: translate(-50%, 0%) 
+	-webkit-animation: fade_move_down 4s ease-in-out infinite
+	-moz-animation: fade_move_down 4s ease-in-out infinite
+	animation: fade_move_down 4s ease-in-out infinite
+        
+@media (min-width: 840px)
+    .landing-down
+        left: 47%
+        font-size: 40px
+
+.landing-down__text
+    text-decoration: none
+    color: #8B6E78
+
+/*animated scroll arrow animation
+@-webkit-keyframes fade_move_down
+	0%
+		-webkit-transform: translate(0, -10px) 
+		opacity: 0
+
+	50%
+		opacity: 1
+
+	100%
+		-webkit-transform: translate(0, 10px) 
+		opacity: 0
+
+
+@-moz-keyframes fade_move_down
+	0%
+		-moz-transform: translate(0, -10px) 
+		opacity: 0
+
+	50%
+		opacity: 1
+
+	100%
+		-moz-transform: translate(0, 10px) 
+		opacity: 0
+
+
+@keyframes fade_move_down
+	0%
+		transform: translate(0, -10px) 
+		opacity: 0
+
+	50%
+		opacity: 1
+
+	100%
+		transform: translate(0, 10px) 
+		opacity: 0
