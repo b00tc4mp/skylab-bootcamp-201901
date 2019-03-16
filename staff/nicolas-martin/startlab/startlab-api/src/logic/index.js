@@ -51,10 +51,22 @@ const logic = {
                     })
                     .then(hash => User.create({ name, surname, email, password: hash }))
                     .then(({ id }) => {
+                        this.__createUserFolder__(id)
                         return this.__fillExercisesToUser__(id)
                     })
                     .then(({ id }) => id)
             })
+    },
+
+    __createUserFolder__(userId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        var directoryToUserFiles = path.join(process.cwd(), 'src', 'answer-files', userId)
+
+        if (!fs.existsSync(directoryToUserFiles)) {
+            fs.mkdirSync(directoryToUserFiles)
+        }
     },
 
     __fillExercisesToUser__(userId) {
@@ -241,7 +253,7 @@ const logic = {
                         var pathToUpdateFile = path.join(process.cwd(), 'src', 'test-files', `${exercise.id}.js`)
 
                         fs.writeFile(pathToUpdateFile, exercise.test.toString(), function (err) {
-                            if (err) throw Error(`error updating the file`);
+                            if (err) throw Error(`error updating the file`)
                         })
 
                         return { status: 'ok', message: `Exercise updated` }
@@ -448,32 +460,53 @@ const logic = {
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
-        const unit = `function target(){${answer}}module.exports = target` // we have to wrapped in a function target
+        // const unit = `function target(){${answer}}module.exports = target` // we have to wrapped in a function target
 
-        const script = new vm.Script(unit)
-        const ctx = { module, console }
-        script.runInNewContext(ctx) //ctx => { module: Module, console: Console, salute: [Function: salute] }
+        // const script = new vm.Script(unit)
+        // const ctx = { module, console }
+        // script.runInNewContext(ctx) //ctx => { module: Module, console: Console, salute: [Function: salute] }
 
         var MyReporter = require('./reporter')
-
         MyReporter.callback = callback
 
         // we need to pass from mongo the file where test file is located
-        var unitFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
+        var exerciseFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
+        var exerciseUserFile = path.join(process.cwd(), 'src', 'answer-files', userId, `${exerciseId}.js`)
 
-        var mocha = new Mocha({ reporter: MyReporter })
+        // 1. read unitFile with [TARGET]
+        // 2. replace [TARGET] with answer
+        // 3. save the file in src/answer-files/≤userId>/<exerciseId>
+
+        let testFromFile
+        if (fs.existsSync(exerciseFile)) { // read exerciseFile if exists
+            testFromFile = fs.readFileSync(exerciseFile, 'utf8')
+        }
+
+        var dataReplaced = testFromFile.replace(/TARGET/g, answer)
+
+
+        fs.writeFileSync(exerciseUserFile, dataReplaced, 'utf-8')
+
+        var mocha = new Mocha({ 
+            timeout: 50, 
+            reporter: MyReporter 
+        })
         var Suite = Mocha.Suite
 
-        /** passing target in mocha context **/
-        mocha.suite.on(Suite.constants.EVENT_FILE_PRE_REQUIRE, function (context) {
-            context.target = ctx.target
-        })
+        // mocha.enableTimeouts(true)
+        
+        // /** passing target in mocha context **/
+        // mocha.suite.on(Suite.constants.EVENT_FILE_PRE_REQUIRE, function (context) {
+        //     context.target = ctx.target
+        // })
 
-        delete require.cache[require.resolve(unitFile)] // clean cache from mocha "confirmed bug"
+        delete require.cache[require.resolve(exerciseUserFile)] 
+        // clean cache from mocha "confirmed bug"
         // https://github.com/mochajs/mocha/issues/1938
 
+
         // Add the test to mocha before run
-        mocha.addFile(unitFile)
+        mocha.addFile(exerciseUserFile)
 
         // Run the tests
         mocha.run(function (failures) {
