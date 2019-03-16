@@ -41,27 +41,27 @@ const logic = {
 
         if (!phone.trim().length) throw Error ('phone cannot be empty')
 
-        if(typeof adress !== 'string') throw TypeError (adress + 'is not a string')
+        if(typeof adress !== 'string') throw TypeError (adress + ' is not a string')
 
         if (!adress.trim().length) throw Error ('adress cannot be empty')
 
-        if(typeof city !== 'string') throw TypeError (city + 'is not a string')
+        if(typeof city !== 'string') throw TypeError (city + ' is not a string')
 
-        if (!city.trim().length) throw Error ('city cannot be empty')
+        if (!city.trim().length) throw Error (' city cannot be empty')
 
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
-        if (!email.trim().length) throw Error('email cannot be empty')
+        if (!email.trim().length) throw Error(' email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
-        if (!password.trim().length) throw Error('password cannot be empty')
+        if (!password.trim().length) throw Error(' password cannot be empty')
 
         if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
 
-        if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
+        if (!passwordConfirmation.trim().length) throw Error(' password confirmation cannot be empty')
 
-        if (password !== passwordConfirmation) throw Error('passwords do not match')
+        if (password !== passwordConfirmation) throw Error(' passwords do not match')
 
         console.log(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation)
 
@@ -141,15 +141,15 @@ const logic = {
 
         if(typeof vaccionations != 'string') throw TypeError (vaccionations + 'is not a string')
 
-        // if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
+        if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
 
         if(typeof controls != 'string') throw TypeError (controls + 'is not a string')
 
-        // if (!controls.trim().length) throw Error ('controls cannot be empty')
+        if (!controls.trim().length) throw Error ('controls cannot be empty')
 
         if(typeof details != 'string') throw TypeError (details + 'is not a string')
 
-        // if (!details.trim().length) throw Error ('details cannot be empty')
+        if (!details.trim().length) throw Error ('details cannot be empty')
 
         console.log(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
        
@@ -211,9 +211,9 @@ const logic = {
 
         if (!pet.trim().length) throw Error('pet cannot be empty')
 
-        if (date instanceof Date) throw TypeError(date + ' is not type date')
+        if (date instanceof Date) throw Error(date + ' is not type date')
 
-        if (!date.trim().length) throw Error('date cannot be empty')
+        // if (!date.trim().length) throw Error('date cannot be empty')
 
         return (async () => {
 
@@ -255,9 +255,9 @@ const logic = {
      */
     retrieveUser(userId) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
 
-        if (!userId.trim().length) throw new EmptyError('user id is empty')
+        if (!userId.trim().length) throw new EmptyError('userId is empty')
 
         return User.findById(userId)
         
@@ -381,7 +381,7 @@ const logic = {
      * @param {string} userId 
      */
      retrieveUser(userId) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (typeof userId !== 'string') throw TypeError(userId +' is not a string')
 
         if (!userId.trim().length) throw Error('user id is empty')
 

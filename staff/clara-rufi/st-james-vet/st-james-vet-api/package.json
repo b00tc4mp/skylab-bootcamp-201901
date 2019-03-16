@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node src",
-    "watch": "nodemon src",
+    "watch": "nodemon src", 
     "debug": "node debug src",
-    "test": "mocha --timeout 10000 ./src/logic/index.spec.js",
-    "test-debug": "mocha debug $(find src -name *.spec.js)",
-    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
+    "test": "mocha src/**/*.spec.js --timeout 99999",
+    "test-debug": "mocha debug src/**/*.spec.js --timeout 999999",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js --timeout 99999"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "expect": "^24.1.0",
+    "jest": "^24.5.0",
     "mocha": "^6.0.2",
     "nyc": "^13.3.0"
   }

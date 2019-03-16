@@ -17,6 +17,7 @@ class Login extends Component {
 
   handleOnLogin = (email, password) => {
     try {
+      debugger
       logic.logInUser(email, password)
         .then(() => {
           this.setState({ isLoggedIn: logic.isUserLoggedIn, isAdmin: logic.isAdmin, signIn: false }, () => this.props.login())

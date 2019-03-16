@@ -1,0 +1,68 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\lluna\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js test-coverage
+
+PATH: 
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft VS Code\bin;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\lluna\AppData\Local\Microsoft\WindowsApps;C:\Users\lluna\AppData\Roaming\npm
+
+Yarn version: 
+  1.13.0
+
+Node version: 
+  10.15.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\lluna\bootcamp\collab\skylab-bootcamp-201901\staff\clara-rufi\st-james-vet\st-james-vet-api\package.json: Unexpected token 
+   in JSON at position 437
+      at JSON.parse (<anonymous>)
+      at C:\Users\lluna\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\lluna\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:304:30)
+      at C:\Users\lluna\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:315:13
+
+npm manifest: 
+  {
+    "name": "st-james-vet-api",
+    "version": "4.0.0",
+    "description": "## server",
+    "main": "index.js",
+    "scripts": {
+      "start": "node src",
+      "watch": "nodemon src",
+      "debug": "node debug src",
+      "test": "mocha --timeout 10000 ./src/logic/index.spec.js",
+      "test-debug": "mocha debug $(find src -name *.spec.js)",
+      "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 ./src/logic/index.spec.js","
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "bcrypt": "^3.0.4",
+      "body-parser": "^1.18.3",
+      "cors": "^2.8.5",
+      "dotenv": "^6.2.0",
+      "es6-promise": "^4.2.6",
+      "express": "^4.16.4",
+      "isomorphic-fetch": "^2.2.1",
+      "jsonwebtoken": "^8.5.0",
+      "moment": "^2.24.0",
+      "react-moment": "^0.8.4",
+      "st-james-vet-data": "file:../st-james-vet-data",
+      "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+      "chai": "^4.2.0",
+      "expect": "^24.1.0",
+      "mocha": "^6.0.2",
+      "nyc": "^13.3.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
