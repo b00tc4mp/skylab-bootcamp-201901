@@ -7,7 +7,7 @@ import logic from '../../logic'
 import InfoWindow from '../InfoWindow'
 import MapFilter from '../MapFilter'
 
-export default function EventsMap () {
+export default function EventsMap ({setShowRightBar, setShowDropdown}) {
     const [userLocation, setUserLocation] = useState({ lat: 41.390356499999996, lng: 2.1941694})
     const [events, setEvents] = useState()
     const [eventInfo, setEventInfo] = useState(false)
@@ -17,7 +17,8 @@ export default function EventsMap () {
     const [eventDate, setEventDate] = useState()
     const [reservationName, setReservationName] = useState()
     const [restaurantCategory, setRestaurantCategory] = useState()
-    const [mapInGrid, setMapInGrid] = useState('__no-info')
+    const [mapInGrid, setMapInGrid] = useState('-no-info')
+    const [mobile, setMobile] = useState(false)
 
     //filter
     const [timeRange, setTimeRange] = useState()
@@ -31,8 +32,7 @@ export default function EventsMap () {
         logic.geolocation()
             .then(geolocation => setUserLocation(geolocation)) //googles geolocation is not totally accurate
         
-        // logic.findEventsNearMe(distance)
-        //     .then(events => setEvents(events.events))
+        if (window.screen.width < 1200) setMobile(true)
     }, [])
 
     useEffect(() => {
@@ -99,7 +99,7 @@ export default function EventsMap () {
             const marker = new window.google.maps.Marker({ position: location, icon: icon, map: map })
 
             marker.addListener('click', function() {
-                setMapInGrid('__info')
+                setMapInGrid('-info')
                 setEventInfo(true)
                 setParticipants(participants)
                 setEventDate(eventDate)
@@ -111,15 +111,26 @@ export default function EventsMap () {
         })
     }
 
+    console.log(mobile)
+
     return (
         <Fragment>
-            <NavBar/>
-            <EventsNav/>
-            <p>map</p>
-            <div className='map-panel'>
-                {eventInfo && <InfoWindow className='info-window' setMapInGrid={setMapInGrid} setEventInfo={setEventInfo} participants={participants} eventDate={eventDate} eventTime={eventTime} restaurantId={restaurantId} reservationName={reservationName} restaurantCategory={restaurantCategory}/>}
-                <div id='map' className={'map-in-grid' + mapInGrid}></div>
-                <MapFilter setPreferedDate={setPreferedDate} setTimeRange={setTimeRange} setDistance={setDistance} setRating={setRating} setPriceRange={setPriceRange} setFilteredCategory={setFilteredCategory}/>
+            <NavBar setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/>
+            <div className='events-map'>
+                <EventsNav/>
+                <div className='events-map__elements'>
+                    <div className='events-map__map-panel'>
+                        {eventInfo && <InfoWindow className='events-map__map-panel-info' setMapInGrid={setMapInGrid} setEventInfo={setEventInfo} participants={participants} eventDate={eventDate} eventTime={eventTime} restaurantId={restaurantId} reservationName={reservationName} restaurantCategory={restaurantCategory}/>}
+                        <div id='map' className={`events-map__map-panel-map${mapInGrid} events-map__map-panel-map`}></div>
+                        {mobile ? <div className='events-map__map-panel-filters'>
+                            <div className='events-map__map-panel-arrow'>
+                                <i className="fas fa-chevron-up events-map__map-panel-icon"></i>
+                                <p className='events-map__map-panel-title'>filter</p>
+                            </div>
+                            <MapFilter setPreferedDate={setPreferedDate} setTimeRange={setTimeRange} setDistance={setDistance} setRating={setRating} setPriceRange={setPriceRange} setFilteredCategory={setFilteredCategory}/>
+                        </div> : <MapFilter setPreferedDate={setPreferedDate} setTimeRange={setTimeRange} setDistance={setDistance} setRating={setRating} setPriceRange={setPriceRange} setFilteredCategory={setFilteredCategory}/>}
+                    </div>
+                </div>
             </div>
         </Fragment>
     )

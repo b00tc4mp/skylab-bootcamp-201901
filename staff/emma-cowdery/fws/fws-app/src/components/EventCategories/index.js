@@ -12,7 +12,7 @@ export default withRouter( function EventCategories (props) {
 
     return (
         <Fragment>
-            <NavBar setShowRightBar={props.setShowRightBar}/>
+            <NavBar setShowRightBar={props.setShowRightBar} setShowDropdown={props.setShowDropdown}/>
             <div className='event-categories'>
                 <EventsNav setViewCategory={setViewCategory}/>
                 {!viewCategory && <div className='event-categories__elements'>

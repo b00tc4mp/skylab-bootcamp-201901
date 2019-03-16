@@ -7,6 +7,7 @@
     align-items: center
     background-color: $yellow
     position: fixed
+    top: 0
     //padding-left: 1em
     //padding-right: 1em
     width: 100%
@@ -26,6 +27,7 @@
 
     &__logo
         margin-left: 2em
+        cursor: pointer
 
     &__no-logo
         display: none
@@ -33,11 +35,20 @@
     &__user-button
         margin: 1em
         margin-right: 2em
+        cursor: pointer
+
+    &__user-button:hover
+        align-self: center
+        font-size: 1.2em
+        margin: 0.325em
+        margin-right: 1.8em
+        transition: 0.1s
 
     &__no-user-button
         display: none
 
     &__events-button
+        align-self: center
         border-style: solid
         border-width: 0
         background-color: $ocre
@@ -45,7 +56,23 @@
         padding-left: 1em
         padding-right: 1em
         margin: 1em
+        cursor: pointer
+
+    &__events-button:hover
+        //padding: 0.1em
+        padding-left: 1.2em
+        padding-right: 1.2em
+        margin: 0.8em
 
     &__no-events-button
         display: none
+
+    &__down
+        margin-left: 0.5em
         
+    &__right
+        display: flex
+        flex-flow: row
+
+        &-desksearch
+            width: 30em

@@ -9,7 +9,7 @@ import EventsNearMeEvent from '../EventsNearMeEvent'
 import JoinEvent from '../JoinEvent'
 import UnjoinEvent from '../UnjoinEvent'
 
-export default function EventsNearMe() {
+export default function EventsNearMe({setShowRightBar, setShowDropdown}) {
     const [eventsNearme, setEventsNearme] = useState()
     const [distance, setDistance] = useState(20)
     const [joinEvent, setJoinEvent] = useState(false)
@@ -34,7 +34,7 @@ export default function EventsNearMe() {
 
     return (
         <Fragment>
-            <NavBar/>
+            <NavBar setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/>
             <div className='events-nearme'>
                 <EventsNav/>
                 <div className='events-nearme__elements'>

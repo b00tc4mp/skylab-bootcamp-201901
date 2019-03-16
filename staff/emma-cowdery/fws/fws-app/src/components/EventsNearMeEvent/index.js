@@ -3,7 +3,7 @@ import logic from '../../logic'
 import './index.sass'
 import BouncingLoader from '../BouncingLoader'
 
-export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime, participants, totalDist, setJoinEvent, restaurantName, setUnjoinEvent }) {
+export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime, participants, totalDist, setJoinEvent, restaurantName, setUnjoinEvent, restaurantCategory }) {
     const [details, setDetails] = useState()
     const [eventStyle, setEventStyle] = useState()
     const [counter, setCounter] = useState(0)
@@ -54,6 +54,7 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
                             <p className='event-nearme__info-name'>{restaurantName}</p>
                             <a className='event-nearme__info-phone' href={`tel:${details.international_phone_number}`}>{details.international_phone_number}</a>
                         </div>
+                        <p className='event-nearme__info-category'>{restaurantCategory}</p>
                         <div className='event-nearme__info-links'>
                             <a className='event-nearme__info-link event-nearme__info-link-one' href={details.url} target="_blank"><i class="fas fa-map-marked-alt event-nearme__info-link-icon"/> open in maps</a>
                             <a className='event-nearme__info-link event-nearme__info-link-two' href={details.website} target="_blank"><i class="fas fa-desktop event-nearme__info-link-icon"></i> website</a>

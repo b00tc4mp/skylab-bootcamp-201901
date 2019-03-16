@@ -7,7 +7,7 @@ import BouncingLoader from '../BouncingLoader'
 import HowTo from '../HowTo'
 import CreateEvent from '../CreateEvent'
 
-export default function RestaurantResults() {
+export default function RestaurantResults({ setShowRightBar, setShowDropdown }) {
     const [results, setResults] = useState()
     const [query, setQuery] = useState('near me')
     const [info, setInfo] = useState(false)
@@ -82,7 +82,7 @@ export default function RestaurantResults() {
 
     return (
         <Fragment>
-            <Navbar setQuery={setQuery}/>
+            <Navbar setQuery={setQuery} setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/>
             <main>
                 <p>Results</p>
                 {results ? results.map(({ img, geometry, formatted_address, name, opening_hours, place_id, price_level, rating }) => {

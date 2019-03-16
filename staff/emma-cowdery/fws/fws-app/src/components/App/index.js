@@ -13,9 +13,11 @@ import EventsMap from '../EventsMap'
 import Calendar from '../Calendar'
 import Chats from '../Chats'
 import RightBar from '../RightBar'
+import DropDown from '../DropDown'
 
 export default withRouter (function App() {
     const [showRightBar, setShowRightBar] = useState(false)
+    const [showDropdown, setShowDropdown] = useState(false)
 
     return (
         <Fragment>
@@ -23,13 +25,14 @@ export default withRouter (function App() {
             <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Login/>}/>
             <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Register/>}/>
             <Route path="/landing" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Landing/>}/>
-            <Route path="/restaurant-results" render={() => logic.isUserLoggedIn ? <RestautantResults setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
-            <Route path="/event-categories" render={() => logic.isUserLoggedIn ? <EventCategories setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
-            <Route path="/events-nearme" render={() => logic.isUserLoggedIn ? <EventsNearMe setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
-            <Route path="/events-map" render={() => logic.isUserLoggedIn ? <EventsMap/> : <Redirect to = '/landing'/>}/>
+            <Route path="/restaurant-results" render={() => logic.isUserLoggedIn ? <RestautantResults setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
+            <Route path="/event-categories" render={() => logic.isUserLoggedIn ? <EventCategories setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
+            <Route path="/events-nearme" render={() => logic.isUserLoggedIn ? <EventsNearMe setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
+            <Route path="/events-map" render={() => logic.isUserLoggedIn ? <EventsMap setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
             <Route path="/calendar" component={Calendar}/>
-            <Route path="/chats" render={() => logic.isUserLoggedIn ? <Chats setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
-            {showRightBar && <div className='nav-bar__right-bar'><RightBar setShowRightBar={setShowRightBar}/></div>}
+            <Route path="/chats" render={() => logic.isUserLoggedIn ? <Chats setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
+            {showRightBar && <RightBar setShowRightBar={setShowRightBar}/>}
+            {showDropdown && <DropDown setShowDropdown={setShowDropdown}/>}
         </Fragment>
     )
 })

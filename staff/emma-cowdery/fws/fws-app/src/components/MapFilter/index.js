@@ -15,9 +15,9 @@ export default function MapFilter ({ setPreferedDate, setTimeRange, setFilteredC
     useEffect(() => {
         let timeRange = []
 
-        if (time1 && time1.substring(0, 2) !== String(new Date).substring(16, 18)) timeRange[0] = time1
+        if (time1 && time1.substring(0, 2) !== String(new Date()).substring(16, 18)) timeRange[0] = time1
 
-        if (time2 && time2.substring(0, 2) !== String(new Date).substring(16, 18)) timeRange[1] = time2
+        if (time2 && time2.substring(0, 2) !== String(new Date()).substring(16, 18)) timeRange[1] = time2
 
         if (timeRange.length) setTimeRange(timeRange)
 

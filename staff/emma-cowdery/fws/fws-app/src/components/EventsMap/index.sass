@@ -1,23 +1,69 @@
+@import '../../utils'
+
 #map
     width: 100%
-    height: 30em
+    height: 100%
 
-.map-panel
-    display: grid
-    grid-template-columns: 1fr 1fr 1fr 1fr
-    width: 100%
+.events-map
+    position: absolute
+    top: 3.2em
+    left: 0
+    bottom: 0
+    right: 0
 
-.map-in-grid
+    &__elements
+        position: absolute
+        top: 3.5em
+        left: 0
+        bottom: 0
+        right: 0
+        
+    &__map-panel
+        display: grid
+        grid-template-rows: 1.04fr 2fr
 
-    &__no-info
-        grid-column-start: 1
-        grid-column-end: 4
+        &-map
+            border-radius: 0.8em 0.8em 0 0
 
-    &__info
-        grid-column-start: 2
-        grid-column-end: 4
+        &-filters
+            border-radius: 2em
+            background-color: none
+
+        &-arrow
+            display: flex
+            flex-flow: column
+            align-items: center
+            margin: 0.5em
+            color: $dark-gray
+            border-radius: 2em
+
+        &-icon
+            font-size: 2em
+
+        &-title
+            margin: 0
+            font-size: 1.2em
 
 
-// .info-window
-//     grid-column-start: 1
-//     grid-column-end: 2
+
+@media (min-width: 1200px)
+
+    .events-map
+
+        &__map-panel
+            margin: 1em
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr 1fr
+            border-radius: 0.5em 0 0 0.5em
+            box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+
+            &-info
+
+            &-map-no-info
+                grid-column-start: 1
+                grid-column-end: 4
+                border-radius: 0.5em 0 0 0.5em
+
+            &-map-info
+                grid-column-start: 2
+                grid-column-end: 4
