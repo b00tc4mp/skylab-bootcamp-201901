@@ -1,5 +1,5 @@
 {
-  "name": "startlab-validation",
+  "name": "startlab-data",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "startlab-errors": "file:../startlab-errors"
+    "mongoose": "^5.4.19"
   }
 }

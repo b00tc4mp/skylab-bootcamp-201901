@@ -1,2 +1,3 @@
 startlab-api/.env
 startlab-api/src/test-files/
+startlab-api/coverage/

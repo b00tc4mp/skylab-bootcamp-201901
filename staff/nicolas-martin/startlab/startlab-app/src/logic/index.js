@@ -108,7 +108,6 @@ const logic = {
 
     newExercise(exercise) {
         if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
-
         return skylabApi.createExercise(exercise, this.__userApiToken__)
     },
 

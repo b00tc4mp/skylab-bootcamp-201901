@@ -23,23 +23,25 @@ class ExerciseForm extends Component {
     }
 
     componentWillMount() {
-        try {
-            logic.retrieveExercise(this.props.id)
-                .then(exercise => {
-                    exercise.theme = parseInt(exercise.theme, 10)
-                    this.setState({
-                        title: exercise.title,
-                        summary: exercise.summary,
-                        test: exercise.test,
-                        id: exercise.id,
-                        order: exercise.order,
-                        theme: parseInt(exercise.theme, 10),
-                        pageTitle: 'Edit exercise'
+        if (this.props.id !== undefined) {
+            try {
+                logic.retrieveExercise(this.props.id)
+                    .then(exercise => {
+                        exercise.theme = parseInt(exercise.theme, 10)
+                        this.setState({
+                            title: exercise.title,
+                            summary: exercise.summary,
+                            test: exercise.test,
+                            id: exercise.id,
+                            order: exercise.order,
+                            theme: parseInt(exercise.theme, 10),
+                            pageTitle: 'Edit exercise'
+                        })
                     })
-                })
-                .catch(message => this.emitFeedback(message, 'error'))
-        } catch ({ message }) {
-            this.emitFeedback(message, 'error')
+                    .catch(message => this.emitFeedback(message, 'error'))
+            } catch ({ message }) {
+                this.emitFeedback(message, 'error')
+            }
         }
     }
 
