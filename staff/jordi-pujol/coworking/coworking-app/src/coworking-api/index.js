@@ -12,6 +12,8 @@ const coworkingApi = {
         { key: 'password', value: password, type: String },
         { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
+        if (password !== passwordConfirm) throw Error('passwords do not match')
+
         return fetch(`${this.url}/user`, {
             method: 'POST',
             headers: {
@@ -330,7 +332,7 @@ const coworkingApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
-                return
+                return response
             })
     },
 

@@ -156,7 +156,7 @@
     font-size: 18px; }
     .inbox div .fas {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: space-around;
       width: 10%; }
       .inbox div .fas.red {
@@ -249,27 +249,37 @@
     .fullservice .fullservice__content--info {
       grid-column-start: 1;
       grid-column-end: 2; }
-  .fullservice .fullservice__button {
-    margin-top: 20px;
-    border-radius: 30px;
-    width: 15em;
-    height: 2em;
-    border: none;
-    color: #fff;
-    font-size: 15px;
-    cursor: pointer;
-    background-image: linear-gradient(#0F0340, #0a4a7f);
-    align-self: center; }
-    .fullservice .fullservice__button--comments {
+    .fullservice .fullservice__content .full__content--comments {
       grid-column-start: 2;
       grid-column-end: 3;
-      display: flex;
-      flex-direction: row;
-      border-bottom: 1px solid blue; }
+      display: flex; }
+    .fullservice .fullservice__content .fullservice__button {
+      margin-top: 20px;
+      border-radius: 30px;
+      width: 15em;
+      height: 2em;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      background-image: linear-gradient(#0F0340, #0a4a7f);
+      align-self: center; }
 
 img {
   width: 50px;
   height: 50px; }
+
+.full-service__button {
+  margin-top: 20px;
+  border-radius: 30px;
+  width: 10em;
+  height: 1.3em;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  background-image: linear-gradient(#30373d, #0f3233);
+  align-self: right; }
 
 .profile h2 {
   padding: 1em;
@@ -422,6 +432,13 @@ img {
     padding: 1em;
     width: 100%;
     margin-left: 40%; }
+
+.comment {
+  border-bottom: 1px solid black; }
+  .comment article {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
 
 * {
   margin: 0;
