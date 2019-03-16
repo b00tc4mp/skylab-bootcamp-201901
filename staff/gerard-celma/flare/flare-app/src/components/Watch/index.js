@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react'
 import { withRouter, Link} from 'react-router-dom'
 import CanvasLetters from '../CanvasLetters'
 import Feedback from '../Feedback'
-import logic from '../../logic';
+import logic from '../../logic'
+import './index.sass'
+
 
 let userPosition
 
@@ -78,10 +80,11 @@ class Watch extends Component {
         
         return <Fragment>
             {!getMessages && <div><i className="fas fa-spinner fa-pulse"></i><p>Loading Watch Mode</p></div>}
-            {getMessages && <section>
-                <p>Watch</p>
-                <CanvasLetters />
+            {getMessages && <section className="watch">
                 <button onClick={handleBackClick}>Stop Watch Mode</button>
+                <div className="canvasLetters">
+                <CanvasLetters />
+                </div>
                 {feedback && <Feedback message={ feedback } />}
             </section>
             }

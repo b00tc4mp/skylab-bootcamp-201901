@@ -3,7 +3,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import Feedback from '../Feedback'
-import logic from '../../logic';
+import logic from '../../logic'
+import './index.sass'
 
 class MessagesSent extends Component {
     state = { sentMessages: null, feedback: null }
@@ -36,8 +37,10 @@ class MessagesSent extends Component {
 
         return <section className="messagesSent">
             <p>Messages Sent</p>
-            {sentMessages && sentMessages.map(({ _id, date, text, userIdTo:{ image } }) => <div><img src={image} /><p>{date}</p><p>{text}</p><i class="far fa-trash-alt" onClick={() => handleClick(_id)}></i></div>)}
-            {/* {sentMessages && <Accordion data={sentMessages} />} */}
+            <div className="messagesContainer">
+                {sentMessages && sentMessages.map(({ _id, date, text, image, userIdTo:{ name, surname } }) => <div><p>To: {name} {surname}</p><p>Sent: {date.slice(0,10)}</p><img className="profileImage" src={image} /><p className="textMes">{text}</p><p className="trashMes"><i class="far fa-trash-alt" onClick={() => handleClick(_id)}></i></p></div>)}
+                {/* {sentMessages && <Accordion data={sentMessages} />} */}
+            </div>
             {feedback && <Feedback message={feedback} />}
         </section>
     }

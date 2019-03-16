@@ -14,7 +14,7 @@ class CanvasLetters extends Component {
         let offset = 0
         let pathCount = 0
         let interpolationPoint = {percentage: 0}
-        ctx.lineWidth = 6
+        ctx.lineWidth = 8
         ctx.lineCap = "round"
 
         // var paths = [samplePath(this.circlePath), samplePath(this.rectPath), samplePath(this.trianglePath), samplePath(this.gerardPath)]
@@ -122,7 +122,6 @@ class CanvasLetters extends Component {
                 <path id="letter-g" d="M 180 60 Q 160 10 100 10 Q 15 15 10 100 Q 15 185 100 190 Q 175 180 180 115 L 100 115" ref={(ref) => (this.letterG = ref)}/>
             </svg>
             <canvas id="canvas" width="200" height="200" ref={(ref) => (this.canvas = ref)}></canvas>
-            <p>WATCHING...</p>
         </section>
     }
 }
