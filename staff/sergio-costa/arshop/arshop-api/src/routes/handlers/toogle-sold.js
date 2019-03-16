@@ -5,7 +5,7 @@ module.exports = (req, res) => {
 
     try {
         logic.toogleSold(userId, id)
-            .then(() => res.json({status: "OK"}))
+            .then(result => res.json(result))
             .catch(({ message }) => {
                 res.status(401).json({
                     error: message

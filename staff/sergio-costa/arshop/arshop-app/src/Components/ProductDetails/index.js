@@ -3,10 +3,11 @@ import { Link, withRouter } from 'react-router-dom'
 import logic from '../../logic'
 import Feedback from '../Feedback'
 import './index.sass'
+import Product from '../Product';
 
 class ProductDetails extends Component {
 
-    state = { product: [], feedback: null, fav: false, userProduct: false }
+    state = { product: [], feedback: null, fav: false, userProduct: false, sold: null }
 
     componentDidMount() {
 
@@ -19,11 +20,11 @@ class ProductDetails extends Component {
 
     checkMyProducts = () => {
         try {
-            if(logic.isUserLoggedIn){
+            if (logic.isUserLoggedIn) {
                 return logic.retrieveUserProducts()
                     .then(userProducts => {
-                        const index = userProducts.findIndex(({id}) => id == this.props.productId)
-                        if(index >=0) this.setState({userProduct: true})
+                        const index = userProducts.findIndex(({ id }) => id == this.props.productId)
+                        if (index >= 0) this.setState({ userProduct: true })
                     })
             }
         } catch (error) {
@@ -36,12 +37,12 @@ class ProductDetails extends Component {
             if (logic.isUserLoggedIn) {
                 logic.retrieveFavs()
                     .then(prodcutsOnFav => {
-                        const index = prodcutsOnFav.findIndex(({id}) => id == this.props.productId)
-                        if(index >=0) this.setState({fav: true})
+                        const index = prodcutsOnFav.findIndex(({ id }) => id == this.props.productId)
+                        if (index >= 0) this.setState({ fav: true })
                     })
             }
         } catch (error) {
-            
+
         }
     }
 
@@ -76,6 +77,15 @@ class ProductDetails extends Component {
         }
     }
 
+    handleOnSell = id => {
+        try {
+            logic.toogleSold(id)
+                .then(() =>this.handleShowProduct(id))
+        } catch (error) {
+            
+        }
+    }
+
     render() {
 
         const { state: { product, feedback, fav } } = this
@@ -86,6 +96,7 @@ class ProductDetails extends Component {
                     <Link to="/">
                         <i className="fas fa-long-arrow-alt-left productDetails__icons--back"></i>
                     </Link>
+                    {product.sold && <i className="fas fa-check-square productDetails__icons--check"></i>}
                     {!this.state.userProduct && <i className={fav ? "fas fa-heart productDetails__icons--heart" : "far fa-heart productDetails__icons--heart"} onClick={() => this.onFav(product.id)}></i>}
                 </div>
                 <div className="productDetails__content">
@@ -93,12 +104,16 @@ class ProductDetails extends Component {
                         <img className="productDetails__img" src={product.imageUrl} />
                     </div>
                     <div className="productDetails__details">
-                        <p className="productDetails__price">{product.price}</p>
+                        <p className="productDetails__price">{product.price} €</p>
                         <p className="productDetails__tittle">{product.tittle}</p>
                         <p className="productDetails__description">{product.description}</p>
                     </div>
+                    <Link to="/ar/camera" className="productDetails__icons">
+                        <i className="fas fa-vr-cardboard productDetails__icons--ar"></i>
+                    </Link>
+                    {this.state.userProduct && <button className="productDetails__btn" onClick={() => this.handleOnSell(product.id)}>Sold</button>}
+                    {!this.state.userProduct && <button className="productDetails__btn">Chat</button>}
                 </div>
-                <button className="productDetails__btn">Chat</button>
             </div>
             <Feedback message={feedback} />
         </section>

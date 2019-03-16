@@ -20,6 +20,8 @@ class Login extends Component {
 
         try {
             logic.logInUser(email, password)
+                .then(() => logic.retrieveUser())
+                .then(user => this.props.onUser(user.name))
                 .then(() => {
                     this.setState({ feedback: '' })
                     this.props.history.push('/')

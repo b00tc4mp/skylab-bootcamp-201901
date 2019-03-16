@@ -388,6 +388,8 @@ const logic = {
                 _product.sold = !_product.sold
                 return _product.save()
             })
+            .then((_product) => _product.sold)
+
     },
 
     uploadProductImg(userId, productId, url) {

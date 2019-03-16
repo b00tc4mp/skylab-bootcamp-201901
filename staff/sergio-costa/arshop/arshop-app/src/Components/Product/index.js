@@ -13,7 +13,10 @@ class Product extends Component {
         if(logic.isUserLoggedIn){
             try {
                 return logic.toogleFav(id)
-                    .then(fav => this.setState({ fav }))
+                    .then(fav => {
+                        this.setState({ fav })
+                        if(this.props.onFavClick)this.props.onFavClick()
+                    })
             } catch (error) {
     
             }
@@ -56,7 +59,7 @@ class Product extends Component {
 
     render() {
 
-        const { props: { id, tittle, description, price, imageUrl }, handleProductSelect, onFav, state: { fav } } = this
+        const { props: { id, tittle, description, price, sold, imageUrl }, handleProductSelect, onFav, state: { fav } } = this
 
         return <section className="products">
             <div className="product" key={id} onClick={() => handleProductSelect(id)}>
@@ -68,6 +71,7 @@ class Product extends Component {
                     <p className="product__tittle">{tittle}</p>
                     <p className="product__description">{description}</p>
                 </div>
+                {sold && <i className="fas fa-check-square productDetails__icons--check"></i>}
                 {!this.state.userProduct && <div className="product__btncontainer" onClick={event => [onFav(id), event.stopPropagation()]}>
                     <button className="product__btn">
                         <i className={fav ? "fas fa-heart product__logo" : "far fa-heart product__logo"}></i>

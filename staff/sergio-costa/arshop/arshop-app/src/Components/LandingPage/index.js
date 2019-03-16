@@ -10,6 +10,7 @@ class LandingPage extends Component {
     state = { products: [], feedback: null, favIds: [] }
 
     componentDidMount() {
+
         try {
             logic.retrieveProducts()
                 .then(products => {

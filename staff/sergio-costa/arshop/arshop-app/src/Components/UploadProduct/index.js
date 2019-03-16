@@ -25,7 +25,7 @@ class UploadProduct extends Component {
                 .then(id => {
                     console.log(id)
                     console.log(image)
-                    return logic.uploadProductImg(id, {image})
+                    return logic.uploadProductImg(id, { image })
                 })
                 .then(() => this.props.history.push('/'))
                 .catch(({ message }) => this.setState({ feedback: message }))
@@ -38,15 +38,31 @@ class UploadProduct extends Component {
         this.props.history.push('/select/city')
     }
 
+    goToCategory = () => {
+        this.props.history.push('/select/category')
+    }
+
+    onClean = () => {
+        console.log('cleaned')
+        this.setState({ city: '' })
+        this.setState({category: ''})
+        this.props.history.push('/')
+    }
+
+    componentWillMount() {
+        this.setState({ city: this.props.city })
+        this.setState({ category: this.props.category })
+    }
+
     render() {
 
-        const { handleInput, handleFormSubmit, goToCity } = this
+        const { handleInput, handleFormSubmit, goToCity, goToCategory } = this
 
         return <section className="uploadProduct">
             <div className="uploadProduct__header">
-                <Link to="/">
+                <div onClick={() => this.onClean()}>
                     <i className="fas fa-times uploadProduct__logo"></i>
-                </Link>
+                </div>
                 <h3 className="uploadProduct__title">Your Product</h3>
             </div>
             <form className="form" onSubmit={handleFormSubmit}>
@@ -64,15 +80,15 @@ class UploadProduct extends Component {
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">City</label>
-                    <input className="form__input" type="text" name="city" onChange={handleInput} onClick={() => goToCity()} />
+                    <input className="form__input" type="text" name="city" value={this.state.city} onChange={handleInput} onClick={() => goToCity()} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Category</label>
-                    <input className="form__input" type="text" name="category" onChange={handleInput} />
+                    <input className="form__input" type="text" name="category" value={this.state.category} onChange={handleInput} onClick={() => goToCategory()} />
                 </div>
-                <div className="form__inputrow">                    
+                <div className="form__inputrow">
                     <div className="form__img">
-                        <input className="form__img--input" type="file" name="image" onChange={e => this.setState({image: e.target.files[0]})} />
+                        <input className="form__img--input" type="file" name="image" onChange={e => this.setState({ image: e.target.files[0] })} />
                     </div>
                 </div>
                 <div className="form__button">

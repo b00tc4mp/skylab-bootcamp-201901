@@ -1,30 +1,27 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import './index.sass'
 
-class CitySelector extends Component{
+class CitySelector extends Component {
 
-    state = { city: null }
+    handleCLick = e => {
 
-    handleInput = event => this.setState({ city: event.target.value })
+        const { props: { onClickCity } } = this
 
-    
-    // handleInput = event => {
-    //     this.setState({ [event.target.name]: event.target.value })
-    //     console.log(this.state.city)
-    // }
-    
-    render(){
-        return <section className="categories">
-            <ul className="categories__list">
-                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Madrid</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Barcelona</li>
-                <li className="categories__item" name="city" onClick={() => this.handleInput()}>Madrid</li>
-                <li className="categories__item" name="city" onClick={e => console.log(e.target.name)}>Barcelona</li>
+        onClickCity(e.target.value)
+    }
+
+    render() {
+        return <section className="city">
+            <ul className="city__list">
+                <li className="city__item"><button className="city__btn" name="city" value="Barcelona" onClick={e => this.handleCLick(e)}>Barcelona</button></li>
+                <li className="city__item"><button className="city__btn" name="city" value="Madrid" onClick={e => this.handleCLick(e)}>Madrid</button></li>
+                <li className="city__item"><button className="city__btn" name="city" value="Barcelona" onClick={e => this.handleCLick(e)}>Barcelona</button></li>
+                <li className="city__item"><button className="city__btn" name="city" value="Barcelona" onClick={e => this.handleCLick(e)}>Barcelona</button></li>
+                <li className="city__item"><button className="city__btn" name="city" value="Barcelona" onClick={e => this.handleCLick(e)}>Barcelona</button></li>
             </ul>
         </section>
     }
 }
 
-export default CitySelector
+export default withRouter(CitySelector)

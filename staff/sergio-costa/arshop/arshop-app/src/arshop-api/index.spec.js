@@ -943,7 +943,7 @@ describe('arshop api', () => {
                 .then(() => Product.findById(_id)
                     .then(_product => {
                         expect(_product).toBeDefined()
-                        expect(_product.sold).toBe(true)
+                        expect(_product).toBe(true)
                     })
                 )
         )
@@ -953,14 +953,14 @@ describe('arshop api', () => {
                 .then(() => Product.findById(_id)
                     .then(_product => {
                         expect(_product).toBeDefined()
-                        expect(_product.sold).toBe(true)
+                        expect(_product).toBe(true)
                     })
                 )
                 .then(() => arshopApi.toogleSold(token, _id))
                 .then(() => Product.findById(_id))
                 .then(_product => {
                     expect(_product).toBeDefined()
-                    expect(_product.sold).toBe(false)
+                    expect(_product).toBe(false)
                 })
         )
     })

@@ -1,7 +1,7 @@
 'use strict'
 
 const arshopApi = {
-    url: 'http://localhost:8000/api',
+    url: 'http://192.168.1.49:8000/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)

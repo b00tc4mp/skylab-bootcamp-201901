@@ -753,9 +753,9 @@ describe('logic', () => {
 
         it('should succed on correct credentials', () =>
             logic.toogleSold(userId, _id)
-                .then(_product => {
-                    expect(_product).toBeDefined()
-                    expect(_product.sold).toBe(true)
+                .then(bool => {
+                    expect(bool).toBeDefined()
+                    expect(bool).toBe(true)
                 })
         )
 
@@ -765,13 +765,13 @@ describe('logic', () => {
                     return logic.toogleSold(user.id, _id)
                         .then((_product) => {
                             expect(_product).toBeDefined()
-                            expect(_product.sold).toBe(true)
+                            expect(_product).toBe(true)
                         })
                         .then(() => {
                             return logic.toogleSold(userId, _id)
                                 .then(__product => {
                                     expect(__product).toBeDefined()
-                                    expect(__product.sold).toBe(false)
+                                    expect(__product).toBe(false)
                                 })
                         })
                 })

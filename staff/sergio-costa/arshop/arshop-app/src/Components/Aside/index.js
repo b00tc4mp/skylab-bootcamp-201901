@@ -5,6 +5,8 @@ import './index.sass'
 
 class Aside extends Component {
 
+    state = { username: null }
+
     _hideAside = () => {
         const overlay = document.querySelector('.sidebar-overlay')
         const aside = document.querySelector('.sidebar')
@@ -14,14 +16,33 @@ class Aside extends Component {
     }
 
     onLogout = () => {
+        logic.logOutUser()
         this.props.history.push('/upload/product') //Chapu pero funcional
-        return logic.logOutUser()
     }
 
     goToUploadProduct = () => {
         this.props.history.push('/upload/product')
     }
 
+    componentWillReceiveProps(props){
+        this.setState({username: props.username})
+    }
+
+    componentDidMount(){
+        this.retrieveUsername()
+    }
+
+    retrieveUsername = () => {
+        if (logic.isUserLoggedIn) {
+            try {
+                logic.retrieveUser()
+                    .then(user => this.setState({username: user.name}))
+                    .catch(({message}) => console.log(message))
+            } catch ({message}) {
+                console.log(message)
+            }
+        }
+    }
 
     render() {
         return <section>
@@ -31,14 +52,14 @@ class Aside extends Component {
                         {logic.isUserLoggedIn && <div className="sidebar__scrolling-content-scroll">
                             <div className="sidebar__user">
                                 <i className="fas fa-user"></i>
-                                <p className="sidebar__user--text">Username</p>
+                                <p className="sidebar__user--text">{this.state.username}</p>
                             </div>
                             <nav className="menu">
                                 <ul className="menu__list">
                                     <li className="menu__upload" onClick={() => this._hideAside()}>
                                         <button className="menu__btn" onClick={() => this.goToUploadProduct()}>
                                             <i className="fas fa-plus-circle"></i>
-                                            <p className="menu__btn--text">Uplaod Product</p>
+                                            <p className="menu__btn--text">Upload Product</p>
                                         </button>
                                     </li>
                                     <div className="menu__items">
@@ -59,7 +80,7 @@ class Aside extends Component {
                                         </li>
                                         <li className="menu__item" onClick={() => this.onLogout()}>
                                             <p title="logout" className="menu__link">
-                                            <i className="fas fa-sign-out-alt"></i>
+                                                <i className="fas fa-sign-out-alt"></i>
                                                 Logout
                                             </p>
                                         </li>
@@ -72,7 +93,7 @@ class Aside extends Component {
                                 <ul>
                                     <li className="menu__item" onClick={() => this._hideAside()}>
                                         <Link to="/login" title="login" className="menu__link">
-                                        Login
+                                            Login
                                         </Link>
                                     </li>
                                     <li className="menu__item" onClick={() => this._hideAside()}>

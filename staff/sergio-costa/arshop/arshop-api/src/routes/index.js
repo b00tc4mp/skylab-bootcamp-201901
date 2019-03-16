@@ -1,5 +1,5 @@
 const express = require('express')
-const cors = require('../cors')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const imageParser = require('../image-parser')
@@ -17,7 +17,7 @@ const jsonBodyParser = bodyParser.json()
 
 const router = express.Router()
 
-router.use(cors)
+router.use(cors())
 
 router.post('/user', jsonBodyParser, registerUser)
 
