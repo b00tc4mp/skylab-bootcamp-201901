@@ -5,8 +5,9 @@ import './index.sass'
 
 class Welcome extends Component {
 
+
     componentDidMount(){
-        this.forceUpdate()
+
     }
 
     goToRoute = (name) => {
@@ -19,7 +20,7 @@ class Welcome extends Component {
             <Fragment>
                 <nav className="navbar navbar-expand-lg navigation fixed">
                 <a href="#" className="btn btn-info btn-lg">
-                <img width = "35px" height="35px" src="https://www.misskatecuttables.com/uploads/shopping_cart/9363/large_books-on-shelf.png"></img>
+                <img className="logo_name"width = "35px" height="35px" src="https://www.misskatecuttables.com/uploads/shopping_cart/9363/large_books-on-shelf.png"></img>
                 <span className="glyphicon glyphicon-book"></span> Your Book Creator
                 </a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

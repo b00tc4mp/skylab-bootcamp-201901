@@ -1,19 +1,13 @@
 import BannerAnim from 'rc-banner-anim';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne from 'rc-tween-one';
-import React, {Component, Fragment} from 'react'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import './index.sass'
 const { Element } = BannerAnim;
 const BgElement = Element.BgElement;
-
-class Carrousel extends Component {
-  
-  componentDidMount(){
-    this.forceUpdate()
-  }
-
-  render(){
-  return (<Fragment>
+function Carrousel() {
+  return (
     <BannerAnim
       autoPlay
       autoPlaySpeed={3500}
@@ -98,9 +92,7 @@ class Carrousel extends Component {
         </TweenOne>
       </Element>
     </BannerAnim>
-    </Fragment>
   );
-  }
 }
 
 export default Carrousel;

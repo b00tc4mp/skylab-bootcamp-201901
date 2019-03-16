@@ -8,8 +8,8 @@ import logic from '../../logic'
 
 class CreateBook extends Component {
   
-    isnameTag = false
-    isplaceTag = false
+    isnameTag = true
+    isplaceTag = true
     medida1 = 33
     medida2 = 70
 
@@ -28,20 +28,10 @@ class CreateBook extends Component {
     handleTitleInput = (event) => this.setState({ title: event.target.value })
     handleNameInput = (event) => this.setState({ name: event.target.value })
     handlePlaceInput = (event) => this.setState({ place: event.target.value })
-    handleTextChange = (event) => {
-        this.isnameTag = event.target.value.includes('<name>')
-        this.isplaceTag = event.target.value.includes('<place>')
-        this.setState({textContent: event.target.value})}
 
     nextStep = (event) => {
-        event.preventDefault()
+        event.preventDefault();
         this.setState({step1: false})
-    }
-
-    backStep = (event) => {
-        event.preventDefault()
-        this.setState({step1: true})
-        this.forceUpdate()
     }
 
     handleFileChange = e => {
@@ -55,19 +45,19 @@ class CreateBook extends Component {
         }
     }
 
-    // handleFileTextChange = e => {
-    //     let files = e.target.files
-    //     let reader = new FileReader()
-    //     if (files.length) {
-    //         reader.readAsText(files[0], "CP1251")
-    //         reader.onload = (evt) => {
-    //             this.isnameTag = evt.target.result.includes('<name>')
-    //             this.isplaceTag = evt.target.result.includes('<place>')
-    //             this.setState({textContent: evt.target.result }, () => {})
+    handleFileTextChange = e => {
+        let files = e.target.files
+        let reader = new FileReader()
+        if (files.length) {
+            reader.readAsText(files[0], "CP1251")
+            reader.onload = (evt) => {
+                this.isnameTag = evt.target.result.includes('<name>')
+                this.isplaceTag = evt.target.result.includes('<place>')
+                this.setState({textContent: evt.target.result }, () => {})
 
-    //         }
-    //     }
-    // }
+            }
+        }
+    }
 
     addBook = (e) => {
         e.preventDefault()
@@ -75,10 +65,7 @@ class CreateBook extends Component {
         let parameters = {}
         if(this.isnameTag) parameters.name = name
         if(this.isplaceTag ) parameters.place = place
-        if(this.state.textContent.length == 0){
-            this.notifyEmpty()
-            return
-        }
+        
         try{
             cloudinary.addImage(this.state.imageCover)
             .then(url => {
@@ -91,11 +78,7 @@ class CreateBook extends Component {
         }
     }
 
-    notifyEmpty = () =>{
-        toast.warn("The content of the book is empty", {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
-    }
+
     
     notify = (error) => {
         error ? 
@@ -103,9 +86,9 @@ class CreateBook extends Component {
             position: toast.POSITION.BOTTOM_LEFT,
           })
           :
-        toast.info("Book Created! Go to YourBooks Area", {
+        toast.info("Book Created!", {
             position: toast.POSITION.BOTTOM_LEFT,
-            autoClose: 2500
+            autoClose: 1500
           });
     }
 
@@ -123,15 +106,15 @@ class CreateBook extends Component {
                             <ProgressBar level={this.medida1}></ProgressBar><br/>
                             <div className="inputTitleContainer">
                                 <label className="inputTitleContainer__label" htmlFor="uname"><b>Your books title</b></label>
-                                <input className="inputTitleContainer__title" type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required/> <br/>
+                                <input className="inputTitleContainer__title" type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required /> <br/>
                             </div>
                             <div className="inputContainer">
-                                <label htmlFor="uname" className="inputContainer__label"><i class="fa fa-cloud-upload">Enter a coverphoto</i></label>
+                                <label htmlFor="uname" className="col-5"><i class="fa fa-cloud-upload">Enter a coverphoto</i></label>
                                 <input onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp " name="imageCover" className="inputfile" type="file" required/>
                             </div>
-                            <div className="inputContainertext">
-                                <textarea className="inputContainertext__textarea" onChange={this.handleTextChange} placeholder="Enter your tagged text here" maxlength="800000" required>
-                                    </textarea>
+                            <div className="inputContainer">
+                                <label htmlFor="uname" className="col-5"><i class="fa fa-cloud-upload">Enter a file txt</i></label>
+                                <input onChange={this.handleFileTextChange} accept=".txt" id="inputtext" name="textContent" className="inputfile" type="file" required/>
                             </div>    
                             <div className="formButtonContainer">   
                                 <button className="btn btn-info" type="submit">To Next Step!</button>   
@@ -139,32 +122,29 @@ class CreateBook extends Component {
                         </form>
                     </div> 
                     <div className="instructionsContainer">
-                        <p className="typewriter">Tag with &lt;Chapter&gt; so you can split the book into chapters </p>
+                        <p className="typewriter">Tag with &lt;chapter&gt; so you can split the book into chapters </p>
                         <p className="typewriter">Tag with &lt;name&gt; so you can personalize the main protagonist </p>
                         <p className="typewriter">Tag with &lt;place&gt; so you can personalize the main place </p>
                     </div>
                 </Fragment>
                 :
                 <div className="formCreateBook">
-                    <form onSubmit={this.addBook}>
-                        <div className="formCreateBook_step"><h2>STEP 2 / 2</h2>
-                        </div>
+                    <form onSubmit={this.addBook}>STEP 2
                         <ProgressBar level={this.medida2}></ProgressBar><br/>
                         <label htmlFor="uname"><b>Your main character is: </b></label>
                         <div>
                             {this.isnameTag  ? 
-                                <div className="inputParams"><input type="text" placeholder="Your main character is ..." onChange={this.handleNameInput} required /> <br/></div> 
+                                <div><input type="text" placeholder="Your main character is ..." onChange={this.handleNameInput} required /> <br/></div> 
                                 : 
-                                <div className="inputParams"><input type="text" placeholder="You have not inserted a tag for name" disabled/> <br/></div> 
+                                <div><input type="text" placeholder="You have not inserted a tag for name" disabled/> <br/></div> 
                             }
                             <label htmlFor="uname"><b>Your main place is: </b></label>
                             {this.isplaceTag  ? 
-                                <div className="inputParams"><input type="text" placeholder="Your place is ..." onChange={this.handlePlaceInput} required /> <br/></div> 
+                                <div><input type="text" placeholder="Your place is ..." onChange={this.handlePlaceInput} required /> <br/></div> 
                                 : 
-                                <div className="inputParams"><input type="text" placeholder="You have not inserted a tag for place" disabled/> <br/></div> 
+                                <div><input type="text" placeholder="You have not inserted a tag for place" disabled/> <br/></div> 
                             }
-                            <div className="formButtonContainer">
-                                <button className="btn btn-secondary" onClick={this.backStep}>Back</button>   
+                            <div className="formButtonContainer">   
                                 <button className="btn btn-info" type="submit" >Go!</button>    
                             </div>
                         </div>

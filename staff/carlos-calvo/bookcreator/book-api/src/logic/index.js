@@ -362,6 +362,7 @@ const logic = {
             if(result2) throw new Error('Already existing template in your books')
             
             const result3 = await BookTemplate.findOneAndUpdate({'_id': ObjectID(id)},{$set:{numDownloads}})
+            
             const book = await Book.create({'title': result.title, 'content': result.content, 
                 'coverphoto': result.coverphoto, 'parameters': result.parameters, 'images': result.images,
                 'userId': ObjectID(userId), isTemplate: true })

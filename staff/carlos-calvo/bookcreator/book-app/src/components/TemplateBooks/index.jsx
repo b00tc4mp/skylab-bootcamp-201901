@@ -21,6 +21,10 @@ class TemplateBooks extends Component {
         this.props.loadTemplateBook(id)
     }
 
+    update = () =>{
+        this.forceUpdate()
+    }
+
     retrieveTemplateBooks = () =>{
         try {
             logic.retrieveTemplateBooks()
@@ -49,7 +53,6 @@ class TemplateBooks extends Component {
     render = () => {
 
         const {state : { books } } = this
-        console.log(books)
         let booksfiltered = books.filter(book => {
                                 if(this.state.search = '') return true
                                 else {
@@ -69,7 +72,7 @@ class TemplateBooks extends Component {
                     <div className="cardContainer">
                         
                             {booksfiltered.length && booksfiltered.map(book =>{
-                                return (<CardTemplate bookSelected={book} loadTemplateBook={this.loadTemplateBook} />)
+                                return (<CardTemplate bookSelected={book} loadTemplateBook={this.loadTemplateBook} update={this.update} />)
                             })}
                             {!booksfiltered.length?
                                 <div>Ooops no books matching criteria</div>

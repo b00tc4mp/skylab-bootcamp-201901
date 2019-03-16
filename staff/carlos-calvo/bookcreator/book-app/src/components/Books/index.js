@@ -242,15 +242,36 @@ class Books extends Component {
         }
     }
 
+    goToPage = (event) =>{
+        if(event.target.value == ""){
+            this.setState({currentPage: 0}, ()=>{})
+            this.flipPage.gotoPage(0)
+            return
+        }
+        let toNumber = parseInt(event.target.value, 10)
+        if(toNumber > this.state.pages.length){
+            toNumber = this.state.pages.length
+            this.flipPage.gotoPage(toNumber)
+            return
+        }
+        if(toNumber%2 == 0) toNumber = toNumber/2
+        else toNumber = ((toNumber-1)/2)
+        this.setState({currentPage: toNumber}, ()=>{})
+        this.flipPage.gotoPage(toNumber)
+    }
+
     render = () => {
 
-        console.log(this.state.currentPage)
-        console.log(this.state.pages.length)
         return (
             <Fragment>
             <div className = "coverright">
                 <div className="book-container">
+                <div className="book-container__firstLine">
                     <h2> {this.state.title} - Preview</h2>
+                    <form>
+                        <input type="number" value={this.state.currentPage} onChange={this.goToPage} max={this.state.pages.length}></input>
+                    </form>
+                </div>
                             <FlipPage
                                 ref={(component) => { this.flipPage = component }}
                                 height ={0.77*this.state.height}
@@ -283,6 +304,7 @@ class Books extends Component {
                                 :
                                 <button className="buttonArrow advancePage" disabled><i class="fas fa-arrow-right"></i></button>
                                 }
+                                
                             </div>
                             :
                             <div></div>

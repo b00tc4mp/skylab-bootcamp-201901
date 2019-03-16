@@ -10,7 +10,10 @@ class CardTemplate extends Component {
         event.preventDefault()
         try {
             logic.addTemplateToUserBooks(this.props.bookSelected._id)
-            .then(() => this.notify())
+            .then(() => {
+                this.notify()
+                this.props.update()
+            })
         } catch (error) {
             
         }
@@ -34,12 +37,17 @@ class CardTemplate extends Component {
         this.props.loadTemplateBook(this.props.bookSelected._id)
     }
 
+    componentDidMount(){
+        var elem = document.getElementsByClassName('bookCard__photocontainer')[0]
+        this.forceUpdate()
+    }
+
     render() {
         const book = this.props.bookSelected
         return (
             <Fragment>
                 <div className="bookCard" >
-                    <div className="bookCard__photocontainer">
+                    <div className="bookCard__photocontainer" >
                         <img className="imagen" src={book.coverphoto}/>
                     </div>
                     <div className="cardBody">
