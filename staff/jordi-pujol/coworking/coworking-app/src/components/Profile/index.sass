@@ -6,6 +6,10 @@
         width: 0
         margin: 0 auto
 
+    h3
+        width: 20%
+        margin: 0 auto
+
     &__content
         margin: 0
         display: flex
@@ -18,14 +22,18 @@
         flex-direction: column
         justify-content: space-between
 
+        .edit
+            background-image: linear-gradient(#00b5ba, #304f99)
+
         div
             display: flex
-            flex-direction: column
+            // flex-direction: column
             align-items: center
             padding-top: 1em
 
             label
                 font-size: 18px
+                width: 30%
 
             input
                 align-items: center
@@ -48,13 +56,14 @@
     button
         margin-top: 20px
         border-radius: 30px
-        width: 8em
+        width: 10em
         height: 2em
         border: none
         color: #fff
         font-size: 15px
         cursor: pointer
         background-image: linear-gradient(#0F0340, #360BE5)
+        align-self: center
 
 img
     height: 200px

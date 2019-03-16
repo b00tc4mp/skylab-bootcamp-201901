@@ -36,10 +36,12 @@ class Comment extends Component {
 
         const { props: { comment }, state: { myComment }, handleDeleteComment } = this
 
-        return <section>
-            <p>{comment.text}</p>
-            <p>{comment.date.substring(0, 10) + ' ' + comment.date.substring(11, 16)}</p>
-            <p>{comment.user}</p>
+        return <section className="comment">
+            <p>- {comment.text}</p>
+            <article>
+                <p>{comment.user}</p>
+                <p>{comment.date.substring(0, 10) + ' ' + comment.date.substring(11, 16)}</p>
+            </article>
             {myComment && <form onSubmit={handleDeleteComment}>
                 <button>delete comment</button>
             </form>}

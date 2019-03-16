@@ -31,8 +31,9 @@ class NewService extends Component {
 
         const { props:{feedback}, handleDescriptionInput, handleFormSubmit, handleTitleInput, handleMaxUsersInput, handlePlaceInput, handleTimeInput } = this
 
-        return <section>
-            <form onSubmit={handleFormSubmit}>
+        return <section className="createService">
+            <h2>Create your service</h2>
+            <form className="createService__form" onSubmit={handleFormSubmit}>
                 <span>Title</span>
                 <input required onChange={handleTitleInput}></input>
                 <span>Description</span>

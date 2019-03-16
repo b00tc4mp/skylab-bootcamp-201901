@@ -387,7 +387,7 @@ const logic = {
 
     retrieveUserSubmitedEvents(userId){
         validate([{ key: 'userId', value: userId, type: String }])
-        debugger
+        
         let _services = []
 
         return User.findById(userId)
@@ -489,8 +489,6 @@ const logic = {
                     if (user == userId) throw Error('user is already submited to this service')
                 })
                 if (service.user.toString() === userId) throw Error('user cannot apply to his own service')
-
-                debugger
 
                 if (service.submitedUsers.length + 1 >= service.maxUsers) {
                     service.active = false

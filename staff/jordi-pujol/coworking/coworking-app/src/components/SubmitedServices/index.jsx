@@ -37,7 +37,7 @@ class SubmitedServices extends Component {
         const { state: { myServices }, handleServiceClick } = this
 
         return <section className="submited">
-            <h2>Submited Services</h2>
+            <h2 className="title">Submited Services</h2>
             {myServices && myServices.map(service =>
                 <Service myservice={null} key={service.id} servicesFor={service} onServiceSelected={handleServiceClick} />)}
         </section>
