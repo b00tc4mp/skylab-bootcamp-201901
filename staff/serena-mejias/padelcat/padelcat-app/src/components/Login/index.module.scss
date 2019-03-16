@@ -1,5 +1,8 @@
 @import "../../styles/_index.scss";
 
+div.container {
+  margin-top: $size-l;
+}
 div.inputContainer {
   display: block;
 }

@@ -14,6 +14,13 @@ const Login = props => {
     onLogin(email, password);
   };
 
+  const isInvalidForm = () => {
+    return (
+      !email ||
+      !password
+    );
+  };
+
   return (
     <Grid item className={styles.container}>
       <h2>Login</h2>
@@ -28,6 +35,7 @@ const Login = props => {
         <TextField
           className={styles.inputContainer}
           label="Password"
+          type={"password"}
           margin="normal"
           onChange={e => setPassword(e.target.value)}
         />
@@ -37,6 +45,7 @@ const Login = props => {
           variant="contained"
           color="primary"
           onClick={handleSubmit}
+          disabled={isInvalidForm()}
         >
           Login
         </Button>

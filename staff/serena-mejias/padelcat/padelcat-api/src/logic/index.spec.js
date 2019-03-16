@@ -676,35 +676,35 @@ describe("logic", () => {
 
   describe("retrieve players", () => {
     it("should succeed on correct credentials", () => {
-      const name = "Manuel";
-      const surname = "Barzi";
-      let email;
-      const password = "123";
-      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
-      const preferedPosition = "left";
-      let playerId;
-      beforeEach(() => {
-        email = `manuelbarzi-${Math.random()}@mail.com`;
-        return bcrypt.hash(password, 10).then(hash =>
-          Player.create({
-            name,
-            surname,
-            email,
-            password: hash,
-            link,
-            preferedPosition
-          }).then(({ id }) => (playerId = id))
-        );
-      });
-      logic.retrievePlayers().then(players => {
+      return (async () => {
+        const name = "Manuel";
+        const surname = "Barzi";
+        const email = `manuelbarzi-${Math.random()}@mail.com`;
+        const password = `123-${Math.random()}`;
+        const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+        const preferedPosition = "left";
+        const admin = false;
+        const hash = await bcrypt.hash(password, 10);
+        const { id } = await Player.create({
+          name,
+          surname,
+          email,
+          password: hash,
+          link,
+          preferedPosition,
+          admin
+        });
+
+        const players = await logic.retrievePlayers();
         expect(players[0].name).toBe(name);
         expect(players[0].surname).toBe(surname);
         expect(players[0].email).toBe(email);
-        expect(players[0].password).toBe(password);
         expect(players[0].link).toBe(link);
         expect(players[0].preferedPosition).toBe(preferedPosition);
-      });
+        expect(players[0].admin).toBe(admin);
+      })();
     });
+
     it("should fail with no players", async () => {
       try {
         await logic.retrievePlayers();
@@ -716,342 +716,418 @@ describe("logic", () => {
 
   describe("getPlayerById", () => {
     it("should succeed on correct credentials", () => {
-      const name = "Manuel";
-      const surname = "Barzi";
-      let email;
-      const password = "123";
-      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
-      const preferedPosition = "left";
-      let playerId;
-      beforeEach(() => {
-        email = `manuelbarzi-${Math.random()}@mail.com`;
-        return bcrypt.hash(password, 10).then(hash =>
-          Player.create({
-            name,
-            surname,
-            email,
-            password: hash,
-            link,
-            preferedPosition
-          }).then(({ id }) => (playerId = id))
-        );
-      });
-      logic
-        .getPlayerById(playerId)
-        .then(playerId => expect(playerId).toBeDefined());
-    });
-    
-    it("should fail if player don't exist", async () => {
-      const playerId = "123"
-      try {
-        await logic.getPlayerById();
-      } catch (error) {
-        expect(error.message).toBe(`playerId doesn't exist`);
-      }
-    });
-    // it("should fail on numeric playerId", () => {
-    //   const playerId = 10;
-
-    //   expect(() => {
-    //     logic.getPlayerById(playerId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
-
-    // it("should fail on boolean playerId", () => {
-    //   const playerId = false;
-
-    //   expect(() => {
-    //     logic.getPlayerById(playerId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
-
-    // it("should fail on object playerId", () => {
-    //   const playerId = {};
-
-    //   expect(() => {
-    //     logic.getPlayerById(playerId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
-
-    // it("should fail on array playerId", () => {
-    //   const playerId = [];
-
-    //   expect(() => {
-    //     logic.getPlayerById(playerId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
-
-    // it("should fail on empty playerId", () => {
-    //   const playerId = "";
-
-    //   expect(() => {
-    //     logic.getPlayerById(playerId);
-    //   }).toThrow(Error("playerId cannot be empty"));
-    // });
-
-  });
-
-  false &&
-    describe("retrieveScoreData", () => {
-      it("should succeed with correct data", () => {
-        debugger;
+      return (async () => {
+        const name = "Manuel";
+        const surname = "Barzi";
+        const email = `manuelbarzi-${Math.random()}@mail.com`;
+        const password = `123-${Math.random()}`;
         const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
-        expect(logic.retrieveScoreData(link)).toBeTruthy();
-      });
-
-      it("should succeed with correct link", () => {
-        const data = {
-          link: "https://www.setteo.com/usuario/serena-mejias-vazquez",
-          imageUrl:
-            "https://www.setteo.com/media/resize/30/30/1/media/defaults/d/e/fa/mujer.png",
-          score: "60"
-        };
-        const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
-        expect(logic.retrieveScoreData(link)).toEqual(data.score);
-      });
-
-      it("should fail on undefined link", () => {
-        const link = undefined;
-
-        expect(() => {
-          logic.retrieveScoreData(link);
-        }).toThrow(Error(link + " is not string"));
-      });
-
-      it("should fail on number link", () => {
-        const link = 10;
-
-        expect(() => {
-          logic.retrieveScoreData(link);
-        }).toThrow(Error(link + " is not string"));
-      });
-
-      it("should fail on array link", () => {
-        const link = [];
-
-        expect(() => {
-          logic.retrieveScoreData(link);
-        }).toThrow(Error(link + " is not string"));
-      });
-
-      it("should fail on object link", () => {
-        const link = {};
-
-        expect(() => {
-          logic.retrieveScoreData(link);
-        }).toThrow(Error(link + " is not string"));
-      });
-
-      it("should fail on boolean link", () => {
-        const link = false;
-
-        expect(() => {
-          logic.retrieveScoreData(link);
-        }).toThrow(Error(link + " is not string"));
-      });
-
-      it("should fail on empty link", () => {
-        const link = "";
-
-        expect(() => {
-          logic.retrieveScoreData(link);
-        }).toThrow(Error("link cannot be empty"));
-      });
-    });
-
-  false &&
-    describe("addScoreToPlayer", () => {
-      const name = "Manuel";
-      const surname = "Barzi";
-      const email = `manuelbarzi-${Math.random()}@mail.com`;
-      const password = `123-${Math.random()}`;
-      const link = "https:www.setteo.com/usuario/serena-mejias-vazquez";
-      const preferedPosition = "left";
-      let score;
-      let playerId;
-      let player;
-
-      beforeEach(async () => {
+        const preferedPosition = "left";
+        const admin = false;
         const hash = await bcrypt.hash(password, 10);
-
-        player = await Player.create({
+        const { id } = await Player.create({
           name,
           surname,
           email,
           password: hash,
           link,
           preferedPosition,
-          score
+          admin
         });
 
-        playerId = player.id;
-      });
-
-      it("should succeed adding score to player object", async () => {
-        const score = "60";
-
-        const res = await logic.addScoreToPlayer(playerId, score);
-
-        const player = await res.findById(playerId);
-
-        expect(player.score).toEqual(score);
-      });
-
-      it("should fail on undefined playerId", () => {
-        const playerId = undefined;
-        const score = `123`;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(playerId + " is not string"));
-      });
-
-      it("should fail on numeric playerId", () => {
-        const playerId = 10;
-        const score = `123`;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(playerId + " is not string"));
-      });
-
-      it("should fail on boolean playerId", () => {
-        const playerId = false;
-        const score = `123`;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(playerId + " is not string"));
-      });
-
-      it("should fail on object playerId", () => {
-        const playerId = {};
-        const score = `123`;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(playerId + " is not string"));
-      });
-
-      it("should fail on array playerId", () => {
-        const playerId = [];
-        const score = `123`;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(playerId + " is not string"));
-      });
-
-      it("should fail on empty playerId", () => {
-        const playerId = "";
-        const score = `123`;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(Error("playerId cannot be empty"));
-      });
-
-      it("should fail on undefined score", () => {
-        const playerId = player.id;
-        const score = undefined;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(score + " is not string"));
-      });
-
-      it("should fail on numeric score", () => {
-        const playerId = player.id;
-        const score = 10;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(score + " is not string"));
-      });
-
-      it("should fail on boolean score", () => {
-        const playerId = player.id;
-        const score = false;
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(score + " is not string"));
-      });
-
-      it("should fail on object score", () => {
-        const playerId = player.id;
-        const score = {};
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(score + " is not string"));
-      });
-
-      it("should fail on array score", () => {
-        const playerId = player.id;
-        const score = [];
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(TypeError(score + " is not string"));
-      });
-
-      it("should fail on empty score", () => {
-        const playerId = player.id;
-        const score = "";
-
-        expect(() => {
-          logic.addScoreToPlayer(playerId, score);
-        }).toThrow(Error("score cannot be empty"));
-      });
+        const player = await logic.getPlayerById(id);
+        expect(player.id).toBeDefined();
+      })();
     });
 
-  false &&
-    describe("retrieveMatch", () => {
-      it("should succeed recovering match data", async () => {
-        const res = await logic.retrieveMatchesScrapping();
-        expect(res[0].matchId).toBeTruthy();
-        expect(res[0].date).toBeTruthy();
-        expect(res[0].team1).toBeTruthy();
-        expect(res[0].imageTeam1).toBeTruthy();
-        expect(res[0].team2).toBeTruthy();
-        expect(res[0].imageTeam2).toBeTruthy();
-        expect(res[0].result).toBeTruthy();
-        expect(res[0].location).toBeTruthy();
-      });
+    it("should fail if player don't exist", async () => {
+      const playerId = "123";
+      try {
+        await logic.getPlayerById(playerId);
+      } catch (error) {
+        expect(error.message).toBe(
+          `Cast to ObjectId failed for value "123" at path "_id" for model "Player"`
+        );
+      }
+    });
+    it("should fail on numeric playerId", () => {
+      const playerId = 10;
+
+      expect(() => {
+        logic.getPlayerById(playerId);
+      }).toThrow(TypeError(playerId + " is not string"));
     });
 
-  false &&
-    describe("setIdMatches", () => {
-      it("should succeed adding match id", async () => {
-        const res = await logic.setIdMatches();
-        expect(res).toBeTruthy();
-      });
+    it("should fail on boolean playerId", () => {
+      const playerId = false;
+
+      expect(() => {
+        logic.getPlayerById(playerId);
+      }).toThrow(TypeError(playerId + " is not string"));
     });
 
-  false &&
-    describe("retrieveAvailabilityPlayers", () => {
-      const match = {
-        matchId: "5c51f550b2ef2",
-        date: "09 February, 2019\t\t06:00 pm",
-        team1: "JUNIOR NEGRE",
-        imageTeam1:
-          "https://www.setteo.com/media/resize/50/50/1/media/defaults/d/e/fa/equipo.png",
-        team2: "INDOOR RUBI",
-        imageTeam2:
-          "https://www.setteo.com/media/resize/50/50/1/media/usuarios/8/8/55/88551b0d526b0c24624422fe0cad5b9da64ba829.jpg",
-        result: "1 - 2",
-        location: "Club Junior 1917,  Sant Cugat del Vallès,  Espanya"
+    it("should fail on object playerId", () => {
+      const playerId = {};
+
+      expect(() => {
+        logic.getPlayerById(playerId);
+      }).toThrow(TypeError(playerId + " is not string"));
+    });
+
+    it("should fail on array playerId", () => {
+      const playerId = [];
+
+      expect(() => {
+        logic.getPlayerById(playerId);
+      }).toThrow(TypeError(playerId + " is not string"));
+    });
+
+    it("should fail on empty playerId", () => {
+      const playerId = "";
+
+      expect(() => {
+        logic.getPlayerById(playerId);
+      }).toThrow(Error("playerId cannot be empty"));
+    });
+  });
+
+  describe("retrieve score from scrapping", () => {
+    it("should succeed with correct data", async () => {
+      beforeEach(() => {
+        const urlScores =
+          "https://www.setteo.com/torneos/lliga-padel-guinotprunera-18-19-a-fase-2w07/equipo/200081/";
+
+        return (async url => {
+          try {
+            const response = await axios.get(url);
+            const $ = cheerio.load(response.data);
+            // New Lists
+            const playerScore = $(".list-equipos li").map((i, el) => {
+              const link = $(el)
+                .find("a")
+                .attr("href");
+
+              const imageUrl = $(el)
+                .find("img")
+                .attr("src");
+
+              const score = $(el)
+                .find("span")
+                .text();
+
+              const metadata = {
+                link: link,
+                imageUrl: imageUrl,
+                score: score
+              };
+              return metadata;
+            });
+            return playerScore.get();
+          } catch (error) {
+            throw error;
+          }
+        })(urlScores);
+      });
+
+      const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+      const playersScore = await logic.retrieveScoreScrapping();
+      expect(link).toBe(playersScore[13].link);
+      expect(playersScore[13].imageUrl).toBeDefined();
+      expect(playersScore[13].score).toBeDefined();
+    });
+
+    it("shouldn't be data with fail scrapping", async () => {
+      try {
+        await logic.retrieveScoreScrapping();
+      } catch (error) {
+        expect(error.message).toBe(
+          `Cast to ObjectId failed for value "123" at path "_id" for model "Player"`
+        );
+      }
+    });
+  });
+
+  describe("set score to player", () => {
+    it("should succeed with correct data", () => {
+      return async () => {
+        const name = "Manuel";
+        const surname = "Barzi";
+        const email = `manuelbarzi-${Math.random()}@mail.com`;
+        const password = `123-${Math.random()}`;
+        const link = "https://www.setteo.com/usuario/serena-mejias-vazquez";
+        const preferedPosition = "left";
+        const admin = false;
+        const hash = await bcrypt.hash(password, 10);
+        const { id } = await Player.create({
+          name,
+          surname,
+          email,
+          password: hash,
+          link,
+          preferedPosition,
+          admin
+        });
+
+        await logic.setScorePlayers(link);
+        expect(score).toBeDefined();
       };
-
-      const id = "5c51f550b2ef2";
-
-      it("should succeed getting players availability", async () => {
-        debugger;
-        const res = await logic.retrieveAvailabilityPlayers(id);
-        expect(res).toBeTruthy();
-      });
     });
+
+    it("should fail with incorrect link", async () => {
+      const link = "test";
+      try {
+        await logic.setScorePlayers(link);
+      } catch (error) {
+        expect(error.message).toBe(`Incorrect link`);
+      }
+    });
+
+    it("should fail on undefined link", () => {
+      const link = undefined;
+
+      expect(() => {
+        logic.setScorePlayers(link);
+      }).toThrow(TypeError(link + " is not string"));
+    });
+
+    it("should fail on numeric link", () => {
+      const link = 10;
+
+      expect(() => {
+        logic.setScorePlayers(link);
+      }).toThrow(TypeError(link + " is not string"));
+    });
+
+    it("should fail on boolean link", () => {
+      const link = false;
+
+      expect(() => {
+        logic.setScorePlayers(link);
+      }).toThrow(TypeError(link + " is not string"));
+    });
+
+    it("should fail on object link", () => {
+      const link = {};
+
+      expect(() => {
+        logic.setScorePlayers(link);
+      }).toThrow(TypeError(link + " is not string"));
+    });
+
+    it("should fail on array link", () => {
+      const link = [];
+
+      expect(() => {
+        logic.setScorePlayers(link);
+      }).toThrow(TypeError(link + " is not string"));
+    });
+
+    it("should fail on empty link", () => {
+      const link = "";
+
+      expect(() => {
+        logic.setScorePlayers(link);
+      }).toThrow(Error("link cannot be empty"));
+    });
+  });
+
+  describe("retrieve match", () => {
+    it("should succeed with correct data", async () => {
+      beforeEach(() => {
+        const urlMatches =
+          "https://www.setteo.com/torneos/lliga-padel-guinotprunera-18-19-a-fase-2w07/calendario/?categorias%5B%5D=162079&equipo=200081";
+
+        return (async url => {
+          try {
+            const response = await axios.get(url);
+            const $ = cheerio.load(response.data);
+            // New Lists
+            const metadatas = $(".partido").map((i, el) => {
+              const matchId = $(el)
+                .find("a")
+                .attr("href")
+                .substring(31, 44);
+
+              const date = $(el)
+                .find(".datos small")
+                .text()
+                .trim();
+
+              const team1 = $(el)
+                .find(
+                  ".equipos .equipo.individual .jugador.jugador1-izquierda a"
+                )
+                .text();
+
+              const imageTeam1 = $(el)
+                .find(
+                  ".equipos .equipo.individual .jugador.jugador1-izquierda img"
+                )
+                .attr("data-src");
+
+              const team2 = $(el)
+                .find(".equipos .equipo.individual .jugador.jugador1-derecha a")
+                .text();
+
+              const imageTeam2 = $(el)
+                .find(
+                  ".equipos .equipo.individual .jugador.jugador1-derecha img"
+                )
+                .attr("data-src");
+
+              const result = $(el)
+                .find(".datos .resultado_eliminatoria span")
+                .text()
+                .trim();
+
+              const location = $(el)
+                .find(".datos p")
+                .text();
+
+              const metadata = {
+                matchId: matchId,
+                date: date,
+                team1: team1,
+                imageTeam1: imageTeam1,
+                team2: team2,
+                imageTeam2: imageTeam2,
+                result: result,
+                location: location
+              };
+
+              return metadata;
+            });
+
+            return metadatas.get();
+          } catch (error) {
+            throw error;
+          }
+        })(urlMatches);
+      });
+      const matches = await logic.retrieveMatchesScrapping();
+      expect(matches[0].matchId).toBeDefined();
+      expect(matches[0].date).toBeDefined();
+      expect(matches[0].team1).toBeDefined();
+      expect(matches[0].imageTeam1).toBeDefined();
+      expect(matches[0].team2).toBeDefined();
+      expect(matches[0].imageTeam2).toBeDefined();
+      expect(matches[0].result).toBeDefined();
+      expect(matches[0].location).toBeDefined();
+    });
+
+    // it("shouldn't be data with fail scrapping", async () => {
+    //   debugger
+    //   try {
+    //     await logic.retrieveMatchesScrapping();
+    //   } catch (error) {
+    //     expect(error.message).toBe(
+    //       `Cast to ObjectId failed for value "123" at path "_id" for model "Player"`
+    //     );
+    //   }
+    // });
+  });
+
+  describe("add availability to player", () => {
+    // it("should succeed getting players availability", async () => {
+    //   debugger;
+    //   const matchId = "5c51f550b2ef2";
+    //   const match = await Match.create({
+    //     matchId
+    //   });
+    //   const {id} = await Player.create({
+    //     name: "Manuel",
+    //     surname: "Barzi",
+    //     email: `manuelbarzi-${Math.random()}@mail.com`,
+    //     password: `123`,
+    //     passwordConfirm: `123`,
+    //     link: "https://www.setteo.com/usuario/serena-mejias-vazquez",
+    //     preferedPosition: "left"
+    //   });
+    //   await logic.addAvailabilityPlayer(id, matchId);
+    //   expect(match.playersAvailable.length).toBe(1);
+    // });
+    // it("should fail on numeric playerId", () => {
+    //   const playerId = 10;
+    //   const matchId = "5c51f550b2ef2";
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(TypeError(playerId + " is not string"));
+    // });
+
+    // it("should fail on boolean playerId", () => {
+    //   const playerId = false;
+    //   const matchId = "5c51f550b2ef2";
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(TypeError(playerId + " is not string"));
+    // });
+
+    // it("should fail on object playerId", () => {
+    //   const playerId = {};
+    //   const matchId = "5c51f550b2ef2";
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(TypeError(playerId + " is not string"));
+    // });
+
+    // it("should fail on array playerId", () => {
+    //   const playerId = [];
+    //   const matchId = "5c51f550b2ef2";
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(TypeError(playerId + " is not string"));
+    // });
+
+    // it("should fail on empty playerId", () => {
+    //   const playerId = "";
+    //   const matchId = "5c51f550b2ef2";
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(Error("playerId cannot be empty"));
+    // });
+
+    // it("should fail on numeric matchId", () => {
+    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
+    //   const matchId = 10;
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(TypeError(playerId + " is not string"));
+    // });
+
+    // it("should fail on boolean matchId", () => {
+    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
+    //   const matchId = false;
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(TypeError(playerId + " is not string"));
+    // });
+
+    // it("should fail on object matchId", () => {
+    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
+    //   const matchId = {};
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(TypeError(playerId + " is not string"));
+    // });
+
+    // it("should fail on array matchId", () => {
+    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
+    //   const matchId = [];
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(TypeError(playerId + " is not string"));
+    // });
+
+    // it("should fail on empty matchId", () => {
+    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
+    //   const matchId = "";
+    //   expect(() => {
+    //     logic.addAvailabilityPlayer(playerId, matchId);
+    //   }).toThrow(Error("playerId cannot be empty"));
+    // });
+
+    
+  });
 
   after(() =>
     Promise.all([

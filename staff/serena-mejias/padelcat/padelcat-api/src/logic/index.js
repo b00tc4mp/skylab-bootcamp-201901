@@ -114,19 +114,19 @@ const logic = {
 
   retrievePlayers() {
     return (async () => {
-      const players = await Player.find()
-      if(!players) throw Error(`There are no players in data`)
-      return players
+      const players = await Player.find();
+      if (!players) throw Error(`There are no players in data`);
+      return players;
     })();
   },
 
   getPlayerById(playerId) {
-    //if (typeof playerId !== "string") throw TypeError(`${playerId} is not string`);
-    //if (!playerId.trim().length) throw Error("playerId cannot be empty");
+    if (typeof playerId !== "string")
+      throw TypeError(`${playerId} is not string`);
+    if (!playerId.trim().length) throw Error("playerId cannot be empty");
     return (async () => {
       const player = await Player.findById(playerId);
-      if(!player) throw Error(`playerId doesn't exist`)
-
+      if (!player) throw Error(`playerId doesn't exist`);
       return player;
     })();
   },
@@ -169,6 +169,9 @@ const logic = {
   },
 
   setScorePlayers(link) {
+    if (typeof link !== "string") throw TypeError(`${link} is not string`);
+    if (!link.trim().length) throw Error("link cannot be empty");
+
     return this.retrieveScoreScrapping().then(response => {
       const matchingPlayer = response.filter(player => player.link === link);
       if (matchingPlayer.length === 1) {
@@ -176,6 +179,8 @@ const logic = {
           { link: link },
           { score: matchingPlayer[0].score }
         );
+      } else {
+        throw Error(`Incorrect link`);
       }
     });
   },

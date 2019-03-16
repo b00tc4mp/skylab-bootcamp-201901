@@ -1,10 +1,9 @@
-import React, { Component, useState } from "react";
-
+import React, { useState } from "react";
+import Modal from "../Modal";
 import styles from "./index.module.scss";
-import { Button, TextField } from "@material-ui/core";
+import { TextField, Select, InputLabel, MenuItem } from "@material-ui/core";
 
 const RegisterPlayer = props => {
-
   const [name, setName] = useState(null);
   const [surname, setSurname] = useState(null);
   const [email, setEmail] = useState(null);
@@ -35,18 +34,7 @@ const RegisterPlayer = props => {
     );
   };
 
-  const isInvalidForm = () => {
-    return (
-      !name ||
-      !surname ||
-      !email ||
-      !password ||
-      !passwordConfirm ||
-      !link ||
-      (password && password !== passwordConfirm)
-    );
-  };
-
+  
   return (
     <section className={styles.container}>
       <form onSubmit={handleRegisterSubmit}>
@@ -95,25 +83,16 @@ const RegisterPlayer = props => {
           onChange={handleLinkInput}
           required={true}
         />
-
-        <label className={styles.label}>
-          Prefered Position
-          <select onChange={handlePreferedPositionInput}>
-            <option value={""}></option>
-            <option value={"Left"}>Left</option>
-            <option value={"Right"}>Right</option>
-            <option value={"Both"}>Both</option>
-          </select>
-        </label>
-
-        <Button
-          variant="contained"
-          color="primary"
-          type={"submit"}
-          disabled={isInvalidForm()}
-        >
-          Register
-        </Button>
+        <InputLabel htmlFor="preferred-position">Preferred position</InputLabel>
+        <Select onChange={handlePreferedPositionInput} value={preferedPosition}>
+          <MenuItem value="">
+            <em />
+          </MenuItem>
+          <MenuItem value={"Left"}>Left</MenuItem>
+          <MenuItem value={"Right"}>Right</MenuItem>
+          <MenuItem value={"Both"}>Both</MenuItem>
+        </Select>
+        <Modal name={name} surname={surname} email={email} password={password} passwordConfirm={passwordConfirm} link={link}/>
       </form>
     </section>
   );
