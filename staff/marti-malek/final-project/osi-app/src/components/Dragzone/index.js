@@ -3,7 +3,7 @@ import './index.sass'
 // import Hammer from 'hammerjs'
 import logic from '../../logic';
 
-function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, refresh }) {
+function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, refresh, openFile, dragItem }) {
 
     let [divs, setDivs] = useState(new Array(48).fill(null))
     // // let [newName, setNewName] = useState(null)
@@ -73,7 +73,6 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
         return newInput.focus()
     }
 
-
     onDragStart = ev => {
         draggableTest = ev.target
         ev.dataTransfer.setData("text/plain", ev.target.firstChild.innerText ? ev.target.firstChild.innerText : ev.target.firstChild.firstChild.innerText)
@@ -97,7 +96,7 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
 
     onDrop = ev => {
         ev.preventDefault();
-
+        console.log(dragItem)
         if (draggableTest.id === "file" && droppingTest.id === "folder") {
             let oldPath = draggableTest.firstChild.innerText
             let newPath = droppingTest.firstChild.innerText + '/' + oldPath
@@ -139,7 +138,7 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
                                 </span>
                             </div>
                         } else if (position.type === 'file') {
-                            return <div className="droppable" key={index} keys={index} id={index} onClick={(e) => changeName(e)} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}>
+                            return <div className="droppable" key={index} keys={index} id={index} /* onClick={(e) => changeName(e)} */ onDoubleClick={(e) => openFile(e)} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}>
                                 <span id={position.type} keys={`span${index}`} className="fas fa-file fa-3x dragzone__folder" draggable="true" onDragStart={(e) => onDragStart(e)}>
                                     <p className="name" id="inputId">{position.name}</p>
                                 </span>

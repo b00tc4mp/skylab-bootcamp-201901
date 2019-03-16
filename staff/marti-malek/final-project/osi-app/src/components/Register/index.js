@@ -75,6 +75,7 @@ function Register({ handleEmailInput, handlePasswordInput, handleNameInput, hand
             </div>
             <button className="register__button">Register</button>
         </form>
+        <div className="register__login" onClick={() => goToLogin()}>Go To Login</div>
     </section>
 }
 

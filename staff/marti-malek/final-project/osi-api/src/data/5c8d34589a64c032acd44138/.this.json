@@ -4,28 +4,28 @@
     "name": "Desktop",
     "children": [
         {
-            "name": "test2",
-            "open": false,
-            "type": "folder",
-            "position": 2
-        },
-        {
-            "name": "test4",
-            "open": false,
-            "type": "folder",
-            "position": 8
-        },
-        {
-            "name": "test5",
+            "name": "test1",
             "open": false,
             "type": "folder",
             "position": 0
         },
         {
-            "name": "test6",
+            "name": "test2",
             "open": false,
             "type": "folder",
             "position": 1
+        },
+        {
+            "name": "test3",
+            "open": false,
+            "type": "folder",
+            "position": 9
+        },
+        {
+            "name": "test6",
+            "open": false,
+            "type": "folder",
+            "position": 8
         }
     ]
 }

@@ -8,7 +8,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const logic = require('./logic')
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createRootDir, createFile, retrieveFile, retrieveDir, createDir, updatePosition, removeDir, rename, retrieveLevel, removeFile, moveFile, moveDir } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createRootDir, createFile, retrieveFile, retrieveDir, createDir, updatePosition, removeDir, rename, retrieveLevel, removeFile, moveFile, moveDir, updateFile } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -44,16 +44,18 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/file', retrieveFile)
 
         router.get('/dir', retrieveDir)
+        
+        router.put('/file', jsonBodyParser, updateFile)
 
-        router.put('/positions',jsonBodyParser, updatePosition)
+        router.put('/positions', jsonBodyParser, updatePosition)
 
         router.delete('/dir', removeDir)
 
-        router.put('/rename', rename)
-
-        router.get('/level', retrieveLevel)
-
         router.delete('/file', removeFile)
+        
+        router.put('/rename', rename)
+        
+        router.get('/level', retrieveLevel)
 
         router.put('/move/file', moveFile)
 

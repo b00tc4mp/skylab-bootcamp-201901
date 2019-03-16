@@ -11,9 +11,26 @@
     align-items: flex-start
 
     &__image
-    background-image: url("https://stmed.net/sites/default/files/black-%26-white-wallpapers-25165-6959283.jpg")
+    // background-image: url("https://stmed.net/sites/default/files/black-%26-white-wallpapers-25165-6959283.jpg")
+    background-image: url('../../media/lr-background.jpg')
     background-repeat: no-repeat
+    background-position: center
+    background-size: cover
     filter: blur(0px)
+
+    &__register
+        position: absolute
+        right: 5rem
+        cursor: pointer
+        background-color: black
+        color: white
+        font-size: 2vw
+        font-weight: bold
+        margin: 0 auto
+        padding: 10px
+        text-align: center
+        position: absolute
+        // mix-blend-mode: screen
 
     &__form
         animation: blurred 1s

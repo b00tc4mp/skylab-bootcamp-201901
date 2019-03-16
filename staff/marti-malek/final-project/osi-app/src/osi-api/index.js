@@ -236,6 +236,36 @@ const osiApi = {
             })
     },
 
+    updateFile(token, filePath, fileContent) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        fileContent = `"${fileContent}"`
+
+        return fetch(this.url + `file?filePath=${filePath}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ fileContent })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
     updatePositions(token, path, position) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 

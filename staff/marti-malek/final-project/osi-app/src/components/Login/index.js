@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Hammer from 'hammerjs'
 import './index.sass'
 
@@ -6,6 +6,7 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    // let login = useRef()
 
     let deltaY = 0
     let deltaX = 0
@@ -16,6 +17,15 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
     //     debugger
     //     console.log(ev);
     // });
+    // if (login.current) {
+    //     debugger
+    //     login.current.addEventListener('touchstart', e => {
+    //         debugger
+    //         if (e.touches.length == 2) {
+    //             debugger
+    //         }
+    //     })
+    // }
 
     handleEmailInput = e => setEmail(e.target.value)
     handlePasswordInput = e => setPassword(e.target.value)
@@ -36,6 +46,8 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
 
     wheelHandler = e => {
         // once = true
+        // console.log(e.touches.length)
+        // debugger
         if (e.deltaX) {
             if (e.preventDefault) e.preventDefault()
             if (e.stopPropagation) e.stopPropagation()
@@ -53,7 +65,7 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
 
 
 
-    return <section className="login">
+    return <section className="login" /* onTouchStart={e => wheelHandler(e)} ref={login} */>
         {/* <div className="login__image"></div> */}
         <form className="login__form" onSubmit={handleFormSubmit}>
             <div>
@@ -66,6 +78,7 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
             </div>
             <button className="login__button">Login</button>
         </form>
+        <div className="login__register" onClick={() => goToRegister()}>Go To Register</div>
     </section>
 }
 

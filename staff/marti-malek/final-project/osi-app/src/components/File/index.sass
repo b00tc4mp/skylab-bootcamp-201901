@@ -2,3 +2,125 @@
     margin: 0
     padding: 0
     box-sizing: border-box
+
+.file
+    // display: flex
+    // min-width: 120px
+    // min-height: 120px
+    // width: 100px
+    // height: 100px
+    // background-color: #ffffff
+    // border: 1px solid #f2f2f2
+    // border-radius: 0.5rem
+    // position: absolute
+    // box-shadow: 0px 0px 10px 0px grey
+    // animation: open 0.2s forwards
+    display: flex
+    flex-direction: column
+    min-width: 300px
+    min-height: 300px
+    width: auto
+    height: auto
+    top: 100px
+    right: 100px
+    background-color: #ffffff
+    border: 1px solid #f2f2f2
+    border-radius: 0.5rem
+    position: absolute
+    box-shadow: 0px 0px 10px 0px grey
+    animation: open 0.2s forwards
+    // resize: both
+    border: 2px solid
+    // overflow: auto
+
+    &__header
+        display: grid
+        grid-template-columns: auto auto auto
+        grid-template-rows: 20px
+        align-items: center
+        width: 100%
+        height: 20px
+        color: #f2f2f2
+        border-top-left-radius: 0.5rem
+        border-top-right-radius: 0.5rem
+        border-bottom: 1px solid #dedede
+        background-color: #000000
+
+        &:hover
+            cursor: all-scroll
+
+        i
+            grid-column: 1
+            justify-self: flex-start
+            padding: 1px
+
+            &:hover
+                transform: scale(1.1)
+                cursor: pointer
+            // &:hover + .finder
+            //     animation: close 0.2 forwards
+        p
+            justify-self: center
+            grid-column: 2
+
+    &__top
+        background-color: #ececec
+        border-bottom: 1px solid #dedede
+        display: flex
+
+        &__file
+            padding-left: 0.2rem
+            padding-right: 0.2rem
+            cursor: pointer
+            &:hover
+                font-weight: bold
+                background-color: #c1c1c1
+                width: auto
+                height: auto
+        
+        &__menu
+            width: auto
+            height: auto
+            top: 46px
+            left: 20px
+            position: absolute
+            background-color: #c5c5c5
+
+            &__item
+                border: 1px solid #c6c6c6
+                box-shadow: 0px 0px 2px grey
+                animation: dropdown 0.2s
+
+                &:hover
+                    font-weight: bold
+                    background-color: #b6b6b6
+                    cursor: pointer
+
+
+    &__content
+        display: flex
+        flex-direction: row
+        width: 100%
+        height: 100%
+        min-height: 300px
+
+        &:focus
+            outline: none
+
+        &__text
+            width: 100%
+            height: 100%
+
+@keyframes open
+    0%
+        transform: scale(0)
+    100%
+        transform: scale(1)
+
+@keyframes dropdown
+    0%
+        height: 0px
+        font-size: 0rem
+    100%
+        height: auto
+        font-size: 1rem

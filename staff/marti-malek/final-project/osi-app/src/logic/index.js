@@ -8,7 +8,11 @@ const logic = {
      * Checks if user is logged in.
      */
     get isUserLoggedIn() {
-        return !!this.__userApiToken__
+        if (this.__userApiToken__ === "null") {
+            return false
+        } else {
+            return !!this.__userApiToken__
+        }
     },
 
     /**
@@ -91,6 +95,10 @@ const logic = {
 
     retrieveFile(filePath) {
         return osiApi.retrieveFile(this.__userApiToken__, filePath)
+    },
+
+    updateFile(filePath, fileContent) {
+        return osiApi.updateFile(this.__userApiToken__, filePath, fileContent)
     },
 
     updatePositions(path, position) {

@@ -408,7 +408,6 @@ const logic = {
                 name: fileContent.name + fileContent.type,
                 open: false,
                 type: 'file',
-                children: [],
                 position: desiredPosition
             }
 
@@ -459,7 +458,7 @@ const logic = {
         if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
 
         if (!filePath.trim().length) throw Error('filePath cannot be empty')
-
+        debugger
         return (async () => {
             /* Extracts the user's id form it's token */
             const { data } = await jwt.verify(token, this.jwtSecret)
@@ -477,6 +476,57 @@ const logic = {
 
             /* Returns the parsed file contents */
             return JSON.parse(rs)
+        })()
+    },
+
+    updateFile(token, filePath, fileContent) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        if (typeof fileContent !== 'string') throw TypeError(`${fileContent} should be a string`)
+
+        if (!fileContent.trim().length) throw Error('fileContent cannot be empty')
+
+        return (async () => {
+            /* Extracts the user's id form it's token */
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            /* Builds the path to the file to retrieve */
+            const dirPath = `${__dirname}/../data/${data}/${filePath}`
+
+            /* Ascertains if the file exists, which should */
+            if (!fs.existsSync(dirPath)) throw Error('File not found')
+
+            /* Reads the file, gets it as buffer */
+            let rs
+            try {
+                rs = await fs.promises.readFile(dirPath)
+            } catch(err) {
+                if (err) throw err
+            }
+
+            /* Parses file contents */
+            let file = JSON.parse(rs)
+
+            /* Updates the contents of the file */
+            file = fileContent
+
+            /* Writes the file with the updated contents */
+            try {
+                await fs.promises.writeFile(dirPath, file)
+            } catch(err) {
+                if (err)  throw err
+            }
+
+            return 'Done'
+
         })()
     },
     /**

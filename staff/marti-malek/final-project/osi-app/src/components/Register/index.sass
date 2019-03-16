@@ -11,8 +11,26 @@
     align-items: flex-end
 
     &__image
-    background-image: url("https://stmed.net/sites/default/files/black-%26-white-wallpapers-25165-6959283.jpg")
+    // background-image: url("https://stmed.net/sites/default/files/black-%26-white-wallpapers-25165-6959283.jpg")
+    background-image: url('../../media/lr-background.jpg')
+    background-repeat: no-repeat
+    background-position: center
+    background-size: cover
     filter: blur(0px)
+
+    &__login
+        position: absolute
+        left: 5rem
+        cursor: pointer
+        background-color: white
+        color: black
+        font-size: 2vw
+        font-weight: bold
+        margin: 0 auto
+        padding: 10px
+        text-align: center
+        position: absolute
+        mix-blend-mode: screen
 
     &__form
         animation: blurred 1s
@@ -25,7 +43,11 @@
         opacity: 0.8
         width: 320px
         height: auto
-        margin: 8rem
+        // margin: 8rem
+        // margin-top: 8rem
+        // margin-bottom: 4rem
+        // margin-left: 8rem
+        margin-right: 3rem
         filter: blur(0px)
 
         // overflow: hidden

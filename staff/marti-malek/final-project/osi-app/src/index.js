@@ -13,7 +13,7 @@ Object.defineProperties(logic, {
 
         get() {
             return sessionStorage.getItem('__userApiToken__')
-        }
+        },
     }
 })
 

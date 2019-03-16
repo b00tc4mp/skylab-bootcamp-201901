@@ -3,13 +3,13 @@ import Toolbar from '../Toolbar'
 import Clock from '../Clock'
 import Todos from '../Todos'
 import Dragzone from '../Dragzone'
-// import File from '../File'
+import File from '../File'
 import Menu from '../Menu'
 import Finder from '../Finder'
 import logic from '../../logic'
 import './index.sass'
 
-function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut }) {
+function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut, openFile, closeFile, dragStart, openFileFromFinder }) {
 
     let [level, setLevel] = useState([])
     let [positions, setPositions] = useState([])
@@ -18,9 +18,11 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     let [showMenu, setShowMenu] = useState(false)
     let [menuX, setMenuX] = useState(null)
     let [menuY, setMenuY] = useState(null)
-
-
-    // let positionsTest
+    let [fileOpen, setFileOpen] = useState(null)
+    let [fileContent, setFileContent] = useState(null)
+    let [fileName, setFileName] = useState(null)
+    let [filePath, setFilePath] = useState(null)
+    let finderItem
 
     useEffect(() => {
         handleState()
@@ -68,6 +70,31 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             })
     }
 
+    openFile = async e => {
+        let newFilePath = '/' + e.target.firstChild.innerText
+        await setFileName(e.target.firstChild.innerText)
+        // console.log(fileName)
+        // filePath = newFilePath
+        await setFilePath(newFilePath)
+        return logic.retrieveFile(newFilePath)
+            .then(content => {
+                setFileContent(content)
+                setFileOpen(true)
+            })
+    }
+
+    openFileFromFinder = path => {
+        setFileName(path.split('/').reverse()[0])
+        // console.log(fileName)
+        // filePath = newFilePath
+        setFilePath(path)
+        return logic.retrieveFile(path)
+            .then(content => {
+                setFileContent(content)
+                setFileOpen(true)
+            })
+    }
+
     openFinderRoot = () => {
         return logic.retrieveLevel('/')
             .then(content => {
@@ -78,6 +105,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
 
     closeFinder = () => {
         setFinderOpen(false)
+    }
+
+    closeFile = () => {
+        setFileOpen(false)
     }
 
     // TODO
@@ -95,6 +126,12 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
         return logic.logOutUser()
     }
 
+    dragStart = e => {
+        finderItem = e.target
+        // setFinderItem(finderItem)
+        debugger
+    }
+
     return <section className="desktop">
         <div className="desktop__clock">
             <Clock></Clock>
@@ -106,13 +143,16 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             <Toolbar newFolder={handleNewFolder} newFile={handleNewFile} openFinder={openFinderRoot} openMenu={openMenu}></Toolbar>
         </div>
         <div className="desktop__dragzone">
-            <Dragzone dir={level} pos={positions} openDir={openDir} refresh={refreshFinder}></Dragzone>
+            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} refresh={refreshFinder} dragItem={finderItem}></Dragzone>
         </div>
         {
-            finder && finderOpen ? <Finder content={finder} close={closeFinder}></Finder> : null
+            finder && finderOpen ? <Finder content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder}></Finder> : null
         }
         {
             showMenu ? <Menu menuX={menuX} menuY={menuY} logOut={logOut}></Menu> : null
+        }
+        {
+            fileOpen ? <File file={fileContent} filePath={filePath} name={fileName} closeFile={closeFile}></File> : null
         }
     </section>
 }
