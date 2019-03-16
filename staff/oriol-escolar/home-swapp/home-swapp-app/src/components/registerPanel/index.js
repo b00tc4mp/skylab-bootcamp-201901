@@ -36,18 +36,18 @@ class Register extends Component {
             <form className="register-form" onSubmit={handleFormSubmit}>
 
                 <p>username</p>
-                <input required type="text" name="username" placeholder="Type a valid username" onChange={handleInput}></input>
+                <input className="register-form__input" required type="text" name="username" placeholder="Type a valid username" onChange={handleInput}></input>
 
                 <p>email</p>
-                <input required type="email" name="email" placeholder="Type a valid email adress" onChange={handleInput}></input>
+                <input className="register-form__input" required type="email" name="email" placeholder="Type a valid email adress" onChange={handleInput}></input>
 
                 <p>password</p>
-                <input required type="password" name="password" placeholder="Type a valid password" onChange={handleInput}></input>
+                <input className="register-form__input" required type="password" name="password" placeholder="Type a valid password" onChange={handleInput}></input>
 
                 <p>password confirmation</p>
-                <input required type="password" name="passwordConfirm" placeholder="Type your password again" onChange={handleInput}></input>
+                <input className="register-form__input" required type="password" name="passwordConfirm" placeholder="Type your password again" onChange={handleInput}></input>
 
-                <button>Register</button>
+                <button className="register-form__button">Register</button>
 
 
             </form>

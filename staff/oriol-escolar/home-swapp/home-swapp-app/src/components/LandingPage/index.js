@@ -33,11 +33,11 @@ class LandingPage extends Component {
 
 
             <h2> Where do you want to go? </h2>
-            <form className="LandingPage-form" onSubmit={handleFormSubmit}>
+            <form className="landingPage-form" onSubmit={handleFormSubmit}>
 
-                <input required type="text" name="query" placeholder="" onChange={handleInput}></input>
+                <input className="landingPage-form__input" required type="text" name="query" placeholder="" onChange={handleInput}></input>
 
-                <button>Search</button>
+                <button className="landingPage-form__button">Search</button>
 
 
             </form>

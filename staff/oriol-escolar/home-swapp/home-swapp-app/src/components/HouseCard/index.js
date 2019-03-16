@@ -24,9 +24,9 @@ class HouseCard extends Component {
             this.setState({ logged: true, thisHouse: this.props.house, isFav: this.props.isFav })
 
 
-        }else{
-            
-            this.setState({ thisHouse: this.props.house})
+        } else {
+
+            this.setState({ thisHouse: this.props.house })
 
         }
 
@@ -40,12 +40,12 @@ class HouseCard extends Component {
             this.setState({ isFav })
         }
 
-        if(prepProvs.house !== this.state.thisHouse){
-            const{house}=this.props
-            this.setState({ thisHouse:house })
+        if (prepProvs.house !== this.state.thisHouse) {
+            const { house } = this.props
+            this.setState({ thisHouse: house })
 
 
-        }        
+        }
 
     }
 
@@ -73,6 +73,7 @@ class HouseCard extends Component {
             logic.toggleFavorite(this.state.thisHouse.id)
 
             this.props.toggleFavorite(this.state.thisHouse, this.ChangeHeart)
+            
 
         }
 
@@ -80,10 +81,12 @@ class HouseCard extends Component {
     }
     retrieveHouse = () => {
 
+        
         const { props: { retrieveHouse } } = this
 
-        
+
         retrieveHouse(this.state.thisHouse.id)
+        
     }
 
     render() {

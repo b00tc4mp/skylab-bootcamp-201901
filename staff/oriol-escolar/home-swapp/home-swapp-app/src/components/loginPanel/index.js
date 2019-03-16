@@ -36,12 +36,12 @@ class Login extends Component {
             <form className="login-form" onSubmit={handleFormSubmit}>
 
                 <p>email</p>
-                <input required type="email" name="email" placeholder="Enter a valid email adress" onChange={handleInput}></input>
+                <input className="login-form__input" required type="email" name="email" placeholder="Enter a valid email adress" onChange={handleInput}></input>
 
                 <p>password</p>
-                <input required type="text" name="password" placeholder="Enter a valid email adress" onChange={handleInput}></input>
+                <input className="login-form__input" required type="password" name="password" placeholder="Enter a valid email adress" onChange={handleInput}></input>
 
-                <button>Login</button>
+                <button className="login-form__button">Login</button>
                 
 
 
