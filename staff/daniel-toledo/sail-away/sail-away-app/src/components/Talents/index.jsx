@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
 import { data } from 'sail-away-data'
 
+import './index.sass'
+
 
 function Talents({ getChecks, initialChecks }) {
 
@@ -11,27 +13,27 @@ function Talents({ getChecks, initialChecks }) {
 
     function handleChange(offer) {
         let index = checked.findIndex(selectedOffer => selectedOffer === offer)
+        
         if (index === -1) checked = [...checked, offer]
         else { checked.splice(index, 1) }
-
         setChecked(checked)
         getChecks(checked)
     }
 
     useEffect(()=>{
         setChecked(checked)
-    },[checked])
+    },[checked, getChecks])
 
-    return (<main className="journey">
+    return (<main className="talents">
 
-        <div className='row'>
+        <div className='talents__container'>
             {
                 data.talents.map(category => {
-                    return (<section className='col-12 col-sm-6 col-md-4 col-lg-2'>
-                        <h6>{category.category}</h6>
+                    return (<section className='talents__category' key={category.category}>
+                        <h6 className='talents__category-title'>{category.category}</h6>
                         {
                             category.offers.map(offer =>
-                                <div key={offer}>
+                                <div key={offer} className='talents__talent'>
                                     <input
                                         type="checkbox"
                                         name={offer}

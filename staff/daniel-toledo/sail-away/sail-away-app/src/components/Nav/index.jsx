@@ -7,7 +7,7 @@ import './index.sass'
 
 function Nav(props) {
 
-    const {toggleMenu} = props
+    const {toggleMenu, isLanding} = props
 
     let [menuDisplayer, setMenuDisplayer] = useState('nav__icon')
 
@@ -30,8 +30,9 @@ function Nav(props) {
         props.history.push('/register')
     }
 
+    let navClass = isLanding? 'navbar nav nav-landing': 'navbar nav'
     return (
-        <nav className="navbar nav">
+        <nav className={navClass}>
             <div className={menuDisplayer} onClick={()=>handleOnClick()}>
                 <span></span>
                 <span></span>

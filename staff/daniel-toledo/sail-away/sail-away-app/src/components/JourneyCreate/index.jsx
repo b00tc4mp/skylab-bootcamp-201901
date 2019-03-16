@@ -85,7 +85,7 @@ function JourneyCreate(props) {
             }
         </select>
         <h3 className='text-center'>Design your journey</h3>
-        <div className='journey__map'>
+        <div className='journeyCreate__map'>
             <MapRoute getMarkers={coordenates => setRoute(coordenates)} seaIdSelection={seaIdSelection} initialMarkers={[]} />
         </div>
 

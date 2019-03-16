@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react'
 import logic from '../../logic';
 import seaData from '../../sea-data'
 
+import './index.sass'
+
 function Search({ search}) {
 
     let [query, setQuery] = useState('')
@@ -23,13 +25,13 @@ function Search({ search}) {
     }
 
     return (
-        <form onSubmit={handleSearch}>
-            <select name="seas" className='journey__sea' onChange={e => setQuery(e.target.value)}>
+        <form onSubmit={handleSearch} className='search'>
+            <select name="seas" className='search__sea' onChange={e => setQuery(e.target.value)}>
                 {
                     seaData.map(sea => <option value={sea.name} key={sea.name} >{sea.name}</option>)
                 }
             </select>
-            <button type='submit'>Search</button>
+            <button type='submit' className='search__button'>Search</button>
         </form>
     )
 }

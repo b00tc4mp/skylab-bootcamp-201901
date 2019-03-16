@@ -41,7 +41,7 @@ function MyJourneys(props) {
         <div className='row'>
             {
                 journeys.map(journey => {
-                    return (<section className='col-12 col-md-6 col-lg-4'>
+                    return (<section className='col-12 col-md-6 col-lg-4' key={journey.id}>
                         <div>
                             <button onClick={() => props.history.push(`/journey/${journey.id}`)}>more</button>
                             <button onClick={() => props.history.push(`/user/${journey.userId}`)}>capitan</button>

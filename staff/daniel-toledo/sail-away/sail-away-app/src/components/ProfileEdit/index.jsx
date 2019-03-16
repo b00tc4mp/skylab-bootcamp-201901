@@ -32,9 +32,9 @@ function EditProfile(props) {
     let [description, setDescription] = useState('')
     let [boats, setBoats] = useState([])
     let [boatIdToEdit, setBoatIdToEdit] = useState('')
-    let [talents, setTalents] = useState([])
+    let [talents, setTalents] = useState(null)
     let [experience, setExperience] = useState(null)
-    let [languages, setLanguages] = useState([])
+    let [languages, setLanguages] = useState(null)
 
     async function getUser() {
         try {
@@ -51,7 +51,7 @@ function EditProfile(props) {
             setTalents(user.talents)
             setExperience(Number(user.experience))
             setLanguages(user.languages)
-            debugger
+
 
         } catch (error) {
             console.error(error)
@@ -60,7 +60,6 @@ function EditProfile(props) {
 
 
     useEffect(() => {
-        debugger
         getUser()
     }, [])
 
@@ -105,78 +104,88 @@ function EditProfile(props) {
         }
     }
 
-    return (<section className="edit-profile">
-        <div className='d-flex'>
-            <div className='edit-profile__picture'>
-                <SlideShow pictures={pictures} />
 
+    return (<section className="profileEdit">
+        <div className='profileEdit__header-background'>
+            <div className='profileEdit__header'>
+                <div className='profileEdit__picture'>
+                    <UpdatePictures getPictures={pictures => setPictures(pictures)} />
+                    <SlideShow pictures={pictures} />
+
+                </div>
+                <div className='profileEdit__names'>
+                    <div className='profileEdit__inputs'>
+                        <label htmlFor="name">Name</label>
+                        <input onChange={e => setName(e.target.value)} type="text" name="name" value={name} required />
+                    </div>
+                    <div className='profileEdit__inputs'>
+                        <label htmlFor="surname">Surname</label>
+                        <input onChange={e => setSurname(e.target.value)} type="text" name="surName" value={surname} required />
+                    </div>
+
+                </div>
             </div>
+        </div>
+
+        <div className='profileEdit__info'>
+
+
+            <h3 className='profileInfo__titleSection'>General Info</h3>
+            <div className='general-info'>
+                <div className='row'>
+                    <label htmlFor="gender" className='col-2'>Gender</label>
+                    <select name="gender" className='col-6' onChange={e => setGender(e.target.value)} value={gender}>
+                        <option value='masculine' key='masculine'>Masculine</option>
+                        <option value='femenine' key='femenine'>Femenine</option>
+                        <option value='indiferent' key='indiferent'>Indiferent</option>
+                    </select>
+                </div>
+
+                <div className='row'>
+                    <label htmlFor="nationality" className='col-2'>Nationality</label>
+                    <select name="nationality" className='col-6' onChange={e => setNationality(e.target.value)} value={nationality}>
+
+                        {
+                            nationalities.map(nacionality =>
+                                <option
+                                    value={nacionality.nationality}
+                                    key={nacionality.num_code}>
+                                    {nacionality.nationality}
+                                </option>)
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <h3 className='profileInfo__titleSection'>Description</h3>
             <div>
-                <label htmlFor="name">Name</label>
-                <input onChange={e => setName(e.target.value)} type="text" name="name" value={name} required />
-                <label htmlFor="surname">Surname</label>
-                <input onChange={e => setSurname(e.target.value)} type="text" name="surName" value={surname} required />
-
-            </div>
-        </div>
-
-        <UpdatePictures getPictures={pictures => setPictures(pictures)} />
-
-        <h3 className='text-center'>General Info</h3>
-        <div className='general-info'>
-            <div className='gender'>
-                <label htmlFor="gender">Gender</label>
-                <select name="gender" onChange={e => setGender(e.target.value)} value={gender}>
-                    <option value='masculine' key='masculine'>Masculine</option>
-                    <option value='femenine' key='femenine'>Femenine</option>
-                    <option value='indiferent' key='indiferent'>Indiferent</option>
-                </select>
+                <textarea onChange={e => setDescription(e.target.value)} value={description} className='profileEdit__description'></textarea>
             </div>
 
-            <div className='nacionality'>
-                <label htmlFor="nationality">Nationality</label>
-                <select name="nationality" onChange={e => setNationality(e.target.value)} value={nationality}>
+            <h3 className='profileInfo__titleSection'>Boats</h3>
+            {boats.length &&
+                boats.map(boat => {
+                    if (boat.id === boatIdToEdit) { return <Boat getBoat={handleSetEditBoat} initialBoat={boat} CancelBoat={() => setAddBoat(false)} /> }
+                    else return <BoatInfo getEdit={() => setBoatIdToEdit(boat.id)} getDelete={handleDeleteBoat} boat={boat} key={boat.id} />
+                })
+            }
+            {addBoat ? <Boat getBoat={handleSetAddBoat} initialBoat={null} cancelBoat={() => setAddBoat(false)} /> : <div />}
+            <button onClick={() => setAddBoat(true)} className='profileEdit__addBoat'>Add Boat</button>
 
-                    {
-                        nationalities.map(nacionality =>
-                            <option
-                                value={nacionality.nationality}
-                                key={nacionality.num_code}>
-                                {nacionality.nationality}
-                            </option>)
-                    }
-                </select>
+            <div>
+                <h3 className='profileInfo__titleSection'>More...</h3>
+                <h5>Talents</h5>
+                {talents !== null && <Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
+                <h5>Experience</h5>
+                {experience !== null && <Experience getExperience={experience => setExperience(experience)} initialExperience={experience} />}
+                <h5>Language</h5>
+                {languages !== null && <Language getLanguages={languages => setLanguages(languages)} initialLanguages={languages} />}
+            </div>
+
+            <div className='profileEdit__submit'>
+                <button className='profileEdit__submit-button' onClick={handleOnSubmit}>Edit profile</button>
             </div>
         </div>
-
-        <h3 className='text-center'>Description</h3>
-        <div className='journey__description'>
-            <textarea onChange={e => setDescription(e.target.value)} value={description}></textarea>
-        </div>
-
-        <h3 className='text-center'>Boats</h3>
-        {boats.length &&
-            boats.map(boat => {
-                debugger
-                if (boat.id === boatIdToEdit) { return <Boat getBoat={handleSetEditBoat} initialBoat={boat} CancelBoat={() => setAddBoat(false)} /> }
-                else return <BoatInfo getEdit={() => setBoatIdToEdit(boat.id)} getDelete={handleDeleteBoat} boat={boat} />
-            })
-        }
-        {addBoat ? <Boat getBoat={handleSetAddBoat} initialBoat={null} cancelBoat={() => setAddBoat(false)} /> : <div />}
-        <button onClick={() => setAddBoat(true)}>Add Boat</button>
-
-        <div>
-            <h3 className='text-center'>Find the best match!</h3>
-            <h5>Talents</h5>
-            {talents.length && <Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
-            <h5>Experience</h5>
-            {experience !== null && <Experience getExperience={experience => setExperience(experience)} initialExperience={experience} />}
-            <h5>Sailing titles</h5>
-            <h5>Language</h5>
-            {languages.length && <Language getLanguages={languages => setLanguages(languages)} initialLanguages={languages} />}
-        </div>
-
-        <button onClick={handleOnSubmit}>Submit</button>
     </section>)
 }
 

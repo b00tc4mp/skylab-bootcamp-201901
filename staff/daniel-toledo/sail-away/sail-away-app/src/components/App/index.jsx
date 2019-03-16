@@ -26,11 +26,6 @@ function App(props) {
     let [journey, setJourney] = useState(null)
     let [menu, setMenu] = useState('close')
 
-    function handleGoHome() {
-
-        props.history.push('/')
-    }
-
     async function handleSearch(seaId) {
        
         try {
@@ -42,10 +37,6 @@ function App(props) {
         } catch (err) {
             console.error(err)
         }
-    }
-
-    function handleGoJourney() {
-        props.history.push('/create-journey')
     }
 
     async function handleMoreInfo(id) {
@@ -70,33 +61,8 @@ function App(props) {
         setMenu(open ? 'open' : 'close')
     }
 
-    const initialUser = {
-        name: '',
-        surname: '',
-        pictures: ['https://i.pinimg.com/originals/f8/e9/14/f8e914cdb8329c2956255a24858e1086.jpg', 'https://coronadotimes.com/wp-content/uploads/2017/01/Popeye.Flex_.jpg'],
-        gender: '',
-        nationality: '',
-        birthday: null,
-        description: '',
-        boats: [{
-            id:'boat-1',
-            pictures: ['https://capuchar.files.wordpress.com/2015/03/barco-la-perla-negra44.jpg','https://cde.peru.com//ima/0/0/8/4/1/841340/611x458/lima.jpg'],
-            name: 'practice boat',
-            type: 'velero',
-            model: '90-60-90',
-            boatLength: 'XLL',
-            crew: 'big-party',
-            age: 10,
-            description: 'the best boat'
-        }],
-        talents: [],
-        experience: 0,
-        sailingTitles: [],
-        languages: []
-    }
-
     return (<main className="app">
-        <Nav toggleMenu={handleToggleMenu} />
+        <Nav toggleMenu={handleToggleMenu} isLanding={window.location.hash === '#/'}/>
         <div className='menuApp'>
             <div className={`menu__${menu} ml-auto`}>
                 <Menu />
@@ -104,8 +70,8 @@ function App(props) {
         </div>
         <Route exact path='/' render={() => <Landing search={handleSearch} />} />
         <Route path="/register" render={() => <Register />} />
-        <Route path="/edit-profile" render={() => <ProfileEdit initialUser={initialUser} />} />
-        <Route path='/user/:id' render={()=> <ProfileInfo />} />
+        <Route path="/edit-profile" render={() => <ProfileEdit initialUser={{}} />} />
+        <Route path='/user/:id' render={()=> <ProfileInfo />}/>
         <Route path='/users/' render={()=> <Users />} />
         <Route path="/login" render={() => <Login />} />
         <Route path="/home" render={() => journeys.length ? <Home journeys={journeys} moreInfo={handleMoreInfo} editJourney={handleEditJourney} /> : <Redirect to="/" />} />
@@ -114,8 +80,6 @@ function App(props) {
         <Route path="/my-journeys" render={() => <MyJourneys />} />
         <Route path="/journey/:id" render={() => <JourneyInfo />} />
         <Route path="/favorites" render={() => <Favorites />} />
-        <button onClick={handleGoHome}>go Home</button>
-        <button onClick={handleGoJourney}>create Journey</button>
     </main>)
 }
 

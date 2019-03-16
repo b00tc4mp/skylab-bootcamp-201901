@@ -77,7 +77,7 @@ function MapRoute({ google, getMarkers, seaIdSelection, initialMarkers}) {
 
     return (<Map
         google={google}
-        containerStyle={{ height: "50%"}}
+        containerStyle={{  position: 'relative', height: "50vh"}}
         style={{
             width: "100%",
             height: "100%"

@@ -36,8 +36,9 @@ function MapDisplay({ google, markers, seaId }) {
     },[])
 
     return (<Map
+        
         google={google}
-        containerStyle={{ height: "50%" }}
+        containerStyle={{  position: 'relative', height: "500px"}}
         style={{
             width: "100%",
             height: "100%"

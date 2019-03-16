@@ -1,12 +1,11 @@
 'use strict'
 
-import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
 
 import SlideShow from '../SlideShow'
 
-import { data, mongoose, models } from 'sail-away-data'
-import logic from '../../logic'
+import './index.sass'
+
 
 function BoatInfo({ getEdit, getDelete, boat }) {
 
@@ -15,30 +14,45 @@ function BoatInfo({ getEdit, getDelete, boat }) {
     }, [boat])
 
     return (<section className="boat">
-        <div className='show-boat d-flex'>
+        <div className='boat__container'>
+            <div>
+                <h3 className='boat__name text-center'>{boat.name}</h3>
+                <SlideShow pictures={boat.pictures} />
+            </div>
+            <div className='boat__info'>
 
-            <SlideShow pictures={boat.pictures} />
-            <div className='show-boat__info row'>
-                <label htmlFor="name" className='col-4'>Name</label>
-                <p className='col-8'>{boat.name}</p>
-                <label htmlFor="type" className='col-4'>Type</label>
-                <p className='col-8'>{boat.type}</p>
-                <label htmlFor="model" className='col-4'>Model</label>
-                <p className='col-8'>{boat.model}</p>
-                <label htmlFor="boatLength" className='col-4'>Length</label>
-                <p className='col-8'>{boat.boatLength}</p>
-                <label htmlFor="crew" className='col-4'>crew that fits</label>
-                <p className='col-8'>{boat.crew}</p>
-                <label htmlFor="age" className='col-4'>Age</label>
-                <p className='col-8'>{boat.age}</p>
-                <label htmlFor="description" className='col-4'>Description</label>
-                <p className='col-8'>{boat.description}</p>
+                <div className='row'>
+                    <label htmlFor="type" className='col-3'>Type</label>
+                    <p className='col-9'>{boat.type}</p>
+                </div>
+                <div className='row'>
+                    <label htmlFor="model" className='col-3'>Model</label>
+                    <p className='col-9'>{boat.model}</p>
+                </div>
+                <div className='row'>
+                    <label htmlFor="boatLength" className='col-3'>Length</label>
+                    <p className='col-9'>{boat.boatLength}</p>
+                </div>
+                <div className='row'>
+                    <label htmlFor="crew" className='col-3'>Maximum crew</label>
+                    <p className='col-9'>{boat.crew}</p>
+                </div>
+                <div className='row'>
+                    <label htmlFor="age" className='col-3'>Age of the boat</label>
+                    <p className='col-9'>{boat.age}</p>
+                </div>
+                <div className='row'>
+                    <label htmlFor="description" className='col-3'>Description</label>
+                    <p className='col-12'>{boat.description}</p>
+                </div>
 
             </div>
-
         </div>
-        {getEdit && <button onClick={() => getEdit(boat)}>Edit boat</button>}
-        {getDelete && <button onClick={() => getDelete(boat)}>Delete boat</button>}
+
+        <div className='boat__buttons'>
+            {getEdit && <button onClick={() => getEdit(boat)}>Edit boat</button>}
+            {getDelete && <button onClick={() => getDelete(boat)}>Delete boat</button>}
+        </div>
 
     </section>)
 }

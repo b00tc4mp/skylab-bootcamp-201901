@@ -23,7 +23,7 @@ function SlideShow({ pictures }) {
             {
                 pictures.map((picture, index) =>{
                     if (index===slideIndex){
-                        return (<div className="fade">
+                        return (<div className="fade" key={picture}>
                             <img src={picture} alt={picture} className='image'/>
                             <div className="numbertext">{index + 1} / {pictures.length}</div>
                         </div>)

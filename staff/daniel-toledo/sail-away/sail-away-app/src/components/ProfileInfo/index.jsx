@@ -5,12 +5,7 @@ import { Route, withRouter, Link } from 'react-router-dom'
 
 import SlideShow from '../SlideShow'
 import BoatInfo from '../BoatInfo'
-import Boat from '../Boat'
-import Talents from '../Talents'
-import Experience from '../Experience'
-import Language from '../Language'
 
-import { data, mongoose, models } from 'sail-away-data'
 import logic from '../../logic'
 
 import './index.sass'
@@ -25,7 +20,6 @@ function ProfileInfo(props) {
         try {
             let showUser = await logic.retrieveUser(id)
             setUser(showUser)
-            debugger
 
         } catch (error) {
             console.error(error)
@@ -35,66 +29,80 @@ function ProfileInfo(props) {
 
     useEffect(() => {
         getUser(id)
-        debugger
+
     }, [user])
 
 
-    return (<section className="edit-profile">
+    return (<section className="profileInfo">
         {user && <div>
 
-            <div className='d-flex'>
-                <div className='edit-profile__picture'>
-                    <SlideShow pictures={user.pictures} />
+            <div className='profileInfo__header-background'>
+                <div className='profileInfo__header'>
 
-                </div>
-                <div>
-                    <h2>{user.name} {user.surname}</h2>
+                    <div className='profileInfo__picture'>
+                        <SlideShow pictures={user.pictures} />
 
+                    </div>
+                    <div className='profileInfo__names'>
+                        <h2>{user.name} {user.surname}</h2>
+
+                    </div>
                 </div>
             </div>
 
-            <h3 className='text-center'>General Info</h3>
-            <h5>gender</h5>
-            <p>{user.gender}</p>
+            <div className='profileInfo__info'>
 
-            <h5>nationality</h5>
-            <p>{user.nationality}</p>
+                <h3 className='profileInfo__titleSection'>General Info</h3>
+                <div className='row'>
+                    <h5 className='col-2'>gender</h5>
+                    <p className='col-2'>{user.gender}</p>
+                </div>
 
-            <h5>age</h5>
+                <div className='row'>
+                    <h5 className='col-2'>nationality</h5>
+                    <p className='col-2'>{user.nationality}</p>
+                </div>
 
-            <h3 className='text-center'>Description</h3>
-            <p>{user.description}</p>
+                <h5>age</h5>
 
-            <h3 className='text-center'>Boats</h3>
-            {user.boats.length &&
-                user.boats.map(boat =>
-                    <BoatInfo boat={boat} />
-                )
-            }
+                <h3 className='profileInfo__titleSection'>Description</h3>
+                <p>{user.description}</p>
 
-            <div>
-                <h3>Talents</h3>
+                <h3 className='profileInfo__titleSection'>Boats</h3>
+                {user.boats.length &&
+                    user.boats.map(boat =>
+                        <BoatInfo boat={boat} key={boat.id} />
+                    )
+                }
+
+                <h3 className='profileInfo__titleSection'>More...</h3>
                 <div>
+                    <h3 >Talents</h3>
+                    <div className='profileInfo__talents'>
+                        {
+                            user.talents.map(talent =>
+                                <span key={talent} className='btn profileInfo__talent'>{talent}</span>
+                            )
+                        }
+                    </div>
+                    <div className='profileInfo__experience'>
+
+                        <h3>Experience</h3>
+                        <div className='experience' style={{ width: '200px' }}>
+                            <div className='experienceBar' style={{ width: `${Number(user.experience) / 10000 * 100}%` }}></div>
+                        </div>
+                    </div>
+
+                    <h3>Languages</h3>
                     {
-                        user.talents.map(talent =>
-                            <span key={talent} className='m-1 btn btn-info'>{talent}</span>
+                        user.languages.map(language =>
+                            <span key={language} className='m-1 btn profileInfo__language'>{language}</span>
                         )
                     }
                 </div>
-                <h3>Experience- {user.experience} </h3>
-                <div className='experience' style={{ width: '200px' }}>
-                    <div className='experienceBar' style={{ width: `${Number(user.experience) / 10000 * 100}%` }}></div>
-                </div>
-                <h3>Sailing titles</h3>
-                <h3>Language</h3>
-                {
-                    user.languages.map(language =>
-                        <span key={language} className='m-1 btn btn-outline-dark'>{language}</span>
-                    )
-                }
+
             </div>
 
-            <button onClick={() => props.history.push('/home')}>go Home</button>
         </div>}
 
     </section>)
