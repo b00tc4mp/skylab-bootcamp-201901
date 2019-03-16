@@ -2,8 +2,10 @@
 
 import React, { Component } from 'react'
 import { withRouter, Route } from 'react-router-dom'
-import Navigator from '../Navigator';
+import Header from '../Header'
+import Navigator from '../Navigator'
 import MessagesSent from '../MessagesSent'
+import './index.sass'
 
 class Home extends Component {
 
@@ -11,8 +13,8 @@ class Home extends Component {
         const { showSearch } = this
 
         return <section className="home">
+            <Header />
             <p>Welcome Home</p>
-
             <Navigator />
             <MessagesSent />
         </section>

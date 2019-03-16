@@ -60,6 +60,10 @@ const logic = {
             .then(({token}) => this.__userApiToken__ = token)
     },
 
+    logOutUser() {
+        this.__userApiToken__ = null
+    },
+
     /**
      * Checks user is logged in.
      */
