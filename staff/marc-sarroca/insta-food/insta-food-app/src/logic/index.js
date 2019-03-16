@@ -32,7 +32,7 @@ const logic = {
       throw Error("passwords do not match");
     return instaApi
       .registerUser(name, username, email, password, passwordConfirmation)
-      .then(() => {});
+      .then(id => id);
   },
 
   retrieveUser(token) {

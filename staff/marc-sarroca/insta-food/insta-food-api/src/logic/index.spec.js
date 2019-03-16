@@ -1033,7 +1033,7 @@ describe("logic", () => {
 
       expect(() => {
         logic.createPost(title, description, image, user_id);
-      }).toThrow(TypeError(user_id + " user_id cannot be empty"));
+      }).toThrow(Error(" user_id cannot be empty"));
     });
   });
   describe("Retrieve post by user", () => {
@@ -1707,7 +1707,7 @@ describe("logic", () => {
       user_id = true;
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(user_id + " is not a string"));
     });
 
@@ -1715,14 +1715,14 @@ describe("logic", () => {
       user_id = {};
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId, text);
       }).toThrow(TypeError(user_id + " is not a string"));
     });
 
     it("should fail on empty postId", () => {
       postId = "";
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(Error("postId cannot be empty"));
     });
 
@@ -1730,7 +1730,7 @@ describe("logic", () => {
       postId = undefined;
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(postId + " is not a string"));
     });
 
@@ -1738,7 +1738,7 @@ describe("logic", () => {
       postId = [];
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(postId + " is not a string"));
     });
 
@@ -1746,7 +1746,7 @@ describe("logic", () => {
       postId = true;
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(postId + " is not a string"));
     });
 
@@ -1754,13 +1754,13 @@ describe("logic", () => {
       postId = {};
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(postId + " is not a string"));
     });
     it("should fail on empty postId", () => {
       postId = "";
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(Error("postId cannot be empty"));
     });
 
@@ -1768,7 +1768,7 @@ describe("logic", () => {
       postId = undefined;
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId;
       }).toThrow(TypeError(postId + " is not a string"));
     });
 
@@ -1776,7 +1776,7 @@ describe("logic", () => {
       postId = [];
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(postId + " is not a string"));
     });
 
@@ -1784,7 +1784,7 @@ describe("logic", () => {
       postId = true;
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(postId + " is not a string"));
     });
 
@@ -1792,7 +1792,7 @@ describe("logic", () => {
       postId = {};
 
       expect(() => {
-        logic.addCommentPost(user_id, postId, text);
+        logic.deletePost(user_id, postId;
       }).toThrow(TypeError(postId + " is not a string"));
     });
   });

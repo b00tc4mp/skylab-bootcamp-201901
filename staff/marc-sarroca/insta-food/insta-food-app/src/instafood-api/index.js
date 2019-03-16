@@ -72,17 +72,17 @@ const instaApi = {
 
   createPost(title, description, image, userId, token) {
     if (typeof title !== "string") throw TypeError(`${title} is not a string`);
-    if (!title.trim().length) throw Error("title is empty");
+    if (!title.trim().length) throw Error("title cannot be empty");
     if (typeof description !== "string")
       throw TypeError(`${description} is not a string`);
-    if (!description.trim().length) throw Error("description is empty");
+    if (!description.trim().length) throw Error("description cannot be empty");
     if (typeof image !== "string") throw TypeError(`${image} is not a string`);
-    if (!image.trim().length) throw Error("image is empty");
+    if (!image.trim().length) throw Error("image cannot be empty");
     if (typeof userId !== "string")
       throw TypeError(`${userId} is not a string`);
-    if (!userId.trim().length) throw Error("userId is empty");
+    if (!userId.trim().length) throw Error("userId cannot be empty");
     if (typeof token !== "string") throw TypeError(`${token} is not a string`);
-    if (!token.trim().length) throw Error("token is empty");
+    if (!token.trim().length) throw Error("token cannot be empty");
 
     return fetch(`${this.url}/user/post`, {
       method: "POST",
@@ -107,14 +107,19 @@ const instaApi = {
         "content-type": "application/json",
         authorization: `Bearer ${token}`
       }
-    }).then(response => response.json());
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response === undefined) throw Error("No results founds");
+        return response;
+      });
   },
 
   retrievePostsByUser(id, token) {
     if (typeof id !== "string") throw TypeError(`${id} is not a string`);
-    if (!id.trim().length) throw Error("id is empty");
+    if (!id.trim().length) throw Error("id cannot be empty");
     if (typeof token !== "string") throw TypeError(`${token} is not a string`);
-    if (!token.trim().length) throw Error("token is empty");
+    if (!token.trim().length) throw Error("token cannot be empty");
     return fetch(`${this.url}/user/${id}/posts`, {
       headers: {
         "content-type": "application/json",
@@ -128,14 +133,14 @@ const instaApi = {
   addComment(postId, token, userId, text) {
     if (typeof postId !== "string")
       throw TypeError(`${postId} is not a string`);
-    if (!postId.trim().length) throw Error("postId is empty");
+    if (!postId.trim().length) throw Error("postId cannot be empty");
     if (typeof token !== "string") throw TypeError(`${token} is not a string`);
     if (!token.trim().length) throw Error("token is empty");
     if (typeof text !== "string") throw TypeError(`${text} is not a string`);
-    if (!text.trim().length) throw Error("text is empty");
+    if (!text.trim().length) throw Error("text cannot be empty");
     if (typeof userId !== "string")
       throw TypeError(`${userId} is not a string`);
-    if (!userId.trim().length) throw Error("userId is empty");
+    if (!userId.trim().length) throw Error("userId cannot be empty");
     return fetch(`${this.url}/user/${postId}/comments`, {
       method: "POST",
       headers: {
@@ -153,10 +158,10 @@ const instaApi = {
 
   toggleFavorites(token, postId) {
     if (typeof token !== "string") throw TypeError(`${token} is not a string`);
-    if (!token.trim().length) throw Error("token is empty");
+    if (!token.trim().length) throw Error("token cannot be empty");
     if (typeof postId !== "string")
       throw TypeError(`${postId} is not a string`);
-    if (!postId.trim().length) throw Error("postId is empty");
+    if (!postId.trim().length) throw Error("postId cannot be empty");
     return fetch(`${this.url}/user/favorites/${postId}`, {
       headers: {
         "content-type": "application/json",
@@ -169,10 +174,10 @@ const instaApi = {
 
   removePost(token, postId) {
     if (typeof token !== "string") throw TypeError(`${token} is not a string`);
-    if (!token.trim().length) throw Error("token is empty");
+    if (!token.trim().length) throw Error("token cannot be empty");
     if (typeof postId !== "string")
       throw TypeError(`${postId} is not a string`);
-    if (!postId.trim().length) throw Error("postId is empty");
+    if (!postId.trim().length) throw Error("postId cannot be empty");
     return fetch(`${this.url}/post/delete/${postId}`, {
       headers: {
         "content-type": "application/json",
