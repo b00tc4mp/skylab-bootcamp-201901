@@ -160,7 +160,7 @@ const logic = {
                             if (err) throw Error('file not created')
                         })
 
-                        return { message: `Exercise created` }
+                        return { id, message: `Exercise created` }
                     })
             })
 
