@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter, Link } from 'react-router-dom'
+import Header from '../Header'
 import Feedback from '../Feedback'
 import logic from '../../logic'
+import './index.sass'
 
 class Profile extends Component {
     state = { user: null, image: null, name: null, surname: null, email: null, feedback: null }
@@ -44,22 +46,23 @@ class Profile extends Component {
         const { handleFormSubmit, handleImageInput, handleInput, state: { feedback, user, name, surname, email } } = this
 
         return <Fragment>
+            <Header />
             {user &&
             <section className="profile">
-                <p>Profile</p>
-                <form onSubmit={ handleFormSubmit }>
-                    <p><img src={user.image}/></p>
-                    <input type="file" name="image" onChange={handleImageInput} placeholder="profile image" accept=".gif, .png, .jpeg" /> <br/>
-                    <label htmlFor="uname"><b>Name</b></label>
-                    <input type="text" value={name} name="name" onChange={handleInput} placeholder="name..." required /> <br/>
-                    <label htmlFor="psw"><b>Surname</b></label>
-                    <input type="uname" value={surname} name="surname" onChange={handleInput} required /><br/>
-                    <label htmlFor="psw"><b>Email</b></label>
-                    <input type="email" value={email} name="email" onChange={handleInput} required /><br/>
-                    <button>Submit</button> 
-                </form>
-                <Link to="/home">Back home</Link>
-                {feedback && <Feedback message={ feedback } />}
+                <div className="profileBox">
+                    <h2>Profile</h2>
+                    <h4>Upload a new image or modify fields and click submit to update your profile.</h4>
+                    <div className="userImageCropper"><img className="userImage" src={user.image} /></div>
+                    <form className="profileForm" onSubmit={ handleFormSubmit }>
+                        <input type="file" name="image" onChange={handleImageInput} placeholder="profile image" accept=".gif, .png, .jpeg" /> <br/>
+                        <input type="text" value={name} name="name" onChange={handleInput} placeholder="name..." required /> <br/>
+                        <input type="uname" value={surname} name="surname" onChange={handleInput} required /><br/>
+                        <input type="email" value={email} name="email" onChange={handleInput} required /><br/>
+                        <button>Submit</button> 
+                    </form>
+                    <p>No changes? go back <Link to="/home">home</Link></p>
+                    {feedback && <Feedback message={ feedback } />}
+                </div>
             </section>
         }
         </Fragment>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import logic from '../../logic';
+import './index.sass'
 
 class ReadMessage extends Component {
     state = { message: null }
@@ -35,14 +36,16 @@ class ReadMessage extends Component {
 
         console.log(message)
 
-        return <section>
-            <p>Read Message</p>
-            <p>{message.text}</p>
-            <p>{message.userIdFrom}</p>
-            <p>{message.userIdTo}</p>
-            <p>{message._id}</p>
-            <img src={message.image}/>
-            <button onClick={handleClick}>DONE</button>
+        return <section className="readMessage">
+            <div className="messageBox">
+                <h2>Sent on: {message.date.slice(0,10)}</h2>
+                <img src={message.image}/>
+                <div>
+                <p>{message.text}</p>
+                </div>
+                <button onClick={handleClick}>DONE</button>
+                <p className="abuse">Report abuse by <a href="mailto:flarewelcome@gmail.com?Subject=Report%20abuse" target="_top">email</a></p>
+            </div>
         </section>
     }
 }

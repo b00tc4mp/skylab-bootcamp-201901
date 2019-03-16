@@ -1,6 +1,6 @@
 'use strict'
 
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { withRouter, Route } from 'react-router-dom'
 import Header from '../Header'
 import Navigator from '../Navigator'
@@ -12,12 +12,13 @@ class Home extends Component {
     render() {
         const { showSearch } = this
 
-        return <section className="home">
+        return <Fragment>
             <Header />
-            <p>Welcome Home</p>
-            <Navigator />
-            <MessagesSent />
-        </section>
+            <section className="home">
+                <Navigator />
+                <MessagesSent />
+            </section>
+        </Fragment>
     }
 }
 

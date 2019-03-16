@@ -55,6 +55,7 @@ class MapContainer extends Component {
           { showMap &&
           <Map
             google={this.props.google}
+            containerStyle={{position: "relative"}}
             style={{
               width: "300px",
               height: "300px"

@@ -34,7 +34,7 @@ class MessagesSent extends Component {
     render() {
         const { state:{ sentMessages, feedback }, handleClick } = this
 
-        return <section className="home">
+        return <section className="messagesSent">
             <p>Messages Sent</p>
             {sentMessages && sentMessages.map(({ _id, date, text, userIdTo:{ image } }) => <div><img src={image} /><p>{date}</p><p>{text}</p><i class="far fa-trash-alt" onClick={() => handleClick(_id)}></i></div>)}
             {/* {sentMessages && <Accordion data={sentMessages} />} */}

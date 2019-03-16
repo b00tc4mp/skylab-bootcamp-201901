@@ -183,8 +183,8 @@ class CanvasLanding extends Component {
     render() {
         return <div className="hero">
                 <div className="inner">
+                    <h1>welcome to</h1>
                     <img src="https://res.cloudinary.com/dnvdmcxqw/image/upload/v1552734358/logo.png" />
-                    <h1>welcome to flare</h1>
                     <p>Quick animation prototype to explore an idea for the hero of my personal portfolio. This was created using a canvas as a background where the triangles are drawn and animates with a overlay gradient on top of the canvas.</p>
                     <p>Feel free to share and use it as inspiration for any of you projects, and if you like it show some love by following me on</p>
                 </div>

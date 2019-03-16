@@ -9,7 +9,8 @@ class Success extends Component {
 
     render() {
         return <section className="success">
-            <p><i class="far fa-check-circle fa-10x"></i></p>
+            <p className="successIcon"><i class="far fa-check-circle fa-10x"></i></p>
+            <p className="successText">SUCCESS</p>
         </section>
     }
 }
