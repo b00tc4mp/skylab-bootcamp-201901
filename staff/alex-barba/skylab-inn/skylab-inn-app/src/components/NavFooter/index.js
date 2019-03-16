@@ -1,5 +1,3 @@
-'use strict'
-
 import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
 import './index.sass'

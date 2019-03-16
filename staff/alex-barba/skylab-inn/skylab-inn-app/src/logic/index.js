@@ -1,5 +1,3 @@
-'use strict'
-
 import skylabInnApi from '../skylab-inn-api'
 
 /**
@@ -156,19 +154,19 @@ const logic = {
     /**
      * Retrieves a skylaber.
      * 
-     * @param {String} id 
+     * @param {String} skylaberId 
      * 
-     * @throws {TypeError} - if id is not a string.
-     * @throws {Error} - if any id is empty.
+     * @throws {TypeError} - if skylaberId is not a string.
+     * @throws {Error} - if any skylaberId is empty.
      *
-     * @returns {Object} - skylaber matching the id.  
+     * @returns {Object} - skylaber matching the skylaberId.  
      */
-    retrieveSkylaber(id) {
+    retrieveSkylaber(skylaberId) {
 
-        if (typeof id !== 'string') throw new TypeError(`${id} is not a string`)
-        if (!id.trim().length) throw new Error('id is empty')
+        if (typeof skylaberId !== 'string') throw new TypeError(`${skylaberId} is not a string`)
+        if (!skylaberId.trim().length) throw new Error('skylaberId is empty')
 
-        return skylabInnApi.retrieveSkylaber(this.__userApiToken__, id)
+        return skylabInnApi.retrieveSkylaber(this.__userApiToken__, skylaberId)
         .then(({user}) => user)
     },
 
@@ -280,19 +278,19 @@ const logic = {
     /**
      * Updates a user.
      * 
-     * @param {Object} data 
+     * @param {Blob} image 
      * 
-     * @throws {TypeError} - if data is not an object.
-     * @throws {Error} - if any data is empty.
+     * @throws {TypeError} - if image is not an blob.
+     * @throws {Error} - if any image is empty.
      *
      * @returns {Object} - user.  
      */
-    updateUserPhoto(data) {
+    updateUserPhoto(image) {
 
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        if (!image) throw Error('image is empty')
+        if (image instanceof Blob === false) throw TypeError(`${image} is not an object`)
 
-        return skylabInnApi.updateUserPhoto(this.__userApiToken__, data)
+        return skylabInnApi.updateUserPhoto(this.__userApiToken__, image)
             .then(({user}) => user)
     },
 

@@ -24,6 +24,7 @@ describe('logic', () => {
     describe('register user', () => {
         const name = 'Àlex'
         const surname = 'Barba'
+        const role = 'Admin'
         let email, password, passwordConfirm
 
         beforeEach(async () => {
@@ -45,6 +46,24 @@ describe('logic', () => {
             expect(user.name).toBe(name)
             expect(user.surname).toBe(surname)
             expect(user.email).toBe(email)
+
+            const match = await bcrypt.compare(password, user.password)
+
+            expect(match).toBeTruthy()
+        })
+
+        it('should succeed on correct data for an Admin', async () => {
+            const id = await logic.registerUser(name, surname, email, password, passwordConfirm, role)
+
+            expect(id).toBeDefined()
+            expect(typeof id === 'string').toBeTruthy()
+
+            const user = await User.findOne({ email })
+
+            expect(user.name).toBe(name)
+            expect(user.surname).toBe(surname)
+            expect(user.email).toBe(email)
+            expect(user.role).toBe(role)
 
             const match = await bcrypt.compare(password, user.password)
 
@@ -168,6 +187,7 @@ describe('logic', () => {
         beforeEach(async () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
+           
             const hash = await bcrypt.hash(password, 11)
             return User.create({ name, surname, email, password: hash })
         })
@@ -300,6 +320,8 @@ describe('logic', () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
 
+           
+
             const hash = await bcrypt.hash(password, 10)
             await User.create({ name, surname, email, password: hash })
 
@@ -369,6 +391,8 @@ describe('logic', () => {
         beforeEach(async () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
+
+           
 
             const hash2 = await bcrypt.hash(password, 10)
             await User.create({ name, surname, email, password: hash2 })
@@ -473,6 +497,8 @@ describe('logic', () => {
             _email = `marti.malek-${Math.random()}@gmail.com`
             _password = 'p'
 
+            await EmailWhitelist.create({ name: _name, surname: _surname, email: _email })
+
             const hash = await bcrypt.hash(_password, 10)
             await User.create({ name: _name, surname: _surname, email: _email, password: hash })
 
@@ -558,6 +584,8 @@ describe('logic', () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
 
+           
+
             const hash = await bcrypt.hash(password, 10)
             await User.create({ name, surname, email, password: hash })
 
@@ -636,6 +664,8 @@ describe('logic', () => {
         beforeEach(async () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
+
+           
 
             const hash = await bcrypt.hash(password, 10)
             await User.create({ name, surname, email, password: hash })
@@ -808,6 +838,8 @@ describe('logic', () => {
         beforeEach(async () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
+
+           
 
             const hash = await bcrypt.hash(password, 10)
             await User.create({ name, surname, email, password: hash })
@@ -1194,7 +1226,7 @@ describe('logic', () => {
             data = { company: 'test', position: 'test', startDate: new Date, endDate: '', current: true }
             await User.deleteMany()
             try {
-                await logic.updateUserInformation(_id, infoId, type, data)
+                await logic.removeUserInformation(_id, infoId, type, data)
             } catch (error) {
                 expect(error).toBeDefined()
                 expect(error.message).toBe(`user with userId ${_id} not found`)
@@ -1203,205 +1235,51 @@ describe('logic', () => {
         })
 
         it('should fail on empty userId', () =>
-            expect(() => logic.updateUserInformation('', infoId, type)).toThrowError('userId is empty'))
+            expect(() => logic.removeUserInformation('', infoId, type)).toThrowError('userId is empty'))
 
         it('should fail when userId is a number', () =>
-            expect(() => logic.updateUserInformation(1, infoId, type)).toThrowError(`1 is not a string`))
+            expect(() => logic.removeUserInformation(1, infoId, type)).toThrowError(`1 is not a string`))
 
         it('should fail when userId is an object', () =>
-            expect(() => logic.updateUserInformation({}, infoId, type)).toThrowError(`[object Object] is not a string`))
+            expect(() => logic.removeUserInformation({}, infoId, type)).toThrowError(`[object Object] is not a string`))
 
         it('should fail when userId is an array', () =>
-            expect(() => logic.updateUserInformation([1, 2, 3], infoId, type)).toThrowError(`1,2,3 is not a string`))
+            expect(() => logic.removeUserInformation([1, 2, 3], infoId, type)).toThrowError(`1,2,3 is not a string`))
 
         it('should fail when userId is a boolean', () =>
-            expect(() => logic.updateUserInformation(true, infoId, type)).toThrowError(`true is not a string`))
+            expect(() => logic.removeUserInformation(true, infoId, type)).toThrowError(`true is not a string`))
 
         it('should fail on empty infoId', () =>
-            expect(() => logic.updateUserInformation(_id, '', type)).toThrowError('infoId is empty'))
+            expect(() => logic.removeUserInformation(_id, '', type)).toThrowError('infoId is empty'))
 
         it('should fail when infoId is a number', () =>
-            expect(() => logic.updateUserInformation(_id, 1, type)).toThrowError(`1 is not a string`))
+            expect(() => logic.removeUserInformation(_id, 1, type)).toThrowError(`1 is not a string`))
 
         it('should fail when infoId is an object', () =>
-            expect(() => logic.updateUserInformation(_id, {}, type)).toThrowError(`[object Object] is not a string`))
+            expect(() => logic.removeUserInformation(_id, {}, type)).toThrowError(`[object Object] is not a string`))
 
         it('should fail when infoId is an array', () =>
-            expect(() => logic.updateUserInformation(_id, [1, 2, 3], type)).toThrowError(`1,2,3 is not a string`))
+            expect(() => logic.removeUserInformation(_id, [1, 2, 3], type)).toThrowError(`1,2,3 is not a string`))
 
         it('should fail when infoId is a boolean', () =>
-            expect(() => logic.updateUserInformation(_id, true, type)).toThrowError(`true is not a string`))
+            expect(() => logic.removeUserInformation(_id, true, type)).toThrowError(`true is not a string`))
 
         it('should fail on empty type', () =>
-            expect(() => logic.updateUserInformation(_id, infoId, '')).toThrowError('type is empty'))
+            expect(() => logic.removeUserInformation(_id, infoId, '')).toThrowError('type is empty'))
 
         it('should fail when type is a number', () =>
-            expect(() => logic.updateUserInformation(_id, infoId, 1)).toThrowError(`1 is not a string`))
+            expect(() => logic.removeUserInformation(_id, infoId, 1)).toThrowError(`1 is not a string`))
 
         it('should fail when type is an object', () =>
-            expect(() => logic.updateUserInformation(_id, infoId, {})).toThrowError(`[object Object] is not a string`))
+            expect(() => logic.removeUserInformation(_id, infoId, {})).toThrowError(`[object Object] is not a string`))
 
         it('should fail when type is an array', () =>
-            expect(() => logic.updateUserInformation(_id, infoId, [1, 2, 3])).toThrowError(`1,2,3 is not a string`))
+            expect(() => logic.removeUserInformation(_id, infoId, [1, 2, 3])).toThrowError(`1,2,3 is not a string`))
 
         it('should fail when type is a boolean', () =>
-            expect(() => logic.updateUserInformation(_id, infoId, true)).toThrowError(`true is not a string`))
+            expect(() => logic.removeUserInformation(_id, infoId, true)).toThrowError(`true is not a string`))
     })
-
-    describe('register admin', () => {
-        const name = 'Àlex'
-        const surname = 'Barba'
-        let role = "Admin"
-        let email, password, passwordConfirm
-
-        beforeEach(async () => {
-            email = `alex.barba-${Math.random()}@gmail.com`
-            password = `Pass-${Math.random()}`
-            passwordConfirm = password
-        })
-
-        it('should succeed on correct data', async () => {
-            const id = await logic.registerAdmin(name, surname, email, password, passwordConfirm, role)
-
-            expect(id).toBeDefined()
-            expect(typeof id === 'string').toBeTruthy()
-
-            const user = await User.findOne({ email })
-
-            expect(user.name).toBe(name)
-            expect(user.surname).toBe(surname)
-            expect(user.email).toBe(email)
-            expect(user.role).toBe(role)
-
-            const match = await bcrypt.compare(password, user.password)
-
-            expect(match).toBeTruthy()
-        })
-
-        it('should fail on wrong role', () => {
-            role = `wrong`
-
-            return logic.registerAdmin(name, surname, email, password, passwordConfirm, role)
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error.message).toBe(`wrong role`)
-                })
-        })
-
-        it('should fail on duplicate email', () => {
-            const _name = 'Àlex'
-            const _surname = 'Barba'
-            const _email = `alex.barba-${Math.random()}@gmail.com`
-            const _password = `Pass-${Math.random()}`
-            const _passwordConfirm = _password
-
-
-            return logic.registerAdmin(_name, _surname, _email, _password, _passwordConfirm, role)
-                .then(id => {
-                    expect(id).toBeDefined()
-                    expect(typeof id === 'string').toBeTruthy()
-                })
-                .then(() => logic.registerAdmin(_name, _surname, _email, _password, _passwordConfirm, role))
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error.message).toBe(`admin with email ${_email} already exists`)
-                })
-        })
-
-        it('should fail when passwords do not match', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, 'do-not-match', role)).toThrowError('passwords do not match'))
-
-        it('should fail on empty name', () =>
-            expect(() => logic.registerAdmin('', surname, email, password, passwordConfirm, role)).toThrowError('name is empty'))
-
-        it('should fail on empty surname', () =>
-            expect(() => logic.registerAdmin(name, '', email, password, passwordConfirm, role)).toThrowError('surname is empty'))
-
-        it('should fail on empty email', () =>
-            expect(() => logic.registerAdmin(name, surname, '', password, passwordConfirm, role)).toThrowError('email is empty'))
-
-        it('should fail on empty password', () =>
-            expect(() => logic.registerAdmin(name, surname, email, '', passwordConfirm, role)).toThrowError('password is empty'))
-
-        it('should fail on empty password confirmation', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, '', role)).toThrowError('password confirmation is empty'))
-
-        it('should fail on empty role', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, passwordConfirm, '')).toThrowError('role is empty'))
-
-        it('should fail when name is a number', () =>
-            expect(() => logic.registerAdmin(1, surname, email, password, passwordConfirm, role)).toThrowError(`1 is not a string`))
-
-        it('should fail when name is an object', () =>
-            expect(() => logic.registerAdmin({}, surname, email, password, passwordConfirm, role)).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when name is an array', () =>
-            expect(() => logic.registerAdmin([1, 2, 3], surname, email, password, passwordConfirm, role)).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when name is a boolean', () =>
-            expect(() => logic.registerAdmin(true, surname, email, password, passwordConfirm, role)).toThrowError(`true is not a string`))
-
-        it('should fail when surname is a number', () =>
-            expect(() => logic.registerAdmin(name, 1, email, password, passwordConfirm, role)).toThrowError(`1 is not a string`))
-
-        it('should fail when surname is an object', () =>
-            expect(() => logic.registerAdmin(name, {}, email, password, passwordConfirm, role)).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when surname is an array', () =>
-            expect(() => logic.registerAdmin(name, [1, 2, 3], email, password, passwordConfirm, role)).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when surname is a boolean', () =>
-            expect(() => logic.registerAdmin(name, true, email, password, passwordConfirm, role)).toThrowError(`true is not a string`))
-
-        it('should fail when email is a number', () =>
-            expect(() => logic.registerAdmin(name, surname, 1, password, passwordConfirm, role)).toThrowError(`1 is not a string`))
-
-        it('should fail when email is an object', () =>
-            expect(() => logic.registerAdmin(name, surname, {}, password, passwordConfirm, role)).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when email is an array', () =>
-            expect(() => logic.registerAdmin(name, surname, [1, 2, 3], password, passwordConfirm, role)).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when email is a boolean', () =>
-            expect(() => logic.registerAdmin(name, surname, true, password, passwordConfirm, role)).toThrowError(`true is not a string`))
-
-        it('should fail when password is a number', () =>
-            expect(() => logic.registerAdmin(name, surname, email, 1, passwordConfirm, role)).toThrowError(`1 is not a string`))
-
-        it('should fail when password is an object', () =>
-            expect(() => logic.registerAdmin(name, surname, email, {}, passwordConfirm, role)).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when password is an array', () =>
-            expect(() => logic.registerAdmin(name, surname, email, [1, 2, 3], passwordConfirm, role)).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when password is a boolean', () =>
-            expect(() => logic.registerAdmin(name, surname, email, true, passwordConfirm, role)).toThrowError(`true is not a string`))
-
-        it('should fail when password confirmation is a number', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, 1, role)).toThrowError(`1 is not a string`))
-
-        it('should fail when password confirmation is an object', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, {}, role)).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when password confirmation is an array', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, [1, 2, 3], role)).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when password confirmation is a boolean', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, true, role)).toThrowError(`true is not a string`))
-
-        it('should fail when role is a number', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, passwordConfirm, 1)).toThrowError(`1 is not a string`))
-
-        it('should fail when role is an object', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, passwordConfirm, {})).toThrowError(`[object Object] is not a string`))
-
-        it('should fail when role is an array', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, passwordConfirm, [1, 2, 3])).toThrowError(`1,2,3 is not a string`))
-
-        it('should fail when role is a boolean', () =>
-            expect(() => logic.registerAdmin(name, surname, email, password, passwordConfirm, true)).toThrowError(`true is not a string`))
-    })
-
+      
     describe('add skylaber', () => {
         const name = 'Àlex'
         const surname = 'Barba'
@@ -1411,6 +1289,8 @@ describe('logic', () => {
         beforeEach(async () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
+            
+           
 
             data = { name: 'Test', surname: 'test', email: `alex.barba-${Math.random()}@gmail.com` }
 
@@ -1527,6 +1407,8 @@ describe('logic', () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
 
+           
+
             const hash = await bcrypt.hash(password, 10)
             await User.create({ name, surname, email, password: hash, role })
 
@@ -1608,6 +1490,8 @@ describe('logic', () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
 
+           
+
             const hash = await bcrypt.hash(password, 10)
             await User.create({ name, surname, email, password: hash })
 
@@ -1674,6 +1558,8 @@ describe('logic', () => {
         beforeEach(async () => {
             email = `alex.barba-${Math.random()}@gmail.com`
             password = `Pass-${Math.random()}`
+
+           
 
             status = await createToken(email)
 
@@ -1852,23 +1738,21 @@ describe('logic', () => {
             } catch (error) {
                 expect(error).toBeDefined()
                 expect(error.message).toBe(`user with userId ${_id} not found`)
-
             }
         })
 
-        it('should fail on if user is not an Admin', async () => {
+        it('should fail if user is not an Admin', async () => {
             const noAdmin = { name: 'Test2', surname: 'test2', email: `alex.barba-${Math.random()}@gmail.com`, password: '123' }
 
             await User.create(noAdmin)
             const userA = await User.findOne({ email: noAdmin.email })
             let id = userA.id
 
-            await User.deleteMany()
             try {
                 await logic.createHashedUrl(id, skylaberIds)
             } catch (error) {
                 expect(error).toBeDefined()
-                expect(error.message).toBe(`user with userId ${id} not found`)
+                expect(error.message).toBe(`Acces denied`)
             }
         })
 

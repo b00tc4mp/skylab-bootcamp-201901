@@ -12,8 +12,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test": "react-scripts test --runInBand",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "test-coverage": "npm test -- --coverage --runInBand"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,6 +29,9 @@
   "devDependencies": {
     "bcrypt": "^3.0.4",
     "dotenv": "^6.2.0",
+    "expect": "^24.1.0",
+    "jsonwebtoken": "^8.5.0",
+    "mocha": "^6.0.2",
     "skylab-inn-data": "file:../skylab-inn-data"
   }
 }

@@ -1,8 +1,6 @@
-'use strict'
-
 const skylabInnApi = {
-    // url: 'http://localhost:8000/api',
-    url: 'https://fast-taiga-93895.herokuapp.com/api',
+    url: 'http://localhost:8000/api',
+    // url: 'https://fast-taiga-93895.herokuapp.com/api',
 
     /**
      * Registers a user.
@@ -150,23 +148,23 @@ const skylabInnApi = {
      * Updates user information
      * 
      * @param {String} token
-     * @param {Object} data
+     * @param {Blob} image
      * 
-     * @throws {TypeError} - if token is not a string or data is not an object.
+     * @throws {TypeError} - if token is not a string or blob is not a blob.
      * @throws {Error} - if any param is empty.
      *
      * @returns {Object} - user.  
      */
-    updateUserPhoto(token, data) {
+    updateUserPhoto(token, image) {
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        if (!image) throw Error('image is empty')
+        if (image instanceof Blob === false) throw TypeError(`${image} is not a blob`)
 
         let formData = new FormData()
-        formData.append('image', data.image)
+        formData.append('image', image)
 
         return fetch(`${this.url}/user-photo`, {
             method: 'POST',
@@ -212,7 +210,6 @@ const skylabInnApi = {
         })
             .then(response => response.json())
             .then(response => {
-                debugger
                 if (response.error) throw new Error(response.error)
 
                 return response
@@ -258,22 +255,22 @@ const skylabInnApi = {
      * Retrieves a skylaber information
      * 
      * @param {String} token 
-     * @param {String} id 
+     * @param {String} skylaberId 
      * 
      * @throws {TypeError} - if any param is not a string.
      * @throws {Error} - if param is empty.
      *
-     * @returns {Object} - skjylaber matching id.  
+     * @returns {Object} - skylaber matching id.  
      */
-    retrieveSkylaber(token, id) {
+    retrieveSkylaber(token, skylaberId) {
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
 
-        if (typeof id !== 'string') throw new TypeError(`${id} is not a string`)
-        if (!id.trim().length) throw new Error('id is empty')
+        if (typeof skylaberId !== 'string') throw new TypeError(`${skylaberId} is not a string`)
+        if (!skylaberId.trim().length) throw new Error('skylaberId is empty')
 
-        return fetch(`${this.url}/skylaber/${id}`, {
+        return fetch(`${this.url}/skylaber/${skylaberId}`, {
             headers: {
                 authorization: `Bearer ${token}`
             }

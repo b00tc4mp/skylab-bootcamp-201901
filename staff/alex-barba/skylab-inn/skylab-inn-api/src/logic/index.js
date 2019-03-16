@@ -67,30 +67,30 @@ const logic = {
 
             const { id } = await User.create({ name, surname, email, password: hash, status })
 
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'skylabinn@gmail.com',
-                    pass: 'Skylabinn123'
-                }
-            })
+            // const transporter = nodemailer.createTransport({
+            //     service: 'gmail',
+            //     auth: {
+            //         user: 'skylabinn@gmail.com',
+            //         pass: 'Skylabinn123'
+            //     }
+            // })
 
-            const mailOptions = {
-                from: 'skylabinn@gmail.com',
-                to: `${email}`,
-                subject: 'Welcome to the Skylab Universe!',
-                html: `<h1>Thanks for signing up ${name}!</h1>
-                    <p>We just need you to verify you email to complete registration.<p>
-                    <p>Please click on the following <a href='http://localhost:8000/api/user/${status}/verify'>link</a>.</p>
-                    <p>Thanks</p>
-                    <p>Skylab Inn</p>
-                `
-            }
+            // const mailOptions = {
+            //     from: 'skylabinn@gmail.com',
+            //     to: `${email}`,
+            //     subject: 'Welcome to the Skylab Universe!',
+            //     html: `<h1>Thanks for signing up ${name}!</h1>
+            //         <p>We just need you to verify you email to complete registration.<p>
+            //         <p>Please click on the following <a href='http://localhost:8000/api/user/${status}/verify'>link</a>.</p>
+            //         <p>Thanks</p>
+            //         <p>Skylab Inn</p>
+            //     `
+            // }
 
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) throw new Error(`email could not be sent`)
-                else ('Email sent: ' + info.response)
-            })
+            // transporter.sendMail(mailOptions, function (error, info) {
+            //     if (error) throw new Error(`email could not be sent`)
+            //     else ('Email sent: ' + info.response)
+            // })
 
             return id
         })()
@@ -568,58 +568,6 @@ const logic = {
 
                     break;
             }
-        })()
-    },
-
-    /**
-     * Registers an Admin user.
-     * 
-     * @param {String} name 
-     * @param {String} surname 
-     * @param {String} email 
-     * @param {String} password
-     * @param {String} passwordConfirm
-     * @param {String} role 
-     * 
-     * @throws {TypeError} - if any param is not a string.
-     * @throws {Error} - if any param is empty or passwords do not match or email is already registered or role is wrong.
-     *
-     * @returns {String} - id. 
-     */
-    registerAdmin(name, surname, email, password, passwordConfirm, role) {
-
-        if (typeof name !== 'string') throw new TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw new Error('name is empty')
-
-        if (typeof surname !== 'string') throw new TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw new Error('surname is empty')
-
-        if (typeof email !== 'string') throw new TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw new Error('email is empty')
-
-        if (typeof password !== 'string') throw new TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw new Error('password is empty')
-
-        if (typeof passwordConfirm !== 'string') throw new TypeError(`${passwordConfirm} is not a string`)
-        if (!passwordConfirm.trim().length) throw new Error('password confirmation is empty')
-
-        if (password !== passwordConfirm) throw new Error('passwords do not match')
-
-        if (typeof role !== 'string') throw new TypeError(`${role} is not a string`)
-        if (!role.trim().length) throw new Error('role is empty')
-
-        return (async () => {
-            if (role === 'User') throw new Error(`wrong role`)
-
-            const admin = await User.findOne({ email })
-
-            if (admin) throw new Error(`admin with email ${email} already exists`)
-
-            const hash = await bcrypt.hash(password, 11)
-
-            const { id } = await User.create({ name, surname, email, password: hash, role })
-
-            return id
         })()
     },
 

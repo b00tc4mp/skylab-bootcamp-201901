@@ -10,7 +10,9 @@
 
 html
     height: 100%
-    background-color: $white
+    background: repeating-linear-gradient(-45deg, transparent 0, transparent 25%, $white 0, $white 50%), repeating-linear-gradient(45deg, transparent 0, transparent 25%, $white 0, $white 50%), repeating-linear-gradient(transparent 0, transparent 25%, $white 0, $white 50%), $white
+    background-blend-mode: multiply
+    background-size: 7px 7px
 
 body 
     min-height: 100%

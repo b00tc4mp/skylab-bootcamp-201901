@@ -5,28 +5,39 @@ import './index.sass'
 
 export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformation, onRemoveInformation, onUpdateInformation, editLanguage, addLanguage, onCancel }) {
 
-    const { userData:{ language }, setFeedback } = useContext(AppContext)
+    const { userData:{ language }, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
 
     const [_language, setLanguage] = useState('')
     const [_levelLanguage, setLevelLanguage] = useState('')
 
-    const handleOnEditLanguage = id => {
-        onEditLanguage(id)
+    const handleOnEditLanguage = lang => {
+        onEditLanguage(lang._id)
+        setLevelLanguage(lang.level)
     }
 
     const handleOnAddLanguage = () => {
+        setLevelLanguage(null)
         onAddLanguage()
     }
 
     const handleAddInformation = (e, type) => {
         e.preventDefault()
-        if (!_levelLanguage || _levelLanguage === 'Choose a level') return setFeedback('Failed to add. Level must be selected')
+        if (!_levelLanguage || _levelLanguage === 'Choose a level') {
+            setShowModal(true)
+            setModalType('error') 
+            return setModalMessage('Failed to add. Level must be selected')
+        }    
         onAddInformation(type, { language: _language, level: _levelLanguage })
+        setLevelLanguage(null)
     }
 
     const handleUpdateInformation = (e, type, id) => {
         e.preventDefault()
-        if (!_levelLanguage || _levelLanguage === 'Choose a level') return setFeedback('Failed to update. Level must be selected')
+        if (!_levelLanguage || _levelLanguage === 'Choose a level'){
+            setShowModal(true)
+            setModalType('error') 
+            return setModalMessage('Failed to update. Level must be selected')
+        }
         onUpdateInformation(type, id, { language: _language, level: _levelLanguage })
     }
 
@@ -85,7 +96,7 @@ export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformatio
                             <div className='language-container__form-header'>
                                 <p>{lang.language}</p>
                                 <div className='language-container__form-header-button'>
-                                    <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditLanguage(lang._id) }}></i> &nbsp;
+                                    <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditLanguage(lang) }}></i> &nbsp;
                                     <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Language', lang._id)}></i> 
                                 </div>
                             </div>    

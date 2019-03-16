@@ -16,9 +16,12 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
 
     useEffect(() => {
         handleOnAddUrlToClipboard()
-    },[addToClipboard])
+    }, [addToClipboard])
 
-    
+    useEffect(() => {
+        search && !!search.length && onAdvancedSearch(search)
+    },[search])
+
     const handleAdvancedSearch = (e) => {
         e.preventDefault()
         setFeedback(null)
@@ -33,13 +36,12 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
     }
 
     const handleOnAddParam = (e) => {
-        debugger
         e.preventDefault()
         setFeedback(null)
         if (!query) {
             setFeedback('Please type in your query')
             inputQuery.current.blur()
-        } else if (param === 'Choose a filter'|| !param ) {
+        } else if (param === 'Choose a filter' || !param) {
             setFeedback('Please choose your filter')
             inputQuery.current.blur()
         } else {
@@ -47,10 +49,9 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
             e.target.value = null
             inputQuery.current.blur()
         }
-    } 
+    }
 
     const handleRemove = id => {
-        debugger
         const skylabers = adSearchResults.filter(skylaber => skylaber._id !== id)
 
         adSearchResults.length === 0 ? setAdSearchResults([]) : setAdSearchResults(skylabers)
@@ -67,16 +68,19 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
     const handleOnParam = param => {
 
         let results
-        
+
         if (search) results = search.filter(filter => filter !== param)
-        else return 
+        else return
 
         if (results.length === 0) {
+            setFeedback(null)
             setSearch([])
             setAdSearchResults([])
         } else {
+            setFeedback(null)
             setSearch(results)
-        }        
+            onAdvancedSearch(search)
+        }
     }
 
     const handleOnSkylaber = id => {
@@ -88,7 +92,8 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
 
         let skylaberIds = adSearchResults.map(skylaber => skylaber._id)
 
-        onShareResults(skylaberIds)
+        if (skylaberIds.length) onShareResults(skylaberIds)
+        else return setFeedback('No Skylabers to be added!')
     }
 
     const handleOnAddUrlToClipboard = () => {
@@ -117,23 +122,23 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
                     </select>
                 </div>
                 <div className='adSearch-form__input'>
-                    <input ref={inputQuery} type='text' name='query' placeholder='Type in the query!' tabIndex='0' onChange={e => setQuery(e.target.value)} ></input>
+                    <input ref={inputQuery} type='text' name='query' placeholder='Your query!' tabIndex='0' onChange={e => setQuery(e.target.value)} ></input>
                 </div>
                 <div className='adSearch-form__add'>
                     <button className='btn btn--primary' type='submit' onClick={e => handleOnAddParam(e)}>Add</button>
-                </div>  
+                </div>
             </form>
             <div className='adSearch-filters'>
-                {search && !!search.length && 
-                    <div className='adSearch-filters__header'> 
+                {search && !!search.length &&
+                    <div className='adSearch-filters__header'>
                         <h5 >Filters</h5>
                         <button className='btn btn--danger' type='submit' onClick={e => handleOnReset(e)}>Reset filters</button>
                     </div>
                 }
                 <div className='adSearch-filters__content'>
-                {search && !!search.length && search.map(res => { 
-                    return (
-                        <a className='pointer' onClick={e => { e.preventDefault(); handleOnParam(res) }} key={res}>{res[0]}: {res[1]}</a> 
+                    {search && !!search.length && search.map(res => {
+                        return (
+                            <a href className='pointer' onClick={e => { e.preventDefault(); handleOnParam(res) }} key={res}>{res[0]}: {res[1]}</a>
                         )
                     })}
                 </div>
@@ -143,19 +148,20 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
             </div>
             {feedback && <Feedback />}
             <div className='adSearch-results'>
-            {adSearchResults && !!adSearchResults.length && 
-                <div className='adSearch-results__header'>
-                    <h5 className='subtitle'>Matching Skylabers</h5>
-                </div>}
-            {adSearchResults && !!adSearchResults.length && adSearchResults.map(res => { return (
-                <div className='adSearch-results__content'>
-                    <a className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
-                    {userData.role === 'Admin' && <i className='far fa-trash-alt icon pointer' onClick={e => { e.preventDefault(); handleRemove(`${res._id}`) }} />}
-                </div> 
-            )})}
+                {adSearchResults && !!adSearchResults.length &&
+                    <div className='adSearch-results__header'>
+                        <h5 className='subtitle'>Matching Skylabers</h5>
+                    </div>}
+                {adSearchResults && !!adSearchResults.length && adSearchResults.map(res => {
+                    return (
+                        <div className='adSearch-results__content'>
+                            <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
+                            {userData.role === 'Admin' && <i className='far fa-trash-alt icon pointer' onClick={e => { e.preventDefault(); handleRemove(`${res._id}`) }} />}
+                        </div>
+                    )
+                })}
             </div>
-            {hashedUrl && <p className='btn btn--primary url'>Public URL added to clipboard</p>}
-            {userData.role === 'Admin' && adSearchResults && <button className='btn btn--primary-inverted pointer' onClick={handleOnShareResults}>Share Results</button>}
+            {userData.role === 'Admin' && adSearchResults && <button className='btn btn--primary-inverted pointer share' onClick={handleOnShareResults}>Share Results</button>}
         </div>
     )
 }

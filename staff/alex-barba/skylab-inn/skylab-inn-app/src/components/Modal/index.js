@@ -5,19 +5,19 @@ import './index.sass'
 
 export default function Modal() {
 
-    const {showModal, setShowModal, modalMessage, setModalMessage} = useContext(AppContext)
+    const {showModal, setShowModal, modalMessage, setModalMessage, modalType} = useContext(AppContext)
 
-    const visible = showModal ? 'modal display-block' : 'modal display-none'
+    const visible = showModal ? `modal--${modalType} display-block  ` : 'modal display-none'
+
 
     const handleCloseModal = () => {
-        debugger
         setShowModal(null)
         setModalMessage(null)
     }
 
     return (
         <div onClick={handleCloseModal} className={visible}>
-            <div className='modal__content'>
+            <div className={`modal--${modalType}__content`}>
                 <p>{modalMessage}</p>
             </div>     
         </div>

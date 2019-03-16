@@ -8,11 +8,11 @@ $success: #DCECA9
 
 /* Font size */
 
-$xsmall: 0.5rem
-$small: 0.6rem
-$medium: 0.7rem
-$large: 0.9rem
-$xlarge: 1.1rem
+$xsmall: 0.7rem
+$small: 0.8rem
+$medium: 0.9rem
+$large: 1.1rem
+$xlarge: 1.2rem
 
 /* Button */
 
@@ -22,16 +22,12 @@ $xlarge: 1.1rem
     &:hover
         background: lighten($bg,60%)
         transition: all 0.3s ease
-        // color: lighten($bg, 10%)
         border-bottom: 0.05rem dotted darken($bg,10%)
 
 @mixin btn-inverted($bg)
     background: darken($bg, 5%)
     color: lighten($bg, 50%)
     &:hover
-        // background: $bg
-        // transition: all 0.3s ease
-        // color: darken($bg, 50%)
         border-bottom: 0.05rem dotted $bg
 
 .btn

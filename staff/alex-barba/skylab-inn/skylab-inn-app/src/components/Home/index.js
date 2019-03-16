@@ -1,5 +1,3 @@
-'use strict'
-
 import React, { Fragment, useContext, useState } from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 import Welcome from '../Welcome'
@@ -15,167 +13,275 @@ import { AppContext } from '../AppContext'
 
 function Home({ history }) {
 
-    const { setFeedback, setSearchResults, setAdSearchResults, setUserData, userData, setWhiteList, setUnverifiedEmails, setSearch, setQuery, showModal, setShowModal, modalMessage, setModalMessage } = useContext(AppContext)
+    const { setShowSpinner, setFeedback, setSearchResults, setAdSearchResults, setUserData, userData, setWhiteList, setUnverifiedEmails, setSearch, setQuery, setShowModal, setModalMessage, setModalType } = useContext(AppContext)
 
     const [hashedUrl, setHashedUrl] = useState('')
     const [addToClipboard, setAddToClipboard] = useState(null)
     const [skylaber, setSkylaber] = useState(null)
 
     const handleSearch = query => {
+        setShowSpinner(true)
         try {
             logic.searchSkylaber(query)
                 .then(searchResults => {
+                    setShowSpinner(null)
                     setFeedback(null)
                     setSearchResults(searchResults)
                 })
                 .catch(({ message }) => {
+                    setShowSpinner(null)
                     setFeedback(message)
-                    setSearchResults([])
+                    setSearchResults(null)
                 })
         } catch ({ message }) {
+            setShowSpinner(null)
             setFeedback(message)
-            setSearchResults([])
+            setSearchResults(null)
         }
     }
 
     const handleSkylaber = id => {
-        debugger
+        setShowSpinner(true)
         try {
             logic.retrieveSkylaber(id)
                 .then(skylaber => {
+                    setShowSpinner(null)
                     setFeedback(null)
                     setSkylaber(skylaber)
                     history.push(`/home/search/${id}`)
                 })
-                .catch(({ message }) => setFeedback(message))
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    setFeedback(message)
+                })
         } catch ({ message }) {
+            setShowSpinner(null)
             setFeedback(message)
         }
     }
 
     const handleAdvancedSearch = param => {
+        setShowSpinner(true)
         try {
             logic.adSearchSkylaber(param)
                 .then(searchResults => {
+                    setShowSpinner(null)
                     setFeedback(null)
                     setAdSearchResults(searchResults)
                 })
                 .catch(({ message }) => {
+                    setShowSpinner(null)
                     setFeedback(message)
                     setAdSearchResults([])
                 })
         } catch ({ message }) {
+            setShowSpinner(null)
             setFeedback(message)
             setAdSearchResults([])
         }
     }
 
     const handleOnShareResults = skylaberIds => {
+        setShowSpinner(true)
         try {
             logic.shareResults(skylaberIds)
                 .then(url => setHashedUrl(url))
                 .then(() => setAddToClipboard())
-                .catch(({ message }) => setFeedback(message))
+                .then(() => {
+                    setShowSpinner(null)
+                    setShowModal(true)
+                    setModalType('success')
+                    setModalMessage('Public URL added to clipboard')
+                })
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    setFeedback(message)
+                })
         } catch ({ message }) {
+            setShowSpinner(null)
             setFeedback(message)
         }
     }
 
     const handleUpdatePersonalInfo = data => {
+        setShowSpinner(true)
         try {
             logic.updateUser(data)
                 .then(() => logic.retrieveUser())
                 .then(user => setUserData(user))
                 .then(() => {
+                    setShowSpinner(null)
                     setShowModal(true)
+                    setModalType('success')
                     setModalMessage('Information successfully updated')
                 })
-                .catch(({message}) => {
-                    switch(true){
-                        case message.includes(' email_1 dup key'): setFeedback('Failed to update. Email is already registered'); break;
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    switch (true) {
+                        case message.includes(' email_1 dup key'):  
+                            setShowModal(true)
+                            setModalType('error')
+                            setModalMessage('Failed to update. Email is already registered')
+                        break;
+                        default: 
+                            setShowModal(true)
+                            setModalType('error')
+                            setModalMessage(message)
+                        break;
                     }
                 })
         } catch ({ message }) {
-            setFeedback(message)
+            setShowSpinner(null)
+            setShowModal(true)
+            setModalType('error')
+            setModalMessage(message)
         }
     }
 
-    const handleOnUploadPhoto = data =>{
+    const handleOnUploadPhoto = image => {
+        setShowSpinner(true)
         try {
-            logic.updateUserPhoto(data)
+            logic.updateUserPhoto(image)
                 .then(user => setUserData(user))
                 .then(() => {
+                    setShowSpinner(null)
                     setShowModal(true)
+                    setModalType('success')
                     setModalMessage('Photo successfully! uploaded')
                 })
-                .catch(({ message }) => setFeedback(message))
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    setShowModal(true)
+                    setModalType('error')
+                    setModalMessage(message)
+                })
         } catch ({ message }) {
-            setFeedback(message)
+            setShowSpinner(null)
+            setShowModal(true)
+            setModalType('error')
+            setModalMessage(message)
         }
     }
 
     const handleAddInformation = (type, data) => {
+        setShowSpinner(true)
         try {
             logic.addUserInformation(type, data)
                 .then(() => logic.retrieveUser())
                 .then(user => setUserData(user))
                 .then(() => {
+                    setShowSpinner(null)
                     setShowModal(true)
+                    setModalType('success')
                     setModalMessage('Information successfully added')
                 })
                 .catch(({ message }) => {
-                    switch(true){
-                        case message.includes('.startDate'): setFeedback('Failed to update. Start date is required'); break;
+                    setShowSpinner(null)
+                    switch (true) {
+                        case message.includes('.startDate'):
+                            setShowModal(true)
+                            setModalType('error') 
+                            setModalMessage('Failed to update. Start date is required')
+                        break;
+                        default: 
+                            setShowModal(true)
+                            setModalType('error')
+                            setModalMessage(message)
+                        break;
                     }
-                    setFeedback(message)
                 })
         } catch ({ message }) {
-            setFeedback(message)
+            setShowSpinner(null)
+            setShowModal(true)
+            setModalType('error')
+            setModalMessage(message)
         }
     }
 
     const handleUpdateInformation = (id, type, data) => {
+        setShowSpinner(true)
         try {
             logic.updateUserInformation(id, type, data)
                 .then(() => logic.retrieveUser())
                 .then(user => setUserData(user))
                 .then(() => {
+                    setShowSpinner(null)
                     setShowModal(true)
+                    setModalType('success')
                     setModalMessage('Information successfully updated')
                 })
-                .catch(({ message }) => setFeedback(message))
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    setShowModal(true)
+                    setModalType('error')
+                    setModalMessage(message)
+                })
         } catch ({ message }) {
-            setFeedback(message)
+            setShowSpinner(null)
+            setShowModal(true)
+            setModalType('error')
+            setModalMessage(message)
         }
     }
 
     const handleRemoveInformation = (id, type) => {
+        setShowSpinner(true)
         try {
             logic.removeUserInformation(id, type)
                 .then(() => logic.retrieveUser())
                 .then(user => setUserData(user))
                 .then(() => {
+                    setShowSpinner(null)
                     setShowModal(true)
+                    setModalType('success')
                     setModalMessage('Information successfully removed')
                 })
-                .catch(({ message }) => setFeedback(message))
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    setShowModal(true)
+                    setModalType('error')
+                    setModalMessage(message)
+                })
         } catch ({ message }) {
-            setFeedback(message)
+            setShowSpinner(null)
+            setShowModal(true)
+            setModalType('error')
+            setModalMessage(message)
         }
     }
 
     const handleOnAddSkylaber = data => {
+        setShowSpinner(true)
         try {
             logic.addSkylaber(data)
                 .then(() => {
+                    setShowSpinner(null)
                     setShowModal(true)
+                    setModalType('success')
                     setModalMessage('Skylaber added to the Whitelist!')
                 })
                 .then(() => logic.retrievePendingSkylabers())
                 .then(preUsers => setWhiteList(preUsers))
-                .catch(({ message }) => setFeedback(message))
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    switch (true) {
+                        case message.includes('is not a valid email'):
+                            setShowModal(true)
+                            setModalType('error') 
+                            setModalMessage('Failed to add. Email is not valid')
+                        break;
+                        default: 
+                            setShowModal(true)
+                            setModalType('error')
+                            setModalMessage(message)
+                        break;
+                    }
+                })
         } catch ({ message }) {
-            setFeedback(message)
+            setShowSpinner(null)
+            setShowModal(true)
+            setModalType('error')
+            setModalMessage(message)
         }
     }
 
@@ -194,8 +300,8 @@ function Home({ history }) {
             .then(preUsers => setWhiteList(preUsers))
             .then(() => logic.retrieveUnverifiedEmails())
             .then(unverified => setUnverifiedEmails(unverified))
-            setFeedback(null)
-            history.push('/home/manage-skylabers')
+        setFeedback(null)
+        history.push('/home/manage-skylabers')
     }
 
     const handleToBack = () => {
@@ -233,12 +339,12 @@ function Home({ history }) {
     return (
         <Fragment>
             <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToManageSkylabers={handleToManageSkylabers} />} />
-            <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber}/>} />
-            <Route path="/home/adsearch" render={() => <AdvancedSearch addToClipboard={addToClipboard}  hashedUrl={hashedUrl} onShareResults={handleOnShareResults} onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber}/>} />
-            <Route path="/home/profile" render={() => userData.role === 'User' ? <Profile onUploadPhoto={handleOnUploadPhoto} onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation}/> : <Redirect to="/home" />} />
-            <Route path="/home/manage-skylabers" render={() => userData.role === 'Admin' ? <ManagaSkylabers onToBack={handleToBack} onSubmit={handleOnAddSkylaber} /> : <Redirect to="/home" />} />
-            <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId} skylaber={skylaber}  retrieveSkylaber={handleSkylaber} onToBack={handleToBack}/>} />
-            <Route path ="/home" render={() => <NavFooter onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut}/>}/>
+            <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber} />} />
+            <Route path="/home/adsearch" render={() => <AdvancedSearch addToClipboard={addToClipboard} hashedUrl={hashedUrl} onShareResults={handleOnShareResults} onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber} />} />
+            <Route path="/home/profile" render={() => userData.role === 'User' ? <Profile onUploadPhoto={handleOnUploadPhoto} onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation} /> : <Redirect to="/home" />} />
+            <Route path="/home/manage-skylabers" render={() => userData.role === 'Admin' ? <ManagaSkylabers onSubmit={handleOnAddSkylaber} /> : <Redirect to="/home" />} />
+            <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId} skylaber={skylaber} retrieveSkylaber={handleSkylaber} onToBack={handleToBack} />} />
+            <Route path="/home" render={() => <NavFooter onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />
         </Fragment>
     )
 }

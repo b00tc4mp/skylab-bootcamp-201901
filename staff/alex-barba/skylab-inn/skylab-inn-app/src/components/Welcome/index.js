@@ -21,12 +21,12 @@ export default function Welcome({ onToSearch, onToAdvancedSearch, onToManageSkyl
     return (
         <div className='welcome-container'>
             <div className='welcome-container__header'>
-                <h2>Welcome {userData.name}! <br/> What would you like to do?</h2>
+                <h2>Welcome {userData.name}! <br /> What would you like to do?</h2>
             </div>
             <div className='welcome-container__menu'>
-                <a onClick={handleToSearch}>Just a query? Click here!</a>
-                <a onClick={handleToAdvancedSearch}>In need to filter? <br/>Then click here!</a>
-                {userData.role === 'Admin' && <a onClick={handleToManageSkylabers}>Manage Skylabers</a>}
+                <a href onClick={handleToSearch}>Just a query? Click here!</a>
+                <a href onClick={handleToAdvancedSearch}>In need to filter? <br />Then click here!</a>
+                {userData.role === 'Admin' && <a href onClick={handleToManageSkylabers}>Manage Skylabers</a>}
             </div>
         </div>
     )

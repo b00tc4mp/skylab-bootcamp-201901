@@ -8,35 +8,40 @@
     
     &-header
         flex-shrink: 0
-        padding-top: 1rem
+        padding-top: 2rem
+        font-size: $xlarge
         align-self: center
         text-align: center
-        fontsize: $xlarge
 
     &-form
+        flex-shrink: 0
         margin-top: 2rem
         display: flex
         flex-direction: row
         justify-content: center
         margin-left: 2rem
         margin-right: 2rem
+        margin-bottom: 1rem
 
         &__input
             display: flex
 
     &-results
+        flex-grow: 1
+        overflow: auto
         padding-top: 1rem
         margin-bottom: 0.5rem
         margin-left: 2rem
         margin-right: 2rem
 
         &__header
+            flex-shrink: 0
             font-size: $large
+            margin-top: 0.8rem
 
         &__content
+            flex-shrink: 0
             font-size: $medium
             text-align: center
-            margin-left: 2rem
-            margin-right: 2rem
-            @extend %border    
+            @extend %border   
 

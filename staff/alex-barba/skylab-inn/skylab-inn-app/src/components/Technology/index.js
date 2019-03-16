@@ -5,31 +5,43 @@ import './index.sass'
 
 export default function Technology({ onAddTech, onEditTech, onAddInformation, onRemoveInformation, onUpdateInformation, editTechnology, addTechnology, onCancel }) {
 
-    const { userData, setFeedback } = useContext(AppContext)
+    const { userData, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
 
     const { technology } = userData
 
     const [_tech, setTech] = useState('')
     const [_levelTech, setLevelTech] = useState('')
 
-    const handleOnEditTech = id => {
-        onEditTech(id)
+    const handleOnEditTech = tech => {
+        onEditTech(tech._id)
+        setLevelTech(tech.level)
     }
 
     const handleOnAddTech = () => {
+        setLevelTech(null)
         onAddTech()
     }
 
     const handleAddInformation = (e, type) => {
         e.preventDefault()
-        if (!_levelTech || _levelTech === 'Choose a level') return setFeedback('Failed to add. Level must be selected')
+        if (!_levelTech || _levelTech === 'Choose a level') {
+            setShowModal(true)
+            setModalType('error') 
+            return setModalMessage('Failed to add. Level must be selected')
+        }
         onAddInformation(type, { tech: _tech, level: _levelTech })
+        setLevelTech(null)
     }
 
     const handleUpdateInformation = (e, type, id) => {
         e.preventDefault()
-        if (!_levelTech || _levelTech === 'Choose a level') return setFeedback('Failed to update. Level must be selected')
+        if (!_levelTech || _levelTech === 'Choose a level') {
+            setShowModal(true)
+            setModalType('error') 
+            return setModalMessage('Failed to update. Level must be selected')
+        }
         onUpdateInformation(type, id, { tech: _tech, level: _levelTech })
+        setLevelTech(null)
     }
 
     const handleRemoveInformation = (e, type, id) => {
@@ -87,7 +99,7 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                             <div className='tech-container__form-header'>
                                 <p>{tech.tech}</p>
                                 <div className='tech-container__form-header-button'>
-                                    <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditTech(tech._id) }}></i> &nbsp;
+                                    <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditTech(tech) }}></i> &nbsp;
                                     <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Tech', tech._id)}></i> 
                                 </div>
                             </div>    

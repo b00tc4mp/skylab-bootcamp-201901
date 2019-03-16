@@ -26,7 +26,7 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                             <h4>{skylaber.name}<br/>{skylaber.surname}</h4>
                         </div>
                         <div className='skylaber-personalInformation-container__image'>
-                            {skylaber.image ? <img src={`${skylaber.image}`}></img> : <img src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
+                            {skylaber.image ? <img alt='default' src={`${skylaber.image}`}></img> : <img alt='uploaded' src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
                         </div>
                     </div>
                     <div className='skylaber-data-container'>
@@ -35,10 +35,10 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                         </div>
                         <div className='skylaber-data-container__content'>
                             {skylaber.email && <a href={`mailto:${skylaber.email}`} target='_top'><i className='far fa-envelope icon'></i>&nbsp;{skylaber.email ? skylaber.email : ''}</a>}
-                            {skylaber.telephone && <a href={`https://api.whatsapp.com/send?phone=${skylaber.telephone}`} target='_blank'><i className='fab fa-whatsapp icon'></i>&nbsp;{skylaber.telephone}</a>}
-                            {skylaber.git && <a href={`${skylaber.git}`} target='_blank'><i className='fab fa-github icon'></i>&nbsp;{skylaber.git}</a>}
-                            {skylaber.linkedin && <a href={`${skylaber.linkedin}`} target='_blank'><i className='fab fa-linkedin icon'></i>&nbsp;{skylaber.linkedin}</a>}
-                            {skylaber.slack && <a href={`https://skylabcoders.slack.com/messages/${skylaber.slack}`} target='_blank'><i className='fab fa-slack icon'></i>&nbsp;{skylaber.slack}</a>}
+                            {skylaber.telephone && <a rel="noopener noreferrer" href={`https://api.whatsapp.com/send?phone=${skylaber.telephone}`} target='_blank'><i className='fab fa-whatsapp icon'></i>&nbsp;{skylaber.telephone}</a>}
+                            {skylaber.git && <a rel="noopener noreferrer" href={`https://github.com/${skylaber.git}`} target='_blank'><i className='fab fa-github icon'></i>&nbsp;{skylaber.git}</a>}
+                            {skylaber.linkedin && <a rel="noopener noreferrer" href={`https://www.linkedin.com/in/${skylaber.linkedin}`} target='_blank'><i className='fab fa-linkedin icon'></i>&nbsp;{skylaber.linkedin}</a>}
+                            {skylaber.slack && <a rel="noopener noreferrer" href={`https://skylabcoders.slack.com/messages/${skylaber.slack}`} target='_blank'><i className='fab fa-slack icon'></i>&nbsp;{skylaber.slack}</a>}
                         </div>
                     </div>
                     <div className='skylaber-data-container'>

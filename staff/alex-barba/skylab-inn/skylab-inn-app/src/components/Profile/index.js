@@ -33,6 +33,7 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
     const [editEducation, setEditEducation] = useState(null)
 
     const handleOnUploadPhoto = () => {
+        debugger
         setEditImage(null)
         onUploadPhoto(_image)
     }
@@ -63,6 +64,9 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                 setAddEducation(null)
                 onAddInformation(type, data)
                 break;
+            default:
+                setFeedback('Please try it again')
+                break;
         }
     }
 
@@ -86,6 +90,9 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                 setEditEducation(null)
                 onUpdateInformation(id, type, data)
                 break;
+            default:
+                setFeedback('Please try it again')
+                break;
         }
     }
 
@@ -105,7 +112,10 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
             case 'Education':
                 onRemoveInformation(id, type)
                 break;
-        }
+            default:
+                setFeedback('Please try it again')
+                break;
+        }   
     }
 
     const handleOnEditPersonalInfo = () => {
@@ -172,10 +182,9 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                         <h4>{name}<br/>{surname}</h4>
                     </div>
                     {!editImage && <div className='profile-container__personalInformation-image'>
-                        {image ? <img src={`${image}`}></img> : <img src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
-                        <a className='pointer'onClick={handleOnEditImage}>Update profile image</a>
+                        {image ? <img alt='Default' onClick={handleOnEditImage} src={`${image}`}></img> : <img alt='Uploaded'onClick={handleOnEditImage} src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
                     </div>}
-                    {editImage && <div className='profile-container__personalInformation-image--edit'><input className='input--small' type='file' name='image' onChange={e => setImage({image: e.target.files[0]})}></input>
+                    {editImage && <div className='profile-container__personalInformation-image--edit'><input className='input--small' type='file' name='image' onChange={e => setImage(e.target.files[0])}></input>
                     <button className='btn btn--success' onClick={e => {e.preventDefault(); handleOnUploadPhoto()}}>Upload image</button>
                     <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditorAdd() }}>Cancel</button></div>}
                 </div>

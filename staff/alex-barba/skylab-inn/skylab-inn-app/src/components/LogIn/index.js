@@ -1,5 +1,3 @@
-'use strict'
-
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../AppContext'
 import Feedback from '../Feedback'
@@ -39,10 +37,10 @@ export default function LogIn({ onLogIn, onToSignUp }) {
                 <button type='submit' className='btn btn--primary'>Log In</button>
             </form>
             <div className='login-container__link'>
-                <a onClick={handleToSignUp} className='signup'>Not a member yet?<br/>Registration only by invitation</a>
+                <a href onClick={handleToSignUp} className='signup'>Not a member yet?<br/>Registration only by invitation</a>
             </div>
             <div className='login-container__footer'>
-                <a href='https://www.skylabcoders.com/en' target='_blank'>Discover Skylab Coders Academy!</a>
+                <a rel="noopener noreferrer" href='https://www.skylabcoders.com/en' target='_blank'>Discover Skylab Coders Academy!</a>
             </div>
         </div>
     )

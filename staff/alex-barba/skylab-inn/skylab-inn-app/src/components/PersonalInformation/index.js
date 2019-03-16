@@ -36,10 +36,10 @@ export default function PersonalInformation({ onEditPersonalInfo, onUpdatePerson
             </div>
             {!editPersonal ? <div className='contactInfo-container__content'>
                 <a href={`mailto:${email}`} target='_top'><i className='far fa-envelope icon'></i>&nbsp;{email ? email : ''}</a>
-                <a href={`https://api.whatsapp.com/send?phone=${telephone}`} target='_blank'><i className='fab fa-whatsapp icon'></i>&nbsp;{telephone}</a>
-                <a href={`${git}`} target='_blank'><i className='fab fa-github icon'></i>&nbsp;{git}</a>
-                <a href={`${linkedin}`} target='_blank'><i className='fab fa-linkedin icon'></i>&nbsp;{linkedin}</a>
-                <a href={`https://skylabcoders.slack.com/messages/${slack}`} target='_blank'><i className='fab fa-slack icon'></i>&nbsp;{slack}</a></div>
+                <a href={`https://api.whatsapp.com/send?phone=${telephone}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-whatsapp icon'></i>&nbsp;{telephone}</a>
+                <a href={`https://github.com/${git}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-github icon'></i>&nbsp;{git}</a>
+                <a href={`https://www.linkedin.com/in/${linkedin}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-linkedin icon'></i>&nbsp;{linkedin}</a>
+                <a href={`https://skylabcoders.slack.com/messages/${slack}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-slack icon'></i>&nbsp;{slack}</a></div>
                 : <form className='contactInfo-container__form' onSubmit={e => handleUpdatePersonalInfo(e)}>
                     <div className='contactInfo-container__form-input'>
                         <i className='far fa-envelope icon'></i>&nbsp;
@@ -51,11 +51,11 @@ export default function PersonalInformation({ onEditPersonalInfo, onUpdatePerson
                     </div>
                     <div className='contactInfo-container__form-input'>
                         <i className='fab fa-github icon'></i>&nbsp;
-                        <input type='text' name='git' placeholder='Git' onChange={e => setGit(e.target.value)} defaultValue={git}></input>
+                        <input type='text' name='git' placeholder='GitHub Account' onChange={e => setGit(e.target.value)} defaultValue={git}></input>
                     </div>
                     <div className='contactInfo-container__form-input'>
                         <i className='fab fa-linkedin icon'></i>&nbsp;
-                        <input type='text' name='linkedin' placeholder='Linkedin' onChange={e => setLinkedin(e.target.value)} defaultValue={linkedin}></input>
+                        <input type='text' name='linkedin' placeholder='Linkedin Cutom URL' onChange={e => setLinkedin(e.target.value)} defaultValue={linkedin}></input>
                     </div>
                     <div className='contactInfo-container__form-input'>
                         <i className='fab fa-slack icon'></i>&nbsp;

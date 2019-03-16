@@ -1,12 +1,10 @@
-'use strict'
-
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../AppContext'
 import Feedback from '../Feedback'
 
 import './index.sass'
 
-export default function ManagaSkylabers({ onSubmit, onToBack }) {
+export default function ManagaSkylabers({ onSubmit }) {
 
     const { feedback, whiteList, unverifiedEmails } = useContext(AppContext)
 
@@ -17,10 +15,6 @@ export default function ManagaSkylabers({ onSubmit, onToBack }) {
     const handleFormSubmit = event => {
         event.preventDefault()
         onSubmit({name, surname, email})
-    }
-
-    const handleToBack = () => {
-        onToBack()
     }
 
     return (
