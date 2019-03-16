@@ -80,9 +80,9 @@ class ProductDetails extends Component {
     handleOnSell = id => {
         try {
             logic.toogleSold(id)
-                .then(() =>this.handleShowProduct(id))
+                .then(() => this.handleShowProduct(id))
         } catch (error) {
-            
+
         }
     }
 
@@ -96,12 +96,11 @@ class ProductDetails extends Component {
                     <Link to="/">
                         <i className="fas fa-long-arrow-alt-left productDetails__icons--back"></i>
                     </Link>
-                    
                     {!this.state.userProduct && <i className={fav ? "fas fa-heart productDetails__icons--heart" : "far fa-heart productDetails__icons--heart"} onClick={() => this.onFav(product.id)}></i>}
                 </div>
                 <div className="productDetails__content">
                     <div className="productDetails__imgcontainer">
-                    {product.sold && <p className="productDetails__icons--sold">Sold</p>}
+                        {product.sold && <img src="images/sold.png" className="productDetails__icons--sold"></img>}
                         <img className="productDetails__img" src={product.imageUrl} />
                     </div>
                     <div className="productDetails__details">

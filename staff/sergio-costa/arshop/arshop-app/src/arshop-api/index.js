@@ -296,6 +296,33 @@ const arshopApi = {
 
                 return response
             })
+    },
+
+    uploadUserImg(token, data) {
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (!data) throw Error('data is empty')
+        // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        let formData = new FormData()
+
+        formData.append('image', data.image)
+
+        return fetch(`${this.url}/user/photo`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
     }
 }
 

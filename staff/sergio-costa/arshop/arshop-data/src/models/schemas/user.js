@@ -36,7 +36,11 @@ const User = new Schema({
     favoriteProducts: [{
         type: ObjectId,
         ref: 'Product'
-    }]
+    }],
+
+    imageUrl: {
+        type: String
+    }
 })
 
 module.exports = User

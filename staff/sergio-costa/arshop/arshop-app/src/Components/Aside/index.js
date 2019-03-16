@@ -5,7 +5,7 @@ import './index.sass'
 
 class Aside extends Component {
 
-    state = { username: null }
+    state = { username: null, imageUrl: null }
 
     _hideAside = () => {
         const overlay = document.querySelector('.sidebar-overlay')
@@ -24,11 +24,11 @@ class Aside extends Component {
         this.props.history.push('/upload/product')
     }
 
-    componentWillReceiveProps(props){
-        this.setState({username: props.username})
+    componentWillReceiveProps(props) {
+        this.retrieveUsername()
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.retrieveUsername()
     }
 
@@ -36,9 +36,14 @@ class Aside extends Component {
         if (logic.isUserLoggedIn) {
             try {
                 logic.retrieveUser()
-                    .then(user => this.setState({username: user.name}))
-                    .catch(({message}) => console.log(message))
-            } catch ({message}) {
+                    .then(user => {
+                        this.setState({ username: user.name })
+                        if (user.imageUrl !== null) {
+                            this.setState({ imageUrl: user.imageUrl })
+                        }
+                    })
+                    .catch(({ message }) => console.log(message))
+            } catch ({ message }) {
                 console.log(message)
             }
         }
@@ -51,7 +56,7 @@ class Aside extends Component {
                     <div className="sidebar__scrolling-content">
                         {logic.isUserLoggedIn && <div className="sidebar__scrolling-content-scroll">
                             <div className="sidebar__user">
-                                <i className="fas fa-user"></i>
+                            <img className="sidebar__user--img" src={this.state.imageUrl ? this.state.imageUrl : "/images/logoplaceholder.png"}></img>
                                 <p className="sidebar__user--text">{this.state.username}</p>
                             </div>
                             <nav className="menu">
@@ -63,11 +68,6 @@ class Aside extends Component {
                                         </button>
                                     </li>
                                     <div className="menu__items">
-                                        {/* <li className="menu__item" onClick={() => this._hideAside()}>
-                                            <Link to="/user/profile" title="profile" className="menu__link">
-                                                My Profile
-                                            </Link>
-                                        </li> */}
                                         <li className="menu__item" onClick={() => this._hideAside()}>
                                             <Link to="/user/profile/products" title="products" className="menu__link">
                                                 My Products

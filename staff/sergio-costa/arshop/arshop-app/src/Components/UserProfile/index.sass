@@ -34,6 +34,10 @@
             width: 5em
             height: 5em
 
+    &__file
+        display: flex
+        flex-direction: column
+
     &__nav
         display: flex
         border-bottom: 1px solid lightgrey
@@ -57,3 +61,28 @@
 
 .bordergreen
     border-bottom: 4px solid #ff9b71
+
+.personal-image
+  text-align: center
+
+.personal-image input[type="file"]
+  display: none
+
+.personal-figure
+  position: relative
+  width: 6em
+  height: 6em
+
+.personal-avatar
+  cursor: pointer
+  width: 6em
+  height: 6em
+  box-sizing: border-box
+  border-radius: 100%
+  border: 2px solid transparent
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2)
+  transition: all ease-in-out .3s
+
+.personal-avatar:hover
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5)
+

@@ -5,10 +5,11 @@
 
     &__header
         display: flex
+        flex-direction: row
 
     &__title
         margin: 0 auto
-        font-size: 1.5em
+        font-size: 1.3em
     
     &__logo
         font-size: 1.7em
@@ -31,9 +32,9 @@
         width: 100%
         border: 0
         font-size: 1.2em
-        padding-top: 10px 
+        // padding-top: 10px 
         border-bottom: 1px solid #f5ebeb
-        border-bottom: 1px solid grey
+        border-bottom: 1px solid lightgrey
         outline: none
 
     &__list
@@ -67,3 +68,36 @@
     line-height: 50px
     cursor: pointer
 
+.upload
+    position: relative
+    display: inline-block
+    align-self: center
+
+.upload label
+    color: #5F626A
+    cursor: pointer
+    width: 5em
+    height: 5em
+    position: relative
+    display: block
+    border: 3px dashed #5F626A
+    border-radius: 10px
+    overflow: hidden
+    transition: background ease .5s
+    pointer-events: none
+    display: flex
+
+.input-file
+    opacity: 0
+    position: absolute
+    width: 100%
+    height: 100%
+    cursor: pointer
+
+.add-image
+    display: block
+    width: 100%
+    text-align: center
+    font-size: 11px
+    font-family: sans-serif
+    align-self: center

@@ -7,18 +7,24 @@ import './index.sass'
 
 class UserProfile extends Component {
 
-    state = { products: [], feedback: null, favIds: [], username: null }
+    state = { products: [], feedback: null, favIds: [], username: null, image: null, userImage: null }
 
     componentDidMount() {
 
         this.handleRetrieveProducts()
         this.retrieveUserName()
+
     }
 
     retrieveUserName = () => {
-        if(logic.isUserLoggedIn){
+        if (logic.isUserLoggedIn) {
             logic.retrieveUser()
-                .then(user => this.setState({username: user.name}))
+                .then(user => {
+                    this.setState({ username: user.name })
+                    if(user.imageUrl !== null){
+                        this.setState({userImage: user.imageUrl})
+                    }
+                })
         }
     }
 
@@ -38,6 +44,16 @@ class UserProfile extends Component {
         }
     }
 
+    handleUserImage = () => {
+        try {
+            const { state: {image} } = this
+            logic.uploadUserImg({image})
+                .then(user => this.setState({userImage: user.imageUrl}))
+        } catch (error) {
+            
+        }
+    }
+
     render() {
         return <section className="profile">
             <div className="profile__header">
@@ -48,7 +64,16 @@ class UserProfile extends Component {
                 </div>
                 <div className="profile__user">
                     <h3 className="profile__user--text">{this.state.username}</h3>
-                    <img className="profile__user--img" src="/images/logoplaceholder.png"></img>
+                    <div className="profile__file">
+                        <div class="personal-image">
+                            <label class="label">
+                                <input type="file" onChange={e => this.setState({ image: e.target.files[0] }, () => this.handleUserImage())} />
+                                <figure class="personal-figure">
+                                    <img src={this.state.userImage ? this.state.userImage : "/images/logoplaceholder.png"} class="personal-avatar" alt="avatar" />
+                                </figure>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="profile__nav">
@@ -61,8 +86,8 @@ class UserProfile extends Component {
                     <p className="profile__link--text">Favorites</p>
                 </Link>
             </div>
-            <Route path="/user/profile/products" render={() => <UserProducts products={this.state.products} favIds={this.state.favIds} feedback={this.state.feedback} onProductSelect={this.props.onProductSelect}/>} />
-            <Route path="/user/profile/favorites" render={() => <Favorites products={this.state.favIds} feedback={this.state.feedback} onProductSelect={this.props.onProductSelect} onFavClick={this.handleRetrieveProducts}/>} />
+            <Route path="/user/profile/products" render={() => <UserProducts products={this.state.products} favIds={this.state.favIds} feedback={this.state.feedback} onProductSelect={this.props.onProductSelect} />} />
+            <Route path="/user/profile/favorites" render={() => <Favorites products={this.state.favIds} feedback={this.state.feedback} onProductSelect={this.props.onProductSelect} onFavClick={this.handleRetrieveProducts} />} />
         </section>
     }
 }

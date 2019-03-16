@@ -77,13 +77,14 @@ const logic = {
 
     retrieveUser() {
         return arshopApi.retrieveUser(this.__userApiToken__)
-            .then(({ id, name, surname, email, products = [], favoriteProducts = [] }) => ({
+            .then(({ id, name, surname, email, products = [], favoriteProducts = [], imageUrl = null }) => ({
                 id,
                 name,
                 surname,
                 email,
                 products,
                 favoriteProducts,
+                imageUrl,
             }))
     },
 
@@ -168,8 +169,15 @@ const logic = {
 
         return arshopApi.uploadProductImg(this.__userApiToken__, productId, data)
             // .then(({ product }) => product)
-    }
+    },
 
+    uploadUserImg(data) {
+        if (!data) throw Error('data is empty')
+        // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+
+        return arshopApi.uploadUserImg(this.__userApiToken__, data)
+            // .then(({ product }) => product)
+    }
 }
 
 export default logic

@@ -424,7 +424,27 @@ const logic = {
                         return product
                     })
             })
-    }
+    },
+
+    uploadUserImg(userId, url) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
+        if (!url.trim().length) throw Error('url is empty')
+
+        return User.findByIdAndUpdate(userId, {imageUrl: url}, { new: true, runValidators: true }).select('-__v -password').lean()
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                user.id = user._id.toString()
+
+                delete user._id
+
+                return user
+            })
+    },
 
 }
 

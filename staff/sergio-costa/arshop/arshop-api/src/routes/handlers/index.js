@@ -29,5 +29,7 @@ module.exports = {
 
     uploadProductImg: require('./upload-product-img'),
 
+    uploadUserImg: require('./upload-user-img'),
+
     notFound: require('./not-found')
 }

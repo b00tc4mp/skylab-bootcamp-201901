@@ -69,9 +69,9 @@ class Product extends Component {
                 <div className="product__content">
                     <p className="product__price">{price} €</p>
                     <p className="product__tittle">{tittle}</p>
-                    <p className="product__description">{description}</p>
+                    <p className="product__description">{description.length < 50 ? description.substr(0, 50) : description.substr(0, 50)+"...."}</p>
                 </div>
-                {sold && <p className="product__sold">Sold</p>}
+                {sold && <img src="images/sold.png" className="product__sold"></img>}
                 {!this.state.userProduct && <div className="product__btncontainer" onClick={event => [onFav(id), event.stopPropagation()]}>
                     <button className="product__btn">
                         <i className={fav ? "fas fa-heart product__logo" : "far fa-heart product__logo"}></i>
