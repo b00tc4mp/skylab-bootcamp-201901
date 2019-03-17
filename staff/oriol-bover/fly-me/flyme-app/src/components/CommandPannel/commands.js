@@ -1,4 +1,4 @@
-export default commands = {
+const commands = {
     'cmd-1': { id: 'cmd-1', content: 'TAKE OFF', command: 'takeoff', timeOut: 5000 },
     'cmd-2': { id: 'cmd-2', content: 'LAND', command: 'land', timeOut: 5000 },
     'cmd-3': { id: 'cmd-3', content: 'UP', command: 'up 20', timeOut: 5000 },
@@ -15,3 +15,5 @@ export default commands = {
     'cmd-14': { id: 'cmd-14', content: 'FLIP BACK', command: 'flip b', timeOut: 5000 },
 
 }
+
+export default commands
