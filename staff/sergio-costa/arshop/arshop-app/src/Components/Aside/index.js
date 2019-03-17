@@ -38,9 +38,7 @@ class Aside extends Component {
                 logic.retrieveUser()
                     .then(user => {
                         this.setState({ username: user.name })
-                        if (user.imageUrl !== null) {
-                            this.setState({ imageUrl: user.imageUrl })
-                        }
+                        this.setState({ imageUrl: user.imageUrl })
                     })
                     .catch(({ message }) => console.log(message))
             } catch ({ message }) {

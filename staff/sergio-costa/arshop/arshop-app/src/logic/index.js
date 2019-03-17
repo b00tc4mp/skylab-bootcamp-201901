@@ -177,6 +177,27 @@ const logic = {
 
         return arshopApi.uploadUserImg(this.__userApiToken__, data)
             // .then(({ product }) => product)
+    },
+
+    retrieveUserFromProducts(productId){
+        if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        return arshopApi.retrieveUserFromProducts(productId)
+    },
+
+    retrieveUserWithId(userId){
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return arshopApi.retrieveUserWithId(userId)
+    },
+
+    retrieveProductsFromUserId(userId){
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return arshopApi.retrieveProductsFromUserId(userId)
     }
 }
 

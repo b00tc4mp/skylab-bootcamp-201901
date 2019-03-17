@@ -23,7 +23,7 @@ class UploadProduct extends Component {
                     return id
                 })
                 .then(id => {
-                    if(this.state.image !== null) return logic.uploadProductImg(id, { image })
+                    if (this.state.image !== null) return logic.uploadProductImg(id, { image })
                 })
                 .then(() => this.props.history.push('/'))
                 .catch(({ message }) => this.setState({ feedback: message }))
@@ -52,10 +52,6 @@ class UploadProduct extends Component {
         console.log('will mount')
     }
 
-    componentWillReceiveProps(props){
-        console.log(props.city)
-    }
-
     render() {
 
         const { handleInput, handleFormSubmit, goToCity, goToCategory } = this
@@ -80,6 +76,14 @@ class UploadProduct extends Component {
             </div>
             <form className="form" onSubmit={handleFormSubmit}>
                 <div className="form__inputrow">
+                    <label className="form__label--input">City</label>
+                    <input className="form__input" type="text" name="city" value={this.state.city} onChange={handleInput} onFocus={() => goToCity()} />
+                </div>
+                <div className="form__inputrow">
+                    <label className="form__label--input">Category</label>
+                    <input className="form__input" type="text" name="category" value={this.state.category} onChange={handleInput} onFocus={() => goToCategory()} />
+                </div>
+                <div className="form__inputrow">
                     <label className="form__label--input">Tittle</label>
                     <input className="form__input" type="text" name="tittle" onChange={handleInput} />
                 </div>
@@ -91,14 +95,7 @@ class UploadProduct extends Component {
                     <label className="form__label--input">Price</label>
                     <input className="form__input" type="number" name="price" onChange={handleInput} />
                 </div>
-                <div className="form__inputrow">
-                    <label className="form__label--input">City</label>
-                    <input className="form__input" type="text" name="city" value={this.state.city} onChange={handleInput} onFocus={() => goToCity()} />
-                </div>
-                <div className="form__inputrow">
-                    <label className="form__label--input">Category</label>
-                    <input className="form__input" type="text" name="category" value={this.state.category} onChange={handleInput} onFocus={() => goToCategory()} />
-                </div>
+
                 <div className="form__button">
                     <button className="form__btn">Upload Product</button>
                 </div>

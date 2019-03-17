@@ -250,7 +250,7 @@ const arshopApi = {
             if (typeof q !== 'string') throw TypeError(`${q} is not a string`)
             if (!q.trim().length) throw Error('query cannot be empty')
         }
-        if (qcategory !== undefined ||null) {
+        if (qcategory !== undefined || null) {
             if (typeof qcategory !== 'string') throw TypeError(`${qcategory} is not a string`)
             if (!qcategory.trim().length) throw Error('category cannot be empty')
         }
@@ -323,7 +323,51 @@ const arshopApi = {
 
                 return response
             })
+    },
+
+    retrieveUserFromProducts(productId) {
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        return fetch(`${this.url}/user/product/${productId}`)
+
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveUserWithId(userId) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return fetch(`${this.url}/user/${userId}`)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveProductsFromUserId(userId) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return fetch(`${this.url}/products/user/${userId}`)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
     }
+
 }
 
 export default arshopApi

@@ -18,14 +18,9 @@ class ArCompo extends Component {
                 <div>
                     <button className="ar__btn">BACK</button>
                 </div>
-                <a-assets>
-                        {/* <a-asset-item id="cityModel" src="models/police/quad.fbx"></a-asset-item> */}
-                    </a-assets>
-                    {/* <a-entity gltf-model="#cityModel" modify-materials></a-entity> */}
                 <a-marker preset="hiro">
-
                     {/* <a-gltf-model src={`models/seat/scene.gltf`} scale="1 1 1"></a-gltf-model> */}
-                    {/* <a-entity obj-model="obj: url(models/police/SAMSUNG_Laptop.obj)" scale="0.2 0.2 0.2"></a-entity> */}
+                    <a-entity obj-model="obj: url(models/police/SAMSUNG_Laptop.obj)" scale="0.2 0.2 0.2"></a-entity>
                     {/* <Entity geometry={{ primitive: 'box', width: '1', height: '1' }}
                         position={{ x: 0, y: 0, z: -1 }} /> */}
                 </a-marker>

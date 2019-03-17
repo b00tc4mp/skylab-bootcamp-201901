@@ -31,5 +31,11 @@ module.exports = {
 
     uploadUserImg: require('./upload-user-img'),
 
+    retrieveUserFromProducts: require('./retrieve-user-from-product'),
+
+    retrieveUserWithId: require('./retrieve-user-with-id'),
+
+    retrieveProductsFromUserId: require('./retrieve-userid-products'),
+
     notFound: require('./not-found')
 }

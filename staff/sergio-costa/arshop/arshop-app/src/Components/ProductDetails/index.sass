@@ -1,5 +1,7 @@
 .productDetails
     
+    &__html
+        margin-bottom: 5em
 
     &__icons
         display: flex
@@ -24,8 +26,12 @@
 
         &--sold
             position: absolute
-            width: 20em
-            height: 20em
+            width: 2em
+            height: 2em
+            background-color: white
+            border-radius: 50px
+            margin-left: 0.5em
+            margin-top: 0.5em        
 
     &__content
         display: flex
@@ -65,3 +71,19 @@
         font-size: 1.2em
         color: white
         font-weight: bold
+
+    &__user
+        display: flex
+        border-bottom: 1px solid lightgrey
+        border-top: 1px solid lightgrey
+        padding: 1em
+
+        &--img
+            width: 4em
+            height: 4em
+            border-radius: 50px
+
+        &--name
+            align-self: center
+            margin-left: 1em
+            font-size: 1.3em

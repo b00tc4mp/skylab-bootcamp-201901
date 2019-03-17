@@ -6,7 +6,7 @@ const imageParser = require('../image-parser')
 const cloudinaryUploader = require('../cloudinary')
 
 const { tokenVerifierMiddleware } = tokenHelper
-const { registerUser, authenticateUser, retrieveUser, updateUser, addProduct, retrieveProducts, retrieveProduct, toogleFav, retrieveFavs, searchProductsByCategory, searchProducts, updateProduct, retrieveUserProducts, toogleSold, uploadProductImg, uploadUserImg, notFound } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, addProduct, retrieveProducts, retrieveProduct, toogleFav, retrieveFavs, searchProductsByCategory, searchProducts, updateProduct, retrieveUserProducts, toogleSold, uploadProductImg, uploadUserImg, retrieveUserFromProducts, retrieveUserWithId, retrieveProductsFromUserId, notFound } = require('./handlers')
 
 //#region cloudinary
 // const { parseImageUpload } = require('../../cloudinary/midlecloud')
@@ -50,6 +50,12 @@ router.get('/search', searchProducts)
 router.post('/product/photo/:id', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], uploadProductImg)
 
 router.post('/user/photo', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], uploadUserImg)
+
+router.get('/user/product/:id', retrieveUserFromProducts )
+
+router.get('/user/:id', retrieveUserWithId)
+
+router.get('/products/user/:id', retrieveProductsFromUserId)
 
 router.get('*', notFound)
 

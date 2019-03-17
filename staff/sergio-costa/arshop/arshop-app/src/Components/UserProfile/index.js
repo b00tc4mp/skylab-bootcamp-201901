@@ -68,8 +68,8 @@ class UserProfile extends Component {
                         <div class="personal-image">
                             <label class="label">
                                 <input type="file" onChange={e => this.setState({ image: e.target.files[0] }, () => this.handleUserImage())} />
-                                <figure class="personal-figure">
-                                    <img src={this.state.userImage ? this.state.userImage : "/images/logoplaceholder.png"} class="personal-avatar" alt="avatar" />
+                                <figure className="personal-figure">
+                                    <img src={this.state.userImage ? this.state.userImage : "/images/logoplaceholder.png"} className="personal-avatar" alt="avatar" />
                                 </figure>
                             </label>
                         </div>

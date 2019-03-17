@@ -241,7 +241,7 @@ const logic = {
 
                 return user.save()
                     .then(() => {
-                        if(index<0)return true
+                        if (index < 0) return true
                         else return false
                     })
             })
@@ -434,7 +434,7 @@ const logic = {
         if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
         if (!url.trim().length) throw Error('url is empty')
 
-        return User.findByIdAndUpdate(userId, {imageUrl: url}, { new: true, runValidators: true }).select('-__v -password').lean()
+        return User.findByIdAndUpdate(userId, { imageUrl: url }, { new: true, runValidators: true }).select('-__v -password').lean()
             .then(user => {
                 if (!user) throw Error(`user with id ${userId} not found`)
 
@@ -445,6 +445,74 @@ const logic = {
                 return user
             })
     },
+
+    retrieveUserFromProducts(productId) {
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId is empty')
+
+        return Product.findById(productId)
+            .then(product => {
+                if (!product) throw Error(`product with id ${productId} not found`)
+                return product.owner
+            })
+            .then(idUser => {
+                return User.find({ _id: { $in: idUser } }).select('-__v').lean()
+                .then(users => {
+                    if (!users) throw Error('there are no users')
+    
+                    users.forEach(user => {
+                        user.id = user._id.toString()
+                        delete user._id
+                    })
+                    return users
+                })
+            })
+            // .then(user => {
+            //     // user.id = user._id.toString()
+            //     // delete user._id
+            //     return user
+            // })
+    },
+
+    retrieveUserWithId(id){
+
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw Error('id is empty')
+
+        return User.findById(id).select('-__v').lean()
+            .then(user => {
+                if(!user)throw Error(`user with id ${id} not found`)
+
+                user.id = user._id.toString()
+
+                delete user._id
+
+                return user
+            })
+    },
+
+    retrieveProductsFromUserId(id){
+
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        return User.findById(id)
+            .then(user => {
+                if (!user) throw Error(`user with id ${id} not found`)
+                return user.products
+            })
+            .then(idProducts => {
+                return Product.find({ _id: { $in: idProducts } }).select('-__v').lean()
+            })
+            .then(products => {
+                products.forEach(product => {
+                    product.id = product._id.toString()
+                    delete product._id
+                })
+                return products
+            })
+    }
 
 }
 
