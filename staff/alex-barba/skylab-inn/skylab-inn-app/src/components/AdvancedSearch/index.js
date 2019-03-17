@@ -160,7 +160,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
                     )
                 })}
             </div>
-            {userData.role === 'Admin' && adSearchResults && <button className='btn btn--primary-inverted pointer share' onClick={handleOnShareResults}>Share Results</button>}
+            {userData.role === 'Admin' && adSearchResults && !!adSearchResults.length && <button className='btn btn--primary-inverted pointer share' onClick={handleOnShareResults}>Share Results</button>}
         </div>
     )
 }

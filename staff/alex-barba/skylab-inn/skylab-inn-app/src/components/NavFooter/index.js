@@ -22,7 +22,7 @@ export default function NavFooter({ onToWelcome, onToProfile, onToSignOut }) {
 
     return (
         <nav className='nav-footer'>
-            <i className='fas fa-home icon' onClick={handleToWelcome}/>
+            <i className='fas fa-home icon' onClick={handleToWelcome}> <span>Skylab Inn</span></i>
             {userData.role === 'User' &&  <i className='far fa-user-circle icon' onClick={handleToProfile}/>}
             <i className='fas fa-sign-out-alt icon' onClick={handleToSignOut}/>
         </nav>

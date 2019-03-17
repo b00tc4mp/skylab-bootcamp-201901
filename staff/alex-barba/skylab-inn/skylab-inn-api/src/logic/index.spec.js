@@ -116,7 +116,7 @@ describe('logic', () => {
             expect(() => logic.registerUser(name, surname, email, '', passwordConfirm)).toThrowError('password is empty'))
 
         it('should fail on empty password confirmation', () =>
-            expect(() => logic.registerUser(name, surname, email, password, '')).toThrowError('password confirmation is empty'))
+            expect(() => logic.registerUser(name, surname, email, password, '')).toThrowError('passwordConfirm is empty'))
 
         it('should fail when name is a number', () =>
             expect(() => logic.registerUser(1, surname, email, password, passwordConfirm)).toThrowError(`1 is not a string`))
@@ -558,19 +558,19 @@ describe('logic', () => {
         it('should fail when userId is a boolean', () =>
             expect(() => logic.adSearchSkylaber(true, test)).toThrowError(`true is not a string`))
 
-        it('should fail on empty param', () =>
-            expect(() => logic.adSearchSkylaber(_id, [])).toThrowError('param is empty'))
+        it('should fail on empty filters', () =>
+            expect(() => logic.adSearchSkylaber(_id, [])).toThrowError('filters is empty'))
 
-        it('should fail when param is a number', () =>
+        it('should fail when filters is a number', () =>
             expect(() => logic.adSearchSkylaber(_id, 1)).toThrowError(`1 is not an array`))
 
-        it('should fail when param is an object', () =>
+        it('should fail when filters is an object', () =>
             expect(() => logic.adSearchSkylaber(_id, {})).toThrowError(`[object Object] is not an array`))
 
-        it('should fail when param is a string', () =>
+        it('should fail when filters is a string', () =>
             expect(() => logic.adSearchSkylaber(_id, 'test')).toThrowError(`test is not an array`))
 
-        it('should fail when param is a boolean', () =>
+        it('should fail when filters is a boolean', () =>
             expect(() => logic.adSearchSkylaber(_id, true)).toThrowError(`true is not an array`))
 
     })

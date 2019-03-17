@@ -11,7 +11,7 @@ const { mongoose, models: { EmailWhitelist, User, Work } } = require('skylab-inn
 
 const { env: { DB_URL } } = process
 
-describe('skylab inn api', () => {
+describe('logic', () => {
 
     beforeAll(() => mongoose.connect(DB_URL, { useNewUrlParser: true }))
 
@@ -23,7 +23,6 @@ describe('skylab inn api', () => {
         ])
     )
     
-
     describe('register user', () => {
         const name = 'Àlex'
         const surname = 'Barba'
@@ -85,7 +84,7 @@ describe('skylab inn api', () => {
             expect(() => logic.registerUser(name, surname, email, '', passwordConfirm)).toThrowError('password is empty'))
 
         it('should fail on empty password confirmation', () =>
-            expect(() => logic.registerUser(name, surname, email, password, '')).toThrowError('password confirmation is empty'))
+            expect(() => logic.registerUser(name, surname, email, password, '')).toThrowError('passwordConfirm is empty'))
 
         it('should fail when name is a number', () =>
             expect(() => logic.registerUser(1, surname, email, password, passwordConfirm)).toThrowError(`1 is not a string`))

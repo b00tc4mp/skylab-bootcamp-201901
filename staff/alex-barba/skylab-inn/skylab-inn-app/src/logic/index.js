@@ -1,4 +1,5 @@
 import skylabInnApi from '../skylab-inn-api'
+import validate from 'skylab-inn-validation'
 
 /**
  * Abstraction of business logic.
@@ -23,20 +24,7 @@ const logic = {
      */
     registerUser(name, surname, email, password, passwordConfirm) {
 
-        if (typeof name !== 'string') throw new TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw new Error('name is empty')
-
-        if (typeof surname !== 'string') throw new TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw new Error('surname is empty')
-
-        if (typeof email !== 'string') throw new TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw new Error('email is empty')
-
-        if (typeof password !== 'string') throw new TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw new Error('password is empty')
-
-        if (typeof passwordConfirm !== 'string') throw new TypeError(`${passwordConfirm} is not a string`)
-        if (!passwordConfirm.trim().length) throw new Error('password confirmation is empty')
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
         if (password !== passwordConfirm) throw new Error('passwords do not match')
 
@@ -57,11 +45,7 @@ const logic = {
      */
     logInUser(email, password) {
 
-        if (typeof email !== 'string') throw new TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw new Error('email is empty')
-
-        if (typeof password !== 'string') throw new TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw new Error('password is empty')
+        validate([{ key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }])
 
         return skylabInnApi.authenticateUser(email, password)
             .then(token => this.__userApiToken__ = token)
@@ -84,8 +68,6 @@ const logic = {
     /**
      * Retrieves user information
      * 
-     * @param {String} token 
-     *
      * @returns {Object} - user.  
      */
     retrieveUser() {
@@ -105,8 +87,7 @@ const logic = {
      */
     updateUser(data) {
 
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'data', value: data, type: Object }])
 
         return skylabInnApi.updateUser(this.__userApiToken__, data)
             .then(({user}) => user)
@@ -124,8 +105,7 @@ const logic = {
      */
     searchSkylaber(query) {
 
-        if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
-        if (!query.trim().length) throw new Error('query is empty')
+        validate([{ key: 'query', value: query, type: String }])
 
         return skylabInnApi.searchSkylaber(this.__userApiToken__, query)
             .then(({user}) => user)
@@ -143,9 +123,7 @@ const logic = {
      */
     adSearchSkylaber(param) {
 
-        if (param instanceof Array === false) throw new TypeError(`${param} is not an array`)
-        if (!param.length) throw new Error('param is empty')
-
+        validate([{ key: 'param', value: param, type: Array }])
 
         return skylabInnApi.adSearchSkylaber(this.__userApiToken__, param)
             .then(({user}) =>  user)
@@ -163,8 +141,7 @@ const logic = {
      */
     retrieveSkylaber(skylaberId) {
 
-        if (typeof skylaberId !== 'string') throw new TypeError(`${skylaberId} is not a string`)
-        if (!skylaberId.trim().length) throw new Error('skylaberId is empty')
+        validate([{ key: 'skylaberId', value: skylaberId, type: String }])
 
         return skylabInnApi.retrieveSkylaber(this.__userApiToken__, skylaberId)
         .then(({user}) => user)
@@ -183,11 +160,7 @@ const logic = {
      */
     addUserInformation(type, data) {
         
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
-
-        if (!data) throw new Error('data is empty')
-        if (data.constructor !== Object) throw new TypeError(`${data} is not an object`)
+        validate([{ key: 'type', value: type, type: String }, { key: 'data', value: data, type: Object }])
 
         return skylabInnApi.addUserInformation(this.__userApiToken__, type, data)
             .then(({id}) => id)
@@ -207,14 +180,7 @@ const logic = {
      */
     updateUserInformation(infoId, type, data) {
 
-        if (typeof infoId !== 'string') throw new TypeError(`${infoId} is not a string`)
-        if (!infoId.trim().length) throw new Error('infoId is empty')
-
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'infoId', value: infoId, type: String }, { key: 'type', value: type, type: String }, { key: 'data', value: data, type: Object }])
 
         return skylabInnApi.updateUserInformation(this.__userApiToken__, infoId, type, data)
             .then(({id}) => id)
@@ -233,11 +199,7 @@ const logic = {
      */
     removeUserInformation(infoId, type) {
 
-        if (typeof infoId !== 'string') throw new TypeError(`${infoId} is not a string`)
-        if (!infoId.trim().length) throw new Error('infoId is empty')
-
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
+        validate([{ key: 'infoId', value: infoId, type: String }, { key: 'type', value: type, type: String }])
 
         return skylabInnApi.removeUserInformation(this.__userApiToken__, infoId, type)
             .then(({id}) => id)
@@ -255,9 +217,7 @@ const logic = {
      */
     addSkylaber(data) {
 
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-
+        validate([{ key: 'data', value: data, type: Object }])
 
         return skylabInnApi.addSkylaber(this.__userApiToken__, data)
             .then(({id}) => id)
@@ -265,8 +225,6 @@ const logic = {
 
     /**
      * Retrieve whitelist skylabers with pending status.
-     * 
-     * @param {String} token 
      *
      * @returns {Object} - users pending sign up.   
      */
@@ -281,14 +239,13 @@ const logic = {
      * @param {Blob} image 
      * 
      * @throws {TypeError} - if image is not an blob.
-     * @throws {Error} - if any image is empty.
+     * @throws {Error} - if image is empty.
      *
      * @returns {Object} - user.  
      */
     updateUserPhoto(image) {
 
-        if (!image) throw Error('image is empty')
-        if (image instanceof Blob === false) throw TypeError(`${image} is not an object`)
+        validate([{ key: 'image', value: image, type: Blob }])
 
         return skylabInnApi.updateUserPhoto(this.__userApiToken__, image)
             .then(({user}) => user)
@@ -296,8 +253,6 @@ const logic = {
 
     /**
      * Retrieve skylabers with unverified emails.
-     * 
-     * @param {String} token 
      *
      * @returns {Object} - users with unverified emails.   
      */
@@ -318,9 +273,7 @@ const logic = {
      */
     shareResults(skylaberIds) {
 
-        if (skylaberIds instanceof Array === false) throw new TypeError(`${skylaberIds} is not an array`)
-        if (!skylaberIds.length) throw new Error('skylaberIds is empty')
-
+        validate([{ key: 'skylaberIds', value: skylaberIds, type: Array }])
 
         return skylabInnApi.shareResults(this.__userApiToken__, skylaberIds)
             .then(({hashedUrl}) =>  hashedUrl)
@@ -338,8 +291,7 @@ const logic = {
      */
     retrieveEncryptedIds(encryptedIds) {
 
-        if (typeof encryptedIds !== 'string') throw new TypeError(`${encryptedIds} is not a string`)
-        if (!encryptedIds.trim().length) throw new Error('encryptedIds is empty')
+        validate([{ key: 'encryptedIds', value: encryptedIds, type: String }])
 
         return skylabInnApi.retrieveEncryptedIds(encryptedIds)
             .then(({skylabers}) => skylabers)

@@ -1,3 +1,5 @@
+import validate from 'skylab-inn-validation'
+
 const skylabInnApi = {
     url: 'http://localhost:8000/api',
     // url: 'https://fast-taiga-93895.herokuapp.com/api',
@@ -18,20 +20,9 @@ const skylabInnApi = {
      */
     registerUser(name, surname, email, password, passwordConfirm) {
 
-        if (typeof name !== 'string') throw new TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw new Error('name is empty')
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
-        if (typeof surname !== 'string') throw new TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw new Error('surname is empty')
-
-        if (typeof email !== 'string') throw new TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw new Error('email is empty')
-
-        if (typeof password !== 'string') throw new TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw new Error('password is empty')
-
-        if (typeof passwordConfirm !== 'string') throw new TypeError(`${passwordConfirm} is not a string`)
-        if (!passwordConfirm.trim().length) throw new Error('password confirmation is empty')
+        if (password !== passwordConfirm) throw new Error('passwords do not match')
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -60,11 +51,7 @@ const skylabInnApi = {
      */
     authenticateUser(email, password) {
 
-        if (typeof email !== 'string') throw new TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw new Error('email is empty')
-
-        if (typeof password !== 'string') throw new TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw new Error('password is empty')
+        validate([{ key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }])
 
         return fetch(`${this.url}/user/auth`, {
             method: 'POST',
@@ -93,8 +80,7 @@ const skylabInnApi = {
      */
     retrieveUser(token) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/user`, {
             headers: {
@@ -122,11 +108,7 @@ const skylabInnApi = {
      */
     updateUser(token, data) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'token', value: token, type: String }, { key: 'data', value: data, type: Object }])
 
         return fetch(`${this.url}/user`, {
             method: 'PUT',
@@ -156,6 +138,8 @@ const skylabInnApi = {
      * @returns {Object} - user.  
      */
     updateUserPhoto(token, image) {
+
+        validate([{ key: 'token', value: token, type: String }, { key: 'image', value: image, type: Blob }])
 
         if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
         if (!token.trim().length) throw new Error('token is empty')
@@ -194,11 +178,7 @@ const skylabInnApi = {
      */
     searchSkylaber(token, query) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
-
-        if (typeof query !== 'string') throw new TypeError(`${query} is not a string`)
-        if (!query.trim().length) throw new Error('query is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'query', value: query, type: String }])
 
         return fetch(`${this.url}/user/search`, {
             method: 'POST',
@@ -220,20 +200,16 @@ const skylabInnApi = {
      * Advanced search for a skylaber
      * 
      * @param {String} token
-     * @param {Array} param
+     * @param {Array} filters
      * 
-     * @throws {TypeError} - if token is not a string or param is not an array.
+     * @throws {TypeError} - if token is not a string or filters is not an array.
      * @throws {Error} - if any param is empty.
      *
      * @returns {Object} - user matching query 
      */
-    adSearchSkylaber(token, param) {
+    adSearchSkylaber(token, filters) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
-
-        if (param instanceof Array === false) throw new TypeError(`${param} is not an array`)
-        if (!param.length) throw new Error('param is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'filters', value: filters, type: Array }])
 
         return fetch(`${this.url}/user/advanced-search`, {
             method: 'POST',
@@ -241,7 +217,7 @@ const skylabInnApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ param })
+            body: JSON.stringify({ filters })
         })
             .then(response => response.json())
             .then(response => {
@@ -264,11 +240,7 @@ const skylabInnApi = {
      */
     retrieveSkylaber(token, skylaberId) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
-
-        if (typeof skylaberId !== 'string') throw new TypeError(`${skylaberId} is not a string`)
-        if (!skylaberId.trim().length) throw new Error('skylaberId is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'skylaberId', value: skylaberId, type: String }])
 
         return fetch(`${this.url}/skylaber/${skylaberId}`, {
             headers: {
@@ -297,14 +269,7 @@ const skylabInnApi = {
      */
     addUserInformation(token, type, data) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
-
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'token', value: token, type: String }, { key: 'type', value: type, type: String }, { key: 'data', value: data, type: Object }])
 
         return fetch(`${this.url}/user/addInformation`, {
             method: 'POST',
@@ -337,17 +302,7 @@ const skylabInnApi = {
      */
     updateUserInformation(token, infoId, type, data) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
-
-        if (typeof infoId !== 'string') throw new TypeError(`${infoId} is not a string`)
-        if (!infoId.trim().length) throw new Error('infoId is empty')
-
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'token', value: token, type: String }, { key: 'infoId', value: infoId, type: String }, { key: 'type', value: type, type: String }, { key: 'data', value: data, type: Object }])
 
         return fetch(`${this.url}/user/updateInformation`, {
             method: 'PUT',
@@ -379,14 +334,7 @@ const skylabInnApi = {
      */
     removeUserInformation(token, infoId, type) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
-
-        if (typeof infoId !== 'string') throw new TypeError(`${infoId} is not a string`)
-        if (!infoId.trim().length) throw new Error('infoId is empty')
-
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'infoId', value: infoId, type: String }, { key: 'type', value: type, type: String }])
 
         return fetch(`${this.url}/user/removeInformation`, {
             method: 'DELETE',
@@ -417,11 +365,8 @@ const skylabInnApi = {
      */
     addSkylaber(token, data) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'data', value: data, type: Object }])
 
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
         return fetch(`${this.url}/add-skylaber`, {
             method: 'POST',
@@ -447,12 +392,11 @@ const skylabInnApi = {
      * @throws {TypeError} - if token is not a string.
      * @throws {Error} - if token is empty.
      *
-     * @returns {Object} - users pending sign up.  
+     * @returns {Object} - skylabers pending to sign up.  
      */
     retrievePendingSkylabers(token) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/pending-skylabers`, {
             headers: {
@@ -475,12 +419,11 @@ const skylabInnApi = {
      * @throws {TypeError} - if token is not a string.
      * @throws {Error} - if token is empty.
      *
-     * @returns {Object} - users with unverified emails.  
+     * @returns {Object} - skylabers with unverified emails.  
      */
     retrieveUnverifiedEmails(token) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/unverified-emails`, {
             headers: {
@@ -508,11 +451,7 @@ const skylabInnApi = {
      */
     shareResults(token, skylaberIds) {
 
-        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw new Error('token is empty')
-
-        if (skylaberIds instanceof Array === false) throw new TypeError(`${skylaberIds} is not an array`)
-        if (!skylaberIds.length) throw new Error('skylaberIds is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'skylaberIds', value: skylaberIds, type: Array }])
 
         return fetch(`${this.url}/admin/create-hashed-url`, {
             method: 'POST',
@@ -538,12 +477,11 @@ const skylabInnApi = {
      * @throws {TypeError} - if encryptedIds is not a string.
      * @throws {Error} - if encryptedIds is empty.
      *
-     * @returns {Array} - skkylabers matching id.  
+     * @returns {Array} - skylabers matching encrypted ids.  
      */
     retrieveEncryptedIds(encryptedIds) {
 
-        if (typeof encryptedIds !== 'string') throw new TypeError(`${encryptedIds} is not a string`)
-        if (!encryptedIds.trim().length) throw new Error('encryptedIds is empty')
+        validate([{ key: 'encryptedIds', value: encryptedIds, type: String }])
 
         return fetch(`${this.url}/retrieve-skylaber/${encryptedIds}`)
             .then(response => response.json())

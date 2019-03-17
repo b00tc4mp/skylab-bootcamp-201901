@@ -43,32 +43,52 @@ function App({ history }) {
                     setModalMessage('You have been successfully registered!')
                     history.push('/')
                 })
-                .catch(({ message }) => setFeedback(message))
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    setFeedback(message)
+                })
         } catch ({ message }) {
+            setShowSpinner(null)
             setFeedback(message)
         }
     }
 
     const handleLogIn = (email, password) => {
+        setShowSpinner(true)
         try {
             logic.logInUser(email, password)
                 .then(() => logic.retrieveUser())
                 .then(user => setUserData(user))
-                .then(() => setFeedback(null))
+                .then(() => {
+                    setShowSpinner(null)
+                    setFeedback(null)
+                })
                 .then(() => history.push('/home'))
-                .catch(({ message }) => setFeedback(message))
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    setFeedback(message)
+                })
         } catch ({ message }) {
+            setShowSpinner(null)
             setFeedback(message)
         }
     }
 
     const handleRetrieveEncryptedIds = ids => {
+        setShowSpinner(true)
         try {
             logic.retrieveEncryptedIds(ids)
                 .then(skylabersShared => setSkylabersShared(skylabersShared))
-                .then(() => setFeedback(null))
-                .catch(({ message }) => setFeedback(message))
+                .then(() => {
+                    setShowSpinner(null)
+                    setFeedback(null)
+                })
+                .catch(({ message }) => {
+                    setShowSpinner(null)
+                    setFeedback(message)
+                })
         } catch ({ message }) {
+            setShowSpinner(null)
             setFeedback(message)
         }
     }

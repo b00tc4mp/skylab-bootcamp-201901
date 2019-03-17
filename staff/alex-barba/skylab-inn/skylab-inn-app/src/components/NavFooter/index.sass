@@ -14,7 +14,19 @@
     flex-shrink: 0
     border-top: 0.05rem dotted $primary
 
+    @include desktop
+        top: 0
+        bottom: 83rem
+        border-top: none
+        border-bottom: 0.05rem dotted $primary
+
     & > i 
         cursor: pointer
         font-size: $xlarge
         color: $white
+
+        & > span 
+            display: none
+
+            @include desktop
+                display: inline

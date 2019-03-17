@@ -27,6 +27,7 @@
     "multer": "^1.4.1",
     "nodemailer": "^5.1.1",
     "skylab-inn-data": "file:../skylab-inn-data",
+    "skylab-inn-validation": "file:../skylab-inn-validation",
     "streamifier": "^0.1.1"
   }
 }

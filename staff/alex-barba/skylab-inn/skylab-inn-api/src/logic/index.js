@@ -1,6 +1,7 @@
 'use strict'
 
 const { models: { User, Work, Language, Education, Technology, EmailWhitelist } } = require('skylab-inn-data')
+const validate = require('skylab-inn-validation')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
 const { createToken, verifyToken } = require('../token-helper')
@@ -27,20 +28,7 @@ const logic = {
      */
     registerUser(name, surname, email, password, passwordConfirm, role) {
 
-        if (typeof name !== 'string') throw new TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw new Error('name is empty')
-
-        if (typeof surname !== 'string') throw new TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw new Error('surname is empty')
-
-        if (typeof email !== 'string') throw new TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw new Error('email is empty')
-
-        if (typeof password !== 'string') throw new TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw new Error('password is empty')
-
-        if (typeof passwordConfirm !== 'string') throw new TypeError(`${passwordConfirm} is not a string`)
-        if (!passwordConfirm.trim().length) throw new Error('password confirmation is empty')
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirm', value: passwordConfirm, type: String }, { key: 'role', value: role, type: String, optional: true }])
 
         if (password !== passwordConfirm) throw new Error('passwords do not match')
 
@@ -108,11 +96,7 @@ const logic = {
      */
     authenticateUser(email, password) {
 
-        if (typeof email !== 'string') throw new TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw new Error('email is empty')
-
-        if (typeof password !== 'string') throw new TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw new Error('password is empty')
+        validate([{ key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }])
 
         return (async () => {
 
@@ -140,8 +124,7 @@ const logic = {
      */
     retrieveUser(userId) {
 
-        if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new Error('userId is empty')
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return (async () => {
             const user = await User.findById(userId).select('-__v -password').lean()
@@ -168,11 +151,7 @@ const logic = {
      */
     updateUser(userId, data) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'data', value: data, type: Object }])
 
         return (async () => {
             const user = await User.findByIdAndUpdate(userId, data, { new: true, runValidators: true }).select('-__v -password').lean()
@@ -198,11 +177,7 @@ const logic = {
      */
     searchSkylaber(userId, query) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
-        if (!query.trim().length) throw Error('query is empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'query', value: query, type: String }])
 
         return (async () => {
             const user = await User.findById(userId)
@@ -232,20 +207,16 @@ const logic = {
      * Advance search of skylabers.
      * 
      * @param {String} userId 
-     * @param {Array} param
+     * @param {Array} filters
      * 
-     * @throws {TypeError} - if userId is not a string or param is not an array.
-     * @throws {Error} - if any param is empty or user is not found.
+     * @throws {TypeError} - if userId is not a string or filters is not an array.
+     * @throws {Error} - if any filters is empty or user is not found.
      *
      * @returns {Object} - results matching the query. 
      */
-    adSearchSkylaber(userId, param) {
+    adSearchSkylaber(userId, filters) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (param instanceof Array === false) throw new TypeError(`${param} is not an array`)
-        if (!param.length) throw new Error('param is empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'filters', value: filters, type: Array }])
 
         return (async () => {
             const user = await User.findById(userId)
@@ -253,26 +224,26 @@ const logic = {
 
             let adSearch = []
 
-            param.map(search => {
+            filters.map(search => {
                 const filter = search[0]
                 const query = search[1]
 
                 switch (filter) {
                     case 'Contact Information':
                         adSearch.push({ $and: [{ role: "User" }, { $or: [{ name: { "$regex": `${query}`, "$options": "i" } }, { surname: { "$regex": `${query}`, "$options": "i" } }, { email: { "$regex": `${query}`, "$options": "i" } }, { git: { "$regex": `${query}`, "$options": "i" } }, { linkedin: { "$regex": `${query}`, "$options": "i" } }, { slack: { "$regex": `${query}`, "$options": "i" } }] }] })
-                        break;
+                        break
                     case 'Technology':
                         adSearch.push({ $and: [{ role: "User" }, { 'technology.tech': { "$regex": `${query}`, "$options": "i" } }] })
-                        break;
+                        break
                     case 'Language':
                         adSearch.push({ $and: [{ role: "User" }, { 'language.language': { "$regex": `${query}`, "$options": "i" } }] })
-                        break;
+                        break
                     case 'Education':
                         adSearch.push({ $and: [{ role: "User" }, { $or: [{ 'education.college': { "$regex": `${query}`, "$options": "i" } }, { 'education.degree': { "$regex": `${query}`, "$options": "i" } }] }] })
-                        break;
+                        break
                     case 'Work':
                         adSearch.push({ $and: [{ role: "User" }, { $or: [{ 'workExperience.company': { "$regex": `${query}`, "$options": "i" } }, { 'workExperience.position': { "$regex": `${query}`, "$options": "i" } }] }] })
-                        break;
+                        break
                 }
             })
 
@@ -293,15 +264,11 @@ const logic = {
     * @throws {TypeError} - if any param is not a string.
     * @throws {Error} - if any param is empty or user or skylaber is not found.
     *
-    * @returns {Object} - user.  
+    * @returns {Object} - skylaber information.  
     */
     retrieveSkylaber(userId, skylaberId) {
 
-        if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new Error('userId is empty')
-
-        if (typeof skylaberId !== 'string') throw new TypeError(`${skylaberId} is not a string`)
-        if (!skylaberId.trim().length) throw new Error('skylaberId is empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'skylaberId', value: skylaberId, type: String }])
 
         return (async () => {
 
@@ -332,14 +299,7 @@ const logic = {
      */
     addUserInformation(userId, type, data) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'type', value: type, type: String }, { key: 'data', value: data, type: Object }])
 
         return (async () => {
             const user = await User.findById(userId)
@@ -359,7 +319,7 @@ const logic = {
                     delete newWork._id
 
                     id = newWork.id
-                    break;
+                    break
                 case 'Tech':
                     const newTech = new Technology(data)
 
@@ -371,7 +331,7 @@ const logic = {
                     delete newTech._id
 
                     id = newTech.id
-                    break;
+                    break
                 case 'Language':
                     const newLanguage = new Language(data)
 
@@ -383,7 +343,7 @@ const logic = {
                     delete newLanguage._id
 
                     id = newLanguage.id
-                    break;
+                    break
                 case 'Education':
                     const newEducation = new Education(data)
 
@@ -395,7 +355,7 @@ const logic = {
                     delete newEducation._id
 
                     id = newEducation.id
-                    break;
+                    break
             }
 
             return id
@@ -418,17 +378,7 @@ const logic = {
      */
     updateUserInformation(userId, infoId, type, data) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (typeof infoId !== 'string') throw TypeError(`${infoId} is not a string`)
-        if (!infoId.trim().length) throw Error('infoId is empty')
-
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'infoId', value: infoId, type: String }, { key: 'type', value: type, type: String }, { key: 'data', value: data, type: Object }])
 
         return (async () => {
             const user = await User.findById(userId)
@@ -450,7 +400,7 @@ const logic = {
                     await user.save()
 
                     id = work.id
-                    break;
+                    break
                 case 'Tech':
                     const technology = user.technology.id(infoId)
                     if (!technology) throw new Error(`technology with id ${infoId} not found`)
@@ -461,7 +411,7 @@ const logic = {
                     await user.save()
 
                     id = technology.id
-                    break;
+                    break
                 case 'Language':
                     const language = user.language.id(infoId)
                     if (!language) throw new Error(`language with id ${infoId} not found`)
@@ -472,7 +422,7 @@ const logic = {
                     await user.save()
 
                     id = language.id
-                    break;
+                    break
                 case 'Education':
                     const education = user.education.id(infoId)
                     if (!education) throw new Error(`education with id ${infoId} not found`)
@@ -483,7 +433,7 @@ const logic = {
                     await user.save()
 
                     id = education.id
-                    break;
+                    break
             }
 
             return id
@@ -504,16 +454,7 @@ const logic = {
      */
     removeUserInformation(userId, infoId, type) {
 
-
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (typeof infoId !== 'string') throw TypeError(`${infoId} is not a string`)
-        if (!infoId.trim().length) throw Error('infoId is empty')
-
-        if (typeof type !== 'string') throw new TypeError(`${type} is not a string`)
-        if (!type.trim().length) throw new Error('type is empty')
-
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'infoId', value: infoId, type: String },{ key: 'type', value: type, type: String }])
 
         return (async () => {
             const user = await User.findById(userId)
@@ -532,7 +473,7 @@ const logic = {
 
                     await user.save()
 
-                    break;
+                    break
                 case 'Tech':
                     const technology = user.technology.id(infoId)
                     if (!technology) throw new Error(`technology with id ${infoId} not found`)
@@ -543,7 +484,7 @@ const logic = {
 
                     await user.save()
 
-                    break;
+                    break
                 case 'Language':
                     const language = user.language.id(infoId)
                     if (!language) throw new Error(`language with id ${infoId} not found`)
@@ -554,7 +495,7 @@ const logic = {
 
                     await user.save()
 
-                    break;
+                    break
                 case 'Education':
                     const education = user.education.id(infoId)
                     if (!education) throw new Error(`education with id ${infoId} not found`)
@@ -565,7 +506,7 @@ const logic = {
 
                     await user.save()
 
-                    break;
+                    break
             }
         })()
     },
@@ -580,15 +521,11 @@ const logic = {
      * @throws {Error} - if any param is empty, user is not found or role does not match, email is already added to the whitelist or registered, 
      *                   or email could not be sent.
      *
-     * @returns {String} - id.  
+     * @returns {String} - id of the skylaber added.  
      */
     addSkylaber(userId, data) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'data', value: data, type: Object }])
 
         return (async () => {
 
@@ -646,12 +583,11 @@ const logic = {
      * @throws {TypeError} - if userId is not a string.
      * @throws {Error} - if userId is empty or user is not found or user role does not match.
      *
-     * @returns {Object} - users pending sign up.  
+     * @returns {Object} - skylabers pending to sign up.  
      */
     retrievePendingSkylabers(userId) {
 
-        if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new Error('userId is empty')
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return (async () => {
             const user = await User.findById(userId).select('-__v -password').lean()
@@ -677,11 +613,7 @@ const logic = {
    */
     updateUserPhoto(userId, url) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
-        if (!url.trim().length) throw Error('url is empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])
 
         return (async () => {
             const user = await User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
@@ -706,8 +638,7 @@ const logic = {
      */
     verifyEmail(emailToken) {
 
-        if (typeof emailToken !== 'string') throw new TypeError(`${emailToken} is not a string`)
-        if (!emailToken.trim().length) throw new Error('emailToken is empty')
+        validate([{ key: 'emailToken', value: emailToken, type: String }])
 
         return (async () => {
             const user = await User.findOne({ status: emailToken }).select('-__v -password').lean()
@@ -728,12 +659,11 @@ const logic = {
      * @throws {TypeError} - if userId is not a string.
      * @throws {Error} - if userId is empty or user is not found or user role does not match.
      *
-     * @returns {Object} - users with unverified emails.  
+     * @returns {Object} - skylabers with unverified emails.  
      */
     retrieveUnverifiedEmails(userId) {
 
-        if (typeof userId !== 'string') throw new TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw new Error('userId is empty')
+        validate([{ key: 'userId', value: userId, type: String }])
 
         return (async () => {
             const user = await User.findById(userId).select('-__v -password').lean()
@@ -755,15 +685,11 @@ const logic = {
      * @throws {TypeError} - if userId is not a string or skylaberIds is not an array.
      * @throws {Error} - if any param is empty or user is not found or is not admin.
      *
-     * @returns {Object} - hashed url with skylabers ids. 
+     * @returns {String} - hashed url with skylabers ids. 
      */
     createHashedUrl(userId, skylaberIds) {
 
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
-        if (skylaberIds instanceof Array === false) throw new TypeError(`${skylaberIds} is not an array`)
-        if (!skylaberIds.length) throw new Error('skylaberIds is empty')
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'skylaberIds', value: skylaberIds, type: Array }])
 
         return (async () => {
             const user = await User.findById(userId)
@@ -788,19 +714,18 @@ const logic = {
     *
     * @returns {Array} - skylabers encrypted.  
     */
-   retrieveEncryptedIds(encryptedIds) {
+    retrieveEncryptedIds(encryptedIds) {
 
-    if (typeof encryptedIds !== 'string') throw new TypeError(`${encryptedIds} is not a string`)
-    if (!encryptedIds.trim().length) throw new Error('encryptedIds is empty')
+        validate([{ key: 'encryptedIds', value: encryptedIds, type: String }])
 
-    return (async () => {
-        const ids = await verifyToken(encryptedIds)
+        return (async () => {
+            const ids = await verifyToken(encryptedIds)
 
-        var skylabers = await User.find({_id :{$in : ids}}).lean() 
+            var skylabers = await User.find({ _id: { $in: ids } }).lean()
 
-        return skylabers
-    })()
-},
+            return skylabers
+        })()
+    },
 }
 
 module.exports = logic

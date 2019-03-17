@@ -5,7 +5,10 @@
     flex-direction: column
     flex-wrap: nowrap
     height: 93vh
-    
+
+    @include desktop
+        height: 100vh
+
     &-header
         flex-shrink: 0
         padding-top: 3rem
@@ -47,8 +50,9 @@
             margin-right: 10rem
         
         @include desktop
-                margin-left: 20rem
-                margin-right: 20rem
+            margin-left: 20rem
+            margin-right: 20rem
+            margin-bottom: none
             
         &__header
             flex-shrink: 0

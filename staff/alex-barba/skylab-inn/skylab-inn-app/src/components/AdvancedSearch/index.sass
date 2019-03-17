@@ -5,6 +5,9 @@
     flex-direction: column
     flex-wrap: nowrap
     height: 93vh
+
+    @include desktop
+        height: 100vh
     
     &-header
         flex-shrink: 0
@@ -111,6 +114,7 @@
         @include desktop
             margin-left: 15.6rem
             margin-right: 15.6rem
+            margin-bottom: none
 
         &__header
             font-size: $large

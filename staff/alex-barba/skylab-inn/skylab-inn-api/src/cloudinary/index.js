@@ -16,8 +16,9 @@ function cloudinaryUploader(req, res, next) {
     const path = req.file.buffer
 
     const upload_stream= cloudinary.uploader.upload_stream(function(err,image) {
-            req.image = image
-            next()
+        if (err) throw new Error (`Image could not be uploaded: ${err}`)
+        req.image = image
+        next()
     })
     
     streamifier.createReadStream(path).pipe(upload_stream)
