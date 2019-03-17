@@ -19,7 +19,9 @@ module.exports = {
 
     retrievePredictedScore: require('./retrieve-predicted-score'),
 
-    retrieveEuclideanDistance: require('./retrieve-euclidean-distance')
+    retrieveEuclideanDistance: require('./retrieve-euclidean-distance'),
+
+    retrieveSimilarityRanking: require('./retrieve-similarity-ranking')
 
     // TODO other route handlers
 

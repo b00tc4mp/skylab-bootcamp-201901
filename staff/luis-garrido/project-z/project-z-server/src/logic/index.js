@@ -147,7 +147,7 @@ const logic = {
         return User.findById(userId)
             .select("-password -__v")
             .lean()
-            .populate('reviews')
+            .populate("reviews")
             .then(user => {
                 if (!user)
                     throw new NotFoundError(`user with id ${userId} not found`);
@@ -442,13 +442,57 @@ const logic = {
             .then(response => response);
     },
 
+    retrieveAllUsers() {
+        return User.find().populate('reviews')
+    },
+
     retrieveEuclideanDistance(userReviews, otherUserReviews) {
         validate([
             { key: "userReviews", value: userReviews, type: Object },
             { key: "otherUserReviews", value: otherUserReviews, type: Object }
         ]);
 
-        return { userReviews, otherUserReviews }
+        let euclideanDistances = [];
+        let sumSquares = 0
+        let noGamesCoincidence = true
+
+        userReviews.forEach(userReview => {
+            otherUserReviews.find(otherUserReview => {
+                if (
+                    otherUserReview.game._id.toString() ===
+                    userReview.game.toString()
+                ) {
+                    noGamesCoincidence = false
+                    let distance = Math.abs(
+                        userReview.score - otherUserReview.score
+                    )
+                    euclideanDistances.push({
+                        game: userReview.game,
+                        distance
+                    });
+                    sumSquares += distance * distance
+                }
+                return (
+                    otherUserReview.game._id.toString() ===
+                    userReview.game.toString()
+                );
+            });
+        });
+
+        console.log(euclideanDistances);
+        console.log('sumSquares : '+sumSquares)
+
+        const euclideanDistance = Math.sqrt(sumSquares)
+
+        console.log('euclidean distance : '+euclideanDistance)
+
+        let euclideanSimilarity = 1 / ( 1 + euclideanDistance)
+
+        if (noGamesCoincidence) euclideanSimilarity++
+
+        console.log('euclidean similarity : ', euclideanSimilarity)
+
+        return { euclideanSimilarity, userComparing: otherUserReviews[0].author };
     },
 
     retrievePredictedScore(userId, gameId, body) {
@@ -513,14 +557,14 @@ const logic = {
                     dataToTrain.platform.push(review.game.platform);
                     dataToTrain.publishers.push(review.game.publishers);
                     if (review.score === 5 || review.score === 4) {
-                        likeGames.userScore.push([review.score])
+                        likeGames.userScore.push([review.score]);
                         likeGames.finalScore.push([review.game.finalScore]);
                         likeGames.developers.push(review.game.developers);
                         likeGames.genres.push(review.game.genres);
                         likeGames.platform.push(review.game.platform);
                         likeGames.publishers.push(review.game.publishers);
                     } else if (review.score === 2 || review.score === 1) {
-                        dislikeGames.userScore.push([review.score])
+                        dislikeGames.userScore.push([review.score]);
                         dislikeGames.finalScore.push([review.game.finalScore]);
                         dislikeGames.developers.push(review.game.developers);
                         dislikeGames.genres.push(review.game.genres);
@@ -529,7 +573,7 @@ const logic = {
                     }
                 });
 
-                console.log(reviews[0])
+                console.log(reviews[0]);
                 // console.log("Training IA : ", dataToTrain);
                 // console.log("Likes : ", likeGames);
                 // console.log("Dislikes : ", dislikeGames);
@@ -541,92 +585,113 @@ const logic = {
                     const calculatingGenreScore = genres.map(genre => {
                         let kgenre = 0;
                         likeGames.genres.forEach((genreLike, index) => {
-                            let jgenre = 0
-                            if (genreLike!==null) {
+                            let jgenre = 0;
+                            if (genreLike !== null) {
                                 for (let i = 0; i < genreLike.length; i++) {
                                     if (genre === genreLike[i]) {
-                                        console.log(`${genre} is like ${genreLike[i]}`)
+                                        console.log(
+                                            `${genre} is like ${genreLike[i]}`
+                                        );
                                         // if (likeGames.userScore[index]=='5') jgenre++
-                                        jgenre++
+                                        jgenre++;
                                     }
-                                    if (i === (genreLike.length-1)) {
-                                        kgenre += jgenre
+                                    if (i === genreLike.length - 1) {
+                                        kgenre += jgenre;
                                     }
                                 }
                             }
                         });
-                        console.log('genre coincidence : '+kgenre)
-                        console.log('genre leng: '+likeGames.genres.length)
-                        if (kgenre!==0) genreScore = kgenre/likeGames.genres.length
+                        console.log("genre coincidence : " + kgenre);
+                        console.log("genre leng: " + likeGames.genres.length);
+                        if (kgenre !== 0)
+                            genreScore = kgenre / likeGames.genres.length;
                     });
                 }
-                console.log('genresocre: ' + genreScore)
+                console.log("genresocre: " + genreScore);
 
                 let platformScore = 0;
-                
+
                 if (platform !== null) {
                     // const calculatingPlatformScore = platform.map(platform => {
-                        let kplatform = 0;
-                        likeGames.platform.forEach((platformLike,index) => {
-                            let jplatform = 0 
-                            for (let i = 0; i < platformLike.length; i++) {
-                                if (platform === platformLike[i]) {
-                                    console.log(`${platform} is like ${platformLike[i]}`)
-                                    if (likeGames.userScore[index]=='5') jplatform++
-                                    jplatform++
-                                }
-                                if (i === (platformLike.length-1)) {
-                                    kplatform += jplatform
-                                }
+                    let kplatform = 0;
+                    likeGames.platform.forEach((platformLike, index) => {
+                        let jplatform = 0;
+                        for (let i = 0; i < platformLike.length; i++) {
+                            if (platform === platformLike[i]) {
+                                console.log(
+                                    `${platform} is like ${platformLike[i]}`
+                                );
+                                if (likeGames.userScore[index] == "5")
+                                    jplatform++;
+                                jplatform++;
                             }
-                        });
-                        console.log('platform coincidence: '+kplatform)
-                        console.log('platform leng: '+likeGames.platform.length)
-                        if (kplatform!==0) platformScore = kplatform/likeGames.platform.length
+                            if (i === platformLike.length - 1) {
+                                kplatform += jplatform;
+                            }
+                        }
+                    });
+                    console.log("platform coincidence: " + kplatform);
+                    console.log("platform leng: " + likeGames.platform.length);
+                    if (kplatform !== 0)
+                        platformScore = kplatform / likeGames.platform.length;
                     // });
                 }
-                console.log('platformsocre: ' + platformScore)
+                console.log("platformsocre: " + platformScore);
 
                 let developerScore = 0;
 
                 if (developers !== null) {
                     const calculatingGenreScore = developers.map(developer => {
                         let kdeveloper = 0;
-                        likeGames.developers.forEach((developerLike,index) => {
-                            let jdeveloper = 0
-                            if (developerLike!==null) {
+                        likeGames.developers.forEach((developerLike, index) => {
+                            let jdeveloper = 0;
+                            if (developerLike !== null) {
                                 for (let i = 0; i < developerLike.length; i++) {
                                     if (developer === developerLike[i]) {
-                                        console.log(`${developer} is like ${developerLike[i]}`)
-                                        if (likeGames.userScore[index]=='5') jdeveloper++
-                                        jdeveloper++
+                                        console.log(
+                                            `${developer} is like ${
+                                                developerLike[i]
+                                            }`
+                                        );
+                                        if (likeGames.userScore[index] == "5")
+                                            jdeveloper++;
+                                        jdeveloper++;
                                     }
-                                    if (i === (developerLike.length-1)) {
-                                        kdeveloper += jdeveloper
+                                    if (i === developerLike.length - 1) {
+                                        kdeveloper += jdeveloper;
                                     }
                                 }
                             }
                             // console.log("PUNTUACON : "+likeGames.userScore[index])
                         });
-                        console.log('developer coincidence : '+kdeveloper)
-                        console.log('developer leng: '+likeGames.developers.length)
-                        if (kdeveloper!==0) developerScore = kdeveloper/likeGames.developers.length
+                        console.log("developer coincidence : " + kdeveloper);
+                        console.log(
+                            "developer leng: " + likeGames.developers.length
+                        );
+                        if (kdeveloper !== 0)
+                            developerScore =
+                                kdeveloper / likeGames.developers.length;
                     });
                 }
-                console.log('developerscore: ' + developerScore)
+                console.log("developerscore: " + developerScore);
 
                 // const dataToPrecog = {};
                 // if(!!finalScore) dataToPrecog.f = finalScore
                 // if (!!genres) dataToPrecog.g = genres[0].toString();
 
-                let finalScoreDeviation = 10
-                if ( finalScore ) finalScoreDeviation*=finalScore
-                else finalScoreDeviation = 30
-                
-                console.log('FINAK SCREkas: '+finalScore)
-                
-                const precogScore = ((platformScore*30)+(genreScore*50)+(developerScore*50)+(finalScoreDeviation))/100;
-                console.log('PRECOG SCORE: '+precogScore)
+                let finalScoreDeviation = 10;
+                if (finalScore) finalScoreDeviation *= finalScore;
+                else finalScoreDeviation = 30;
+
+                console.log("FINAK SCREkas: " + finalScore);
+
+                const precogScore =
+                    (platformScore * 30 +
+                        genreScore * 50 +
+                        developerScore * 50 +
+                        finalScoreDeviation) /
+                    100;
+                console.log("PRECOG SCORE: " + precogScore);
                 return precogScore;
             });
     }

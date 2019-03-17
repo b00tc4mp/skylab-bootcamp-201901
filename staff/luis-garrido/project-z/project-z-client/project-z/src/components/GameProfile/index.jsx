@@ -62,7 +62,7 @@ const GameProfile = ({
                         
                         {logic.isUserLoggedIn ? (
                             gameInfo.reviews.some(
-                                review => review.author.username === username
+                                review => (review.author !== null && review.author.username === username)
                             ) ? (
                                 <div />
                             ) : (
