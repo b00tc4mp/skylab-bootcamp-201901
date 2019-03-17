@@ -1,12 +1,12 @@
 const { Schema, ObjectId } = require('mongoose')
 
 const User = new Schema({
-       
-    
+
+
     username: {
         type: String,
         required: true,
-        unique:true
+        unique: true
     },
 
     email: {
@@ -32,13 +32,43 @@ const User = new Schema({
         ref: 'House'
 
     }],
-    
-    favorites:[{
+
+    favorites: [{
 
         type: ObjectId,
         ref: 'House'
 
-    }]    
+    }],
+
+    conversations: [{
+
+        otherUserId: {
+
+            type: ObjectId,
+            ref: 'User'
+
+        },
+
+        messages:[{
+
+
+            sent:{
+                
+                type: Boolean
+
+            },
+
+            text: {
+                type: String
+
+            }
+
+
+        }]
+
+
+
+    }]
 })
 
 module.exports = User
