@@ -163,23 +163,6 @@ describe("logic", () => {
             );
         });
 
-        it("should fail on undefined admin", () => {
-            const admin = undefined;
-
-            expect(() => {
-                logic.registerUser(
-                    admin,
-                    username,
-                    avatar,
-                    name,
-                    surname,
-                    email,
-                    password,
-                    password
-                );
-            }).toThrow(TypeError(admin + " is not a boolean"));
-        });
-
         it("should fail on numeric admin", () => {
             const admin = 10;
 
@@ -279,7 +262,7 @@ describe("logic", () => {
                     password,
                     password
                 );
-            }).toThrow(new EmptyError("username cannot be empty"));
+            }).toThrow(new EmptyError("username is empty or blank"));
         });
 
         it("should fail on numeric username", () => {
@@ -381,7 +364,7 @@ describe("logic", () => {
                     password,
                     password
                 );
-            }).toThrow(new EmptyError("avatar cannot be empty"));
+            }).toThrow(new EmptyError("avatar is empty or blank"));
         });
 
         it("should fail on numeric avatar", () => {
@@ -452,23 +435,6 @@ describe("logic", () => {
             }).toThrow(TypeError(avatar + " is not a string"));
         });
 
-        it("should fail on undefined name", () => {
-            const name = undefined;
-
-            expect(() => {
-                logic.registerUser(
-                    admin,
-                    username,
-                    avatar,
-                    name,
-                    surname,
-                    email,
-                    password,
-                    password
-                );
-            }).toThrow(TypeError(name + " is not a string"));
-        });
-
         it("should fail on numeric name", () => {
             const name = 10;
 
@@ -535,23 +501,6 @@ describe("logic", () => {
                     password
                 );
             }).toThrow(TypeError(name + " is not a string"));
-        });
-
-        it("should fail on undefined surname", () => {
-            const surname = undefined;
-
-            expect(() => {
-                logic.registerUser(
-                    admin,
-                    username,
-                    avatar,
-                    name,
-                    surname,
-                    email,
-                    password,
-                    password
-                );
-            }).toThrow(TypeError(surname + " is not a string"));
         });
 
         it("should fail on numeric surname", () => {
@@ -636,7 +585,7 @@ describe("logic", () => {
                     password,
                     password
                 );
-            }).toThrow(new EmptyError("email cannot be empty"));
+            }).toThrow(new EmptyError("email is empty or blank"));
         });
 
         it("should fail on undefined email", () => {
@@ -738,7 +687,7 @@ describe("logic", () => {
                     password,
                     password
                 );
-            }).toThrow(new EmptyError("password cannot be empty"));
+            }).toThrow(new EmptyError("password is empty or blank"));
         });
 
         it("should fail on undefined password", () => {
@@ -840,7 +789,9 @@ describe("logic", () => {
                     password,
                     passwordConfirmation
                 );
-            }).toThrow(new EmptyError("password confirmation cannot be empty"));
+            }).toThrow(
+                new EmptyError("passwordConfirmation is empty or blank")
+            );
         });
 
         it("should fail on undefined password confirmation", () => {
@@ -1013,7 +964,7 @@ describe("logic", () => {
 
             expect(() => {
                 logic.authenticateUser(email, password);
-            }).toThrow(new EmptyError("loggingData cannot be empty"));
+            }).toThrow(new EmptyError("loggingData is empty or blank"));
         });
 
         it("should fail on undefined authenticate data", () => {
@@ -1061,7 +1012,7 @@ describe("logic", () => {
 
             expect(() => {
                 logic.authenticateUser(email, password);
-            }).toThrow(new EmptyError("password cannot be empty"));
+            }).toThrow(new EmptyError("password is empty or blank"));
         });
 
         it("should fail on undefined password", () => {
@@ -1161,7 +1112,7 @@ describe("logic", () => {
 
             expect(() => {
                 logic.retrieveUser(userId);
-            }).toThrow(new EmptyError("userId cannot be empty"));
+            }).toThrow(new EmptyError("userId is empty or blank"));
         });
 
         it("should fail on undefined userId", () => {
@@ -1261,7 +1212,7 @@ describe("logic", () => {
 
             expect(() => {
                 logic.retrieveUserByUsername(username);
-            }).toThrow(new EmptyError("username cannot be empty"));
+            }).toThrow(new EmptyError("username is empty or blank"));
         });
 
         it("should fail on undefined username", () => {
@@ -1321,6 +1272,44 @@ describe("logic", () => {
             });
         });
 
+        it("should have correct final score", async () => {
+            const query = "The Witness";
+
+            const gameId = "17111"; // The Witness
+
+            const review = {
+                text: "esta mu bien",
+                score: 4
+            };
+
+            let idReviewer;
+
+            const admin = false;
+            const username = "quinwacca";
+            const avatar = "10";
+            const name = "Luis";
+            const surname = "Garrido";
+            const email = `luisgarrido-${Math.random()}@mail.com`;
+            const password = `123-${Math.random()}`;
+            const passwordConfirm = password;
+
+            idReviewer = await User.create({
+                admin,
+                username,
+                avatar,
+                name,
+                surname,
+                email,
+                password
+            });
+
+            let test = await logic.postReview(idReviewer.id, gameId, review);
+
+            const searchResults = await logic.searchGames(query);
+
+            expect(searchResults[0].finalScore).toBeDefined();
+        });
+
         it("should fail when no games found", async () => {
             const query = "marcsarrocaadventures";
 
@@ -1341,7 +1330,7 @@ describe("logic", () => {
             const query = "";
 
             expect(() => logic.searchGames(query)).toThrow(
-                new EmptyError("query is empty")
+                new EmptyError("query is empty or blank")
             );
         });
 
@@ -1459,7 +1448,7 @@ describe("logic", () => {
             const gameId = "";
 
             expect(() => logic.retrieveGameInfo(gameId)).toThrow(
-                new EmptyError("gameId is empty")
+                new EmptyError("gameId is empty or blank")
             );
         });
 
@@ -1605,7 +1594,7 @@ describe("logic", () => {
             const userId = "";
 
             expect(() => logic.postReview(userId, gameId, review)).toThrow(
-                new EmptyError("userId cannot be empty")
+                new EmptyError("userId is empty or blank")
             );
         });
 
@@ -1664,7 +1653,7 @@ describe("logic", () => {
 
             expect(() =>
                 logic.postReview(idReviewer.id, gameId, review)
-            ).toThrow(new EmptyError("gameId cannot be empty"));
+            ).toThrow(new EmptyError("gameId is empty or blank"));
         });
 
         it("should fail on undefined gameId", () => {
@@ -1722,7 +1711,7 @@ describe("logic", () => {
 
             expect(() =>
                 logic.postReview(idReviewer.id, gameId, review)
-            ).toThrow(new EmptyError("review cannot be empty"));
+            ).toThrow(new EmptyError("Object cannot be empty"));
         });
 
         it("should fail on undefined review", () => {
@@ -1775,14 +1764,6 @@ describe("logic", () => {
             );
         });
 
-        // it("should fail on empty text review", () => {
-        //     const review = { text: "", score: 3 };
-
-        //     expect(() =>
-        //         logic.postReview(idReviewer.id, gameId, review)
-        //     ).toThrow(new EmptyError("text cannot be empty"));
-        // });
-
         it("should fail on undefined text review", () => {
             const review = { text: undefined, score: 3 };
 
@@ -1834,7 +1815,7 @@ describe("logic", () => {
         });
 
         it("should fail on undefined score review", () => {
-            const review = { text: 'asd', score: undefined };
+            const review = { text: "asd", score: undefined };
 
             expect(() =>
                 logic
@@ -1844,7 +1825,7 @@ describe("logic", () => {
         });
 
         it("should fail on string score review", () => {
-            const review = { text: 'asd', score: 'asd' };
+            const review = { text: "asd", score: "asd" };
 
             expect(() =>
                 logic
@@ -1854,7 +1835,7 @@ describe("logic", () => {
         });
 
         it("should fail on boolean score review", () => {
-            const review = { text: 'asd', score: false };
+            const review = { text: "asd", score: false };
 
             expect(() =>
                 logic
@@ -1864,7 +1845,7 @@ describe("logic", () => {
         });
 
         it("should fail on object score review", () => {
-            const review = { text: 'asd', score: {} };
+            const review = { text: "asd", score: {} };
 
             expect(() =>
                 logic
@@ -1874,7 +1855,7 @@ describe("logic", () => {
         });
 
         it("should fail on array score review", () => {
-            const review = { text: 'asd', score: [] };
+            const review = { text: "asd", score: [] };
 
             expect(() =>
                 logic
@@ -1884,33 +1865,54 @@ describe("logic", () => {
         });
 
         it("should fail on bigger than 5 score review", () => {
-            const review = { text: 'asd', score: 6 };
+            const review = { text: "asd", score: 6 };
 
             expect(() =>
-                logic
-                    .postReview(idReviewer.id, gameId, review))
-                    .toThrow(Error("score must be between 0 and 5"))
-            
+                logic.postReview(idReviewer.id, gameId, review)
+            ).toThrow(Error("score must be between 0 and 5"));
         });
 
         it("should fail on smaller than score review", () => {
-            const review = { text: 'asd', score: -1 };
+            const review = { text: "asd", score: -1 };
 
             expect(() =>
-                logic
-                    .postReview(idReviewer.id, gameId, review))
-                    .toThrow(Error("score must be between 0 and 5"))
-            
+                logic.postReview(idReviewer.id, gameId, review)
+            ).toThrow(Error("score must be between 0 and 5"));
         });
 
         it("should fail on non integer score review", () => {
-            const review = { text: 'asd', score: 1.2 };
+            const review = { text: "asd", score: 1.2 };
 
             expect(() =>
-                logic
-                    .postReview(idReviewer.id, gameId, review))
-                    .toThrow(Error("score should be an integer number"))
-            
+                logic.postReview(idReviewer.id, gameId, review)
+            ).toThrow(Error("score should be an integer number"));
+        });
+    });
+
+    //-----------------RANKING GAMES ----------------------
+
+    describe("Ranking Games", () => {
+        it("should get a list of games", () => {
+            return logic.rankingGames().then(games => {
+                expect(games).toBeDefined();
+                // expect(games instanceof Array).toBeTruthy();
+                // expect(games.length).toBeGreaterThan(0);
+
+                // expect(games[0].game_title.toLowerCase()).toContain(query);
+                // expect(games[0].boxartUrl).toBeDefined();
+            });
+        });
+    });
+
+    // ------------------ RANDOM ---------------------
+
+    describe("Random Game", () => {
+        it("should get a random game id", () => {
+            return logic.retrieveRandomGame().then(gameId => {
+                expect(gameId).toBeDefined();
+                expect(gameId.id).toBeDefined();
+                expect(isNaN(Number(gameId.id))).toBeFalsy();
+            });
         });
     });
 

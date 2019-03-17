@@ -24,7 +24,8 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
 
     const getPreScore = async () => {
         const _preScore = await logic.getPreScore(gameId, gameInfo)
-        setPreScore([_preScore.star1, _preScore.star2, _preScore.star3, _preScore.star4, _preScore.star5])
+        console.log(_preScore)
+        setPreScore(_preScore)
 
     }
     
@@ -47,94 +48,6 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
 
     const scoreWithStars = () => [star(1),star(2),star(3),star(4),star(5)];
 
-
-    // const [starClass1, setStarClass1] = useState(emptyStar);
-    // const [starClass2, setStarClass2] = useState(emptyStar);
-    // const [starClass3, setStarClass3] = useState(emptyStar);
-    // const [starClass4, setStarClass4] = useState(emptyStar);
-    // const [starClass5, setStarClass5] = useState(emptyStar);
-
-    // const scoreWithStars = () => {
-    //     let stars = [];
-    //     stars.push(
-    //         <i
-    //             className={starClass1}
-    //             key={1}
-    //             onClick={() => {
-    //                 setReviewScore(1);
-
-    //                 setStarClass1(fullStar);
-    //                 setStarClass2(emptyStar);
-    //                 setStarClass3(emptyStar);
-    //                 setStarClass4(emptyStar);
-    //                 setStarClass5(emptyStar);
-    //             }}
-    //         />
-    //     );
-    //     stars.push(
-    //         <i
-    //             className={starClass2}
-    //             key={2}
-    //             onClick={() => {
-    //                 setReviewScore(2);
-
-    //                 setStarClass1(fullStar);
-    //                 setStarClass2(fullStar);
-    //                 setStarClass3(emptyStar);
-    //                 setStarClass4(emptyStar);
-    //                 setStarClass5(emptyStar);
-    //             }}
-    //         />
-    //     );
-    //     stars.push(
-    //         <i
-    //             className={starClass3}
-    //             key={3}
-    //             onClick={() => {
-    //                 setReviewScore(3);
-
-    //                 setStarClass1(fullStar);
-    //                 setStarClass2(fullStar);
-    //                 setStarClass3(fullStar);
-    //                 setStarClass4(emptyStar);
-    //                 setStarClass5(emptyStar);
-    //             }}
-    //         />
-    //     );
-    //     stars.push(
-    //         <i
-    //             className={starClass4}
-    //             key={4}
-    //             onClick={() => {
-    //                 setReviewScore(4);
-
-    //                 setStarClass1(fullStar);
-    //                 setStarClass2(fullStar);
-    //                 setStarClass3(fullStar);
-    //                 setStarClass4(fullStar);
-    //                 setStarClass5(emptyStar);
-    //             }}
-    //         />
-    //     );
-    //     stars.push(
-    //         <i
-    //             className={starClass5}
-    //             key={5}
-    //             onClick={() => {
-    //                 setReviewScore(5);
-
-    //                 setStarClass1(fullStar);
-    //                 setStarClass2(fullStar);
-    //                 setStarClass3(fullStar);
-    //                 setStarClass4(fullStar);
-    //                 setStarClass5(fullStar);
-    //             }}
-    //         />
-    //     );
-
-    //     return stars;
-    // };
-
     const handleReviewTextInput = ({ target: { value: reviewText } }) => {
         setReviewText(reviewText);
     };
@@ -143,29 +56,32 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
         setReviewScore(reviewScore);
     };
 
-    const handleLoginSubmit = event => {
+    const handleReviewSubmit = event => {
         event.preventDefault();
 
         try {
+            let reviewTextFix
+            if (reviewText === '') reviewTextFix = 'no text'
+            else reviewTextFix = reviewText
             logic
-                .postReview(gameId, reviewText, reviewScore)
+                .postReview(gameId, reviewTextFix, reviewScore)
                 .then(() => {
                     setReviewText("");
                     setReviewScore("");
                     refresh(gameId);
                 })
                 .catch(error => {
-                    // setFeedbackLogin(error.message);
+                    console.log(error)
                 });
         } catch ({ message }) {
-            // setFeedbackLogin(message);
+            console.log(message)
         }
     };
 
     return (
         <Fragment>
             <div className="forms">
-                <form className="review-form" onSubmit={handleLoginSubmit}>
+                <form className="review-form" onSubmit={handleReviewSubmit}>
                     <div>
                         <input
                             className="review-form__input"
@@ -199,11 +115,7 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
                     <button className="review-form__button">Rate!</button>
                 </form>
                 <div>
-                    <h3>Star 1 : {preScore[0]}</h3>
-                    <h3>Star 2 : {preScore[1]}</h3>
-                    <h3>Star 3 : {preScore[2]}</h3>
-                    <h3>Star 4 : {preScore[3]}</h3>
-                    <h3>Star 5 : {preScore[4]}</h3>
+                    <h3>Precog data : {preScore.toString()}</h3>
                 </div>
             </div>
         </Fragment>

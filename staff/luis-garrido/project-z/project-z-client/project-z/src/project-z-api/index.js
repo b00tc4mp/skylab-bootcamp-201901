@@ -1,36 +1,43 @@
 "use strict";
 
+const {
+    AuthError,
+    EmptyError,
+    DuplicateError,
+    MatchingError,
+    NotFoundError
+} = require("project-z-errors");
+const validate = require("project-z-validation");
+
 const projectZApi = {
     url: "http://localhost:8000/api",
 
-    registerUser(username, name, surname, email, password, passwordConfirm) {
-        if (typeof username !== "string")
-            throw TypeError(`${username} is not a string`);
-        if (!username.trim().length) throw Error("username is empty");
+    registerUser(
+        username,
+        name = "",
+        surname = "",
+        email,
+        password,
+        passwordConfirmation,
+        admin = false,
+        avatar = "10"
+    ) {
+       
+        validate([
+            { key: "admin", value: admin, type: Boolean },
+            { key: "username", value: username, type: String },
+            { key: "avatar", value: avatar, type: String },
+            { key: "name", value: name, type: String, optional: true },
+            { key: "surname", value: surname, type: String, optional: true },
+            { key: "email", value: email, type: String },
+            { key: "password", value: password, type: String },
 
-        if (typeof name !== "string")
-            throw TypeError(`${name} is not a string`);
-        // if (!name.trim().length) throw Error("name is empty");
-
-        if (typeof surname !== "string")
-            throw TypeError(`${surname} is not a string`);
-        // if (!surname.trim().length) throw Error("surname is empty");
-
-        if (typeof email !== "string")
-            throw TypeError(`${email} is not a string`);
-        if (!email.trim().length) throw Error("email is empty");
-
-        if (typeof password !== "string")
-            throw TypeError(`${password} is not a string`);
-        if (!password.trim().length) throw Error("password is empty");
-
-        if (typeof passwordConfirm !== "string")
-            throw TypeError(`${passwordConfirm} is not a string`);
-        if (!passwordConfirm.trim().length)
-            throw Error("password confirm is empty");
-
-        const admin = false;
-        const avatar = "10";
+            {
+                key: "passwordConfirmation",
+                value: passwordConfirmation,
+                type: String
+            }
+        ]);
 
         return fetch(`${this.url}/user`, {
             method: "POST",
@@ -45,33 +52,31 @@ const projectZApi = {
                 surname,
                 email,
                 password,
-                passwordConfirm
+                passwordConfirm: passwordConfirmation
             })
         })
             .then(response => response.json())
-            .then(({ id, error }) => {
-                console.log(id, error);
-                if (error) throw Error(error);
+            .then(({ error, id }) => {
+                // console.log(id, error);
+                if (error) {
+                    throw Error(error);}
 
                 return id;
             });
     },
 
-    authenticateUser(email, password) {
-        if (typeof email !== "string")
-            throw TypeError(`${email} is not a string`);
-        if (!email.trim().length) throw Error("email is empty");
-
-        if (typeof password !== "string")
-            throw TypeError(`${password} is not a string`);
-        if (!password.trim().length) throw Error("password is empty");
+    authenticateUser(loggingData, password) {
+        validate([
+            { key: "loggingData", value: loggingData, type: String },
+            { key: "password", value: password, type: String }
+        ]);
 
         return fetch(`${this.url}/user/auth`, {
             method: "POST",
             headers: {
                 "content-type": "application/json"
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email: loggingData, password })
         })
             .then(response => response.json())
             .then(response => {
@@ -82,9 +87,7 @@ const projectZApi = {
     },
 
     retrieveUser(token) {
-        if (typeof token !== "string")
-            throw TypeError(`${token} is not a string`);
-        if (!token.trim().length) throw Error("token is empty");
+        validate([{ key: "token", value: token, type: String }]);
 
         return fetch(`${this.url}/user`, {
             headers: {
@@ -100,10 +103,7 @@ const projectZApi = {
     },
 
     retrieveUserInfoByUsername(username) {
-        if (typeof username !== "string")
-            throw TypeError(`${username} is not a string`);
-
-        if (!username.trim().length) throw Error("username is empty");
+        validate([{ key: "username", value: username, type: String }]);
 
         return fetch(`${this.url}/user/${username}`)
             .then(response => response.json())
@@ -114,74 +114,61 @@ const projectZApi = {
             });
     },
 
-    updateUser(token, data) {
-        if (typeof token !== "string")
-            throw TypeError(`${token} is not a string`);
-        if (!token.trim().length) throw Error("token is empty");
+    // updateUser(token, data) {
+    //     if (typeof token !== "string")
+    //         throw TypeError(`${token} is not a string`);
+    //     if (!token.trim().length) throw Error("token is empty");
 
-        if (data.constructor !== Object)
-            throw TypeError(`${data} is not an object`);
+    //     if (data.constructor !== Object)
+    //         throw TypeError(`${data} is not an object`);
 
-        return fetch(`${this.url}/user`, {
-            method: "PUT",
-            headers: {
-                authorization: `Bearer ${token}`,
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error);
+    //     return fetch(`${this.url}/user`, {
+    //         method: "PUT",
+    //         headers: {
+    //             authorization: `Bearer ${token}`,
+    //             "content-type": "application/json"
+    //         },
+    //         body: JSON.stringify(data)
+    //     })
+    //         .then(response => response.json())
+    //         .then(response => {
+    //             if (response.error) throw Error(response.error);
 
-                return response;
-            });
-    },
+    //             return response;
+    //         });
+    // },
 
-    removeUser(token, email, password) {
-        if (typeof token !== "string")
-            throw TypeError(`${token} is not a string`);
-        if (!token.trim().length) throw Error("token is empty");
+    // removeUser(token, email, password) {
+    //     if (typeof token !== "string")
+    //         throw TypeError(`${token} is not a string`);
+    //     if (!token.trim().length) throw Error("token is empty");
 
-        if (typeof email !== "string")
-            throw TypeError(`${email} is not a string`);
-        if (!email.trim().length) throw Error("email is empty");
+    //     if (typeof email !== "string")
+    //         throw TypeError(`${email} is not a string`);
+    //     if (!email.trim().length) throw Error("email is empty");
 
-        if (typeof password !== "string")
-            throw TypeError(`${password} is not a string`);
-        if (!password.trim().length) throw Error("password is empty");
+    //     if (typeof password !== "string")
+    //         throw TypeError(`${password} is not a string`);
+    //     if (!password.trim().length) throw Error("password is empty");
 
-        return fetch(`${this.url}/user`, {
-            method: "DELETE",
-            headers: {
-                authorization: `Bearer ${token}`,
-                "content-type": "application/json"
-            },
-            body: JSON.stringify({ email, password })
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error);
+    //     return fetch(`${this.url}/user`, {
+    //         method: "DELETE",
+    //         headers: {
+    //             authorization: `Bearer ${token}`,
+    //             "content-type": "application/json"
+    //         },
+    //         body: JSON.stringify({ email, password })
+    //     })
+    //         .then(response => response.json())
+    //         .then(response => {
+    //             if (response.error) throw Error(response.error);
 
-                return response;
-            });
-    },
-
-    retrieveBestScored() {
-        return fetch(`${this.url}/ranking`)
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error);
-
-                return response;
-            });
-    },
+    //             return response;
+    //         });
+    // },
 
     searchGames(query) {
-        if (typeof query !== "string")
-            throw TypeError(`${query} is not a string`);
-
-        if (!query.trim().length) throw Error("query is empty");
+        validate([{ key: "query", value: query, type: String }]);
 
         return fetch(`${this.url}/games?q=${query}`)
             .then(response => response.json())
@@ -193,10 +180,7 @@ const projectZApi = {
     },
 
     retrieveGameInfo(gameId) {
-        if (typeof gameId !== "string")
-            throw TypeError(`${gameId} is not a string`);
-
-        if (!gameId.trim().length) throw Error("gameId is empty");
+        validate([{ key: "gameId", value: gameId, type: String }]);
 
         if (isNaN(Number(gameId)))
             throw TypeError(`${gameId} should be a number`);
@@ -217,10 +201,18 @@ const projectZApi = {
     },
 
     postReview(token, gameId, text, score) {
-        if (typeof token !== "string")
-            throw TypeError(`${token} is not a string`);
-        if (!token.trim().length) throw Error("token is empty");
+        
+        validate([
+            { key: "token", value: token, type: String },
+            { key: "gameId", value: gameId, type: String },
+            { key: "text", value: text, type: String, optional: true },
+            { key: "score", value: score, type: Number }
+        ]);
+        
+        if (score < 0 || score > 5)
+            throw Error("score must be between 0 and 5");
 
+        if (score % 1 !== 0) throw Error(`score should be an integer number`);
         return fetch(`${this.url}/game/${gameId}/review`, {
             headers: {
                 "content-type": "application/json",
@@ -229,6 +221,16 @@ const projectZApi = {
             method: "POST",
             body: JSON.stringify({ text, score })
         })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error);
+
+                return response;
+            });
+    },
+
+    retrieveBestScored() {
+        return fetch(`${this.url}/ranking`)
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error);
@@ -247,9 +249,11 @@ const projectZApi = {
     },
 
     getPreScore(token, gameId, gameInfo) {
-        if (typeof gameId !== "string")
-            throw TypeError(`${gameId} is not a string`);
-        if (!gameId.trim().length) throw Error("gameId is empty");
+        validate([
+            { key: "token", value: token, type: String },
+            { key: "gameId", value: gameId, type: String },
+            { key: "gameInfo", value: gameInfo, type: Object }
+        ]);
 
         return fetch(`${this.url}/game/${gameId}/prediction`, {
             headers: {
@@ -264,8 +268,7 @@ const projectZApi = {
                 if (response.error) throw Error(response.error);
 
                 return response;
-            });        
-
+            });
     }
 
     // /**

@@ -14,6 +14,7 @@ const {
     retrieveUserByUsername,
     retrieveRandomGame,
     retrievePredictedScore,
+    retrieveEuclideanDistance,
     notFound
 } = require("./handlers");
 
@@ -43,7 +44,7 @@ router.get('/random', retrieveRandomGame)
 
 router.post('/game/:gameId/prediction', [jsonBodyParser, tokenVerifierMiddleware], retrievePredictedScore)
 
-// router.get('/artist/:artistId/comment', tokenVerifierMiddleware, listCommentsFromArtist)
+router.get('/compare/:otherUserUsername', tokenVerifierMiddleware, retrieveEuclideanDistance)
 
 // router.get('*', notFound)
 

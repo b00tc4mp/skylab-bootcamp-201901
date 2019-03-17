@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bcrypt": "^3.0.4",
     "node-sass": "^4.11.0",
+    "project-z-data": "file:../../project-z-data",
+    "project-z-errors": "file:../../project-z-errors",
+    "project-z-validation": "file:../../project-z-validation",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-masonry-component": "^6.2.1",
@@ -14,8 +18,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test": "react-scripts test --runInBand",
+    "test-debug": "react-scripts --inspect-brk test --runInBand",
+    "test-coverage": "npm test -- --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"

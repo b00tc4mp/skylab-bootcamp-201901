@@ -11,7 +11,7 @@ const {
     MatchingError,
     NotFoundError
 } = require("project-z-errors");
-const validate = require('project-z-validation')
+const validate = require("project-z-validation");
 
 /**
  * Abstraction of business logic.
@@ -32,7 +32,7 @@ const logic = {
      *
      */
     registerUser(
-        admin,
+        admin = false,
         username,
         avatar,
         name,
@@ -41,59 +41,24 @@ const logic = {
         password,
         passwordConfirmation
     ) {
-        if (typeof admin !== "boolean")
-            throw TypeError(admin + " is not a boolean");
+        validate([
+            { key: "admin", value: admin, type: Boolean },
+            { key: "username", value: username, type: String },
+            { key: "avatar", value: avatar, type: String },
+            { key: "name", value: name, type: String, optional: true },
+            { key: "surname", value: surname, type: String, optional: true },
+            { key: "email", value: email, type: String },
+            { key: "password", value: password, type: String },
 
-        if (typeof username !== "string")
-            throw TypeError(username + " is not a string");
-
-        if (!username.trim().length)
-            throw new EmptyError("username cannot be empty");
-
-        if (typeof avatar !== "string")
-            throw TypeError(avatar + " is not a string");
-
-        if (!avatar.trim().length)
-            throw new EmptyError("avatar cannot be empty");
-
-        if (typeof name !== "string")
-            throw TypeError(name + " is not a string");
-
-        // if (!name.trim().length) throw new EmptyError('name cannot be empty')
-
-        if (typeof surname !== "string")
-            throw TypeError(surname + " is not a string");
-
-        // if (!surname.trim().length) throw new EmptyError('surname cannot be empty')
-
-        if (typeof email !== "string")
-            throw TypeError(email + " is not a string");
-
-        if (!email.trim().length) throw new EmptyError("email cannot be empty");
-
-        if (typeof password !== "string")
-            throw TypeError(password + " is not a string");
-
-        if (!password.trim().length)
-            throw new EmptyError("password cannot be empty");
-
-        if (typeof passwordConfirmation !== "string")
-            throw TypeError(passwordConfirmation + " is not a string");
-
-        if (!passwordConfirmation.trim().length)
-            throw new EmptyError("password confirmation cannot be empty");
+            {
+                key: "passwordConfirmation",
+                value: passwordConfirmation,
+                type: String
+            }
+        ]);
 
         if (password !== passwordConfirmation)
             throw new MatchingError("passwords do not match");
-
-        // return User.findOne({ email })
-        //     .then(user => {
-        //         if (user) throw Error(`user with email ${email} already exists`)
-
-        //         return bcrypt.hash(password, 10)
-        //     })
-        //     .then(hash => User.create({ name, surname, email, password: hash }))
-        //     .then(({ id }) => id)
 
         return (async () => {
             let user = await User.findOne({ email });
@@ -135,17 +100,10 @@ const logic = {
      *
      */
     authenticateUser(loggingData, password) {
-        if (typeof loggingData !== "string")
-            throw TypeError(loggingData + " is not a string");
-
-        if (!loggingData.trim().length)
-            throw new EmptyError("loggingData cannot be empty");
-
-        if (typeof password !== "string")
-            throw TypeError(password + " is not a string");
-
-        if (!password.trim().length)
-            throw new EmptyError("password cannot be empty");
+        validate([
+            { key: "loggingData", value: loggingData, type: String },
+            { key: "password", value: password, type: String }
+        ]);
 
         const mailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         let emailChecker;
@@ -184,15 +142,12 @@ const logic = {
      *
      */
     retrieveUser(userId) {
-        if (typeof userId !== "string")
-            throw TypeError(`${userId} is not a string`);
-
-        if (!userId.trim().length)
-            throw new EmptyError("userId cannot be empty");
+        validate([{ key: "userId", value: userId, type: String }]);
 
         return User.findById(userId)
             .select("-password -__v")
             .lean()
+            .populate('reviews')
             .then(user => {
                 if (!user)
                     throw new NotFoundError(`user with id ${userId} not found`);
@@ -213,11 +168,7 @@ const logic = {
      *
      */
     retrieveUserByUsername(username) {
-        if (typeof username !== "string")
-            throw TypeError(`${username} is not a string`);
-
-        if (!username.trim().length)
-            throw new EmptyError("username cannot be empty");
+        validate([{ key: "username", value: username, type: String }]);
 
         return User.find({ username })
             .select("-password -__v")
@@ -241,6 +192,109 @@ const logic = {
     // TODO updateUser and removeUser
 
     /**
+     * Search games by name in our DB
+     *
+     * @param {string} query
+     * @returns {object} games
+     *
+     */
+    searchGames(query) {
+        validate([{ key: "query", value: query, type: String }]);
+
+        return Game.find(
+            { $text: { $search: query } },
+            // { game_title: { $regex: `${query}`, $options: "i" } }, // Alex alternative
+            { score: { $meta: "textScore" } }
+        )
+            .sort({
+                score: { $meta: "textScore" }
+            })
+            .limit(20)
+            .select("-_id -__v")
+            .lean()
+            .then(games => {
+                if (games.length === 0)
+                    throw new NotFoundError(`no games found`);
+
+                return games;
+            })
+            .then(async gameInfo => {
+                const gameInfoMap = gameInfo.map(async oneGame => {
+                    const cover = await Boxart.find({ id_game: oneGame.id })
+                        .select("-_id -__v")
+                        .lean();
+                    oneGame.boxartUrl = cover[0].images.find(
+                        image => image.side === "front"
+                    ).filename;
+
+                    if (oneGame.scores !== undefined) {
+                        oneGame.finalScore =
+                            oneGame.scores.reduce((a, b) => a + b) /
+                            oneGame.scores.length;
+                    }
+
+                    return oneGame;
+                });
+                gameInfo = await Promise.all(gameInfoMap);
+                return gameInfo;
+            });
+    },
+
+    /**
+     * Retrieve game info by game ID
+     *
+     * @param {String} gameId - The ID to retrieve game data.
+     * @returns {Object} - Game info
+     *
+     */
+    retrieveGameInfo(gameId) {
+        validate([{ key: "gameId", value: gameId, type: String }]);
+
+        if (isNaN(Number(gameId)))
+            throw TypeError(`${gameId} should be a number`);
+
+        if (!isNaN(Number(gameId)) && Number(gameId) < 1)
+            throw Error(`${gameId} should be a bigger than 0 number`);
+
+        if (!isNaN(Number(gameId)) && Number(gameId) % 1 !== 0)
+            throw Error(`${gameId} should be an integer number`);
+
+        return Game.findOne({ id: gameId })
+            .select("-_id -__v")
+            .lean()
+            .populate({ path: "reviews", populate: { path: "author" } })
+            .then(gameInfo => {
+                if (gameInfo === null)
+                    throw new NotFoundError(
+                        `${gameId} doesn't exist in database`
+                    );
+
+                return gameInfo;
+            })
+            .then(async gameInfo => {
+                const cover = await Boxart.find({ id_game: gameId })
+                    .select("-_id -__v")
+                    .lean();
+
+                if (cover.length === 0) {
+                    gameInfo.boxartUrl = false;
+                } else {
+                    gameInfo.boxartUrl = cover[0].images.find(
+                        image => image.side === "front"
+                    ).filename;
+                }
+
+                if (gameInfo.scores !== undefined) {
+                    gameInfo.finalScore =
+                        gameInfo.scores.reduce((a, b) => a + b) /
+                        gameInfo.scores.length;
+                }
+
+                return gameInfo;
+            });
+    },
+
+    /**
      * Post game review
      *
      * @param {string} userId
@@ -250,32 +304,17 @@ const logic = {
      * @returns {object} reviewAdded
      */
     postReview(userId, gameId, review) {
-        if (typeof userId !== "string")
-            throw TypeError(`${userId} is not a string`);
+        let { text, score } = review;
 
-        if (!userId.trim().length)
-            throw new EmptyError("userId cannot be empty");
+        validate([
+            { key: "userId", value: userId, type: String },
+            { key: "gameId", value: gameId, type: String },
+            { key: "review", value: review, type: Object },
+            { key: "text", value: text, type: String, optional: true },
+            { key: "score", value: score, type: Number }
+        ]);
 
-        if (typeof gameId !== "string")
-            throw TypeError(`${gameId} is not a string`);
-
-        if (!gameId.trim().length)
-            throw new EmptyError("gameId cannot be empty");
-
-        if (!(review instanceof Object))
-            throw TypeError(`${review} is not an object`);
-
-        if (!Object.keys(review).length)
-            throw new EmptyError("review cannot be empty");
-
-        const { text, score } = review;
-
-        if (typeof text !== "string")
-            throw TypeError(`${text} is not a string`);
-
-        // if (!text.trim().length) throw new EmptyError("text cannot be empty");
-
-        if (isNaN(score)) throw TypeError(`${score} is not a number`);
+        if (text === "no text") text = "";
 
         if (score < 0 || score > 5)
             throw Error("score must be between 0 and 5");
@@ -297,7 +336,7 @@ const logic = {
                 .lean()
                 .populate("reviews")
                 .then(gameInfo => {
-                    if (gameInfo === null)
+                    if (gameInfo === null || gameInfo.length === 0)
                         throw new NotFoundError(
                             `${gameId} doesn't exist in database`
                         );
@@ -353,117 +392,6 @@ const logic = {
     },
 
     /**
-     * Search games by name in our DB
-     *
-     * @param {string} query
-     * @returns {object} games
-     *
-     */
-    searchGames(query) {
-        if (typeof query !== "string")
-            throw TypeError(`${query} is not a string`);
-
-        if (!query.trim().length) throw new EmptyError("query is empty");
-
-        return Game.find(
-            { $text: { $search: query } },
-            // { game_title: { $regex: `${query}`, $options: "i" } }, // Alex alternative
-            { score: { $meta: "textScore" } }
-        )
-            .sort({
-                score: { $meta: "textScore" }
-            })
-            .limit(20)
-            .select("-_id -__v")
-            .lean()
-            .then(games => {
-                if (games.length === 0)
-                    throw new NotFoundError(`no games found`);
-
-                return games;
-            })
-            .then(async gameInfo => {
-                const gameInfoMap = gameInfo.map(async oneGame => {
-                    const cover = await Boxart.find({ id_game: oneGame.id })
-                        .select("-_id -__v")
-                        .lean();
-                    oneGame.boxartUrl = cover[0].images.find(
-                        image => image.side === "front"
-                    ).filename;
-
-                    if (oneGame.scores !== undefined) {
-                        oneGame.finalScore =
-                            oneGame.scores.reduce((a, b) => a + b) /
-                            oneGame.scores.length;
-                    }
-
-                    return oneGame;
-                });
-                gameInfo = await Promise.all(gameInfoMap);
-                return gameInfo;
-            });
-    },
-
-    /**
-     * Retrieve game info by game ID
-     *
-     * @param {String} gameId - The ID to retrieve game data.
-     * @returns {Object} - Game info
-     *
-     */
-    retrieveGameInfo(gameId) {
-        if (typeof gameId !== "string")
-            throw TypeError(`${gameId} is not a string`);
-
-        if (!gameId.trim().length) throw new EmptyError("gameId is empty");
-
-        if (isNaN(Number(gameId)))
-            throw TypeError(`${gameId} should be a number`);
-
-        if (!isNaN(Number(gameId)) && Number(gameId) < 1)
-            throw Error(`${gameId} should be a bigger than 0 number`);
-
-        if (!isNaN(Number(gameId)) && Number(gameId) % 1 !== 0)
-            throw Error(`${gameId} should be an integer number`);
-
-        return Game.findOne({ id: gameId })
-            .select("-_id -__v")
-            .lean()
-            .populate({ path: "reviews", populate: { path: "author" } })
-            .then(gameInfo => {
-                if (gameInfo === null)
-                    throw new NotFoundError(
-                        `${gameId} doesn't exist in database`
-                    );
-
-                return gameInfo;
-            })
-            .then(async gameInfo => {
-                const cover = await Boxart.find({ id_game: gameId })
-                    .select("-_id -__v")
-                    .lean();
-                    
-                    console.log(cover)
-                if (cover.length === 0) {
-                    gameInfo.boxartUrl =
-                        false;
-                } else {
-                    gameInfo.boxartUrl = cover[0].images.find(
-                        image => image.side === "front"
-                    ).filename;
-                }
-
-                if (gameInfo.scores !== undefined) {
-                    gameInfo.finalScore =
-                        gameInfo.scores.reduce((a, b) => a + b) /
-                        gameInfo.scores.length;
-                }
-
-                return gameInfo;
-            });
-    },
-
-    /**
      * List games by final score
      *
      * @returns {object} games
@@ -514,26 +442,33 @@ const logic = {
             .then(response => response);
     },
 
+    retrieveEuclideanDistance(userReviews, otherUserReviews) {
+        validate([
+            { key: "userReviews", value: userReviews, type: Object },
+            { key: "otherUserReviews", value: otherUserReviews, type: Object }
+        ]);
+
+        return { userReviews, otherUserReviews }
+    },
+
     retrievePredictedScore(userId, gameId, body) {
-        if (typeof userId !== "string")
-            throw TypeError(`${userId} is not a string`);
+        validate([
+            { key: "userId", value: userId, type: String },
+            { key: "gameId", value: gameId, type: String },
+            { key: "body", value: body, type: Object }
+        ]);
 
-        if (!userId.trim().length)
-            throw new EmptyError("userId cannot be empty");
+        const {
+            gameInfo: { finalScore, developers, genres, platform, publishers }
+        } = body;
 
-        if (typeof gameId !== "string")
-            throw TypeError(`${gameId} is not a string`);
-
-        if (!gameId.trim().length)
-            throw new EmptyError("gameId cannot be empty");
-
-        // if (!(body instanceof Object))
-        //     throw TypeError(`${body} is not an object`);
-
-        // if (!body.trim().length)
-        //     throw new EmptyError("body cannot be empty");
-
-        const { gameInfo: { finalScore, developers, genres, platform, publishers } } = body;
+        const dataToPrecog = {
+            finalScore: [finalScore],
+            developers,
+            genres,
+            platform: [platform],
+            publishers
+        };
 
         return User.findById(userId)
             .populate({ path: "reviews", populate: { path: "game" } })
@@ -545,51 +480,204 @@ const logic = {
 
                 const { reviews } = user;
 
-                const dataToTrain = reviews.map(review => {
-                    const input = {};
+                const dataToTrain = {
+                    finalScore: [],
+                    developers: [],
+                    genres: [],
+                    platform: [],
+                    publishers: []
+                };
 
-                    // if (!!review.game.finalScore) input.f = review.game.finalScore;
-                    // if (!!review.game.developers)
-                    //     input.d = review.game.developers[0];
-                    if (!!review.game.genres)
-                        input.g = review.game.genres[0].toString();
-                    // if (!!review.game.platform) input.pl = review.game.platform[0];
-                    // if (!!review.game.publishers)
-                    //     input.pu = review.game.publishers[0];
+                const likeGames = {
+                    userScore: [],
+                    finalScore: [],
+                    developers: [],
+                    genres: [],
+                    platform: [],
+                    publishers: []
+                };
 
-                    const outputKey = `star${review.score.toString()}`;
-                    const output = {};
-                    output[outputKey] = 1;
+                const dislikeGames = {
+                    userScore: [],
+                    finalScore: [],
+                    developers: [],
+                    genres: [],
+                    platform: [],
+                    publishers: []
+                };
 
-                    return { input, output };
+                const preparingData = reviews.map(review => {
+                    dataToTrain.finalScore.push([review.game.finalScore]);
+                    dataToTrain.developers.push(review.game.developers);
+                    dataToTrain.genres.push(review.game.genres);
+                    dataToTrain.platform.push(review.game.platform);
+                    dataToTrain.publishers.push(review.game.publishers);
+                    if (review.score === 5 || review.score === 4) {
+                        likeGames.userScore.push([review.score])
+                        likeGames.finalScore.push([review.game.finalScore]);
+                        likeGames.developers.push(review.game.developers);
+                        likeGames.genres.push(review.game.genres);
+                        likeGames.platform.push(review.game.platform);
+                        likeGames.publishers.push(review.game.publishers);
+                    } else if (review.score === 2 || review.score === 1) {
+                        dislikeGames.userScore.push([review.score])
+                        dislikeGames.finalScore.push([review.game.finalScore]);
+                        dislikeGames.developers.push(review.game.developers);
+                        dislikeGames.genres.push(review.game.genres);
+                        dislikeGames.platform.push(review.game.platform);
+                        dislikeGames.publishers.push(review.game.publishers);
+                    }
                 });
 
-                const brain = require("brain.js");
+                console.log(reviews[0])
+                // console.log("Training IA : ", dataToTrain);
+                // console.log("Likes : ", likeGames);
+                // console.log("Dislikes : ", dislikeGames);
+                // console.log("Data to process :", dataToPrecog);
 
-                const precog = new brain.NeuralNetwork({
-                    // iterations: 40000,
+                let genreScore = 0;
 
-                    activation: "sigmoid",
-                    //  leakyReluAlpha: 0.01,
-                    hiddenLayers: [4]
-                });
+                if (genres !== null) {
+                    const calculatingGenreScore = genres.map(genre => {
+                        let kgenre = 0;
+                        likeGames.genres.forEach((genreLike, index) => {
+                            let jgenre = 0
+                            if (genreLike!==null) {
+                                for (let i = 0; i < genreLike.length; i++) {
+                                    if (genre === genreLike[i]) {
+                                        console.log(`${genre} is like ${genreLike[i]}`)
+                                        // if (likeGames.userScore[index]=='5') jgenre++
+                                        jgenre++
+                                    }
+                                    if (i === (genreLike.length-1)) {
+                                        kgenre += jgenre
+                                    }
+                                }
+                            }
+                        });
+                        console.log('genre coincidence : '+kgenre)
+                        console.log('genre leng: '+likeGames.genres.length)
+                        if (kgenre!==0) genreScore = kgenre/likeGames.genres.length
+                    });
+                }
+                console.log('genresocre: ' + genreScore)
 
-                console.log("Training IA : ", precog.train(dataToTrain));
-
-                const dataToPrecog = {};
-                // if(!!finalScore) dataToPrecog.f = finalScore
-                if (!!genres) dataToPrecog.g = genres[0].toString();
-
-                const precogScore = precog.run(dataToPrecog);
-                console.log(dataToTrain)
-                console.log('precog data: ', dataToPrecog)
-                console.log(genres)
+                let platformScore = 0;
                 
-                console.log("Running IA : ", precogScore);
+                if (platform !== null) {
+                    // const calculatingPlatformScore = platform.map(platform => {
+                        let kplatform = 0;
+                        likeGames.platform.forEach((platformLike,index) => {
+                            let jplatform = 0 
+                            for (let i = 0; i < platformLike.length; i++) {
+                                if (platform === platformLike[i]) {
+                                    console.log(`${platform} is like ${platformLike[i]}`)
+                                    if (likeGames.userScore[index]=='5') jplatform++
+                                    jplatform++
+                                }
+                                if (i === (platformLike.length-1)) {
+                                    kplatform += jplatform
+                                }
+                            }
+                        });
+                        console.log('platform coincidence: '+kplatform)
+                        console.log('platform leng: '+likeGames.platform.length)
+                        if (kplatform!==0) platformScore = kplatform/likeGames.platform.length
+                    // });
+                }
+                console.log('platformsocre: ' + platformScore)
 
+                let developerScore = 0;
+
+                if (developers !== null) {
+                    const calculatingGenreScore = developers.map(developer => {
+                        let kdeveloper = 0;
+                        likeGames.developers.forEach((developerLike,index) => {
+                            let jdeveloper = 0
+                            if (developerLike!==null) {
+                                for (let i = 0; i < developerLike.length; i++) {
+                                    if (developer === developerLike[i]) {
+                                        console.log(`${developer} is like ${developerLike[i]}`)
+                                        if (likeGames.userScore[index]=='5') jdeveloper++
+                                        jdeveloper++
+                                    }
+                                    if (i === (developerLike.length-1)) {
+                                        kdeveloper += jdeveloper
+                                    }
+                                }
+                            }
+                            // console.log("PUNTUACON : "+likeGames.userScore[index])
+                        });
+                        console.log('developer coincidence : '+kdeveloper)
+                        console.log('developer leng: '+likeGames.developers.length)
+                        if (kdeveloper!==0) developerScore = kdeveloper/likeGames.developers.length
+                    });
+                }
+                console.log('developerscore: ' + developerScore)
+
+                // const dataToPrecog = {};
+                // if(!!finalScore) dataToPrecog.f = finalScore
+                // if (!!genres) dataToPrecog.g = genres[0].toString();
+
+                let finalScoreDeviation = 10
+                if ( finalScore ) finalScoreDeviation*=finalScore
+                else finalScoreDeviation = 30
+                
+                console.log('FINAK SCREkas: '+finalScore)
+                
+                const precogScore = ((platformScore*30)+(genreScore*50)+(developerScore*50)+(finalScoreDeviation))/100;
+                console.log('PRECOG SCORE: '+precogScore)
                 return precogScore;
             });
     }
+
+    // trials() {
+
+    //     const dataToTrain = reviews.map(review => {
+    //         const input = {};
+
+    //         // if (!!review.game.finalScore) input.f = review.game.finalScore;
+    //         // if (!!review.game.developers)
+    //         //     input.d = review.game.developers[0];
+    //         if (!!review.game.genres)
+    //             input.g = review.game.genres[0].toString();
+    //         // if (!!review.game.platform) input.pl = review.game.platform[0];
+    //         // if (!!review.game.publishers)
+    //         //     input.pu = review.game.publishers[0];
+
+    //         const outputKey = `star${review.score.toString()}`;
+    //         const output = {};
+    //         output[outputKey] = 1;
+
+    //         return { input, output };
+    //     });
+
+    //     const brain = require("brain.js");
+
+    //     const precog = new brain.NeuralNetwork({
+    //         // iterations: 40000,
+
+    //         activation: "sigmoid",
+    //         //  leakyReluAlpha: 0.01,
+    //         hiddenLayers: [4]
+    //     });
+
+    //     console.log("Training IA : ", precog.train(dataToTrain));
+
+    //     const dataToPrecog = {};
+    //     // if(!!finalScore) dataToPrecog.f = finalScore
+    //     if (!!genres) dataToPrecog.g = genres[0].toString();
+
+    //     const precogScore = precog.run(dataToPrecog);
+    //     console.log(dataToTrain);
+    //     console.log("precog data: ", dataToPrecog);
+    //     console.log(genres);
+
+    //     console.log("Running IA : ", precogScore);
+
+    //     return precogScore;
+
+    // }
 };
 
 module.exports = logic;

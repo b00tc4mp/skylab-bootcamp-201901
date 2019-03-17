@@ -17,9 +17,9 @@ module.exports = {
 
     retrieveRandomGame: require('./retrieve-random-game'),
 
-    retrievePredictedScore: require('./retrieve-predicted-score')
+    retrievePredictedScore: require('./retrieve-predicted-score'),
 
-    // listCommentsFromArtist: require('./list-comments-from-artist'),
+    retrieveEuclideanDistance: require('./retrieve-euclidean-distance')
 
     // TODO other route handlers
 

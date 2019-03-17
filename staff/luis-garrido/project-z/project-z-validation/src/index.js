@@ -36,6 +36,24 @@ function validate(params) {
                         typeof value !== "function")
                 )
                     throw TypeError(`${value} is not an array`);
+
+                if (value.length === 0)
+                    throw new EmptyError(`${key} is an empty array`);
+
+                break;
+            case Object:
+                if (optional && (value == null || value === "")) break;
+
+                if (
+                    !value instanceof Object ||
+                    (typeof value === "undefined" &&
+                        typeof value !== "function")
+                )
+                    throw TypeError(`${value} is not an object`);
+
+                if (!Object.keys(value).length)
+                    throw new EmptyError(`Object cannot be empty`);
+
                 break;
         }
     });
