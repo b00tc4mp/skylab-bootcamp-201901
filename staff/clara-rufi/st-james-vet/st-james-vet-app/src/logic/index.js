@@ -251,6 +251,23 @@ const logic = {
             })
     },
 
+    retrieveAppointmentsOwner() {
+        debugger
+        this.__updateToken__()
+        return fetch(`${this.url}/appointmentsOwner`, {
+
+            headers: {
+                authorization: `Bearer ${this.__userToken__}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                
+                return response
+            })
+    },
+
     retrieveAppointments(year, month) {  
           
         this.__updateToken__()

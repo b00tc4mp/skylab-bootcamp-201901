@@ -157,7 +157,13 @@ class Calendar extends Component {
             <tr>
                 <p className="appointment" value={id}>
                     <th>
-                        {date.getDate()}{'  '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '}{owner.surname}{' '} Pet  :{pet.name}
+                        {date.getDate()}
+                        <br/>
+                        Hour:{' '}{'  '}{date.getHours()}{':'}{date.getMinutes() + ' h'} 
+                        <br/>
+                        Owner:{' '}{owner.name}{' '}{owner.surname}{' '} 
+                        <br/>
+                        Pet :{' '}{pet.name}
                         <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>
 
                     </th>

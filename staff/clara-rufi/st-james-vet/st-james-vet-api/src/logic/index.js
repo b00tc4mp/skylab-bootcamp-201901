@@ -285,6 +285,25 @@ const logic = {
             })
     },
 
+    async retrieveAppointmentsOwner() { 
+        debugger
+       
+
+        const _appointments= await Appointment.find({}).populate('owner pet')
+        const appointments = _appointments.map(appointment => {
+            debugger
+            return {
+                owner: appointment.owner,
+                pet: appointment.pet,
+                date : appointment.date,
+                id: appointment._id             
+            }
+        })
+       
+        console.log(_appointments) 
+        return appointments
+    },
+
     /**
      * Retrieve users by its credentials.
      * 
@@ -322,24 +341,12 @@ const logic = {
 
         if (!month.trim().length) throw new EmptyError('month is empty')
 
-        // const fromDate = moment().startOf(month).format('YYYY-MM-DD hh:mm');
-        // var toDate = moment ().endOf(month).format('YYYY-MM-DD hh:mm');
-
-        // const toDate = new Date(year, month, 0);////////////
-        // const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 0);/////////////////
-
-        ////// const toDate = new Date(year, month ,0);  //30/3
-        ///// const fromDate = new Date(toDate.getFullYear()+1, toDate.getMonth(), 1); //29 del 4
-
         const toDate = new Date(year, month,+1);
         const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(),-30);
-        // const startOfMonth = new Date (moment().startOf(month).format('YYYY-MM-DD hh:mm'));
-        // const endOfMonth   = new Date(moment().endOf(month).format('YYYY-MM-DD hh:mm'));
-    
+       
         console.log(fromDate, toDate)
 
         const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate }}).populate('owner pet')
-        // const _appointments= await Appointment.find({"date": {'$gte': startOfMonth, '$lte': endOfMonth}}).populate('owner pet')/////
         const appointments = _appointments.map(appointment => {
             debugger
             return {

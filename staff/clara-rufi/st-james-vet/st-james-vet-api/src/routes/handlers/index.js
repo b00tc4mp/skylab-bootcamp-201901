@@ -11,6 +11,8 @@ module.exports = {
 
     retrieveUser: require('./retrieve_user'),
 
+    retrieveAppointmentsOwner: require('./retrieve-appointments-owner'),
+
     retrieveUserSelected: require('./retrieve-user-selected'),
  
     retrievePets: require('./retrieve-pets'),
