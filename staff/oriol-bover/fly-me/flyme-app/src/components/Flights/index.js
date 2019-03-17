@@ -19,7 +19,7 @@ export default function Flights({ userId, history }) {
 
     function onFlightDetail(flightId) {
         if (flightId)
-            history.push(`/admin/flight/${flightId}`)
+            history.push(`/admin/${flightId}/flight`)
     }
 
     return (<section className="section">

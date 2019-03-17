@@ -24,10 +24,12 @@ module.exports = {
     updateFlight: require('./update-flight'),
     deleteFlight: require('./delete-flight'),
     addProgram: require('./add-program'),
+    retrieveProgram: require('./retrieve-program'),
     retrievePrograms: require('./retrieve-programs'),
     retrieveProgramsUser: require('./retrieve-programs-user'),
     updateProgram: require('./update-program'),
     deleteProgram: require('./delete-program'),
+    playProgram: require('./play-program'),
     sendMail: require('./send-email'),
     notFound: require('./not-found')
 }

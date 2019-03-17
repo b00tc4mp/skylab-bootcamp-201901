@@ -6,6 +6,7 @@ const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = 
 const DroneApi = require('drone-api')
 const validate = require('flyme-validation')
 const mail_transporter = require('../mail')
+const wait = require('waait')
 
 /**
  * 
@@ -418,7 +419,6 @@ const logic = {
 
     },
 
-
     // END FLIGHT CRUD
 
     sendMail(userId, data) {
@@ -449,8 +449,9 @@ const logic = {
     },
 
     //END  MAILING
-
     addProgram(userId, name, orders) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'name', value: name, type: String }, { key: 'orders', value: orders, type: Object }])
+
         let seconds = 0
         return User.findById(userId)
             .then(user => {
@@ -467,7 +468,21 @@ const logic = {
             })
     },
 
+    retrieveProgram(userId, programId) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'programId', value: programId, type: String }])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error('no authentication user')
+
+                return Program.findById(programId)
+            })
+            .then(program => program)
+    },
+
     retrieveProgramsByUser(userId) {
+        validate([{ key: 'userId', value: userId, type: String }])
+
         return Program.find({ userId }).select('-__v').lean()
             .then(programs => programs)
     },
@@ -478,6 +493,7 @@ const logic = {
     },
 
     updateProgram(userId, programId, name, orders) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'programId', value: programId, type: String }, { key: 'name', value: name, type: String }, { key: 'orders', value: orders, type: Object }])
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error('auth permissions denied')
@@ -492,6 +508,8 @@ const logic = {
     },
 
     deleteProgram(userId, programId) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'programId', value: programId, type: String }])
+
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error('auth permissions denied')
@@ -500,6 +518,51 @@ const logic = {
             })
             .then(() => {
                 return { status: 'OK' }
+            })
+    },
+
+    playProgram(userId, droneId, orders) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }, { key: 'orders', value: orders, type: Object }])
+
+        let i = 0
+        let drone = this.activeDrones.get(droneId)
+
+        if (drone) throw Error(`drone ${droneId} already started`)
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error('auth permissions denied')
+
+                return Drone.findById(droneId)
+            })
+            .then(drone => {
+                if (!drone) throw Error('No drone found')
+
+                droneMachine = new DroneApi(drone.host, drone.port)
+
+                // droneMachine.history = []
+
+                droneMachine.start()
+
+                const command = orders[i]
+
+                console.log(`running command: ${command}`)
+
+                droneMachine.sendCommand(command, function (err) {
+                    if (err) throw new DroneError(err)
+                })
+
+                return wait(orders[i].timeOut)
+                    .then(() => {
+                        i += 1
+
+                        if (i < orders.length) {
+                            return this.playProgram(userId, droneId, orders)
+                        }
+
+                        droneMachine.stop()
+                        console.log('all commands done!')
+                    })
             })
     }
 }

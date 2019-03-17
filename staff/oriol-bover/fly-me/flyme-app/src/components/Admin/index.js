@@ -10,7 +10,9 @@ import Drones from '../Drone'
 import DroneDetail from '../DroneDetail'
 import Flights from '../Flights'
 import FlightDetail from '../FlightDetail'
-import Lab from '../Lab'
+import Programs from '../Program'
+import ProgramCreator from '../ProgramCreator'
+import ProgramDetail from '../ProgramDetail'
 
 function Admin() {
     const [user, setUser] = useState(null)
@@ -36,7 +38,7 @@ function Admin() {
             <div className="column">
                 {/* Flight section */}
                 <Route exact path="/admin" render={props => <Flights userId={null} history={props.history} />} />
-                <Route path="/admin/flight/:flightId" render={props => <FlightDetail flightId={props.match.params.flightId} />} />
+                <Route path="/admin/:flightId/flight" render={props => <FlightDetail flightId={props.match.params.flightId} />} />
                 <Route path="/admin/user/:userId/flights" render={props => <Flights userId={props.match.params.userId} history={props.history} />} />
 
                 {/* drone section */}
@@ -50,7 +52,10 @@ function Admin() {
                 <Route path="/admin/report" component={Reporter} />
 
                 {/* program section */}
-                <Route path="/admin/lab" component={Lab} />
+                <Route exact path="/admin" render={props => <Programs userId={null} history={props.history} />} />
+                <Route path="/admin/user/:userId/programs" render={props => <Programs userId={props.match.params.userId} history={props.history} />} />
+                <Route exact path="/admin/:programId/program/" render={props => <ProgramDetail programId={props.match.params.programId} />} />
+                <Route exact path="/admin/program/create" component={ProgramCreator} />
             </div>
         </div>
     </Fragment>)

@@ -4,7 +4,7 @@ import logic from '../../logic'
 import initialData from './initial-data'
 import './index.sass'
 
-export default function Lab() {
+export default function ProgramCreator() {
     const [state, setState] = useState(initialData)
     const [name, setName] = useState('')
     const [feedback, setFeedback] = useState(null)

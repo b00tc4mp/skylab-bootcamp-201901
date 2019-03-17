@@ -237,6 +237,24 @@ const logic = {
             .then(res => res)
     },
 
+    retrievePrograms(userId = null) {
+        if (userId) {
+            return flymeApi.retrieveUserPrograms(this.__userApiToken__, userId)
+        } else {
+            return flymeApi.retrieveAllPrograms(this.__userApiToken__, null)
+                .then(res => res)
+        }
+    },
+
+    retrieveProgram(programId) {
+        if (typeof programId !== 'string') throw TypeError(programId + ' is not a string')
+
+        if (!programId.trim().length) throw Error('programId cannot be empty')
+
+        return flymeApi.retrieveProgram(this.__userApiToken__, programId)
+            .then(res => res)
+    },
+
     sendReport(data) {
         //check data
 

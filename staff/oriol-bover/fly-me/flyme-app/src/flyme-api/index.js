@@ -321,6 +321,47 @@ const flymeApi = {
             .then(res => res)
     },
 
+    retrieveAllPrograms(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/programs`, {
+            headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    retrieveProgram(token, programId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof programId !== 'string') throw TypeError(`${programId} is not a string`)
+        if (!programId.trim().length) throw Error('programId is empty')
+
+        return fetch(`${this.url}/program/${programId}`, {
+            headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+
+    retrieveUserPrograms(token, userId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+
+        return fetch(`${this.url}/user/${userId}/programs`, {
+            headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
     sendEmail(token, data) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
@@ -336,6 +377,7 @@ const flymeApi = {
             .then(res => res.json())
             .then(res => res)
     }
+
 }
 
 export default flymeApi

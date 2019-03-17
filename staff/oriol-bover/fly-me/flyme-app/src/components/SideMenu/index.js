@@ -9,12 +9,12 @@ export default function SideMenu({ user }) {
         <nav className="side--menu menu">
             {user && <ul className="menu-list side--list">
                 <li>
-                    <a href="dashbord.html">
+                    <Link to={`/admin`} >
                         <span className="icon">
                             <i className="side--icons fas fa-tachometer-alt"></i>
                         </span>
                         Dashbord
-                    </a>
+                    </Link>
                 </li>
                 <li>
                     <Link to={`/admin/drones`}>
@@ -30,6 +30,14 @@ export default function SideMenu({ user }) {
                             <i className="side--icons fas fa-globe-americas"></i>
                         </span>
                         Flights
+                    </Link>
+                </li>
+                <li>
+                    <Link to={`/admin/user/${user.id}/programs`}>
+                        <span className="icon">
+                            <i className="fas fa-laptop"></i>
+                        </span>
+                        Programs
                     </Link>
                 </li>
             </ul>}
