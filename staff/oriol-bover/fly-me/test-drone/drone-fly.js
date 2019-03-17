@@ -29,7 +29,7 @@ function handleError(error) {
     }
 }
 
-const commands = ['command', 'battery?', 'streamon'] //'takeoff', 'land'
+const commands = ['command', 'battery?'] //'takeoff', 'land'
 
 let i = 0
 

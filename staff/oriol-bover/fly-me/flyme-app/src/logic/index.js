@@ -137,6 +137,106 @@ const logic = {
             .then(res => res)
     },
 
+    addDrone(brand, model, host, port) {
+        if (typeof brand !== 'string') throw TypeError(brand + ' is not a string')
+
+        if (!brand.trim().length) throw Error('brand cannot be empty')
+
+        if (typeof model !== 'string') throw TypeError(model + ' is not a string')
+
+        if (!model.trim().length) throw Error('model cannot be empty')
+
+        if (typeof host !== 'string') throw TypeError(host + ' is not a string')
+
+        if (!host.trim().length) throw Error('host cannot be empty')
+
+        if (typeof port !== 'number') throw TypeError(port + ' is not a number')
+
+        return flymeApi.addDrone(this.__userApiToken__, { brand, model, host, port })
+            .then(res => res)
+    },
+
+    updateDrone(droneId, brand, model, host, port) {
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw Error('droneId cannot be empty')
+
+        if (typeof brand !== 'string') throw TypeError(brand + ' is not a string')
+
+        if (!brand.trim().length) throw Error('brand cannot be empty')
+
+        if (typeof model !== 'string') throw TypeError(model + ' is not a string')
+
+        if (!model.trim().length) throw Error('model cannot be empty')
+
+        if (typeof host !== 'string') throw TypeError(host + ' is not a string')
+
+        if (!host.trim().length) throw Error('host cannot be empty')
+
+        if (typeof port !== 'number') throw TypeError(port + ' is not a number')
+
+        return flymeApi.updateDrone(this.__userApiToken__, { id: droneId, brand, model, host, port })
+            .then(res => res)
+    },
+
+    deleteDrone(droneId) {
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw Error('droneId cannot be empty')
+
+        return flymeApi.deleteDrone(this.__userApiToken__, droneId)
+            .then(res => res)
+    },
+
+    retrieveDrone(droneId) {
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw Error('droneId cannot be empty')
+
+        return flymeApi.retrieveDrone(this.__userApiToken__, droneId)
+            .then(res => res)
+    },
+
+    retrieveDrones(userId) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return flymeApi.retrieveDronesFromUser(this.__userApiToken__, userId)
+            .then(res => res)
+    },
+
+    createProgram(name, orders) {
+        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
+
+        if (!name.trim().length) throw Error('name cannot be empty')
+
+        if (orders.length === 0) throw Error('orders are emtpy')
+
+        return flymeApi.createProgram(this.__userApiToken__, name, orders)
+            .then(res => res)
+    },
+
+    retrieveFlights(userId = null) {
+
+        if (userId) {
+            return flymeApi.retrieveFlightsFromUser(this.__userApiToken__, userId)
+        } else {
+            return flymeApi.retrieveAllFlights(this.__userApiToken__, null)
+                .then(res => res)
+        }
+
+    },
+
+    retrieveFlight(flightId) {
+        if (typeof flightId !== 'string') throw TypeError(flightId + ' is not a string')
+
+        if (!flightId.trim().length) throw Error('flightId cannot be empty')
+
+        return flymeApi.retrieveFlight(this.__userApiToken__, flightId)
+            .then(res => res)
+    },
+
     sendReport(data) {
         //check data
 

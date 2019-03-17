@@ -182,11 +182,148 @@ const flymeApi = {
             .then(res => res)
     },
 
-    sendEmail(token, data) {
+    addDrone(token, data) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        console.log('data', data)
+        return fetch(`${this.url}/drone`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    retrieveDrone(token, droneId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof droneId !== 'string') throw TypeError(`${droneId} is not a string`)
+        if (!droneId.trim().length) throw Error('droneId is empty')
+
+        return fetch(`${this.url}/drone/${droneId}`, {
+            headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    retrieveDronesFromUser(token, userId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return fetch(`${this.url}/user/${userId}/drones`, {
+            headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    updateDrone(token, data) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/drone/update`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    deleteDrone(token, droneId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof droneId !== 'string') throw TypeError(`${droneId} is not a string`)
+        if (!droneId.trim().length) throw Error('droneId is empty')
+
+        return fetch(`${this.url}/drone`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ droneId })
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    createProgram(token, name, orders) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
+        if (!name.trim().length) throw Error('name is empty')
+
+        if (orders.length == 0) throw Error('orders are empty')
+
+        return fetch(`${this.url}/program`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ name, orders })
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    retrieveAllFlights(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        return fetch(`${this.url}/flights`, {
+            headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    retrieveFlightsFromUser(token, userId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return fetch(`${this.url}/user/${userId}/flights`, {
+            headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    retrieveFlight(token, flightId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof flightId !== 'string') throw TypeError(`${flightId} is not a string`)
+        if (!flightId.trim().length) throw Error('flightId is empty')
+
+        return fetch(`${this.url}/flight/${flightId}`, {
+            headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    sendEmail(token, data) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
 
         return fetch(`${this.url}/sendemail`, {
             method: 'POST',

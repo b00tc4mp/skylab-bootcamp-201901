@@ -126,7 +126,6 @@ const logic = {
 
     },
 
-
     deleteUser(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -143,6 +142,19 @@ const logic = {
 
         return Drone.create({ owner: userId, brand, model, host, port })
             .then(drone => drone.id)
+    },
+
+    retrieveDroneFromId(userId, droneId) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }])
+
+        return Drone.findById(droneId).select('-__v').lean()
+            .then(drone => {
+                drone.id = drone._id.toString()
+
+                delete drone._id
+
+                return drone
+            })
     },
 
     retrieveDrones() {
@@ -339,8 +351,20 @@ const logic = {
     },
 
     retrieveFlights() {
-        return Flight.find().select('-__v').lean()
+        return Flight.find().populate('userId').populate('droneId').select('-__v').lean()
             .then(flights => flights)
+    },
+
+    retrieveFlight(userId, flightId) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'flightId', value: flightId, type: String }])
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error('no authentication user')
+
+                return Flight.findById(flightId)
+            })
+            .then(flight => flight)
     },
 
     retrieveFlightsFromUser(userId) {
@@ -427,12 +451,18 @@ const logic = {
     //END  MAILING
 
     addProgram(userId, name, orders) {
-
+        let seconds = 0
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error(`user with id ${userId} is not defined`)
 
-                return Program.create({ name, userId, orders })
+
+                if (orders.length !== 0) {
+                    seconds = orders.reduce((a, b) => ({ timeOut: a.timeOut + b.timeOut }))
+                    seconds = seconds.timeOut / 1000
+                }
+
+                return Program.create({ name, userId, orders, seconds })
                     .then(program => program.id)
             })
     },

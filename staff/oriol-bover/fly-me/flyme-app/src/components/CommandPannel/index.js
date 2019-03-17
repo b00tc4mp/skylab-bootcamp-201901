@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import logic from '../../logic'
 import Terminal from './Terminal'
+import Keyboard from './Keyboard'
+import commands from './commands'
 
 function CommandPannel() {
     const [history, setHistory] = useState([])
@@ -25,6 +27,10 @@ function CommandPannel() {
                     logic.historyDrone()
                         .then(res => setHistory(res.history))
             })
+    }
+
+    function test(key) {
+        console.log('key from panel',key)
     }
 
     function stopDrone(e) {
@@ -58,6 +64,11 @@ function CommandPannel() {
         <div className="columns">
             <div className="column">
                 <a className="button is-danger is-outlined" onClick={e => sendCommand(e, 'emergency')}>EMERGENCY</a>
+            </div>
+        </div>
+        <div className="columns is-centered is-hidden-touch">
+            <div className="column is-10-desktop is-10-widescreen">
+                < Keyboard />
             </div>
         </div>
     </section>)

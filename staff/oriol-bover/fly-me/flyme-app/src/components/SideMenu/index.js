@@ -1,11 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './index.sass'
 
 
-export default function SideMenu() {
+export default function SideMenu({ user }) {
+
     return (<div className="column is-4-tablet is-3-desktop is-2-widescreen hero is-fullheight is-dark is-hidden-touch side">
         <nav className="side--menu menu">
-            <ul className="menu-list side--list">
+            {user && <ul className="menu-list side--list">
                 <li>
                     <a href="dashbord.html">
                         <span className="icon">
@@ -15,22 +17,22 @@ export default function SideMenu() {
                     </a>
                 </li>
                 <li>
-                    <a href="dashbord.html">
+                    <Link to={`/admin/drones`}>
                         <span className="icon">
                             <i className="side--icons fas fa-plane"></i>
                         </span>
                         Drones
-                    </a>
+                    </Link>
                 </li>
                 <li>
-                    <a href="dashbord.html">
+                    <Link to={`/admin/user/${user.id}/flights`}>
                         <span className="icon">
                             <i className="side--icons fas fa-globe-americas"></i>
                         </span>
                         Flights
-                    </a>
+                    </Link>
                 </li>
-            </ul>
+            </ul>}
         </nav>
     </div>)
 

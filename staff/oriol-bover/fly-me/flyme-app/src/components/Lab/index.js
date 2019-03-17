@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import logic from '../../logic'
 import initialData from './initial-data'
 import './index.sass'
 
@@ -89,7 +90,21 @@ export default function Lab() {
             orders.push(state.tasks[id])
         })
 
-        console.log('orders', orders)
+        if (!name.trim().length) {
+            setFeedback('name is empty')
+            return
+        }
+
+        try {
+            logic.createProgram(name, orders)
+                .then(res => {
+                    if (res) window.location.reload()
+                })
+                .catch(err => setFeedback(err.message))
+        } catch ({ message }) {
+            setFeedback(message)
+        }
+
     }
 
     function deleteCommand(commandId) {

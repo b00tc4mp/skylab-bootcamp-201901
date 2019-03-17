@@ -20,7 +20,7 @@ const Program = new Schema({
         required: true
     },
 
-    minutes: {
+    seconds: {
         type: Number,
         default: null
     }
