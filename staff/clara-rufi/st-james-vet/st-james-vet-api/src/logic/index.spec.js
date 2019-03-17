@@ -1256,14 +1256,16 @@ describe('assignAppointment', () => {
     let appointment1, appointment2, appointment3, date1
     const owner =  '5c868087fdf5b20f0c26d09d'
     const pet = '5c868199fdf5b20f0c26d09f'
-    let date
+
+
+    ///////////////
+    const date= 'Sat May 01 2027 00:00:00 GMT+0200 (hora de verano de Europa central)'
 
     beforeEach(async () => {
         
         idCard = `234-${Math.random()}`
         phone = `456348-${Math.random()}`
         adress = `London Road -${Math.random()}`
-        date = `2019-${Math.random()}`
 
     bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation: hash })) 

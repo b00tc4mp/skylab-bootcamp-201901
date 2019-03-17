@@ -211,7 +211,8 @@ const logic = {
 
         if (!pet.trim().length) throw Error('pet cannot be empty')
 
-        if (date instanceof Date) throw TypeError('date is not type date')
+        // if (typeof date !== typeof Date) throw TypeError('date is not type date')
+        //  if (date instanceof Date) throw TypeError('date is not type date')
 
         // if (!date.trim().length) throw Error('date cannot be empty')
 
@@ -324,15 +325,17 @@ const logic = {
         // const toDate = new Date(year, month, 0);////////////
         // const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 0);/////////////////
 
-        const toDate = new Date(year, month ,0);  //30/3
-        const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 1); //29 del 4
+        ////// const toDate = new Date(year, month ,0);  //30/3
+        ///// const fromDate = new Date(toDate.getFullYear()+1, toDate.getMonth(), 1); //29 del 4
 
+        const toDate = new Date(year, month,+1);
+        const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(),-30);
         // const startOfMonth = new Date (moment().startOf(month).format('YYYY-MM-DD hh:mm'));
         // const endOfMonth   = new Date(moment().endOf(month).format('YYYY-MM-DD hh:mm'));
     
         console.log(fromDate, toDate)
 
-        const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lte': toDate}}).populate('owner pet')
+        const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate }}).populate('owner pet')
         // const _appointments= await Appointment.find({"date": {'$gte': startOfMonth, '$lte': endOfMonth}}).populate('owner pet')/////
         const appointments = _appointments.map(appointment => {
             debugger

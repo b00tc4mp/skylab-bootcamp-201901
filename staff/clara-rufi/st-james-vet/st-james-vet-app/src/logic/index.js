@@ -309,7 +309,7 @@ const logic = {
 
         if (typeof date !== 'string') throw TypeError(date + ' is not a string')
 
-        if (!date.trim().length) throw Error(' dayDb cannot be empty') /////////////
+        // if (!date.trim().length) throw Error(' date cannot be empty') /////////////
 
         console.log(owner, pet, date)
 

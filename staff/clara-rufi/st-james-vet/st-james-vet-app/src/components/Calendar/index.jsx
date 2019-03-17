@@ -171,7 +171,7 @@ class Calendar extends Component {
             <tr>
                 <p className="appointment" value={id}>
                     <th>
-                        {date.getDate()}{'  '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
+                        {date.getDate()}{'  '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '}{owner.surname}{' '} Pet  :{pet.name}
                         <button onClick={(e) => this.handleDeleteVisit(e, Id)} className="button__delete">Delete</button>
                     </th>
                 </p>
@@ -278,23 +278,3 @@ class Calendar extends Component {
 
 export default withRouter(Calendar)
 
-
-
-// {
-//     appointments.map(({ id, owner, pet, date }) => {
-//         if (count - 1 === date.getDate()) {
-//             if(date.getHours() + date.getMinutes() === 170){
-//             return (
-//                 <tr>
-//                     <p className="appointment" value={id}>
-//                         <th>17:00
-//                 {date.getDate()}{' 17 00 '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}
-//                             <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete{id}</button>
-//                         </th>
-//                     </p>
-//                 </tr>
-//             )
-//         } else {
-//             return <p>Hora lliure</p>
-
-//          } 
