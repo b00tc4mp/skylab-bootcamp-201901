@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { Map, Marker } from 'google-maps-react'
 import './index.sass';
 import logic from '../../logic'
 
@@ -10,6 +11,7 @@ class DetailedHouse extends Component {
     state = {
 
         thisHouse: "",
+        user: "",
         favorites: "",
         lat: "",
         lng: ""
@@ -19,7 +21,7 @@ class DetailedHouse extends Component {
     componentDidMount() {
 
         this.retrieveThisHouse(this.props.match.params.houseId)
-        this.setState({ favorites: this.props.userFavs })
+        this.setState({ favorites: this.props.userFavs, user: this.props.user })
 
 
     }
@@ -34,7 +36,7 @@ class DetailedHouse extends Component {
 
     componentWillReceiveProps(props) {
 
-        this.setState({ favorites: props.favorites })
+        this.setState({ favorites: props.favorites, user: props.user })
         this.retrieveThisHouse(props.match.params.houseId)
 
     }
@@ -69,16 +71,20 @@ class DetailedHouse extends Component {
 
     }
 
+    goBack(){
+
+        window.history.back()
+    }
 
     render() {
 
-        const { state: { thisHouse }, props: { } } = this
+        const { state: { thisHouse,user }, props: { },goBack } = this
 
         console.log(thisHouse)
         return <div className="detailedHouse" >
 
-            <button>BACK</button>
-            {thisHouse ? <h1> {thisHouse.adress.city}</h1> : <h1> House not found</h1>}
+            <button className="detailedHouse__BackButton" onClick={goBack}>BACK</button>
+            {thisHouse ? true: <h1> House not found</h1>}
 
             {thisHouse && <div className="detailedHouse__content">
 
@@ -103,6 +109,8 @@ class DetailedHouse extends Component {
 
                         </div>
 
+                        {user && <button className= "detailedHouse__content-infoBlock-1__Contact" >Contact</button>}
+
                     </div>
 
                     <div className='detailedHouse__content-infoBlock-2'>
@@ -112,7 +120,9 @@ class DetailedHouse extends Component {
                     </div>
                 </div>
 
-                {/* mapa */}
+                {/* <Map    >
+
+                </Map> */}
 
             </div>}
 

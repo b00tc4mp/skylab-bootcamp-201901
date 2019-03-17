@@ -56,13 +56,15 @@ class App extends Component {
   }
 
   updateInfo = async () => {
+    if(this.state.user){
 
-    const user = await logic.retrieveUser()
-    const userFavs = await logic.retrieveFavorites()
-    const userHouses = await logic.retrieveMyHouses()
-    this.setState({ user, userFavs, userHouses })
-    console.log('updated')
-    setTimeout(this.updateInfo, 3000);
+      const user = await logic.retrieveUser()
+      const userFavs = await logic.retrieveFavorites()
+      const userHouses = await logic.retrieveMyHouses()
+      this.setState({ user, userFavs, userHouses })
+      console.log('updated')
+      setTimeout(this.updateInfo, 3000);
+    }
 
 
 
@@ -228,7 +230,7 @@ class App extends Component {
         <div className="content" >
           <Switch>
             <Route path="/search/:query" render={() => <SearchResults toggleFavs={toggleFavs} updateInfo={updateInfo} userFavs={userFavs} retrieveHouse={retrieveHouse} />} />
-            <Route path="/house/:houseId" render={() => <DetailedHouse toggleFavs={toggleFavs} favorites={userFavs} />} />
+            <Route path="/house/:houseId" render={() => <DetailedHouse toggleFavs={toggleFavs} favorites={userFavs} user={user} />} />
             {/* <Route path="/editHouse/:houseId" render={() => <EditHouse />} /> */}
             <Route exact path="/createHouse" render={() => <CreateHouse onCreateHouse={onCreateHouse} createHouseFeedback={createHouseFeedback} />} />
             <Route exact path='/' render={() => <LandingPage />} />
