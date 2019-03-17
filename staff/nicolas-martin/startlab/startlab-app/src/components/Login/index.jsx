@@ -20,16 +20,13 @@ class Login extends Component {
             <section className="login">
                 <h1 className="title">Login</h1>
 
-                <p>Lorem fistrum amatomaa qué dise usteer amatomaa fistro me cago en tus
-                muelas qué dise usteer a peich sexuarl. Pecador ahorarr sexuarl va usté
-                muy cargadoo pecador. Ese pedazo de diodeno la caidita no puedor al
-                ataquerl qué dise usteer te va a hasé pupitaa.</p>
+                <p className="subtitle"></p>
                 <hr />
 
                 <form className="login__form" onSubmit={handleFormSubmit} autoComplete="off">
                     <input className="input" type="email" name="email" onChange={handleEmailInput} placeholder="email" autoComplete="off" autoCorrect="off" required />
                     <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password"  autoComplete="off" autoCorrect="off" required />
-                    <button className="button is-info">Login</button>
+                    <button className="button is-link">Login</button>
                 </form>
             </section>
         )

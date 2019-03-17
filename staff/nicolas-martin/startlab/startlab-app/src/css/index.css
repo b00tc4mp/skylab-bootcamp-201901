@@ -1,5 +1,5 @@
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
 
 .app {
   min-height: 100vh; }
@@ -20,26 +20,30 @@
       flex-wrap: wrap; } }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
 
-.register__form input {
-  margin-bottom: 1em; }
-.register__form button {
-  max-width: 120px; }
-
-.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
-
-.login__form input {
-  margin-bottom: 1em; }
-.login__form button {
-  max-width: 120px; }
+.register__form {
+  max-width: 520px; }
+  .register__form input {
+    margin-bottom: 1em; }
+  .register__form button {
+    max-width: 120px; }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
+
+.login__form {
+  max-width: 520px; }
+  .login__form input {
+    margin-bottom: 1em; }
+  .login__form button {
+    max-width: 120px; }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
+  padding: 1em 4em; }
 
 .start-intro {
   font-size: 22px; }
@@ -50,7 +54,7 @@
   margin-bottom: 30px; }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
 
 .itemlist__header {
   margin-bottom: 3em;
@@ -61,7 +65,8 @@
 .itemlist button {
   margin-top: 1em; }
   .itemlist button__new {
-    margin-right: 0; }
+    margin-right: 0;
+    margin-top: 26px; }
 .itemlist-item {
   background-color: #f5f5f5; }
 
@@ -80,7 +85,6 @@
   .itemlist-item__footer-edit {
     margin-left: 1.4em; }
   .itemlist-item__footer-theme {
-    background-color: #39add1;
     color: #ffffff;
     font-size: 0.85em;
     padding: 0.2em 0.8em;
@@ -93,7 +97,7 @@
       background-color: #ffffff; }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
 
 .exercise-form form {
   display: flex;
@@ -104,9 +108,21 @@
   .exercise-form form button {
     margin-top: 10px;
     max-width: 120px; }
+.exercise-form__editor {
+  background-color: #2d2d2d;
+  min-height: 100px; }
+  .exercise-form__editor pre {
+    color: #ffffff; }
+    .exercise-form__editor pre span.number {
+      border-radius: 0;
+      font-size: inherit;
+      display: inline;
+      background-color: inherit;
+      margin-right: 0;
+      padding: 0; }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
 
 .itemlist__header {
   margin-bottom: 3em;
@@ -138,19 +154,22 @@
     max-width: 120px; }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
 
 .invitation-new__form__button {
   margin-top: 1em; }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new, .results-test {
-  padding: 1em 2em; }
+  padding: 1em 4em; }
 
 .results-test {
   font-size: 12px; }
 
 * {
   box-sizing: border-box; }
+
+html {
+  background: #5fcf80; }
 
 body {
   color: #576366;

@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import { toast } from 'react-toastify'
+import ResultsTest from '../ResultsTest'
+import logic from '../../logic'
+
+import Editor from 'react-simple-code-editor'
+import { highlight, languages } from 'prismjs/components/prism-core'
+import 'prismjs/components/prism-clike'
+import 'prismjs/components/prism-javascript'
 
 import AnswerForm from '../AnswerForm'
-import ResultsTest from '../ResultsTest'
-
-import logic from '../../logic'
 
 class ExerciseForm extends Component {
     state = {
@@ -19,7 +23,8 @@ class ExerciseForm extends Component {
         pageTitle: 'New exercise',
         passes: [],
         failures: [],
-        checkCode: false
+        checkCode: false,
+        answer: ''
     }
 
     componentWillMount() {
@@ -60,8 +65,6 @@ class ExerciseForm extends Component {
 
     handleTestInput = event => this.setState({ test: event.target.value })
 
-    handleAnswerInput = event => this.setState({ answer: event.target.value })
-
     handleThemeInput = event => this.setState({ theme: parseInt(event.target.value, 10) })
 
     handleFormSubmit = event => {
@@ -100,39 +103,41 @@ class ExerciseForm extends Component {
         const { state: { answer, id: exerciseId } } = this
 
         try {
-            logic.checkCode(answer, exerciseId)
-                .then(({ passes, failures }) => {
-                    this.setState({ passes, failures, checkCode: true })
-                })
-                .catch(({ message }) => this.emitFeedback(message, 'error'))
+            console.log(answer)
+            // logic.checkCode(answer, exerciseId)
+            //     .then(({ passes, failures }) => {
+            //         this.setState({ passes, failures, checkCode: true })
+            //     })
+            //     .catch(({ message }) => this.emitFeedback(message, 'error'))
         } catch ({ message }) {
             this.emitFeedback(message, 'error')
         }
     }
 
     render() {
-        const { state: { pageTitle, title, summary, test, answer, theme, passes, failures, checkCode},
+        const { state: { pageTitle, title, summary, test, answer, theme, passes, failures, checkCode },
             handleTestSubmit, handleFormSubmit, handleTitleInput,
             handleSummaryInput, handleTestInput, handleAnswerInput, handleThemeInput } = this
 
         return (
             <section className="exercise-form">
                 <div className="course-header group">
-                    <h2>{pageTitle}</h2>
+                    <h2 className="title">{pageTitle}</h2>
                 </div>
 
+                <hr />
+
                 <form onSubmit={handleFormSubmit}>
-
-                    <div className="field">
-                        <label className="label" htmlFor="title">Title</label>
-                        <div className="control">
-                            <input autoCorrect={false} className="input" id="title" type="text" name="title" onChange={handleTitleInput} value={title} required />
+                    <div className="field is-horizontal">
+                        <div className="field-body">
+                            <div className="field">
+                                <label className="label" htmlFor="title">Title</label>
+                                <input autoCorrect={false} className="input" id="title" type="text" name="title" onChange={handleTitleInput} value={title} required />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="field">
-                        <label className="label" htmlFor="theme">Theme</label>
-                        <div className="control">
+                        <div className="field">
+                            <label className="label" htmlFor="theme">Unit</label>
                             <input autoCorrect={false} className="input" id="theme" type="number" min="0" name="theme" onChange={handleThemeInput} value={theme} required />
                         </div>
                     </div>
@@ -140,7 +145,7 @@ class ExerciseForm extends Component {
                     <div className="field">
                         <label className="label" htmlFor="summary">Summary</label>
                         <div className="control">
-                            <textarea autoCorrect={false} className="textarea" id="summary" type="text" name="summary" onChange={handleSummaryInput} value={summary} rows="10" required />
+                            <textarea autoCorrect={false} className="textarea" id="summary" type="text" name="summary" onChange={handleSummaryInput} value={summary} rows="5" required />
                         </div>
                         <p className="help">Markdown accepted - <a rel="noopener noreferrer" target="_blank" href="https://es.wikipedia.org/wiki/Markdown#Ejemplos_de_sintaxis">examples</a></p>
                     </div>
@@ -148,15 +153,64 @@ class ExerciseForm extends Component {
                     <div className="field">
                         <label className="label" htmlFor="test">Test</label>
                         <div className="control">
-                            <textarea autoCorrect={false} className="textarea" id="test" type="text" name="test" onChange={handleTestInput} value={test} rows="10" required />
+                            {/* <textarea 
+                                    autoCorrect={false} 
+                                    className="textarea" 
+                                    id="test" 
+                                    type="text" 
+                                    name="test" 
+                                    onChange={handleTestInput} 
+                                    value={test} 
+                                    rows="10" 
+                                    required 
+                            /> */}
+
+                            <Editor
+                            className='textarea'
+                            value={test}
+                            onValueChange={test => this.setState({ test })}
+                            highlight={answer => highlight(answer, languages.js)}
+                            padding={10}
+                            style={{
+                                fontFamily: '"Fira code", "Fira Mono", monospace',
+                                fontSize: 16,
+                            }}
+                            textareaId='exercise-form__editor'
+                            tabSize={4}
+                            rows="10" 
+                            required
+                        />
                         </div>
                     </div>
 
                     <button className="button is-info" type="submit">Save</button>
                 </form>
 
-                {checkCode && <ResultsTest failures={failures} passes={passes}/>}
-                <AnswerForm manageChange={handleAnswerInput} manageSubmit={handleTestSubmit} previousAnswer={answer} />
+                {/* {checkCode && <ResultsTest failures={failures} passes={passes} />} */}
+                <hr />
+
+                <form onSubmit={handleTestSubmit}>
+                        <label className="label" htmlFor="exercise-form__editor">Test an answer</label>
+                        <Editor
+                            className='exercise-form__editor'
+                            value={answer}
+                            onValueChange={answer => this.setState({ answer })}
+                            highlight={answer => highlight(answer, languages.js)}
+                            padding={10}
+                            style={{
+                                fontFamily: '"Fira code", "Fira Mono", monospace',
+                                fontSize: 16,
+                            }}
+                            textareaId='exercise-form__editor'
+                            tabSize={4}
+                            rows="10" 
+                            required
+                        />
+
+                        <button className="button is-warning">Send</button>
+                </form>
+
+                {/* <AnswerForm manageChange={handleAnswerInput} manageSubmit={handleTestSubmit} previousAnswer={answer} /> */}
             </section>
         )
     }

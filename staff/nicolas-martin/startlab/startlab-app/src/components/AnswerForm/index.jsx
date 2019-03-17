@@ -3,7 +3,7 @@ import React from 'react'
 function AnswerForm({ manageSubmit, manageChange, previousAnswer }) {
     return (
         <form onSubmit={manageSubmit}>
-        
+
             <textarea 
                 type="text" 
                 className="textarea " 

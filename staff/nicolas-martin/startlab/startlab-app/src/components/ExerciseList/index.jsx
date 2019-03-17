@@ -38,11 +38,11 @@ class ExerciseList extends Component {
     }
 
     render() {
-        const { state: { exercises }, handleDelete, props: { handleEdit, handleNew, feedbackNew } } = this
+        const { state: { exercises }, handleDelete, props: { handleEdit, handleNew } } = this
         return (
             <main className="itemlist">
                 <div className="itemlist__header course-header group">
-                    <h1 className="itemlist__header__title subtitle is-4">{exercises.length}  exercises</h1>
+                    <h1 className="itemlist__header__title title">{exercises.length}  exercises</h1>
                     <button className="itemlist__header__new button is-link is-warning" onClick={handleNew}>New</button>
                 </div>
 

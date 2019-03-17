@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Feedback from '../Feedback/'
 
 class Register extends Component {
     state = { name: null, surname: null, email: null, password: null, passwordConfirmation: null }
@@ -36,10 +35,7 @@ class Register extends Component {
         return <section className="register">
             <h1 className="title">Register</h1>
 
-            <p>Lorem fistrum amatomaa qué dise usteer amatomaa fistro me cago en tus 
-                muelas qué dise usteer a peich sexuarl. Pecador ahorarr sexuarl va usté 
-                muy cargadoo pecador. Ese pedazo de diodeno la caidita no puedor al 
-                ataquerl qué dise usteer te va a hasé pupitaa.</p>
+            <p className="subtitle">Only invited users can registered.</p>
             <hr />
             <form className="register__form" onSubmit={handleFormSubmit} autoComplete="off">
                 <input className="input" type="text" name="name" onChange={handleNameInput} placeholder="name" autoComplete="off" autoCorrect="off" required/>
@@ -48,10 +44,9 @@ class Register extends Component {
                 <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" autoComplete="off" autoCorrect="off" required/>
                 <input className="input" type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password"  autoComplete="off" autoCorrect="off" required/>
 
-                <button className="button is-info">Register</button>
+                <button className="button is-link">Register</button>
             </form>
 
-            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }
