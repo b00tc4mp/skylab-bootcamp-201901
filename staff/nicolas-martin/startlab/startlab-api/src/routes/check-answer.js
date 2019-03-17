@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     const { body: { answer, exerciseId }, userId } = req
 
     const callback = result => {
-        console.log(result)
+        debugger
         return res.json(result)
     }
 

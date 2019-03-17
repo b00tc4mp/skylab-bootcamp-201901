@@ -165,8 +165,7 @@ class ExerciseForm extends Component {
                                     required 
                             /> */}
 
-                            <Editor
-                            className='textarea'
+                        <Editor
                             value={test}
                             onValueChange={test => this.setState({ test })}
                             highlight={answer => highlight(answer, languages.js)}
@@ -175,7 +174,7 @@ class ExerciseForm extends Component {
                                 fontFamily: '"Fira code", "Fira Mono", monospace',
                                 fontSize: 16,
                             }}
-                            textareaId='exercise-form__editor'
+                            className='textarea exercise-form__editor'
                             tabSize={4}
                             rows="10" 
                             required
