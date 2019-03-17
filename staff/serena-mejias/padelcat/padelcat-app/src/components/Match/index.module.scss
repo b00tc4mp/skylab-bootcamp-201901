@@ -9,6 +9,7 @@ div.teams {
 form.form_select {
     display: flex;
     justify-content: row;
+    margin-top: $size-s;
 }
 
 div.select {
@@ -16,4 +17,13 @@ div.select {
     flex-direction: row;
     justify-content: flex-start;
     align-items: baseline;
+}
+
+div.team {
+    display: flex;
+    flex-direction: row;
+}
+
+div.buttons {
+    text-align: right;
 }

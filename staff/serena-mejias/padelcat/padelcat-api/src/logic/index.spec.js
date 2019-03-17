@@ -931,7 +931,7 @@ describe("logic", () => {
     });
   });
 
-  describe("retrieve match", () => {
+  describe("retrieve match from scrapping", () => {
     it("should succeed with correct data", async () => {
       beforeEach(() => {
         const urlMatches =
@@ -1027,106 +1027,460 @@ describe("logic", () => {
     // });
   });
 
+  describe("get matches", () => {
+    it("should succeed with correct data", async () => {
+      const { id } = await Player.create({
+        name: "Manuel",
+        surname: "Barzi",
+        email: `manuelbarzi-${Math.random()}@mail.com`,
+        password: `123`,
+        passwordConfirm: `123`,
+        link: "https:www.setteo.com/usuario/serena-mejias-vazquez",
+        preferedPosition: "left"
+      });
+      const matchId = "5c51f550b2ef2";
+      const match = await Match.create({
+        matchId
+      });
+      const players = {
+        playersChosen: {
+          "firstPair-firstPlayer": "5c8501eecd540c0f100accd1",
+          "firstPair-secondPlayer": "5c8501eecd540c0f100accd2",
+          "secondPair-firstPlayer:": "5c8501eecd540c0f100accd3",
+          "secondPair-secondPlayer": "5c8501eecd540c0f100accd4",
+          "thirdPair-firstPlayer": "5c8501eecd540c0f100accd5",
+          "thirdPair-secondPlayer": "5c8501eecd540c0f100accd6"
+        }
+      };
+      match.playersAvailable.push(id);
+      await match.save();
+      await Match.findOneAndUpdate(
+        { matchId },
+        {
+          playersChosen: {
+            players
+          }
+        }
+      );
+
+      const matches = await logic.getMatchesWithData();
+
+      const expectedMatch = matches.filter(
+        match => match.matchId === matchId
+      )[0];
+
+      expect(expectedMatch.matchId).toBeDefined();
+      expect(expectedMatch.date).toBeDefined();
+      expect(expectedMatch.team1).toBeDefined();
+      expect(expectedMatch.imageTeam1).toBeDefined();
+      expect(expectedMatch.team2).toBeDefined();
+      expect(expectedMatch.imageTeam2).toBeDefined();
+      expect(expectedMatch.result).toBeDefined();
+      expect(expectedMatch.location).toBeDefined();
+      expect(expectedMatch.playersAvailable).toBeDefined();
+      expect(expectedMatch.playersChosen).toBeDefined();
+    });
+  });
+
   describe("add availability to player", () => {
-    // it("should succeed getting players availability", async () => {
-    //   debugger;
-    //   const matchId = "5c51f550b2ef2";
-    //   const match = await Match.create({
-    //     matchId
-    //   });
-    //   const {id} = await Player.create({
-    //     name: "Manuel",
-    //     surname: "Barzi",
-    //     email: `manuelbarzi-${Math.random()}@mail.com`,
-    //     password: `123`,
-    //     passwordConfirm: `123`,
-    //     link: "https://www.setteo.com/usuario/serena-mejias-vazquez",
-    //     preferedPosition: "left"
-    //   });
-    //   await logic.addAvailabilityPlayer(id, matchId);
-    //   expect(match.playersAvailable.length).toBe(1);
-    // });
-    // it("should fail on numeric playerId", () => {
-    //   const playerId = 10;
-    //   const matchId = "5c51f550b2ef2";
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
+    it("should succeed getting players availability", async () => {
+      const matchId = "5c51f550b2ef2";
+      const match = await Match.create({
+        matchId
+      });
+      const { id } = await Player.create({
+        name: "Manuel",
+        surname: "Barzi",
+        email: `manuelbarzi-${Math.random()}@mail.com`,
+        password: `123`,
+        passwordConfirm: `123`,
+        link: "https:www.setteo.com/usuario/serena-mejias-vazquez",
+        preferedPosition: "left"
+      });
+      await logic.addAvailabilityPlayer(id, matchId);
+      const newMatch = await Match.findById(match.id);
+      const newPlayer = await Player.findById(id);
+      expect(newMatch.playersAvailable.length).toBe(1);
+      expect(newPlayer.availability.length).toBe(1);
+    });
 
-    // it("should fail on boolean playerId", () => {
-    //   const playerId = false;
-    //   const matchId = "5c51f550b2ef2";
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
+    it("should succeed getting players availability if match doesn't exist", async () => {
+      const matchId = "5c51f550b2ef2";
+      const { id } = await Player.create({
+        name: "Manuel",
+        surname: "Barzi",
+        email: `manuelbarzi-${Math.random()}@mail.com`,
+        password: `123`,
+        passwordConfirm: `123`,
+        link: "https:www.setteo.com/usuario/serena-mejias-vazquez",
+        preferedPosition: "left"
+      });
+      await logic.addAvailabilityPlayer(id, matchId);
+      const newMatch = await Match.findOne({ matchId });
+      const newPlayer = await Player.findById(id);
+      expect(newMatch.playersAvailable.length).toBe(1);
+      expect(newPlayer.availability.length).toBe(1);
+    });
 
-    // it("should fail on object playerId", () => {
-    //   const playerId = {};
-    //   const matchId = "5c51f550b2ef2";
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
+    it("should fail on numeric playerId", () => {
+      const playerId = 10;
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("playerId is not string"));
+    });
 
-    // it("should fail on array playerId", () => {
-    //   const playerId = [];
-    //   const matchId = "5c51f550b2ef2";
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
+    it("should fail on boolean playerId", () => {
+      const playerId = false;
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("playerId is not string"));
+    });
 
-    // it("should fail on empty playerId", () => {
-    //   const playerId = "";
-    //   const matchId = "5c51f550b2ef2";
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(Error("playerId cannot be empty"));
-    // });
+    it("should fail on object playerId", () => {
+      const playerId = {};
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("playerId is not string"));
+    });
 
-    // it("should fail on numeric matchId", () => {
-    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
-    //   const matchId = 10;
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
+    it("should fail on array playerId", () => {
+      const playerId = [];
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("playerId is not string"));
+    });
 
-    // it("should fail on boolean matchId", () => {
-    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
-    //   const matchId = false;
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
+    it("should fail on empty playerId", () => {
+      const playerId = "";
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(Error("playerId cannot be empty"));
+    });
 
-    // it("should fail on object matchId", () => {
-    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
-    //   const matchId = {};
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
+    it("should fail on numeric matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = 10;
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
 
-    // it("should fail on array matchId", () => {
-    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
-    //   const matchId = [];
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(TypeError(playerId + " is not string"));
-    // });
+    it("should fail on boolean matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = false;
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
 
-    // it("should fail on empty matchId", () => {
-    //   const playerId = "5c8d1f54fde1e30d88d3aeb5";
-    //   const matchId = "";
-    //   expect(() => {
-    //     logic.addAvailabilityPlayer(playerId, matchId);
-    //   }).toThrow(Error("playerId cannot be empty"));
-    // });
+    it("should fail on object matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = {};
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
 
-    
+    it("should fail on array matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = [];
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on empty matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = "";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(Error("matchId cannot be empty"));
+    });
+  });
+
+  describe("delete availability to player", () => {
+    it("should succeed deleting players availability", async () => {
+      const matchId = "5c51f550b2ef2";
+      const match = await Match.create({
+        matchId
+      });
+      const { id } = await Player.create({
+        name: "Manuel",
+        surname: "Barzi",
+        email: `manuelbarzi-${Math.random()}@mail.com`,
+        password: `123`,
+        passwordConfirm: `123`,
+        link: "https:www.setteo.com/usuario/serena-mejias-vazquez",
+        preferedPosition: "left"
+      });
+      await Player.findByIdAndUpdate(
+        { _id: id },
+        { $push: { availability: matchId } }
+      );
+      const matchFound = await Match.findById(match.id);
+      matchFound.playersAvailable.push(id);
+      await match.save();
+
+      await logic.deleteAvailabilityPlayer(id, matchId);
+      const newMatch = await Match.findById(match.id);
+      const newPlayer = await Player.findById(id);
+      expect(newMatch.playersAvailable.length).toBe(0);
+      expect(newPlayer.availability.length).toBe(0);
+    });
+
+    it("should fail with no match", async () => {
+      const matchId = "test";
+      const { id } = await Player.create({
+        name: "Manuel",
+        surname: "Barzi",
+        email: `manuelbarzi-${Math.random()}@mail.com`,
+        password: `123`,
+        passwordConfirm: `123`,
+        link: "https:www.setteo.com/usuario/serena-mejias-vazquez",
+        preferedPosition: "left"
+      });
+      try {
+        await logic.deleteAvailabilityPlayer(id, matchId);
+      } catch (error) {
+        expect(error.message).toBe(`match does not exist`);
+      }
+    });
+
+    it("should fail on numeric playerId", () => {
+      const playerId = 10;
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("playerId is not string"));
+    });
+
+    it("should fail on boolean playerId", () => {
+      const playerId = false;
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("playerId is not string"));
+    });
+
+    it("should fail on object playerId", () => {
+      const playerId = {};
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("playerId is not string"));
+    });
+
+    it("should fail on array playerId", () => {
+      const playerId = [];
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("playerId is not string"));
+    });
+
+    it("should fail on empty playerId", () => {
+      const playerId = "";
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(Error("playerId cannot be empty"));
+    });
+
+    it("should fail on numeric matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = 10;
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on boolean matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = false;
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on object matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = {};
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on array matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = [];
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on empty matchId", () => {
+      const playerId = "5c8d1f54fde1e30d88d3aeb5";
+      const matchId = "";
+      expect(() => {
+        logic.addAvailabilityPlayer(playerId, matchId);
+      }).toThrow(Error("matchId cannot be empty"));
+    });
+  });
+
+  describe("add chosen players", () => {
+    it("should succeed getting players chosen", async () => {
+      const matchId = "5c51f550b2ef2";
+      const match = await Match.create({
+        matchId
+      });
+      const players = {
+        playersChosen: {
+          "firstPair-firstPlayer": "5c8501eecd540c0f100accd1",
+          "firstPair-secondPlayer": "5c8501eecd540c0f100accd2",
+          "secondPair-firstPlayer:": "5c8501eecd540c0f100accd3",
+          "secondPair-secondPlayer": "5c8501eecd540c0f100accd4",
+          "thirdPair-firstPlayer": "5c8501eecd540c0f100accd5",
+          "thirdPair-secondPlayer": "5c8501eecd540c0f100accd6"
+        }
+      };
+
+      await logic.addChosenPlayers(players, matchId);
+      const newMatch = await Match.findById(match.id);
+      expect(newMatch.playersChosen).toBeDefined();
+      expect(newMatch.playersChosen.players).toEqual(players);
+    });
+
+    it("should succeed getting players availability if match doesn't exist", async () => {
+      const matchId = "5c51f550b2ef2";
+      const players = {
+        playersChosen: {
+          "firstPair-firstPlayer": "5c8501eecd540c0f100accd1",
+          "firstPair-secondPlayer": "5c8501eecd540c0f100accd2",
+          "secondPair-firstPlayer:": "5c8501eecd540c0f100accd3",
+          "secondPair-secondPlayer": "5c8501eecd540c0f100accd4",
+          "thirdPair-firstPlayer": "5c8501eecd540c0f100accd5",
+          "thirdPair-secondPlayer": "5c8501eecd540c0f100accd6"
+        }
+      };
+      await logic.addChosenPlayers(players, matchId);
+      const newMatch = await Match.findOne({ matchId });
+      expect(newMatch.playersChosen).toBeDefined();
+      expect(newMatch.playersChosen.players).toEqual(players);
+    });
+
+    it("should fail on numeric players", () => {
+      const players = 10;
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addChosenPlayers(players, matchId);
+      }).toThrow(TypeError("players is not object"));
+    });
+
+    it("should fail on boolean players", () => {
+      const players = false;
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addChosenPlayers(players, matchId);
+      }).toThrow(TypeError("players is not object"));
+    });
+
+    it("should fail on object players", () => {
+      const players = "players";
+      const matchId = "5c51f550b2ef2";
+      expect(() => {
+        logic.addChosenPlayers(players, matchId);
+      }).toThrow(TypeError("players is not object"));
+    });
+
+    it("should fail on numeric matchId", () => {
+      const players = {
+        playersChosen: {
+          "firstPair-firstPlayer": "5c8501eecd540c0f100accd1",
+          "firstPair-secondPlayer": "5c8501eecd540c0f100accd2",
+          "secondPair-firstPlayer:": "5c8501eecd540c0f100accd3",
+          "secondPair-secondPlayer": "5c8501eecd540c0f100accd4",
+          "thirdPair-firstPlayer": "5c8501eecd540c0f100accd5",
+          "thirdPair-secondPlayer": "5c8501eecd540c0f100accd6"
+        }
+      };
+      const matchId = 10;
+      expect(() => {
+        logic.addChosenPlayers(players, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on boolean matchId", () => {
+      const players = {
+        playersChosen: {
+          "firstPair-firstPlayer": "5c8501eecd540c0f100accd1",
+          "firstPair-secondPlayer": "5c8501eecd540c0f100accd2",
+          "secondPair-firstPlayer:": "5c8501eecd540c0f100accd3",
+          "secondPair-secondPlayer": "5c8501eecd540c0f100accd4",
+          "thirdPair-firstPlayer": "5c8501eecd540c0f100accd5",
+          "thirdPair-secondPlayer": "5c8501eecd540c0f100accd6"
+        }
+      };
+      const matchId = false;
+      expect(() => {
+        logic.addChosenPlayers(players, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on object matchId", () => {
+      const players = {
+        playersChosen: {
+          "firstPair-firstPlayer": "5c8501eecd540c0f100accd1",
+          "firstPair-secondPlayer": "5c8501eecd540c0f100accd2",
+          "secondPair-firstPlayer:": "5c8501eecd540c0f100accd3",
+          "secondPair-secondPlayer": "5c8501eecd540c0f100accd4",
+          "thirdPair-firstPlayer": "5c8501eecd540c0f100accd5",
+          "thirdPair-secondPlayer": "5c8501eecd540c0f100accd6"
+        }
+      };
+      const matchId = {};
+      expect(() => {
+        logic.addChosenPlayers(players, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on array matchId", () => {
+      const players = {
+        playersChosen: {
+          "firstPair-firstPlayer": "5c8501eecd540c0f100accd1",
+          "firstPair-secondPlayer": "5c8501eecd540c0f100accd2",
+          "secondPair-firstPlayer:": "5c8501eecd540c0f100accd3",
+          "secondPair-secondPlayer": "5c8501eecd540c0f100accd4",
+          "thirdPair-firstPlayer": "5c8501eecd540c0f100accd5",
+          "thirdPair-secondPlayer": "5c8501eecd540c0f100accd6"
+        }
+      };
+      const matchId = [];
+      expect(() => {
+        logic.addChosenPlayers(players, matchId);
+      }).toThrow(TypeError("matchId is not string"));
+    });
+
+    it("should fail on empty matchId", () => {
+      const players = {
+        playersChosen: {
+          "firstPair-firstPlayer": "5c8501eecd540c0f100accd1",
+          "firstPair-secondPlayer": "5c8501eecd540c0f100accd2",
+          "secondPair-firstPlayer:": "5c8501eecd540c0f100accd3",
+          "secondPair-secondPlayer": "5c8501eecd540c0f100accd4",
+          "thirdPair-firstPlayer": "5c8501eecd540c0f100accd5",
+          "thirdPair-secondPlayer": "5c8501eecd540c0f100accd6"
+        }
+      };
+      const matchId = "";
+      expect(() => {
+        logic.addChosenPlayers(players, matchId);
+      }).toThrow(Error("matchId cannot be empty"));
+    });
   });
 
   after(() =>

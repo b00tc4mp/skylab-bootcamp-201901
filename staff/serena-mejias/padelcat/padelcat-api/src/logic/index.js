@@ -258,7 +258,10 @@ const logic = {
       const newArray = dataMatches.map(async scrappingMatch => {
         const match = await Match.findOne({
           matchId: scrappingMatch.matchId
-        }).populate("playersAvailable");
+        });
+        if (match) {
+          match.populate("playersAvailable");
+        }
         const {
           matchId,
           date,
@@ -269,7 +272,9 @@ const logic = {
           result,
           location
         } = scrappingMatch;
-        const { playersAvailable = [], playersChosen = [] } = match;
+
+        const playersAvailable = match ? match.playersAvailable : [];
+        const playersChosen = match ? match.playersChosen : [];
 
         return {
           matchId,
@@ -289,6 +294,12 @@ const logic = {
   },
 
   addAvailabilityPlayer(playerId, matchId) {
+    if (typeof playerId !== "string") throw TypeError(`playerId is not string`);
+    if (!playerId.trim().length) throw Error("playerId cannot be empty");
+
+    if (typeof matchId !== "string") throw TypeError(`matchId is not string`);
+    if (!matchId.trim().length) throw Error("matchId cannot be empty");
+
     return (async () => {
       await Player.findByIdAndUpdate(
         { _id: playerId },
@@ -305,6 +316,12 @@ const logic = {
   },
 
   deleteAvailabilityPlayer(playerId, matchId) {
+    if (typeof playerId !== "string") throw TypeError(`playerId is not string`);
+    if (!playerId.trim().length) throw Error("playerId cannot be empty");
+
+    if (typeof matchId !== "string") throw TypeError(`matchId is not string`);
+    if (!matchId.trim().length) throw Error("matchId cannot be empty");
+
     return (async () => {
       const player = await Player.findById(playerId);
       const index = player.availability.indexOf(matchId);
@@ -323,14 +340,19 @@ const logic = {
     })();
   },
 
-  addChosenPlayers(playersId, matchId) {
+  addChosenPlayers(players, matchId) {
+    if (typeof players !== "object") throw TypeError(`players is not object`);
+
+    if (typeof matchId !== "string") throw TypeError(`matchId is not string`);
+    if (!matchId.trim().length) throw Error("matchId cannot be empty");
+
     return (async () => {
       const match = await Match.findOne({ matchId });
       if (!match) {
         await Match.create({
           matchId,
           playersChosen: {
-            playersId
+            players
           }
         });
       } else {
@@ -338,24 +360,13 @@ const logic = {
           { matchId },
           {
             playersChosen: {
-              playersId
+              players
             }
           }
         );
       }
     })();
   }
-
-  // retrieveAvailabilityPlayers(matchId) {
-  //   return (async () => {
-  //     const match = await Match.findOne({ matchId });
-  //     if (match) {
-  //       return match.playersAvailable;
-  //     } else {
-  //       throw Error("match does not exist");
-  //     }
-  //   })();
-  // }
 };
 
 module.exports = logic;

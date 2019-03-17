@@ -48,11 +48,11 @@ export const Match = props => {
     <div>
       <h4>{date}</h4>
       <div className={styles.teams}>
-        <div className="team1">
-          <img src={imageTeam1} />
+        <div className={styles.team}>
           <h6>{team1}</h6>
+          <img src={imageTeam1} />
         </div>
-        <div className="team2">
+        <div className={styles.team}>
           <img src={imageTeam2} />
           <h6>{team2}</h6>
         </div>
@@ -88,7 +88,7 @@ export const Match = props => {
                   />
                 </div>
               </div>
-              <div className="buttons">
+              <div className={styles.buttons}>
                 <button type="submit" disabled={submitting || pristine}>
                   Submit
                 </button>
