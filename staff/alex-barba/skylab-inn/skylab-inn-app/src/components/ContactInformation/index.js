@@ -3,7 +3,7 @@ import { AppContext } from '../AppContext'
 
 import './index.sass'
 
-export default function PersonalInformation({ onEditPersonalInfo, onUpdatePersonalInfo, editPersonal, onCancel }) {
+export default function ContactInformation({ onEditPersonalInfo, onUpdatePersonalInfo, editPersonal, onCancel }) {
 
     const { userData } = useContext(AppContext)
 

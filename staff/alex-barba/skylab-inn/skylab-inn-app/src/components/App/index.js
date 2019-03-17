@@ -25,6 +25,7 @@ function App({ history }) {
     const [modalMessage, setModalMessage] = useState(null)
     const [modalType, setModalType] = useState(null)
     const [showSpinner, setShowSpinner] = useState(null)
+    const [showConfirmAlert, setShowConfirmAlert] = useState(null)
 
     useEffect(() => {
         logic.isUserLoggedIn && logic.retrieveUser()
@@ -105,8 +106,8 @@ function App({ history }) {
 
     return (
         <Fragment>
-            <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, whiteList, setWhiteList, unverifiedEmails, setUnverifiedEmails, search, setSearch, showModal, setShowModal, modalMessage, setModalMessage, modalType, setModalType, showSpinner, setShowSpinner }}>
-                 <Route exact path='/' render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to='/home' />} />
+            <AppContext.Provider value={{ feedback, setFeedback, userData, setUserData, query, setQuery, searchResults, setSearchResults, adSearchResults, setAdSearchResults, whiteList, setWhiteList, unverifiedEmails, setUnverifiedEmails, search, setSearch, showModal, setShowModal, modalMessage, setModalMessage, modalType, setModalType, showSpinner, setShowSpinner, showConfirmAlert, setShowConfirmAlert }}>
+                <Route exact path='/' render={() => !logic.isUserLoggedIn ? <LogIn onLogIn={handleLogIn} onToSignUp={handleToSignUp} /> : <Redirect to='/home' />} />
                 <Route path='/signup' render={() => !logic.isUserLoggedIn ? <SignUp onSignUp={handleSignUp} onToLogIn={handleToLogIn} /> : <Redirect to='/home' />} />
                 <Route path='/home' render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to='/' />} />
                 <Modal />

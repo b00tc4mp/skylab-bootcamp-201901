@@ -98,7 +98,7 @@ export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformatio
                                 <p>{lang.language}</p>
                                 <div className='language-container__form-header-button'>
                                     <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditLanguage(lang) }}></i> &nbsp;
-                                    <i className='far fa-trash-alt icon icon--link' onClick={e => window.confirm('Are you sure you wish to delete this Language?') && handleRemoveInformation(e, 'Language', lang._id)}></i> 
+                                    <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Language', lang._id)}></i> 
                                 </div>
                             </div>    
                                 <p>Level: {lang.level}</p>

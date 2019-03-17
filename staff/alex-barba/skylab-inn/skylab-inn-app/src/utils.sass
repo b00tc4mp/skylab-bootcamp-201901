@@ -18,6 +18,7 @@ $secondary: #A5A5A5
 $white: #F5F5F5     
 $danger: #D5544F
 $success: #DCECA9
+$link: #471E38
 
 /* Font size */
 
@@ -97,7 +98,7 @@ input
     text-align: center
     font-size: $medium
     padding: 0.2rem
-    color: $secondary
+    color: $primary
     border: none
     background: none
 
@@ -114,9 +115,9 @@ input
 /* Links */
 
 a:link
-    color: $primary
+    color: $link
     &:visited
-        color: $primary
+        color: $link
 
 /* Border */
 %border
@@ -144,12 +145,12 @@ a:link
 /* Select */
 select
     background: none
-    width: 100%
+    width: 90%
     font-size: $xsmall
     text-align-last: center
 
     @include tablet
-        width: 100%
+        width: 90%
         text-align-last: center
         font-size: $xsmall--tablet
         background: none

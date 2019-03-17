@@ -12,6 +12,9 @@ const { createToken, verifyToken } = require('../token-helper')
  */
 const logic = {
 
+    url: 'http://localhost:3000/api',
+    urlServer: 'https://fast-taiga-93895.herokuapp.com/api',
+
     /**
      * Register a user.
      * 
@@ -68,7 +71,7 @@ const logic = {
             //     subject: 'Welcome to the Skylab Universe!',
             //     html: `<h1>Thanks for signing up ${name}!</h1>
             //         <p>We just need you to verify you email to complete registration.<p>
-            //         <p>Please click on the following <a href='http://localhost:8000/api/user/${status}/verify'>link</a>.</p>
+            //         <p>Please click on the following <a href='${this.urlServer}/user/${status}/verify'>link</a>.</p>
             //         <p>Thanks</p>
             //         <p>Skylab Inn</p>
             //     `
@@ -558,7 +561,7 @@ const logic = {
                 subject: 'Join de Skylab Universe!',
                 html: `<h1>Welcome to Skylab Inn ${name}</h1>
                     <p>We would like to thank you once again for joining the Skylab Academy.<p>
-                    <p>We would like you to register in the following <a href='http://localhost:3000/#/signup'>link</a> to join Skylab Inn.</p>
+                    <p>We would like you to register in the following <a href='${this.url}/signup'>link</a> to join Skylab Inn.</p>
                     <p>We ask you to update your created profile in order to offer you the best job opportunities matching the company needs with your skills and experience.</p>
                     <p>This network will also allow you to se all Skylabers information, so that you can get in touch with any of them if you may ever need it.</p>
                     <p>See you soon!</p>

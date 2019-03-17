@@ -1,17 +1,18 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../AppContext'
-import PersonalInformation from '../PersonalInformation'
+import ContactInformation from '../ContactInformation'
 import WorkExperience from '../WorkExperience'
 import Technology from '../Technology'
 import Language from '../Language'
 import Education from '../Education'
 import Feedback from '../Feedback'
+import ConfirmAlert from '../ConfirmAlert'
 
 import './index.sass'
 
 export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpdateInformation, onRemoveInformation, onUploadPhoto }) {
 
-    const { feedback, userData, setFeedback } = useContext(AppContext)
+    const { feedback, userData, setFeedback, setShowConfirmAlert } = useContext(AppContext)
 
     const { name, surname, image } = userData
 
@@ -50,22 +51,22 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
             case 'Work':
                 setAddWorkExperience(null)
                 onAddInformation(type, data)
-                break;
+                break
             case 'Tech':
                 setAddTechnology(null)
                 onAddInformation(type, data)
-                break;
+                break
             case 'Language':
                 setAddLanguage(null)
                 onAddInformation(type, data)
-                break;
+                break
             case 'Education':
                 setAddEducation(null)
                 onAddInformation(type, data)
-                break;
+                break
             default:
                 setFeedback('Please try it again')
-                break;
+                break
         }
     }
 
@@ -76,45 +77,52 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
             case 'Work':
                 setEditWork(null)
                 onUpdateInformation(id, type, data)
-                break;
+                break
             case 'Tech':
                 setEditTechnology(null)
                 onUpdateInformation(id, type, data)
-                break;
+                break
             case 'Language':
                 setEditLanguage(null)
                 onUpdateInformation(id, type, data)
-                break;
+                break
             case 'Education':
                 setEditEducation(null)
                 onUpdateInformation(id, type, data)
-                break;
+                break
             default:
                 setFeedback('Please try it again')
-                break;
+                break
         }
     }
 
     const handleRemoveInformation = (type, id) => {
         setFeedback(null)
+        setShowConfirmAlert([true, type, id]) 
+    }
 
-        switch (type) {
-            case 'Work':
-                onRemoveInformation(id, type)
-                break;
-            case 'Tech':
-                onRemoveInformation(id, type)
-                break;
-            case 'Language':
-                onRemoveInformation(id, type)
-                break;
-            case 'Education':
-                onRemoveInformation(id, type)
-                break;
-            default:
-                setFeedback('Please try it again')
-                break;
-        }   
+    const handleOnAlertAnswer = (alertAnswer, type, id) => {
+        if (alertAnswer === 'Yes') {
+            switch (type) {
+                case 'Work':
+                    onRemoveInformation(id, type)
+                    break
+                case 'Tech':
+                    onRemoveInformation(id, type)
+                    break
+                case 'Language':
+                    onRemoveInformation(id, type)
+                    break
+                case 'Education':
+                    onRemoveInformation(id, type)
+                    break
+                default:
+                    setFeedback('Please try it again')
+                    break
+            }
+        } else {
+            handleOnCancelEditorAdd()
+                } 
     }
 
     const handleOnEditPersonalInfo = () => {
@@ -181,15 +189,16 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                         <h4>{name}<br/>{surname}</h4>
                     </div>
                     {!editImage && <div className='profile-container__personalInformation-image pointer'>
-                        {image ? <img alt='Default' onClick={handleOnEditImage} src={`${image}`}></img> : <img alt='Uploaded'onClick={handleOnEditImage} src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
+                        {image ? <img alt='Default' onClick={handleOnEditImage} src={`${image}`}></img> : <img alt='Uploaded'onClick={handleOnEditImage} src='https://cdn3.iconfinder.com/data/icons/web-design-and-development-glyph-vol-1/64/web-development-glyph-05-512.png'></img> }
                     </div>}
                     {editImage && <div className='profile-container__personalInformation-image--edit'><input className='input--small' type='file' name='image' onChange={e => setImage(e.target.files[0])}></input>
                     <button className='btn btn--success' onClick={e => {e.preventDefault(); handleOnUploadPhoto()}}>Upload image</button>
                     <button className='btn btn--danger' onClick={e => { e.preventDefault(); handleOnCancelEditorAdd() }}>Cancel</button></div>}
                 </div>
                 {feedback && <Feedback />}
+                <ConfirmAlert onAlertAnswer={handleOnAlertAnswer}/>
                 <div className='profile-container__contactInformation'>
-                    <PersonalInformation onEditPersonalInfo={handleOnEditPersonalInfo} onUpdatePersonalInfo={handleUpdatePersonalInfo} editPersonal={editPersonal} onCancel={handleOnCancelEditorAdd} />
+                    <ContactInformation onEditPersonalInfo={handleOnEditPersonalInfo} onUpdatePersonalInfo={handleUpdatePersonalInfo} editPersonal={editPersonal} onCancel={handleOnCancelEditorAdd} />
                 </div>
                 <div className='profile-container__workExperience'>
                     <WorkExperience onAddWork={handleOnAddWork} onAddInformation={handleAddInformation} onEditWork={handleOnEditWork} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editWork={editWork} addWorkExperience={addWorkExperience} onCancel={handleOnCancelEditorAdd} />

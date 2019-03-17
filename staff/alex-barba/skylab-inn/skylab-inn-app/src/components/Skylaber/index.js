@@ -26,7 +26,7 @@ export default function Skylaber({ onToBack, skylaberId, retrieveSkylaber, skyla
                             <h4>{skylaber.name}<br/>{skylaber.surname}</h4>
                         </div>
                         <div className='skylaber-personalInformation-container__image'>
-                            {skylaber.image ? <img alt='default' src={`${skylaber.image}`}></img> : <img alt='uploaded' src='https://www.lagersmit.com/wp-content/uploads/2014/09/default_avatar-2.gif'></img> }
+                            {skylaber.image ? <img alt='default' src={`${skylaber.image}`}></img> : <img alt='uploaded' src='https://cdn3.iconfinder.com/data/icons/web-design-and-development-glyph-vol-1/64/web-development-glyph-05-512.png'></img> }
                         </div>
                     </div>
                     <div className='skylaber-data-container'>

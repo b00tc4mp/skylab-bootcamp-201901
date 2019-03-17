@@ -19,14 +19,72 @@
         bottom: 83rem
         border-top: none
         border-bottom: 0.05rem dotted $primary
+        align-items: center
 
-    & > i 
-        cursor: pointer
-        font-size: $xlarge
-        color: $white
+    &__home
+        display: flex
+        align-content: center
 
-        & > span 
+        & > i
+            cursor: pointer
+            font-size: $xlarge
+            color: $white
+
+            & > span 
+                display: none
+
+                @include desktop
+                    display: inline
+                    
+    &__hamburger
+        display: none
+
+        &:hover .nav-footer__hamburger-content
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+
+        &:hover .nav-footer__hamburger-menu
             display: none
 
-            @include desktop
-                display: inline
+        @include desktop
+            display: flex
+            align-content: center
+
+        & > i
+            cursor: pointer
+            font-size: $xlarge
+            color: $white
+
+        &-content
+            display: none
+
+            & > i
+                cursor: pointer
+                font-size: $xlarge
+                color: $white
+                margin-left: 1rem
+
+    &__logout
+
+        & > i
+            cursor: pointer
+            font-size: $xlarge
+            color: $white
+        
+        @include desktop
+            display: none
+    
+    &__profile
+
+        & > i
+            cursor: pointer
+            font-size: $xlarge
+            color: $white
+
+        @include desktop
+            display: none
+
+
+   
+
