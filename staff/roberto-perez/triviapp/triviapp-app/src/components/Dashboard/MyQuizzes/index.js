@@ -1,11 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Switch, Route } from 'react-router-dom';
 import { withRouter, Link } from 'react-router-dom';
 import quiz from '../../../services/quiz';
 
-import MyQuizCard from './MyQuizCard';
-
-import SearchResults from '../../SearchResults';
+import Results from '../../Results';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -18,11 +15,15 @@ function MyQuizzes() {
 		handleListQuiz();
 	}, [offset]);
 
+	const loadMore = () => {
+		setOffset(prevOffset => prevOffset + 1);
+	};
+
 	const handleListQuiz = async () => {
 		
 		try {
 			const newQuizzes = await quiz.myQuizzes(offset);
-			console.log(newQuizzes);
+
 			setLoadMoreButton(!!newQuizzes.length);
 
 			setQuizzes([...quizzes, ...newQuizzes]);
@@ -50,7 +51,7 @@ function MyQuizzes() {
 					</h2>
 				</header>
 
-				<SearchResults />
+				<Results quizzes={quizzes} loadMoreButton={loadMoreButton} loadMore={loadMore} />
 			</section>
 		</Fragment>
 	);

@@ -55,7 +55,6 @@ exports.update = async (req, res) => {
 	// const {
 	// 	params: { quizId },
 	// } = req;
-
 	try {
 		const questionUpdated = await question.updateQuestion(req.locals.question, req.body);
 		res.status(httpStatus.OK);

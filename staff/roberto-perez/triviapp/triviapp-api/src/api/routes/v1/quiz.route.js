@@ -13,7 +13,9 @@ router.param('quizId', controller.load);
 
 router.route('/page/:offset').get(controller.list);
 
-router.route('/page/:offset').post(authorize, controller.listByAuthor);
+router.route('/page/:offset/author').get(authorize, controller.listByAuthor);
+
+router.route('/page/:offset').post(controller.search);
 
 router
 	.route('/')

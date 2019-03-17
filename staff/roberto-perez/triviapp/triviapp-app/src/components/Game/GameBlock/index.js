@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
 import gameService from '../../../services/game';
@@ -9,22 +9,27 @@ import ExpandButton from '../ExpandButton';
 import CurrentQuestion from './CurrentQuestion';
 import CurrentQuestionResults from './CurrentQuestionResults';
 
+import GameContext from '../GameContext';
+
 function GameBlock(props) {
+	const {
+		gameID,
+		players,
+		currentQuestion,
+		totalQuestions,
+		currentQuestionIndex,
+		hostGame
+	} = useContext(GameContext);
+
 	let countDownTimeout;
-	const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
-	const [count, setCount] = useState(props.currentQuestion.time);
-	const [answers, setAnswers] = useState(props.currentQuestion.answers);
+	// const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
+	const [count, setCount] = useState(currentQuestion.time);
+	// const [answers, setAnswers] = useState(props.currentQuestion.answers);
 	const [results, setResults] = useState([]);
 
 	const [showResults, setShowResults] = useState(false);
 
 	const colors = ['red', 'blue', 'yellow', 'green'];
-
-	const {
-		match: {
-			params: { gameId },
-		},
-	} = props;
 
 	useEffect(() => {
 		countDown();
@@ -35,7 +40,7 @@ function GameBlock(props) {
 	}, [count]);
 
 	useEffect(() => {
-		gameService.showQuestionToPlayer(gameId);
+		gameService.showQuestionToPlayer(gameID);
 
 		return () => {
 			clearTimeout(countDownTimeout);
@@ -45,7 +50,7 @@ function GameBlock(props) {
 	const countDown = async () => {
 		if (count === 0) {
 			showResultsScreen();
-			await gameService.showTimeOutScreen(gameId);
+			await gameService.showTimeOutScreen(gameID);
 			return;
 		}
 
@@ -56,13 +61,14 @@ function GameBlock(props) {
 
 	const showResultsScreen = async () => {
 		clearTimeout(countDownTimeout);
+
 		const _results = await gameService.showQuestionsResults(
+			gameID,
 			currentQuestion._id,
-			gameId,
 		);
 
 		setResults(_results);
-		
+
 		setShowResults(true);
 	};
 
@@ -70,7 +76,7 @@ function GameBlock(props) {
 		<Fragment>
 			<header className="header-game-top">
 				<h1 className="header-game-top__title">{currentQuestion.title}</h1>
-				<ExpandButton hostGame={props.hostGame} />
+				<ExpandButton hostGame={hostGame} />
 			</header>
 
 			<div className="current-quiz">
@@ -80,35 +86,36 @@ function GameBlock(props) {
 							<CurrentQuestionResults
 								nextQuestion={props.nextQuestion}
 								gameOver={props.gameOver}
-								currentQuestionIndex={props.currentQuestionIndex}
-								totalQuestions={props.totalQuestions}
+								currentQuestionIndex={currentQuestionIndex}
+								totalQuestions={totalQuestions}
 								results={results}
 							/>
 						) : (
 							<CurrentQuestion
 								image={currentQuestion.picture}
-								totalUsers={props.totalUsers}
+								totalUsers={players.length}
 								showResultsScreen={showResultsScreen}
 								count={count}
 							/>
 						)}
 					</div>
 					<div className="current-quiz__choices">
-						{answers.map((answer, index) => {
-							if (answer.title !== '') {
-								return (
-									<div
-										key={answer._id}
-										className={`current-quiz__item current-quiz__item--${
-											colors[index]
-										}`}
-									>
-										{answer.title}
-									</div>
-								);
-							}
-							return '';
-						})}
+						{currentQuestion &&
+							currentQuestion.answers.map((answer, index) => {
+								if (answer.title !== '') {
+									return (
+										<div
+											key={answer._id}
+											className={`current-quiz__item current-quiz__item--${
+												colors[index]
+											}`}
+										>
+											{answer.title}
+										</div>
+									);
+								}
+								return '';
+							})}
 					</div>
 				</div>
 			</div>

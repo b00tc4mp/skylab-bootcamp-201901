@@ -102,7 +102,7 @@ answerGameSchema.statics = {
 	list(options = {}) {
 		return this.find(options)
 			.populate('user')
-			.populate('answer')
+			.populate('question')
 			.exec();
 	},
 

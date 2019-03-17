@@ -85,6 +85,18 @@ const question = {
 			throw Error(error.message);
 		}
 	},
+
+	async editQuestionPicture(quizId, questionId, picture) {
+		try {
+			const data = {
+				picture
+			}
+			
+			return await questionApi.editQuestion(quizId, questionId, data);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
 };
 
 export default question;

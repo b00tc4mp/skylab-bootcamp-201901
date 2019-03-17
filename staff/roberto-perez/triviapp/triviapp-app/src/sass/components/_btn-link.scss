@@ -2,7 +2,7 @@
 	outline: none;
 	position: relative;
 	height: 7rem;
-	padding: 0 1em;
+	padding: 0 3rem;
 	color: $black;
 	text-align: center;
 	font-size: 13px;
@@ -20,6 +20,10 @@
 	&--green {
 		background-color: $green;
 		color: #fff;
+		&:hover {
+		  color: #fff !important;
+		  background-color: $dark-green;
+		}
 	}
 }
 
@@ -54,4 +58,8 @@
 		color: #fff;
 		text-decoration: underline
 	}
+}
+
+.btn-submit {
+	height: 5rem;
 }

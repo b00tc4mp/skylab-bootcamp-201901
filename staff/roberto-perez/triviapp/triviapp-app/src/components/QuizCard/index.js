@@ -11,19 +11,25 @@ function QuizCard(props) {
 		quiz: { id, title, questions, picture, author, games },
 	} = props;
 
+	let imgSrc = './images/default-quiz.png';
+
+	if(picture) {
+		imgSrc = picture;
+	}
+
 	return (
 		<div className="quiz">
 			<figure className="quiz__figure">
 				<Link to={`/quiz/${id}`} title={title} className="menu__link">
-					<img src={picture} alt={title} className="quiz__image" />
+					<img src={imgSrc} alt={title} className="quiz__image" />
 				</Link>
 				<div className="btn-favorite">
 					<i className="far fa-star" />
 				</div>
 				{(auth.userLoggedIn && (auth.userLoggedIn.id === author._id)) && (
-					<div className="btn-likeit btn-edit-quiz">
+					<div className="btn-edit-quiz">
 						<Link to={`dashboard/create/quiz/${id}/overview`}>
-							<FontAwesomeIcon icon="pen" />
+							<FontAwesomeIcon icon="pen" /> Edit
 						</Link>
 					</div>
 				)}

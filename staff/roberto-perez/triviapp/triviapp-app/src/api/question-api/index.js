@@ -1,7 +1,7 @@
 import auth from '../../services/auth';
 
 const questionApi = {
-	url: 'http://localhost:8000/v1',
+	url: 'NO_URL',
 
 	getQuestion(quizId, questionId) {
 		//VALIDACIONES DE TIPO

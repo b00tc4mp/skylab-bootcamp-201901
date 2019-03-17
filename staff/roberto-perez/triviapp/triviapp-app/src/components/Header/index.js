@@ -20,13 +20,18 @@ function Header(props) {
 			</div>
 			<div className="header__content-right">
 				<div className="header__search">
-					<button className="header__search-button toggle-search">
+					<button
+						className="header__search-button toggle-search"
+						onClick={props.showSearch}
+					>
 						<FontAwesomeIcon icon="search" />
 					</button>
 				</div>
 				<div className="header__logo">
 					<h1 className="header__logo-title">
-						TRIVI<span>APP</span>
+						<Link to="/" title="TriviAPP">
+							TRIVI<span>APP</span>
+						</Link>
 					</h1>
 				</div>
 				{auth.isUserLoggedIn || (
@@ -49,9 +54,7 @@ function Header(props) {
 					</Fragment>
 				)}
 
-				{auth.isUserLoggedIn && (
-					<Profile />
-				)}
+				{auth.isUserLoggedIn && <Profile />}
 			</div>
 		</header>
 	);

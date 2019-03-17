@@ -43,8 +43,8 @@ const quizSchema = new mongoose.Schema(
 		],
 		games: {
 			type: Number,
-			default: 0
-		}
+			default: 0,
+		},
 	},
 	{ timestamps: true },
 );
@@ -71,23 +71,6 @@ quizSchema.method({
 		return quiz;
 	},
 });
-
-/**
- * Pre middlewares
- */
-// quizSchema.pre('save', async function(next, req) {
-
-// 	if(!this.isModified() === true) {
-// 	}
-
-// 	// try {
-// 	// 	if (!this.isModified()) return;
-// 	// 	const hash = await bcrypt.hash(this.password, 10);
-// 	// 	this.author = hash;
-// 	// } catch (error) {
-// 	// 	return new Error(error);
-// 	// }
-// });
 
 /**
  * Statics
@@ -123,7 +106,7 @@ quizSchema.statics = {
 	 * @returns {Promise<Quiz[]>}
 	 */
 	list({ page = 1, perPage = 9 }) {
-		return this.find()
+		return this.find({ 'questions.0': { $exists: true } })
 			.populate('author')
 			.sort({ createdAt: -1 })
 			.skip(perPage * (page - 1))
@@ -136,8 +119,8 @@ quizSchema.statics = {
 	 *
 	 * @returns {Promise<Quiz[]>}
 	 */
-	listByAuthor({ page = 1, perPage = 9, author }) {
-		return this.find({ author })
+	listByAuthor({ page = 1, perPage = 9, authorID }) {
+		return this.find({ author: authorID })
 			.populate('author')
 			.sort({ createdAt: -1 })
 			.skip(perPage * (page - 1))
@@ -150,12 +133,15 @@ quizSchema.statics = {
 	 *
 	 * @returns {Promise<Quiz[]>}
 	 */
-	search(query) {
+	search({ page = 1, perPage = 9, query }) {
 		return this.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } })
 			.sort({
 				score: { $meta: 'textScore' },
 			})
-			.populate('author');
+			.populate('author')
+			.skip(perPage * (page - 1))
+			.limit(perPage)
+			.exec();
 	},
 };
 

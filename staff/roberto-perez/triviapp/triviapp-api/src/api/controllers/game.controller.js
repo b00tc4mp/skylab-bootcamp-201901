@@ -44,17 +44,13 @@ exports.create = async (req, res) => {
 /**
  * Join to game
  */
-exports.join = async (req, res) => {
+exports.joinGame = async (req, res) => {
 	try {
 		const game = await gameLogic.joinGame(req.body);
 
 		req.app.io.in(`game-${game.id}`).emit('playerJoinedRoom', true);
 
-		if (req.body.user) {
-			return res.status(httpStatus.OK).json({ game, user: req.body.user });
-		} else {
-			return res.status(httpStatus.OK).json({ game });
-		}
+		return res.status(httpStatus.OK).json({ game });
 	} catch (error) {
 		handleResponseError(error, res);
 	}
@@ -63,7 +59,7 @@ exports.join = async (req, res) => {
 /**
  * Start game
  */
-exports.start = async (req, res) => {
+exports.startGame = async (req, res) => {
 	try {
 		const game = await gameLogic.startGame(req.locals.game);
 
@@ -79,36 +75,34 @@ exports.start = async (req, res) => {
 	}
 };
 
-exports.emitQuestion = async (req, res) => {
-	req.app.io.in(`game-${req.body.id}`).emit('showQuestion', true);
-};
-
-exports.emitTimeOut = async (req, res) => {
-	req.app.io.in(`game-${req.body.id}`).emit('timeOut', true);
-};
-
-exports.answer = async (req, res) => {
+/**
+ * Game over
+ */
+exports.gameOver = async (req, res) => {
 	try {
-		req.body.user = req.userId;
+		const game = await gameLogic.gameOver(req.locals.game);
 
-		const answerGame = await gameLogic.answerQuestion(req.body);
-
-		console.log(`EMIT to ${req.body.gameId} GAME`);
-
-		req.app.io.in(`game-${req.body.gameId}`).emit('answerQuestion', true);
+		// req.app.io.in(`game-${game.id}`).emit('beginNewGame', true);
 
 		res.status(httpStatus.OK);
 
-		return res.json(answerGame);
+		return res.json(game);
 	} catch (error) {
 		handleResponseError(error, res);
 	}
 };
 
+exports.emitQuestion = async (req, res) => {
+	console.log(req.locals.game.id)
+	req.app.io.in(`game-${req.locals.game.id}`).emit('showQuestion', true);
+	res.status(httpStatus.OK);
+	return res.json(req.locals.game.id);
+};
+
 exports.questionResults = async (req, res) => {
 	try {
-		const questionResult = await gameLogic.questionResults(req.body);
-
+		const questionResult = await gameLogic.questionResults(req.locals.game, req.body);
+console.log(questionResult)
 		res.status(httpStatus.OK);
 
 		return res.json(questionResult);
@@ -117,24 +111,14 @@ exports.questionResults = async (req, res) => {
 	}
 };
 
-exports.lastAnswer = async (req, res) => {
-	try {;
-		const answer = await gameLogic.getLastAnswer({game: req.locals.game, user:req.userId});
-		res.status(httpStatus.OK);
-		return res.json(answer);
-	} catch (error) {
-		handleResponseError(error, res);
-	}
-};
-
 exports.setNextQuestion = async (req, res) => {
-	try {;
-		const question = await gameLogic.setNextQuestion({game: req.locals.game});
-		
+	try {
+		const question = await gameLogic.setNextQuestion({ game: req.locals.game });
+
 		req.app.io.in(`game-${req.locals.game.id}`).emit('nextQuestion', true);
 
 		res.status(httpStatus.OK);
-		
+
 		return res.json(question);
 	} catch (error) {
 		handleResponseError(error, res);
@@ -143,13 +127,37 @@ exports.setNextQuestion = async (req, res) => {
 
 exports.podium = async (req, res) => {
 	try {
-		const podium = await gameLogic.getPodium({game: req.locals.game});
-		
+		const podium = await gameLogic.getPodium({ game: req.locals.game });
+
 		req.app.io.in(`game-${req.locals.game.id}`).emit('gameOver', true);
 
 		res.status(httpStatus.OK);
-		
+
 		return res.json(podium);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+exports.emitTimeOut = async (req, res) => {
+	req.app.io.in(`game-${req.locals.game.id}`).emit('timeOut', true);
+	res.status(httpStatus.OK);
+	return res.json(req.locals.game.id);
+};
+
+exports.answerQuestion = async (req, res) => {
+	try {
+		req.body.user = req.userId;
+
+		req.body.gameId = req.locals.game.id;
+
+		const answerGame = await gameLogic.answerQuestion(req.body);
+
+		req.app.io.in(`game-${req.locals.game.id}`).emit('answerQuestion', true);
+
+		res.status(httpStatus.OK);
+
+		return res.json(answerGame);
 	} catch (error) {
 		handleResponseError(error, res);
 	}
@@ -162,22 +170,58 @@ exports.score = async (req, res) => {
 		const score = await gameLogic.getScore({game: req.locals.game, user:req.userId});
 
 		res.status(httpStatus.OK);
-		
+
 		return res.json(score);
 	} catch (error) {
 		handleResponseError(error, res);
 	}
 };
 
+// exports.lastAnswer = async (req, res) => {
+// 	try {;
+// 		const answer = await gameLogic.getLastAnswer({game: req.locals.game, user:req.userId});
+// 		res.status(httpStatus.OK);
+// 		return res.json(answer);
+// 	} catch (error) {
+// 		handleResponseError(error, res);
+// 	}
+// };
 
+// exports.podium = async (req, res) => {
+// 	try {
+// 		const podium = await gameLogic.getPodium({game: req.locals.game});
 
-exports.currentQuestion = async (req, res) => {
-	try {
-		debugger
-		const question = await gameLogic.currentQuestion(req.locals.game);
-		res.status(httpStatus.OK);
-		return res.json(question);
-	} catch (error) {
-		handleResponseError(error, res);
-	}
-};
+// 		req.app.io.in(`game-${req.locals.game.id}`).emit('gameOver', true);
+
+// 		res.status(httpStatus.OK);
+
+// 		return res.json(podium);
+// 	} catch (error) {
+// 		handleResponseError(error, res);
+// 	}
+// };
+
+// exports.score = async (req, res) => {
+// 	try {
+// 		req.body.user = req.userId;
+
+// 		const score = await gameLogic.getScore({game: req.locals.game, user:req.userId});
+
+// 		res.status(httpStatus.OK);
+
+// 		return res.json(score);
+// 	} catch (error) {
+// 		handleResponseError(error, res);
+// 	}
+// };
+
+// exports.currentQuestion = async (req, res) => {
+// 	try {
+// 		debugger
+// 		const question = await gameLogic.currentQuestion(req.locals.game);
+// 		res.status(httpStatus.OK);
+// 		return res.json(question);
+// 	} catch (error) {
+// 		handleResponseError(error, res);
+// 	}
+// };

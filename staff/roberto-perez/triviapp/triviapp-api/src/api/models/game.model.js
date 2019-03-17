@@ -27,6 +27,10 @@ const gameSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
+		end: {
+			type: Boolean,
+			default: false,
+		},
 		quiz: {
 			type: ObjectId,
 			required: true,
@@ -58,6 +62,7 @@ gameSchema.method({
 			'currentQuestion',
 			'host',
 			'start',
+			'end',
 			'createdAt',
 		];
 

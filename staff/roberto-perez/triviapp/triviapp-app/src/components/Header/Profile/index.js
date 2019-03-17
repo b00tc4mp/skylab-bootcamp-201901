@@ -71,12 +71,12 @@ function Profile(props) {
 							</Link>
 
 							<Link
-								to="/user/settings"
-								title="Settings"
+								to="/user/profile"
+								title="Profile"
 								className="user-dropdown__list-item"
 								onClick={toggleHidden}
 							>
-								<FontAwesomeIcon icon="cog" /> Settings
+								<FontAwesomeIcon icon="user-circle" /> Profile
 							</Link>
 
 							<Link

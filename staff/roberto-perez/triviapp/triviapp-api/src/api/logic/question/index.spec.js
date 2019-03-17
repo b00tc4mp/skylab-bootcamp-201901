@@ -1,16 +1,14 @@
 'use strict';
 
 require('dotenv').config();
-const mongoose = require('../../../config/mongoose');
-const { MongooseError } = mongoose;
 const httpStatus = require('http-status');
 const expect = require('expect');
-const { Quiz } = require('../../models/quiz.model');
-const { Question } = require('../../models/question.model');
-const { User } = require('../../models/user.model');
+const { User, Quiz, Question } = require('triviapp-data');
+const mongoose = require('../../../config/mongoose');
+const { MongooseError } = mongoose;
 const logicQuestion = require('.');
 const logicQuiz = require('../quiz');
-const { AlreadyExistsError, UnauthorizedError, NotFoundError } = require('../../errors');
+const { AlreadyExistsError, UnauthorizedError, NotFoundError } = require('triviapp-errors');
 
 describe('Question', () => {
 	before(() => mongoose.connect('mongodb://localhost:27017/quiz-test'));
@@ -418,14 +416,9 @@ describe('Question', () => {
 			try {
 				const currentQuestion = await Question.get('123');
 			} catch (err) {
-				// expect(err).toBeInstanceOf(MongooseError);
 				expect(err.message).toEqual(`Cast to ObjectId failed for value "123" at path "_id" for model "Question"`);
 			}
 		});
-	});
-
-	describe('GET /v1/question', () => {
-		//TODO
 	});
 
 	after(() =>

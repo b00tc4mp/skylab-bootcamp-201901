@@ -6,11 +6,13 @@ import authService from '../../services/auth';
 
 import Welcome from './Welcome';
 import Start from './Start';
-import Questions from './Questions';
+import GetReady from './GetReady';
+import GameBlock from './GameBlock';
 import GameOver from './GameOver';
 
-function Game(props) {
+import GameContext from './GameContext';
 
+function Game(props) {
 	const {
 		match,
 		match: {
@@ -18,28 +20,41 @@ function Game(props) {
 		},
 	} = props;
 
-	
 	const hostGame = useRef(null);
 
+	// const [gameInfo, setGameInfo] = useState({
+	// 	gameTitle: '',
+	// 	players: [],
+	// 	code: 'Connecting...',
+	// 	totalQuestions: 0,
+	// 	currentQuestion: null,
+	// 	currentQuestionIndex: 0,
+	// 	totalUsers: 0,
+	// });
+
+	const [game, setGame] = useState(null);
 	const [gameID, setGameID] = useState(gameId);
-	const [title, setTitle] = useState('');
-	const [code, setCode] = useState('Connecting...');
-	const [isHost, setIsHost] = useState(false);
+	const [gameTitle, setGameTitle] = useState('');
 	const [players, setPlayers] = useState([]);
+	const [code, setCode] = useState('Connecting...');
+	const [totalQuestions, setTotalQuestions] = useState(0);
+	const [currentQuestion, setCurrentQuestion] = useState(null);
+	const [totalUsers, setTotalUsers] = useState(0);
+	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
 	useEffect(() => {
-		getGameByQuizId();
-	}, [props.match.params.gameId]);
+		getGameByID(gameID);
+	}, []);
 
 	useEffect(() => {
 		gameService.onPlayerJoinedRoom(() => {
-			getGameByQuizId();
+			getGameByID();
 		});
 	}, []);
 
-	const getGameByQuizId = async () => {
+	const getGameByID = async () => {
 		try {
-			const game = await gameService.get(gameId);
+			const game = await gameService.getGameByID(gameID);
 
 			if (authService.userLoggedIn.id !== game.host) {
 				throw Error(
@@ -47,55 +62,110 @@ function Game(props) {
 				);
 			}
 
-			if (game.gameStarted) props.history.push(`/game/${gameId}/start`);
+			if (game.start) {
+			}
 
-			setIsHost(true);
-			
-			setTitle(game.quiz.title);
+			const _currentQuestionIndex = game.quiz.questions.findIndex(
+				question => question._id === game.currentQuestion._id,
+			);
+
+			setGame(game);
+
+			setCurrentQuestionIndex(_currentQuestionIndex);
+
+			setGameTitle(game.quiz.title);
 
 			setCode(game.code);
 
 			setPlayers(game.users);
+
+			setTotalQuestions(game.quiz.questions.length);
+
+			setCurrentQuestion(game.currentQuestion);
 		} catch (error) {
-			console.error(error);
+			console.log(error);
+		}
+	};
+
+	const nextQuestion = async () => {
+		console.log('NEXT!');
+		try {
+			const game = await gameService.nextQuestion(gameID);
+
+			const _currentQuestionIndex = game.quiz.questions.findIndex(
+				question => question._id === game.currentQuestion._id,
+			);
+
+			setCurrentQuestionIndex(_currentQuestionIndex);
+
+			setCurrentQuestion(game.currentQuestion);
+
+			if (currentQuestion) {
+				props.history.replace(`/game/${gameID}/getready`);
+			} else {
+				props.history.replace(`/game/${gameID}/gameover`);
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
 	const gameOver = async () => {
 		console.log('GAMEOVER!');
 		try {
-			props.history.push(`/game/${gameId}/game-over`);
+			const game = await gameService.gameOver(gameID);
+
+			props.history.replace(`/game/${gameId}/game-over`);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
 	return (
-		<section className="host-game" ref={hostGame}>
-			<Switch>
-				<Route
-					exact
-					path={`${match.url}/welcome`}
-					render={() => <Welcome hostGame={hostGame} gameID={gameID} players={players} isHost={isHost} code={code} />}
-				/>
-
-				<Route
-					exact
-					path={`${match.url}/start`}
-					render={() => <Start hostGame={hostGame} gameID={gameID} title={title} />}
-				/>
-
-				<Route
-					path={`${match.url}/questions`}
-					render={() => <Questions hostGame={hostGame} gameOver={gameOver} gameID={gameID} title={title} />}
-				/>
-
-				<Route
-					path={`${match.url}/game-over`}
-					render={() => <GameOver hostGame={hostGame} gameID={gameID} title={title} />}
-				/>
-			</Switch>
-		</section>
+		<GameContext.Provider
+			value={{
+				gameID,
+				currentQuestionIndex,
+				gameTitle,
+				code,
+				players,
+				totalQuestions,
+				currentQuestion,
+				hostGame
+			}}
+		>
+			{game && currentQuestion && (
+				<section className="host-game" ref={hostGame}>
+					<Switch>
+						<Route
+							exact
+							path={`${match.url}/welcome`}
+							render={() => <Welcome />}
+						/>
+						<Route
+							exact
+							path={`${match.url}/start`}
+							render={() => <Start />}
+						/>
+						<Route
+							exact
+							path={`${match.url}/getready`}
+							render={() => <GetReady />}
+						/>
+						<Route
+							exact
+							path={`${match.url}/gameblock`}
+							render={() => <GameBlock nextQuestion={nextQuestion} gameOver={gameOver} />}
+						/>
+						<Route
+							exact
+							path={`${match.url}/game-over`}
+							render={() => <GameOver />}
+						/>
+					</Switch>
+				</section>
+			)}
+		</GameContext.Provider>
 	);
 }
 

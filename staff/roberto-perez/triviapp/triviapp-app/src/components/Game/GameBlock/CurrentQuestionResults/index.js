@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import gameService from '../../../../services/game';
 
 function CurrentQuestionResults(props) {
+	console.log(props)
 	// const nextQuestion = async () => {
 	// 	try {
 	// 		const game = await gameService.nextQuestion();
@@ -22,7 +23,7 @@ function CurrentQuestionResults(props) {
 			<div className="current-quiz__countdown" />
 			<div className="current-quiz__statistic-results">
 				{props.results &&
-					props.results.map((answer, index) => {
+					props.results.map((result, index) => {
 						return (
 							<div key={index} className="answers-histogram">
 								<div
@@ -30,11 +31,11 @@ function CurrentQuestionResults(props) {
 										colors[index]
 									}`}
 								>
-									{answer.total}
-									{answer.success && <FontAwesomeIcon icon="check" />}
+									{result.total}
+									{result.answer.success && <FontAwesomeIcon icon="check" />}
 									<div
 										className={`answers-histogram__bar answers-histogram__bar--${
-											answer.percent
+											result.percent
 										}`}
 									/>
 								</div>

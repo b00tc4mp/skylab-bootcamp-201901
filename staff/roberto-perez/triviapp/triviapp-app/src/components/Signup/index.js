@@ -42,6 +42,7 @@ function Signup(props) {
 								</label>
 								<input
 									className="login__input"
+									autoFocus="autofocus"
 									placeholder="Name"
 									type="text"
 									name="name"
@@ -68,10 +69,7 @@ function Signup(props) {
 								</label>
 								<input
 									className="login__input"
-									autoCorrect="off"
-									autoCapitalize="off"
 									placeholder="Email"
-									autoFocus="autofocus"
 									type="email"
 									name="email"
 									id="user_email"

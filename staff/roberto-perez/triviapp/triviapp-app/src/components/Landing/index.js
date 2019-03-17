@@ -1,9 +1,36 @@
-import React, { Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import SearchResults from '../SearchResults';
+// import LandingResults from '../LandingResults';
+import Results from '../Results';
+import quiz from '../../services/quiz';
 
 function Landing() {
+	const [quizzes, setQuizzes] = useState([]);
+	const [offset, setOffset] = useState(1);
+	const [loadMoreButton, setLoadMoreButton] = useState(false);
+
+	useEffect(() => {
+		handleListQuiz();
+	}, [offset]);
+
+	const loadMore = () => {
+		setOffset(prevOffset => prevOffset + 1);
+	};
+
+	const handleListQuiz = async () => {
+		
+		try {
+			const newQuizzes = await quiz.list(offset);
+
+			setLoadMoreButton(!!newQuizzes.length);
+
+			setQuizzes([...quizzes, ...newQuizzes]);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<div className="container">
 			<section>
@@ -14,7 +41,7 @@ function Landing() {
 					</h2>
 				</header>
 
-				<SearchResults />
+				<Results quizzes={quizzes} loadMoreButton={loadMoreButton} loadMore={loadMore} />
 			</section>
 		</div>
 	);

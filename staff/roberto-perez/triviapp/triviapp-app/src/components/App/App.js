@@ -19,11 +19,12 @@ import {
 	faTrophy,
 	faGamepad,
 	faCheckCircle,
-	faClock
+	faClock,
+	faUserCircle
 } from '@fortawesome/free-solid-svg-icons';
 
 import Home from '../Home';
-import Game from '../Game/';
+import Game from '../Game';
 import Player from '../Player/';
 import Pin from '../Player/Pin';
 
@@ -44,7 +45,8 @@ library.add(
 	faTrophy,
 	faGamepad,
 	faCheckCircle,
-	faClock
+	faClock,
+	faUserCircle
 );
 
 

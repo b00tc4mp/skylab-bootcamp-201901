@@ -1,7 +1,7 @@
 import auth from '../../services/auth';
 
 const quizApi = {
-	url: 'http://localhost:8000/v1',
+	url: 'NO_URL',
 
 	getQuiz(quizId) {
 		//VALIDACIONES DE TIPO
@@ -70,6 +70,21 @@ const quizApi = {
 			});
 	},
 
+	searchQuizzes(query, offset) {
+		return fetch(`${this.url}/quiz/page/${offset}`, {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+			},
+			body: JSON.stringify({query}),
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				return response;
+			});
+	},
+
 	listQuizzes(offset) {
 		return fetch(`${this.url}/quiz/page/${offset}`, {
 			method: 'GET',
@@ -85,8 +100,8 @@ const quizApi = {
 	},
 
 	myListQuizzes(offset) {
-		return fetch(`${this.url}/quiz/page/${offset}`, {
-			method: 'POST',
+		return fetch(`${this.url}/quiz/page/${offset}/author`, {
+			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
@@ -98,8 +113,6 @@ const quizApi = {
 				return response;
 			});
 	},
-
-
 };
 
 export default quizApi;

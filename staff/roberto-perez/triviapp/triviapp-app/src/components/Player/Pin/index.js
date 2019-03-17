@@ -9,9 +9,9 @@ function Pin(props) {
 	const [code, setCode] = useState(null);
 
 	const joinGame = async Event => {
-		Event.preventDefault()
+		Event.preventDefault();
 		try {
-			const { game, user } = await gameService.join(code);
+			const { game } = await gameService.joinGame(code);
 			props.history.push(`/player/${game.id}/youarein`);
 		} catch (error) {
 			console.log(error);

@@ -5,7 +5,21 @@ import './sass/main.scss';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 
-import auth from './services/auth';
+import userApi from './api/user-api';
+import gameApi from './api/game-api';
+import questionApi from './api/question-api';
+import quizApi from './api/quiz-api';
+import imageApi from './api/image-api';
+
+const { REACT_APP_BASE_URL_API, REACT_APP_BASE_URL } = process.env;
+
+userApi.url = REACT_APP_BASE_URL_API;
+gameApi.url = REACT_APP_BASE_URL_API;
+gameApi.baseUrl = REACT_APP_BASE_URL;
+questionApi.url = REACT_APP_BASE_URL_API;
+quizApi.url = REACT_APP_BASE_URL_API;
+imageApi.url = REACT_APP_BASE_URL_API;
+
 
 // Object.defineProperties(auth, {
 // 	__user__: {

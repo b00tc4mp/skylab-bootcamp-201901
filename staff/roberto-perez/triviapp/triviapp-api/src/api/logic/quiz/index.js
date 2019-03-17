@@ -7,28 +7,37 @@ const { cloudName, apiKey, apiSecret } = require('../../../config/vars');
  * Abstraction of auth logic.
  */
 module.exports = {
-	listQuizzes(data) {
-		return (async data => {
+	listQuizzes(data = {}) {
+		return (async () => {
 			const quizzes = await Quiz.list(data);
 			const transformedQuiz = quizzes.map(quiz => quiz.normalize());
 			return transformedQuiz;
-		})(data);
+		})();
 	},
 
 	listQuizzesByAuthor(data) {
+
+		const { authorID } = data;
+
+		if(!authorID) throw new UnauthorizedError('Access is denied due to invalid credentials.')
+
+		validate([
+			{ key: 'Author ID', value: authorID, type: String },
+		]);
+
 		return (async data => {
 			const quizzes = await Quiz.listByAuthor(data);
 			const transformedQuiz = quizzes.map(quiz => quiz.normalize());
 			return transformedQuiz;
 		})(data);
 	},
-	
-	searchQuizzesByQuery(query) {
-		return (async query => {
-			const quizzes = await Quiz.search(query);
+
+	searchQuizzesByQuery(data) {
+		return (async () => {
+			const quizzes = await Quiz.search(data);
 			const transformedQuiz = quizzes.map(quiz => quiz.normalize());
 			return transformedQuiz;
-		})(query);
+		})();
 	},
 
 	createQuiz(data) {
@@ -39,29 +48,35 @@ module.exports = {
 			{ key: 'description', value: description, type: String },
 		]);
 
-		return (async data => {
+		return (async () => {
 			const quiz = new Quiz(data);
 			const savedQuiz = await quiz.save();
 			return savedQuiz.normalize();
-		})(data);
+		})();
 	},
 
 	updateQuiz(quiz, data) {
-		return (async (quiz, data) => {
+		const { title, description } = data;
+
+		validate([
+			{ key: 'title', value: title, type: String, optional: true },
+			{ key: 'description', value: description, type: String, optional: true },
+		]);
+
+		return (async () => {
 			const quizUpdated = Object.assign(quiz, data);
 			const savedQuiz = await quizUpdated.save();
 			return savedQuiz.normalize();
-		})(quiz, data);
+		})();
 	},
 
 	deleteQuiz(quiz) {
-		return (async quiz => {
+		return (async () => {
 			return quiz.remove();
-		})(quiz);
+		})();
 	},
 
 	addGame(quiz) {
-		this.updateQuiz(quiz, {games: (quiz.games + 1)})
+		this.updateQuiz(quiz, { games: quiz.games + 1 });
 	},
-	
 };

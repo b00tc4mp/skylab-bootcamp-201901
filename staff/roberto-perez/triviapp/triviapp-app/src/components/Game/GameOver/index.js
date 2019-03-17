@@ -1,8 +1,14 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, useEffect, useRef, useContext, Fragment } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import gameService from '../../../services/game';
 
+import GameContext from '../GameContext';
+
 function GameOver(props) {
+
+	const { gameID } = useContext(GameContext);
+
+
 	const [podium, setPodium] = useState([]);
 
 	useEffect(() => {
@@ -12,7 +18,7 @@ function GameOver(props) {
 	const getPodium = async () => {
 		console.log('GAMEOVER!');
 		try {
-			const gamePodium = await gameService.getPodium(props.gameID);
+			const gamePodium = await gameService.getPodium(gameID);
 
 			const p = Object.keys(gamePodium).map(pod => {
 				return { user: gamePodium[pod].user, score: gamePodium[pod].score };
@@ -27,7 +33,7 @@ function GameOver(props) {
 	return (
 		<Fragment>
 			<header className="header-game-top">
-				<h1 className="header-game-top__title">{props.title}</h1>
+				<h1 className="header-game-top__title">Podium</h1>
 			</header>
 			<div className="end-game-results">
 				<div className="current-quiz__answers">

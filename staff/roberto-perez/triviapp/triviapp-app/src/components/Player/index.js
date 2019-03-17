@@ -3,11 +3,12 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 
 import gameService from '../../services/game';
 
+import PlayerContext from './PlayerContext';
+
 // import Pin from './Pin';
 import YouAreIn from './YouAreIn';
 import GetReady from './GetReady';
 import GameBlock from './GameBlock';
-import GameResults from './GameResults';
 import GameOver from './GameOver';
 
 function Player(props) {
@@ -24,58 +25,54 @@ function Player(props) {
 
 	useEffect(() => {
 		gameService.onBeginNewGame(() => {
-			props.history.push(`/player/${gameID}/getready`);
+			props.history.replace(`/player/${gameID}/getready`);
 		});
 	}, []);
 
 	useEffect(() => {
 		gameService.onShowQuestion(() => {
-			props.history.push(`/player/${gameID}/gameblock`);
+			props.history.replace(`/player/${gameID}/gameblock`);
 		});
 	}, []);
 
 	useEffect(() => {
 		gameService.onNextQuestion(() => {
-			setTimeOut(false)
-			props.history.push(`/player/${gameID}/getready`);
+			setTimeOut(false);
+			props.history.replace(`/player/${gameID}/getready`);
 		});
 	}, []);
 
 	useEffect(() => {
 		gameService.onGameOver(() => {
-			props.history.push(`/player/${gameID}/game-over`);
+			props.history.replace(`/player/${gameID}/game-over`);
 		});
 	}, []);
 
 	useEffect(() => {
 		gameService.onTimeOut(() => {
-			setTimeOut(true)
+			setTimeOut(true);
 		});
 	}, []);
 
+	useEffect(() => {
+		console.log("xdddd")
+	}, [gameId]);
+	
+
 	return (
-		<Switch>
-			<Route
-				path={`${match.url}/youarein`}
-				render={() => <YouAreIn gameId={gameID} />}
-			/>
-			<Route
-				path={`${match.url}/getready`}
-				render={() => <GetReady gameId={gameID} />}
-			/>
-			<Route
-				path={`${match.url}/gameblock`}
-				render={() => <GameBlock gameId={gameID} timeOut={timeOut} />}
-			/>
-			<Route
-				path={`${match.url}/gameresults`}
-				render={() => <GameResults gameId={gameID} />}
-			/>
-			<Route
-				path={`${match.url}/game-over`}
-				render={() => <GameOver gameId={gameID} />}
-			/>
-		</Switch>
+		<PlayerContext.Provider
+			value={{
+				gameID,
+				timeOut,
+			}}
+		>
+			<Switch>
+				<Route path={`${match.url}/youarein`} render={() => <YouAreIn />} />
+				<Route path={`${match.url}/getready`} render={() => <GetReady />} />
+				<Route path={`${match.url}/gameblock`} render={() => <GameBlock />} />
+				<Route path={`${match.url}/game-over`} render={() => <GameOver />} />
+			</Switch>
+		</PlayerContext.Provider>
 	);
 }
 

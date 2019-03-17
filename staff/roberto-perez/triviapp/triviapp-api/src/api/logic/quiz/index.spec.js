@@ -1,14 +1,18 @@
 'use strict';
 
 require('dotenv').config();
-const mongoose = require('../../../config/mongoose');
-const { MongooseError } = mongoose;
 const httpStatus = require('http-status');
 const expect = require('expect');
-const { Quiz } = require('../../models/quiz.model');
-const { User } = require('../../models/user.model');
+const { Quiz, User } = require('triviapp-data');
+const mongoose = require('../../../config/mongoose');
+const { MongooseError } = mongoose;
 const quiz = require('.');
-const { AlreadyExistsError, UnauthorizedError, NotFoundError } = require('../../errors');
+const logicQuestion = require('../question');
+const {
+	AlreadyExistsError,
+	UnauthorizedError,
+	NotFoundError,
+} = require('triviapp-errors');
 
 describe('Quiz', () => {
 	before(() => mongoose.connect('mongodb://localhost:27017/quiz-test'));
@@ -233,12 +237,26 @@ describe('Quiz', () => {
 					questions: [],
 				};
 
-				await quiz.createQuiz(dataQuiz);
+				const { id } = await quiz.createQuiz(dataQuiz);
+
+				let dataQuestion = {
+					quiz: id.toString(),
+					title: `Question - ${Math.random()}`,
+					time: '15',
+					answers: [
+						{ title: 'Answer 1', success: true },
+						{ title: 'Answer 2', success: false },
+						{ title: '', success: false },
+						{ title: '', success: false },
+					],
+				};
+
+				await logicQuestion.createQuestion(dataQuestion);
 			}
 		});
 
 		it('should be list 6 quizzes when the arguments are empties', async () => {
-			const listOfQuizz = await quiz.listQuizzes({});
+			const listOfQuizz = await quiz.listQuizzes();
 
 			expect(listOfQuizz.length).toEqual(6);
 		});
@@ -250,9 +268,89 @@ describe('Quiz', () => {
 		});
 	});
 
+	describe('POST /v1/quiz/page/:offset', () => {
+		let dataUser = {};
+		let dataUserNoAuthor = {};
+		let dataQuiz = {};
+		let dataQuizNoAuthor = {};
+		let author;
+		let noAuthor;
 
-	describe('GET /v1/quiz/search', () => {
-		//TODO
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			for (let i = 0; i < 6; i++) {
+				dataQuiz = {
+					author: author.id,
+					title: `Quiz title-${Math.random()}`,
+					description: `Quiz description-${Math.random()}`,
+					picture: `Quiz image-${Math.random()}`,
+					questions: [],
+				};
+
+				await quiz.createQuiz(dataQuiz);
+			}
+
+			dataUserNoAuthor = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `bob-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userNoAuthor = new User(dataUserNoAuthor);
+			const savedUserNoAuthor = await userNoAuthor.save();
+			noAuthor = savedUserNoAuthor.normalize();
+
+			dataQuizNoAuthor = {
+				author: noAuthor.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			await quiz.createQuiz(dataQuizNoAuthor);
+		});
+
+		it('should be list 6 quizzes when the arguments are empties', async () => {
+			const listOfQuizz = await quiz.listQuizzesByAuthor({ authorID: author.id });
+
+			expect(listOfQuizz.length).toEqual(6);
+		});
+
+		it('should be list 2 quizzes when perPage arguments is 2', async () => {
+			const listOfQuizz = await quiz.listQuizzesByAuthor({
+				page: 1,
+				perPage: 2,
+				authorID: author.id,
+			});
+
+			expect(listOfQuizz.length).toEqual(2);
+		});
+
+		it('should be list 0 quizzes when author is empty', async () => {
+
+			try {
+				const listOfQuizz = await quiz.listQuizzesByAuthor({
+					page: 1,
+					perPage: 2,
+				});
+			} catch (err) {
+				expect(err.message).toEqual(
+					`Access is denied due to invalid credentials.`,
+				);
+			}
+		});
 	});
 
 	after(() =>

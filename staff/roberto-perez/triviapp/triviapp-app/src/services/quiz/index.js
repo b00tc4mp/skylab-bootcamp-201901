@@ -47,6 +47,14 @@ const quiz = {
 		}
 	},
 
+	async search(search, offset) {
+		try {
+			return await quizApi.searchQuizzes(search, offset);
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
+
 	async myQuizzes(offset = 1) {
 		try {
 			return await quizApi.myListQuizzes(offset);
@@ -61,7 +69,7 @@ const quiz = {
 		validate([
 			{ key: 'Title', value: title, type: String },
 			{ key: 'Description', value: description, type: String },
-			{ key: 'Image', value: picture, type: String },
+			{ key: 'Image', value: picture, type: String, optional: true },
 		]);
 
 		try {

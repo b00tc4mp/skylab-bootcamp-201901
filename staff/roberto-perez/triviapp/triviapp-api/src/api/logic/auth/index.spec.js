@@ -1,13 +1,13 @@
 'use strict';
 
 require('dotenv').config();
-const mongoose = require('../../../config/mongoose');
 const httpStatus = require('http-status');
 const bcrypt = require('bcrypt');
 const expect = require('expect');
-const { User } = require('../../models/user.model');
+const { User } = require('triviapp-data');
+const mongoose = require('../../../config/mongoose');
 const auth = require('.');
-const { AlreadyExistsError, UnauthorizedError } = require('../../errors');
+const { AlreadyExistsError, UnauthorizedError } = require('triviapp-errors');
 
 describe('Auth', () => {
 

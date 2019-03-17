@@ -12,7 +12,7 @@
 		margin: 0px;
 		padding: 0px;
 		float: left;
-
+		
 		&:hover a:after {
 			opacity: 1;
 		}
@@ -43,9 +43,14 @@
 				transition: all 0.3s ease-in-out;
 			}
 		}
+
+		& .menu__link {
+			border-bottom: 1px solid #f4f7f6;
+		}
 	}
 
 	&__image {
+		width: 100%;
 		max-width: 100%;
 		display: flex;
 	}

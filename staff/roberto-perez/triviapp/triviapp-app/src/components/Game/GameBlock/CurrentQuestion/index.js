@@ -5,7 +5,7 @@ import gameService from '../../../../services/game';
 function CurrentQuestion(props) {
 
 	const {
-		picture,
+		image,
 		count,
 		totalUsers,
 		showResultsScreen,
@@ -36,8 +36,8 @@ function CurrentQuestion(props) {
 				<div className="current-quiz__countdown-digit">{count}</div>
 			</div>
 			<div className="current-quiz__image-container">
-				{picture && (<img
-					src={picture}
+				{image && (<img
+					src={image}
 					alt=""
 					className="current-quiz__image"
 				/>)}

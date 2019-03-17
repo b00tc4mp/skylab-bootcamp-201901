@@ -24,7 +24,7 @@ function Overview(props) {
 	const getQuizById = async quizId => {
 		try {
 			const newQuiz = await quiz.get(quizId);
-			console.log(newQuiz)
+			console.log(newQuiz);
 			setCurrentQuiz(newQuiz);
 			setQuestions(newQuiz.questions);
 		} catch (error) {
@@ -72,29 +72,35 @@ function Overview(props) {
 				</header>
 				<section className="content-quiz">
 					<figure className="content-quiz__figure">
-						<img className="content-quiz__image" src={currentQuiz.picture} alt="" />
+						<img
+							className="content-quiz__image"
+							src={currentQuiz.picture}
+							alt=""
+						/>
 					</figure>
 					<div className="content-quiz__info">
-						<h1 className="content-quiz__title">{currentQuiz.title}</h1>
-						<p className="content-quiz__description">
-							{currentQuiz.description}
-						</p>
+						<div className="content-quiz__info-text">
+							<h1 className="content-quiz__title">{currentQuiz.title}</h1>
+							<p className="content-quiz__description">
+								{currentQuiz.description}
+							</p>
+						</div>
+						<aside className="content-quiz__actions">
+							<Link
+								to={`/dashboard/edit/${quizId}/description`}
+								title="Editar"
+								className="content-quiz__edit-btn"
+							>
+								<FontAwesomeIcon icon="pen" /> Edit
+							</Link>
+							<button
+								onClick={() => handleDeleteQuizz(quizId)}
+								className="content-quiz__delete-btn"
+							>
+								<FontAwesomeIcon icon="trash-alt" /> Delete
+							</button>
+						</aside>
 					</div>
-					<aside className="content-quiz__actions">
-						<Link
-							to={`/dashboard/edit/${quizId}/description`}
-							title="Editar"
-							className="content-quiz__edit-btn"
-						>
-							<FontAwesomeIcon icon="pen" />
-						</Link>
-						<button
-							onClick={() => handleDeleteQuizz(quizId)}
-							className="content-quiz__delete-btn"
-						>
-							<FontAwesomeIcon icon="trash-alt" />
-						</button>
-					</aside>
 				</section>
 			</section>
 
@@ -104,32 +110,43 @@ function Overview(props) {
 
 			{questions.map((question, index) => {
 				return (
-					<section className="content-question" key={question._id}>
+					<section className="content-quiz content-question" key={question._id}>
 						<figure className="content-question__figure">
-							<span className="content-question__figure-info">
-								{index + 1}
-							</span>
+							{question.picture ? (
+								<img
+									className="content-quiz__image"
+									src={question.picture}
+									alt=""
+								/>
+							) : (
+								<span className="content-question__figure-info">
+									{index + 1}
+								</span>
+							)}
 						</figure>
 						<div className="content-question__info">
 							<h4 className="content-question__title">
 								Q{index + 1}: {question.title}
 							</h4>
+
+							<aside className="content-question__actions">
+								<Link
+									to={`/dashboard/edit/${quizId}/question/${
+										question._id
+									}`}
+									title="Editar"
+									className="content-quiz__edit-btn"
+								>
+									<FontAwesomeIcon icon="pen" /> Edit
+								</Link>
+								<button
+									onClick={() => handleDeleteQuestion(question._id)}
+									className="content-quiz__delete-btn"
+								>
+									<FontAwesomeIcon icon="trash-alt" /> Delete
+								</button>
+							</aside>
 						</div>
-						<aside className="content-question__actions">
-							<Link
-								to={`/dashboard/edit/${quizId}/question/${question._id}`}
-								title="Editar"
-								className="content-quiz__edit-btn"
-							>
-								<FontAwesomeIcon icon="pen" />
-							</Link>
-							<button
-								onClick={() => handleDeleteQuestion(question._id)}
-								className="content-quiz__delete-btn"
-							>
-								<FontAwesomeIcon icon="trash-alt" />
-							</button>
-						</aside>
 					</section>
 				);
 			})}

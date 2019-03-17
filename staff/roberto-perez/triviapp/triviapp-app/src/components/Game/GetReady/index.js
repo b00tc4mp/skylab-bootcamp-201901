@@ -1,52 +1,48 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
 import ExpandButton from '../ExpandButton';
 
+import GameContext from '../GameContext';
+
 function GetReady(props) {
-
-    let countDownTimeout;
-    const initSeconds = 5;
-    const [count, setCount] = useState(initSeconds);
-	// const [currentQuestion, setCurrentQuestion] = useState(props.currentQuestion);
-
-	const {
-		match: {
-			params: { gameId },
-		},
-	} = props;
 	
-	
-    
-    useEffect(() => {
+	const { gameID, currentQuestionIndex, currentQuestion, totalQuestions, hostGame } = useContext(GameContext);
+
+	let countDownTimeout;
+
+	const initSeconds = 5;
+
+	const [count, setCount] = useState(initSeconds);
+
+	useEffect(() => {
 		countDown();
 
 		return () => {
 			clearTimeout(countDownTimeout);
-		}
-		
+		};
 	}, [count]);
 
 	const countDown = () => {
-		
-
 		if (count === 0) {
-            clearTimeout(countDownTimeout);
-            
-			props.history.push(`/game/${gameId}/questions/gameblock`);
+			clearTimeout(countDownTimeout);
+
+			props.history.replace(`/game/${gameID}/gameblock`);
 			return;
 		}
 
 		countDownTimeout = setTimeout(() => {
 			setCount(count - 1);
 		}, 1000);
-    };
-    
+	};
+
 	return (
 		<Fragment>
 			<header className="header-game-top">
-				<h1 className="header-game-top__title">Question {(props.currentQuestionIndex + 1)} of {props.totalQuestions}</h1>
-				<ExpandButton hostGame={props.hostGame} />
+				<h1 className="header-game-top__title">
+					Question {currentQuestionIndex + 1} of {totalQuestions}
+				</h1>
+				<ExpandButton hostGame={hostGame} />
 			</header>
 
 			<div className="progressbar">
@@ -55,7 +51,7 @@ function GetReady(props) {
 
 			<div className="start-game">
 				<div className="ready-question">
-					<h3>{props.currentQuestion.title}</h3>
+					<h3>{currentQuestion && currentQuestion.title}</h3>
 				</div>
 			</div>
 

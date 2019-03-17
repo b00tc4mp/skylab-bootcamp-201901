@@ -36,6 +36,15 @@ function validate(params) {
 				)
 					throw TypeError(`${value} is not an array`);
 				break;
+			case Object:
+				if (optional && (value == null || value === '')) break;
+
+				if (
+					!value instanceof Object ||
+					(typeof value === 'undefined' && typeof value !== 'function')
+				)
+					throw TypeError(`${value} is not an object`);
+				break;
 		}
 	});
 }

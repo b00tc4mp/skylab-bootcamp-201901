@@ -1,8 +1,8 @@
 import auth from '../../services/auth';
 
 const imageApi = {
-	url: 'http://localhost:8000/v1',
-
+	url: 'NO_URL',
+	
 	uploadImage(image) {
 		let formData = new FormData();
 		formData.append('image', image);

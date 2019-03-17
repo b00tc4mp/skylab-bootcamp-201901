@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import gameService from '../../../services/game';
+import React from 'react';
 
 function YouAreIn(props) {
 
@@ -14,4 +12,4 @@ function YouAreIn(props) {
 	);
 }
 
-export default withRouter(YouAreIn);
+export default YouAreIn;

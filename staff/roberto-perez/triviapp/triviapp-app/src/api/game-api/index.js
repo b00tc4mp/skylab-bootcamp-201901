@@ -3,30 +3,16 @@ const io = require('socket.io-client');
 // import socketApi from '../../services/socket';
 
 const gameApi = {
-	url: 'http://localhost:8000/v1',
-	socket: io.connect('http://localhost:8000'),
+	url: 'NO_URL',
+	baseUrl: 'NO_URL',
+	socket: io.connect('http://192.168.0.54:8000'),
 
 	onEvent(event, cb) {
 		this.socket.on(event, cb);
 	},
-	
+
 	emitCreateGame(data) {
 		this.socket.emit('NEW_GAME', data);
-	},
-
-	getGame(gameId) {
-		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/game/${gameId}`, {
-			method: 'GET',
-			headers: {
-				'content-type': 'application/json',
-			},
-		})
-			.then(response => response.json())
-			.then(response => {
-				if (response.error) throw Error(response.error);
-				return response;
-			});
 	},
 
 	createGame(quizId) {
@@ -47,10 +33,10 @@ const gameApi = {
 			});
 	},
 
-	startGame(gameId) {
+	getGameByID(gameID) {
 		//VALIDACIONES DE TIPO
-		return fetch(`${this.url}/game/${gameId}/start`, {
-			method: 'PATCH',
+		return fetch(`${this.url}/game/${gameID}`, {
+			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
@@ -63,23 +49,15 @@ const gameApi = {
 			});
 	},
 
-	joinGame(code) {
+	joinGame(gameCode) {
 		//VALIDACIONES DE TIPO
-
-		const toke = auth.token;
-
-		const headers = {
-			'content-type': 'application/json',
-		};
-
-		if (toke) {
-			headers.authorization = `Bearer ${auth.token}`;
-		}
-
 		return fetch(`${this.url}/game/join`, {
 			method: 'PATCH',
-			headers,
-			body: JSON.stringify({ code }),
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			},
+			body: JSON.stringify({ gameCode }),
 		})
 			.then(response => response.json())
 			.then(response => {
@@ -89,14 +67,14 @@ const gameApi = {
 			});
 	},
 
-	answeQuestion(data) {
-		return fetch(`${this.url}/game/answer`, {
-			method: 'POST',
+	startGame(gameID) {
+		//VALIDACIONES DE TIPO
+		return fetch(`${this.url}/game/${gameID}/start`, {
+			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
 			},
-			body: JSON.stringify(data),
 		})
 			.then(response => response.json())
 			.then(response => {
@@ -105,9 +83,9 @@ const gameApi = {
 			});
 	},
 
-	getCurrentQuestion(gameId) {
-		
-		return fetch(`${this.url}/game/${gameId}/question`, {
+	emitNextQuestion(gameID) {
+		console.log(gameID);
+		return fetch(`${this.url}/game/${gameID}/emit-question`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
@@ -117,18 +95,19 @@ const gameApi = {
 			.then(response => response.json())
 			.then(response => {
 				if (response.error) throw Error(response.error);
+				// this.emitCreateGame(`game-${response.id}`);
 				return response;
 			});
 	},
 
 	getQuestionsResults(data) {
-		return fetch(`${this.url}/game/question/results`, {
+		return fetch(`${this.url}/game/${data.gameID}/question/results`, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
 			},
-			body: JSON.stringify(data),
+			body: JSON.stringify({ questionId: data.questionID }),
 		})
 			.then(response => response.json())
 			.then(response => {
@@ -137,10 +116,9 @@ const gameApi = {
 			});
 	},
 
-	getLastAnswer(gameId) {
-		
-		return fetch(`${this.url}/game/${gameId}/answer/last`, {
-			method: 'GET',
+	setNxtQuestion(gameID) {
+		return fetch(`${this.url}/game/${gameID}/next-question`, {
+			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
@@ -153,43 +131,10 @@ const gameApi = {
 			});
 	},
 
-	emitNextQuestion(gameId) {
-		return fetch(`${this.url}/game/emit-question`, {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
-			},
-			body: JSON.stringify({ id: gameId }),
-		})
-			.then(response => response.json())
-			.then(response => {
-				if (response.error) throw Error(response.error);
-				this.emitCreateGame(`game-${response.id}`);
-				return response;
-			});
-	},
-
-	emitTimeOutScreen(gameId) {
-		return fetch(`${this.url}/game/time-out-question`, {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
-			},
-			body: JSON.stringify({ id: gameId }),
-		})
-			.then(response => response.json())
-			.then(response => {
-				if (response.error) throw Error(response.error);
-				this.emitCreateGame(`game-${response.id}`);
-				return response;
-			});
-	},
-	
-	setNxtQuestion(gameId) {
-		return fetch(`${this.url}/game/${gameId}/next-question`, {
-			method: 'GET',
+	gameOver(gameID) {
+		//VALIDACIONES DE TIPO
+		return fetch(`${this.url}/game/${gameID}/game-over`, {
+			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
 				authorization: `Bearer ${auth.token}`,
@@ -203,7 +148,6 @@ const gameApi = {
 	},
 
 	getPodium(gameId) {
-		
 		return fetch(`${this.url}/game/${gameId}/podium`, {
 			method: 'GET',
 			headers: {
@@ -218,8 +162,42 @@ const gameApi = {
 			});
 	},
 
+	emitTimeOutScreen(gameId) {
+		return fetch(`${this.url}/game/${gameId}/time-out-question`, {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			},
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				this.emitCreateGame(`game-${response.id}`);
+				return response;
+			});
+	},
+
+	answeQuestion(data) {
+		return fetch(`${this.url}/game/${data.gameId}/answer`, {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `Bearer ${auth.token}`,
+			},
+			body: JSON.stringify({
+				questionId: data.questionId,
+				answerId: data.answerId,
+			}),
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.error) throw Error(response.error);
+				return response;
+			});
+	},
+
 	getScore(gameId) {
-		
 		return fetch(`${this.url}/game/${gameId}/score`, {
 			method: 'GET',
 			headers: {
@@ -233,7 +211,6 @@ const gameApi = {
 				return response;
 			});
 	},
-	
 };
 
 export default gameApi;

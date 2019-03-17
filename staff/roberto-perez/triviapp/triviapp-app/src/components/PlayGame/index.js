@@ -9,8 +9,7 @@ function PlayGame(props) {
 	const create = async () => {
 		try {
 			const game = await gameService.create(props.id);
-			console.log(game)
-			props.history.push(`game/${game.id}/welcome`);
+			props.history.push(`/game/${game.id}/welcome`);
 		} catch (error) {
 			console.error(error);
 		}

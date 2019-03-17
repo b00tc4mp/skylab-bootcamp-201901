@@ -1,23 +1,32 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, useEffect, useRef, useContext, Fragment } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 // import gameService from '../../../services/game';
 
 import ExpandButton from '../ExpandButton';
 
-function GetReady(props) {
+import GameContext from '../GameContext';
+
+function Start(props) {
+	const { gameID, gameTitle, hostGame } = useContext(GameContext);
 
 	let countDownTimeout;
 
 	let fillHeight = 100;
 
-	let initSeconds = 1;
+	let initSeconds = 2;
 
 	const countFill = useRef(null);
 
 	const [count, setCount] = useState(initSeconds);
 
+	// const [gameTitle, setGameTitle] = useState(title);
+
 	useEffect(() => {
 		countDown();
+
+		return () => {
+			clearTimeout(countDownTimeout);
+		};
 	}, [count]);
 
 	const countDown = () => {
@@ -29,7 +38,7 @@ function GetReady(props) {
 			clearTimeout(countDownTimeout);
 			fill.style.height = '100%';
 			setTimeout(() => {
-				props.history.push(`/game/${props.gameID}/questions/getready`);
+				props.history.replace(`/game/${gameID}/getready`);
 			}, 1000);
 			return;
 		}
@@ -42,10 +51,8 @@ function GetReady(props) {
 	return (
 		<Fragment>
 			<header className="header-game-top">
-				<h1 className="header-game-top__title">
-					{props.title}
-				</h1>
-				<ExpandButton hostGame={props.hostGame} />
+				<h1 className="header-game-top__title">{gameTitle}</h1>
+				<ExpandButton hostGame={hostGame} />
 			</header>
 			<div className="start-game">
 				<div className="countdown">
@@ -57,4 +64,4 @@ function GetReady(props) {
 	);
 }
 
-export default withRouter(GetReady);
+export default withRouter(Start);

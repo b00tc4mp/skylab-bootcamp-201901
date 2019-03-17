@@ -20,6 +20,9 @@
     &--green {
       background-color: $green;
       color: #fff;
+      &:hover {
+        color: #fff !important;
+      }
     }
   }
 

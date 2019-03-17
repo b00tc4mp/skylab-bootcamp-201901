@@ -1,10 +1,15 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import gameService from '../../../services/game';
 
+import PlayerContext from '../PlayerContext';
+
 function GameOver(props) {
+	
+	const { gameID, timeOut } = useContext(PlayerContext);
+
 	const [points, setPoints] = useState(null);
 
 	useEffect(() => {
@@ -13,7 +18,7 @@ function GameOver(props) {
 
 	const getGame = async () => {
 		try {
-			const score = await gameService.getScore(props.gameId);
+			const score = await gameService.getScore(gameID);
 
 			const p = Object.keys(score).map(pod => {
 				return { user: score[pod].user, score: score[pod].score };

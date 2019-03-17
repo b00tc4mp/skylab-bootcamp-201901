@@ -63,7 +63,7 @@ exports.listByAuthor = async (req, res) => {
 
 	try {
 		req.body.page = offset;
-		req.body.author = req.userId;
+		req.body.authorID = req.userId;
 		const quizzes = await quiz.listQuizzesByAuthor(req.body);
 		return res.json(quizzes);
 	} catch (error) {
@@ -71,9 +71,28 @@ exports.listByAuthor = async (req, res) => {
 	}
 };
 
+
+/**
+ * Get quiz list
+ * @public
+ */
+exports.search = async (req, res) => {
+	const {
+		params: { offset = 0 },
+	} = req;
+
+	try {
+		req.body.page = offset;
+		const quizzes = await quiz.searchQuizzesByQuery(req.body);
+		return res.json(quizzes);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+
 exports.create = async (req, res) => {
 	try {
-		console.log(req.image)
 		req.body.author = req.userId;
 		const quizAdd = await quiz.createQuiz(req.body);
 		res.status(httpStatus.CREATED);

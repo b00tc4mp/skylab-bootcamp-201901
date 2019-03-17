@@ -1,33 +1,43 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import gameService from '../../../services/game';
 
+import PlayerContext from '../PlayerContext';
+
 function GameBlock(props) {
+	const { gameID, timeOut } = useContext(PlayerContext);
+
 	const [currentQuestion, setCurrentQuestion] = useState(null);
+
 	const [answers, setAnswers] = useState([]);
+
 	const [answerSuccess, setAnswerSuccess] = useState(null);
+
 	const [totalAnswers, setTotalAnswers] = useState(0);
 
 	useEffect(() => {
-		getGame();
+		getGameByID(gameID);
 	}, []);
 
-	const getGame = async () => {
-		
+	const getGameByID = async () => {
 		try {
-			const game = await gameService.get(props.gameId);
-			
+			const game = await gameService.getGameByID(gameID);
+
 			const gameAnswers = [];
 
-			game.currentQuestion.answers.map((answer, index) => {
+			game.currentQuestion.answers.map((answer) => {
 				if (answer.title !== '') {
 					gameAnswers.push(answer);
 				}
 			});
+
 			setCurrentQuestion(game.currentQuestion);
+
 			setAnswers(gameAnswers);
+
 			setTotalAnswers(gameAnswers.length);
+
 			setAnswerSuccess(null);
 		} catch (error) {
 			console.error(error);
@@ -38,7 +48,7 @@ function GameBlock(props) {
 		try {
 			if (answerSuccess === null) {
 				await gameService.answeQuestion(
-					props.gameId,
+					gameID,
 					currentQuestion._id,
 					answer,
 				);
@@ -57,7 +67,7 @@ function GameBlock(props) {
 			<div className="current-quiz">
 				<div className="current-quiz__wrapper">
 					<Fragment>
-						{props.timeOut && (
+						{timeOut && (
 							<div className="player-game player-game--red">
 								<div className="player-game__getready game-result">
 									<h2>TimeOut</h2>

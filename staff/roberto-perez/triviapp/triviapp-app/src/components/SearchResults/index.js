@@ -1,25 +1,35 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
 import quiz from '../../services/quiz';
-import QuizCard from '../QuizCard';
+import Results from '../Results';
 
 function SearchResults(props) {
+	
+	const {
+		match: {
+			params: { query },
+		},
+	} = props;
+
 	const [quizzes, setQuizzes] = useState([]);
 	const [offset, setOffset] = useState(1);
 	const [loadMoreButton, setLoadMoreButton] = useState(false);
 
 	useEffect(() => {
 		handleListQuiz();
+	}, [query]);
+
+	useEffect(() => {
+		handleListQuizOffset();
 	}, [offset]);
 
 	const loadMore = () => {
 		setOffset(prevOffset => prevOffset + 1);
 	};
 
-	const handleListQuiz = async () => {
-		console.log(offset);
+	const handleListQuizOffset = async () => {
 		try {
-			const newQuizzes = await quiz.list(offset);
+			const newQuizzes = await quiz.search(query, offset);
 
 			setLoadMoreButton(!!newQuizzes.length);
 
@@ -29,19 +39,19 @@ function SearchResults(props) {
 		}
 	};
 
+	const handleListQuiz = async () => {
+		try {
+			const newQuizzes = await quiz.search(query, offset);
+			setQuizzes(newQuizzes);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
-		<Fragment>
-			<div className="quiz-grid">
-				{quizzes.map((quiz, index) => (
-					<QuizCard key={quiz.id} quiz={quiz} />
-				))}
-			</div>
-			{loadMoreButton && (
-				<button className="load-more" onClick={loadMore}>
-					Load more
-				</button>
-			)}
-		</Fragment>
+		<div className="container">
+			<Results quizzes={quizzes} loadMoreButton={loadMoreButton} loadMore={loadMore} />
+		</div>
 	);
 }
 

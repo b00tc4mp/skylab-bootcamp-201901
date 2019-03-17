@@ -3,7 +3,7 @@
 }
 
 .create-quiz {
-	margin-bottom: 4rem;
+	margin-bottom: 2rem;
 	&__wrap {
 		display: grid;
 		grid-template-rows: auto auto;
@@ -23,18 +23,21 @@
 
 	&__answers {
 		margin-top: 2rem;
-		display: grid;
-		grid-template-rows: auto auto;
+		// display: grid;
+		// grid-template-rows: auto auto;
 
 		@include respond-above(sm) {
-			grid-template-columns: 1fr 1fr;
-			grid-gap: 2rem;
+			// grid-template-columns: 1fr 1fr;
+			// grid-gap: 2rem;
 		}
 
 
 		& div.form__p {
 			display: grid;
 			grid-template-columns: 1fr 40px;
+			&:last-child {
+				margin: 0;
+			}
 		}
 	}
 
@@ -57,7 +60,7 @@
 			height: 42px;
 			position: absolute;
 			top: 0px;
-			left: -8px;
+			left: 0px;
 			background-color: #dadad2;
 			cursor: pointer;
 		}
@@ -113,7 +116,7 @@
 		text-align: center;
 		background: #fff;
 		border-radius: 7px;
-		border: 3px dashed #dcdedd;
+		border: 2px dashed #dcdedd;
 		transition: all 0.2s ease;
 		height: 100%;
 		position: relative;
@@ -126,8 +129,7 @@
 	&__image-preview {
 		display: inline;
 		margin: 0 auto 0.5rem auto;
-		width: auto;
-		height: auto;
+		width: 100%;
 		max-width: 400px;
 	}
 

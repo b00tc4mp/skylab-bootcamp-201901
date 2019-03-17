@@ -94,12 +94,12 @@ module.exports = {
 	},
 
 	deleteQuestion(question) {
-		return (async question => {
+		validate([
+			{ key: 'Question', value: question, type: Object },
+		]);
+		
+		return (async () => {
 			return question.remove();
-			// const quiz = await Quiz.get(quizId);
-			// quiz.questions.pull(question);
-
-			// return quiz.save();
-		})(question);
+		})();
 	},
 };
