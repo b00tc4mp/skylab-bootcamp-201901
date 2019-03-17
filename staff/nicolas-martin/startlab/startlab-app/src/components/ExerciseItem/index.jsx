@@ -8,7 +8,7 @@ function ExerciseItem({ results: {title, order, summary, id, theme}, myKey, onEd
             <div className="itemlist-item__header message-header">
             
                 <div class="tags has-addons">
-                    <span class="tag">{order}</span>
+                    <span class="tag">{title}</span>
                 </div>
 
                 <div className="itemlist-item__header__buttons">
@@ -24,7 +24,10 @@ function ExerciseItem({ results: {title, order, summary, id, theme}, myKey, onEd
 
             <div className="itemlist-item__footer">
                 <button className="itemlist-item__footer-edit button is-small" onClick={() => onEdit(id)}>edit</button>
-                <p className="itemlist-item__footer-theme">{theme}</p>
+                <div className="itemlist-item__footer-theme tags has-addons">
+                    <span className="tag">Unit</span>
+                    <span className="tag is-warning">{theme}</span>
+                </div>
             </div>
             <hr />
         </div>

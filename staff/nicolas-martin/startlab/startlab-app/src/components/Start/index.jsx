@@ -29,7 +29,7 @@ class Start extends Component {
         logic.getExercisesFromUser()
             .then(exercises => {
                 const activeExercise = exercises.find(exercise => !exercise.completed)
-                this.setState({ exercises, activeExercise, answer: '', failures: [], checkReponse: false })
+                this.setState({ exercises, activeExercise, answer: '', failures: [], checkResponse: false })
             })
             .catch(message => this.emitFeedback(message, 'error'))
     }
@@ -37,6 +37,7 @@ class Start extends Component {
     handleAnswerSubmit = event => {
         event.preventDefault()
         const { state: { answer, activeExercise: { exercise: { _id } } } } = this
+
         try {
             logic.checkCode(answer, _id)
                 .then(({ passes, failures }) => this.checkReponse(passes, failures))
@@ -69,7 +70,7 @@ class Start extends Component {
         }
     }
 
-    handleAnswerChange = event => this.setState({ answer: event.target.value })
+    handleAnswerChange = answer => this.setState({ answer })
 
     emitFeedback = (message, level) => toast[level](message, {
         position: 'top-right',
@@ -81,15 +82,20 @@ class Start extends Component {
     })
 
     render() {
-        const { state: { activeExercise, exercises, failures, checkResponse }, handleAnswerSubmit, handleAnswerChange } = this
+        const { state: { activeExercise, exercises, failures, checkResponse, answer },
+            handleAnswerSubmit, handleAnswerChange } = this
         return (
             <main className="start">
 
                 {activeExercise && <StartIntro exercises={exercises} />}
 
+                <hr />
+
                 {activeExercise && <ActiveExercise activeExercise={activeExercise} />}
 
-                {activeExercise && <AnswerForm manageChange={handleAnswerChange} manageSubmit={handleAnswerSubmit} />}
+                {activeExercise && <AnswerForm manageChange={handleAnswerChange} manageSubmit={handleAnswerSubmit} answer={answer} />}
+
+                <hr />
 
                 {checkResponse && <ResultsTest failures={failures} /*failures={} passes={}*/ />}
 

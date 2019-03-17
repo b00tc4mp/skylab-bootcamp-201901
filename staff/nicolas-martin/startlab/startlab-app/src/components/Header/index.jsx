@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import logo from '../../assets/images/skylab_logo.png'
 
 const Header = ({ isAdmin, isLoggedIn, onLogOut }) => {
   // {console.log(isAdmin, isLoggedIn)}
@@ -9,7 +10,7 @@ const Header = ({ isAdmin, isLoggedIn, onLogOut }) => {
     <ul className="main-nav">
 
       <a className="navbar-item" href="/">
-        <i className="material-icons">code</i>
+        <img src={logo} alt="Startlab" />
       </a>
 
       <li><NavLink exact to="/" className="navbar-item">Home</NavLink></li>

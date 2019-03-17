@@ -63,7 +63,7 @@ const logic = {
      * Checks user is logged in.
      */
     get isUserLoggedIn() {
-        return !!this.__userApiToken__
+        return this.__userApiToken__ !== 'null'
     },
 
     /**

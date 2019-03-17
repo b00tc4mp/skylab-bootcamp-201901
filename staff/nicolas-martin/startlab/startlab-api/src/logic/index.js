@@ -484,7 +484,6 @@ const logic = {
 
         var dataReplaced = testFromFile.replace(/TARGET/g, answer)
 
-
         fs.writeFileSync(exerciseUserFile, dataReplaced, 'utf-8')
 
         var mocha = new Mocha({ 
