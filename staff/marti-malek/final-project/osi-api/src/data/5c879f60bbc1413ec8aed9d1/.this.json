@@ -4,18 +4,6 @@
     "name": "Desktop",
     "children": [
         {
-            "name": "folder1",
-            "open": false,
-            "type": "folder",
-            "position": 8
-        },
-        {
-            "name": "folder2",
-            "open": false,
-            "type": "folder",
-            "position": 1
-        },
-        {
             "name": "folder3",
             "open": false,
             "type": "folder",
@@ -28,10 +16,46 @@
             "position": 3
         },
         {
-            "name": "hola",
+            "name": "helloworld",
             "open": false,
-            "type": "file",
+            "type": "folder",
+            "position": 4
+        },
+        {
+            "name": "a",
+            "open": false,
+            "type": "folder",
             "position": 0
+        },
+        {
+            "name": "b",
+            "open": false,
+            "type": "folder",
+            "position": 1
+        },
+        {
+            "name": "c",
+            "open": false,
+            "type": "folder",
+            "position": 5
+        },
+        {
+            "name": "d",
+            "open": false,
+            "type": "folder",
+            "position": 6
+        },
+        {
+            "name": "e",
+            "open": false,
+            "type": "folder",
+            "position": 7
+        },
+        {
+            "name": "f",
+            "open": false,
+            "type": "folder",
+            "position": 8
         }
     ]
 }

@@ -11,22 +11,6 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
     let deltaY = 0
     let deltaX = 0
 
-    /* TO BE CONTINUED */
-    // var hammertime = new Hammer(window);
-    // hammertime.on('pan-y', function (ev) {
-    //     debugger
-    //     console.log(ev);
-    // });
-    // if (login.current) {
-    //     debugger
-    //     login.current.addEventListener('touchstart', e => {
-    //         debugger
-    //         if (e.touches.length == 2) {
-    //             debugger
-    //         }
-    //     })
-    // }
-
     handleEmailInput = e => setEmail(e.target.value)
     handlePasswordInput = e => setPassword(e.target.value)
 
@@ -36,13 +20,13 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
         onLogin(email, password)
     }
 
-    window.onwheel = e => {
-        if (Math.sign(e.deltaY)) deltaY++
-        if (Math.sign(e.deltaX)) deltaX++
+    // window.onwheel = e => {
+    //     if (Math.sign(e.deltaY)) deltaY++
+    //     if (Math.sign(e.deltaX)) deltaX++
 
-        if (deltaX % 4 === 0 || deltaY % 4 === 0) wheelHandler(e)
-        // wheelHandler(e)
-    }
+    //     if (deltaX % 4 === 0 || deltaY % 4 === 0) wheelHandler(e)
+    //     // wheelHandler(e)
+    // }
 
     wheelHandler = e => {
         // once = true
@@ -65,8 +49,7 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
 
 
 
-    return <section className="login" /* onTouchStart={e => wheelHandler(e)} ref={login} */>
-        {/* <div className="login__image"></div> */}
+    return <section className="login">
         <form className="login__form" onSubmit={handleFormSubmit}>
             <div>
                 <input onChange={handleEmailInput} className="login__name" name="email" type="email" required></input>

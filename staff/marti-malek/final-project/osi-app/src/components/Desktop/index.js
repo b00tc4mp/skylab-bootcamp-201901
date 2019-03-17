@@ -120,17 +120,15 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
         setMenuX(e.clientX)
         setMenuY(e.clientY)
         setShowMenu(true)
+        setTimeout(() => setShowMenu(false), 3000)
     }
-
+    
     logOut = () => {
         return logic.logOutUser()
     }
 
     dragStart = e => {
-        // finderItem = e.target
         setFinderItem(e.target)
-        console.log(finderItem)
-        // debugger
     }
 
     return <section className="desktop">

@@ -3,11 +3,63 @@
     padding: 0
     box-sizing: border-box
 
-.menu 
-    width: auto
-    height: auto
-    background-color: #373737
+.menu
+    // width: auto
+    // height: auto
+    // background-color: #373737
+    // position: absolute
+    // border-top-left-radius: 0.5rem
+    // border-bottom-right-radius: 0.5rem
+    // color: white
+    // padding: 0.1rem
     position: absolute
+    width: 5rem
+    height: 2rem
+    border: 2px solid white
+    background-color: #343434
+    color: #e6e6e6
+    border-top-left-radius: 1rem
+    border-bottom-right-radius: 1rem
+    align-self: center
+    text-align: center
+    border-color: black
+    animation: enter 1s forwards ease
+    &:hover
+        background-color: #212121
+        color: black
+        animation: color-change-white 0.5s forwards, border-change 0.5s forwards
+
 
     &__item
         cursor: pointer
+
+@keyframes enter
+    0%
+        width: 0rem
+        font-size: 0rem
+    100%
+        width: 5rem
+        font-size: 1rem
+
+@keyframes fade
+    0%
+        opacity: 1
+    100%
+        opacity: 0
+
+@keyframes border-change
+    0%
+        border-top-left-radius: 1rem
+        border-bottom-right-radius: 1rem
+    100%
+        border-top-left-radius: 0rem
+        border-top-right-radius: 1rem
+        border-bottom-right-radius: 0rem
+        border-bottom-left-radius: 1rem
+
+@keyframes color-change-white
+    0%
+        background-color: #212121
+    100%
+        background-color: #E8E8E8
+        border-color: black
