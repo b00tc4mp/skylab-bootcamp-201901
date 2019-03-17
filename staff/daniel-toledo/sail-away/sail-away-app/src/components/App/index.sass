@@ -8,7 +8,7 @@
     right: 0
     bottom: 0
     z-index: 9200
-    width: 560px
+    width: 100%
     background-color: white
     box-shadow: -10px 0px 10px 1px rgba(102,102,102,0.1)
     overflow-x: hidden
@@ -20,11 +20,15 @@
     right: 0
     bottom: 0
     z-index: 9200
-    width: 560px
+    width: 100%
     background-color: white
     box-shadow: -10px 0px 10px 1px rgba(102,102,102,0.1)
 
     animation: menu__open 1s
+
+@media (min-width: 576px)
+    .menu__open
+        width: 300px
     
 
 @keyframes menu__open 

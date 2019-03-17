@@ -15,34 +15,34 @@ function BoatInfo({ getEdit, getDelete, boat }) {
 
     return (<section className="boat">
         <div className='boat__container'>
-            <div>
-                <h3 className='boat__name text-center'>{boat.name}</h3>
-                <SlideShow pictures={boat.pictures} />
+            <div className='boat__header'>
+                <h3 className='boat__name'>{boat.name}</h3>
+                <SlideShow pictures={boat.pictures} className='boat__picture'/>
             </div>
             <div className='boat__info'>
 
-                <div className='row'>
-                    <label htmlFor="type" className='col-3'>Type</label>
-                    <p className='col-9'>{boat.type}</p>
+                <div className='boat__info-item'>
+                    <label htmlFor="type" className=''>Type</label>
+                    <p className=''>{boat.type}</p>
                 </div>
-                <div className='row'>
-                    <label htmlFor="model" className='col-3'>Model</label>
-                    <p className='col-9'>{boat.model}</p>
+                <div className='boat__info-item'>
+                    <label htmlFor="model" className=''>Model</label>
+                    <p className=''>{boat.model}</p>
                 </div>
-                <div className='row'>
-                    <label htmlFor="boatLength" className='col-3'>Length</label>
-                    <p className='col-9'>{boat.boatLength}</p>
+                <div className='boat__info-item'>
+                    <label htmlFor="boatLength" className=''>Length</label>
+                    <p className=''>{boat.boatLength}</p>
                 </div>
-                <div className='row'>
-                    <label htmlFor="crew" className='col-3'>Maximum crew</label>
-                    <p className='col-9'>{boat.crew}</p>
+                <div className='boat__info-item'>
+                    <label htmlFor="crew" className=''>Maximum crew</label>
+                    <p className=''>{boat.crew}</p>
                 </div>
-                <div className='row'>
-                    <label htmlFor="age" className='col-3'>Age of the boat</label>
-                    <p className='col-9'>{boat.age}</p>
+                <div className='boat__info-item'>
+                    <label htmlFor="age" className=''>Age</label>
+                    <p className=''>{boat.age}</p>
                 </div>
-                <div className='row'>
-                    <label htmlFor="description" className='col-3'>Description</label>
+                <div className='boat__info-item'>
+                    <label htmlFor="description" className=''>Description</label>
                     <p className='col-12'>{boat.description}</p>
                 </div>
 

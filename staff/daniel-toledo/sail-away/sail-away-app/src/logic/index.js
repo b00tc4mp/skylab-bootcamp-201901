@@ -89,11 +89,11 @@ const logic = {
     },
 
     get isUserLoggedIn() {
-        return !!this.__userApiToken__
+        return !!this.__userToken__
     },
 
     logOutUser() {
-        this.__userApiToken__ = null
+        this.__userToken__ = null
     },
 
     generateJourney(title, seaId, route, dates, description, userId, boat, talents, experience, sailingTitles, languages) {

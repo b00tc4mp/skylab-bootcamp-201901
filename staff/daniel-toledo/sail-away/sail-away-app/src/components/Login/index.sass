@@ -1,0 +1,89 @@
+.login
+    height: 94.8vh
+    display: flex
+    flex-direction: column
+    justify-content: center
+
+
+    background-image: url("./header8.jpg")
+    background-repeat: no-repeat
+    background-position: center
+    background-attachment: fixed
+    background-size: cover
+    
+    &__need-title
+        text-align: center
+        color: white
+
+    &__need-text
+        text-align: center
+        color: white
+
+    &__container
+        border: black 2px solid
+        border-radius: 1em
+        background: rgba(255, 255, 255, 0.6)
+        margin-left: auto
+        margin-right: auto
+        width: 80%
+        max-width: 500px
+        padding: 10px
+
+    &__title
+        text-align: center
+        color: #012C4C
+
+    &__form
+        display: flex
+        flex-direction: column
+        justify-content: center
+
+    &__input
+            margin: 5%
+            border: none
+            background-color: white
+            padding: 5px
+            padding-left: 10px
+            border-radius: 0.2em
+            display: flex
+            flex-direction: row
+            justify-content: center
+            align-items: center
+
+            input
+                margin-left: 20px
+                width: 90%
+                background: none
+                border: none
+                
+
+    &__button
+        max-width: 250px
+        width: 80%
+        background: none
+        border: 2px solid #0384A1
+        color: #0384A1
+        border-radius: 0.2em
+        margin: auto
+
+    &__button:hover
+        background: #0384A1
+        border: 2px solid #0384A1
+        color: white
+
+    &__not-member
+        display: flex
+        justify-content: center
+        flex-direction: column
+        align-items: center
+    
+    &__not-member-text
+        margin-bottom: 0
+
+    &__not-member-link
+        margin-left: 5px
+        color: #0384A1
+
+    @media (min-width: 576px)
+        .login__not-member
+            flex-direction: row

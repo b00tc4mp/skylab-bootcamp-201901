@@ -15,7 +15,7 @@ function Languages({ getLanguages, initialLanguages }) {
     function handleChange(event, index) {
         let newLanguage = event.target.value
         console.log(index)
-        if (index===languages.length-1) languages = newLanguage === 'Select language' ? [...languages] : [...languages, event.target.value]
+        if (index === languages.length - 1) languages = newLanguage === 'Select language' ? [...languages] : [...languages, event.target.value]
         else languages.splice(index, 1, newLanguage)
 
         setLanguages(languages)
@@ -47,7 +47,7 @@ function Languages({ getLanguages, initialLanguages }) {
             )
 
         }
-        <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add language</button>
+        {counter < 8 && <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add language</button>}
 
     </main>)
 }

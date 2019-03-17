@@ -4,17 +4,18 @@ import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
 import logic from '../../logic'
 
+import './index.sass'
+
 function Login(props) {
-    
+
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
-   
+
     async function handleFormSubmit(event) {
         event.preventDefault()
 
         try {
-            let user = await logic.login(email, password)
-            debugger
+            await logic.login(email, password)
             props.history.push('/')
 
         } catch (error) {
@@ -23,16 +24,29 @@ function Login(props) {
     }
 
     return (<section className="login">
-        <div className="login__box container pl-lg-5 pr-lg-5">
-            <h2 className="col-2 mt-3">Login</h2>
-            <form onSubmit={handleFormSubmit} className="login__form form-group container mb-3 " >
-                <div className="row mr-2">
-                    <label htmlFor="email" className="col col-md-3 col-sm-12 flex mt-1">Email</label>
-                    <input onChange={e => setEmail(e.target.value)} type="email" className="col col-md-9 col-12 form-control mt-1" name="email" placeholder="Email" required />
-                    <label htmlFor="password" className="col col-md-3 col-sm-12 flex mt-1">Password</label>
-                    <input onChange={e => setPassword(e.target.value)} type="password" className="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required />
+        {props.isNeeded && <div className='login__need'>
+            <h2 className='login__need-title'>Avast ye!</h2>
+            <p className='login__need-text'>You need to be logged to proceed. Please Sign in!</p>
+
+        </div>}
+        <div className="login__container">
+            <h2 className='login__title'>Login</h2>
+            <form onSubmit={handleFormSubmit} className="login__form" >
+                <div className="login__inputs">
+                    <div className='login__input'>
+                        <i className="fas fa-user login__logo"></i>
+                        <input onChange={e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" required />
+                    </div>
+                    <div className='login__input'>
+                        <i className="fas fa-lock login__logo"></i>
+                        <input onChange={e => setPassword(e.target.value)} type="password" name="password" placeholder="Password" required />
+                    </div>
                 </div>
-                <button type="submit">Login</button>
+                <button className="login__button" type="submit">let's sail away!</button>
+                <div className='login__not-member'>
+                    <p className='login__not-member-text'>Are you not a memeber? </p>
+                    <a href='/#/register' className='login__not-member-link'>Sign up</a>
+                </div>
             </form>
         </div>
     </section>)

@@ -18,8 +18,6 @@ import './index.sass'
 
 function EditProfile(props) {
 
-    const { id } = props.match.params
-    const { initialUser } = props
     const nationalities = data.nationalities
     let [addBoat, setAddBoat] = useState(false)
 
@@ -57,7 +55,6 @@ function EditProfile(props) {
             console.error(error)
         }
     }
-
 
     useEffect(() => {
         getUser()
@@ -115,12 +112,10 @@ function EditProfile(props) {
                 </div>
                 <div className='profileEdit__names'>
                     <div className='profileEdit__inputs'>
-                        <label htmlFor="name">Name</label>
-                        <input onChange={e => setName(e.target.value)} type="text" name="name" value={name} required />
+                        <input onChange={e => setName(e.target.value)} type="text" name="name" value={name} placeholder='Name' required />
                     </div>
                     <div className='profileEdit__inputs'>
-                        <label htmlFor="surname">Surname</label>
-                        <input onChange={e => setSurname(e.target.value)} type="text" name="surName" value={surname} required />
+                        <input onChange={e => setSurname(e.target.value)} type="text" name="surName" value={surname} placeholder='Surname' required />
                     </div>
 
                 </div>
@@ -131,30 +126,30 @@ function EditProfile(props) {
 
 
             <h3 className='profileInfo__titleSection'>General Info</h3>
-            <div className='general-info'>
-                <div className='row'>
-                    <label htmlFor="gender" className='col-2'>Gender</label>
-                    <select name="gender" className='col-6' onChange={e => setGender(e.target.value)} value={gender}>
-                        <option value='masculine' key='masculine'>Masculine</option>
-                        <option value='femenine' key='femenine'>Femenine</option>
-                        <option value='indiferent' key='indiferent'>Indiferent</option>
-                    </select>
-                </div>
 
-                <div className='row'>
-                    <label htmlFor="nationality" className='col-2'>Nationality</label>
-                    <select name="nationality" className='col-6' onChange={e => setNationality(e.target.value)} value={nationality}>
+            <div className='profileEdit__general'>
+                <label htmlFor="gender" className=''>Gender</label>
+                <select name="gender" className='' onChange={e => setGender(e.target.value)} value={gender}>
+                    <option value='masculine' key='masculine'>Masculine</option>
+                    <option value='femenine' key='femenine'>Femenine</option>
+                    <option value='indiferent' key='indiferent'>Indiferent</option>
+                </select>
+            </div>
 
-                        {
-                            nationalities.map(nacionality =>
-                                <option
-                                    value={nacionality.nationality}
-                                    key={nacionality.num_code}>
-                                    {nacionality.nationality}
-                                </option>)
-                        }
-                    </select>
-                </div>
+            <div className='profileEdit__general'>
+                <label htmlFor="nationality" className=''>Nationality</label>
+                <select name="nationality" className='' onChange={e => setNationality(e.target.value)} value={nationality}>
+
+                    {
+                        nationalities.map(nacionality =>
+                            <option
+                                value={nacionality.nationality}
+                                key={nacionality.num_code}>
+                                {nacionality.nationality}
+                            </option>)
+                    }
+                </select>
+
             </div>
 
             <h3 className='profileInfo__titleSection'>Description</h3>

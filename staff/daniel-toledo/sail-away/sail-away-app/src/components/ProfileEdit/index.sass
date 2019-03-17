@@ -3,9 +3,16 @@
 
     &__header
         display: flex
-        align-items: flex-end
-        margin-left: 5%
-        margin-right: 5%
+        flex-direction: column
+        margin-left: auto
+        margin-right: auto
+    
+    @media (min-width: 576px)
+        .profileEdit__header
+            margin-left: 5%
+            margin-right: 5%
+            flex-direction: row
+            align-items: flex-end
 
     &__header-background
         display: flex
@@ -26,25 +33,48 @@
         margin-right: 20px
         margin-bottom: 20px
 
+
     &__names
         display: flex
-        flex-flow: row wrap
-        padding-left: 20px
+        flex-flow: column wrap
+        justify-content: center
+        align-items: center
+        margin-top: 10px
         color: white
-        label
-            font-size: 2em
+        
+        input
+            background: rgba(255, 255, 255, 0.8)
+            border: none
+            width: 250px
+
+    @media (min-width: 576px)
+        .profileEdit__names
+            flex-direction: row
+            margin-left: 20px
+
 
     &__info
         margin-left: 5%
         margin-right: 5%
+
+    &__general
+        display: flex
+        flex-flow: row wrap
+
+        label
+            width: 120px
+        
+        select
+            width: 120px
     
     &__description
         width: 100%
         height: 200px
 
     &__addBoat
-        margin: 10px
-        width: 250px
+        margin: auto
+        width: 100%
+        max-width: 300px
         background: none
         border: 2px solid #0384A1
         color: #0384A1
@@ -54,6 +84,7 @@
         background: #0384A1
         border: 2px solid #0384A1
         color: white
+ 
 
     &__submit
         display: flex
@@ -61,8 +92,9 @@
 
     &__submit-button
         margin: 10px
+        margin-top: 40px
         padding: 10px
-        width: 50%
+        width: 100%
         background: #012C4C
         border: 2px solid #012C4C
         color: white
@@ -72,3 +104,7 @@
         background: none
         border: 2px solid #012C4C
         color: #012C4C
+
+    @media (min-width: 576px)
+        &__submit-button
+            width: 50%

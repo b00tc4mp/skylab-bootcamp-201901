@@ -63,6 +63,7 @@ function Users(props) {
 
     async function toggleFavorite(crewId) {
         try {
+            if (!logic.isUserLoggedIn) props.history.push('/sign-up')
             let userUpdated = await logic.toggleCrewFavorite(crewId)
             setUser(userUpdated)
         } catch (error) {
@@ -77,7 +78,7 @@ function Users(props) {
         setTalents(talents)
         console.log(languages)
     }
-
+   
     return (<section className='users'>
         <div className='users__background'>
 
@@ -99,7 +100,7 @@ function Users(props) {
                             )
 
                         }
-                        <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add talent</button>
+                        {counter<8 && <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add talent</button>}
                     </main>
 
                 </div>

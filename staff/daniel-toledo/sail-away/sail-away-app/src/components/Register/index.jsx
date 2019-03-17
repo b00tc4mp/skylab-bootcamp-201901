@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
-import { data, mongoose, models } from 'sail-away-data'
+
 import logic from '../../logic'
+import './index.sass'
 
 function Register(props) {
     let [name, setName] = useState('')
@@ -11,14 +12,14 @@ function Register(props) {
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
     let [passwordConfirm, setPasswordConfirm] = useState('')
-    let [kind, setKind] = useState('')
 
     async function handleFormSubmit(event) {
         event.preventDefault()
 
         try {
-            await logic.register(name, surname, email, password, passwordConfirm, kind)
-            props.history.push('/')
+            await logic.register(name, surname, email, password, passwordConfirm, 'captain')
+            await logic.login(email, password)
+            props.history.push('/welcome')
 
         } catch (error) {
             console.error(error)
@@ -26,26 +27,44 @@ function Register(props) {
     }
 
     return (<section className="register">
-        <div className="register__box container pl-lg-5 pr-lg-5">
-            <h2 className="col-2 mt-3">Register</h2>
-            <form onSubmit={handleFormSubmit} className="login__form form-group container mb-3 " >
-                <div className="row mr-2">
-                    <label htmlFor="name" className="col col-md-3 col-sm-12 flex mt-1">Name</label>
-                    <input onChange={e => setName(e.target.value)} type="text" className="col col-md-9 col-12 form-control mt-1" name="name" placeholder="Name" required />
-                    <label htmlFor="surname" className="col col-md-3 col-sm-12 flex mt-1">Surname</label>
-                    <input onChange={e => setSurname(e.target.value)} type="text" className="col col-md-9 col-12 form-control mt-1" name="surname" placeholder="Surname" required />
-                    <label htmlFor="email" className="col col-md-3 col-sm-12 flex mt-1">Email</label>
-                    <input onChange={e => setEmail(e.target.value)} type="email" className="col col-md-9 col-12 form-control mt-1" name="email" placeholder="Email" required />
-                    <label htmlFor="password" className="col col-md-3 col-sm-12 flex mt-1">Password</label>
-                    <input onChange={e => setPassword(e.target.value)} type="password" className="col col-md-9 col-12 form-control mt-1" name="password" placeholder="Password" required />
-                    <label htmlFor="password" className="col col-md-3 col-sm-12 flex mt-1">Confirm Password</label>
-                    <input onChange={e => setPasswordConfirm(e.target.value)} type="password" className="col col-md-9 col-12 form-control mt-1" name="confirmPassword" placeholder="Confirm Password" required />
-                    <input onChange={e => setKind(e.target.value)} className='mr-2' type="radio"  value="captain" required />
-                    <label className='mr-5' for="male">Captain</label>
-                    <input onChange={e => setKind(e.target.value)} className='mr-2' type="radio" value="crew" required />
-                    <label for="female">Crew</label>
+        <div className="register__container">
+            <h2 className="register__title">Register</h2>
+            <form onSubmit={handleFormSubmit} className="register__form form-group container mb-3 " >
+                <div className="register__inputs">
+                    <div className='register__input'>
+                        <i class="fas fa-signature register__logo"></i>
+                        <input onChange={e => setName(e.target.value)} type="text" name="name" placeholder="Name" required />
+                    </div>
+                    <div className='register__input'>
+                        <i class="fas fa-signature register__logo"></i>
+                        <input onChange={e => setSurname(e.target.value)} type="text" name="surname" placeholder="Surname" required />
+                    </div>
+                    <div className='register__input'>
+                        <i class="fas fa-at register_logo"></i>
+                        <input onChange={e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" required />
+                    </div>
+                    <div className='register__input'>
+                        <i className="fas fa-lock register__logo"></i>
+                        <input onChange={e => setPassword(e.target.value)} type="password" name="password" placeholder="Password" required />
+                    </div>
+                    <div className='register__input'>
+                        <i className="fas fa-lock register__logo"></i>
+                        <input onChange={e => setPasswordConfirm(e.target.value)} type="password" name="confirmPassword" placeholder="Confirm Password" required />
+                    </div>
+                    {/* <div className='register__input'>
+                        <input onChange={e => setKind(e.target.value)} className='mr-2' type="radio" value="captain" required />
+                        <label className='mr-5' for="male">Captain</label>
+                    </div>
+                    <div className='register__input'>
+                        <input onChange={e => setKind(e.target.value)} className='mr-2' type="radio" value="crew" required />
+                        <label for="female">Crew</label>
+                    </div> */}
                 </div>
-                <button type="submit">Register</button>
+                <button className="register__button" type="submit">Register</button>
+                <div className='register__member'>
+                    <p className='register__member-text'>Are you already a memeber? </p>
+                    <a href='/#/login' className='register__member-link'>Sign in</a>
+                </div>
             </form>
         </div>
     </section>)

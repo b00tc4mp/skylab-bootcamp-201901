@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 
 import SlideShow from '../SlideShow'
+import JourneyCard from '../JourneyCard'
 
 import logic from '../../logic'
 import './index.sass'
@@ -18,12 +19,12 @@ function Favorites(props) {
         try {
             let userLogged = await logic.retrieveUserLogged()
 
-            let JourneyFavs =  userLogged.favoriteJourneys.map(async j => await logic.retrieveJourney(j))
+            let JourneyFavs = userLogged.favoriteJourneys.map(async j => await logic.retrieveJourney(j))
             Promise.all(JourneyFavs).then(favs => setJourneyFavorites(favs))
 
-            let CrewFavs =  userLogged.favoriteCrew.map(async j => await logic.retrieveUser(j))
+            let CrewFavs = userLogged.favoriteCrew.map(async j => await logic.retrieveUser(j))
             Promise.all(CrewFavs).then(favs => setCrewFavorites(favs))
-        
+
             setUser(userLogged)
 
         } catch (error) {
@@ -44,15 +45,6 @@ function Favorites(props) {
     async function toggleCrewFavorite(crewId) {
         try {
             let userUpdated = await logic.toggleCrewFavorite(crewId)
-            setUser(userUpdated)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    async function toggleJourneyFavorite(journeyId) {
-        try {
-            let userUpdated = await logic.toggleJourneyFavorite(journeyId)
             setUser(userUpdated)
         } catch (error) {
             console.error(error)
@@ -85,32 +77,7 @@ function Favorites(props) {
                     }
                 </div>}
             <h3 className='text-center'>Journyes</h3>
-            {user &&
-                
-                <div className='journeyFavorite__container'>
-                    {
-                        journeyFavorites.map(journey => {
-                            if (user) isFavorite = user.favoriteJourneys.includes(journey.id) ? isFavorite = "danger" : isFavorite = "default"
-                            return (<section className='journeyFavorite__card'>
-
-                                <div>
-                                    <h2>{journey.title}</h2>
-                                    <p>{journey.dates[0].toString().substring(0, 15)}-{journey.dates[1].toString().substring(0, 15)}</p>
-                                </div>
-                                {/* <div>
-                                                 <SlideShow pictures={journey.boat.pictures}/>
-                                         </div> */}
-
-                                <div>
-                                    <button onClick={() => props.history.push(`/journey/${journey.id}`)}>more</button>
-                                    <button onClick={() => props.history.push(`/user/${journey.userId}`)}>capitan</button>
-                                    <button>contact</button>
-                                    <button onClick={() =>  toggleJourneyFavorite(journey.id)} className={`favorite btn btn-outline-${isFavorite} col-1 fas fa-heart`}></button>
-                                </div>
-                            </section>)
-                        })
-                    }
-                </div>}
+            {journeyFavorites.length && <JourneyCard journeys={journeyFavorites} />}
         </section>)
 }
 

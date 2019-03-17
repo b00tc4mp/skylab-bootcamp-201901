@@ -114,6 +114,7 @@ const logic = {
                 result.id = result._id.toString()
                 delete result._id
                 delete result.__v
+                debugger
               
                 return result
             })

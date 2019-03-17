@@ -3,9 +3,16 @@
 
     &__header
         display: flex
-        align-items: flex-end
-        margin-left: 5%
-        margin-right: 5%
+        flex-direction: column
+        margin-left: auto
+        margin-right: auto
+    
+    @media (min-width: 576px)
+        .profileInfo__header
+            margin-left: 5%
+            margin-right: 5%
+            flex-direction: row
+            align-items: flex-end
 
     &__header-background
         display: flex
@@ -13,26 +20,44 @@
         height: 400px
         background-image: url("./header4.jpg")
         background-repeat: no-repeat
-        background-position: bottom
         background-attachment: fixed
+        background-position: bottom
         background-size: cover
 
     &__info
         margin-left: 5%
         margin-right: 5%
 
+    &__picture
+        margin: auto
+
     &__names
-        padding-left: 20px
         color: white
+        text-align: center
         h2
             font-size: 3em
+
+    @media (min-width: 576px)
+         .profileInfo__names
+            padding-left: 20px
 
     &__titleSection
         margin-top: 20px
         border-bottom: 2px solid black
 
+    &__general
+        display: flex
+
+        h5
+            width: 120px
+            
+
+
     &__talents
-        width: 100vw
+        display: flex
+        flex-flow: row wrap
+        justify-content: center
+        width: 100%
 
 
     &__talent

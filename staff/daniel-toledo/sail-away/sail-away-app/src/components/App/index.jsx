@@ -4,18 +4,18 @@ import React, { useState } from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 import Home from '../Home'
 import Register from '../Register'
+import Welcome from '../Welcome'
 import ProfileEdit from '../ProfileEdit'
 import ProfileInfo from '../ProfileInfo'
 import Users from '../Users'
 import Login from '../Login'
 import JourneyCreate from '../JourneyCreate'
 import JourneyInfo from '../JourneyInfo'
-import JourneyEdit from '../JourneyEdit'
 import MyJourneys from '../MyJourneys'
 import Nav from '../Nav'
 import Menu from '../Menu'
 import Landing from '../Landing'
-import Favorites from '../Favorites' 
+import Favorites from '../Favorites'
 
 import './index.sass'
 import logic from '../../logic';
@@ -27,7 +27,7 @@ function App(props) {
     let [menu, setMenu] = useState('close')
 
     async function handleSearch(seaId) {
-       
+
         try {
             let response = await logic.searchBySea(seaId)
             setJourneys(response)
@@ -62,7 +62,7 @@ function App(props) {
     }
 
     return (<main className="app">
-        <Nav toggleMenu={handleToggleMenu} isLanding={window.location.hash === '#/'}/>
+        <Nav toggleMenu={handleToggleMenu} isLanding={window.location.hash === '#/'} />
         <div className='menuApp'>
             <div className={`menu__${menu} ml-auto`}>
                 <Menu />
@@ -70,16 +70,17 @@ function App(props) {
         </div>
         <Route exact path='/' render={() => <Landing search={handleSearch} />} />
         <Route path="/register" render={() => <Register />} />
-        <Route path="/edit-profile" render={() => <ProfileEdit initialUser={{}} />} />
-        <Route path='/user/:id' render={()=> <ProfileInfo />}/>
-        <Route path='/users/' render={()=> <Users />} />
+        <Route path="/welcome" render={() => <Welcome />} />
+        <Route path="/edit-profile" render={() => logic.isUserLoggedIn ? <ProfileEdit initialUser={{}} /> : <Login isNeeded={true} />} />
+        <Route path='/user/:id' render={() => <ProfileInfo />} />
+        <Route path='/users/' render={() => <Users />} />
         <Route path="/login" render={() => <Login />} />
         <Route path="/home" render={() => journeys.length ? <Home journeys={journeys} moreInfo={handleMoreInfo} editJourney={handleEditJourney} /> : <Redirect to="/" />} />
-        <Route path="/create-journey" render={() => <JourneyCreate />} />
-        <Route path="/edit-journey/:id" render={() => <JourneyEdit journey={journey} />} />
-        <Route path="/my-journeys" render={() => <MyJourneys />} />
+        <Route path="/create-journey" render={() => logic.isUserLoggedIn ? <JourneyCreate /> : <Login isNeeded={true} />} />
+        <Route path="/edit-journey/:id" render={() => logic.isUserLoggedIn ? <JourneyCreate isEdit={true}/> : <Login isNeeded={true} />} />
+        <Route path="/my-journeys" render={() => logic.isUserLoggedIn ? <MyJourneys /> : <Login isNeeded={true} />} />
         <Route path="/journey/:id" render={() => <JourneyInfo />} />
-        <Route path="/favorites" render={() => <Favorites />} />
+        <Route path="/favorites" render={() => logic.isUserLoggedIn ? <Favorites /> : <Login isNeeded={true} />} />
     </main>)
 }
 

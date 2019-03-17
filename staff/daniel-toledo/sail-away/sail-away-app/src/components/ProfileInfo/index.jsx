@@ -53,14 +53,14 @@ function ProfileInfo(props) {
             <div className='profileInfo__info'>
 
                 <h3 className='profileInfo__titleSection'>General Info</h3>
-                <div className='row'>
-                    <h5 className='col-2'>gender</h5>
-                    <p className='col-2'>{user.gender}</p>
+                <div className='profileInfo__general'>
+                    <h5 className=''>gender</h5>
+                    <p className=''>{user.gender}</p>
                 </div>
 
-                <div className='row'>
-                    <h5 className='col-2'>nationality</h5>
-                    <p className='col-2'>{user.nationality}</p>
+                <div className='profileInfo__general'>
+                    <h5 className=''>nationality</h5>
+                    <p className=''>{user.nationality}</p>
                 </div>
 
                 <h5>age</h5>

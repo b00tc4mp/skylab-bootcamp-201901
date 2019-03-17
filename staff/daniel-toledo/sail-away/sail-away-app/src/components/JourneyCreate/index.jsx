@@ -15,21 +15,57 @@ import './index.sass'
 
 function JourneyCreate(props) {
 
+    const { id } = props.match.params
+    const { isEdit } = props
+ 
     let [seaIdSelection, setSeaIdSelection] = useState('00')
-    let [route, setRoute] = useState([])
-    let [dates, setDates] = useState([])
+    let [route, setRoute] = useState(null)
+    let [dates, setDates] = useState(null)
     let [title, setTitle] = useState('')
     let [description, setDescription] = useState('')
-    let [talents, setTalents] = useState([])
-    let [experience, setExperience] = useState(0)
-    let [languages, setLanguages] = useState([])
+    let [talents, setTalents] = useState(null)
+    let [experience, setExperience] = useState(null)
+    let [languages, setLanguages] = useState(null)
     let [boatSelected, setBoatSelected] = useState(null)
-    let [boats, setBoats] = useState([])
-    let [userId, setUserId] =useState('')
+    let [boats, setBoats] = useState(null)
+    let [userId, setUserId] = useState('')
 
     useEffect(() => {
-        getUser()
-    }, [boatSelected])
+    
+        if (isEdit) getJourney(id)
+        else{
+        setBoats([])
+        setRoute([])
+        setDates([null, null])
+        setSeaIdSelection('00')
+        setTalents([])
+        setExperience(0)
+        setLanguages([])}
+
+    }, [])
+
+    async function getJourney(id) {
+        try {
+            let journey = await logic.retrieveJourney(id)
+            let user = await logic.retrieveUserLogged()
+            if (journey.userId !== user.id) throw Error('user not allowed to edit')
+            setBoats(user.boats)
+            setRoute(journey.route)
+            setDates(journey.dates)
+            setDescription(journey.description)
+            setSeaIdSelection(journey.seaId)
+            setTitle(journey.title)
+            setTalents(journey.lookingFor.talents)
+            setExperience(Number(journey.lookingFor.experience))
+            setLanguages(journey.lookingFor.languages)
+            setBoatSelected(journey.boat.id)
+            setUserId(journey.userId)
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
 
     function handleSeaSelection(event) {
         let seaName = event.target.value
@@ -43,28 +79,18 @@ function JourneyCreate(props) {
         }
     }
 
-    async function getUser() {
-        try {
-            debugger
-            let user = await logic.retrieveUserLogged()
-            setUserId(user.id)
-            setBoats(user.boats)
 
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    function getBoat(boatSelected){
-        return boats.find(boat => boat.id === boatSelected)
+    function getBoat(boatSelected) {
+        let boat = boats.find(boat => boat.id === boatSelected)
+        return boat ? boat : null
     }
 
     async function handleOnSubmit() {
         try {
             let sailingTitles = []
-            let boat=getBoat(boatSelected)
-            let id = await logic.generateJourney(title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
-            console.log(id)
+            let boat = getBoat(boatSelected)
+            if (isEdit) await logic.updateJourney(id, title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
+            else await logic.generateJourney(title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
             props.history.push('/')
 
         } catch (error) {
@@ -72,60 +98,79 @@ function JourneyCreate(props) {
         }
     }
 
-    function handleBoatSelection(event){
-        let boatId= event.target.value ==='select your boat'? null : event.target.value
-        setBoatSelected(boatId) 
+    function handleBoatSelection(event) {
+        let boatId = event.target.value === 'select your boat' ? null : event.target.value
+        setBoatSelected(boatId)
     }
 
-    return (<main className="journey">
-        <h3 className='text-center'>Sea or Ocean to discover</h3>
-        <select name="seas" className='journey__sea' onChange={handleSeaSelection}>
-            {
-                data.seas.map(sea => <option value={sea.name} key={sea.id}>{sea.name}</option>)
-            }
-        </select>
-        <h3 className='text-center'>Design your journey</h3>
-        <div className='journeyCreate__map'>
-            <MapRoute getMarkers={coordenates => setRoute(coordenates)} seaIdSelection={seaIdSelection} initialMarkers={[]} />
-        </div>
+    return (<div className="createJourney__background">
+        <main className="createJourney">
+            <h3 className='createJourney__title'>Sea or Ocean to discover</h3>
+            <div className='createJourney__sea'>
+                <select name="seas" onChange={handleSeaSelection}>
+                    {
+                        data.seas.map(seaData => {
+                            if (seaIdSelection === seaData.id) return <option value={seaData.name} key={seaData.id} selected>{seaData.name}</option>
+                            else { return <option value={seaData.name} key={seaData.id}>{seaData.name}</option> }
+                        })
+                    }
+                </select>
+            </div>
+            <h3 className='createJourney__title'>Design your journey</h3>
+            <div className='createJourney__map'>
+                {route !== null && <MapRoute getMarkers={coordenates => setRoute(coordenates)} seaIdSelection={seaIdSelection} initialMarkers={route} />}
+            </div>
 
-        <h3 className='text-center'>Sailing days</h3>
-        <div className='journey__calendar'>
-            <DateRange getDates={(date1, date2) => setDates([date1, date2])} initialDates={[null, null]} />
-        </div>
+            <h3 className='createJourney__title'>Sailing days</h3>
+            <div className='createJourney__calendar'>
+                {dates !== null && <DateRange getDates={(date1, date2) => setDates([date1, date2])} initialDates={dates} />}
+            </div>
 
-        <h3 className='text-center'>Title</h3>
-        <div className='journey__description'>
-            <input onChange={e => setTitle(e.target.value)} value={title ? title : ''}></input>
-        </div>
+            <h3 className='createJourney__title'>Title</h3>
+            <div className='createJourney__titleJourney'>
+                <input onChange={e => setTitle(e.target.value)} value={title ? title : ''}></input>
+            </div>
 
-        <h3 className='text-center'>Description</h3>
-        <div className='journey__description'>
-            <textarea onChange={e => setDescription(e.target.value)} value={description ? description : ''}></textarea>
-        </div>
+            <h3 className='createJourney__title'>Description</h3>
+            <div className='createJourney__description'>
+                <textarea onChange={e => setDescription(e.target.value)} value={description ? description : ''}></textarea>
+            </div>
 
-        <h3 className='text-center'>Boat</h3>
-        <select name="boats" onChange={handleBoatSelection}>
-            <option value={null} key=''>select your boat</option>
-            {boats &&
-                boats.map(boat => <option value={boat.id} key={boat.id}>{boat.name}</option>)
-            }
-        </select>
-        {boatSelected && <BoatInfo boat={getBoat(boatSelected)} />}
+            <h3 className='createJourney__title'>Boat</h3>
+            <div className='createJourney__boat'>
+                <select name="boats" onChange={handleBoatSelection}>
+                    <option value={null} key=''>select your boat</option>
+                    {boats !== null &&
+                        boats.map(boat => {
+                            if (boatSelected === boat.id) return <option value={boat.id} key={boat.id} selected>{boat.name}</option>
+                            else return <option value={boat.id} key={boat.id}>{boat.name}</option>
+                        })
+                    }
+                </select>
+            </div>
+            <div className='createJourney__boatSelected'>
+                {boatSelected && <BoatInfo boat={getBoat(boatSelected)} />}
+            </div>
 
-        <div>
-            <h3 className='text-center'>Looking for</h3>
-            <h5>Talents</h5>
-            <Talents getChecks={talents => setTalents(talents)} initialChecks={[]} />
-            <h5>Experience</h5>
-            <Experience getExperience={experience => setExperience(experience)} initialExperience={0} />
-            <h5>Sailing titles</h5>
-            <h5>Language</h5>
-            <Language getLanguages={languages => setLanguages(languages)} initialLanguages={[]} />
-        </div>
+            <div>
+                <h3 className='createJourney__lookingFor'>Looking for...</h3>
+                <h5 className='createJourney__title'>Talents</h5>
+                {talents !== null && <Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
+                <h5 className='createJourney__title'>Experience</h5>
+                <div className='createJourney__experience'>
+                    {experience !== null && <Experience getExperience={experience => setExperience(experience)} initialExperience={experience} />}
+                </div>
+                <h5 className='createJourney__title'>Language</h5>
+                <div className='createJourney__languages'>
+                    {languages !== null && <Language getLanguages={languages => setLanguages(languages)} initialLanguages={languages} />}
+                </div>
+            </div>
 
-        <button onClick={handleOnSubmit}>Create Journey</button>
-    </main>)
+            <div className='createJourney__submit'>
+                <button onClick={handleOnSubmit} className='createJourney__submit-button' >Create Journey</button>
+            </div>
+        </main>
+    </div>)
 }
 
 export default withRouter(JourneyCreate)
