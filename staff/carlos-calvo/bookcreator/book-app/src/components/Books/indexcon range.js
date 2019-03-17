@@ -24,7 +24,9 @@ class Books extends Component {
     }
 
     updateWindowDimensions = ()=> {
+        // console.log('updateWindowDimensions')
         this.setState({ width: window.innerWidth, height: window.innerHeight }, () => {})
+        // console.log(this.state.width, this.state.height)
         if(this.state.width > 1400) this.interval = 1300///PC Screen
         else if((this.state.width == 1366 && this.state.height == 1024)) this.interval = 1450
         else if(this.state.width > 1000 && this.state.height < 1200) this.interval = 1100
@@ -41,6 +43,8 @@ class Books extends Component {
                     this.book = book
                     this.personalizeContentbywords(this.book, ()=> {})
                     this.setState({title: book.title})
+                    // this.pages = this.getArrayconPre(this.book)
+                    // this.forceUpdate()
                 }, () => {})
         } else if(this.props.templateid) {
             
@@ -63,6 +67,9 @@ class Books extends Component {
     personalizeContentbywords = (book) => {
         if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')) book.content = book.content.replace(/<name>/g, book.parameters.name)
         if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place')) book.content = book.content.replace(/<place>/g, book.parameters.place)
+        // book.content = book.content.replace(/(\r?\n|\r?\n){2,}/g, '<p><br/><br/></p>')
+        // book.content = book.content.replace(/(\r|\n)/g, ' ')
+        // let arraysinsaltos = book.content.split("<br/><br/>")
         let texto = book.content
         let arrayreturn = []
         let j = 0
@@ -84,6 +91,113 @@ class Books extends Component {
         this.setState({pages: newArray}, () => {})
 
     }
+    //personalize content by paragrafs
+    // personalizeContentbyParagrah = (book) => {
+    //     if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')) book.content = book.content.replace(/<name>/g, book.parameters.name)
+    //     if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place')) book.content = book.content.replace(/<place>/g, book.parameters.place)
+    //     // book.content = book.content.replace(/[.]\s\s\n/g, '<br/>')
+    //     // book.content = book.content.replace(/[.]\s\n/g, '<br/>')
+    //     // book.content = book.content.replace(/[.]\n/g, '<br/>')
+    //     // book.content = book.content.replace(/<br><br>/g, '<br/>')
+    //     // book.content =  book.content.replace(/<Chapter>/g, 'chapter <br/>')
+    //     book.content = book.content.replace(/(\r?\n|\r?\n){2,}/g, '<br/><br/>')
+    //     book.content = book.content.replace(/(\r|\n)/g, ' ')
+    //     let arrayreturn = []
+    //     let i = 0 //Counter para arraysinsaltos
+    //     let string = ''
+    //     while( i < arraysinsaltos.length){
+    //         if(string.length < this.interval) {
+    //             string = string.concat(arraysinsaltos[i])
+    //             i++
+    //         } else {
+    //             arrayreturn.push(string)
+    //             // console.log(string, string.length)
+    //             // console.log('++++++++++++++++++++++++++++++++++++++++++')
+    //             string = ''
+    //         }
+    //     }
+    //     arrayreturn.push(string)
+    //     let newArray = arrayreturn.map(page => page.replace(/<Chapter>/g, '\n\nCHAPTER  \n\n'))
+    //     this.setState({pages: newArray}, () => {})
+    // }
+
+
+    //Contar caracteres (1500)
+    //Cogemos y lo pasamos como texto.
+    //si hay un ./n -> añadimos <br/>
+    //Cuando llegamos a los 1500, miramos cuanto queda hasta el próximo ./n y lo añadimos.
+    //Seguimos contando hasta ahí
+
+
+
+
+
+    // getIndicesOf(searchStr, str) {
+    //     console.log('++++++++++++++++++')
+    //     console.log(str)
+    //     var searchStrLen = searchStr.length;
+    //     if (searchStrLen !== 0) {
+    //         return [];
+    //     }
+    //     var startIndex = 0, index, indices = [];
+    //     while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+    //         indices.push(index);
+    //         startIndex = index + searchStrLen;
+    //     }
+    //     return indices;
+    // }
+
+    // getArrayconPre(string, interval){
+    //     console.log(arraysinsaltos.length)
+    //     let arrayreturn = []
+    //     let i = 0
+    //     while (i < arraysinsaltos.length){
+    //         let arrayparcial = []
+    //         let string = ''
+    //         for(let j = 0; j < interval; j++){
+    //             string = string.concat(arraysinsaltos[i])
+    //             string = string.concat('\n')
+    //             i++
+    //         }
+    //         arrayreturn.push(string)            
+    //     }
+
+    //     return arrayreturn
+    // }
+
+    // advancePage = () => {
+    //     if(this.state.pages.length){
+    //         let newState = this.state.currentPage + 1
+    //         if(newState == this.state.pages.length -1 ) return
+    //         this.setState({currentPage: newState})
+    //     } else{
+    //         return
+    //     }
+    // }
+
+    // backPage = () => {
+    //     if(this.state.pages.length){
+    //         let newState = this.state.currentPage - 1
+    //         if(newState == -1) return
+    //         this.setState({currentPage: newState})
+    //     }
+    //     else{
+    //         return 
+    //     }
+    // }
+
+    //Generate
+
+    // generateDivs(){
+    //     var x = '';
+    //     for(var i = 0; i < this.state.pages.length; i += 2){
+    //         var x = x + `<div className="all">
+    //             <div className="page1">${this.state.pages[i === 0 ? i : i + 1]}</div>
+    //             <div className="page2">${this.state.pages[i === 0 ? i + 1: i + 2]}</div>
+    //         </div>`
+    //     }
+    //     return x
+    // }
 
     backPage(event){ 
         this.setState({currentPage: this.state.currentPage - 2}, ()=> {})
@@ -121,12 +235,38 @@ class Books extends Component {
         }
     }
 
+    goToPage = (event) =>{
+        // console.log(this.state.pages.length)
+        // // if(event.target.value == ""){ //Caso se borra.
+        // //     this.setState({currentPage: 0}, ()=>{})
+        // //     this.flipPage.gotoPage(0)
+        // //     return
+        // // }
+        // let toNumber = parseInt(event.target.value, 10) 
+        // // if(toNumber > this.state.pages.length){//Caso numero fuera de rango
+        // //     toNumber = this.state.pages.length
+        // //     this.setState({currentPage: toNumber}, ()=>{})
+        // //     this.flipPage.gotoPage(toNumber-1)
+        // //     return
+        // // }
+        // if(toNumber%2 == 0) toNumber = toNumber/2
+        // else toNumber = ((toNumber-1)/2)
+        // this.setState({currentPage: toNumber}, ()=>{})
+        // this.flipPage.gotoPage(toNumber)
+    }
+
     render = () => {
+        console.log(this.state.width)
+        console.log(this.state.height)
+        debugger
         return (
             this.state.width && (this.state.width > 700 && this.state.height > 500) ?
                 <Fragment>
                 <div className = "coverright">
                     {<div className="book-container">
+                        <div className="book-container__firstLine">
+                            <h2> {this.state.title} - Preview</h2>
+                            
                             {this.flipPage?
                                     <div className="book-container__controls">
                                         {this.state.currentPage !== 0?
@@ -147,6 +287,7 @@ class Books extends Component {
                                     :
                                     <div></div>
                             }
+                        </div>
                             <FlipPage
                                 ref={(component) => { this.flipPage = component }}
                                 height ={0.77*this.state.height}

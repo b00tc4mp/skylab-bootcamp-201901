@@ -84,6 +84,7 @@ class YourBooks extends Component {
         return (
             <Fragment>
                 <div className = "coverright">
+                    <h2 className="letter">Your Books</h2>
                     <div className="cardContainer">
                         {books.length?
                         books.length && books.map(book =>{

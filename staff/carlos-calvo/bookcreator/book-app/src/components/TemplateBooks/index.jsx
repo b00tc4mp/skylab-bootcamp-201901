@@ -62,6 +62,7 @@ class TemplateBooks extends Component {
         return (
             <Fragment>
                 <div className = "coverright">
+                <h2 className="letter">Public Templates</h2>
                 <form> 
                     <div className="container-inputSearch">
                         <input className="inputSearch" type="text" name="search" placeholder="Search.." onChange={this.handleSearch}/>

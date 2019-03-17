@@ -17,8 +17,8 @@ class Welcome extends Component {
     render() {
         return ( 
         <Fragment>
-            <Fragment>
-                <nav className="navbar navbar-expand-lg navigation fixed">
+            <Fragment> {/*navbar*/}
+                <nav className="navbar navbar-expand-lg navigation fixed-top">
                 <a href="#" className="btn btn-info btn-lg">
                 <img className="logo_name"width = "35px" height="35px" src="https://www.misskatecuttables.com/uploads/shopping_cart/9363/large_books-on-shelf.png"></img>
                 <span className="glyphicon glyphicon-book"></span> Your Book Creator
@@ -38,16 +38,16 @@ class Welcome extends Component {
                 </div>
                 </nav>
             </Fragment>
-                <div>Book Creator and Sharing!
+                <div className="headertitle">Book Creator and Sharing!</div>
+                <div className="ContainerWelcome"> {/*Container*/}
+                    <div className="ContainerWelcome-carrousel"> {/*First Line*/}
+                        <Carrousel/>
+                    </div>
                 </div>
-            <div className="ContainerWelcome">
-                <div className="ContainerWelcome-carrousel">
-                    <Carrousel/>
-                </div>
-                <div>
-                    Lorem IPsum
-                </div>
-            </div>
+                <footer>
+                    <div> Created and designed by Carlos Calvo for Creative Zoo</div>
+                    <div><a href="https://github.com/carlosclatg/skylab-bootcamp-201901"><i class="fab fa-github-square fa-lg"></i></a></div>
+                </footer>
         </Fragment>)
     }
 }

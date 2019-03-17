@@ -56,8 +56,8 @@ class CardTemplate extends Component {
                         </div>
                         <div className="cardBody__name">
                             {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')? 
-                            <p className="cardBody__text">Name<i className="fas fa-user-circle"></i> {book.parameters.name}</p>:
-                            <p className="cardBody__text">Name<i className="fas fa-user-circle"></i> No name tag</p>
+                            <p className="cardBody__text">Name :<i className="fas fa-user-circle"></i> {book.parameters.name}</p>:
+                            <p className="cardBody__text">Name :<i className="fas fa-user-circle"></i> No name tag</p>
                             }
                         </div>
                         <div className="cardBody__place">
