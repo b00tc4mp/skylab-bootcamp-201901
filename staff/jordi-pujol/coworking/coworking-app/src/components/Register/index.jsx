@@ -50,10 +50,10 @@ class Register extends Component {
         const { state: { feedback }, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, handleFormSubmit, handleGoToLogin } = this
 
 
-        return <section className="login">
-            <section className="login_content">
-                <h2>Welcome back,</h2>
-                <form className="login_content-form" onSubmit={handleFormSubmit}>
+        return <section className="register">
+            <section className="register_content">
+                <h2>Welcome!</h2>
+                <form className="register_content-form" onSubmit={handleFormSubmit}>
                     <span>Name</span>
                     <input type="text" onChange={handleNameInput} required autoFocus />
                     <span>Surname</span>
@@ -64,11 +64,10 @@ class Register extends Component {
                     <input type="password" onChange={handlePasswordInput} required />
                     <span>Confim password</span>
                     <input type="password" onChange={handlePasswordConfirmInput} required />
-                    <p className="forgot-pass">Forgot password?</p>
                     <button className="submit">Sign Up</button>
                 </form>
             </section>
-            <section className="login_subcontent">
+            <section className="register_subcontent">
                 <div className="img__text m--in">
                     <h2>One of us?</h2>
                     <p>If you already has an account, just sign in. We've missed you!</p>

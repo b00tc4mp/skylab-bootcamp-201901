@@ -21,6 +21,16 @@ function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices
                 <button className="topbar__button" onClick={onGoToServices}>Create Service</button>
             </div>
             <div className="dropdown">
+                <i class="fas fa-bars"></i>
+                {/* <button className="dropbtn_more">More</button> */}
+                <div className="dropdown-content other">
+                    <a href='#/home/profile'>Profile</a>
+                    <a href='#/home/notifications'>Notifications</a>
+                    <a href='#/home/service'>Create Service</a>
+                    {logic.isUserAdmin && <a onClick={onCreatingNewLink}>Generate new user link</a>}
+                </div>
+            </div>
+            <div className="dropdown">
                 <i class="fas fa-caret-square-down"></i>
                 <button className="dropbtn">My Services</button>
                 <div className="dropdown-content">

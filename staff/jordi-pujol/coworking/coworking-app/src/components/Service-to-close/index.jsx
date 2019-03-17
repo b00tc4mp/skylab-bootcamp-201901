@@ -37,7 +37,7 @@ class ServiceClosed extends Component {
 
         return <section className="servicetoclose">
             <h2>Services to close</h2>
-            <div>
+            <div className="servicestoclose">
                 {myServices && myServices.map(service =>
                     <ClosedService services={service} serviceClosed={handleClosedService} />)}
             </div>

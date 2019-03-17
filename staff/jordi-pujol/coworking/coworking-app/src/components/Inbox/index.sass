@@ -1,10 +1,12 @@
 .inbox
     background-size: cover
-    margin-left: 6em 
     max-width: 85%
     display: flex
     display-direction: row
     flex-wrap: wrap
+    margin: 0 auto
+    justify-content: space-around
+    padding-top: 5em
 
     div
         padding-top: 3em
@@ -18,7 +20,7 @@
             display: flex
             flex-direction: row
             justify-content: space-around
-            width: 10%
+            width: 25%
 
             &.red
                 color: red
@@ -31,3 +33,15 @@
 
             p
                 color: black
+
+@media (min-width: 700px)
+
+    .inbox
+        max-width: 100%
+        padding-right: 1em
+
+
+@media (min-width: 1000px)
+
+    .inbox
+        max-width: 95%

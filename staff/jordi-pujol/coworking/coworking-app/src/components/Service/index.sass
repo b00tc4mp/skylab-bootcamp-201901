@@ -1,18 +1,18 @@
 .service__
-    height: 450px
+    height: 10em
     cursor: pointer
-    width: 400px
+    width: 8em
     color: #1f0054
 
     &title
-        padding-top: 4em
-        padding-left: 1em
+        padding-top: 3em
+        padding-left: 2em
         max-width: 300px
         +flexin(flex, column, center)
 
     &item
-        padding-top: 1em
-        padding-left: 3em
+        padding-top: 0.5em
+        padding-left: 3.5em
         max-width: 300px
 
 .service__yellow
@@ -22,7 +22,7 @@
     cursor: pointer
     width: 350px
     color: #1f0054
-    padding: 2em
+    // padding: 2em
     background-size: cover 
 
 .service__blue
@@ -32,7 +32,7 @@
     cursor: pointer
     width: 350px
     color: #1f0054
-    padding: 2em
+    // padding: 2em
     background-size: cover 
 
 .service__red
@@ -42,6 +42,79 @@
     cursor: pointer
     width: 350px
     color: #1f0054
-    padding: 2em
+    // padding: 2em
     background-size: cover 
     color: white
+
+.service__blue:hover
+    // height: 450px
+    // width: 390px
+    font-size: 22px
+    // transform: translate(-20px, 20px)
+    padding-top: 0
+    margin-top: 0
+    cursor: pointer
+    color: #1f0054
+    transition: all 5s ease
+
+
+@media (min-width: 580px)
+
+    .service__
+        height: 450px
+        cursor: pointer
+        width: 400px
+        color: #1f0054
+
+        &title
+            padding-top: 4em
+            padding-left: 1em
+            max-width: 300px
+            +flexin(flex, column, center)
+
+        &item
+            padding-top: 1em
+            padding-left: 3em
+            max-width: 300px
+
+    .service__yellow
+        // background-image: url(https://vignette.wikia.nocookie.net/inciclopedia/images/9/94/Post-It.png/revision/latest?cb=20100719151648&format=original)
+        background-image: url(https://9044c4.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/15/15c3a611dfcbd8c4aa081b8bace8cbafb0b5456c/positvioleta.png)
+        height: 400px
+        cursor: pointer
+        width: 350px
+        color: #1f0054
+        padding: 2em
+        background-size: cover 
+
+    .service__blue
+        // background-image: url(https://ya-webdesign.com/images/post-it-blue-png-6.png)
+        background-image: url(https://www.peritacionesdanielgarcia.com/wp-content/uploads/2016/08/postit-azul1.png)
+        height: 400px
+        cursor: pointer
+        width: 350px
+        color: #1f0054
+        padding: 2em
+        background-size: cover 
+
+    .service__red
+        // background-image: url(https://cdn.pixabay.com/photo/2014/04/02/10/13/sticky-note-303147__340.png)
+        background-image: url(https://9fc6ff.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/49/4973721cb13fb2e01ea4829d786a7954a83337d8/online-textbook-orange-post-it-notes.png)
+        height: 400px
+        cursor: pointer
+        width: 350px
+        color: #1f0054
+        padding: 2em
+        background-size: cover 
+        color: white
+
+    .service__blue:hover
+        // height: 450px
+        // width: 390px
+        font-size: 22px
+        // transform: translate(-20px, 20px)
+        padding-top: 0
+        margin-top: 0
+        cursor: pointer
+        color: #1f0054
+        transition: all 5s ease

@@ -58,13 +58,16 @@ class Profile extends Component {
         const { state: { active, name, surname, email, companyName, age, interests, feedback }, handleNameInput, handleSurnameInput, handleEmailInput, handleCompanyNameInput, handleInterestsInput, handleAgeInput, handleSubmitForm, handleEditProfile } = this
 
         return <section className="profile">
-            <h2>Profile</h2>
             <div className="profile__content">
-                <div className="profile__content--img">
-                    <p>Profile Image</p>
-                    <img src="https://pm1.narvii.com/6345/537c878cad3a8b3630df52f128b12ce5d3bcdf6b_00.jpg" />
-                </div>
-                <div className="">
+                <img className="backgroundImage" src="http://www.fabricaramis.com/imgs/imagenesFabricaRamis/banners/coworking.jpg" />
+                <form className="profile__content--form">
+                    <img className="profile__content--form--userImage" src="https://pm1.narvii.com/6345/537c878cad3a8b3630df52f128b12ce5d3bcdf6b_00.jpg" />
+                    <div className="profile__content--form--inputs">
+                        <input className="profile__content--name" type="text" value={name} disabled />
+                        <input className="profile__content--company" type="text" value={companyName} disabled />
+                    </div>
+                </form>
+                <div className="profile__info">
                     <h3>Basic Info</h3>
                     <form className="profile__form" onSubmit={handleEditProfile}>
                         <button className="edit">Edit</button>

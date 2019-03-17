@@ -1,71 +1,204 @@
 .profile
+    min-width: 100%
+    min-height: 50em
+    display: flex
+    flex-direction: column
+    padding-top: 5em
 
+    input.profile__content--name
+        background: transparent
+        border: none
+        color: white
+        font-size: 24px
+        // display: flex
+        // align-items: center
+        // align-self: center
 
-    h2
-        padding: 1em
-        width: 0
-        margin: 0 auto
+    input.profile__content--company
+        background: transparent
+        border: none
+        color: #FFA345
+        font-size: 20px
 
-    h3
-        width: 20%
-        margin: 0 auto
-
-    &__content
-        margin: 0
-        display: flex
-        flex-direction: row
-        justify-content: space-around
-        padding: 0 10em
-
-    .profile__form
+    .profile__content
         display: flex
         flex-direction: column
-        justify-content: space-between
+        margin: 0 auto
+        justify-content: space-around
+        height: 15em
 
-        .edit
-            background-image: linear-gradient(#00b5ba, #304f99)
-
-        div
+        &--form
             display: flex
-            // flex-direction: column
-            align-items: center
-            padding-top: 1em
+            flex-direction: column
+            justify-content: space-around
+            height: 15em
 
-            label
-                font-size: 18px
-                width: 30%
+            &--userImage
+                border-radius: 100%
+                height: 8em
+                width: 10em
+                opacity: 1
+                z-index: 2
+                margin: 0 auto
 
-            input
-                align-items: center
+            &--inputs
+                opacity: 1
+                color: white
+                display: flex
+                flex-direction: column
+                align-self: center
+                // margin: 0 auto
+
+
+.backgroundImage
+    position: relative
+    height: 15em
+    width: 100%
+    opacity: 0.5
+    padding: 0
+
+.profile__info
+    min-width: 100%
+    min-heigt: 100%
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    padding-top: 8em
+
+.profile__form
+    min-width: 100%
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-self: center
+
+    //     .edit
+    //         background-image: linear-gradient(#00b5ba, #304f99)
+
+    //     div
+    //         display: flex
+    //         // flex-direction: column
+    //         align-items: center
+    //         padding-top: 1em
+
+    //         label
+    //             font-size: 18px
+    //             width: 30%
+
+    //         input
+    //             align-items: center
                 
 
-        &--info
-            height: 50px
-            width: 400px
-            font-size: 18px
-            color: black
+    //     &--info
+    //         height: 50px
+    //         width: 400px
+    //         font-size: 18px
+    //         color: black
+    //         border: none
+    //         border-bottom: 1px solid white
+    //         background: transparent
+    //         outline: none
+
+    // textarea
+    //     scrollbar-base-color: blue
+    //     scrollbar-highlight-color: blue
+
+    // button
+    //     margin-top: 20px
+    //     border-radius: 30px
+    //     width: 10em
+    //     height: 2em
+    //     border: none
+    //     color: #fff
+    //     font-size: 15px
+    //     cursor: pointer
+    //     background-image: linear-gradient(#0F0340, #360BE5)
+    //     align-self: center
+
+@media (min-width: 1000px)
+
+    .profile
+        max-width: 75%
+        display: flex
+        display-direction: row
+        flex-wrap: wrap
+        margin: 0 auto
+        justify-content: space-around
+        padding-top: 5em
+
+        h2
+            display: flex
+            justify-content: center
+            width: 100%
+    
+        h3
+            width: 20%
+            margin: 0 auto
+    
+        &__content
+            background-size: cover
+            display: flex
+            display-direction: row
+            margin: 0 auto
+            justify-content: space-around
+            padding-top: 2em
+    
+        .profile__imageform
+            display: flex
+            flex-direction: column
+            justify-content: space-between
+            padding-right: 2em
+
+        .profile__form
+            display: flex
+            flex-direction: column
+            justify-content: space-between
+    
+        .edit
+            background-image: linear-gradient(#00b5ba, #304f99)
+    
+            div
+                display: flex
+                // flex-direction: column
+                align-items: center
+                padding-top: 1em
+    
+                label
+                    font-size: 18px
+                    width: 30%
+    
+                input
+                    align-items: center
+                    
+    
+            &--info
+                height: 50px
+                width: 400px
+                font-size: 18px
+                color: black
+                border: none
+                border-bottom: 1px solid white
+                background: transparent
+                outline: none
+    
+        textarea
+            scrollbar-base-color: blue
+            scrollbar-highlight-color: blue
+    
+        button
+            margin-top: 20px
+            border-radius: 30px
+            width: 10em
+            height: 2em
             border: none
-            border-bottom: 1px solid white
-            background: transparent
-            outline: none
-
-    textarea
-        scrollbar-base-color: blue
-        scrollbar-highlight-color: blue
-
-    button
-        margin-top: 20px
-        border-radius: 30px
-        width: 10em
-        height: 2em
-        border: none
-        color: #fff
-        font-size: 15px
-        cursor: pointer
-        background-image: linear-gradient(#0F0340, #360BE5)
-        align-self: center
-
-img
-    height: 200px
-    width: 200px
-    float: center
+            color: #fff
+            font-size: 15px
+            cursor: pointer
+            background-image: linear-gradient(#0F0340, #360BE5)
+            align-self: center
+    
+    img
+        height: 300px
+        width: 300px
+        float: center
+    

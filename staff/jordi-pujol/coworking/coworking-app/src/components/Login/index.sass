@@ -2,20 +2,16 @@
   display: $display
   flex-direction: $direction
   align-items: $align
-  
+
 .login
   display: grid
-  grid-template-columns: 60% 40%
-  grid-template-rows: 1
-  height: 30rem
-  width: 60rem
-  padding: 0% 20%
-
+  grid-template-rows: 80% 60%
+  grid-template-columns: 1
   
   &_content
     padding-top: 2em
-    grid-column-start: 1
-    grid-column-end: 2
+    grid-row-start: 1
+    grid-row-end: 2
     background: #fff
     +flexin(flex, column, center)
 
@@ -58,8 +54,10 @@
 
 
   &_subcontent
-    grid-column-start: 2
-    grid-column-end: 3
+    grid-column-start: 1
+    grid-column-end: 1
+    grid-row-start: 2
+    grid-row-end: 4
     display: flex
     background-image: linear-gradient(#00ffb3, #3d5bfe)
     background-size: cover
@@ -84,3 +82,92 @@
       
       button:hover 
         background-image: linear-gradient(skyblue, #360BE5)
+
+@media (min-width: 800px)
+  
+  .login
+    display: grid
+    grid-template-columns: 60% 40%
+    grid-template-rows: 100%
+    height: 30rem
+    width: 60rem
+    padding: 10% 25%
+    justify-content: space-around
+
+
+    &_content
+      padding-top: 2em
+      grid-column-start: 1
+      grid-column-end: 2
+      grid-row-start: 1
+      grid-row-end: 2
+      background: #fff
+      +flexin(flex, column, center)
+
+
+      &-form
+        +flexin(flex, column, center)
+        justify-content: space-around
+        height: 70%
+
+        input
+          font-size: 16px
+          border: none
+          border-bottom: 1px solid rgba(0,0,0,0.4)
+          outline: none
+
+        button
+          margin: 0 auto
+          border-radius: 30px
+          width: 8em
+          height: 2em
+          border: none
+          color: #fff
+          font-size: 15px
+          cursor: pointer
+          background-image: linear-gradient(#2C9200, #1C440B)
+
+        button:hover 
+          background-image: linear-gradient(skyblue, #360BE5)
+
+      .submit
+        margin: 0 auto
+        border-radius: 30px
+        width: 20em
+        height: 2em
+        border: none
+        color: #fff
+        font-size: 15px
+        cursor: pointer
+        background-image: linear-gradient(#2C9200, #1C440B)
+
+
+    &_subcontent
+      grid-column-start: 2
+      grid-column-end: 3
+      grid-row-start: 1
+      grid-row-end: 2
+      display: flex
+      background-image: linear-gradient(#00ffb3, #3d5bfe)
+      background-size: cover
+      +flexin(flex, column, center)
+
+
+      div
+        +flexin(flex, column, center)
+        padding: 4em 3em
+
+      button
+        margin: 0 auto
+        border-radius: 30px
+        width: 8em
+        height: 2em
+        border: none
+        color: #fff
+        font-size: 15px
+        cursor: pointer
+        background-image: linear-gradient(#3d5bfe, #1f0054)
+        color: white
+
+        button:hover 
+          background-image: linear-gradient(skyblue, #360BE5)
