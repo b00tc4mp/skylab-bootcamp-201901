@@ -17,6 +17,7 @@ import Results from '../Results'
 import CitySelector from '../CitySelector'
 import CategorySelector from '../CategorySelector'
 import ArCompo from '../ArCompo'
+import ArViewer from '../ArViewer'
 
 class App extends Component {
 
