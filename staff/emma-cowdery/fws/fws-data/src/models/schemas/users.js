@@ -104,6 +104,10 @@ const Users = new Schema({
     howTo: {
         type: Boolean,
         required: true
+    },
+
+    profilePicture: {
+        type: String
     }
 })
 

@@ -20,14 +20,14 @@
         
     &__map-panel
         display: grid
-        grid-template-rows: 1.04fr 2fr
+        grid-template-rows: 1.37fr 2fr
 
         &-map
             border-radius: 0.8em 0.8em 0 0
 
         &-filters
-            border-radius: 2em
-            background-color: none
+            background-color: $light-green
+            border-radius: 0.8em
 
         &-arrow
             display: flex
@@ -44,6 +44,17 @@
             margin: 0
             font-size: 1.2em
 
+    &__map-filter
+        background-color: $light-green
+        border-radius: 0 15px 15px 0
+        display: flex
+        flex-flow: column
+        align-items: center
+
+        &-title
+            font-size: 1.5em
+            color: $dark-gray
+            font-weight: 600
 
 
 @media (min-width: 1200px)
@@ -54,8 +65,10 @@
             margin: 1em
             display: grid
             grid-template-columns: 1fr 1fr 1fr 1fr
+            grid-template-rows: 1fr
             border-radius: 0.5em 0 0 0.5em
             box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+            height: 94%
 
             &-info
 

@@ -110,7 +110,7 @@ const logic = {
         if (!userId.trim().length) throw Error('userId is empty')
 
         return (async () => {
-            const user = await Users.findById(userId)//.select('__v').lean()
+            const user = await Users.findById(userId).select('-__v -password').lean()
 
             if (!user) throw Error(`user with id ${userId} not found`)
 
@@ -148,6 +148,31 @@ const logic = {
             if (!match) throw Error('wrong credentials')
 
             Users.deleteOne(user)
+        })()
+    },
+
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} url 
+     */
+    updateProfilePicture(userId, url) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
+        if (!url.trim().length) throw Error('url is empty')
+
+        return (async () => {
+            const user = await Users.findByIdAndUpdate(userId, { image: url }).select('-__v -password').lean()
+
+            if (!user) throw Error('user not found')
+
+            user.id = user._id.toString()
+            
+            delete user._id
+
+            return user
         })()
     },
 

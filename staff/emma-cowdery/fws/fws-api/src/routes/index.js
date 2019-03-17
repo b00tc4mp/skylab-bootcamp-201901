@@ -41,5 +41,9 @@ module.exports = {
 
     filterEvents: require('./filter-events'),
 
-    notFound: require('./not-found')
+    notFound: require('./not-found'),
+
+    updateProfilePicture: require('./update-profile-picture'),
+
+    retrieveUserWithId: require('./retrieve-user-with-id')
 }

@@ -6,6 +6,8 @@ import NavBar from '../NavBar'
 import logic from '../../logic'
 import InfoWindow from '../InfoWindow'
 import MapFilter from '../MapFilter'
+import JoinEvent from '../JoinEvent'
+import UnjoinEvent from '../UnjoinEvent'
 
 export default function EventsMap ({setShowRightBar, setShowDropdown}) {
     const [userLocation, setUserLocation] = useState({ lat: 41.390356499999996, lng: 2.1941694})
@@ -17,8 +19,13 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
     const [eventDate, setEventDate] = useState()
     const [reservationName, setReservationName] = useState()
     const [restaurantCategory, setRestaurantCategory] = useState()
+    const [restaurantName, setRestaurantName] = useState()
     const [mapInGrid, setMapInGrid] = useState('-no-info')
     const [mobile, setMobile] = useState(false)
+    const [joinEvent, setJoinEvent] = useState(false)
+    const [unjoinEvent, setUnjoinEvent] = useState(false)
+    const [userId, setUserId] = useState()
+
 
     //filter
     const [timeRange, setTimeRange] = useState()
@@ -32,7 +39,10 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
         logic.geolocation()
             .then(geolocation => setUserLocation(geolocation)) //googles geolocation is not totally accurate
         
-        if (window.screen.width < 1200) setMobile(true)
+        if (window.innerWidth < 1200) setMobile(true)
+
+        logic.retrieveUser()
+            .then(({user}) => setUserId(user._id))
     }, [])
 
     useEffect(() => {
@@ -40,6 +50,10 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
             center: userLocation,
             zoom: 13
         })
+
+        // const legend = document.getElementById('legend')
+
+        // map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(legend)
 
         const marker = new window.google.maps.Marker({ position: userLocation, icon: 'images/user-location-medium.png', map: map })
 
@@ -49,8 +63,6 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
 
     useEffect(() => {
         let filters = {'distance': distance}
-
-        console.log(priceRange)
 
         if (priceRange) Object.defineProperty(filters, 'priceRange', { value: priceRange, configurable: true, enumerable: true, writable: true })
 
@@ -62,56 +74,35 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
 
         if (filteredCategory) Object.defineProperty(filters, 'restaurantCategory', { value: filteredCategory, configurable: true, enumerable: true, writable: true })
 
-        console.log(filters)
-
         logic.filterEvents(filters)
             .then(events => setEvents(events))
 
     }, [distance, timeRange, preferedDate, rating, priceRange, filteredCategory])
 
-    console.log(timeRange)
-
     function eventMarkers (map) {
-        events && events.map(({ eventLocation, restaurantCategory, participants, eventDate, eventTime, restaurantId, reservationName }) => {
+        events && events.map(({ eventLocation, restaurantCategory, participants, eventDate, eventTime, restaurantId, reservationName, restaurantName }) => {
             const location = {lat: eventLocation[0], lng: eventLocation[1]}
 
             let icon = undefined
 
-            if (restaurantCategory === 'Spanish') {
-                icon = 'images/event-red-45.png'
-
-            } else if (restaurantCategory === 'South American') {
-                icon = 'images/event-yellow-45.png'
-
-            } else if (restaurantCategory === 'Thai') {
-                icon = 'images/event-green-45.png'
-
-            } else if (restaurantCategory === 'Mexican') {
-                icon = 'images/event-orange-45.png'
-
-            } else if (restaurantCategory === 'Indian') {
-                icon = 'images/event-purple-45.png'
-
-            } else {
-                icon = 'images/event-blue-45.png' 
-            } 
+            if (participants.includes(userId)) icon = 'images/event-gray-45.png'
+            else icon = 'images/event-yellow-45.png'
 
             const marker = new window.google.maps.Marker({ position: location, icon: icon, map: map })
 
             marker.addListener('click', function() {
-                setMapInGrid('-info')
-                setEventInfo(true)
                 setParticipants(participants)
                 setEventDate(eventDate)
                 setEventTime(eventTime)
                 setRestaurantIs(restaurantId)
                 setReservationName(reservationName)
                 setRestaurantCategory(restaurantCategory)
-            })  
+                setRestaurantName(restaurantName)
+                setMapInGrid('-info')
+                setEventInfo(true)
+            })
         })
     }
-
-    console.log(mobile)
 
     return (
         <Fragment>
@@ -120,18 +111,24 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
                 <EventsNav/>
                 <div className='events-map__elements'>
                     <div className='events-map__map-panel'>
-                        {eventInfo && <InfoWindow className='events-map__map-panel-info' setMapInGrid={setMapInGrid} setEventInfo={setEventInfo} participants={participants} eventDate={eventDate} eventTime={eventTime} restaurantId={restaurantId} reservationName={reservationName} restaurantCategory={restaurantCategory}/>}
+                        {eventInfo && <InfoWindow className='events-map__map-panel-info' setMapInGrid={setMapInGrid} setEventInfo={setEventInfo} participants={participants} eventDate={eventDate} eventTime={eventTime} restaurantId={restaurantId} reservationName={reservationName} restaurantCategory={restaurantCategory} mobile={mobile} restaurantName={restaurantName} setJoinEvent={setJoinEvent} setUnjoinEvent={setUnjoinEvent}/>}
                         <div id='map' className={`events-map__map-panel-map${mapInGrid} events-map__map-panel-map`}></div>
+                        {/* <div alt='Legend' id='legend'>
+                            <img alt='legend icon' src='images/event-yellow-45.png'></img>
+                            <img alt='legend icon' src='images/event-gray-45.png'></img>
+                        </div> */}
                         {mobile ? <div className='events-map__map-panel-filters'>
                             <div className='events-map__map-panel-arrow'>
                                 <i className="fas fa-chevron-up events-map__map-panel-icon"></i>
                                 <p className='events-map__map-panel-title'>filter</p>
                             </div>
                             <MapFilter setPreferedDate={setPreferedDate} setTimeRange={setTimeRange} setDistance={setDistance} setRating={setRating} setPriceRange={setPriceRange} setFilteredCategory={setFilteredCategory}/>
-                        </div> : <MapFilter setPreferedDate={setPreferedDate} setTimeRange={setTimeRange} setDistance={setDistance} setRating={setRating} setPriceRange={setPriceRange} setFilteredCategory={setFilteredCategory}/>}
+                        </div> : <div className='events-map__map-filter'><p className='events-map__map-filter-title'>filter</p><MapFilter setPreferedDate={setPreferedDate} setTimeRange={setTimeRange} setDistance={setDistance} setRating={setRating} setPriceRange={setPriceRange} setFilteredCategory={setFilteredCategory}/></div>}
                     </div>
                 </div>
             </div>
+            {joinEvent && <div><JoinEvent selectedEvent={restaurantId} setJoinEvent={setJoinEvent}/></div>}
+            {unjoinEvent && <div><UnjoinEvent selectedEvent={restaurantId} setUnjoinEvent={setUnjoinEvent}/></div>}
         </Fragment>
     )
 }

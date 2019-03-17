@@ -24,7 +24,7 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
             })
 
         logic.retrieveUser()
-            .then(({user}) => setUserId(user._id))
+            .then(({user}) => setUserId(user.id))
     }, [])
 
     useEffect(() => {
@@ -33,8 +33,6 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
                 setEventStyle({backgroundImage: `url(${url})`})
             })
     }, [counter])
-
-    console.log(details)
 
     return (
         <Fragment>
@@ -55,6 +53,10 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
                             <a className='event-nearme__info-phone' href={`tel:${details.international_phone_number}`}>{details.international_phone_number}</a>
                         </div>
                         <p className='event-nearme__info-category'>{restaurantCategory}</p>
+                        <div className='event-nearme__info-when'>
+                            <p>{eventDate.substring(0, 15)}</p>
+                            <p>{eventTime}</p>
+                        </div>
                         <div className='event-nearme__info-links'>
                             <a className='event-nearme__info-link event-nearme__info-link-one' href={details.url} target="_blank"><i class="fas fa-map-marked-alt event-nearme__info-link-icon"/> open in maps</a>
                             <a className='event-nearme__info-link event-nearme__info-link-two' href={details.website} target="_blank"><i class="fas fa-desktop event-nearme__info-link-icon"></i> website</a>

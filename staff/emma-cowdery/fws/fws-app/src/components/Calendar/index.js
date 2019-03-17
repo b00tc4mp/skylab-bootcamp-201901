@@ -32,12 +32,12 @@ export default function Calendar({ setEventDate }) {
     function calendar() {
         return (
             <div className='calendar'>
-                <div className='header'>
-                    <button onClick={e => { e.preventDefault(); setCurrentMonth(dateFns.subMonths(currentMonth, 1)) }}>right</button>
+                <div className='calendar__header'>
+                    <i className="fas fa-chevron-left calendar__header-left" onClick={e => { e.preventDefault(); setCurrentMonth(dateFns.subMonths(currentMonth, 1)) }}></i>
                     <span>
                         {dateFns.format(currentMonth, dateFromat)}
                     </span>
-                    <button onClick={e => { e.preventDefault(); setCurrentMonth(dateFns.addMonths(currentMonth, 1)) }}>left</button>
+                    <i className="fas fa-chevron-right calendar__header-right" onClick={e => { e.preventDefault(); setCurrentMonth(dateFns.addMonths(currentMonth, 1)) }}></i>
                 </div>
                 {
                     (() => {

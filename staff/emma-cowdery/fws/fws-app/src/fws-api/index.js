@@ -96,6 +96,53 @@ const fwsApi = {
 
     /**
      * 
+     * @param {string} userId 
+     */
+    retrieveUserWithId(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return fetch(`${this.url}/retrieve-user/${userId}`)
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
+     * @param {string} token 
+     * @param {blob} image 
+     */
+    updateProfilePicture(token, image) {
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (!image) throw Error('image is empty')
+        if (image instanceof Blob === false) throw TypeError(`${image} is not a blob`)
+
+        let formData = new FormData()
+        formData.append('image', image)
+
+        return fetch(`${this.url}/profile-picture`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
      * @param {string} restaurantId 
      * @param {string} token 
      * @param {string} eventTime 

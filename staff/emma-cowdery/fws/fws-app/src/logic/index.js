@@ -111,6 +111,40 @@ const logic = {
 
     /**
      * 
+     * @param {string} userId 
+     */
+    retrieveUserWithId(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            const user = await fwsApi.retrieveUserWithId(userId)
+
+            if (!user) throw Error('user not found')
+
+            return user
+        })()
+    },
+
+    /**
+     * 
+     * @param {blob} image 
+     */
+    updateProfilePicture(image) {
+        if (!image) throw Error('image is empty')
+        if (image instanceof Blob === false) throw TypeError(`${image} is not a blob`)
+
+        return (async () => {
+            const user = await fwsApi.updateProfilePicture(this.__token__, image)
+
+            if (!user) throw Error('user not found')
+
+            return user
+        })()
+    },
+
+    /**
+     * 
      * @param {string} restaurantId 
      * @param {string} eventTime 
      * @param {string} eventDate 

@@ -15,14 +15,14 @@ export default function TimeSelector ({ setEventTime }) {
     }, [timeMinute, timeHour])  //fix this because if a user changes the hour after the minutes, eventTime doesnt get changed
 
     return (
-        <div className='hourSelectorDiv'>
-            <select onChange={e => {e.preventDefault(); setTimeHour(e.target.value)}} defaultValue={String(new Date).substring(16, 18)}>
+        <div className='time-selector'>
+            <select className='time-selector__sel' onChange={e => {e.preventDefault(); setTimeHour(e.target.value)}} defaultValue={String(new Date).substring(16, 18)}>
                 {hours.map(hour =>  <option value={hour}>{hour}</option>)}
             </select>
-            <select onChange={e => {e.preventDefault(); setTimeMinute(e.target.value)}}>
+            <p className='time-selector__sep'>:</p>
+            <select className='time-selector__sel' onChange={e => {e.preventDefault(); setTimeMinute(e.target.value)}}>
                 {minutes.map(minute => <option valur={minute}>{minute}</option>)}
             </select>
-        </div>
-        
+        </div>   
     )
 }

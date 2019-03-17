@@ -1,24 +1,35 @@
+@import '../../utils.sass'
+    
 .calendar
     border-style: solid
-    border-width: 0.3em
-    color: yellow
+    border-width: 0.2em
+    border-color: $yellow
+    width: 100%
+    height: 100%
+    border-radius: 0.5em
+    color: $dark-gray
+
+    &__header
+        background-color: $yellow
+        display: flex
+        justify-content: center
+
+        &-left
+            padding-right: 0.5em
+
+        &-right
+            padding-left: 0.5em
 
 .dayNames
     display: grid
     grid-template-columns: repeat(7, 1fr)
     border-style: solid
     border-width: 0.1em
+    border-color: $ocre
 
 .name
     display: flex
     justify-content: center
-
-.rightWay
-    // display: grid
-    // grid-template-columns: repeat(7, 1fr)
-    // display: flex
-    // flex-direction: column
-    // color: red
 
 .dayNumbers
     display: grid
@@ -29,4 +40,5 @@
     justify-content: center
 
 .selected
-    color: red
+    background-color: $dark-green
+    border-radius: 0.5em

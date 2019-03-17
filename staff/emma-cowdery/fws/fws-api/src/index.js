@@ -14,13 +14,11 @@ var corsOptions = {
     origin: 'http://localhost:3000'
 }
 
-//cloud
+const imageParser = require('./imageParser')
 
-const { parseImageUpload } = require('./cloudinary/middleware')
+const cloudinaryUploader = require('./cloudinary')
 
-//nocloud
-
-const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, findEventByCategory, findEventsNearMe, createChat, joinChat, userChats, addMessageToChat, messagesFromChat, searchRestaurants, restaurantDetails, resizePhoto, geolocation, dontShowHowTo, howTo, filterEvents, uploadImage, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, findEventByCategory, findEventsNearMe, createChat, joinChat, userChats, addMessageToChat, messagesFromChat, searchRestaurants, restaurantDetails, resizePhoto, geolocation, dontShowHowTo, howTo, filterEvents, notFound, updateProfilePicture, retrieveUserWithId } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -76,7 +74,9 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.post('/filter-events', [tokenVerifierMiddleware, jsonBodyParser], filterEvents)
 
-        //router.post('/upload', [parseImageUpload, tokenVerifierMiddleware], uploadImage)
+        router.post('/profile-picture', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateProfilePicture)
+
+        router.get('/retrieve-user/:userId', [jsonBodyParser], retrieveUserWithId)
 
         router.get('*', notFound)
 

@@ -1,4 +1,18 @@
-.hourSelectorDiv
-    overflow: auto
-    height: 3em
-    color: red
+@import '../../utils.sass'
+
+.time-selector
+    display: flex
+    flex-flow: row
+    color: $dark-gray
+
+    &__sel
+        height: 2em
+        background-color: $yellow
+        border-width: 0
+        border-radius: 10px
+        appearance: menulist
+
+    &__sep
+        margin: 0
+
+    

@@ -1,31 +1,28 @@
 'use strict'
 
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary').v2
+
+const streamifier = require('streamifier')
 
 require('dotenv').config()
 
 const { env: { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } } = process
 
-cloudinary.config({
+function cloudinaryUploader(req, res, next) {
+  cloudinary.config({
     cloud_name: CLOUDINARY_CLOUD_NAME,
     api_key: CLOUDINARY_API_KEY,
     api_secret: CLOUDINARY_API_SECRET
-})
+  })
 
-const uploadImage = (image) => {
-    const cloudinaryOptions = {
-        resource_type: 'raw'
-    }
+  const path = req.file.buffer
 
-    return new Promise((resolve, reject) => {
-        cloudinary.v2.uploader.upload_stream(cloudinaryOptions, function (error, result) {
-          if (error) {
-            reject(error)
-          } else {
-            resolve(result)
-          }
-        }).end(image.buffer)
-    })
+  const upload_stream = cloudinart.uploader.upload_stream(function(err, image) {
+    req.image = image
+    next()
+  })
+
+  streamifier.createReadStream(path).pipe(upload_stream)
 }
 
-module.exports = uploadImage
+module.exports = cloudinaryUploader

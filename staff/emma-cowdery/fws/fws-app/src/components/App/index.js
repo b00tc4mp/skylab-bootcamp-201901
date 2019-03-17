@@ -14,6 +14,7 @@ import Calendar from '../Calendar'
 import Chats from '../Chats'
 import RightBar from '../RightBar'
 import DropDown from '../DropDown'
+import UserProfile from '../UserProfile'
 
 export default withRouter (function App() {
     const [showRightBar, setShowRightBar] = useState(false)
@@ -33,6 +34,7 @@ export default withRouter (function App() {
             <Route path="/chats" render={() => logic.isUserLoggedIn ? <Chats setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
             {showRightBar && <RightBar setShowRightBar={setShowRightBar}/>}
             {showDropdown && <DropDown setShowDropdown={setShowDropdown}/>}
+            <Route path="/user" render={() => logic.isUserLoggedIn ? <UserProfile setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
         </Fragment>
     )
 })

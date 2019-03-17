@@ -1,5 +1,184 @@
-// .event-info
-//     display: flex
-//     flex-flow: column
+@import '../../utils.sass'
+
+.event-info
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    display: grid
+    grid-template-rows: 40% 60%
+    background-color: $dark-gray
+    opacity: 0.9
+    z-index: 5
+
+    &__content
+        background-color: white
+        border-radius: 1em 1em 0 0
+        display: grid
+        grid-template-rows: 1fr 1fr 
+        width: 100%
+        color: $dark-gray
+
+    &__background
+        height: 10em
+        background-repeat: no-repeat
+        background-position: center
+        border-radius: 1em 1em 0 0
+        display: grid
+        grid-template-rows: repeat(3, 1fr)
+
+        &-center
+            grid-row-start: 2
+            grid-row-end: 3
+            display: flex
+            justify-content: space-between
+
+        &-arrow
+            align-self: center
+            color: white
+            font-size: 1.5em
+            padding: 0.5em
+            cursor: pointer
+
+        &-distance
+            grid-row-start: 3
+            display: flex
+            justify-content: flex-end
+
+            &-text
+                align-self: flex-end
+                padding: 0.5em
+                padding-left: 1em
+                padding-right: 1em
+                color: white
+                margin: 0
+                background-color: $dark-gray
+                border-radius: 1em 0 0 0
+                font-size: 0.8em
 
 
+    &__info
+        margin: 1em
+
+        &-text
+            display: flex
+            flex-flow: row
+            justify-content: space-between
+            align-items: center
+
+        &-name
+            font-weight: 700
+            margin: 0
+
+        &-phone
+            font-size: 0.8em
+            cursor: pointer
+
+        &-phone:link
+            text-decoration: none
+
+        &-category
+            font-size: 0.8em
+            margin: 0
+
+        &-links
+            margin-top: 1em
+            display: flex
+            flex-flow: row
+            justify-content: space-between
+            cursor: pointer
+
+        &-link:link
+            text-decoration: none
+
+        &-link
+            font-weight: 200
+            border-radius: 0.5em
+            padding: 0.5em
+            font-size: 0.9em
+            box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+
+            &-one
+                background-color: $light-yellow
+
+            &-two
+                background-color: $dark-green
+
+            &-icon
+                font-size: 1em
+
+        &-when
+            display: flex
+            flex-flow: row
+            justify-content: space-between
+            font-size: 0.8em
+            color: $dark-gray
+
+    &__join
+        background-color: #A9C5EB
+        border-radius: 0 0 1em 1em 
+        display: flex
+        justify-content: center
+        grid-row-start: 6
+        cursor: pointer
+        padding: 0.8em
+
+        &-button
+            color: $dark-gray
+            font-size: 1em
+            background-color: $light-green
+            border-width: 0
+
+    &__unjoin
+        background-color: $light-yellow
+        border-radius: 0 0 1em 1em 
+        display: flex
+        justify-content: center
+        grid-row-start: 6
+        cursor: pointer
+        padding: 0.8em
+
+        &-button
+            color: $dark-gray
+            font-size: 1em
+            background-color: $light-yellow
+            border-width: 0
+
+
+@media (min-width: 768px)
+    .event-info
+        grid-template-rows: 55% 45%
+
+        &__background
+            background-size: 150%
+
+@media (min-width: 1200px)
+    .event-info
+        position: relative
+        display: flex
+        flex-flow: column
+        align-items: center
+        background-color: white
+        opacity: 1
+        z-index: 0
+
+        &__background
+            border-radius: 1em 0 0 0
+
+            &-close
+                justify-self: end
+                align-self: start
+                color: white
+                margin: 0.7em
+                font-size: 1.3em
+                cursor: pointer
+
+        &__unjoin
+            border-radius: 1em
+            margin: 1em
+
+        &__join
+            border-radius: 1em
+            margin: 1em
+            
