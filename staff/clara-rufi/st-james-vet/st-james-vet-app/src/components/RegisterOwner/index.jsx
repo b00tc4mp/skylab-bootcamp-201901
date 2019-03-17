@@ -42,7 +42,7 @@ class RegisterOwner extends Component {
 
         return <form onSubmit={this.handleRegisterSubmit} >
             <section class="form">
-                <p className="title__form">Owner's details:</p>
+                <h1>Owner's details:</h1>
                 <div className="input__form">
                     <label>Name</label>
                     <input type="text" name="name" onChange={this.handleOnChange} required></input>

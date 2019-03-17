@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from 'react'
-// import Login from 'Login'
-// import Register from 'Register'
 import Nav from '../Nav'
 import Footer from '../Footer'
 import Carousel from '../Carousel'

@@ -30,7 +30,6 @@ class Visit extends Component {
     componentDidMount() {
         this.retrieveUsers()
     }
-
    
     handleGoHome = event => {
         event.preventDefault()
@@ -40,7 +39,6 @@ class Visit extends Component {
     handleSelectPet = async event => {
         event.preventDefault()
         const petsId = event.target.value
-        console.log(petsId)
         const {vaccionations, controls, details} = await logic.retrievePetVisit(petsId)
         this.setState({ petsId, vaccionations, controls, details})
     }
@@ -52,8 +50,7 @@ class Visit extends Component {
     }
 
     editVisit = async (petsId,  vaccionations, controls, details) => {
-        try {
-            
+        try {          
             await logic.updateVisit(petsId,  vaccionations, controls, details)
             this.setState({isModified: true})
         } catch ({ message }) {
@@ -65,7 +62,7 @@ class Visit extends Component {
 
         return <form onSubmit={this.handleVisitSubmit}>
             <section className="form">
-            <p className="title__form">Visit details:</p>
+            <h1>Visit details:</h1>
             <div className="input__form">
                 <label>Select Owner</label>
                 <select name="owner" onChange={this.handleSelectOwner}>
@@ -95,8 +92,7 @@ class Visit extends Component {
             <button type="submit" class="button">Edit</button>
             <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
             {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
-            {this.state.isModified && <p className="feedback feedback__success">Visit successfully updated</p>}
-            
+            {this.state.isModified && <p className="feedback feedback__success">Visit successfully updated</p>}     
             </section>
         </form>         
             

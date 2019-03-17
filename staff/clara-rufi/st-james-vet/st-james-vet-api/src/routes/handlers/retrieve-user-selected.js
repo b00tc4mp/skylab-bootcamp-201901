@@ -2,21 +2,19 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
     debugger
-    
-    const { body: { Id } } = req
+    const { userSelectedId } = req
+
     try {
-        logic.deleteAppointment(Id)
-         
-            .then(res.json({message: 'OK'}))
-            // .then(Id => res.json({message: 'OK'}))
-            
+        logic.retrieveUserSelected(userSelectedId)
+            // .then(user => res.json(user))
+            .then(res.json.bind(res))
             .catch(({ message }) => {
-                res.status(409).json({
+                res.status(400).json({
                     error: message
                 })
             })
     } catch ({ message }) {
-        res.status(409).json({
+        res.status(400).json({
             error: message
         })
     }

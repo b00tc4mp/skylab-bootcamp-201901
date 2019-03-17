@@ -28,12 +28,10 @@ class RegisterPet extends Component {
         this.retrieveUsers()
     }
 
-
     handleRegisterSubmit = event => {
         event.preventDefault()
         const { state: { owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details } } = this
         this.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-
     }
 
     handleGoHome = event => {
@@ -55,7 +53,7 @@ class RegisterPet extends Component {
 
         return <form onSubmit={this.handleRegisterSubmit}>
             <section class="form">
-                <p className="title__form">Pet's details:</p>
+                <h1>Pet's details:</h1>
                 <div className="input__form">
                     <label>Select Owner</label>
                     <select name="owner" onChange={this.handleSelectChange}>

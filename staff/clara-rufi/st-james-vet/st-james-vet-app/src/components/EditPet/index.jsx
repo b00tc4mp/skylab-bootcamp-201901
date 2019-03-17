@@ -66,7 +66,7 @@ class EditPet extends Component {
         return <main> 
         <form onSubmit={this.handleEditSubmit}>
             <section className="form">
-                <p className="title__form">Pet's details:</p>
+                <h1>Pet's details:</h1>
                 <div className="input__form">
                     <label>Select Owner</label>
                     <select name="owner" onChange={this.handleSelectOwner} >

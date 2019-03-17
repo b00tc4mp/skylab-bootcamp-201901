@@ -6,12 +6,11 @@ import moment from 'moment';
 import logic from '../../logic';
 import Appointments from '../Appointments';
 import './index.sass'
+import { EventEmitter } from 'events';
 
 class Calendar extends Component {
 
-    state = { users: [], owner: '', pets: [], appointments: [], pet: '', date: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false, buttonConfirm: true, error: null, errorDate: false }
-
-
+    state = { users: [], owner: '', pets: [], appointments: [], pet: '', date: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false, buttonConfirm: true, error: null, errorDate: false, visitDeleted: false }
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
@@ -28,22 +27,17 @@ class Calendar extends Component {
         event.preventDefault()
         const usersId = event.target.value
         this.retrievePets(usersId)
-        console.log(usersId)
-        console.log(typeof this.state.month === 'string')
         this.setState({ owner: usersId })
-
     }
 
     retrievePets = async userId => {
         const pets = await logic.retrievePets(userId)
-        console.log("calendar userId " + userId)
         this.setState({ pets })
     }
 
     handleSelectPet = async event => {
         event.preventDefault()
         const petsId = event.target.value
-        console.log("calendar petsID " + petsId)
         this.setState({ pet: petsId })
     }
 
@@ -52,7 +46,6 @@ class Calendar extends Component {
         let yearNumber = parseInt(this.state.year)
         let monthNumber = parseInt(this.state.month)
         let dayNumber = parseInt(this.state.day)
-        console.log(yearNumber, monthNumber, dayNumber)
         this.setState({ month: monthNumber + 1 }, () => this.retrieveAppointments());
         if (this.state.month === 12) {
             this.setState({ year: yearNumber + 1, month: 1 })
@@ -64,7 +57,6 @@ class Calendar extends Component {
         let yearNumber = parseInt(this.state.year)
         let monthNumber = parseInt(this.state.month)
         let dayNumber = parseInt(this.state.day)
-        console.log(yearNumber, monthNumber, dayNumber)
         this.setState({ month: monthNumber - 1 }, () => this.retrieveAppointments());
         if (this.state.month === 1) {
             this.setState({ year: yearNumber - 1, month: monthNumber = 12 })
@@ -74,7 +66,6 @@ class Calendar extends Component {
     retrieveAppointments = async () => {
         let year = this.state.year
         let month = this.state.month
-        console.log(year, month)
         const appointments = await logic.retrieveAppointments(year, month)
         this.setState({ appointments })
     }
@@ -82,16 +73,13 @@ class Calendar extends Component {
 
     handleDatePicker = event => {
         event.preventDefault()
-        // const date = event.target.value;
         const date = event.target.value;
         this.setState({ date })
         const dateSelected = new Date(date)
         const today = new Date()
         if (dateSelected < today) {
             this.setState({ errorDate: true, askConfirmation: false, buttonConfirm: false })
-        } else if (dateSelected > today) {
-            this.setState({ buttonConfirm: true })
-        }
+        } else if (dateSelected > today) { this.setState({ buttonConfirm: true }) }
         function getDate(date) {
             let result = date.split('-');
             return result;
@@ -100,7 +88,6 @@ class Calendar extends Component {
         let yearVisit = splitDate[0];
         let monthVisit = splitDate[1];
         let dayVisit = splitDate[2];
-
         let year = yearVisit;
         let month = monthVisit;
         let day = dayVisit;
@@ -111,7 +98,6 @@ class Calendar extends Component {
         event.preventDefault()
         const hour = event.target.value;
         this.setState({ hour })
-        console.log(hour)
     }
 
     handleCorrectDate = event => {
@@ -138,22 +124,22 @@ class Calendar extends Component {
         }
     }
 
-    handleDeleteVisit = (e, Id) => {
-        console.log(id)
-        this.deleteVisit(id)
+    handleDeleteVisit = event => {
+        event.preventDefault()
+        const Id = event.target.value;
+        this.deleteVisit(Id)
     }
 
     deleteVisit = async (Id) => {
         try {
             debugger
             await logic.deleteAppointment(Id)
-
+            this.setState({ deleteVisit: true, visitConfirmed: false })
+            this.retrieveAppointments()
         } catch ({ message }) {
-            this.setState({ error: message })
+            this.setState({ error: message, visitConfirmed: false })
         }
     }
-
-
 
     handleConfirmVisitNO = event => {
         event.preventDefault()
@@ -172,7 +158,8 @@ class Calendar extends Component {
                 <p className="appointment" value={id}>
                     <th>
                         {date.getDate()}{'  '}{date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '}{owner.surname}{' '} Pet  :{pet.name}
-                        <button onClick={(e) => this.handleDeleteVisit(e, Id)} className="button__delete">Delete</button>
+                        <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>
+
                     </th>
                 </p>
             </tr>
@@ -201,7 +188,7 @@ class Calendar extends Component {
             </div>
             <div className="input__form">
                 <label>Date</label>
-                <input type="date" className= "input__date" defaultValue={`${this.state.year}-${this.state.month}-${this.state.day}`} onChange={this.handleDatePicker} />
+                <input type="date" className="input__date" defaultValue={`${this.state.year}-${this.state.month}-${this.state.day}`} onChange={this.handleDatePicker} />
             </div>
             <div className="input__form">
                 <label>Hour</label>
@@ -219,10 +206,11 @@ class Calendar extends Component {
                 {this.state.askConfirmation && <div><p className="feedback feedback__confirmation">Are you sure you want to assign this visit?</p></div>}
                 {this.state.askConfirmation && <button onClick={this.handleConfirmVisitOK} className="button__confirm">Yes</button>}
                 {this.state.askConfirmation && <button onClick={this.handleConfirmVisitNO} className="button__confirm">No</button>}
-                {this.state.visitConfirmed && <div><p className="feedback feedback__success">Visit successfully assigned!</p></div>}
+                {this.state.visitConfirmed && <div><p className="feedback feedback__success">Visit successfully assigned</p></div>}
                 {this.state.errorDate && <div><p className="feedback feedback__error">Select a correct date</p></div>}
                 {this.state.errorDate && <button onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
                 {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
+                {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}
             </div>
             <div className="arrows">
                 <i className="fas fa-arrow-left arrow" onClick={this.handleLastMont}></i>
@@ -257,7 +245,8 @@ class Calendar extends Component {
                                             })
 
                                             if (count === date.getDate()) {
-                                                    return printVisit(id, owner, pet, date)
+                                                return printVisit(id, owner, pet, date)
+
                                             }
                                         })
                                     }

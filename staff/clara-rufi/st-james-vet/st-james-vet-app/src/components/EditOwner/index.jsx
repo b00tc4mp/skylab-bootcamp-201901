@@ -21,11 +21,11 @@ class EditOwner extends Component {
 
     handleSelectChange = async event => {
         event.preventDefault()
-        const userId = event.target.value
-        console.log(userId)
-        if (!userId) return
+        const userSelectedId = event.target.value
+        console.log("user selected => " + userSelectedId)
+        if (!userSelectedId) return
         debugger
-        const { name, surname, idCard, phone, adress, city, email } = await logic.retrieveUser(userId)
+        const { name, surname, idCard, phone, adress, city, email } = await logic.retrieveUserSelected(userSelectedId)
         this.setState({ name, surname, idCard, phone, adress, city, email })
     }
 
@@ -57,7 +57,7 @@ class EditOwner extends Component {
 
         return <form onSubmit={this.handleEditProfile} >
             <section class="form">
-                    <p className="title__form">Owner's details:</p>
+                    <h1>Owner's details:</h1>
                 <div className="input__form">
                     <label>Select Owner</label>
                     <select name="owner" onChange={this.handleSelectChange}>

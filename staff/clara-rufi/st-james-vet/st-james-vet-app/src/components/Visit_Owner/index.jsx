@@ -6,7 +6,7 @@ import './index.sass'
 
 class VisitOwner extends Component {
 
-    state = { user: '', appointments: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false, noAppointments: true }
+    state = { user: '', appointments: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false, noAppointments: true, deleteVisit: false }
 
 
     componentDidMount() {
@@ -19,7 +19,6 @@ class VisitOwner extends Component {
         let month = this.state.month
         const appointments = await logic.retrieveAppointments(year, month)
         this.setState({ appointments })
-        if (this.state.appointments !== 0) { this.setState({ noAppointments: true }) }
     }
 
     retrieveUser = async () => {
@@ -35,17 +34,17 @@ class VisitOwner extends Component {
 
     handleDeleteVisit = event => {
         event.preventDefault()
-        debugger
-        const appointmentId = event.target.value;
-        this.deleteVisit(appointmentId)
+        const Id = event.target.value;
+        this.deleteVisit(Id)
     }
 
-    deleteVisit = async (appointmentId) => {
+    deleteVisit = async (Id) => {
         try {
-            debugger
-            await logic.deleteAppointment(appointmentId)
+            await logic.deleteAppointment(Id)
+            this.setState({ deleteVisit: true, visitConfirmed: false })
+            this.retrieveAppointments()
         } catch ({ message }) {
-            this.setState({ error: message })
+            this.setState({ error: message, visitConfirmed: false })
         }
     }
 
@@ -58,7 +57,7 @@ class VisitOwner extends Component {
 
         return <form>
             <div className="input__form">
-                <label>Appointments:</label>
+                <h1>Appointments:</h1>
                 {
                     this.state.appointments.map(({ id, owner, pet, date }) => {
                         this.state.appointments.sort(function (a, b) {
@@ -73,7 +72,7 @@ class VisitOwner extends Component {
                                                 <p>Day: {date.getDate()}{'/'}{date.getMonth()}</p>
 
                                                 <p>Hour: {date.getHours()}{':'}{date.getMinutes() + ' h'} Owner :{owner.name}{' '} Pet  :{pet.name}</p>
-                                                <button onClick={(e) => this.handleDeleteVisit(e, id)} className="button__delete">Delete</button>
+                                                <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>
                                             </th>
                                         </p>
                                     </tr>
@@ -82,6 +81,7 @@ class VisitOwner extends Component {
                         }
                     })
                 }
+                {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}
                 {this.state.noAppointments && <div className="no__appointments">
                     {/* <div className="noAppointments"> */}
                         <p>You don't have any appointment</p>

@@ -233,54 +233,57 @@ const logic = {
      * 
      * @param {string} appointmentId 
      */
-    deleteAppointment(appointmentId) {
-        if (typeof appointmentId !== 'string') throw TypeError(appointmentId + ' is not a string')
+    deleteAppointment(Id) {
+        debugger
+        if (typeof Id !== 'string') throw TypeError(Id + ' is not a string')
 
-        if (!appointmentId.trim().length) throw Error('appointmentId cannot be empty')
+        if (!Id.trim().length) throw Error('appointmentId cannot be empty')
 
-        return (async () => {
-           
-            Appointment.deleteOne({_id: appointmentId})
-                .then((res) => {
-                    if(res.deletedCount !== 1) throw Error (`appointment with id ${appointmentId} not found`)
-                
-                    return { status: 'ok', message: `appointment with id ${appointmentId} succesfully deleted` }
-                })
+        return Appointment.findByIdAndDelete(Id)
+        .then((res) => {
+                if(res.deletedCount !== 1) throw Error (`appointment with id ${Id} not found`)
+                    
+                console.log("deleted")
+                return { status: 'ok', message: `appointment with id ${Id} succesfully deleted` }
+            })          
+    },
+
+    
+  
+    
+     /**
+     * Retrieve an user by its credentials.
+     * 
+     * @param {string} userId  
+     */
+    retrieveUserSelected(userSelectedId) {
+        debugger
+
+        // if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
+
+        // if (!userId.trim().length) throw new EmptyError('userId is empty')
+
+        return User.findById(userSelectedId)
+        
+            .then(user => {
+                if (!user) throw Error(`user with id ${userSelectedId} not found`)
+
+                user.id = user._id.toString()
+
+                const _user = {
+                    name: user.name,
+                    surname : user.surname,
+                    idCard : user.idCard,
+                    phone : user.phone,
+                    adress: user.adress,
+                    city: user.city,
+                    email: user.email,
+                    id: user._id,
+                }
+    
+                return _user
             })
     },
-    
-    //  /**
-    //  * Retrieve an user by its credentials.
-    //  * 
-    //  * @param {string} userId  
-    //  */
-    // retrieveUser(userId) {
-
-    //     if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
-
-    //     if (!userId.trim().length) throw new EmptyError('userId is empty')
-
-    //     return User.findById(userId)
-        
-    //         .then(user => {
-    //             if (!user) throw Error(`user with id ${userId} not found`)
-
-    //             user.id = user._id.toString()
-
-    //             const _user = {
-    //                 name: user.name,
-    //                 surname : user.surname,
-    //                 idCard : user.idCard,
-    //                 phone : user.phone,
-    //                 adress: user.adress,
-    //                 city: user.city,
-    //                 email: user.email,
-    //                 id: user._id,
-    //             }
-    
-    //             return _user
-    //         })
-    // },
 
     /**
      * Retrieve users by its credentials.

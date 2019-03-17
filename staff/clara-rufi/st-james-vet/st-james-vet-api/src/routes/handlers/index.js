@@ -10,8 +10,9 @@ module.exports = {
     retrieveUsers: require('./retrieve-users'),
 
     retrieveUser: require('./retrieve_user'),
- 
 
+    retrieveUserSelected: require('./retrieve-user-selected'),
+ 
     retrievePets: require('./retrieve-pets'),
     
     retrieveAppointments: require('./retrieve-appointments'),

@@ -8,14 +8,12 @@ import './index.sass'
 class Nav extends Component {
    
      state = { isLoggedIn: logic.__userToken__,  isAdmin:logic.isAdmin}
-    // state= {isAdmin: false, isLoggedIn: false} 
 
     handleOnLogin = event => {
         event.preventDefault()
         this.props.history.push('/login')
     }
-
-    
+  
     handleRegisterOwner = event => {
         event.preventDefault()
         this.props.history.push('/registerOwner')
@@ -33,8 +31,7 @@ class Nav extends Component {
 
     handleOnLogout = event => {
         event.preventDefault()
-        logic.logOutUser()
-        // this.setState({isLoggedIn: null})  
+        logic.logOutUser()  
     }
 
     handleRegisterPet = event => {
@@ -43,15 +40,10 @@ class Nav extends Component {
     }
     render() {
         const {state: {isAdmin, isLoggedIn}}= this
-
-        // const isLogin = this.state.isLogin
         let dropdownButton
-
-        // if (isLogin) {
         if (isLoggedIn) {
 
             dropdownButton = <div className="btn-group">
-
                 <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     <i className="fas fa-paw"></i>
                 </button>
@@ -74,12 +66,9 @@ class Nav extends Component {
                 <div>Saturday: 9:00am - 2:00 pm</div>
             </div>
             <div className='navmenu'>
-                {/* {!isLogin && <button onClick={this.handleOnLogin} className='button'>Login</button>} */}
                 {!isLoggedIn && <button onClick={this.handleOnLogin} className='button'>Login</button>}
                
                 {isLoggedIn && dropdownButton}
-                {/* {isLogin && dropdownButton} */}
-                {/* {this.state.logic__userApiToken__ && dropdownButton} */}
                 <div className="btn-group">
                 </div>
             </div>

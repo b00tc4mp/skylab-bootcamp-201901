@@ -206,7 +206,6 @@ const logic = {
 
                 this.__userToken__ = response.token
                 this.__userAdmin__ = (response.role === 'admin')
-                //return response.token
             })
     },
 
@@ -236,10 +235,7 @@ const logic = {
     },
 
     retrieveUsers() {
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
-        // this.__updateToken__()
-        // this.__userToken__()
+        
         this.__updateToken__()
         return fetch(`${this.url}/users`, {
 
@@ -255,8 +251,7 @@ const logic = {
             })
     },
 
-    retrieveAppointments(year, month) {
-        
+    retrieveAppointments(year, month) {  
           
         this.__updateToken__()
         return fetch(`${this.url}/appointments/${year}/${month}`, {
@@ -266,11 +261,9 @@ const logic = {
                 authorization: `Bearer ${this.__userToken__}`,
                 'content-type': 'application/json'
             },
-            // body: JSON.stringify({ year, month })
         })
             .then(response => response.json())
             .then(response => {
-
                 if (response.error) throw Error(response.error)
 
                 response.forEach(appointment => appointment.date = new Date(appointment.date))
@@ -279,10 +272,8 @@ const logic = {
             })
     },
 
-
     retrievePets(userId){
 
-          // this.__userToken__()
           this.__updateToken__()
         return fetch(`${this.url}/pets/${userId}`, {
         
@@ -317,6 +308,7 @@ const logic = {
         return fetch(`${this.url}/appointment`, {
             method: 'POST',
             headers:{
+
                 'content-type': 'application/json'
             },
             body: JSON.stringify({ owner, pet, date})
@@ -330,18 +322,16 @@ const logic = {
     },
 
     deleteAppointment(Id){
-        // if (typeof appointmentId !== 'string') throw TypeError(appointmentId + ' is not a string')
 
-        // if (!appointmentId.trim().length) throw Error('appointmentId cannot be empty')
+        if (typeof Id !== 'string') throw TypeError(Id + ' is not a string')
 
-        console.log(Id)
+        if (!Id.trim().length) throw Error('Id cannot be empty')
 
-          // this.__userToken__()
           this.__updateToken__()
         return fetch(`${this.url}/appointment`, {
             method: 'DELETE',
             headers:{
-                // authorization: `Bearer ${this.__userApiToken__}`
+        
                 'content-type': 'application/json'
             },
             body: JSON.stringify({ Id })
@@ -371,36 +361,31 @@ const logic = {
 
                 return response
             })
-    },
+        },
         
     
-    retrieveUserA(userId) {
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
-            // this.__userToken__()
-            this.__updateToken__()
-        return fetch(`${this.url}/user/${userId}`, {
-
-            headers: {
-                authorization: `Bearer ${this.__userToken__}`
-            }
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error)
-
-                return response
+        retrieveUserSelected(userSelectedId) {
+            debugger
+            // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+            // if (!token.trim().length) throw Error('token is empty')
+              // this.__userToken__()
+              this.__updateToken__()
+            return fetch(`${this.url}/user/${userSelectedId}`, {
+    
+                headers: {
+                    authorization: `Bearer ${this.__userToken__}`
+                }
             })
-    },
+                .then(response => response.json())
+                .then(response => {
+                    if (response.error) throw Error(response.error)
+    
+                    return response
+                })
+            },
             
     retrievePet(petsId) {
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
-       
-        // this.__updateToken__()
-        // return fetch(`${this.url}/user`, {
-
-          // this.__userToken__()
+      
           this.__updateToken__()
         return fetch(`${this.url}/pet/${petsId}`, {
             headers: {
@@ -416,13 +401,7 @@ const logic = {
     },
 
     retrievePetVisit(petsId) {
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
        
-        // this.__updateToken__()
-        // return fetch(`${this.url}/user`, {
-
-          // this.__userToken__()
           this.__updateToken__()
         return fetch(`${this.url}/visit/${petsId}`, {
             headers: {
@@ -439,11 +418,7 @@ const logic = {
     },
     
     updateUser(name, surname, idCard, phone, adress, city, email) {
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
-
-        // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-          // this.__userToken__()
+       
           this.__updateToken__()
         return fetch(`${this.url}/user`, {
             method: 'PUT',
@@ -470,11 +445,7 @@ const logic = {
     */
     updatePet(petsId, name, microchip, petlicence) {
         debugger
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
-
-        // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-          // this.__userToken__()
+      
           this.__updateToken__()
         return fetch(`${this.url}/pet`, {
             method: 'PUT',
@@ -493,11 +464,7 @@ const logic = {
     },
 
     updateVisit(petsId, vaccionations, controls, details) {
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
-
-        // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
-          // this.__userToken__()
+       
           this.__updateToken__()
         return fetch(`${this.url}/visit`, {
             method: 'PUT',
@@ -513,44 +480,8 @@ const logic = {
 
                 return response
         })
-    },
-
-    /**
-    * Removes an user.   ////////////////////////////////// no la faig servir
-    * 
-    * @param {string} token 
-    * @param {string} email
-    * @param {string} password
-    * 
-    */
-    removeUser(token, email, password) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
-
-          // this.__userToken__()
-          this.__updateToken__()
-        return fetch(`${this.url}/user`, {
-            method: 'DELETE',
-            headers: {
-                authorization: `Bearer ${token}`,
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response.error) throw Error(response.error)
-
-                return response
-            })
     }
-
+   
 }
 
 export default logic
