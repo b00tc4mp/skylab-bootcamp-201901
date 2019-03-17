@@ -9,7 +9,7 @@ import Finder from '../Finder'
 import logic from '../../logic'
 import './index.sass'
 
-function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut, openFile, closeFile, dragStart, openFileFromFinder }) {
+function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut, openFile, closeFile, dragStart, openFileFromFinder, dragEnd }) {
 
     let [level, setLevel] = useState([])
     let [positions, setPositions] = useState([])
@@ -22,7 +22,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     let [fileContent, setFileContent] = useState(null)
     let [fileName, setFileName] = useState(null)
     let [filePath, setFilePath] = useState(null)
-    let finderItem
+    let [finderItem, setFinderItem] = useState(null)
 
     useEffect(() => {
         handleState()
@@ -127,9 +127,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     }
 
     dragStart = e => {
-        finderItem = e.target
-        // setFinderItem(finderItem)
-        debugger
+        // finderItem = e.target
+        setFinderItem(e.target)
+        console.log(finderItem)
+        // debugger
     }
 
     return <section className="desktop">
@@ -146,7 +147,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} refresh={refreshFinder} dragItem={finderItem}></Dragzone>
         </div>
         {
-            finder && finderOpen ? <Finder content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder}></Finder> : null
+            finder && finderOpen ? <Finder /* dragEnd={dragEnd} */ content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder}></Finder> : null
         }
         {
             showMenu ? <Menu menuX={menuX} menuY={menuY} logOut={logOut}></Menu> : null

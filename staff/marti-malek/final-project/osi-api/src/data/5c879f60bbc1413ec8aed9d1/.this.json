@@ -1,0 +1,37 @@
+{
+    "open": false,
+    "type": "folder",
+    "name": "Desktop",
+    "children": [
+        {
+            "name": "folder1",
+            "open": false,
+            "type": "folder",
+            "position": 8
+        },
+        {
+            "name": "folder2",
+            "open": false,
+            "type": "folder",
+            "position": 1
+        },
+        {
+            "name": "folder3",
+            "open": false,
+            "type": "folder",
+            "position": 2
+        },
+        {
+            "name": "asdsad",
+            "open": false,
+            "type": "folder",
+            "position": 3
+        },
+        {
+            "name": "hola",
+            "open": false,
+            "type": "file",
+            "position": 0
+        }
+    ]
+}

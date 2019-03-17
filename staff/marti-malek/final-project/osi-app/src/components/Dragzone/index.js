@@ -97,6 +97,7 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
     onDrop = ev => {
         ev.preventDefault();
         console.log(dragItem)
+        debugger
         if (draggableTest.id === "file" && droppingTest.id === "folder") {
             let oldPath = draggableTest.firstChild.innerText
             let newPath = droppingTest.firstChild.innerText + '/' + oldPath
