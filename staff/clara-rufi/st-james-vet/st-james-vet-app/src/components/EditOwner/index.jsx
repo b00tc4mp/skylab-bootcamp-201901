@@ -24,6 +24,7 @@ class EditOwner extends Component {
         const userId = event.target.value
         console.log(userId)
         if (!userId) return
+        debugger
         const { name, surname, idCard, phone, adress, city, email } = await logic.retrieveUser(userId)
         this.setState({ name, surname, idCard, phone, adress, city, email })
     }
@@ -56,8 +57,8 @@ class EditOwner extends Component {
 
         return <form onSubmit={this.handleEditProfile} >
             <section class="form">
-                <div className="input__form">
                     <p className="title__form">Owner's details:</p>
+                <div className="input__form">
                     <label>Select Owner</label>
                     <select name="owner" onChange={this.handleSelectChange}>
                         {<option></option>}{this.state.users.map(user => <option name="owner" value={user.id}>{user.name}{' - '}{user.email}</option>)}
@@ -102,4 +103,4 @@ class EditOwner extends Component {
 }
 
 
-export default EditOwner
+export default withRouter(EditOwner)

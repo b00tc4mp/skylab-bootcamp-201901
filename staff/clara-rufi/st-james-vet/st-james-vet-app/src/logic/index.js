@@ -313,12 +313,10 @@ const logic = {
 
         console.log(owner, pet, date)
 
-          // this.__userToken__()
           this.__updateToken__()
         return fetch(`${this.url}/appointment`, {
             method: 'POST',
             headers:{
-                // authorization: `Bearer ${this.__userApiToken__}`
                 'content-type': 'application/json'
             },
             body: JSON.stringify({ owner, pet, date})
@@ -373,27 +371,27 @@ const logic = {
 
                 return response
             })
-        },
+    },
         
     
-        // retrieveUser(userId) {
-        //     // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        //     // if (!token.trim().length) throw Error('token is empty')
-        //       // this.__userToken__()
-        //       this.__updateToken__()
-        //     return fetch(`${this.url}/user/${userId}`, {
-    
-        //         headers: {
-        //             authorization: `Bearer ${this.__userToken__}`
-        //         }
-        //     })
-        //         .then(response => response.json())
-        //         .then(response => {
-        //             if (response.error) throw Error(response.error)
-    
-        //             return response
-        //         })
-        //     },
+    retrieveUserA(userId) {
+        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        // if (!token.trim().length) throw Error('token is empty')
+            // this.__userToken__()
+            this.__updateToken__()
+        return fetch(`${this.url}/user/${userId}`, {
+
+            headers: {
+                authorization: `Bearer ${this.__userToken__}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
             
     retrievePet(petsId) {
         // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)

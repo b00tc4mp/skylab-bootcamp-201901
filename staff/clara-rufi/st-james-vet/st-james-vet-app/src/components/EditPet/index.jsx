@@ -53,8 +53,7 @@ class EditPet extends Component {
     }
 
     editPet = async (petsId, name, microchip, petlicence) => {
-        try {
-            
+        try {          
             await logic.updatePet(petsId, name, microchip, petlicence)
             this.setState({isModified: true})
         } catch ({ message }) {
@@ -64,7 +63,8 @@ class EditPet extends Component {
 
     render() {
 
-        return <form onSubmit={this.handleEditSubmit}>
+        return <main> 
+        <form onSubmit={this.handleEditSubmit}>
             <section className="form">
                 <p className="title__form">Pet's details:</p>
                 <div className="input__form">
@@ -90,8 +90,7 @@ class EditPet extends Component {
                 <div className="input__form">
                     <label>Pet licence</label>
                     <input value={this.state.petlicence} type="text" name="petlicence" onChange={this.handleOnChange}></input>
-                </div>
-              
+                </div>            
 
                 <button type="submit" class="button">Sign in</button>
                 <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
@@ -99,6 +98,7 @@ class EditPet extends Component {
                 {this.state.isModified && <p className="feedback feedback__success">Profile successfully updated!</p>}
             </section>
         </form>
+        </main>
     }
 }
 export default withRouter(EditPet)
