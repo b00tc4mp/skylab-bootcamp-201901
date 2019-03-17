@@ -253,6 +253,8 @@ const logic = {
   },
 
   getMatchesWithData() {
+    console.log('s');
+    
     return (async () => {
       const dataMatches = await this.retrieveMatchesScrapping();
       const newArray = dataMatches.map(async scrappingMatch => {

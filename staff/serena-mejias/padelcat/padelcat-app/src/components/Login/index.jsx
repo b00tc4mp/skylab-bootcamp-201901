@@ -22,7 +22,7 @@ const Login = props => {
   };
 
   return (
-    <Grid item className={styles.container}>
+    <div item className={styles.container}>
       <h2>Login</h2>
 
       <form onSubmit={handleSubmit}>
@@ -50,7 +50,7 @@ const Login = props => {
           Login
         </Button>
       </form>
-    </Grid>
+    </div>
   );
 };
 

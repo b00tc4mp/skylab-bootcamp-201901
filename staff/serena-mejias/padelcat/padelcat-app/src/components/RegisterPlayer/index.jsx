@@ -37,7 +37,7 @@ const RegisterPlayer = props => {
   
   return (
     <section className={styles.container}>
-      <form onSubmit={handleRegisterSubmit}>
+      <form className={styles.register} onSubmit={handleRegisterSubmit}>
         <TextField
           className={styles.inputContainer}
           label="Name"

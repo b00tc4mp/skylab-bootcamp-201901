@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
+import Close from "@material-ui/icons/Close";
 import styles from "./index.module.scss";
 import ChosenPairs from "../ChosenPairs";
-import { Form, Field, Values } from "react-final-form";
+import { Form, Values } from "react-final-form";
 import logic from "../../logic";
 import { log } from "util";
 
@@ -36,7 +39,6 @@ export const Match = props => {
     console.log(e);
     logic.addChosenPlayers(playersChosen, matchId);
   };
-
   useEffect(() => {
     if (playersAvailable.filter(player => player._id === _id).length) {
       return setAvailable(true);
@@ -46,17 +48,18 @@ export const Match = props => {
   }, [props]);
   return (
     <div>
-      <h4>{date}</h4>
+      <h4 className={styles.date}>{date}</h4>
       <div className={styles.teams}>
         <div className={styles.team}>
-          <h6>{team1}</h6>
           <img src={imageTeam1} />
+          <h6 className={styles.teamName}>{team1}</h6>
         </div>
         <div className={styles.team}>
           <img src={imageTeam2} />
-          <h6>{team2}</h6>
+          <h6 className={styles.teamName}>{team2}</h6>
         </div>
       </div>
+      <div className={styles.result}>{result}</div>
       {admin && (
         <Form
           onSubmit={onSubmit}
@@ -136,34 +139,36 @@ export const Match = props => {
         </div>
       </div>
       {!admin && (
-        <div>
+        <div className={styles.availability}>
           Are you available?
-          <Button
+          <Fab
             variant="contained"
             color="primary"
+            size="small"
             className={styles.availableButton}
             onClick={() => {
               handleSetAvailable(matchId);
             }}
             disabled={available}
           >
-            I'm available
-          </Button>
-          <Button
+            <CheckCircleOutline />
+          </Fab>
+          <Fab
             variant="contained"
             color="secondary"
+            size="small"
             className={`${styles.availableButton} ${styles.unavailable}`}
             onClick={() => {
               handleSetUnavailable(matchId);
             }}
             disabled={!available}
           >
-            I'm NOT available
-          </Button>
+            <Close />
+          </Fab>
         </div>
       )}
-      <div>Result: {result}</div>
-      <div>Location: {location}</div>
+
+      <div className={styles.location}>Location: {location}</div>
     </div>
   );
 };

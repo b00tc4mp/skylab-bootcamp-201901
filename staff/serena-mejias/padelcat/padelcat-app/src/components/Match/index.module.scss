@@ -3,13 +3,12 @@
 div.teams {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    margin: 0 1em;
 }
 
 form.form_select {
-    display: flex;
-    justify-content: row;
-    margin-top: $size-s;
+    margin: $size-s;
 }
 
 div.select {
@@ -21,9 +20,34 @@ div.select {
 
 div.team {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 div.buttons {
     text-align: right;
+}
+
+div.result {
+    padding: 0 0 $size-xs 0 ;
+    text-align: center;
+}
+
+.date {
+    margin: $size-xs 0 $size-s;
+}
+
+div.availability {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: $size-s 0;
+    align-items: center;
+}
+
+div.location {
+    padding: $size-xs 0 0 0;
+}
+
+h6.teamName {
+    margin: $size-xs;
 }

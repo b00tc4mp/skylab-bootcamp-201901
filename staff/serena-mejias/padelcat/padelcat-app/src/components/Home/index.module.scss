@@ -1,12 +1,14 @@
 @import "../../styles/_index.scss";
 
 ul.matches_list {
-    margin-bottom: $size-s;
-    padding: $size-s;
+    padding: 0 $size-s;
 }
 li.match {
     margin-bottom: 0;
     padding: 0;
     text-indent: 0;
     list-style-type: none;
+}
+.card {
+    margin-bottom: $size-m;
 }

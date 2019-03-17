@@ -2,6 +2,9 @@
 
 div.container {
   margin-top: $size-l;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 div.inputContainer {
   display: block;

@@ -97,7 +97,7 @@ class App extends Component {
     return (
       <main>
         <Header onLogout={handleLogout} />
-        <Grid container justify="center" spacing={24}>
+        <div>
           <Route
             path="/register"
             render={() => <RegisterPlayer onRegister={handleRegister} />}
@@ -123,7 +123,7 @@ class App extends Component {
             render={() => <Redirect to={{ pathname: "/home" }} />}
           />
           <Route path="/players" component={Ranking} />
-        </Grid>
+        </div>
       </main>
     );
   }
