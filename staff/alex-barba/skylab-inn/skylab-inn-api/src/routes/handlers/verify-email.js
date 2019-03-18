@@ -6,7 +6,7 @@ module.exports = (req, res) => {
 
     try {
         logic.verifyEmail(emailToken)
-            .then(res => res.json({ res }))
+            .then(response => res.json({ response }))
             .catch(({ message }) => { res.status(400).json({ error: message }) })
     } catch ({ message }) {
         res.status(400).json({ error: message })

@@ -33,7 +33,7 @@ export default function NavFooter({ onToWelcome, onToProfile, onToSignOut }) {
             </div>
             <div className='nav-footer__hamburger'>
                 <div className="nav-footer__hamburger-content">
-                    <i className='far fa-user-circle icon' onClick={handleToProfile}/>
+                    {userData.role === 'User' &&  <i className='far fa-user-circle icon' onClick={handleToProfile}/>}
                     <i className='fas fa-sign-out-alt icon' onClick={handleToSignOut}/>
                 </div>
                 <i className='fas fa-bars icon nav-footer__hamburger-menu'></i>

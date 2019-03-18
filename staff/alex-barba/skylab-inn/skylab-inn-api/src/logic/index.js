@@ -6,14 +6,13 @@ const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
 const { createToken, verifyToken } = require('../token-helper')
 
-
 /**
  * Abstraction of business logic.
  */
 const logic = {
 
-    url: 'http://localhost:3000/api',
-    urlServer: 'https://fast-taiga-93895.herokuapp.com/api',
+    url: null,
+    urlServer: null,
 
     /**
      * Register a user.
@@ -457,7 +456,7 @@ const logic = {
      */
     removeUserInformation(userId, infoId, type) {
 
-        validate([{ key: 'userId', value: userId, type: String }, { key: 'infoId', value: infoId, type: String },{ key: 'type', value: type, type: String }])
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'infoId', value: infoId, type: String }, { key: 'type', value: type, type: String }])
 
         return (async () => {
             const user = await User.findById(userId)

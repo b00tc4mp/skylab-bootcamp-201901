@@ -8,13 +8,16 @@ export default function ManagaSkylabers({ onSubmit }) {
 
     const { feedback, whiteList, unverifiedEmails } = useContext(AppContext)
 
-    const [name, setName] = useState(null)
-    const [surname, setSurname] = useState(null)
-    const [email, setEmail] = useState(null)
+    const [name, setName] = useState('')
+    const [surname, setSurname] = useState('')
+    const [email, setEmail] = useState('')
 
     const handleFormSubmit = event => {
         event.preventDefault()
         onSubmit({name, surname, email})
+        setName('')
+        setSurname('')
+        setEmail('')
     }
 
     return (
@@ -27,9 +30,9 @@ export default function ManagaSkylabers({ onSubmit }) {
                     <h2>Add a Skylaber</h2>
                 </div>
                 <form className='manage-form__form' onSubmit={handleFormSubmit}>
-                    <input autoFocus type='text' name='name' placeholder='Name' onChange={e => setName(e.target.value)} required></input>
-                    <input type='text' name='surname' placeholder='Surname' onChange={e => setSurname(e.target.value)} required></input>
-                    <input type='text' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} required></input>
+                    <input autoFocus type='text' name='name' placeholder='Name' onChange={e => setName(e.target.value)} required value={name}></input>
+                    <input type='text' name='surname' placeholder='Surname' onChange={e => setSurname(e.target.value)} required value={surname}></input>
+                    <input type='text' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} required value={email}></input>
                     <button className='btn btn--primary'type='submit'>Add</button>
                 </form>
                 {feedback && <Feedback />}
@@ -40,6 +43,7 @@ export default function ManagaSkylabers({ onSubmit }) {
                 </div>
                 <div className='manage-pendSign__content'>
                     {whiteList && whiteList.map(res => { return <p>{res.name}</p> })}
+                    {!!whiteList && <p>No Skylabers pending to sign up</p>}
                 </div>
             </div>
             <div className='manage-pendEmail'>
@@ -48,6 +52,7 @@ export default function ManagaSkylabers({ onSubmit }) {
                 </div>
                 <div className='manage-pendEmail__content'>
                     {unverifiedEmails && unverifiedEmails.map(res => { return <p>{res.name}</p> })}
+                    {!!unverifiedEmails && <p>No Skylabers pending to verify email</p>}
                 </div>
             </div>
         </div>
