@@ -251,13 +251,13 @@ describe("logic", () => {
       expect(response).toEqual();
     });
   });
-//   describe("storeToken", () => {
-//     it("should set token in session storage", () => {
-//       const token = logic.storeToken("tokenTest");
-//       expect(token).toEqual("tokenTest");
-//     });
-//   });
-describe("retrievePlayers", () => {
+  //   describe("storeToken", () => {
+  //     it("should set token in session storage", () => {
+  //       const token = logic.storeToken("tokenTest");
+  //       expect(token).toEqual("tokenTest");
+  //     });
+  //   });
+  describe("retrievePlayers", () => {
     it("should retrieve data players", () => {
       const test = logic.retrievePlayers();
       test.then(res => {
@@ -265,7 +265,7 @@ describe("retrievePlayers", () => {
       });
     });
   });
-describe("getPlayerId", () => {
+  describe("getPlayerId", () => {
     it("should retrieve player id", () => {
       const test = logic.getPlayerById("tokenTest");
       test.then(res => {
@@ -273,9 +273,72 @@ describe("getPlayerId", () => {
       });
     });
   });
-describe("setScorePlayers", () => {
+  describe("retrieveScoresScrapping", () => {
+    it("should retrieve score from scrapping", () => {
+      const test = logic.retrieveScoresScapping();
+      test.then(res => {
+        expect(res).toEqual({});
+      });
+    });
+  });
+
+  describe("setScorePlayers", () => {
     it("should retrieve player id", () => {
       const test = logic.setScorePlayers("https://www.setteo.com/usuario/test");
+      test.then(res => {
+        expect(res).toEqual({});
+      });
+    });
+    it("should throw error if link is not a string", () => {
+      expect(() =>
+        logic.setScorePlayers(
+          {}
+        )
+      ).toThrowError();
+    });
+    it("should throw error if link is empty", () => {
+      expect(() =>
+        logic.setScorePlayers(
+          ""
+        )
+      ).toThrowError();
+    });
+  });
+  describe("retrieveMatches", () => {
+    it("should retrieve data matches", () => {
+      const test = logic.retrieveMatches();
+      test.then(res => {
+        expect(res).toEqual({});
+      });
+    });
+  });
+  describe("getMatchesWithData", () => {
+    it("should retrieve macthes", () => {
+      const test = logic.getMatchesWithData();
+      test.then(res => {
+        expect(res).toEqual({});
+      });
+    });
+  });
+  describe("addAvailavilityPlayer", () => {
+    it("should add availavility of a player", () => {
+      const test = logic.addAvalabilityPlayer("playerId", "matchId");
+      test.then(res => {
+        expect(res).toEqual({});
+      });
+    });
+  });
+  describe("deleteAvailavilityPlayer", () => {
+    it("should delete availavility of a player", () => {
+      const test = logic.deleteAvalabilityPlayer("playerId", "matchId");
+      test.then(res => {
+        expect(res).toEqual({});
+      });
+    });
+  });
+  describe("addChosenPlayers", () => {
+    it("should delete availavility of a player", () => {
+      const test = logic.addChosenPlayers("playerId", "matchId");
       test.then(res => {
         expect(res).toEqual({});
       });

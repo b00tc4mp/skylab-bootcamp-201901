@@ -96,6 +96,9 @@ const logic = {
   },
 
   setScorePlayers: link => {
+    if (typeof link !== "string") throw TypeError(link + " is not a string");
+    if (!link.trim().length) throw Error("link cannot be empty");
+    
     return padelcatApi.setScorePlayers(link);
   },
 
