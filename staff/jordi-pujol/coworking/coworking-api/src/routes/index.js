@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, createWorkspace, addUserToWorkSpace, createNewUserLink, verifyNewUserLink, createService, retrieveService, updateService, deleteService, retrieveWorkspaceServices, addUserToService, createComment, retrieveServiceComments, removeComment, closeService, retrieveUserServices, retrieveUserSubmitedServices } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, searchServices, createWorkspace, addUserToWorkSpace, createNewUserLink, verifyNewUserLink, createService, retrieveService, updateService, deleteService, retrieveWorkspaceServices, addUserToService, createComment, retrieveServiceComments, removeComment, closeService, retrieveUserServices, retrieveUserSubmitedServices, retrieveProfile } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 const router = express.Router()
@@ -25,6 +25,8 @@ router.get('/user/service', tokenVerifierMiddleware, retrieveUserServices)
 
 router.get('/user/service/submited', tokenVerifierMiddleware, retrieveUserSubmitedServices)
 
+router.get('/user/:username', tokenVerifierMiddleware ,retrieveProfile)
+
 
 router.post('/workspace', [tokenVerifierMiddleware, jsonBodyParser], createWorkspace)
 
@@ -41,6 +43,8 @@ router.post('/service/:serviceId', tokenVerifierMiddleware, addUserToService)
 
 router.get('/service/:serviceId', tokenVerifierMiddleware, retrieveService)
 
+router.get('/services?:query', tokenVerifierMiddleware, searchServices)
+
 router.get('/service/workspace/:workspaceId', tokenVerifierMiddleware, retrieveWorkspaceServices)
 
 router.put('/service/:serviceId', [tokenVerifierMiddleware, jsonBodyParser], updateService)
@@ -48,7 +52,6 @@ router.put('/service/:serviceId', [tokenVerifierMiddleware, jsonBodyParser], upd
 router.delete('/service/:serviceId', tokenVerifierMiddleware, deleteService)
 
 router.post('/closeservice/:serviceId', tokenVerifierMiddleware, closeService)
-
 
 
 router.post('/comment/:serviceId', [tokenVerifierMiddleware, jsonBodyParser], createComment)

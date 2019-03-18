@@ -19,17 +19,18 @@ const logic = {
     * @param {string} password 
     * @param {string} passwordConfirmation 
     */
-    registerUser(name, surname, email, password, passwordConfirm) {
+    registerUser(name, surname, userName, email, password, passwordConfirm) {
 
         validate([{ key: 'name', value: name, type: String },
         { key: 'surname', value: surname, type: String },
+        { key: 'userName', value: userName, type: String },
         { key: 'email', value: email, type: String },
         { key: 'password', value: password, type: String },
         { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
         if (password !== passwordConfirm) throw Error('passwords do not match')
 
-        return coworkingApi.registerUser(name, surname, email, password, passwordConfirm)
+        return coworkingApi.registerUser(name, surname, userName, email, password, passwordConfirm)
     },
 
     /**
@@ -75,6 +76,10 @@ const logic = {
     },
     retrieveUser() {
         return coworkingApi.retrieveUser(this.__coworkingApiToken__)
+    },
+
+    retrieveUserProfile(userName) {
+        return coworkingApi.retrieveUserProfile(this.__coworkingApiToken__, userName)
     },
 
     updateUser (...data) {
@@ -137,6 +142,12 @@ const logic = {
         validate([{ key: 'workspaceId', value: workspaceId, type: String }])
 
         return coworkingApi.retrieveWorkspaceServices(this.__coworkingApiToken__, workspaceId)
+    },
+
+    searchServices(query) {
+        validate([{ key: 'query', value: query, type: String }])
+
+        return coworkingApi.searchServices(this.__coworkingApiToken__, query)
     },
 
     retrieveService(serviceId) {

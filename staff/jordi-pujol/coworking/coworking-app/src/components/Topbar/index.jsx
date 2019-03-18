@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 import logic from '../../logic'
 
-function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices, onLogOut, onCreatingNewLink }) {
+function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices, onLogOut, onCreatingNewLink, onViewingTime }) {
 
     return <section className="bar">
         <section className="topbar">
@@ -46,7 +46,7 @@ function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices
                 <NavLink onClick={onLogOut} to="/login">Log Out</NavLink>
             </div>
             <div className="topbar__item">
-                <i className="fas fa-stopwatch fa-3x"></i>
+                <i className="fas fa-stopwatch fa-3x" onClick={onViewingTime}></i>
             </div>
         </section>
     </section>

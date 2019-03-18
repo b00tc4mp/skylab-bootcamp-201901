@@ -17,24 +17,13 @@ class Workspace extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { email, password, invitation } } = this
+        const { state: { email, password, name } } = this
 
         try {
-            if (invitation) {
-
-                return logic.logInUser(email, password)
-                    .then(() => logic.verifyNewUserLink(invitation))
-                    .then(workspaceId => {
-                        return logic.addUserToWorkspace(workspaceId)
-                    })
-                    .then(() => this.props.history.push('/home/inbox'))
-                    .catch(({ message }) => this.setState({ feedback: message }))
-            }
-            else {
-                logic.logInUser(email, password)
-                    .then(() => this.props.history.push('/home/inbox'))
-                    .catch(({ message }) => this.setState({ feedback: message }))
-            }
+            return logic.logInUser(email, password)
+                .then(() => logic.createWorkspace(name))
+                .then(() => this.props.history.push('/home/inbox'))
+                .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
             this.setState({ feedback: message })
         }
@@ -71,7 +60,7 @@ class Workspace extends Component {
                     <span>Sign Up</span>
                 </div>
             </section>
-            {feedback && <Feedback message={feedback}/>}
+            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }

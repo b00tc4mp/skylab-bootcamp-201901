@@ -60,7 +60,13 @@ const User = new Schema({
     interests:{
         type: String,
         required: false
-    }
+    },
+
+    userName: {
+        type: String,
+        required: true,
+        unique: true,
+    },
 })
 
 module.exports = User

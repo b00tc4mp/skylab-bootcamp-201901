@@ -8,7 +8,7 @@ import Feedback from '../Feedback'
 
 class Register extends Component {
 
-    state = { name: '', surname: '', email: '', password: '', passwordConfirm: '', feedback: null }
+    state = { name: '', surname: '', email: '', password: '', passwordConfirm: '', userName:'' , feedback: null }
 
     componentWillMount() {
         this.setState({ feedback: null })
@@ -24,14 +24,16 @@ class Register extends Component {
 
     handlePasswordConfirmInput = event => this.setState({ passwordConfirm: event.target.value })
 
+    handleUserNameInput = event => this.setState({ userName: event.target.value })
+
 
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { name, surname, email, password, passwordConfirm } } = this
+        const { state: { name, surname, userName, email, password, passwordConfirm } } = this
 
         try {
-            logic.registerUser(name, surname, email, password, passwordConfirm)
+            logic.registerUser(name, surname, userName, email, password, passwordConfirm)
                 .then(() => this.props.history.push('/login'))
                 .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
@@ -47,7 +49,7 @@ class Register extends Component {
 
     render() {
 
-        const { state: { feedback }, handleNameInput, handleSurnameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, handleFormSubmit, handleGoToLogin } = this
+        const { state: { feedback }, handleNameInput, handleSurnameInput, handleUserNameInput, handleEmailInput, handlePasswordInput, handlePasswordConfirmInput, handleFormSubmit, handleGoToLogin } = this
 
 
         return <section className="register">
@@ -58,6 +60,8 @@ class Register extends Component {
                     <input type="text" onChange={handleNameInput} required autoFocus />
                     <span>Surname</span>
                     <input type="text" onChange={handleSurnameInput} required />
+                    <span>UserName</span>
+                    <input type="text" onChange={handleUserNameInput} required />
                     <span>email</span>
                     <input type="email" onChange={handleEmailInput} required />
                     <span>Password</span>

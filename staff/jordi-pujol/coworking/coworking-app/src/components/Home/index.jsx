@@ -12,10 +12,11 @@ import SubmitedServices from '../SubmitedServices'
 import Topbar from '../Topbar';
 import logic from '../../logic';
 import NewInvitation from '../New-invitation';
+import ViewTime from '../View-time'
 
 class Home extends Component {
 
-    state = { services: '', link: null, createServiceFeedback: null }
+    state = { services: '', link: null, createServiceFeedback: null, myTime: null }
 
     handleGoToHome = () => this.props.history.push('/home/inbox')
 
@@ -59,12 +60,26 @@ class Home extends Component {
         }
     }
 
+    handleViewTime = () => {
+        try {
+            logic.retrieveUser()
+                .then(({time}) => this.setState({myTime: time}))
+                .then(() => {
+                    setTimeout(() => { this.setState({myTime: null}) }, 5000);
+                })
+        }
+        catch({message}){
+            this.setState({ createServiceFeedback: message })
+        }
+    }
+
     render() {
 
-        const { state: { link, createServiceFeedback }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService } = this
+        const { state: { link, createServiceFeedback, myTime }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, handleViewTime } = this
 
         return <section className="home">
-            <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />
+            <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} onViewingTime={handleViewTime}/>
+            {myTime && <ViewTime time={myTime}/>}
             <Route exact path='/home/profile' render={() => <Profile />} />
             <Route path='/home/inbox' render={() => <Inbox />} />
             <Route path='/home/service' render={() => <NewService feedback={createServiceFeedback} onCreateService={handleCreateService} />} />

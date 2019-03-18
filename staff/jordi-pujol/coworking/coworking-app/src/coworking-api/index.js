@@ -5,9 +5,10 @@ import validate from 'coworking-validation'
 const coworkingApi = {
     url: 'http://localhost:8000/api',
 
-    registerUser(name, surname, email, password, passwordConfirm) {
+    registerUser(name, surname, userName, email, password, passwordConfirm) {
         validate([{ key: 'name', value: name, type: String },
         { key: 'surname', value: surname, type: String },
+        { key: 'userName', value: userName, type: String },
         { key: 'email', value: email, type: String },
         { key: 'password', value: password, type: String },
         { key: 'passwordConfirm', value: passwordConfirm, type: String }])
@@ -19,7 +20,7 @@ const coworkingApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, email, password, passwordConfirm })
+            body: JSON.stringify({ name, surname, userName, email, password, passwordConfirm })
         })
             .then(response => response.json())
             .then(response => {
@@ -53,6 +54,24 @@ const coworkingApi = {
         validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/user`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveUserProfile(token, userName) {
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'userName', value: userName, type: String }])
+
+        return fetch(`${this.url}/user/${userName}`, {
             method: 'GET',
             headers: {
                 authorization: `Bearer ${token}`
@@ -214,6 +233,24 @@ const coworkingApi = {
         { key: 'workspaceId', value: workspaceId, type: String }])
 
         return fetch(`${this.url}/service/workspace/${workspaceId}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response.services
+            })
+    },
+
+    searchServices(token, query) {
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'query', value: query, type: String }])
+
+        return fetch(`${this.url}/services?q=${query}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
