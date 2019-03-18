@@ -7,7 +7,7 @@ const express = require('express')
 const tokenHelper = require('./token-helper')
 const router = require('./routes')
 
-const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8000] } = process
+const { env: { MONGODB_URI: DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8000] } = process
 
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {

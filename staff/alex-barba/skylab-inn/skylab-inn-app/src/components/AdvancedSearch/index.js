@@ -30,6 +30,8 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
             inputQuery.current.blur()
         } else {
             onAdvancedSearch(search)
+            setQuery(null)
+            setParam('Choose a filter')
             inputQuery.current.value = null
             inputQuery.current.blur()
         }
@@ -45,7 +47,13 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
             setFeedback('Please choose your filter')
             inputQuery.current.blur()
         } else {
-            search === null ? setSearch([[param, query]]) : setSearch([...search, [param, query]])
+            if(search === null) setSearch([[param, query]])
+            else {
+                const index = search.findIndex(filter => filter[0] === param && filter[1] === query)
+                index === -1 ? setSearch([...search, [param, query]]) : setFeedback('This filter is already added!')
+            }    
+            setQuery(null)
+            setParam('Choose a filter')
             inputQuery.current.value = null
             inputQuery.current.blur()
         }
@@ -60,6 +68,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
     const handleOnReset = (e) => {
         e.preventDefault()
         setFeedback(null)
+        setParam('Choose a filter')
         setSearch([])
         setAdSearchResults([])
         e.target.value = null
@@ -111,7 +120,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
             </div>
             <form className='adSearch-form'>
                 <div className='adSearch-form__dropBtn'>
-                    <select className='adSearch-form__dropBtn-content' onChange={e => setParam(e.target.value)}>
+                    <select className='adSearch-form__dropBtn-content' onChange={e => setParam(e.target.value)} value={param}>
                         <option value='Choose a filter'>Choose a filter</option>
                         <option value='Contact Information'>Contact Information</option>
                         <option value='Technology'>Technologies</option>

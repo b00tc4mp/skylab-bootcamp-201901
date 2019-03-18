@@ -3,7 +3,7 @@ import { AppContext } from '../AppContext'
 
 import './index.sass'
 
-export default function Lnguage({ onAddLanguage, onEditLanguage, onAddInformation, onRemoveInformation, onUpdateInformation, editLanguage, addLanguage, onCancel }) {
+export default function Language({ onAddLanguage, onEditLanguage, onAddInformation, onRemoveInformation, onUpdateInformation, editLanguage, addLanguage, onCancel }) {
 
     const { userData:{ language }, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
 

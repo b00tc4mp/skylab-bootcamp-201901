@@ -57,30 +57,30 @@ const logic = {
 
             const { id } = await User.create({ name, surname, email, password: hash, status })
 
-            // const transporter = nodemailer.createTransport({
-            //     service: 'gmail',
-            //     auth: {
-            //         user: 'skylabinn@gmail.com',
-            //         pass: 'Skylabinn123'
-            //     }
-            // })
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'skylabinn@gmail.com',
+                    pass: 'Skylabinn123'
+                }
+            })
 
-            // const mailOptions = {
-            //     from: 'skylabinn@gmail.com',
-            //     to: `${email}`,
-            //     subject: 'Welcome to the Skylab Universe!',
-            //     html: `<h1>Thanks for signing up ${name}!</h1>
-            //         <p>We just need you to verify you email to complete registration.<p>
-            //         <p>Please click on the following <a href='${this.urlServer}/user/${status}/verify'>link</a>.</p>
-            //         <p>Thanks</p>
-            //         <p>Skylab Inn</p>
-            //     `
-            // }
+            const mailOptions = {
+                from: 'skylabinn@gmail.com',
+                to: `${email}`,
+                subject: 'Welcome to the Skylab Universe!',
+                html: `<h1>Thanks for signing up ${name}!</h1>
+                    <p>We just need you to verify you email to complete registration.<p>
+                    <p>Please click on the following <a href='${this.urlServer}/user/${status}/verify'>link</a>.</p>
+                    <p>Thanks</p>
+                    <p>Skylab Inn</p>
+                `
+            }
 
-            // transporter.sendMail(mailOptions, function (error, info) {
-            //     if (error) throw new Error(`email could not be sent`)
-            //     else ('Email sent: ' + info.response)
-            // })
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) throw new Error(`email could not be sent`)
+                else ('Email sent: ' + info.response)
+            })
 
             return id
         })()

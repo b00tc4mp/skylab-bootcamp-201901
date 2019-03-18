@@ -1,8 +1,8 @@
 import validate from 'skylab-inn-validation'
 
 const skylabInnApi = {
-    url: 'http://localhost:8000/api',
-    // url: 'https://fast-taiga-93895.herokuapp.com/api',
+    // url: 'http://localhost:8000/api',
+    url: 'https://fast-taiga-93895.herokuapp.com/api',
 
     /**
      * Registers a user.
