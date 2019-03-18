@@ -11,7 +11,7 @@ const Favorites = () => {
   const retrieveUserFavs = () => {
     logic.retrieveUser(token).then(user => setUserFavorites(user.favorites));
   };
-
+  console.log(userFavorites);
   useEffect(() => {
     retrieveUserFavs();
   }, []);

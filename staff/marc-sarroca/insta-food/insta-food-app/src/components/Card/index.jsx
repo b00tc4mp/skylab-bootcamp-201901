@@ -30,10 +30,6 @@ function Card({
   const refreshComments = comments => {
     setComments(comments);
   };
-
-  // let currentLocation = location.pathname;
-  // console.log(currentLocation);
-
   useEffect(() => {
     setComments(comments);
   }, [comments]);
@@ -51,12 +47,16 @@ function Card({
           className="instafood-card-user-name"
           to={`/profile/${postUserId}`}
         >
-          <img
-            className="user-photo"
-            src={`https://api.adorable.io/avatars/285/${email}.png`}
-            alt="user"
-          />
-          {username}
+          {location.pathname === "/posts" ? (
+            <img
+              className="user-photo"
+              src={`https://api.adorable.io/avatars/285/${email}.png`}
+              alt="user"
+            />
+          ) : (
+            ""
+          )}
+          {location.pathname === "/posts" ? <span>{username}</span> : ""}
         </Link>
         <div className="insta-food-favorites">
           <i
