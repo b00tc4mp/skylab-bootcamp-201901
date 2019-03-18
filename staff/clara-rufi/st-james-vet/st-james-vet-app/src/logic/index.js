@@ -13,7 +13,6 @@ const logic = {
         this.__userToken__ = sessionStorage.getItem('__userToken__')
     },
 
- 
     /**
     * Registers a user.
     * 
@@ -142,16 +141,15 @@ const logic = {
 
         if(typeof vaccionations != 'string') throw TypeError (vaccionations + 'is not a string')
 
-        // if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
+        if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
 
         if(typeof neutered != 'string') throw TypeError (neutered + 'is not a string')
 
-        // if (!neutered.trim().length) throw Error ('neutered cannot be empty')
+        if (!neutered.trim().length) throw Error ('neutered cannot be empty')
 
         if(typeof controls != 'string') throw TypeError (controls + 'is not a string')
 
-        // if (!controls.trim().length) throw Error ('controls cannot be empty')
-
+        if (!controls.trim().length) throw Error ('controls cannot be empty')
 
         if(typeof details != 'string') throw TypeError (details + 'is not a string')
 

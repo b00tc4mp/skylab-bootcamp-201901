@@ -7,8 +7,7 @@ const moment = require( 'moment')
 /**
  * Abstraction of business logic.
  */
-const logic = {
-   
+const logic = { 
 
     /**
     * Registers a user.
@@ -149,10 +148,7 @@ const logic = {
 
         if(typeof details != 'string') throw TypeError (details + ' is not a string')
 
-        if (!details.trim().length) throw Error ('details cannot be empty')
-
-        console.log(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-       
+        if (!details.trim().length) throw Error ('details cannot be empty')       
 
         return (async () => {
            
@@ -160,6 +156,8 @@ const logic = {
 
         await pet.save()
         
+        return pet
+
       })()
     },
 
@@ -187,10 +185,10 @@ const logic = {
 
             if (!match) throw Error('wrong credentials')
             const _user = {id: user._id, role: user.role} 
-            console.log(user._id)
             return _user
         })()
     },
+
 
     /**
      * 
@@ -200,7 +198,6 @@ const logic = {
      * @param {string} pet 
      * @param {string} dayDb
      */
-
     assignAppointment(owner, pet, date) {
 
         if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
@@ -210,11 +207,11 @@ const logic = {
         if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
 
         if (!pet.trim().length) throw Error('pet cannot be empty')
-
+        console.log(88888, typeof date)
         // if (typeof date !== typeof Date) throw TypeError('date is not type date')
-        //  if (date instanceof Date) throw TypeError('date is not type date')
+        if (typeof date !== 'object') throw TypeError('date is not an object')
 
-        // if (!date.trim().length) throw Error('date cannot be empty')
+        //if (!date.trim().length) throw Error('date cannot be empty')
 
         return (async () => {
 
@@ -247,21 +244,18 @@ const logic = {
                 return { status: 'ok', message: `appointment with id ${Id} succesfully deleted` }
             })          
     },
-
-    
   
     
      /**
      * Retrieve an user by its credentials.
      * 
-     * @param {string} userId  
+     * @param {string} userSelectedId  
      */
     retrieveUserSelected(userSelectedId) {
-        debugger
 
-        // if (typeof userId !== 'string') throw TypeError(userId + 'is not a string')
+        if (typeof userSelectedId !== 'string') throw TypeError(userSelectedId + 'is not a string')
 
-        // if (!userId.trim().length) throw new EmptyError('userId is empty')
+        if (!userSelectedId.trim().length) throw new EmptyError('userSelectedId is empty')
 
         return User.findById(userSelectedId)
         
@@ -286,12 +280,10 @@ const logic = {
     },
 
     async retrieveAppointmentsOwner() { 
-        debugger
-       
-
+        
         const _appointments= await Appointment.find({}).populate('owner pet')
         const appointments = _appointments.map(appointment => {
-            debugger
+            
             return {
                 owner: appointment.owner,
                 pet: appointment.pet,
@@ -309,7 +301,6 @@ const logic = {
      * 
      * 
      */
-
     async retrieveUsers() { 
         
         const _users = await User.find({})
@@ -343,12 +334,10 @@ const logic = {
 
         const toDate = new Date(year, month,+1);
         const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(),-30);
-       
-        console.log(fromDate, toDate)
 
         const _appointments= await Appointment.find({"date": {'$gte': fromDate, '$lt': toDate }}).populate('owner pet')
         const appointments = _appointments.map(appointment => {
-            debugger
+          
             return {
                 owner: appointment.owner,
                 pet: appointment.pet,
@@ -489,7 +478,6 @@ const logic = {
      * @param {string} city 
      * @param {string} email 
      */
-
     updateUser(name, surname, idCard, phone, adress, city, email){
         
         if (typeof name !== 'string') throw TypeError(name + ' is not a string')
@@ -537,7 +525,6 @@ const logic = {
      * @param {string} microchip 
      * @param {string} petlicence 
      */
-
     updatePet(petsId, name, microchip, petlicence){
 
         if (typeof petsId !== 'string') throw TypeError(`${petsId} is not a string`)
@@ -572,7 +559,6 @@ const logic = {
      * @param {string} controls 
      * @param {string} details 
      */
-
     updateVisit(petsId, vaccionations, controls, details){
 
         if (typeof petsId !== 'string') throw TypeError(`${petsId} is not a string`)

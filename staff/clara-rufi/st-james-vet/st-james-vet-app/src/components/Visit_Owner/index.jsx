@@ -96,8 +96,11 @@ class VisitOwner extends Component {
                 {this.state.noAppointments && <div className="no__appointments">
                     {/* <div className="noAppointments"> */}
                     {/* <p>You don't have any appointment</p> */}
+                   
+                  
                     <p>If you want an appointment or modify it, you can call at 01792 205000</p>
                     <p>Or send us an email: stjamesvet@stjamesvet.com</p>
+                   
                 </div>
                     // </div>
                 }

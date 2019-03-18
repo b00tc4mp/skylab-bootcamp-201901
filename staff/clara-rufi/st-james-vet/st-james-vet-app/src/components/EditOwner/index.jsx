@@ -21,10 +21,10 @@ class EditOwner extends Component {
 
     handleSelectChange = async event => {
         event.preventDefault()
+        debugger
         const userSelectedId = event.target.value
         console.log("user selected => " + userSelectedId)
         if (!userSelectedId) return
-        debugger
         const { name, surname, idCard, phone, adress, city, email } = await logic.retrieveUserSelected(userSelectedId)
         this.setState({ name, surname, idCard, phone, adress, city, email })
     }

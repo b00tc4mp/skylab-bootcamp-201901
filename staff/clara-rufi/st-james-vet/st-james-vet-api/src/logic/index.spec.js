@@ -24,9 +24,7 @@ describe('logic', () => {
         ])
     )
 
-    //////////////////////////////////////////////////////// register user
-
-describe('register user', () => {
+false && describe('register user', () => {
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -484,12 +482,19 @@ describe('register user', () => {
         }).toThrow(Error(' password cannot be empty'))
     })
 }),
-////////////////////////////////////////////////////////register pet
 
-describe('register pet', () => {
+false && describe('register pet', () => {
 
-    const owner = '5c80df3816440c252c9d26dc'
-    const name = 'George'
+    const name = 'Clara'
+    const surname = 'Rufí'
+    let idCard, phone, adress
+    const city = `London`
+    const email = `clara@gmail.com`
+    const password = '123'
+    const passwordConfirmation = '123'
+
+    let owner
+    const namePet = 'George'
     const specie = 'cat'
     let breed
     const color = 'grey'
@@ -500,6 +505,10 @@ describe('register pet', () => {
 
     beforeEach(async () => {
 
+        idCard = `234-${Math.random()}`
+        phone = `456348-${Math.random()}`
+        adress = `London Road -${Math.random()}`
+
         breed = `british-${Math.random()}`
         microchip = `44567 -${Math.random()}`
         petlicence = `99876-${Math.random()}`
@@ -507,745 +516,534 @@ describe('register pet', () => {
         controls = `controls-${Math.random()}`
         details = `details-${Math.random()}`
 
+        const hash = await bcrypt.hash(password, 10)
+        owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
+        await logic.authenticateUser(email, password)      
     })
 
     it('should succeed on valid data', async () => {
-        const id = await logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+        const pet = await logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
 
-        // expect(id).toBeDefined()
-        // expect(typeof id).toBe('string')
-        const pet = await Pet.findById({ id })
-        // expect(pet.id).toBeDefined()
-        //expect(pet.owner).toBe(owner)
-        expect(pet.name).toBe(name)
-        // expect(pet.specie).toBe(specie)
-        // expect(pet.breed).toBe(breed)
-        // expect(pet.color).toBe(color)
-        // expect(pet.gender).toBe(gender)
-        // expect(pet.birthdate).toBe(birthdate)
-        // expect(pet.microchip).toBe(microchip)
-        // expect(pet.petlicence).toBe(petlicence)
-        // expect(pet.neutered).toBe(neutered)
-        // expect(pet.vaccionations).toBe(vaccionations)
-        // expect(pet.controls).toBe(controls)
-        // expect(pet.details).toBe(details)
+        expect(pet.specie).toBe(specie)
+        expect(pet.breed).toBe(breed)
+        expect(pet.color).toBe(color)
+        expect(pet.gender).toBe(gender)
+        expect(pet.birthdate).toBe(birthdate)
+        expect(pet.microchip).toBe(microchip)
+        expect(pet.petlicence).toBe(petlicence)
+        expect(pet.neutered).toBe(neutered)
+        expect(pet.vaccionations).toBe(vaccionations)
+        expect(pet.controls).toBe(controls)
+        expect(pet.details).toBe(details)
 
     })
 
-    // it('should fail on undefined owner', () => {
-    //     owner1 = undefined
-
-    //     expect(() => {
-    //         logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-    //     }).toThrow(TypeError(owner1 + ' is not a string'))
-    // })
+    it('should fail on undefined owner', () => {
+        expect(() => {
+            logic.registerPet()
+        }).toThrow(TypeError('undefined is not a string'))
+    })
 
     it('should fail on numeric owner', () => {
-        const owner1 = 3456
 
         expect(() => {
-            logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(owner1 + ' is not a string'))
+            logic.registerPet(1234)
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
     it('should fail on boolean owner', () => {
-        const owner1 = true
 
         expect(() => {
-            logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(owner1 + ' is not a string'))
+            logic.registerPet(true)
+        }).toThrow(TypeError(true + ' is not a string'))
     })
 
     it('should fail on object owner', () => {
-        const owner1 = []
 
         expect(() => {
-            logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(owner1 + ' is not a string'))
+            logic.registerPet({})
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array owner', () => {
-        const owner1 = []
 
         expect(() => {
-            logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(owner1 + ' is not a string'))
+            logic.registerPet([] )
+        }).toThrow(TypeError([]+ ' is not a string'))
     })
 
     it('should fail on empty owner', () => {
-        const owner1 = ' '
 
         expect(() => {
-            logic.registerPet(owner1, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+            logic.registerPet(' ')
         }).toThrow(Error('owner cannot be empty'))
     })
 
     it('should fail on undefined name', () => {
-        const name1 = undefined
 
         expect(() => {
-            logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(name1 + ' is not a string'))
+            logic.registerPet(owner._id.toString())
+        }).toThrow(TypeError('undefined is not a string'))
     })
 
     it('should fail on numeric name', () => {
-        const name1 = 3456
 
         expect(() => {
-            logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(name1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), 1234)
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
     it('should fail on boolean name', () => {
-        const name1 = false
 
         expect(() => {
-            logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(name1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), true)
+        }).toThrow(TypeError(true + ' is not a string'))
     })
 
     it('should fail on object name', () => {
-        const name1 = false
 
         expect(() => {
-            logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(name1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), {})
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array name', () => {
-        const name1 = []
 
         expect(() => {
-            logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(name1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), [])
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on empty name', () => {
-        const name1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name1, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError('name cannot be empty'))
+            logic.registerPet(owner._id.toString(),' ' )
+        }).toThrow(Error('name cannot be empty'))
     })
 
     it('should fail on undefined specie', () => {
-        const specie1 = undefined
 
         expect(() => {
-            logic.registerPet(owner, name, specie1, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(specie1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(),namePet, )
+        }).toThrow(TypeError('undefined is not a string'))
     })
 
     it('should fail on numeric specie', () => {
-        const specie1 = 45677
 
         expect(() => {
-            logic.registerPet(owner, name, specie1, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(specie1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, 1234)
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
     it('should fail on boolean specie', () => {
-        const specie1 = true
 
         expect(() => {
-            logic.registerPet(owner, name, specie1, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(specie1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, true)
+        }).toThrow(TypeError(true + ' is not a string'))
     })
 
     it('should fail on object specie', () => {
-        const specie1 = {}
 
         expect(() => {
-            logic.registerPet(owner, name, specie1, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(specie1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, {})
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array specie', () => {
-        const specie1 = []
 
         expect(() => {
-            logic.registerPet(owner, name, specie1, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(specie1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, [])
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on empty specie', () => {
-        const specie1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie1, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+            logic.registerPet(owner._id.toString(), namePet, ' ')
         }).toThrow(TypeError('specie cannot be empty'))
     })
     
     it('should fail on undefined breed', () => {
-        const breed1 = undefined
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed1, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(breed1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, )
+        }).toThrow(TypeError('undefined is not a string'))
     })
 
     it('should fail on numeric breed', () => {
-        const breed1 = 3343243
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed1, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(breed1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, 1234)
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
     it('should fail on boolean breed', () => {
-        const breed1 = true
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed1, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(breed1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, true )
+        }).toThrow(TypeError(true + ' is not a string'))
     })
 
     it('should fail on object breed', () => {
-        const breed1 = {}
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed1, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(breed1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, {} )
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array breed', () => {
-        const breed1 = []
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed1, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(breed1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, [] )
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on empty breed', () => {
-        const breed1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed1, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+            logic.registerPet(owner._id.toString(), namePet, specie, ' ' )
         }).toThrow(TypeError('breed cannot be empty'))
     })
 
-    it('should fail on undefined color', () => {
-        const color1 = undefined
+      it('should fail on undefined color', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color1, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(color1 + ' is not a string'))
-    })
-
-    it('should fail on numeric color', () => {
-        const color1 = 42344
-
-        expect(() => {
-            logic.registerPet(owner, name, specie, breed, color1, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(color1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, )
+        }).toThrow(Error('undefined is not a string'))
     })
 
     it('should fail on boolean color', () => {
-        const color1 = true
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color1, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(color1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, true)
+        }).toThrow(TypeError(true + ' is not a string'))
     })
 
     it('should fail on object color', () => {
-        const color1 = {}
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color1, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(color1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, {})
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array color', () => {
-        const color1 = []
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color1, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(color1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, [])
+        }).toThrow(TypeError([] + ' is not a string'))
     })
-    
+
     it('should fail on empty color', () => {
-        const color1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color1, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, ' ')
         }).toThrow(TypeError('color cannot be empty'))
     })
 
     it('should fail on undefined gender', () => {
-        const gender1 = undefined
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender1, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(gender1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, )
+        }).toThrow(TypeError('undefined is not a string'))
     })
 
     it('should fail on numeric gender', () => {
-        const gender1 = 23223
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender1, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(gender1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, 1234)
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
     it('should fail on boolean gender', () => {
-        const gender1 = true
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender1, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(gender1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, true)
+        }).toThrow(TypeError(true + ' is not a string'))
     })
 
     it('should fail on object gender', () => {
-        const gender1 = 23223
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender1, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(gender1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, {})
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array gender', () => {
-        const gender1 = 23223
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender1, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(gender1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, [])
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on empty gender', () => {
-        const gender1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender1, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError('gender cannot be empty'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, ' ')
+        }).toThrow(Error('gender cannot be empty'))
     })
 
     it('should fail on number birthdate', () => {
-        const birthdate1 = 4383840923
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate1, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(birthdate1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, 1234)
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
     it('should fail on boolean birthdate', () => {
-        const birthdate1 = true
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate1, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(birthdate1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, false)
+        }).toThrow(TypeError(false + ' is not a string'))
     })
 
     it('should fail on object birthdate', () => {
-        const birthdate1 = {}
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate1, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(birthdate1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, {})
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array birthdate', () => {
-        const birthdate1 = []
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate1, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(birthdate1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, [])
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on empty birthdate', () => {
-        const birthdate1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate1, microchip, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError('birthdate cannot be empty'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, ' ')
+        }).toThrow(Error('birthdate cannot be empty'))
     })
 
-    it('should fail on number microchip', () => {
-        const microchip1 = 438384092
+    it('should fail on undefined microchip', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip1, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(microchip1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, )
+        }).toThrow(Error('undefined is not a string'))
     })
 
     it('should fail on boolean microchip', () => {
-        const microchip1 = true
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip1, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(microchip1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, true )
+        }).toThrow(TypeError(true + ' is not a string'))
     })
 
     it('should fail on object microchip', () => {
-        const microchip1 = {}
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip1, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(microchip1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate,{} )
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array microchip', () => {
-        const microchip1 = []
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip1, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(microchip1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate,[] )
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on empty microchip', () => {
-        const microchip1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip1, petlicence, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError('microchip cannot be empty'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate,' ' )
+        }).toThrow(Error('microchip cannot be empty'))
+    })
+
+    it('should fail on undefined petlicence', () => {
+
+        expect(() => {
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, )
+        }).toThrow(Error('undefined is not a string'))
     })
 
     it('should fail on number petlicence', () => {
-        const petlicence1 = 438384092
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence1, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(petlicence1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, 1234 )
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
     it('should fail on boolean petlicence', () => {
-        const petlicence1 = true
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence1, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(petlicence1 + ' is not a string'))
-    })
-
-    it('should fail on object petlicence', () => {
-        const petlicence1 = {}
-
-        expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence1, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(petlicence1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, false )
+        }).toThrow(TypeError(false + ' is not a string'))
     })
 
     it('should fail on array petlicence', () => {
-        const petlicence1 = []
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence1, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError(petlicence1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, [] )
+        }).toThrow(TypeError([] + ' is not a string'))
+    })
+
+    it('should fail on object petlicence', () => {
+
+        expect(() => {
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, {} )
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on empty petlicence', () => {
-        const petlicence1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence1, neutered, vaccionations, controls, details)
-        }).toThrow(TypeError('petlicence cannot be empty'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, ' ' )
+        }).toThrow(Error('petlicence cannot be empty'))
+    })
+
+    it('should fail on undefined neutered', () => {
+
+        expect(() => {
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence )
+        }).toThrow(TypeError('undefined is not a string'))
     })
 
     it('should fail on number neutered', () => {
-        const neutered1 = 438384092
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered1, vaccionations, controls, details)
-        }).toThrow(TypeError(neutered1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, 1234 )
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
     it('should fail on object neutered', () => {
-        const neutered1 = {}
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered1, vaccionations, controls, details)
-        }).toThrow(TypeError(neutered1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, {} )
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array neutered', () => {
-        const neutered1 = []
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered1, vaccionations, controls, details)
-        }).toThrow(TypeError(neutered1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, [] )
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on empty neutered', () => {
-        const neutered1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered1, vaccionations, controls, details)
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, ' ' )
         }).toThrow(TypeError('neutered cannot be empty'))
     })
 
-    it('should fail on numeric vaccionations', () => {
-        const vaccionations1 = 32343443
+    it('should fail on undefined vaccinations', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations1, controls, details)
-        }).toThrow(TypeError(vaccionations1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,  )
+        }).toThrow(TypeError('undefined is not a string'))
     })
 
-    it('should fail on boolean vaccionations', () => {
-        const vaccionations1 = true
+    it('should fail on numeric vaccinations', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations1, controls, details)
-        }).toThrow(TypeError(vaccionations1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, 1234  )
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
-    it('should fail on object vaccionations', () => {
-        const vaccionations1 = {}
+    it('should fail on boolean vaccinations', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations1, controls, details)
-        }).toThrow(TypeError(vaccionations1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, true )
+        }).toThrow(TypeError(true + ' is not a string'))
     })
 
-    it('should fail on array vaccionations', () => {
-        const vaccionations1 = []
+    it('should fail on object vaccinations', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations1, controls, details)
-        }).toThrow(TypeError(vaccionations1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, {} )
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
-    it('should fail on empty vaccionations', () => {
-        const vaccionations1 = ' '
+    it('should fail on array vaccinations', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations1, controls, details)
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, [] )
+        }).toThrow(TypeError([] + ' is not a string'))
+    })
+
+    it('should fail on empty vaccinations', () => {
+
+        expect(() => {
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, ' ' )
         }).toThrow(TypeError('vaccionations cannot be empty'))
     })
 
-    it('should fail on numeric controls', () => {
-        const controls1 = 32343443
+    it('should fail on undefined controls', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls1, details)
-        }).toThrow(TypeError(controls1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations,  )
+        }).toThrow(TypeError('undefined is not a string'))
     })
 
-    it('should fail on object controls', () => {
-        const controls1 = {}
+    it('should fail on numeric controls', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls1, details)
-        }).toThrow(TypeError(controls1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, 1234 )
+        }).toThrow(TypeError(1234 + ' is not a string'))
+    })
+
+   it('should fail on object controls', () => {
+
+        expect(() => {
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, {} )
+        }).toThrow(TypeError({} + ' is not a string'))
     })
 
     it('should fail on array controls', () => {
-        const controls1 = []
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls1, details)
-        }).toThrow(TypeError(controls1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, [] )
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on empty controls', () => {
-        const controls1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls1, details)
-        }).toThrow(TypeError('controls cannot be empty'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, ' ' )
+        }).toThrow(Error('controls cannot be empty'))
+    })
+
+    it('should fail on undefined details', () => {
+
+        expect(() => {
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, )
+        }).toThrow(TypeError('undefined is not a string'))
     })
 
     it('should fail on numeric details', () => {
-        const details1 = 32343443
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details1)
-        }).toThrow(TypeError(details1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, 1234 )
+        }).toThrow(TypeError(1234 + ' is not a string'))
     })
 
-    it('should fail on boolean details', () => {
-        const details1 = true
+    it('should fail on array details', () => {
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details1)
-        }).toThrow(TypeError(details1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, [] )
+        }).toThrow(TypeError([] + ' is not a string'))
     })
 
     it('should fail on object details', () => {
-        const details1 = {}
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details1)
-        }).toThrow(TypeError(details1 + ' is not a string'))
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, {} )
+        }).toThrow(TypeError({} + ' is not a string'))
     })
     
-    it('should fail on array details', () => {
-        const details1 = []
-
-        expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details1)
-        }).toThrow(TypeError(details1 + ' is not a string'))
-    })
-
     it('should fail on empty details', () => {
-        const details1 = ' '
 
         expect(() => {
-            logic.registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details1)
-        }).toThrow(TypeError('details cannot be empty'))
-    })       
+            logic.registerPet(owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, ' ' )
+        }).toThrow(Error('details cannot be empty'))
+    })
+    
 }),
 
-//////////////////////////////////////////////////////////// authenticate user
-
-false && describe('authenticate user', () => {
-    const name = 'Clara'
-    const surname = 'Rufí'
-    let idCard, phone, adress
-    const city = `London`
-    const email = 'clara@gmail.com'
-    const password = 'clara'
- 
-    
-    beforeEach(async() => {
-        idCard = `234-${Math.random()}`
-        phone = `456348-${Math.random()}`
-        adress = `London Road -${Math.random()}`
-        // passwordConfirmation = '123'
-
-        // const hash = await bcrypt.hash(password, 10)
-        // await User.create({ name, surname, email, password: hash, status })
-        // const hash = await bcrypt.hash(password, 10)
-        // await User.create({ name, surname, idCard, phone, adress, city, email, password: hash })
-       
-        return bcrypt.hash(password, 10)
-            .then(hash => User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation: hash  }))
-        })
-    
-
-    it('should succeed on correct credentials', async() => {
-        const email1 = 'clara@gmail.com'
-        const password1 = 'clara'
-
-        logic.authenticateUser(email1, password1)
-            .then(id => expect(id).toBeDefined()
-                // expect(user.name).toBe(name)
-                // expect(user.surname).toBe(surname)
-                // expect(user.email).toBe(email)
-            )
-    })
-
-    
-
-    it('should succeed on wrong credentials', async () => {
-        const email = 'error@mail.com'
-
-        try {
-           const registeredUser= await logic.authenticateUser(email, 'falsePassword')
-        
-        }catch(error) {
-            expect(error).toBeDefined()
-            expect(error.message).toBe(`user with email ${email} not found`)
-            }
-    })
- 
-    it('should fail on not found user', () => {
-        expect(() => {
-            logic.authenticateUser(`clararufi-${Math.random()}@gmail.com`, `123-${Math.random()}` )
-            .catch(error => expect(error).toBeDefined())
-        })
-    })
-
-    // it('should fail on undefined email', () => {
-    //     const email1 = undefined
-        
-    //     expect(() => {
-    //         logic.authenticateUser(email1, password1)
-    //     }).toThrow(TypeError(email1 + ' is not a string'))
-    // })
-
-    // it('should fail on numeric email', () => {
-    //     const email1 = 87432
-       
-    //     expect(() => {
-    //         logic.authenticateUser(email1, password1)
-    //     }).toThrow(TypeError(email1 + ' is not a string'))
-    // })
-
-    // it('should fail on boolean email', () => {
-    //     const email1 = true
-        
-    //     expect(() => {
-    //         logic.authenticateUser(email1, password1)
-    //     }).toThrow(TypeError(email1 + ' is not a string'))
-    // })
-
-    // it('should fail on object email', () => {
-    //     const email1 = {}
-       
-    //     expect(() => {
-    //         logic.authenticateUser(email1, password1)
-    //     }).toThrow(TypeError(email1 + ' is not a string'))
-    // })
-
-    // it('should fail on array email', () => {
-    //     const email1 = []
-
-    //     expect(() => {
-    //         logic.authenticateUser(email1, password)
-    //     }).toThrow(TypeError(email1 + ' is not a string'))
-    // })
-
-    // it('should fail on empty email', () => {
-    //     const email1 = ' '
-
-    //     expect(() => {
-    //         logic.authenticateUser(email1, password)
-    //     }).toThrow(Error('email cannot be empty'))
-    // })
-
-    // it('should fail on undefined password', () => {
-    //     const password1 = undefined
-
-    //     expect(() => {
-    //         logic.authenticateUser(email, password1)
-    //     }).toThrow(TypeError(password1 + ' is not defined'))
-    // })
-
-    // it('should fail on numeric password', () => {
-    //     const password1 = 56732
-
-    //     expect(() => {
-    //         logic.authenticateUser(email, password1)
-    //     }).toThrow(TypeError(password1 + ' is not a string'))
-    // })
-
-    // it('should fail on boolean password', () => {
-    //     const password1 = true
-
-    //     expect(() => {
-    //         logic.authenticateUser(email, password1)
-    //     }).toThrow(TypeError(password1 + ' is not a string'))
-    // })
-
-    // it('should fail on object password', () => {
-    //     const password1 = {}
-
-    //     expect(() => {
-    //         logic.authenticateUser(email, password1)
-    //     }).toThrow(TypeError(password1 + ' is not a string'))
-    // })
-
-    // it('should fail on array password', () => {
-    //     const password1 = []
-
-    //     expect(() => {
-    //         logic.authenticateUser(email, password1)
-    //     }).toThrow(TypeError(password1 + ' is not a string'))
-    // })
-
-    // it('should fail on empty password', () => {
-    //     const password1 = ' '
-
-    //     expect(() => {
-    //         logic.authenticateUser(email, password1)
-    //     }).toThrow(TypeError(password1 + ' is not a string'))
-    // })
-}),
- ///////////////////////////////////////////////////////////////////////
-
-
-describe('assignAppointment', () => {
-      
+describe('authenticate user', () => {
     const name = 'Clara'
     const surname = 'Rufí'
     let idCard, phone, adress
@@ -1253,6 +1051,142 @@ describe('assignAppointment', () => {
     const email = `clara@gmail.com`
     const password = '123'
     const passwordConfirmation = '123'
+
+    beforeEach(async() => {
+        idCard = `234-${Math.random()}`
+        phone = `456348-${Math.random()}`
+        adress = `London Road -${Math.random()}`
+
+        const hash = await bcrypt.hash(password, 10)
+        owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
+    })
+
+    it('should succeed on correct credentials', async() => {
+
+        const _user = logic.authenticateUser(email, password).then(user => {
+            // expect(user.id).toBe(id)
+            expect(_user.name).toBe(name)
+            expect(_user.surname).toBe(surname)
+            expect(_user.email).toBe(email)
+            expect(_user.token).toBe(token)
+            expect(_user.role).toBe(role)
+        })
+    })
+
+//     it('should succeed on wrong email', async () => {
+//         const email1 = 'error@mail.com'
+
+//         try {
+//            const registeredUser= await logic.authenticateUser(email1, password)
+        
+//         }catch(error) {
+//             expect(error).toBeDefined()
+//             expect(error.message).toBe(`user with email ${email1} not found`)
+//             }
+//     })
+
+//     it('should succeed on wrong password', async () => {
+//         const password1 = 'wrong'
+
+//         try {
+//            const registeredUser= await logic.authenticateUser(email, password1)
+        
+//         }catch(error) {
+//             expect(error).toBeDefined()
+//             expect(error.message).toBe(`wrong credentials`)
+//             }
+//     })
+ 
+//     // it('should fail on not found user', () => {
+//     //     expect(() => {
+//     //         logic.authenticateUser(`clararufi-${Math.random()}@gmail.com`, `123-${Math.random()}` )
+//     //         .catch(error => expect(error).toBeDefined())
+//     //     })
+//     // })
+
+/////////////////////
+
+    it('should fail on undefined email', () => {
+        expect(() => {
+            logic.authenticateUser()
+        }).toThrow(TypeError('undefined is not a string'))
+    })
+
+    it('should fail on numeric email', () => {
+        expect(() => {
+            logic.authenticateUser(1234)
+        }).toThrow(TypeError(1234 + ' is not a string'))
+    })
+
+    it('should fail on boolean email', () => {
+        expect(() => {
+            logic.authenticateUser(true)
+        }).toThrow(TypeError(true + ' is not a string'))
+    })
+
+    it('should fail on object email', () => {
+        expect(() => {
+            logic.authenticateUser({})
+        }).toThrow(TypeError({} + ' is not a string'))
+    })
+
+    it('should fail on array email', () => {
+        expect(() => {
+            logic.authenticateUser([])
+        }).toThrow(TypeError([] + ' is not a string'))
+    })
+
+    it('should fail on empty email', () => {
+        expect(() => {
+            logic.authenticateUser(' ')
+        }).toThrow(TypeError('empty is not a string'))
+    })
+
+    it('should fail on undefined password', () => {
+        expect(() => {
+            logic.authenticateUser(email, )
+        }).toThrow(TypeError('undefined is not a string'))
+    })
+
+    it('should fail on number password', () => {
+        expect(() => {
+            logic.authenticateUser(email, 1234)
+        }).toThrow(TypeError(1234 + ' is not a string'))
+    })
+
+    it('should fail on array password', () => {
+        expect(() => {
+            logic.authenticateUser(email, [])
+        }).toThrow(TypeError([] + ' is not a string'))
+    })
+
+    it('should fail on object password', () => {
+        expect(() => {
+            logic.authenticateUser(email, {})
+        }).toThrow(TypeError({} + ' is not a string'))
+    })
+
+    it('should fail on array password', () => {
+        expect(() => {
+            logic.authenticateUser(email, [])
+        }).toThrow(TypeError([] + ' is not a string'))
+    })
+
+    it('should fail on empty password', () => {
+        expect(() => {
+            logic.authenticateUser(email, ' ')
+        }).toThrow(TypeError('password cannot be empty'))
+    })
+}),
+
+false && describe('assignAppointment', () => {
+      
+    const name = 'Clara'
+    const surname = 'Rufí'
+    let idCard, phone, adress
+    const city = `London`
+    const email = `clara@gmail.com`
+    const password = '123'
     let appointment1, appointment2, appointment3, date1
     const owner =  '5c868087fdf5b20f0c26d09d'
     const pet = '5c868199fdf5b20f0c26d09f'
@@ -1268,7 +1202,7 @@ describe('assignAppointment', () => {
         adress = `London Road -${Math.random()}`
 
     bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation: hash })) 
+                .then(hash => User.create({ name, surname, idCard, phone, adress, city, email, password: hash })) 
                 .then(({ id }) => userId = id)
                 .then(Appointment.create({owner, pet, date}))
     })
@@ -1397,7 +1331,7 @@ describe('assignAppointment', () => {
 
         expect(() => {
             logic.assignAppointment(owner, pet, date1)
-        }).toThrow(TypeError('date is not type date'))
+        }).toThrow(TypeError('date is not an object'))
     })
 
     it('should fail on numeric date', () => {
@@ -1405,7 +1339,7 @@ describe('assignAppointment', () => {
 
         expect(() => {
             logic.assignAppointment(owner, pet, date1)
-        }).toThrow(TypeError('date is not type date'))
+        }).toThrow(TypeError('date is not an object'))
     })
 
     it('should fail on boolean date', () => {
@@ -1413,15 +1347,15 @@ describe('assignAppointment', () => {
 
         expect(() => {
             logic.assignAppointment(owner, pet, date1)
-        }).toThrow(TypeError('date is not type date'))
+        }).toThrow(TypeError('date is not an object'))
     })
 
-    it('should fail on object date', () => {
-        const date1 = {}
+    it('should fail on string date', () => {
+        const date1 = ''
 
         expect(() => {
             logic.assignAppointment(owner, pet, date1)
-        }).toThrow(TypeError('date is not type date'))
+        }).toThrow(TypeError('date is not an object'))
     })
 
     it('should fail on array date', () => {
@@ -1429,7 +1363,7 @@ describe('assignAppointment', () => {
 
         expect(() => {
             logic.assignAppointment(owner, pet, date1)
-        }).toThrow(TypeError('date is not type date'))
+        }).toThrow(TypeError('date is not an object'))
     })
 
     it('should fail on empty date', () => {
@@ -1437,20 +1371,18 @@ describe('assignAppointment', () => {
 
         expect(() => {
             logic.assignAppointment(owner, pet, date1)
-        }).toThrow(TypeError('date is not type date'))
+        }).toThrow(TypeError('date is not an object'))
     })
 }),
 
 ////////////////////////////////////////////////////  retrieve user
-describe('retrieve user', () => {
+false && describe('retrieve user', () => {
     const name = 'Clara'
     const surname = 'Rufí'
     let idCard, phone, adress
     const city = `London`
     const email = `clara@gmail.com`
     const password = '123'
-    const passwordConfirmation = '123'
-
 
     beforeEach(async () => {
 
@@ -1460,15 +1392,15 @@ describe('retrieve user', () => {
     
         bcrypt.hash(password, 10)
             .then(hash => User.create({ name, surname, idCard, phone, adress, city, email, password: hash }))
-            .then(({ id }) => userId = id)
+            .then(() => logic.authenticateUser(email, password))
         })
 
     it('should succeed on correct credentials', async () => {
 
-        logic.retrieveUser().then(user => {
+        const user =logic.retrieveUser().then(user => {
             
                 // expect(user.id).toBe(userId)
-                // expect(user.id).toBeEqual(_id)
+                expect(user._id).toBeEqual(id)
                 expect(user.name).toBe(name)
                 expect(user.surname).toBe(surname)
                 expect(user.idCard).toBe(idCard)
@@ -1536,14 +1468,14 @@ describe('retrieve user', () => {
 
         expect(() => {
             logic.retrieveUser(userId1)
-        }).toThrow(Error(userId1 + ' cannot be empty'))
+        }).toThrow(Error('userId cannot be empty'))
     })
 
 }),
     
     
  ///////////////////////////////////////////////////////////     retrieve appointments
-describe('retrieveAppointments', () => {
+false && describe('retrieveAppointments', () => {
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -1677,7 +1609,7 @@ describe('retrieveAppointments', () => {
     })
 }),
 
-describe('retrieve users', () => {
+false && describe('retrieve users', () => {
     const name = 'Clara'
     const surname = 'Rufí'
     let idCard, phone, adress
@@ -1724,17 +1656,16 @@ describe('retrieve users', () => {
     })
 }),
 
-describe('retrieve pets', () => {
-    // const name = 'Clara'
-    // const surname = 'Rufí'
-    // let idCard, phone, adress
-    // const city = `London`
-    // const email = `clara@gmail.com`
-    // const password = '123'
-    // const passwordConfirmation = '123'
+false && describe('retrieve pets', () => {
+    const name = 'Clara'
+    const surname = 'Rufí'
+    let idCard, phone, adress
+    const city = `London`
+    const email = `clara@gmail.com`
+    const password = '123'
 
     const owner = '5c80df3816440c252c9d26dc'
-    const name = 'George'
+    const namePet = 'George'
     const specie = 'cat'
     let breed
     const color = 'grey'
@@ -1742,7 +1673,7 @@ describe('retrieve pets', () => {
     const birthdate = '02/03/2019'
     const neutered = 'yes'
     let microchip, petlicence, vaccionations, controls, details
-    
+    const ownerId = '5c75c810e67d3ca972bb0da5bff'
     beforeEach(async () => {
         
         breed = `british-${Math.random()}`
@@ -1752,12 +1683,12 @@ describe('retrieve pets', () => {
         controls = `controls-${Math.random()}`
         details = `details-${Math.random()}`
 
-     
-        await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation: hash })
-            .then(() => logic.retrievePets())
+        const hash = bcrypt.hash(password, 10)
+        await User.create({ name, surname, idCard, phone, adress, city, email, password: hash})
+            .then(() => logic.authenticateUser(email, password))
+            .then(() => logic.registerPet({owner, namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})) 
     })
      
-
     it('should succeed on correct credentials', async () => {
         const pet = await logic.retrievePets().then(pet => {
             
@@ -1771,9 +1702,10 @@ describe('retrieve pets', () => {
                 expect(pet.id).toBe(id)
                 // expect(user.save).toBeUndefined()
         })
-    }),   
+    })
+}),   
 
-describe('retrieve pet', () => {
+false && describe('retrieve pet', () => {
 
     const owner = '5c80df3816440c252c9d26dc'
     const name = 'George'
@@ -1795,6 +1727,7 @@ describe('retrieve pet', () => {
         details = `details-${Math.random()}`
 
         await Pet.create({owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
+            .then(() => logic.authenticateUser(email, password))
     })
 
     it('should succeed on correct credentials', async () => {
@@ -1811,7 +1744,7 @@ describe('retrieve pet', () => {
     })
 }),   
     
-describe('retrieveVisit', () => {
+false && describe('retrieveVisit', () => {
 
     const owner = '5c80df3816440c252c9d26dc'
     const name = 'George'
@@ -1848,7 +1781,7 @@ describe('retrieveVisit', () => {
     })
 }),   
     
-describe('updateUser', () => {
+false && describe('updateUser', () => {
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -1856,7 +1789,6 @@ describe('updateUser', () => {
     const city = `London`
     const email = `clara@gmail.com`
     const password = '123'
-    const passwordConfirmation = '123'
 
     beforeEach(async () => {
 
@@ -1865,7 +1797,7 @@ describe('updateUser', () => {
         adress = `London Road -${Math.random()}`
     
         const hash = bcrypt.hash(password, 10)
-        await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation: hash })
+        await User.create({ name, surname, idCard, phone, adress, city, email, password: hash })
             .then(() => logic.authenticateUser(email, password))
             .then(()=> logic.updateUser(name, surname, idCard, phone, adress , 'Barcelona'))
     })
@@ -1991,7 +1923,7 @@ describe('updateUser', () => {
     })
 }),   
 
-describe('updateVisit', () => {
+false && describe('updateVisit', () => {
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -2015,9 +1947,7 @@ describe('updateVisit', () => {
             .then(() => logic.authenticateUser(email, password))
             .then(Appointment.create({owner, pet, date}))
             .then(logic.updateVisit())
-            })
-
-    })
+        })
 
     it('should succeed on correct credentials', async () => {
         const visit = await logic.retrievePets().then(pet => {
@@ -2112,7 +2042,7 @@ describe('updateVisit', () => {
     })
 }),   
 
-describe('deleteAppointment', () => {
+false && describe('deleteAppointment', () => {
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -2123,6 +2053,7 @@ describe('deleteAppointment', () => {
     const passwordConfirmation = '123'
     const owner =  '5c868087fdf5b20f0c26d09d'
     const pet = '5c868199fdf5b20f0c26d09f'
+    const Id= '5c88daecc58e1e636c795983'
     let date
     
     beforeEach(async () => {
@@ -2149,16 +2080,105 @@ describe('deleteAppointment', () => {
              expect(error.message).toBe(`appointment with id ${appointmentId} succesfully deleted`)
              }
      })
-})  
 
+     it('should fail on undefined Id', () => {
+        const Id1 = undefined
 
-        after(() =>
-            Promise.all([
-                User.deleteMany(),
-                Pet.deleteMany(),
-                Appointment.deleteMany(),
-                // Appointments.deleteMany()
-            ])
-                .then(() => mongoose.disconnect())
-        )
+        expect(() => {
+            logic.deleteAppointment(Id)
+        }).toThrow(TypeError( Id1+ ' is not a string'))
+    })
+
+    it('should fail on number Id', () => {
+        const Id1 = 23345
+
+        expect(() => {
+            logic.deleteAppointment(Id)
+        }).toThrow(TypeError( Id1+ ' is not a string'))
+    })
+
+    it('should fail on boolean Id', () => {
+        const Id1 = true
+
+        expect(() => {
+            logic.deleteAppointment(Id)
+        }).toThrow(TypeError( Id1+ ' is not a string'))
+    })
+
+    it('should fail on object Id', () => {
+        const Id1 = {}
+
+        expect(() => {
+            logic.deleteAppointment(Id)
+        }).toThrow(TypeError( Id1+ ' is not a string'))
+    })
+
+    it('should fail on array Id', () => {
+        const Id1 = []
+
+        expect(() => {
+            logic.deleteAppointment(Id)
+        }).toThrow(TypeError( Id1+ ' is not a string'))
+    })
+
+    it('should fail on empty Id', () => {
+        const Id1 = ' '
+
+        expect(() => {
+            logic.deleteAppointment(Id)
+        }).toThrow(TypeError( Id1+ ' is not a string'))
+    })
+}),
+
+false && describe('retrieveUserSelected', () => {
+
+    const name = 'Clara'
+    const surname = 'Rufí'
+    let idCard, phone, adress
+    const city = `London`
+    const email = `clara@gmail.com`
+    const password = '123'
+
+    let userId
+    
+    beforeEach(async () => {
+        
+        idCard = `234-${Math.random()}`
+        phone = `456348-${Math.random()}`
+        adress = `London Road -${Math.random()}`
+    
+        const hash = bcrypt.hash(password, 10)
+        await User.create({ name, surname, idCard, phone, adress, city, email, password: hash })
+            .then(() => logic.authenticateUser(email, password))
+            .then(({id})=> userId = id)
+            // .then(()=> logic.retrieveUserSelected(name, surname, idCard, phone, adress , city, email))
+        })
+
+    it('should succeed on correct credentials', async () => {
+        const userSelected = await logic.retrieveUserSelected(userId).then(user => {
+            
+                expect(userSelected.id).toBe(userId)
+                // expect(user.id).toBeEqual(_id)
+                expect(userSelected.name).toBe(name)
+                expect(userSelected.surname).toBe(surname)
+                expect(userSelected.idCard).toBe(idCard)
+                expect(userSelected.phone).toBe(phone)
+                expect(userSelected.adress).toBe(adress)
+                expect(userSelected.city).toBe(city)
+                expect(userSelected.email).toBe(email)
+                // expect(user.save).toBeUndefined()
+        })
+    })
+
+})
+    
+    after(() =>
+        Promise.all([
+            User.deleteMany(),
+            Pet.deleteMany(),
+            Appointment.deleteMany(),
+            // Appointments.deleteMany()
+        ])
+            .then(() => mongoose.disconnect())
+    )
 })

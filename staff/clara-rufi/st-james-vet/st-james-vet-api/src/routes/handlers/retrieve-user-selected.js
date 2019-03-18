@@ -2,11 +2,10 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
     debugger
-    const { userSelectedId } = req
+    const { userSelectedId } = req.params
 
     try {
         logic.retrieveUserSelected(userSelectedId)
-            // .then(user => res.json(user))
             .then(res.json.bind(res))
             .catch(({ message }) => {
                 res.status(400).json({
