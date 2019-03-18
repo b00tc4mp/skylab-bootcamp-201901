@@ -4,58 +4,10 @@
     "name": "Desktop",
     "children": [
         {
-            "name": "folder3",
+            "name": "hola3",
             "open": false,
             "type": "folder",
             "position": 2
-        },
-        {
-            "name": "asdsad",
-            "open": false,
-            "type": "folder",
-            "position": 3
-        },
-        {
-            "name": "helloworld",
-            "open": false,
-            "type": "folder",
-            "position": 4
-        },
-        {
-            "name": "a",
-            "open": false,
-            "type": "folder",
-            "position": 0
-        },
-        {
-            "name": "b",
-            "open": false,
-            "type": "folder",
-            "position": 1
-        },
-        {
-            "name": "c",
-            "open": false,
-            "type": "folder",
-            "position": 5
-        },
-        {
-            "name": "d",
-            "open": false,
-            "type": "folder",
-            "position": 6
-        },
-        {
-            "name": "e",
-            "open": false,
-            "type": "folder",
-            "position": 7
-        },
-        {
-            "name": "f",
-            "open": false,
-            "type": "folder",
-            "position": 8
         }
     ]
 }

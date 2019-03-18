@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js",
+    "test": "mocha src/logic",
     "start": "node src",
     "debug": "node debug src"
   },

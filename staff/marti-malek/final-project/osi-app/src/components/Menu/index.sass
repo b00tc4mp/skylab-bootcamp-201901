@@ -4,34 +4,38 @@
     box-sizing: border-box
 
 .menu
-    // width: auto
-    // height: auto
-    // background-color: #373737
-    // position: absolute
-    // border-top-left-radius: 0.5rem
-    // border-bottom-right-radius: 0.5rem
-    // color: white
-    // padding: 0.1rem
     position: absolute
-    width: 5rem
-    height: 2rem
-    border: 2px solid white
+    width: auto
+    height: auto
+    border-radius: 0.3rem
     background-color: #343434
     color: #e6e6e6
-    border-top-left-radius: 1rem
-    border-bottom-right-radius: 1rem
     align-self: center
     text-align: center
     border-color: black
-    animation: enter 1s forwards ease
-    &:hover
-        background-color: #212121
-        color: black
-        animation: color-change-white 0.5s forwards, border-change 0.5s forwards
-
+    animation: enter 1s forwards ease, fade 2s forwards 1.5s
 
     &__item
         cursor: pointer
+        width: 100%
+        height: 100%
+        text-align: center
+        border-radius: 0.3rem
+
+        &:hover
+            background-color: #212121
+            color: #cccccc
+        &:after
+            content: ''
+            position: absolute
+            background: linear-gradient(to bottom right,  rgba(255, 255, 255, 0),rgba(255, 255, 255, 0.5))
+            bottom: 0%
+            border-radius: 0.3rem
+            left: 0%
+            opacity: 0.6
+            height: 100%
+            width: 100%
+            z-index: 2
 
 @keyframes enter
     0%
@@ -46,16 +50,6 @@
         opacity: 1
     100%
         opacity: 0
-
-@keyframes border-change
-    0%
-        border-top-left-radius: 1rem
-        border-bottom-right-radius: 1rem
-    100%
-        border-top-left-radius: 0rem
-        border-top-right-radius: 1rem
-        border-bottom-right-radius: 0rem
-        border-bottom-left-radius: 1rem
 
 @keyframes color-change-white
     0%

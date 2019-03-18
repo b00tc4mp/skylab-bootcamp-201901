@@ -355,9 +355,7 @@ const osiApi = {
                 authorization: `Bearer ${token}`
             },
         })
-            .then(response => {
-                return response.json()
-            })
+            .then(response => response.json())
             .then(response => {
                 if (response.error) throw response.error
                 else return response
@@ -376,9 +374,7 @@ const osiApi = {
                 authorization: `Bearer ${token}`
             },
         })
-            .then(response => {
-                return response.json()
-            })
+            .then(response => response.json())
             .then(response => {
                 if (response.error) throw response.error
                 else return response

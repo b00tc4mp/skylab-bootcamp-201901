@@ -2,6 +2,14 @@
     box-sizing: border-box
     margin: 0
 
+#email
+    &:-webkit-autofill
+        background-color: black !important
+
+#password
+        &:-webkit-autofill
+            background-color: black !important
+
 .login
     width: 100%
     height: 100%
@@ -9,6 +17,7 @@
     flex-flow: column
     justify-content: center
     align-items: flex-start
+
 
     &__image
     // background-image: url("https://stmed.net/sites/default/files/black-%26-white-wallpapers-25165-6959283.jpg")
@@ -81,6 +90,7 @@
                         padding: 1px 6px
                         z-index: 2
                         text-transform: uppercase
+                
             label
                 top: 0
                 bottom: 0

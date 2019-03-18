@@ -2,11 +2,13 @@ import React, { useRef, useState } from 'react'
 import logic from '../../logic'
 import './index.sass'
 
-function File({ name, file, filePath, closeFile, showMenu, saveFile }) {
+function File({ name, file, filePath, closeFile, showMenu, saveFile, onDrag, onDragStart, dragEnd }) {
 
     let newText = useRef()
     let [openMenu, setOpenMenu] = useState(false)
     let [fileContent, setFileContent] = useState(null)
+    let posX
+    let posY
     
     saveFile = () => {
         fileContent = newText.current.innerText
@@ -26,10 +28,35 @@ function File({ name, file, filePath, closeFile, showMenu, saveFile }) {
     // }
 
     showMenu = () => {
+        openMenu = !openMenu
         setOpenMenu(old => !old)
+        if (openMenu === true) setTimeout(() => setOpenMenu(old => !old), 3000)
     }
 
-    return <section className="file">
+    onDragStart = e => {
+        posX = e.clientX
+        posY = e.clientY
+    }
+
+    onDrag = e => {
+        let right = posX - e.clientX
+        let top = posY - e.clientY
+        posX = e.clientX
+        posY = e.clientY
+        e.target.style.top = ((e.target.offsetTop - top)) + 'px'
+        e.target.style.left = ((e.target.offsetLeft - right)) + 'px'
+    }
+
+    dragEnd = e => {
+        let right = posX - e.clientX
+        let top = posY - e.clientY
+        posX = e.clientX
+        posY = e.clientY
+        e.target.style.top = ((e.target.offsetTop - top)) + 'px'
+        e.target.style.left = ((e.target.offsetLeft - right)) + 'px'
+    }
+
+    return <section className="file" draggable onDrag={e => onDrag(e)} onDragStart={e => onDragStart(e)} onDragEnd={dragEnd}>
         <header className="file__header"><i className="fas fa-times" onClick={closeFile}></i>
             <p>{name}</p>
         </header>

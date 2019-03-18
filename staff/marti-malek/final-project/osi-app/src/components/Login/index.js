@@ -52,11 +52,11 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
     return <section className="login">
         <form className="login__form" onSubmit={handleFormSubmit}>
             <div>
-                <input onChange={handleEmailInput} className="login__name" name="email" type="email" required></input>
+                <input onChange={handleEmailInput} id="email" className="login__name" name="email" type="email" required></input>
                 <label>Email</label>
             </div>
             <div>
-                <input onChange={handlePasswordInput} className="login__password" name="password" type="password" required></input>
+                <input onChange={handlePasswordInput} id="password" className="login__password" name="password" type="password" required></input>
                 <label>Password</label>
             </div>
             <button className="login__button">Login</button>

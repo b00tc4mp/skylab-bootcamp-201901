@@ -8,11 +8,11 @@ const logic = {
      * Checks if user is logged in.
      */
     get isUserLoggedIn() {
-        if (this.__userApiToken__ === "null") {
-            return false
-        } else {
+        // if (this.__userApiToken__ === "null") {
+        //     return false
+        // } else {
             return !!this.__userApiToken__
-        }
+        // }
     },
 
     /**

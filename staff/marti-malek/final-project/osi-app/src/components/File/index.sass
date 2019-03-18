@@ -4,34 +4,21 @@
     box-sizing: border-box
 
 .file
-    // display: flex
-    // min-width: 120px
-    // min-height: 120px
-    // width: 100px
-    // height: 100px
-    // background-color: #ffffff
-    // border: 1px solid #f2f2f2
-    // border-radius: 0.5rem
-    // position: absolute
-    // box-shadow: 0px 0px 10px 0px grey
-    // animation: open 0.2s forwards
     display: flex
     flex-direction: column
     min-width: 300px
     min-height: 300px
     width: auto
     height: auto
-    top: 100px
-    right: 100px
     background-color: #ffffff
     border: 1px solid #f2f2f2
     border-radius: 0.5rem
     position: absolute
     box-shadow: 0px 0px 10px 0px grey
     animation: open 0.2s forwards
-    // resize: both
     border: 2px solid
-    // overflow: auto
+    resize: both
+    overflow: auto
 
     &__header
         display: grid
@@ -40,6 +27,7 @@
         align-items: center
         width: 100%
         height: 20px
+        min-height: 20px
         color: #f2f2f2
         border-top-left-radius: 0.5rem
         border-top-right-radius: 0.5rem
@@ -67,6 +55,7 @@
         background-color: #ececec
         border-bottom: 1px solid #dedede
         display: flex
+        min-height: 20px
 
         &__file
             padding-left: 0.2rem
@@ -82,9 +71,9 @@
             width: auto
             height: auto
             top: 46px
-            left: 20px
             position: absolute
             background-color: #c5c5c5
+            animation: fade 1s forwards 2s
 
             &__item
                 border: 1px solid #c6c6c6
@@ -96,12 +85,24 @@
                     background-color: #b6b6b6
                     cursor: pointer
 
+                &:after
+                    content: ''
+                    position: absolute
+                    background: linear-gradient(to bottom right,  rgba(255, 255, 255, 0),rgba(255, 255, 255, 0.5))
+                    bottom: 0%
+                    border-radius: 0.3rem
+                    left: 0%
+                    opacity: 0.6
+                    height: 100%
+                    width: 100%
+                    z-index: 2
+
 
     &__content
         display: flex
         flex-direction: row
-        width: 100%
-        height: 100%
+        width: 100% !important
+        height: 100% !important
         min-height: 300px
 
         &:focus
@@ -116,6 +117,13 @@
         transform: scale(0)
     100%
         transform: scale(1)
+
+
+@keyframes fade
+    0%
+        opacity: 1
+    100%
+        opacity: 0
 
 @keyframes dropdown
     0%

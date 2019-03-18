@@ -458,7 +458,7 @@ const logic = {
         if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
 
         if (!filePath.trim().length) throw Error('filePath cannot be empty')
-        debugger
+
         return (async () => {
             /* Extracts the user's id form it's token */
             const { data } = await jwt.verify(token, this.jwtSecret)
@@ -902,6 +902,34 @@ const logic = {
             await fs.promises.rename(oldCompletePath, newCompletePath, err => {
                 if (err) throw err
             })
+
+            /* Finds the @.this.json of the renamed item */
+            let itemState = await fs.promises.lstat(newCompletePath)
+
+            if (itemState.isDirectory()) {
+
+                let childJson
+                let newJsonPath = path.join(newCompletePath, '.this.json')
+                try {
+                    childJson = await fs.promises.readFile(newJsonPath)
+                } catch (err) {
+                    if (err) throw err
+                }
+                
+                let parsedChild = JSON.parse(childJson)
+
+                parsedChild.name = newPath.split('/').reverse()[0]
+
+                try {
+                    await fs.promises.writeFile(newJsonPath, JSON.stringify(parsedChild, null, 4))
+                } catch (err) {
+                    if (err) throw err
+                }
+                
+                return 'Done'
+            }
+
+
 
             /* Returns when 'Done' finished */
             return 'Done'
@@ -1358,8 +1386,7 @@ const logic = {
                     })
                     return 'Done'
                 }
-                // return deleteFolder(oldFolderCompletePath)
-
+                return 'Done'
             } else {
                 throw Error(`Folder ${dirName} already exists in ${directory}`)
             }

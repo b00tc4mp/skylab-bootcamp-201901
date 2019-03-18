@@ -6,20 +6,21 @@
 .finder
     display: flex
     flex-direction: column
-    min-width: 120px
+    min-width: 300px
+    min-height: 200px
+    max-width: 660px
+    max-height: 400px
     width: auto
     height: auto
-    // top: 100px
-    // right: 100px
     background-color: #ffffff
     border: 1px solid #f2f2f2
     border-radius: 0.5rem
     position: absolute
     box-shadow: 0px 0px 10px 0px grey
     animation: open 0.2s forwards
-    // resize: both
     border: 2px solid
-    // overflow: auto
+    resize: both
+    overflow: hidden
 
     &__header
         display: grid
@@ -27,6 +28,7 @@
         grid-template-rows: 20px
         align-items: center
         width: 100%
+        min-height: 20px
         height: 20px
         border-top-left-radius: 0.5rem
         border-top-right-radius: 0.5rem
@@ -38,7 +40,8 @@
         i
             grid-column: 1
             justify-self: flex-start
-            padding: 1px
+            padding: 2px
+            position: absolute
 
             &:hover
                 transform: scale(1.1)
@@ -52,6 +55,7 @@
     &__content
         display: flex
         flex-direction: row
+        height: 100%
 
     &__divider
         border-left: 1px solid black
@@ -60,7 +64,9 @@
     &__list
         // min-width: 110px
         min-height: 100px
-        height: 100%
+        max-height: 400px
+
+        height: auto
         // position: absolute
         overflow-y: scroll
         overflow-x: hidden
@@ -70,8 +76,12 @@
         display: flex
         align-items: center
         justify-content: center
-        width: 200px
-        height: 200px
+        width: 100%
+        height: 100%
+        p
+            position: relative
+            padding: 0.5rem
+            border: 3px dotted #989898
 
     &__item
         display: flex
@@ -100,8 +110,9 @@
         justify-content: flex-start
         margin-right: auto
         margin-left: auto
-        width: 100%
-        height: 100%
+        width: auto
+        height: auto
+        overflow: auto
 
         &__item
             display: flex

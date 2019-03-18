@@ -2,13 +2,12 @@ import React, { useRef, useState, useEffect } from 'react'
 import logic from '../../logic'
 import './index.sass'
 
-function Finder({ content, close, dragStart, drag, dragDown, closeDrag, elementDrag, openFolder, openFile, openFileFromFinder, onDragStart, onDrag, dragEnd }) {
+function Finder({ content, close, dragStart, openFolder, openFile, openFileFromFinder, onDragStart, onDrag, dragEnd, actualFinderPath, pathFromFinder }) {
 
     let finder = useRef()
     let [previousPath, setPreviousPath] = useState(null)
     let [finderContent, setFinderContent] = useState(content)
-    let [topPosition, setTopPosition] = useState(null)
-    let [leftPosition, setLeftPosition] = useState(null)
+    let [actualPath, setActualPath] = useState(actualFinderPath)
     let posX
     let posY
 
@@ -18,13 +17,31 @@ function Finder({ content, close, dragStart, drag, dragDown, closeDrag, elementD
 
     openFolder = e => {
         let folderPath
-        if (previousPath) {
-            folderPath = previousPath + '/' + e.target.innerText
+        // if (previousPath) {
+        //     folderPath = previousPath + '/' + e.target.innerText
+        // } else {
+        //     folderPath = '/' + e.target.innerText
+        // }
+        // folderPath = folderPath.split('')
+        // let filteredPath = folderPath.filter(char => char !== '↵' && char !== '\n').join('')
+        actualPath = actualFinderPath
+        if (actualPath) {
+            folderPath = actualPath + '/' + e.target.innerText
         } else {
             folderPath = '/' + e.target.innerText
         }
         folderPath = folderPath.split('')
         let filteredPath = folderPath.filter(char => char !== '↵' && char !== '\n').join('')
+        debugger
+        let pathFromRoot
+        setActualPath(old => {
+            let name = '/' + filteredPath.split('/').reverse()[0]
+            // pathFromRoot = old + name
+            debugger
+            return old + name
+        })
+        debugger
+        // setPreviousPath(pathFromRoot)
         setPreviousPath(filteredPath)
         return logic.retrieveLevel(filteredPath)
             .then(newContent => {
@@ -39,15 +56,11 @@ function Finder({ content, close, dragStart, drag, dragDown, closeDrag, elementD
         } else {
             filePath = '/' + e.target.innerText
         }
-        // filePath.replace('↵', '')
         filePath = filePath.split('')
         let filteredPath = filePath.filter(char => char !== '↵' && char !== '\n').join('')
-        setPreviousPath(filteredPath)
+        debugger
+        // setActualPath(filteredPath)
         openFileFromFinder(filteredPath)
-        // return logic.retrieveFile(folderPath)
-        //     .then(newContent => {
-        //         openFileFromFinder(newContent)
-        //     })
     }
     onDragStart = e => {
         posX = e.clientX
@@ -59,19 +72,20 @@ function Finder({ content, close, dragStart, drag, dragDown, closeDrag, elementD
         let top = posY - e.clientY
         posX = e.clientX
         posY = e.clientY
-        e.target.style.top = (e.target.offsetTop - top) + 'px'
-        e.target.style.left = (e.target.offsetLeft - right) + 'px'
-        // setTopPosition((e.target.offsetTop - top) + 'px')
-        // setLeftPosition((e.target.offsetLeft - right) + 'px')
+        e.target.style.top = ((e.target.offsetTop - top)) + 'px'
+        e.target.style.left = ((e.target.offsetLeft - right)) + 'px'
     }
 
-    // dragEnd = e => {
-    //     debugger
-    //     e.target.style.top = topPosition
-    //     e.target.style.left = leftPosition
-    // }
+    dragEnd = e => {
+        let right = posX - e.clientX
+        let top = posY - e.clientY
+        posX = e.clientX
+        posY = e.clientY
+        e.target.style.top = ((e.target.offsetTop - top)) + 'px'
+        e.target.style.left = ((e.target.offsetLeft - right)) + 'px'
+    }
 
-    return <section className="finder" id="finder" draggable ref={finder} onDrag={e => onDrag(e)} onDragStart={e => onDragStart(e)} /* onMouseUp={(e) => dragEnd(e)} */>
+    return <section className="finder" id="finder" draggable ref={finder} onDrag={e => onDrag(e)} onDragStart={e => onDragStart(e)} onDragEnd={dragEnd}/* onMouseUp={(e) => dragEnd(e)} */>
         <header className="finder__header" id="finder-header"><i className="fas fa-times" onClick={close}></i>
             <p>
                 {finderContent.name}

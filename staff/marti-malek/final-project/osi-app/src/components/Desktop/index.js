@@ -9,7 +9,7 @@ import Finder from '../Finder'
 import logic from '../../logic'
 import './index.sass'
 
-function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut, openFile, closeFile, dragStart, openFileFromFinder, dragEnd }) {
+function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut, handleLogout, openFile, closeFile, dragStart, openFileFromFinder, dragEnd }) {
 
     let [level, setLevel] = useState([])
     let [positions, setPositions] = useState([])
@@ -23,7 +23,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     let [fileName, setFileName] = useState(null)
     let [filePath, setFilePath] = useState(null)
     let [finderItem, setFinderItem] = useState(null)
-
+    let [clock, setClock] = useState(true)
+    let [actualPath, setActualPath] = useState(null)
+    let pathFromFinder
+    
     useEffect(() => {
         handleState()
     }, [])
@@ -63,6 +66,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
 
     openDir = (e) => {
         let dirPath = '/' + e.target.firstChild.innerText
+        setActualPath(dirPath)
         return logic.retrieveLevel(dirPath)
             .then(content => {
                 setFinderOpen(true)
@@ -124,7 +128,8 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     }
     
     logOut = () => {
-        return logic.logOutUser()
+        setClock(false)
+        handleLogout()
     }
 
     dragStart = e => {
@@ -133,7 +138,9 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
 
     return <section className="desktop">
         <div className="desktop__clock">
-            <Clock></Clock>
+        {
+            clock && <Clock showClock={clock}></Clock>
+        }
         </div>
         <div className="desktop__todos">
             <Todos></Todos>
@@ -142,10 +149,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             <Toolbar newFolder={handleNewFolder} newFile={handleNewFile} openFinder={openFinderRoot} openMenu={openMenu}></Toolbar>
         </div>
         <div className="desktop__dragzone">
-            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} refresh={refreshFinder} dragItem={finderItem}></Dragzone>
+            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} refresh={refreshFinder} dragPath={finderItem}></Dragzone>
         </div>
         {
-            finder && finderOpen ? <Finder /* dragEnd={dragEnd} */ content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder}></Finder> : null
+            finder && finderOpen && actualPath ? <Finder /* dragEnd={dragEnd} */pathFromFinder={pathFromFinder} actualFinderPath={actualPath} content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder}></Finder> : null
         }
         {
             showMenu ? <Menu menuX={menuX} menuY={menuY} logOut={logOut}></Menu> : null

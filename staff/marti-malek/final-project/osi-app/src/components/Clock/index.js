@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.sass'
 
-function Clock({ clock, checkTime }) {
+function Clock({ clock, checkTime, showClock }) {
     clock = () => {
         let time = new Date()
 
@@ -18,10 +18,12 @@ function Clock({ clock, checkTime }) {
             return time;
         }
 
-        document.querySelectorAll('.clock')[0].innerHTML = checkTime(hours) + ":" + checkTime(minutes) + ":" + checkTime(seconds);
+        let clockElement = document.querySelectorAll('.clock')[0]
+
+        if (clockElement) clockElement.innerHTML = checkTime(hours) + ":" + checkTime(minutes) + ":" + checkTime(seconds)
 
     }
-    setInterval(clock, 1000);
+    setInterval(clock, 1000)
 
     return <section className="clock">
 

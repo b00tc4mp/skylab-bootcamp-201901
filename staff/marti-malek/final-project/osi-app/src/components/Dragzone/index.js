@@ -3,7 +3,7 @@ import './index.sass'
 // import Hammer from 'hammerjs'
 import logic from '../../logic';
 
-function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, refresh, openFile, dragItem }) {
+function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, refresh, openFile, dragPath }) {
 
     let [divs, setDivs] = useState(new Array(48).fill(null))
     // // let [newName, setNewName] = useState(null)
@@ -94,38 +94,49 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
         }
     }
 
-    onDrop = ev => {
-        ev.preventDefault();
-        console.log(dragItem)
+    useEffect(() => {
+        if (dragPath) {
+            onDrop(null, dragPath)
+        }
+    }, [dragPath])
+
+    onDrop = (ev, path) => {
+        // ev.preventDefault();
+        console.log(path)
         debugger
-        if (draggableTest.id === "file" && droppingTest.id === "folder") {
-            let oldPath = draggableTest.firstChild.innerText
-            let newPath = droppingTest.firstChild.innerText + '/' + oldPath
-            return logic.moveFile(oldPath, newPath)
-                .then(() => handleDivs())
-        } else if (draggableTest.id === "folder" && droppingTest.id === "folder") {
-            if (draggableTest === droppingTest) {
+        if (path === undefined) {
+            debugger
+            if (draggableTest.id === "file" && droppingTest.id === "folder") {
+                let oldPath = draggableTest.firstChild.innerText
+                let newPath = droppingTest.firstChild.innerText + '/' + oldPath
+                return logic.moveFile(oldPath, newPath)
+                    .then(() => handleDivs())
+            } else if (draggableTest.id === "folder" && droppingTest.id === "folder") {
+                if (draggableTest === droppingTest) {
+                    return
+                } else {
+                    let oldPath = '/' + draggableTest.firstChild.innerText
+                    let newPath = '/' + droppingTest.firstChild.innerText + oldPath
+                    return logic.moveDir(oldPath, newPath)
+                        .then(() => handleDivs())
+                }
+            } else if (draggableTest.id === "folder" && droppingTest.id === "file") {
+                console.error('Cannot move a folder into a file')
+                return
+            } else if (draggableTest.id === "file" && droppingTest.id === "file") {
+                console.error('Cannot move a file into a file')
                 return
             } else {
-                let oldPath = '/' + draggableTest.firstChild.innerText
-                let newPath = '/' + droppingTest.firstChild.innerText + oldPath
-                return logic.moveDir(oldPath, newPath)
+                return logic.updatePositions(draggableTest.firstChild.innerText, Number(droppingTest.id))
+                    .then(() => handleDivs())
             }
-        } else if (draggableTest.id === "folder" && droppingTest.id === "file") {
-            console.error('Cannot move a folder into a file')
-            return
-        } else if (draggableTest.id === "file" && droppingTest.id === "file") {
-            console.error('Cannot move a file into a file')
-            return
         } else {
-            return logic.updatePositions(draggableTest.firstChild.innerText, Number(droppingTest.id))
-                .then(() => handleDivs())
+            debugger
         }
-
     }
 
     handleDivs = () => {
-        refresh()
+        // refresh()
         return logic.retrieveLevel('/')
             .then(positions => pos = positions.children)
             .then(() => {

@@ -1,12 +1,12 @@
 {
     "open": false,
     "type": "folder",
-    "name": "_newFolder",
+    "name": "huy",
     "children": [
         {
-            "name": "file1",
+            "name": "hey",
             "open": false,
-            "type": "file",
+            "type": "folder",
             "position": 0
         }
     ]

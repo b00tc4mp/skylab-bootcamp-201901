@@ -1,31 +1,37 @@
 {
     "open": false,
     "type": "folder",
-    "name": "Desktop",
+    "name": "hola3",
     "children": [
         {
-            "name": "test1",
+            "name": "hola",
             "open": false,
             "type": "folder",
             "position": 0
         },
         {
-            "name": "test2",
+            "name": "hola2",
             "open": false,
             "type": "folder",
             "position": 1
         },
         {
-            "name": "test3",
+            "name": "1",
             "open": false,
-            "type": "folder",
-            "position": 9
+            "type": "file",
+            "position": 2
         },
         {
-            "name": "test6",
+            "name": "heyyyy",
             "open": false,
             "type": "folder",
-            "position": 8
+            "position": 3
+        },
+        {
+            "name": "huy",
+            "open": false,
+            "type": "folder",
+            "position": 4
         }
     ]
 }

@@ -8,7 +8,7 @@ function Landing({ goToLogin, goToRegister }) {
     <div className="landing__div">
         <h1 className="landing__title">Welcome to OSI</h1>
     </div>
-    <h4 className="landing__advise">Full-screen mode is adviced for a better experience</h4>
+    <h4 className="landing__advise">Full-screen mode is advised for a better experience</h4>
     <div className="landing__buttons">
         <button className="landing__login" onClick={goToLogin}>Login</button>
         <button className="landing__register" onClick={goToRegister}>Register</button>
