@@ -3,7 +3,7 @@ import logic from '../../logic'
 import './index.css'
 
 
-class Cart extends Component {
+class Order extends Component {
 
     constructor() {
         super()
@@ -23,7 +23,7 @@ class Cart extends Component {
                     email: user.email
                 })
             })
-        // this.getItems()
+        this.getItems()
     }
 
 
@@ -34,9 +34,7 @@ class Cart extends Component {
 
     }
 
-    // truefunction() {
-    //     getElementById("demo").innerHTML = "Hello World";
-    // }
+
 
     handleSubmitOrder = (e) => {
         e.preventDefault()
@@ -96,7 +94,7 @@ class Cart extends Component {
                                     <input type="number" placeholder="Secret number" />
                                     <br />
                                     <br />
-                                    <button type="submit" onClick={this.truefunction} className="submitbutton" >Submit payment</button>
+                                    <button type="submit" className="submitbutton" >Submit payment</button>
                                 </div>
                             </form>
                         </div>
@@ -107,4 +105,4 @@ class Cart extends Component {
     }
 }
 
-export default Cart
+export default Order

@@ -48,21 +48,26 @@ class Profile extends Component {
                 <label>Email:</label>
                 <input value={`${this.state.email}`} />
             </div>
-
-            <table className="sectionpaymenthistory">
-                <div className="innerpayment">
-                    <label>Payment Method:</label>
-                    {this.state.orders.map(order => <div>{order.paymentMethod}</div>)}
-                </div>
-                <div className="innerpayment">
-                    <label>Status:</label>
-                    {this.state.orders.map(order => <div>{order.status}</div>)}
-                </div>
-                <div className="innerpayment">
-                    <label>Product reference:</label>
-                    {this.state.orders.map(order => <div>{order.product}</div>)}
-                </div>
-            </table>
+            <div>
+                <h1 className="title">Purchase history:</h1>
+                <table className="sectionpaymenthistory">
+                    <div className="innerpayment">
+                        <label>Payment Method:</label>
+                        <br />
+                        {this.state.orders.map(order => <div>{order.paymentMethod}</div>)}
+                    </div>
+                    <div className="innerpayment">
+                        <label>Status:</label>
+                        <br />
+                        {this.state.orders.map(order => <div>{order.status}</div>)}
+                    </div>
+                    <div className="innerpayment">
+                        <label>Product reference:</label>
+                        <br />
+                        {this.state.orders.map(order => <div>{order.products}</div>)}
+                    </div>
+                </table>
+            </div>
         </section>
         )
     }

@@ -3,18 +3,9 @@
     margin: 1em;
 }
 
-.cartImage{
-    width: 15em;
-    border-radius: 15px;
-}
-
 .box{
     margin: 1em;
-
 }
-
-
-
 
 .sectioncart{
     display:flex;

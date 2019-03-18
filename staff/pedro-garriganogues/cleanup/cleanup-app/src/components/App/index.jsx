@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import Order from '../Order'
 import Register from '../Register'
 import Login from '../Login'

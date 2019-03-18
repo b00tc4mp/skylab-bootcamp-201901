@@ -10,17 +10,18 @@ class Cart extends Component {
 
         return (
             <section>
-                <h1 className="title">Cart:</h1>
+                {logic.__userApiProducts__ && <h1 className="title" >Cart:</h1>}
+                {!logic.__userApiProducts__ && <h1 className="title" >Cart is empty!</h1>}
                 <section className="globalsection">
                     <section className="sectioncart">
                         <table>
                             <head>
                             </head>
                             <div>
-                                {!logic.__userApiProducts__ && <p>Cart is empty!</p>}
+
                                 {logic.getCart().map(item => (
                                     <tr className="box" key={item._id}>
-                                        <td ><img className="cartImage" src={item.image} alt="404" /></td>
+                                        {/* <td ><img className="cartImage" src={item.image} alt="404" /></td> */}
                                         <td> <h4>{item.name}</h4></td>
                                         <td> <h4>{item.price} €</h4></td>
                                     </tr>
@@ -30,7 +31,7 @@ class Cart extends Component {
                         {<div className="pricebuttons">
                             <div className="totalPrice">
                                 <h2>Total price</h2>
-                                {logic.__userApiProducts__ && <h2>{logic.__userApiProducts__.reduce((accumulated, currentValue) => accumulated + currentValue.price, 0)}€</h2>}
+                                {logic.__userApiProducts__ && <h2>{logic.__userApiProducts__.reduce((accumulated, currentValue) => accumulated + currentValue.price, 0).toFixed(2)}€</h2>}
                             </div>
                             <div className="buttons2">
                                 {logic.__userApiProducts__ && logic.__userApiToken__ && <button><Link className="decoration" to="/order">Comprar</Link> </button>}
