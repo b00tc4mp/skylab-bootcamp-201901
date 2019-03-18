@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import logic from '../../logic'
 import './index.sass'
 
-function Finder({ content, close, dragStart, openFolder, openFile, openFileFromFinder, onDragStart, onDrag, dragEnd, actualFinderPath, pathFromFinder }) {
+function Finder({ content, close, dragStart, openFolder, openFile, openFileFromFinder, onDragStart, onDrag, dragEnd, actualFinderPath, pathFromFinder, changePath }) {
 
     let finder = useRef()
     let [previousPath, setPreviousPath] = useState(null)
@@ -12,38 +12,42 @@ function Finder({ content, close, dragStart, openFolder, openFile, openFileFromF
     let posY
 
     useEffect(() => {
-
+        setFinderContent(content)
     }, [content])
+
+    useEffect(() => {
+
+    },[finderContent])
+
+    useEffect(() => {
+        if (previousPath) {
+            changePath(previousPath)
+        }
+    }, [previousPath])
 
     openFolder = e => {
         let folderPath
-        // if (previousPath) {
-        //     folderPath = previousPath + '/' + e.target.innerText
-        // } else {
-        //     folderPath = '/' + e.target.innerText
-        // }
-        // folderPath = folderPath.split('')
-        // let filteredPath = folderPath.filter(char => char !== '↵' && char !== '\n').join('')
         actualPath = actualFinderPath
-        if (actualPath) {
+        if (actualPath !== "/") {
             folderPath = actualPath + '/' + e.target.innerText
         } else {
             folderPath = '/' + e.target.innerText
         }
         folderPath = folderPath.split('')
         let filteredPath = folderPath.filter(char => char !== '↵' && char !== '\n').join('')
-        debugger
         let pathFromRoot
-        setActualPath(old => {
-            let name = '/' + filteredPath.split('/').reverse()[0]
-            // pathFromRoot = old + name
-            debugger
-            return old + name
-        })
-        debugger
-        // setPreviousPath(pathFromRoot)
-        setPreviousPath(filteredPath)
-        return logic.retrieveLevel(filteredPath)
+        
+        let name = '/' + filteredPath.split('/').reverse()[0]
+        if (actualPath !== "/") {
+            pathFromRoot = actualPath + name
+            setActualPath(actualPath + name)
+        } else {
+            pathFromRoot = name
+            setActualPath(name)
+        }
+        setPreviousPath(pathFromRoot)
+        // setPreviousPath(filteredPath)
+        return logic.retrieveLevel(pathFromRoot)
             .then(newContent => {
                 setFinderContent(newContent)
             })
@@ -51,15 +55,14 @@ function Finder({ content, close, dragStart, openFolder, openFile, openFileFromF
 
     openFile = e => {
         let filePath
-        if (previousPath) {
-            filePath = previousPath + '/' + e.target.innerText
+        actualPath = actualFinderPath
+        if (actualPath !== "/") {
+            filePath = actualPath + '/' + e.target.innerText
         } else {
             filePath = '/' + e.target.innerText
         }
         filePath = filePath.split('')
         let filteredPath = filePath.filter(char => char !== '↵' && char !== '\n').join('')
-        debugger
-        // setActualPath(filteredPath)
         openFileFromFinder(filteredPath)
     }
     onDragStart = e => {

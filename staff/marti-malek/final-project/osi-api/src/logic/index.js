@@ -1335,10 +1335,8 @@ const logic = {
                         await deleteFolder(oldFolderCompletePath)
                     }
                 })
-
                 /* Recursively deletes the desired folder by it's path */
                 const deleteFolder = async (myPath) => {
-
                     /* Reads the folder to access it's children */
                     let content
                     try {
@@ -1349,7 +1347,6 @@ const logic = {
                     } catch(err) {
                         if (err) throw err
                     }
-
                     /* Maps through the folder's children and ascertains if they are folders or files */
                     content.map(async (file, index) => {
                         let currentPath = path.join(myPath, file);
@@ -1379,6 +1376,10 @@ const logic = {
 
                     /* Ascertains that the folder has been emptied */
                     if (finalContent.length > 0) return deleteFolder(myPath)
+
+                    let isFolderRemoved = fs.readdirSync(myPath)
+
+                    if (isFolderRemoved.length > 0) await deleteFolder(myPath)
 
                     /* Removes the folder */
                     await fs.promises.rmdir(myPath, err => {

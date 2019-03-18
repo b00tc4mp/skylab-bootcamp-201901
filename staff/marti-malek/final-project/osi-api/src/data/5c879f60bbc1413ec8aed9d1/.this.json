@@ -4,10 +4,10 @@
     "name": "Desktop",
     "children": [
         {
-            "name": "hola3",
+            "name": "hi2",
             "open": false,
             "type": "folder",
-            "position": 2
+            "position": 1
         }
     ]
 }

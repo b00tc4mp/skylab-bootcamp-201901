@@ -3,29 +3,20 @@ import './index.sass'
 // import Hammer from 'hammerjs'
 import logic from '../../logic';
 
-function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, refresh, openFile, dragPath }) {
+function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, openFile, dragItem }) {
 
     let [divs, setDivs] = useState(new Array(48).fill(null))
-    // // let [newName, setNewName] = useState(null)
     let newNameTest = null
     let oldNameTest
-
-    // let i = 0
-
     let draggableTest
     let droppingTest
 
     let dragzone = useRef()
-    // let inputRef = useRef()
 
     useEffect(() => {
         checkNews()
         handleDivs()
     }, [dir])
-
-    // useEffect(() => {
-    //     checkNews()
-    // }, [divs])
 
     checkNews = () => {
         if (document.querySelector('#inputId')) {
@@ -54,10 +45,6 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
     changeName = (e) => {
         if (e.target.localName === "input") return
         oldNameTest = e.target.firstChild.innerText ? e.target.firstChild.innerText : e.currentTarget.firstChild.id == "folder" ? '_newFolder' : e.currentTarget.firstChild.data === "_newFolder" ? e.currentTarget.firstChild.data : '_newFile.txt'
-        // e.target.childNodes.forEach(child => {
-        //     oldNameTest = child.data ? child.data : child.innerText !== "" ? child.innerText : e.currentTarget.firstChild.id == "folder" ? '_newFolder' : '_newFile.txt'
-        //     // oldNameTest = child.data !== undefined ? child.data : child.innerText !== "" ? child.innerText : '.newFolder' // TODO
-        // })
         let newInput = document.createElement('input')
         newInput.name = "newName"
         newInput.type = "text"
@@ -95,16 +82,14 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
     }
 
     useEffect(() => {
-        if (dragPath) {
-            onDrop(null, dragPath)
+        if (dragItem) {
+            onDrop(null, dragItem)
         }
-    }, [dragPath])
+    }, [dragItem])
 
-    onDrop = (ev, path) => {
-        // ev.preventDefault();
-        console.log(path)
-        debugger
-        if (path === undefined) {
+    onDrop = (ev, dropItem) => {
+        if (ev) ev.preventDefault();
+        if (dropItem === undefined) {
             debugger
             if (draggableTest.id === "file" && droppingTest.id === "folder") {
                 let oldPath = draggableTest.firstChild.innerText
@@ -132,6 +117,12 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
             }
         } else {
             debugger
+            if (dropItem[1] === "folder") {
+                let newFolderName = dropItem[0].split('/').reverse()[0]
+                let newFolderPath = '/' + newFolderName
+                return logic.moveDir(dropItem[0], newFolderPath)
+                    .then(() => handleDivs())
+            }
         }
     }
 

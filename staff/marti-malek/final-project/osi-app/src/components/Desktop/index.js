@@ -9,7 +9,7 @@ import Finder from '../Finder'
 import logic from '../../logic'
 import './index.sass'
 
-function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut, handleLogout, openFile, closeFile, dragStart, openFileFromFinder, dragEnd }) {
+function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut, handleLogout, openFile, closeFile, dragStart, openFileFromFinder, updatePath }) {
 
     let [level, setLevel] = useState([])
     let [positions, setPositions] = useState([])
@@ -30,6 +30,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     useEffect(() => {
         handleState()
     }, [])
+
+    useEffect(() => {
+
+    }, [actualPath])
 
     handleState = () => {
         return logic.retrieveLevel('/')
@@ -77,8 +81,6 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     openFile = async e => {
         let newFilePath = '/' + e.target.firstChild.innerText
         await setFileName(e.target.firstChild.innerText)
-        // console.log(fileName)
-        // filePath = newFilePath
         await setFilePath(newFilePath)
         return logic.retrieveFile(newFilePath)
             .then(content => {
@@ -100,6 +102,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     }
 
     openFinderRoot = () => {
+        setActualPath('/')
         return logic.retrieveLevel('/')
             .then(content => {
                 setFinderOpen(true)
@@ -133,7 +136,17 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     }
 
     dragStart = e => {
-        setFinderItem(e.target)
+        let name = e.target.innerText
+        let itemType = e.target.id
+        let split = name.split('')
+        let filteredPath = split.filter(char => char !== '↵' && char !== '\n').join('')
+        let itemPath = actualPath + '/' + filteredPath
+        let item = [itemPath, itemType]
+        setFinderItem(item)
+    }
+
+    updatePath = path => {
+        if (path) setActualPath(path)
     }
 
     return <section className="desktop">
@@ -149,10 +162,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             <Toolbar newFolder={handleNewFolder} newFile={handleNewFile} openFinder={openFinderRoot} openMenu={openMenu}></Toolbar>
         </div>
         <div className="desktop__dragzone">
-            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} refresh={refreshFinder} dragPath={finderItem}></Dragzone>
+            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} refresh={refreshFinder} dragItem={finderItem}></Dragzone>
         </div>
         {
-            finder && finderOpen && actualPath ? <Finder /* dragEnd={dragEnd} */pathFromFinder={pathFromFinder} actualFinderPath={actualPath} content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder}></Finder> : null
+            finder && finderOpen && actualPath ? <Finder /* dragEnd={dragEnd} */pathFromFinder={pathFromFinder} actualFinderPath={actualPath} content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder} changePath={updatePath}></Finder> : null
         }
         {
             showMenu ? <Menu menuX={menuX} menuY={menuY} logOut={logOut}></Menu> : null
