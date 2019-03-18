@@ -1,0 +1,38 @@
+{
+  "name": "skylab-inn-app",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "node-sass": "^4.11.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.5",
+    "skylab-inn-validation": "../skylab-inn-validation/"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "test": "react-scripts test --runInBand",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "test-coverage": "npm test -- --coverage --runInBand"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "bcrypt": "^3.0.4",
+    "dotenv": "^6.2.0",
+    "expect": "^24.1.0",
+    "jsonwebtoken": "^8.5.0",
+    "mocha": "^6.0.2",
+    "skylab-inn-data": "file:../skylab-inn-data"
+  }
+}

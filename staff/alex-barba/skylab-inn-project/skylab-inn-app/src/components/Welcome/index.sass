@@ -1,0 +1,40 @@
+@import '../../utils.sass'
+
+.welcome-container
+    display: flex
+    flex-direction: column
+    height: 93vh
+    justify-content: flex-start
+    
+    &__header
+        flex-shrink: 0
+        padding-top: 2rem
+        font-size: $xlarge
+        align-self: center
+        text-align: center
+
+        @include tablet
+            padding-top: 4rem
+            font-size: $xlarge--tablet
+
+    &__menu
+        align-self: center
+        display: flex
+        flex-direction: column
+        text-align: center
+        margin-top: 5rem
+        margin-left: 2rem
+        margin-right: 2rem
+        font-size: $medium
+
+        @include tablet
+            font-size: $medium--tablet
+            width: 50%
+
+        & > a
+            padding: 2rem
+            cursor: pointer
+            margin-bottom: 0.2rem
+            @extend %border
+
+

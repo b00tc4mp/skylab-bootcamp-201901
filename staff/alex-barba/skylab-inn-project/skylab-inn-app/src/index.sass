@@ -1,0 +1,27 @@
+@import './_reset.sass'
+@import './utils.sass'
+    
+/* Fonts */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono')     
+
+*
+    font-family: 'Roboto Mono', monospace 
+
+html
+    height: 100%
+    background: repeating-linear-gradient(-45deg, transparent 0, transparent 25%, $white 0, $white 50%), repeating-linear-gradient(45deg, transparent 0, transparent 25%, $white 0, $white 50%), repeating-linear-gradient(transparent 0, transparent 25%, $white 0, $white 50%), $white
+    background-blend-mode: multiply
+    background-size: 7px 7px
+
+    @include tablet
+        background-size: 13px 13px
+
+body 
+    min-height: 100%
+
+#root
+    height: 100%
+
+
+

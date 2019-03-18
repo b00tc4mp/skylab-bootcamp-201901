@@ -1,0 +1,33 @@
+{
+  "name": "skylab-inn-api",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src",
+    "watch": "nodemon src",
+    "debug": "node debug src",
+    "test": "mocha $(find src -name *.spec.js)",
+    "test debug": "mocha debug $(find src -name *.spec.js)",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha $(find src -name *.spec.js)",
+    "test-coverage-logic": "nyc --reporter=html --reporter=text mocha src/logic"
+  },
+  "devDependencies": {
+    "expect": "^24.1.0",
+    "mocha": "^6.0.2"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "cloudinary": "^1.13.2",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.0",
+    "multer": "^1.4.1",
+    "nodemailer": "^5.1.1",
+    "skylab-inn-data": "file:../skylab-inn-data",
+    "skylab-inn-validation": "file:../skylab-inn-validation",
+    "streamifier": "^0.1.1"
+  }
+}

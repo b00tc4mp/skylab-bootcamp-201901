@@ -1,0 +1,47 @@
+@import '../../utils.sass'
+
+.signup-container
+    display: flex
+    flex-direction: column
+    height: 100vh
+    justify-content: space-between
+    
+    &__header
+        flex-shrink: 0
+        padding-top: 3rem
+        align-self: center
+        font-size: $xlarge
+
+        @include tablet
+            padding-top: 4rem
+            font-size: $xlarge--tablet
+
+    &__form
+        width: 60%
+        align-self: center
+        display: flex
+        flex-direction: column
+
+        @include tablet
+            width: 50%
+
+        &-input
+            display: flex
+
+    &__link
+        align-self: center
+        font-size: $small
+        color: $primary
+        text-align: center
+        cursor: pointer
+
+        @include tablet
+            font-size: $small--tablet
+
+    &__footer
+        align-self: center
+        margin-bottom: 2rem
+        font-size: $xsmall
+
+        @include tablet
+            font-size: $xsmall--tablet

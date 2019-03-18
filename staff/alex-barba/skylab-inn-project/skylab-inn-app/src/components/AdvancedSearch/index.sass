@@ -1,0 +1,149 @@
+@import '../../utils.sass'
+
+.adSearch
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    height: 93vh
+
+    @include desktop
+        height: 100vh
+    
+    &-header
+        flex-shrink: 0
+        padding-top: 3rem
+        font-size: $xlarge
+        align-self: center
+        text-align: center
+
+        @include tablet
+            padding-top: 4rem
+            font-size: $xlarge--tablet
+
+    &-form
+        flex-shrink: 0
+        margin-top: 2rem
+        display: flex
+        flex-direction: row
+        justify-content: center
+        margin-left: 2rem
+        margin-right: 2rem
+        margin-bottom: 1rem
+
+        &__dropBtn
+            flex-shrink: 1
+            display: flex
+
+            &-content 
+                flex-shrink: 1
+                font-size: $xsmall
+
+                @include tablet
+                    font-size: $small--tablet
+
+        &__input
+            flex-shrink: 1
+            font-size: $xsmall
+            width: 40%
+
+            @include tablet
+                width: 50%
+                font-size: $small--tablet
+        
+        &__add
+            flex-shrink: 1
+            
+    &-search
+        margin-left: 2rem
+        margin-right: 2rem
+        font-size: $small
+        align-self: center
+        margin-top: 0.2rem
+
+    &-filters
+        flex-shrink: 0
+        margin-top: 0.5rem
+        display: flex
+        flex-direction: column
+        margin-left: 2rem
+        margin-right: 2rem
+
+        @include tablet
+            margin-left: 5.5rem
+            margin-right: 5.5rem
+        
+        @include desktop
+            margin-left: 15.6rem
+            margin-right: 15.6rem
+
+        &__header
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            font-size: $small
+
+            @include tablet
+                font-size: $small--tablet
+
+        &__content
+            display: flex
+            flex-direction: row
+            flex-wrap: wrap
+            font-size: $small
+
+            @include tablet
+                font-size: $small--tablet
+
+            & > a
+                @extend %border
+                flex-shrink: 0
+                border-radius: 0.3rem
+
+    &-results
+        flex-grow: 1
+        overflow: auto
+        padding-top: 1rem
+        margin-bottom: 0.5rem
+        margin-left: 2rem
+        margin-right: 2rem
+
+        @include tablet
+            margin-left: 5.5rem
+            margin-right: 5.5rem
+        
+        @include desktop
+            margin-left: 15.6rem
+            margin-right: 15.6rem
+            margin-bottom: none
+
+        &__header
+            font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
+
+        &__content
+            font-size: $medium
+            display: flex
+            justify-content: space-around
+            @extend %border
+
+            @include tablet
+                font-size: $medium--tablet
+
+.url
+    text-align: center
+    font-size: $medium
+
+    @include tablet
+        font-size: $medium--tablet
+
+input
+    width: 90%
+
+.share
+    margin-bottom: 0.3rem
+
+    @include tablet
+        margin-bottom: 0rem
+    
