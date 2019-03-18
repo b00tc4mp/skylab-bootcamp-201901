@@ -1,11 +1,36 @@
 # SkyLab Inn
 
-## Introduction
+## [Documentation](doc/README.md)
 
-Create a private network to connect the Skylabers, to:
+## [Demo](https://skylab-inn11132423h4h23jg423gh4hjg2j4g23g4jh2g34j2342.surge.sh/#/)
 
-SkyLab Academy: easily match the students with the job offers.
+## Available Scripts for development
 
-Skylabers: easily find out which Skylabers can help or assist them when in need of assistance, or find out in which companies they are working.
+In the project directory, you can run:
 
-## [Trello](https://trello.com/b/iYW3W8g2/skylab-inn)
+### `npm start`
+
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

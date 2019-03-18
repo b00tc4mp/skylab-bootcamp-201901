@@ -15,11 +15,11 @@ export default function ContactInformation({ onEditPersonalInfo, onUpdatePersona
     const [_linkedin, setLinkedin] = useState(linkedin)
     const [_slack, setSlack] = useState(slack)
 
-    const handleOnEditPersonalInfo = () => {
+    const handleOnEditContactInfo = () => {
         onEditPersonalInfo()
     }
 
-    const handleUpdatePersonalInfo = e => {
+    const handleUpdateContactInfo = e => {
         e.preventDefault()
         onUpdatePersonalInfo({ email: _email, telephone: _telephone, git: _git, linkedin: _linkedin, slack: _slack })
     }
@@ -32,7 +32,7 @@ export default function ContactInformation({ onEditPersonalInfo, onUpdatePersona
         <div className='contactInfo-container'>
             <div className='contactInfo-container__header'>
                 <h5>Contact Information</h5>
-                <i className='fas fa-pencil-alt icon icon--link' onClick={handleOnEditPersonalInfo}></i>
+                <i className='fas fa-pencil-alt icon icon--link' onClick={handleOnEditContactInfo}></i>
             </div>
             {!editPersonal ? <div className='contactInfo-container__content'>
                 <div className='line'/> 
@@ -41,7 +41,7 @@ export default function ContactInformation({ onEditPersonalInfo, onUpdatePersona
                 <a href={`https://github.com/${git}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-github icon'></i>&nbsp;{git}</a>
                 <a href={`https://www.linkedin.com/in/${linkedin}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-linkedin icon'></i>&nbsp;{linkedin}</a>
                 <a href={`https://skylabcoders.slack.com/messages/${slack}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-slack icon'></i>&nbsp;{slack}</a></div>
-                : <form className='contactInfo-container__form' onSubmit={e => handleUpdatePersonalInfo(e)}>
+                : <form className='contactInfo-container__form' onSubmit={e => handleUpdateContactInfo(e)}>
                     <div className='line'/> 
                     <div className='contactInfo-container__form-input'>
                         <i className='far fa-envelope icon'></i>&nbsp;

@@ -42,8 +42,8 @@ export default function ManagaSkylabers({ onSubmit }) {
                     <h2>Pending Signups</h2>
                 </div>
                 <div className='manage-pendSign__content'>
-                    {whiteList && whiteList.map(res => { return <p>{res.name}</p> })}
-                    {!!whiteList && <p>No Skylabers pending to sign up</p>}
+                    {whiteList && !!whiteList.length && whiteList.map(res => { return <p>{res.name}</p> })}
+                    {whiteList && !whiteList.length && <p>No Skylabers pending to sign up</p>}
                 </div>
             </div>
             <div className='manage-pendEmail'>
@@ -51,8 +51,8 @@ export default function ManagaSkylabers({ onSubmit }) {
                 <h2>Pending Email Verification</h2>
                 </div>
                 <div className='manage-pendEmail__content'>
-                    {unverifiedEmails && unverifiedEmails.map(res => { return <p>{res.name}</p> })}
-                    {!!unverifiedEmails && <p>No Skylabers pending to verify email</p>}
+                    {unverifiedEmails && !!unverifiedEmails.length && unverifiedEmails.map(res => { return <p>{res.name}</p> })}
+                    {unverifiedEmails && !unverifiedEmails.length && <p>No Skylabers pending to verify email</p>}
                 </div>
             </div>
         </div>

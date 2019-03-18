@@ -37,7 +37,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
         }
     }
 
-    const handleOnAddParam = (e) => {
+    const handleOnAddFilter = (e) => {
         e.preventDefault()
         setFeedback(null)
         if (!query) {
@@ -59,13 +59,13 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
         }
     }
 
-    const handleRemove = id => {
+    const handleRemoveSkylaber = id => {
         const skylabers = adSearchResults.filter(skylaber => skylaber._id !== id)
 
         adSearchResults.length === 0 ? setAdSearchResults([]) : setAdSearchResults(skylabers)
     }
 
-    const handleOnReset = (e) => {
+    const handleOnResetFilters = (e) => {
         e.preventDefault()
         setFeedback(null)
         setParam('Choose a filter')
@@ -74,7 +74,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
         e.target.value = null
     }
 
-    const handleOnParam = param => {
+    const handleOnFilter = param => {
         let results
 
         if (search) results = search.filter(filter => filter !== param)
@@ -133,20 +133,20 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
                     <input ref={inputQuery} type='text' name='query' placeholder='Your query!' tabIndex='0' onChange={e => setQuery(e.target.value)} ></input>
                 </div>
                 <div className='adSearch-form__add'>
-                    <button className='btn btn--primary' type='submit' onClick={e => handleOnAddParam(e)}>Add</button>
+                    <button className='btn btn--primary' type='submit' onClick={e => handleOnAddFilter(e)}>Add</button>
                 </div>
             </form>
             <div className='adSearch-filters'>
                 {search && !!search.length &&
                     <div className='adSearch-filters__header'>
                         <h5 >Filters</h5>
-                        <button className='btn btn--danger' type='submit' onClick={e => handleOnReset(e)}>Reset filters</button>
+                        <button className='btn btn--danger' type='submit' onClick={e => handleOnResetFilters(e)}>Reset filters</button>
                     </div>
                 }
                 <div className='adSearch-filters__content'>
                     {search && !!search.length && search.map(res => {
                         return (
-                            <a href className='pointer' onClick={e => { e.preventDefault(); handleOnParam(res) }} key={res}>{res[0]}: {res[1]}</a>
+                            <a href className='pointer' onClick={e => { e.preventDefault(); handleOnFilter(res) }} key={res}>{res[0]}: {res[1]}</a>
                         )
                     })}
                 </div>
@@ -164,7 +164,7 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
                     return (
                         <div className='adSearch-results__content'>
                             <a href className='pointer' onClick={event => { event.preventDefault(); handleOnSkylaber(`${res._id}`) }} key={res._id}>{res.name}&nbsp;{res.surname}</a>
-                            {userData.role === 'Admin' && <i className='far fa-trash-alt icon pointer' onClick={e => { e.preventDefault(); handleRemove(`${res._id}`) }} />}
+                            {userData.role === 'Admin' && <i className='far fa-trash-alt icon pointer' onClick={e => { e.preventDefault(); handleRemoveSkylaber(`${res._id}`) }} />}
                         </div>
                     )
                 })}

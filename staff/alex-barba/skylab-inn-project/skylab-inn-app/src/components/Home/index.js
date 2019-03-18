@@ -86,12 +86,13 @@ function Home({ history }) {
         try {
             logic.shareResults(skylaberIds)
                 .then(url => setHashedUrl(url))
-                .then(() => setAddToClipboard())
+                .then(() => setAddToClipboard(true))
                 .then(() => {
                     setShowSpinner(null)
                     setShowModal(true)
                     setModalType('success')
                     setModalMessage('Public URL added to clipboard')
+                    setAddToClipboard(null)
                 })
                 .catch(({ message }) => {
                     setShowSpinner(null)

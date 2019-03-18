@@ -44,7 +44,7 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
             return setModalMessage('Failed to add. Start date should not be greater than today.')
         }
 
-        if (_current) onAddInformation(type, { company: _company, position: _position, startDate: _startDate, current: _current })
+        if (_current) return onAddInformation(type, { company: _company, position: _position, startDate: _startDate, current: _current })
 
         if (new Date(_endDate) > new Date()) {
             setShowModal(true)
@@ -76,7 +76,7 @@ export default function WorkExperience({ onAddWork, onEditWork, onAddInformation
             return setModalMessage('Failed to update. Start date should not be greater than today.')
         }
 
-        if (_current) onUpdateInformation(type, id, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current })
+        if (_current) return onUpdateInformation(type, id, { company: _company, position: _position, startDate: _startDate, endDate: _endDate, current: _current })
 
         if (new Date(_endDate) > new Date()) {
             setShowModal(true)
