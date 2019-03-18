@@ -49,7 +49,7 @@ class HouseCard extends Component {
 
     }
 
-    deleteHouse = () => {
+    deleteHouse = (event) => {
 
         if (this.props.deleteHouseList) {
 
@@ -59,6 +59,7 @@ class HouseCard extends Component {
 
         }
 
+        event.stopPropagation()
 
 
     }
@@ -71,8 +72,8 @@ class HouseCard extends Component {
         if (this.props.toggleFavorite) {
 
             logic.toggleFavorite(this.state.thisHouse.id)
-
-            this.props.toggleFavorite(this.state.thisHouse, this.ChangeHeart)
+            this.ChangeHeart()
+            this.props.toggleFavorite(this.state.thisHouse)
             
 
         }
@@ -103,7 +104,7 @@ class HouseCard extends Component {
             <p className="HouseCard__text HouseCard__text-adress" >{adress.street}  {adress.number}</p>
             {iSreadHeart && isFav && (<i className="fas fa-heart favTrue" onClick={toggleFavorite}></i>)}
             {iSwhiteHeart && !isFav && (<i className="fas fa-heart" onClick={event =>toggleFavorite(event)}></i>)}
-            {logged && origin === 'myHouses' && <div>  <i class="fas fa-ban" onClick={deleteHouse}></i>  <i class="fas fa-pen"></i>  </div>}
+            {logged && origin === 'myHouses' && <div>  <i class="fas fa-ban" onClick={event => deleteHouse(event)}></i>  <i class="fas fa-pen"></i>  </div>}
 
 
         </div>

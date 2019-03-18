@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Map, Marker } from 'google-maps-react'
+import MapConainer from '../googleMap'
 import './index.sass';
 import logic from '../../logic'
 
@@ -10,18 +10,21 @@ class DetailedHouse extends Component {
 
     state = {
 
-        thisHouse: "",
-        user: "",
-        favorites: "",
-        lat: "",
-        lng: ""
+        thisHouse: null,
+        user: null,
+        favorites: null,
+        location: null
 
     }
 
     componentDidMount() {
+        if(!this.state.thisHouse){
+            this.retrieveThisHouse(this.props.match.params.houseId)
+        }
+        if(!this.state.favorites || this.state.favorites !== this.props.userFavs){
+            this.setState({ favorites: this.props.userFavs, user: this.props.user })
 
-        this.retrieveThisHouse(this.props.match.params.houseId)
-        this.setState({ favorites: this.props.userFavs, user: this.props.user })
+        }
 
 
     }
@@ -36,8 +39,10 @@ class DetailedHouse extends Component {
 
     componentWillReceiveProps(props) {
 
-        this.setState({ favorites: props.favorites, user: props.user })
-        this.retrieveThisHouse(props.match.params.houseId)
+        if(!this.state.thisHouse){
+            this.retrieveThisHouse(props.match.params.houseId)
+
+        }
 
     }
 
@@ -46,37 +51,33 @@ class DetailedHouse extends Component {
     }
 
 
-
-    async retrieveThisHouse(houseId) {
+    retrieveThisHouse(houseId) {
+        console.log('ksbadhsandsadjsn')
         if (houseId) {
-            try {
-                const thisHouse = await logic.retrieveHouse(houseId)
-                this.setState({ thisHouse }, () => this.retrieveLocation())
+                const { state: { thisHouse } } = this
+                if (!thisHouse)
+                        
+                        return logic.retrieveHouse(houseId)
+                        .then(house=>{
+                            const thisHouse = house;
+                            this.setState({ thisHouse})
+                            const { adress: { number, street, city, country } } = thisHouse
+                            return logic.retrievePoint(number, street, city, country)
+                            .then(location=>{
 
-            } catch{
-                this.setState({ thisHouse: "" })
+                                this.setState({ location })
 
-            }
-        }
+                            })
 
-    }
+                        })
+                        .catch(()=> this.setState({ thisHouse: "ayayay" }))
+                        
+    
+                    }
 
-    retrieveLocation = () => {
+                }
 
-        const { state: { thisHouse: { adress: { number, city, street, country } } } } = this
-
-        return logic.retrievePoint(number, street, city, country)
-
-            .then(location => {
-
-                console.log(location)
-
-                this.setState({ lat: location.lat, lng: location.lng })
-
-
-            })
-
-    }
+   
 
     goBack() {
 
@@ -85,7 +86,7 @@ class DetailedHouse extends Component {
 
     render() {
 
-        const { state: { thisHouse, user, lat, lng }, props: { }, goBack } = this
+        const { state: { thisHouse, user, location }, props: { }, goBack } = this
 
         return <div className="detailedHouse" >
 
@@ -98,7 +99,7 @@ class DetailedHouse extends Component {
                     <div className='detailedHouse__content-infoBlock-1'>
 
                         <h2> {thisHouse.owner} </h2>
-                        <img src={thisHouse.images[0]} />
+                        <img className='image' src={thisHouse.images[0]} />
                         <div>
                             <h3>Information</h3>
                             <p> Pets allowed: <span>{thisHouse.info.petsAllowed} </span> </p>
@@ -127,10 +128,7 @@ class DetailedHouse extends Component {
                 </div>
 
 
-                {/* <Map    >
-
-                </Map> */}
-
+                {location && <MapConainer className='map' lat={location.lat} lng={location.lng} > </MapConainer>}
             </div>}
 
         </div>

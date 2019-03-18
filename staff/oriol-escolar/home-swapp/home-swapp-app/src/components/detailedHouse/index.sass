@@ -1,8 +1,13 @@
+
+.image
+    width: 800px    
+
 .detailedHouse
     text-align: left
     display: flex
     flex-flow: column wrap
     align-items: center
+    max-width: 100%
     &__BackButton
         align-self: flex-start
         margin-left: 320px
@@ -10,7 +15,7 @@
 
     &__content-infoBlock
         display: flex
-        flex-flow: colum wrap
+        flex-flow: row wrap
         margin-left: 50px
         &-1
             text-transform: capitalize  
@@ -22,3 +27,4 @@
             margin-left: 50px
             margin-top: 50px
             width: 700px
+            text-overflow: hidden

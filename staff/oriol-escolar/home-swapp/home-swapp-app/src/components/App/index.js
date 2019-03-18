@@ -61,8 +61,23 @@ class App extends Component {
       const user = await logic.retrieveUser()
       const userFavs = await logic.retrieveFavorites()
       const userHouses = await logic.retrieveMyHouses()
-      this.setState({ user, userFavs, userHouses })
-      console.log('updated')
+      if(JSON.stringify(this.state.user) !== JSON.stringify( user)){
+        this.setState({ user })
+        console.log('updated user')
+
+      }
+      
+      if(JSON.stringify(this.state.userFavs) !== JSON.stringify(userFavs)){
+        this.setState({ userFavs })
+        console.log('updated userfavs')
+
+      }
+     
+      if(JSON.stringify(this.state.userHouses) !== JSON.stringify(userHouses)){
+        this.setState({ userHouses })
+        console.log('updated userhouses')
+
+      }
       setTimeout(this.updateInfo, 3000);
     }
 

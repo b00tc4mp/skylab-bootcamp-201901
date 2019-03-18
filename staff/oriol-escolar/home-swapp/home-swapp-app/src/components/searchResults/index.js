@@ -31,7 +31,7 @@ class SearchResults extends Component {
 
     }
 
-    toggleFavorite = (house, ChangeHeart) => {
+    toggleFavorite = (house) => {
 
         const { state: { favorites }, props: { updateInfo } } = this
         
@@ -42,7 +42,7 @@ class SearchResults extends Component {
         } else {
             favorites.splice(index, 1)
         }
-        this.setState({ favorites }, () => ChangeHeart())
+        this.setState({ favorites })
         updateInfo()
 
     }

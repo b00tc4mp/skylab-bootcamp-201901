@@ -19,7 +19,7 @@ const geocodeApi = {
 
 
 
-        return fetch(`${REACT_APP_GOOGLE_MAPS_API_URL}address=${number}+${street},+${city},+${country}&key=${REACT_APP_GOOGLE_MAPS_API_KEY}`, {
+        return fetch(`https://cors-anywhere.herokuapp.com/${REACT_APP_GOOGLE_MAPS_API_URL}address=${number}+${street},+${city},+${country}&key=${REACT_APP_GOOGLE_MAPS_API_KEY}`, {
             headers: {
                 'content-type': 'application/json'
             },
@@ -31,13 +31,11 @@ const geocodeApi = {
 
                 }
                     
-                console.log(response)
                     return response.json()
                 
 
             }).then(response=>{
                 response = response.results[0].geometry.location
-                
                 return response
 
             })
