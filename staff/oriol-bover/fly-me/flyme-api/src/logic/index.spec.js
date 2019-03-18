@@ -747,6 +747,60 @@ describe('logic', () => {
         })
     })
 
+    describe('retrieve drones from Id', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone._id.toString()
+                })
+        )
+
+        it('should succed on correct data', () =>
+            logic.retrieveDroneFromId(userId, droneId)
+                .then(drone => {
+                    expect(drone).toBeDefined()
+                    expect(drone._id).toBeUndefined()
+                    expect(drone.id).toBe(droneId)
+                })
+        ),
+
+            it('should fail on bad droneId', () => {
+                const badDroneId = '5c8e2f5dd91b61ceb347b6c6'
+                return logic.retrieveDroneFromId(userId, badDroneId)
+                    .then(res => expect(res).toBeUndefined())
+                    .catch(err => {
+                        expect(err).toBeDefined()
+                        expect(err.message).toBe('not drone found')
+                    })
+            })
+
+        it('should fail on bad userId', () => {
+            const badUserId = '5c8e2f5dd91b61ceb347b6c6'
+            return logic.retrieveDroneFromId(badUserId, droneId)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('user not found')
+                })
+        })
+    })
+
     describe('retrieve drones from user', () => {
         const name = 'luke'
         const surname = 'skywalker'
@@ -1099,6 +1153,153 @@ describe('logic', () => {
             }).toThrow(Error('droneId is empty or blank'))
         })
     })
+
+    describe('start Drone', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+        )
+
+        it('should succeed on correct data', () =>
+            logic.startDrone(userId, droneId)
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.start).toBe('OK')
+                    expect(res.history).toBeDefined()
+
+                    return logic.stopDrone(userId, droneId)
+                })
+        )
+
+        it('should fail on trying start an started drone', () => {
+            return logic.startDrone(userId, droneId)
+                .then(res => {
+                    expect(res).toBeDefined()
+
+                    return logic.startDrone(userId, droneId)
+                })
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(`drone ${droneId} already started`)
+
+                    return logic.stopDrone(userId, droneId)
+                })
+        })
+
+        it('should fail on bad drone Id', () => {
+            const badDroneId = '5c80f001cdda345041068f1c'
+
+            return logic.startDrone(userId, badDroneId)
+                .then(res => expect(res).toBeUndefined)
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('Cannot destructure property `host` of \'undefined\' or \'null\'.')
+                })
+        })
+    })
+
+    describe('stop drone', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+        )
+
+        it('should succed on correct data', () => {
+            logic.startDrone(userId, droneId)
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.start).toBe('OK')
+                    expect(res.history).toBeDefined()
+
+                    return logic.stopDrone(userId, droneId)
+                })
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.stop).toBe('OK')
+                    expect(res.history).toBeDefined()
+                })
+        })
+
+        // it('should fail on bad droneId', () => {
+        //     const badDroneId = '5c80f001cdda345041068f1c'
+
+        //     logic.startDrone(userId, droneId)
+        //         .then(res => {
+        //             expect(res).toBeDefined()
+        //             expect(res.start).toBe('OK')
+        //             expect(res.history).toBeDefined()
+
+        //             return logic.stopDrone(userId, badDroneId)
+        //         })
+        //         .then(res => expect(res).toBeUndefined())
+        //         .catch(err => {
+        //             expect(err).toBeDefined()
+        //             expect(err.message).toBe('drone not found it')
+        //         })
+        // })
+
+        // it('should fail on already stopped drone', () => {
+        //     logic.startDrone(userId, droneId)
+        //         .then(res => {
+        //             expect(res).toBeDefined()
+        //             expect(res.start).toBe('OK')
+        //             expect(res.history).toBeDefined()
+
+        //             return logic.stopDrone(userId, droneId)
+        //         })
+        //         .then(res => {
+        //             expect(res).toBeDefined()
+        //             expect(res.stop).toBe('OK')
+        //             expect(res.history).toBeDefined()
+
+        //             return logic.stopDrone(userId, droneId)
+        //         })
+        //         .then(res => expect(res).toBeUndefined())
+        //         .catch(err => {
+        //             expect(err).toBeDefined()
+        //             expect(err.message).toBe(`drone ${droneId} already stopped`)
+        //         })
+        // })
+    })
+
+    //TODO SEND COMMAND
 
     describe('add flight', () => {
         const name = 'luke'
@@ -1476,6 +1677,56 @@ describe('logic', () => {
             expect(() => {
                 logic.retrieveFlightsFromUserDrone(userId, badDroneId)
             }).toThrow(Error('droneId is empty or blank'))
+        })
+    })
+
+    describe('retrieve flight', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId, flightId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+                .then(() => {
+                    return Flight.create({ userId, droneId })
+                })
+                .then(flight => {
+                    flightId = flight.id
+                })
+        )
+
+        it('should succed on correct data', () => {
+            logic.retrieveFlight(userId, flightId)
+                .then(flight => {
+                    expect(flight).toBeDefined()
+                    expect(flight._id).toBe(flightId)
+                })
+        })
+
+        it('should fail on unregistered user', () => {
+            const badUserId = '5c864704b8fa957d61a34423'
+
+            return logic.retrieveFlight(badUserId, flightId)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('no authentication user')
+                })
         })
     })
 
@@ -1918,6 +2169,290 @@ describe('logic', () => {
             expect(() => {
                 logic.sendMail(userId, {})
             }).toThrow(Error('data is empty or blank'))
+        })
+    })
+
+    describe('Add program', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            }
+        ]
+        let userId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+                })
+        )
+
+        it('should succed on correct data', () =>
+            logic.addProgram(userId, Pname, orders)
+                .then(id => {
+                    expect(id).toBeDefined()
+                    expect(typeof id).toBe('string')
+
+                    return Program.findById(id)
+                })
+                .then(program => {
+                    expect(program.name).toBe(Pname)
+                    expect(program.seconds).toBeDefined()
+                    expect(program.orders.length).toBe(2)
+                })
+        )
+
+        it('should fail on bad userId', () => {
+            const badUserId = '5c864704b8fa957d61a34423'
+
+            return logic.addProgram(badUserId, Pname, orders)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(`user with id ${badUserId} is not defined`)
+                })
+        })
+    })
+
+    describe('retrieve program', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const seconds = 10
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            }
+        ]
+        let userId, programId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Program.create({ name: Pname, userId, orders, seconds })
+                })
+                .then(program => {
+                    programId = program._id.toString()
+                })
+        )
+
+        it('should succed on correct data', () =>
+            logic.retrieveProgram(userId, programId)
+                .then(program => {
+                    expect(program).toBeDefined()
+                    expect(program.name).toBe(Pname)
+                    expect(seconds).toBe(10)
+                })
+        )
+
+        it('should fail on unregistered userId', () => {
+            const badUserId = '5c864704b8fa957d61a34423'
+
+            return logic.retrieveProgram(badUserId, programId)
+                .then(program => expect(program).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('no authentication user')
+                })
+        })
+    })
+
+    describe('retrive user programs', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const seconds = 10
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            }
+        ]
+        let userId, programId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Program.create({ name: Pname, userId, orders, seconds })
+                })
+                .then(program => {
+                    programId = program._id.toString()
+                })
+        )
+
+        it('should succed on correct data', () =>
+            logic.retrieveProgramsByUser(userId)
+                .then(programs => {
+                    expect(programs).toBeDefined()
+                    expect(programs.length).toBe(1)
+                })
+        )
+    })
+
+    describe('retrieve programs', () => {
+        it('should succed on correct data', () =>
+            logic.retrievePrograms()
+                .then(programs => {
+                    expect(programs).toBeDefined()
+                })
+        )
+    })
+
+    describe('update program', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const seconds = 10
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            }
+        ]
+        const newOrders = [{ "command": "battery?" }, { "command": "battery?" }, { "command": "battery?" }]
+        const newName = 'UPDATED PROGRAM'
+        let userId, programId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Program.create({ name: Pname, userId, orders, seconds })
+                })
+                .then(program => {
+                    programId = program._id.toString()
+                })
+        )
+
+        it('should succed on correct data', () => {
+            return logic.updateProgram(userId, programId, newName, newOrders)
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.status).toBe('OK')
+                    expect(res.programId).toBe(programId)
+                })
+        })
+
+        it('should fail on unregistered userId', () => {
+            const badUserId = '5c864704b8fa957d61a34423'
+
+            return logic.updateProgram(badUserId, programId, newName, newOrders)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('auth permissions denied')
+                })
+        })
+
+        it('should fail on unregistered programId', () => {
+            const badProgramId = '5c864704b8fa957d61a34423'
+
+            return logic.updateProgram(userId, badProgramId, newName, newOrders)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('update error')
+                })
+        })
+    })
+
+    describe('delete program', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const seconds = 10
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+
+            }
+        ]
+        let userId, programId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Program.create({ name: Pname, userId, orders, seconds })
+                })
+                .then(program => {
+                    programId = program._id.toString()
+                })
+        )
+
+        it('should succed on correct data', () =>
+            logic.deleteProgram(userId, programId)
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.status).toBe('OK')
+                })
+        )
+
+        it('should fail on unregistered userId', () => {
+            const badUserId = '5c864704b8fa957d61a34423'
+
+            return logic.deleteProgram(badUserId, programId)
+                .then(res => expect(res).toBeUndefined())
+                .catch(err => {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('auth permissions denied')
+                })
         })
     })
 

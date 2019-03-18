@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">97.72% </span>
+        <span class="strong">97.76% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1071/1096</span>
+        <span class='fraction'>1312/1342</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">95.49% </span>
+        <span class="strong">95.41% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>487/510</span>
+        <span class='fraction'>582/610</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">97.72% </span>
+        <span class="strong">97.76% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1070/1095</span>
+        <span class='fraction'>1311/1341</span>
       </div>
     </div>
     <p class="quiet">
@@ -1976,7 +1976,544 @@
 <a name='L1928'></a><a href='#L1928'>1928</a>
 <a name='L1929'></a><a href='#L1929'>1929</a>
 <a name='L1930'></a><a href='#L1930'>1930</a>
-<a name='L1931'></a><a href='#L1931'>1931</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L1931'></a><a href='#L1931'>1931</a>
+<a name='L1932'></a><a href='#L1932'>1932</a>
+<a name='L1933'></a><a href='#L1933'>1933</a>
+<a name='L1934'></a><a href='#L1934'>1934</a>
+<a name='L1935'></a><a href='#L1935'>1935</a>
+<a name='L1936'></a><a href='#L1936'>1936</a>
+<a name='L1937'></a><a href='#L1937'>1937</a>
+<a name='L1938'></a><a href='#L1938'>1938</a>
+<a name='L1939'></a><a href='#L1939'>1939</a>
+<a name='L1940'></a><a href='#L1940'>1940</a>
+<a name='L1941'></a><a href='#L1941'>1941</a>
+<a name='L1942'></a><a href='#L1942'>1942</a>
+<a name='L1943'></a><a href='#L1943'>1943</a>
+<a name='L1944'></a><a href='#L1944'>1944</a>
+<a name='L1945'></a><a href='#L1945'>1945</a>
+<a name='L1946'></a><a href='#L1946'>1946</a>
+<a name='L1947'></a><a href='#L1947'>1947</a>
+<a name='L1948'></a><a href='#L1948'>1948</a>
+<a name='L1949'></a><a href='#L1949'>1949</a>
+<a name='L1950'></a><a href='#L1950'>1950</a>
+<a name='L1951'></a><a href='#L1951'>1951</a>
+<a name='L1952'></a><a href='#L1952'>1952</a>
+<a name='L1953'></a><a href='#L1953'>1953</a>
+<a name='L1954'></a><a href='#L1954'>1954</a>
+<a name='L1955'></a><a href='#L1955'>1955</a>
+<a name='L1956'></a><a href='#L1956'>1956</a>
+<a name='L1957'></a><a href='#L1957'>1957</a>
+<a name='L1958'></a><a href='#L1958'>1958</a>
+<a name='L1959'></a><a href='#L1959'>1959</a>
+<a name='L1960'></a><a href='#L1960'>1960</a>
+<a name='L1961'></a><a href='#L1961'>1961</a>
+<a name='L1962'></a><a href='#L1962'>1962</a>
+<a name='L1963'></a><a href='#L1963'>1963</a>
+<a name='L1964'></a><a href='#L1964'>1964</a>
+<a name='L1965'></a><a href='#L1965'>1965</a>
+<a name='L1966'></a><a href='#L1966'>1966</a>
+<a name='L1967'></a><a href='#L1967'>1967</a>
+<a name='L1968'></a><a href='#L1968'>1968</a>
+<a name='L1969'></a><a href='#L1969'>1969</a>
+<a name='L1970'></a><a href='#L1970'>1970</a>
+<a name='L1971'></a><a href='#L1971'>1971</a>
+<a name='L1972'></a><a href='#L1972'>1972</a>
+<a name='L1973'></a><a href='#L1973'>1973</a>
+<a name='L1974'></a><a href='#L1974'>1974</a>
+<a name='L1975'></a><a href='#L1975'>1975</a>
+<a name='L1976'></a><a href='#L1976'>1976</a>
+<a name='L1977'></a><a href='#L1977'>1977</a>
+<a name='L1978'></a><a href='#L1978'>1978</a>
+<a name='L1979'></a><a href='#L1979'>1979</a>
+<a name='L1980'></a><a href='#L1980'>1980</a>
+<a name='L1981'></a><a href='#L1981'>1981</a>
+<a name='L1982'></a><a href='#L1982'>1982</a>
+<a name='L1983'></a><a href='#L1983'>1983</a>
+<a name='L1984'></a><a href='#L1984'>1984</a>
+<a name='L1985'></a><a href='#L1985'>1985</a>
+<a name='L1986'></a><a href='#L1986'>1986</a>
+<a name='L1987'></a><a href='#L1987'>1987</a>
+<a name='L1988'></a><a href='#L1988'>1988</a>
+<a name='L1989'></a><a href='#L1989'>1989</a>
+<a name='L1990'></a><a href='#L1990'>1990</a>
+<a name='L1991'></a><a href='#L1991'>1991</a>
+<a name='L1992'></a><a href='#L1992'>1992</a>
+<a name='L1993'></a><a href='#L1993'>1993</a>
+<a name='L1994'></a><a href='#L1994'>1994</a>
+<a name='L1995'></a><a href='#L1995'>1995</a>
+<a name='L1996'></a><a href='#L1996'>1996</a>
+<a name='L1997'></a><a href='#L1997'>1997</a>
+<a name='L1998'></a><a href='#L1998'>1998</a>
+<a name='L1999'></a><a href='#L1999'>1999</a>
+<a name='L2000'></a><a href='#L2000'>2000</a>
+<a name='L2001'></a><a href='#L2001'>2001</a>
+<a name='L2002'></a><a href='#L2002'>2002</a>
+<a name='L2003'></a><a href='#L2003'>2003</a>
+<a name='L2004'></a><a href='#L2004'>2004</a>
+<a name='L2005'></a><a href='#L2005'>2005</a>
+<a name='L2006'></a><a href='#L2006'>2006</a>
+<a name='L2007'></a><a href='#L2007'>2007</a>
+<a name='L2008'></a><a href='#L2008'>2008</a>
+<a name='L2009'></a><a href='#L2009'>2009</a>
+<a name='L2010'></a><a href='#L2010'>2010</a>
+<a name='L2011'></a><a href='#L2011'>2011</a>
+<a name='L2012'></a><a href='#L2012'>2012</a>
+<a name='L2013'></a><a href='#L2013'>2013</a>
+<a name='L2014'></a><a href='#L2014'>2014</a>
+<a name='L2015'></a><a href='#L2015'>2015</a>
+<a name='L2016'></a><a href='#L2016'>2016</a>
+<a name='L2017'></a><a href='#L2017'>2017</a>
+<a name='L2018'></a><a href='#L2018'>2018</a>
+<a name='L2019'></a><a href='#L2019'>2019</a>
+<a name='L2020'></a><a href='#L2020'>2020</a>
+<a name='L2021'></a><a href='#L2021'>2021</a>
+<a name='L2022'></a><a href='#L2022'>2022</a>
+<a name='L2023'></a><a href='#L2023'>2023</a>
+<a name='L2024'></a><a href='#L2024'>2024</a>
+<a name='L2025'></a><a href='#L2025'>2025</a>
+<a name='L2026'></a><a href='#L2026'>2026</a>
+<a name='L2027'></a><a href='#L2027'>2027</a>
+<a name='L2028'></a><a href='#L2028'>2028</a>
+<a name='L2029'></a><a href='#L2029'>2029</a>
+<a name='L2030'></a><a href='#L2030'>2030</a>
+<a name='L2031'></a><a href='#L2031'>2031</a>
+<a name='L2032'></a><a href='#L2032'>2032</a>
+<a name='L2033'></a><a href='#L2033'>2033</a>
+<a name='L2034'></a><a href='#L2034'>2034</a>
+<a name='L2035'></a><a href='#L2035'>2035</a>
+<a name='L2036'></a><a href='#L2036'>2036</a>
+<a name='L2037'></a><a href='#L2037'>2037</a>
+<a name='L2038'></a><a href='#L2038'>2038</a>
+<a name='L2039'></a><a href='#L2039'>2039</a>
+<a name='L2040'></a><a href='#L2040'>2040</a>
+<a name='L2041'></a><a href='#L2041'>2041</a>
+<a name='L2042'></a><a href='#L2042'>2042</a>
+<a name='L2043'></a><a href='#L2043'>2043</a>
+<a name='L2044'></a><a href='#L2044'>2044</a>
+<a name='L2045'></a><a href='#L2045'>2045</a>
+<a name='L2046'></a><a href='#L2046'>2046</a>
+<a name='L2047'></a><a href='#L2047'>2047</a>
+<a name='L2048'></a><a href='#L2048'>2048</a>
+<a name='L2049'></a><a href='#L2049'>2049</a>
+<a name='L2050'></a><a href='#L2050'>2050</a>
+<a name='L2051'></a><a href='#L2051'>2051</a>
+<a name='L2052'></a><a href='#L2052'>2052</a>
+<a name='L2053'></a><a href='#L2053'>2053</a>
+<a name='L2054'></a><a href='#L2054'>2054</a>
+<a name='L2055'></a><a href='#L2055'>2055</a>
+<a name='L2056'></a><a href='#L2056'>2056</a>
+<a name='L2057'></a><a href='#L2057'>2057</a>
+<a name='L2058'></a><a href='#L2058'>2058</a>
+<a name='L2059'></a><a href='#L2059'>2059</a>
+<a name='L2060'></a><a href='#L2060'>2060</a>
+<a name='L2061'></a><a href='#L2061'>2061</a>
+<a name='L2062'></a><a href='#L2062'>2062</a>
+<a name='L2063'></a><a href='#L2063'>2063</a>
+<a name='L2064'></a><a href='#L2064'>2064</a>
+<a name='L2065'></a><a href='#L2065'>2065</a>
+<a name='L2066'></a><a href='#L2066'>2066</a>
+<a name='L2067'></a><a href='#L2067'>2067</a>
+<a name='L2068'></a><a href='#L2068'>2068</a>
+<a name='L2069'></a><a href='#L2069'>2069</a>
+<a name='L2070'></a><a href='#L2070'>2070</a>
+<a name='L2071'></a><a href='#L2071'>2071</a>
+<a name='L2072'></a><a href='#L2072'>2072</a>
+<a name='L2073'></a><a href='#L2073'>2073</a>
+<a name='L2074'></a><a href='#L2074'>2074</a>
+<a name='L2075'></a><a href='#L2075'>2075</a>
+<a name='L2076'></a><a href='#L2076'>2076</a>
+<a name='L2077'></a><a href='#L2077'>2077</a>
+<a name='L2078'></a><a href='#L2078'>2078</a>
+<a name='L2079'></a><a href='#L2079'>2079</a>
+<a name='L2080'></a><a href='#L2080'>2080</a>
+<a name='L2081'></a><a href='#L2081'>2081</a>
+<a name='L2082'></a><a href='#L2082'>2082</a>
+<a name='L2083'></a><a href='#L2083'>2083</a>
+<a name='L2084'></a><a href='#L2084'>2084</a>
+<a name='L2085'></a><a href='#L2085'>2085</a>
+<a name='L2086'></a><a href='#L2086'>2086</a>
+<a name='L2087'></a><a href='#L2087'>2087</a>
+<a name='L2088'></a><a href='#L2088'>2088</a>
+<a name='L2089'></a><a href='#L2089'>2089</a>
+<a name='L2090'></a><a href='#L2090'>2090</a>
+<a name='L2091'></a><a href='#L2091'>2091</a>
+<a name='L2092'></a><a href='#L2092'>2092</a>
+<a name='L2093'></a><a href='#L2093'>2093</a>
+<a name='L2094'></a><a href='#L2094'>2094</a>
+<a name='L2095'></a><a href='#L2095'>2095</a>
+<a name='L2096'></a><a href='#L2096'>2096</a>
+<a name='L2097'></a><a href='#L2097'>2097</a>
+<a name='L2098'></a><a href='#L2098'>2098</a>
+<a name='L2099'></a><a href='#L2099'>2099</a>
+<a name='L2100'></a><a href='#L2100'>2100</a>
+<a name='L2101'></a><a href='#L2101'>2101</a>
+<a name='L2102'></a><a href='#L2102'>2102</a>
+<a name='L2103'></a><a href='#L2103'>2103</a>
+<a name='L2104'></a><a href='#L2104'>2104</a>
+<a name='L2105'></a><a href='#L2105'>2105</a>
+<a name='L2106'></a><a href='#L2106'>2106</a>
+<a name='L2107'></a><a href='#L2107'>2107</a>
+<a name='L2108'></a><a href='#L2108'>2108</a>
+<a name='L2109'></a><a href='#L2109'>2109</a>
+<a name='L2110'></a><a href='#L2110'>2110</a>
+<a name='L2111'></a><a href='#L2111'>2111</a>
+<a name='L2112'></a><a href='#L2112'>2112</a>
+<a name='L2113'></a><a href='#L2113'>2113</a>
+<a name='L2114'></a><a href='#L2114'>2114</a>
+<a name='L2115'></a><a href='#L2115'>2115</a>
+<a name='L2116'></a><a href='#L2116'>2116</a>
+<a name='L2117'></a><a href='#L2117'>2117</a>
+<a name='L2118'></a><a href='#L2118'>2118</a>
+<a name='L2119'></a><a href='#L2119'>2119</a>
+<a name='L2120'></a><a href='#L2120'>2120</a>
+<a name='L2121'></a><a href='#L2121'>2121</a>
+<a name='L2122'></a><a href='#L2122'>2122</a>
+<a name='L2123'></a><a href='#L2123'>2123</a>
+<a name='L2124'></a><a href='#L2124'>2124</a>
+<a name='L2125'></a><a href='#L2125'>2125</a>
+<a name='L2126'></a><a href='#L2126'>2126</a>
+<a name='L2127'></a><a href='#L2127'>2127</a>
+<a name='L2128'></a><a href='#L2128'>2128</a>
+<a name='L2129'></a><a href='#L2129'>2129</a>
+<a name='L2130'></a><a href='#L2130'>2130</a>
+<a name='L2131'></a><a href='#L2131'>2131</a>
+<a name='L2132'></a><a href='#L2132'>2132</a>
+<a name='L2133'></a><a href='#L2133'>2133</a>
+<a name='L2134'></a><a href='#L2134'>2134</a>
+<a name='L2135'></a><a href='#L2135'>2135</a>
+<a name='L2136'></a><a href='#L2136'>2136</a>
+<a name='L2137'></a><a href='#L2137'>2137</a>
+<a name='L2138'></a><a href='#L2138'>2138</a>
+<a name='L2139'></a><a href='#L2139'>2139</a>
+<a name='L2140'></a><a href='#L2140'>2140</a>
+<a name='L2141'></a><a href='#L2141'>2141</a>
+<a name='L2142'></a><a href='#L2142'>2142</a>
+<a name='L2143'></a><a href='#L2143'>2143</a>
+<a name='L2144'></a><a href='#L2144'>2144</a>
+<a name='L2145'></a><a href='#L2145'>2145</a>
+<a name='L2146'></a><a href='#L2146'>2146</a>
+<a name='L2147'></a><a href='#L2147'>2147</a>
+<a name='L2148'></a><a href='#L2148'>2148</a>
+<a name='L2149'></a><a href='#L2149'>2149</a>
+<a name='L2150'></a><a href='#L2150'>2150</a>
+<a name='L2151'></a><a href='#L2151'>2151</a>
+<a name='L2152'></a><a href='#L2152'>2152</a>
+<a name='L2153'></a><a href='#L2153'>2153</a>
+<a name='L2154'></a><a href='#L2154'>2154</a>
+<a name='L2155'></a><a href='#L2155'>2155</a>
+<a name='L2156'></a><a href='#L2156'>2156</a>
+<a name='L2157'></a><a href='#L2157'>2157</a>
+<a name='L2158'></a><a href='#L2158'>2158</a>
+<a name='L2159'></a><a href='#L2159'>2159</a>
+<a name='L2160'></a><a href='#L2160'>2160</a>
+<a name='L2161'></a><a href='#L2161'>2161</a>
+<a name='L2162'></a><a href='#L2162'>2162</a>
+<a name='L2163'></a><a href='#L2163'>2163</a>
+<a name='L2164'></a><a href='#L2164'>2164</a>
+<a name='L2165'></a><a href='#L2165'>2165</a>
+<a name='L2166'></a><a href='#L2166'>2166</a>
+<a name='L2167'></a><a href='#L2167'>2167</a>
+<a name='L2168'></a><a href='#L2168'>2168</a>
+<a name='L2169'></a><a href='#L2169'>2169</a>
+<a name='L2170'></a><a href='#L2170'>2170</a>
+<a name='L2171'></a><a href='#L2171'>2171</a>
+<a name='L2172'></a><a href='#L2172'>2172</a>
+<a name='L2173'></a><a href='#L2173'>2173</a>
+<a name='L2174'></a><a href='#L2174'>2174</a>
+<a name='L2175'></a><a href='#L2175'>2175</a>
+<a name='L2176'></a><a href='#L2176'>2176</a>
+<a name='L2177'></a><a href='#L2177'>2177</a>
+<a name='L2178'></a><a href='#L2178'>2178</a>
+<a name='L2179'></a><a href='#L2179'>2179</a>
+<a name='L2180'></a><a href='#L2180'>2180</a>
+<a name='L2181'></a><a href='#L2181'>2181</a>
+<a name='L2182'></a><a href='#L2182'>2182</a>
+<a name='L2183'></a><a href='#L2183'>2183</a>
+<a name='L2184'></a><a href='#L2184'>2184</a>
+<a name='L2185'></a><a href='#L2185'>2185</a>
+<a name='L2186'></a><a href='#L2186'>2186</a>
+<a name='L2187'></a><a href='#L2187'>2187</a>
+<a name='L2188'></a><a href='#L2188'>2188</a>
+<a name='L2189'></a><a href='#L2189'>2189</a>
+<a name='L2190'></a><a href='#L2190'>2190</a>
+<a name='L2191'></a><a href='#L2191'>2191</a>
+<a name='L2192'></a><a href='#L2192'>2192</a>
+<a name='L2193'></a><a href='#L2193'>2193</a>
+<a name='L2194'></a><a href='#L2194'>2194</a>
+<a name='L2195'></a><a href='#L2195'>2195</a>
+<a name='L2196'></a><a href='#L2196'>2196</a>
+<a name='L2197'></a><a href='#L2197'>2197</a>
+<a name='L2198'></a><a href='#L2198'>2198</a>
+<a name='L2199'></a><a href='#L2199'>2199</a>
+<a name='L2200'></a><a href='#L2200'>2200</a>
+<a name='L2201'></a><a href='#L2201'>2201</a>
+<a name='L2202'></a><a href='#L2202'>2202</a>
+<a name='L2203'></a><a href='#L2203'>2203</a>
+<a name='L2204'></a><a href='#L2204'>2204</a>
+<a name='L2205'></a><a href='#L2205'>2205</a>
+<a name='L2206'></a><a href='#L2206'>2206</a>
+<a name='L2207'></a><a href='#L2207'>2207</a>
+<a name='L2208'></a><a href='#L2208'>2208</a>
+<a name='L2209'></a><a href='#L2209'>2209</a>
+<a name='L2210'></a><a href='#L2210'>2210</a>
+<a name='L2211'></a><a href='#L2211'>2211</a>
+<a name='L2212'></a><a href='#L2212'>2212</a>
+<a name='L2213'></a><a href='#L2213'>2213</a>
+<a name='L2214'></a><a href='#L2214'>2214</a>
+<a name='L2215'></a><a href='#L2215'>2215</a>
+<a name='L2216'></a><a href='#L2216'>2216</a>
+<a name='L2217'></a><a href='#L2217'>2217</a>
+<a name='L2218'></a><a href='#L2218'>2218</a>
+<a name='L2219'></a><a href='#L2219'>2219</a>
+<a name='L2220'></a><a href='#L2220'>2220</a>
+<a name='L2221'></a><a href='#L2221'>2221</a>
+<a name='L2222'></a><a href='#L2222'>2222</a>
+<a name='L2223'></a><a href='#L2223'>2223</a>
+<a name='L2224'></a><a href='#L2224'>2224</a>
+<a name='L2225'></a><a href='#L2225'>2225</a>
+<a name='L2226'></a><a href='#L2226'>2226</a>
+<a name='L2227'></a><a href='#L2227'>2227</a>
+<a name='L2228'></a><a href='#L2228'>2228</a>
+<a name='L2229'></a><a href='#L2229'>2229</a>
+<a name='L2230'></a><a href='#L2230'>2230</a>
+<a name='L2231'></a><a href='#L2231'>2231</a>
+<a name='L2232'></a><a href='#L2232'>2232</a>
+<a name='L2233'></a><a href='#L2233'>2233</a>
+<a name='L2234'></a><a href='#L2234'>2234</a>
+<a name='L2235'></a><a href='#L2235'>2235</a>
+<a name='L2236'></a><a href='#L2236'>2236</a>
+<a name='L2237'></a><a href='#L2237'>2237</a>
+<a name='L2238'></a><a href='#L2238'>2238</a>
+<a name='L2239'></a><a href='#L2239'>2239</a>
+<a name='L2240'></a><a href='#L2240'>2240</a>
+<a name='L2241'></a><a href='#L2241'>2241</a>
+<a name='L2242'></a><a href='#L2242'>2242</a>
+<a name='L2243'></a><a href='#L2243'>2243</a>
+<a name='L2244'></a><a href='#L2244'>2244</a>
+<a name='L2245'></a><a href='#L2245'>2245</a>
+<a name='L2246'></a><a href='#L2246'>2246</a>
+<a name='L2247'></a><a href='#L2247'>2247</a>
+<a name='L2248'></a><a href='#L2248'>2248</a>
+<a name='L2249'></a><a href='#L2249'>2249</a>
+<a name='L2250'></a><a href='#L2250'>2250</a>
+<a name='L2251'></a><a href='#L2251'>2251</a>
+<a name='L2252'></a><a href='#L2252'>2252</a>
+<a name='L2253'></a><a href='#L2253'>2253</a>
+<a name='L2254'></a><a href='#L2254'>2254</a>
+<a name='L2255'></a><a href='#L2255'>2255</a>
+<a name='L2256'></a><a href='#L2256'>2256</a>
+<a name='L2257'></a><a href='#L2257'>2257</a>
+<a name='L2258'></a><a href='#L2258'>2258</a>
+<a name='L2259'></a><a href='#L2259'>2259</a>
+<a name='L2260'></a><a href='#L2260'>2260</a>
+<a name='L2261'></a><a href='#L2261'>2261</a>
+<a name='L2262'></a><a href='#L2262'>2262</a>
+<a name='L2263'></a><a href='#L2263'>2263</a>
+<a name='L2264'></a><a href='#L2264'>2264</a>
+<a name='L2265'></a><a href='#L2265'>2265</a>
+<a name='L2266'></a><a href='#L2266'>2266</a>
+<a name='L2267'></a><a href='#L2267'>2267</a>
+<a name='L2268'></a><a href='#L2268'>2268</a>
+<a name='L2269'></a><a href='#L2269'>2269</a>
+<a name='L2270'></a><a href='#L2270'>2270</a>
+<a name='L2271'></a><a href='#L2271'>2271</a>
+<a name='L2272'></a><a href='#L2272'>2272</a>
+<a name='L2273'></a><a href='#L2273'>2273</a>
+<a name='L2274'></a><a href='#L2274'>2274</a>
+<a name='L2275'></a><a href='#L2275'>2275</a>
+<a name='L2276'></a><a href='#L2276'>2276</a>
+<a name='L2277'></a><a href='#L2277'>2277</a>
+<a name='L2278'></a><a href='#L2278'>2278</a>
+<a name='L2279'></a><a href='#L2279'>2279</a>
+<a name='L2280'></a><a href='#L2280'>2280</a>
+<a name='L2281'></a><a href='#L2281'>2281</a>
+<a name='L2282'></a><a href='#L2282'>2282</a>
+<a name='L2283'></a><a href='#L2283'>2283</a>
+<a name='L2284'></a><a href='#L2284'>2284</a>
+<a name='L2285'></a><a href='#L2285'>2285</a>
+<a name='L2286'></a><a href='#L2286'>2286</a>
+<a name='L2287'></a><a href='#L2287'>2287</a>
+<a name='L2288'></a><a href='#L2288'>2288</a>
+<a name='L2289'></a><a href='#L2289'>2289</a>
+<a name='L2290'></a><a href='#L2290'>2290</a>
+<a name='L2291'></a><a href='#L2291'>2291</a>
+<a name='L2292'></a><a href='#L2292'>2292</a>
+<a name='L2293'></a><a href='#L2293'>2293</a>
+<a name='L2294'></a><a href='#L2294'>2294</a>
+<a name='L2295'></a><a href='#L2295'>2295</a>
+<a name='L2296'></a><a href='#L2296'>2296</a>
+<a name='L2297'></a><a href='#L2297'>2297</a>
+<a name='L2298'></a><a href='#L2298'>2298</a>
+<a name='L2299'></a><a href='#L2299'>2299</a>
+<a name='L2300'></a><a href='#L2300'>2300</a>
+<a name='L2301'></a><a href='#L2301'>2301</a>
+<a name='L2302'></a><a href='#L2302'>2302</a>
+<a name='L2303'></a><a href='#L2303'>2303</a>
+<a name='L2304'></a><a href='#L2304'>2304</a>
+<a name='L2305'></a><a href='#L2305'>2305</a>
+<a name='L2306'></a><a href='#L2306'>2306</a>
+<a name='L2307'></a><a href='#L2307'>2307</a>
+<a name='L2308'></a><a href='#L2308'>2308</a>
+<a name='L2309'></a><a href='#L2309'>2309</a>
+<a name='L2310'></a><a href='#L2310'>2310</a>
+<a name='L2311'></a><a href='#L2311'>2311</a>
+<a name='L2312'></a><a href='#L2312'>2312</a>
+<a name='L2313'></a><a href='#L2313'>2313</a>
+<a name='L2314'></a><a href='#L2314'>2314</a>
+<a name='L2315'></a><a href='#L2315'>2315</a>
+<a name='L2316'></a><a href='#L2316'>2316</a>
+<a name='L2317'></a><a href='#L2317'>2317</a>
+<a name='L2318'></a><a href='#L2318'>2318</a>
+<a name='L2319'></a><a href='#L2319'>2319</a>
+<a name='L2320'></a><a href='#L2320'>2320</a>
+<a name='L2321'></a><a href='#L2321'>2321</a>
+<a name='L2322'></a><a href='#L2322'>2322</a>
+<a name='L2323'></a><a href='#L2323'>2323</a>
+<a name='L2324'></a><a href='#L2324'>2324</a>
+<a name='L2325'></a><a href='#L2325'>2325</a>
+<a name='L2326'></a><a href='#L2326'>2326</a>
+<a name='L2327'></a><a href='#L2327'>2327</a>
+<a name='L2328'></a><a href='#L2328'>2328</a>
+<a name='L2329'></a><a href='#L2329'>2329</a>
+<a name='L2330'></a><a href='#L2330'>2330</a>
+<a name='L2331'></a><a href='#L2331'>2331</a>
+<a name='L2332'></a><a href='#L2332'>2332</a>
+<a name='L2333'></a><a href='#L2333'>2333</a>
+<a name='L2334'></a><a href='#L2334'>2334</a>
+<a name='L2335'></a><a href='#L2335'>2335</a>
+<a name='L2336'></a><a href='#L2336'>2336</a>
+<a name='L2337'></a><a href='#L2337'>2337</a>
+<a name='L2338'></a><a href='#L2338'>2338</a>
+<a name='L2339'></a><a href='#L2339'>2339</a>
+<a name='L2340'></a><a href='#L2340'>2340</a>
+<a name='L2341'></a><a href='#L2341'>2341</a>
+<a name='L2342'></a><a href='#L2342'>2342</a>
+<a name='L2343'></a><a href='#L2343'>2343</a>
+<a name='L2344'></a><a href='#L2344'>2344</a>
+<a name='L2345'></a><a href='#L2345'>2345</a>
+<a name='L2346'></a><a href='#L2346'>2346</a>
+<a name='L2347'></a><a href='#L2347'>2347</a>
+<a name='L2348'></a><a href='#L2348'>2348</a>
+<a name='L2349'></a><a href='#L2349'>2349</a>
+<a name='L2350'></a><a href='#L2350'>2350</a>
+<a name='L2351'></a><a href='#L2351'>2351</a>
+<a name='L2352'></a><a href='#L2352'>2352</a>
+<a name='L2353'></a><a href='#L2353'>2353</a>
+<a name='L2354'></a><a href='#L2354'>2354</a>
+<a name='L2355'></a><a href='#L2355'>2355</a>
+<a name='L2356'></a><a href='#L2356'>2356</a>
+<a name='L2357'></a><a href='#L2357'>2357</a>
+<a name='L2358'></a><a href='#L2358'>2358</a>
+<a name='L2359'></a><a href='#L2359'>2359</a>
+<a name='L2360'></a><a href='#L2360'>2360</a>
+<a name='L2361'></a><a href='#L2361'>2361</a>
+<a name='L2362'></a><a href='#L2362'>2362</a>
+<a name='L2363'></a><a href='#L2363'>2363</a>
+<a name='L2364'></a><a href='#L2364'>2364</a>
+<a name='L2365'></a><a href='#L2365'>2365</a>
+<a name='L2366'></a><a href='#L2366'>2366</a>
+<a name='L2367'></a><a href='#L2367'>2367</a>
+<a name='L2368'></a><a href='#L2368'>2368</a>
+<a name='L2369'></a><a href='#L2369'>2369</a>
+<a name='L2370'></a><a href='#L2370'>2370</a>
+<a name='L2371'></a><a href='#L2371'>2371</a>
+<a name='L2372'></a><a href='#L2372'>2372</a>
+<a name='L2373'></a><a href='#L2373'>2373</a>
+<a name='L2374'></a><a href='#L2374'>2374</a>
+<a name='L2375'></a><a href='#L2375'>2375</a>
+<a name='L2376'></a><a href='#L2376'>2376</a>
+<a name='L2377'></a><a href='#L2377'>2377</a>
+<a name='L2378'></a><a href='#L2378'>2378</a>
+<a name='L2379'></a><a href='#L2379'>2379</a>
+<a name='L2380'></a><a href='#L2380'>2380</a>
+<a name='L2381'></a><a href='#L2381'>2381</a>
+<a name='L2382'></a><a href='#L2382'>2382</a>
+<a name='L2383'></a><a href='#L2383'>2383</a>
+<a name='L2384'></a><a href='#L2384'>2384</a>
+<a name='L2385'></a><a href='#L2385'>2385</a>
+<a name='L2386'></a><a href='#L2386'>2386</a>
+<a name='L2387'></a><a href='#L2387'>2387</a>
+<a name='L2388'></a><a href='#L2388'>2388</a>
+<a name='L2389'></a><a href='#L2389'>2389</a>
+<a name='L2390'></a><a href='#L2390'>2390</a>
+<a name='L2391'></a><a href='#L2391'>2391</a>
+<a name='L2392'></a><a href='#L2392'>2392</a>
+<a name='L2393'></a><a href='#L2393'>2393</a>
+<a name='L2394'></a><a href='#L2394'>2394</a>
+<a name='L2395'></a><a href='#L2395'>2395</a>
+<a name='L2396'></a><a href='#L2396'>2396</a>
+<a name='L2397'></a><a href='#L2397'>2397</a>
+<a name='L2398'></a><a href='#L2398'>2398</a>
+<a name='L2399'></a><a href='#L2399'>2399</a>
+<a name='L2400'></a><a href='#L2400'>2400</a>
+<a name='L2401'></a><a href='#L2401'>2401</a>
+<a name='L2402'></a><a href='#L2402'>2402</a>
+<a name='L2403'></a><a href='#L2403'>2403</a>
+<a name='L2404'></a><a href='#L2404'>2404</a>
+<a name='L2405'></a><a href='#L2405'>2405</a>
+<a name='L2406'></a><a href='#L2406'>2406</a>
+<a name='L2407'></a><a href='#L2407'>2407</a>
+<a name='L2408'></a><a href='#L2408'>2408</a>
+<a name='L2409'></a><a href='#L2409'>2409</a>
+<a name='L2410'></a><a href='#L2410'>2410</a>
+<a name='L2411'></a><a href='#L2411'>2411</a>
+<a name='L2412'></a><a href='#L2412'>2412</a>
+<a name='L2413'></a><a href='#L2413'>2413</a>
+<a name='L2414'></a><a href='#L2414'>2414</a>
+<a name='L2415'></a><a href='#L2415'>2415</a>
+<a name='L2416'></a><a href='#L2416'>2416</a>
+<a name='L2417'></a><a href='#L2417'>2417</a>
+<a name='L2418'></a><a href='#L2418'>2418</a>
+<a name='L2419'></a><a href='#L2419'>2419</a>
+<a name='L2420'></a><a href='#L2420'>2420</a>
+<a name='L2421'></a><a href='#L2421'>2421</a>
+<a name='L2422'></a><a href='#L2422'>2422</a>
+<a name='L2423'></a><a href='#L2423'>2423</a>
+<a name='L2424'></a><a href='#L2424'>2424</a>
+<a name='L2425'></a><a href='#L2425'>2425</a>
+<a name='L2426'></a><a href='#L2426'>2426</a>
+<a name='L2427'></a><a href='#L2427'>2427</a>
+<a name='L2428'></a><a href='#L2428'>2428</a>
+<a name='L2429'></a><a href='#L2429'>2429</a>
+<a name='L2430'></a><a href='#L2430'>2430</a>
+<a name='L2431'></a><a href='#L2431'>2431</a>
+<a name='L2432'></a><a href='#L2432'>2432</a>
+<a name='L2433'></a><a href='#L2433'>2433</a>
+<a name='L2434'></a><a href='#L2434'>2434</a>
+<a name='L2435'></a><a href='#L2435'>2435</a>
+<a name='L2436'></a><a href='#L2436'>2436</a>
+<a name='L2437'></a><a href='#L2437'>2437</a>
+<a name='L2438'></a><a href='#L2438'>2438</a>
+<a name='L2439'></a><a href='#L2439'>2439</a>
+<a name='L2440'></a><a href='#L2440'>2440</a>
+<a name='L2441'></a><a href='#L2441'>2441</a>
+<a name='L2442'></a><a href='#L2442'>2442</a>
+<a name='L2443'></a><a href='#L2443'>2443</a>
+<a name='L2444'></a><a href='#L2444'>2444</a>
+<a name='L2445'></a><a href='#L2445'>2445</a>
+<a name='L2446'></a><a href='#L2446'>2446</a>
+<a name='L2447'></a><a href='#L2447'>2447</a>
+<a name='L2448'></a><a href='#L2448'>2448</a>
+<a name='L2449'></a><a href='#L2449'>2449</a>
+<a name='L2450'></a><a href='#L2450'>2450</a>
+<a name='L2451'></a><a href='#L2451'>2451</a>
+<a name='L2452'></a><a href='#L2452'>2452</a>
+<a name='L2453'></a><a href='#L2453'>2453</a>
+<a name='L2454'></a><a href='#L2454'>2454</a>
+<a name='L2455'></a><a href='#L2455'>2455</a>
+<a name='L2456'></a><a href='#L2456'>2456</a>
+<a name='L2457'></a><a href='#L2457'>2457</a>
+<a name='L2458'></a><a href='#L2458'>2458</a>
+<a name='L2459'></a><a href='#L2459'>2459</a>
+<a name='L2460'></a><a href='#L2460'>2460</a>
+<a name='L2461'></a><a href='#L2461'>2461</a>
+<a name='L2462'></a><a href='#L2462'>2462</a>
+<a name='L2463'></a><a href='#L2463'>2463</a>
+<a name='L2464'></a><a href='#L2464'>2464</a>
+<a name='L2465'></a><a href='#L2465'>2465</a>
+<a name='L2466'></a><a href='#L2466'>2466</a>
+<a name='L2467'></a><a href='#L2467'>2467</a>
+<a name='L2468'></a><a href='#L2468'>2468</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1992,7 +2529,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">200x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2736,6 +3274,60 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3073,6 +3665,153 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3465,6 +4204,56 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3799,9 +4588,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -3878,28 +4667,313 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3911,7 +4985,7 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 &nbsp;
-const { mongoose, models: { User, Drone, Flight } } = require('flyme-data')
+const { mongoose, models: { User, Drone, Flight, Program } } = require('flyme-data')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -3925,7 +4999,8 @@ describe('logic', () =&gt; {
         Promise.all([
             Drone.deleteMany(),
             User.deleteMany(),
-            Flight.deleteMany()
+            Flight.deleteMany(),
+            Program.deleteMany()
         ])
     )
 &nbsp;
@@ -4654,6 +5729,60 @@ describe('logic', () =&gt; {
         })
     })
 &nbsp;
+    describe('retrieve drones from Id', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+&nbsp;
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone =&gt; {
+                    droneId = drone._id.toString()
+                })
+        )
+&nbsp;
+        it('should succed on correct data', () =&gt;
+            logic.retrieveDroneFromId(userId, droneId)
+                .then(drone =&gt; {
+                    expect(drone).toBeDefined()
+                    expect(drone._id).toBeUndefined()
+                    expect(drone.id).toBe(droneId)
+                })
+        ),
+&nbsp;
+            it('should fail on bad droneId', () =&gt; {
+                const badDroneId = '5c8e2f5dd91b61ceb347b6c6'
+                return logic.retrieveDroneFromId(userId, badDroneId)
+                    .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined())</span>
+                    .catch(err =&gt; {
+                        expect(err).toBeDefined()
+                        expect(err.message).toBe('not drone found')
+                    })
+            })
+&nbsp;
+        it('should fail on bad userId', () =&gt; {
+            const badUserId = '5c8e2f5dd91b61ceb347b6c6'
+            return logic.retrieveDroneFromId(badUserId, droneId)
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined())</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('user not found')
+                })
+        })
+    })
+&nbsp;
     describe('retrieve drones from user', () =&gt; {
         const name = 'luke'
         const surname = 'skywalker'
@@ -5006,6 +6135,153 @@ describe('logic', () =&gt; {
             }).toThrow(Error('droneId is empty or blank'))
         })
     })
+&nbsp;
+    describe('start Drone', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+&nbsp;
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone =&gt; {
+                    droneId = drone.id
+                })
+        )
+&nbsp;
+        it('should succeed on correct data', () =&gt;
+            logic.startDrone(userId, droneId)
+                .then(res =&gt; {
+                    expect(res).toBeDefined()
+                    expect(res.start).toBe('OK')
+                    expect(res.history).toBeDefined()
+&nbsp;
+                    return logic.stopDrone(userId, droneId)
+                })
+        )
+&nbsp;
+        it('should fail on trying start an started drone', () =&gt; {
+            return logic.startDrone(userId, droneId)
+                .then(res =&gt; {
+                    expect(res).toBeDefined()
+&nbsp;
+                    return logic.startDrone(userId, droneId)
+                })
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined())</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(`drone ${droneId} already started`)
+&nbsp;
+                    return logic.stopDrone(userId, droneId)
+                })
+        })
+&nbsp;
+        it('should fail on bad drone Id', () =&gt; {
+            const badDroneId = '5c80f001cdda345041068f1c'
+&nbsp;
+            return logic.startDrone(userId, badDroneId)
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined)</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('Cannot destructure property `host` of \'undefined\' or \'null\'.')
+                })
+        })
+    })
+&nbsp;
+    describe('stop drone', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+&nbsp;
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone =&gt; {
+                    droneId = drone.id
+                })
+        )
+&nbsp;
+        it('should succed on correct data', () =&gt; {
+            logic.startDrone(userId, droneId)
+                .then(res =&gt; {
+                    expect(res).toBeDefined()
+                    expect(res.start).toBe('OK')
+                    expect(res.history).toBeDefined()
+&nbsp;
+                    return logic.stopDrone(userId, droneId)
+                })
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; {
+<span class="cstat-no" title="statement not covered" >                    expect(res).toBeDefined()</span>
+<span class="cstat-no" title="statement not covered" >                    expect(res.stop).toBe('OK')</span>
+<span class="cstat-no" title="statement not covered" >                    expect(res.history).toBeDefined()</span>
+                })
+        })
+&nbsp;
+        // it('should fail on bad droneId', () =&gt; {
+        //     const badDroneId = '5c80f001cdda345041068f1c'
+&nbsp;
+        //     logic.startDrone(userId, droneId)
+        //         .then(res =&gt; {
+        //             expect(res).toBeDefined()
+        //             expect(res.start).toBe('OK')
+        //             expect(res.history).toBeDefined()
+&nbsp;
+        //             return logic.stopDrone(userId, badDroneId)
+        //         })
+        //         .then(res =&gt; expect(res).toBeUndefined())
+        //         .catch(err =&gt; {
+        //             expect(err).toBeDefined()
+        //             expect(err.message).toBe('drone not found it')
+        //         })
+        // })
+&nbsp;
+        // it('should fail on already stopped drone', () =&gt; {
+        //     logic.startDrone(userId, droneId)
+        //         .then(res =&gt; {
+        //             expect(res).toBeDefined()
+        //             expect(res.start).toBe('OK')
+        //             expect(res.history).toBeDefined()
+&nbsp;
+        //             return logic.stopDrone(userId, droneId)
+        //         })
+        //         .then(res =&gt; {
+        //             expect(res).toBeDefined()
+        //             expect(res.stop).toBe('OK')
+        //             expect(res.history).toBeDefined()
+&nbsp;
+        //             return logic.stopDrone(userId, droneId)
+        //         })
+        //         .then(res =&gt; expect(res).toBeUndefined())
+        //         .catch(err =&gt; {
+        //             expect(err).toBeDefined()
+        //             expect(err.message).toBe(`drone ${droneId} already stopped`)
+        //         })
+        // })
+    })
+&nbsp;
+    //TODO SEND COMMAND
 &nbsp;
     describe('add flight', () =&gt; {
         const name = 'luke'
@@ -5383,6 +6659,56 @@ describe('logic', () =&gt; {
             expect(() =&gt; {
                 logic.retrieveFlightsFromUserDrone(userId, badDroneId)
             }).toThrow(Error('droneId is empty or blank'))
+        })
+    })
+&nbsp;
+    describe('retrieve flight', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId, flightId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+&nbsp;
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone =&gt; {
+                    droneId = drone.id
+                })
+                .then(() =&gt; {
+                    return Flight.create({ userId, droneId })
+                })
+                .then(flight =&gt; {
+                    flightId = flight.id
+                })
+        )
+&nbsp;
+        it('should succed on correct data', () =&gt; {
+            logic.retrieveFlight(userId, flightId)
+                .then(flight =&gt; {
+                    expect(flight).toBeDefined()
+                    expect(flight._id).toBe(flightId)
+                })
+        })
+&nbsp;
+        it('should fail on unregistered user', () =&gt; {
+            const badUserId = '5c864704b8fa957d61a34423'
+&nbsp;
+            return logic.retrieveFlight(badUserId, flightId)
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined())</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('no authentication user')
+                })
         })
     })
 &nbsp;
@@ -5807,24 +7133,308 @@ describe('logic', () =&gt; {
             }).toThrow(TypeError(`${badObject} is not an Object`))
         })
 &nbsp;
-        it('should fail on boolean Object', <span class="fstat-no" title="function not covered" >()</span> =&gt; {
-            const badObject = <span class="cstat-no" title="statement not covered" >true</span>
-<span class="cstat-no" title="statement not covered" >            expect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                logic.sendMail(userId, badObject)</span>
+        it('should fail on boolean Object', () =&gt; {
+            const badObject = true
+            expect(() =&gt; {
+                logic.sendMail(userId, badObject)
             }).toThrow(TypeError(`${badObject} is not an Object`))
         })
 &nbsp;
-        it('should fail on array userId', <span class="fstat-no" title="function not covered" >()</span> =&gt; {
-            const badObject = <span class="cstat-no" title="statement not covered" >['leia']</span>
-<span class="cstat-no" title="statement not covered" >            expect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                logic.sendMail(userId, badObject)</span>
+        it('should fail on array userId', () =&gt; {
+            const badObject = ['leia']
+            expect(() =&gt; {
+                logic.sendMail(userId, badObject)
             }).toThrow(TypeError(`${badObject} is an array`))
         })
 &nbsp;
-        it('should fail on empty data', <span class="fstat-no" title="function not covered" >()</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >            expect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                logic.sendMail(userId, {})</span>
+        it('should fail on empty data', () =&gt; {
+            expect(() =&gt; {
+                logic.sendMail(userId, {})
             }).toThrow(Error('data is empty or blank'))
+        })
+    })
+&nbsp;
+    describe('Add program', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            }
+        ]
+        let userId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+                })
+        )
+&nbsp;
+        it('should succed on correct data', () =&gt;
+            logic.addProgram(userId, Pname, orders)
+                .then(id =&gt; {
+                    expect(id).toBeDefined()
+                    expect(typeof id).toBe('string')
+&nbsp;
+                    return Program.findById(id)
+                })
+                .then(program =&gt; {
+                    expect(program.name).toBe(Pname)
+                    expect(program.seconds).toBeDefined()
+                    expect(program.orders.length).toBe(2)
+                })
+        )
+&nbsp;
+        it('should fail on bad userId', () =&gt; {
+            const badUserId = '5c864704b8fa957d61a34423'
+&nbsp;
+            return logic.addProgram(badUserId, Pname, orders)
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined())</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe(`user with id ${badUserId} is not defined`)
+                })
+        })
+    })
+&nbsp;
+    describe('retrieve program', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const seconds = 10
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            }
+        ]
+        let userId, programId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+&nbsp;
+                    return Program.create({ name: Pname, userId, orders, seconds })
+                })
+                .then(program =&gt; {
+                    programId = program._id.toString()
+                })
+        )
+&nbsp;
+        it('should succed on correct data', () =&gt;
+            logic.retrieveProgram(userId, programId)
+                .then(program =&gt; {
+                    expect(program).toBeDefined()
+                    expect(program.name).toBe(Pname)
+                    expect(seconds).toBe(10)
+                })
+        )
+&nbsp;
+        it('should fail on unregistered userId', () =&gt; {
+            const badUserId = '5c864704b8fa957d61a34423'
+&nbsp;
+            return logic.retrieveProgram(badUserId, programId)
+                .then(<span class="fstat-no" title="function not covered" >pr</span>ogram =&gt; <span class="cstat-no" title="statement not covered" >expect(program).toBeUndefined())</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('no authentication user')
+                })
+        })
+    })
+&nbsp;
+    describe('retrive user programs', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const seconds = 10
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            }
+        ]
+        let userId, programId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+&nbsp;
+                    return Program.create({ name: Pname, userId, orders, seconds })
+                })
+                .then(program =&gt; {
+                    programId = program._id.toString()
+                })
+        )
+&nbsp;
+        it('should succed on correct data', () =&gt;
+            logic.retrieveProgramsByUser(userId)
+                .then(programs =&gt; {
+                    expect(programs).toBeDefined()
+                    expect(programs.length).toBe(1)
+                })
+        )
+    })
+&nbsp;
+    describe('retrieve programs', () =&gt; {
+        it('should succed on correct data', () =&gt;
+            logic.retrievePrograms()
+                .then(programs =&gt; {
+                    expect(programs).toBeDefined()
+                })
+        )
+    })
+&nbsp;
+    describe('update program', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const seconds = 10
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            }
+        ]
+        const newOrders = [{ "command": "battery?" }, { "command": "battery?" }, { "command": "battery?" }]
+        const newName = 'UPDATED PROGRAM'
+        let userId, programId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+&nbsp;
+                    return Program.create({ name: Pname, userId, orders, seconds })
+                })
+                .then(program =&gt; {
+                    programId = program._id.toString()
+                })
+        )
+&nbsp;
+        it('should succed on correct data', () =&gt; {
+            return logic.updateProgram(userId, programId, newName, newOrders)
+                .then(res =&gt; {
+                    expect(res).toBeDefined()
+                    expect(res.status).toBe('OK')
+                    expect(res.programId).toBe(programId)
+                })
+        })
+&nbsp;
+        it('should fail on unregistered userId', () =&gt; {
+            const badUserId = '5c864704b8fa957d61a34423'
+&nbsp;
+            return logic.updateProgram(badUserId, programId, newName, newOrders)
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined())</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('auth permissions denied')
+                })
+        })
+&nbsp;
+        it('should fail on unregistered programId', () =&gt; {
+            const badProgramId = '5c864704b8fa957d61a34423'
+&nbsp;
+            return logic.updateProgram(userId, badProgramId, newName, newOrders)
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined())</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('update error')
+                })
+        })
+    })
+&nbsp;
+    describe('delete program', () =&gt; {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const Pname = 'TEST PROGRAM'
+        const seconds = 10
+        const orders = [
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            },
+            {
+                "command": "battery?",
+                "timeOut": 3000
+&nbsp;
+            }
+        ]
+        let userId, programId
+&nbsp;
+        beforeEach(() =&gt;
+            bcrypt.hash(password, 10)
+                .then(hash =&gt; User.create({ name, surname, email, password: hash }))
+                .then(user =&gt; {
+                    userId = user.id
+&nbsp;
+                    return Program.create({ name: Pname, userId, orders, seconds })
+                })
+                .then(program =&gt; {
+                    programId = program._id.toString()
+                })
+        )
+&nbsp;
+        it('should succed on correct data', () =&gt;
+            logic.deleteProgram(userId, programId)
+                .then(res =&gt; {
+                    expect(res).toBeDefined()
+                    expect(res.status).toBe('OK')
+                })
+        )
+&nbsp;
+        it('should fail on unregistered userId', () =&gt; {
+            const badUserId = '5c864704b8fa957d61a34423'
+&nbsp;
+            return logic.deleteProgram(badUserId, programId)
+                .then(<span class="fstat-no" title="function not covered" >re</span>s =&gt; <span class="cstat-no" title="statement not covered" >expect(res).toBeUndefined())</span>
+                .catch(err =&gt; {
+                    expect(err).toBeDefined()
+                    expect(err.message).toBe('auth permissions denied')
+                })
         })
     })
 &nbsp;
@@ -5832,7 +7442,8 @@ describe('logic', () =&gt; {
         Promise.all([
             Drone.deleteMany(),
             User.deleteMany(),
-            Flight.deleteMany()
+            Flight.deleteMany(),
+            Program.deleteMany()
         ])
             .then(() =&gt; mongoose.disconnect())
     })
@@ -5842,7 +7453,7 @@ describe('logic', () =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Mar 18 2019 11:10:51 GMT+0100 (GMT+01:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Mar 18 2019 13:59:51 GMT+0100 (GMT+01:00)
 </div>
 </div>
 <script src="../prettify.js"></script>

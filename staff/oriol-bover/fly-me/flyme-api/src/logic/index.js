@@ -148,14 +148,22 @@ const logic = {
     retrieveDroneFromId(userId, droneId) {
         validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }])
 
-        return Drone.findById(droneId).select('-__v').lean()
-            .then(drone => {
-                drone.id = drone._id.toString()
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error('user not found')
 
-                delete drone._id
+                return Drone.findById(droneId).select('-__v').lean()
+                    .then(drone => {
+                        if (!drone) throw Error('not drone found')
 
-                return drone
+                        drone.id = drone._id.toString()
+
+                        delete drone._id
+
+                        return drone
+                    })
             })
+
     },
 
     retrieveDrones() {
@@ -208,8 +216,6 @@ const logic = {
         return Drone.findById(droneId)
             .then(({ host, port }) => {
 
-                if (!host && !port) throw Error('drone not found it')
-
                 return Flight.create({ userId, droneId })
                     .then(flight => {
 
@@ -246,7 +252,6 @@ const logic = {
             })
 
     },
-
 
     // getDroneHistory(userId, droneId) {
     //     return User.findById(userId)
@@ -292,11 +297,8 @@ const logic = {
 
                     drone.history = []
 
-                    console.log('history')
-
                     return Flight.findByIdAndUpdate(drone.flightId, { end: new Date, history })
                         .then(res => {
-                            console.log('hello world')
 
                             if (!res) throw Error('impossible to update the flight')
 
@@ -435,8 +437,7 @@ const logic = {
                     html: `<h1>Report BUG</h1>
                     <p>User ${user.name}, id(${user.id}) with email ${user.email} reports:</p>
                     <p>${data.message}</p>
-                    <p>Flyme app</p>
-                `
+                    <p>Flyme app</p>`
                 }
 
 
@@ -493,7 +494,7 @@ const logic = {
     },
 
     updateProgram(userId, programId, name, orders) {
-        validate([{ key: 'userId', value: userId, type: String }, { key: 'programId', value: programId, type: String }, { key: 'name', value: name, type: String }, { key: 'orders', value: orders, type: Object }])
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'programId', value: programId, type: String }, { key: 'name', value: name, type: String }])
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error('auth permissions denied')
