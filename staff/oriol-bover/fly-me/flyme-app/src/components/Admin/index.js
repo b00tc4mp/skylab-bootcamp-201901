@@ -45,7 +45,7 @@ function Admin() {
                 <Route path="/admin/drones" render={props => <Drones user={user} history={props.history} />} />
                 <Route path="/admin/drone/add" render={props => <DroneDetail user={user} history={props.history} droneId={null} />} />
                 <Route path="/admin/drone/:droneId/edit" render={props => <DroneDetail user={user} history={props.history} droneId={props.match.params.droneId} />} />
-                <Route path="/admin/drone/:droneId/command" render={props => <CommandPannel droneId={props.match.params.droneId} history={props.history} />} />
+                <Route path="/admin/drone/:droneId/command" render={props => <CommandPannel droneId={props.match.params.droneId} historyP={props.history} />} />
 
                 {/* user section */}
                 <Route exact path="/admin/user" component={UserPanel} />

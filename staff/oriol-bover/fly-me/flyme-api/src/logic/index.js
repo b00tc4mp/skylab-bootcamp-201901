@@ -248,18 +248,18 @@ const logic = {
     },
 
 
-    getDroneHistory(userId, droneId) {
-        return User.findById(userId)
-            .then(user => {
-                if (!user) throw Error('You don\'t have permissions')
+    // getDroneHistory(userId, droneId) {
+    //     return User.findById(userId)
+    //         .then(user => {
+    //             if (!user) throw Error('You don\'t have permissions')
 
-                let drone = this.activeDrones.get(droneId)
+    //             let drone = this.activeDrones.get(droneId)
 
-                if (!drone) throw Error(`drone ${droneId} has been stopped`)
+    //             if (!drone) throw Error(`drone ${droneId} has been stopped`)
 
-                return { status: 'OK', history: drone.history }
-            })
-    },
+    //             return { status: 'OK', history: drone.history }
+    //         })
+    // },
 
     stopDrone(userId, droneId) {
         const drone = this.activeDrones.get(droneId)
@@ -450,7 +450,7 @@ const logic = {
 
     //END  MAILING
     addProgram(userId, name, orders) {
-        validate([{ key: 'userId', value: userId, type: String }, { key: 'name', value: name, type: String }, { key: 'orders', value: orders, type: Object }])
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'name', value: name, type: String }])
 
         let seconds = 0
         return User.findById(userId)
@@ -521,10 +521,10 @@ const logic = {
             })
     },
 
-    playProgram(userId, droneId, orders) {
-        validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }, { key: 'orders', value: orders, type: Object }])
+    playProgram(userId, droneId, orders, index = 0, droneMachine = null) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }])
 
-        let i = 0
+        let i = index
         let drone = this.activeDrones.get(droneId)
 
         if (drone) throw Error(`drone ${droneId} already started`)
@@ -538,13 +538,17 @@ const logic = {
             .then(drone => {
                 if (!drone) throw Error('No drone found')
 
-                droneMachine = new DroneApi(drone.host, drone.port)
+                if (i === 0 && !droneMachine) {
+                    orders.unshift({ id: "task-0", content: "COMMAND", command: "command", timeOut: 5000 })
 
-                // droneMachine.history = []
+                    droneMachine = new DroneApi(drone.host, drone.port)
 
-                droneMachine.start()
+                    droneMachine.start()
 
-                const command = orders[i]
+                    droneMachine.onMessage(message => console.log(`drone: ${message}`))
+                }
+
+                const command = orders[i].command
 
                 console.log(`running command: ${command}`)
 
@@ -557,11 +561,12 @@ const logic = {
                         i += 1
 
                         if (i < orders.length) {
-                            return this.playProgram(userId, droneId, orders)
+                            return this.playProgram(userId, droneId, orders, i, droneMachine)
                         }
 
                         droneMachine.stop()
                         console.log('all commands done!')
+                        return { status: 'OK' }
                     })
             })
     }

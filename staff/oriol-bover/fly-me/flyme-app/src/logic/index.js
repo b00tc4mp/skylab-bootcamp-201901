@@ -113,13 +113,13 @@ const logic = {
     },
 
     //TODO DRONE ID
-    startDrone() {
-        return flymeApi.startDrone(this.__userApiToken__)
+    startDrone(droneId) {
+        return flymeApi.startDrone(this.__userApiToken__, droneId)
             .then(res => res)
     },
 
-    stopDrone() {
-        return flymeApi.stopDrone(this.__userApiToken__)
+    stopDrone(droneId) {
+        return flymeApi.stopDrone(this.__userApiToken__, droneId)
             .then(res => res)
     },
 
@@ -128,12 +128,12 @@ const logic = {
             .then(res => res)
     },
 
-    sendDroneCommand(command) {
+    sendDroneCommand(command, droneId) {
         if (typeof command !== 'string') throw TypeError(command + ' is not a string')
 
         if (!command.trim().length) throw Error('command cannot be empty')
 
-        return flymeApi.sendCommand(this.__userApiToken__, command)
+        return flymeApi.sendCommand(this.__userApiToken__, command, droneId)
             .then(res => res)
     },
 
@@ -252,6 +252,15 @@ const logic = {
         if (!programId.trim().length) throw Error('programId cannot be empty')
 
         return flymeApi.retrieveProgram(this.__userApiToken__, programId)
+            .then(res => res)
+    },
+
+    playProgram(droneId, orders) {
+        if (typeof droneId !== 'string') throw TypeError(droneId + ' is not a string')
+
+        if (!droneId.trim().length) throw Error('droneId cannot be empty')
+
+        return flymeApi.playProgram(this.__userApiToken__, droneId, orders)
             .then(res => res)
     },
 

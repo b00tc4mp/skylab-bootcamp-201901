@@ -3,7 +3,7 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-const { mongoose, models: { User, Drone, Flight } } = require('flyme-data')
+const { mongoose, models: { User, Drone, Flight, Program } } = require('flyme-data')
 const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -17,7 +17,8 @@ describe('logic', () => {
         Promise.all([
             Drone.deleteMany(),
             User.deleteMany(),
-            Flight.deleteMany()
+            Flight.deleteMany(),
+            Program.deleteMany()
         ])
     )
 
@@ -1924,7 +1925,8 @@ describe('logic', () => {
         Promise.all([
             Drone.deleteMany(),
             User.deleteMany(),
-            Flight.deleteMany()
+            Flight.deleteMany(),
+            Program.deleteMany()
         ])
             .then(() => mongoose.disconnect())
     })

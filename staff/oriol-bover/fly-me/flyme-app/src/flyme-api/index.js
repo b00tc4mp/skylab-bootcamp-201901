@@ -101,12 +101,9 @@ const flymeApi = {
 
     },
 
-    startDrone(token) {
+    startDrone(token, droneId) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-
-        //TODO droneId
-        const droneId = '5c80f001cdda345041068f1c'
 
         return fetch(`${this.url}/drone/start`, {
             method: 'POST',
@@ -120,12 +117,9 @@ const flymeApi = {
             .then(res => res)
     },
 
-    stopDrone(token) {
+    stopDrone(token, droneId) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-
-        //TODO droneId
-        const droneId = '5c80f001cdda345041068f1c'
 
         return fetch(`${this.url}/drone/stop`, {
             method: 'POST',
@@ -160,15 +154,12 @@ const flymeApi = {
 
     },
 
-    sendCommand(token, command) {
+    sendCommand(token, command, droneId) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
         if (typeof command !== 'string') throw TypeError(`${command} is not a string`)
         if (!command.trim().length) throw Error('command is empty')
-
-        //TODO droneId
-        const droneId = '5c80f001cdda345041068f1c'
 
         return fetch(`${this.url}/drone/command`, {
             method: 'POST',
@@ -357,6 +348,25 @@ const flymeApi = {
 
         return fetch(`${this.url}/user/${userId}/programs`, {
             headers: { authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    playProgram(token, droneId, orders) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof droneId !== 'string') throw TypeError(`${droneId} is not a string`)
+        if (!droneId.trim().length) throw Error('droneId is empty')
+
+        return fetch(`${this.url}/program/play`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ droneId, orders })
         })
             .then(res => res.json())
             .then(res => res)

@@ -14,6 +14,7 @@ const initialData = {
         'cmd-12': { id: 'cmd-12', content: 'FLIP RIGHT', command: 'flip r', timeOut: 5000 },
         'cmd-13': { id: 'cmd-13', content: 'FLIP FORWARD', command: 'flip f', timeOut: 5000 },
         'cmd-14': { id: 'cmd-14', content: 'FLIP BACK', command: 'flip b', timeOut: 5000 },
+        'cmd-15': { id: 'cmd-15', content: 'BATTERY', command: 'battery?', timeOut: 5000 },
 
 
         // 'task-1': { id: 'task-1', content: 'Take out the garbage' },
@@ -40,7 +41,8 @@ const initialData = {
                 'cmd-11',
                 'cmd-12',
                 'cmd-13',
-                'cmd-14'
+                'cmd-14',
+                'cmd-15'
             ]
             // taskIds: ['task-1', 'task-2', 'task-3', 'task-4']
         },

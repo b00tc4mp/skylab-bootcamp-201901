@@ -115,7 +115,7 @@ router.put('/program/update', [jsonBodyParser, tokenVerifierMiddleware], updateP
 
 router.delete('/program', [jsonBodyParser, tokenVerifierMiddleware], deleteProgram)
 
-router.post('/program/play', [jsonBodyParser, DOMSettableTokenList], playProgram)
+router.post('/program/play', [jsonBodyParser, tokenVerifierMiddleware], playProgram)
 
 //general routes
 router.post('/sendemail', [jsonBodyParser, tokenVerifierMiddleware], sendMail)

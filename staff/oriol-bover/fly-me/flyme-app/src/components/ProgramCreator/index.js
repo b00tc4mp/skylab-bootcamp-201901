@@ -98,7 +98,7 @@ export default function ProgramCreator() {
         try {
             logic.createProgram(name, orders)
                 .then(res => {
-                    if (res) window.location.reload()
+                    if (res) console.log('res', res)
                 })
                 .catch(err => setFeedback(err.message))
         } catch ({ message }) {

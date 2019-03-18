@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './index.sass'
 
 export default function Keyboard({onActiveKey}) {
@@ -15,25 +15,29 @@ export default function Keyboard({onActiveKey}) {
             ].join(',');
         }
 
-        onActiveKey(code)
+        // onActiveKey(code)
         return document.querySelector(selector);
     }
 
-    document.body.addEventListener('keydown', function (e) {
-        var key = getKey(e);
-        if (!key) {
-            return console.warn('No key for', e.keyCode);
-        }
-
-        key.setAttribute('data-pressed', 'on');
-    });
+    useEffect(() => {
+      document.body.addEventListener('keydown', function (e) {
+          var key = getKey(e);
+          if (!key) {
+              return console.warn('No key for', e.keyCode);
+          }
+  
+          onActiveKey(e.keyCode)
+  
+          key.setAttribute('data-pressed', 'on');
+  
+      })
+    }, [])
 
     document.body.addEventListener('keyup', function (e) {
         var key = getKey(e);
         key && key.removeAttribute('data-pressed');
     });
 
-    
     return (
         <div> 
           <div className="keyboard">
@@ -230,7 +234,7 @@ export default function Keyboard({onActiveKey}) {
               <div className="key--bottom-right key--word key--w3" data-key={91}>
                 <span>command</span>
               </div>
-              <div className="key--double key--right key--space key--command" data-key={32} data-char=" ">
+              <div className="key--double key--right key--space" data-key={32} data-char=" ">
                 &nbsp;
               </div>
               <div className="key--bottom-left key--word key--w3" data-key="93-R">

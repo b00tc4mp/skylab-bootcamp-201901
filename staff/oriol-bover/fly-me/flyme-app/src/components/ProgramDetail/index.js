@@ -27,6 +27,13 @@ export default function ProgramDetail({ programId }) {
 
     function playProgram() {
 
+        try {
+            return logic.playProgram(droneSelected, program.orders)
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+        } catch ({ message }) {
+            console.log(message)
+        }
     }
 
     return (<section className="section">
