@@ -83,7 +83,7 @@ class App extends Component {
 
 
     render() {
-        const { state: { loginFeedback, registerFeedback }, handleLogin, handleRegister } = this
+        const { state: { loginFeedback, registerFeedback, cart }, handleLogin, handleRegister } = this
 
         return (<main className="app">
             <Navbar loggedIn={this.state.loggedIn} onLogout={this.onLogout} cartLength={this.state.cartLength} />

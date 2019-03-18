@@ -11,7 +11,7 @@ class Order extends Component {
             isLogged: false,
             isRegistered: false,
             paymentMethod: '',
-            cart: [],
+            cart: null,
             email: '',
         }
     }
@@ -28,9 +28,8 @@ class Order extends Component {
 
 
     getItems = () => {
-
-        logic.listProductsByIds()
-            .then(cart => this.setState({ cart }))
+        const items = logic.getCart()
+        this.setState({ cart: items })
 
     }
 
@@ -40,7 +39,6 @@ class Order extends Component {
         e.preventDefault()
 
         const { paymentMethod, cart, email } = this.state
-
         if (paymentMethod !== "" || email !== "") {
 
             logic.makeOrder(paymentMethod, cart)

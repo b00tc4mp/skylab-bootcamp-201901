@@ -7,6 +7,12 @@ const logic = {
 
     registerUser(name, surname, email, password, passwordConfirmation) {
 
+        if (name === undefined) throw new TypeError('undefined is not a string')
+
+        if (name === null) throw new TypeError('undefined is not a string')
+
+        if (password !== passwordConfirmation) throw new TypeError('passwords do not match')
+
         if (typeof email !== 'string') throw Error('email is not a string')
         return (async () => {
 
