@@ -19,6 +19,7 @@ import Login from "../Login";
 import Register from "../Register";
 import UserProfile from "../UserProfile";
 import Random from "../Random";
+import TopFifty from "../TopFifty";
 
 const App = ({ history }) => {
     const [loginFeedback, setLoginFeedback] = useState(null);
@@ -39,7 +40,7 @@ const App = ({ history }) => {
     return (
         <div className="main">
             <div className="navbar-tablet">
-                <Aside />
+                <Aside searchFocus={searchFocus}/>
             </div>
 
             <div className="container">
@@ -82,7 +83,7 @@ const App = ({ history }) => {
                                 return <Redirect to="/" />;
                             }}
                         />
-
+                        <Route exact path="/ranking" component={TopFifty} />
                         <Route exact path="/random" component={Random} />
                         <Route path="/:username" component={UserProfile} />
                     </Switch>

@@ -8,8 +8,8 @@ import "./index.sass";
 
 const Footer = props => {
     const getUsernameLogged = async () => {
-        const lol = await logic.retrieveUserInfo();
-        props.history.push(`/${lol.username}`);
+        const user = await logic.retrieveUserInfo();
+        props.history.push(`/${user.username}`);
     };
 
     const onSearchClick = () => {

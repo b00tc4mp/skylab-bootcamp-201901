@@ -40,41 +40,48 @@ const Login = props => {
         <Fragment>
             <div className="landing-page">
                 <div className="header">
-                    <h1 className="header__title">LOGIN PAGE</h1>
+                    <h1 className="header__title">LOGIN</h1>
                 </div>
                 <div className="forms">
                     {feedbackLogin && <h2>{feedbackLogin}</h2>}
                     <form className="login-form" onSubmit={handleLoginSubmit}>
-                        <input
-                            className="login-form__input"
-                            type="text"
-                            name="userData"
-                            placeholder="Username or email"
-                            autoComplete="off"
-                            autoCorrect="off"
-                            spellCheck="false"
-                            required
-                            onChange={handleUserDataInput}
-                        />
-                        <input
-                            className="login-form__input"
-                            type="password"
-                            name="userPassword"
-                            placeholder="Password"
-                            autoComplete="off"
-                            autoCorrect="off"
-                            spellCheck="false"
-                            required
-                            onChange={handleUserPasswordInput}
-                        />
-                        <button className="login-form__button">
-                            Login
-                        </button>
+                        <div>
+                            <input
+                                className="login-form__input"
+                                type="text"
+                                name="userData"
+                                placeholder="Username or email"
+                                autoComplete="off"
+                                autoCorrect="off"
+                                autoFocus
+                                spellCheck="false"
+                                required
+                                onChange={handleUserDataInput}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                className="login-form__input"
+                                type="password"
+                                name="userPassword"
+                                placeholder="Password"
+                                autoComplete="off"
+                                autoCorrect="off"
+                                spellCheck="false"
+                                required
+                                onChange={handleUserPasswordInput}
+                            />
+                        </div>
+                        <div>
+                            <button className="login-form__button">
+                                Login
+                            </button>
+                        </div>
                     </form>
-                    <p>
-                        Don't you have an account?{" "}
-                        <Link to="/register">JOIN US!</Link>
-                    </p>
+                        <p>
+                            Don't you have an account?{" "}
+                            <Link to="/register">JOIN US!</Link>
+                        </p>
                 </div>
             </div>
         </Fragment>

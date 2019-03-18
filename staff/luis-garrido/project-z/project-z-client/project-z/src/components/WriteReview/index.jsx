@@ -14,6 +14,7 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
     // EMPTY STAR // <i class="far fa-star"></i>
     // HALF STAR // <i class="fas fa-star-half-alt"></i>
 
+    const [reviewTitle, setReviewTitle] = useState("");
     const [reviewText, setReviewText] = useState("");
     const [reviewScore, setReviewScore] = useState("");
     const [preScore, setPreScore] = useState('')
@@ -48,24 +49,32 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
 
     const scoreWithStars = () => [star(1),star(2),star(3),star(4),star(5)];
 
+    const handleReviewTitleInput = ({ target: { value: reviewTitle } }) => {
+        setReviewTitle(reviewTitle);
+    };
+    
     const handleReviewTextInput = ({ target: { value: reviewText } }) => {
         setReviewText(reviewText);
     };
 
-    const handleReviewScoreInput = ({ target: { value: reviewScore } }) => {
-        setReviewScore(reviewScore);
-    };
+    // const handleReviewScoreInput = ({ target: { value: reviewScore } }) => {
+    //     setReviewScore(reviewScore);
+    // };
 
     const handleReviewSubmit = event => {
         event.preventDefault();
 
         try {
             let reviewTextFix
+            let reviewTitleFix
             if (reviewText === '') reviewTextFix = 'no text'
             else reviewTextFix = reviewText
+            if (reviewTitle === '') reviewTitleFix = 'no text'
+            else reviewTitleFix = reviewTitle
             logic
-                .postReview(gameId, reviewTextFix, reviewScore)
+                .postReview(gameId, reviewTitleFix, reviewTextFix, reviewScore)
                 .then(() => {
+                    setReviewTitle("");
                     setReviewText("");
                     setReviewScore("");
                     refresh(gameId);
@@ -86,8 +95,22 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
                         <input
                             className="review-form__input"
                             type="text"
-                            name="reviewText"
+                            name="reviewTitle"
                             placeholder="Write your review..."
+                            autoComplete="off"
+                            autoCorrect="off"
+                            spellCheck="false"
+                            value={reviewTitle}
+                            onChange={handleReviewTitleInput}
+                        />
+                    </div>
+                    <div>
+                        <textarea
+                            rows="5"
+                            className="review-form__input"
+                            type="text"
+                            name="reviewText"
+                            placeholder="Explain yourself..."
                             autoComplete="off"
                             autoCorrect="off"
                             spellCheck="false"
@@ -98,7 +121,7 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
                     <div>
                         <p>{scoreWithStars()}</p>
                     </div>
-                    <div>
+                    {/* <div>
                         <input
                             className="review-form__input"
                             type="text"
@@ -111,7 +134,7 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
                             value={reviewScore}
                             onChange={handleReviewScoreInput}
                         />
-                    </div>
+                    </div> */}
                     <button className="review-form__button">Rate!</button>
                 </form>
                 <div>

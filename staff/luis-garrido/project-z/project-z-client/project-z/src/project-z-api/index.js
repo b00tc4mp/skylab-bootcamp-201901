@@ -38,7 +38,7 @@ const projectZApi = {
                 type: String
             }
         ]);
-
+        
         return fetch(`${this.url}/user`, {
             method: "POST",
             headers: {
@@ -200,12 +200,13 @@ const projectZApi = {
             });
     },
 
-    postReview(token, gameId, text, score) {
+    postReview(token, gameId, title, text, score) {
         
         validate([
             { key: "token", value: token, type: String },
             { key: "gameId", value: gameId, type: String },
             { key: "text", value: text, type: String, optional: true },
+            { key: "title", value: title, type: String, optional: true },
             { key: "score", value: score, type: Number }
         ]);
         
@@ -219,7 +220,7 @@ const projectZApi = {
                 authorization: `Bearer ${token}`
             },
             method: "POST",
-            body: JSON.stringify({ text, score })
+            body: JSON.stringify({ title, text, score })
         })
             .then(response => response.json())
             .then(response => {
@@ -229,8 +230,12 @@ const projectZApi = {
             });
     },
 
-    retrieveBestScored() {
-        return fetch(`${this.url}/ranking`)
+    retrieveBestScored(limit) {
+        validate([
+            { key: "limit", value: limit, type: String },
+        ])
+
+        return fetch(`${this.url}/ranking/${limit}`)
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error);

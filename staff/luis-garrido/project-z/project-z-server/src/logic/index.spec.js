@@ -1893,7 +1893,7 @@ describe("logic", () => {
 
     describe("Ranking Games", () => {
         it("should get a list of games", () => {
-            return logic.rankingGames().then(games => {
+            return logic.rankingGames('10').then(games => {
                 expect(games).toBeDefined();
                 // expect(games instanceof Array).toBeTruthy();
                 // expect(games.length).toBeGreaterThan(0);

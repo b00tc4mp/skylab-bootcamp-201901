@@ -37,7 +37,7 @@ router.get('/game/:gameId', retrieveGameInfo)
 
 router.post('/game/:gameId/review', [jsonBodyParser, tokenVerifierMiddleware], postReview)
 
-router.get('/ranking', rankingGames)
+router.get('/ranking/:limit', rankingGames)
 
 router.get('/user/:username', retrieveUserByUsername)
 

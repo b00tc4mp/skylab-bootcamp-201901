@@ -21,7 +21,10 @@ const Header = props => {
     };
     
     return (
-        <Fragment>
+        <div>
+            <div className="header header-mobile">
+                    <h1 className="header__title header-mobile__title">PROJECT Z</h1>
+                </div>
             <form className="search" onSubmit={handleSearchSubmit}>
                 <input
                     ref={props.searchFocus}
@@ -30,13 +33,14 @@ const Header = props => {
                     name="query"
                     placeholder="Search..."
                     autoComplete="off"
+                    autoFocus
                     autoCorrect="off"
                     spellCheck="false"
                     value={query}
                     onChange={handleQueryInput}
                 />
             </form>
-        </Fragment>
+        </div>
     );
 };
 

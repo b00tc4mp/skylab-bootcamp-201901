@@ -8,6 +8,10 @@ const Review = new Schema({
         type: String
     },
 
+    title: {
+        type: String
+    },
+
     score: {
         type: Number,
         required: true
@@ -29,6 +33,10 @@ const Review = new Schema({
         type: ObjectId,
         required: true,
         ref: "Game"
+    },
+
+    boxart: {
+        type: String
     }
 });
 

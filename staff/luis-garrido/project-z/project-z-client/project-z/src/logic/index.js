@@ -1,6 +1,6 @@
 "use strict";
 
-// import musicApi from '../music-api'
+
 import projectZApi from "../project-z-api";
 
 /**
@@ -35,12 +35,12 @@ const logic = {
         if (typeof name !== "string")
             throw TypeError(name + " is not a string");
 
-        // if (!name.trim().length) throw Error("name cannot be empty");
+        if (!name.trim().length) throw Error("name cannot be empty");
 
         if (typeof surname !== "string")
             throw TypeError(surname + " is not a string");
 
-        // if (!surname.trim().length) throw Error("surname cannot be empty");
+        if (!surname.trim().length) throw Error("surname cannot be empty");
 
         if (typeof email !== "string")
             throw TypeError(email + " is not a string");
@@ -59,8 +59,8 @@ const logic = {
             throw Error("password confirmation cannot be empty");
 
         if (password !== passwordConfirmation)
-            throw Error("passwords do not match");
-
+            throw Error("passwords do not match")
+        
         return projectZApi
             .registerUser(
                 username,
@@ -129,8 +129,8 @@ const logic = {
      * @returns {object} best scored games based in their finalScore property
      *
      */
-    retrieveBestScored() {
-        return projectZApi.retrieveBestScored();
+    retrieveBestScored(limit) {
+        return projectZApi.retrieveBestScored(limit);
     },
 
     searchGames(query) {
@@ -160,8 +160,8 @@ const logic = {
         return projectZApi.retrieveGameInfo(gameId);
     },
 
-    postReview(gameId, text, score) {
-        return projectZApi.postReview(this.__userApiToken__, gameId, text, score)
+    postReview(gameId, title, text, score) {
+        return projectZApi.postReview(this.__userApiToken__, gameId, title, text, score)
     },
 
     getRandomGame() {

@@ -13,6 +13,7 @@ const Register = props => {
     const [surname, setSurname] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [feedbackRegister, setFeedbackRegister] = useState('')
 
     const handleUsername = ({ target: { value: username } }) => {
         setUsername(username);
@@ -40,17 +41,6 @@ const Register = props => {
         setPasswordConfirmation(passwordConfirmation);
     };
 
-    // {
-    //     "admin": false,
-    //     "username": "quinwacca",
-    //     "avatar": "10",
-    //     "email": "quinwacca@mail.com",
-    //     "name": "Luis",
-    //     "surname": "Garrido",
-    //     "password": "123",
-    //     "passwordConfirm": "123"
-    // }
-
     const handleRegisterSubmit = event => {
         event.preventDefault();
 
@@ -68,10 +58,10 @@ const Register = props => {
                     props.history.push("/login");
                 })
                 .catch(error => {
-                    // setFeedbackRegister(error.message);
+                    setFeedbackRegister(error.message);
                 });
         } catch ({ message }) {
-            // setFeedbackRegister(message);
+            setFeedbackRegister(message);
         }
     };
 
@@ -79,8 +69,9 @@ const Register = props => {
         <Fragment>
             <div className="landing-page">
                 <div className="header">
-                    <h1 className="header__title">REGISTER PAGE</h1>
+                    <h1 className="header__title">REGISTER</h1>
                 </div>
+                {feedbackRegister && feedbackRegister}
                 <div className="forms">
                     <form
                         className="register-form"
@@ -93,6 +84,7 @@ const Register = props => {
                             placeholder="Username"
                             autoComplete="off"
                             autoCorrect="off"
+                            autoFocus
                             spellCheck="false"
                             required
                             onChange={handleUsername}
@@ -116,6 +108,7 @@ const Register = props => {
                             autoComplete="off"
                             autoCorrect="off"
                             spellCheck="false"
+                            required
                             onChange={handleName}
                         />
                         <input
@@ -126,6 +119,7 @@ const Register = props => {
                             autoComplete="off"
                             autoCorrect="off"
                             spellCheck="false"
+                            required
                             onChange={handleSurname}
                         />
                         <input

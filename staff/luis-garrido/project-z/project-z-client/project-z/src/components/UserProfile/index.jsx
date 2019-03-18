@@ -7,20 +7,29 @@ import Review from "../Review";
 
 const { REACT_APP_THUMB: gameCover } = process.env;
 
-const UserProfile = props => {
+const UserProfile = ({
+    history,
+    match: {
+        params: { username: _username }
+    }
+}) => {
     const [userInfo, setUserInfo] = useState([]);
     const [username, setUsername] = useState("");
+    const [adorableAvatar, setAdorableAvatar] = useState("");
 
     useEffect(() => {
-        retrieveUserInfo(props.match.params.username);
+        retrieveUserInfo(_username);
         logic.isUserLoggedIn && getUsernameLogged();
-    }, [props.match.params.username]);
+        setAdorableAvatar(
+            `https://api.adorable.io/avatars/285/${_username}.png`
+        );
+    }, [_username]);
 
     const retrieveUserInfo = async username =>
         setUserInfo(await logic.retrieveUserInfoByUsername(username));
 
     const handleLogout = () => {
-        props.history.push("/logout");
+        history.push("/logout");
     };
 
     const getUsernameLogged = async () => {
@@ -30,26 +39,34 @@ const UserProfile = props => {
 
     return (
         <Fragment>
-            <div className="landing-page">
+            <div className="review-page">
                 <div className="header">
-                    <h1 className="header__title">USER PROFILE</h1>
+                    <h1 className="header__title">{userInfo.username}</h1>
                 </div>
                 <div className="user-profile">
-                    <h2>{`${userInfo.name} ${userInfo.surname}`}</h2>
-                    <p>{userInfo.username}</p>
-                    <h2>{userInfo.email}</h2>
+                    <div className="user-profile__info">
+                        <img
+                            className="avatar-profile"
+                            src={adorableAvatar}
+                            alt="default avatar"
+                        />
+                        <h2>{`${userInfo.name} ${userInfo.surname}`}</h2>
+                    </div>
+                    <div className="user-profile__logout">
+                        {username === userInfo.username && (
+                            <button onClick={handleLogout} className="logout">
+                                <i className="fas fa-lock" /> Logout
+                            </button>
+                        )}
+                    </div>
                 </div>
-                {username === userInfo.username && (
-                    <button onClick={handleLogout} className="menu__link">
-                        <i className="fas fa-lock" />
-                        Logout
-                    </button>
-                )}
                 {userInfo.reviews && !!userInfo.reviews.length && (
-                    <div>
-                        <h2>Reviews</h2>
-                        {userInfo.reviews.reverse().map(review => (
+                    <div><div className="header">
+                    <h2 className="header__title">USER REVIEWS</h2>
+                </div>
+                        {userInfo.reviews.reverse().map((review,index) => (
                             <Review
+                                index={index+1}
                                 key={review._id}
                                 review={review}
                                 printFrom={"userProfile"}

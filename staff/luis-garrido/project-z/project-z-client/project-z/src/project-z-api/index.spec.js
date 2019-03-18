@@ -27,7 +27,6 @@ const {
 const {
     env: { TEST_DB_URL }
 } = process;
-// console.log(TEST_DB_URL)
 
 describe("project z api", () => {
     beforeAll(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }));

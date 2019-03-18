@@ -1,7 +1,7 @@
 "use strict";
 
 const {
-    models: { User, Game, Boxart, Review }
+    models: { User, Game, Boxart, Review, Platform }
 } = require("project-z-data");
 const bcrypt = require("bcrypt");
 const {
@@ -223,9 +223,13 @@ const logic = {
                     const cover = await Boxart.find({ id_game: oneGame.id })
                         .select("-_id -__v")
                         .lean();
-                    oneGame.boxartUrl = cover[0].images.find(
-                        image => image.side === "front"
-                    ).filename;
+                    if (cover.length === 0) {
+                        oneGame.boxartUrl = false;
+                    } else {
+                        oneGame.boxartUrl = cover[0].images.find(
+                            image => image.side === "front"
+                        ).filename;
+                    }
 
                     if (oneGame.scores !== undefined) {
                         oneGame.finalScore =
@@ -304,17 +308,19 @@ const logic = {
      * @returns {object} reviewAdded
      */
     postReview(userId, gameId, review) {
-        let { text, score } = review;
-
+        let { title, text, score } = review;
+        console.log(title);
         validate([
             { key: "userId", value: userId, type: String },
             { key: "gameId", value: gameId, type: String },
             { key: "review", value: review, type: Object },
             { key: "text", value: text, type: String, optional: true },
+            { key: "title", value: title, type: String, optional: true },
             { key: "score", value: score, type: Number }
         ]);
 
         if (text === "no text") text = "";
+        if (title === "no text") title = "";
 
         if (score < 0 || score > 5)
             throw Error("score must be between 0 and 5");
@@ -351,13 +357,26 @@ const logic = {
             )
                 throw new DuplicateError(`user reviewed this game before`);
 
+            let boxart = await Boxart.find({ id_game: gameId })
+                .select("-_id -__v")
+                .lean();
+
+            if (boxart.length === 0) {
+                boxart = false;
+            } else {
+                boxart = boxart[0].images.find(image => image.side === "front")
+                    .filename;
+            }
+
             gameId = isGame._id;
 
             const postedReview = await Review.create({
                 text,
                 score,
+                title,
                 author: userId,
-                game: gameId
+                game: gameId,
+                boxart
             });
 
             let linkReviewToGame = await Game.findById({ _id: gameId });
@@ -397,10 +416,10 @@ const logic = {
      * @returns {object} games
      *
      */
-    rankingGames() {
+    rankingGames(limit) {
         return Game.find()
             .sort("-finalScore")
-            .limit(10)
+            .limit(Number(limit))
             .select("-_id -__v")
             .lean()
             .then(games => {
@@ -411,12 +430,29 @@ const logic = {
             })
             .then(async gameInfo => {
                 const gameInfoMap = gameInfo.map(async oneGame => {
+                    const platformName = await Platform.find({
+                        id: oneGame.platform
+                    })
+                        .select("name")
+                        .lean();
+                    oneGame.platformName = platformName[0].name;
+                    return oneGame;
+                });
+                gameInfo = await Promise.all(gameInfoMap);
+                return gameInfo;
+            })
+            .then(async gameInfo => {
+                const gameInfoMap = gameInfo.map(async oneGame => {
                     const cover = await Boxart.find({ id_game: oneGame.id })
                         .select("-_id -__v")
                         .lean();
-                    oneGame.boxartUrl = cover[0].images.find(
-                        image => image.side === "front"
-                    ).filename;
+                    if (cover.length === 0) {
+                        oneGame.boxartUrl = false;
+                    } else {
+                        oneGame.boxartUrl = cover[0].images.find(
+                            image => image.side === "front"
+                        ).filename;
+                    }
 
                     if (oneGame.scores !== undefined) {
                         oneGame.finalScore =
@@ -443,7 +479,7 @@ const logic = {
     },
 
     retrieveAllUsers() {
-        return User.find().populate('reviews')
+        return User.find().populate("reviews");
     },
 
     retrieveEuclideanDistance(userReviews, otherUserReviews) {
@@ -453,8 +489,8 @@ const logic = {
         ]);
 
         let euclideanDistances = [];
-        let sumSquares = 0
-        let noGamesCoincidence = true
+        let sumSquares = 0;
+        let noGamesCoincidence = true;
 
         userReviews.forEach(userReview => {
             otherUserReviews.find(otherUserReview => {
@@ -462,15 +498,15 @@ const logic = {
                     otherUserReview.game._id.toString() ===
                     userReview.game.toString()
                 ) {
-                    noGamesCoincidence = false
+                    noGamesCoincidence = false;
                     let distance = Math.abs(
                         userReview.score - otherUserReview.score
-                    )
+                    );
                     euclideanDistances.push({
                         game: userReview.game,
                         distance
                     });
-                    sumSquares += distance * distance
+                    sumSquares += distance * distance;
                 }
                 return (
                     otherUserReview.game._id.toString() ===
@@ -480,19 +516,22 @@ const logic = {
         });
 
         console.log(euclideanDistances);
-        console.log('sumSquares : '+sumSquares)
+        console.log("sumSquares : " + sumSquares);
 
-        const euclideanDistance = Math.sqrt(sumSquares)
+        const euclideanDistance = Math.sqrt(sumSquares);
 
-        console.log('euclidean distance : '+euclideanDistance)
+        console.log("euclidean distance : " + euclideanDistance);
 
-        let euclideanSimilarity = 1 / ( 1 + euclideanDistance)
+        let euclideanSimilarity = 1 / (1 + euclideanDistance);
 
-        if (noGamesCoincidence) euclideanSimilarity++
+        if (noGamesCoincidence) euclideanSimilarity++;
 
-        console.log('euclidean similarity : ', euclideanSimilarity)
+        console.log("euclidean similarity : ", euclideanSimilarity);
 
-        return { euclideanSimilarity, userComparing: otherUserReviews[0].author };
+        return {
+            euclideanSimilarity,
+            userComparing: otherUserReviews[0].author
+        };
     },
 
     retrievePredictedScore(userId, gameId, body) {
@@ -573,7 +612,7 @@ const logic = {
                     }
                 });
 
-                console.log(reviews[0]);
+                // console.log(reviews[0]);
                 // console.log("Training IA : ", dataToTrain);
                 // console.log("Likes : ", likeGames);
                 // console.log("Dislikes : ", dislikeGames);

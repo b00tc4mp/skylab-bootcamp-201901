@@ -6,7 +6,10 @@ import logic from "../../logic";
 import Review from "../Review";
 import WriteReview from "../WriteReview";
 
-const { REACT_APP_THUMB: gameCover } = process.env;
+const {
+    REACT_APP_THUMB: gameCover,
+    REACT_APP_NOT_FOUND_IMAGE_URL: NOT_FOUND_IMAGE_URL
+} = process.env;
 
 const GameProfile = ({
     match: {
@@ -35,15 +38,26 @@ const GameProfile = ({
         <Fragment>
             <div className="landing-page">
                 <div className="header">
-                    <h1 className="header__title">GAME PROFILE</h1>
+                    {gameInfo ? (
+                        <h1 className="header__title">{gameInfo.game_title}</h1>
+                    ) : (
+                        <h1 className="header__title">GAME PROFILE</h1>
+                    )}
                 </div>
                 {gameInfo && (
                     <div className="results">
-                        <img
-                            src={`${gameCover}${gameInfo.boxartUrl}`}
-                            alt={gameInfo.game_title}
-                        />
-                        <h2>title: {gameInfo.game_title}</h2>
+                        {gameInfo.boxartUrl ? (
+                            <img
+                                className="results__image"
+                                src={`${gameCover}${gameInfo.boxartUrl}`}
+                                alt={gameInfo.game_title}
+                            />
+                        ) : (
+                            <img
+                                src={NOT_FOUND_IMAGE_URL}
+                                alt={gameInfo.game_title}
+                            />
+                        )}
                         <p>overview: {gameInfo.overview}</p>
                         <h2>
                             finalScore:{" "}
@@ -59,10 +73,12 @@ const GameProfile = ({
                         <p>platform: {gameInfo.platform}</p>
                         <p>players: {gameInfo.players}</p>
                         <p>publishers: {gameInfo.publishers}</p>
-                        
+
                         {logic.isUserLoggedIn ? (
                             gameInfo.reviews.some(
-                                review => (review.author !== null && review.author.username === username)
+                                review =>
+                                    review.author !== null &&
+                                    review.author.username === username
                             ) ? (
                                 <div />
                             ) : (
@@ -86,13 +102,16 @@ const GameProfile = ({
                         {gameInfo.reviews && !!gameInfo.reviews.length && (
                             <div>
                                 <h2>Reviews</h2>
-                                {gameInfo.reviews.reverse().map(review => (
-                                    <Review
-                                        key={review._id}
-                                        review={review}
-                                        printFrom={"gameProfile"}
-                                    />
-                                ))}
+                                {gameInfo.reviews
+                                    .reverse()
+                                    .map((review, index) => (
+                                        <Review
+                                            index={index + 1}
+                                            key={review._id}
+                                            review={review}
+                                            printFrom={"gameProfile"}
+                                        />
+                                    ))}
                             </div>
                         )}
                     </div>

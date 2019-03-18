@@ -4,9 +4,12 @@ import "./index.sass";
 
 import logic from "../../logic";
 
-const { REACT_APP_THUMB: gameCover } = process.env;
+const {
+    REACT_APP_THUMB: gameCover,
+    REACT_APP_NOT_FOUND_IMAGE_URL: notFoundImage
+} = process.env;
 
-const Review = ({ review, printFrom }) => {
+const Review = ({ index, history, review, printFrom }) => {
     const [y, setY] = useState("");
     const [m, setM] = useState("");
     const [d, setD] = useState("");
@@ -46,26 +49,50 @@ const Review = ({ review, printFrom }) => {
         }
         return stars;
     };
+    console.log(review)
+
+    const reviewClass = index % 2 === 0 
+        ? "review-card review-card--background-even"
+        : "review-card"
+
+        // onClick={() => history.push(`/game/${review.game.id}`)}
 
     return (
-        <article>
+        <article className={reviewClass} >
             <div>
                 {review.author !== null ? (
-                    review.author.username !== undefined ? (
-                        <p>
-                            {" "}
-                            Author:{" "}
-                            <Link to={`/${review.author.username}`}>
-                                {review.author.username}
-                            </Link>
-                        </p>
+                    printFrom === "gameProfile" ? (
+                        <div>
+                            <img
+                                className="avatar-review"
+                                src={`https://api.adorable.io/avatars/285/${
+                                    review.author.username
+                                }.png`}
+                                alt="default avatar"
+                            />
+                            <p>
+                                {" "}
+                                Author:{" "}
+                                <Link to={`/${review.author.username}`}>
+                                    {review.author.username}
+                                </Link>
+                            </p>
+                        </div>
                     ) : (
                         ""
                     )
                 ) : (
-                    <p> Author: Anonymous</p>
+                    <div>
+                        <img
+                            className="avatar-review"
+                            src={`https://api.adorable.io/avatars/285/anonymous.png`}
+                            alt="default avatar"
+                        />
+                        <p> Author: Anonymous</p>
+                    </div>
                 )}
-                {review.game.game_title && (
+
+                {printFrom === "userProfile" && (
                     <p>
                         Title:{" "}
                         <Link to={`/game/${review.game.id}`}>
@@ -75,9 +102,21 @@ const Review = ({ review, printFrom }) => {
                 )}
                 <p>Date: {`${y} / ${m} / ${d} - ${h}:${min}:${s}`}</p>
                 <p>Score: {starScores(review.score)}</p>
+                {review.boxart ? (
+                    <img
+                        className="review-card__image"
+                        src={`${gameCover}${review.boxart}`}
+                        alt={review.game.game_title}
+                    />
+                ) : (
+                    <img
+                        className="review-card__image"
+                        src={notFoundImage}
+                        alt={review.game.game_title}
+                    />
+                )}
+                {review.title && <p>Title: {review.title}</p>}
                 {review.text && <p>Text: {review.text}</p>}
-                <p>{printFrom}</p>
-                <p>------------------</p>
             </div>
         </article>
     );
