@@ -8,6 +8,11 @@ const { cloudName, apiKey, apiSecret } = require('../../../config/vars');
  */
 module.exports = {
 	listQuizzes(data = {}) {
+		const { offset } = data;
+
+		validate([
+			{ key: 'Offset', value: offset, type: Number, optional: true },
+		]);
 		return (async () => {
 			const quizzes = await Quiz.list(data);
 			const transformedQuiz = quizzes.map(quiz => quiz.normalize());
@@ -16,7 +21,6 @@ module.exports = {
 	},
 
 	listQuizzesByAuthor(data) {
-
 		const { authorID } = data;
 
 		if(!authorID) throw new UnauthorizedError('Access is denied due to invalid credentials.')
@@ -33,6 +37,13 @@ module.exports = {
 	},
 
 	searchQuizzesByQuery(data) {
+		const { query, offset } = data;
+
+		validate([
+			{ key: 'Query', value: query, type: String, optional: true },
+			{ key: 'Offset', value: offset, type: Number, optional: true },
+		]);
+
 		return (async () => {
 			const quizzes = await Quiz.search(data);
 			const transformedQuiz = quizzes.map(quiz => quiz.normalize());
@@ -77,6 +88,7 @@ module.exports = {
 	},
 
 	addGame(quiz) {
+		if(!quiz) throw Error('The quiz has not been declared');
 		this.updateQuiz(quiz, { games: quiz.games + 1 });
 	},
 };

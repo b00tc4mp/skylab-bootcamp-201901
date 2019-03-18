@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
+import requireAuth from '../middlewares/requireAuth';
 import gameService from '../../services/game';
 import authService from '../../services/auth';
 
@@ -44,7 +45,7 @@ function Game(props) {
 
 	useEffect(() => {
 		getGameByID(gameID);
-	}, []);
+	}, [gameId]);
 
 	useEffect(() => {
 		gameService.onPlayerJoinedRoom(() => {
@@ -60,9 +61,13 @@ function Game(props) {
 				throw Error(
 					'This quiz has been set to private. Ask the creator to share it with you to play',
 				);
-			}
+			} 
+			
+			gameService.onReconect(gameID);
+			
 
-			if (game.start) {
+			if (game.end) {
+				props.history.replace(`/`);
 			}
 
 			const _currentQuestionIndex = game.quiz.questions.findIndex(
@@ -88,7 +93,6 @@ function Game(props) {
 	};
 
 	const nextQuestion = async () => {
-		console.log('NEXT!');
 		try {
 			const game = await gameService.nextQuestion(gameID);
 
@@ -113,8 +117,6 @@ function Game(props) {
 	const gameOver = async () => {
 		console.log('GAMEOVER!');
 		try {
-			const game = await gameService.gameOver(gameID);
-
 			props.history.replace(`/game/${gameId}/game-over`);
 		} catch (error) {
 			console.log(error);
@@ -131,7 +133,7 @@ function Game(props) {
 				players,
 				totalQuestions,
 				currentQuestion,
-				hostGame
+				hostGame,
 			}}
 		>
 			{game && currentQuestion && (
@@ -155,7 +157,12 @@ function Game(props) {
 						<Route
 							exact
 							path={`${match.url}/gameblock`}
-							render={() => <GameBlock nextQuestion={nextQuestion} gameOver={gameOver} />}
+							render={() => (
+								<GameBlock
+									nextQuestion={nextQuestion}
+									gameOver={gameOver}
+								/>
+							)}
 						/>
 						<Route
 							exact
@@ -169,4 +176,4 @@ function Game(props) {
 	);
 }
 
-export default withRouter(Game);
+export default withRouter(requireAuth(Game));

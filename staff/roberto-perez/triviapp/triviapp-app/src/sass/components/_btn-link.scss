@@ -54,6 +54,9 @@
 
 .btn-return {
 	color: #fff;
+	background: transparent;
+	border: 0;
+	cursor: pointer;
 	&:hover {
 		color: #fff;
 		text-decoration: underline

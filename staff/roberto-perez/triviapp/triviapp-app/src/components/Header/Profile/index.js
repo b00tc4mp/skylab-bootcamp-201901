@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -28,24 +28,31 @@ function Profile(props) {
 		setisHidden(!isHidden);
 	};
 
+	const logOut = Event => {
+		Event.preventDefault();
+
+		auth.logOutUser();
+
+		props.history.push('/');
+	};
+
 	return (
 		<div className="header__profile">
-			<Link
-				to="/pin"
-				title="Settings"
-				className="btn__link header__btn-create black"
-			>
-				<FontAwesomeIcon icon="gamepad" className="btn__link-icon" /> Join game
-			</Link>
-
-
 			<div className="user-profile user-profile--open" ref={wrapperRef}>
 				<button className="user-profile__button" onClick={toggleHidden}>
-					<img
-						src="https://lh3.googleusercontent.com/-0kr9v-5o9RM/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcc3TZ7vPev4bzJ8FioZBz6Qs7Rpw/s64-c-mo/photo.jpg"
-						className="user-profile__image"
-						alt=""
-					/>
+					{currentUser.picture ? (
+						<img
+							src={currentUser.picture}
+							className="user-profile__image"
+							alt=""
+						/>
+					) : (
+						<img
+							src="https://lh3.googleusercontent.com/-0kr9v-5o9RM/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcc3TZ7vPev4bzJ8FioZBz6Qs7Rpw/s64-c-mo/photo.jpg"
+							className="user-profile__image"
+							alt=""
+						/>
+					)}
 				</button>
 
 				{!isHidden && (
@@ -79,14 +86,14 @@ function Profile(props) {
 								<FontAwesomeIcon icon="user-circle" /> Profile
 							</Link>
 
-							<Link
-								to="/logout"
+							<a
+								href="/"
 								title="Log out"
 								className="user-dropdown__list-item"
-								onClick={toggleHidden}
+								onClick={logOut}
 							>
 								<FontAwesomeIcon icon="sign-out-alt" /> Log out
-							</Link>
+							</a>
 						</div>
 					</div>
 				)}
@@ -95,4 +102,4 @@ function Profile(props) {
 	);
 }
 
-export default Profile;
+export default withRouter(Profile);

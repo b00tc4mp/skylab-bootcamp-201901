@@ -23,12 +23,24 @@ function GameOver(props) {
 			const p = Object.keys(gamePodium).map(pod => {
 				return { user: gamePodium[pod].user, score: gamePodium[pod].score };
 			});
-
+			p.sort((a, b) => {
+				return b.score - a.score;
+			})
+			
 			setPodium(p);
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
+	const leaveGame = async () => {
+		try {
+			await gameService.leaveGame(gameID);
+			props.history.replace(`/`);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	return (
 		<Fragment>
@@ -37,9 +49,9 @@ function GameOver(props) {
 			</header>
 			<div className="end-game-results">
 				<div className="current-quiz__answers">
-					<Link to="/" className="start-button">
+					<button className="start-button" onClick={leaveGame}>
 						Return
-					</Link>
+					</button>
 				</div>
 
 				<div className="scoreboard-podiums">

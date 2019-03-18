@@ -18,7 +18,7 @@ function GameBlock(props) {
 		currentQuestion,
 		totalQuestions,
 		currentQuestionIndex,
-		hostGame
+		hostGame,
 	} = useContext(GameContext);
 
 	let countDownTimeout;
@@ -31,36 +31,24 @@ function GameBlock(props) {
 
 	const colors = ['red', 'blue', 'yellow', 'green'];
 
-	useEffect(() => {
-		countDown();
-
-		return () => {
-			clearTimeout(countDownTimeout);
-		};
-	}, [count]);
-
-	useEffect(() => {
-		gameService.showQuestionToPlayer(gameID);
-
-		return () => {
-			clearTimeout(countDownTimeout);
-		};
-	}, []);
-
-	const countDown = async () => {
+	const startTimer = async () => {
 		if (count === 0) {
 			showResultsScreen();
 			await gameService.showTimeOutScreen(gameID);
 			return;
+		} else {
+			countDownTimeout = setTimeout(() => {
+				setCount(count - 1);
+			}, 1000);
 		}
+	};
 
-		countDownTimeout = setTimeout(() => {
-			setCount(count - 1);
-		}, 1000);
+	const stopTimer = () => {
+		clearTimeout(countDownTimeout);
 	};
 
 	const showResultsScreen = async () => {
-		clearTimeout(countDownTimeout);
+		setCount(0);
 
 		const _results = await gameService.showQuestionsResults(
 			gameID,
@@ -71,6 +59,22 @@ function GameBlock(props) {
 
 		setShowResults(true);
 	};
+
+	useEffect(() => {
+		startTimer();
+
+		return () => {
+			stopTimer();
+		};
+	}, [count]);
+
+	useEffect(() => {
+		gameService.showQuestionToPlayer(gameID);
+
+		return () => {
+			stopTimer();
+		};
+	}, []);
 
 	return (
 		<Fragment>
@@ -89,6 +93,7 @@ function GameBlock(props) {
 								currentQuestionIndex={currentQuestionIndex}
 								totalQuestions={totalQuestions}
 								results={results}
+								gameID={gameID}
 							/>
 						) : (
 							<CurrentQuestion

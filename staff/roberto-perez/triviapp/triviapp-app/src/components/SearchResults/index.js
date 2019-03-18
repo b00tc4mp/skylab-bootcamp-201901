@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 
 import quiz from '../../services/quiz';
 import Results from '../Results';
+import JoinGameButton from '../JoinGameButton';
 
 function SearchResults(props) {
 	
@@ -50,6 +51,7 @@ function SearchResults(props) {
 
 	return (
 		<div className="container">
+			<JoinGameButton />
 			<Results quizzes={quizzes} loadMoreButton={loadMoreButton} loadMore={loadMore} />
 		</div>
 	);

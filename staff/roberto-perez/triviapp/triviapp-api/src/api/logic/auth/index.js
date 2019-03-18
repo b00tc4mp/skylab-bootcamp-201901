@@ -44,10 +44,54 @@ module.exports = {
 		]);
 
 		return (async data => {
-			debugger
 			const { user, token } = await User.findAndGenerateToken(data);
 			const userTransformed = user.normalize();
 			return { token, user: userTransformed };
 		})(data);
+	},
+
+	retrieveUser(userId) {
+		return (async () => {
+			const user = await User.get(userId);
+			return user.normalize();
+		})();
+	},
+
+	updateUser(userId, data = {}) {
+		const { name, surname, email, image, password, confirmPassword } = data;
+
+		if(image) {
+			data.picture = image;
+			delete data.image;
+		}
+
+		if (!password) {
+			delete data.password;
+			delete data.confirmPassword;
+		}
+		
+		validate([
+			{ key: 'Name', value: name, type: String, optional: true },
+			{ key: 'Surname', value: surname, type: String, optional: true },
+			{ key: 'Email', value: email, type: String, optional: true },
+			{ key: 'Image', value: image, type: String, optional: true },
+		]);
+
+		if (password) {
+			validate([
+				{ key: 'Password', value: password, type: String },
+				{ key: 'Confirm password', value: confirmPassword, type: String },
+			]);
+
+			if (password !== confirmPassword) throw Error('Passwords do not match');
+		}
+
+		return (async () => {
+			const user = await User.get(userId);
+			const userUpdated = Object.assign(user, data);
+			debugger
+			const savedUser = await userUpdated.save();
+			return savedUser.normalize();
+		})();
 	},
 };

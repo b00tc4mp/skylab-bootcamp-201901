@@ -6,8 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const colors = ['red', 'blue', 'yellow', 'green'];
 
 function Answer(props) {
-
-    const { answers, index } = props;
+	const { answers, index } = props;
 
 	return (
 		<li key={answers._id} className="question-detail__answers-item">
@@ -19,17 +18,19 @@ function Answer(props) {
 				/>
 				{answers.title}
 			</div>
-			<div
-				className={`question-detail__choice question-detail__choice--${
-					answers.success
-				}`}
-			>
-				{answers.success ? (
-					<FontAwesomeIcon icon="check" />
-				) : (
-					<FontAwesomeIcon icon="times" />
-				)}
-			</div>
+			{props.isOwner && (
+				<div
+					className={`question-detail__choice question-detail__choice--${
+						answers.success
+					}`}
+				>
+					{answers.success ? (
+						<FontAwesomeIcon icon="check" />
+					) : (
+						<FontAwesomeIcon icon="times" />
+					)}
+				</div>
+			)}
 		</li>
 	);
 }

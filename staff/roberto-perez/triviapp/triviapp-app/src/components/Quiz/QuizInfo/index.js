@@ -6,9 +6,8 @@ import PlayGame from '../../PlayGame';
 import auth from '../../../services/auth';
 
 function QuizInfo(props) {
-	console.log(props);
 	const {
-		quiz: { id, title, description, author, picture },
+		quiz: { id, title, description, author, picture, games, questions },
 	} = props;
 
 	return (
@@ -28,12 +27,6 @@ function QuizInfo(props) {
 						{auth.isUserLoggedIn && (
 							<div className="quiz-details-header__action-buttons-group">
 								<PlayGame id={id} />
-								{/* <button
-									className="btn__link btn__link--green green quiz-details-header__action-buttons-play"
-									disabled
-								>
-									Play
-								</button> */}
 							</div>
 						)}
 						<div className="quiz-details-header__action-buttons-group">
@@ -45,17 +38,13 @@ function QuizInfo(props) {
 
 					<div className="quiz-details-header__pescription">{description}</div>
 
-					<ul className="quiz-details-header__statistics">
-						<li>
-							<span className="strong">55</span> favorites
-						</li>
-						<li>
-							<span className="strong">15k</span> plays
-						</li>
-						<li>
-							<span className="strong">23.5k</span> players
-						</li>
-					</ul>
+					{questions && (
+						<div className="quiz__stats">
+							<span className="purple">{questions.length}Qs</span>
+							<span className="red">{games} play</span>
+						</div>
+					)}
+
 					{author && (
 						<footer className="quiz-footer">
 							by{' '}

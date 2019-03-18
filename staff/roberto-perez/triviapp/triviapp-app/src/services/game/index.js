@@ -34,6 +34,10 @@ const game = {
 		gameApi.onEvent('gameOver', cb);
 	},
 
+	onReconect(data) {
+		gameApi.emitReconect(data);
+	},
+
 	async create(quizId) {
 		try {
 			const game = await gameApi.createGame(quizId);
@@ -61,6 +65,15 @@ const game = {
 			const game = await gameApi.joinGame(gameCode);
 
 			return game;
+		} catch (error) {
+			throw Error(error.message);
+		}
+	},
+
+	async leaveGame(gameID) {
+		try {
+			await gameApi.leaveGame(gameID);
+			return true;
 		} catch (error) {
 			throw Error(error.message);
 		}

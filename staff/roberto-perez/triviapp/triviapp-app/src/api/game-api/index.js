@@ -11,8 +11,19 @@ const gameApi = {
 		this.socket.on(event, cb);
 	},
 
+	emitReconect(data) {
+		console.log("RECONECT")
+		this.socket.emit('NEW_GAME', `game-${data}`);
+	},
+
 	emitCreateGame(data) {
+		console.log("CREATE")
+		console.log(this.socket)
 		this.socket.emit('NEW_GAME', data);
+	},
+
+	emitLeaveGame(data) {
+		this.socket.emit('LEAVE_GAME', data);
 	},
 
 	createGame(quizId) {
@@ -129,6 +140,10 @@ const gameApi = {
 				if (response.error) throw Error(response.error);
 				return response;
 			});
+	},
+
+	leaveGame(gameID) {
+		this.emitLeaveGame(`game-${gameID}`);
 	},
 
 	gameOver(gameID) {

@@ -25,6 +25,7 @@ exports.connect = async (uri) => {
 		await mongoose.connect(mongo.uri, {
 			useNewUrlParser: true,
 			useCreateIndex: true,
+			useFindAndModify: false
 		});
 	} catch (error) {
 		console.error(error);

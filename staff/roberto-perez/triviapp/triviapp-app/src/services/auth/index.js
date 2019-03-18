@@ -36,9 +36,9 @@ const auth = {
 
 		try {
 			const { token, user } = await userApi.login(data);
-			
+
 			const xtorage = new Xtorage(this.storage);
-			
+
 			xtorage.set('token', token);
 			xtorage.set('user', user);
 			// this.__userApiToken__ = token;
@@ -46,6 +46,38 @@ const auth = {
 		} catch (error) {
 			throw Error(error.message);
 		}
+	},
+
+	async retrieveUser() {
+		return userApi.retrieveUser();
+	},
+
+	async updateUser(data) {
+		const { name, surname, email, image, password, confirmPassword } = data;
+
+		validate([
+			{ key: 'name', value: name, type: String },
+			{ key: 'surname', value: surname, type: String },
+			{ key: 'email', value: email, type: String },
+			{ key: 'Image', value: image, type: String, optional: true },
+		]);
+
+		if (password) {
+			validate([
+				{ key: 'password', value: password, type: String },
+				{ key: 'Confirm password', value: confirmPassword, type: String },
+			]);
+
+			if (password !== confirmPassword) throw Error('Passwords do not match');
+		}
+
+		const user = await userApi.updateUser(data);
+
+		const xtorage = new Xtorage(this.storage);
+
+		xtorage.set('user', user);
+
+		return user;
 	},
 
 	/**

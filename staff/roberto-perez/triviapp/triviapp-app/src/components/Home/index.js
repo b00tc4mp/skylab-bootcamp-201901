@@ -19,17 +19,21 @@ import NotFound from '../NotFound';
 function Home(props) {
 	const searchRef = useRef(null);
 	const wrapperRef = useRef(null);
+	const asideRef = useRef(null);
+	const mainRef = useRef(null);
 
 	useEffect(() => {
-		wrapperRef.current.addEventListener('click', hideSearch, false);
+		wrapperRef.current.addEventListener('click', hideAll, false);
 		return () => {
-			wrapperRef.current.removeEventListener('click', hideSearch, false);
+			wrapperRef.current.removeEventListener('click', hideAll, false);
 		};
 	}, []);
 
-	const hideSearch = Event => {
+	const hideAll = Event => {
 		wrapperRef.current.classList.remove('wrapper--show');
 		searchRef.current.classList.remove('search__content--open');
+		asideRef.current.classList.remove('sidebar--show');
+		mainRef.current.classList.remove('main--hide');
 		searchRef.current.children[0].value = '';
 	};
 
@@ -38,18 +42,32 @@ function Home(props) {
 		searchRef.current.classList.add('search__content--open');
 	};
 
+
+	const showMenu = () => {
+		wrapperRef.current.classList.add('wrapper--show');
+		asideRef.current.classList.add('sidebar--show');
+		mainRef.current.classList.add('main--hide');
+	};
+
+	
+
 	return (
 		<Fragment>
-			
-			<SearchForm searchRef={searchRef} hideSearch={hideSearch} />
+			<SearchForm searchRef={searchRef} hideSearch={hideAll} />
 
 			<div className="wrapper" ref={wrapperRef}>
-				<Aside>
-					<Menu />
-				</Aside>
 
-				<main className="main">
-					<Header showSearch={showSearch} />
+				<aside className="sidebar" ref={asideRef}>
+					<div className="sidebar__scrolling-content">
+						<div className="sidebar__scrolling-content-scroll">
+							<Menu />
+						</div>
+					</div>
+				</aside>
+
+				<main className="main" ref={mainRef}>
+					<Header showSearch={showSearch}  showMenu={showMenu} wrapperRef={wrapperRef} asideRef={asideRef} />
+
 					<div className="content">
 						<Switch>
 							<Route exact path="/signup" component={Signup} />

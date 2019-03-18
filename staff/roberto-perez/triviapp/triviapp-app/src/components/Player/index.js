@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
 import gameService from '../../services/game';
+import authService from '../../services/auth';
 
 import PlayerContext from './PlayerContext';
 
@@ -55,9 +56,26 @@ function Player(props) {
 	}, []);
 
 	useEffect(() => {
-		console.log("xdddd")
-	}, [gameId]);
+		getGameByID();
+	}, [gameID]);
 	
+
+	const getGameByID = async () => {
+		try {
+			const game = await gameService.getGameByID(gameID);
+
+			const userIsPlayer = game.users.some(_user => _user._id === authService.userLoggedIn.id)
+
+			if(userIsPlayer && !game.end) {
+				gameService.onReconect(gameID);
+			} else {
+				props.history.replace(`/`);
+			}
+
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<PlayerContext.Provider

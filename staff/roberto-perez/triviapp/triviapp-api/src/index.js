@@ -13,15 +13,24 @@ const server = app.listen(port, () =>
 const io = require('socket.io')(server);
 
 io.sockets.on('connection', socket => {
-	console.log(`Socket ${socket.id} connected.`);
+	// console.log(`Socket ${socket.id} connected.`);
 
 	socket.on('disconnect', () => {
-		console.log(`Socket ${socket.id} disconnected.`);
+		// console.log(`Socket ${socket.id} disconnected.`);
+		// console.log(io.sockets.adapter.rooms)
 	});
 
 	socket.on('NEW_GAME', room => {
+		// console.log(io.sockets.adapter.rooms)
+		console.log(socket.rooms)
+		console.log(room)
 		console.log('joining room', room);
 		socket.join(room);
+	});
+
+	socket.on('LEAVE_GAME', room => {
+		console.log('Leaving room', room);
+		socket.leave(room);
 	});
 });
 

@@ -360,5 +360,106 @@ describe('Auth', () => {
 		});
 	});
 
+	describe('GET /v1/auth/user', () => {
+		let data = {};
+		let userSaved;
+		beforeEach(async () => {
+			data = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userAdd = new User(data);
+			const user = await userAdd.save();
+			userSaved = user;
+			return user;
+		});
+
+		it('should return a user', async () => {
+			const user = await auth.retrieveUser(userSaved._id);
+			
+			expect(user).toBeDefined();
+			expect(user.id).toBe(userSaved._id.toString());
+			expect(user.name).toBe(userSaved.name);
+			expect(user.surname).toBe(userSaved.surname);
+			expect(user.email).toBe(userSaved.email);
+		});
+
+		it('should fail when userID is not an ObjectId', async () => {
+			try {
+				await auth.retrieveUser('xxxxxxxxx');
+			} catch (err) {
+				expect(err.message).toEqual(
+					'Cast to ObjectId failed for value "xxxxxxxxx" at path "_id" for model "User"',
+				);
+			}
+		});
+	});
+
+
+	describe('POST /v1/auth/user', () => {
+		let data = {};
+		let userAdd;
+		beforeEach(async () => {
+			data = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+				image: 'image1',
+			};
+
+			const _user = new User(data);
+			const user = await _user.save();
+			userAdd = user;
+			return user;
+		});
+
+		it('should succeed on valid data', async () => {
+			let data = {
+				name: 'Enquesta numero 2',
+				surname: 'Lorem ipsum dolor is amet....',
+				email: 'robert-z@hotmail.es.',
+				image: 'image2',
+			};
+			
+			const currentUser = await User.get(userAdd._id);
+			
+			const userUpdated = await auth.updateUser(currentUser._id, data);
+			
+			expect(userUpdated.name).toBe(data.name);
+			expect(userUpdated.surname).toBe(data.surname);
+			expect(userUpdated.email).toBe(data.email);
+			// expect(userUpdated.picture).toBe(data.image);
+		});
+
+		it('should return the same User if we pass a empty object', async () => {
+			const currentUser = await User.get(userAdd._id);
+			const userUpdated = await auth.updateUser(currentUser._id, {});
+			expect(userUpdated.name).toBe(data.name);
+			expect(userUpdated.surname).toBe(data.surname);
+			expect(userUpdated.email).toBe(data.email);
+			// expect(userUpdated.picture).toBe(data.image);
+		});
+
+		it('should fail if password not match', async () => {
+			let data = {
+				password: 'xxxxxx',
+				confirmPassword: 'aaaaaaaaa',
+			};
+
+			try {
+				const currentUser = await User.get(userAdd._id);
+				await auth.updateUser(currentUser._id, data);
+			} catch (err) {
+				expect(err.message).toEqual(
+					'Passwords do not match',
+				);
+			}
+		});
+	});
+
 	after(() => Promise.all([User.deleteMany()]).then(() => mongoose.disconnect()));
 });

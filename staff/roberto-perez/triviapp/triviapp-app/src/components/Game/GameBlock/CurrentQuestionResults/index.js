@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import gameService from '../../../../services/game';
 
 function CurrentQuestionResults(props) {
-	console.log(props)
+	console.log(props);
 	// const nextQuestion = async () => {
 	// 	try {
 	// 		const game = await gameService.nextQuestion();
@@ -16,6 +16,13 @@ function CurrentQuestionResults(props) {
 	// 	}
 	// }
 
+	useEffect(() => {
+		if (props.currentQuestionIndex + 1 >= props.totalQuestions) {
+			gameService.gameOver(props.gameID);
+		}
+	}, []);
+	console.log(props.results);
+
 	const colors = ['red', 'blue', 'yellow', 'green'];
 
 	return (
@@ -24,23 +31,27 @@ function CurrentQuestionResults(props) {
 			<div className="current-quiz__statistic-results">
 				{props.results &&
 					props.results.map((result, index) => {
-						return (
-							<div key={index} className="answers-histogram">
-								<div
-									className={`answers-histogram__choice answers-histogram__choice--${
-										colors[index]
-									}`}
-								>
-									{result.total}
-									{result.answer.success && <FontAwesomeIcon icon="check" />}
+						if (result.answer.title !== '') {
+							return (
+								<div key={index} className="answers-histogram">
 									<div
-										className={`answers-histogram__bar answers-histogram__bar--${
-											result.percent
+										className={`answers-histogram__choice answers-histogram__choice--${
+											colors[index]
 										}`}
-									/>
+									>
+										{result.total}
+										{result.answer.success && (
+											<FontAwesomeIcon icon="check" />
+										)}
+										<div
+											className={`answers-histogram__bar answers-histogram__bar--${
+												result.percent
+											}`}
+										/>
+									</div>
 								</div>
-							</div>
-						);
+							);
+						}
 					})}
 			</div>
 

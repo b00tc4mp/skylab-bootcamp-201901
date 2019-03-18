@@ -211,7 +211,7 @@ describe('Quiz', () => {
 		});
 	});
 
-	describe('GET /v1/quiz', () => {
+	describe('GET /v1/quiz/page/:offset', () => {
 		let dataUser = {};
 		let dataQuiz = {};
 		let author;
@@ -268,7 +268,7 @@ describe('Quiz', () => {
 		});
 	});
 
-	describe('POST /v1/quiz/page/:offset', () => {
+	describe('GET /v1/quiz/page/:offset/author', () => {
 		let dataUser = {};
 		let dataUserNoAuthor = {};
 		let dataQuiz = {};
@@ -339,7 +339,6 @@ describe('Quiz', () => {
 		});
 
 		it('should be list 0 quizzes when author is empty', async () => {
-
 			try {
 				const listOfQuizz = await quiz.listQuizzesByAuthor({
 					page: 1,
@@ -350,6 +349,66 @@ describe('Quiz', () => {
 					`Access is denied due to invalid credentials.`,
 				);
 			}
+		});
+	});
+
+	describe('POST /v1/quiz/page/:offset', () => {
+		let dataUser = {};
+		let dataQuiz = {};
+		let author;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			for (let i = 0; i < 6; i++) {
+				dataQuiz = {
+					author: author.id,
+					title: `Quiz title-${Math.random()}`,
+					description: `Quiz description-${Math.random()}`,
+					picture: `Quiz image-${Math.random()}`,
+					questions: [],
+				};
+
+				const { id } = await quiz.createQuiz(dataQuiz);
+
+				let dataQuestion = {
+					quiz: id.toString(),
+					title: `Question - ${Math.random()}`,
+					time: '15',
+					answers: [
+						{ title: 'Answer 1', success: true },
+						{ title: 'Answer 2', success: false },
+						{ title: '', success: false },
+						{ title: '', success: false },
+					],
+				};
+
+				await logicQuestion.createQuestion(dataQuestion);
+			}
+		});
+
+		it('should be list 6 quizzes when the arguments are empties', async () => {
+			const query = {
+				query: 'Quiz'
+			}
+			const listOfQuizz = await quiz.searchQuizzesByQuery(query);
+
+			expect(listOfQuizz.length).toEqual(6);
+		});
+
+		it('should be list 2 quizzes when perPage arguments is 2', async () => {
+			const listOfQuizz = await quiz.searchQuizzesByQuery({ page: 1, perPage: 2, query: 'Quiz' });
+
+			expect(listOfQuizz.length).toEqual(2);
 		});
 	});
 

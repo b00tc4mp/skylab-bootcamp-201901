@@ -26,6 +26,17 @@
     }
   }
 
+  &__content-left {
+    display: flex;
+    justify-content: flex-end;
+    // flex-direction: row-reverse;
+    flex: 1;
+
+    @include respond-above(xs) {
+      display: none;
+    }
+  }
+
   &__search {
     width: 65px;
     height: 70px;

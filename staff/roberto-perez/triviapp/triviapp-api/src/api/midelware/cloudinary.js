@@ -16,7 +16,7 @@ function cloudinaryUploader(req, res, next) {
 	const path = req.file.path;
 
 	try {
-		cloudinary.uploader.upload(path, { width: 800, height: 800, gravity: "east", crop: "fill" }, function(err, image) {
+		cloudinary.uploader.upload(path, { width: 800, height: 800, crop: "fill" }, function(err, image) {
 			if (err) return req.send(err);
 			console.log('file uploaded to Cloudinary');
 			// remove file from server

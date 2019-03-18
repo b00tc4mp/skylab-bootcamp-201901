@@ -38,7 +38,7 @@ function Pin(props) {
 										name="gamepin"
 										id="game-pin"
 										disabled={!authService.isUserLoggedIn}
-										onChange={Event => setCode(Event.target.value)}
+										onChange={Event => setCode(Number(Event.target.value))}
 									/>
 								</p>
 								<button

@@ -10,14 +10,16 @@ import Profile from './Profile';
 function Header(props) {
 	return (
 		<header className="header">
-			<div className="header__content-left">
-				<div className="header__menu">
-					<div className="nav-bars">
-						<span className="nav-bars__bar" />
+			{auth.isUserLoggedIn || (
+				<div className="header__content-left">
+					<div className="header__menu" onClick={props.showMenu}>
+						<div className="nav-bars">
+							<span className="nav-bars__bar" />
+						</div>
+						MENU
 					</div>
-					MENU
 				</div>
-			</div>
+			)}
 			<div className="header__content-right">
 				<div className="header__search">
 					<button
@@ -27,8 +29,8 @@ function Header(props) {
 						<FontAwesomeIcon icon="search" />
 					</button>
 				</div>
-				<div className="header__logo">
-					<h1 className="header__logo-title">
+				<div className={`header__logo ${(auth.isUserLoggedIn) ? '' : 'header__logo--no-logedin'}`}>
+					<h1 className={`header__logo-title ${(auth.isUserLoggedIn) ? '' : 'header__logo-title--no-logedin'}`}>
 						<Link to="/" title="TriviAPP">
 							TRIVI<span>APP</span>
 						</Link>

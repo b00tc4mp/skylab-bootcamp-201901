@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // import LandingResults from '../LandingResults';
 import Results from '../Results';
+import JoinGameButton from '../JoinGameButton';
 import quiz from '../../services/quiz';
 
 function Landing() {
@@ -19,7 +21,6 @@ function Landing() {
 	};
 
 	const handleListQuiz = async () => {
-		
 		try {
 			const newQuizzes = await quiz.list(offset);
 
@@ -33,6 +34,9 @@ function Landing() {
 
 	return (
 		<div className="container">
+			
+			<JoinGameButton />
+
 			<section>
 				<header className="header-section">
 					<h2 className="header-section__title">
@@ -41,7 +45,11 @@ function Landing() {
 					</h2>
 				</header>
 
-				<Results quizzes={quizzes} loadMoreButton={loadMoreButton} loadMore={loadMore} />
+				<Results
+					quizzes={quizzes}
+					loadMoreButton={loadMoreButton}
+					loadMore={loadMore}
+				/>
 			</section>
 		</div>
 	);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
-
+import authService from '../../services/auth';
 import quiz from '../../services/quiz';
 import Answer from './Answer';
 import QuizInfo from './QuizInfo';
@@ -8,6 +8,7 @@ import QuizInfo from './QuizInfo';
 function Quiz(props) {
 	const [currentQuiz, setCurrentQuiz] = useState('');
 	const [questions, setQuestions] = useState([]);
+	const [isOwner, setIsOwner] = useState(false);
 
 	useEffect(() => {
 		const {
@@ -22,7 +23,13 @@ function Quiz(props) {
 	const getQuizById = async quizId => {
 		try {
 			const newQuiz = await quiz.get(quizId);
+
+			if(newQuiz.author._id === authService.userLoggedIn.id) {
+				setIsOwner(true)
+			}
+
 			setCurrentQuiz(newQuiz);
+			
 			setQuestions(newQuiz.questions);
 		} catch (error) {
 			console.error(error);
@@ -31,6 +38,7 @@ function Quiz(props) {
 
 	return (
 		<div className="container">
+
 			<section className="quiz-details">
 				
 				<QuizInfo quiz={currentQuiz} />
@@ -56,7 +64,7 @@ function Quiz(props) {
 										<ul className="question-detail__answers-list">
 											{question.answers.map((answers, indexAnswer) => {
 													if(answers.title !== '') {
-														return (<Answer key={answers._id} answers={answers} index={indexAnswer} />)
+														return (<Answer key={answers._id} isOwner={isOwner} answers={answers} index={indexAnswer} />)
 													}
 												},
 											)}

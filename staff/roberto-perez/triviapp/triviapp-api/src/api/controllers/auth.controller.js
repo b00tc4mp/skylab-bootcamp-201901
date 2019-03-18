@@ -32,3 +32,30 @@ exports.login = async (req, res, next) => {
 		handleResponseError(error, res);
 	}
 };
+
+/**
+ * Retrieve user
+ * @public
+ */
+exports.retrieve = async (req, res, next) => {
+	try {
+		debugger
+		const user = await auth.retrieveUser(req.userId);
+		return res.json(user);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};
+
+/**
+ * Update user
+ * @public
+ */
+exports.update = async (req, res, next) => {
+	try {
+		const user = await auth.updateUser(req.userId, req.body);
+		return res.json(user);
+	} catch (error) {
+		handleResponseError(error, res);
+	}
+};

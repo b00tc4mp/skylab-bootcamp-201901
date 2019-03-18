@@ -75,7 +75,7 @@ userSchema.pre('save', async function() {
 userSchema.method({
 	normalize() {
 		const user = {};
-		const fields = ['id', 'name', 'email', 'picture', 'role', 'createdAt'];
+		const fields = ['id', 'name', 'surname', 'email', 'picture', 'role', 'createdAt'];
 
 		fields.forEach(field => (user[field] = this[field]));
 

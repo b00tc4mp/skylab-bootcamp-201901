@@ -66,7 +66,7 @@ answerGameSchema.statics = {
 			let answerGame = await this.findById(id).exec();
 
 			if (answerGame) {
-				return answer;
+				return answerGame;
 			}
 
 			throw new Error({

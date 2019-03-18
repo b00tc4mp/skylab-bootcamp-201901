@@ -31,6 +31,15 @@ function GameOver(props) {
 		}
 	};
 
+	const leaveGame = async () => {
+		try {
+			await gameService.leaveGame(gameID);
+			props.history.replace(`/`);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	return (
 		<Fragment>
 			{points && (
@@ -38,7 +47,7 @@ function GameOver(props) {
 					<div className="player-game__getready game-result">
 						<h2>{points[0].score} points</h2>
 						<h4>
-							<Link to="/" className="btn-return">Return</Link>
+							<button to="/" onClick={leaveGame} className="btn-return">Return</button>
 						</h4>
 					</div>
 				</div>

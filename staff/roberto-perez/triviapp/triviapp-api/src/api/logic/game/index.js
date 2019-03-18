@@ -1,8 +1,8 @@
 const { Game, Question, Quiz, AnswerGame, mongoose } = require('triviapp-data');
+const validate = require('triviapp-validation');
 const {
 	Types: { ObjectId },
 } = mongoose;
-const validate = require('triviapp-data');
 const {
 	AlreadyExistsError,
 	UnauthorizedError,
@@ -16,10 +16,28 @@ var randomize = require('randomatic');
  */
 module.exports = {
 	createGame(data) {
+		
+		const { host, quiz } = data;
+
+		if(!host) {
+			throw new Error('Host game is not defined')
+		}
+
+		if(!quiz) {
+			throw new Error('Quiz is not defined')
+		}
+
+		validate([
+			{ key: 'Quiz ID', value: quiz, type: String },
+			{ key: 'Host game', value: host, type: String },
+		]);
+
 		return (async () => {
 			data.code = randomize('0', 6);
 
 			const quiz = await Quiz.get(data.quiz);
+
+			if(quiz.questions.length <= 0) throw new Error('To play a quiz you need to have at least one question')
 
 			data.currentQuestion = quiz.questions[0].id;
 
@@ -33,6 +51,10 @@ module.exports = {
 
 	joinGame(data) {
 		const { user, gameCode } = data;
+
+		validate([
+			{ key: 'Game code', value: gameCode, type: Number },
+		]);
 
 		return (async () => {
 			const game = await Game.getByCode(gameCode);
@@ -61,6 +83,11 @@ module.exports = {
 	},
 
 	gameOver(game) {
+
+		if(!game.start) {
+			throw new Error('The quiz has not yet started')
+		}
+
 		return (async () => {
 			game.end = true;
 			await game.save();
@@ -107,30 +134,6 @@ module.exports = {
 				});
 			});
 
-			// return Promise.all(results).then(answers => {
-
-			// 	let totalAnswers = 0;
-
-			// 	const results = answers.map(answer => {
-			// 		if (answer.length > 0) {
-
-			// 			let currentAnswer = answer[0].question.answers.find(_answer => {
-			// 				return answer[0].question.answers.answer === _answer.answer;
-			// 			})
-
-			// 			totalAnswers += answer.length;
-			// 			return { total: answer.length, success: currentAnswer.success };
-			// 		}
-
-			// 		return { total: 0, success: false, percent: 0 };
-			// 	});
-
-			// 	return results.map(res => {
-			// 		res.percent = Math.ceil(((res.total / totalAnswers) * 100) / 10) * 10;
-
-			// 		return res;
-			// 	});
-			// });
 		})();
 	},
 
