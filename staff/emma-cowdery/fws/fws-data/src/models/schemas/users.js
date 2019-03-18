@@ -53,61 +53,27 @@ const Users = new Schema({
         unique: true
     }],
 
-    info: {
-        instagram: {
-            image: {
-                type: String
-            },
+    instagram: {
+        type: String
+    },
 
-            link: {
-                 type: String
-            }
-        },
+    twitter: {
+        type: String
+    },
 
-        twitter: {
-            image: {
-                type: String
-            },
+    facebook: {
+        type: String
+    },
 
-            link: {
-                 type: String
-            }
-        },
-
-        facebook: {
-            image: {
-                type: String
-            },
-
-            link: {
-                 type: String
-            }
-        },
-
-        pinterest: {
-            image: {
-                type: String
-            },
-
-            link: {
-                 type: String
-            }
-        },
-
-        about: {
-            interests: {
-                type: String
-            }
+    about: {
+        interests: {
+            type: String
         }
     },
 
     howTo: {
         type: Boolean,
         required: true
-    },
-
-    profilePicture: {
-        type: String
     }
 })
 

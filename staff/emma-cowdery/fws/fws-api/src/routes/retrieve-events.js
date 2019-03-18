@@ -1,11 +1,11 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { userId, body: { file } } = req
+    const { params: { userId } } = req
     
     try {
-        logic.uploadImage(userId, file)
-            .then(url => res.json({ url }))
+        logic.userEvents(userId)
+            .then(events => res.json({ events }))
             .catch(({ message }) => {
                 res.status(409).json({
                     error: message

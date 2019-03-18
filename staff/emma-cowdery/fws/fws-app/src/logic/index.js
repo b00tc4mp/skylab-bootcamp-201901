@@ -128,6 +128,35 @@ const logic = {
 
     /**
      * 
+     * @param {string} about 
+     * @param {string} instagram 
+     * @param {string} twitter 
+     * @param {string} facebook 
+     */
+    updateUser(about, instagram, twitter, facebook) {
+        if (typeof about !== 'string') throw TypeError(`${about} is not a string`)
+        if (!about.trim().length) throw Error('about is empty')
+
+        if (typeof instagram !== 'string') throw TypeError(`${instagram} is not a string`)
+        if (!instagram.trim().length) throw Error('instagram is empty')
+
+        if (typeof twitter !== 'string') throw TypeError(`${twitter} is not a string`)
+        if (!twitter.trim().length) throw Error('twitter is empty')
+
+        if (typeof facebook !== 'string') throw TypeError(`${facebook} is not a string`)
+        if (!facebook.trim().length) throw Error('facebook is empty')
+
+        return (async () => {
+            const user = await fwsApi.updateUser(this.__token__, about, instagram, twitter, facebook)
+
+            if (!user) throw Error('failed to update')
+
+            return user
+        })()
+    },
+
+    /**
+     * 
      * @param {blob} image 
      */
     updateProfilePicture(image) {
@@ -292,6 +321,8 @@ const logic = {
 
             if (!chats) throw Error('unable to retrieve users chats')
 
+            console.log(chats)
+
             return chats
         })()
     },
@@ -329,8 +360,6 @@ const logic = {
             const messages = await fwsApi.messagesFromChat(this.__token__, chatId)
 
             if (!messages) throw Error('unable to get messages')
-
-            console.log(messages)
 
             return messages
         })()
@@ -427,10 +456,27 @@ const logic = {
         return (async () => {
             const events = await fwsApi.filterEvents(this.__token__, filters)
 
-            if (!events.events.length) throw Error('no events were fould with these specified filters')
+            if (!events.events.length) throw Error('no events were found with these specified filters')
 
             return events.events
         })()
+    },
+
+    /**
+     * 
+     * @param {string} userId 
+     */
+    retrieveEvents(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return (async () => {
+            const events = await fwsApi.retrieveEvents(userId)
+
+            if (!events.events.length) throw Error('events not found')
+
+            return events.events
+        })
     }
 }
 

@@ -5,6 +5,8 @@ module.exports = {
 
     retrieveUser: require('./retrieve-user'),
 
+    updateUser: require('./update-user'),
+
     createEvent: require('./create-event'),
 
     joinEvent: require('./join-event'),
@@ -22,8 +24,6 @@ module.exports = {
     userChats: require('./user-chats'),
 
     addMessageToChat: require('./add-message-to-chat'),
-
-    uploadImage: require('./upload-image'),
 
     messagesFromChat: require('./messages-from-chat'),
 
@@ -45,5 +45,7 @@ module.exports = {
 
     updateProfilePicture: require('./update-profile-picture'),
 
-    retrieveUserWithId: require('./retrieve-user-with-id')
+    retrieveUserWithId: require('./retrieve-user-with-id'),
+
+    retrieveEvents: require('./retrieve-events')
 }

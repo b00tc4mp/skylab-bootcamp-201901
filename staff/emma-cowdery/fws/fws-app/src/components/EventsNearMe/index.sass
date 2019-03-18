@@ -15,12 +15,16 @@
         right: 0
         display: grid
         grid-template-columns: 1fr
-        //height: 7em
 
     &__event
         margin: 1em
         box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
         border-radius: 1em
+
+    &__event:hover
+        margin: 0
+        height: 85%
+        transition: 0.4s
 
 @media (min-width: 768px)
 
@@ -41,9 +45,4 @@
     .events-nearme__event
         margin-top: 4em
         margin-bottom: 4em
-
-    .events-nearme__event:hover
-        margin: 0
-        height: 85%
-        transition: 0.4s
 

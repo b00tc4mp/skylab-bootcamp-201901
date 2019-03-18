@@ -3,10 +3,10 @@ import logic from '../../logic'
 import './index.sass'
 import BouncingLoader from '../BouncingLoader'
 
-export default function MoreRestaurantInfo ({ place_id, setInfo }) {
+export default function MoreRestaurantInfo ({ place_id, geometry, formatted_address, name, price_level, rating, setSelectedRestaurant, setLat, setLng, setPriceLevel, setRating, setRestaurantName, setCreateEvent }) {
     const [result, setResult] = useState()
     const [counter, setCounter] = useState(0)
-    const [photoUrl, setPhotoUrl] = useState()
+    const [eventStyle, setEventStyle] = useState()
 
     if (counter === 10) setCounter(0)
     if (counter === -1) setCounter(9)
@@ -15,28 +15,50 @@ export default function MoreRestaurantInfo ({ place_id, setInfo }) {
         logic.restaurantDetails(place_id)
             .then(({result}) => {
                 setResult(result)
-                console.log(result)
                 
                 logic.retrievePhoto(result.photos[0].photo_reference)
-                    .then(url => setPhotoUrl(url))
+                    .then(url => setEventStyle({backgroundImage: `url(${url})`}))
             })
     }, []) 
 
     useEffect(() => {
         result && logic.retrievePhoto(result.photos[counter].photo_reference)
-                    .then(url => setPhotoUrl(url))
+            .then(url => setEventStyle({backgroundImage: `url(${url})`}))
     }, [counter])
 
     return (
         <Fragment>
-            <button onClick={e => {e.preventDefault(); setInfo(false)}}>x</button>
             {result ? 
-                <div>
-                    <p className='restaurantInfoPanel'>{result.international_phone_number}</p>
-                    <p>{result.opening_hours.weekday_text}</p> 
-                    <img src={photoUrl} alt='restaurant'/>
-                    <button onClick={e => {e.preventDefault(); setCounter(counter - 1)}}>left</button>
-                    <button onClick={e => {e.preventDefault(); setCounter(counter + 1)}}>right</button>
+                <div className='retraurant-info'>
+                    <div style={ eventStyle } className='restaurant-info__background'>
+                        <div className='restaurant-info__background-center'>
+                            <i onClick={e => {e.preventDefault(); setCounter(counter - 1)}} className="fas fa-chevron-circle-left restaurant-info__background-arrow"></i>
+                            <i onClick={e => {e.preventDefault(); setCounter(counter + 1)}} className="fas fa-chevron-circle-right restaurant-info__background-arrow"></i>
+                        </div>
+                        <div className='restaurant-info__background-info'>
+                            <p className='restaurant-info__background-info-price'>{price_level ? '$ '.repeat(price_level) : '$ $'}</p>
+                            <p className='restaurant-info__background-info-rating'>{rating ? rating : 3 }<i className="far fa-star restaurant-info__background-info-star"></i></p>
+                        </div>
+                    </div>
+                    <div className='restaurant-info__info'>
+                        <div className='restaurant-info__info-text'>
+                            <div className='restaurant-info__info-div'>
+                                <p className='restaurant-info__info-name'>{name}</p>
+                                <a className='restaurant-info__info-phone' href={`tel:${result.international_phone_number}`}>{result.international_phone_number}</a>
+                            </div>
+                            <p className='restaurant-info__info-address'>{formatted_address}</p>
+                        </div>
+                        <div className='restaurant-info__info-when'>
+                            {result.opening_hours.weekday_text.map(day => <p className='restaurant-info__info-when-txt'>{day}</p>)}
+                        </div>
+                        <div className='restaurant-info__info-links'>
+                            <a className='restaurant-info__info-link restaurant-info__info-link-one' href={result.url} target="_blank"><i class="fas fa-map-marked-alt restaurant-info__info-link-icon"/> open in maps</a>
+                            <a className='restaurant-info__info-link restaurant-info__info-link-two' href={result.website} target="_blank"><i class="fas fa-desktop restaurant-info__info-link-icon"></i> website</a>
+                        </div>
+                    </div>
+                    <div className='restaurant-info__create' onClick={e => {e.preventDefault(); setCreateEvent(true); setSelectedRestaurant(place_id); setLat(geometry.location.lat); setLng(geometry.location.lng); setPriceLevel(price_level); setRating(rating); setRestaurantName(name)}}>
+                        <button className='restaurant-info__create-button'>create event</button>
+                    </div>
                 </div>
             : <BouncingLoader/>}
         </Fragment>

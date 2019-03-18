@@ -1,0 +1,138 @@
+@import '../../utils.sass'
+
+.restaurant-info
+    border-radius: 1em
+    display: grid
+    grid-template-rows: 1fr 1fr 
+    height: 100%
+    color: $dark-gray
+
+    &__background
+        color: $dark-gray
+        height: 10em
+        background-repeat: no-repeat
+        background-position: center
+        border-radius: 1em 1em 0 0
+        display: grid
+        grid-template-rows: repeat(3, 1fr)
+
+        &-center
+            color: $dark-gray
+            grid-row-start: 2
+            grid-row-end: 3
+            display: flex
+            justify-content: space-between
+
+        &-arrow
+            color: $dark-gray
+            align-self: center
+            color: white
+            font-size: 1.5em
+            padding: 0.5em
+            cursor: pointer
+
+        &-info
+            color: $dark-gray
+            grid-row-start: 3
+            display: flex
+            flex-flow: row
+            justify-content: space-between
+            align-items: flex-end
+
+            &-price
+                margin: 0
+                padding: 0.3em
+                background-color: $light-green
+                border-radius: 0 0.5em 0 0
+            
+            &-rating
+                margin: 0
+                padding: 0.3em
+                background-color: $light-yellow
+                border-radius: 0.5em 0 0 0
+
+            &-star
+                color: $dark-gray
+
+                
+
+    &__info
+        margin: 1em
+
+        &-div
+            display: flex
+            flex-flow: row
+            justify-content: space-between
+
+        &-text
+            display: flex
+            flex-flow: column
+
+        &-name
+            font-weight: 700
+            margin: 0.2em
+
+        &-phone
+            font-size: 0.8em
+            cursor: pointer
+            margin: 0.2em
+
+        &-phone:link
+            text-decoration: none
+
+        &-address
+            margin: 0.2em
+            font-size: 0.8em
+            margin-bottom: 0.5em
+
+        &-links
+            margin-top: 1em
+            display: flex
+            flex-flow: row
+            justify-content: space-between
+            cursor: pointer
+
+        &-link:link
+            text-decoration: none
+
+        &-link
+            font-weight: 200
+            border-radius: 0.5em
+            padding: 0.5em
+            font-size: 0.9em
+            box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+
+            &-one
+                background-color: $light-yellow
+
+            &-two
+                background-color: $dark-green
+
+            &-icon
+                font-size: 1em
+
+        &-when
+            display: flex
+            flex-flow: column
+            align-items: center
+            font-size: 0.8em
+            color: $dark-gray
+            
+            &-txt
+                margin: 0
+
+    &__create
+        background-color: $light-yellow
+        border-radius: 0 0 1em 1em
+        display: flex
+        justify-content: center
+        grid-row-start: 6
+        cursor: pointer
+        padding: 0.8em
+
+        &-button
+            color: $dark-gray
+            font-size: 1em
+            border-width: 0
+            background-color: $light-yellow
+            cursor: pointer

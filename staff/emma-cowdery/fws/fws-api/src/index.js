@@ -18,7 +18,7 @@ const imageParser = require('./imageParser')
 
 const cloudinaryUploader = require('./cloudinary')
 
-const { registerUser, authenticateUser, retrieveUser, createEvent, joinEvent, userEvents, findEventByCategory, findEventsNearMe, createChat, joinChat, userChats, addMessageToChat, messagesFromChat, searchRestaurants, restaurantDetails, resizePhoto, geolocation, dontShowHowTo, howTo, filterEvents, notFound, updateProfilePicture, retrieveUserWithId } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, updateUser, createEvent, joinEvent, userEvents, findEventByCategory, findEventsNearMe, createChat, joinChat, userChats, addMessageToChat, messagesFromChat, searchRestaurants, restaurantDetails, resizePhoto, geolocation, dontShowHowTo, howTo, filterEvents, notFound, updateProfilePicture, retrieveUserWithId, retrieveEvents } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
@@ -39,6 +39,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/user/auth', jsonBodyParser, authenticateUser)
 
         router.get('/user', [tokenVerifierMiddleware], retrieveUser )
+
+        router.post('/update-user', [tokenVerifierMiddleware, jsonBodyParser], updateUser)
 
         router.post('/event/:restaurantId', [jsonBodyParser, tokenVerifierMiddleware], createEvent)
 
@@ -77,6 +79,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/profile-picture', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateProfilePicture)
 
         router.get('/retrieve-user/:userId', [jsonBodyParser], retrieveUserWithId)
+
+        router.get('/user-events/:userId', retrieveEvents)
 
         router.get('*', notFound)
 

@@ -122,9 +122,41 @@ const logic = {
         })()
     },
 
-    // updateUser(userId,) {
+    
+    updateUser(userId, about, instagram, twitter, facebook) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
 
-    // }
+        if (typeof about !== 'string') throw TypeError(`${about} is not a string`)
+        if (!about.trim().length) throw Error('about is empty')
+
+        if (typeof instagram !== 'string') throw TypeError(`${instagram} is not a string`)
+        if (!instagram.trim().length) throw Error('instagram is empty')
+
+        if (typeof twitter !== 'string') throw TypeError(`${twitter} is not a string`)
+        if (!twitter.trim().length) throw Error('twitter is empty')
+
+        if (typeof facebook !== 'string') throw TypeError(`${facebook} is not a string`)
+        if (!facebook.trim().length) throw Error('facebook is empty')
+
+
+        return (async () => {
+            const data = { about: about, instagram: instagram, twitter: twitter, facebook: facebook }
+            console.log(data)
+
+            const _user = await Users.findByIdAndUpdate(userId, data)
+
+            if (!_user) throw Error('unable to update user')
+
+            const user = await Users.findById(userId).select('-__v -password').lean()
+
+            user.id = user._id
+
+            delete user._id
+
+            return user
+        })()
+    },
 
     /**
      * 
@@ -164,7 +196,7 @@ const logic = {
         if (!url.trim().length) throw Error('url is empty')
 
         return (async () => {
-            const user = await Users.findByIdAndUpdate(userId, { image: url }).select('-__v -password').lean()
+            const user = await Users.findByIdAndUpdate(userId, { profilePicture: url }).select('-__v -password').lean()
 
             if (!user) throw Error('user not found')
 
@@ -214,12 +246,13 @@ const logic = {
         if (!restaurantName.trim().length) throw Error('restaurantName cannot be empty')
 
         return (async () => {
+            if ((new Date()) > eventDate) throw Error('unable to create an event on a date that is equal to the present or has already passed')
+            
             const restaurant = await Events.findOne({ restaurantId })
 
             if (restaurant) {
                 if (restaurant.eventTime === eventTime && restaurant.eventDate === eventDate) throw Error('an event at this place and time already exists, would you like to join that event?')
             }
-            console.log(restaurantName)
 
             const event = await Events.create({ restaurantId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName })
 
@@ -301,8 +334,12 @@ const logic = {
 
             const { events } = user
 
+            console.log(events.length)
+
             return await Promise.all(events.map(async eventId => {
                 const event = await Events.findById(eventId).select('-__v').lean()
+
+                console.log(event)
 
                 event.id = event._id.toString()
 
@@ -502,19 +539,21 @@ const logic = {
 
                 delete chat._id
 
-                const index = chat.messages.length
+                if (chat.messages.length) {
+                    const index = chat.messages.length
 
-                const message = chat.messages[index - 1]
-                
-                delete message.__v
+                    const message = chat.messages[index - 1]
+                    
+                    delete message.__v
 
-                message.id = message._id
+                    message.id = message._id
 
-                delete message._id
+                    delete message._id
 
-                chat.message = message
+                    chat.message = message
 
-                delete chat.messages
+                    delete chat.messages
+                }
 
                 return chat
             }))

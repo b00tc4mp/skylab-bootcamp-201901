@@ -1,0 +1,78 @@
+@import '../../utils.sass'
+
+.create-event
+   position: fixed
+   top: 0
+   bottom: 0
+   right: 0
+   left: 0
+   z-index: 11
+   background-color: rgba(0,0,0,0.7)
+   display: flex
+   justify-content: center
+   align-items: center
+
+   &__content
+      position: fixed
+      top: 0
+      bottom: 0
+      right: 0
+      left: 0
+      background-color: white
+      display: flex
+      flex-flow: column
+      align-items: center
+      color: $dark-gray
+
+   &__calendar
+      width: 100%
+      
+   &__name
+      border-width: 0.1em
+      border-color: $dark-gray
+      border-radius: 0.5em
+      padding: 0.3em
+
+   &__div
+      display: flex
+      flex-flow: row
+
+   &__lildiv
+      display: flex
+      flex-flow: column
+      align-items: center
+      margin: 2em
+
+   &__buttons
+      display: flex
+      flex-flow: row
+      justify-content: flex-end
+      width: 100%
+
+      &-cancel
+         margin: 1em
+         border-radius: 0.5em
+         border-width: 0
+         background-color: $light-green
+         padding: 1em
+         box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+         cursor: pointer
+      
+      &-create
+         margin: 1em
+         border-radius: 0.5em
+         border-width: 0
+         background-color: $dark-green
+         padding: 1em
+         box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+         cursor: pointer
+
+
+@media (min-width: 768px)
+   .create-event
+
+      &__content
+         position: relative
+         border-radius: 15px
+         padding: 1em
+         width: 50%

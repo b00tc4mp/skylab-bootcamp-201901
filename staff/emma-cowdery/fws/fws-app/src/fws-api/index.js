@@ -113,6 +113,46 @@ const fwsApi = {
 
     /**
      * 
+     * @param {string} userId 
+     * @param {string} about 
+     * @param {string} instagram 
+     * @param {string} twitter 
+     * @param {string} facebook 
+     */
+    updateUser(token, about, instagram, twitter, facebook) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof about !== 'string') throw TypeError(`${about} is not a string`)
+        if (!about.trim().length) throw Error('about is empty')
+
+        if (typeof instagram !== 'string') throw TypeError(`${instagram} is not a string`)
+        if (!instagram.trim().length) throw Error('instagram is empty')
+
+        if (typeof twitter !== 'string') throw TypeError(`${twitter} is not a string`)
+        if (!twitter.trim().length) throw Error('twitter is empty')
+
+        if (typeof facebook !== 'string') throw TypeError(`${facebook} is not a string`)
+        if (!facebook.trim().length) throw Error('facebook is empty')
+
+        return fetch(`${this.url}/update-user`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ about, instagram, twitter, facebook })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
      * @param {string} token 
      * @param {blob} image 
      */
@@ -368,6 +408,7 @@ const fwsApi = {
         })
         .then(response => response.json())
         .then(response => {
+            console.log(response)
             if (response.error) throw Error(response.error)
 
             return response
@@ -581,8 +622,6 @@ const fwsApi = {
         if (!token.trim().length) throw Error('token is empty')
 
         if (filters.constructor !== Object) throw TypeError(`${filters} is not an object`)
-        console.log('in fwsapi')
-        console.log(filters)
         
         return fetch(`${this.url}/filter-events`, {
             method: 'POST',
@@ -594,7 +633,23 @@ const fwsApi = {
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response)
+            if (response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
+    /**
+     * 
+     * @param {string} userId 
+     */
+    retrieveEvents(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        return fetch(`${this.url}/user-events/${userId}`)
+        .then(response => response.json())
+        .then(response => {
             if (response.error) throw Error(response.error)
 
             return response

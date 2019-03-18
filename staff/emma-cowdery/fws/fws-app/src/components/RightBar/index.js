@@ -30,11 +30,11 @@ export default withRouter(function RightBar (props) {
                             <p className='right-bar__email'>{user.email}</p>
                         </div>
                     </div>
-                    {props.history.location.pathname === '/user/:id' ? <button className='right-bar__button-highlited'><i class="far fa-user right-bar__button-icon"></i> Profile</button> : <button className='right-bar__button'><i class="far fa-user right-bar__button-icon"></i> Profile</button>}
+                    {props.history.location.pathname === '/user' ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-user right-bar__button-icon"></i> Profile</button> : <button onClick={e => {e.preventDefault(); props.history.push('/user')}} className='right-bar__button'><i class="far fa-user right-bar__button-icon"></i> Profile</button>}
                     <span className='right-bar__line'></span>
-                    {props.history.location.pathname === '/chats' ? <button className='right-bar__button-highlited'><i class="far fa-comments right-bar__button-icon"></i> Chats</button> : <button className='right-bar__button'><i class="far fa-comments right-bar__button-icon"></i> Chats</button>}
+                    {props.history.location.pathname === '/chats' ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-comments right-bar__button-icon"></i> Chats</button> : <button onClick={e => {e.preventDefault(); props.history.push('/chats')}} className='right-bar__button'><i class="far fa-comments right-bar__button-icon"></i> Chats</button>}
                     <span className='right-bar__line'></span>
-                    {props.history.location.pathname === '/my-events' ? <button className='right-bar__button-highlited'><i class="far fa-calendar right-bar__button-icon"></i> Events</button> : <button className='right-bar__button'><i class="far fa-calendar right-bar__button-icon"></i> Events</button>}
+                    {props.history.location.pathname === '/my-events' ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-calendar right-bar__button-icon"></i> Events</button> : <button onClick={e => {e.preventDefault(); props.history.push('/events')}} className='right-bar__button'><i class="far fa-calendar right-bar__button-icon"></i> Events</button>}
                     <span className='right-bar__line'></span>
                     <button onClick={e => {e.preventDefault(); handleLogout(); props.setShowRightBar(false)}} className='right-bar__button-logout'><i class="fas fa-sign-out-alt right-bar__button-icon"></i> Logout</button>
                 </div>

@@ -1,0 +1,47 @@
+@import '../../utils.sass'
+
+.conversation
+    position: relative
+    top: 2.5em
+    bottom: 0
+    left: 0
+    right: 0
+    display: flex
+    flex-flow: column
+    z-index: -1
+    overflow: auto
+    margin-bottom: 3em
+
+    &__message
+        padding: 0.45em
+        color: $dark-gray
+        border-radius: 0.5em
+        border-width: 0
+        margin: 0.3em
+
+        &-txt
+            margin: 0.1em
+            max-width: 14em
+            width: 100%
+            word-wrap: break-word
+
+        &-date
+            margin: 0.1em
+            font-size: 0.7em
+
+        &-from-me
+            align-self: flex-end
+            background-color: $light-green
+            display: flex
+            flex-flow: column
+            align-items: flex-end
+
+        &-from-someone
+            align-self: flex-start
+            background-color: $dark-green
+
+    &__none
+        background-color: $light-green
+        margin: 1.5em
+        border-radius: 0.5em
+        padding: 0.3em
