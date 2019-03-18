@@ -76,7 +76,7 @@ const logic = {
 
         return User.findById(userId)
             .then(user => {
-                if (!user) throw Error(`user with id ${user.id} not found`)
+                if (!user) throw Error(`user with id ${userId} not found`)
 
                 return Exercise.find()
                     .then(exercises => {
@@ -108,7 +108,7 @@ const logic = {
 
         return User.findById(userId).select('-password -__v').lean()
             .then(user => {
-                if (!user) throw Error(`user with id ${id} not found`)
+                if (!user) throw Error(`user with id ${userId} not found`)
 
                 user.id = user._id
                 delete user._id
@@ -334,11 +334,12 @@ const logic = {
         return User.findById(userId)
             .then(user => {
                 if (!user) throw Error(`user with id ${userId} not found`)
+                if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
 
                 return Invitation.findById(invitationId).select('-__v').lean()
                     .then(invitation => {
                         if (!invitation) throw Error(`invitation with id ${invitationId} not found`)
-                        if (!user.isAdmin) throw Error(`user with id ${userId} has not privileges`)
+
 
                         invitation.id = invitation._id.toString()
                         delete invitation._id
