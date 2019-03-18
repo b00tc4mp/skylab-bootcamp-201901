@@ -3,6 +3,7 @@ import logic from '../../logic'
 import { Link } from 'react-router-dom'
 import ListComments from '../List-comments'
 import CreateComment from '../Create-comment'
+import './index.css'
 
 import Event from '../../plugins/bus'
 
@@ -25,13 +26,11 @@ class EventById extends Component {
                     return logic.retrieveUser()
                         .then(user => {
                             this.setState({ user }, () => {
-                                debugger
                                 _events.members.some(member => member._id === user.id) ?
                                  this.setState({ button: true }) : 
                                  this.setState({ button: false })
                                 console.log(_events.members.some(member => member._id === user.id))
                             })
-                            //values[0].members.some()
                         })
 
                 })
@@ -59,10 +58,7 @@ class EventById extends Component {
     }
 
     toogleEvent = (eventId) => {
-        // const{state:{button}} = this
-        // console.log(event)
         try {
-            debugger
             logic.toogleEvent(eventId)
                 .then(response => {
                     this.listEvents()
@@ -80,80 +76,74 @@ class EventById extends Component {
 
 
     render() {
-        const { handleCreateComment, toogleEvent, state: { events, button, y, m, d, h, min, s }, props: { match: { params: { eventId = '' } } } } = this
-        //console.log(events.author)
+        const { handleCreateComment, toogleEvent, state: { events, button, y, m, d}, props: { match: { params: { eventId = '' } } } } = this
         
         return (
-            <section>
-                <div>
-                    <Link to="/home">Go home</Link>
-                    <Link to={`/category/${events.category && events.category.id}`}>Go category</Link>
-                </div>
-                <div>
-                        <div>
-                        {events.category && <img className="image" src={events.category.image} alt={events.title} /> }
+            <section className="event">
+                <div className="event__card" >
+                        <div  className="event__card-container"  >
+                        {events.category && <img className="event__card-container-img" src={events.category.image} alt={events.title} /> }
+                        <p className="event__card-container-category">{events.category && events.category.name}</p>
                         </div>
-                    <div>
-                        <label>Title:</label>
-                        <p>{events.title}</p>
+                    <div className="event__card-title">
+                        <h2 className="event__card-title-h2">{events.title}</h2>
+                    </div>
+                    
+
+                    
+
+                    <div className="event__card-description">
+                        <p className="event__card-description-paragraph">{events.description}</p>
                     </div>
 
-                    <div>
-                        <label>Creator of the event:</label>
-                        <Link to={`/${events.author && events.author.userName}`} >
-                            <div>
+                    <div className="event__card-dateAndUbication" >
+
+                        <p className="event__card-dateAndUbication-date">Date: {`${y} / ${m} / ${d} `}</p>
+
+                        <p className="event__card-dateAndUbication-city">{events.city}</p>
+
+                        <p className="event__card-dateAndUbication-address">{events.address}</p>
+
+                    </div>
+
+
+                    <div className="event__card-creathor">
+                        <label className="event__card-creathor-label" >By</label>
+                            <Link className="event__card-creathor-paragraph" to={`/${events.author && events.author.userName}`} >
                                 <p>{events.author && events.author.userName}</p>
-                            </div>
-                        </Link>
+                            </Link>
                     </div>
-
-                    <div>
-                        <label>Description:</label>
-                        <p>{events.description}</p>
-                    </div>
-
-                    <div>
-                        <label>Date:</label>
-                        <p>Date: {`${y} / ${m} / ${d} `}</p>
-                    </div>
-
-                    <div>
-                        <label>City:</label>
-                        <p>{events.city}</p>
-                    </div>
-
-                    <div>
-                        <label>Address:</label>
-                        <p>{events.address}</p>
-                    </div>
-
-                    <div>
-                        <label>Category:</label>
-                        <p>{events.category && events.category.name}</p>
+                    
                     </div>
 
                     <div>
                         <label>Members:</label>
 
+                        <div className="event__members" >
                         {events.members && (events.members || []).map(member => (
-                            <div>
-                                <Link type="text" to={`/${member.userName}/${member._id}`}>
-                                    <div>
-                                    <img className="image" src={member.image} alt={member.name} />
+                                <div>
+                                <Link type="text" className="event__members-link" to={`/${member.userName}/${member._id}`}>
+                                    <div className="event__members-container">
+                                    <img className="event__members-container-img" src={member.image} alt={member.name} />
                                     </div>
-                                    <div>
-                                        {member.userName}
+                                    <div className="event__members-container-username">
+                                        <h2>{member.userName}</h2>
                                     </div>
                                 </Link>
-                            </div>
-                        )
-                        )}
+                                </div>
 
-                        <div>
-                            {(button === true) ? <button onClick={() => toogleEvent(eventId)}>Salir</button> : <button onClick={() => toogleEvent(eventId)}>Entrar</button>}
+                                )
+                            )}
                         </div>
+                        <div>
+                            {(button === true) ? <button className="event__members-container-button-enter" onClick={() => toogleEvent(eventId)}>Salir</button> : <button className="event__members-container-button-exit" onClick={() => toogleEvent(eventId)}>Entrar</button>}
+                        </div>
+
+                {/* <div>
+                    <Link to="/home">Go home</Link>
+                    <Link to={`/category/${events.category && events.category.id}`}>Go category</Link>
+                </div> */}
                     </div>
-                </div>
                 <CreateComment eventId={eventId} onCreateComment={handleCreateComment} />
                 <ListComments eventId={eventId} />
             </section>

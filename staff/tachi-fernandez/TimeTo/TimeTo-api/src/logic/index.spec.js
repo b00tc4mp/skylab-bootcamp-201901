@@ -382,6 +382,52 @@ describe('logic', () => {
 
     })
 
+    describe('retrieve user by id' , () => {
+        const name = 'Tachi'
+        const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
+        const age = 22
+        const description = 'Hola muy buenas'
+        const email = `Tachiii-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let otherUserId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
+                .then(({id}) => otherUserId = id)
+        )
+
+        it('should succed on correct data' , () => {
+            debugger
+            logic.retrieveUserById(userName,otherUserId)
+            .then(user => {
+                expect(user.name).toBe(name)
+                expect(user.surname).toBe(surname)
+                expect(user.age).toBe(age)
+                expect(user.description).toBe(description)
+                expect(user.email).toBe(email)
+
+                expect(user.save).toBeUndefined()
+
+
+            })
+            
+        })
+
+        it('should fail on empty userId', () => {
+            const otherUserId = ''
+
+
+            expect(() => {
+                logic.retrieveUserById(otherUserId)
+            }).toThrow(TypeError('otherUserId cannot be empty'))
+        })
+        
+
+        
+    })
+
     describe("delete user" , () => {
         const name = 'Tachi'
         const surname = 'Fernandez'
@@ -1054,6 +1100,48 @@ describe('logic', () => {
                         expect(response.commentId).toBeUndefined()
                     })
                 })  
+    })
+
+    describe('Toogle events' , () => {
+        const name = 'Tachi'
+        const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
+        const age = 22
+        const description = 'Hola muy buenas'
+        const email = `Tachiii-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId  
+        let eventId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+            .then(hash => User.create({ name, surname,userName,age,description, email, password: hash }))
+            .then(({id}) => {
+                    userId = id
+        
+                    const title = "Fiesta pagana"
+                    const description = "lo peta"
+                    const date = "11/04/2019"
+                    const city = "Barcelona"
+                    const address = 'Roc Boronat 35'                    
+                    const category = "5c7e95f564f6cfa555e483d6"
+
+                    return Events.create({author: userId,title,description,date,city,address,category})
+                }).then(userEvent => eventId = userEvent._id.toString())
+                
+                )
+                it('should succed on correct data' , () => {
+                    debugger
+                    logic.toogleEvent(userId,eventId)
+                    .then(myEvents => {
+                        myEvents.members.map(_id => {
+                            expect(_id !== userId).toBe()
+                        })
+                    })
+                    })
+                    
+                
+                
     })
 
     

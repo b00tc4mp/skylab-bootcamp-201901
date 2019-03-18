@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Redirect, withRouter } from 'react-router-dom'
+import { Link ,Redirect, withRouter } from 'react-router-dom'
 import './index.css'
 import logic from '../../logic'
 
@@ -18,7 +18,7 @@ class Header extends Component {
 
     render() {
         const { onLogout } = this
-        return (<nav role="navigation">
+        return (<nav className="nav" role="navigation">
                 <div id="menuToggle">
                 
                 <input type="checkbox" />
@@ -49,6 +49,12 @@ class Header extends Component {
 
                         {/* {!logic.isUserLoggedIn ? <a href="/login"><li>Login</li></a>: ''} */}
 
+
+                        <li>
+                        <button
+                            onClick={() => this.props.history.push('/home')}>Home
+                        </button> 
+                        </li>
                         
                         <li>
                         {logic.isUserLoggedIn ? <button
@@ -86,7 +92,15 @@ class Header extends Component {
             
                         </ul>
                 </div>
-            </nav>            
+
+                <Link className="page" to="/home"> 
+                <h2 className="page__time">Time</h2>
+                <h2 className="page__to">T</h2> 
+                <i className=" page__clock fas fa-clock"></i>
+                </Link>
+
+            </nav>   
+            
 
         )
     }

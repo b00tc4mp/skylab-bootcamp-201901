@@ -1,0 +1,87 @@
+.modify {
+  max-width: 500px;
+  margin: auto;
+}
+.modify__container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.modify__card {
+  margin-top: 80px;
+  border-radius: 10px;
+}
+.modify__card-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}
+.modify__card-name-input {
+  border: 2px solid white;
+  border-radius: 2px;
+}
+.modify__card-surname {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}
+.modify__card-surname-input {
+  border: 2px solid white;
+  border-radius: 2px;
+}
+.modify__card-age {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}
+.modify__card-age-input {
+  border: 2px solid white;
+  border-radius: 2px;
+}
+.modify__card-description {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}
+.modify__card-description-input {
+  border: 2px solid white;
+  border-radius: 2px;
+}
+.modify__card-email {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}
+.modify__card-email-input {
+  border: 2px solid white;
+  border-radius: 2px;
+}
+.modify__card-image {
+  padding: 15px;
+  margin-top: 5%;
+}
+.modify__card-image-img {
+  margin-left: 24%;
+}
+.modify__card-image-input {
+  border-radius: 2px;
+  margin-left: 11%;
+}
+.modify__card-home {
+  margin-top: 5%;
+}
+.modify__card-home-link {
+  text-decoration: none;
+  color: black;
+}
+.modify__card-button-mod {
+  margin-left: 40%;
+  margin-top: 10%;
+  border-radius: 3px;
+}
+
+/*# sourceMappingURL=index.css.map */

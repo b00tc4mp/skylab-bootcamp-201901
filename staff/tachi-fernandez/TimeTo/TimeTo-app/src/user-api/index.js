@@ -71,7 +71,6 @@ const userApi = {
     },
 
     retrieveUser(token) {
-        debugger
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -106,7 +105,7 @@ const userApi = {
             })
     },
 
-    updateUser(name,surname,age,description,email,token){
+    updateUser(name,surname,age,description,token){
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
         if (!name.trim().length) throw Error('name is empty')
 
@@ -118,9 +117,6 @@ const userApi = {
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
         if (!description.trim().length) throw Error('description is empty')
 
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
@@ -130,7 +126,7 @@ const userApi = {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ name, surname, age, description, email })
+            body: JSON.stringify({ name, surname, age, description })
         })
             .then(response => response.json())
             .then(response => {

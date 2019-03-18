@@ -1,5 +1,5 @@
 import React from 'react'
-import './index.sass'
+import './index.css'
 
 function Feedback({ message, level }) {
     return <section className={`feedback ${level ? `feedback--${level}` : ''}`}>{message}</section>

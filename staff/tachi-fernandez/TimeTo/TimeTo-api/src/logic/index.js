@@ -143,7 +143,6 @@ const logic = {
   },
 
   retrieveUserById(userName,userId){
-    
     if (typeof userName !== "string") throw TypeError(userName + " is not a string");
 
     if (!userName.trim().length) throw Error("userName cannot be empty");
@@ -153,7 +152,6 @@ const logic = {
     if (!userId.trim().length) throw Error("userId cannot be empty");
 
     return (async () => {
-      
       const user = await User.findById(userId).select('-password -__v',).lean()
 
       if (!user) throw Error(`user with id ${userId} not found`);
@@ -170,7 +168,7 @@ const logic = {
     })()
   },
 
-  updateUser(userId,name,surname,age,description,email) {
+  updateUser(userId,name,surname,age,description) {
     
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
@@ -190,10 +188,6 @@ const logic = {
     if (typeof description !== "string") throw TypeError(description + " is not a string");
 
     if (!description.trim().length) throw Error("description cannot be empty");
-
-    if (typeof email !== "string") throw TypeError(email + " is not a string");
-
-    if (!email.trim().length) throw Error("email cannot be empty");
 
     
     return (async () => {
@@ -220,9 +214,6 @@ const logic = {
 
     if (!user.description.trim().length) throw Error("description cannot be empty");
 
-    if (typeof user.email !== "string") throw TypeError(user.email + " is not a string");
-
-    if (!user.email.trim().length) throw Error("email cannot be empty");
       
     
     return user
@@ -508,7 +499,7 @@ const logic = {
       if (!(eventUser)) throw Error(`event with id ${commentEvent} not found`);
 
       const comments = await Comments.find({commentEvent}).select('-__v')
-      .populate('commentAuthor', "name surname age userName"  )
+      .populate('commentAuthor', "name surname age userName image"  )
       .populate('commentEvent' , "title , author").lean()
       
       const comment = await comments.map(commentUser => {
@@ -570,6 +561,7 @@ const logic = {
   },
 
   toogleEvent(userId,eventId){
+    debugger
     
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
@@ -580,14 +572,14 @@ const logic = {
     if (!eventId.trim().length) throw Error("eventId cannot be empty");
 
     return(async () => {
-      
+      debugger
       const user = await User.findById(userId)
 
       if (!user) throw Error(`user with id ${userId} not found`);
 
       const events = await Events.findById(eventId)
 
-      if (!events) throw Error(`user with id ${eventId} not found`);
+      if (!events) throw Error(`event with id ${eventId} not found`);
 
 
       const index = user.events.findIndex(_eventId =>  _eventId.toString() === eventId)

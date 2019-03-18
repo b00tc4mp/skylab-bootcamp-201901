@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import{withRouter} from 'react-router-dom'
+import './index.css'
 
 class Search extends Component {
     state = {query : null}
@@ -17,9 +18,8 @@ class Search extends Component {
         const {handleSearchSubmit,handleQueryInput} = this
         return (
             <section className="search">
-                <h1 className="search__title">Search</h1>
                 <form className="search__form" onSubmit={handleSearchSubmit}>
-                <input className="search__input" type="text" placeholder="Search events..." onChange={handleQueryInput}  required />
+                <input className="search__form-input" type="text" placeholder="Search events..." onChange={handleQueryInput}  required />
                 </form>
             </section>
         )

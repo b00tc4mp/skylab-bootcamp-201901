@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
 import {Link} from 'react-router-dom'
+import './index.css'
 
 class User extends Component{
     state = {results: ''} 
@@ -27,52 +28,42 @@ class User extends Component{
 
         return( 
             <section>
-            <div>
+            <div className="user">
                 
-            <div>
-            {(results !== '') && (<img className="image" src={results.image} alt={results.name} />)}
+            <div className="user__image">
+            {(results !== '') && (<img className="user__image-img" src={results.image} alt={results.name} />)}
             </div>
 
-            <div>
-            <label>Name:</label>
-            <p>{results.name}</p> 
-            <p>{results.surname}</p>
+            <div className="user__content">
+            <div className="user__name">
+            <label className="user__name-label" >Name:</label>
+            <p className="user__name-paragraph"  > {results.name} {results.surname}</p> 
             </div>
 
-            <div>
-            <label>userName:</label>
-            <p>{results.userName}</p>
+            <div className="user__username">
+            <label className="user__username-label">Username:</label>
+            <p className="user__username-paragraph">{results.userName}</p>
             </div>
 
-            <div>
-            <label>Description:</label>
-            <p>{results.description}</p>
+            <div className="user__description">
+            <label className="user__description-label">Description:</label>
+            <p className="user__description-paragraph">{results.description}</p>
             </div>
 
-            <div>
-            <label>Age:</label>
-            <p>{results.age}</p>
+            <div className="user__age">
+            <label className="user__age-label">Age:</label>
+            <p className="user__age-paragraph">{results.age}  años</p>
+            </div>
             </div>
 
-
-            {/* <div>
-                {events.map(_event => {
-                    return(
-                        <div>
-                        <label>Title:</label>
-                        <p>{_event.title}</p>   
-                        </div>
-                    )
-                })}
-            </div> */}
-
-           
+   
             </div>
 
-            <div>
-            <Link to="/home" className="user__link-home">Go home</Link>
-            <Link to="/user-modify">Modify User</Link>
-            </div>  
+            <div className="user__button">
+                    <Link className="user__button-modify" to="/user-modify">Modify User</Link>
+                    <Link to="/home" className="user__button-home">Go home</Link>
+
+            </div>
             </section>
         )
     }

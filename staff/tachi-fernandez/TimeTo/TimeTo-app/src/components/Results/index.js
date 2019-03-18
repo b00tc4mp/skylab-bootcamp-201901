@@ -3,6 +3,7 @@ import { Link,Redirect } from 'react-router-dom'
 import logic from '../../logic'
 import Search from '../Search'
 import Feedback from '../Feedback'
+import './index.css'
 
 class Results extends Component {
     state = { events: null,results: this.props.results ,searchFeedback:null}
@@ -21,14 +22,20 @@ class Results extends Component {
                 })
                 .catch( ({message}) => {
                     debugger
-                    this.setState({ searchFeedback : message,results: null })
-                    console.log(message)
+                    this.showMessageSearch(message)
                 }) 
         } catch ({message}) {
             debugger
-            this.setState({ searchFeedback : message,results: null})
+            this.showMessageSearch(message)
         }
     }
+
+    showMessageSearch = message => {
+        this.setState({ searchFeedback: message })
+        setTimeout(()=> {
+          this.setState({ searchFeedback: null })
+        }, 4000)
+      }
 
     componentWillReceiveProps({match:{params:{query}}}){
         debugger
@@ -40,11 +47,10 @@ class Results extends Component {
                     this.setState({ results ,searchFeedback:null})
                 })
                 .catch( ({message}) => {
-                    this.setState({searchFeedback : message, results: null })
-                    console.log(message)
+                    this.showMessageSearch(message)
                 }) 
         } catch ({message}) {
-            this.setState({searchFeedback : message, results: null})
+            this.showMessageSearch(message)
         }
     }
 
@@ -54,14 +60,16 @@ class Results extends Component {
         const {handleSearch,state:{results,searchFeedback}  } = this
         console.log(results)
         return(
-            <section className="results section columns is-multiline">
-            <Link to="/home">Go home</Link>
+            <section className="results">
             <Search onSearch={handleSearch} />
-             {(results || []).map(result => (             
-                <Link to={`/event/${result.id}`}> 
-                    <img className="image" src={result.category.image} alt={result.title} />
-                    <h2>{result.title}</h2>
+
+             {(results || []).map(result => ( 
+                 <div className="results__card" >
+                <Link className="results__card-link" to={`/event/${result.id}`}> 
+                    <img className="results__card-image" src={result.category.image} alt={result.title} />
+                    <h2 className="results__card-title">{result.title}</h2>
                 </Link>
+                 </div>            
             )
             )}
             { searchFeedback && <Feedback message={searchFeedback} level="warn" /> }

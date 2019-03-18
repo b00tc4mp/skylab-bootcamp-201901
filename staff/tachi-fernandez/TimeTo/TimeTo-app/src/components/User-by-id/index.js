@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
 import {Link,withRouter} from 'react-router-dom'
+import './index.css'
 
 class UserById extends Component{
     state = {results: '',userName : ''} 
@@ -30,31 +31,35 @@ class UserById extends Component{
 
         return( 
             <section>
-                <h2>Hola</h2>
-            <div>
-            <div>
-            <label>Name:</label>
-            <p>{results.name}</p> 
-            <p>{results.surname}</p>
-            </div>
+            <div className="user">
 
             <div>
-            <label>Username:</label>
-            <p>{results.userName}</p>
+            <img className="user__image" src={results.image} alt={results.name} />
             </div>
 
-            <div>
-            <label>Description:</label>
-            <p>{results.description}</p>
+            <div className="user__content"> 
+            
+            <div className="user__name">
+            <label className="user__name-label">Name:</label>
+            <p className="user__name-paragraph">{results.name}{results.surname}</p> 
+            </div>
+            
+
+            <div className="user__username">
+            <label className="user__username-label">Username:</label>
+            <p className="user__username-paragraph">{results.userName}</p>
             </div>
 
-            <div>
-            <label>Age:</label>
-            <p>{results.age}</p>
+            <div className="user__description" >
+            <label className="user__description-label">Description:</label>
+            <p className="user__description-paragraph">{results.description}</p>
             </div>
 
-            <div>
-            <img className="image" src={results.image} alt={results.name} />
+            <div className="user__age">
+            <label className="user__age-label">Age:</label>
+            <p className="user__age-paragraph">{results.age}</p>
+            </div>
+
             </div>
 
             </div>

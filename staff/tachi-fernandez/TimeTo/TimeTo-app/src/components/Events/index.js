@@ -1,73 +1,71 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import logic from '../../logic'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './index.css'
 
-class Events extends Component{
-    state = {results: ''} 
-    componentDidMount(){
+class Events extends Component {
+    state = { results: '',y : '',m : '', d : ''  }
+    componentDidMount() {
         try {
-            debugger
             logic.retrieveUser()
                 .then(results => {
                     this.setState({ results })
                     console.log(results)
+                    // const date = new Date(results && results.events.map(_date => {
+                    //     return date = _date.date
+                    // }));
+                    //     this.setState({y: date.getFullYear()});
+                    //     this.setState({m : date.getMonth() + 1});
+                    //     this.setState({d : date.getDate()});
                 })
-                .catch( ({error}) => {
+                .catch(({ error }) => {
                     this.setState({ results: null })
                     console.log(error)
-                }) 
-        } catch ({message}) {
-            this.setState({ results: null})
+                })
+        } catch ({ message }) {
+            this.setState({ results: null })
         }
     }
 
-    render(){
-        const {results} = this.state
-        const {events = []} = results
+    render() {
+        const { results,y,m,d } = this.state
+        const { events = [] } = results
+        console.log(events)
 
-        return( 
+        return (
             <section className="my-events">
-            <Link to="/home">Go home</Link>
-            <div>
-                {(events || [] ).map(_event => {
-                    return(
-                        <div className="my-events__event">
+                <Link to="/home">Go home</Link>
+                <div>
+                    {(events || []).map(_event => {
+                        return (
+                            <div className="my-events__event">
 
-                        <div className="my-events__event-title">
-                        <label>Title:</label>
-                        <p>{_event.title}</p>   
-                        </div>    
+                                <div className="my-events__event-img" >
+                                    {_event.category && <img className="my-events__event-img-image" src={_event.category.image} alt={_event.title} />}
+                                </div>
+                                <div className="my-events__event-title">
+                                    <h2 className="my-events__event-title-h2">{_event.title}</h2>
+                                </div>
 
-                        <div>
-                        <label>Description:</label>
-                        <p>{_event.description}</p>   
-                        </div>
+                                <div className="my-events__event-description">
+                                    <p className="my-events__event-description-paragraph">{_event.description}</p>
+                                </div>
 
-                        <div>
-                        <label>Date:</label>
-                        <p>{_event.date}</p>   
-                        </div>
+                                <div  className="my-events__event-dateAndUbication" >
 
-                        <div>
-                        <label>City:</label>
-                        <p>{_event.city}</p>   
-                        </div>
+                                    <p className="my-events__event-dateAndUbication-date">Date: {`${y} / ${m} / ${d} `}</p>
 
-                        <div>
-                        <label>Address:</label>
-                        <p>{_event.address}</p>   
-                        </div>
+                                    <p className="my-events__event-dateAndUbication-city">{_event.city}</p>
 
-                        <div>
-                        <label>Category:</label>
-                        <p>{_event.category.name}</p>   
-                        </div> 
-                        </div>
-                    )
-                    
-                })}
-            </div>
+                                    <p className="my-events__event-dateAndUbication-address">{_event.address}</p>
+
+                                </div>
+
+                            </div>
+                        )
+
+                    })}
+                </div>
             </section>
         )
     }

@@ -1,0 +1,32 @@
+.categories
+    max-width: 1000px
+    margin: auto 
+    &-category
+        display: flex
+        justify-content: center 
+        &-link
+            text-decoration: none
+            color: white
+        &-img
+            width: 300px
+            height: 200px
+            margin-top: 50px
+            display: flex
+            justify-content: center 
+        &-title
+            display: flex
+            justify-content: center
+@media (min-width: 600px)
+    .categories
+        &-category
+            &-img
+                width: 500px
+                height: 350px
+@media (min-width: 900px)
+        .categories
+            &-category
+                &-img
+                    width: 800px
+                    height: 500px
+
+

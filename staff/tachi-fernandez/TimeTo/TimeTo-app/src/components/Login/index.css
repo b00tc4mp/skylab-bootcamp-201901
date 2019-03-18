@@ -1,78 +1,73 @@
 .login {
-  background: #e6e6e6;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .login__form {
-  background: white;
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  width: 70%;
-  border: 2px solid black;
-  border-radius: 10%;
+  margin: 40px auto;
+  color: #fff;
+  border: 1px solid #001d54;
+  border-radius: 10px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  max-width: 450px;
 }
 .login__form-title {
   display: flex;
   justify-content: center;
 }
-.login__form-email-label {
-  display: flex;
-  justify-content: space-around;
-}
-.login__form-email-input {
-  width: 95%;
+.login__form-input {
+  width: 100%;
+  min-height: 15px;
   order: 2px solid;
-  border-radius: 5px;
+  border-radius: 3px;
+  border: 0;
+  padding: 11px 10px;
+  margin-bottom: 15px;
 }
-.login__form-password-label {
-  display: flex;
-  justify-content: space-around;
-}
-.login__form-password-input {
-  width: 95%;
-  order: 2px solid;
-  border-radius: 5px;
-}
-.login__form-button-login {
-  background: #008080;
+.login__form-button {
   color: white;
   display: flex;
   justify-content: space-around;
-  margin-left: 2%;
-  margin-top: 10%;
-  border: 2px solid #008080;
+  border: 0;
   border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 68px;
 }
-.login__form-button-register {
-  background: #008080;
-  color: white;
+.login__form-button--blue {
+  width: 100%;
+  background: #0a2b5b;
+}
+.login__form-button--blue:hover {
+  background: #1f5fbc;
+}
+.login__form-button--green {
+  background: #1f73fe;
+}
+
+.button-primary-action {
+  margin: 0px 0px 15px 0px;
+}
+
+.button-secondary-action {
   display: flex;
-  justify-content: center;
-  margin-left: 32%;
-  border: 2px solid #008080;
-  border-radius: 5px;
+  justify-content: space-between;
 }
-.login__form-button-home {
-  background: #008080;
-  color: white;
-  display: flex;
-  justify-content: center;
-  margin-left: 35%;
-  border: 2px solid #008080;
-  border-radius: 5px;
-}
-.login__form-text-register {
-  display: flex;
-  justify-content: center;
-  margin-top: 15%;
-}
-.login__link {
+.button-secondary-action__link {
   display: flex;
   justify-content: center;
   justify-content: space-around;
+}
+
+@media (min-width: 600px) {
+  .login__form {
+    border-radius: 5%;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

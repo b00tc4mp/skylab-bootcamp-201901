@@ -34,29 +34,24 @@ class Login extends Component {
             <form onSubmit={handleFromSubmit}>
               <h1 className="login__form-title">Login</h1>
                 <div className="login__form-email">
-                    <label className = 'login__form-email-label'>E-mail:</label>
-                    <input onChange={handleEmailInput} className="login__form-email-input" type="email" placeholder="Email" autoFocus required/>
+                    <input onChange={handleEmailInput} className="login__form-input" type="email" placeholder="Email" autoFocus required/>
                 </div>
                 <div className="login__form-password">
-                    <label className = 'login__form-password-label'>Password:</label>
-                    <input onChange={handlePasswordInput} className="login__form-password-input" type="password" placeholder="Password" required/>
-                
-                    <button className="login__form-button-login">
+                    <input onChange={handlePasswordInput} className="login__form-input" type="password" placeholder="Password" required/>
+                </div>
+                <div className="button-primary-action">
+                    <button className="login__form-button login__form-button--blue">
                     Login
                     </button>
-
-                <div className="login__form-text-register">
-                    <p>You are not yet registered? </p>
                 </div>
 
-                    <button className="login__form-button-register" onClick={() => onGoToRegister()  }>
+                
+                <div className="button-secondary-action">
+                    <button className="login__form-button login__form-button--green" onClick={() => onGoToRegister()  }>
                     Register
-                    </button>
-
-                <div className="login__form-text-home">
-                    <p>You want to see the categories?</p>
-                </div>
-                    <button className="login__form-button-home" onClick={() => this.props.history.push('/home')}>
+                    </button>    
+                
+                    <button className="login__form-button login__form-button--green" onClick={() => this.props.history.push('/home')}>
                     Home
                     </button>
                 </div>

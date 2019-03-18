@@ -1,68 +1,61 @@
 .login
-    background:  #e6e6e6
     height: 100%
     display: flex
     justify-content: center
     align-items: center
+    padding-left: 15px 
+    padding-right: 15px
     &__form
-        background: white
-        height: 70%
-        display: flex
-        justify-content: center
-        width: 70%
-        border: 2px solid black
-        border-radius: 10%
+        margin: 40px auto
+        color: #fff
+        border: 1px solid #001d54
+        border-radius: 10px
+        width: 100%
+        background-color: rgba(0, 0, 0, 0.3)
+        padding: 20px
+        max-width: 450px
         &-title
             display: flex
             justify-content: center
-        &-email
-            &-label
-                display: flex
-                justify-content: space-around
-            &-input
-                width: 95%
-                order: 2px solid 
-                border-radius: 5px
-        &-password
-            &-label
-                display: flex
-                justify-content: space-around
-            &-input
-                width: 95%
-                order: 2px solid
-                border-radius: 5px
+        &-input            
+            width: 100%
+            min-height: 15px
+            order: 2px solid
+            border-radius: 3px
+            border: 0
+            padding: 11px 10px
+            margin-bottom: 15px
         &-button
-            &-login
-                background: #008080
-                color: white
-                display: flex
-                justify-content: space-around
-                margin-left: 2%
-                margin-top: 10%
-                border: 2px solid #008080
-                border-radius: 5px
-            &-register
-                background: #008080
-                color: white
-                display: flex
-                justify-content: center
-                margin-left: 32%
-                border: 2px solid #008080
-                border-radius: 5px
-            &-home
-                background: #008080
-                color: white
-                display: flex
-                justify-content: center
-                margin-left: 35%
-                border: 2px solid #008080
-                border-radius: 5px
-        &-text-register
+            color: white
             display: flex
-            justify-content: center
-            margin-top: 15%
+            justify-content: space-around
+            border: 0
+            border-radius: 5px
+            padding: 10px 20px
+            cursor: pointer
+            width: 68px
+            &--blue
+                width: 100%
+                background: #0a2b5b
+                &:hover
+                    background: #1f5fbc
+            &--green
+                background: #1f73fe
+.button-primary-action
+    margin: 0px 0px 15px 0px
+.button-secondary-action
+    display: flex
+    justify-content: space-between
+
+       
     &__link
         display: flex
         justify-content: center
         justify-content: space-around
+
+@media (min-width: 600px )
+
+    .login
+        &__form
+            border-radius: 5%
 

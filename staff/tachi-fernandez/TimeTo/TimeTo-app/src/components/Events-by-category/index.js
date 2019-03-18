@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logic  from '../../logic'
 import {Link,Redirect} from 'react-router-dom'
+import './index.css'
 
 class EventsByCategory extends Component {
     state ={results : ''}
@@ -26,14 +27,14 @@ class EventsByCategory extends Component {
         return (
             
             <section>
-                <div>
-                <Link to="/home">Go home</Link>
-                </div>
-                {logic.isUserLoggedIn ? results && (results || []).map(result => (             
-                <Link to={`/event/${result.id}`}>
-                    <img className="image" src={result.category.image} alt={result.title} />
-                    <h2>{result.title}</h2> 
+                
+                {logic.isUserLoggedIn ? results && (results || []).map(result => (
+                <div className="events__card">
+                <Link className="events__card-link" to={`/event/${result.id}`}>
+                    <img className="events__card-image" src={result.category.image} alt={result.title} />
+                    <h2 className="events__card-title" >{result.title}</h2> 
                 </Link>
+                </div>                
             )
                 ) : <Redirect to ='/login-or-register'/> }
             </section>

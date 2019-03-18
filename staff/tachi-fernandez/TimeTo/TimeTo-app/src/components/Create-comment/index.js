@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './index.css'
 
 
 class CreateComment extends Component {
@@ -21,10 +22,10 @@ class CreateComment extends Component {
         const { handleTextInput , handleFromSubmit , state:{text}} = this
         return (
 
-          <section className="createEvent">
-            <form onSubmit={handleFromSubmit}>
-                <input onChange={handleTextInput} value={text}  className="createComment__input-title" type="text" placeholder="Writte comment..." required/>
-                <button className="createEvent__button">Comment</button>
+          <section className="create">
+            <form className="create__form" onSubmit={handleFromSubmit}>
+                <textarea className="create__form-text" onChange={handleTextInput} value={text}   type="text" placeholder="Writte comment..." required/>
+                <button className="create__form-button">Comment</button>
             </form>
           </section>     
       )

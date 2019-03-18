@@ -1,0 +1,43 @@
+.user {
+  max-width: 400px;
+  margin: auto;
+}
+.user__content {
+  padding: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.user__image {
+  padding-right: 20px;
+  padding-left: 20px;
+  width: 100%;
+}
+.user__image-img {
+  width: 100%;
+}
+.user__name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+.user__username {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+.user__description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+.user__age {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+
+/*# sourceMappingURL=index.css.map */

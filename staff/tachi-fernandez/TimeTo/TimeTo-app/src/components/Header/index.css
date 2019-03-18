@@ -1,8 +1,12 @@
+.nav {
+  background: white;
+}
+
 #menuToggle {
   display: block;
   position: relative;
-  top: 50px;
-  left: 50px;
+  top: 20px;
+  left: 20px;
   z-index: 1;
   -webkit-user-select: none;
   user-select: none;
@@ -51,26 +55,49 @@
 }
 
 #menu {
-  position: absolute;
+  position: fixed;
   width: 100%;
+  height: 100%;
   opacity: 0.9;
-  margin: -100px 0 0 -50px;
+  margin: 0px;
   padding: 50px;
-  padding-top: 125px;
+  padding-top: 0px;
   background: #ededed;
   list-style-type: none;
-  -webkit-font-smoothing: antialiased;
   transform-origin: 0% 0%;
   transform: translate(-100%, 0);
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), -webkit-transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  top: 0px;
+  left: 0px;
 }
 #menu li {
-  padding: 10px 0;
-  font-size: 22px;
+  border: 0px;
+  background: no-repeat;
+  padding: 15px 20px;
+  border-top: 1px solid #c9bebe;
+  width: 100%;
+  text-align: left;
 }
 
 #menuToggle input:checked ~ ul {
   transform: none;
+}
+
+.page {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin-top: -30px;
+}
+.page__to {
+  color: #3e7bc0;
+}
+.page__clock {
+  margin-top: 26px;
+  color: #3e7bc0;
 }
 
 /*# sourceMappingURL=index.css.map */

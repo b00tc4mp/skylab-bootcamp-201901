@@ -1,5 +1,31 @@
+.my-events {
+  padding-left: 15px;
+  padding-right: 15px;
+}
 .my-events__event {
-  border: 2px solid black;
+  border: 1px solid #706f6f;
+}
+.my-events__event-img {
+  width: 100%;
+}
+.my-events__event-img-image {
+  width: 100%;
+}
+.my-events__event-title-h2 {
+  display: flex;
+  justify-content: center;
+}
+.my-events__event-description-paragraph {
+  display: flex;
+  justify-content: center;
+}
+.my-events__event-dateAndUbication {
+  border-bottom: 2px solid grey;
+  border-top: 2px solid grey;
+  display: block;
+  justify-content: center;
+  justify-content: space-around;
+  padding: 15px;
 }
 
 /*# sourceMappingURL=index.css.map */

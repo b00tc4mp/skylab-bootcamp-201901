@@ -2,13 +2,12 @@ import React, {Component} from 'react'
 import logic from '../../logic'
 import {Link,withRouter} from 'react-router-dom'
 import Feedback from '../Feedback';
+import './index.css'
 
 class UserModify extends Component{
-    state = {name:'',surname:'',age:'',description: '',email: '',image: '',updateFeedback: null} 
+    state = {name:'',surname:'',age:'',description: '',image: '',updateFeedback: null} 
     componentDidMount(){
-        debugger
         try {
-            debugger
             logic.retrieveUser()
                 .then(results => {
                     this.setState({ 
@@ -31,9 +30,8 @@ class UserModify extends Component{
 
     handleNameInput = event => this.setState({ name: event.target.value  })
     handleSurnameInput = event => this.setState({ surname: event.target.value })
-    handleAgeInput = event => this.setState({ age: event.target.value })
+    handleAgeInput = event => this.setState(Number({ age: event.target.value }))
     handleDescriptionInput = event => this.setState({ description: event.target.value })
-    handleEmailInput = event => this.setState({ email: event.target.value })
     handleImageInput = event => {
         let files = event.target.files[0]
 
@@ -48,10 +46,9 @@ class UserModify extends Component{
 
     updateUser = event => {
         event.preventDefault()
-        const {state:{name,surname,age,description,email}} = this
-        console.log(name)
+        const {state:{name,surname,age,description}} = this
         try {
-            logic.updateUser(name,surname,age,description,email)
+            logic.updateUser(name,surname,age,description)
                 .then(() => {
                     alert('Usuario modificado')
                     this.props.history.push('/user')
@@ -71,63 +68,64 @@ class UserModify extends Component{
             handleSurnameInput,
             handleDescriptionInput,
             handleAgeInput,
-            handleEmailInput,
             handleImageInput,
             updateUser,
             state:{name,
                 surname,
                 age,
                 description,
-                email,
                 image,
                 updateFeedback}}
             = this
 
         return( 
-            <section>
-            <form onSubmit={updateUser}>
-            <div>
+            <section className="modify">
+            <div className="modify__container">
 
-            <div>
-            <label>Name:</label>
-            <input onChange={handleNameInput}  defaultValue={name}></input>
+            <form className="modify__card" onSubmit={updateUser}>
+
+            <div className="modify__card-name">
+            <label className="modify__card-name-label">Name:</label>
+            <input className="modify__card-name-input" onChange={handleNameInput}  defaultValue={name}></input>
             </div>
 
-            <div>
-            <label>Surname:</label>
-            <input onChange={handleSurnameInput}  defaultValue={surname}></input>
+            <div className="modify__card-surname"> 
+            <label className="modify__card-surname-label">Surname:</label>
+            <input className="modify__card-surname-input" onChange={handleSurnameInput}  defaultValue={surname}></input>
             </div>
 
-            <div>
-            <label>Age:</label>
-            <input onChange={handleAgeInput}  defaultValue={age} type="text"></input>
+            <div className="modify__card-age">
+            <label className="modify__card-age-label">Age:</label>
+            <input className="modify__card-age-input" onChange={handleAgeInput}  defaultValue={age} type="number"></input>
             </div>
 
-            <div>
-            <label>Description:</label>
-            <input onChange={handleDescriptionInput}  defaultValue={description}></input>
+            <div className="modify__card-description">
+            <label className="modify__card-description-label">Description:</label>
+            <textarea  className="modify__card-description-input" onChange={handleDescriptionInput}  defaultValue={description}></textarea>
             </div>
 
-            <div>
-            <label>Email:</label>
-            <input onChange={handleEmailInput} defaultValue={email} type="text"></input>
-            </div>
+            
 
-            <div>
-            {image && (<img className="image" src={image} alt={image} />)}
-                <input onChange={handleImageInput} defaultValue={image} name="image" type="file"></input>
+            <div className="modify__card-image">
+            {image && (<img className="modify__card-image-img" src={image} alt={image} />)}
+                <input className="modify__card-image-input" onChange={handleImageInput} defaultValue={image} name="image" type="file"></input>
             </div>
         
 
-           
+            <div className="modify__card-button">
+            <button className="modify__card-button-mod"> Modify </button>
             </div>
+           
 
-            <div>
-            <Link to="/home" className="user__link-home">Go home</Link>
-            <button> Modify </button>
+            <div className="modify__card-home">
+            <Link to="/home" className="modify__card-home-link">Go home</Link>
             </div>  
+        
+            
 
                 </form>   
+
+            </div>
 
             { updateFeedback && <Feedback message={updateFeedback} level="warn" /> }
  

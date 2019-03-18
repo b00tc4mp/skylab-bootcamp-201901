@@ -33,21 +33,28 @@ class App extends Component {
           
         })
         .catch( ({message}) => {
-      this.showMessage(message)
+      this.showMessageRegister(message)
 
       })
     }catch ({message}){ 
-      this.showMessage(message)
+      this.showMessageRegister(message)
 
 
     }
   }
 
-  showMessage = message => {
+  showMessageRegister = message => {
     this.setState({ registerFeedback: message })
     setTimeout(()=> {
       this.setState({ registerFeedback: null })
-    }, 5000)
+    }, 4000)
+  }
+
+  showMessageLogin = message => {
+    this.setState({ loginFeedback: message })
+    setTimeout(()=> {
+      this.setState({ loginFeedback: null })
+    }, 4000)
   }
 
   handleLogin = (email,password) => {
@@ -60,14 +67,15 @@ class App extends Component {
             alert('you have successfully login')
             this.props.history.push('/home') 
         }).catch( ({message}) => {
-            console.log(message)
-            this.setState({ loginFeedback: message })
+          this.showMessageLogin(message)
+
             
 
         })
 
     }catch({message}){
-      this.setState({ loginFeedback: message })
+      this.showMessageLogin(message)
+
     }
   }
 
