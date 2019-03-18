@@ -60,10 +60,59 @@ describe('logic', () => {
         })
 
 
+        describe('log in user', () => {
+            const name = 'User'
+            const surname = 'test'
+            const email = `test-${Math.random()}@mail.com`
+            const password = '123'
+            const passwordConfirmation = password
 
-
+            beforeEach(() =>
+                logic.registerUser(name, surname, email, password, passwordConfirmation)
+            )
+            it('should succeed on correct credentials', () =>
+                logic.logInUser(email, password)
+                    .then(() => expect(__userApiToken__).toBeDefined())
+            )
+        })
 
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // describe('log in user', () => {
     //     const name = 'User'

@@ -14,3 +14,20 @@
     margin-left: 10em;
     margin-bottom: 5em;
   }
+
+  .sectionpaymenthistory {
+    border-radius: 15px;
+    background-color: ghostwhite;
+    padding: 20px;
+    margin-left: 10em;
+    margin-bottom: 5em;
+    display: flex;
+    border: 1px solid black;
+    flex-direction: row;
+
+  }
+
+  .innerpayment{
+    display: flex;
+    flex-direction: column;
+  }

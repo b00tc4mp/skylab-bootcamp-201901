@@ -22,8 +22,8 @@
   
 .text{
   margin: 3%;
-  border: 1px solid black;
+ 
   border-radius: 5px;
-  background-color: whitesmoke;
+  background-color: white;
   padding: 1%;
 }
