@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
 import { Button, TextField } from "@material-ui/core";
 import styles from "./index.module.scss";
 
@@ -22,7 +21,7 @@ const Login = props => {
   };
 
   return (
-    <div item className={styles.container}>
+    <div className={styles.container}>
       <h2>Login</h2>
 
       <form onSubmit={handleSubmit}>

@@ -43,6 +43,14 @@ const padelcatApi = {
       throw TypeError(`${passwordConfirm} is not a string`);
     if (!passwordConfirm.trim().length)
       throw Error("password confirm is empty");
+
+    if (typeof preferedPosition !== "string")
+      throw TypeError(`${preferedPosition} is not a string`);
+    if (!preferedPosition.trim().length)
+      throw Error("preferedPosition is empty");
+
+    if (typeof link !== "string") throw TypeError(`${link} is not a string`);
+    if (!link.trim().length) throw Error("link is empty");
     return axios.post(
       "/register",
       JSON.stringify({
@@ -53,9 +61,11 @@ const padelcatApi = {
         passwordConfirm,
         preferedPosition,
         link
-      }), {
+      }),
+      {
         headers: { "content-type": "application/json" }
-      });
+      }
+    );
   },
 
   authenticatePlayer: (email, password) => {
@@ -74,7 +84,7 @@ const padelcatApi = {
     return axios.get("/retrievePlayers");
   },
 
-  getPlayerById: (token) => {
+  getPlayerById: token => {
     return axios.get("/getPlayerById");
   },
 
@@ -83,6 +93,9 @@ const padelcatApi = {
   },
 
   setScorePlayers: link => {
+    if (typeof link !== "string") throw TypeError(`${link} is not a string`);
+    if (!link.trim().length) throw Error("link is empty");
+
     return axios.put("/setScorePlayer", JSON.stringify({ link }));
   },
 
@@ -122,11 +135,7 @@ const padelcatApi = {
         headers: { "content-type": "application/json" }
       }
     );
-  },
-
-  //  retrieveAvailabilityPlayers: (matchId) => {
-  //    return axios.get(`/retrieveAvailabilityPlayers/${matchId}`)
-  //  }
+  }
 };
 
 export default padelcatApi;

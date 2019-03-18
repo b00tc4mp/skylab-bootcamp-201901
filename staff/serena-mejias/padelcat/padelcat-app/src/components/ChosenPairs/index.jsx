@@ -8,7 +8,6 @@ export default function ChosenPairs(props) {
   // };
 
   const { players, selectName } = props;
-debugger
   return (
     <section className={styles.select_pair}>
       <Field className={styles.select_player} name={`${selectName}-firstPlayer`} component="select">

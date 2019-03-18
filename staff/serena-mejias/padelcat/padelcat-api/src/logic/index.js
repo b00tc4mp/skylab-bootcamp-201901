@@ -52,7 +52,7 @@ const logic = {
     return (async () => {
       const player = await Player.findOne({ email });
       if (player) {
-        throw Error(`player wiith email ${player.email} already exists`);
+        throw Error(`player with email ${player.email} already exists`);
       }
       if (admin) {
         const hash = await bcrypt.hash(password, 10);
@@ -253,17 +253,12 @@ const logic = {
   },
 
   getMatchesWithData() {
-    console.log('s');
-    
     return (async () => {
       const dataMatches = await this.retrieveMatchesScrapping();
       const newArray = dataMatches.map(async scrappingMatch => {
         const match = await Match.findOne({
           matchId: scrappingMatch.matchId
-        });
-        if (match) {
-          match.populate("playersAvailable");
-        }
+        }).populate("playersAvailable");
         const {
           matchId,
           date,
