@@ -52,11 +52,9 @@ class App extends Component {
           )
         .then(() => this.props.history.push("/login"))
         .catch(error => {
-          debugger
           throw Error(error);
         });
       } catch (error) {
-        debugger
         throw Error(error);
     }
   };

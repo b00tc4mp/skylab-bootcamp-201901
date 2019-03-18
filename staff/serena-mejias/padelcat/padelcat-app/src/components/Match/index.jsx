@@ -36,8 +36,7 @@ export const Match = props => {
   };
 
   const onSubmit = e => {
-    console.log(e);
-    logic.addChosenPlayers(playersChosen, matchId);
+    logic.addChosenPlayers(e, matchId);
   };
   useEffect(() => {
     if (playersAvailable.filter(player => player._id === _id).length) {
@@ -111,30 +110,30 @@ export const Match = props => {
         <div>
           <h4>1st Match</h4>
           {playersChosen &&
-            playersChosen.playersId &&
-            playersChosen.playersId.playersId && (
-              <p>
-                {playersChosen.playersId.playersId["firstPair-firstPlayer"]} -{" "}
-                {playersChosen.playersId.playersId["firstPair-secondPlayer"]}
-              </p>
+            playersChosen.players &&
+            playersChosen.players["firstPair-firstPlayer"] && (
+              <span>
+                {playersChosen.players["firstPair-firstPlayer"]} -{" "}
+                {playersChosen.players["firstPair-secondPlayer"]}
+              </span>
             )}
           <h4>2nd Match</h4>
           {playersChosen &&
-            playersChosen.playersId &&
-            playersChosen.playersId.playersId && (
-              <p>
-                {playersChosen.playersId.playersId["secondPair-firstPlayer"]} -{" "}
-                {playersChosen.playersId.playersId["secondPair-secondPlayer"]}
-              </p>
+            playersChosen.players &&
+            playersChosen.players["secondPair-firstPlayer"] && (
+              <span>
+                {playersChosen.players["secondPair-firstPlayer"]} -{" "}
+                {playersChosen.players["secondPair-secondPlayer"]}
+              </span>
             )}
           <h4>3rd Match</h4>
           {playersChosen &&
-            playersChosen.playersId &&
-            playersChosen.playersId.playersId && (
-              <p>
-                {playersChosen.playersId.playersId["thirdPair-firstPlayer"]} -{" "}
-                {playersChosen.playersId.playersId["thirdPair-secondPlayer"]}
-              </p>
+            playersChosen.players &&
+            playersChosen.players["thirdPair-firstPlayer"] && (
+              <span>
+                {playersChosen.players["thirdPair-firstPlayer"]} -{" "}
+                {playersChosen.players["thirdPair-secondPlayer"]}
+              </span>
             )}
         </div>
       </div>

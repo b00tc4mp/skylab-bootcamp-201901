@@ -6,7 +6,6 @@ export default function ChosenPairs(props) {
   // const onChosenPair = () => {
   //   return props.playersChosen;
   // };
-
   const { players, selectName } = props;
   return (
     <section className={styles.select_pair}>
@@ -14,14 +13,14 @@ export default function ChosenPairs(props) {
         <option />
         {players &&
           players.map(player => (
-            <option value={player.id}>{player.name}</option>
+            <option value={player._id}>{player.name}</option>
           ))}
       </Field>
       <Field className={styles.select_player} name={`${selectName}-secondPlayer`} component="select">
         <option />
         {players &&
           players.map(player => (
-            <option value={player.id}>{player.name}</option>
+            <option value={player._id}>{player.name}</option>
           ))}
       </Field>
     </section>
