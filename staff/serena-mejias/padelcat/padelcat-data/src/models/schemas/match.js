@@ -15,12 +15,12 @@ const Match = new Schema({
   playersChosen: {
     type: Object,
     properties: {
-      "firstPair-firstPlayer": { type: String },
-      "firstPair-secondPlayer": { type: String },
-      "secondPair-firstPlayer:": { type: String },
-      "secondPair-secondPlayer": { type: String },
-      "thirdPair-firstPlayer": { type: String },
-      "thirdPair-secondPlayer": { type: String }
+      "firstPair-firstPlayer": { type: Schema.Types.ObjectId, ref: "Player" },
+      "firstPair-secondPlayer": { type: Schema.Types.ObjectId, ref: "Player" },
+      "secondPair-firstPlayer:": { type: Schema.Types.ObjectId, ref: "Player" },
+      "secondPair-secondPlayer": { type: Schema.Types.ObjectId, ref: "Player" },
+      "thirdPair-firstPlayer": { type: Schema.Types.ObjectId, ref: "Player" },
+      "thirdPair-secondPlayer": { type: Schema.Types.ObjectId, ref: "Player" }
     }
   },
 

@@ -8,9 +8,11 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import { lightGreen } from "@material-ui/core/colors";
 
 export const Home = props => {
   const [matches, setMatches] = useState("");
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
     if (!logic.getStoredtoken()) {
@@ -22,6 +24,9 @@ export const Home = props => {
       .catch(error => {
         throw Error(error);
       });
+    logic.retrievePlayers().then(players => {
+      setPlayers(players);
+    });
   }, []);
 
   return (
@@ -39,13 +44,17 @@ export const Home = props => {
                   color="textSecondary"
                   gutterBottom
                 >
+                {console.log(match)}
                   <li className={styles.match} key={match.matchId}>
-                    <Match
-                      match={match}
-                      handleSetAvailable={props.handleSetAvailable}
-                      handleSetUnavailable={props.handleSetUnavailable}
-                      playerlogged={props.playerlogged}
-                    />
+                    {players.length > 0 && (
+                      <Match
+                        match={match}
+                        handleSetAvailable={props.handleSetAvailable}
+                        handleSetUnavailable={props.handleSetUnavailable}
+                        playerlogged={props.playerlogged}
+                        players={players}
+                      />
+                    )}
                   </li>
                 </Typography>
               </CardContent>

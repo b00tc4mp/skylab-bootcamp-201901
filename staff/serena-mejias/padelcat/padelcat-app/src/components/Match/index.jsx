@@ -8,6 +8,7 @@ import ChosenPairs from "../ChosenPairs";
 import { Form, Values } from "react-final-form";
 import logic from "../../logic";
 import { log } from "util";
+import { find, get } from "lodash";
 
 export const Match = props => {
   const [available, setAvailable] = useState(false);
@@ -33,6 +34,13 @@ export const Match = props => {
   const handleSetUnavailable = matchId => {
     props.handleSetUnavailable(matchId);
     setAvailable(false);
+  };
+
+  const getPlayerById = position => {
+    const player = find(props.players, {
+      _id: playersChosen.players[position]
+    });
+    return player ? player.name : "";
   };
 
   const onSubmit = e => {
@@ -109,30 +117,24 @@ export const Match = props => {
       <div>
         <div>
           <h4>1st Match</h4>
-          {playersChosen &&
-            playersChosen.players &&
-            playersChosen.players["firstPair-firstPlayer"] && (
+          {get(playersChosen, ['players', 'firstPair-firstPlayer']) && (
               <span>
-                {playersChosen.players["firstPair-firstPlayer"]} -{" "}
-                {playersChosen.players["firstPair-secondPlayer"]}
+                {getPlayerById("firstPair-firstPlayer")} -{" "}
+                {getPlayerById("firstPair-secondPlayer")}
               </span>
             )}
           <h4>2nd Match</h4>
-          {playersChosen &&
-            playersChosen.players &&
-            playersChosen.players["secondPair-firstPlayer"] && (
+          {get(playersChosen, ['players', 'secondPair-firstPlayer']) && (
               <span>
-                {playersChosen.players["secondPair-firstPlayer"]} -{" "}
-                {playersChosen.players["secondPair-secondPlayer"]}
+                {getPlayerById("secondPair-firstPlayer")} -{" "}
+                {getPlayerById("secondPair-secondPlayer")}
               </span>
             )}
           <h4>3rd Match</h4>
-          {playersChosen &&
-            playersChosen.players &&
-            playersChosen.players["thirdPair-firstPlayer"] && (
+          {get(playersChosen, ['players', 'thirdPair-firstPlayer']) && (
               <span>
-                {playersChosen.players["thirdPair-firstPlayer"]} -{" "}
-                {playersChosen.players["thirdPair-secondPlayer"]}
+                {getPlayerById("thirdPair-firstPlayer")} -{" "}
+                {getPlayerById("thirdPair-secondPlayer")}
               </span>
             )}
         </div>

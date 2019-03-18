@@ -258,7 +258,7 @@ const logic = {
       const newArray = dataMatches.map(async scrappingMatch => {
         const match = await Match.findOne({
           matchId: scrappingMatch.matchId
-        }).populate("playersAvailable");
+        }).populate("playersAvailable"); 
         const {
           matchId,
           date,
