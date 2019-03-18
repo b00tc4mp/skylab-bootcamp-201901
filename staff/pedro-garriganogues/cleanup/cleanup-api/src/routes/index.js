@@ -110,10 +110,6 @@ router.get('/categories/products/:productId', (req, res) => {
 router.get('/products', (req, res) => {
     let { query: { ids } } = req
 
-    //     (ids = ids.split(','))
-
-    // console.log(ids)
-
     if (!ids)
         logic.listTheProducts()
             .then(products => {

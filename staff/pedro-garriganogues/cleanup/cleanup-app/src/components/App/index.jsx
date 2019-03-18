@@ -4,7 +4,7 @@ import Order from '../Order'
 import Register from '../Register'
 import Login from '../Login'
 import About from '../About'
-// import Products from '../Products'
+
 import Landing from '../Landing/index'
 import Navbar from '../Navbar/index'
 import Contact from '../Contact'
@@ -21,7 +21,6 @@ class App extends Component {
         cart: [],
         total: [],
         loggedIn: logic.loggedIn,
-        // cartLength: logic.cart().length,
     }
 
     onLogin = () => {
@@ -37,20 +36,7 @@ class App extends Component {
     onOrder = () => {
         logic.clearCart()
 
-        this.getItems()
-
         this.props.history.push('/')
-    }
-
-
-    getItems = () => {
-        // if (logic._cart.length && logic._cart !== 'undefined') {
-        //     logic.listProductsByIds()
-        //         .then(cart => this.setState({ cart, total: [], cartLength: logic.cart().length }))
-        // } else {
-        //     this.setState({ cart: [], total: [], cartLength: logic.cart().length })
-        // }
-        console.log('getitems')
     }
 
     onRemoveFromCart = id => {
@@ -86,14 +72,14 @@ class App extends Component {
         const { state: { loginFeedback, registerFeedback, cart }, handleLogin, handleRegister } = this
 
         return (<main className="app">
-            <Navbar loggedIn={this.state.loggedIn} onLogout={this.onLogout} cartLength={this.state.cartLength} />
+            <Navbar loggedIn={this.state.loggedIn} onLogout={this.onLogout} />
             <Landing />
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/products" render={props => <Totalproducts categoryId={props.match.params.id} />} />
             <Route exact path="/product/:id" render={props => <Product productId={props.match.params.id} />} />
-            <Route exact path="/cart" render={() => <Cart cart={[]} total={[]} />} />
+            <Route exact path="/cart" render={() => <Cart />} />
             <Route exact path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />
             <Route exact path="/login" render={() => <Login onLogin={handleLogin} feedback={loginFeedback} />} />
 
