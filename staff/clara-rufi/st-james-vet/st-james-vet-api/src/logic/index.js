@@ -207,11 +207,8 @@ const logic = {
         if (typeof pet !== 'string') throw TypeError(pet + ' is not a string')
 
         if (!pet.trim().length) throw Error('pet cannot be empty')
-        console.log(88888, typeof date)
-        // if (typeof date !== typeof Date) throw TypeError('date is not type date')
+       
         if (typeof date !== 'object') throw TypeError('date is not an object')
-
-        //if (!date.trim().length) throw Error('date cannot be empty')
 
         return (async () => {
 
@@ -222,7 +219,8 @@ const logic = {
             const appointment = new Appointment ({owner, pet, date})
     
             await appointment.save()
-            
+
+            return appointment           
           })()
     },
 
