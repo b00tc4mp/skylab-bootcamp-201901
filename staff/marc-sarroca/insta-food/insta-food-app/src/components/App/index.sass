@@ -1,14 +1,18 @@
 @import ../../utils
-    
-body 
+*    
  margin: 0
  padding: 0
+ box-sizing: border-box
+
+body 
  height: 100vh
  background: $base-color
  background-attachment: fixed
 
+.container
+    display: grid
+    grid-template-rows: 3em auto 3em
+    height: 100vh
+
 .app
-    height: 100%
-    width: 100%
-    margin: 0
-    height: 100vh 
+    grid-row-start: 2

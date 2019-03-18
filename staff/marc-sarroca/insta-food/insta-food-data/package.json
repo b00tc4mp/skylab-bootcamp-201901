@@ -4,6 +4,7 @@
   "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
-    "mongoose": "^5.4.17"
+    "mongoose": "^5.4.17",
+    "mongoose-paginate": "^5.0.3"
   }
 }

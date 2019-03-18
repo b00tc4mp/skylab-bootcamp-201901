@@ -1768,7 +1768,7 @@ describe("logic", () => {
       postId = undefined;
 
       expect(() => {
-        logic.deletePost(user_id, postId;
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(postId + " is not a string"));
     });
 
@@ -1792,7 +1792,7 @@ describe("logic", () => {
       postId = {};
 
       expect(() => {
-        logic.deletePost(user_id, postId;
+        logic.deletePost(user_id, postId);
       }).toThrow(TypeError(postId + " is not a string"));
     });
   });

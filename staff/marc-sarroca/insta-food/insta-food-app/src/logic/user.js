@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import instaApi from "../instafood-api";
 
 export default function useUser() {
+  const context = createContext();
+
   const [userState, setUserState] = useState({
     user: null,
     isUserLoading: true,

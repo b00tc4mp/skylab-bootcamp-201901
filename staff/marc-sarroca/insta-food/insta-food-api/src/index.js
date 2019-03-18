@@ -41,7 +41,7 @@ mongoose
       [jsonBodyParser, tokenVerifierMiddleware],
       createPost
     );
-    router.get("/posts", tokenVerifierMiddleware, retrieveAllPosts);
+    router.get("/posts/:page", tokenVerifierMiddleware, retrieveAllPosts);
     router.get("/user/:id/posts", tokenVerifierMiddleware, retrieveUserPosts);
     router.get(
       "/user/favorites/:postId",

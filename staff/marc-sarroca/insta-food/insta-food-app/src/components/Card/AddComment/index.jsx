@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from "react";
 import logic from "../../../logic";
 import Feedback from "../../../components/Feedback";
+import "./index.sass";
 
 function AddComment({ postId, refreshComments }) {
   const [text, setText] = useState("");
@@ -23,16 +24,20 @@ function AddComment({ postId, refreshComments }) {
   };
 
   return (
-    <Fragment>
+    <div className="comments-container">
       <input
+        className="comments-input"
         type="text"
         name="comment"
         onChange={handleAddComment}
         placeholder="Put yout comment"
+        autoFocus
       />
       {commentFeedback && <Feedback message={commentFeedback} />}
-      <button onClick={handleOnClick}>Send your comment</button>
-    </Fragment>
+      <button className="comment-button" onClick={handleOnClick}>
+        Publicar
+      </button>
+    </div>
   );
 }
 

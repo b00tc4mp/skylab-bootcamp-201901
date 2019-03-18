@@ -66,8 +66,8 @@ const logic = {
     );
   },
 
-  retrieveAllPosts() {
-    return instaApi.retrieveAllPosts(this.__userApiToken__);
+  retrieveAllPosts(page) {
+    return instaApi.retrieveAllPosts(this.__userApiToken__, page);
   },
   retrievePostByUser(postUserId) {
     if (typeof postUserId !== "string")

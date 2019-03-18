@@ -6,6 +6,7 @@ const {
 } = Schema;
 
 const Comment = require("./comment");
+const mongoosePaginate = require("mongoose-paginate");
 const Post = new Schema({
   tags: {
     type: Array,
@@ -34,5 +35,5 @@ const Post = new Schema({
     default: 0
   }
 });
-
+Post.plugin(mongoosePaginate);
 module.exports = Post;

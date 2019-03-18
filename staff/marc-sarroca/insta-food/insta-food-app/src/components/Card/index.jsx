@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import "./index.sass";
 import AddComment from "./AddComment";
 import logic from "../../logic";
+import { withRouter } from "react-router-dom";
 
 function Card({
   title,
@@ -14,6 +15,8 @@ function Card({
   username,
   postUserId,
   countfavs,
+  email,
+  location,
   call = () => {}
 }) {
   const [commentsPost, setComments] = useState("");
@@ -28,6 +31,9 @@ function Card({
     setComments(comments);
   };
 
+  // let currentLocation = location.pathname;
+  // console.log(currentLocation);
+
   useEffect(() => {
     setComments(comments);
   }, [comments]);
@@ -36,47 +42,89 @@ function Card({
     logic.removePost(postId).then(() => call());
   };
 
+  console.log(location.pathname);
+
   return (
-    <div className="card">
-      <Link to={`/profile/${postUserId}`}>{username}</Link>
-      {title && <p>{title}</p>}
-      <img className="post-image" src={image} alt="Post" />
-      <i
-        className={`fas fa-star ${
-          (userFavorites || []).map(f => f._id).includes(postId)
-            ? "fav-icon-enable"
-            : "fav-icon-disable"
-        }`}
-        onClick={toggleFavorite}
-      />
-      {countfavs && <p>{countfavs}</p>}
-      <i className="far fa-trash-alt" onClick={removePost} />
-      <AddComment postId={postId} refreshComments={refreshComments} />
-      {description && (
-        <p>
-          {description.split(" ").map(res => {
-            if (res.includes("#"))
-              return (
-                <div>
-                  <Link to={`/search/${res.substring(1)}`}>{res}</Link>
-                  <span> </span>
+    <div className="instafood-card">
+      <div className="instafood-card-header">
+        <Link
+          className="instafood-card-user-name"
+          to={`/profile/${postUserId}`}
+        >
+          <img
+            className="user-photo"
+            src={`https://api.adorable.io/avatars/285/${email}.png`}
+            alt="user"
+          />
+          {username}
+        </Link>
+        <div className="insta-food-favorites">
+          <i
+            className={`fas fa-star ${
+              (userFavorites || []).map(f => f._id).includes(postId)
+                ? "fav-icon-enable"
+                : "fav-icon-disable"
+            }`}
+            onClick={toggleFavorite}
+          />
+          {countfavs && (
+            <span className="instafood-favs">&nbsp; {countfavs}</span>
+          )}
+        </div>
+      </div>
+      <img className="instafood-image" src={image} alt="Post" />
+      {title && <p className="instafood-title">{title}</p>}
+      <div className="instafood-card-content">
+        <div className="instafood-card-icons">
+          {location.pathname === "/profile" ? (
+            <i
+              className="far fa-trash-alt instafood-remove"
+              onClick={removePost}
+            />
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="instafood-description">
+          {description && (
+            <p>
+              {description.split(" ").map(res => {
+                if (res.includes("#"))
+                  return (
+                    <Fragment>
+                      <Link
+                        className="hashtag"
+                        to={`/search/${res.substring(1)}`}
+                      >
+                        {res}
+                      </Link>
+                      <span> </span>
+                    </Fragment>
+                  );
+                return <span>{res + " "}</span>;
+              })}
+            </p>
+          )}
+        </div>
+
+        <AddComment postId={postId} refreshComments={refreshComments} />
+        <div className="instafood-comments">
+          <details>
+            <summary className="detail">View Comments</summary>
+            {commentsPost &&
+              commentsPost.map(comment => (
+                <div className="comments-container" key={comment._id}>
+                  <Link className="user-comment" to={`/profile/${postUserId}`}>
+                    {comment.by.username}
+                  </Link>
+                  <p className="comments">{comment.body}</p>
                 </div>
-              );
-            return <span>{res + " "}</span>;
-          })}
-        </p>
-      )}
-      {commentsPost &&
-        commentsPost.map(comment => (
-          <div key={comment._id}>
-            <p>Comentario: </p>
-            <p>{comment.body}</p>
-            <p>Usuario: </p>
-            <Link to={`/profile/${postUserId}`}>{comment.by.username}</Link>
-          </div>
-        ))}
+              ))}
+          </details>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Card;
+export default withRouter(Card);

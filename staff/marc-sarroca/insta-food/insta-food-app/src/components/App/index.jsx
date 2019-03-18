@@ -12,6 +12,7 @@ import AddPostPage from "../../pages/AddPost";
 import LoadingPage from "../../pages/Loading";
 import useUser from "../../logic/user";
 import ButtonBar from "../ButtonBar";
+import TopBar from "../TopBar";
 import "./index.sass";
 
 function App(props) {
@@ -64,10 +65,13 @@ function App(props) {
     <UserContext.Provider
       value={{ user, isUserLoading, userError, logout, login }}
     >
-      <main className="app">
-        {isUserLoading ? <LoadingPage /> : renderRoutes()}
-        {user && <ButtonBar />}
-      </main>
+      {user && <TopBar />}
+      <div className="container">
+        <main className="app">
+          {isUserLoading ? <LoadingPage /> : renderRoutes()}
+        </main>
+      </div>
+      {user && <ButtonBar />}
     </UserContext.Provider>
   );
 }

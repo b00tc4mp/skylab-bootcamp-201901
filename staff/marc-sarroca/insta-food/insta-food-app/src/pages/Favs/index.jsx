@@ -4,7 +4,6 @@ import Favorites from "../../components/Favorites";
 function FavsPage() {
   return (
     <section>
-      <h1 className="page-title">Your Favorites</h1>
       <Favorites />
     </section>
   );

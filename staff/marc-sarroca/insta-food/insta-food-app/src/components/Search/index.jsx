@@ -3,6 +3,7 @@ import logic from "../../logic";
 import Card from "../../components/Card";
 import { withRouter } from "react-router-dom";
 import Feedback from "../Feedback";
+import "./index.sass";
 
 function Search({ history, match }) {
   const [posts, setPosts] = useState([]);
@@ -10,45 +11,43 @@ function Search({ history, match }) {
   const handleHashtagInput = event => setTag(event.target.value);
   const [searchFeedback, setSearchFeedback] = useState(null);
 
-  const searchByTag = initTag => {
-    try {
-      logic
-        .retrieveAllPosts()
-        .then(posts => {
-          posts.filter(obj => obj.tags.includes(`#${initTag}`));
-        })
-        .then(posts => {
-          if (posts === undefined) {
-            setSearchFeedback("No founds results");
-          } else setPosts(posts);
-        })
-        .catch(({ message }) => setSearchFeedback(message));
-    } catch ({ message }) {
-      setSearchFeedback(message);
-    }
+  const searchByTag = async initTag => {
+    logic
+      .retrieveAllPosts()
+      .then(posts => {
+        const filtered = posts.docs.filter(obj =>
+          obj.tags.includes(`#${initTag}`)
+        );
+        setPosts(filtered);
+        if (filtered.length === 0) {
+          setSearchFeedback("No results");
+        }
+      })
+      .catch(({ message }) => setSearchFeedback(message));
   };
 
-  const handleClick = () => {
+  const handleClick = event => {
+    event.preventDefault();
     history.push(`/search/${tag}`);
   };
 
   useEffect(() => {
     const initTag = match.params.tag;
-    searchByTag(initTag);
+    if (initTag) searchByTag(initTag);
   }, [match.params.tag]);
 
   return (
     <Fragment>
-      <div>
+      <form className="search-container" onSubmit={handleClick}>
         <input
+          className="search-input"
           type="text"
           name="title"
           onChange={handleHashtagInput}
-          placeholder="Put your title"
+          placeholder="Search by tag"
         />
-        <button onClick={handleClick}>Search by posts</button>
         {searchFeedback && <Feedback message={searchFeedback} />}
-      </div>
+      </form>
 
       <div className="card-list">
         {posts &&

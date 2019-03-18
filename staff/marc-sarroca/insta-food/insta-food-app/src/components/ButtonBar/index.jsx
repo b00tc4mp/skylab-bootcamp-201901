@@ -33,7 +33,6 @@ function ButtonBar() {
           <i className="far fa-user fa-lg" />
         </Link>
       </div>
-      <div>{user && <button onClick={logout}>Logout</button>}</div>
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../userContext";
 import Feedback from "../Feedback";
 import "./index.sass";
@@ -21,7 +22,7 @@ function Login() {
   };
 
   return (
-    <section className="login">
+    <section className="panel-login-register">
       <h2 className="page-title">Login</h2>
       <div>
         <form className="form-login-register" onSubmit={handleFormSubmit}>
@@ -32,6 +33,7 @@ function Login() {
             onChange={handlePasswordInput}
           />
           <button>Login</button>
+          <Link to="/register">Register</Link>
         </form>
       </div>
       {loginFeedback && <Feedback message={loginFeedback} />}

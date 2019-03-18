@@ -101,18 +101,13 @@ const instaApi = {
       .then(post => post);
   },
 
-  retrieveAllPosts(token) {
-    return fetch(`${this.url}/posts`, {
+  retrieveAllPosts(token, page) {
+    return fetch(`${this.url}/posts/${page}`, {
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${token}`
       }
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response === undefined) throw Error("No results founds");
-        return response;
-      });
+    }).then(response => response.json());
   },
 
   retrievePostsByUser(id, token) {

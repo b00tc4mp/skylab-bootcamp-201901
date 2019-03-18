@@ -140,14 +140,17 @@ const logic = {
       });
   },
 
-  retrieveAllPosts() {
-    return Post.find({})
-      .populate("comments.by", "username")
-      .populate("user_id")
-      .select("-__v -password")
-      .lean()
-
-      .then(post => post);
+  retrieveAllPosts(page) {
+    return Post.paginate(
+      {},
+      {
+        page,
+        limit: 2,
+        populate: ["comments.by", "username", "user_id"],
+        select: "-__v -password",
+        lean: true
+      }
+    );
   },
 
   toggleFavoritesUser(userId, postId) {
