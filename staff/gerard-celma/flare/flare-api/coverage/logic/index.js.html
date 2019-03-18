@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.34% </span>
+        <span class="strong">97.41% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>99/116</span>
+        <span class='fraction'>113/116</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.27% </span>
+        <span class="strong">86.36% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>17/22</span>
+        <span class='fraction'>19/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>36/40</span>
+        <span class='fraction'>40/40</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">86.27% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>88/102</span>
+        <span class='fraction'>102/102</span>
       </div>
     </div>
     <p class="quiet">
@@ -541,18 +541,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -561,16 +559,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -871,17 +871,17 @@ const logic = {
      * @param {string} url
      * @param {string} msgId
      */
-<span class="fstat-no" title="function not covered" >    up</span>loadMessagePhoto(userId, url, msgId) {
-<span class="cstat-no" title="statement not covered" >        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }, { key: 'msgId', value: msgId, type: String }])</span>
+    uploadMessagePhoto(userId, url, msgId) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }, { key: 'msgId', value: msgId, type: String }])
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-            const message = <span class="cstat-no" title="statement not covered" >await Message.findByIdAndUpdate(msgId, { image: url }, { new: true, runValidators: true }).select('-__v').lean()</span>
-<span class="cstat-no" title="statement not covered" >            if (!message) <span class="cstat-no" title="statement not covered" >throw new Error(`message with msgId ${msgId} not found`)</span></span>
+        return (async () =&gt; {
+            const message = await Message.findByIdAndUpdate(msgId, { image: url }, { new: true, runValidators: true }).select('-__v').lean()
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!message) <span class="cstat-no" title="statement not covered" >throw new Error(`message with msgId ${msgId} not found`)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            message.id = message._id.toString()</span>
-<span class="cstat-no" title="statement not covered" >            delete message._id</span>
+            message.id = message._id.toString()
+            delete message._id
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return message</span>
+            return message
         })()
     },
 &nbsp;
@@ -891,17 +891,17 @@ const logic = {
      * @param {string} userId
      * @param {string} url
      */
-<span class="fstat-no" title="function not covered" >    up</span>dateUserPhoto(userId, url) {
-<span class="cstat-no" title="statement not covered" >        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])</span>
+    updateUserPhoto(userId, url) {
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-            const user = <span class="cstat-no" title="statement not covered" >await User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()</span>
-<span class="cstat-no" title="statement not covered" >            if (!user) <span class="cstat-no" title="statement not covered" >throw new Error(`user with userId ${userId} not found`)</span></span>
+        return (async () =&gt; {
+            const user = await User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) <span class="cstat-no" title="statement not covered" >throw new Error(`user with userId ${userId} not found`)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            user.id = user._id.toString()</span>
-<span class="cstat-no" title="statement not covered" >            delete user._id</span>
+            user.id = user._id.toString()
+            delete user._id
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return user</span>
+            return user
         })()
     },
 &nbsp;
@@ -1045,7 +1045,7 @@ module.exports = logic
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Mar 17 2019 17:03:23 GMT+0100 (GMT+01:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Mar 18 2019 11:31:54 GMT+0100 (GMT+01:00)
 </div>
 </div>
 <script src="../prettify.js"></script>

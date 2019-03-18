@@ -900,6 +900,358 @@ describe('logic', () => {
         )
     })
 
+    describe('uploadMessagePhoto', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email = `carlosperez-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+
+        let _name = 'pepe'
+        let _surname = 'gomez'
+        let _email = `pepegomez-${Math.random()}@mail.com`
+        let _password = `123-${Math.random()}`
+
+        let launchDate = '2019-03-21'
+        let position = [40.2345, 2.4365]
+        let text = 'sample message text'
+
+        let userIdFrom
+        let userIdTo
+        let msgId
+        let url = 'test url'
+
+        beforeEach(async () => {
+   
+            const hash1 = await bcrypt.hash(password, 10)
+
+            let { id } = await User.create({ name, surname, email, password: hash1 })
+
+            userIdFrom = id
+
+            const hash2 = await bcrypt.hash(_password, 10)
+
+            let user = await User.create({ name: _name, surname: _surname, email: _email, password: hash2 })
+
+            userIdTo =  user.id
+
+            const { _id } = await Message.create({userIdFrom, userIdTo, launchDate, position, text})
+
+            msgId = _id
+
+            const addUserFrom = await User.findByIdAndUpdate(userIdFrom, { msgSent: _id })
+
+            const addUserTo = await User.findByIdAndUpdate(userIdTo, { msgReceived: _id })
+        })
+
+        it('should fail on undefined userIdFrom', () => {
+            const userIdFrom = undefined
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on numeric userIdFrom', () => {
+            const userIdFrom = 123
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on boolean userIdFrom', () => {
+            const userIdFrom = true
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on object userIdFrom', () => {
+            const userIdFrom = {}
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on array userIdFrom', () => {
+            const userIdFrom = []
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on empty userIdFrom', () => {
+            const userIdFrom = ``
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined url', () => {
+            const url = undefined
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on numeric url', () => {
+            const url = 123
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on boolean url', () => {
+            const url = true
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on object url', () => {
+            const url = {}
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on array url', () => {
+            const url = []
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on empty url', () => {
+            const url = ``
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(Error('url is empty or blank'))
+        })
+
+        it('should fail on undefined msgId', () => {
+            const msgId = undefined
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on numeric msgId', () => {
+            const msgId = 123
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on boolean msgId', () => {
+            const msgId = true
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on object msgId', () => {
+            const msgId = {}
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on array msgId', () => {
+            const msgId = []
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on empty msgId', () => {
+            const msgId = ``
+            const url = "test-url"
+
+            expect(() => {
+                logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            }).toThrow(Error('msgId is empty or blank'))
+        })
+
+        it('should succeed on correct input', () => {
+            logic.uploadMessagePhoto(userIdFrom, url, msgId.toString())
+                .then((message) => {
+                    expect(message).toBeDefined()
+                    expect(message.image).toBe('test url')
+                })
+        })
+
+        it('shoul fail on wrong msgId', () => {
+            const msgId = "897ge9vvn9f87rfef70n9"
+
+            logic.uploadMessagePhoto(userIdFrom, url, msgId)
+                .catch(({ message }) => {
+                    expect(message).toBeDefined()
+                    expect(message).toBe(`Cast to ObjectId failed for value \"${msgId}\" at path \"_id\" for model \"Message\"`)
+                })
+        })
+    })
+
+    describe('update user photo', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email = `carlosperez-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+
+        let userId
+        let url = 'test url'
+
+        beforeEach(async () => {
+   
+            const hash1 = await bcrypt.hash(password, 10)
+
+            let { id } = await User.create({ name, surname, email, password: hash1 })
+
+            userId = id
+        })
+
+        it('should fail on undefined userId', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.updateUserPhoto(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric userId', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.updateUserPhoto(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+
+        it('should fail on boolean userId', () => {
+            const userId = true
+
+            expect(() => {
+                logic.updateUserPhoto(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on object userId', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.updateUserPhoto(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on array userId', () => {
+            const userId = []
+
+            expect(() => {
+                logic.updateUserPhoto(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on empty userId', () => {
+            const userId = ``
+
+            expect(() => {
+                logic.updateUserPhoto(userId)
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined url', () => {
+            const url = undefined
+
+            expect(() => {
+                logic.updateUserPhoto(userId, url)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on numeric url', () => {
+            const url = 123
+
+            expect(() => {
+                logic.updateUserPhoto(userId, url)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on boolean url', () => {
+            const url = true
+
+            expect(() => {
+                logic.updateUserPhoto(userId, url)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on object url', () => {
+            const url = {}
+
+            expect(() => {
+                logic.updateUserPhoto(userId, url)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on array url', () => {
+            const url = []
+
+            expect(() => {
+                logic.updateUserPhoto(userId, url)
+            }).toThrow(TypeError(url + ' is not a string'))
+        })
+
+        it('should fail on empty url', () => {
+            const url = ``
+
+            expect(() => {
+                logic.updateUserPhoto(userId, url)
+            }).toThrow(Error('url is empty or blank'))
+        })
+
+        it('should succeed on correct input', () => {
+            logic.updateUserPhoto(userId, url)
+                .then(user => {
+                    expect(user).toBeDefined()
+                    expect(user.image).toBe('test url')
+                })
+        })
+
+        it('should fail on wrong userId', () => {
+            let userId = 'kjhwf7we89ffhkwjh'
+
+            logic.updateUserPhoto(userId, url)
+                .catch(({ message }) => {
+                    expect(message).toBeDefined()
+                    expect(message).toBe(`Cast to ObjectId failed for value \"${userId}\" at path \"_id\" for model \"User\"`)
+                })
+        })
+    })
+
     describe('createMessage', () => {
         let name = 'carlos'
         let surname = 'perez'
@@ -1168,7 +1520,6 @@ describe('logic', () => {
         it('should succeed on correct userId', () => {
             return logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
                 .then((message) => {
-                    debugger
                     expect(message).toBeDefined()
                     expect(message instanceof Object).toBeTruthy()
                 })
