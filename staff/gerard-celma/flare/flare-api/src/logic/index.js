@@ -86,11 +86,11 @@ const logic = {
         })()
     },
 
-    // /**
-    //  * Retrieves user by its userId.
-    //  * 
-    //  * @param {string} userId
-    //  */
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     */
     retrieveUser(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -109,11 +109,11 @@ const logic = {
             })
     },
 
-    // /**
-    //  * Retrieves user by its userId.
-    //  * 
-    //  * @param {string} userId
-    //  */
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     */
     retrieveUsers(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -133,6 +133,14 @@ const logic = {
                 })
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     * @param {string} _name
+     * @param {string} _surname
+     * @param {string} _email
+     */
     updateUser(userId, _name, _surname, _email) {
         validate([{ key: 'userId', value: userId, type: String }, { key: 'name', value: _name, type: String }, { key: 'surname', value: _surname, type: String }, { key: 'email', value: _email, type: String }])
         
@@ -146,6 +154,13 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     * @param {string} url
+     * @param {string} msgId
+     */
     uploadMessagePhoto(userId, url, msgId) {
         validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }, { key: 'msgId', value: msgId, type: String }])
 
@@ -160,6 +175,12 @@ const logic = {
         })()
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     * @param {string} url
+     */
     updateUserPhoto(userId, url) {
         validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])
 
@@ -174,6 +195,11 @@ const logic = {
         })()
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     */
     removeUser(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -185,6 +211,15 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userIdFrom
+     * @param {string} userIdTo
+     * @param {string} launchDate
+     * @param {array} position
+     * @param {string} text
+     */
     createMessage(userIdFrom, userIdTo, launchDate, position, text) {
         validate([{ key: 'userIdFrom', value: userIdFrom, type: String }, { key: 'userIdTo', value: userIdTo, type: String }, { key: 'launchDate', value: launchDate, type: String }, { key: 'position', value: position, type: Array }, { key: 'text', value: text, type: String }])
 
@@ -204,6 +239,12 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userIdTo
+     * @param {string} msgId
+     */
     messageRead(userIdTo, msgId) {
         validate([{ key: 'userIdTo', value: userIdTo, type: String }, { key: 'msgId', value: msgId, type: String }])
 
@@ -216,6 +257,12 @@ const logic = {
                 })
     },
   
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     * @param {string} msgId
+     */
     messageDelete(userId, msgId){
         validate([{ key: 'userId', value: userId, type: String }, { key: 'msgId', value: msgId, type: String }])
 
@@ -242,6 +289,11 @@ const logic = {
         ]).then(values => values)
     },
     
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     */
     retrieveReceivedMessages(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -249,6 +301,11 @@ const logic = {
                 .then(user => user)
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     */
     retrieveSentMessages(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -256,6 +313,11 @@ const logic = {
                 .then(user => user)
     },
 
+    /**
+     * Retrieves user by its userId.
+     * 
+     * @param {string} userId
+     */
     retrieveAllMessages(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 

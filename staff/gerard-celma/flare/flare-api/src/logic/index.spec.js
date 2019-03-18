@@ -22,9 +22,9 @@ describe('logic', () => {
     )
 
     describe('register user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const name = 'carlos'
+        const surname = 'perez'
+        const email = `carlosperez-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const passwordConfirm = password
 
@@ -47,8 +47,8 @@ describe('logic', () => {
 
         it('should fail on undefined name', () => {
             const name = undefined
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -58,8 +58,8 @@ describe('logic', () => {
 
         it('should fail on numeric name', () => {
             const name = 10
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -70,8 +70,8 @@ describe('logic', () => {
 
         it('should fail on boolean name', () => {
             const name = true
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -81,8 +81,8 @@ describe('logic', () => {
 
         it('should fail on object name', () => {
             const name = {}
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -92,8 +92,8 @@ describe('logic', () => {
 
         it('should fail on array name', () => {
             const name = []
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -103,8 +103,8 @@ describe('logic', () => {
 
         it('should fail on empty name', () => {
             const name = ''
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -113,9 +113,9 @@ describe('logic', () => {
         })
 
         it('should fail on undefined surname', () => {
-            const name = 'Manuel'
+            const name = 'carlos'
             const surname = undefined
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -124,9 +124,9 @@ describe('logic', () => {
         })
 
         it('should fail on numeric surname', () => {
-            const name = 'Manuel'
+            const name = 'carlos'
             const surname = 10
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -136,9 +136,9 @@ describe('logic', () => {
 
 
         it('should fail on boolean surname', () => {
-            const name = 'Manuel'
+            const name = 'carlos'
             const surname = false
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -147,9 +147,9 @@ describe('logic', () => {
         })
 
         it('should fail on object surname', () => {
-            const name = 'Manuel'
+            const name = 'carlos'
             const surname = {}
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -158,9 +158,9 @@ describe('logic', () => {
         })
 
         it('should fail on array surname', () => {
-            const name = 'Manuel'
+            const name = 'carlos'
             const surname = []
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -169,9 +169,9 @@ describe('logic', () => {
         })
 
         it('should fail on empty surname', () => {
-            const name = 'Manuel'
+            const name = 'carlos'
             const surname = ''
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = `123-${Math.random()}`
 
             expect(() => {
@@ -180,9 +180,9 @@ describe('logic', () => {
         })
 
         it('should fail on undefined password', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const name = 'carlos'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = undefined
 
             expect(() => {
@@ -191,9 +191,9 @@ describe('logic', () => {
         })
 
         it('should fail on numeric password', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const name = 'carlos'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = 123
 
             expect(() => {
@@ -203,9 +203,9 @@ describe('logic', () => {
 
 
         it('should fail on boolean password', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const name = 'carlos'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = true
 
             expect(() => {
@@ -214,9 +214,9 @@ describe('logic', () => {
         })
 
         it('should fail on object password', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const name = 'carlos'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = {}
 
             expect(() => {
@@ -225,9 +225,9 @@ describe('logic', () => {
         })
 
         it('should fail on array password', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const name = 'carlos'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = []
 
             expect(() => {
@@ -236,9 +236,9 @@ describe('logic', () => {
         })
 
         it('should fail on empty password', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = 'manuelbarzi@mail.com'
+            const name = 'carlos'
+            const surname = 'perez'
+            const email = 'carlosperez@mail.com'
             const password = ``
 
             expect(() => {
@@ -248,9 +248,9 @@ describe('logic', () => {
         // init password check
 
         it('should fail on different password and passwordConfirm', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = `manuelbarzi@mail.com`
+            const name = 'carlos'
+            const surname = 'perez'
+            const email = `carlosperez@mail.com`
             const password = `123`
             const passwordConfirm = '456'
 
@@ -262,9 +262,9 @@ describe('logic', () => {
         // end password check
 
         it('should fail on existing user', () => {
-            const name = 'Manuel'
-            const surname = 'Barzi'
-            const email = `manuelbarzi@mail.com`
+            const name = 'carlos'
+            const surname = 'perez'
+            const email = `carlosperez@mail.com`
             const password = `123`
             const passwordConfirm = password
 
@@ -277,9 +277,9 @@ describe('logic', () => {
     })
 
     describe('authenticate user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const name = 'carlos'
+        const surname = 'perez'
+        const email = `carlosperez-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
 
         let pass = password
@@ -351,7 +351,7 @@ describe('logic', () => {
         })
 
         it('should fail on undefined password', () => {
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = undefined
 
             expect(() => {
@@ -360,7 +360,7 @@ describe('logic', () => {
         })
 
         it('should fail on numeric password', () => {
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = 123
 
             expect(() => {
@@ -370,7 +370,7 @@ describe('logic', () => {
 
 
         it('should fail on boolean password', () => {
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = true
 
             expect(() => {
@@ -379,7 +379,7 @@ describe('logic', () => {
         })
 
         it('should fail on object password', () => {
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = {}
 
             expect(() => {
@@ -388,7 +388,7 @@ describe('logic', () => {
         })
 
         it('should fail on array password', () => {
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = []
 
             expect(() => {
@@ -397,7 +397,7 @@ describe('logic', () => {
         })
 
         it('should fail on empty password', () => {
-            const email = 'manuelbarzi@mail.com'
+            const email = 'carlosperez@mail.com'
             const password = ``
 
             expect(() => {
@@ -427,9 +427,9 @@ describe('logic', () => {
     })
 
     describe('retrieve user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const name = 'carlos'
+        const surname = 'perez'
+        const email = `carlosperez-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
 
         let userId
@@ -510,9 +510,9 @@ describe('logic', () => {
     })
 
     describe('retrieve users', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const name = 'carlos'
+        const surname = 'perez'
+        const email = `carlosperez-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
 
         let userId
@@ -595,9 +595,9 @@ describe('logic', () => {
     })
 
     describe('update user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const name = 'carlos'
+        const surname = 'perez'
+        const email = `carlosperez-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
 
         const _name = 'Jaume'
@@ -824,9 +824,9 @@ describe('logic', () => {
     })
 
     describe('remove user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const name = 'carlos'
+        const surname = 'perez'
+        const email = `carlosperez-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
 
         let userId
@@ -852,7 +852,6 @@ describe('logic', () => {
                 logic.removeUser(userId)
             }).toThrow(TypeError(userId + ' is not a string'))
         })
-
 
         it('should fail on boolean userId', () => {
             const userId = true
@@ -901,44 +900,877 @@ describe('logic', () => {
         )
     })
 
-    describe('create message', () => {
-        const nameFrom = 'Peter'
-        const surnameFrom = 'McGregor'
-        const emailFrom = `peter-mc-greg-${Math.random()}@mail.com`
-        const passwordFrom = `123-${Math.random()}`
+    describe('createMessage', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email = `carlosperez-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
 
-        const nameTo = 'Peter'
-        const surnameTo = 'McGregor'
-        const emailTo = `peter-mc-greg-${Math.random()}@mail.com`
-        const passwordTo = `123-${Math.random()}`
+        let _name = 'pepe'
+        let _surname = 'gomez'
+        let _email = `pepegomez-${Math.random()}@mail.com`
+        let _password = `123-${Math.random()}`
 
-        let date = new Date
-        let launchDate = new Date
-        let position = [41.234, 2.897]
-        let text = 'kwjhfwef lifwelfiu 3loiru2pdoje'
+        let launchDate = '2019-03-21'
+        let position = [40.2345, 2.4365]
+        let text = 'sample message text'
+
         let userIdFrom
         let userIdTo
 
-        bcrypt.hash(passwordFrom, 10)
-            .then(hash => User.create({ nameFrom, surnameFrom, emailFrom, passwordFrom: hash }))
-            .then(({ id }) => userIdFrom = id)
-            
-        bcrypt.hash(passwordTo, 10)
-            .then(hash => User.create({ nameTo, surnameTo, emailTo, passwordTo: hash }))
-            .then(({ id }) => userIdTo = id)
-        
+        beforeEach(async () => {
+   
+            const hash1 = await bcrypt.hash(password, 10)
 
-        it('should succeed on correct credentials', () => {
-            logic.createMessage(userIdFrom, userIdTo, date, launchDate, position, text)
-                .then(message => {
-                    expect(message.userIdFrom).toBe(userIdFrom)
-                    expect(message.userIdTo).toBe(userIdTo)
-                    expect(message.date).toBeDefined()
-                    expect(message.launchDate).toBeDefined()
-                    expect(message.position).toBe(position)
-                    expect(message.text).toBe(text)
-                })
+            let { id } = await User.create({ name, surname, email, password: hash1 })
+
+            userIdFrom = id
+
+            const hash2 = await bcrypt.hash(_password, 10)
+
+            let user = await User.create({ name: _name, surname: _surname, email: _email, password: hash2 })
+
+            userIdTo =  user.id
         })
+
+        it('should fail on undefined userIdFrom', () => {
+            const userIdFrom = undefined
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on numeric userIdFrom', () => {
+            const userIdFrom = 123
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on boolean userIdFrom', () => {
+            const userIdFrom = true
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on object userIdFrom', () => {
+            const userIdFrom = {}
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on array userIdFrom', () => {
+            const userIdFrom = []
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdFrom + ' is not a string'))
+        })
+
+        it('should fail on empty userIdFrom', () => {
+            const userIdFrom = ``
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(Error('userIdFrom is empty or blank'))
+        })
+
+        it('should fail on undefined userIdTo', () => {
+            const userIdTo = undefined
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdTo + ' is not a string'))
+        })
+
+        it('should fail on numeric userIdTo', () => {
+            const userIdTo = 123
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdTo + ' is not a string'))
+        })
+
+        it('should fail on boolean userIdTo', () => {
+            const userIdTo = true
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdTo + ' is not a string'))
+        })
+
+        it('should fail on object uerIdTo', () => {
+            const userIdTo = {}
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdTo + ' is not a string'))
+        })
+
+        it('should fail on array userIdTo', () => {
+            const userIdTo = []
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(userIdTo + ' is not a string'))
+        })
+
+        it('should fail on empty userIdTo', () => {
+            const userIdTo = ``
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(Error('userIdTo is empty or blank'))
+        })
+
+        it('should fail on undefined launchDate', () => {
+            const launchDate = undefined
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(launchDate + ' is not a string'))
+        })
+
+        it('should fail on numeric launchDate', () => {
+            const launchDate = 123
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(launchDate + ' is not a string'))
+        })
+
+        it('should fail on boolean launchDate', () => {
+            const launchDate = true
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(launchDate + ' is not a string'))
+        })
+
+        it('should fail on object launchDate', () => {
+            const launchDate = {}
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(launchDate + ' is not a string'))
+        })
+
+        it('should fail on array launchDate', () => {
+            const launchDate = []
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(launchDate + ' is not a string'))
+        })
+
+        it('should fail on empty launchDate', () => {
+            const launchDate = ``
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(Error('launchDate is empty or blank'))
+        })
+
+        it('should fail on undefined position', () => {
+            const position = undefined
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(position + ' is not an array'))
+        })
+
+        it('should fail on numeric position', () => {
+            const position = 123
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(position + ' is not an array'))
+        })
+
+        it('should fail on boolean position', () => {
+            const position = true
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(position + ' is not an array'))
+        })
+
+        it('should fail on object position', () => {
+            const position = {}
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(position + ' is not an array'))
+        })
+
+        it('should fail on empty position', () => {
+            const position = ``
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(Error(' is not an array'))
+        })
+
+        it('should fail on undefined text', () => {
+            const text = undefined
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(text + ' is not a string'))
+        })
+
+        it('should fail on numeric text', () => {
+            const text = 123
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(text + ' is not a string'))
+        })
+
+        it('should fail on boolean text', () => {
+            const text = true
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(text + ' is not a string'))
+        })
+
+        it('should fail on object text', () => {
+            const text = {}
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(text + ' is not a string'))
+        })
+
+        it('should fail on array text', () => {
+            const text = []
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(TypeError(text + ' is not a string'))
+        })
+
+        it('should fail on empty text', () => {
+            const text = ``
+
+            expect(() => {
+                logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+            }).toThrow(Error('text is empty or blank'))
+        })
+
+        it('should succeed on correct userId', () => {
+            return logic.createMessage(userIdFrom, userIdTo, launchDate, position, text)
+                .then((message) => {
+                    debugger
+                    expect(message).toBeDefined()
+                    expect(message instanceof Object).toBeTruthy()
+                })
+            })
+    })
+
+    describe('messageRead', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email = `carlosperez-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+
+        let _name = 'pepe'
+        let _surname = 'gomez'
+        let _email = `pepegomez-${Math.random()}@mail.com`
+        let _password = `123-${Math.random()}`
+
+        let launchDate = '2019-03-21'
+        let position = [40.2345, 2.4365]
+        let text = 'sample message text'
+
+        let userIdFrom
+        let userIdTo
+        let msgId
+
+        beforeEach(async () => {
+   
+            const hash1 = await bcrypt.hash(password, 10)
+
+            let { id } = await User.create({ name, surname, email, password: hash1 })
+
+            userIdFrom = id
+
+            const hash2 = await bcrypt.hash(_password, 10)
+
+            let user = await User.create({ name: _name, surname: _surname, email: _email, password: hash2 })
+
+            userIdTo =  user.id
+
+            const { _id } = await Message.create({userIdFrom, userIdTo, launchDate, position, text})
+
+            msgId = _id
+
+            const addUserFrom = await User.findByIdAndUpdate(userIdFrom, { msgSent: _id })
+
+            const addUserTo = await User.findByIdAndUpdate(userIdTo, { msgReceived: _id })
+        })
+
+        it('should fail on undefined userId', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.messageRead(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric userId', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.messageRead(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on boolean userId', () => {
+            const userId = true
+
+            expect(() => {
+                logic.messageRead(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on object userId', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.messageRead(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on array userId', () => {
+            const userId = []
+
+            expect(() => {
+                logic.messageRead(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on empty userId', () => {
+            const userId = ``
+
+            expect(() => {
+                logic.messageRead(userId, msgId)
+            }).toThrow(Error('userIdTo is empty or blank'))
+        })
+
+        it('should fail on undefined msgId', () => {
+            const msgId = undefined
+
+            expect(() => {
+                logic.messageRead(userIdTo, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on numeric msgId', () => {
+            const msgId = 123
+
+            expect(() => {
+                logic.messageRead(userIdTo, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on boolean msgId', () => {
+            const msgId = true
+
+            expect(() => {
+                logic.messageRead(userIdTo, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on object msgId', () => {
+            const msgId = {}
+
+            expect(() => {
+                logic.messageRead(userIdTo, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on array msgId', () => {
+            const msgId = []
+
+            expect(() => {
+                logic.messageRead(userIdTo, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on empty msgId', () => {
+            const msgId = ``
+
+            expect(() => {
+                logic.messageRead(userIdTo, msgId)
+            }).toThrow(Error('msgId is empty or blank'))
+        })
+
+        it('should succeed on correct userId and msgId', () => {
+            return logic.messageRead(userIdTo, msgId.toString())
+                .then((response) => {
+                    expect(response).toBeDefined()
+                    expect(response instanceof Object).toBeTruthy()
+                    expect(response).toEqual({status: 'OK'})
+                })
+            })
+    })
+
+    describe('messageDelete', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email = `carlosperez-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+
+        let _name = 'pepe'
+        let _surname = 'gomez'
+        let _email = `pepegomez-${Math.random()}@mail.com`
+        let _password = `123-${Math.random()}`
+
+        let launchDate = '2019-03-21'
+        let position = [40.2345, 2.4365]
+        let text = 'sample message text'
+
+        let userIdFrom
+        let userIdTo
+        let msgId
+
+        beforeEach(async () => {
+   
+            const hash1 = await bcrypt.hash(password, 10)
+
+            let { id } = await User.create({ name, surname, email, password: hash1 })
+
+            userIdFrom = id
+
+            const hash2 = await bcrypt.hash(_password, 10)
+
+            let user = await User.create({ name: _name, surname: _surname, email: _email, password: hash2 })
+
+            userIdTo =  user.id
+
+            const { _id } = await Message.create({userIdFrom, userIdTo, launchDate, position, text})
+
+            msgId = _id
+
+            const addUserFrom = await User.findByIdAndUpdate(userIdFrom, { msgSent: _id })
+
+            const addUserTo = await User.findByIdAndUpdate(userIdTo, { msgReceived: _id })
+        })
+
+        it('should fail on undefined userId', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.messageDelete(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric userId', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.messageDelete(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on boolean userId', () => {
+            const userId = true
+
+            expect(() => {
+                logic.messageDelete(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on object userId', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.messageDelete(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on array userId', () => {
+            const userId = []
+
+            expect(() => {
+                logic.messageDelete(userId, msgId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on empty userId', () => {
+            const userId = ``
+
+            expect(() => {
+                logic.messageDelete(userId, msgId)
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should fail on undefined msgId', () => {
+            const msgId = undefined
+
+            expect(() => {
+                logic.messageDelete(userIdFrom, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on numeric msgId', () => {
+            const msgId = 123
+
+            expect(() => {
+                logic.messageDelete(userIdFrom, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on boolean msgId', () => {
+            const msgId = true
+
+            expect(() => {
+                logic.messageDelete(userIdFrom, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on object msgId', () => {
+            const msgId = {}
+
+            expect(() => {
+                logic.messageDelete(userIdFrom, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on array msgId', () => {
+            const msgId = []
+
+            expect(() => {
+                logic.messageDelete(userIdFrom, msgId)
+            }).toThrow(TypeError(msgId + ' is not a string'))
+        })
+
+        it('should fail on empty msgId', () => {
+            const msgId = ``
+
+            expect(() => {
+                logic.messageDelete(userIdFrom, msgId)
+            }).toThrow(Error('msgId is empty or blank'))
+        })
+
+        it('should succeed on correct userId and msgId', () => {
+            return logic.messageDelete(userIdFrom, msgId.toString())
+                .then((result) => {
+                    expect(result).toBeDefined()
+                    expect(result instanceof Array).toBeTruthy()
+                    expect(result.length).toBe(3)
+                })
+            })
+
+        it('should fail on incorrect correct msgId', () => {
+            let msgId = "lijlwkjpo"
+
+            return logic.messageDelete(userIdFrom, msgId)
+                .catch(({ message }) => expect(message).toBe(`Cast to ObjectId failed for value \"${msgId}\" at path \"_id\" for model \"Message\"`))
+            })
+    })
+
+    describe('retrieveReceivedMessages', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email = `carlosperez-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+
+        let _name = 'pepe'
+        let _surname = 'gomez'
+        let _email = `pepegomez-${Math.random()}@mail.com`
+        let _password = `123-${Math.random()}`
+
+        let launchDate = '2019-03-21'
+        let position = [40.2345, 2.4365]
+        let text = 'sample message text'
+
+        let userIdFrom
+        let userIdTo
+
+        beforeEach(async () => {
+   
+            const hash1 = await bcrypt.hash(password, 10)
+
+            let { id } = await User.create({ name, surname, email, password: hash1 })
+
+            userIdFrom = id
+
+            const hash2 = await bcrypt.hash(_password, 10)
+
+            let user = await User.create({ name: _name, surname: _surname, email: _email, password: hash2 })
+
+            userIdTo =  user.id
+
+            const { _id } = await Message.create({userIdFrom, userIdTo, launchDate, position, text})
+
+            const addUserFrom = await User.findByIdAndUpdate(userIdFrom, { msgSent: _id })
+
+            const addUserTo = await User.findByIdAndUpdate(userIdTo, { msgReceived: _id })
+        })
+
+        it('should fail on undefined userId', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.retrieveReceivedMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric userId', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.retrieveReceivedMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on boolean userId', () => {
+            const userId = true
+
+            expect(() => {
+                logic.retrieveReceivedMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on object userId', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.retrieveReceivedMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on array userId', () => {
+            const userId = []
+
+            expect(() => {
+                logic.retrieveReceivedMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on empty userId', () => {
+            const userId = ``
+
+            expect(() => {
+                logic.retrieveReceivedMessages(userId)
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should succeed on correct userId', () => {
+            return logic.retrieveReceivedMessages(userIdTo)
+                .then((user) => {
+                    debugger
+                    expect(user).toBeDefined()
+                    expect(user instanceof Object).toBeTruthy()
+                    expect(user._doc.name).toBe('pepe')
+                    expect(user._doc.surname).toBe('gomez')
+                    expect(user._doc.msgReceived instanceof Array).toBeTruthy()
+                    expect(user._doc.msgReceived.length).toBeGreaterThan(0)
+                })
+            })
+    })
+
+    describe('retrieveSentMessages', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email = `carlosperez-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+
+        let _name = 'pepe'
+        let _surname = 'gomez'
+        let _email = `pepegomez-${Math.random()}@mail.com`
+        let _password = `123-${Math.random()}`
+
+        let launchDate = '2019-03-21'
+        let position = [40.2345, 2.4365]
+        let text = 'sample message text'
+
+        let userIdFrom
+        let userIdTo
+
+        beforeEach(async () => {
+   
+            const hash1 = await bcrypt.hash(password, 10)
+
+            let { id } = await User.create({ name, surname, email, password: hash1 })
+
+            userIdFrom = id
+
+            const hash2 = await bcrypt.hash(_password, 10)
+
+            let user = await User.create({ name: _name, surname: _surname, email: _email, password: hash2 })
+
+            userIdTo =  user.id
+
+            const { _id } = await Message.create({userIdFrom, userIdTo, launchDate, position, text})
+
+            const addUserFrom = await User.findByIdAndUpdate(userIdFrom, { msgSent: _id })
+
+            const addUserTo = await User.findByIdAndUpdate(userIdTo, { msgReceived: _id })
+        })
+
+        it('should fail on undefined userId', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.retrieveSentMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric userId', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.retrieveSentMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on boolean userId', () => {
+            const userId = true
+
+            expect(() => {
+                logic.retrieveSentMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on object userId', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.retrieveSentMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on array userId', () => {
+            const userId = []
+
+            expect(() => {
+                logic.retrieveSentMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on empty userId', () => {
+            const userId = ``
+
+            expect(() => {
+                logic.retrieveSentMessages(userId)
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should succeed on correct userId', () => {
+            return logic.retrieveSentMessages(userIdFrom)
+                .then((user) => {
+                    debugger
+                    expect(user).toBeDefined()
+                    expect(user instanceof Object).toBeTruthy()
+                    expect(user._doc.name).toBe('carlos')
+                    expect(user._doc.surname).toBe('perez')
+                    expect(user._doc.msgSent instanceof Array).toBeTruthy()
+                    expect(user._doc.msgSent.length).toBeGreaterThan(0)
+                })
+            })
+    })
+
+    describe('retrieveAllMessages', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email = `carlosperez-${Math.random()}@mail.com`
+        let password = `123-${Math.random()}`
+
+        let _name = 'pepe'
+        let _surname = 'gomez'
+        let _email = `pepegomez-${Math.random()}@mail.com`
+        let _password = `123-${Math.random()}`
+
+        let launchDate = '2019-03-21'
+        let position = [40.2345, 2.4365]
+        let text = 'sample message text'
+
+        let userIdFrom
+        let userIdTo
+
+        beforeEach(async () => {
+   
+            const hash1 = await bcrypt.hash(password, 10)
+
+            let { id } = await User.create({ name, surname, email, password: hash1 })
+
+            userIdFrom = id
+
+            const hash2 = await bcrypt.hash(_password, 10)
+
+            let user = await User.create({ name: _name, surname: _surname, email: _email, password: hash2 })
+
+            userIdTo =  user.id
+
+            const message = await Message.create({userIdFrom, userIdTo, launchDate, position, text})
+        })
+
+        it('should fail on undefined userId', () => {
+            const userId = undefined
+
+            expect(() => {
+                logic.retrieveAllMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on numeric userId', () => {
+            const userId = 123
+
+            expect(() => {
+                logic.retrieveAllMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on boolean userId', () => {
+            const userId = true
+
+            expect(() => {
+                logic.retrieveAllMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on object userId', () => {
+            const userId = {}
+
+            expect(() => {
+                logic.retrieveAllMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on array userId', () => {
+            const userId = []
+
+            expect(() => {
+                logic.retrieveAllMessages(userId)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+        it('should fail on empty userId', () => {
+            const userId = ``
+
+            expect(() => {
+                logic.retrieveAllMessages(userId)
+            }).toThrow(Error('userId is empty or blank'))
+        })
+
+        it('should succeed on correct userId', () => {
+            return logic.retrieveAllMessages(userIdFrom)
+                .then((messages) => {
+                    expect(messages).toBeDefined()
+                    expect(messages instanceof Array).toBeTruthy()
+                    expect(messages.length).toBeGreaterThan(0)
+                })
+            })
     })
 
     after(() =>
