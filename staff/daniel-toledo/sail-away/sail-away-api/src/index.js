@@ -19,7 +19,9 @@ const {
     retrieveUser,
     retrieveUserLogged,
     updateUser,
+    updateBoat,
     updateUserPicture,
+    updateBoatPicture,
     searchUsers,
 
     addJourney,
@@ -57,7 +59,9 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/user', tokenVerifierMiddleware, retrieveUserLogged)
         router.put('/user', tokenVerifierMiddleware, jsonBodyParser, updateUser)
         router.post('/users', jsonBodyParser, searchUsers)
-        router.post('/update-picture', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateUserPicture)
+        router.put('/update-boat', tokenVerifierMiddleware, jsonBodyParser, updateBoat)
+        router.post('/update-picture/:boatId', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateBoatPicture)
+        router.post('/update-picture/', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateUserPicture)
 
         router.post('/journey', jsonBodyParser, addJourney)
         router.get('/journey/:id', retrieveJourney)

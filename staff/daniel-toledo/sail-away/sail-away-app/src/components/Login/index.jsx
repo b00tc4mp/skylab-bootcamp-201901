@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
 import logic from '../../logic'
+import Feedback from '../Feedback'
 
 import './index.sass'
 
@@ -10,16 +11,18 @@ function Login(props) {
 
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
+    let [feedback, setfeedback] = useState('')
 
     async function handleFormSubmit(event) {
         event.preventDefault()
 
         try {
             await logic.login(email, password)
+            setfeedback('')
             props.history.push('/')
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
@@ -42,6 +45,7 @@ function Login(props) {
                         <input onChange={e => setPassword(e.target.value)} type="password" name="password" placeholder="Password" required />
                     </div>
                 </div>
+                {feedback ? <Feedback message={feedback} /> : <div />}
                 <button className="login__button" type="submit">let's sail away!</button>
                 <div className='login__not-member'>
                     <p className='login__not-member-text'>Are you not a memeber? </p>

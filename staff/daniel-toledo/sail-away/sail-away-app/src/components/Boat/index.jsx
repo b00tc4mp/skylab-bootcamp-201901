@@ -6,6 +6,7 @@ import { Route, withRouter, Link } from 'react-router-dom'
 import SlideShow from '../SlideShow'
 import UpdatePictures from '../UpdatePictures'
 
+import logic from '../../logic'
 import './index.sass'
 
 function Boat({ getBoat, initialBoat, cancelBoat }) {
@@ -25,8 +26,9 @@ function Boat({ getBoat, initialBoat, cancelBoat }) {
     initialBoat = initialBoat ? initialBoat : emptyBoat
 
     const id = initialBoat.id
-
+    // let [id, setId] = useState(initialBoat.id)
     let [pictures, setPictures] = useState(initialBoat.pictures)
+    let [picturesBlob, setPicturesBlob] = useState([])
     let [name, setName] = useState(initialBoat.name)
     let [type, setType] = useState(initialBoat.type)
     let [model, setModel] = useState(initialBoat.model)
@@ -35,30 +37,54 @@ function Boat({ getBoat, initialBoat, cancelBoat }) {
     let [age, setAge] = useState(initialBoat.age)
     let [description, setDescription] = useState(initialBoat.description)
 
-    function handleFormBoat(event) {
+    async function handleFormBoat(event) {
         event.preventDefault()
-        debugger
-        let boat = {
-            id,
-            pictures,
-            name,
-            type,
-            model,
-            boatLength,
-            crew,
-            age,
-            description
-        }
+        try{
+            let boat = {
+                id,
+                pictures:[],
+                name,
+                type,
+                model,
+                boatLength,
+                crew,
+                age,
+                description
+            }
 
-        getBoat(boat)
+            let updatedBoat= await logic.updateBoat(boat)
+
+            let updatedBoatPictures = picturesBlob.map(async p => await logic.updateBoatPicture(p, boat.id))
+            Promise.all(updatedBoatPictures).then(() => getBoat())
+            // getBoat(boat)
+        }catch(error){
+            console.error(error)
+        }
     }
 
+
+ 
+    function handleGetPictures(pictures){
+
+        let picturesURL = pictures.map(pictureBlob => {
+            let image = new Image();
+            image.src = URL.createObjectURL(pictureBlob);
+            return image.src
+        })
+
+        setPictures(picturesURL)
+        setPicturesBlob(pictures)
+    }
+
+    useEffect(()=>{
+        setPictures(pictures)
+    },[pictures])
 
     return (<section className="boat">
         <div className='boat__container'>
             <div className='boat__header'>
                 <SlideShow pictures={pictures} isBoat={true} />
-                <UpdatePictures getPictures={pictures => setPictures(pictures)} />
+                <UpdatePictures getPictures={handleGetPictures} boatId={id}/>
 
             </div>
             <form onSubmit={handleFormBoat} className=''>
@@ -94,7 +120,7 @@ function Boat({ getBoat, initialBoat, cancelBoat }) {
                 </div>
                 <div className='boat__buttons'>
                     <button type='submit'>{buttonName}</button>
-                    <button onClick={cancelBoat}>Cancel</button>
+                    <button type='button' onClick={()=> cancelBoat()}>Cancel</button>
                 </div>
             </form>
         </div>

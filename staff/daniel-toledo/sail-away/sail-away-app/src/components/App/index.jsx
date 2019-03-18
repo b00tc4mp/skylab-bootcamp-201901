@@ -16,6 +16,8 @@ import Nav from '../Nav'
 import Menu from '../Menu'
 import Landing from '../Landing'
 import Favorites from '../Favorites'
+import Feedback from '../Feedback'
+import NoResult from '../NoResult'
 
 import './index.sass'
 import logic from '../../logic';
@@ -25,19 +27,20 @@ function App(props) {
     let [journeys, setJourneys] = useState([])
     let [journey, setJourney] = useState(null)
     let [menu, setMenu] = useState('close')
+    let [feedback, setfeedback] = useState('')
 
-    async function handleSearch(seaId) {
+    // async function handleSearch(seaId) {
 
-        try {
-            let response = await logic.searchBySea(seaId)
-            setJourneys(response)
+    //     try {
+    //         let response = await logic.searchBySea(seaId)
+    //         setJourneys(response)
+    //         setfeedback('')
+    //         props.history.push('/home')
 
-            props.history.push('/home')
-
-        } catch (err) {
-            console.error(err)
-        }
-    }
+    //     } catch (error) {
+    //         setfeedback(error.message)
+    //     }
+    // }
 
     async function handleMoreInfo(id) {
 
@@ -68,16 +71,18 @@ function App(props) {
                 <Menu />
             </div>
         </div>
-        <Route exact path='/' render={() => <Landing search={handleSearch} />} />
+        <Route exact path='/' render={() => <Landing  />} />
         <Route path="/register" render={() => <Register />} />
         <Route path="/welcome" render={() => <Welcome />} />
         <Route path="/edit-profile" render={() => logic.isUserLoggedIn ? <ProfileEdit initialUser={{}} /> : <Login isNeeded={true} />} />
         <Route path='/user/:id' render={() => <ProfileInfo />} />
         <Route path='/users/' render={() => <Users />} />
         <Route path="/login" render={() => <Login />} />
-        <Route path="/home" render={() => journeys.length ? <Home journeys={journeys} moreInfo={handleMoreInfo} editJourney={handleEditJourney} /> : <Redirect to="/" />} />
+        <Route path="/home/:seaId" render={() => <Home journeys={journeys} moreInfo={handleMoreInfo} editJourney={handleEditJourney} />} />
+        <Route path="/no-result" render={() => <NoResult />} />
+        {/* <Route path="/home" render={() => journeys.length ? <Home journeys={journeys} moreInfo={handleMoreInfo} editJourney={handleEditJourney} /> : <Redirect to="/" />} /> */}
         <Route path="/create-journey" render={() => logic.isUserLoggedIn ? <JourneyCreate /> : <Login isNeeded={true} />} />
-        <Route path="/edit-journey/:id" render={() => logic.isUserLoggedIn ? <JourneyCreate isEdit={true}/> : <Login isNeeded={true} />} />
+        <Route path="/edit-journey/:id" render={() => logic.isUserLoggedIn ? <JourneyCreate isEdit={true} /> : <Login isNeeded={true} />} />
         <Route path="/my-journeys" render={() => logic.isUserLoggedIn ? <MyJourneys /> : <Login isNeeded={true} />} />
         <Route path="/journey/:id" render={() => <JourneyInfo />} />
         <Route path="/favorites" render={() => logic.isUserLoggedIn ? <Favorites /> : <Login isNeeded={true} />} />

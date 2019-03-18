@@ -109,15 +109,15 @@ const logic = {
             else if (!talents.length) results = await User.find({ $or: languagesToFilter }).lean()
             else if (!languages.length) results = await User.find({ $or: talentsToFilter }).lean()
             else results = await User.find({ $and: [{ $or: talentsToFilter }, { $or: languagesToFilter }] }).lean()
-          
+
             results = results.map(result => {
                 result.id = result._id.toString()
                 delete result._id
                 delete result.__v
-              
+
                 return result
             })
-          
+
 
             return results
 
@@ -127,7 +127,7 @@ const logic = {
     },
 
     updateUser(userId, data) {
-      
+
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
@@ -143,6 +143,28 @@ const logic = {
                 delete result._id
                 return result
             }
+        })()
+    },
+
+    updateBoat(userId, boat) {
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        if (!boat) throw Error('boat should be defined')
+        if (boat.constructor !== Object) throw TypeError(`${boat} is not an object`)
+
+        return (async () => {
+            let user = await User.findById(userId).select('-password -__v')
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+            
+            const boats =  user.boats
+            let boatIndex = boats.findIndex(userBoat => userBoat.id === boat.id)
+            if (boatIndex === -1) boats.push(boat)
+            else boats.splice(boatIndex, 1, boat)
+
+            await user.save()
+            debugger
+            return boats[boatIndex]
         })()
     },
 
@@ -164,6 +186,33 @@ const logic = {
             delete user._id
 
             return user
+        })()
+    },
+
+    updateBoatPicture(userId, boatId, url) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userId is empty')
+
+        if (typeof boatId !== 'string') throw TypeError(`${boatId} is not a string`)
+        if (!boatId.trim().length) throw Error('boatId is empty')
+
+        if (typeof url !== 'string') throw TypeError(`${url} is not a string`)
+        if (!url.trim().length) throw Error('url is empty')
+
+        return (async () => {
+            let user = await User.findById(userId).select('-password -__v')
+            if (!user) throw new Error(`user with id ${userId} not found`)
+            debugger
+            let boatIndex = user.boats.findIndex(boat => boat.id === boatId)
+            if (boatIndex<0) throw new Error(`boat with id ${boatId} not found`)
+            debugger
+            const boat =  user.boats[boatIndex]
+            boat.pictures = [...boat.pictures, url]
+            debugger
+            user.markModified('boats')
+            await user.save()
+            debugger
+            return user.boats[boatIndex]
         })()
     },
 
@@ -308,16 +357,16 @@ const logic = {
 
         return (async () => {
             let user = await User.findById(userId).select('-password -__v').lean()
-            
+
             let favoriteJourneys = user.favoriteJourneys
 
             let index = favoriteJourneys.indexOf(journeyId)
-        
-            if (index != -1) favoriteJourneys.splice(index, 1) 
+
+            if (index != -1) favoriteJourneys.splice(index, 1)
             else favoriteJourneys.push(journeyId)
 
             user = await User.findByIdAndUpdate(userId, { favoriteJourneys }, { new: true, runValidators: true }).select('-__v ').lean()
-        
+
             if (!user) throw new Error(`user with userId ${userId} not found`)
 
             user.id = user._id.toString()
@@ -336,16 +385,16 @@ const logic = {
 
         return (async () => {
             let user = await User.findById(userId).select('-password -__v').lean()
-            
+
             let favoriteCrew = user.favoriteCrew
 
             let index = favoriteCrew.indexOf(crewId)
-        
-            if (index != -1) favoriteCrew.splice(index, 1) 
+
+            if (index != -1) favoriteCrew.splice(index, 1)
             else favoriteCrew.push(crewId)
             debugger
             user = await User.findByIdAndUpdate(userId, { favoriteCrew }, { new: true, runValidators: true }).select('-__v ').lean()
-        
+
             if (!user) throw new Error(`user with userId ${userId} not found`)
 
             user.id = user._id.toString()

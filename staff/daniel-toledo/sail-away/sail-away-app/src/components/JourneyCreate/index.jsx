@@ -17,7 +17,7 @@ function JourneyCreate(props) {
 
     const { id } = props.match.params
     const { isEdit } = props
-
+    
     let [seaIdSelection, setSeaIdSelection] = useState('00')
     let [route, setRoute] = useState(null)
     let [dates, setDates] = useState(null)
@@ -29,29 +29,32 @@ function JourneyCreate(props) {
     let [boatSelected, setBoatSelected] = useState(null)
     let [boats, setBoats] = useState(null)
     let [userId, setUserId] = useState('')
-    let user
-
+  
     useEffect(() => {
-        user = getUser()
-        Promise.resolve(user)
-            .then(user => {
-                if (isEdit) getJourney(id)
-                else {
+        if (isEdit) getJourney(id)
+        else {
+            let userGet = getUser()
+            Promise.resolve(userGet)
+                .then(user => {
+                    setUserId(user.id)
                     setBoats(user.boats)
+
                     setRoute([])
                     setDates([null, null])
                     setSeaIdSelection('00')
                     setTalents([])
                     setExperience(0)
                     setLanguages([])
-                }
-            })
+
+                })
+        }
 
     }, [])
 
     async function getJourney(id) {
         try {
             let journey = await logic.retrieveJourney(id)
+            let user = await getUser()
             if (journey.userId !== user.id) throw Error('user not allowed to edit')
             setBoats(user.boats)
             setRoute(journey.route)
@@ -63,7 +66,6 @@ function JourneyCreate(props) {
             setExperience(Number(journey.lookingFor.experience))
             setLanguages(journey.lookingFor.languages)
             setBoatSelected(journey.boat.id)
-            setUserId(journey.userId)
 
         } catch (error) {
             console.error(error)
@@ -73,6 +75,7 @@ function JourneyCreate(props) {
     async function getUser() {
         try {
             let user = await logic.retrieveUserLogged()
+            setUserId(user.id)
             return user
 
         } catch (error) {

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
 
+import Feedback from '../Feedback'
 import logic from '../../logic'
 import './index.sass'
 
@@ -12,6 +13,7 @@ function Register(props) {
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
     let [passwordConfirm, setPasswordConfirm] = useState('')
+    let [feedback, setfeedback] = useState('')
 
     async function handleFormSubmit(event) {
         event.preventDefault()
@@ -19,10 +21,11 @@ function Register(props) {
         try {
             await logic.register(name, surname, email, password, passwordConfirm, 'captain')
             await logic.login(email, password)
+            setfeedback('')
             props.history.push('/welcome')
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
@@ -51,14 +54,7 @@ function Register(props) {
                         <i className="fas fa-lock register__logo"></i>
                         <input onChange={e => setPasswordConfirm(e.target.value)} type="password" name="confirmPassword" placeholder="Confirm Password" required />
                     </div>
-                    {/* <div className='register__input'>
-                        <input onChange={e => setKind(e.target.value)} className='mr-2' type="radio" value="captain" required />
-                        <label className='mr-5' for="male">Captain</label>
-                    </div>
-                    <div className='register__input'>
-                        <input onChange={e => setKind(e.target.value)} className='mr-2' type="radio" value="crew" required />
-                        <label for="female">Crew</label>
-                    </div> */}
+                    {feedback ? <Feedback message={feedback} /> : <div />}
                 </div>
                 <button className="register__button" type="submit">Register</button>
                 <div className='register__member'>

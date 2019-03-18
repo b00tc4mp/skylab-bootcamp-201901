@@ -11,8 +11,25 @@ import logic from '../../logic';
 
 function Home(props) {
 
-        let { journeys } = props
-   
+        const { seaId } = props.match.params
+        let [journeys, setJourneys] = useState(null)
+
+        useEffect(() => {
+                handleSearch(seaId)
+        }, [seaId])
+
+        async function handleSearch(seaId) {
+
+                try {
+                        let response = await logic.searchBySea(seaId)
+                        if (!response.length) props.history.push('/no-result')
+                        setJourneys(response)
+
+                } catch (error) {
+                        props.history.push('/no-result')
+                }
+        }
+
         function getMarkers(journeys) {
                 let markers = []
                 journeys.forEach(journey => markers.push(journey.route))
@@ -20,10 +37,14 @@ function Home(props) {
         }
 
         return (<main className="journeyHome">
-                <div className="journeyHome__map">
-                        <MapDisplay seaId={journeys[0].seaId} markers={getMarkers(journeys)} />
-                </div>
-                {journeys.length && <JourneyCard journeys={journeys} />}
+                {journeys &&
+                        <div>
+                                <div className="journeyHome__map">
+                                        <MapDisplay seaId={journeys[0].seaId} markers={getMarkers(journeys)} />
+                                </div>
+                                <JourneyCard journeys={journeys} />
+                        </div>
+                }
         </main>)
 }
 

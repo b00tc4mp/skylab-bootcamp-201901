@@ -3,30 +3,32 @@
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
 
-import logic from '../../logic';
+import logic from '../../logic'
+// import './index.sass'
+
+function UpdatePictures({ getPictures, boatId }) {
+
+    let [pictures, setPictures] = useState([])
 
 
-function UpdatePictures({ getPictures}) {
-
-    let [picture, setPicture] = useState(null)
-    
-    async function uploadPicture() {
-        try{
-            let user= await logic.updatePicture(picture)
+    async function handlePictures(event) {
+        let newPictureBlob = event.target.files[0]
+        let newPictures = [...pictures, newPictureBlob]
+        setPictures(newPictures)
+        getPictures(newPictures)
+        try {
+            let result = await logic.updatePicture(pictures, boatId)
             debugger
-            getPictures(user.pictures)
+            getPictures(result.pictures)
 
-        }catch(error){
+        } catch (error) {
             console.error(error)
         }
     }
 
     return (<main className="update-picture">
-        <div >
-            <input type='file' name='image' onChange={e => setPicture({ image: e.target.files[0] })}></input>
-            <button onClick={uploadPicture}>Upload image</button>
-            {/* <button onClick={cancelEditorAdd}>Cancel</button> */}
-        </div>
+        <input className="update-picture__button" type='file' name='image' onChange={handlePictures}></input>
+        {/* <span className="update-picture__span">edit picture</span> */}
     </main>)
 }
 

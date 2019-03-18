@@ -1,25 +1,32 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 
 import logic from '../../logic';
 import seaData from '../../sea-data'
 
+import Feedback from '../Feedback'
+
 import './index.sass'
 
-function Search({ search}) {
+function Search(props) {
+
 
     let [query, setQuery] = useState('')
+    let [feedback, setfeedback] = useState('')
 
-    async function handleSearch(event){
+    async function handleSearch(event) {
         event.preventDefault()
-        
-        try{
-            let seaId= await logic.findSeaId(query)
-            search(seaId)
- 
-        }catch(error){
-            console.error(error)
+
+        try {
+            let seaId = await logic.findSeaId(query)
+            props.history.push(`home/${seaId}`)
+            setfeedback('')
+
+        } catch (error) {
+            console.log(error.message)
+            setfeedback(error.message)
         }
 
     }
@@ -32,8 +39,9 @@ function Search({ search}) {
                 }
             </select>
             <button type='submit' className='search__button'>Search</button>
+            {feedback ? <Feedback message={feedback} /> : <div />}
         </form>
     )
 }
 
-export default Search
+export default withRouter(Search)

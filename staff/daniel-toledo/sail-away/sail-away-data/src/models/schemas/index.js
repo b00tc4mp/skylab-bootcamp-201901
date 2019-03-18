@@ -1,4 +1,5 @@
 module.exports = {
     User: require('./user'),
-    Journey: require('./journey')
+    Journey: require('./journey'),
+    // Vessel: require('./vessel')
 }

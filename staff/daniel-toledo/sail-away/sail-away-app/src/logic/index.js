@@ -74,10 +74,24 @@ const logic = {
         return sailAwayApi.updateUser(token, pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages)
     },
 
+    updateBoat(boat){
+        debugger
+        let token= this.__userToken__
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+        if (!token.trim().length) throw Error('token cannot be empty');
+
+        if (boat.constructor !== Object) throw TypeError(boat + ' is not an Array')
+        if (!Object.keys(boat).length) throw Error('boat cannot be empty')
+
+        return sailAwayApi.updateBoat(token, boat)
+
+    },
+
     updatePicture(picture) {
 
         if (!picture) throw Error('picture is empty')
-        if (picture.constructor !== Object) throw TypeError(`${picture} is not an object`)
+        if (!(picture instanceof Blob)) throw TypeError(`${picture} is not a blob`)
 
         let token= this.__userToken__
         
@@ -87,6 +101,25 @@ const logic = {
         return sailAwayApi.updatePicture(token, picture)
 
     },
+
+    updateBoatPicture(picture, boatId) {
+
+        if (!picture) throw Error('picture is empty')
+        if (!(picture instanceof Blob)) throw TypeError(`${picture} is not a blob`)
+
+        if (typeof boatId !== 'string') throw TypeError(boatId + ' is not a string');
+        if (!boatId.trim().length) throw Error('boatId cannot be empty');
+
+
+        let token= this.__userToken__
+        
+        if (typeof token !== 'string') throw TypeError(token + ' is not a string');
+        if (!token.trim().length) throw Error('token cannot be empty');
+
+        return sailAwayApi.updateBoatPicture(token, picture, boatId)
+
+    },
+
 
     get isUserLoggedIn() {
         return !!this.__userToken__

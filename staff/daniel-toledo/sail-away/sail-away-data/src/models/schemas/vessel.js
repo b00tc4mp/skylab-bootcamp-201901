@@ -3,10 +3,7 @@ const { Types: { ObjectId } } = Schema
 
 const Vessel = new Schema({
 
-    user: {
-        type: ObjectId,
-        required: true
-    },
+    pictures: [String],
 
     name: {
         type: String,
@@ -18,11 +15,11 @@ const Vessel = new Schema({
         required: true
     },
 
-    model: Number,
+    model: String,
 
-    lenght: Number,
+    lenght: String,
 
-    berth: Number,
+    berth: String,
 
     description: {
         type: String,

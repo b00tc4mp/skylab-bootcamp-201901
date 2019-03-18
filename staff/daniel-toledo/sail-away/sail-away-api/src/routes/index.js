@@ -9,7 +9,11 @@ module.exports = {
 
     updateUser:require('./update-user'),
 
+    updateBoat: require('./update-boat'),
+
     updateUserPicture: require('./update-user-picture'),
+
+    updateBoatPicture: require('./update-boat-picture'),
 
     searchUsers: require('./search-users'),
 

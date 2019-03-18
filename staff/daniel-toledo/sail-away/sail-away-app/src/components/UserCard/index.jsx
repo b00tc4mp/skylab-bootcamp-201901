@@ -56,7 +56,7 @@ function JourneyCard(props) {
 
                         <div className='user-card__buttons'>
                             <button onClick={() => props.history.push(`/user/${user.id}`)} className='user-card__button'>more</button>
-                            <button className='user-card__button'>contact</button>
+                            <a href={`mailto:${user.email}`} className='user-card__link'>contact</a>
                             <button onClick={() => toggleFavorite(user.id)} className={`user-card__favorite${isFavorite} fas fa-heart`}></button>
                         </div>
                     </section>)

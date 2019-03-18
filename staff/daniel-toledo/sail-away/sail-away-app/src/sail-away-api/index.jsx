@@ -102,12 +102,30 @@ const sailAwayApi = {
             })
     },
 
+    updateBoat(token, boat){
+        return fetch(`${this.url}/update-boat/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({boat})
+        })
+            .then(response => response.json())
+            .then(boat => {
+                debugger
+                if (!boat.error) return boat
+
+                else throw Error(boat.error)
+            })
+    },
+
     updatePicture(token, picture){
         debugger
         let formData = new FormData()
-        formData.append('image', picture.image)
+        formData.append('image', picture)
 
-        return fetch(`${this.url}/update-picture`, {
+        return fetch(`${this.url}/update-picture/`, {
             method: 'POST',
             headers: {
                 authorization: `Bearer ${token}`,
@@ -123,6 +141,29 @@ const sailAwayApi = {
         })
 
     },
+
+    updateBoatPicture(token, picture, boatId){
+        debugger
+        let formData = new FormData()
+        formData.append('image', picture)
+
+        return fetch(`${this.url}/update-picture/${boatId}`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(boat => {
+            debugger
+            if (!boat.error) return boat
+
+            else throw Error(boat.error)
+        })
+
+    },
+
 
     createJourney(title, seaId, route, dates, description, userId, boat, lookingFor) {
         debugger

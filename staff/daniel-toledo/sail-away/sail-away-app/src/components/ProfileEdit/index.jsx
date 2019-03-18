@@ -49,6 +49,8 @@ function EditProfile(props) {
             setTalents(user.talents)
             setExperience(Number(user.experience))
             setLanguages(user.languages)
+            setAddBoat(false)
+            setBoatIdToEdit('')
 
 
         } catch (error) {
@@ -99,6 +101,10 @@ function EditProfile(props) {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    function handleCancel(){
+        setBoatIdToEdit('')
     }
 
 
@@ -163,11 +169,11 @@ function EditProfile(props) {
                 <h3 className='profileInfo__titleSection'>Boats</h3>
                 {boats.length &&
                     boats.map(boat => {
-                        if (boat.id === boatIdToEdit) { return <Boat getBoat={handleSetEditBoat} initialBoat={boat} CancelBoat={() => setAddBoat(false)} /> }
+                        if (boat.id === boatIdToEdit) { return <Boat getBoat={getUser} initialBoat={boat} cancelBoat={handleCancel} /> }
                         else return <BoatInfo getEdit={() => setBoatIdToEdit(boat.id)} getDelete={handleDeleteBoat} boat={boat} key={boat.id} />
                     })
                 }
-                {addBoat ? <Boat getBoat={handleSetAddBoat} initialBoat={null} cancelBoat={() => setAddBoat(false)} /> : <div />}
+                {addBoat ? <Boat getBoat={getUser} initialBoat={null} cancelBoat={() => setAddBoat(false)} /> : <div />}
                 <button onClick={() => setAddBoat(true)} className='profileEdit__addBoat'>Add Boat</button>
 
                 <div>

@@ -11,18 +11,19 @@ function Talents({ getChecks, initialChecks }) {
 
     let [checked, setChecked] = useState(initialChecks)
 
-    function handleChange(offer) {
-        let index = checked.findIndex(selectedOffer => selectedOffer === offer)
-        
-        if (index === -1) checked = [...checked, offer]
-        else { checked.splice(index, 1) }
-        setChecked(checked)
+    function handleChange(e) {
+        !checked.includes(e.target.name)
+            ?
+            setChecked([...checked, e.target.name])
+            :
+            setChecked(checked.filter(c => c !== e.target.name))
+
         getChecks(checked)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setChecked(checked)
-    },[checked, getChecks])
+    }, [checked, getChecks])
 
     return (<main className="talents">
 
@@ -37,8 +38,8 @@ function Talents({ getChecks, initialChecks }) {
                                     <input
                                         type="checkbox"
                                         name={offer}
-                                        checked={!!(checked.find(selectedOffer => selectedOffer === offer))}
-                                        onChange={() => handleChange(offer)} />
+                                        checked={checked.includes(offer)}
+                                        onChange={handleChange} />
                                     <label>{offer}</label>
                                 </div>
 

@@ -7,6 +7,8 @@ import { data } from 'sail-away-data'
 import logic from '../../logic'
 import UserCard from '../UserCard'
 
+import Feedback from '../Feedback'
+
 import './index.sass'
 
 function Users(props) {
@@ -15,7 +17,7 @@ function Users(props) {
     let [talents, setTalents] = useState([])
     let [users, setUsers] = useState([])
     let [user, setUser] = useState(null)
-    let isFavorite
+    let [feedback, setfeedback] = useState('')
 
     let [counter, setCounter] = useState(1)
 
@@ -39,7 +41,7 @@ function Users(props) {
     }
 
     useEffect(() => {
-        getUserLogged()
+
     }, [])
 
     useEffect(() => {
@@ -50,11 +52,13 @@ function Users(props) {
 
     async function handleSearch() {
         try {
+            setfeedback('')
             let findedUsers = await logic.searchUseres(talents, languages)
-
+            findedUsers.length ? setUsers(findedUsers) : setfeedback('No results for this parameters. Try something different :)')
+            getUserLogged()
             setLanguages([])
             setTalents([])
-            setUsers(findedUsers)
+
 
         } catch (error) {
             console.error(error)
@@ -68,7 +72,7 @@ function Users(props) {
         setTalents(talents)
         console.log(languages)
     }
-   
+
     return (<section className='users'>
         <div className='users__background'>
 
@@ -90,7 +94,7 @@ function Users(props) {
                             )
 
                         }
-                        {counter<8 && <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add talent</button>}
+                        {counter < 8 && <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add talent</button>}
                     </main>
 
                 </div>
@@ -103,8 +107,8 @@ function Users(props) {
             </div>
             <button onClick={handleSearch} className='users__search-button'> Search </button>
         </div>
-
-        {users.length && <UserCard users={users}/>}
+        {feedback ? <Feedback message={feedback} /> : <div />}
+        {!feedback ? <UserCard users={users} /> : <div />}
 
     </section>)
 }
