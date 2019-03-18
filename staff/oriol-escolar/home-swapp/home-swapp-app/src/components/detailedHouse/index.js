@@ -22,7 +22,9 @@ class DetailedHouse extends Component {
             this.retrieveThisHouse(this.props.match.params.houseId)
         }
         if(!this.state.favorites || this.state.favorites !== this.props.userFavs){
-            this.setState({ favorites: this.props.userFavs, user: this.props.user })
+            this.setState({ favorites: this.props.userFavs })
+        if(this.state.user !==  this.props.user)
+        this.setState({ user: this.props.user })
 
         }
 
@@ -35,12 +37,22 @@ class DetailedHouse extends Component {
             this.setState({ favorites })
         }
 
+        if(this.state.user !== prepProvs.user){
+            this.setState({ user: prepProvs.user })
+ 
+        }
+
     }
 
     componentWillReceiveProps(props) {
 
         if(!this.state.thisHouse){
             this.retrieveThisHouse(props.match.params.houseId)
+
+        }
+
+        if(!this.state.user !== props.user){
+            this.setState({ user: props.user })
 
         }
 

@@ -36,15 +36,7 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        // return User.findOne({ email })
-        //     .then(user => {
-        //         if (user) throw Error(`user with email ${email} already exists`)
-
-        //         return bcrypt.hash(password, 10)
-        //     })
-        //     .then(hash => User.create({ name, surname, email, password: hash }))
-        //     .then(({ id }) => id)
-
+        
         return (async () => {
             let user = await User.findOne({ email })
 
@@ -70,6 +62,7 @@ const logic = {
      * @param {string} email 
      * @param {string} password 
      */
+    
     authenticateUser(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
