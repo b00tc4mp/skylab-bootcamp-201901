@@ -102,86 +102,90 @@ function EditProfile(props) {
     }
 
 
-    return (<section className="profileEdit">
-        <div className='profileEdit__header-background'>
-            <div className='profileEdit__header'>
-                <div className='profileEdit__picture'>
-                    <UpdatePictures getPictures={pictures => setPictures(pictures)} />
-                    <SlideShow pictures={pictures} />
+    return (<div className="profileEdit__background">
+
+        <section className="profileEdit">
+
+            <div className='profileEdit__header-background'>
+                <div className='profileEdit__header'>
+                    <div className='profileEdit__picture'>
+                        <UpdatePictures getPictures={pictures => setPictures(pictures)} />
+                        <SlideShow pictures={pictures} />
+
+                    </div>
+                    <div className='profileEdit__names'>
+                        <div className='profileEdit__inputs'>
+                            <input onChange={e => setName(e.target.value)} type="text" name="name" value={name} placeholder='Name' required />
+                        </div>
+                        <div className='profileEdit__inputs'>
+                            <input onChange={e => setSurname(e.target.value)} type="text" name="surName" value={surname} placeholder='Surname' required />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div className='profileEdit__info'>
+
+
+                <h3 className='profileInfo__titleSection'>General Info</h3>
+
+                <div className='profileEdit__general'>
+                    <label htmlFor="gender" className=''>Gender</label>
+                    <select name="gender" className='' onChange={e => setGender(e.target.value)} value={gender}>
+                        <option value='masculine' key='masculine'>Masculine</option>
+                        <option value='femenine' key='femenine'>Femenine</option>
+                        <option value='indiferent' key='indiferent'>Indiferent</option>
+                    </select>
+                </div>
+
+                <div className='profileEdit__general'>
+                    <label htmlFor="nationality" className=''>Nationality</label>
+                    <select name="nationality" className='' onChange={e => setNationality(e.target.value)} value={nationality}>
+
+                        {
+                            nationalities.map(nacionality =>
+                                <option
+                                    value={nacionality.nationality}
+                                    key={nacionality.num_code}>
+                                    {nacionality.nationality}
+                                </option>)
+                        }
+                    </select>
 
                 </div>
-                <div className='profileEdit__names'>
-                    <div className='profileEdit__inputs'>
-                        <input onChange={e => setName(e.target.value)} type="text" name="name" value={name} placeholder='Name' required />
-                    </div>
-                    <div className='profileEdit__inputs'>
-                        <input onChange={e => setSurname(e.target.value)} type="text" name="surName" value={surname} placeholder='Surname' required />
-                    </div>
 
+                <h3 className='profileInfo__titleSection'>Description</h3>
+                <div>
+                    <textarea onChange={e => setDescription(e.target.value)} value={description} className='profileEdit__description'></textarea>
                 </div>
-            </div>
-        </div>
 
-        <div className='profileEdit__info'>
+                <h3 className='profileInfo__titleSection'>Boats</h3>
+                {boats.length &&
+                    boats.map(boat => {
+                        if (boat.id === boatIdToEdit) { return <Boat getBoat={handleSetEditBoat} initialBoat={boat} CancelBoat={() => setAddBoat(false)} /> }
+                        else return <BoatInfo getEdit={() => setBoatIdToEdit(boat.id)} getDelete={handleDeleteBoat} boat={boat} key={boat.id} />
+                    })
+                }
+                {addBoat ? <Boat getBoat={handleSetAddBoat} initialBoat={null} cancelBoat={() => setAddBoat(false)} /> : <div />}
+                <button onClick={() => setAddBoat(true)} className='profileEdit__addBoat'>Add Boat</button>
 
-
-            <h3 className='profileInfo__titleSection'>General Info</h3>
-
-            <div className='profileEdit__general'>
-                <label htmlFor="gender" className=''>Gender</label>
-                <select name="gender" className='' onChange={e => setGender(e.target.value)} value={gender}>
-                    <option value='masculine' key='masculine'>Masculine</option>
-                    <option value='femenine' key='femenine'>Femenine</option>
-                    <option value='indiferent' key='indiferent'>Indiferent</option>
-                </select>
-            </div>
-
-            <div className='profileEdit__general'>
-                <label htmlFor="nationality" className=''>Nationality</label>
-                <select name="nationality" className='' onChange={e => setNationality(e.target.value)} value={nationality}>
-
-                    {
-                        nationalities.map(nacionality =>
-                            <option
-                                value={nacionality.nationality}
-                                key={nacionality.num_code}>
-                                {nacionality.nationality}
-                            </option>)
-                    }
-                </select>
+                <div>
+                    <h3 className='profileInfo__titleSection'>More...</h3>
+                    <h5>Talents</h5>
+                    {talents !== null && <Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
+                    <h5>Experience</h5>
+                    {experience !== null && <Experience getExperience={experience => setExperience(experience)} initialExperience={experience} />}
+                    <h5>Language</h5>
+                    {languages !== null && <Language getLanguages={languages => setLanguages(languages)} initialLanguages={languages} />}
+                </div>
 
             </div>
-
-            <h3 className='profileInfo__titleSection'>Description</h3>
-            <div>
-                <textarea onChange={e => setDescription(e.target.value)} value={description} className='profileEdit__description'></textarea>
-            </div>
-
-            <h3 className='profileInfo__titleSection'>Boats</h3>
-            {boats.length &&
-                boats.map(boat => {
-                    if (boat.id === boatIdToEdit) { return <Boat getBoat={handleSetEditBoat} initialBoat={boat} CancelBoat={() => setAddBoat(false)} /> }
-                    else return <BoatInfo getEdit={() => setBoatIdToEdit(boat.id)} getDelete={handleDeleteBoat} boat={boat} key={boat.id} />
-                })
-            }
-            {addBoat ? <Boat getBoat={handleSetAddBoat} initialBoat={null} cancelBoat={() => setAddBoat(false)} /> : <div />}
-            <button onClick={() => setAddBoat(true)} className='profileEdit__addBoat'>Add Boat</button>
-
-            <div>
-                <h3 className='profileInfo__titleSection'>More...</h3>
-                <h5>Talents</h5>
-                {talents !== null && <Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
-                <h5>Experience</h5>
-                {experience !== null && <Experience getExperience={experience => setExperience(experience)} initialExperience={experience} />}
-                <h5>Language</h5>
-                {languages !== null && <Language getLanguages={languages => setLanguages(languages)} initialLanguages={languages} />}
-            </div>
-
             <div className='profileEdit__submit'>
                 <button className='profileEdit__submit-button' onClick={handleOnSubmit}>Edit profile</button>
             </div>
-        </div>
-    </section>)
+        </section>
+    </div >)
 }
 
 

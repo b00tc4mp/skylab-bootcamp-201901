@@ -1,5 +1,18 @@
 .profileEdit
-    
+    border-radius: 2em
+    max-width: 800px
+    background: rgba(255, 255, 255, 0.9)
+    margin-top: 50px
+    margin-bottom: 50px
+
+    &__background
+        padding-top: 50px
+        padding-bottom: 50px
+        background-image: url("../ProfileInfo/header4.jpg")
+        background-repeat: no-repeat
+        background-position: center
+        background-attachment: fixed
+        background-size: cover
 
     &__header
         display: flex
@@ -23,6 +36,8 @@
         background-position: bottom
         background-attachment: fixed
         background-size: cover
+        border-top-left-radius: 2em
+        border-top-right-radius: 2em
     
     &__picture
         width: 250px
@@ -49,6 +64,7 @@
 
     @media (min-width: 576px)
         .profileEdit__names
+            justify-content: flex-start
             flex-direction: row
             margin-left: 20px
 
@@ -91,14 +107,15 @@
         justify-content: flex-end
 
     &__submit-button
-        margin: 10px
-        margin-top: 40px
+        margin: 0px
+        margin-top: 60px
         padding: 10px
         width: 100%
         background: #012C4C
         border: 2px solid #012C4C
         color: white
-        border-radius: 0.2em
+        border-bottom-left-radius: 2em
+        border-bottom-right-radius: 2em
 
     &__submit-button:hover
         background: none
@@ -107,4 +124,10 @@
 
     @media (min-width: 576px)
         &__submit-button
-            width: 50%
+            width: 100%
+
+@media (min-width: 800px)
+    .profileEdit
+        border: 2px solid white
+        margin-left: auto
+        margin-right: auto

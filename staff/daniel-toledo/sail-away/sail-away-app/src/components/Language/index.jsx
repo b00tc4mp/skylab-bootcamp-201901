@@ -14,13 +14,11 @@ function Languages({ getLanguages, initialLanguages }) {
 
     function handleChange(event, index) {
         let newLanguage = event.target.value
-        console.log(index)
         if (index === languages.length - 1) languages = newLanguage === 'Select language' ? [...languages] : [...languages, event.target.value]
         else languages.splice(index, 1, newLanguage)
 
         setLanguages(languages)
         getLanguages(languages)
-        console.log(languages)
     }
 
     function handleDelteLenguage(index) {
@@ -29,7 +27,6 @@ function Languages({ getLanguages, initialLanguages }) {
 
         setLanguages(languages)
         getLanguages(languages)
-        console.log(languages)
     }
 
 

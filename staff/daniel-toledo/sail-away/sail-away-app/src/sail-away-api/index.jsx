@@ -77,6 +77,7 @@ const sailAwayApi = {
         })
         .then(response => response.json())
         .then(users => {
+            debugger
             if (!users.error) return users
 
             else throw Error(users.error)

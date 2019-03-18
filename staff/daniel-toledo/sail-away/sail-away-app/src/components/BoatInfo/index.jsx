@@ -17,7 +17,7 @@ function BoatInfo({ getEdit, getDelete, boat }) {
         <div className='boat__container'>
             <div className='boat__header'>
                 <h3 className='boat__name'>{boat.name}</h3>
-                <SlideShow pictures={boat.pictures} className='boat__picture'/>
+                <SlideShow pictures={boat.pictures} isBoat={true} className='boat__picture'/>
             </div>
             <div className='boat__info'>
 

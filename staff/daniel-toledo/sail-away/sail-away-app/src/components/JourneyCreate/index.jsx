@@ -17,7 +17,7 @@ function JourneyCreate(props) {
 
     const { id } = props.match.params
     const { isEdit } = props
- 
+
     let [seaIdSelection, setSeaIdSelection] = useState('00')
     let [route, setRoute] = useState(null)
     let [dates, setDates] = useState(null)
@@ -29,25 +29,29 @@ function JourneyCreate(props) {
     let [boatSelected, setBoatSelected] = useState(null)
     let [boats, setBoats] = useState(null)
     let [userId, setUserId] = useState('')
+    let user
 
     useEffect(() => {
-    
-        if (isEdit) getJourney(id)
-        else{
-        setBoats([])
-        setRoute([])
-        setDates([null, null])
-        setSeaIdSelection('00')
-        setTalents([])
-        setExperience(0)
-        setLanguages([])}
+        user = getUser()
+        Promise.resolve(user)
+            .then(user => {
+                if (isEdit) getJourney(id)
+                else {
+                    setBoats(user.boats)
+                    setRoute([])
+                    setDates([null, null])
+                    setSeaIdSelection('00')
+                    setTalents([])
+                    setExperience(0)
+                    setLanguages([])
+                }
+            })
 
     }, [])
 
     async function getJourney(id) {
         try {
             let journey = await logic.retrieveJourney(id)
-            let user = await logic.retrieveUserLogged()
             if (journey.userId !== user.id) throw Error('user not allowed to edit')
             setBoats(user.boats)
             setRoute(journey.route)
@@ -60,6 +64,16 @@ function JourneyCreate(props) {
             setLanguages(journey.lookingFor.languages)
             setBoatSelected(journey.boat.id)
             setUserId(journey.userId)
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async function getUser() {
+        try {
+            let user = await logic.retrieveUserLogged()
+            return user
 
         } catch (error) {
             console.error(error)

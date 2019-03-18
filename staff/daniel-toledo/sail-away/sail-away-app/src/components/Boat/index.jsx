@@ -11,7 +11,7 @@ import './index.sass'
 function Boat({ getBoat, initialBoat, cancelBoat }) {
     const emptyBoat = {
         id: `boat-${Math.floor(Math.random() * 100000).toString()}`,
-        pictures: ['https://ak2.picdn.net/shutterstock/videos/22004452/thumb/2.jpg'],
+        pictures: [],
         name: '',
         type: '',
         model: '',
@@ -57,8 +57,7 @@ function Boat({ getBoat, initialBoat, cancelBoat }) {
     return (<section className="boat">
         <div className='boat__container'>
             <div className='boat__header'>
-
-                <SlideShow pictures={pictures} />
+                <SlideShow pictures={pictures} isBoat={true} />
                 <UpdatePictures getPictures={pictures => setPictures(pictures)} />
 
             </div>

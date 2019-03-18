@@ -105,16 +105,15 @@ const logic = {
             talents.forEach(talent => talentsToFilter.push({ "talents": talent }))
             languages.forEach(language => languagesToFilter.push({ "languages": language }))
 
-            if (!talents.length && !languages.length) results = await User.find()
+            if (!talents.length && !languages.length) results = await User.find().lean()
             else if (!talents.length) results = await User.find({ $or: languagesToFilter }).lean()
             else if (!languages.length) results = await User.find({ $or: talentsToFilter }).lean()
             else results = await User.find({ $and: [{ $or: talentsToFilter }, { $or: languagesToFilter }] }).lean()
           
-            results.map(result => {
+            results = results.map(result => {
                 result.id = result._id.toString()
                 delete result._id
                 delete result.__v
-                debugger
               
                 return result
             })

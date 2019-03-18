@@ -5,7 +5,7 @@ import Language from '../Language'
 
 import { data } from 'sail-away-data'
 import logic from '../../logic'
-import SlideShow from '../SlideShow'
+import UserCard from '../UserCard'
 
 import './index.sass'
 
@@ -61,16 +61,6 @@ function Users(props) {
         }
     }
 
-    async function toggleFavorite(crewId) {
-        try {
-            if (!logic.isUserLoggedIn) props.history.push('/sign-up')
-            let userUpdated = await logic.toggleCrewFavorite(crewId)
-            setUser(userUpdated)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
     function handleDelteTalent(index) {
         setCounter(--counter)
         talents.splice(index, 1)
@@ -114,29 +104,7 @@ function Users(props) {
             <button onClick={handleSearch} className='users__search-button'> Search </button>
         </div>
 
-        {users.length &&
-            <div className='users__results'>
-                {
-                    users.map(crew => {
-                        if (user) isFavorite = user.favoriteCrew.includes(crew.id) ? isFavorite = "danger" : isFavorite = "default"
-                        return (<section className='users__user'>
-                            <div className='users__user-title'>
-                                <h2>{crew.name} {crew.surname}</h2>
-                            </div>
-                            <div>
-                                <SlideShow pictures={crew.pictures} />
-                            </div>
-                            <div  className='users__user-buttons'>
-                                <button onClick={() => props.history.push(`/user/${crew.id}`)}>more</button>
-                                <button>contact</button>
-
-                                <button onClick={() => toggleFavorite(crew.id)} className={`favorite btn btn-outline-${isFavorite} col-1 fas fa-heart`}></button>
-                            </div>
-                        </section>)
-                    })
-                }
-            </div>}
-
+        {users.length && <UserCard users={users}/>}
 
     </section>)
 }

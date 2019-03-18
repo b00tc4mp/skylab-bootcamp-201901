@@ -43,7 +43,7 @@ function JourneyCard(props) {
                     if (favorites) isFavorite = favorites.includes(journey.id) ? isFavorite = "-red" : isFavorite = ""
                     return (<section className='journey-card__card' key={journey.id}>
 
-                        <div>
+                        <div className='journey-card__title'>
                             <h2>{journey.title}</h2>
                             <p>{journey.dates[0].toString().substring(0, 15)}-{journey.dates[1].toString().substring(0, 15)}</p>
                         </div>
@@ -52,7 +52,7 @@ function JourneyCard(props) {
                             <SlideShow pictures={journey.boat.pictures} />
                         </div>
 
-                        <div>
+                        <div className='journey-card__buttons'>
                             <button onClick={() => props.history.push(`/journey/${journey.id}`)} className='journey-card__button'>more</button>
                             <button onClick={() => props.history.push(`/user/${journey.userId}`)} className='journey-card__button'>capitan</button>
                             {!edit && <button className='journey-card__button'>contact</button>}

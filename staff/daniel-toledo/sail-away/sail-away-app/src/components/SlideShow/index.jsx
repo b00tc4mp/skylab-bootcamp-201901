@@ -3,12 +3,15 @@
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
 import logic from '../../logic'
+import profileBoat from './profile-boat.png'
+import profile from './profile.png'
 
 import './index.sass'
 
-function SlideShow({ pictures }) {
+function SlideShow({ pictures, isBoat }) {
      
-    pictures = pictures.length? pictures : ['https://www.pngkey.com/png/detail/107-1072091_computer-icons-user-profile-facebook-instagram-instagram-profile.png']
+    if (isBoat) pictures = pictures.length? pictures : [profileBoat]
+    else pictures = pictures.length? pictures : [profile]
     let [slideIndex, setSlideIndex] = useState(0)
 
     function changeSlide(index) {
