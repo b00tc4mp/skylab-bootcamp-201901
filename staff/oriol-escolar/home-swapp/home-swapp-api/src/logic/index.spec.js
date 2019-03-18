@@ -1129,10 +1129,10 @@ describe('logic', () => {
                 })
         )
 
-        it('should retrieve favorites from user', () =>{
+        it('should retrieve favorites from user', () => {
             query = 'spain'
 
-           return logic.retrieveHousesByQuery(query)
+            return logic.retrieveHousesByQuery(query)
                 .then(houses => {
                     expect(JSON.stringify(houses[0].images)).toBe(JSON.stringify(images))
                     expect(houses[0].description).toBe(description)
@@ -1142,10 +1142,10 @@ describe('logic', () => {
 
                     expect(houses.length).toBe(1)
                 })
-            })
+        })
 
-        it('should retrieve no favorites from user', () =>{
-            query='jhsbadjsbdjasjkd'
+        it('should retrieve no favorites from user', () => {
+            query = 'jhsbadjsbdjasjkd'
 
             logic.retrieveHousesByQuery(query)
                 .then(() => {
@@ -1158,7 +1158,7 @@ describe('logic', () => {
 
 
                 })
-            })
+        })
 
         it('should fail on undefined houseId', () => {
 
@@ -1168,6 +1168,94 @@ describe('logic', () => {
         })
 
     })
+
+
+
+    describe('send msessage', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+
+        const username2 = 'Barzi2'
+        const email2 = `manuelbarzi-${Math.random()}@mail.com`
+        const password2 = `123-${Math.random()}`
+
+        let userId
+        let userId2
+
+        let text = 'test'
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => {
+
+                    return bcrypt.hash(password2, 10)
+                        .then(hash => User.create({ username: username2, email: email2, password: hash }))
+                        .then(({ id }) => {
+
+                            userId2 = id
+
+                        })
+
+
+                })
+        )
+
+        it('should succeed on correct credentials', () =>
+            logic.sendMessage(userId, userId2, text)
+                .then(user => {
+
+                    expect(user.conversations.length).toBe(1)
+                    expect(JSON.stringify(user.conversations[0].interlocutor)).toBe(JSON.stringify(userId))
+                    expect((user.conversations[0].messages[0].sent)).toBe(false)
+                    expect((user.conversations[0].messages[0].text)).toBe(text)
+
+                })
+                .then(() => {
+
+                    logic.retrieveUser(userId)
+                        .then(user => {
+
+                            expect(user.conversations.length).toBe(1)
+                            expect(JSON.stringify(user.conversations[0].interlocutor)).toBe(JSON.stringify(userId2))
+                            expect((user.conversations[0].messages[0].sent)).toBe(true)
+                            expect((user.conversations[0].messages[0].text)).toBe(text)
+
+
+
+                        })
+
+
+                })
+
+
+        )
+
+        it('should fail on undefined id', () => {
+
+            expect(() => {
+                logic.sendMessage(undefined,userId2,text)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+        it('should fail on undefined id2', () => {
+
+            expect(() => {
+                logic.sendMessage(userId,undefined,text)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+        it('should fail on undefined id2', () => {
+
+            expect(() => {
+                logic.sendMessage(userId,userId2,undefined)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+    })
+
 
     after(() =>
         Promise.all([

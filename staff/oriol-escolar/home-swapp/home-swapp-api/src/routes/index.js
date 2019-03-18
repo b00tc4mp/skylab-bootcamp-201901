@@ -24,4 +24,6 @@ module.exports = {
     retrieveFavorites: require('./retrieve-user-favorites'),
 
     retrieveHousesByQuery: require('./retrieve-housesQuery'),
+
+    sendMessage: require('./send-message')
 }

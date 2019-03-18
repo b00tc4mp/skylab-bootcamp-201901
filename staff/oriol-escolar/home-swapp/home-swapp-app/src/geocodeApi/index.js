@@ -2,7 +2,7 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-const { GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY } = process.env
+const { REACT_APP_GOOGLE_MAPS_API_URL, REACT_APP_GOOGLE_MAPS_API_KEY } = process.env
 
 
 const geocodeApi = {
@@ -18,7 +18,8 @@ const geocodeApi = {
         if (typeof country !== 'string') throw TypeError(`${country} is not a string`)
 
 
-        return fetch(`${GOOGLE_MAPS_API_URL}address=${number}+${street},+${city},+${country}&key=${GOOGLE_MAPS_API_KEY}`, {
+
+        return fetch(`${REACT_APP_GOOGLE_MAPS_API_URL}address=${number}+${street},+${city},+${country}&key=${REACT_APP_GOOGLE_MAPS_API_KEY}`, {
             headers: {
                 'content-type': 'application/json'
             },
@@ -30,13 +31,13 @@ const geocodeApi = {
 
                 }
                     
+                console.log(response)
                     return response.json()
                 
 
             }).then(response=>{
                 response = response.results[0].geometry.location
                 
-
                 return response
 
             })

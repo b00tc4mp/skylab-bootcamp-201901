@@ -42,7 +42,7 @@ const User = new Schema({
 
     conversations: [{
 
-        otherUserId: {
+        interlocutor: {
 
             type: ObjectId,
             ref: 'User'
@@ -54,7 +54,8 @@ const User = new Schema({
 
             sent:{
                 
-                type: Boolean
+                type: Boolean,
+                default: false
 
             },
 

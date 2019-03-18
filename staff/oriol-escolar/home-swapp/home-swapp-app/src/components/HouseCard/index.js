@@ -66,7 +66,7 @@ class HouseCard extends Component {
     ChangeHeart = () => this.setState({ isFav: !this.state.isFav })
 
 
-    toggleFavorite = () => {
+    toggleFavorite = (event) => {
 
         if (this.props.toggleFavorite) {
 
@@ -76,6 +76,7 @@ class HouseCard extends Component {
             
 
         }
+        event.stopPropagation()
 
 
     }
@@ -101,7 +102,7 @@ class HouseCard extends Component {
             <p className="HouseCard__text HouseCard__text-city">{adress.city}</p>
             <p className="HouseCard__text HouseCard__text-adress" >{adress.street}  {adress.number}</p>
             {iSreadHeart && isFav && (<i className="fas fa-heart favTrue" onClick={toggleFavorite}></i>)}
-            {iSwhiteHeart && !isFav && (<i className="fas fa-heart" onClick={toggleFavorite}></i>)}
+            {iSwhiteHeart && !isFav && (<i className="fas fa-heart" onClick={event =>toggleFavorite(event)}></i>)}
             {logged && origin === 'myHouses' && <div>  <i class="fas fa-ban" onClick={deleteHouse}></i>  <i class="fas fa-pen"></i>  </div>}
 
 

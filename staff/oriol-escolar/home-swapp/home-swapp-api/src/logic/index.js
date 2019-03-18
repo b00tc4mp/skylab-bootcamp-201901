@@ -57,9 +57,10 @@ const logic = {
 
             const hash = await bcrypt.hash(password, 10)
 
-            const { id } = await User.create({ username, email, password: hash })
+            const newUser = await User.create({ username, email, password: hash })
 
-            return id
+           
+            return newUser.id
         })()
     },
 
@@ -196,18 +197,18 @@ const logic = {
 
                 if (!house) throw Error(`house with id ${houseId} not found`)
 
-                
+
                 return User.findById(house.ownerId).lean()
-                .then(user=>{
+                    .then(user => {
 
-                    house.id = house._id.toString()
-                    delete house._id
+                        house.id = house._id.toString()
+                        delete house._id
 
-                    house.owner = user.username
-    
-                    return house
+                        house.owner = user.username
 
-                })
+                        return house
+
+                    })
             })
 
     },
@@ -303,21 +304,99 @@ const logic = {
     },
 
 
-    retrieveHousesByQuery(query){
-        
+    retrieveHousesByQuery(query) {
+
         query = query.toLowerCase()
-        
+
         if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
 
-        return House.find( {$or:[{"adress.city":query},{"adress.country":query}]}).select('-__v').lean()
-        .then(houses => {
-            houses.forEach(house => {
-                house.id = house._id.toString()
-                delete house._id
-                return house
+        return House.find({ $or: [{ "adress.city": query }, { "adress.country": query }] }).select('-__v').lean()
+            .then(houses => {
+                houses.forEach(house => {
+                    house.id = house._id.toString()
+                    delete house._id
+                    return house
+                })
+                return houses
             })
-            return houses
-        })
+    },
+
+    sendMessage(userId, id, text) {
+
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (typeof text !== 'string') throw Error(`${text} is not a string`)
+
+
+        return User.findById(userId)
+            .then((user) => {
+
+
+                var index = user.conversations.findIndex(conver => conver.interlocutor == id)
+
+                if (index < 0) {
+
+                    let conversation = {
+                        
+                        interlocutor: id,
+                        messages: [{
+
+                            sent: true,
+                            text: text
+
+                        }]
+                    }
+
+                    user.conversations.push(conversation)
+                    return user.save()
+                        .then(() => {
+
+                            return User.findById(id)
+                                .then((user) => {
+
+                                    let conversation = {
+
+                                        interlocutor: userId,
+                                        messages: [{
+
+                                            text: text
+
+                                        }]
+                                    }
+
+                                    user.conversations.push(conversation)
+                                    return user.save()
+
+                                })
+                        })
+                } else {
+
+                    let message = {
+
+                        sent: true,
+                        text: text
+                    }
+                    user.conversations[index].messages.push(message)
+                    return user.save()
+                        .then(() => {
+                            return User.findById(id)
+                                .then(user => {
+
+                                    var index = user.conversations.findIndex(conver => conver.interlocutor == userId)
+
+                                    let message = {
+
+                                        text: text
+                                    }
+
+                                    user.conversations[index].messages.push(message)
+                                    return user.save()
+
+                                })
+                        })
+                }
+            })
     }
 
 

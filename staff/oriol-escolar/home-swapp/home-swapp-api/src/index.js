@@ -11,7 +11,7 @@ const package = require('../package.json')
 const cors = require('./cors')
 
 const {
-    registerUser, authenticateUser, retrieveUser, updateUser, createHouse, updateHouse,
+    registerUser, authenticateUser, retrieveUser, updateUser, createHouse, updateHouse,sendMessage,
     retrieveHouse, deleteHouse, toggleFavorite, retrieveMyHouses, retrieveFavorites, retrieveHousesByQuery, notFound
 } = require('./routes')
 
@@ -44,6 +44,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/user/retrieveMyHouses', tokenVerifierMiddleware, jsonBodyParser, retrieveMyHouses)
 
         router.get('/user/retrieveFavs', tokenVerifierMiddleware, jsonBodyParser, retrieveFavorites)
+
+        router.post('/user/send-message/:id', tokenVerifierMiddleware, jsonBodyParser, sendMessage)
 
 
 

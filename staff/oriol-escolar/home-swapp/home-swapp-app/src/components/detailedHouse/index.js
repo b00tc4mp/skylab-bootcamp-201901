@@ -51,8 +51,7 @@ class DetailedHouse extends Component {
         if (houseId) {
             try {
                 const thisHouse = await logic.retrieveHouse(houseId)
-                return this.setState({ thisHouse })
-                // .then(()=> this.retrieveLocation())
+                this.setState({ thisHouse }, () => this.retrieveLocation())
 
             } catch{
                 this.setState({ thisHouse: "" })
@@ -67,24 +66,31 @@ class DetailedHouse extends Component {
         const { state: { thisHouse: { adress: { number, city, street, country } } } } = this
 
         return logic.retrievePoint(number, street, city, country)
-            .then(location => this.setState({ lat: location.lat, lng: location.lng }))
+
+            .then(location => {
+
+                console.log(location)
+
+                this.setState({ lat: location.lat, lng: location.lng })
+
+
+            })
 
     }
 
-    goBack(){
+    goBack() {
 
         window.history.back()
     }
 
     render() {
 
-        const { state: { thisHouse,user }, props: { },goBack } = this
+        const { state: { thisHouse, user, lat, lng }, props: { }, goBack } = this
 
-        console.log(thisHouse)
         return <div className="detailedHouse" >
 
             <button className="detailedHouse__BackButton" onClick={goBack}>BACK</button>
-            {thisHouse ? true: <h1> House not found</h1>}
+            {thisHouse ? true : <h1> House not found</h1>}
 
             {thisHouse && <div className="detailedHouse__content">
 
@@ -109,7 +115,7 @@ class DetailedHouse extends Component {
 
                         </div>
 
-                        {user && <button className= "detailedHouse__content-infoBlock-1__Contact" >Contact</button>}
+                        {user && <button className="detailedHouse__content-infoBlock-1__Contact" >Contact</button>}
 
                     </div>
 
@@ -119,6 +125,7 @@ class DetailedHouse extends Component {
 
                     </div>
                 </div>
+
 
                 {/* <Map    >
 
