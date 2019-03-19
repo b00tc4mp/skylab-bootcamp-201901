@@ -1,10 +1,10 @@
 {
     "open": false,
     "type": "folder",
-    "name": "test3",
+    "name": "test",
     "children": [
         {
-            "name": "test4",
+            "name": "test3",
             "open": false,
             "type": "folder",
             "position": 0
