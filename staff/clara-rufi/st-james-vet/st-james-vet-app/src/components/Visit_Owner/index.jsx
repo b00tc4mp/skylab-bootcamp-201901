@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -55,21 +56,80 @@ class VisitOwner extends Component {
     }
 
     visitOwner=(id, owner, pet, date) => {
-    
         let dateVisit = date
         var today = new Date()
-        if( dateVisit.getUTCFullYear() >= today.getUTCFullYear()){
-        if( dateVisit.getUTCMonth() >= today.getUTCMonth()){
-            if(dateVisit.getUTCDate() - today.getUTCDate() >= 2){
-                return(
-                <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>  
-                )  
-            }
-        }
         
-    }
-}
+        if ( dateVisit.getUTCFullYear() > today.getUTCFullYear()) return(   
+            <tr>
+            <p className="appointment" value={id}>
+                <th>
+                    Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
+                    <br />
+                    Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
+                    <br />
+                    Pet:{' '}{pet.name}{owner.name}
+                    <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button> 
+                    </th>
+                </p>
+            </tr>
+        )
 
+
+        if(  
+            dateVisit.getUTCFullYear() === today.getUTCFullYear()
+            &&
+            dateVisit.getUTCMonth() + 1 > today.getUTCMonth() + 1
+            ){
+            
+            return(   
+                <tr>
+                <p className="appointment" value={id}>
+                    <th>
+                        Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
+                        <br />
+                        Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
+                        <br />
+                        Pet:{' '}{pet.name}{owner.name}
+                        <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button> 
+                        </th>
+                    </p>
+                </tr>
+            )
+        } 
+
+
+        if (dateVisit.getUTCMonth() + 1 == today.getUTCMonth() + 1 && (today.getUTCDate() + 2 < dateVisit.getUTCDate())) {
+            return(   
+                <tr>
+                <p className="appointment" value={id}>
+                    <th>
+                        Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
+                        <br />
+                        Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
+                        <br />
+                        Pet:{' '}{pet.name}{owner.name}
+                        <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button> 
+                        </th>
+                    </p>
+                </tr>
+            )
+        }
+
+        return(   
+            <tr>
+            <p className="appointment" value={id}>
+                <th>
+                    Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
+                    <br />
+                    Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
+                    <br />
+                    Pet:{' '}{pet.name}{owner.name}
+                    </th>
+                </p>
+            </tr>
+        )
+    }
+    // }
 render() {
     
     const { state: { appointmentsOwner }, visitOwner } = this
@@ -85,30 +145,29 @@ render() {
                             return a.date - b.date
                         })
                         // console.log(2222, this.state.appointmentsOwner)
-                    let dateVisit = new Date(date)
-                    console.log(dateVisit)
+                    // let dateVisit = new Date(date)
                     //   let dateVisit = date
-                        var today = new Date()
+                        // var today = new Date()
                         // var day = today.getDate()+2
 
                         if (owner._id === this.state.user) {
                             // return this.visitOwner(id, owner, pet, date)
-                        return (
+                        return visitOwner(id, owner, pet, date)
                            
-                                <tr>
-                                    <p className="appointment" value={id}>
-                                        <th>
-                                            Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
-                                            <br />
-                                            Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
-                                            <br />
-                                            Pet:{' '}{pet.name}{owner.name}
-                                            {/* {console.log(dateVisit.getUTCDate(), today.getDate()+2)} */}
-                                            {/* {dateVisit.getUTCDate() < today.getDate()+2 ?   <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}    */}
-                                            {/* <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button> */} 
-                                        </th>
-                                    </p>
-                                </tr>
+                                // <tr>
+                                //     <p className="appointment" value={id}>
+                                //         <th>
+                                //             Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
+                                //             <br />
+                                //             Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
+                                //             <br />
+                                //             Pet:{' '}{pet.name}{owner.name}
+                                            /* {console.log(dateVisit.getUTCDate(), today.getDate()+2)} */
+                                            /* {dateVisit.getUTCDate() < today.getDate()+2 ?   <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}    */
+                                //             {/* <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button> */} 
+                                //         </th>
+                                //     </p>
+                                // </tr>
 
 //     <tr>
 //     <p className="appointment" value={id}>
@@ -133,10 +192,11 @@ render() {
 //    {dateVisit.getUTCMonth() >= today.getUTCMonth() && dateVisit.getUTCDate() - today.getUTCDate() >= 2 ?   <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}   
 
 
-)
-}
+                        
+                        }
+// return visitOwner(id, owner, pet, date)
 
-                        })
+})
                     }
                 {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}
                 {this.state.noAppointments && <div className="no__appointments">
