@@ -44,6 +44,8 @@ function MyReporter (runner) {
           
           if(SAVEJSON !== undefined){
             // Build JSON
+
+            debugger
             var obj = {
               tests: json_tests.map(clean),
               pending: json_pending.map(clean),

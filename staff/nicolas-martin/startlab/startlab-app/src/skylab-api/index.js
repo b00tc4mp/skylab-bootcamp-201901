@@ -3,19 +3,21 @@ const skylabApi = {
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
+        if (!name.trim().length) throw Error('name cannot be empty')
 
         if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw Error('surname is empty')
+        if (!surname.trim().length) throw Error('surname cannot be empty')
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
+        if (!email.trim().length) throw Error('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        if (!password.trim().length) throw Error('password cannot be empty')
 
         if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
-        if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
+        if (!passwordConfirm.trim().length) throw Error('password confirm cannot be empty')
+
+        if (password !== passwordConfirm) throw Error('passwords do not match')
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -34,10 +36,10 @@ const skylabApi = {
 
     authenticateUser(email, password) {
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
+        if (!email.trim().length) throw Error('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        if (!password.trim().length) throw Error('password cannot be empty')
 
         return fetch(`${this.url}/user/auth`, {
             method: 'POST',
@@ -56,7 +58,7 @@ const skylabApi = {
 
     exerciseList(token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/exercise/list`, {
             headers: {
@@ -72,10 +74,10 @@ const skylabApi = {
 
     deleteExercise(id, token) {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
-        if (!id.trim().length) throw Error('id is empty')
+        if (!id.trim().length) throw Error('id cannot be empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/exercise/delete/${id}`, {
             method: 'DELETE',
@@ -92,10 +94,10 @@ const skylabApi = {
 
     retrieveExercise(exerciseId, token) {
         if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
-        if (!exerciseId.trim().length) throw Error('exerciseId is empty')
+        if (!exerciseId.trim().length) throw Error('exerciseId cannot be empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/exercise/${exerciseId}`, {
             headers: {
@@ -114,7 +116,7 @@ const skylabApi = {
         if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/exercise/update`, {
             method: 'POST',
@@ -134,9 +136,9 @@ const skylabApi = {
 
     createExercise(exercise, token) {
         if (exercise.constructor !== Object) throw TypeError(`${exercise} is not an object`)
-        debugger
+
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/exercise/create`, {
             method: 'POST',
@@ -156,14 +158,14 @@ const skylabApi = {
     },
 
     checkCode(answer, exerciseId, token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
         if (typeof answer !== 'string') throw TypeError(`${answer} is not a string`)
-        if (!answer.trim().length) throw Error('answer is empty')
+        if (!answer.trim().length) throw Error('answer cannot be empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         if (typeof exerciseId !== 'string') throw TypeError(`${exerciseId} is not a string`)
-        if (!exerciseId.trim().length) throw Error('exerciseId is empty')
+        if (!exerciseId.trim().length) throw Error('exerciseId cannot be empty')
 
         return fetch(`${this.url}/checkanswer`, {
             method: 'POST',
@@ -175,6 +177,7 @@ const skylabApi = {
         })
             .then(response => response.json())
             .then(response => {
+                console.log(response)
                 if (response.error) throw Error(response.error)
 
                 return response
@@ -190,7 +193,7 @@ const skylabApi = {
         if (!answer.trim().length) throw Error('answer cannot be empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/user/historical/update`, {
             method: 'POST',
@@ -210,7 +213,7 @@ const skylabApi = {
 
     invitationList(token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/invitation/list`, {
             headers: {
@@ -226,10 +229,10 @@ const skylabApi = {
 
     deleteInvitation(id, token) {
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
-        if (!id.trim().length) throw Error('id is empty')
+        if (!id.trim().length) throw Error('invitationId cannot be empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/invitation/delete/${id}`, {
             method: 'DELETE',
@@ -246,6 +249,9 @@ const skylabApi = {
 
     exerciseFromUser(token) {
 
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
+
         return fetch(`${this.url}/student/start`, {
             headers: {
                 authorization: `Bearer ${token}`
@@ -260,10 +266,10 @@ const skylabApi = {
 
     getInvitation(invitationId, token) {
         if (typeof invitationId !== 'string') throw TypeError(`${invitationId} is not a string`)
-        if (!invitationId.trim().length) throw Error('invitationId is empty')
+        if (!invitationId.trim().length) throw Error('invitationId cannot be empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/invitation/${invitationId}`, {
             headers: {
@@ -279,10 +285,10 @@ const skylabApi = {
     },
 
     updateInvitation(invitation, token) {
-        //Todo validate invitation as object
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/invitation/update`, {
             method: 'POST',
@@ -301,10 +307,10 @@ const skylabApi = {
     },
 
     createInvitation(invitation, token) {
-        //Todo validate invitation as object
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
-        // if (typeof invitation !== 'string') throw TypeError(`${invitation} is not a string`)
-        // if (!invitation.trim().length) throw Error('invitation is empty')
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/admin/invitation/create`, {
             method: 'POST',
@@ -326,9 +332,9 @@ const skylabApi = {
     sendEmailInvitation(token, invitation) {
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
-        //todo
+        if (invitation.constructor !== Object) throw TypeError(`${invitation} is not an object`)
 
         return fetch(`${this.url}/admin/email/invitation`, {
             method: 'POST',

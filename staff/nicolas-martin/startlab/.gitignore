@@ -1,5 +1,4 @@
-/startlab-api/.env
+.env
 startlab-api/src/test-files/
 startlab-api/coverage/
 startlab-api/src/answer-files/
-.env

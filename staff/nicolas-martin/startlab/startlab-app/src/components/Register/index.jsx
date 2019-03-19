@@ -28,8 +28,7 @@ class Register extends Component {
             handleEmailInput, 
             handlePasswordInput, 
             handleFormSubmit, 
-            handlePasswordConfirmationInput, 
-            props: { feedback } 
+            handlePasswordConfirmationInput
         } = this
 
         return <section className="register">
@@ -40,7 +39,7 @@ class Register extends Component {
             <form className="register__form" onSubmit={handleFormSubmit} autoComplete="off">
                 <input className="input" type="text" name="name" onChange={handleNameInput} placeholder="name" autoComplete="off" autoCorrect="off" required/>
                 <input className="input" type="text" name="surname" onChange={handleSurnameInput} placeholder="surname"  autoComplete="off" autoCorrect="off" required/>
-                <input className="input" type="text" name="email" onChange={handleEmailInput} placeholder="email" placeholder="email"  autoComplete="off" autoCorrect="off" required/>
+                <input className="input" type="text" name="email" onChange={handleEmailInput} placeholder="email" autoComplete="off" autoCorrect="off" required/>
                 <input className="input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" autoComplete="off" autoCorrect="off" required/>
                 <input className="input" type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password"  autoComplete="off" autoCorrect="off" required/>
 

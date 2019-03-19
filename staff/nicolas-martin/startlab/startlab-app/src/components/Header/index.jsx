@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import logo from '../../assets/images/skylab_logo.png'
 
 const Header = ({ isAdmin, isLoggedIn, onLogOut }) => {
-  // {console.log(isAdmin, isLoggedIn)}
+
   return (
   <nav className="header" aria-label="main navigation">
 
@@ -13,17 +13,17 @@ const Header = ({ isAdmin, isLoggedIn, onLogOut }) => {
         <img src={logo} alt="Startlab" />
       </a>
 
-      <li><NavLink exact to="/" className="navbar-item">Home</NavLink></li>
+      <li>{!isAdmin && isLoggedIn && <NavLink exact to="/" className="navbar-item">Home</NavLink>}</li>
 
       <li>{!isLoggedIn && <NavLink to="/register" className="navbar-item">Register</NavLink>}</li>
 
       <li>{!isLoggedIn && <NavLink className="navbar-item" to="/login">Login</NavLink>}</li>
-
-      <li>{isLoggedIn && <NavLink className="navbar-item" to="/logout" onClick={onLogOut}>Logout</NavLink>}</li>
       
       <li>{isAdmin && <NavLink className="navbar-item" exact to="/admin/exercises">Exercises</NavLink>}</li>
 
       <li>{isAdmin && <NavLink className="navbar-item" exact to="/admin/invitations">Invitations</NavLink>}</li>
+
+      <li>{isLoggedIn && <NavLink className="navbar-item" to="/logout" onClick={onLogOut}>Logout</NavLink>}</li>
 
     </ul>
   </nav>

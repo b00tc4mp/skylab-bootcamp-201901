@@ -40,14 +40,18 @@ class Start extends Component {
 
         try {
             logic.checkCode(answer, _id)
-                .then(({ passes, failures }) => this.checkReponse(passes, failures))
-                .catch(message => this.emitFeedback(message, 'error'))
+                .then(({ passes, failures }) => this.checkResponse(passes, failures))
+                .catch(message => {
+                    let _failures = [{ err: { message } }]
+                    this.checkResponse('', _failures)
+                    this.emitFeedbackError(message)
+                })
         } catch ({ message }) {
             this.emitFeedback(message, 'error')
         }
     }
 
-    checkReponse = (passes, failures) => {
+    checkResponse = (passes, failures) => {
         const { state: { activeExercise: { _id }, answer } } = this
 
         if (!failures.length) {    // right answer!
@@ -81,15 +85,23 @@ class Start extends Component {
         draggable: true
     })
 
+    emitFeedbackError = message => toast.error(message, {
+        position: 'top-right',
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+    })
+
     render() {
         const { state: { activeExercise, exercises, failures, checkResponse, answer },
             handleAnswerSubmit, handleAnswerChange } = this
+
         return (
             <main className="start">
 
-                {activeExercise && <StartIntro exercises={exercises} />}
-
-                <hr />
+                {activeExercise && <StartIntro exercises={exercises} idActiveExercise={activeExercise.exercise._id}  />}
 
                 {activeExercise && <ActiveExercise activeExercise={activeExercise} />}
 
@@ -97,9 +109,9 @@ class Start extends Component {
 
                 <hr />
 
-                {checkResponse && <ResultsTest failures={failures} /*failures={} passes={}*/ />}
+                {activeExercise && checkResponse && <ResultsTest failures={failures} /*failures={} passes={}*/ />}
 
-                {/* {!activeExercise && <FinalMessage />} */}
+                {!activeExercise && <FinalMessage />}
 
             </main>
         )
