@@ -8,7 +8,6 @@ import { NavLink } from "react-router-dom";
 import logic from "../../logic";
 
 export const Header = props => {
-  
   const handleOnClick = event => {
     event.preventDefault();
     props.onLogout();
@@ -16,28 +15,57 @@ export const Header = props => {
 
   return (
     <div className={styles.container}>
-      <AppBar position="static">
+      <AppBar position="static" color="primary">
         <Toolbar className={styles.toolbar}>
-          <Typography variant="h6" color="inherit" className={styles.grow}>
-            <NavLink to={"/home"}>Padelcat</NavLink>
-          </Typography>
-          {logic.isPlayerLoggedIn() && (
-            <Button
-              className={styles.button}
-              color="inherit"
-              onClick={handleOnClick}
-            >
-              Logout
-            </Button>
-          )}
-           {!logic.isPlayerLoggedIn() && (<NavLink to={"/register"} className={styles.button}>
-              <Button color="inherit">Register</Button>
-            </NavLink>)}
-          {!logic.isPlayerLoggedIn() && (
-            <NavLink to={"/login"} className={styles.button}>
-              <Button color="inherit">Login</Button>
-            </NavLink>
-          )}
+          <div className={styles.title}>
+            <img className={styles.icon} src="https://image.flaticon.com/icons/svg/434/434113.svg" />
+            <Typography variant="h6" color="inherit" className={styles.grow}>
+              <NavLink to={"/home"}>Padelcat</NavLink>
+            </Typography>
+          </div>
+          <div className={styles.buttons}>
+            {logic.isPlayerLoggedIn() &&
+              props.navigation.location.pathname === "/home" && (
+                <NavLink to={"/players"} className={styles.button}>
+                  <Button className={styles.button} color="inherit">
+                    Ranking
+                  </Button>
+                </NavLink>
+              )}
+            {logic.isPlayerLoggedIn() &&
+              props.navigation.location.pathname === "/players" && (
+                <NavLink to={"/home"} className={styles.button}>
+                  <Button color="inherit">Home</Button>
+                </NavLink>
+              )}
+            {logic.isPlayerLoggedIn() &&
+              props.navigation.location.pathname === "/player" && (
+                <NavLink to={"/home"} className={styles.button}>
+                  <Button color="inherit">Player</Button>
+                </NavLink>
+              )}
+            {logic.isPlayerLoggedIn() && (
+              <Button
+                className={styles.button}
+                color="inherit"
+                onClick={handleOnClick}
+              >
+                Logout
+              </Button>
+            )}
+            {!logic.isPlayerLoggedIn() &&
+              props.navigation.location.pathname === "/login" && (
+                <NavLink to={"/register"} className={styles.button}>
+                  <Button color="inherit">Register</Button>
+                </NavLink>
+              )}
+            {!logic.isPlayerLoggedIn() &&
+              props.navigation.location.pathname === "/register" && (
+                <NavLink to={"/login"} className={styles.button}>
+                  <Button color="inherit">Login</Button>
+                </NavLink>
+              )}
+          </div>
         </Toolbar>
       </AppBar>
     </div>

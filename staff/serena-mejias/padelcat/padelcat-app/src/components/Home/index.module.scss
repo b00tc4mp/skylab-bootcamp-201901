@@ -1,6 +1,9 @@
 @import "../../styles/_index.scss";
 
-$break-large: 516px;
+section.container{
+  display: flex;
+  justify-content: center;
+}
 
 ul.matches_list {
   padding: 0 $size-s;

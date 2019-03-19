@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
+import styles from "./index.module.scss";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -20,7 +21,7 @@ function getModalStyle() {
   };
 }
 
-const styles = theme => ({
+const style = theme => ({
   paper: {
     position: "absolute",
     width: theme.spacing.unit * 50,
@@ -70,6 +71,7 @@ class SimpleModal extends React.Component {
 
     return (
       <section>
+      <div className={styles.button_register}>
         <Button
           variant="contained"
           color="primary"
@@ -79,6 +81,7 @@ class SimpleModal extends React.Component {
         >
           Register
         </Button> 
+      </div>
         <div>
           <Modal
             aria-labelledby=""
@@ -103,6 +106,6 @@ SimpleModal.propTypes = {
 };
 
 // We need an intermediary variable for handling the recursive nesting.
-const SimpleModalWrapped = withStyles(styles)(SimpleModal);
+const SimpleModalWrapped = withStyles(style)(SimpleModal);
 
 export default SimpleModalWrapped;

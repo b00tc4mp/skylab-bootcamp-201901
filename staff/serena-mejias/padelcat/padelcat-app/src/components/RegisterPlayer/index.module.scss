@@ -1,5 +1,9 @@
 @import "../../styles/_index.scss";
 
+section.container{
+  display: flex;
+  justify-content: center;
+}
 form.register {
   margin-top: $size-m;
 }

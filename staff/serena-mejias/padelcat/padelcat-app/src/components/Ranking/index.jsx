@@ -8,13 +8,9 @@ export const Ranking = props => {
   const [players, setPlayers] = useState("");
 
   useEffect(() => {
-    console.log("sa");
-
     logic
       .retrievePlayers()
       .then(players => {
-        console.log(players);
-
         setPlayers(players);
       })
       .catch(error => {
@@ -24,17 +20,16 @@ export const Ranking = props => {
 
   return (
     <section>
-      <NavLink to={"/home"} className={styles.button}>
-        <Button color="inherit">Home</Button>
-      </NavLink>
       <ul>
         {players &&
-          players.sort((a,b)=> b.score - a.score).map(({ name, score }) => (
-            <li className={styles.player} key={players.id}>
-              <h6>{name}</h6>
-              <span>{score}</span>
-            </li>
-          ))}
+          players
+            .sort((a, b) => b.score - a.score)
+            .map(({ name, score }) => (
+              <li className={styles.player} key={players.id}>
+                <h6>{name}</h6>
+                <span>{score}</span>
+              </li>
+            ))}
       </ul>
     </section>
   );

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import styles from "./index.module.scss";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
 
 const Login = props => {
   const [email, setEmail] = useState("");
@@ -22,7 +24,6 @@ const Login = props => {
 
   return (
     <div className={styles.container}>
-      <h2>Login</h2>
 
       <form onSubmit={handleSubmit}>
         <TextField

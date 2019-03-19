@@ -71,8 +71,8 @@ export const Match = props => {
         <Form
           onSubmit={onSubmit}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
-            <form classname={styles.form_select} onSubmit={handleSubmit}>
-              <div>
+            <form className={styles.chosePlayers} onSubmit={handleSubmit}>
+              <div className={styles.selects}>
                 <div className={styles.select}>
                   <label value="firstPair">1st Match</label>
                   <ChosenPairs
@@ -117,26 +117,26 @@ export const Match = props => {
       <div>
         <div>
           <h4>1st Match</h4>
-          {get(playersChosen, ['players', 'firstPair-firstPlayer']) && (
-              <span>
-                {getPlayerById("firstPair-firstPlayer")} -{" "}
-                {getPlayerById("firstPair-secondPlayer")}
-              </span>
-            )}
+          {get(playersChosen, ["players", "firstPair-firstPlayer"]) && (
+            <span>
+              {getPlayerById("firstPair-firstPlayer")} -{" "}
+              {getPlayerById("firstPair-secondPlayer")}
+            </span>
+          )}
           <h4>2nd Match</h4>
-          {get(playersChosen, ['players', 'secondPair-firstPlayer']) && (
-              <span>
-                {getPlayerById("secondPair-firstPlayer")} -{" "}
-                {getPlayerById("secondPair-secondPlayer")}
-              </span>
-            )}
+          {get(playersChosen, ["players", "secondPair-firstPlayer"]) && (
+            <span>
+              {getPlayerById("secondPair-firstPlayer")} -{" "}
+              {getPlayerById("secondPair-secondPlayer")}
+            </span>
+          )}
           <h4>3rd Match</h4>
-          {get(playersChosen, ['players', 'thirdPair-firstPlayer']) && (
-              <span>
-                {getPlayerById("thirdPair-firstPlayer")} -{" "}
-                {getPlayerById("thirdPair-secondPlayer")}
-              </span>
-            )}
+          {get(playersChosen, ["players", "thirdPair-firstPlayer"]) && (
+            <span>
+              {getPlayerById("thirdPair-firstPlayer")} -{" "}
+              {getPlayerById("thirdPair-secondPlayer")}
+            </span>
+          )}
         </div>
       </div>
       {!admin && (

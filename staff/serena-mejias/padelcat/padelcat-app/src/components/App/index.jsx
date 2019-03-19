@@ -8,6 +8,18 @@ import RegisterPlayer from "../RegisterPlayer";
 import Ranking from "../Ranking";
 import { Header } from "../Header/Header";
 import Grid from "@material-ui/core/Grid";
+import styles from "./index.module.scss";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import cyan from "@material-ui/core/colors/cyan";
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: cyan[200] }
+  },
+  typography: {
+    // Tell Material-UI what's the font-size on the html element is.
+    htmlFontSize: 15,
+  },
+});
 
 class App extends Component {
   state = {
@@ -93,8 +105,9 @@ class App extends Component {
     } = this;
 
     return (
-      <main>
-        <Header onLogout={handleLogout} />
+      <MuiThemeProvider theme={theme}>
+      <main className={styles.body}>
+        <Header onLogout={handleLogout} navigation={this.props} />
         <div>
           <Route
             path="/register"
@@ -123,6 +136,7 @@ class App extends Component {
           <Route path="/players" component={Ranking} />
         </div>
       </main>
+      </MuiThemeProvider>
     );
   }
 }

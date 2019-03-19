@@ -1,53 +1,62 @@
 @import "../../styles/_index.scss";
 
 div.teams {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 1em;
 }
 
-form.form_select {
-    margin: $size-s;
+form.chosePlayers {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.selects {
+  flex-direction: column;
+  align-items: center;
+  margin: $size-s;
 }
 
 div.select {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
 }
 
 div.team {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 div.buttons {
-    text-align: right;
+  text-align: right;
 }
 
 div.result {
-    padding: 0 0 $size-xs 0 ;
-    text-align: center;
+  padding: 0 0 $size-xs 0;
+  text-align: center;
 }
 
 .date {
-    margin: $size-xs 0 $size-s;
+  margin: $size-xs 0 $size-s;
 }
 
 div.availability {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: $size-s 0;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: $size-s 0;
+  align-items: center;
 }
 
 div.location {
-    padding: $size-xs 0 0 0;
+  padding: $size-xs 0 0 0;
 }
 
 h6.teamName {
-    margin: $size-xs;
+  margin: $size-xs;
 }

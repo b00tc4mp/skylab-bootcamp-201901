@@ -31,9 +31,7 @@ export const Home = props => {
 
   return (
     <section className={styles.container}>
-      <NavLink to={"/players"} className={styles.button}>
-        <Button color="primary">Ranking</Button>
-      </NavLink>
+      
       <ul className={styles.matches_list}>
         {matches &&
           matches.map(match => (
