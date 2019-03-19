@@ -37,13 +37,9 @@ class Workspace extends Component {
             <section className="login_content">
                 <h2>Welcome</h2>
                 <form className="login_content-form" onSubmit={handleFormSubmit}>
-                    <span>Email</span>
-                    <input type="text" autoFocus onChange={handleEmailInput} required />
-                    <span>Password</span>
-                    <input type="password" onChange={handlePasswordInput} required />
-                    <span>Workspace name</span>
-                    <input type="text" onChange={handleWorkspaceInput} required />
-                    <p className="contentforgot-pass">Forgot password?</p>
+                    <input type="text" placeholder="Email" autoFocus onChange={handleEmailInput} required />
+                    <input placeholder="Password" type="password" onChange={handlePasswordInput} required />
+                    <input placeholder="Workspace Name" type="text" onChange={handleWorkspaceInput} required />
                     <button className="submit">Create new Workspace and Log In</button>
                 </form>
             </section>

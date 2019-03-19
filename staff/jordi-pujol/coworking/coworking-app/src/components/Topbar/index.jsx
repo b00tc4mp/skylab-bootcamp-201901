@@ -3,18 +3,14 @@ import { NavLink } from 'react-router-dom'
 
 import logic from '../../logic'
 
-function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices, onLogOut, onCreatingNewLink, onViewingTime }) {
+function Topbar({ onGoToHome, onGoToProfile, onGoToServices, onLogOut, onCreatingNewLink, onViewingTime }) {
 
     return <section className="bar">
         <section className="topbar">
-            <img src="https://nilquebe.com/img/coworking.png" className="topbar__icon" onClick={onGoToHome} />
+        <i className="fas fa-users fa-3x" onClick={onGoToHome}></i>
             <div className="topbar__item">
                 <i class="fas fa-user-alt"></i>
                 <button className="topbar__button" onClick={onGoToProfile}>Profile</button>
-            </div>
-            <div className="topbar__item">
-                <i class="fas fa-bell"></i>
-                <button className="topbar__button" onClick={onGoToNotifications}>Notifications</button>
             </div>
             <div className="topbar__item">
                 <i class="fas fa-plus-square"></i>

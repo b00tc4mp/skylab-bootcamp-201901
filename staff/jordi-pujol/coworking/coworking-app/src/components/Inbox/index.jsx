@@ -74,7 +74,7 @@ class Inbox extends Component {
                 }
             }
             )}
-            <Route exact path='/home/inbox/service/:id' render={(props) => <FullService service={props.match.params.id} onServiceSubmit={handleSubmitService} />} />
+            <Route exact path='/home/inbox/service/:id' render={(props) => <FullService service={props.match.params.id} onServiceSubmit={handleSubmitService} origin="inbox"/>} />
             <Route exact path='/home/inbox/profile/:username' render={(props) => <OtherProfile username={props.match.params.username} />} />
             {feedback && <Feedback message={feedback} />}
         </section>)

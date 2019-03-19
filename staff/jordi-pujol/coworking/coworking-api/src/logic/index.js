@@ -154,7 +154,7 @@ const logic = {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'username', value: username, type: String }])
 
-        return User.findOne({ username }).select('-password -__v').lean()
+        return User.findOne({ userName: username }).select('-password -__v').lean()
             .then(user => {
                 if (!user) throw Error(`user with username ${username} not found`)
 

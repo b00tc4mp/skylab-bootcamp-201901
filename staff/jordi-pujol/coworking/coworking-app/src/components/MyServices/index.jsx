@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Route } from 'react-router-dom'
 
 import logic from '../../logic'
 import Service from '../Service'
+import FullService from '../Full-Service'
 
 class MyServices extends Component {
 
@@ -21,16 +22,7 @@ class MyServices extends Component {
             .then(() => this.setState({ myServices: _services }))
     }
 
-    handleServiceClick = id => {
-
-        // const { state: { myServices } } = this
-
-        // const index = myServices.findIndex(service => service.id === id)
-        // const _services = myServices
-        // _services.splice(index, 1)
-
-        // this.setState({ myServices: _services })
-    }
+    handleServiceClick = id => this.props.history.push(`/home/myownservices/service/${id}`)
 
     render() {
 
@@ -40,6 +32,7 @@ class MyServices extends Component {
             <h2 className="title">Services I am offering:</h2>
             {myServices && myServices.map(service =>
                 <Service myservice={true} key={service.id} servicesFor={service} onServiceSelected={handleServiceClick} />)}
+            <Route exact path='/home/myownservices/service/:id' render={(props) => <FullService service={props.match.params.id} origin="myservices" />} />
         </section>
     }
 }

@@ -24,8 +24,6 @@ class Home extends Component {
 
     handleGoToServices = () => this.props.history.push('/home/service')
 
-    handleGoToNotifications = () => this.props.history.push('/home/notifications')
-
     handleCreateNewLink = () => {
 
         try {

@@ -6,11 +6,11 @@ import Comment from '../Comment'
 
 class FullService extends Component {
 
-    state = { activeService: '', comment: '', comments: [], feedback: null }
+    state = { activeService: '', comment: '', comments: [], feedback: null, origin:'inbox' }
 
     componentDidMount() {
 
-        const { props: { service } } = this
+        const { props: { service, origin } } = this
 
         try {
             logic.retrieveService(service)
@@ -22,6 +22,8 @@ class FullService extends Component {
         catch ({ message }) {
             this.setState({ feedback: message })
         }
+
+        this.setState({origin})
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -101,7 +103,18 @@ class FullService extends Component {
     }
 
     handleCloseModal = event => {
-        this.props.history.push('/home/inbox')
+
+        const {state: {origin}} = this
+
+        if (origin == 'inbox'){
+            this.props.history.push('/home/inbox')
+        }
+        else if (origin == 'myservices'){
+            this.props.history.push('/home/myownservices')
+        }
+        else {
+            this.props.history.push('/home/myservices/submited')
+        }
     }
 
     render() {

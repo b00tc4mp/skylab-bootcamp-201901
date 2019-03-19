@@ -5,8 +5,9 @@
 
 .login
   display: grid
-  grid-template-rows: 80% 60%
+  grid-template-rows: 60% 60%
   grid-template-columns: 1
+  
   
   &_content
     padding-top: 2em
@@ -14,7 +15,6 @@
     grid-row-end: 2
     background: #fff
     +flexin(flex, column, center)
-
 
     &-form
       +flexin(flex, column, center)
@@ -29,28 +29,29 @@
 
       button
         margin: 0 auto
-        border-radius: 30px
-        width: 8em
+        border-radius: 5px
+        width: 18em
         height: 2em
         border: none
         color: #fff
         font-size: 15px
         cursor: pointer
-        background-image: linear-gradient(#2C9200, #1C440B)
-      
-      button:hover 
-        background-image: linear-gradient(skyblue, #360BE5)
+        background-color: #408E61
+        font-weight: 600
+        font-family: 'Ubuntu', sans-serif
     
     .submit
       margin: 0 auto
-      border-radius: 30px
-      width: 20em
+      border-radius: 5px
+      width: 18em
       height: 2em
       border: none
       color: #fff
       font-size: 15px
       cursor: pointer
-      background-image: linear-gradient(#2C9200, #1C440B)
+      background-color: #40676E
+      font-weight: 600
+      font-family: 'Ubuntu', sans-serif
 
 
   &_subcontent
@@ -59,10 +60,9 @@
     grid-row-start: 2
     grid-row-end: 4
     display: flex
-    background-image: linear-gradient(#00ffb3, #3d5bfe)
+    background-image: linear-gradient(#71A596, #40676E)
     background-size: cover
     +flexin(flex, column, center)
-    
 
     div
       +flexin(flex, column, center)
@@ -70,18 +70,15 @@
 
     button
       margin: 0 auto
-      border-radius: 30px
-      width: 8em
+      border-radius: 5px
+      width: 18em
       height: 2em
       border: none
-      color: #fff
       font-size: 15px
       cursor: pointer
-      background-image: linear-gradient(#3d5bfe, #1f0054)
-      color: white
-      
-      button:hover 
-        background-image: linear-gradient(skyblue, #360BE5)
+      background-color: #ACD1B6
+      font-weight: 600
+      font-family: 'Ubuntu', sans-serif
 
 @media (min-width: 800px)
   
@@ -103,6 +100,8 @@
       grid-row-end: 2
       background: #fff
       +flexin(flex, column, center)
+      border-top-left-radius: 10px
+      border-bottom-left-radius: 10px
 
 
       &-form
@@ -116,58 +115,19 @@
           border-bottom: 1px solid rgba(0,0,0,0.4)
           outline: none
 
-        button
-          margin: 0 auto
-          border-radius: 30px
-          width: 8em
-          height: 2em
-          border: none
-          color: #fff
-          font-size: 15px
-          cursor: pointer
-          background-image: linear-gradient(#2C9200, #1C440B)
-
-        button:hover 
-          background-image: linear-gradient(skyblue, #360BE5)
-
-      .submit
-        margin: 0 auto
-        border-radius: 30px
-        width: 20em
-        height: 2em
-        border: none
-        color: #fff
-        font-size: 15px
-        cursor: pointer
-        background-image: linear-gradient(#2C9200, #1C440B)
-
-
     &_subcontent
       grid-column-start: 2
       grid-column-end: 3
       grid-row-start: 1
       grid-row-end: 2
       display: flex
-      background-image: linear-gradient(#00ffb3, #3d5bfe)
+      background-image: linear-gradient(#71A596, #40676E)
       background-size: cover
       +flexin(flex, column, center)
+      border-top-right-radius: 10px
+      border-bottom-right-radius: 10px
 
 
       div
         +flexin(flex, column, center)
         padding: 4em 3em
-
-      button
-        margin: 0 auto
-        border-radius: 30px
-        width: 8em
-        height: 2em
-        border: none
-        color: #fff
-        font-size: 15px
-        cursor: pointer
-        background-image: linear-gradient(#3d5bfe, #1f0054)
-        color: white
-
-        button:hover 
-          background-image: linear-gradient(skyblue, #360BE5)

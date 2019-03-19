@@ -508,7 +508,7 @@ describe('coworkingApi', () => {
         )
 
         it('should fail on user not found', () => {
-            return coworkingApi.retrieveUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5MjM3ODAsImV4cCI6MTU1MjkzODE4MH0.nxmosEs9G9QpEMxVqjP4B7rPrQxr574z5ilmKi08M1s')
+            return coworkingApi.retrieveUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
                 .catch(({ message }) => expect(message).toBe('id is not defined'))
         })
 
@@ -683,7 +683,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user not found', () => {
 
-            return coworkingApi.createWorkspace(name, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5MjM3ODAsImV4cCI6MTU1MjkzODE4MH0.nxmosEs9G9QpEMxVqjP4B7rPrQxr574z5ilmKi08M1s')
+            return coworkingApi.createWorkspace(name, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
                 .catch(({ message }) => expect(message).toBe('user does not exist'))
         })
 
@@ -999,7 +999,7 @@ describe('coworkingApi', () => {
         })
 
         it('should fail on user does not exist', () => {
-            return coworkingApi.createNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5MjM3ODAsImV4cCI6MTU1MjkzODE4MH0.nxmosEs9G9QpEMxVqjP4B7rPrQxr574z5ilmKi08M1s')
+            return coworkingApi.createNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
                 .catch(({ message }) => expect(message).toBe('5c87e9a9bf25412cfbdccd0e does not exists'))
         })
 
@@ -1264,7 +1264,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user does not exists', () => {
 
-            return coworkingApi.verifyNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5MjM3ODAsImV4cCI6MTU1MjkzODE4MH0.nxmosEs9G9QpEMxVqjP4B7rPrQxr574z5ilmKi08M1s', link)
+            return coworkingApi.verifyNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE', link)
                 .catch(({ message }) => expect(message).toBe('5c87e9a9bf25412cfbdccd0e does not exists'))
         })
 
@@ -1419,7 +1419,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user does not exists', () => {
 
-            return coworkingApi.createService('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5MjM3ODAsImV4cCI6MTU1MjkzODE4MH0.nxmosEs9G9QpEMxVqjP4B7rPrQxr574z5ilmKi08M1s', title, description, maxUsers, place, time)
+            return coworkingApi.createService('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE', title, description, maxUsers, place, time)
                 .catch(({ message }) => expect(message).toBe('5c87e9a9bf25412cfbdccd0e does not exists'))
         })
 
@@ -1763,7 +1763,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user not exists', () => {
 
-            return coworkingApi.retrieveUserServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5MjM3ODAsImV4cCI6MTU1MjkzODE4MH0.nxmosEs9G9QpEMxVqjP4B7rPrQxr574z5ilmKi08M1s')
+            return coworkingApi.retrieveUserServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
                 .catch(({ message }) => expect(message).toBe('user does not exists'))
         })
     })
@@ -1819,7 +1819,7 @@ describe('coworkingApi', () => {
         })
 
         it('should fail on non existing user', () => {
-            return coworkingApi.retrieveUserSubmitedServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5MjM3ODAsImV4cCI6MTU1MjkzODE4MH0.nxmosEs9G9QpEMxVqjP4B7rPrQxr574z5ilmKi08M1s')
+            return coworkingApi.retrieveUserSubmitedServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
                 .catch(({ message }) => expect(message).toBe('User does not exists'))
         })
     })
@@ -2291,7 +2291,7 @@ describe('coworkingApi', () => {
         )
 
         it('should fail on user not found', () => {
-            return coworkingApi.retrieveUserProfile('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5MjM3ODAsImV4cCI6MTU1MjkzODE4MH0.nxmosEs9G9QpEMxVqjP4B7rPrQxr574z5ilmKi08M1s', userName)
+            return coworkingApi.retrieveUserProfile('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE', userName)
                 .catch(({ message }) => expect(message).toBe('id is not defined'))
         })
     })

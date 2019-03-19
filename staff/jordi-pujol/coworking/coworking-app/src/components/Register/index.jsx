@@ -56,18 +56,12 @@ class Register extends Component {
             <section className="register_content">
                 <h2>Welcome!</h2>
                 <form className="register_content-form" onSubmit={handleFormSubmit}>
-                    <span>Name</span>
-                    <input type="text" onChange={handleNameInput} required autoFocus />
-                    <span>Surname</span>
-                    <input type="text" onChange={handleSurnameInput} required />
-                    <span>UserName</span>
-                    <input type="text" onChange={handleUserNameInput} required />
-                    <span>email</span>
-                    <input type="email" onChange={handleEmailInput} required />
-                    <span>Password</span>
-                    <input type="password" onChange={handlePasswordInput} required />
-                    <span>Confim password</span>
-                    <input type="password" onChange={handlePasswordConfirmInput} required />
+                    <input type="text" placeholder="Name" onChange={handleNameInput} required autoFocus />
+                    <input type="text" placeholder="Surname" onChange={handleSurnameInput} required />
+                    <input type="text" placeholder="UserName" onChange={handleUserNameInput} required />
+                    <input type="email" placeholder="Email" onChange={handleEmailInput} required />
+                    <input type="password" placeholder="Password" onChange={handlePasswordInput} required />
+                    <input type="password" placeholder="Confirm Password" onChange={handlePasswordConfirmInput} required />
                     <button className="submit">Sign Up</button>
                 </form>
             </section>

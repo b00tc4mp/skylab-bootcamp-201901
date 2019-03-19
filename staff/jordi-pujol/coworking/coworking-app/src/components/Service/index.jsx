@@ -46,8 +46,8 @@ class Service extends Component {
             <h2 className="service__title" onClick={() => onServiceClick(id)}>Service: {title}</h2 >
             <p className="service__item"><strong>Description:</strong> {description}</p>
             <p className="service__item"><strong>Upload date and time:</strong> {formatedDate}</p>
-            {!myservice && <a href={`#/home/inbox/profile/${userName}`} className="service__item"><strong>UserName:</strong> {userName}</a>}
             {!myservice && <p className="service__item"><strong>Service provider:</strong> {user}</p>}
+            {!myservice && <a href={`#/home/inbox/profile/${userName}`} className="service__username"><strong>UserName:</strong> {userName}</a>}
         </section >
     }
 }

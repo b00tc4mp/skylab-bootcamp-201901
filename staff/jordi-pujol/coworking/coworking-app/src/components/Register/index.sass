@@ -30,34 +30,35 @@
 
       button
         margin: 0 auto
-        border-radius: 30px
-        width: 8em
+        border-radius: 5px
+        width: 18em
         height: 2em
         border: none
         color: #fff
         font-size: 15px
         cursor: pointer
-        background-image: linear-gradient(#2C9200, #1C440B)
-       
-      
-      button:hover 
-        background-image: linear-gradient(skyblue, #360BE5)
+        background-color: #408E61
+        font-weight: 600
+        font-family: 'Ubuntu', sans-serif
 
       span
         padding-top: 0.5em
 
     .submit
       margin: 0 auto
-      border-radius: 30px
-      width: 20em
+      border-radius: 5px
+      width: 18em
       height: 2em
       border: none
       color: #fff
       font-size: 15px
       cursor: pointer
-      background-image: linear-gradient(#2C9200, #1C440B)
-      margin-top: 2em
+      background-color: #40676E
+      font-weight: 600
+      font-family: 'Ubuntu', sans-serif
 
+  h2
+    padding-bottom: 1em
 
   &_subcontent
     grid-column-start: 1
@@ -65,7 +66,7 @@
     grid-row-start: 3
     grid-row-end: 4
     display: flex
-    background-image: linear-gradient(#00ffb3, #3d5bfe)
+    background-image: linear-gradient(#71A596, #40676E)
     background-size: cover
     +flexin(flex, column, center)
     
@@ -79,18 +80,15 @@
 
     button
       margin: 0 auto
-      border-radius: 30px
-      width: 8em
+      border-radius: 5px
+      width: 18em
       height: 2em
       border: none
-      color: #fff
       font-size: 15px
       cursor: pointer
-      background-image: linear-gradient(#3d5bfe, #1f0054)
-      color: white
-      
-      button:hover 
-        background-image: linear-gradient(skyblue, #360BE5)
+      background-color: #ACD1B6
+      font-weight: 600
+      font-family: 'Ubuntu', sans-serif
 
 @media (min-width: 800px)
   
@@ -139,17 +137,6 @@
       //   button:hover 
       //     background-image: linear-gradient(skyblue, #360BE5)
 
-      .submit
-        margin: 0 auto
-        border-radius: 30px
-        width: 20em
-        height: 2em
-        border: none
-        color: #fff
-        font-size: 15px
-        cursor: pointer
-        background-image: linear-gradient(#2C9200, #1C440B)
-
 
     &_subcontent
       grid-column-start: 2
@@ -157,26 +144,9 @@
       grid-row-start: 1
       grid-row-end: 2
       display: flex
-      background-image: linear-gradient(#00ffb3, #3d5bfe)
-      background-size: cover
       +flexin(flex, column, center)
 
 
       div
         +flexin(flex, column, center)
         padding: 4em 3em
-
-      button
-        margin: 0 auto
-        border-radius: 30px
-        width: 8em
-        height: 2em
-        border: none
-        color: #fff
-        font-size: 15px
-        cursor: pointer
-        background-image: linear-gradient(#3d5bfe, #1f0054)
-        color: white
-
-        button:hover 
-          background-image: linear-gradient(skyblue, #360BE5)

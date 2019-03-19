@@ -71,6 +71,11 @@ const User = new Schema({
     image: {
         type: String,
         required: false
+    },
+
+    backgroundImage: {
+        type: String,
+        required: false
     }
 })
 
