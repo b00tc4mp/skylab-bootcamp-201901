@@ -1078,7 +1078,7 @@ describe('register pet', () => {
         expect(() => {
             logic.authenticateUser(email, passwordP)
             .catch(error => expect(error).toBeDefined())
-        // }).toThrow(TypeError('wrong credentials'))
+      
     })
     })
  
@@ -1299,12 +1299,6 @@ describe('assignAppointment', () => {
         }).toThrow(TypeError('date is not an object'))
     })
 
-    // it('should fail on array date', () => {
-    //     expect(() => {
-    //         logic.assignAppointment(owner._id.toString(), pet._id.toString(), [])
-    //     }).toThrow(TypeError('date is not an object'))
-    // })
-   
     it('should fail on empty date', () => {
         expect(() => {
             logic.assignAppointment(owner._id.toString(), pet._id.toString(), ' ')
@@ -1669,7 +1663,6 @@ describe('retrieve pet', () => {
     const birthdate = '02/03/2019'
     const neutered = 'yes'
     let microchip, petlicence, vaccionations, controls, details
-    const date= new Date()
 
     beforeEach(async () => {
 

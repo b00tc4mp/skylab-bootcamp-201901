@@ -4,9 +4,9 @@ import { withRouter } from 'react-router-dom'
 
 import moment from 'moment';
 import logic from '../../logic';
-import Appointments from '../Appointments';
+// import Appointments from '../Appointments';
 import './index.sass'
-import { EventEmitter } from 'events';
+// import { EventEmitter } from 'events';
 
 class Calendar extends Component {
 
@@ -158,19 +158,19 @@ class Calendar extends Component {
                 <p className="appointment" value={id}>
                     <th>
                         {date.getDate()}
-                        <br/>
-                        Hour:{' '}{'  '}{date.getHours()}{':'}{date.getMinutes() + ' h'} 
-                        <br/>
-                        Owner:{' '}{owner.name}{' '}{owner.surname}{' '} 
-                        <br/>
+                        <br />
+                        Hour:{' '}{'  '}{date.getHours()}{':'}{date.getMinutes() + ' h'}
+                        <br />
+                        Owner:{' '}{owner.name}{' '}{owner.surname}{' '}
+                        <br />
                         Pet :{' '}{pet.name}
                         <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>
 
                     </th>
                 </p>
-                
+
             </tr>
-        )  
+        )
     }
 
 
@@ -200,7 +200,7 @@ class Calendar extends Component {
             <div className="input__form">
                 <label>Hour</label>
                 <select name="hour" onChange={this.handleSelectHour}>
-                    <option>Select an hour:</option>
+                    <option></option>
                     <option name="hour" value="17:00" onChange={this.handleOnChange}>17:00</option>
                     <option name="hour" value="17:30" onChange={this.handleOnChange}>17:30</option>
                     <option name="hour" value="18:00" onChange={this.handleOnChange}>18:00</option>
@@ -214,7 +214,7 @@ class Calendar extends Component {
                 {this.state.askConfirmation && <button onClick={this.handleConfirmVisitOK} className="button__confirm">Yes</button>}
                 {this.state.askConfirmation && <button onClick={this.handleConfirmVisitNO} className="button__confirm">No</button>}
                 {this.state.visitConfirmed && <div><p className="feedback feedback__success">Visit successfully assigned</p></div>}
-                {this.state.errorDate && <div><p className="feedback feedback__error">Select a correct date</p></div>}
+                {this.state.errorDate && <div><p className="feedback feedback__error">Please, select a correct date</p></div>}
                 {this.state.errorDate && <button onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
                 {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
                 {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}

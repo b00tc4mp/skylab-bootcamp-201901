@@ -44,11 +44,11 @@ const logic = {
 
         if (!phone.trim().length) throw Error ('phone cannot be empty')
 
-        if(typeof adress !== 'string') throw TypeError (adress + 'is not a string')
+        if(typeof adress !== 'string') throw TypeError (adress + ' is not a string')
 
         if (!adress.trim().length) throw Error ('adress cannot be empty')
 
-        if(typeof city !== 'string') throw TypeError (city + 'is not a string')
+        if(typeof city !== 'string') throw TypeError (city + ' is not a string')
 
         if (!city.trim().length) throw Error ('city cannot be empty')
 
@@ -77,10 +77,10 @@ const logic = {
             body: JSON.stringify({ name, surname, idCard, phone, adress, city, email, password, passwordConfirmation })
         })
             .then(response => response.json())
-            .then(({ message, error }) => {
+            .then(({ id, error }) => {
                 if (error) throw Error(error)
 
-                return message
+                return id
             })
     },
 
@@ -127,37 +127,37 @@ const logic = {
 
         if (!gender.trim().length) throw Error('gender cannot be empty')
 
-        if(typeof birthdate != 'string') throw TypeError (birthdate + 'is not a string')
+        if(typeof birthdate != 'string') throw TypeError (birthdate + ' is not a string')
 
         if (!birthdate.trim().length) throw Error ('birthdate cannot be empty')
 
-        if(typeof microchip != 'string') throw TypeError (microchip + 'is not a string')
+        if(typeof microchip != 'string') throw TypeError (microchip + ' is not a string')
 
         if (!microchip.trim().length) throw Error ('microchip cannot be empty')
 
-        if(typeof petlicence != 'string') throw TypeError (petlicence + 'is not a string')
+        if(typeof petlicence != 'string') throw TypeError (petlicence + ' is not a string')
 
-        if (!microchip.trim().length) throw Error ('microchip cannot be empty')
+        if (!petlicence.trim().length) throw Error ('petlicence cannot be empty')
 
         if(typeof vaccionations != 'string') throw TypeError (vaccionations + 'is not a string')
 
         if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
 
-        if(typeof neutered != 'string') throw TypeError (neutered + 'is not a string')
+        if(typeof neutered != 'string') throw TypeError (neutered + ' is not a string')
 
         if (!neutered.trim().length) throw Error ('neutered cannot be empty')
 
-        if(typeof controls != 'string') throw TypeError (controls + 'is not a string')
+        if(typeof controls != 'string') throw TypeError (controls + ' is not a string')
 
         if (!controls.trim().length) throw Error ('controls cannot be empty')
 
-        if(typeof details != 'string') throw TypeError (details + 'is not a string')
+        if(typeof details != 'string') throw TypeError (details + ' is not a string')
 
         if (!details.trim().length) throw Error ('details cannot be empty')
 
 
         console.log(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-       debugger
+       
         return fetch(`${this.url}/pet`, {
             method: 'POST',
             headers: {
@@ -361,7 +361,7 @@ const logic = {
         })
             .then(response => response.json())
             .then(response => {
-                if (response.error) throw Error(response.error)
+                if (response.error) throw Error("Please, select date higher than today")
 
                 return response
             })

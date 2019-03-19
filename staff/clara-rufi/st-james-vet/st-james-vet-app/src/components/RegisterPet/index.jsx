@@ -72,6 +72,7 @@ class RegisterPet extends Component {
                         <option name="specie" value="cat" onChange={this.handleOnChange}>Cat</option>
                         <option name="specie" value="reptile" onChange={this.handleOnChange}>Reptile</option>
                     </select>
+                </div>
                     <div className="input__form">
                         <label>Breed</label>
                         <input type="text" name="breed" onChange={this.handleOnChange}></input>
@@ -108,6 +109,7 @@ class RegisterPet extends Component {
                         <label>Pet licence</label>
                         <input type="petlicence" name="petlicence" onChange={this.handleOnChange}></input>
                     </div>
+                    <div className="input__form">
                     <label>Neutered</label>
                     <div className="radio">
                         <label>
@@ -120,6 +122,7 @@ class RegisterPet extends Component {
                             <input type="radio" name="neutered" value="no" onChange={this.handleOnChange} />
                             no
                         </label>
+                    </div>
                     </div>
                     <div className="input__form">
                         <label>Vaccionations and booster shots:</label>
@@ -139,7 +142,7 @@ class RegisterPet extends Component {
                     {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
                     {this.state.isRegisterPet && <p className="feedback feedback__success">You have successfully registered {this.state.name}</p>}
             
-                </div>
+                
             </section>
         </form>
 

@@ -8,7 +8,7 @@ import './index.sass'
 
 class VisitOwner extends Component {
 
-    state = { user: '', appointmentsOwner: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false, noAppointments: true, deleteVisit: false, deleteButton: false }
+    state = { user: '', appointmentsOwner: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false, noAppointments: true, deleteVisit: false}
 
 
     componentDidMount() {
@@ -199,7 +199,7 @@ render() {
 })
                     }
                 {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}
-                {this.state.noAppointments && <div className="no__appointments">
+                <div className="no__appointments">
                     {/* <div className="noAppointments"> */}
                     {/* <p>You don't have any appointment</p> */}
 
