@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 
-import Feedback from '../Feedback';
+import feedback from '../../utils/feedback';
 
 import auth from '../../services/auth';
 import isAuthenticated from '../middlewares/isAuthenticated';
@@ -11,14 +11,14 @@ function Signup(props) {
 	const [surname, setSurname] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [error, setError] = useState(null);
 
 	const signup = async data => {
 		try {
 			await auth.signup(data);
+			feedback('Registered Successfully!', 'success')
 			props.history.push('/login');
 		} catch (error) {
-			setError(error.message)
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -102,7 +102,6 @@ function Signup(props) {
 						</div>
 					</div>
 				</form>
-				{error && <Feedback message={error} />}
 				<footer className="login__footer">
 					Have an account?{' '}
 					<Link to="/login" title="Log in" className="login__signup">

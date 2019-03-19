@@ -68,9 +68,9 @@ function Game(props) {
 			gameService.onReconect(gameID);
 			
 
-			if (game.end) {
-				props.history.replace(`/`);
-			}
+			// if (game.end) {
+			// 	props.history.replace(`/`);
+			// }
 
 			const _currentQuestionIndex = game.quiz.questions.findIndex(
 				question => question._id === game.currentQuestion._id,
@@ -129,6 +129,7 @@ function Game(props) {
 		<GameContext.Provider
 			value={{
 				gameID,
+				game,
 				currentQuestionIndex,
 				gameTitle,
 				code,

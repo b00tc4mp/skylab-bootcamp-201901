@@ -754,7 +754,6 @@ describe('Game', () => {
 				game: gameToExec,
 			};
 			const _game = await game.setNextQuestion(dataScore);
-			// console.log(currentQuestion2);
 			expect(_game.currentQuestion._id).toEqual(currentQuestion2._id);
 		});
 	});

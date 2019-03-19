@@ -1,11 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
+import feedback from '../../utils/feedback';
+
 import quiz from '../../services/quiz';
 import Results from '../Results';
 import JoinGameButton from '../JoinGameButton';
 
 function SearchResults(props) {
-	
 	const {
 		match: {
 			params: { query },
@@ -36,7 +37,7 @@ function SearchResults(props) {
 
 			setQuizzes([...quizzes, ...newQuizzes]);
 		} catch (error) {
-			console.error(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -45,14 +46,20 @@ function SearchResults(props) {
 			const newQuizzes = await quiz.search(query, offset);
 			setQuizzes(newQuizzes);
 		} catch (error) {
-			console.error(error);
+			feedback(error.message, 'error');
 		}
 	};
 
 	return (
 		<div className="container">
-			<JoinGameButton />
-			<Results quizzes={quizzes} loadMoreButton={loadMoreButton} loadMore={loadMore} />
+			<section className="quizz-actions">
+				<JoinGameButton />
+			</section>
+			<Results
+				quizzes={quizzes}
+				loadMoreButton={loadMoreButton}
+				loadMore={loadMore}
+			/>
 		</div>
 	);
 }

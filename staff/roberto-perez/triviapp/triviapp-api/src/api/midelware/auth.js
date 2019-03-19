@@ -62,7 +62,6 @@ exports.userLogedIn = (req, res, next) => {
 };
 
 exports.isAuthor = (req, res, next) => {
-	console.log('####', req.userId.toString(), req.locals.quiz.author._id.toString());
 
 	if (req.userId.toString() !== req.locals.quiz.author._id.toString()) {
 		return res

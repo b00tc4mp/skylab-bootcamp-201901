@@ -93,7 +93,6 @@ exports.gameOver = async (req, res) => {
 };
 
 exports.emitQuestion = async (req, res) => {
-	console.log(req.locals.game.id)
 	req.app.io.in(`game-${req.locals.game.id}`).emit('showQuestion', true);
 	res.status(httpStatus.OK);
 	return res.json(req.locals.game.id);
@@ -101,8 +100,8 @@ exports.emitQuestion = async (req, res) => {
 
 exports.questionResults = async (req, res) => {
 	try {
+		console.log('#########', req.locals.game, req.body)
 		const questionResult = await gameLogic.questionResults(req.locals.game, req.body);
-console.log(questionResult)
 		res.status(httpStatus.OK);
 
 		return res.json(questionResult);

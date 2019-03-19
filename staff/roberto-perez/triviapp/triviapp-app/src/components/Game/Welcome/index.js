@@ -11,7 +11,7 @@ import GameContext from '../GameContext';
 
 function Welcome(props) {
 
-	const { gameID, code, players, hostGame } = useContext(GameContext);
+	const { game, gameID, code, players, hostGame } = useContext(GameContext);
 
 	// const [players, setPlayers] = useState([]);
 
@@ -49,7 +49,7 @@ function Welcome(props) {
 						</div>
 						<button
 							className="start-button"
-							disabled={players.length <= 0 ? true : false}
+							disabled={(players.length <= 0 && !game.end) ? true : false}
 							onClick={startGame}
 						>
 							Start

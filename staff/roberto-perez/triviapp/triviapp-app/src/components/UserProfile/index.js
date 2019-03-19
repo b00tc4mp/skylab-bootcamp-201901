@@ -3,7 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDropzone } from 'react-dropzone';
 
-import Feedback from '../Feedback';
+import feedback from '../../utils/feedback';
 
 import requireAuth from '../middlewares/requireAuth';
 
@@ -18,7 +18,6 @@ function UserProfile(props) {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [uploading, setUploading] = useState(false);
 	const [image, setImage] = useState(null);
-	const [error, setError] = useState(null);
 
 	
 	const onDrop = useCallback(async acceptedFiles => {
@@ -28,7 +27,7 @@ function UserProfile(props) {
 			setImage(imageUploaded.secure_url);
 			setUploading(false);
 		} catch (error) {
-			setError(error.message);
+			feedback(error.message, 'error');
 		}
 	}, []);
 
@@ -41,16 +40,12 @@ function UserProfile(props) {
 		try {
 			const user = await auth.updateUser({name, surname, email, image, password, confirmPassword});
 
-			props.history.push(`/dashboard`);
-			// setName(user.name);
+			feedback('Profile edited Successfully!', 'success')
 
-			// setSurname(user.surname);
-			
-			// setEmail(user.email);
+			props.history.push(`/dashboard`);
 
 		} catch (error) {
-			console.log(error)
-			setError(error.message);
+			feedback(error.message, 'error');
 		}
 	}
 
@@ -71,8 +66,7 @@ function UserProfile(props) {
 			setImage(user.picture);
 
 		} catch (error) {
-			console.log(error)
-			setError(error.message);
+			feedback(error.message, 'error');
 		}
 	}
 

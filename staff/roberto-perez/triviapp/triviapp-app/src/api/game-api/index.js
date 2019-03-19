@@ -13,13 +13,10 @@ const gameApi = {
 	},
 
 	emitReconect(data) {
-		console.log("RECONECT")
 		this.socket.emit('NEW_GAME', `game-${data}`);
 	},
 
 	emitCreateGame(data) {
-		console.log("CREATE")
-		console.log(this.socket)
 		this.socket.emit('NEW_GAME', data);
 	},
 
@@ -105,7 +102,6 @@ const gameApi = {
 	},
 
 	emitNextQuestion(token, gameID) {
-		console.log(gameID);
 		return fetch(`${this.url}/game/${gameID}/emit-question`, {
 			method: 'GET',
 			headers: {
@@ -122,6 +118,7 @@ const gameApi = {
 	},
 
 	getQuestionsResults(token, data) {
+		console.log(token, data)
 		return fetch(`${this.url}/game/${data.gameID}/question/results`, {
 			method: 'POST',
 			headers: {

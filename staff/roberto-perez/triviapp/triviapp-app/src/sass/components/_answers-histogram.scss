@@ -43,6 +43,16 @@
     }
   }
 
+  &__total-answers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    & svg {
+      margin: 0px 0px 0px 5px;
+    }
+  }
+
   &__bar {
     display: flex;
     flex-direction: column;

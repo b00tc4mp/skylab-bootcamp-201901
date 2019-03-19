@@ -8,7 +8,7 @@ class Socket {
 	connect(server) {
 		this.io = socketIo(server);
 		this.io.sockets.on('connection', socket => {
-			console.log('server connected');
+			
 		});
 	}
 }

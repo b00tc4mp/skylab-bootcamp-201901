@@ -40,118 +40,67 @@ const game = {
 	},
 
 	async create(quizId) {
-		try {
-			const game = await gameApi.createGame(auth.__userApiToken__, quizId);
+		const game = await gameApi.createGame(auth.__userApiToken__, quizId);
 
-			this.state.set(game);
+		this.state.set(game);
 
-			return game;
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return game;
 	},
 
 	async getGameByID(gameID) {
-		try {
-			const game = await gameApi.getGameByID(auth.__userApiToken__, gameID);
-
-			return game;
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.getGameByID(auth.__userApiToken__, gameID);
 	},
 
 	async joinGame(gameCode) {
-		try {
-			const game = await gameApi.joinGame(auth.__userApiToken__, gameCode);
-
-			return game;
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.joinGame(auth.__userApiToken__, gameCode);
 	},
 
 	async leaveGame(gameID) {
-		try {
-			await gameApi.leaveGame(gameID);
-			return true;
-		} catch (error) {
-			throw Error(error.message);
-		}
+		await gameApi.leaveGame(gameID);
+		return true;
 	},
 
 	async startGame(gameID) {
-		try {
-			await gameApi.startGame(auth.__userApiToken__, gameID);
-
-			return game;
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.startGame(auth.__userApiToken__, gameID);
 	},
 
 	async showQuestionToPlayer(gameID) {
-		try {
-			return await gameApi.emitNextQuestion(auth.__userApiToken__, gameID);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.emitNextQuestion(auth.__userApiToken__, gameID);
 	},
 
 	async showQuestionsResults(gameID, questionID) {
-		try {
-			return await gameApi.getQuestionsResults(auth.__userApiToken__, { gameID, questionID });
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.getQuestionsResults(auth.__userApiToken__, {
+			gameID,
+			questionID,
+		});
 	},
 
 	async nextQuestion(gameID) {
-		try {
-			return await gameApi.setNxtQuestion(auth.__userApiToken__, gameID);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.setNxtQuestion(auth.__userApiToken__, gameID);
 	},
 
 	async gameOver(gameID) {
-		try {
-			return await gameApi.gameOver(auth.__userApiToken__, gameID);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.gameOver(auth.__userApiToken__, gameID);
 	},
 
 	async getPodium(gameID) {
-		try {
-			return await gameApi.getPodium(auth.__userApiToken__, gameID);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.getPodium(auth.__userApiToken__, gameID);
 	},
 
 	async showTimeOutScreen(gameID) {
-		try {
-			return await gameApi.emitTimeOutScreen(auth.__userApiToken__, gameID);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.emitTimeOutScreen(auth.__userApiToken__, gameID);
 	},
 
 	async answeQuestion(gameId, questionId, answerId) {
-		try {
-			return await gameApi.answeQuestion(auth.__userApiToken__, { gameId, questionId, answerId });
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.answeQuestion(auth.__userApiToken__, {
+			gameId,
+			questionId,
+			answerId,
+		});
 	},
 
 	async getScore(gameId) {
-		try {
-			return await gameApi.getScore(auth.__userApiToken__, gameId);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await gameApi.getScore(auth.__userApiToken__, gameId);
 	},
 };
 

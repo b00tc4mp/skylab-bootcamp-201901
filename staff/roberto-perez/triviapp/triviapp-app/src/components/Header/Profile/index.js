@@ -50,7 +50,7 @@ function Profile(props) {
 						/>
 					) : (
 						<img
-							src="https://lh3.googleusercontent.com/-0kr9v-5o9RM/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcc3TZ7vPev4bzJ8FioZBz6Qs7Rpw/s64-c-mo/photo.jpg"
+							src={`https://api.adorable.io/avatars/285/${currentUser.email}`}
 							className="user-profile__image"
 							alt=""
 						/>

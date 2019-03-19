@@ -9,7 +9,7 @@ function Results(props) {
 
 	useEffect(() => {
 		setQuizzes(props.quizzes);
-	}, [props]);
+	}, [props.quizzes]);
 
 	useEffect(() => {
 		if (quizzes && quizzes.length >= 0) {
@@ -19,7 +19,6 @@ function Results(props) {
 		}
 	}, [quizzes]);
 
-	console.log(quizzes);
 
 	return (
 		<Fragment>

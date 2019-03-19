@@ -6,22 +6,14 @@ const quiz = {
 	async get(quizId) {
 		validate([{ key: 'Quiz ID', value: quizId, type: String }]);
 
-		try {
-			return await quizApi.getQuiz(quizId);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await quizApi.getQuiz(quizId);
 	},
 
 	async editQuizPicture(quizId, picture) {
-		try {
-			const data = {
-				picture
-			}
-			return await quizApi.editQuiz(auth.__userApiToken__, quizId, data);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		const data = {
+			picture,
+		};
+		return await quizApi.editQuiz(auth.__userApiToken__, quizId, data);
 	},
 
 	async edit(quizId, data) {
@@ -33,35 +25,19 @@ const quiz = {
 			{ key: 'Description', value: description, type: String },
 		]);
 
-		try {
-			return await quizApi.editQuiz(auth.__userApiToken__, quizId, data);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await quizApi.editQuiz(auth.__userApiToken__, quizId, data);
 	},
 
 	async list(offset) {
-		try {
-			return await quizApi.listQuizzes(offset);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await quizApi.listQuizzes(offset);
 	},
 
 	async search(search, offset) {
-		try {
-			return await quizApi.searchQuizzes(search, offset);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await quizApi.searchQuizzes(search, offset);
 	},
 
 	async myQuizzes(offset = 1) {
-		try {
-			return await quizApi.myListQuizzes(auth.__userApiToken__, offset);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await quizApi.myListQuizzes(auth.__userApiToken__, offset);
 	},
 
 	async create(data) {
@@ -77,18 +53,10 @@ const quiz = {
 	},
 
 	async delete(quizId) {
-		validate([
-			{ key: 'Quiz ID', value: quizId, type: String }
-		]);
-		
-		try {
-			return await quizApi.deleteQuiz(auth.__userApiToken__, quizId);
-		} catch (error) {
-			throw Error(error.message);
-		}
-	},
+		validate([{ key: 'Quiz ID', value: quizId, type: String }]);
 
-	
+		return await quizApi.deleteQuiz(auth.__userApiToken__, quizId);
+	},
 };
 
 export default quiz;

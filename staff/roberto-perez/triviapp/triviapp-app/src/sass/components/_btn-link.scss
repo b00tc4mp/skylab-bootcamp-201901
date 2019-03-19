@@ -32,20 +32,21 @@
 }
 
 .btn-link-action {
-	background: none;
 	border: none;
 	cursor: pointer;
 	line-height: 1.5;
 	padding: 1em 2em;
 	letter-spacing: 0.05rem;
 	box-shadow: inset 0 0 0 4px #49c5b6;
-	color: #49c5b6;
+	background: #00c5b7;
+	color: #fff;
 	transition: color 0.25s;
 	position: relative;
+	margin-left: 15px;
 
 	&:hover {
-		background: #49c5b6;
-		color: #fff;
+		background: none;
+		color: #49c5b6;
 	}
 	& svg {
 		margin-right: 10px;

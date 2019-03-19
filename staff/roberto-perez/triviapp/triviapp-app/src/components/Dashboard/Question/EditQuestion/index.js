@@ -4,7 +4,7 @@ import questionService from '../../../../services/question';
 import imageService from '../../../../services/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDropzone } from 'react-dropzone';
-import Feedback from '../../../Feedback';
+import feedback from '../../../../utils/feedback';
 
 function EditQuestion(props) {
 	const [title, setTitle] = useState('');
@@ -20,7 +20,6 @@ function EditQuestion(props) {
 	const [image, setImage] = useState(null);
 	const [uploading, setUploading] = useState(false);
 	// const [answers, setAnswers] = useState([]);
-	const [error, setError] = useState('');
 
 	const {
 		match: {
@@ -35,7 +34,7 @@ function EditQuestion(props) {
 			setImage(imageUploaded.secure_url);
 			setUploading(false);
 		} catch (error) {
-			setError(error.message);
+			feedback(error.message, 'error');
 		}
 	}, []);
 
@@ -60,8 +59,7 @@ function EditQuestion(props) {
 			setAnswerCheck3(question.answers[2].success);
 			setAnswerCheck4(question.answers[3].success);
 		} catch (error) {
-			setError(error.message);
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -71,11 +69,10 @@ function EditQuestion(props) {
 				data.picture = image;
 			}
 			const question = await questionService.edit(quizId, questionId, data);
-			console.log(question);
+			feedback('Question edited Successfully!', 'success')
 			props.history.push(`/dashboard/create/quiz/${quizId}/overview`);
 		} catch (error) {
-			setError(error.message);
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 
-import Feedback from '../Feedback';
+import feedback from '../../utils/feedback';
 
 import auth from '../../services/auth';
 import isAuthenticated from '../middlewares/isAuthenticated';
@@ -9,15 +9,14 @@ import isAuthenticated from '../middlewares/isAuthenticated';
 function Login(props) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [error, setError] = useState(null);
 
 	const login = async data => {
 		try {
 			await auth.login(data);
+			feedback('Loged In!', 'success')
 			props.history.push('/home');
 		} catch (error) {
-			setError(error.message);
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -25,6 +24,7 @@ function Login(props) {
 		Event.preventDefault();
 		login({ email, password });
 	};
+
 
 	return (
 		<section className="login">
@@ -70,7 +70,6 @@ function Login(props) {
 						</fieldset>
 					</div>
 				</form>
-				<Feedback message={error} />
 				<footer className="login__footer">
 					¿New in Triviapp?{' '}
 					<Link to="/signup" title="Sign up" className="login__signup">

@@ -5,14 +5,13 @@ import quizService from '../../../../services/quiz';
 import imageService from '../../../../services/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDropzone } from 'react-dropzone';
-import Feedback from '../../../Feedback';
+import feedback from '../../../../utils/feedback';
 
 function EditQuizDescription(props) {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [uploading, setUploading] = useState(false);
 	const [image, setImage] = useState(null);
-	const [error, setError] = useState(null);
 
 	const {
 		match: {
@@ -28,7 +27,7 @@ function EditQuizDescription(props) {
 			setImage(imageUploaded.secure_url);
 			setUploading(false);
 		} catch (error) {
-			setError(error.message);
+			feedback(error.message, 'error');
 		}
 	}, []);
 
@@ -45,16 +44,17 @@ function EditQuizDescription(props) {
 			setDescription(newQuiz.description);
 			setImage(newQuiz.picture);
 		} catch (error) {
-			setError(error.message);
+			feedback(error.message, 'error');
 		}
 	};
 
 	const edit = async (quizId, data) => {
 		try {
 			const editedQuiz = await quizService.edit(quizId, data);
+			feedback('Quiz edited Successfully!', 'success')
 			props.history.push(`/dashboard/create/quiz/${editedQuiz.id}/overview`);
 		} catch (error) {
-			setError(error.message);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -149,7 +149,6 @@ function EditQuizDescription(props) {
 									</div>
 								</div>
 							</div>
-							{error && <Feedback message={error} />}
 						</div>
 						<button className="btn__link btn__link--green btn-submit">
 							Ok, save!

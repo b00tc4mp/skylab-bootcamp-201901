@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -20,7 +22,7 @@ import {
 	faGamepad,
 	faCheckCircle,
 	faClock,
-	faUserCircle
+	faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 import Home from '../Home';
@@ -46,18 +48,20 @@ library.add(
 	faGamepad,
 	faCheckCircle,
 	faClock,
-	faUserCircle
+	faUserCircle,
 );
-
 
 function App() {
 	return (
-		<Switch>
-			<Route exact path="/pin" render={() => <Pin />} />
-			<Route path="/game/:gameId" render={() => <Game />} />
-			<Route path="/player/:gameId" render={() => <Player />} />
-			<Route path="/" render={() => <Home />} />
-		</Switch>
+		<Fragment>
+			<ToastContainer />
+			<Switch>
+				<Route exact path="/pin" render={() => <Pin />} />
+				<Route path="/game/:gameId" render={() => <Game />} />
+				<Route path="/player/:gameId" render={() => <Player />} />
+				<Route path="/" render={() => <Home />} />
+			</Switch>
+		</Fragment>
 	);
 }
 

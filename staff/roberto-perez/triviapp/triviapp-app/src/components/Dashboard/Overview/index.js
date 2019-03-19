@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
+import feedback from '../../../utils/feedback';
+
 import quiz from '../../../services/quiz';
 import questionService from '../../../services/question';
 import requiereAuth from '../../middlewares/requireAuth';
@@ -28,7 +30,7 @@ function Overview(props) {
 			setCurrentQuiz(newQuiz);
 			setQuestions(newQuiz.questions);
 		} catch (error) {
-			console.error(error.message);
+			feedback(error.message, 'error');
 			props.history.push(`/dashboard`);
 		}
 	};
@@ -36,9 +38,12 @@ function Overview(props) {
 	const deleteQuizzById = async quizId => {
 		try {
 			await quiz.delete(quizId);
+
+			feedback('Quiz deleted Successfully!', 'success')
+
 			props.history.push(`/dashboard`);
 		} catch (error) {
-			console.error(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -46,13 +51,15 @@ function Overview(props) {
 		try {
 			await questionService.delete(quizId, questionId);
 
+			feedback('Question deleted Successfully!', 'success')
+
 			const questionsArr = questions.filter(_question => {
 				return _question._id !== questionId;
 			});
 
 			questionsArr.length <= 0 ? setQuestions([]) : setQuestions(questionsArr);
 		} catch (error) {
-			console.error(error);
+			feedback(error.message, 'error');
 		}
 	};
 

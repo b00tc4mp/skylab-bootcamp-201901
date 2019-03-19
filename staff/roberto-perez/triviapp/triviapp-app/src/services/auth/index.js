@@ -17,16 +17,11 @@ const auth = {
 			{ key: 'password', value: password, type: String },
 		]);
 
-		try {
-			return await userApi.signup(data);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await userApi.signup(data);
 	},
 
 	async login(data) {
 		const { email, password } = data;
-
 		if (!email || !password) throw new Error('Incorrect email or password');
 
 		validate([
@@ -34,18 +29,15 @@ const auth = {
 			{ key: 'password', value: password, type: String },
 		]);
 
-		try {
-			const { token, user } = await userApi.login(data);
+		const { token, user } = await userApi.login(data);
 
-			// const xtorage = new Xtorage(this.storage);
+		// const xtorage = new Xtorage(this.storage);
 
-			// xtorage.set('token', token);
-			// xtorage.set('user', user);
-			this.__userApiToken__ = token;
-			this.__user__ = JSON.stringify(user);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		// xtorage.set('token', token);
+		// xtorage.set('user', user);
+		this.__userApiToken__ = token;
+		this.__user__ = JSON.stringify(user);
+		return { token, user };
 	},
 
 	async retrieveUser() {
@@ -55,16 +47,26 @@ const auth = {
 	async updateUser(data) {
 		const { name, surname, email, image, password, confirmPassword } = data;
 
+		if (image) {
+			data.picture = image;
+			delete data.image;
+		}
+
+		if (!password) {
+			delete data.password;
+			delete data.confirmPassword;
+		}
+
 		validate([
-			{ key: 'name', value: name, type: String },
-			{ key: 'surname', value: surname, type: String },
-			{ key: 'email', value: email, type: String },
+			{ key: 'Name', value: name, type: String, optional: true },
+			{ key: 'Surname', value: surname, type: String, optional: true },
+			{ key: 'Email', value: email, type: String, optional: true },
 			{ key: 'Image', value: image, type: String, optional: true },
 		]);
 
 		if (password) {
 			validate([
-				{ key: 'password', value: password, type: String },
+				{ key: 'Password', value: password, type: String },
 				{ key: 'Confirm password', value: confirmPassword, type: String },
 			]);
 

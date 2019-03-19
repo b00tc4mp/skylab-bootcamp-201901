@@ -445,7 +445,7 @@ describe('Game API', () => {
 
 
 
-	describe('POST /v1/game/:gameId/answer', () => {
+	describe('Answer', () => {
 		let dataUser = {};
 		let dataUserPlayer = {};
 		let dataQuiz = {};
@@ -632,6 +632,115 @@ describe('Game API', () => {
 			newAnser = await gameApi.answeQuestion(token, dataAnswer);
 		});
 
+		// it('should succeed on valid data', async () => {
+
+		// 	const { token } = await userApi.login({
+		// 		email: dataUser.email,
+		// 		password: dataUser.password,
+		// 	});
+
+		// 	const gameToExec = await Game.get(newGame.id);
+
+		// 	const dataScore = {
+		// 		gameId: gameToExec.id,
+		// 		questionId: currentQuestion.id,
+		// 		answerId: newAnser._id
+		// 	};
+			
+		// 	const score = await gameApi.getScore(token, dataScore);
+
+		// 	// expect(score[player.id].score).toEqual(150);
+		// });
+	});
+
+
+
+
+
+	describe('Get game by ID', () => {
+		let dataUser = {};
+		let dataUserPlayer = {};
+		let dataQuiz = {};
+		let dataQuestionn = {};
+		let dataGame = {};
+		let dataAnswer = {};
+		let author;
+		let player;
+		let newGame;
+		let currentQuestion;
+		let quizId;
+		let newAnser;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			dataUserPlayer = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `bob-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userPlayer = new User(dataUserPlayer);
+			const savedUserPlayer = await userPlayer.save();
+			player = savedUserPlayer;
+
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const quizAdded = await quizApi.createQuiz(token, dataQuiz);
+			quizId = quizAdded.id;
+
+			dataQuestionn = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			currentQuestion = await questionApi.createQuestion(token, quizId, dataQuestionn);
+
+			dataGame = {
+				host: author.id,
+				quiz: quizAdded.id,
+			};
+
+			newGame = await gameApi.createGame(token, quizId);
+
+
+			dataAnswer = {
+				gameId: newGame.id,
+				questionId: currentQuestion.id,
+				answerId: currentQuestion.answers[0],
+			};
+
+			newAnser = await gameApi.answeQuestion(token, dataAnswer);
+		});
+
 		it('should succeed on valid data', async () => {
 
 			const { token } = await userApi.login({
@@ -640,19 +749,655 @@ describe('Game API', () => {
 			});
 
 			const gameToExec = await Game.get(newGame.id);
-console.log(newAnser)
+
 			const dataScore = {
 				gameId: gameToExec.id,
 				questionId: currentQuestion.id,
 				answerId: newAnser._id
 			};
 			
-			const score = await gameApi.getScore(token, dataScore);
+			const _game = await gameApi.getGameByID(token, newGame.id);
 
-			// expect(score[player.id].score).toEqual(150);
+			expect(_game).toBeDefined();
+		});
+		
+	});
+
+	
+
+	describe('Get question results', () => {
+		let dataUser = {};
+		let dataUserPlayer = {};
+		let dataQuiz = {};
+		let dataQuestionn = {};
+		let dataGame = {};
+		let author;
+		let player;
+		let newGame;
+		let currentQuestion;
+		let quizId;
+		let token;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			dataUserPlayer = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `bob-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userPlayer = new User(dataUserPlayer);
+			const savedUserPlayer = await userPlayer.save();
+			player = savedUserPlayer;
+
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const quizAdded = await quizApi.createQuiz(token, dataQuiz);
+			quizId = quizAdded.id;
+
+			dataQuestionn = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			currentQuestion = await questionApi.createQuestion(token, quizId, dataQuestionn);
+
+			dataGame = {
+				host: author.id,
+				quiz: quizAdded.id,
+			};
+
+			newGame = await gameApi.createGame(token, quizId);
+
+			const dataAnswer = {
+				gameId: newGame.id,
+				questionId: currentQuestion.id,
+				answerId: currentQuestion.answers[0],
+			};
+
+
+			const { id } = await gameApi.answeQuestion(token, dataAnswer);
+
+		});
+
+		it('should succeed on valid data', async () => {
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const results = await gameApi.getQuestionsResults(token, {gameID:newGame.id ,questionID: currentQuestion.id});
+			expect(results).toBeDefined();
+			expect(results[0].total).toEqual(1);
+			expect(results[0].percent).toEqual(100);
+
 		});
 	});
 
+	
+	describe('Emit next questin', () => {
+		let dataUser = {};
+		let dataUserPlayer = {};
+		let dataQuiz = {};
+		let dataQuestionn = {};
+		let dataGame = {};
+		let author;
+		let player;
+		let newGame;
+		let currentQuestion;
+		let quizId;
+		let token;
+		let dataQuestion2;
+		let secondQuestion;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			dataUserPlayer = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `bob-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userPlayer = new User(dataUserPlayer);
+			const savedUserPlayer = await userPlayer.save();
+			player = savedUserPlayer;
+
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const quizAdded = await quizApi.createQuiz(token, dataQuiz);
+			quizId = quizAdded.id;
+
+			dataQuestionn = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			currentQuestion = await questionApi.createQuestion(token, quizId, dataQuestionn);
+
+
+			dataQuestion2 = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 2',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			secondQuestion = await questionApi.createQuestion(token, quizId, dataQuestion2);
+
+			dataGame = {
+				host: author.id,
+				quiz: quizAdded.id,
+			};
+			
+			newGame = await gameApi.createGame(token, quizId);
+
+		});
+
+		it('should succeed on valid data', async () => {
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+			const nextQurrentQuestion = await gameApi.emitNextQuestion(token, newGame.id);
+			const gameQithNewCurrentQuestion = await gameApi.getGameByID(token, newGame.id);
+
+			expect(nextQurrentQuestion).toBeDefined();
+			expect(nextQurrentQuestion).toEqual(gameQithNewCurrentQuestion.id);
+
+		});
+	});
+
+
+
+	describe('Next questin', () => {
+		let dataUser = {};
+		let dataUserPlayer = {};
+		let dataQuiz = {};
+		let dataQuestionn = {};
+		let dataGame = {};
+		let author;
+		let player;
+		let newGame;
+		let currentQuestion;
+		let quizId;
+		let token;
+		let dataQuestion2;
+		let secondQuestion;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			dataUserPlayer = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `bob-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userPlayer = new User(dataUserPlayer);
+			const savedUserPlayer = await userPlayer.save();
+			player = savedUserPlayer;
+
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const quizAdded = await quizApi.createQuiz(token, dataQuiz);
+			quizId = quizAdded.id;
+
+			dataQuestionn = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			currentQuestion = await questionApi.createQuestion(token, quizId, dataQuestionn);
+
+
+			dataQuestion2 = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 2',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			secondQuestion = await questionApi.createQuestion(token, quizId, dataQuestion2);
+
+			dataGame = {
+				host: author.id,
+				quiz: quizAdded.id,
+			};
+			
+			newGame = await gameApi.createGame(token, quizId);
+
+		});
+
+		it('should succeed on valid data', async () => {
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+			const nextQurrentQuestion = await gameApi.setNxtQuestion(token, newGame.id);
+			// const gameQithNewCurrentQuestion = await gameApi.getGameByID(token, newGame.id);
+
+			expect(nextQurrentQuestion).toBeDefined();
+			expect(nextQurrentQuestion.currentQuestion._id).toEqual(secondQuestion.id);
+
+		});
+	});
+
+
+
+	describe('Emit timeout', () => {
+		let dataUser = {};
+		let dataUserPlayer = {};
+		let dataQuiz = {};
+		let dataQuestionn = {};
+		let dataGame = {};
+		let author;
+		let player;
+		let newGame;
+		let currentQuestion;
+		let quizId;
+		let token;
+		let dataQuestion2;
+		let secondQuestion;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			dataUserPlayer = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `bob-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userPlayer = new User(dataUserPlayer);
+			const savedUserPlayer = await userPlayer.save();
+			player = savedUserPlayer;
+
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const quizAdded = await quizApi.createQuiz(token, dataQuiz);
+			quizId = quizAdded.id;
+
+			dataQuestionn = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			currentQuestion = await questionApi.createQuestion(token, quizId, dataQuestionn);
+
+
+			dataQuestion2 = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 2',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			secondQuestion = await questionApi.createQuestion(token, quizId, dataQuestion2);
+
+			dataGame = {
+				host: author.id,
+				quiz: quizAdded.id,
+			};
+			
+			newGame = await gameApi.createGame(token, quizId);
+
+		});
+
+		it('should succeed on valid data', async () => {
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+			const nextQurrentQuestion = await gameApi.emitTimeOutScreen(token, newGame.id);
+			const gameQithNewCurrentQuestion = await gameApi.getGameByID(token, newGame.id);
+
+			expect(nextQurrentQuestion).toBeDefined();
+			expect(nextQurrentQuestion).toEqual(gameQithNewCurrentQuestion.id);
+
+		});
+	});
+
+	describe('Get podium', () => {
+		let dataUser = {};
+		let dataUserPlayer = {};
+		let dataQuiz = {};
+		let dataQuestionn = {};
+		let dataGame = {};
+		let author;
+		let player;
+		let newGame;
+		let currentQuestion;
+		let quizId;
+		let token;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			dataUserPlayer = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `bob-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userPlayer = new User(dataUserPlayer);
+			const savedUserPlayer = await userPlayer.save();
+			player = savedUserPlayer;
+
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const quizAdded = await quizApi.createQuiz(token, dataQuiz);
+			quizId = quizAdded.id;
+
+			dataQuestionn = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			currentQuestion = await questionApi.createQuestion(token, quizId, dataQuestionn);
+
+			dataGame = {
+				host: author.id,
+				quiz: quizAdded.id,
+			};
+
+			newGame = await gameApi.createGame(token, quizId);
+
+			const dataAnswer = {
+				gameId: newGame.id,
+				questionId: currentQuestion.id,
+				answerId: currentQuestion.answers[0],
+			};
+
+
+			const { id } = await gameApi.answeQuestion(token, dataAnswer);
+
+		});
+
+		it('should succeed on valid data', async () => {
+			const { token, user } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const results = await gameApi.getPodium(token, newGame.id);
+			expect(results).toBeDefined();
+			expect(results[user.id].score).toEqual(150);
+
+		});
+	});
+
+
+	describe('Get score', () => {
+		let dataUser = {};
+		let dataUserPlayer = {};
+		let dataQuiz = {};
+		let dataQuestionn = {};
+		let dataGame = {};
+		let author;
+		let player;
+		let newGame;
+		let currentQuestion;
+		let quizId;
+		let token;
+
+		beforeEach(async () => {
+			dataUser = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `john-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const user = new User(dataUser);
+			const savedUser = await user.save();
+			author = savedUser.normalize();
+
+			dataUserPlayer = {
+				name: `n-${Math.random()}`,
+				surname: `s-${Math.random()}`,
+				email: `bob-doe${Math.random()}@gmail.com`,
+				password: `p-${Math.random()}`,
+			};
+
+			const userPlayer = new User(dataUserPlayer);
+			const savedUserPlayer = await userPlayer.save();
+			player = savedUserPlayer;
+
+			dataQuiz = {
+				author: author.id,
+				title: `Quiz title-${Math.random()}`,
+				description: `Quiz description-${Math.random()}`,
+				picture: `Quiz image-${Math.random()}`,
+				questions: [],
+			};
+
+			const { token } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const quizAdded = await quizApi.createQuiz(token, dataQuiz);
+			quizId = quizAdded.id;
+
+			dataQuestionn = {
+				quiz: quizAdded.id.toString(),
+				title: 'Question 1',
+				time: '15',
+				answers: [
+					{ title: 'Answer 1', success: true },
+					{ title: 'Answer 2', success: false },
+					{ title: '', success: false },
+					{ title: '', success: false },
+				],
+			};
+
+			currentQuestion = await questionApi.createQuestion(token, quizId, dataQuestionn);
+
+			dataGame = {
+				host: author.id,
+				quiz: quizAdded.id,
+			};
+
+			newGame = await gameApi.createGame(token, quizId);
+
+			const dataAnswer = {
+				gameId: newGame.id,
+				questionId: currentQuestion.id,
+				answerId: currentQuestion.answers[0],
+			};
+
+
+			const { id } = await gameApi.answeQuestion(token, dataAnswer);
+
+		});
+
+		it('should succeed on valid data', async () => {
+			const { token, user } = await userApi.login({
+				email: dataUser.email,
+				password: dataUser.password,
+			});
+
+			const results = await gameApi.getScore(token, newGame.id);
+			
+			// // expect(results).toBeDefined();
+			// // expect(results[user.id].score).toEqual(150);
+
+		});
+	});
+
+	
+	
+
+	describe('onEvent', () => {
+		gameApi.onEvent('event', () => {
+			expect().toBeTruthy();
+		});
+	});
+
+	describe('emitReconect', () => {
+		gameApi.emitReconect('adasdasdasd');
+	});
+
+	describe('emitLeaveGame', () => {
+		gameApi.emitLeaveGame('adasdasdasd');
+	});
 
 
 	afterAll(() =>

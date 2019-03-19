@@ -28,7 +28,7 @@ describe('User API', () => {
 		]),
 	);
 
-	describe('Create questin', () => {
+	describe('Create question', () => {
 		let dataUser = {};
 		let dataQuiz = {};
 		let data = {};

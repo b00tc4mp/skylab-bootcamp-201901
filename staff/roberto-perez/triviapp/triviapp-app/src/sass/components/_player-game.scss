@@ -10,7 +10,7 @@
     align-items: center;
     font-family: 'Poppins', sans-serif;
     z-index: 99;
-    top: 70px;
+    top: 0px;
     left: 0px;
 
     & .loadingspinner {
@@ -47,6 +47,10 @@
             font-size: 1.5em;
         }
     }
+}
+
+.loading {
+    top: 70px;
 }
 
 .game-result {

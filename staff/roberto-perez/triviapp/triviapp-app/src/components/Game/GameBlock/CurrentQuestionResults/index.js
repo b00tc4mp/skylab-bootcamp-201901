@@ -39,10 +39,12 @@ function CurrentQuestionResults(props) {
 											colors[index]
 										}`}
 									>
-										{result.total}
-										{result.answer.success && (
-											<FontAwesomeIcon icon="check" />
-										)}
+										<div className="answers-histogram__total-answers">
+											{result.total}
+											{result.answer.success && (
+												<FontAwesomeIcon icon="check" />
+											)}
+										</div>
 										<div
 											className={`answers-histogram__bar answers-histogram__bar--${
 												result.percent

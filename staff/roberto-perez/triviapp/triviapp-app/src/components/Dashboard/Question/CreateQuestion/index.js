@@ -4,7 +4,7 @@ import questionService from '../../../../services/question';
 import imageService from '../../../../services/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDropzone } from 'react-dropzone';
-import Feedback from '../../../Feedback';
+import feedback from '../../../../utils/feedback';
 import Checkbox from '../Checkbox';
 
 function CreateQuestion(props) {
@@ -21,8 +21,6 @@ function CreateQuestion(props) {
 	const [image, setImage] = useState(null);
 	const [uploading, setUploading] = useState(false);
 
-	const [error, setError] = useState('');
-
 	const {
 		match: {
 			params: { quizId },
@@ -30,10 +28,14 @@ function CreateQuestion(props) {
 	} = props;
 
 	const onDrop = useCallback(async acceptedFiles => {
-		setUploading(true);
-		const imageUploaded = await imageService.upload(acceptedFiles[0]);
-		setImage(imageUploaded.secure_url);
-		setUploading(false);
+		try {
+			setUploading(true);
+			const imageUploaded = await imageService.upload(acceptedFiles[0]);
+			setImage(imageUploaded.secure_url);
+			setUploading(false);
+		} catch (error) {
+			feedback(error.message, 'error');
+		}
 	}, []);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -44,10 +46,10 @@ function CreateQuestion(props) {
 				data.picture = image;
 			}
 			const question = await questionService.create(quizId, data);
+			feedback('Question created Successfully!', 'success')
 			props.history.push(`/dashboard/create/quiz/${quizId}/overview`);
 		} catch (error) {
-			setError(error.message);
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -126,119 +128,134 @@ function CreateQuestion(props) {
 									</div>
 
 									<div className="create-quiz__answers">
-									<div className="form__p">
-										<label className="form__label" htmlFor="answer_1">
-											Answer 1
-										</label>
-										<input
-											className="form__input"
-											placeholder="Answer 1"
-											type="text"
-											name="answer_1"
-											id="answer_1"
-											onChange={Event =>
-												setAnswer1(Event.target.value)
-											}
-										/>
-										<div className="create-quiz__answer-check">
+										<div className="form__p">
+											<label
+												className="form__label"
+												htmlFor="answer_1"
+											>
+												Answer 1
+											</label>
 											<input
-												type="checkbox"
-												name="answer_1_success"
-												id="checkbox1"
+												className="form__input"
+												placeholder="Answer 1"
+												type="text"
+												name="answer_1"
+												id="answer_1"
 												onChange={Event =>
-													setAnswerCheck1(Event.target.value)
+													setAnswer1(Event.target.value)
 												}
 											/>
-											<label htmlFor="checkbox1" />
+											<div className="create-quiz__answer-check">
+												<input
+													type="checkbox"
+													name="answer_1_success"
+													id="checkbox1"
+													onChange={Event =>
+														setAnswerCheck1(
+															Event.target.value,
+														)
+													}
+												/>
+												<label htmlFor="checkbox1" />
+											</div>
 										</div>
-									</div>
 
-									<div className="form__p">
-										<label className="form__label" htmlFor="answer_2">
-											Answer 2
-										</label>
-										<input
-											className="form__input"
-											placeholder="Answer 2"
-											type="text"
-											name="answer_2"
-											id="answer_2"
-											onChange={Event =>
-												setAnswer2(Event.target.value)
-											}
-										/>
-										<div className="create-quiz__answer-check">
+										<div className="form__p">
+											<label
+												className="form__label"
+												htmlFor="answer_2"
+											>
+												Answer 2
+											</label>
 											<input
-												type="checkbox"
-												name="answer_2_success"
-												id="checkbox2"
+												className="form__input"
+												placeholder="Answer 2"
+												type="text"
+												name="answer_2"
+												id="answer_2"
 												onChange={Event =>
-													setAnswerCheck2(Event.target.value)
+													setAnswer2(Event.target.value)
 												}
 											/>
-											<label htmlFor="checkbox2" />
+											<div className="create-quiz__answer-check">
+												<input
+													type="checkbox"
+													name="answer_2_success"
+													id="checkbox2"
+													onChange={Event =>
+														setAnswerCheck2(
+															Event.target.value,
+														)
+													}
+												/>
+												<label htmlFor="checkbox2" />
+											</div>
 										</div>
-									</div>
 
-									<div className="form__p">
-										<label className="form__label" htmlFor="answer_1">
-											Answer 3
-										</label>
-										<input
-											className="form__input"
-											placeholder="Answer 3"
-											type="text"
-											name="answer_3"
-											id="answer_3"
-											onChange={Event =>
-												setAnswer3(Event.target.value)
-											}
-										/>
-										<div className="create-quiz__answer-check">
+										<div className="form__p">
+											<label
+												className="form__label"
+												htmlFor="answer_1"
+											>
+												Answer 3
+											</label>
 											<input
-												type="checkbox"
-												name="answer_3_success"
-												id="checkbox3"
+												className="form__input"
+												placeholder="Answer 3"
+												type="text"
+												name="answer_3"
+												id="answer_3"
 												onChange={Event =>
-													setAnswerCheck3(Event.target.value)
+													setAnswer3(Event.target.value)
 												}
 											/>
-											<label htmlFor="checkbox3" />
+											<div className="create-quiz__answer-check">
+												<input
+													type="checkbox"
+													name="answer_3_success"
+													id="checkbox3"
+													onChange={Event =>
+														setAnswerCheck3(
+															Event.target.value,
+														)
+													}
+												/>
+												<label htmlFor="checkbox3" />
+											</div>
 										</div>
-									</div>
 
-
-									<div className="form__p">
-										<label className="form__label" htmlFor="answer_1">
-											Answer 4
-										</label>
-										<input
-											className="form__input"
-											placeholder="Answer 4"
-											type="text"
-											name="answer_4"
-											id="answer_4"
-											onChange={Event =>
-												setAnswer4(Event.target.value)
-											}
-										/>
-										<div className="create-quiz__answer-check">
+										<div className="form__p">
+											<label
+												className="form__label"
+												htmlFor="answer_1"
+											>
+												Answer 4
+											</label>
 											<input
-												type="checkbox"
-												name="answer_4_success"
-												id="checkbox4"
+												className="form__input"
+												placeholder="Answer 4"
+												type="text"
+												name="answer_4"
+												id="answer_4"
 												onChange={Event =>
-													setAnswerCheck4(Event.target.value)
+													setAnswer4(Event.target.value)
 												}
 											/>
-											<label htmlFor="checkbox4" />
+											<div className="create-quiz__answer-check">
+												<input
+													type="checkbox"
+													name="answer_4_success"
+													id="checkbox4"
+													onChange={Event =>
+														setAnswerCheck4(
+															Event.target.value,
+														)
+													}
+												/>
+												<label htmlFor="checkbox4" />
+											</div>
 										</div>
 									</div>
-									</div>
-									
-
-
-
 								</fieldset>
 
 								<div className="media-uploader">
@@ -277,7 +294,6 @@ function CreateQuestion(props) {
 								</div>
 							</div>
 						</div>
-						{error && <Feedback message={error} />}
 						<button className="btn__link btn__link--green btn-submit">
 							Ok, save!
 						</button>

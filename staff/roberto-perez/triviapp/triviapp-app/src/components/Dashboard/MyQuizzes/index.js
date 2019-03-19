@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import quiz from '../../../services/quiz';
 
 import Results from '../../Results';
+import JoinGameButton from '../../JoinGameButton';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -35,6 +36,7 @@ function MyQuizzes() {
 	return (
 		<Fragment>
 			<section className="quizz-actions">
+				<JoinGameButton />
 				<Link
 					to="/dashboard/create/quiz"
 					title="Create Quiz"

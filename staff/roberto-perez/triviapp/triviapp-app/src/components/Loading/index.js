@@ -10,7 +10,7 @@ function Loading(props) {
 	return (
 		<Fragment>
 			{isLoading && (
-				<div className="player-game player-game--black">
+				<div className="loading player-game player-game--black">
 					<div className="player-game__getready">
 						<div className="loadingspinner" />
 					</div>

@@ -34,8 +34,9 @@ function Landing() {
 
 	return (
 		<div className="container">
-			
-			<JoinGameButton />
+			<section className="quizz-actions">
+				<JoinGameButton />
+			</section>
 
 			<section>
 				<header className="header-section">

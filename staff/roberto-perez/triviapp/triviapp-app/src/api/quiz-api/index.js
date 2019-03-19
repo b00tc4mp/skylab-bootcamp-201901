@@ -20,6 +20,9 @@ const quizApi = {
 	},
 
 	createQuiz(token, data) {
+
+		if(!token) throw new Error('Access is denied due to invalid credentials.');
+
 		const { title, description } = data;
 
 		validate([

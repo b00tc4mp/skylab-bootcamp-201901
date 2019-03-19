@@ -8,16 +8,14 @@ function JoinGameButton() {
 
 	if(auth.isUserLoggedIn) {
 		return (
-			<section className="quizz-actions">
 				<Link
 					to="/pin"
-					title="Create Quiz"
-					className="quizz-actions__create quizz-actions__link btn-link-action"
+					title="Join Game"
+					className="quizz-actions__create btn-link-join-game quizz-actions__link btn-link-action"
 				>
 					<FontAwesomeIcon icon="gamepad" />
 					Join game
 				</Link>
-			</section>
 		);
 	}
 
