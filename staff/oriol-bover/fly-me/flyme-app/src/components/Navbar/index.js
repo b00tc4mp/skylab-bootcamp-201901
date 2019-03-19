@@ -24,7 +24,7 @@ export default function Navbar() {
         logic.logOutUser()
     }
 
-    return (<nav className="navbar has-shadow">
+    return (<nav className="navbar is-primary">
         <div className="navbar-brand">
             <Link to="/admin" className="navbar-item">
                 <h1 className="title">FLYME-APP</h1>

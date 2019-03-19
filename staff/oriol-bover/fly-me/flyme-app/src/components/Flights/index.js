@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import logic from '../../logic'
+import './index.sass'
 
 export default function Flights({ userId, history }) {
     const [flights, setFlights] = useState(null)
@@ -23,13 +24,26 @@ export default function Flights({ userId, history }) {
     }
 
     return (<section className="section">
-        <h1 className="title">FLIGHTS</h1>
-        <div className="columns">
-            <div className="column">
-                {flights && flights.map(flight => <div className="box" key={flight.id} onClick={() => onFlightDetail(flight._id)}>
-                    <p>Flight {flight.userId.name && <span>{flight.userId.name} {flight.userId.surname}</span>}</p>
-                </div>)}
-            </div>
+        <h1 className="title section--title">FLIGHTS</h1>
+        <div className="columns is-multiline">
+            {flights && flights.map(flight => <div key={flight.id} className="column is-4-desktop">
+                <div className="box flight" onClick={() => onFlightDetail(flight._id)}>
+                    <article className="media">
+                        {!userId && <figure className="media-left">
+                            <p className="image is-64x64">
+                                <img src={flight.userId.image ? flight.userId.image : "https://bulma.io/images/placeholders/128x128.png"} />
+                            </p>
+                        </figure>}
+                        <div className="media-content">
+                            <div className="content">
+                                <p><strong>Flight</strong> <small>{flight.userId.name} {flight.userId.surname}</small></p>
+                                <p className="flight--date"><small>{flight.start}</small></p>
+                                <p className="flight--content">This flight was made in <strong>{flight.history.length}</strong> moves</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>)}
         </div>
     </section>)
 }

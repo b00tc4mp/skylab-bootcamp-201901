@@ -7,7 +7,7 @@ const package = require('../package.json')
 const tokenHelper = require('../src/token-helper')
 const router = require('./routes')
 
-const { env: { DB_URL, PORT, SECRET }, argv: [, , port = PORT || 8080] } = process
+const { env: { TEST_DB_URL, DB_URL, PORT, SECRET }, argv: [, , port = PORT || 8080] } = process
 
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {

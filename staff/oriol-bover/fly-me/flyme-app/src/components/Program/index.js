@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import logic from '../../logic'
+import './index.sass'
 
 export default function Programs({ userId, history }) {
     const [programs, setPrograms] = useState(null)
@@ -25,21 +26,28 @@ export default function Programs({ userId, history }) {
         history.push('/admin/program/create')
     }
 
-    function onProgramDetail(programId){
+    function onProgramDetail(programId) {
         console.log(programId)
 
         history.push(`/admin/${programId}/program`)
     }
 
     return (<section className="section">
+        <h1 className="title section--title">{userId ? 'YOUR PROGRAMS' : 'PROGRAMS'}</h1>
         <div className="columns">
-            <div className="column">
-                <h1 className="title">{userId ? 'YOUR PROGRAMS' : 'PROGRAMS'}</h1>
-                {userId && <button className="button" onClick={e => createProgram(e)} >Add Program</button>}
-                {programs && programs.map(program => <div className="box" key={program.id} onClick={() => onProgramDetail(program._id)}>
-                    <p>{program.name}</p>
-                </div>)}
-            </div>
+            {userId && <button className="button" onClick={e => createProgram(e)} >Add Program</button>}
+            {programs && programs.map(program => <div className="column has-text-centered">
+                <div className="box program" key={program.id} onClick={() => onProgramDetail(program._id)}>
+                    <h2 className="program--title">{program.name}</h2>
+                    {!userId && <span className="program--name">by <small>{program.userId}</small></span>}
+                    {program.orders.length > 2 && < ul className="program--orders">
+                        <strong className="program--orders__title">COMMANDS</strong>
+                        <li className="program--orders__item">{program.orders[0].content}</li>
+                        <li>{program.orders[1].content}</li>
+                        <li>...</li>
+                    </ul>}
+                </div>
+            </div>)}
         </div>
     </section>)
 }

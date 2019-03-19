@@ -139,6 +139,8 @@ const logic = {
     //END USERS CRUD
 
     addDrone(userId, brand, model, host, port) {
+        console.log(userId, brand, model, host, port)
+
         validate([{ key: 'userId', value: userId, type: String }, { key: 'brand', value: brand, type: String }, { key: 'model', value: model, type: String }, { key: 'host', value: host, type: String }, { key: 'port', value: port, type: Number }])
 
         return Drone.create({ owner: userId, brand, model, host, port })
@@ -365,7 +367,7 @@ const logic = {
             .then(user => {
                 if (!user) throw Error('no authentication user')
 
-                return Flight.findById(flightId)
+                return Flight.findById(flightId).populate('userId').populate('droneId').select('-__v')
             })
             .then(flight => flight)
     },
@@ -539,6 +541,8 @@ const logic = {
             .then(drone => {
                 if (!drone) throw Error('No drone found')
 
+                console.log('drone', drone)
+
                 if (i === 0 && !droneMachine) {
                     orders.unshift({ id: "task-0", content: "COMMAND", command: "command", timeOut: 5000 })
 
@@ -553,21 +557,24 @@ const logic = {
 
                 console.log(`running command: ${command}`)
 
-                droneMachine.sendCommand(command, function (err) {
-                    if (err) throw new DroneError(err)
-                })
-
-                return wait(orders[i].timeOut)
+                return wait(500)
                     .then(() => {
-                        i += 1
+                        droneMachine.sendCommand(command, function (err) {
+                            if (err) throw new DroneError(err)
+                        })
 
-                        if (i < orders.length) {
-                            return this.playProgram(userId, droneId, orders, i, droneMachine)
-                        }
+                        return wait(orders[i].timeOut)
+                            .then(() => {
+                                i += 1
 
-                        droneMachine.stop()
-                        console.log('all commands done!')
-                        return { status: 'OK' }
+                                if (i < orders.length) {
+                                    return this.playProgram(userId, droneId, orders, i, droneMachine)
+                                }
+
+                                droneMachine.stop()
+                                console.log('all commands done!')
+                                return { status: 'OK' }
+                            })
                     })
             })
     }

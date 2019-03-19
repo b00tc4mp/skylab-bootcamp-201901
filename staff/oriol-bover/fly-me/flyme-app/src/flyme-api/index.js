@@ -1,21 +1,10 @@
+const validate = require('flyme-validation')
+
 const flymeApi = {
     url: 'http://localhost:8000/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
-        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
-
-        if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw Error('surname is empty')
-
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
-
-        if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
-        if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -29,11 +18,7 @@ const flymeApi = {
     },
 
     authenticateUser(email, password) {
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        validate([{ key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }])
 
         return fetch(`${this.url}/user/auth`, {
             method: 'POST',
@@ -47,8 +32,7 @@ const flymeApi = {
     },
 
     retrieveUser(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/user`, {
             headers: {
@@ -60,8 +44,7 @@ const flymeApi = {
     },
 
     updateUser(token, data) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'data', value: data, type: Object }])
 
         return fetch(`${this.url}/user/update`, {
             method: 'PUT',
@@ -76,10 +59,9 @@ const flymeApi = {
     },
 
     updateUserImage(token, image) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
-        if (!image) throw Error('image is empty')
+        // if (!image) throw Error('image is empty')
         // if (image.constructor !== Object) throw TypeError(`${image} is not an object`)
 
         let formData = new FormData()
@@ -102,8 +84,7 @@ const flymeApi = {
     },
 
     startDrone(token, droneId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return fetch(`${this.url}/drone/start`, {
             method: 'POST',
@@ -118,8 +99,7 @@ const flymeApi = {
     },
 
     stopDrone(token, droneId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return fetch(`${this.url}/drone/stop`, {
             method: 'POST',
@@ -134,32 +114,28 @@ const flymeApi = {
     },
 
 
-    getHistory(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+    // getHistory(token) {
+    //     if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+    //     if (!token.trim().length) throw Error('token is empty')
 
-        //TODO droneId
-        const droneId = '5c80f001cdda345041068f1c'
+    //     //TODO droneId
+    //     const droneId = '5c80f001cdda345041068f1c'
 
-        return fetch(`${this.url}/drone/history`, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({ droneId })
-        })
-            .then(res => res.json())
-            .then(res => res)
+    //     return fetch(`${this.url}/drone/history`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'content-type': 'application/json',
+    //             authorization: `Bearer ${token}`
+    //         },
+    //         body: JSON.stringify({ droneId })
+    //     })
+    //         .then(res => res.json())
+    //         .then(res => res)
 
-    },
+    // },
 
     sendCommand(token, command, droneId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof command !== 'string') throw TypeError(`${command} is not a string`)
-        if (!command.trim().length) throw Error('command is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'command', value: command, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return fetch(`${this.url}/drone/command`, {
             method: 'POST',
@@ -174,8 +150,7 @@ const flymeApi = {
     },
 
     addDrone(token, data) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'data', value: data, type: Object }])
 
         return fetch(`${this.url}/drone`, {
             method: 'POST',
@@ -190,11 +165,7 @@ const flymeApi = {
     },
 
     retrieveDrone(token, droneId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof droneId !== 'string') throw TypeError(`${droneId} is not a string`)
-        if (!droneId.trim().length) throw Error('droneId is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return fetch(`${this.url}/drone/${droneId}`, {
             headers: { authorization: `Bearer ${token}` }
@@ -204,11 +175,7 @@ const flymeApi = {
     },
 
     retrieveDronesFromUser(token, userId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'userId', value: userId, type: String }])
 
         return fetch(`${this.url}/user/${userId}/drones`, {
             headers: { authorization: `Bearer ${token}` }
@@ -218,8 +185,7 @@ const flymeApi = {
     },
 
     updateDrone(token, data) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'data', value: data, type: Object }])
 
         return fetch(`${this.url}/drone/update`, {
             method: 'PUT',
@@ -234,11 +200,7 @@ const flymeApi = {
     },
 
     deleteDrone(token, droneId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof droneId !== 'string') throw TypeError(`${droneId} is not a string`)
-        if (!droneId.trim().length) throw Error('droneId is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return fetch(`${this.url}/drone`, {
             method: 'DELETE',
@@ -253,13 +215,7 @@ const flymeApi = {
     },
 
     createProgram(token, name, orders) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
-
-        if (orders.length == 0) throw Error('orders are empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'name', value: name, type: String }])
 
         return fetch(`${this.url}/program`, {
             method: 'POST',
@@ -274,8 +230,7 @@ const flymeApi = {
     },
 
     retrieveAllFlights(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/flights`, {
             headers: { authorization: `Bearer ${token}` }
@@ -285,11 +240,7 @@ const flymeApi = {
     },
 
     retrieveFlightsFromUser(token, userId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'userId', value: userId, type: String }])
 
         return fetch(`${this.url}/user/${userId}/flights`, {
             headers: { authorization: `Bearer ${token}` }
@@ -299,11 +250,7 @@ const flymeApi = {
     },
 
     retrieveFlight(token, flightId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof flightId !== 'string') throw TypeError(`${flightId} is not a string`)
-        if (!flightId.trim().length) throw Error('flightId is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'flightId', value: flightId, type: String }])
 
         return fetch(`${this.url}/flight/${flightId}`, {
             headers: { authorization: `Bearer ${token}` }
@@ -313,8 +260,7 @@ const flymeApi = {
     },
 
     retrieveAllPrograms(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/programs`, {
             headers: { authorization: `Bearer ${token}` }
@@ -324,11 +270,7 @@ const flymeApi = {
     },
 
     retrieveProgram(token, programId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof programId !== 'string') throw TypeError(`${programId} is not a string`)
-        if (!programId.trim().length) throw Error('programId is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'programId', value: programId, type: String }])
 
         return fetch(`${this.url}/program/${programId}`, {
             headers: { authorization: `Bearer ${token}` }

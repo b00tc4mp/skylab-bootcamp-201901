@@ -14,7 +14,7 @@ import Programs from '../Program'
 import ProgramCreator from '../ProgramCreator'
 import ProgramDetail from '../ProgramDetail'
 
-function Admin() {
+function Admin(props) {
     const [user, setUser] = useState(null)
     const [feedback, setFeedback] = useState(null)
 
@@ -30,11 +30,10 @@ function Admin() {
         })();
     }, []);
 
-
     return (<Fragment>
         <Navbar />
         <div className="columns">
-            < SideMenu user={user} />
+            < SideMenu user={user} location={props.location} />
             <div className="column">
                 {/* Flight section */}
                 <Route exact path="/admin" render={props => <Flights userId={null} history={props.history} />} />

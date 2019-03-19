@@ -23,7 +23,7 @@ export default function Keyboard({onActiveKey}) {
       document.body.addEventListener('keydown', function (e) {
           var key = getKey(e);
           if (!key) {
-              return console.warn('No key for', e.keyCode);
+              // return console.warn('No key for', e.keyCode);
           }
   
           onActiveKey(e.keyCode)

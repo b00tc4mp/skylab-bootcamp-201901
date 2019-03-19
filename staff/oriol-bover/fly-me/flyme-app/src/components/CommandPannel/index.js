@@ -24,9 +24,10 @@ function CommandPannel({ droneId, historyP }) {
     }
 
     function keyboard(key) {
-        const command = commands[key].command
-
-        sendCommand(command)
+        if (commands[key]) {
+            const command = commands[key].command
+            sendCommand(command)
+        }
     }
 
     function stopDrone(e) {
@@ -35,13 +36,24 @@ function CommandPannel({ droneId, historyP }) {
         logic.stopDrone(droneId)
             .then(res => console.log(res))
     }
+
+    const buttonsStyle = {
+        marginLeft: '13.5em',
+    }
+
+    console.log('historyP', historyP)
+
     return (<section className="section">
         <Terminal history={history} />
         <div className="columns is-centered is-hidden-touch">
             <div className="column is-10-desktop is-10-widescreen">
-                <button className="button is-success is-outlined" onClick={e => startDrone(e)}>ON</button>
-                <button className="button is-danger is-outlined" onClick={e => stopDrone(e)}>OFF</button>
-                <button className="button is-info is-outlined" onClick={() => sendCommand('battery?')}>BATTERY</button>
+                <div className="buttons buttons--panel" style={buttonsStyle}>
+                    <button className="button is-success is-outlined" onClick={e => startDrone(e)}>ON</button>
+                    <button className="button is-danger is-outlined" onClick={e => stopDrone(e)}>OFF</button>
+                    <button className="button is-info is-outlined" onClick={() => sendCommand('battery?')}>BATTERY</button>
+                    <button className="button is-info is-outlined" onClick={() => sendCommand('takeoff')}>TAKE OFF</button>
+                    <button className="button is-info is-outlined" onClick={() => sendCommand('land')}>LAND</button>
+                </div>
                 < Keyboard onActiveKey={keyboard} />
             </div>
         </div>

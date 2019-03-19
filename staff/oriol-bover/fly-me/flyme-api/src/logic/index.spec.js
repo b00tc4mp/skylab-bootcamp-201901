@@ -2456,6 +2456,44 @@ describe('logic', () => {
         })
     })
 
+    describe('playProgram', () => {
+        const name = 'luke'
+        const surname = 'skywalker'
+        const email = `luke${Math.random()}@mail.com`
+        const password = '123'
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, droneId
+        const orders = [
+            { id: "task-1", content: "BATTERY", command: "battery?", timeOut: 5000 },
+            { id: "task-2", content: "BATTERY", command: "battery?", timeOut: 5000 }
+        ]
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(user => {
+                    userId = user.id
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone.id
+                })
+        )
+
+        it('should succed on correct data', () =>
+            logic.playProgram(userId, droneId, orders)
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.status).toBe('OK')
+                })
+        )
+
+    })
+
     after(() => {
         Promise.all([
             Drone.deleteMany(),
