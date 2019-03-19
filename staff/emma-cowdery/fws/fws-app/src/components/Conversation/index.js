@@ -17,9 +17,16 @@ export default function Conversation ({ selectedChat }) {
                         messages.map(message => {
                             if (message.userId === user.id) Object.defineProperty(message, 'who', { enumerable: true, configurable: true, writable: true, value: 'from-me' })
                             else Object.defineProperty(message, 'who', { enumerable: true, configurable: true, writable: true, value: 'from-someone' })
+
+                            logic.retrieveUserWithId(message.userId)
+                                .then(({user}) => {
+                                    Object.defineProperty(message, 'username', { enumerable: true, configurable: true, writable: true, value: user.username })
+                                    console.log(message)
+                                })
                         })
-                        setMessages(messages)
+                        //setMessages(messages)
                     })
+                    .then(() => setMessages(messages))
             })
     }, [selectedChat])
 
@@ -44,8 +51,10 @@ export default function Conversation ({ selectedChat }) {
         <Fragment>
             {window.scrollTo(0,document.body.scrollHeight)}
             <div className='conversation'>
-                {messages && messages.length ? messages.map(({ userId, text, date, who }) => {
+                {messages && messages.length ? messages.map(({ userId, text, date, who, username }) => {
+                    console.log(username)
                     return <div className={`conversation__message conversation__message-${who}`}>
+                        <p>{username}</p>
                         <p className={`conversation__message-txt conversation__message-txt-${who}`}>{text}</p>
                         <p className={`conversation__message-date conversation__message-date-${who}`}>{date.substring(12, 16)}</p>
                     </div>

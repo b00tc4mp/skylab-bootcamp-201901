@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import './index.sass'
-import { withRouter, Route, Redirect } from 'react-router-dom'
 import EventsNav from '../EventsNav'
 import NavBar from '../NavBar'
 import logic from '../../logic'
@@ -23,8 +22,10 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
     const [mapInGrid, setMapInGrid] = useState('-no-info')
     const [mobile, setMobile] = useState(false)
     const [joinEvent, setJoinEvent] = useState(false)
-    const [unjoinEvent, setUnjoinEvent] = useState(false)
     const [userId, setUserId] = useState()
+    const [selectedEvent, setSelectedEvent] = useState()
+    const [id, setId] = useState()
+    const [phone, setPhone] = useState()
 
 
     //filter
@@ -42,7 +43,7 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
         if (window.innerWidth < 1200) setMobile(true)
 
         logic.retrieveUser()
-            .then(({user}) => setUserId(user._id))
+            .then(({user}) => setUserId(user.id))
     }, [])
 
     useEffect(() => {
@@ -50,10 +51,6 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
             center: userLocation,
             zoom: 13
         })
-
-        // const legend = document.getElementById('legend')
-
-        // map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(legend)
 
         const marker = new window.google.maps.Marker({ position: userLocation, icon: 'images/user-location-medium.png', map: map })
 
@@ -77,10 +74,10 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
         logic.filterEvents(filters)
             .then(events => setEvents(events))
 
-    }, [distance, timeRange, preferedDate, rating, priceRange, filteredCategory])
+    }, [distance, timeRange, preferedDate, rating, priceRange, filteredCategory, joinEvent])
 
     function eventMarkers (map) {
-        events && events.map(({ eventLocation, restaurantCategory, participants, eventDate, eventTime, restaurantId, reservationName, restaurantName }) => {
+        events && events.map(({ eventLocation, restaurantCategory, participants, eventDate, eventTime, restaurantId, reservationName, restaurantName, id }) => {
             const location = {lat: eventLocation[0], lng: eventLocation[1]}
 
             let icon = undefined
@@ -100,6 +97,7 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
                 setRestaurantName(restaurantName)
                 setMapInGrid('-info')
                 setEventInfo(true)
+                setId(id)
             })
         })
     }
@@ -111,7 +109,7 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
                 <EventsNav/>
                 <div className='events-map__elements'>
                     <div className='events-map__map-panel'>
-                        {eventInfo && <InfoWindow className='events-map__map-panel-info' setMapInGrid={setMapInGrid} setEventInfo={setEventInfo} participants={participants} eventDate={eventDate} eventTime={eventTime} restaurantId={restaurantId} reservationName={reservationName} restaurantCategory={restaurantCategory} mobile={mobile} restaurantName={restaurantName} setJoinEvent={setJoinEvent} setUnjoinEvent={setUnjoinEvent}/>}
+                        {eventInfo && <InfoWindow className='events-map__map-panel-info' id={id} setMapInGrid={setMapInGrid} setEventInfo={setEventInfo} participants={participants} eventDate={eventDate} eventTime={eventTime} restaurantId={restaurantId} reservationName={reservationName} restaurantCategory={restaurantCategory} mobile={mobile} restaurantName={restaurantName} setJoinEvent={setJoinEvent} setSelectedEvent={setSelectedEvent} setPhone={setPhone}/>}
                         <div id='map' className={`events-map__map-panel-map${mapInGrid} events-map__map-panel-map`}></div>
                         {/* <div alt='Legend' id='legend'>
                             <img alt='legend icon' src='images/event-yellow-45.png'></img>
@@ -127,8 +125,7 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
                     </div>
                 </div>
             </div>
-            {joinEvent && <div><JoinEvent selectedEvent={restaurantId} setJoinEvent={setJoinEvent}/></div>}
-            {unjoinEvent && <div><UnjoinEvent selectedEvent={restaurantId} setUnjoinEvent={setUnjoinEvent}/></div>}
+    {joinEvent && <div><JoinEvent selectedEvent={selectedEvent} setJoinEvent={setJoinEvent} phone={phone} reservationName={reservationName} userInEvent={participants} setEventInfo={setEventInfo}/></div>}
         </Fragment>
     )
 }

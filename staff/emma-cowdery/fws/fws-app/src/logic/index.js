@@ -79,6 +79,8 @@ const logic = {
         return(async () => {
             const token = await fwsApi.authenticateUser(emailOrUsername, password)
 
+            console.log(token)
+
             if (token.error) throw Error('login unsuccessful')
 
             this.__token__ = token.token

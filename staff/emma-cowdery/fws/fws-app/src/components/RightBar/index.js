@@ -2,9 +2,12 @@ import React, { Fragment, useEffect, useState } from 'react'
 import './index.sass'
 import logic from '../../logic'
 import { withRouter, Route, Redirect } from 'react-router-dom'
+import stringContainsAny from '../NavBar/string-contains-any'
 
 export default withRouter(function RightBar (props) {
     const [user, setUser] = useState()
+
+    const { history: { location: { pathname } } } = props
 
     useEffect(() => {
         logic.retrieveUser()
@@ -15,8 +18,6 @@ export default withRouter(function RightBar (props) {
         logic.logout()
         if (!logic.isUserLoggedIn) props.history.push('/landing')
     }
-
-    console.log(user)
 
     return (
         <Fragment>
@@ -30,11 +31,11 @@ export default withRouter(function RightBar (props) {
                             <p className='right-bar__email'>{user.email}</p>
                         </div>
                     </div>
-                    {props.history.location.pathname === '/user' ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-user right-bar__button-icon"></i> Profile</button> : <button onClick={e => {e.preventDefault(); props.history.push('/user')}} className='right-bar__button'><i class="far fa-user right-bar__button-icon"></i> Profile</button>}
+                    {stringContainsAny(pathname, '/user/') ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-user right-bar__button-icon"></i> Profile</button> : <button onClick={e => {e.preventDefault(); props.history.push(`/user/${user.id}`)}} className='right-bar__button'><i class="far fa-user right-bar__button-icon"></i> Profile</button>}
                     <span className='right-bar__line'></span>
-                    {props.history.location.pathname === '/chats' ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-comments right-bar__button-icon"></i> Chats</button> : <button onClick={e => {e.preventDefault(); props.history.push('/chats')}} className='right-bar__button'><i class="far fa-comments right-bar__button-icon"></i> Chats</button>}
+                    {stringContainsAny(pathname, '/chats') ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-comments right-bar__button-icon"></i> Chats</button> : <button onClick={e => {e.preventDefault(); props.history.push('/chats')}} className='right-bar__button'><i class="far fa-comments right-bar__button-icon"></i> Chats</button>}
                     <span className='right-bar__line'></span>
-                    {props.history.location.pathname === '/my-events' ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-calendar right-bar__button-icon"></i> Events</button> : <button onClick={e => {e.preventDefault(); props.history.push('/events')}} className='right-bar__button'><i class="far fa-calendar right-bar__button-icon"></i> Events</button>}
+                    {stringContainsAny(pathname, '/my-events') ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-calendar right-bar__button-icon"></i> Events</button> : <button onClick={e => {e.preventDefault(); props.history.push('/my-events')}} className='right-bar__button'><i class="far fa-calendar right-bar__button-icon"></i> Events</button>}
                     <span className='right-bar__line'></span>
                     <button onClick={e => {e.preventDefault(); handleLogout(); props.setShowRightBar(false)}} className='right-bar__button-logout'><i class="fas fa-sign-out-alt right-bar__button-icon"></i> Logout</button>
                 </div>

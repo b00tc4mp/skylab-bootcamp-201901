@@ -5,7 +5,7 @@ require('dotenv').config()
 const googleMapsApi = {
     url: 'https://maps.googleapis.com/maps/api/place',
 
-    key: 'key=AIzaSyAUiu1mu4XTzZxHmRObd5LpB_7IBa6ysf0',
+    key: 'key=AIzaSyDWc40UO6yw0D70NFj_6_ThqLVrHQsUlNY',
 
     fields: 'fields=photos,url,international_phone_number,opening_hours,website',
 

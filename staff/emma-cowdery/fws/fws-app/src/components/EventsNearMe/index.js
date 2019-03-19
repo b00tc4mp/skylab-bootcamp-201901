@@ -13,12 +13,14 @@ export default function EventsNearMe({setShowRightBar, setShowDropdown}) {
     const [eventsNearme, setEventsNearme] = useState()
     const [distance, setDistance] = useState(20)
     const [joinEvent, setJoinEvent] = useState(false)
-    const [unjoinEvent, setUnjoinEvent] = useState(false)
     const [selectedEvent, setSelectedEvent] = useState()
+    const [userInEvent, setUserInEvent] = useState()
+    const [reservationName, setReservationName] = useState()
+    const [phone, setPhone] = useState()
 
     useEffect(() => {
         getEvents()
-    }, [])
+    }, [joinEvent])
 
     async function getEvents () {
         const eventsArray = await logic.findEventsNearMe(distance)
@@ -40,13 +42,12 @@ export default function EventsNearMe({setShowRightBar, setShowDropdown}) {
                 <div className='events-nearme__elements'>
                     {eventsNearme ? eventsNearme.map(({ eventDate, eventTime, id, participants, reservationName, restaurantCategory, restaurantId, totalDist, restaurantName }) => {
 
-                        return <div className='events-nearme__event'><EventsNearMeEvent restaurantId={restaurantId} eventDate={eventDate} eventTime={eventTime} participants={participants} totalDist={totalDist} setJoinEvent={setJoinEvent} restaurantName={restaurantName} restaurantCategory={restaurantCategory}/></div>
+                        return <div className='events-nearme__event'><EventsNearMeEvent reservationName={reservationName} restaurantId={restaurantId} eventDate={eventDate} eventTime={eventTime} participants={participants} totalDist={totalDist} setJoinEvent={setJoinEvent} restaurantName={restaurantName} restaurantCategory={restaurantCategory} setSelectedEvent={setSelectedEvent} setUserInEvent={setUserInEvent} id={id} setReservationName={setReservationName} setPhone={setPhone}/></div>
                         
                     }) : <BouncingLoader/>}
                 </div>
             </div>
-            {joinEvent && <div><JoinEvent selectedEvent={selectedEvent} setJoinEvent={setJoinEvent}/></div>}
-            {unjoinEvent && <div><UnjoinEvent selectedEvent={selectedEvent} setUnjoinEvent={setUnjoinEvent}/></div>}
+            {joinEvent && <div><JoinEvent selectedEvent={selectedEvent} setJoinEvent={setJoinEvent} phone={phone} reservationName={reservationName} userInEvent={userInEvent}/></div>}
         </Fragment>
     )
 }

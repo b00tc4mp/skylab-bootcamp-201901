@@ -49,7 +49,7 @@ export default function MoreRestaurantInfo ({ place_id, geometry, formatted_addr
                             <p className='restaurant-info__info-address'>{formatted_address}</p>
                         </div>
                         <div className='restaurant-info__info-when'>
-                            {result.opening_hours.weekday_text.map(day => <p className='restaurant-info__info-when-txt'>{day}</p>)}
+                            {result.opening_hours ? result.opening_hours.weekday_text.map(day => <p className='restaurant-info__info-when-txt'>{day}</p>): <p className='restaurant-info__info-when-txt'>no opening hours available</p>}
                         </div>
                         <div className='restaurant-info__info-links'>
                             <a className='restaurant-info__info-link restaurant-info__info-link-one' href={result.url} target="_blank"><i class="fas fa-map-marked-alt restaurant-info__info-link-icon"/> open in maps</a>

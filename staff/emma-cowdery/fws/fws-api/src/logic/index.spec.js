@@ -721,14 +721,17 @@ describe('logic', () => {
         let id
 
         beforeEach(() => {
-            bcrypt.hash(password, 10)
-                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo })),
-
-            Users.findOne({ email })
-                .then(({id}) => id = id)
+            debugger
+            return bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+                .then(() => {
+                    Users.findOne({ email })
+                        .then(({_id}) => id = _id)
+                }) 
         })
 
-        it('should suceed on correct data', () =>
+        it('should suceed on correct data', () => {
+            console.log(id)
             logic.retrieveUser(id)
                 .then(user => {
                     expect(user).toBeDefined()
@@ -738,7 +741,7 @@ describe('logic', () => {
                     expect(user.username).toBe(username)
                     expect(user.howTo).toBe(howTo)
                 })
-        )
+        })
 
         it('should fail on undefined user id', () => {
             const userId = undefined

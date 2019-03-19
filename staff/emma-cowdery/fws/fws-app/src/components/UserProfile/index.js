@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import logic from '../../logic'
 import './index.sass'
+import { withRouter, Route, Redirect } from 'react-router-dom'
 import NavBar from '../NavBar'
 
-export default function UserProfile ({ setShowRightBar, setShowDropdown, userId }) {
+export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdown, match }) {
     const [image, setImage] = useState()
     const [profileStyle, setProfileStyle] = useState()
     const [userProfile, setUserProfile] = useState(null)
@@ -16,6 +17,9 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
     const [twitter, setTwitter] = useState('enter a link to your profile')
     const [facebook, setFacebook] = useState('enter a link to your profile')
     const [events, setEvents] = useState(0)
+    const [number, setNumber] = useState(Math.random)
+
+    const { id } = match.params
 
     useEffect(() => {
         logic.retrieveUser()
@@ -27,21 +31,19 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
                 if (user && user.about) setAbout(user.about)
             })
 
-        if (userId) {
-            logic.retrieveUserWithId(userId)
+        if (id) {
+            logic.retrieveUserWithId(id)
             .then(({user}) => {
                 setUserProfile(user)
-                if (user.image) setProfileStyle({backgroundImage: `url(${image})`})
+                if (user.profilePicture) setProfileStyle({backgroundImage: `url(${user.profilePicture})`})
                 else setProfileStyle({backgroundImage: `url(images/default-user.png)`})
             })
             .then(() => {
-                logic.retrieveEvents(userId)
+                logic.retrieveEvents(id)
                     .then(_events => {
                         if (!_events.length) setEvents(0)
                         else {
-                            _events.map(event => {
-                                if (String(new Date()).substring(6, 12) > event.eventDate.substring(6, 12)) setEvents(events + 1)
-                            })
+                            _events.map(event => {if ((new Date()) > event.eventDate) setEvents(events + 1)})
                         }
                         
                     })
@@ -65,7 +67,7 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
                         if (!_events.length) setEvents(0)
                         else {
                             _events.map(event => {
-                                if (String(new Date()).substring(6, 12) > event.eventDate.substring(6, 12)) setEvents(events + 1)
+                                if ((new Date()) > event.eventDate) setEvents(events + 1)
                             })
                         }
                     })
@@ -79,7 +81,7 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
         }
 
         if (window.innerWidth < 1200) setMobile(true)
-    }, [])
+    }, [number])
 
     const handleUploadPicture = () => {
         try {
@@ -87,6 +89,7 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
                 .then(({user}) => setUserProfile(user))
                 .then(() => {
                     setEditImg(false)
+                    setNumber(Math.random)
                 })
                 .catch(err => {
                     //set feedback
@@ -101,6 +104,11 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
             logic.updateUser(about, instagram, twitter, facebook)
                 .then(user => {
                     if (user) setEditInfo(false)
+                    setAbout('')
+                    setInstagram('')
+                    setFacebook('')
+                    setTwitter('')
+                    setNumber(Math.random)
                 })
                 .catch(err => {
                     console.log(err)
@@ -110,6 +118,8 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
             //set feedback
         }
     }
+
+    console.log(facebook)
 
     
 
@@ -128,8 +138,6 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
                     <div className='user-profile__header-info'>
                         <p className='user-profile__header-username'>{userProfile.username}</p>
                         <div className='user-profile__header-socials'>
-                            {/* <a href='https://www.instagram.com/vacadery/' target="_blank"><i className="fab fa-instagram user-profile__header-socials-icon"></i></a>
-                            <a href='https://www.facebook.com/EmmaCowdery' target="_blank"><i className="fab fa-facebook-square user-profile__header-socials-icon"></i></a> */}
                             {userProfile && userProfile.instagram !== 'enter a link to your profile' && <a href={userProfile.instagram} target="_blank"><i className="fab fa-instagram  user-profile__header-socials-icon"></i></a>}
                             {userProfile && userProfile.twitter !== 'enter a link to your profile' && <a href={userProfile.twitter} target="_blank"><i className="fab fa-twitter-square  user-profile__header-socials-icon"></i></a>}
                             {userProfile && userProfile.facebook !== 'enter a link to your profile' && <a href={userProfile.facebook} target="_blank"><i className="fab fa-facebook-square  user-profile__header-socials-icon"></i></a>}
@@ -150,7 +158,7 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
                             <input className='user-profile__body-edit-input' type='text' placeholder='facebook' defaultValue={facebook} onChange={e => {e.preventDefault(); setFacebook(e.target.value)}}></input>
                         </div>
                         <p className='user-profile__body-edit-title'>About</p>
-                        <textarea className='user-profile__body-edit-input' rows='6' cols='70' maxLength='300' defaultValue={about}></textarea>
+                        <textarea className='user-profile__body-edit-input' rows='6' cols='70' maxLength='300' defaultValue={about} onChange={e => {e.preventDefault(); setAbout(e.target.value)}}></textarea>
                         <div className='user-profile__body-edit-buttons'>
                             <button className='user-profile__body-edit-button user-profile__body-edit-button-cancel' onClick={e => {e.preventDefault(); setEditInfo(false)}}>Cancel</button>
                             <button className='user-profile__body-edit-button user-profile__body-edit-button-update' onClick={e => {e.preventDefault(); handleUpdateInformation()}}>Update</button>
@@ -158,15 +166,17 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
                     </div>
                     :
                     <div className='user-profile__body-info'>
-                        {userProfile.about !== 'no-about' && <div className='user-profile__body-about'>
-                            <p>{user.info.about}</p>
-                        </div>}
-                        <div className='user-profile__body-events'>
+                        <h2 className='user-profile__body-info-title'>About:</h2>
+                        {userProfile.about !== 'no-about' ? <div className='user-profile__body-about'>
+                            <p>{about}</p>
+                        </div> : <p>No information available</p>}
+                        {userProfile.events && <div className='user-profile__body-events'>
                             <p>{events}</p>
-                        </div>
-                        {userProfile.favouriteRestaurants.length && <div className='user-profile__body-favourites'>
-
+                            <p>This user hasn't eaten with any strangers yet</p>
                         </div>}
+                        {/* {userProfile.favouriteRestaurants.length && <div className='user-profile__body-favourites'>
+
+                        </div>} */}
                     </div>}
                 </div>
                 {editImg && <div className='user-profile__upload'>
@@ -182,4 +192,4 @@ export default function UserProfile ({ setShowRightBar, setShowDropdown, userId 
             </div>}       
         </Fragment>
     )
-}
+})

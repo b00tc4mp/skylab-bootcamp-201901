@@ -1,9 +1,71 @@
-.joinEvent
-  color: red
-  position: fixed
-  top: 0
-  left: 0
-  height: 100%
-  width: 100%
-  z-index: 10
-  background-color: rgba(0,0,0,0.7)
+@import '../../utils'
+
+.selected-category
+    position: absolute
+    top: 3.2em
+    left: 0
+    bottom: 0
+    right: 0
+
+    &__elements
+        position: absolute
+        top: 3.5em
+        left: 0
+        bottom: 0
+        right: 0
+        display: grid
+        grid-template-columns: 1fr
+
+    &__event
+        margin: 1em
+        box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+        border-radius: 1em
+
+    &__event:hover
+        margin: 0
+        height: 85%
+        transition: 0.4s
+
+    &__no-event
+        display: flex
+        justify-content: center
+        align-items: center
+        color: white
+        background-color: $dark-green
+        border-radius: 0.5em
+        border-width: 0
+        box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+        padding: 1em
+        height: 2em
+        margin: 1em
+
+        &-txt
+            margin: 0
+
+@media (min-width: 768px)
+
+    .selected-category__elements
+        grid-template-columns: repeat(2, 1fr)
+
+    .selected-category__event
+        margin: 2em
+
+    .selected-category__no-event
+        grid-column-start: 1
+        grid-column-end: 3
+
+@media (min-width: 1200px)
+
+    .selected-category__elements
+        grid-template-columns: repeat(3, 1fr)
+        margin: 2em
+        margin-left: 4em
+        margin-right: 4em
+
+    .selected-category__event
+        margin-top: 4em
+        margin-bottom: 4em
+    
+    .selected-category__no-event
+        grid-column-start: 1
+        grid-column-end: 4

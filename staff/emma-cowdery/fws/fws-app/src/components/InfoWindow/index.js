@@ -3,7 +3,7 @@ import './index.sass'
 import logic from '../../logic'
 import BouncingLoader from '../BouncingLoader'
 
-export default function InfoWindow ({ setMapInGrid, setEventInfo, participants, eventDate, eventTime, restaurantId, reservationName, restaurantCategory, mobile, restaurantName, setJoinEvent, setUnjoinEvent }) {
+export default function InfoWindow ({ setMapInGrid, setEventInfo, participants, eventDate, eventTime, restaurantId, reservationName, restaurantCategory, mobile, restaurantName, setJoinEvent, setUnjoinEvent, setSelectedEvent, id, setPhone }) {
     const [details, setDetails] = useState()
     const [eventStyle, setEventStyle] = useState()
     const [counter, setCounter] = useState(0)
@@ -25,7 +25,7 @@ export default function InfoWindow ({ setMapInGrid, setEventInfo, participants, 
 
         logic.retrieveUser()
             .then(({user}) => setUserId(user.id))
-    }, [])
+    }, [restaurantId])
 
     useEffect(() => {
         details && logic.retrievePhoto(details.photos[counter].photo_reference)
@@ -63,12 +63,12 @@ export default function InfoWindow ({ setMapInGrid, setEventInfo, participants, 
                         </div>
                     </div>
                     {participants.includes(userId) ?  
-                        <div className='event-info__unjoin'>
-                            <button className='event-info__unjoin-button' onClick={e => {e.preventDefault(); setUnjoinEvent(true)}}>leave event</button>
+                        <div className='event-info__unjoin' onClick={e => {e.preventDefault(); setJoinEvent(true); setSelectedEvent(id); setPhone(details.international_phone_number)}}>
+                            <button className='event-info__unjoin-button'>leave event</button>
                         </div>
                         :
-                        <div className='event-info__join'>
-                            <button className='event-info__join-button' onClick={e => {e.preventDefault(); setJoinEvent(true)}}>join event</button>
+                        <div className='event-info__join' onClick={e => {e.preventDefault(); setJoinEvent(true); setSelectedEvent(id); setPhone(details.international_phone_number)}}>
+                            <button className='event-info__join-button'>join event</button>
                     </div>}
                 </div>
             </div>

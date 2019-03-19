@@ -5,8 +5,8 @@ import TimeSelector from '../TimeSelector'
 import CategorySelector from '../CategorySelector'
 
 export default function MapFilter ({ setPreferedDate, setTimeRange, setFilteredCategory, setDistance, setRating, setPriceRange }) {
-    const [time1, setTime1] = useState()
-    const [time2, setTime2] = useState()
+    const [time1, setTime1] = useState('00:00')
+    const [time2, setTime2] = useState('23:00')
     const [min, setMin] = useState('0')
     const [max, setMax] = useState('5')
 
@@ -32,6 +32,10 @@ export default function MapFilter ({ setPreferedDate, setTimeRange, setFilteredC
         if (!e) setDistance(60)
         else setDistance(Number(e))
     }
+
+    console.log(time1)
+
+    console.log(time2)
 
 
     return (

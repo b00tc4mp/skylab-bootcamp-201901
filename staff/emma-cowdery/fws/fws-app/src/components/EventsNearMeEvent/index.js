@@ -3,7 +3,7 @@ import logic from '../../logic'
 import './index.sass'
 import BouncingLoader from '../BouncingLoader'
 
-export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime, participants, totalDist, setJoinEvent, restaurantName, setUnjoinEvent, restaurantCategory }) {
+export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime, participants, totalDist, setJoinEvent, restaurantName, restaurantCategory, setSelectedEvent, setUserInEvent, id, reservationName, setReservationName, setPhone }) {
     const [details, setDetails] = useState()
     const [eventStyle, setEventStyle] = useState()
     const [counter, setCounter] = useState(0)
@@ -43,9 +43,9 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
                             <i onClick={e => {e.preventDefault(); setCounter(counter - 1)}} className="fas fa-chevron-circle-left event-nearme__background-arrow"></i>
                             <i onClick={e => {e.preventDefault(); setCounter(counter + 1)}} className="fas fa-chevron-circle-right event-nearme__background-arrow"></i>
                         </div>
-                        <div className='event-nearme__background-distance'>
+                        {totalDist && <div className='event-nearme__background-distance'>
                             <p className='event-nearme__background-distance-text'>{totalDist}km</p>
-                        </div>
+                        </div>}
                     </div>
                     <div className='event-nearme__info'>
                         <div className='event-nearme__info-text'>
@@ -63,12 +63,12 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
                         </div>
                     </div>
                     {participants.includes(userId) ?  
-                        <div className='event-nearme__unjoin'>
-                            <button className='event-nearme__unjoin-button' onClick={e => {e.preventDefault(); setUnjoinEvent(true)}}>leave event</button>
+                        <div onClick={e => {e.preventDefault(); setJoinEvent(true); setSelectedEvent(id); setUserInEvent(participants); setReservationName(reservationName); setPhone(details.international_phone_number)}} className='event-nearme__unjoin'>
+                            <button className='event-nearme__unjoin-button'>leave event</button>
                         </div>
                         :
-                        <div className='event-nearme__join'>
-                            <button className='event-nearme__join-button' onClick={e => {e.preventDefault(); setJoinEvent(true)}}>join event</button>
+                        <div onClick={e => {e.preventDefault(); setJoinEvent(true); setSelectedEvent(id); setUserInEvent(participants); setReservationName(reservationName); setPhone(details.international_phone_number)}} className='event-nearme__join'>
+                            <button className='event-nearme__join-button'>join event</button>
                     </div>}
                 </div>
             : <BouncingLoader/>}

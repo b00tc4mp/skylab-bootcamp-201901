@@ -15,6 +15,8 @@ import Chats from '../Chats'
 import RightBar from '../RightBar'
 import DropDown from '../DropDown'
 import UserProfile from '../UserProfile'
+import SelectedCategory from '../SelectedCategory'
+import MyEvents from '../MyEvents'
 
 export default withRouter (function App() {
     const [showRightBar, setShowRightBar] = useState(false)
@@ -26,7 +28,7 @@ export default withRouter (function App() {
             <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Login/>}/>
             <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Register/>}/>
             <Route path="/landing" render={() => logic.isUserLoggedIn ? <Redirect to = '/event-categories'/> : <Landing/>}/>
-            <Route path="/restaurant-results" render={() => logic.isUserLoggedIn ? <RestautantResults setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
+            <Route path="/restaurant-results/search/:query" render={() => logic.isUserLoggedIn ? <RestautantResults setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
             <Route path="/event-categories" render={() => logic.isUserLoggedIn ? <EventCategories setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
             <Route path="/events-nearme" render={() => logic.isUserLoggedIn ? <EventsNearMe setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
             <Route path="/events-map" render={() => logic.isUserLoggedIn ? <EventsMap setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
@@ -34,7 +36,9 @@ export default withRouter (function App() {
             <Route path="/chats" render={() => logic.isUserLoggedIn ? <Chats setShowRightBar={setShowRightBar} setShowDropdown={setShowDropdown}/> : <Redirect to = '/landing'/>}/>
             {showRightBar && <RightBar setShowRightBar={setShowRightBar}/>}
             {showDropdown && <DropDown setShowDropdown={setShowDropdown}/>}
-            <Route path="/user" render={() => logic.isUserLoggedIn ? <UserProfile setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
+            <Route path="/user/:id" render={() => logic.isUserLoggedIn ? <UserProfile setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
+            <Route path='/category/:category' render={() => logic.isUserLoggedIn ? <SelectedCategory setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
+            <Route path='/my-events' render={() => logic.isUserLoggedIn ? <MyEvents setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/> : <Redirect to = '/landing'/>}/>
         </Fragment>
     )
 })
