@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">84.46% </span>
+        <span class="strong">81.09% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>163/193</span>
+        <span class='fraction'>163/201</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">84.26% </span>
+        <span class="strong">79.82% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>91/108</span>
+        <span class='fraction'>91/114</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">86.05% </span>
+        <span class="strong">82.22% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>37/43</span>
+        <span class='fraction'>37/45</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90.58% </span>
+        <span class="strong">87.41% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>125/138</span>
+        <span class='fraction'>125/143</span>
       </div>
     </div>
     <p class="quiet">
@@ -450,7 +450,14 @@
 <a name='L402'></a><a href='#L402'>402</a>
 <a name='L403'></a><a href='#L403'>403</a>
 <a name='L404'></a><a href='#L404'>404</a>
-<a name='L405'></a><a href='#L405'>405</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -489,14 +496,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -513,6 +512,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -561,6 +561,20 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -892,15 +906,7 @@ const logic = {
 &nbsp;
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 &nbsp;
-        // return User.findOne({ email })
-        //     .then(user =&gt; {
-        //         if (user) throw Error(`user with email ${email} already exists`)
-&nbsp;
-        //         return bcrypt.hash(password, 10)
-        //     })
-        //     .then(hash =&gt; User.create({ name, surname, email, password: hash }))
-        //     .then(({ id }) =&gt; id)
-&nbsp;
+        
         return (async () =&gt; {
             let user = await User.findOne({ email })
 &nbsp;
@@ -926,6 +932,7 @@ const logic = {
      * @param {string} email 
      * @param {string} password 
      */
+    
     authenticateUser(email, password) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 &nbsp;
@@ -965,6 +972,20 @@ const logic = {
                 delete user._id
 &nbsp;
                 return user
+            })
+    },
+&nbsp;
+<span class="fstat-no" title="function not covered" >    re</span>trieveUserPublicInfo (userId) {
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (typeof userId !== 'string') <span class="cstat-no" title="statement not covered" >throw TypeError(userId + ' is not a string')</span></span>
+<span class="cstat-no" title="statement not covered" >        if (!userId.trim().length) <span class="cstat-no" title="statement not covered" >throw Error('userId cannot be empty')</span></span>
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return User.findById(userId).select('-password -__v').lean()</span>
+            .then(<span class="fstat-no" title="function not covered" >us</span>er =&gt; {
+<span class="cstat-no" title="statement not covered" >                if (!user) <span class="cstat-no" title="statement not covered" >throw Error(`user with id ${userId} not found`)</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                return user.username</span>
             })
     },
 &nbsp;
@@ -1264,7 +1285,7 @@ module.exports = logic</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Mar 18 2019 16:24:01 GMT+0100 (Central European Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Mar 19 2019 11:14:40 GMT+0100 (Central European Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

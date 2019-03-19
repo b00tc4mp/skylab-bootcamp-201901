@@ -12,8 +12,8 @@ class CreateHouse extends Component {
 
     state = {
 
-        images: "",
-        fileImage:"",
+        images: [],
+        filesImages: [],
         description: "",
         petsAllowed: "Yes",
         smokersAllowed: "Yes",
@@ -79,26 +79,57 @@ class CreateHouse extends Component {
 
 
     handleOnCancelEditorAdd = () => {
-        this.setState({fileImage: null})
+        this.setState({ filesImages: [], images: [] })
     }
 
 
     handleOnUploadPhoto = () => {
-        try {
-            logic.uploadImage(this.state.fileImage)
-                .then(imageurl => this.setState({images : imageurl }))
-                .catch(({ message }) => {
-                    
+
+        let { state: { filesImages, images } } = this
+
+        let newImages = Object.values(filesImages)
+
+        newImages = newImages.map(file => {
+
+            logic.uploadImage(file)
+                .then(imageurl => {
+                    debugger
+
+
+                    images.push(imageurl);
+
+                    this.setState({ images })
+
+
+
                 })
-        } catch ({ message }) {
-            
-        }
+                .catch(({ message }) => {
+
+                })
+
+
+        })
+
+
+
+
+    }
+
+    drawImages = () => {
+
+        const { state: { images } } = this
+
+        return images.map(image => {
+            return <img className='previewImage' src={image}></img>
+        });
+
+
     }
 
 
     render() {
 
-        const { handleInput, handleFormSubmit,handleOnUploadPhoto,handleOnCancelEditorAdd, props: { createHouseFeedback } } = this
+        const { handleInput, handleFormSubmit, handleOnUploadPhoto, handleOnCancelEditorAdd, drawImages, props: { createHouseFeedback }, state: { images } } = this
 
         return <section className="createHouse">
 
@@ -106,11 +137,22 @@ class CreateHouse extends Component {
             <form className="createHouse-house-form" onSubmit={handleFormSubmit}>
 
                 <p>Images</p>
-                <div className='profile-container__personalInformation-image--edit'><input className='input--small' type='file' name='fileImage' onChange={e => this.setState({fileImage: e.target.files[0]})}></input>
-                    <button onClick={e => { e.preventDefault(); handleOnUploadPhoto() }}>Upload image</button>
-                    <button onClick={e => { e.preventDefault(); handleOnCancelEditorAdd() }}>Cancel</button>
+                <div className='images-uploader'>
+                    <input className='input--small' type='file' name='fileImage' multiple onChange={e => this.setState({ filesImages: e.target.files })} />
+                    <div className=' images-uploader-buttons'>
+                        <button className=' images-uploader-buttons__button' onClick={e => { e.preventDefault(); handleOnUploadPhoto() }}>Upload image</button>
+                        <button className='images-uploader-buttons__button' onClick={e => { e.preventDefault(); handleOnCancelEditorAdd() }}>Delete</button>
+
+                    </div>
 
                 </div>
+                <div>
+                    {images && drawImages()}
+
+                </div>
+
+
+
                 {/* <input className="createHouse-house-form__input" required type="text" name="images" placeholder="Enter an image url" onChange={handleInput}></input> */}
 
                 <p>description</p>
