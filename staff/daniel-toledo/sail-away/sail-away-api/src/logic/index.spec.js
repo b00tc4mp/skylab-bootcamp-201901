@@ -632,16 +632,18 @@ describe('logic', () => {
             return userId
         })
 
-        it('should succeed on correct credentials', () =>
-            logic.retrieveUser(userId)
-                .then(user => {
-                    expect(user.id).toBe(userId)
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
+        it('should succeed on correct credentials', async () => {
 
-                    expect(user.save).toBeUndefined()
-                })
+            let user = await logic.retrieveUser(userId)
+
+            expect(user.id).toBe(userId)
+            expect(user.name).toBe(name)
+            expect(user.surname).toBe(surname)
+            expect(user.email).toBe(email)
+
+            expect(user.save).toBeUndefined()
+        }
+
         )
 
         it('should succeed fail on not found user', () => {
@@ -656,12 +658,12 @@ describe('logic', () => {
         it('should fail on empty userId', function () {
             userId = ''
 
-            expect(() => logic.retrieveUser(userId).toThrowError('userId cannot be empty'))
+            expect(() => logic.retrieveUser(userId)).toThrowError('userId cannot be empty')
         })
         it('should fail on non string userId', function () {
             userId = []
 
-            expect(() => logic.retrieveUser(userId).toThrowError(`${userId} is not a string`))
+            expect(() => logic.retrieveUser(userId)).toThrowError(`${userId} is not a string`)
         })
     })
 
@@ -670,6 +672,23 @@ describe('logic', () => {
         const surname = 'Medina'
         const kind = 'captain'
         let email, password, hash, userId
+
+        let data = {
+            name: 'Rita',
+            surname: 'Medina-updated',
+            gender: 'Feminine',
+            nationality: 'Portuguese',
+            description: 'I am a nice girl willing to travel',
+            talents: ['art', 'musician', 'writter'],
+            boats: [{
+                name: 'saphiro',
+                type: 'Yacht',
+                model: 416,
+                description: 'amazing vessel'
+            }],
+            experience: 200,
+            languages: ['pt', 'en']
+        }
 
         beforeEach(async () => {
             password = '123'
@@ -681,22 +700,7 @@ describe('logic', () => {
         })
 
         it('should succeed on correct credentials', () => {
-            let data = {
-                name: 'Rita',
-                surname: 'Medina-updated',
-                gender: 'Feminine',
-                nationality: 'Portuguese',
-                description: 'I am a nice girl willing to travel',
-                talents: ['art', 'musician', 'writter'],
-                boats: [{
-                    name: 'saphiro',
-                    type: 'Yacht',
-                    model: 416,
-                    description: 'amazing vessel'
-                }],
-                experience: 200,
-                languages: ['pt', 'en']
-            }
+
             return logic.updateUser(userId, data)
                 .then(() => User.findById(userId))
                 .then(user => {
@@ -747,26 +751,35 @@ describe('logic', () => {
                 })
         })
 
+        it('should fail in user not found', () => {
+
+            let failUserId = '123456789'
+
+            logic.updateUser(failUserId, data)
+                .catch(error => expect(error).toEqual(Error(`user with userId ${failUserId} not found`)))
+
+        })
+
         it('should fail on empty userId', function () {
             userId = ''
 
-            expect(() => logic.updateUser(userId, data).toThrowError('userId cannot be empty'))
+            expect(() => logic.updateUser(userId, data)).toThrowError('userId cannot be empty')
         })
         it('should fail on non string userId', function () {
             userId = []
 
-            expect(() => logic.updateUser(userId, data).toThrowError(`${userId} is not a string`))
+            expect(() => logic.updateUser(userId, data)).toThrowError(`${userId} is not a string`)
         })
 
         it('should fail on non object data', function () {
             data = 'data'
 
-            expect(() => logic.updateUser(userId, data).toThrowError(`${data} is not an object`))
+            expect(() => logic.updateUser(userId, data)).toThrowError(`${data} is not an object`)
         })
 
         it('should fail on non data userId', function () {
 
-            expect(() => logic.updateUser(userId).toThrowError('data should be defined'))
+            expect(() => logic.updateUser(userId)).toThrowError('data should be defined')
         })
     })
 
@@ -776,6 +789,8 @@ describe('logic', () => {
         const kind = 'captain'
         let email, password, hash, userId
 
+        const url = 'https://i.pinimg.com/originals/24/3c/e9/243ce978cc67ff88acfa7bec6315c9ff.png'
+
         beforeEach(async () => {
             password = '123'
             email = `ritamedina-${Math.random()}@mail.com`
@@ -786,7 +801,7 @@ describe('logic', () => {
         })
 
         it('should succeed on correct credentials', () => {
-            let url = 'https://i.pinimg.com/originals/24/3c/e9/243ce978cc67ff88acfa7bec6315c9ff.png'
+
             return logic.updateUserPicture(userId, url)
                 .then(() => User.findById(userId))
                 .then(user => {
@@ -795,40 +810,276 @@ describe('logic', () => {
                     expect(user.pictures[0]).toBe(url)
                 })
         })
+
+        it('should fail in user not autorized', () => {
+
+            let failUserId = '123456789'
+
+            logic.updateUserPicture(failUserId, url)
+                .catch(error => expect(error).toEqual(Error(`user with userId ${failUserId} not found`)))
+
+        })
+
+        it('should fail on empty userId', function () {
+            let userId = ''
+
+            expect(() => {
+                logic.updateUserPicture(userId, url)
+            }).toThrow(Error('userId cannot be empty'))
+
+        })
+        it('should fail on non string userId', () => {
+            let userId = 123
+
+            expect(() => {
+                debugger
+                logic.updateUserPicture(userId, url)
+            }).toThrow(TypeError(`${userId} is not a string`))
+
+        })
+
+        it('should fail on empty url', function () {
+            let url = ''
+
+            expect(() => {
+                logic.updateUserPicture(userId, url)
+            }).toThrow(Error('url cannot be empty'))
+
+        })
+        it('should fail on non string url', () => {
+            let url = 123
+
+            expect(() => {
+                logic.updateUserPicture(userId, url)
+            }).toThrow(TypeError(`${url} is not a string`))
+        })
     })
 
-    describe('remove user', () => {
+    describe('update boat', () => {
         const name = 'Rita'
         const surname = 'Medina'
         const kind = 'captain'
         let email, password, hash, userId
 
+        let boats = [{
+            id: "boat-40485",
+            pictures: [
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866742/l0qmzljnhocggsw0kfrh.png",
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866772/s2rgsv2aynwagi8vckkt.jpg",
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866955/dcryfjmle5eskxhwdgu6.jpg"
+            ],
+            name: "olive",
+            type: "carbon",
+            model: "blue",
+            boatLength: "large",
+            crew: "3",
+            age: "6 years",
+            description: "Popeye's boat"
+        }]
+
+        let newBoat = {
+            id: "boat-500000",
+            pictures: [],
+            name: "olive",
+            type: "carbon",
+            model: "blue",
+            boatLength: "large",
+            crew: "3",
+            age: "6 years",
+            description: "Popeye's boat"
+        }
+
         beforeEach(async () => {
             password = '123'
             email = `ritamedina-${Math.random()}@mail.com`
             hash = await bcrypt.hash(password, 10)
-            user = await User.create({ name, surname, email, password: hash, kind })
+            user = await User.create({ name, surname, email, password: hash, kind, boats })
             userId = user.id.toString()
             return userId
         })
 
-        it('should succeed on correct credentials', () => {
-            return logic.removeUser(userId)
+        it('should succeed on adding Boat', () => {
+
+            return logic.updateBoat(userId, newBoat)
                 .then(() => User.findById(userId))
-                .then(res => { expect(res).toBe(null) })
+                .then(user => {
+                    expect(user.boats.length).toEqual(2)
+                    expect(user.boats[1].toString()).toEqual(newBoat.toString())
+                })
         })
+
+        it('should succeed on Edditing boat', () => {
+            let boatToEdit = {
+                id: "boat-40485",
+                pictures: [
+                    "https://res.cloudinary.com/sail-away/image/upload/v1552866742/l0qmzljnhocggsw0kfrh.png",
+                ],
+                name: "olive-let",
+                type: "csail",
+                model: "red",
+                boatLength: "large",
+                crew: "3",
+                age: "7 years",
+                description: "Popeye's boat"
+            }
+            return logic.updateBoat(userId, boatToEdit)
+                .then(() => User.findById(userId))
+                .then(user => {
+                    expect(user.boats.length).toEqual(1)
+                    expect(user.boats[0].toString()).toEqual(boatToEdit.toString())
+                })
+        })
+
+        it('should fail on not found user', () => {
+
+            let failUserId = '123456789'
+
+            logic.updateBoat(failUserId, newBoat)
+                .catch(error => expect(error).toEqual(Error(`user with userId ${failUserId} not found`)))
+
+        })
+
 
         it('should fail on empty userId', function () {
             userId = ''
 
-            expect(() => logic.updateUser(userId, data).toThrowError('userId cannot be empty'))
+            expect(() => logic.updateBoat(userId, newBoat)).toThrowError('userId cannot be empty')
         })
         it('should fail on non string userId', function () {
             userId = []
 
-            expect(() => logic.updateUser(userId, data).toThrowError(`${userId} is not a string`))
+            expect(() => logic.updateBoat(userId, newBoat)).toThrowError(`${userId} is not a string`)
         })
 
+        it('should fail on non object boat', function () {
+            let boat = 'boat'
+
+            expect(() => logic.updateBoat(userId, boat)).toThrow(TypeError, `${boat} is not an object`)
+        })
+
+        it('should fail on empty boat', function () {
+            let boat = {}
+
+            expect(() => logic.updateBoat(userId, boat)).toThrow(Error, 'boat should be defined')
+        })
+
+    })
+
+    describe('update boat picture', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, userId
+
+        let boats = [{
+            id: "boat-40485",
+            pictures: [],
+            name: "olive",
+            type: "carbon",
+            model: "blue",
+            boatLength: "large",
+            crew: "3",
+            age: "6 years",
+            description: "Popeye's boat"
+        }]
+
+        let boatId = boats[0].id
+
+        let url = "https://res.cloudinary.com/sail-away/image/upload/v1552866742/l0qmzljnhocggsw0kfrh.png"
+        let url2 = "https://res.cloudinary.com/sail-away/image/upload/v123343556/lsdtregegbgfrhhjh.png"
+
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user = await User.create({ name, surname, email, password: hash, kind, boats })
+            userId = user.id.toString()
+            return userId
+        })
+
+        it('should succeed on adding urls', () => {
+
+            return logic.updateBoatPicture(userId, boatId, url)
+                .then(() => logic.updateBoatPicture(userId, boatId, url2))
+                .then(() => User.findById(userId))
+                .then(user => {
+                    expect(user.id).toEqual(userId)
+                    expect(user.boats[0].pictures.length).toBe(2)
+                    expect(user.boats[0].pictures[0]).toBe(url)
+                    expect(user.boats[0].pictures[1]).toBe(url2)
+                })
+        })
+
+        it('should fail in user not autorized', () => {
+
+            let failUserId = '123456789'
+
+            logic.updateBoatPicture(failUserId, boatId, url)
+                .catch(error => expect(error).toEqual(Error(`user with id ${failUserId} not found`)))
+
+        })
+
+        it('should fail on boat npt found', () => {
+
+            let failBoatId = '123456789'
+
+
+            logic.updateBoatPicture(userId, failBoatId, url)
+                .catch(error => expect(error).toEqual(Error(`boat with id ${failBoatId} not found`)))
+
+        })
+
+        it('should fail on empty userId', function () {
+            let userId = ''
+
+            expect(() => {
+                logic.updateBoatPicture(userId, boatId, url)
+            }).toThrow(Error('userId cannot be empty'))
+
+        })
+        it('should fail on non string userId', () => {
+            let userId = 123
+
+            expect(() => {
+                debugger
+                logic.updateBoatPicture(userId, boatId, url)
+            }).toThrow(TypeError(`${userId} is not a string`))
+
+        })
+
+        it('should fail on empty boatId', function () {
+            let boatId = ''
+
+            expect(() => {
+                logic.updateBoatPicture(userId, boatId, url)
+            }).toThrow(Error('boatId cannot be empty'))
+
+        })
+        it('should fail on non string boatId', () => {
+            let boatId = 123
+
+            expect(() => {
+                debugger
+                logic.updateBoatPicture(userId, boatId, url)
+            }).toThrow(TypeError(`${boatId} is not a string`))
+
+        })
+
+        it('should fail on empty url', function () {
+            let url = ''
+
+            expect(() => {
+                logic.updateBoatPicture(userId, boatId, url)
+            }).toThrow(Error('url cannot be empty'))
+
+        })
+        it('should fail on non string url', () => {
+            let url = 123
+
+            expect(() => {
+                logic.updateBoatPicture(userId, boatId, url)
+            }).toThrow(TypeError(`${url} is not a string`))
+        })
     })
 
     describe('search user', () => {
@@ -896,57 +1147,147 @@ describe('logic', () => {
             expect(users.find(user => user.email === user2.email)).toBeTruthy
         })
 
+
+        it('should succeed on empty talents and langugaes', async () => {
+            let talents = []
+            let languages = []
+
+            const users = await logic.searchUsers(talents, languages)
+
+            expect(users.length).toEqual(4)
+            expect(users.find(user => user.email === user1.email)).toBeTruthy
+            expect(users.find(user => user.email === user2.email)).toBeTruthy
+            expect(users.find(user => user.email === user3.email)).toBeTruthy
+            expect(users.find(user => user.email === user4.email)).toBeTruthy
+        })
+
+        it('should succeed on empty talents', async () => {
+            let talents = []
+            let languages = ['Catalan']
+
+            const users = await logic.searchUsers(talents, languages)
+
+            expect(users.length).toEqual(1)
+            expect(users.find(user => user.email === user3.email)).toBeTruthy
+
+        })
+
+        it('should succeed on empty langugaes', async () => {
+            let talents = ['teacher']
+            let languages = []
+
+            const users = await logic.searchUsers(talents, languages)
+
+            expect(users.length).toEqual(2)
+            expect(users.find(user => user.email === user3.email)).toBeTruthy
+            expect(users.find(user => user.email === user4.email)).toBeTruthy
+        })
+
+        it('should fail on non talents array', () => {
+            let talents = 123
+            let languages = ['Spanish']
+
+            expect(() => {
+                logic.searchUsers(talents, languages)
+            }).toThrow(TypeError(`${talents} is not an array`))
+
+        })
+
+        it('should fail on non lenguages array', () => {
+            let talents = ['teacher', 'cleaning']
+            let languages = 123
+
+            expect(() => {
+                logic.searchUsers(talents, languages)
+            }).toThrow(TypeError(`${languages} is not an array`))
+
+        })
+
+    })
+
+    describe('remove user', () => {
+        const name = 'Rita'
+        const surname = 'Medina'
+        const kind = 'captain'
+        let email, password, hash, userId
+
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            user = await User.create({ name, surname, email, password: hash, kind })
+            userId = user.id.toString()
+            return userId
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.removeUser(userId)
+                .then(() => User.findById(userId))
+                .then(res => { expect(res).toBe(null) })
+        })
+
+        it('should fail on empty userId', function () {
+            userId = ''
+
+            expect(() => logic.removeUser(userId)).toThrowError('userId cannot be empty')
+        })
+        it('should fail on non string userId', function () {
+            userId = []
+
+            expect(() => logic.removeUser(userId)).toThrowError(`${userId} is not a string`)
+        })
+
     })
 
     describe('create Journeys', () => {
-        const title = 'Mediterranean trip'
-        const seaId = '08'
-        const route = [
+        let title = 'Mediterranean trip'
+        let seaId = '08'
+        let route = [
             { "name": "new marker", "position": { "lat": 41.98048622251079, "lng": 12.490741193558165 } },
             { "name": "new marker", "position": { "lat": 41.389753882061335, "lng": 2.295428693558165 } }
         ]
-        const dates = [moment("2019-03-25"), moment("2019-04-25")]
-        const description = 'Amazing trip around mediterranean sea. We will not stop and we can se dolphins'
-        const lookingFor = {
+        let dates = [moment("2019-03-25"), moment("2019-04-25")]
+        let description = 'Amazing trip around mediterranean sea. We will not stop and we can se dolphins'
+        let lookingFor = {
             lenguages: ['it', 'en'],
             experience: 500,
             sailingTitles: [],
             talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
         }
 
-        const name = 'Rita'
-        const surname = 'Medina'
-        const kind = 'captain'
+        let name = 'Rita'
+        let surname = 'Medina'
+        let kind = 'captain'
+        let gender = 'Feminine'
+        let nationality = 'Portuguese'
+        let boats = [{
+            id: "boat-40485",
+            pictures: [
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866742/l0qmzljnhocggsw0kfrh.png",
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866772/s2rgsv2aynwagi8vckkt.jpg",
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866955/dcryfjmle5eskxhwdgu6.jpg"
+            ],
+            name: "olive",
+            type: "carbon",
+            model: "blue",
+            boatLength: "large",
+            crew: "3",
+            age: "6 years",
+            description: "Popeye's boat"
+        }]
+        let boat = boats[0]
         let email, password, hash, user, userId
 
         beforeEach(async () => {
             password = '123'
             email = `ritamedina-${Math.random()}@mail.com`
             hash = await bcrypt.hash(password, 10)
-            let { id } = await User.create({ name, surname, email, password: hash, kind })
+            let { id } = await User.create({ name, surname, email, password: hash, kind, gender, nationality, boats })
             userId = ObjectId(id)
-            let data = {
-                name: 'Rita',
-                surname: 'Medina-updated',
-                gender: 'Feminine',
-                nationality: 'Portuguese',
-                description: 'I am a nice girl willing to travel',
-                talents: ['art', 'musician', 'writter'],
-                boats: [{
-                    name: 'saphiro',
-                    type: 'Yacht',
-                    model: 416,
-                    description: 'amazing vessel'
-                }],
-                experience: 200,
-                languages: ['pt', 'en']
-            }
 
-            user = await User.findByIdAndUpdate(id, { $set: data }, { new: true }).select('-__v').lean()
         })
 
         it('should succeed on valid data', async () => {
-            let boat = user.boats[0]
 
             const id = await logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
 
@@ -958,170 +1299,134 @@ describe('logic', () => {
             expect(journey.title).toEqual(title)
             expect(journey.seaId).toEqual(seaId)
             expect(journey.route.toString()).toEqual(route.toString())
-            // expect(journey.dates.toString()).toEqual(dates.toString())
             expect(journey.description).toEqual(description)
             expect(journey.lookingFor.toString()).toEqual(lookingFor.toString())
             expect(journey.userId.toString()).toEqual(userId.toString())
             expect(journey.boat.toString()).toEqual(boat.toString())
         })
 
-        it('should failed in invalid boat', async () => {
-            let userId = ObjectId(user.id)
+        it('should fail in user not autorized', () => {
+
             let boat = {
+                id: 'boat-40495',
                 name: 'saphiro-2',
                 type: 'Yacht',
                 model: 416,
                 description: 'amazing vessel'
             }
-            expect(async () => logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor).toThrowError('boat dose not belong to user'))
+
+            logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
+                .catch(error => expect(error).toEqual(Error('boat does not belong to user')))
+
         })
 
-        it('should failed on user not captain', async () => {
-            let data = { kind: 'crew' }
-            userToUpdate = await User.findOne({ email }).select('-__v').lean()
-            user = await User.findByIdAndUpdate(userToUpdate._id, { $set: data }, { new: true }).select('-__v').lean()
-            let userId = ObjectId(user.id)
-            let boat = {
-                name: 'saphiro',
-                type: 'Yacht',
-                model: 416,
-                description: 'amazing vessel'
-            }
-            expect(async () => logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor).toThrowError('user cannot create a journey'))
-        })
-
-        it('should failed on title not defined', async () => {
-            let title = undefined
-
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError(title + ' is not a string'))
-        })
-
-        it('should failed on empty title', async () => {
+        it('should fail on empty title', function () {
             let title = ''
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError('title cannot be empty'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrowError('title cannot be empty')
         })
 
-        it('should failed on seaId not defined', async () => {
-            let seaId = undefined
+        it('should fail on title not being string', function () {
+            let title = 123
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError(seaId + ' is not a string'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrow(TypeError, ` ${title} is not a string`)
         })
 
-        it('should failed on empty seaId', async () => {
+        it('should fail on empty seaId', function () {
             let seaId = ''
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError('seaId cannot be empty'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrowError('seaId cannot be empty')
         })
 
-        it('should failed on route not being an array', async () => {
-            let route = {}
+        it('should fail on seaId not being string', function () {
+            let seaId = 123
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError(route + ' is not an Array'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrow(TypeError, ` ${seaId} is not a string`)
         })
 
-        it('should failed on empty route', async () => {
+        it('should fail on empty route', function () {
             let route = []
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError('route cannot be empty'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrowError('route cannot be empty')
         })
 
-        it('should failed on dates not being an array', async () => {
-            let dates = {}
+        it('should fail on route not being string', function () {
+            let route = 123
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError(dates + ' is not an Array'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrow(TypeError, ` ${route} is not an Array`)
         })
 
 
-        it('should failed on empty dates', async () => {
+        it('should fail on empty dates', function () {
             let dates = []
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError('dates cannot be empty'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrowError('dates cannot be empty')
         })
 
-        it('should failed on description not defined', async () => {
-            let description = undefined
+        it('should fail on dates not being string', function () {
+            let dates = 123
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError(description + ' is not a string'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrow(TypeError, ` ${dates} is not an Array`)
         })
 
-
-        it('should failed on empty description', async () => {
+        it('should fail on empty description', function () {
             let description = ''
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError('description cannot be empty'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrowError('description cannot be empty')
         })
 
-        it('should failed on userId not defined', async () => {
-            let userId = undefined
+        it('should fail on description not being string', function () {
+            let description = 123
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError(userId + ' is not a string'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrow(TypeError, ` ${description} is not a string`)
         })
 
+        it('should fail on userId not being string', function () {
+            let userId = 123
 
-        it('should failed on empty userId', async () => {
-            let userId = {}
-
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError('userId cannot be empty'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrow(TypeError, ` ${userId} is not an ObjectId`)
         })
 
-        it('should failed on boat not defined', async () => {
-            let boat = undefined
-
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError(boat + ' is not a string'))
-        })
-
-
-        it('should failed on empty boat', async () => {
+        it('should fail on empty boat', function () {
             let boat = {}
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError('boat cannot be empty'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrowError('boat cannot be empty')
         })
 
-        it('should failed on lookingFor not defined', async () => {
-            let lookingFor = undefined
+        it('should fail on boat not being string', function () {
+            let boat = 123
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError(lookingFor + ' is not a string'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrow(TypeError, ` ${boat} is not an Object`)
         })
 
-
-        it('should failed on empty lookingFor', async () => {
+        it('should fail on empty lookingFor', function () {
             let lookingFor = {}
 
-            expect(async () =>
-                logic.logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor)
-                    .toThrowError('lookingFor cannot be empty'))
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrowError('lookingFor cannot be empty')
         })
+
+        it('should fail on lookingFor not being string', function () {
+            let lookingFor = 123
+
+            expect(() => logic.addJourney(title, seaId, route, dates, description, userId, boat, lookingFor))
+                .toThrow(TypeError, ` ${lookingFor} is not an Object`)
+        })
+
+
     })
 
     describe('search by sea', () => {
@@ -1574,6 +1879,87 @@ describe('logic', () => {
         })
     })
 
+    describe('retrieve my journeys', ()=>{
+        let title = 'Mediterranean trip'
+        let seaId = '08'
+        let route = [
+            { "name": "new marker", "position": { "lat": 41.98048622251079, "lng": 12.490741193558165 } },
+            { "name": "new marker", "position": { "lat": 41.389753882061335, "lng": 2.295428693558165 } }
+        ]
+        let dates = [moment("2019-03-25"), moment("2019-04-25")]
+        let description = 'Amazing trip around mediterranean sea. We will not stop and we can se dolphins'
+        let lookingFor = {
+            lenguages: ['it', 'en'],
+            experience: 500,
+            sailingTitles: [],
+            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+        }
+
+        let name = 'Rita'
+        let surname = 'Medina'
+        let kind = 'captain'
+        let gender = 'Feminine'
+        let nationality = 'Portuguese'
+        let boats = [{
+            id: "boat-40485",
+            pictures: [
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866742/l0qmzljnhocggsw0kfrh.png",
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866772/s2rgsv2aynwagi8vckkt.jpg",
+                "https://res.cloudinary.com/sail-away/image/upload/v1552866955/dcryfjmle5eskxhwdgu6.jpg"
+            ],
+            name: "olive",
+            type: "carbon",
+            model: "blue",
+            boatLength: "large",
+            crew: "3",
+            age: "6 years",
+            description: "Popeye's boat"
+        }]
+        let boat = boats[0]
+        let email, password, hash, user, userId
+
+        beforeEach(async () => {
+            password = '123'
+            email = `ritamedina-${Math.random()}@mail.com`
+            hash = await bcrypt.hash(password, 10)
+            let { id } = await User.create({ name, surname, email, password: hash, kind, gender, nationality, boats })
+            userId = ObjectId(id)
+            await Journey.create({ title, seaId, route, dates, description, userId, boat, lookingFor })
+
+        })
+
+        it('should succeed on valid data', async () => {
+
+            const journeys = await logic.myJourneys(userId.toString())
+
+            expect(journeys[0].title).toEqual(title)
+            expect(journeys[0].seaId).toEqual(seaId)
+            expect(journeys[0].route.toString()).toEqual(route.toString())
+            expect(journeys[0].description).toEqual(description)
+            expect(journeys[0].lookingFor.toString()).toEqual(lookingFor.toString())
+            expect(journeys[0].userId.toString()).toEqual(userId.toString())
+            expect(journeys[0].boat.toString()).toEqual(boat.toString())
+        })
+        
+        it('should fail on empty userId', function () {
+            let userId = ''
+
+            expect(() => {
+                logic.myJourneys(userId)
+            }).toThrow(Error('userId cannot be empty'))
+
+        })
+        it('should fail on non string userId', () => {
+            let userId = 123
+
+            expect(() => {
+                debugger
+                logic.myJourneys(userId)
+            }).toThrow(TypeError(`${userId} is not a string`))
+
+        })
+    })
+
     describe('delete Journey', () => { })
 
     describe('toggle journey favorite', () => {
@@ -1606,7 +1992,7 @@ describe('logic', () => {
         it('should succeed on deleting favorite', () => {
             let journeyId = '123456789'
             return logic.toggleFavoriteJourney(userId, journeyId)
-                .then(()=> logic.toggleFavoriteJourney(userId, journeyId))
+                .then(() => logic.toggleFavoriteJourney(userId, journeyId))
                 .then(() => User.findById(userId))
                 .then(user => {
                     expect(user.id).toEqual(userId)
@@ -1614,6 +2000,39 @@ describe('logic', () => {
                     expect(user.favoriteJourneys[0]).toBeUndefined
 
                 })
+        })
+
+        it('should fail in user not found', () => {
+            let journeyId = '123456789'
+            let failUserId = '123456789'
+
+            logic.toggleFavoriteJourney(failUserId, journeyId)
+                .catch(error => expect(error).toEqual(Error(`user with id ${failUserId} not found`)))
+
+        })
+
+        it('should fail on empty userId', function () {
+            let userId = ''
+            let journeyId = '123456789'
+
+            expect(() => logic.toggleFavoriteJourney(userId, journeyId)).toThrowError('userId cannot be empty')
+        })
+        it('should fail on non string userId', function () {
+            let userId = 123
+            let journeyId = '123456789'
+            expect(() => logic.toggleFavoriteJourney(userId, journeyId)).toThrowError(`${userId} is not a string`)
+        })
+
+        it('should fail on empty journeyId', function () {
+            let userId = '123456789'
+            let journeyId = ''
+
+            expect(() => logic.toggleFavoriteJourney(userId, journeyId)).toThrowError('journeyId cannot be empty')
+        })
+        it('should fail on non string userId', function () {
+            let userId = '123456789'
+            let journeyId =  123
+            expect(() => logic.toggleFavoriteJourney(userId, journeyId)).toThrowError(`${journeyId} is not a string`)
         })
     })
 
@@ -1647,7 +2066,7 @@ describe('logic', () => {
         it('should succeed on deleting favorite', () => {
             let crewId = '123456789'
             return logic.toggleFavoriteCrew(userId, crewId)
-                .then(()=> logic.toggleFavoriteCrew(userId, crewId))
+                .then(() => logic.toggleFavoriteCrew(userId, crewId))
                 .then(() => User.findById(userId))
                 .then(user => {
                     expect(user.id).toEqual(userId)
@@ -1655,6 +2074,40 @@ describe('logic', () => {
                     expect(user.favoriteCrew[0]).toBeUndefined
 
                 })
+        })
+
+        it('should fail in user not found', () => {
+            let crewId = '123456789'
+            let failUserId = '123456789'
+
+            logic.toggleFavoriteCrew(failUserId, crewId)
+                .catch(error => expect(error).toEqual(Error(`user with id ${failUserId} not found`)))
+
+        })
+
+        
+        it('should fail on empty userId', function () {
+            let userId = ''
+            let crewId = '123456789'
+
+            expect(() => logic.toggleFavoriteCrew(userId, crewId)).toThrowError('userId cannot be empty')
+        })
+        it('should fail on non string userId', function () {
+            let userId = 123
+            let crewId = '123456789'
+            expect(() => logic.toggleFavoriteCrew(userId, crewId)).toThrowError(`${userId} is not a string`)
+        })
+
+        it('should fail on empty crewId', function () {
+            let userId = '123456789'
+            let crewId = ''
+
+            expect(() => logic.toggleFavoriteCrew(userId, crewId)).toThrowError('crewId cannot be empty')
+        })
+        it('should fail on non string crewId', function () {
+            let userId = '123456789'
+            let crewId =  123
+            expect(() => logic.toggleFavoriteCrew(userId, crewId)).toThrowError(`${crewId} is not a string`)
         })
     })
 
