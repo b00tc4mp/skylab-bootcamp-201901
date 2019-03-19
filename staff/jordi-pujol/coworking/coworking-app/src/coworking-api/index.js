@@ -408,7 +408,45 @@ const coworkingApi = {
                 if (response.error) throw Error(response.error)
                 return response
             })
-    }
+    },
+
+     /**
+     * Updates user information
+     * 
+     * @param {String} token
+     * @param {Blob} image
+     * 
+     * @throws {TypeError} - if token is not a string or blob is not a blob.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Object} - user.  
+     */
+    updateUserPhoto(token, image) {
+        validate([{ key: 'token', value: token, type: String }])
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (!image) throw Error('image is empty')
+        // if (image instanceof Blob === false) throw TypeError(`${image} is not a blob`)
+
+        let formData = new FormData()
+        formData.append('image', image)
+
+        return fetch(`${this.url}/user-photo`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
 }
 
 export default coworkingApi

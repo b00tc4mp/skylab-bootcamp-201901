@@ -100,7 +100,7 @@ const logic = {
         validate([{ key: 'userId', value: userId, type: String }])
         if (!data) throw TypeError('data should be defined')
         if (data.constructor !== Object) throw Error(`${data} is not an object`)
-        
+
         let _data = data.data[0]
 
 
@@ -154,7 +154,7 @@ const logic = {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'username', value: username, type: String }])
 
-        return User.findOne({ userName: username }).select('-password -__v').lean()
+        return User.findOne({ username }).select('-password -__v').lean()
             .then(user => {
                 if (!user) throw Error(`user with username ${username} not found`)
 
@@ -536,14 +536,14 @@ const logic = {
                 })
 
                 _services = services.map(_service => {
-                    if(_service.title.toLowerCase().includes(query.toLowerCase()))
-                    return _service
+                    if (_service.title.toLowerCase().includes(query.toLowerCase()))
+                        return _service
                 })
 
                 const index3 = _services.findIndex(_service => _service !== undefined)
 
                 _services = _services.splice(index3, 1)
-                
+
                 return _services
             })
     },
@@ -700,7 +700,33 @@ const logic = {
                 service.comments.splice(index, 1)
                 return service.save()
             })
-    }
+    },
+
+    /**
+   * Update user information.
+   * 
+   * @param {String} userId 
+   * @param {String} url 
+   * 
+   * @throws {TypeError} - if userId is not a string or data is not an object.
+   * @throws {Error} - if any param is empty or user is not found.
+   *
+   * @returns {Object} - user.  
+   */
+    updateUserPhoto(userId, url) {
+
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])
+
+        return (async () => {
+            const user = await User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            user.id = user._id.toString()
+            delete user._id
+
+            return user
+        })()
+    },
 }
 
 module.exports = logic

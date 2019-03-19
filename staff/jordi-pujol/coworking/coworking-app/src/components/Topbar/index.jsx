@@ -24,6 +24,7 @@ function Topbar({ onGoToHome, onGoToProfile, onGoToNotifications, onGoToServices
                 <i class="fas fa-bars"></i>
                 {/* <button className="dropbtn_more">More</button> */}
                 <div className="dropdown-content other">
+                    <a href='#/home/inbox'>Home</a>
                     <a href='#/home/profile'>Profile</a>
                     <a href='#/home/notifications'>Notifications</a>
                     <a href='#/home/service'>Create Service</a>

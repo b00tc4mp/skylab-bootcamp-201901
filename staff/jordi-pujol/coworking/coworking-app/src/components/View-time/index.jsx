@@ -2,8 +2,9 @@ import React from 'react'
 
 function ViewTime({ time }) {
 
-    return <section className="feedback">
-        <i class="fas fa-caret-square-right"></i><p>My Time:{time}</p>
+    return <section className="viewTime">
+        <i class="fas fa-caret-square-right"></i>
+        <p className="myTime">Time: {time}m</p>
     </section>
 }
 

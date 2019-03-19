@@ -24,23 +24,12 @@ class Search extends Component {
 
         return (
             <section className="search">
-                <form className="field is-grouped" onSubmit={handleSearchSubmit} >
-                    <p className="control is-expanded">
-                        <input
-                            name="query"
-                            placeholder="Search by title"
-                            onChange={handleQueryInput}
-                            className="input"
-                            required
-                            autoComplete="off"
-                        />
-                    </p>
-                    <p className="control">
-                        <button className="button is-info" type="submit">Search</button>
-                    </p>
+                <form className="search__form" onSubmit={handleSearchSubmit} >
+                    <input name="query" placeholder="Search by title" onChange={handleQueryInput} className="search__form--input" required autoComplete="off" />
+                    <button className="search__form--button" type="submit">Search</button>
                 </form>
-                <form onSubmit={handleViewAll}>
-                    <button>View all</button>
+                <form className="search__viewAll" onSubmit={handleViewAll}>
+                    <button className="search__viewAll--button">View all</button>
                 </form>
                 {feedback && <Feedback message={feedback} />}
             </section>

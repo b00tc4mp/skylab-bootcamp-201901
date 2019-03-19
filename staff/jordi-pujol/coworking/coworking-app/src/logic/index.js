@@ -186,6 +186,12 @@ const logic = {
         { key: 'commentId', value: commentId, type: String }])
 
         return coworkingApi.removeComment(this.__coworkingApiToken__, serviceId, commentId)
-    }
+    },
+
+    updateUserPhoto(image) {
+
+        return coworkingApi.updateUserPhoto(this.__coworkingApiToken__, image)
+            .then(({user}) => user)
+    },
 }
 export default logic

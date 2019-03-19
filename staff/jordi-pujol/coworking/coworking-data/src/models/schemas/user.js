@@ -67,6 +67,11 @@ const User = new Schema({
         required: true,
         unique: true,
     },
+
+    image: {
+        type: String,
+        required: false
+    }
 })
 
 module.exports = User

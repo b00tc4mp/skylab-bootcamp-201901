@@ -305,7 +305,7 @@
   display: flex;
   justify-content: space-around;
   border-bottom: 1px solid white;
-  background-color: #28047a;
+  background-color: #7184e2;
   position: fixed;
   width: 98%;
   opacity: 1;
@@ -319,7 +319,7 @@
       cursor: pointer;
       outline: none;
       text-decoration: none;
-      font-size: 17px;
+      font-size: 16px;
       color: #1f0054;
       padding-left: 1em; }
   .topbar__item:hover {
@@ -365,11 +365,11 @@
     .topbar button.dropbtn_more {
       display: initial; }
   .topbar__icon {
-    height: 4em;
-    width: 4em; }
+    height: 3em;
+    width: 3em; }
   .topbar .fas {
     display: none; }
-  .topbar .fa-sign-out-alt, .topbar .fa-caret-square-down, .topbar .fa-bars {
+  .topbar .fa-caret-square-down, .topbar .fa-bars {
     cursor: pointer;
     display: initial; }
 
@@ -389,7 +389,7 @@
     display: flex;
     justify-content: space-around;
     border-bottom: 1px solid white;
-    background-color: #7184e2; }
+    background-color: #1f5291; }
     .topbar__item {
       display: flex;
       align-self: center; }
@@ -487,20 +487,20 @@
   .inbox {
     max-width: 95%; } }
 .service__ {
-  height: 450px;
+  height: 10em;
   cursor: pointer;
-  width: 400px;
+  width: 8em;
   color: #1f0054; }
   .service__title {
-    padding-top: 4em;
-    padding-left: 1em;
+    padding-top: 3em;
+    padding-left: 2em;
     max-width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center; }
   .service__item {
-    padding-top: 1em;
-    padding-left: 3em;
+    padding-top: 0.5em;
+    padding-left: 3.5em;
     max-width: 300px; }
 
 .service__yellow {
@@ -509,7 +509,6 @@
   cursor: pointer;
   width: 350px;
   color: #1f0054;
-  padding: 2em;
   background-size: cover; }
 
 .service__blue {
@@ -518,7 +517,6 @@
   cursor: pointer;
   width: 350px;
   color: #1f0054;
-  padding: 2em;
   background-size: cover; }
 
 .service__red {
@@ -527,7 +525,6 @@
   cursor: pointer;
   width: 350px;
   color: #1f0054;
-  padding: 2em;
   background-size: cover;
   color: white; }
 
@@ -539,6 +536,59 @@
   color: #1f0054;
   transition: all 5s ease; }
 
+@media (min-width: 580px) {
+  .service__ {
+    height: 450px;
+    cursor: pointer;
+    width: 400px;
+    color: #1f0054; }
+    .service__title {
+      padding-top: 4em;
+      padding-left: 1em;
+      max-width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+    .service__item {
+      padding-top: 1em;
+      padding-left: 3em;
+      max-width: 300px; }
+
+  .service__yellow {
+    background-image: url(https://9044c4.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/15/15c3a611dfcbd8c4aa081b8bace8cbafb0b5456c/positvioleta.png);
+    height: 400px;
+    cursor: pointer;
+    width: 350px;
+    color: #1f0054;
+    padding: 2em;
+    background-size: cover; }
+
+  .service__blue {
+    background-image: url(https://www.peritacionesdanielgarcia.com/wp-content/uploads/2016/08/postit-azul1.png);
+    height: 400px;
+    cursor: pointer;
+    width: 350px;
+    color: #1f0054;
+    padding: 2em;
+    background-size: cover; }
+
+  .service__red {
+    background-image: url(https://9fc6ff.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/49/4973721cb13fb2e01ea4829d786a7954a83337d8/online-textbook-orange-post-it-notes.png);
+    height: 400px;
+    cursor: pointer;
+    width: 350px;
+    color: #1f0054;
+    padding: 2em;
+    background-size: cover;
+    color: white; }
+
+  .service__blue:hover {
+    font-size: 22px;
+    padding-top: 0;
+    margin-top: 0;
+    cursor: pointer;
+    color: #1f0054;
+    transition: all 5s ease; } }
 .fullservice {
   display: block;
   position: fixed;
@@ -913,7 +963,7 @@ img {
   padding: 0; }
 
 html {
-  background-color: #e5def4;
+  background-image: linear-gradient(#a0aed3, #5fccaf);
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 100%;

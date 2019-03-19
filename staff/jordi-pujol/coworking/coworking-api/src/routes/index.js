@@ -2,9 +2,11 @@ const express = require('express')
 const cors = require('../cors')
 const bodyParser = require('body-parser')
 const tokenHelper = require('../token-helper')
+const imageParser = require('../imageParser')
+const cloudinaryUploader = require('../cloudinary')
 const { tokenVerifierMiddleware } = tokenHelper
 
-const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, searchServices, createWorkspace, addUserToWorkSpace, createNewUserLink, verifyNewUserLink, createService, retrieveService, updateService, deleteService, retrieveWorkspaceServices, addUserToService, createComment, retrieveServiceComments, removeComment, closeService, retrieveUserServices, retrieveUserSubmitedServices, retrieveProfile } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, removeUser, searchServices, createWorkspace, addUserToWorkSpace, createNewUserLink, verifyNewUserLink, createService, retrieveService, updateService, deleteService, retrieveWorkspaceServices, addUserToService, createComment, retrieveServiceComments, removeComment, closeService, retrieveUserServices, retrieveUserSubmitedServices, retrieveProfile, updateUserPhoto } = require('./handlers')
 
 const jsonBodyParser = bodyParser.json()
 const router = express.Router()
@@ -26,6 +28,8 @@ router.get('/user/service', tokenVerifierMiddleware, retrieveUserServices)
 router.get('/user/service/submited', tokenVerifierMiddleware, retrieveUserSubmitedServices)
 
 router.get('/user/:username', tokenVerifierMiddleware ,retrieveProfile)
+
+router.post('/user-photo', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], updateUserPhoto)
 
 
 router.post('/workspace', [tokenVerifierMiddleware, jsonBodyParser], createWorkspace)

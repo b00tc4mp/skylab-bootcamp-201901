@@ -1,0 +1,90 @@
+.search
+    padding-top: 2em
+    min-width: 100%
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    padding-left: 2rem
+
+    &__form
+        display: flex
+        flex-direction: row
+        padding-bottom: 0.5rem
+
+        &--input
+            border: none
+            border-bottom: 1px solid rgba(0,0,0,0.4)
+            outline: none
+            margin-right: 1em
+            height: 1.5rem
+
+        &--button
+            margin-right: 1em
+            width: 5em
+            height: 1.5rem
+            background-image: linear-gradient(#00b5ba, #304f99)
+            color: white
+            cursor: pointer
+            border: none
+
+    &__viewAll
+
+        &--button
+            float: right
+            width: 5em
+            height: 1.5rem
+            color: white
+            cursor: pointer
+            border: none
+            background-image: linear-gradient(#00b5ba, #304f99)
+
+@media (min-width: 600px)
+
+    .search
+        padding-top: 2em
+        min-width: 100%
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        padding-left: 2rem
+        justify-content: center
+
+        &__form
+
+            &--input
+                border: none
+                border-bottom: 1px solid rgba(0,0,0,0.4)
+                outline: none
+                margin-right: 1em
+                height: 2rem
+                width: 18rem
+                font-size: 20px
+
+            &--button
+                margin-right: 1em
+                width: 7em
+                height: 2rem
+                background-image: linear-gradient(#00b5ba, #304f99)
+                color: white
+                cursor: pointer
+                border: none
+
+        &__viewAll
+
+            &--button
+                float: right
+                width: 7em
+                height: 2rem
+                color: white
+                cursor: pointer
+                border: none
+                background-image: linear-gradient(#00b5ba, #304f99)
+
+
+@media (min-width: 1200px)
+    .search
+
+        &__form
+
+            &--input
+                width: 40rem

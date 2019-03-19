@@ -6,9 +6,9 @@
     padding-top: 5em
 
     input.profile__content--name
-        background: transparent
+        background-color: transparent
         border: none
-        color: white
+        color: blue
         font-size: 24px
         // display: flex
         // align-items: center
@@ -52,153 +52,73 @@
 
 .backgroundImage
     position: relative
-    height: 15em
+    height: 20em
     width: 100%
     opacity: 0.5
     padding: 0
 
 .profile__info
+    position: absolute
     min-width: 100%
     min-heigt: 100%
     display: flex
     flex-direction: column
     justify-content: space-between
-    padding-top: 8em
+    padding-top: 50em
 
 .profile__form
-    min-width: 100%
+    min-width: 90%
     display: flex
     flex-direction: column
     justify-content: space-between
     align-self: center
+    position: absolute
+    height: 15em
+    padding-left: 2em
+    margin-top: 3em
 
-    //     .edit
-    //         background-image: linear-gradient(#00b5ba, #304f99)
+    &--info
+        width: 90%
+        border: none
+        margin-bottom: 1em
+        height: 2em
+        background: transparent
+        border-bottom: 1px solid blue
 
-    //     div
-    //         display: flex
-    //         // flex-direction: column
-    //         align-items: center
-    //         padding-top: 1em
+.profile__button
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-self: center
+    height: 15em
 
-    //         label
-    //             font-size: 18px
-    //             width: 30%
+.edit
+    background-image: linear-gradient(#00b5ba, #304f99)
+    width: 8em
+    margin: 0 auto
+    border: none
+    color: white
+    height: 1.5em
 
-    //         input
-    //             align-items: center
-                
-
-    //     &--info
-    //         height: 50px
-    //         width: 400px
-    //         font-size: 18px
-    //         color: black
-    //         border: none
-    //         border-bottom: 1px solid white
-    //         background: transparent
-    //         outline: none
-
-    // textarea
-    //     scrollbar-base-color: blue
-    //     scrollbar-highlight-color: blue
-
-    // button
-    //     margin-top: 20px
-    //     border-radius: 30px
-    //     width: 10em
-    //     height: 2em
-    //     border: none
-    //     color: #fff
-    //     font-size: 15px
-    //     cursor: pointer
-    //     background-image: linear-gradient(#0F0340, #360BE5)
-    //     align-self: center
+.save
+    background-image: linear-gradient(#00b5ba, #304f99)
+    width: 8em
+    margin: 0 auto
+    border: none
+    color: white
+    height: 1.5em
+    margin-top: 31em
+    position: absolute
+    margin-bottom: 1em
 
 @media (min-width: 1000px)
 
     .profile
-        max-width: 75%
-        display: flex
-        display-direction: row
-        flex-wrap: wrap
-        margin: 0 auto
-        justify-content: space-around
-        padding-top: 5em
 
-        h2
-            display: flex
-            justify-content: center
-            width: 100%
-    
-        h3
-            width: 20%
-            margin: 0 auto
-    
-        &__content
-            background-size: cover
-            display: flex
-            display-direction: row
-            margin: 0 auto
-            justify-content: space-around
-            padding-top: 2em
-    
-        .profile__imageform
-            display: flex
-            flex-direction: column
-            justify-content: space-between
-            padding-right: 2em
-
-        .profile__form
-            display: flex
-            flex-direction: column
-            justify-content: space-between
-    
-        .edit
-            background-image: linear-gradient(#00b5ba, #304f99)
-    
-            div
-                display: flex
-                // flex-direction: column
-                align-items: center
-                padding-top: 1em
-    
-                label
-                    font-size: 18px
-                    width: 30%
-    
-                input
-                    align-items: center
-                    
-    
-            &--info
-                height: 50px
-                width: 400px
-                font-size: 18px
-                color: black
-                border: none
-                border-bottom: 1px solid white
-                background: transparent
-                outline: none
-    
-        textarea
-            scrollbar-base-color: blue
-            scrollbar-highlight-color: blue
-    
-        button
-            margin-top: 20px
-            border-radius: 30px
-            width: 10em
-            height: 2em
-            border: none
-            color: #fff
-            font-size: 15px
-            cursor: pointer
-            background-image: linear-gradient(#0F0340, #360BE5)
-            align-self: center
-    
-    img
-        height: 300px
-        width: 300px
-        float: center
-    
+    .profile__info
+        min-width: 50%
+        max-width: 70%
+        height: 15em
+        align-self: center
+        margin-top: 3em
+        autofocus: no

@@ -11,6 +11,8 @@ module.exports = {
 
     retrieveProfile: require('./view-profile'),
 
+    updateUserPhoto: require('./update-user-photo'),
+
     createWorkspace: require('./create-workspace'),
 
     addUserToWorkSpace: require('./add-user-to-workspace'),
