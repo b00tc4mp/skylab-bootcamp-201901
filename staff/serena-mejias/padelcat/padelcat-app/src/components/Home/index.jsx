@@ -31,7 +31,6 @@ export const Home = props => {
 
   return (
     <section className={styles.container}>
-      
       <ul className={styles.matches_list}>
         {matches &&
           matches.map(match => (

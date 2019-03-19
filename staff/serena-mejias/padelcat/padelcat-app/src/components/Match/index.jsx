@@ -99,23 +99,32 @@ export const Match = props => {
                 </div>
               </div>
               <div className={styles.buttons}>
-                <button type="submit" disabled={submitting || pristine}>
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  onClick={form.reset}
-                  disabled={submitting || pristine}
+                <Fab
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  className={styles.availableButton}
+                  type="submit"
                 >
-                  Reset
-                </button>
+                  <CheckCircleOutline />
+                </Fab>
+                <Fab
+                  type="button"
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  className={`${styles.availableButton} ${styles.unavailable}`}
+                  onClick={form.reset}
+                >
+                  <Close />
+                </Fab>
               </div>
             </form>
           )}
         />
       )}
-      <div>
-        <div>
+      <div className={styles.chosen_pairs}>
+        <div className={styles.match}>
           <h4>1st Match</h4>
           {get(playersChosen, ["players", "firstPair-firstPlayer"]) && (
             <span>
@@ -123,6 +132,8 @@ export const Match = props => {
               {getPlayerById("firstPair-secondPlayer")}
             </span>
           )}
+        </div>
+        <div className={styles.match}>
           <h4>2nd Match</h4>
           {get(playersChosen, ["players", "secondPair-firstPlayer"]) && (
             <span>
@@ -130,6 +141,8 @@ export const Match = props => {
               {getPlayerById("secondPair-secondPlayer")}
             </span>
           )}
+        </div>
+        <div className={styles.match}>
           <h4>3rd Match</h4>
           {get(playersChosen, ["players", "thirdPair-firstPlayer"]) && (
             <span>

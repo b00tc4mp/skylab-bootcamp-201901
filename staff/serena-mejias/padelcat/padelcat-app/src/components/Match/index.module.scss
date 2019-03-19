@@ -5,6 +5,9 @@ div.teams {
   flex-direction: row;
   justify-content: space-between;
   margin: 0 1em;
+  @media screen and (min-width: $break-large) {
+    justify-content: space-around;
+  }
 }
 
 form.chosePlayers {
@@ -36,6 +39,10 @@ div.buttons {
   text-align: right;
 }
 
+button.availableButton {
+  margin: 0 3em;
+}
+
 div.result {
   padding: 0 0 $size-xs 0;
   text-align: center;
@@ -59,4 +66,21 @@ div.location {
 
 h6.teamName {
   margin: $size-xs;
+}
+
+div.chosen_pairs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: $size-s 0;
+}
+
+div.match {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+h4 {
+    margin-right: $size-m;
 }

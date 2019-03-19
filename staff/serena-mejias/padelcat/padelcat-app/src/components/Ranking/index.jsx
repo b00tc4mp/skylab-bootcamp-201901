@@ -11,13 +11,13 @@ export const Ranking = props => {
     logic
       .retrievePlayers()
       .then(players => {
-        setPlayers(players);
+        const normalPlayers = players.filter(player => player.name !== "admin");
+        setPlayers(normalPlayers);
       })
       .catch(error => {
         throw Error(error);
       });
   }, []);
-
   return (
     <section>
       <ul>
@@ -26,8 +26,10 @@ export const Ranking = props => {
             .sort((a, b) => b.score - a.score)
             .map(({ name, score }) => (
               <li className={styles.player} key={players.id}>
-                <h6>{name}</h6>
-                <span>{score}</span>
+                <div className={styles.player_details}>
+                  <h6 className={styles.player_name}>{name}</h6>
+                  <span className={styles.player_score}>{score}</span>
+                </div>
               </li>
             ))}
       </ul>
