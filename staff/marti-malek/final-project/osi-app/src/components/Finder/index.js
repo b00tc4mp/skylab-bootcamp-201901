@@ -17,7 +17,7 @@ function Finder({ content, close, dragStart, openFolder, openFile, openFileFromF
 
     useEffect(() => {
 
-    },[finderContent])
+    }, [finderContent])
 
     useEffect(() => {
         if (previousPath) {
@@ -36,7 +36,7 @@ function Finder({ content, close, dragStart, openFolder, openFile, openFileFromF
         folderPath = folderPath.split('')
         let filteredPath = folderPath.filter(char => char !== '↵' && char !== '\n').join('')
         let pathFromRoot
-        
+
         let name = '/' + filteredPath.split('/').reverse()[0]
         if (actualPath !== "/") {
             pathFromRoot = actualPath + name
@@ -46,7 +46,6 @@ function Finder({ content, close, dragStart, openFolder, openFile, openFileFromF
             setActualPath(name)
         }
         setPreviousPath(pathFromRoot)
-        // setPreviousPath(filteredPath)
         return logic.retrieveLevel(pathFromRoot)
             .then(newContent => {
                 setFinderContent(newContent)

@@ -10,7 +10,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const fse = require('fs-extra')
-const path = require('path')
 
 const { env: { DB_URL_TEST, JWT_SECRET } } = process
 

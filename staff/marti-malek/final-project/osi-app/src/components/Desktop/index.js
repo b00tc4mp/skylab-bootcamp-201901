@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Toolbar from '../Toolbar'
 import Clock from '../Clock'
 import Todos from '../Todos'
@@ -9,7 +9,7 @@ import Finder from '../Finder'
 import logic from '../../logic'
 import './index.sass'
 
-function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, refreshFinder, openMenu, logOut, handleLogout, openFile, closeFile, dragStart, openFileFromFinder, updatePath }) {
+function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, openMenu, logOut, handleLogout, openFile, closeFile, dragStart, openFileFromFinder, updatePath }) {
 
     let [level, setLevel] = useState([])
     let [positions, setPositions] = useState([])
@@ -25,6 +25,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     let [finderItem, setFinderItem] = useState(null)
     let [clock, setClock] = useState(true)
     let [actualPath, setActualPath] = useState(null)
+    let desktop = useRef()
     let pathFromFinder
     
     useEffect(() => {
@@ -34,6 +35,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     useEffect(() => {
 
     }, [actualPath])
+
+    useEffect(() => {
+
+    }, [finderItem])
 
     handleState = () => {
         return logic.retrieveLevel('/')
@@ -91,8 +96,6 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
 
     openFileFromFinder = path => {
         setFileName(path.split('/').reverse()[0])
-        // console.log(fileName)
-        // filePath = newFilePath
         setFilePath(path)
         return logic.retrieveFile(path)
             .then(content => {
@@ -116,11 +119,6 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
 
     closeFile = () => {
         setFileOpen(false)
-    }
-
-    // TODO
-    refreshFinder = () => {
-
     }
 
     openMenu = (e) => {
@@ -149,23 +147,25 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
         if (path) setActualPath(path)
     }
 
-    return <section className="desktop">
+    return <section className="desktop" id ="desktop" ref={desktop}>
         <div className="desktop__clock">
         {
             clock && <Clock showClock={clock}></Clock>
         }
         </div>
         <div className="desktop__todos">
-            <Todos></Todos>
+        {
+            desktop && <Todos desktop={desktop}></Todos>
+        }
         </div>
         <div className="desktop__toolbar">
             <Toolbar newFolder={handleNewFolder} newFile={handleNewFile} openFinder={openFinderRoot} openMenu={openMenu}></Toolbar>
         </div>
         <div className="desktop__dragzone">
-            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} refresh={refreshFinder} dragItem={finderItem}></Dragzone>
+            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} dragItem={finderItem}></Dragzone>
         </div>
         {
-            finder && finderOpen && actualPath ? <Finder /* dragEnd={dragEnd} */pathFromFinder={pathFromFinder} actualFinderPath={actualPath} content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder} changePath={updatePath}></Finder> : null
+            finder && finderOpen && actualPath ? <Finder pathFromFinder={pathFromFinder} actualFinderPath={actualPath} content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder} changePath={updatePath}></Finder> : null
         }
         {
             showMenu ? <Menu menuX={menuX} menuY={menuY} logOut={logOut}></Menu> : null

@@ -36,6 +36,9 @@ const osiApi = {
                 if (response.error) throw response.error
                 else return response
             })
+            .catch(err => {
+                if (err) throw err
+            })
     },
 
     login(email, password) {
@@ -59,6 +62,9 @@ const osiApi = {
             .then(response => {
                 if (response.error) throw response.error
                 else return response
+            })
+            .catch(err => {
+                if (err) throw err
             })
     },
 

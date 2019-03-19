@@ -1232,9 +1232,12 @@ const logic = {
                 })
 
                 /* Searches for the children of the folder to move */
-                let dirChildren = await fs.promises.readdir(oldFolderCompletePath, err => {
+                let dirChildren
+                try {
+                    dirChildren = await fs.promises.readdir(oldFolderCompletePath)
+                } catch(err) {
                     if (err) throw err
-                })
+                }
 
                 /* Filters the children to remove the @.this.json file */
                 let filteredChildren = dirChildren.filter(child => child !== '.this.json')

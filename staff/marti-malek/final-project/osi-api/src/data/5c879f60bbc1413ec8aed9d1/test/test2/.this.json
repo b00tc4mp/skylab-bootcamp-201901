@@ -1,12 +1,12 @@
 {
     "open": false,
     "type": "folder",
-    "name": "Desktop",
+    "name": "test2",
     "children": [
         {
-            "name": "test",
+            "name": "testFile.txt",
             "open": false,
-            "type": "folder",
+            "type": "file",
             "position": 0
         }
     ]

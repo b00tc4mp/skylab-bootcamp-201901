@@ -6,7 +6,8 @@
     "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js",
     "test": "mocha src/logic",
     "start": "node src",
-    "debug": "node debug src"
+    "debug": "node debug src",
+    "lint": "npx lint src"
   },
   "dependencies": {
     "bcrypt": "^3.0.4",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint": "^5.15.3",
     "expect": "^24.1.0"
   }
 }

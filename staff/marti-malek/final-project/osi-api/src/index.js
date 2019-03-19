@@ -67,7 +67,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         app.listen(port, () => console.log(`osi-api running on port ${port}`))
     })
-    .catch(console.error)
+    .catch(err => {if (err) throw err})
 process.on('SIGINT', () => {
     mongoose.disconnect()
         .then(() => {

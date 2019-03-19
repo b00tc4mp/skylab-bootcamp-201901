@@ -8,6 +8,7 @@ function Landing({ goToLogin, goToRegister }) {
     <div className="landing__div">
         <h1 className="landing__title">Welcome to OSI</h1>
     </div>
+    <image src="../../media/logo.png" width="100px" height="100px"></image>
     <h4 className="landing__advise">Full-screen mode is advised for a better experience</h4>
     <div className="landing__buttons">
         <button className="landing__login" onClick={goToLogin}>Login</button>

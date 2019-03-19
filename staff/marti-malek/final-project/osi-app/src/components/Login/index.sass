@@ -18,7 +18,6 @@
     justify-content: center
     align-items: flex-start
 
-
     &__image
     // background-image: url("https://stmed.net/sites/default/files/black-%26-white-wallpapers-25165-6959283.jpg")
     background-image: url('../../media/lr-background.jpg')
@@ -33,13 +32,16 @@
         cursor: pointer
         background-color: black
         color: white
-        font-size: 2vw
+        max-width: 10rem
+        width: auto
+        height: auto
+        font-size: 1.3vw
         font-weight: bold
         margin: 0 auto
         padding: 10px
         text-align: center
         position: absolute
-        // mix-blend-mode: screen
+        animation: blurred 1s
 
     &__form
         animation: blurred 1s
@@ -139,6 +141,6 @@
 
 @keyframes blurred
     0%
-        filter: blur(1px)
+        filter: blur(2px)
     100%
         filter: blur(0px)
