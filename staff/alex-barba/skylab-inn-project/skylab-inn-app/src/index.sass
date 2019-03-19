@@ -3,19 +3,25 @@
     
 /* Fonts */
 
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono')     
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono') 
+@import url(https://fonts.googleapis.com/css?family=VT323)
+
 
 *
-    font-family: 'Roboto Mono', monospace 
-
+    // font-family: 'Roboto Mono', monospace 
+    // font-family: Inconsolata, monospace
+    font-family: 'VT323', monospace
+   
 html
-    height: 100%
+
     background: repeating-linear-gradient(-45deg, transparent 0, transparent 25%, $white 0, $white 50%), repeating-linear-gradient(45deg, transparent 0, transparent 25%, $white 0, $white 50%), repeating-linear-gradient(transparent 0, transparent 25%, $white 0, $white 50%), $white
     background-blend-mode: multiply
-    background-size: 7px 7px
+    background-size: 4px 4px
 
     @include tablet
-        background-size: 13px 13px
+        background-size: 6px 6px
+
+    // background-color: $white
 
 body 
     min-height: 100%

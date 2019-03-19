@@ -5,9 +5,7 @@ import './index.sass'
 
 export default function Education({ onAddEducation, onEditEducation, onAddInformation, onRemoveInformation, onUpdateInformation, editEducation, addEducation, onCancel }) {
 
-    const { userData } = useContext(AppContext)
-
-    const { education } = userData
+    const { userData: { education } } = useContext(AppContext)
 
     const [_college, setCollege] = useState('')
     const [_degree, setDegree] = useState('')

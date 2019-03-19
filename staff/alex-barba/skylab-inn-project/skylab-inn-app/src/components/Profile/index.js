@@ -10,16 +10,14 @@ import ConfirmAlert from '../ConfirmAlert'
 
 import './index.sass'
 
-export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpdateInformation, onRemoveInformation, onUploadPhoto }) {
+export default function Profile({ onUpdateContactInfo, onAddInformation, onUpdateInformation, onRemoveInformation, onUploadPhoto }) {
 
-    const { feedback, userData, setFeedback, setShowConfirmAlert } = useContext(AppContext)
-
-    const { name, surname, image } = userData
+    const { feedback, userData: { name, surname, image } , setFeedback, setShowConfirmAlert } = useContext(AppContext)
 
     const [_image, setImage] = useState(null)
     const [editImage, setEditImage] = useState(null)
 
-    const [editPersonal, setEditPersonal] = useState(null)
+    const [editContact, setEditContact] = useState(null)
 
     const [addWorkExperience, setAddWorkExperience] = useState(null)
     const [editWork, setEditWork] = useState(null)
@@ -33,15 +31,17 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
     const [addEducation, setAddEducation] = useState(null)
     const [editEducation, setEditEducation] = useState(null)
 
+    console.log('pass here')
+
     const handleOnUploadPhoto = () => {
         setEditImage(null)
         onUploadPhoto(_image)
     }
 
-    const handleUpdatePersonalInfo = data => {
+    const handleUpdateContactInfo = data => {
         setFeedback(null)
-        setEditPersonal(null)
-        onUpdatePersonalInfo(data)
+        setEditContact(null)
+        onUpdateContactInfo(data)
     }
 
     const handleAddInformation = (type, data) => {
@@ -125,48 +125,48 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                 } 
     }
 
-    const handleOnEditPersonalInfo = () => {
-        if (!addWorkExperience && !editWork && !editPersonal && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditPersonal(true)
+    const handleOnEditContactInfo = () => {
+        if (!addWorkExperience && !editWork && !editContact && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditContact(true)
     }
 
     const handleOnAddWork = () => {
-        if (!editPersonal && !editWork && !addTechnology && !addWorkExperience && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddWorkExperience(true)
+        if (!editContact && !editWork && !addTechnology && !addWorkExperience && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddWorkExperience(true)
     }
 
     const handleOnEditWork = id => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditWork(id)
+        if (!editContact && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditWork(id)
     }
 
     const handleOnAddTech = () => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddTechnology(true)
+        if (!editContact && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddTechnology(true)
     }
 
     const handleOnEditTech = id => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditTechnology(id)
+        if (!editContact && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditTechnology(id)
     }
 
     const handleOnAddLanguage = () => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddLanguage(true)
+        if (!editContact && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddLanguage(true)
     }
 
     const handleOnEditLanguage = id => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditLanguage(id)
+        if (!editContact && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditLanguage(id)
     }
 
     const handleOnAddEducation = () => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddEducation(true)
+        if (!editContact && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setAddEducation(true)
     }
 
     const handleOnEditEducation = id => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditEducation(id)
+        if (!editContact && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditEducation(id)
     }
 
     const handleOnEditImage = () => {
-        if (!editPersonal && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditImage(true)
+        if (!editContact && !addWorkExperience && !editWork && !addTechnology && !editTechnology && !addLanguage && !editLanguage && !addEducation && !editEducation && !editImage) setEditImage(true)
     }
 
     const handleOnCancelEditorAdd = () => {
-        editPersonal && setEditPersonal(null)
+        editContact && setEditContact(null)
         addWorkExperience && setAddWorkExperience(null)
         editWork && setEditWork(null)
         addTechnology && setAddTechnology(null)
@@ -198,7 +198,7 @@ export default function Profile({ onUpdatePersonalInfo, onAddInformation, onUpda
                 {feedback && <Feedback />}
                 <ConfirmAlert onAlertAnswer={handleOnAlertAnswer}/>
                 <div className='profile-container__contactInformation'>
-                    <ContactInformation onEditPersonalInfo={handleOnEditPersonalInfo} onUpdatePersonalInfo={handleUpdatePersonalInfo} editPersonal={editPersonal} onCancel={handleOnCancelEditorAdd} />
+                    <ContactInformation onEditContactInfo={handleOnEditContactInfo} onUpdateContactInfo={handleUpdateContactInfo} editContact={editContact} onCancel={handleOnCancelEditorAdd} />
                 </div>
                 <div className='profile-container__workExperience'>
                     <WorkExperience onAddWork={handleOnAddWork} onAddInformation={handleAddInformation} onEditWork={handleOnEditWork} onRemoveInformation={handleRemoveInformation} onUpdateInformation={handleUpdateInformation} editWork={editWork} addWorkExperience={addWorkExperience} onCancel={handleOnCancelEditorAdd} />

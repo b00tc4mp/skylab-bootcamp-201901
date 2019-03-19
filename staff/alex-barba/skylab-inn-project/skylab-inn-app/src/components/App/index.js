@@ -7,6 +7,7 @@ import Home from '../Home'
 import SharedSkylabers from '../SharedSkylabers'
 import Modal from '../Modal'
 import Spinner from '../Spinner'
+import PrivacyPolicyAlert from '../PrivacyPolicyAlert'
 
 import logic from '../../logic'
 
@@ -26,6 +27,7 @@ function App({ history }) {
     const [modalType, setModalType] = useState(null)
     const [showSpinner, setShowSpinner] = useState(null)
     const [showConfirmAlert, setShowConfirmAlert] = useState(null)
+    const [showPrivacyPolicyAlert, setShowPrivacyPolicyAlert] = useState(null)
 
     useEffect(() => {
         logic.isUserLoggedIn && logic.retrieveUser()
@@ -113,7 +115,8 @@ function App({ history }) {
                 <Modal />
                 <Spinner />
             </AppContext.Provider>
-            <Route path='/skylabers/:encryptedIds' render={(props) => <SharedSkylabers encryptedIds={props.match.params.encryptedIds} retrieveEncryptedIds={handleRetrieveEncryptedIds} skylabersShared={skylabersShared} />} />
+            <Route path='/skylabers/:encryptedIds' render={(props) => <SharedSkylabers encryptedIds={props.match.params.encryptedIds} retrieveEncryptedIds={handleRetrieveEncryptedIds} skylabersShared={skylabersShared} setShowPrivacyPolicyAlert={setShowPrivacyPolicyAlert} />} />
+            <PrivacyPolicyAlert showPrivacyPolicyAlert={showPrivacyPolicyAlert} setShowPrivacyPolicyAlert={setShowPrivacyPolicyAlert}/>
         </Fragment>
     )
 

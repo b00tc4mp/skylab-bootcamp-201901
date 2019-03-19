@@ -5,9 +5,7 @@ import './index.sass'
 
 export default function WorkExperience({ onAddWork, onEditWork, onAddInformation, onRemoveInformation, onUpdateInformation, editWork, addWorkExperience, onCancel }) {
 
-    const { userData, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
-
-    const { workExperience } = userData
+    const { userData: { workExperience }, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
 
     const [_company, setCompany] = useState('')
     const [_position, setPosition] = useState('')

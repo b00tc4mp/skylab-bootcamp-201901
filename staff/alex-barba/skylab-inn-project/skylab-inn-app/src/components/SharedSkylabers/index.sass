@@ -34,10 +34,11 @@
             @include tablet
                 margin-left: 15rem
                 margin-right: 15rem
+                font-size: $medium--tablet
 
             @include desktop
-                margin-left: 22rem
-                margin-right: 22rem
+                margin-left: 27rem
+                margin-right: 27rem
 
             &-res
                 display: flex
@@ -49,10 +50,16 @@
                     text-align: center
                     font-size: $medium
                     margin-bottom: 1rem
+
+                    @include tablet
+                        font-size: $medium--tablet
                 
                 & > a
                     font-size: $small
                     padding-left: 1rem
                     margin-bottom: 0.3rem
+
+                    @include tablet
+                        font-size: $small--tablet
 
                 

@@ -13,6 +13,7 @@
     "test-coverage-logic": "nyc --reporter=html --reporter=text mocha src/logic"
   },
   "devDependencies": {
+    "eslint": "^5.15.3",
     "expect": "^24.1.0",
     "mocha": "^6.0.2"
   },

@@ -22,21 +22,6 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
         search && !!search.length && onAdvancedSearch(search)
     },[search])
 
-    const handleAdvancedSearch = (e) => {
-        e.preventDefault()
-        setFeedback(null)
-        if (!search.length) {
-            setFeedback('Please, set at least one filter')
-            inputQuery.current.blur()
-        } else {
-            onAdvancedSearch(search)
-            setQuery(null)
-            setParam('Choose a filter')
-            inputQuery.current.value = null
-            inputQuery.current.blur()
-        }
-    }
-
     const handleOnAddFilter = (e) => {
         e.preventDefault()
         setFeedback(null)
@@ -59,21 +44,6 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
         }
     }
 
-    const handleRemoveSkylaber = id => {
-        const skylabers = adSearchResults.filter(skylaber => skylaber._id !== id)
-
-        adSearchResults.length === 0 ? setAdSearchResults([]) : setAdSearchResults(skylabers)
-    }
-
-    const handleOnResetFilters = (e) => {
-        e.preventDefault()
-        setFeedback(null)
-        setParam('Choose a filter')
-        setSearch([])
-        setAdSearchResults([])
-        e.target.value = null
-    }
-
     const handleOnFilter = param => {
         let results
 
@@ -91,8 +61,38 @@ export default function AdvancedSearch({ onAdvancedSearch, onSkylaber, onShareRe
         }
     }
 
+    const handleOnResetFilters = (e) => {
+        e.preventDefault()
+        setFeedback(null)
+        setParam('Choose a filter')
+        setSearch([])
+        setAdSearchResults([])
+        e.target.value = null
+    }
+
+    const handleAdvancedSearch = (e) => {
+        e.preventDefault()
+        setFeedback(null)
+        if (!search.length) {
+            setFeedback('Please, set at least one filter')
+            inputQuery.current.blur()
+        } else {
+            onAdvancedSearch(search)
+            setQuery(null)
+            setParam('Choose a filter')
+            inputQuery.current.value = null
+            inputQuery.current.blur()
+        }
+    }
+
     const handleOnSkylaber = id => {
         onSkylaber(id)
+    }
+
+    const handleRemoveSkylaber = id => {
+        const skylabers = adSearchResults.filter(skylaber => skylaber._id !== id)
+
+        adSearchResults.length === 0 ? setAdSearchResults([]) : setAdSearchResults(skylabers)
     }
 
     const handleOnShareResults = (e) => {

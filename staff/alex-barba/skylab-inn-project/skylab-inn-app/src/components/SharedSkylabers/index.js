@@ -1,14 +1,11 @@
-import React, { useContext, useEffect } from 'react'
-import { AppContext } from '../AppContext'
-import Feedback from '../Feedback'
+import React, { useEffect } from 'react'
 
 import './index.sass'
 
-export default function SharedSkylabers({ encryptedIds, retrieveEncryptedIds, skylabersShared }) {
-
-    const { feedback } = useContext(AppContext)
+export default function SharedSkylabers({ encryptedIds, retrieveEncryptedIds, skylabersShared, setShowPrivacyPolicyAlert }) {
 
     useEffect(() => {
+        setShowPrivacyPolicyAlert(true)
         retrieveEncryptedIds(encryptedIds)
     }, [])
 
@@ -30,7 +27,6 @@ export default function SharedSkylabers({ encryptedIds, retrieveEncryptedIds, sk
                     )
                 })}
             </div>
-            {feedback && <Feedback />}
         </div>
     )
 }

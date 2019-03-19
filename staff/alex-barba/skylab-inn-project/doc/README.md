@@ -17,7 +17,7 @@ Admins can:
 * Perfom regular or advance searches of Skylabers.
 * Share hashed urls with contact information of the filteres Skylabers.
 
-Only pre-authorised Skylabers can register to the network. Once they are added to the whitelist, the Skylaber recieves an email letting her/him know that he has been cleard to sign up. After registration, Skylabers receives and email to confirm her/his email address.
+Only pre-authorised Skylabers can register to the network. Once they are added to the whitelist, the Skylabers recieve an email letting them know that they have been cleared to sign up. After registration, Skylabers receive and email to confirm their email addresses.
 
 Skylabers can:
 
@@ -36,9 +36,9 @@ Skylabers can:
 ### Components
 ![Components](images/components.png)
 
-### Class / Objects
+### React Components
 
-![Class/Objects](images/class-objects.png)
+![Class/Objects](images/react-components.png)
 
 ### Data Model
 ![Data Model](images/data-model.png)
@@ -48,11 +48,10 @@ Skylabers can:
 #### ![API Coverage](https://img.shields.io/badge/API_Coverage-98%25-green.svg)
 ![API Coverage](images/test-coverage-skylab-inn-api.png)
 
-#### ![APP Coverage](https://img.shields.io/badge/API_Coverage-98%25-green.svg)
+#### ![APP Coverage](https://img.shields.io/badge/APP_Coverage-92%25-green.svg)
 ![APP Coverage](images/test-coverage-skylab-inn-app.png)
 
-
 ### Technologies
-Javascript ES6, ReactJS, Node.js, Express, MongoDB & Mongoose.
+Javascript, ReactJS, Node.js, Express, MongoDB & Mongoose.
 
 

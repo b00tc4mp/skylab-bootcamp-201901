@@ -60,10 +60,10 @@ function Home({ history }) {
         }
     }
 
-    const handleAdvancedSearch = param => {
+    const handleAdvancedSearch = filter => {
         setShowSpinner(true)
         try {
-            logic.adSearchSkylaber(param)
+            logic.adSearchSkylaber(filter)
                 .then(searchResults => {
                     setShowSpinner(null)
                     setFeedback(null)
@@ -104,7 +104,7 @@ function Home({ history }) {
         }
     }
 
-    const handleUpdatePersonalInfo = data => {
+    const handleUpdateContactInfo = data => {
         setShowSpinner(true)
         try {
             logic.updateUser(data)
@@ -119,7 +119,7 @@ function Home({ history }) {
                 .catch(({ message }) => {
                     setShowSpinner(null)
                     switch (true) {
-                        case message.includes(' email_1 dup key'):  
+                        case message.includes('email_1 dup key'):  
                             setShowModal(true)
                             setModalType('error')
                             setModalMessage('Failed to update. Email is already registered')
@@ -342,7 +342,7 @@ function Home({ history }) {
             <Route exact path="/home" render={() => <Welcome onToSearch={handleToSearch} onToAdvancedSearch={handleToAdvancedSearch} onToManageSkylabers={handleToManageSkylabers} />} />
             <Route exact path="/home/search" render={() => <Search onSearch={handleSearch} onSkylaber={handleSkylaber} />} />
             <Route path="/home/adsearch" render={() => <AdvancedSearch addToClipboard={addToClipboard} hashedUrl={hashedUrl} onShareResults={handleOnShareResults} onAdvancedSearch={handleAdvancedSearch} onSkylaber={handleSkylaber} />} />
-            <Route path="/home/profile" render={() => userData.role === 'User' ? <Profile onUploadPhoto={handleOnUploadPhoto} onUpdatePersonalInfo={handleUpdatePersonalInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation} /> : <Redirect to="/home" />} />
+            <Route path="/home/profile" render={() => userData.role === 'User' ? <Profile onUploadPhoto={handleOnUploadPhoto} onUpdateContactInfo={handleUpdateContactInfo} onAddInformation={handleAddInformation} onUpdateInformation={handleUpdateInformation} onRemoveInformation={handleRemoveInformation} /> : <Redirect to="/home" />} />
             <Route path="/home/manage-skylabers" render={() => userData.role === 'Admin' ? <ManagaSkylabers onSubmit={handleOnAddSkylaber} /> : <Redirect to="/home" />} />
             <Route path="/home/search/:skylaberId" render={props => <Skylaber skylaberId={props.match.params.skylaberId} skylaber={skylaber} retrieveSkylaber={handleSkylaber} onToBack={handleToBack} />} />
             <Route path="/home" render={() => <NavFooter onToWelcome={handleToWelcome} onToProfile={handleToProfile} onToSignOut={handleToSignOut} />} />

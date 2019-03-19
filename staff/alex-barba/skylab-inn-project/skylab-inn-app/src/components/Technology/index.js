@@ -5,7 +5,7 @@ import './index.sass'
 
 export default function Technology({ onAddTech, onEditTech, onAddInformation, onRemoveInformation, onUpdateInformation, editTechnology, addTechnology, onCancel }) {
 
-    const { userData: {technology}, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
+    const { userData: { technology }, setShowModal, setModalType, setModalMessage } = useContext(AppContext)
 
     const [_tech, setTech] = useState('')
     const [_levelTech, setLevelTech] = useState('')
@@ -24,7 +24,7 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
         e.preventDefault()
         if (!_levelTech || _levelTech === 'Choose a level') {
             setShowModal(true)
-            setModalType('error') 
+            setModalType('error')
             return setModalMessage('Failed to add. Level must be selected')
         }
         onAddInformation(type, { tech: _tech, level: _levelTech })
@@ -35,7 +35,7 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
         e.preventDefault()
         if (!_levelTech || _levelTech === 'Choose a level') {
             setShowModal(true)
-            setModalType('error') 
+            setModalType('error')
             return setModalMessage('Failed to update. Level must be selected')
         }
         onUpdateInformation(type, id, { tech: _tech, level: _levelTech })
@@ -76,7 +76,7 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                 return <div className='tech-container__form'>
                     {editTechnology === tech._id ?
                         <form onSubmit={e => handleUpdateInformation(e, 'Tech', tech._id)}>
-                            <div className='line'/> 
+                            <div className='line' />
                             <input type='text' name='technology' placeholder='Technology' onChange={e => setTech(e.target.value)} defaultValue={tech.tech} required></input>
                             <select className='dropdown-content' onChange={e => setLevelTech(e.target.value)} defaultValue={tech.level}>
                                 <option value='Choose a level'>Choose a level</option>
@@ -93,15 +93,15 @@ export default function Technology({ onAddTech, onEditTech, onAddInformation, on
                         </form>
                         :
                         <div className='tech-container__content'>
-                            <div className='line'/> 
+                            <div className='line' />
                             <div className='tech-container__form-header'>
                                 <p>{tech.tech}</p>
                                 <div className='tech-container__form-header-button'>
                                     <i className='fas fa-pencil-alt icon icon--link' onClick={e => { e.preventDefault(); handleOnEditTech(tech) }}></i> &nbsp;
-                                    <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Tech', tech._id)}></i> 
+                                    <i className='far fa-trash-alt icon icon--link' onClick={e => handleRemoveInformation(e, 'Tech', tech._id)}></i>
                                 </div>
-                            </div>    
-                                <p>Level: {tech.level}</p>
+                            </div>
+                            <p>Level: {tech.level}</p>
                         </div>
                     }
                 </div>

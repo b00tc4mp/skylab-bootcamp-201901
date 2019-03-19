@@ -6,13 +6,16 @@
     padding-top: 1rem
     padding-bottom: 1rem
     justify-content: space-around
-    background-color: rgba(124, 128, 132,0.7)
+    background-color: rgba(124, 128, 132,0.5)
     position: absolute
     bottom: 0
     width: 100%
     overflow: hidden
     flex-shrink: 0
     border-top: 0.05rem dotted $primary
+
+    @include tablet
+        background-size: 6px 6px
 
     @include desktop
         top: 0

@@ -3,11 +3,9 @@ import { AppContext } from '../AppContext'
 
 import './index.sass'
 
-export default function ContactInformation({ onEditPersonalInfo, onUpdatePersonalInfo, editPersonal, onCancel }) {
+export default function ContactInformation({ onEditContactInfo, onUpdateContactInfo, editContact, onCancel }) {
 
-    const { userData } = useContext(AppContext)
-
-    const { email, telephone, git, linkedin, slack } = userData
+    const { userData: { email, telephone, git, linkedin, slack } } = useContext(AppContext)
 
     const [_email, setEmail] = useState(email)
     const [_telephone, setTelephone] = useState(telephone)
@@ -16,12 +14,12 @@ export default function ContactInformation({ onEditPersonalInfo, onUpdatePersona
     const [_slack, setSlack] = useState(slack)
 
     const handleOnEditContactInfo = () => {
-        onEditPersonalInfo()
+        onEditContactInfo()
     }
 
     const handleUpdateContactInfo = e => {
         e.preventDefault()
-        onUpdatePersonalInfo({ email: _email, telephone: _telephone, git: _git, linkedin: _linkedin, slack: _slack })
+        onUpdateContactInfo({ email: _email, telephone: _telephone, git: _git, linkedin: _linkedin, slack: _slack })
     }
 
     const handleOnCancelEditOrAdd = () => {
@@ -34,15 +32,15 @@ export default function ContactInformation({ onEditPersonalInfo, onUpdatePersona
                 <h5>Contact Information</h5>
                 <i className='fas fa-pencil-alt icon icon--link' onClick={handleOnEditContactInfo}></i>
             </div>
-            {!editPersonal ? <div className='contactInfo-container__content'>
-                <div className='line'/> 
+            {!editContact ? <div className='contactInfo-container__content'>
+                <div className='line' />
                 <a href={`mailto:${email}`} target='_top'><i className='far fa-envelope icon'></i>&nbsp;{email ? email : ''}</a>
                 <a href={`https://api.whatsapp.com/send?phone=${telephone}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-whatsapp icon'></i>&nbsp;{telephone}</a>
                 <a href={`https://github.com/${git}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-github icon'></i>&nbsp;{git}</a>
                 <a href={`https://www.linkedin.com/in/${linkedin}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-linkedin icon'></i>&nbsp;{linkedin}</a>
                 <a href={`https://skylabcoders.slack.com/messages/${slack}`} target='_blank' rel="noopener noreferrer"><i className='fab fa-slack icon'></i>&nbsp;{slack}</a></div>
                 : <form className='contactInfo-container__form' onSubmit={e => handleUpdateContactInfo(e)}>
-                    <div className='line'/> 
+                    <div className='line' />
                     <div className='contactInfo-container__form-input'>
                         <i className='far fa-envelope icon'></i>&nbsp;
                         <input type='email' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} defaultValue={email} required></input>

@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "description": "validate inputs",
   "main": "src/index.js",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^5.15.3"
+  }
 }
