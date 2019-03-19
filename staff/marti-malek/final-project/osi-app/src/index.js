@@ -8,12 +8,12 @@ import './index.sass';
 Object.defineProperties(logic, {
     __userApiToken__: {
         set(token) {
-            sessionStorage.setItem('__userApiToken__', token)
+            token ? sessionStorage.setItem('__userApiToken__', token) : sessionStorage.removeItem('__userApiToken__')
         },
 
         get() {
             return sessionStorage.getItem('__userApiToken__')
-        }
+        },
     }
 })
 

@@ -8,6 +8,12 @@
             "open": false,
             "type": "folder",
             "position": 0
+        },
+        {
+            "name": "test3",
+            "open": false,
+            "type": "folder",
+            "position": 1
         }
     ]
 }

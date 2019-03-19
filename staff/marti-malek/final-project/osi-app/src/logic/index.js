@@ -8,7 +8,11 @@ const logic = {
      * Checks if user is logged in.
      */
     get isUserLoggedIn() {
-        return !!this.__userApiToken__
+        // if (this.__userApiToken__ === "null") {
+        //     return false
+        // } else {
+            return !!this.__userApiToken__
+        // }
     },
 
     /**
@@ -93,6 +97,10 @@ const logic = {
         return osiApi.retrieveFile(this.__userApiToken__, filePath)
     },
 
+    updateFile(filePath, fileContent) {
+        return osiApi.updateFile(this.__userApiToken__, filePath, fileContent)
+    },
+
     updatePositions(path, position) {
         return osiApi.updatePositions(this.__userApiToken__, path, position)
     },
@@ -109,12 +117,16 @@ const logic = {
         return osiApi.rename(this.__userApiToken__, oldName, newName)
     },
 
-    retrieveLevel() {
-        return osiApi.retrieveLevel(this.__userApiToken__)
+    retrieveLevel(dirPath) {
+        return osiApi.retrieveLevel(this.__userApiToken__, dirPath)
     },
 
     moveFile(oldPath, newPath) {
         return osiApi.moveFile(this.__userApiToken__, oldPath, newPath)
+    },
+
+    moveDir(oldPath, newPath) {
+        return osiApi.moveDir(this.__userApiToken__, oldPath, newPath)
     }
 }
 

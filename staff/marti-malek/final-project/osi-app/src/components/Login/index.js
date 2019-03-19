@@ -1,21 +1,15 @@
-import React, { useState } from 'react'
-import Hammer from 'hammerjs'
+import React, { useState, useRef, useEffect } from 'react'
 import './index.sass'
 
 function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogin, goToRegister, wheelHandler, MouseWheelHandler }) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    let login = useRef()
 
-    let deltaY = 0
-    let deltaX = 0
+    useEffect(() => {
 
-    /* TO BE CONTINUED */
-    // var hammertime = new Hammer(window);
-    // hammertime.on('pan-y', function (ev) {
-    //     debugger
-    //     console.log(ev);
-    // });
+    }, [login])
 
     handleEmailInput = e => setEmail(e.target.value)
     handlePasswordInput = e => setPassword(e.target.value)
@@ -26,46 +20,27 @@ function Login({ handleEmailInput, handlePasswordInput, handleFormSubmit, onLogi
         onLogin(email, password)
     }
 
-    window.onwheel = e => {
-        if (Math.sign(e.deltaY)) deltaY++
-        if (Math.sign(e.deltaX)) deltaX++
-
-        if (deltaX % 4 === 0 || deltaY % 4 === 0) wheelHandler(e)
-        // wheelHandler(e)
-    }
-
     wheelHandler = e => {
-        // once = true
-        if (e.deltaX) {
-            if (e.preventDefault) e.preventDefault()
-            if (e.stopPropagation) e.stopPropagation()
-            e.cancelBubble = true
-            e.returnValue = false
+        if (e.cancelable)
             goToRegister()
-        } else if (e.deltaY) {
-            if (e.preventDefault) e.preventDefault()
-            if (e.stopPropagation) e.stopPropagation()
-            e.cancelBubble = true
-            e.returnValue = false
-            goToRegister()
-        }
     }
 
-
-
-    return <section className="login">
-        {/* <div className="login__image"></div> */}
+    return <section className="login" ref={login} onWheel={(e) => wheelHandler(e)}>
+    {
+        login && 
         <form className="login__form" onSubmit={handleFormSubmit}>
             <div>
-                <input onChange={handleEmailInput} className="login__name" name="email" type="email" required></input>
+                <input onChange={handleEmailInput} id="email" className="login__name" name="email" type="email" required></input>
                 <label>Email</label>
             </div>
             <div>
-                <input onChange={handlePasswordInput} className="login__password" name="password" type="password" required></input>
+                <input onChange={handlePasswordInput} id="password" className="login__password" name="password" type="password" required></input>
                 <label>Password</label>
             </div>
             <button className="login__button">Login</button>
         </form>
+    }
+    <div className="login__register" onClick={() => goToRegister()}>Swipe left or click here to go to register</div>
     </section>
 }
 

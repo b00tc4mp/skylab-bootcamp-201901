@@ -4,14 +4,12 @@ import './index.sass'
 function Landing({ goToLogin, goToRegister }) {
 
     return <section className="landing">
-    {/* <video autoPlay muted loop id="landing__video">
-        <source src="../../media/White Smoke.mp4" type="video/mp4"></source>
-    </video> */}
 
     <div className="landing__div">
         <h1 className="landing__title">Welcome to OSI</h1>
     </div>
-    <h4 className="landing__advise">Full-screen mode is adviced for a better experience</h4>
+    <image src="../../media/logo.png" width="100px" height="100px"></image>
+    <h4 className="landing__advise">Full-screen mode is advised for a better experience</h4>
     <div className="landing__buttons">
         <button className="landing__login" onClick={goToLogin}>Login</button>
         <button className="landing__register" onClick={goToRegister}>Register</button>

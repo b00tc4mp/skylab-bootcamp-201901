@@ -9,9 +9,6 @@ function Register({ handleEmailInput, handlePasswordInput, handleNameInput, hand
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
 
-    let deltaY = 0
-    let deltaX = 0
-
     handleNameInput = e => setName(e.target.value)
     handleSurnameInput = e => setSurname(e.target.value)
     handleEmailInput = e => setEmail(e.target.value)
@@ -24,34 +21,12 @@ function Register({ handleEmailInput, handlePasswordInput, handleNameInput, hand
         onRegister(name, surname, email, password, passwordConfirm)
     }
 
-    window.onwheel = e => {
-        if (Math.sign(e.deltaY)) deltaY++
-        if (Math.sign(e.deltaX)) deltaX++
-        // console.log(deltaX)
-        // console.log(Math.sign(e.deltaY))
-        if (deltaX % 4 === 0 || deltaY % 4 === 0) wheelHandler(e)
-        // wheelHandler(e)
-    }
-
     wheelHandler = e => {
-        if (e.deltaX) {
-            // onwheel.apply(false)
-            if (e.preventDefault) e.preventDefault()
-            if (e.stopPropagation) e.stopPropagation()
-            e.cancelBubble = true
-            e.returnValue = false
+        if (e.cancelable)
             goToLogin()
-        } else if (e.deltaY) {
-            if (e.preventDefault) e.preventDefault()
-            if (e.stopPropagation) e.stopPropagation()
-            e.cancelBubble = true
-            e.returnValue = false
-            goToLogin()
-        }
     }
 
-    return <section className="register">
-        {/* <div className="register__image"></div> */}
+    return <section className="register"  onWheel={e => wheelHandler(e)}> 
         <form onSubmit={handleFormSubmit} className="register__form">
             <div>
                 <input onChange={handleNameInput} className="register__name" name="name" type="text" required></input>
@@ -75,6 +50,7 @@ function Register({ handleEmailInput, handlePasswordInput, handleNameInput, hand
             </div>
             <button className="register__button">Register</button>
         </form>
+        <div className="register__login" onClick={() => goToLogin()}>Swipe right or click here to go to login</div>
     </section>
 }
 

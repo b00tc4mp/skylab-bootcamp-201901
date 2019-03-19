@@ -36,6 +36,9 @@ const osiApi = {
                 if (response.error) throw response.error
                 else return response
             })
+            .catch(err => {
+                if (err) throw err
+            })
     },
 
     login(email, password) {
@@ -59,6 +62,9 @@ const osiApi = {
             .then(response => {
                 if (response.error) throw response.error
                 else return response
+            })
+            .catch(err => {
+                if (err) throw err
             })
     },
 
@@ -236,6 +242,36 @@ const osiApi = {
             })
     },
 
+    updateFile(token, filePath, fileContent) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        fileContent = `"${fileContent}"`
+
+        return fetch(this.url + `file?filePath=${filePath}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ fileContent })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
     updatePositions(token, path, position) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
@@ -246,7 +282,7 @@ const osiApi = {
         if (!path.trim().length) throw Error('path cannot be empty')
 
         if (typeof position !== 'number') throw TypeError(`${position} should be a string`)
-        
+
         return fetch(this.url + `positions?elementPath=${path}&position=${position}`, {
             method: 'PUT',
             headers: {
@@ -325,30 +361,26 @@ const osiApi = {
                 authorization: `Bearer ${token}`
             },
         })
-            .then(response => {
-                return response.json()
-            })
+            .then(response => response.json())
             .then(response => {
                 if (response.error) throw response.error
                 else return response
             })
     },
 
-    retrieveLevel(token) {
+    retrieveLevel(token, dirPath) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
-        return fetch(this.url + `level`, {
+        return fetch(this.url + `level?dirPath=${dirPath}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${token}`
             },
         })
-            .then(response => {
-                return response.json()
-            })
+            .then(response => response.json())
             .then(response => {
                 if (response.error) throw response.error
                 else return response
@@ -369,6 +401,35 @@ const osiApi = {
         if (!newPath.trim().length) throw Error('newPath cannot be empty')
 
         return fetch(this.url + `move/file?oldPath=${oldPath}&newPath=${newPath}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(response => {
+                if (response.error) throw response.error
+                else return response
+            })
+    },
+
+    moveDir(token, oldPath, newPath) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof oldPath !== 'string') throw TypeError(`${oldPath} should be a string`)
+
+        if (!oldPath.trim().length) throw Error('oldPath cannot be empty')
+
+        if (typeof newPath !== 'string') throw TypeError(`${newPath} should be a string`)
+
+        if (!newPath.trim().length) throw Error('newPath cannot be empty')
+
+        return fetch(this.url + `move/dir?oldPath=${oldPath}&newPath=${newPath}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json',

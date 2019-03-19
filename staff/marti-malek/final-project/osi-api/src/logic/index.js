@@ -212,7 +212,7 @@ const logic = {
                 await fs.writeFile(`${dirPath}/.this.json`, JSON.stringify({
                     open: false,
                     type: 'folder',
-                    name: data,
+                    name: 'Desktop',
                     children: []
                 }, null, 4), err => {
                     if (err) throw err
@@ -408,7 +408,6 @@ const logic = {
                 name: fileContent.name + fileContent.type,
                 open: false,
                 type: 'file',
-                children: [],
                 position: desiredPosition
             }
 
@@ -477,6 +476,57 @@ const logic = {
 
             /* Returns the parsed file contents */
             return JSON.parse(rs)
+        })()
+    },
+
+    updateFile(token, filePath, fileContent) {
+        if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
+
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
+
+        if (typeof filePath !== 'string') throw TypeError(`${filePath} should be a string`)
+
+        if (!filePath.trim().length) throw Error('filePath cannot be empty')
+
+        if (typeof fileContent !== 'string') throw TypeError(`${fileContent} should be a string`)
+
+        if (!fileContent.trim().length) throw Error('fileContent cannot be empty')
+
+        return (async () => {
+            /* Extracts the user's id form it's token */
+            const { data } = await jwt.verify(token, this.jwtSecret)
+
+            /* Builds the path to the file to retrieve */
+            const dirPath = `${__dirname}/../data/${data}/${filePath}`
+
+            /* Ascertains if the file exists, which should */
+            if (!fs.existsSync(dirPath)) throw Error('File not found')
+
+            /* Reads the file, gets it as buffer */
+            let rs
+            try {
+                rs = await fs.promises.readFile(dirPath)
+            } catch(err) {
+                if (err) throw err
+            }
+
+            /* Parses file contents */
+            let file = JSON.parse(rs)
+
+            /* Updates the contents of the file */
+            file = fileContent
+
+            /* Writes the file with the updated contents */
+            try {
+                await fs.promises.writeFile(dirPath, file)
+            } catch(err) {
+                if (err)  throw err
+            }
+
+            return 'Done'
+
         })()
     },
     /**
@@ -853,6 +903,34 @@ const logic = {
                 if (err) throw err
             })
 
+            /* Finds the @.this.json of the renamed item */
+            let itemState = await fs.promises.lstat(newCompletePath)
+
+            if (itemState.isDirectory()) {
+
+                let childJson
+                let newJsonPath = path.join(newCompletePath, '.this.json')
+                try {
+                    childJson = await fs.promises.readFile(newJsonPath)
+                } catch (err) {
+                    if (err) throw err
+                }
+                
+                let parsedChild = JSON.parse(childJson)
+
+                parsedChild.name = newPath.split('/').reverse()[0]
+
+                try {
+                    await fs.promises.writeFile(newJsonPath, JSON.stringify(parsedChild, null, 4))
+                } catch (err) {
+                    if (err) throw err
+                }
+                
+                return 'Done'
+            }
+
+
+
             /* Returns when 'Done' finished */
             return 'Done'
         })()
@@ -864,25 +942,35 @@ const logic = {
      * @param {string} token 
      * @param {string} folder 
      */
-    retrieveLevel(token) {
+    retrieveLevel(token, dirPath) {
         if (typeof token !== 'string') throw TypeError(`${token} should be a string`)
 
         if (!token.trim().length) throw Error('token cannot be empty')
 
         if (!!!jwt.verify(token, this.jwtSecret)) throw Error('token not correct')
 
+        if (typeof dirPath !== 'string') throw TypeError(`${dirPath} should be a string`)
+
+        if (!dirPath.trim().length) throw Error('dirPath cannot be empty')
+
         return (async () => {
             /* Extracts the user's id form it's token */
             const { data } = await jwt.verify(token, this.jwtSecret)
 
             /* Builds the path to the file to retrieve */
-            const resPath = `${__dirname}/../data/${data}/.this.json`
+            const resPath = `${__dirname}/../data/${data}/${dirPath}`
 
-            /* Ascertains if the file exists, which should */
+            /* Build path to @.this.json file */
+            const jsonPath = path.join(resPath, '.this.json')
+
+            /* Ascertains if the folder exists, which should */
             if (!fs.existsSync(resPath)) throw Error('File not found')
 
+            /* Ascertains if the file exists, which should */
+            if (!fs.existsSync(jsonPath)) throw Error('File not found')
+
             /* Reads the file, gets it as buffer */
-            const rs = await fs.promises.readFile(resPath, err => {
+            const rs = await fs.promises.readFile(jsonPath, err => {
                 if (err) throw err
             })
 
@@ -1144,9 +1232,12 @@ const logic = {
                 })
 
                 /* Searches for the children of the folder to move */
-                let dirChildren = await fs.promises.readdir(oldFolderCompletePath, err => {
+                let dirChildren
+                try {
+                    dirChildren = await fs.promises.readdir(oldFolderCompletePath)
+                } catch(err) {
                     if (err) throw err
-                })
+                }
 
                 /* Filters the children to remove the @.this.json file */
                 let filteredChildren = dirChildren.filter(child => child !== '.this.json')
@@ -1160,14 +1251,17 @@ const logic = {
                     
                     let newChildPath = newFolderPath + '/' + child
                     
+                    let fileStatus
+
                     /* Gets the childs status */
-                    // let fileStatus = await fs.promises.lstat(currentCompleteChildPath, err => {
-                    //     if (err) throw err
-                    // })
+                    try {
+                        fileStatus = await fs.promises.lstat(currentCompleteChildPath)
+                    } catch(err) {
+                        if (err) throw err
+                    }
 
-                    let fileStatus = fs.lstatSync(currentCompleteChildPath)
+                    // let fileStatus = fs.lstatSync(currentCompleteChildPath)
 
-                    debugger
                     /* Checks if the child is a directory and if so reruns the recursive movement on it, else moves the file */
                     if (fileStatus.isDirectory()) {
                         await this.moveDir(token, currentChildPath, newChildPath)
@@ -1187,17 +1281,19 @@ const logic = {
                         /* Joins to the exact path to @.this.json */
                         let newJsonPath = path.join(`${__dirname}/../data/${data}`, newPathToJson, '.this.json')
 
+                        let oldJsonBuffer
+
                         /* Reads the json file of the father directory, gets it as buffer */
-                        // let oldJsonBuffer = await fs.promises.readFile(newJsonPath, err => {
-                        //     if (err) throw err
-                        // })
-                        let oldJsonBuffer = await fs.readFileSync(newJsonPath)
-                        debugger
+                        try {
+                            oldJsonBuffer = await fs.promises.readFile(newJsonPath)
+                        } catch(err) {
+                            if (err) throw err
+                        }
+                        // let oldJsonBuffer = await fs.readFileSync(newJsonPath)
 
                         /* Parses the json buffer */
                         let newJsonFile = JSON.parse(oldJsonBuffer)
 
-                        debugger
                         /* Get positions which aren't available from @.this.json children */
                         let nonAvailablePositions = newJsonFile.children.map(child => {
                             return Number(child.position)
@@ -1218,22 +1314,20 @@ const logic = {
                             position: desiredPosition
                         }
 
-                        debugger
                         /* Pushes the child folder's data into the father's @.this.json file " */
                         newJsonFile.children.push(newChild)
 
+                        try {
+                            await fs.promises.writeFile(newJsonPath, JSON.stringify(newJsonFile, null, 4))
+                        } catch(err) {
+                            if (err) throw err
+                        }
                         /* Overwrites the father's current @.this.json file with the new one which has the updated children */
-                        // await fs.promises.writeFile(newJsonPath, JSON.stringify(newJsonFile, null, 4), err => {
-                        //     if (err) throw err
-                        // })
 
-                        fs.writeFileSync(newJsonPath, JSON.stringify(newJsonFile, null, 4))
+                        // fs.writeFileSync(newJsonPath, JSON.stringify(newJsonFile, null, 4))
 
-                        debugger
                         /* Ascertain if the file exists */
                         let fileStatus = fs.existsSync(currentCompleteChildPath)
-
-                        debugger
 
                         if (fileStatus) {
                             /* Moves file */
@@ -1241,42 +1335,54 @@ const logic = {
                                 if (err) throw err
                             })
                         }
+                        await deleteFolder(oldFolderCompletePath)
                     }
                 })
-
-                debugger
                 /* Recursively deletes the desired folder by it's path */
                 const deleteFolder = async (myPath) => {
-
                     /* Reads the folder to access it's children */
-                    let content = await fs.readdir(myPath, (err, files) => {
+                    let content
+                    try {
+                        content = await fs.promises.readdir(myPath, (err, files) => {
+                            if (err) throw err
+                            return files
+                        })
+                    } catch(err) {
                         if (err) throw err
-                        return files
-                    })
-                    debugger
-
+                    }
                     /* Maps through the folder's children and ascertains if they are folders or files */
                     content.map(async (file, index) => {
                         let currentPath = path.join(myPath, file);
 
-                        /* Gets the childs status */
-                        let fileStatus = fs.lstatSync(currentPath)
-
-                        /* Checks if the child is a directory and if so reruns the recursive deletion on it, else removes the file */
-                        if (fileStatus.isDirectory()) {
-                            deleteFolder(currentPath);
-                        } else {
-                            return fs.unlinkSync(currentPath);
+                        if (fs.existsSync(currentPath)) {
+                            /* Gets the childs status */
+                            let fileStatus = fs.lstatSync(currentPath)
+    
+                            /* Checks if the child is a directory and if so reruns the recursive deletion on it, else removes the file */
+                            if (fileStatus.isDirectory()) {
+                                deleteFolder(currentPath);
+                            } else {
+                                return fs.unlinkSync(currentPath);
+                            }
                         }
                     })
 
                     /* Reads the folder to access it's children */
-                    let finalContent = await fs.promises.readdir(myPath, err => {
+                    let finalContent
+                    try {
+                        finalContent = await fs.promises.readdir(myPath, err => {
+                            if (err) throw err
+                        })
+                    } catch(err) {
                         if (err) throw err
-                    })
+                    }
 
                     /* Ascertains that the folder has been emptied */
                     if (finalContent.length > 0) return deleteFolder(myPath)
+
+                    let isFolderRemoved = fs.readdirSync(myPath)
+
+                    if (isFolderRemoved.length > 0) await deleteFolder(myPath)
 
                     /* Removes the folder */
                     await fs.promises.rmdir(myPath, err => {
@@ -1284,8 +1390,7 @@ const logic = {
                     })
                     return 'Done'
                 }
-                return deleteFolder(oldFolderCompletePath)
-
+                return 'Done'
             } else {
                 throw Error(`Folder ${dirName} already exists in ${directory}`)
             }

@@ -2,6 +2,14 @@
     box-sizing: border-box
     margin: 0
 
+#email
+    &:-webkit-autofill
+        background-color: black !important
+
+#password
+        &:-webkit-autofill
+            background-color: black !important
+
 .login
     width: 100%
     height: 100%
@@ -11,9 +19,29 @@
     align-items: flex-start
 
     &__image
-    background-image: url("https://stmed.net/sites/default/files/black-%26-white-wallpapers-25165-6959283.jpg")
+    // background-image: url("https://stmed.net/sites/default/files/black-%26-white-wallpapers-25165-6959283.jpg")
+    background-image: url('../../media/lr-background.jpg')
     background-repeat: no-repeat
+    background-position: center
+    background-size: cover
     filter: blur(0px)
+
+    &__register
+        position: absolute
+        right: 5rem
+        cursor: pointer
+        background-color: black
+        color: white
+        max-width: 10rem
+        width: auto
+        height: auto
+        font-size: 1.3vw
+        font-weight: bold
+        margin: 0 auto
+        padding: 10px
+        text-align: center
+        position: absolute
+        animation: blurred 1s
 
     &__form
         animation: blurred 1s
@@ -54,6 +82,7 @@
                     background: black !important
                 &:focus
                     border-color: #29293d
+                    padding: 2px 30px 10px 10px
                     & + label
                         top: 100%
                         margin-top: -16px
@@ -63,6 +92,7 @@
                         padding: 1px 6px
                         z-index: 2
                         text-transform: uppercase
+                
             label
                 top: 0
                 bottom: 0
@@ -111,6 +141,6 @@
 
 @keyframes blurred
     0%
-        filter: blur(1px)
+        filter: blur(2px)
     100%
         filter: blur(0px)

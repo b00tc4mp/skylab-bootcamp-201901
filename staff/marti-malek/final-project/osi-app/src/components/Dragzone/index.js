@@ -1,35 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './index.sass'
-import Hammer from 'hammerjs'
+// import Hammer from 'hammerjs'
 import logic from '../../logic';
 
-function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, tryRight }) {
+function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, openFile, dragItem }) {
 
     let [divs, setDivs] = useState(new Array(48).fill(null))
-    // // let [newName, setNewName] = useState(null)
-    let newNameTest = null
+    let [newName, setNewName] = useState(null)
     let oldNameTest
-
-    // let i = 0
-
     let draggableTest
     let droppingTest
 
     let dragzone = useRef()
-    // let inputRef = useRef()
 
     useEffect(() => {
         checkNews()
         handleDivs()
     }, [dir])
 
-    tryRight = (e) => {
-        e.preventDefault()
-        console.log('right click')
-    }
-    // useEffect(() => {
-    //     checkNews()
-    // }, [divs])
+    useEffect(() => {
+        handleDivs()
+    }, [newName])
 
     checkNews = () => {
         if (document.querySelector('#inputId')) {
@@ -45,23 +36,20 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
         }
     }
 
-    handleName = (e, parent, input) => {
-        newNameTest = e.target.value
+    handleName = e => {
+        newName = e.target.value
+        setNewName(e.target.value)
         let elems = document.querySelectorAll('#inputId')
         elems.forEach(elem => {
             if (elem.innerText === e.target.value) throw Error(`Element with name ${e.target.value} already exists`)
         })
-        return logic.rename(oldNameTest, newNameTest)
+        return logic.rename(oldNameTest, newName)
             .then(() => handleDivs())
     }
 
     changeName = (e) => {
-        if (e.target.localName === "input") return
-        oldNameTest = e.target.firstChild.innerText ? e.target.firstChild.innerText : e.currentTarget.firstChild.id == "folder" ? '_newFolder' : '_newFile.txt'
-        // e.target.childNodes.forEach(child => {
-        //     oldNameTest = child.data ? child.data : child.innerText !== "" ? child.innerText : e.currentTarget.firstChild.id == "folder" ? '_newFolder' : '_newFile.txt'
-        //     // oldNameTest = child.data !== undefined ? child.data : child.innerText !== "" ? child.innerText : '.newFolder' // TODO
-        // })
+        if (e.target.parentElement === "null" || e.target.parentElement === null) return
+        oldNameTest = e.target.firstChild.data
         let newInput = document.createElement('input')
         newInput.name = "newName"
         newInput.type = "text"
@@ -73,10 +61,9 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
             }
         })
         if (e.target.className === "nameInput") return
-        e.target.replaceChild(newInput, e.target.firstChild)
+        e.target.parentElement.replaceChild(newInput, e.target)
         return newInput.focus()
     }
-
 
     onDragStart = ev => {
         draggableTest = ev.target
@@ -99,42 +86,71 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
         }
     }
 
-    onDrop = ev => {
-        ev.preventDefault();
-
-        if (draggableTest.id === "file" && droppingTest.id === "folder") {
-            let oldPath = draggableTest.firstChild.innerText
-            let newPath = droppingTest.firstChild.innerText + '/' + oldPath
-            return logic.moveFile(oldPath, newPath)
-                .then(() => handleDivs())
-        } else if (draggableTest.id === "folder" && droppingTest.id === "folder") {
-            return logic.moveFolder()    
-        } else if (draggableTest.id === "folder" && droppingTest.id === "file") {
-            console.error('Cannot move a folder into a file')
-        } else {
-            return logic.updatePositions(draggableTest.firstChild.innerText, Number(droppingTest.id))
-                .then(() => handleDivs())
+    useEffect(() => {
+        if (dragItem) {
+            onDrop(null, dragItem)
         }
+    }, [dragItem])
 
+    onDrop = (ev, dropItem) => {
+        if (ev) ev.preventDefault();
+        if (dropItem === undefined) {
+            if (draggableTest.id === "file" && droppingTest.id === "folder") {
+                let oldPath = draggableTest.firstChild.innerText
+                let newPath = droppingTest.firstChild.innerText + '/' + oldPath
+                return logic.moveFile(oldPath, newPath)
+                    .then(() => handleDivs())
+            } else if (draggableTest.id === "folder" && droppingTest.id === "folder") {
+                if (draggableTest === droppingTest) {
+                    return
+                } else {
+                    let oldPath = '/' + draggableTest.firstChild.innerText
+                    let newPath = '/' + droppingTest.firstChild.innerText + oldPath
+                    return logic.moveDir(oldPath, newPath)
+                        .then(() => handleDivs())
+                }
+            } else if (draggableTest.id === "folder" && droppingTest.id === "file") {
+                console.error('Cannot move a folder into a file')
+                return
+            } else if (draggableTest.id === "file" && droppingTest.id === "file") {
+                console.error('Cannot move a file into a file')
+                return
+            } else {
+                return logic.updatePositions(draggableTest.firstChild.innerText, Number(droppingTest.id))
+                    .then(() => handleDivs())
+            }
+        } else {
+            if (dropItem[1] === "folder") {
+                let newFolderName = dropItem[0].split('/').reverse()[0]
+                let newFolderPath = '/' + newFolderName
+                return logic.moveDir(dropItem[0], newFolderPath)
+                    .then(() => handleDivs())
+            } else if (dropItem[1] === "file") {
+                let newFileName = dropItem[0].split('/').reverse()[0]
+                let newFilePath = '/' + newFileName
+                return logic.moveFile(dropItem[0], newFilePath)
+                    .then(() => handleDivs())
+            }
+        }
     }
 
     handleDivs = () => {
-        return logic.retrieveLevel()
+        return logic.retrieveLevel('/')
             .then(positions => pos = positions.children)
             .then(() => {
                 setDivs(divs.map((div, index) => {
                     let position = pos.find(e => e.position == index)
                     if (position) {
                         if (position.type === 'folder') {
-                            return <div className="droppable" key={index} keys={index} id={index} onClick={(e) => changeName(e)} onContextMenu={(e) => tryRight(e)} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}>
+                            return <div className="droppable" key={index} keys={index} id={index} onDoubleClick={(e) => openDir(e)} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}>
                                 <span id={position.type} keys={`span${index}`} className="fas fa-folder fa-3x dragzone__folder" draggable="true" onDragStart={(e) => onDragStart(e)}>
-                                    <p className="name" id="inputId">{`${position.name}`}</p>
+                                    <p className="name" id="inputId" onClick={(e) => changeName(e)}>{`${position.name}`}</p>
                                 </span>
                             </div>
                         } else if (position.type === 'file') {
-                            return <div className="droppable" key={index} keys={index} id={index} onClick={(e) => changeName(e)} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}>
+                            return <div className="droppable" key={index} keys={index} id={index} onDoubleClick={(e) => openFile(e)} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}>
                                 <span id={position.type} keys={`span${index}`} className="fas fa-file fa-3x dragzone__folder" draggable="true" onDragStart={(e) => onDragStart(e)}>
-                                    <p className="name" id="inputId">{position.name}</p>
+                                    <p className="name" id="inputId" onClick={(e) => changeName(e)}>{position.name}</p>
                                 </span>
                             </div>
                         } else {
