@@ -15,7 +15,7 @@ function cloudinaryUploader(req, res, next) {
 
     const path = req.file.buffer
 
-    const upload_stream= cloudinary.uploader.upload_stream({width:800, heigth:800, crop: "fill"},function(err,image) {
+    const upload_stream= cloudinary.uploader.upload_stream({eager:[{width:800, heigth:800, crop: "fill"}]},function(err,image) {
         if (err) req.error = err
         req.image = image.secure_url
         next()
