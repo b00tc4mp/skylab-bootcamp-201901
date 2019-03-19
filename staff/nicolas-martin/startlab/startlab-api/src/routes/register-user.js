@@ -14,15 +14,3 @@ module.exports = (req, res) => {
         handleResponseError(error, res)
     }
 }
-
-// OK
-// {"id": "5c77c89209ad473de1078938"}
-
-// NOK
-// {"error": "password cannot be empty"}
-
-// NOK
-// {"error": "password and password confirmation does not match"}
-
-// NOK
-// {"error": "user with email student100@student100.com already exists"}

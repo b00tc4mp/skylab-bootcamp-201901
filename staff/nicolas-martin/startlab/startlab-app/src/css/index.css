@@ -68,10 +68,23 @@
     margin-top: 15px;
     max-width: 120px; }
 
-.start__intro h4.subtitle {
-  margin-bottom: 0;
+.start__intro__title {
   display: flex;
   padding: 5px; }
+.start__intro__exercise {
+  margin-bottom: 15px;
+  margin-left: 5px; }
+  .start__intro__exercise .material-icons {
+    font-size: 17px;
+    color: green;
+    margin-left: 5px;
+    font-weight: bold; }
+.start__intro .activeExercise {
+  font-weight: bolder;
+  color: black;
+  font-size: 19px; }
+.start__intro .done {
+  text-decoration: line-through; }
 
 .register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
   padding: 1em 4em; }

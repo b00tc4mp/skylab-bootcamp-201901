@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
+
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css' 
 
@@ -106,7 +107,7 @@ class App extends Component {
       <div className="app container">
         <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} onLogOut={handleLogout} />
         <Switch>
-          <Route exact path="/" render={() => <Home onStart={handleStart} />} />
+          <Route exact path="/" render={() => isLoggedIn? <Home onStart={handleStart} /> : <Redirect to='/register' />} />
           <Route exact path="/start" component={Start} />
 
           <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} /> : <Redirect to='/' />} /> :
