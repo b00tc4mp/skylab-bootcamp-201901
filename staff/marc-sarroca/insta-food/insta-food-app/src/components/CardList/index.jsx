@@ -19,6 +19,9 @@ function CardList(props) {
     retrieveUserFavs();
   }, []);
 
+  let route = props.location.pathname;
+  console.log(route);
+
   window.onscroll = () => {
     if (!document.getElementById("load")) return;
     if (
@@ -31,11 +34,14 @@ function CardList(props) {
   };
 
   const retrieveUserFavs = () => {
-    logic.retrieveUser(token).then(user => setUserFavorites(user.favorites));
+    let y = window.scrollY;
+    logic
+      .retrieveUser(token)
+      .then(user => setUserFavorites(user.favorites))
+      .then(() => page !== 1 && window.scrollTo(0, y));
   };
 
   const getPosts = () => {
-    if (n) return console.log("vete a dormir");
     let y = window.scrollY;
     logic
       .retrieveAllPosts(page)
@@ -51,7 +57,6 @@ function CardList(props) {
   };
 
   const updatePosts = () => {
-    getPosts();
     retrieveUserFavs();
   };
 
@@ -79,7 +84,6 @@ function CardList(props) {
           />
         ))}
       </div>
-      <button onClick={handleClick}>View More</button>
     </Fragment>
   );
 }

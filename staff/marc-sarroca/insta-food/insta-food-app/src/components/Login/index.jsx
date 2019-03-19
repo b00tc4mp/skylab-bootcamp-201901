@@ -26,14 +26,22 @@ function Login() {
       <h2 className="page-title">Login</h2>
       <div>
         <form className="form-login-register" onSubmit={handleFormSubmit}>
-          <input type="text" name="email" onChange={handleEmailInput} />
           <input
+            type="text"
+            name="email"
+            onChange={handleEmailInput}
+            placeholder="email"
+          />
+          <input
+            placeholder="password"
             type="password"
             name="password"
             onChange={handlePasswordInput}
           />
           <button>Login</button>
-          <Link to="/register">Register</Link>
+          <span>
+            Not registered? <Link to="/register">Register</Link>
+          </span>
         </form>
       </div>
       {loginFeedback && <Feedback message={loginFeedback} />}

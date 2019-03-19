@@ -1,15 +1,43 @@
 
 @import url('https://fonts.googleapis.com/css?family=Pacifico')
+
 $base-color: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
 .page-title
-     color: black
+     color: white
      font-family: 'Pacifico', cursive
+
 
 
 .form-login-register
      display: flex
      flex-direction: column
      flex-wrap: wrap
+
+     input
+          border-radius: 20px
+          margin-top: 10px
+          padding: 5px 10px
+     button
+          margin-top: 10px
+          width: 50px
+          background: linear-gradient(to bottom, rgba(59,100,182,1) 7%,#C2237C 78%,#C2237C 100%)
+          box-shadow: rgba(0,0,0,1) 0 1px 0
+          text-shadow: rgba(0,0,0,.4) 0 1px 0
+          border: none
+          color: white
+          border-radius: 20px
+          height: 25px
+          width: 80px
+          margin-bottom: 10px
+     
+     a
+          text-decoration: none
+     
+     span 
+          font-family:  Arial, Helvetica, sans-serif
+          color: white
+          margin-top: 30px
+          text-align: center
 
 
 .panel-login-register
@@ -18,3 +46,4 @@ $base-color: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 7
     align-items: center
     height: 100vh 
     justify-content: center
+    background: $base-color

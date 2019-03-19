@@ -9,9 +9,11 @@ const Favorites = () => {
   const [userFavorites, setUserFavorites] = useState([]);
 
   const retrieveUserFavs = () => {
-    logic.retrieveUser(token).then(user => setUserFavorites(user.favorites));
+    logic.retrieveUser(token).then(user => {
+      setUserFavorites(user.favorites);
+      window.scrollTo(0, 0);
+    });
   };
-  console.log(userFavorites);
   useEffect(() => {
     retrieveUserFavs();
   }, []);

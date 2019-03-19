@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import logic from "../../../logic";
 import Feedback from "../../../components/Feedback";
 import "./index.sass";
@@ -30,7 +30,7 @@ function AddComment({ postId, refreshComments }) {
         type="text"
         name="comment"
         onChange={handleAddComment}
-        placeholder="Put yout comment"
+        placeholder="Escribe tu comentario"
         autoFocus
       />
       {commentFeedback && <Feedback message={commentFeedback} />}

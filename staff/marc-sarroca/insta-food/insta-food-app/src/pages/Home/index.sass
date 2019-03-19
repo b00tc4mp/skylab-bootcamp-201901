@@ -1,22 +1,28 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico')
 
+.logo-home
+    width: 100px
+    height: 100px
+    margin-bottom: 20px
+    
+
+
+
 .home-title
     font-family: 'Pacifico', cursive
-    color: white
-    position: absolute
-    top: 0
-
+    color: #C2237C
+    margin-bottom: 20px
     
     
 .home
-    height: 100%
+    height: 100vh
     width: 100%
     margin: 0
-    height: 100vh 
     display: flex
     justify-content: center
     align-items: center
     flex-direction: column
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%) !important
 
 .login-register
     display: flex
@@ -32,11 +38,11 @@
     justify-content: center
     align-items: center
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background-color: rgba(255, 255, 255, 0.59)
+    background-color: white
     border-radius: 20px
 
-.login-link
-     background: linear-gradient(to bottom, rgba(59,100,182,1) 7%,rgba(237,237,237,1) 78%,rgba(255,255,255,1) 100%)
+.link
+     background: linear-gradient(to bottom, rgba(59,100,182,1) 7%,#C2237C 78%,#C2237C 100%)
      text-decoration: none
      padding: 1em 2em
      border-radius: 11px
@@ -46,24 +52,7 @@
      font-size: 13px
      font-family: Helvetica, Arial, Sans-Serif
 
-.register-link
-     border-top: 1px solid #d9e4eb
-     background: linear-gradient(to bottom, rgba(59,100,182,1) 7%,rgba(237,237,237,1) 78%,rgba(255,255,255,1) 100%)
-     text-decoration: none
-     padding: 1em 1.5em
-     border-radius: 11px
-     box-shadow: rgba(0,0,0,1) 0 1px 0
-     text-shadow: rgba(0,0,0,.4) 0 1px 0
-     color: white
-     font-size: 13px
-     font-family: Helvetica, Arial, Sans-Serif
-
-.login-link:hover
-    border-top-color: #965d8f
-    background: rgba(59,100,182,1)
-    color: #ffffff
-
-.register-link:hover
+.link:hover
     border-top-color: #965d8f
     background: rgba(59,100,182,1)
     color: #ffffff

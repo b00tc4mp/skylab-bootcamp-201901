@@ -3,6 +3,7 @@ import logic from "../../logic";
 import storage from "../../firebase";
 import Feedback from "../Feedback";
 import { withRouter } from "react-router-dom";
+import "./index.sass";
 
 function AddPost({ history }) {
   const [title, setTitle] = useState(null);
@@ -58,31 +59,41 @@ function AddPost({ history }) {
   };
 
   return (
-    <div>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          name="title"
-          onChange={handleTitleInput}
-          placeholder="Put your title"
-        />
-        <br />
-        <input
-          type="text"
-          name="description"
-          onChange={handleDescriptionInput}
-          placeholder="description"
-        />
-        <br />
-        <input
-          type="file"
-          name="image"
-          onChange={handleImageInput}
-          placeholder="title"
-        />
-        <br />
-        <p>{percentage} %</p>
-        <button>Create Post</button>
+    <div className="add-post">
+      <form autocomplete="off" onSubmit={handleFormSubmit}>
+        <fieldset>
+          <input
+            className="post-input"
+            type="text"
+            name="title"
+            onChange={handleTitleInput}
+            placeholder="Titulo del post"
+          />
+          <div class="after" />
+        </fieldset>
+        <fieldset>
+          <textarea
+            className="post-input area"
+            type="text"
+            name="description"
+            onChange={handleDescriptionInput}
+            placeholder="Descriptcion del post"
+          />
+          <div class="after" />
+        </fieldset>
+        <fieldset className="custom-file-upload">
+          <input
+            type="file"
+            name="image"
+            className="filew"
+            onChange={handleImageInput}
+            placeholder="title"
+          />
+        </fieldset>
+        <div className="bar-progress">
+          <div className="bar" style={{ width: `${percentage}%` }} />
+        </div>
+        <button className="post-button">Create Post</button>
       </form>
       {addFeedback && <Feedback message={addFeedback} />}
     </div>

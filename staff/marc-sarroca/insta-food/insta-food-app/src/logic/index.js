@@ -35,11 +35,9 @@ const logic = {
       .then(id => id);
   },
 
-  retrieveUser(token) {
-    if (typeof token !== "string") throw TypeError(`${token} is not a string`);
-    if (!token.trim().length) throw Error("token is empty");
+  retrieveUser() {
     return instaApi
-      .retrieveUser(token)
+      .retrieveUser(this.__userApiToken__)
       .then(({ id, name, username, email, favorites = [] }) => ({
         id,
         name,

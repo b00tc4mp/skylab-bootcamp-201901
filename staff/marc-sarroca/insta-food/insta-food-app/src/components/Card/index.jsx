@@ -1,9 +1,10 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./index.sass";
 import AddComment from "./AddComment";
 import logic from "../../logic";
 import { withRouter } from "react-router-dom";
+import { UserContext } from "../../userContext";
 
 function Card({
   title,
@@ -15,15 +16,23 @@ function Card({
   username,
   postUserId,
   countfavs,
-  email,
   location,
-  call = () => {}
+  call = () => {},
+  call2 = () => {}
 }) {
   const [commentsPost, setComments] = useState("");
+  const [total, setTotal] = useState(countfavs);
+  const { user } = useContext(UserContext);
+  const { id } = user;
   const toggleFavorite = event => {
+    if (location.pathname === "/profile") return;
     event.preventDefault();
     logic.toggleFavorites(postId).then(() => {
+      call2();
       call();
+      (userFavorites || []).map(f => f._id).includes(postId)
+        ? setTotal(total - 1)
+        : setTotal(total + 1);
     });
   };
 
@@ -38,8 +47,6 @@ function Card({
     logic.removePost(postId).then(() => call());
   };
 
-  console.log(location.pathname);
-
   return (
     <div className="instafood-card">
       <div className="instafood-card-header">
@@ -50,7 +57,7 @@ function Card({
           {location.pathname === "/posts" ? (
             <img
               className="user-photo"
-              src={`https://api.adorable.io/avatars/285/${email}.png`}
+              src={`https://api.adorable.io/avatars/285/${id}.png`}
               alt="user"
             />
           ) : (
@@ -67,9 +74,7 @@ function Card({
             }`}
             onClick={toggleFavorite}
           />
-          {countfavs && (
-            <span className="instafood-favs">&nbsp; {countfavs}</span>
-          )}
+          {total && <span className="instafood-favs">&nbsp; {total}</span>}
         </div>
       </div>
       <img className="instafood-image" src={image} alt="Post" />
@@ -112,7 +117,7 @@ function Card({
           <details>
             <summary className="detail">View Comments</summary>
             {commentsPost &&
-              commentsPost.map(comment => (
+              commentsPost.reverse().map(comment => (
                 <div className="comments-container" key={comment._id}>
                   <Link className="user-comment" to={`/profile/${postUserId}`}>
                     {comment.by.username}

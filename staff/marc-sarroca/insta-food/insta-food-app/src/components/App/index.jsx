@@ -66,11 +66,19 @@ function App(props) {
       value={{ user, isUserLoading, userError, logout, login }}
     >
       {user && <TopBar />}
-      <div className="container">
-        <main className="app">
-          {isUserLoading ? <LoadingPage /> : renderRoutes()}
-        </main>
-      </div>
+      {user ? (
+        <div className="container">
+          <main className="app">
+            {isUserLoading ? <LoadingPage /> : renderRoutes()}
+          </main>
+        </div>
+      ) : (
+        <div>
+          <main className="app2">
+            {isUserLoading ? <LoadingPage /> : renderRoutes()}
+          </main>
+        </div>
+      )}
       {user && <ButtonBar />}
     </UserContext.Provider>
   );
