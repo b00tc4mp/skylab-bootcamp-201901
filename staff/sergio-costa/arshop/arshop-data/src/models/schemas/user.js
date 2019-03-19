@@ -40,7 +40,13 @@ const User = new Schema({
 
     imageUrl: {
         type: String
-    }
+    },
+
+    chats: [{
+        type: ObjectId,
+        ref: 'Chat'
+    }]
+
 })
 
 module.exports = User

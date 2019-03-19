@@ -5,7 +5,11 @@ import './index.sass'
 
 class ArCompo extends Component {
 
-    onClose = () => this.props.history.replace('/')
+    onClose = () => {
+        this.props.history.replace('/')
+        var video = document.getElementsByTagName('video')[0]
+        video.parentNode.removeChild(video)
+    }
 
     componentDidMount() {
 
@@ -14,19 +18,27 @@ class ArCompo extends Component {
     render() {
         // mas o menos correcto, tocando posicion y sin UI
         return <section className="ar">
-            <Scene stats embedded arjs={{ sourceType: 'webcam', debugUIEnabled: 'false' }}>
-                <div>
-                    <button className="ar__btn">BACK</button>
-                </div>
+            <button className="ar__btn" onClick={() => this.onClose()}>
+            close ar 
+            </button>
+            <Scene embedded arjs={{ sourceType: 'webcam', debugUIEnabled: 'false' }}>
                 <a-marker preset="hiro">
                     {/* <a-gltf-model src={`models/seat/scene.gltf`} scale="1 1 1"></a-gltf-model> */}
                     <a-entity obj-model="obj: url(models/police/Aston VULCAN.obj)" position="0 0 0" rotation="-90 180 180" scale="0.0009 0.0009 0.0009"></a-entity>
                     {/* <Entity geometry={{ primitive: 'box', width: '1', height: '1' }}
                         position={{ x: 0, y: 0, z: -1 }} /> */}
                 </a-marker>
-                <Entity camera />
+                <Entity camera/>
             </Scene>
         </section>
+
+        // return <section>
+        //     <a-scene stats embedded arjs='sourceType: webcam; detectionMode: mono; maxDetectionRate: 30; canvasWidth: 240; canvasHeight: 180'>
+        //         <a-box position='0 0.5 0' material='opacity: 0.5; side: double'>
+        //         </a-box>
+        //         <a-marker-camera preset='hiro'></a-marker-camera>
+        //     </a-scene>
+        // </section>
 
 
         //mas o menos bien pero se mueve mucho

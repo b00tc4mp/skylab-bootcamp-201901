@@ -18,6 +18,8 @@ import CitySelector from '../CitySelector'
 import CategorySelector from '../CategorySelector'
 import ArCompo from '../ArCompo'
 import ArViewer from '../ArViewer'
+import ChatViewer from '../ChatsViewer'
+import Messages from '../Messages'
 
 class App extends Component {
 
@@ -31,7 +33,7 @@ class App extends Component {
     exclude = () => {
         const pathname = this.props.location.pathname
         return (
-            pathname.includes('login') || pathname.includes('register') || pathname.includes('/upload/product') || pathname.includes('/user/profile') || pathname.includes(`product/`) || pathname.includes('/ar/camera') || pathname.includes(`/profile`)
+            pathname.includes('login') || pathname.includes('register') || pathname.includes('/upload/product') || pathname.includes('/user/profile') || pathname.includes(`product/`) || pathname.includes('/ar/camera') || pathname.includes(`/profile`) || pathname.includes('/chat')
         )
     }
 
@@ -57,6 +59,10 @@ class App extends Component {
         this.props.history.push(`/${userid}/profile`)
     }
 
+    handleOnChatClick = id => {
+        this.props.history.push(`/chat/${id}`)
+    }
+
     render() {
         return <main className="app">
             {!this.exclude() && <Header onSearch={this.handleOnSearch} />}
@@ -70,7 +76,9 @@ class App extends Component {
             <Route exact path="/select/city" render={() => !logic.isUserLoggedIn ? <Redirect to='/' /> : <CitySelector onClickCity={this.handleOnClickCity} />} />
             <Route exact path="/select/category" render={() => !logic.isUserLoggedIn ? <Redirect to='/' /> : <CategorySelector onClickCategory={this.handleOnClickCategory} />} />
             <Route path="/user/profile" render={() => !logic.isUserLoggedIn ? <Redirect to='/' /> : <UserProfile onProductSelect={this.productSelected} />} />
+            <Route exact path="/chat" render={() => !logic.isUserLoggedIn ? <Redirect to='/' /> : <ChatViewer onChatClick={this.handleOnChatClick}/>} />
             <Route exact path="/:userid/profile" render={props => <AnotherUserProfile onProductSelect={this.productSelected} userid={props.match.params.userid} />} />
+            <Route exact path="/chat/:id" render={props => <Messages chatId={props.match.params.id} />} />
             {/* <Route exact path="/"/> */}
             <Route exact path="/" render={() => <LandingPage onProductSelect={this.productSelected} />} />
 

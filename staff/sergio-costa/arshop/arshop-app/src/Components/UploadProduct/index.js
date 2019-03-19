@@ -66,34 +66,34 @@ class UploadProduct extends Component {
             <div className="form__inputrow">
                 <div className="upload">
                     <input type="file" id="files" name="files" className="input-file ng-pristine ng-valid ng-touched" onChange={e => this.setState({ image: e.target.files[0] })} />
-                    <label for="files">
+                    {this.state.image? <h2>{this.state.image.name}</h2>  : <label for="files">
                         <span className="add-image">
                             Add <br /> Image
                             </span>
                         <output id="list"></output>
-                    </label>
+                    </label>}
                 </div>
             </div>
             <form className="form" onSubmit={handleFormSubmit}>
                 <div className="form__inputrow">
                     <label className="form__label--input">City</label>
-                    <input className="form__input" type="text" name="city" value={this.state.city} onChange={handleInput} onFocus={() => goToCity()} />
+                    <input className="form__input" required="true" type="text" name="city" value={this.state.city} onChange={handleInput} onFocus={() => goToCity()} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Category</label>
-                    <input className="form__input" type="text" name="category" value={this.state.category} onChange={handleInput} onFocus={() => goToCategory()} />
+                    <input className="form__input" required="true" type="text" name="category" value={this.state.category} onChange={handleInput} onFocus={() => goToCategory()} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Tittle</label>
-                    <input className="form__input" type="text" name="tittle" onChange={handleInput} />
+                    <input className="form__input" required="true" type="text" name="tittle" onChange={handleInput} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Description</label>
-                    <input className="form__input" type="text" name="description" onChange={handleInput} />
+                    <input className="form__input" required="true" type="text" name="description" onChange={handleInput} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Price</label>
-                    <input className="form__input" type="number" name="price" onChange={handleInput} />
+                    <input className="form__input" required="true" type="number" name="price" onChange={handleInput} />
                 </div>
 
                 <div className="form__button">

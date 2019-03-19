@@ -136,7 +136,7 @@ class ProductDetails extends Component {
                             <p className="productDetails__user--name">{username}</p>
                         </div>}
                     </div>
-                    {this.state.userProduct && <button className="productDetails__btn" onClick={() => this.handleOnSell(product.id)}>{product.sold ? "In Stock" : "Check as Sold"}</button>}
+                    {this.state.userProduct && <button className="productDetails__btn" onClick={() => this.handleOnSell(product.id)}>{product.sold ? "Available" : "Check as Sold"}</button>}
                     {!this.state.userProduct && <button className="productDetails__btn">Chat</button>}
                 </div>
             </div>

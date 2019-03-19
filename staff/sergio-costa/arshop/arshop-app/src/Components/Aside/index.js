@@ -76,6 +76,11 @@ class Aside extends Component {
                                                 Favorites
                                             </Link>
                                         </li>
+                                        <li className="menu__item" onClick={() => this._hideAside()}>
+                                            <Link to="/chat" title="favoroites" className="menu__link">
+                                                Chat
+                                            </Link>
+                                        </li>
                                         <li className="menu__item" onClick={() => this.onLogout()}>
                                             <p title="logout" className="menu__link">
                                                 <i className="fas fa-sign-out-alt"></i>

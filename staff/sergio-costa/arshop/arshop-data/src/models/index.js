@@ -6,5 +6,4 @@ module.exports = {
     Product: mongoose.model('Product', Product),
     Chat: mongoose.model('Chat', Chat),
     Message: mongoose.model('Message', Message)
-
 }

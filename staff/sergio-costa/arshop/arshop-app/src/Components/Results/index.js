@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import {withRouter, Link} from 'react-router-dom'
 import Feedback from '../Feedback'
 import Product from '../Product'
 import logic from '../../logic'
+import './index.sass'
 
 class Results extends Component {
 
@@ -49,11 +51,17 @@ class Results extends Component {
 
         return <section className="landingPage">
             {feedback && <Feedback message={feedback} />}
-            {products.map(({ id, tittle, description, price, imageUrl, sold }) => {
+            {products && products.map(({ id, tittle, description, price, imageUrl, sold }) => {
                 return <Product key={id} id={id} tittle={tittle} description={description} price={price} imageUrl={imageUrl} sold={sold} idFav={this.state.favIds} onProductSelect={this.props.onProductSelect} />
             })}
+            {!products.length && <div className="results">
+                <img className="results__img" src="/images/lupa.png"/>
+                <Link to="/" className="results__btn">
+                    GO HOME
+                </Link>
+            </div>}
         </section>
     }
 }
 
-export default Results
+export default withRouter(Results)

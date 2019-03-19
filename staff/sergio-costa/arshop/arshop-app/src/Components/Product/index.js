@@ -44,7 +44,7 @@ class Product extends Component {
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
         const index = this.props.idFav.findIndex(({ id }) => id == this.props.id)
         if (index >= 0) this.setState({ fav: true })
 

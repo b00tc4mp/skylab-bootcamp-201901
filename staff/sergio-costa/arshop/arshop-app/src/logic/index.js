@@ -77,7 +77,7 @@ const logic = {
 
     retrieveUser() {
         return arshopApi.retrieveUser(this.__userApiToken__)
-            .then(({ id, name, surname, email, products = [], favoriteProducts = [], imageUrl = null }) => ({
+            .then(({ id, name, surname, email, products = [], favoriteProducts = [], imageUrl = null, coversations = [] }) => ({
                 id,
                 name,
                 surname,
@@ -198,6 +198,35 @@ const logic = {
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
         return arshopApi.retrieveProductsFromUserId(userId)
+    },
+
+    createChat(userId){
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        return arshopApi.createChat(this.__userApiToken__, userId)
+    },
+
+    sendMessage(chatId, text){
+
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId cannot be empty')
+
+        if (typeof text !== 'string') throw TypeError(`${text} is not a string`)
+        if (!text.trim().length) throw Error('text cannot be empty')
+
+        return arshopApi.sendMessage(this.__userApiToken__, chatId, text)
+    },
+    
+    retrieveChats() {
+        return arshopApi.retrieveChats(this.__userApiToken__)
+    },
+
+    retrieveMessagesFromChat(chatId){
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId cannot be empty')
+
+        return arshopApi.retrieveMessagesFromChat(this.__userApiToken__, chatId)
     }
 }
 

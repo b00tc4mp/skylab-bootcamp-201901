@@ -1,7 +1,7 @@
 'use strict'
 
 const arshopApi = {
-    url: 'http://192.168.1.49:8000/api',
+    url: 'http://localhost:8000/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
@@ -360,6 +360,94 @@ const arshopApi = {
         if (!userId.trim().length) throw Error('userId cannot be empty')
 
         return fetch(`${this.url}/products/user/${userId}`)
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    createChat(token, userId) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userid cannot be empty')
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/create/chat/${userId}`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    sendMessage(token, chatId, text) {
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId cannot be empty')
+
+        if (typeof text !== 'string') throw TypeError(`${text} is not a string`)
+        if (!text.trim().length) throw Error('text cannot be empty')
+
+        return fetch(`${this.url}/send/message/${chatId}`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ text })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveChats(token) {
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}/chats`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveMessagesFromChat(token, chatId) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId cannot be empty')
+
+        return fetch(`${this.url}/chat/${chatId}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)

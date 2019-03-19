@@ -1,6 +1,6 @@
 'use strict'
 
-const { models: { User, Product } } = require('arshop-data')
+const { models: { User, Product, Chat, Message } } = require('arshop-data')
 const bcrypt = require('bcrypt')
 
 /**
@@ -458,31 +458,31 @@ const logic = {
             })
             .then(idUser => {
                 return User.find({ _id: { $in: idUser } }).select('-__v').lean()
-                .then(users => {
-                    if (!users) throw Error('there are no users')
-    
-                    users.forEach(user => {
-                        user.id = user._id.toString()
-                        delete user._id
+                    .then(users => {
+                        if (!users) throw Error('there are no users')
+
+                        users.forEach(user => {
+                            user.id = user._id.toString()
+                            delete user._id
+                        })
+                        return users
                     })
-                    return users
-                })
             })
-            // .then(user => {
-            //     // user.id = user._id.toString()
-            //     // delete user._id
-            //     return user
-            // })
+        // .then(user => {
+        //     // user.id = user._id.toString()
+        //     // delete user._id
+        //     return user
+        // })
     },
 
-    retrieveUserWithId(id){
+    retrieveUserWithId(id) {
 
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id is empty')
 
         return User.findById(id).select('-__v').lean()
             .then(user => {
-                if(!user)throw Error(`user with id ${id} not found`)
+                if (!user) throw Error(`user with id ${id} not found`)
 
                 user.id = user._id.toString()
 
@@ -492,7 +492,7 @@ const logic = {
             })
     },
 
-    retrieveProductsFromUserId(id){
+    retrieveProductsFromUserId(id) {
 
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
         if (!id.trim().length) throw Error('id cannot be empty')
@@ -511,6 +511,101 @@ const logic = {
                     delete product._id
                 })
                 return products
+            })
+    },
+
+    createChat(userId, id) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userid cannot be empty')
+
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                return Chat.create({ users: [userId, id] })
+                    .then((chat) => {
+
+                        user.chats.push(chat.id)
+
+                        return user.save()
+                            .then(() => User.findById(id)
+                                .then(_user => {
+                                    if (!_user) throw Error(`user with id ${id} not found`)
+
+                                    _user.chats.push(chat.id)
+
+                                    return _user.save()
+                                        .then(() => chat.id)
+                                })
+                            )
+                    })
+            })
+    },
+
+    sendMessage(userId, chatId, text) {
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userid cannot be empty')
+
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId cannot be empty')
+
+        if (typeof text !== 'string') throw TypeError(`${text} is not a string`)
+        if (!text.trim().length) throw Error('text cannot be empty')
+
+        return Chat.findById(chatId)
+            .then(chat => {
+                if (!chat) throw Error(`chat with id ${chatId} not found`)
+
+                return Message.create({ sender: userId, text: text})
+                    .then(message => {
+                        chat.messages.push(message)
+
+                        return chat.save()
+                    })
+            })
+    },
+
+    retrieveChats(userId){
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userid cannot be empty')
+
+
+        return User.findById(userId)
+        .then(user => {
+            if (!user) throw Error(`user with id ${userId} not found`)
+            return user.chats
+        })
+        .then(idChats => {
+            return Chat.find({ _id: { $in: idChats } }).select('-__v').lean()
+        })
+        .then(chats => {
+            chats.forEach(chat => {
+                chat.id = chat._id.toString()
+                delete chat._id
+            })
+            return chats
+        })
+    },
+
+    retrieveMessagesFromChat(userId, chatId){
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userid cannot be empty')
+
+        if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
+        if (!chatId.trim().length) throw Error('chatId cannot be empty')
+
+        return Chat.findById(chatId)
+            .then(chat => {
+                if(!chat)throw Error (`there are no chats with id ${chatId}`)
+
+                return chat.messages
             })
     }
 

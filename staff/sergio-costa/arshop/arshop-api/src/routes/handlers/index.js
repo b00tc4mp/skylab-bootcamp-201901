@@ -37,5 +37,13 @@ module.exports = {
 
     retrieveProductsFromUserId: require('./retrieve-userid-products'),
 
+    createChat: require('./create-chat'),
+
+    sendMessage: require('./send-message'),
+
+    retrieveChats: require('./retrieve-chats'),
+
+    retrieveMessagesFromChat: require('./retrieve-message-from-chatid'),
+
     notFound: require('./not-found')
 }

@@ -1,22 +1,16 @@
 const { SchemaTypes: { ObjectId }, Schema } = require('mongoose')
-const Messages = require('./messages')
+const Message = require('./message')
 
 const Chat = new Schema({
-    userIds: [{
+
+    users: [{
         type: ObjectId,
-        ref: 'User'
+        ref: 'User',
+        require: true
     }],
 
-    chatName: {
-        type: String,
-        required: true
-    },
+    messages: [Message]
 
-    chatImg: {
-        type: String
-    },
-
-    messages: [Messages]
 })
 
 module.exports = Chat
