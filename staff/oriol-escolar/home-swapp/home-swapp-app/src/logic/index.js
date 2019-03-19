@@ -211,7 +211,19 @@ const logic = {
 
         return geocodeApi.retrievePoint(number, street, city, country)
 
+    },
+
+
+    uploadImage(image){
+
+        if( !(image instanceof Blob)) throw TypeError (`${image} is not a blob`)
+
+        return homeSwappApi.uploadImage(this.getUserApiToken(),image)
+
+
     }
+
+
 }
 
 export default logic

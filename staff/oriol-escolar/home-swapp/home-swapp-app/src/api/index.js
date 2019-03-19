@@ -315,6 +315,33 @@ const homeSwappApi = {
             })
     },
 
+    uploadImage(token,image){
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if( !(image instanceof Blob)) throw TypeError (`${image} is not a blob`)
+
+        let formData = new FormData()
+        formData.append('image', image)
+
+        return fetch(`${this.url}/house-photo`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+        .then(response => response.json())
+            .then(response => {
+
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+
+    }
+
 
 }
 

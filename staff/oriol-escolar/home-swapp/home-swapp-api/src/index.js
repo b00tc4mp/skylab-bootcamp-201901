@@ -9,9 +9,13 @@ const tokenHelper = require('./token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
 const cors = require('./cors')
+const cloudinaryUploader = require('./CloudinaryMiddleware')
+const imageParser = require('./imageParser')
+
+
 
 const {
-    registerUser, authenticateUser, retrieveUser, updateUser, createHouse, updateHouse,sendMessage,
+    registerUser, authenticateUser, retrieveUser, updateUser, createHouse, updateHouse,sendMessage,retrieveUserPublicInfo,uploadImage,
     retrieveHouse, deleteHouse, toggleFavorite, retrieveMyHouses, retrieveFavorites, retrieveHousesByQuery, notFound
 } = require('./routes')
 
@@ -46,6 +50,10 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/user/retrieveFavs', tokenVerifierMiddleware, jsonBodyParser, retrieveFavorites)
 
         router.post('/user/send-message/:id', tokenVerifierMiddleware, jsonBodyParser, sendMessage)
+
+        router.get('/user/:userId', jsonBodyParser, retrieveUserPublicInfo)
+
+        router.post('/house-photo', [imageParser, cloudinaryUploader, tokenVerifierMiddleware], uploadImage)
 
 
 

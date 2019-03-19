@@ -25,5 +25,9 @@ module.exports = {
 
     retrieveHousesByQuery: require('./retrieve-housesQuery'),
 
+    retrieveUserPublicInfo: require('./retrieve-user-public-info'),
+
+    uploadImage: require('./upload-image'),
+
     sendMessage: require('./send-message')
 }

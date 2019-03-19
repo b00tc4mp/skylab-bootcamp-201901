@@ -105,6 +105,20 @@ const logic = {
             })
     },
 
+    retrieveUserPublicInfo (userId) {
+
+        if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+
+        return User.findById(userId).select('-password -__v').lean()
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+
+                return user.username
+            })
+    },
+
     updateUser(userId, data) {
 
 

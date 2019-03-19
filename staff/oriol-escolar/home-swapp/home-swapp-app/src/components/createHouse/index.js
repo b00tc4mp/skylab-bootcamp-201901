@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import Feedback from '../Feedback'
 import './index.sass';
+import logic from '../../logic'
 
 
 
@@ -12,73 +13,92 @@ class CreateHouse extends Component {
     state = {
 
         images: "",
+        fileImage:"",
         description: "",
-        petsAllowed:"Yes",
-        smokersAllowed:"Yes",
-        numberOfBeds:"1",
-        country:"",
-        city:"",
-        street:"",
-        number:"",
-        imagesArray:"",
-        infoObject:"",
-        adressObject:""
+        petsAllowed: "Yes",
+        smokersAllowed: "Yes",
+        numberOfBeds: "1",
+        country: "",
+        city: "",
+        street: "",
+        number: "",
+        imagesArray: "",
+        infoObject: "",
+        adressObject: ""
 
     }
 
-    handleInput = event =>{
+    handleInput = event => {
 
-     this.setState({ [event.target.name]: event.target.value }, () => {
-        const{state:{ images,petsAllowed,smokersAllowed,numberOfBeds,country,city,street,number}}=this
+        this.setState({ [event.target.name]: event.target.value }, () => {
+            const { state: { images, petsAllowed, smokersAllowed, numberOfBeds, country, city, street, number } } = this
 
-        let adressObject = {
-    
-            country: country.toLowerCase(),
-    
-            city: city.toLowerCase(),
-            
-            street:street,
-    
-            number: number
-    
-        }
-        
-        let infoObject ={
-    
-            petsAllowed:petsAllowed,
-    
-            smokersAllowed:smokersAllowed,
-    
-            numberOfBeds:numberOfBeds
-    
-        }
-    
-        let imagesArray=[
-    
-    
-            images
-    
-        ]
-    
-        this.setState({adressObject,infoObject,imagesArray})
-     })
-        
-     
-    
+            let adressObject = {
+
+                country: country.toLowerCase(),
+
+                city: city.toLowerCase(),
+
+                street: street,
+
+                number: number
+
+            }
+
+            let infoObject = {
+
+                petsAllowed: petsAllowed,
+
+                smokersAllowed: smokersAllowed,
+
+                numberOfBeds: numberOfBeds
+
+            }
+
+            let imagesArray = [
+
+
+                images
+
+            ]
+
+            this.setState({ adressObject, infoObject, imagesArray })
+        })
+
+
+
     }
 
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { imagesArray,description,infoObject,adressObject }, props: { onCreateHouse } } = this
+        const { state: { imagesArray, description, infoObject, adressObject }, props: { onCreateHouse } } = this
 
-        onCreateHouse(imagesArray,description,infoObject,adressObject)
+        onCreateHouse(imagesArray, description, infoObject, adressObject)
+    }
+
+
+    handleOnCancelEditorAdd = () => {
+        this.setState({fileImage: null})
+    }
+
+
+    handleOnUploadPhoto = () => {
+        try {
+            logic.uploadImage(this.state.fileImage)
+                .then(imageurl => this.setState({images : imageurl }))
+                .catch(({ message }) => {
+                    
+                })
+        } catch ({ message }) {
+            
+        }
     }
 
 
     render() {
 
-        const { handleInput, handleFormSubmit, props: { createHouseFeedback } } = this
+        const { handleInput, handleFormSubmit,handleOnUploadPhoto,handleOnCancelEditorAdd, props: { createHouseFeedback } } = this
 
         return <section className="createHouse">
 
@@ -86,10 +106,15 @@ class CreateHouse extends Component {
             <form className="createHouse-house-form" onSubmit={handleFormSubmit}>
 
                 <p>Images</p>
-                <input className="createHouse-house-form__input" required type="text" name="images" placeholder="Enter an image url" onChange={handleInput}></input>
+                <div className='profile-container__personalInformation-image--edit'><input className='input--small' type='file' name='fileImage' onChange={e => this.setState({fileImage: e.target.files[0]})}></input>
+                    <button onClick={e => { e.preventDefault(); handleOnUploadPhoto() }}>Upload image</button>
+                    <button onClick={e => { e.preventDefault(); handleOnCancelEditorAdd() }}>Cancel</button>
+
+                </div>
+                {/* <input className="createHouse-house-form__input" required type="text" name="images" placeholder="Enter an image url" onChange={handleInput}></input> */}
 
                 <p>description</p>
-                <textarea className="createHouse-house-form__input-description"  required type="text" name="description" placeholder="Enter a description about your house" onChange={handleInput}></textarea>
+                <textarea className="createHouse-house-form__input-description" required type="text" name="description" placeholder="Enter a description about your house" onChange={handleInput}></textarea>
 
 
                 <p>Pets allowed</p>
@@ -108,7 +133,7 @@ class CreateHouse extends Component {
 
                 <p>Number of Beds </p>
 
-                <select className="createHouse-house-form__select" name="smokersAllowed" onChange={handleInput}>
+                <select className="createHouse-house-form__select" name="numberOfBeds" onChange={handleInput}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -119,20 +144,20 @@ class CreateHouse extends Component {
 
 
                 <p>Country</p>
-                
-                <input className="createHouse-house-form__input"  required type="text" name="country" placeholder="Enter country name" onChange={handleInput}></input>
+
+                <input className="createHouse-house-form__input" required type="text" name="country" placeholder="Enter country name" onChange={handleInput}></input>
 
                 <p>City</p>
 
-                <input className="createHouse-house-form__input"  required type="text" name="city" placeholder="Enter city name" onChange={handleInput}></input>
+                <input className="createHouse-house-form__input" required type="text" name="city" placeholder="Enter city name" onChange={handleInput}></input>
 
                 <p>Street</p>
 
-                <input className="createHouse-house-form__input"  required type="text" name="street" placeholder="Enter street name" onChange={handleInput}></input>
-                
+                <input className="createHouse-house-form__input" required type="text" name="street" placeholder="Enter street name" onChange={handleInput}></input>
+
                 <p>Number</p>
 
-                <input className="createHouse-house-form__input"  required type="text" name="number" placeholder="Enter number" onChange={handleInput}></input>
+                <input className="createHouse-house-form__input" required type="text" name="number" placeholder="Enter number" onChange={handleInput}></input>
 
                 <button>Confirm</button>
 

@@ -18,13 +18,13 @@ class DetailedHouse extends Component {
     }
 
     componentDidMount() {
-        if(!this.state.thisHouse){
+        if (!this.state.thisHouse) {
             this.retrieveThisHouse(this.props.match.params.houseId)
         }
-        if(!this.state.favorites || this.state.favorites !== this.props.userFavs){
+        if (!this.state.favorites || this.state.favorites !== this.props.userFavs) {
             this.setState({ favorites: this.props.userFavs })
-        if(this.state.user !==  this.props.user)
-        this.setState({ user: this.props.user })
+            if (this.state.user !== this.props.user)
+                this.setState({ user: this.props.user })
 
         }
 
@@ -37,21 +37,21 @@ class DetailedHouse extends Component {
             this.setState({ favorites })
         }
 
-        if(this.state.user !== prepProvs.user){
+        if (this.state.user !== prepProvs.user) {
             this.setState({ user: prepProvs.user })
- 
+
         }
 
     }
 
     componentWillReceiveProps(props) {
 
-        if(!this.state.thisHouse){
+        if (!this.state.thisHouse) {
             this.retrieveThisHouse(props.match.params.houseId)
 
         }
 
-        if(!this.state.user !== props.user){
+        if (!this.state.user !== props.user) {
             this.setState({ user: props.user })
 
         }
@@ -66,30 +66,31 @@ class DetailedHouse extends Component {
     retrieveThisHouse(houseId) {
         console.log('ksbadhsandsadjsn')
         if (houseId) {
-                const { state: { thisHouse } } = this
-                if (!thisHouse)
-                        
-                        return logic.retrieveHouse(houseId)
-                        .then(house=>{
-                            const thisHouse = house;
-                            this.setState({ thisHouse})
-                            const { adress: { number, street, city, country } } = thisHouse
-                            return logic.retrievePoint(number, street, city, country)
-                            .then(location=>{
+            const { state: { thisHouse } } = this
+            if (!thisHouse)
+
+                return logic.retrieveHouse(houseId)
+                    .then(house => {
+                        const thisHouse = house;
+                        this.setState({ thisHouse })
+                        const { adress: { number, street, city, country } } = thisHouse
+                        return logic.retrievePoint(number, street, city, country)
+                            .then(location => {
 
                                 this.setState({ location })
 
                             })
+                            .catch(() => true)
 
-                        })
-                        .catch(()=> this.setState({ thisHouse: "ayayay" }))
-                        
-    
-                    }
+                    })
+                    .catch(() => this.setState({ thisHouse: "ayayay" }))
 
-                }
 
-   
+        }
+
+    }
+
+
 
     goBack() {
 
