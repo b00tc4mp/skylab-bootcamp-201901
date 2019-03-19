@@ -25,8 +25,8 @@ export default function PrivacyPolicyAlert({ showPrivacyPolicyAlert, setShowPriv
             <div className='pp-alert__content'>
                 {!showContent ? <div>
                     <div className='pp-alert__content-checkbox'>
-                        <input type='checkbox' id='current' name='current' onChange={e => setAnswer(e.target.checked)} />
-                        <a className='link pointer'onClick={e => {e.preventDefault(); setShowContent(true)}}>I accept thep privacy policy and data processing</a>
+                        <input className='checkbox__input'type='checkbox' id='current' name='current' onChange={e => setAnswer(e.target.checked)} />
+                        <a href className='link pointer'onClick={e => {e.preventDefault(); setShowContent(true)}}>I accept thep privacy policy and data processing</a>
                     </div>
                     <div className='pp-alert__content-submit'>
                         <button className='btn btn--primary' onClick={e => { e.preventDefault(); handleOnSubmit()}}>Submit</button>
