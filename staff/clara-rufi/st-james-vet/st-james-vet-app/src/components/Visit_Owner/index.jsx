@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import logic from '../../logic';
@@ -6,7 +7,7 @@ import './index.sass'
 
 class VisitOwner extends Component {
 
-    state = { user: '', appointmentsOwner: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false, noAppointments: true, deleteVisit: false }
+    state = { user: '', appointmentsOwner: [], year: moment().format('YYYY'), month: moment().format('MM'), error: false, noAppointments: true, deleteVisit: false, deleteButton: false }
 
 
     componentDidMount() {
@@ -53,54 +54,99 @@ class VisitOwner extends Component {
         this.props.history.push('/home')
     }
 
-    render() {
-
-        const { state: { appointmentsOwner } } = this
+    visitOwner=(id, owner, pet, date) => {
+    
+        let dateVisit = date
+        var today = new Date()
+        if( dateVisit.getUTCFullYear() >= today.getUTCFullYear()){
+        if( dateVisit.getUTCMonth() >= today.getUTCMonth()){
+            if(dateVisit.getUTCDate() - today.getUTCDate() >= 2){
+                return(
+                <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>  
+                )  
+            }
+        }
         
-        // let count = 0
-        // if (count === 0) { this.setState({ noAppointments: true }) }
-        return <form>
+    }
+}
+
+render() {
+    
+    const { state: { appointmentsOwner }, visitOwner } = this
+    
+    return <form>
             <div className="input__form">
                 <h1>Appointments:</h1>
-                {              
-                    appointmentsOwner.map(({ id, owner,pet, date }) => {
+                {
+                    appointmentsOwner.map(({ id, owner, pet, date }) => {
+                        
+                        // console.log(11111, this.state.appointmentsOwner)
                         appointmentsOwner.sort(function (a, b) {
                             return a.date - b.date
                         })
-                        let dateVisit = new Date(date)
-                        console.log(dateVisit)
-                        // var res = date1.slice(0, 21);
+                        // console.log(2222, this.state.appointmentsOwner)
+                    let dateVisit = new Date(date)
+                    console.log(dateVisit)
+                    //   let dateVisit = date
+                        var today = new Date()
+                        // var day = today.getDate()+2
+
                         if (owner._id === this.state.user) {
-                            return (
+                            // return this.visitOwner(id, owner, pet, date)
+                        return (
+                           
                                 <tr>
                                     <p className="appointment" value={id}>
                                         <th>
                                             Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
-                                            <br/>
+                                            <br />
                                             Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
-                                            <br/>
+                                            <br />
                                             Pet:{' '}{pet.name}{owner.name}
-                                            <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>
-                                    </th>
+                                            {/* {console.log(dateVisit.getUTCDate(), today.getDate()+2)} */}
+                                            {/* {dateVisit.getUTCDate() < today.getDate()+2 ?   <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}    */}
+                                            {/* <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button> */} 
+                                        </th>
                                     </p>
                                 </tr>
-                            )
-                        // }
-                        // count=+1
-                        // console.log(count)
-                       
+
+//     <tr>
+//     <p className="appointment" value={id}>
+//         {/* <th className="calendarOwner"> */}
+//         <th>
+//             {/* Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
+//             <br />
+//             Hour:{' '}{dateVisit.getUTCHours() + 1}{':'}{dateVisit.getMinutes()}{'h'}
+//             <br />
+//             Pet:{' '}{pet.name}{owner.name} */}
+//             {/* {dateVisit+2 >= today  ?  <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}   
+//             {/* {dateVisit.getUTCMonth() >= today.getUTCMonth() ?  <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}    */}
+//             {/* {dateVisit.getUTCDate() - today.getUTCDate() >= 2 ?   <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}    */} */}
+
+//             {/* dateVisit.getUTCMonth() >= today.getUTCMonth() && dateVisit.getUTCDate() - today.getUTCDate() >= 2 ?   <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}    */}
+//             {console.log(dateVisit.getUTCDate() - 2, today.getDate())}
+//             {/* <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button> */} 
+//         </th>
+//     </p>
+// </tr>
+
+//    {dateVisit.getUTCMonth() >= today.getUTCMonth() && dateVisit.getUTCDate() - today.getUTCDate() >= 2 ?   <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>:''}   
+
+
+)
+}
+
+                        })
                     }
-                })
-                }
                 {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}
                 {this.state.noAppointments && <div className="no__appointments">
                     {/* <div className="noAppointments"> */}
                     {/* <p>You don't have any appointment</p> */}
-                   
-                  
+
+
                     <p>If you want an appointment or modify it, you can call at 01792 205000</p>
                     <p>Or send us an email: stjamesvet@stjamesvet.com</p>
-                   
+
                 </div>
                     // </div>
                 }
@@ -111,3 +157,53 @@ class VisitOwner extends Component {
 }
 
 export default withRouter(VisitOwner)
+
+// if (owner._id === this.state.user) {
+//     if(dateVisit.getUTCDate() < today.getDate()){
+
+// return (
+    
+//         <tr>
+//             <p className="appointment" value={id}>
+//                 <th>
+//                     Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
+//                     <br />
+//                     Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
+//                     <br />
+//                     Pet:{' '}{pet.name}{owner.name}
+                  
+//                     {/* <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button> */}
+//                 </th>
+//             </p>
+//         </tr>
+        
+//         )
+         
+     
+        
+//         // }
+//         // count=+1
+//         // console.log(count)
+    
+//     }
+//     // this.getDelete()
+    
+// })
+// }
+// {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}
+// {this.state.noAppointments && <div className="no__appointments">
+// {/* <div className="noAppointments"> */}
+// {/* <p>You don't have any appointment</p> */}
+
+
+// <p>If you want an appointment or modify it, you can call at 01792 205000</p>
+// <p>Or send us an email: stjamesvet@stjamesvet.com</p>
+
+// </div>
+// // </div>
+// }
+// </div>
+// <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
+// </form>
+// }
+// }

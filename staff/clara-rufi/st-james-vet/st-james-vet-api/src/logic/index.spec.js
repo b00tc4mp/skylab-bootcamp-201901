@@ -1,6 +1,5 @@
 'use strict'
 
-///////////////falta update remove  user!!!!!!!!!!!!!!!!!
 require('dotenv').config()
 
 require('isomorphic-fetch')

@@ -77,10 +77,10 @@ const logic = {
             body: JSON.stringify({ name, surname, idCard, phone, adress, city, email, password, passwordConfirmation })
         })
             .then(response => response.json())
-            .then(({ id, error }) => {
+            .then(({ message, error }) => {
                 if (error) throw Error(error)
 
-                return id
+                return message
             })
     },
 
@@ -188,8 +188,7 @@ const logic = {
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
         if (!password.trim().length) throw Error('password cannot be empty')
-
-      
+  
         return fetch(`${this.url}/user/auth`, {
            
             method: 'POST',
@@ -224,14 +223,23 @@ const logic = {
         window.location.reload()
     },
 
+    /**
+     * Remove session storage
+     */
     removeStorage(){
     sessionStorage.clear()
     },
 
+    /**
+     * Check if the user logged is adnim
+     */
     get isAdmin() {
         return this.__userAdmin__ === 'true'
     },
 
+    /**
+     * Retrieve all users registered
+     */
     retrieveUsers() {
         
         this.__updateToken__()
@@ -249,6 +257,9 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieve owner's appointments
+     */
     retrieveAppointmentsOwner() {
         debugger
         this.__updateToken__()
@@ -261,11 +272,19 @@ const logic = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
+
+                response.forEach(appointment => appointment.date = new Date(appointment.date))
                 
                 return response
             })
     },
 
+    /**
+     * Retrieve month's appointments
+     * 
+     * @param {string} year 
+     * @param {string} month 
+     */
     retrieveAppointments(year, month) {  
           
         this.__updateToken__()
@@ -287,6 +306,11 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieve pet's information
+     * 
+     * @param {string} userId 
+     */
     retrievePets(userId){
 
           this.__updateToken__()
@@ -304,6 +328,13 @@ const logic = {
             })
     },
 
+    /**
+     * Assing appointments
+     * 
+     * @param {string} owner 
+     * @param {string} pet 
+     * @param {string} date 
+     */
     assignAppointment(owner, pet, date){
         if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
@@ -336,6 +367,11 @@ const logic = {
             })
     },
 
+    /**
+     * Delete appointment
+     * 
+     * @param {string} Id 
+     */
     deleteAppointment(Id){
 
         if (typeof Id !== 'string') throw TypeError(Id + ' is not a string')
@@ -359,10 +395,12 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * Retrieve all users
+     */
     retrieveUser() {
-        // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        // if (!token.trim().length) throw Error('token is empty')
-          // this.__userToken__()
+      
           this.__updateToken__()
         return fetch(`${this.url}/user/`, {
 
@@ -377,28 +415,34 @@ const logic = {
                 return response
             })
         },
+    
+    /**
+     * Retrieve user's information
+     * 
+     * @param {string} userSelectedId 
+     */
+    retrieveUserSelected(userSelectedId) {
         
-    
-        retrieveUserSelected(userSelectedId) {
-            debugger
-            // if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-            // if (!token.trim().length) throw Error('token is empty')
-              // this.__userToken__()
-              this.__updateToken__()
-            return fetch(`${this.url}/user/${userSelectedId}`, {
-    
-                headers: {
-                    authorization: `Bearer ${this.__userToken__}`
-                }
+        this.__updateToken__()
+        return fetch(`${this.url}/user/${userSelectedId}`, {
+
+            headers: {
+                authorization: `Bearer ${this.__userToken__}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
             })
-                .then(response => response.json())
-                .then(response => {
-                    if (response.error) throw Error(response.error)
-    
-                    return response
-                })
-            },
-            
+        },
+           
+    /**
+     * Retrieve pet's information
+     * 
+     * @param {string} petsId 
+     */
     retrievePet(petsId) {
       
           this.__updateToken__()
@@ -415,6 +459,11 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieve appointment information depending on user logged
+     * 
+     * @param {string} petsId 
+     */
     retrievePetVisit(petsId) {
        
           this.__updateToken__()
@@ -432,6 +481,17 @@ const logic = {
 
     },
     
+    /**
+     * Update user's information
+     * 
+     * @param {string} name 
+     * @param {string} surname 
+     * @param {string} idCard 
+     * @param {string} phone 
+     * @param {string} adress 
+     * @param {string} city 
+     * @param {string} email 
+     */
     updateUser(name, surname, idCard, phone, adress, city, email) {
        
           this.__updateToken__()
@@ -451,13 +511,15 @@ const logic = {
             })
     },
 
+  
     /**
-    * Updates a pet.
-    * 
-    * @param {string} token
-    * @param {string} data
-    * 
-    */
+     * Update pet's information
+     * 
+     * @param {string} petsId 
+     * @param {string} name 
+     * @param {string} microchip 
+     * @param {sgring} petlicence 
+     */
     updatePet(petsId, name, microchip, petlicence) {
         debugger
       
@@ -478,6 +540,14 @@ const logic = {
             })
     },
 
+    /**
+     * Update visit's information
+     * 
+     * @param {string} petsId 
+     * @param {string} vaccionations 
+     * @param {string} controls 
+     * @param {string} details 
+     */
     updateVisit(petsId, vaccionations, controls, details) {
        
           this.__updateToken__()
