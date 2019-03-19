@@ -59,12 +59,13 @@ function Player(props) {
 		getGameByID();
 	}, [gameID]);
 	
+	const userLoggedIn = JSON.parse(authService.userLoggedIn);
 
 	const getGameByID = async () => {
 		try {
 			const game = await gameService.getGameByID(gameID);
 
-			const userIsPlayer = game.users.some(_user => _user._id === authService.userLoggedIn.id)
+			const userIsPlayer = game.users.some(_user => _user._id === userLoggedIn.id)
 
 			if(userIsPlayer && !game.end) {
 				gameService.onReconect(gameID);

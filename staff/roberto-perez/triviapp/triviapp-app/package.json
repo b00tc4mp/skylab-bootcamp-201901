@@ -33,5 +33,11 @@
 		"not dead",
 		"not ie <= 11",
 		"not op_mini all"
-	]
+	],
+	"devDependencies": {
+		"bcrypt": "^3.0.4",
+		"triviapp-data": "file:../triviapp-data",
+		"triviapp-errors": "file:../triviapp-errors",
+		"triviapp-validation": "file:../triviapp-validation"
+	}
 }

@@ -2,7 +2,7 @@
 	background: #fff;
 	display: grid;
 	grid-template-columns: auto;
-	grid-template-rows: auto auto;
+	grid-template-rows: minmax(200px, auto) auto;
 	width: 100%;
     background-color: #ffffff;
     border: 1px solid #f1eeea;
@@ -40,6 +40,8 @@
 	&__title {
 		margin: 0 0 15px 0;
 		font-size: 1.5em;
+		padding-bottom: 15px;
+		border-bottom: 1px solid #e4e4e4;
 	}
 	&__description {
 		margin: 5px 0;

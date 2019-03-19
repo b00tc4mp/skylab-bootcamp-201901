@@ -9,7 +9,7 @@ function Profile(props) {
 	const wrapperRef = useRef(null);
 	const [isHidden, setisHidden] = useState(true);
 
-	const currentUser = auth.userLoggedIn;
+	const currentUser = JSON.parse(auth.userLoggedIn);
 
 	useEffect(() => {
 		document.addEventListener('click', handleClickOutside, false);
@@ -31,7 +31,9 @@ function Profile(props) {
 	const logOut = Event => {
 		Event.preventDefault();
 
-		auth.logOutUser();
+		sessionStorage.clear()
+
+		// auth.logOutUser();
 
 		props.history.push('/');
 	};

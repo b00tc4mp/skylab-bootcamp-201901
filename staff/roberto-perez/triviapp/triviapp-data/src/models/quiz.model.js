@@ -134,7 +134,7 @@ quizSchema.statics = {
 	 * @returns {Promise<Quiz[]>}
 	 */
 	search({ page = 1, perPage = 9, query }) {
-		return this.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } })
+		return this.find({ $text: { $search: query }, 'questions.0': { $exists: true } }, { score: { $meta: 'textScore' } })
 			.sort({
 				score: { $meta: 'textScore' },
 			})

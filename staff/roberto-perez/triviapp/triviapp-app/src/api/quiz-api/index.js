@@ -1,4 +1,5 @@
 import auth from '../../services/auth';
+const validate = require('triviapp-validation');
 
 const quizApi = {
 	url: 'NO_URL',
@@ -18,13 +19,19 @@ const quizApi = {
 			});
 	},
 
-	createQuiz(data) {
-		//VALIDACIONES DE TIPO
+	createQuiz(token, data) {
+		const { title, description } = data;
+
+		validate([
+			{ key: 'title', value: title, type: String },
+			{ key: 'description', value: description, type: String },
+		]);
+
 		return fetch(`${this.url}/quiz`, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(data),
 		})
@@ -35,14 +42,19 @@ const quizApi = {
 			});
 	},
 
-	editQuiz(quizId, data) {
-		//VALIDACIONES DE TIPO
+	editQuiz(token, quizId, data) {
+		const { title, description } = data;
+
+		validate([
+			{ key: 'title', value: title, type: String, optional: true },
+			{ key: 'description', value: description, type: String, optional: true },
+		]);
 
 		return fetch(`${this.url}/quiz/${quizId}`, {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(data),
 		})
@@ -53,14 +65,12 @@ const quizApi = {
 			});
 	},
 
-	deleteQuiz(quizId) {
-		//VALIDACIONES DE TIPO
-
+	deleteQuiz(token, quizId) {
 		return fetch(`${this.url}/quiz/${quizId}`, {
 			method: 'DELETE',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())
@@ -86,6 +96,11 @@ const quizApi = {
 	},
 
 	listQuizzes(offset) {
+
+		validate([
+			{ key: 'Offset', value: offset, type: Number, optional: true },
+		]);
+
 		return fetch(`${this.url}/quiz/page/${offset}`, {
 			method: 'GET',
 			headers: {
@@ -99,12 +114,13 @@ const quizApi = {
 			});
 	},
 
-	myListQuizzes(offset) {
+	myListQuizzes(token, offset) {
+		
 		return fetch(`${this.url}/quiz/page/${offset}/author`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())

@@ -11,6 +11,8 @@ import questionApi from './api/question-api';
 import quizApi from './api/quiz-api';
 import imageApi from './api/image-api';
 
+import auth from './services/auth';
+
 const { REACT_APP_BASE_URL_API, REACT_APP_BASE_URL } = process.env;
 
 userApi.url = REACT_APP_BASE_URL_API;
@@ -21,27 +23,27 @@ quizApi.url = REACT_APP_BASE_URL_API;
 imageApi.url = REACT_APP_BASE_URL_API;
 
 
-// Object.defineProperties(auth, {
-// 	__user__: {
-// 		set(user) {
-// 			sessionStorage.setItem('__user__', user);
-// 		},
+Object.defineProperties(auth, {
+	__user__: {
+		set(user) {
+			sessionStorage.setItem('__user__', user);
+		},
 
-// 		get() {
-// 			return sessionStorage.getItem('__user__');
-// 		},
-// 	},
+		get() {
+			return sessionStorage.getItem('__user__');
+		},
+	},
 
-// 	__userApiToken__: {
-// 		set(token) {
-// 			sessionStorage.setItem('__userApiToken__', token);
-// 		},
+	__userApiToken__: {
+		set(token) {
+			sessionStorage.setItem('__userApiToken__', token);
+		},
 
-// 		get() {
-// 			return sessionStorage.getItem('__userApiToken__');
-// 		},
-// 	},
-// });
+		get() {
+			return sessionStorage.getItem('__userApiToken__');
+		},
+	},
+});
 
 ReactDOM.render(
 	<HashRouter>

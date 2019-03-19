@@ -1,4 +1,5 @@
 import gameApi from '../../api/game-api';
+import auth from '../auth';
 import State from '../state';
 
 const game = {
@@ -40,7 +41,7 @@ const game = {
 
 	async create(quizId) {
 		try {
-			const game = await gameApi.createGame(quizId);
+			const game = await gameApi.createGame(auth.__userApiToken__, quizId);
 
 			this.state.set(game);
 
@@ -52,7 +53,7 @@ const game = {
 
 	async getGameByID(gameID) {
 		try {
-			const game = await gameApi.getGameByID(gameID);
+			const game = await gameApi.getGameByID(auth.__userApiToken__, gameID);
 
 			return game;
 		} catch (error) {
@@ -62,7 +63,7 @@ const game = {
 
 	async joinGame(gameCode) {
 		try {
-			const game = await gameApi.joinGame(gameCode);
+			const game = await gameApi.joinGame(auth.__userApiToken__, gameCode);
 
 			return game;
 		} catch (error) {
@@ -81,7 +82,7 @@ const game = {
 
 	async startGame(gameID) {
 		try {
-			await gameApi.startGame(gameID);
+			await gameApi.startGame(auth.__userApiToken__, gameID);
 
 			return game;
 		} catch (error) {
@@ -91,7 +92,7 @@ const game = {
 
 	async showQuestionToPlayer(gameID) {
 		try {
-			return await gameApi.emitNextQuestion(gameID);
+			return await gameApi.emitNextQuestion(auth.__userApiToken__, gameID);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -99,7 +100,7 @@ const game = {
 
 	async showQuestionsResults(gameID, questionID) {
 		try {
-			return await gameApi.getQuestionsResults({ gameID, questionID });
+			return await gameApi.getQuestionsResults(auth.__userApiToken__, { gameID, questionID });
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -107,7 +108,7 @@ const game = {
 
 	async nextQuestion(gameID) {
 		try {
-			return await gameApi.setNxtQuestion(gameID);
+			return await gameApi.setNxtQuestion(auth.__userApiToken__, gameID);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -115,7 +116,7 @@ const game = {
 
 	async gameOver(gameID) {
 		try {
-			return await gameApi.gameOver(gameID);
+			return await gameApi.gameOver(auth.__userApiToken__, gameID);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -123,7 +124,7 @@ const game = {
 
 	async getPodium(gameID) {
 		try {
-			return await gameApi.getPodium(gameID);
+			return await gameApi.getPodium(auth.__userApiToken__, gameID);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -131,7 +132,7 @@ const game = {
 
 	async showTimeOutScreen(gameID) {
 		try {
-			return await gameApi.emitTimeOutScreen(gameID);
+			return await gameApi.emitTimeOutScreen(auth.__userApiToken__, gameID);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -139,7 +140,7 @@ const game = {
 
 	async answeQuestion(gameId, questionId, answerId) {
 		try {
-			return await gameApi.answeQuestion({ gameId, questionId, answerId });
+			return await gameApi.answeQuestion(auth.__userApiToken__, { gameId, questionId, answerId });
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -147,7 +148,7 @@ const game = {
 
 	async getScore(gameId) {
 		try {
-			return await gameApi.getScore(gameId);
+			return await gameApi.getScore(auth.__userApiToken__, gameId);
 		} catch (error) {
 			throw Error(error.message);
 		}

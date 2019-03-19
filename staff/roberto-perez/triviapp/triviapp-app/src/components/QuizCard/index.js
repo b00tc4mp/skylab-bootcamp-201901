@@ -17,6 +17,8 @@ function QuizCard(props) {
 		imgSrc = picture;
 	}
 
+	const userLoggedIn = JSON.parse(auth.userLoggedIn);
+
 	return (
 		<div className="quiz">
 			<figure className="quiz__figure">
@@ -26,7 +28,7 @@ function QuizCard(props) {
 				<div className="btn-favorite">
 					<i className="far fa-star" />
 				</div>
-				{(auth.userLoggedIn && (auth.userLoggedIn.id === author._id)) && (
+				{(userLoggedIn && (userLoggedIn.id === author._id)) && (
 					<div className="btn-edit-quiz">
 						<Link to={`dashboard/create/quiz/${id}/overview`}>
 							<FontAwesomeIcon icon="pen" /> Edit

@@ -3,14 +3,14 @@ import auth from '../../services/auth';
 const imageApi = {
 	url: 'NO_URL',
 	
-	uploadImage(image) {
+	uploadImage(token, image) {
 		let formData = new FormData();
 		formData.append('image', image);
 
 		return fetch(`${this.url}/image`, {
 			method: 'POST',
 			headers: {
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 			body: formData,
 		})

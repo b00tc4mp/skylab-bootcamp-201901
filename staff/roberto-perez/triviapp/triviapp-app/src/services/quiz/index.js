@@ -1,5 +1,6 @@
 import quizApi from '../../api/quiz-api';
 import validate from '../../utils/validate';
+import auth from '../auth';
 
 const quiz = {
 	async get(quizId) {
@@ -17,7 +18,7 @@ const quiz = {
 			const data = {
 				picture
 			}
-			return await quizApi.editQuiz(quizId, data);
+			return await quizApi.editQuiz(auth.__userApiToken__, quizId, data);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -33,7 +34,7 @@ const quiz = {
 		]);
 
 		try {
-			return await quizApi.editQuiz(quizId, data);
+			return await quizApi.editQuiz(auth.__userApiToken__, quizId, data);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -57,7 +58,7 @@ const quiz = {
 
 	async myQuizzes(offset = 1) {
 		try {
-			return await quizApi.myListQuizzes(offset);
+			return await quizApi.myListQuizzes(auth.__userApiToken__, offset);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -72,11 +73,7 @@ const quiz = {
 			{ key: 'Image', value: picture, type: String, optional: true },
 		]);
 
-		try {
-			return await quizApi.createQuiz(data);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await quizApi.createQuiz(auth.__userApiToken__, data);
 	},
 
 	async delete(quizId) {
@@ -85,7 +82,7 @@ const quiz = {
 		]);
 		
 		try {
-			return await quizApi.deleteQuiz(quizId);
+			return await quizApi.deleteQuiz(auth.__userApiToken__, quizId);
 		} catch (error) {
 			throw Error(error.message);
 		}

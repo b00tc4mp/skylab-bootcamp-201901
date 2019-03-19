@@ -43,6 +43,8 @@ function Game(props) {
 	const [totalUsers, setTotalUsers] = useState(0);
 	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
+	const userLoggedIn = JSON.parse(authService.userLoggedIn);
+
 	useEffect(() => {
 		getGameByID(gameID);
 	}, [gameId]);
@@ -57,7 +59,7 @@ function Game(props) {
 		try {
 			const game = await gameService.getGameByID(gameID);
 
-			if (authService.userLoggedIn.id !== game.host) {
+			if (userLoggedIn.id !== game.host) {
 				throw Error(
 					'This quiz has been set to private. Ask the creator to share it with you to play',
 				);

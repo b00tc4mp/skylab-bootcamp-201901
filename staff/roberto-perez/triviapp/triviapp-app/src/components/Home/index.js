@@ -78,6 +78,7 @@ function Home(props) {
 							<Route exact path="/user/profile" component={UserProfile} />
 							<Route path="/" component={Landing} />
 							<Route path="*" component={NotFound} />
+											
 						</Switch>
 						<Footer />
 					</div>

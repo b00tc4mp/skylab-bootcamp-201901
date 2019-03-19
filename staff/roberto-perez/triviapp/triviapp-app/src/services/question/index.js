@@ -1,5 +1,6 @@
 import questionApi from '../../api/question-api';
 import validate from '../../utils/validate';
+import auth from '../auth';
 
 const question = {
 	async get(quizId, questionId) {
@@ -39,7 +40,7 @@ const question = {
 		]);
 
 		try {
-			return await questionApi.createQuestion(quizId, data);
+			return await questionApi.createQuestion(auth.__userApiToken__, quizId, data);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -67,7 +68,7 @@ const question = {
 		]);
 
 		try {
-			return await questionApi.editQuestion(quizId, questionId, data);
+			return await questionApi.editQuestion(auth.__userApiToken__, quizId, questionId, data);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -80,7 +81,7 @@ const question = {
 		]);
 
 		try {
-			return await questionApi.deleteQuestion(quizId, questionId);
+			return await questionApi.deleteQuestion(auth.__userApiToken__, quizId, questionId);
 		} catch (error) {
 			throw Error(error.message);
 		}
@@ -92,7 +93,7 @@ const question = {
 				picture
 			}
 			
-			return await questionApi.editQuestion(quizId, questionId, data);
+			return await questionApi.editQuestion(auth.__userApiToken__, quizId, questionId, data);
 		} catch (error) {
 			throw Error(error.message);
 		}

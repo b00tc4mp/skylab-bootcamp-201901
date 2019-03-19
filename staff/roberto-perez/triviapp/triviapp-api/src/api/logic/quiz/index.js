@@ -23,12 +23,13 @@ module.exports = {
 	listQuizzesByAuthor(data) {
 		const { authorID } = data;
 
+		
 		if(!authorID) throw new UnauthorizedError('Access is denied due to invalid credentials.')
 
 		validate([
 			{ key: 'Author ID', value: authorID, type: String },
 		]);
-
+		
 		return (async data => {
 			const quizzes = await Quiz.listByAuthor(data);
 			const transformedQuiz = quizzes.map(quiz => quiz.normalize());

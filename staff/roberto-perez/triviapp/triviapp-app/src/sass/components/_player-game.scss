@@ -10,6 +10,8 @@
     align-items: center;
     font-family: 'Poppins', sans-serif;
     z-index: 99;
+    top: 70px;
+    left: 0px;
 
     & .loadingspinner {
         pointer-events: none;
@@ -17,7 +19,7 @@
         height: 2.5em;
         border: 0.4em solid transparent;
         border-color: transparent;
-        border-top-color: #000;
+        border-top-color: #ccc;
         border-radius: 50%;
         margin: 0px auto;
         animation: loadingspin 1s linear infinite;

@@ -60,7 +60,6 @@ exports.listByAuthor = async (req, res) => {
 	const {
 		params: { offset = 0 },
 	} = req;
-
 	try {
 		req.body.page = offset;
 		req.body.authorID = req.userId;

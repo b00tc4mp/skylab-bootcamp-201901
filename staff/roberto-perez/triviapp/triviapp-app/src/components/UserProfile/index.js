@@ -5,6 +5,8 @@ import { useDropzone } from 'react-dropzone';
 
 import Feedback from '../Feedback';
 
+import requireAuth from '../middlewares/requireAuth';
+
 import auth from '../../services/auth';
 import imageService from '../../services/image';
 
@@ -233,4 +235,4 @@ function UserProfile(props) {
 	);
 }
 
-export default withRouter(UserProfile);
+export default withRouter(requireAuth(UserProfile));

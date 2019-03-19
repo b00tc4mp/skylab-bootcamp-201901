@@ -1,5 +1,6 @@
 import auth from '../../services/auth';
 const io = require('socket.io-client');
+const validate = require('triviapp-validation');
 // import socketApi from '../../services/socket';
 
 const gameApi = {
@@ -26,13 +27,17 @@ const gameApi = {
 		this.socket.emit('LEAVE_GAME', data);
 	},
 
-	createGame(quizId) {
-		//VALIDACIONES DE TIPO
+	createGame(token, quizId) {
+		validate([
+			{ key: 'Token', value: token, type: String },
+			{ key: 'Quiz ID', value: quizId, type: String },
+		]);
+
 		return fetch(`${this.url}/game`, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify({ quiz: quizId }),
 		})
@@ -44,13 +49,13 @@ const gameApi = {
 			});
 	},
 
-	getGameByID(gameID) {
+	getGameByID(token, gameID) {
 		//VALIDACIONES DE TIPO
 		return fetch(`${this.url}/game/${gameID}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())
@@ -60,13 +65,18 @@ const gameApi = {
 			});
 	},
 
-	joinGame(gameCode) {
-		//VALIDACIONES DE TIPO
+	joinGame(token, gameCode) {
+		
+		validate([
+			{ key: 'Token', value: token, type: String },
+			{ key: 'Game code', value: gameCode, type: Number },
+		]);
+
 		return fetch(`${this.url}/game/join`, {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify({ gameCode }),
 		})
@@ -78,13 +88,13 @@ const gameApi = {
 			});
 	},
 
-	startGame(gameID) {
+	startGame(token, gameID) {
 		//VALIDACIONES DE TIPO
 		return fetch(`${this.url}/game/${gameID}/start`, {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())
@@ -94,13 +104,13 @@ const gameApi = {
 			});
 	},
 
-	emitNextQuestion(gameID) {
+	emitNextQuestion(token, gameID) {
 		console.log(gameID);
 		return fetch(`${this.url}/game/${gameID}/emit-question`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())
@@ -111,12 +121,12 @@ const gameApi = {
 			});
 	},
 
-	getQuestionsResults(data) {
+	getQuestionsResults(token, data) {
 		return fetch(`${this.url}/game/${data.gameID}/question/results`, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify({ questionId: data.questionID }),
 		})
@@ -127,12 +137,12 @@ const gameApi = {
 			});
 	},
 
-	setNxtQuestion(gameID) {
+	setNxtQuestion(token, gameID) {
 		return fetch(`${this.url}/game/${gameID}/next-question`, {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())
@@ -146,13 +156,13 @@ const gameApi = {
 		this.emitLeaveGame(`game-${gameID}`);
 	},
 
-	gameOver(gameID) {
+	gameOver(token, gameID) {
 		//VALIDACIONES DE TIPO
 		return fetch(`${this.url}/game/${gameID}/game-over`, {
 			method: 'PATCH',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())
@@ -162,12 +172,12 @@ const gameApi = {
 			});
 	},
 
-	getPodium(gameId) {
+	getPodium(token, gameId) {
 		return fetch(`${this.url}/game/${gameId}/podium`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())
@@ -177,12 +187,12 @@ const gameApi = {
 			});
 	},
 
-	emitTimeOutScreen(gameId) {
+	emitTimeOutScreen(token, gameId) {
 		return fetch(`${this.url}/game/${gameId}/time-out-question`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())
@@ -193,12 +203,12 @@ const gameApi = {
 			});
 	},
 
-	answeQuestion(data) {
+	answeQuestion(token, data) {
 		return fetch(`${this.url}/game/${data.gameId}/answer`, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify({
 				questionId: data.questionId,
@@ -212,12 +222,12 @@ const gameApi = {
 			});
 	},
 
-	getScore(gameId) {
+	getScore(token, gameId) {
 		return fetch(`${this.url}/game/${gameId}/score`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
-				authorization: `Bearer ${auth.token}`,
+				authorization: `Bearer ${token}`,
 			},
 		})
 			.then(response => response.json())

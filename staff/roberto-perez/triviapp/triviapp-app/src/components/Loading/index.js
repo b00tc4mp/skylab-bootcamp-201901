@@ -1,9 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
-import quiz from '../../services/quiz';
-import Answer from './Answer';
-import QuizInfo from './QuizInfo';
-
 function Loading(props) {
 	const [isLoading, setIsLoading] = useState(true);
 
