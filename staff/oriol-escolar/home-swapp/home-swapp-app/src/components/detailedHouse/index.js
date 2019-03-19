@@ -115,13 +115,19 @@ class DetailedHouse extends Component {
             }
 
 
-            return <ImageGallery items = {newImages}/>
+            return <ImageGallery items={newImages} />
 
         }
 
 
     }
 
+    contactButton = ()=> {
+
+
+        this.props.contactButton(this.state.thisHouse.ownerId)
+
+    }
 
 
     goBack() {
@@ -131,7 +137,7 @@ class DetailedHouse extends Component {
 
     render() {
 
-        const { state: { thisHouse, user, location }, props: { }, goBack,imageViewer } = this
+        const { state: { thisHouse, user, location }, props: { }, goBack, imageViewer,contactButton } = this
 
         return <div className="detailedHouse" >
 
@@ -166,7 +172,7 @@ class DetailedHouse extends Component {
 
                         </div>
 
-                        {user && <button className="detailedHouse__content-infoBlock-1__Contact" >Contact</button>}
+                        {user && <button className="detailedHouse__content-infoBlock-1__Contact" onClick={contactButton}>Contact</button>}
 
                     </div>
 

@@ -11,6 +11,7 @@ import Header from '../Header'
 import SearchResults from '../searchResults'
 import CreateHouse from '../createHouse'
 import DetailedHouse from '../detailedHouse'
+import Chat from '../chat'
 import logic from '../../logic'
 
 
@@ -23,7 +24,10 @@ class App extends Component {
     loginFeedback: null,
     registerFeedback: null,
     createHouseFeedback: null,
-    registered: ""
+    registered: "",
+    conversations: [],
+    userChat: null,
+    messages: []
 
 
   }
@@ -32,10 +36,11 @@ class App extends Component {
 
 
   componentDidMount() {
-    logic.getUserApiToken() && logic.retrieveUser()
+    return logic.getUserApiToken() && logic.retrieveUser()
       .then(user => {
 
         this.setState({ user })
+          .then(() => this.setState({ conversations: user.conversations }))
 
 
 
@@ -56,24 +61,24 @@ class App extends Component {
   }
 
   updateInfo = async () => {
-    if(this.state.user){
+    if (this.state.user) {
 
       const user = await logic.retrieveUser()
       const userFavs = await logic.retrieveFavorites()
       const userHouses = await logic.retrieveMyHouses()
-      if(JSON.stringify(this.state.user) !== JSON.stringify( user)){
+      if (JSON.stringify(this.state.user) !== JSON.stringify(user)) {
         this.setState({ user })
         console.log('updated user')
 
       }
-      
-      if(JSON.stringify(this.state.userFavs) !== JSON.stringify(userFavs)){
+
+      if (JSON.stringify(this.state.userFavs) !== JSON.stringify(userFavs)) {
         this.setState({ userFavs })
         console.log('updated userfavs')
 
       }
-     
-      if(JSON.stringify(this.state.userHouses) !== JSON.stringify(userHouses)){
+
+      if (JSON.stringify(this.state.userHouses) !== JSON.stringify(userHouses)) {
         this.setState({ userHouses })
         console.log('updated userhouses')
 
@@ -222,14 +227,35 @@ class App extends Component {
   //#endregion
 
 
+  contactButton = async (userChat) => {
+    debugger
+    await this.setState({ userChat })
+
+    var index = this.state.conversations.findIndex(conver => conver.interlocutor == userChat)
+
+    if (!index < 0) {
+
+      await this.setState({ messages: this.state.conversations[index].messages })
+      this.props.history.push(`/chat`)
+
+    }
+    await this.setState({ messages: [] })
+    this.props.history.push(`/chat`)
+
+
+
+
+
+  }
+
   render() {
 
     const {
 
       handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister,
-      handleGoToUser, handleGoToLanding, toggleFavs, updateInfo, onCreateHousePage, onCreateHouse, retrieveHouse,
+      handleGoToUser, handleGoToLanding, toggleFavs, updateInfo, onCreateHousePage, onCreateHouse, retrieveHouse, contactButton,
 
-      state: { user, loginFeedback, registerFeedback, token, userHouses, userFavs, createHouseFeedback }
+      state: { user, loginFeedback, registerFeedback, token, userHouses, userFavs, createHouseFeedback, userChat, messages }
     } = this
 
 
@@ -245,11 +271,12 @@ class App extends Component {
         <div className="content" >
           <Switch>
             <Route path="/search/:query" render={() => <SearchResults toggleFavs={toggleFavs} updateInfo={updateInfo} userFavs={userFavs} retrieveHouse={retrieveHouse} />} />
-            <Route path="/house/:houseId" render={() => <DetailedHouse toggleFavs={toggleFavs} favorites={userFavs} user={user} />} />
+            <Route path="/house/:houseId" render={() => <DetailedHouse toggleFavs={toggleFavs} favorites={userFavs} user={user} contactButton={contactButton} />} />
             {/* <Route path="/editHouse/:houseId" render={() => <EditHouse />} /> */}
             <Route exact path="/createHouse" render={() => <CreateHouse onCreateHouse={onCreateHouse} createHouseFeedback={createHouseFeedback} />} />
             <Route exact path='/' render={() => <LandingPage />} />
             <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
+            <Route exact path="/chat" render={() => <Chat interlocutorId={userChat} messages={messages} />} />
             <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
           </Switch>
           <Route exact path="/user" render={() => <div>
