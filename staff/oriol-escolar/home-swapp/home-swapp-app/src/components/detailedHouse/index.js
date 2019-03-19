@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import MapConainer from '../googleMap'
 import './index.sass';
+import ImageGallery from 'react-image-gallery';
+
 import logic from '../../logic'
 
 
@@ -91,6 +93,36 @@ class DetailedHouse extends Component {
     }
 
 
+    imageViewer = () => {
+
+        const { state: { thisHouse } } = this
+
+        if (thisHouse) {
+
+            let newImages = []
+
+            for (const image of thisHouse.images) {
+
+
+                let newImage = {
+
+                    original: image,
+                    thumbnail: image
+                }
+
+                newImages.push(newImage)
+
+            }
+
+
+            return <ImageGallery items = {newImages}/>
+
+        }
+
+
+    }
+
+
 
     goBack() {
 
@@ -99,7 +131,7 @@ class DetailedHouse extends Component {
 
     render() {
 
-        const { state: { thisHouse, user, location }, props: { }, goBack } = this
+        const { state: { thisHouse, user, location }, props: { }, goBack,imageViewer } = this
 
         return <div className="detailedHouse" >
 
@@ -112,7 +144,12 @@ class DetailedHouse extends Component {
                     <div className='detailedHouse__content-infoBlock-1'>
 
                         <h2> {thisHouse.owner} </h2>
-                        <img className='image' src={thisHouse.images[0]} />
+                        <div>
+
+                            {imageViewer()}
+                            {/* <img className='image' src={thisHouse.images[0]} /> */}
+
+                        </div>
                         <div>
                             <h3>Information</h3>
                             <p> Pets allowed: <span>{thisHouse.info.petsAllowed} </span> </p>
@@ -142,7 +179,8 @@ class DetailedHouse extends Component {
 
 
                 {location && <MapConainer className='map' lat={location.lat} lng={location.lng} > </MapConainer>}
-            </div>}
+            </div>
+            }
 
         </div>
     }

@@ -74,7 +74,7 @@ class HouseCard extends Component {
             logic.toggleFavorite(this.state.thisHouse.id)
             this.ChangeHeart()
             this.props.toggleFavorite(this.state.thisHouse)
-            
+
 
         }
         event.stopPropagation()
@@ -83,12 +83,12 @@ class HouseCard extends Component {
     }
     retrieveHouse = () => {
 
-        
+
         const { props: { retrieveHouse } } = this
 
 
         retrieveHouse(this.state.thisHouse.id)
-        
+
     }
 
     render() {
@@ -100,12 +100,16 @@ class HouseCard extends Component {
         return <div onClick={retrieveHouse} className="HouseCard">
 
             <img className="HouseCard__img" src={images[0]}></img>
-            <p className="HouseCard__text HouseCard__text-city">{adress.city}</p>
-            <p className="HouseCard__text HouseCard__text-adress" >{adress.street}  {adress.number}</p>
-            {iSreadHeart && isFav && (<i className="fas fa-heart favTrue" onClick={toggleFavorite}></i>)}
-            {iSwhiteHeart && !isFav && (<i className="fas fa-heart" onClick={event =>toggleFavorite(event)}></i>)}
-            {logged && origin === 'myHouses' && <div>  <i class="fas fa-ban" onClick={event => deleteHouse(event)}></i>  <i class="fas fa-pen"></i>  </div>}
+            <div className= "Houscard__textWrap">
+                <p className="HouseCard__text HouseCard__text-city">{adress.city}</p>
+                <p className="HouseCard__text HouseCard__text-adress" >{adress.street}  {adress.number}</p>
 
+
+            </div>
+
+            {iSreadHeart && isFav && (<i className="fas fa-heart favTrue icon" onClick={toggleFavorite}></i>)}
+            {iSwhiteHeart && !isFav && (<i className="fas fa-heart icon" onClick={event => toggleFavorite(event)}></i>)}
+            {logged && origin === 'myHouses' && <div>  <i class="fas fa-ban icon" onClick={event => deleteHouse(event)}></i> </div>}
 
         </div>
 

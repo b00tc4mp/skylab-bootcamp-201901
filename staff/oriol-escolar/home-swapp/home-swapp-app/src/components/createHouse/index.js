@@ -55,12 +55,9 @@ class CreateHouse extends Component {
 
             }
 
-            let imagesArray = [
+            let imagesArray = images
 
-
-                images
-
-            ]
+            
 
             this.setState({ adressObject, infoObject, imagesArray })
         })
