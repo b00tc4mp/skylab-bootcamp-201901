@@ -15,10 +15,30 @@
             align-self: center
             text-align: center
             fontsize: $xlarge
+            display: flex
+            flex-direction: column
 
             @include tablet
-                padding-top: 4rem
                 font-size: $xlarge--tablet
+
+            &-logo 
+                content: url('https://res.cloudinary.com/barbass/image/upload/v1553072275/Logo_Skylab.png')
+                width: 30%
+
+                margin-left: 2rem
+                margin-right: 2rem
+                margin-bottom: 1rem
+
+                @include tablet
+                    margin-left: 5rem
+                    margin-right: 5rem
+                    font-size: $medium--tablet
+
+                @include desktop
+                    margin-left: 10rem
+                    margin-right: 10rem
+                    width: 20%
+                    
 
         &__content
             flex-grow: 1

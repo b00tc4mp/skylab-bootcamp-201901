@@ -95,9 +95,11 @@
                 font-size: $small--tablet
 
             & > a
+                color: $secondary
                 @extend %border
                 flex-shrink: 0
                 border-radius: 0.3rem
+                margin-right: 0.5rem
 
     &-results
         flex-grow: 1
@@ -128,6 +130,9 @@
             justify-content: space-around
             @extend %border
 
+            & > a 
+                color: $secondary
+
             @include tablet
                 font-size: $medium--tablet
 
@@ -138,11 +143,8 @@
     @include tablet
         font-size: $medium--tablet
 
-input
-    width: 90%
-
 .share
-    margin-bottom: 0.3rem
+    margin-bottom: 0.5rem
 
     @include tablet
         margin-bottom: 0rem

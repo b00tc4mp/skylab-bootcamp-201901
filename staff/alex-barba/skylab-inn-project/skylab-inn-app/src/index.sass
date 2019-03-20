@@ -3,22 +3,26 @@
     
 /* Fonts */
 
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono') 
+@font-face 
+    font-family: 'atc_overlookregular'
+    src: url('./font/atcoverlook-regular-webfont.woff2') format('woff2')
+    src: url('./font/atcoverlook-regular-webfont.woff') format('woff')
+    font-weight: normal
+    font-style: normal
 
+@font-face 
+    font-family: 'atc_overlooklight'
+    src: url('./font/atcoverlook-light-webfont.woff2') format('woff2')
+    src: url('./font/atcoverlook-light-webfont.woff') format('woff')
+    font-weight: normal
+    font-style: normal
 
 *
-    font-family: 'Roboto Mono', monospace 
+    // font-family: 'atc_overlookregular', 'Open Sans', Arial, sans-serif
+    font-family: 'atc_overlooklight', 'Open Sans', Arial, sans-serif
    
 html
-
-    background: repeating-linear-gradient(-45deg, transparent 0, transparent 25%, $white 0, $white 50%), repeating-linear-gradient(45deg, transparent 0, transparent 25%, $white 0, $white 50%), repeating-linear-gradient(transparent 0, transparent 25%, $white 0, $white 50%), $white
-    background-blend-mode: multiply
-    background-size: 4px 4px
-
-    @include tablet
-        background-size: 6px 6px
-
-    // background-color: $white
+    background-color: $white
 
 body 
     min-height: 100%

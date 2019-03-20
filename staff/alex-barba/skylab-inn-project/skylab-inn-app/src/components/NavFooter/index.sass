@@ -33,11 +33,22 @@
             font-size: $xlarge
             color: $white
 
-            & > span 
+            @include desktop
                 display: none
 
-                @include desktop
-                    display: inline
+        & > div
+            display: none
+
+            @include desktop
+                content: url('https://res.cloudinary.com/barbass/image/upload/v1553072275/Logo_Skylab.png')
+                display: flex 
+                height: 1.8rem
+                cursor: pointer
+                filter: contrast(500%) invert(1)
+
+                &:hover
+                    filter: contrast(100%) invert(0)
+                    
                     
     &__hamburger
         display: none
