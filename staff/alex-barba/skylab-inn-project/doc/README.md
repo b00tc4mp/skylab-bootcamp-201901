@@ -15,7 +15,7 @@ Admins can:
 * Add Skylabers to the whitelist.
 * Check the status of this pre-authorised Skylabers(if signed up or pending email verification).
 * Perfom regular or advance searches of Skylabers.
-* Share hashed urls with contact information of the filteres Skylabers.
+* Share hashed urls with contact information of the filtered Skylabers.
 
 Only pre-authorised Skylabers can register to the network. Once they are added to the whitelist, the Skylabers recieve an email letting them know that they have been cleared to sign up. After registration, Skylabers receive and email to confirm their email addresses.
 
