@@ -5,6 +5,9 @@ section.container{
   justify-content: center;
 }
 form.register {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
   margin-top: $size-m;
 }
 div.inputContainer {

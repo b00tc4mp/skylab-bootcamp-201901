@@ -11,14 +11,19 @@ export const Header = props => {
   const handleOnClick = event => {
     event.preventDefault();
     props.onLogout();
+    props.onHeaderChange();
   };
 
+  const { onHeaderChange } = props;
   return (
     <div className={styles.container}>
       <AppBar position="static" color="primary">
         <Toolbar className={styles.toolbar}>
           <div className={styles.title}>
-            <img className={styles.icon} src="https://image.flaticon.com/icons/svg/434/434113.svg" />
+            <img
+              className={styles.icon}
+              src="https://image.flaticon.com/icons/svg/434/434113.svg"
+            />
             <Typography variant="h6" color="inherit" className={styles.grow}>
               <NavLink to={"/home"}>Padelcat</NavLink>
             </Typography>
@@ -55,13 +60,17 @@ export const Header = props => {
             )}
             {!logic.isPlayerLoggedIn() &&
               props.navigation.location.pathname === "/login" && (
-                <NavLink to={"/register"} className={styles.button}>
+                <NavLink to={"/register"} className={styles.button} onClick={onHeaderChange}>
                   <Button color="inherit">Register</Button>
                 </NavLink>
               )}
             {!logic.isPlayerLoggedIn() &&
               props.navigation.location.pathname === "/register" && (
-                <NavLink to={"/login"} className={styles.button}>
+                <NavLink
+                  to={"/login"}
+                  className={styles.button}
+                  onClick={onHeaderChange}
+                >
                   <Button color="inherit">Login</Button>
                 </NavLink>
               )}

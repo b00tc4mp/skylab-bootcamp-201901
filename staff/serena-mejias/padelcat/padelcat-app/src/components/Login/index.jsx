@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import styles from "./index.module.scss";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-
+import Feedback from "../Feedback";
 
 const Login = props => {
   const [email, setEmail] = useState("");
@@ -16,15 +16,11 @@ const Login = props => {
   };
 
   const isInvalidForm = () => {
-    return (
-      !email ||
-      !password
-    );
+    return !email || !password;
   };
-
+  const { feedback } = props;
   return (
     <div className={styles.container}>
-
       <form onSubmit={handleSubmit}>
         <TextField
           className={styles.inputContainer}
@@ -50,6 +46,7 @@ const Login = props => {
           Login
         </Button>
       </form>
+      {feedback && <Feedback message={feedback} />}
     </div>
   );
 };

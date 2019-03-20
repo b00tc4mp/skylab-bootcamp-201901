@@ -6,10 +6,11 @@ module.exports = (req, res) => {
   try {
     logic
       .registerPlayer(name, surname, email, password, link, preferedPosition,admin)
-      .then(id=> res.json({id}))
+      .then(response=> res.json(response))
       .catch(err => {
-        throw Error(err)});
+        res.status(409).json({ err: err.message });
+      });
   } catch (err) {
-    throw Error(err);
+    res.status(409).json({ err: err.message });
   }
 };

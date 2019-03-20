@@ -49,10 +49,12 @@ const logic = {
     if (!password.trim().length) throw Error("password cannot be empty");
     if (typeof link !== "string") throw TypeError(`${link} is not string`);
     if (!link.trim().length) throw Error("link cannot be empty");
+    
     return (async () => {
       const player = await Player.findOne({ email });
+      
       if (player) {
-        throw Error(`player with email ${player.email} already exists`);
+        throw Error(`Player with email ${player.email} already exists`);
       }
       if (admin) {
         const hash = await bcrypt.hash(password, 10);
@@ -80,7 +82,7 @@ const logic = {
         await this.setScorePlayers(link);
         return id;
       }
-    })();
+    })()
   },
 
   /**
@@ -102,11 +104,11 @@ const logic = {
     return (async () => {
       const player = await Player.findOne({ email });
 
-      if (!player) throw Error(`player with email ${email} not found`);
+      if (!player) throw Error(`Player with email ${email} not found`);
 
       const match = await bcrypt.compare(password, player.password);
 
-      if (!match) throw Error("wrong credentials");
+      if (!match) throw Error("Wrong credentials");
 
       return player;
     })();
@@ -258,7 +260,7 @@ const logic = {
       const newArray = dataMatches.map(async scrappingMatch => {
         const match = await Match.findOne({
           matchId: scrappingMatch.matchId
-        }).populate("playersAvailable"); 
+        }).populate("playersAvailable");
         const {
           matchId,
           date,

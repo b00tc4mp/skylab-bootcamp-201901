@@ -77,7 +77,7 @@ const padelcatApi = {
     if (!password.trim().length) throw Error("password is empty");
     return axios.post("/authenticate", JSON.stringify({ email, password }), {
       headers: { "content-type": "application/json" }
-    });
+    })
   },
 
   retrievePlayers: () => {

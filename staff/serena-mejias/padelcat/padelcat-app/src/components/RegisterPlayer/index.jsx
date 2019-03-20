@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import Modal from "../Modal";
 import styles from "./index.module.scss";
 import { TextField, Select, InputLabel, MenuItem } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Feedback from "../Feedback";
 
 const RegisterPlayer = props => {
+  console.log("props", props);
   const [name, setName] = useState(null);
   const [surname, setSurname] = useState(null);
   const [email, setEmail] = useState(null);
@@ -33,9 +35,19 @@ const RegisterPlayer = props => {
       link
     );
   };
-
-  
-  return (
+  const isInvalidForm = () => {
+    return (
+      !name ||
+      !surname ||
+      !email ||
+      !password ||
+      !passwordConfirm ||
+      !link ||
+      (password && password !== passwordConfirm)
+    );
+  };
+  const { feedback} = props;
+    return (
     <section className={styles.container}>
       <form className={styles.register} onSubmit={handleRegisterSubmit}>
         <TextField
@@ -92,7 +104,17 @@ const RegisterPlayer = props => {
           <MenuItem value={"Right"}>Right</MenuItem>
           <MenuItem value={"Both"}>Both</MenuItem>
         </Select>
-        <Modal name={name} surname={surname} email={email} password={password} passwordConfirm={passwordConfirm} link={link}/>
+        <div className={styles.button_register}>
+          <Button
+            variant="contained"
+            color="primary"
+            type={"submit"}
+            disabled={isInvalidForm()}
+          >
+            Register
+          </Button>
+        </div>
+        {feedback && <Feedback message={feedback} />}
       </form>
     </section>
   );
