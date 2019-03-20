@@ -9,7 +9,7 @@
 [About me](https://github.com/PedroGarrigaNogues)
 
 
-[Live Demo]()
+[Live Demo](http://cleanup.surge.sh/#/)
 
 ## Available scripts for development
 

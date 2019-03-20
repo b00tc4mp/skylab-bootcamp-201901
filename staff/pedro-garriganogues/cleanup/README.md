@@ -2,4 +2,4 @@
 
 [Documentation](./docs)
 
-[Demo]
+[Demo] (http://cleanup.surge.sh/#/)
