@@ -12,7 +12,7 @@ class Comment extends Component {
         try {
             return logic.retrieveUser()
                 .then(user => {
-                    if (user.id == comment.user) this.setState({ myComment: comment.user })
+                    if (user.username == comment.user.username) this.setState({ myComment: comment.user.username })
                 })
                 .catch((error) => {
                     console.error(error)
@@ -39,11 +39,11 @@ class Comment extends Component {
         return <section className="comment">
             <p>- {comment.text}</p>
             <article>
-                <p>{comment.user}</p>
+                <p>{comment.user.username}</p>
                 <p>{comment.date.substring(0, 10) + ' ' + comment.date.substring(11, 16)}</p>
             </article>
             {myComment && <form onSubmit={handleDeleteComment}>
-                <button>delete comment</button>
+                <button className="delete">delete comment</button>
             </form>}
         </section>
     }

@@ -29,9 +29,13 @@ class Workspace extends Component {
         }
     }
 
+    handleGoToRegister = event => {
+        event.preventDefault()
+        this.props.history.push('/register')}
+
     render() {
 
-        const { state: { feedback }, handleEmailInput, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
+        const { state: { feedback }, handleEmailInput, handleGoToRegister, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
 
         return <section className="login">
             <section className="login_content">
@@ -48,12 +52,12 @@ class Workspace extends Component {
                     <h2>New here?</h2>
                     <p>Sign up and discover great amount of new opportunities!</p>
                 </div>
+                <form onSubmit={handleGoToRegister} className="img__btn">
+                    <button>Sign Up</button>
+                </form>
                 <div className="img__text m--in">
                     <h2>One of us?</h2>
                     <p>If you already has an account, just sign in. We've missed you!</p>
-                </div>
-                <div className="img__btn">
-                    <span>Sign Up</span>
                 </div>
             </section>
             {feedback && <Feedback message={feedback} />}

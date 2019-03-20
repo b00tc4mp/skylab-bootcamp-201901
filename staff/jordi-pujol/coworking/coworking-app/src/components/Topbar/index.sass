@@ -10,9 +10,6 @@
     z-index: 10
     min-height: 2em
 
-    // a:hover, .dropdown:hover .dropbtn
-    //     background-color: red
-
     &__item
         display: flex
         align-self: center
@@ -27,11 +24,13 @@
             color: white
             padding-left: 1em
 
-    &__item:hover
+    &__item:hover, .fa-users:hover
         size: 30px
         color: white
         // background-color: #3d5bfe
 
+    .fa-users:hover
+        cursor: pointer
 
     .dropdown
         align-self: center

@@ -1,62 +1,71 @@
 .service__
-    height: 10em
-    cursor: pointer
-    width: 8em
+    // height: 10em
+    // width: 8em
     color: #1f0054
 
     &title
-        padding-top: 3em
-        padding-left: 2em
+        padding: auto
+        padding-top: 1em
         max-width: 300px
         +flexin(flex, column, center)
+        cursor: pointer
 
     &item
-        padding-top: 0.5em
-        padding-left: 3.5em
+        padding: 0.8em
         max-width: 300px
 
-// .service__yellow
-//     background-image: url(https://9044c4.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/15/15c3a611dfcbd8c4aa081b8bace8cbafb0b5456c/positvioleta.png)
-//     height: 400px
-//     cursor: pointer
-//     width: 350px
-//     color: #1f0054
-//     // padding: 2em
-//     background-size: cover 
+    &username
+        margin-left: 1em
+        max-width: 300px
+        padding-bottom: 2em
+        text-decoration: none
+        color: black
+
+.service__red
+    min-height: 350px
+    min-width: 80%
+    color: #1f0054
+    margin: 1em
+    background-size: cover 
+    color: white
+    background-color: #408E61
+    border-radius: 10px
+    padding-bottom: 1em
+
+    
+    .service__username
+        margin-left: 1em
+        max-width: 300px
+        padding-bottom: 2em
+        text-decoration: none
+        color: white
+
+.service__yellow
+    min-height: 350px
+    min-width: 80%
+    color: #1f0054
+    margin: 1em
+    background-size: cover 
+    color: black
+    background-color: #E3EECD
+    border-radius: 10px
+    padding-bottom: 1em
 
 .service__blue
-    // background-image: url(https://www.peritacionesdanielgarcia.com/wp-content/uploads/2016/08/postit-azul1.png)
-    // height: 400px
-    // cursor: pointer
-    // width: 350px
-    // color: #1f0054
-    // // padding: 2em
-    // background-size: cover 
-
-// .service__red
-//     background-image: url(https://9fc6ff.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/49/4973721cb13fb2e01ea4829d786a7954a83337d8/online-textbook-orange-post-it-notes.png)
-//     height: 400px
-//     cursor: pointer
-//     width: 350px
-//     color: #1f0054
-//     // padding: 2em
-//     background-size: cover 
-//     color: white
-
-// .service__blue:hover
-//     font-size: 22px
-//     padding-top: 0
-//     margin-top: 0
-//     cursor: pointer
-//     color: #1f0054
-//     transition: all 5s ease
-
+    min-height: 350px
+    min-width: 80%
+    color: #1f0054
+    margin: 1em
+    background-size: cover 
+    color: black
+    background-color: #ACD1B6
+    border-radius: 10px
+    padding-bottom: 1em
 
 @media (min-width: 580px)
 
     .service__
         height: 450px
-        cursor: pointer
         width: 400px
         color: #1f0054
 
@@ -74,24 +83,26 @@
             max-width: 300px
 
         &username
-            padding-top: 3em
-            padding-left: 3em
+            margin-top: 3em
+            margin-left: 3em
             max-width: 300px
+            text-decoration: none
+            color: black
 
     .service__yellow
-        height: 400px
-        cursor: pointer
+        min-height: 400px
         width: 350px
         color: #1f0054
         margin: 2em
         background-size: cover 
         color: black
         background-color: #E3EECD
-        border-radius: 10px 
+        border-radius: 10px
+        min-width: 0
 
     .service__blue
-        height: 400px
-        cursor: pointer
+        min-height: 400px
+        min-width: 0
         width: 350px
         color: #1f0054
         margin: 2em
@@ -101,8 +112,8 @@
         border-radius: 10px 
 
     .service__red
-        height: 400px
-        cursor: pointer
+        min-height: 400px
+        min-width: 0
         width: 350px
         color: #1f0054
         margin: 2em
@@ -110,3 +121,9 @@
         color: white
         background-color: #408E61
         border-radius: 10px
+
+        .service__username
+            margin-top: 3em
+            margin-left: 3em
+            max-width: 300px
+            text-decoration: none

@@ -34,15 +34,15 @@ class NewService extends Component {
         return <section className="createService">
             <h2 className="title">Create your service</h2>
             <form className="createService__form" onSubmit={handleFormSubmit}>
-                <span>Title</span>
+                <span>Title:</span>
                 <input required onChange={handleTitleInput}></input>
-                <span>Description</span>
-                <input required onChange={handleDescriptionInput}></input>
-                <span>Max users (default: 1)</span>
-                <input onChange={handleMaxUsersInput}></input>
-                <span>Place (default: Not specified)</span>
+                <span>Description:</span>
+                <textarea required onChange={handleDescriptionInput} className="description" type="text"></textarea>
+                <span>Max users (default: 1):</span>
+                <input onChange={handleMaxUsersInput} type="number"></input>
+                <span>Place (default: Not specified):</span>
                 <input onChange={handlePlaceInput}></input>
-                <span>Specify expected time you will spend</span>
+                <span>Specify expected time you will spend:</span>
                 <input onChange={handleTimeInput} required></input>
                 <button>Create Service</button>
             </form>

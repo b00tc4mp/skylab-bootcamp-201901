@@ -154,7 +154,7 @@ const logic = {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'username', value: username, type: String }])
 
-        return User.findOne({ userName: username }).select('-password -__v').lean()
+        return User.findOne({ username }).select('-password -__v').lean()
             .then(user => {
                 if (!user) throw Error(`user with username ${username} not found`)
 
@@ -668,7 +668,7 @@ const logic = {
         validate([{ key: 'serviceId', value: serviceId, type: String }])
 
         let comments = []
-        return Service.findById(serviceId).lean()
+        return Service.findById(serviceId).populate({path:'comments.user'}).lean()
             .then(service => {
 
                 if (!service) throw Error('service not found')

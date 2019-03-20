@@ -19,70 +19,95 @@
     
         .fas.fa-window-close
             width: 100%
-            // float: right
             justify-content: flex-end
 
         .fas.fa-window-close:hover
             cursor: pointer
 
     .fullservice__content
-        background-image: linear-gradient(#3d93b5, #360BE5)
-        margin: 5% 10% /* 15% from the top and centered */
-        padding: 20px
+        background-color: #40676E
+        margin: 1em 1em /* 15% from the top and centered */
+        padding: 1em
         border: 1px solid #888
         color: white
-        display: grid
-        grid-template-columns: 40% 40%
+        display: flex
+        flex-direction: column
 
         &--title
-            // display: flex
-            // justify-content: center
 
         div
-            width: 100%
-            padding-top: 1em
+            // width: 100%
+            padding-top: 0em
         
         &--info
-            grid-column-start: 1
-            grid-column-end: 2
-
-
+            // grid-row-start: 1
+            // grid-row-end: 2
 
         .full__content--comments
-            grid-column-start: 2
-            grid-column-end: 3
+            // grid-row-start: 2
+            // grid-row-end: 3
             display: flex
 
         &--item
+            padding-top: 0.5em
 
         .fullservice__button
-            margin-top: 20px
-            border-radius: 30px
-            width: 15em
+            justify-content: center
+            margin-top: 1em
+            border-radius: 5px
+            min-width: 90%
             height: 2em
             border: none
             color: #fff
             font-size: 15px
             cursor: pointer
-            background-image: linear-gradient(#0F0340, #0a4a7f)
-            align-self: center
+            background-color: #408E61
+            font-weight: 600
+            font-family: 'Ubuntu', sans-serif
+            margin-bottom: 1em
+            border: 1px solid #40676E
 
-img
-    width: 50px
-    height: 50px
-
-// .fas.fa-comment
-//     position: relative
-//     float: left
-//     width: 0
 .full-service__button
-    margin-top: 20px
-    border-radius: 30px
-    width: 10em
-    height: 1.3em
+    justify-content: center
+    margin-top: 1em
+    border-radius: 5px
+    min-width: 90%
+    height: 2em
     border: none
     color: #fff
     font-size: 15px
     cursor: pointer
-    background-image: linear-gradient(#30373d, #0f3233)
-    align-self: right
+    background-color: #71A596
+    font-weight: 600
+    font-family: 'Ubuntu', sans-serif
+    margin-bottom: 1em
+    border: 1px solid #40676E
+
+.comments__title
+    // color: black
+    
+@media (min-width: 700px)
+
+    .fullservice__content
+        max-width: 80%
+        display: flex
+        justify-self: center
+
+    .full__content--info, .full__content--comments
+        display: flex
+        margin: 0 auto
+
+    .fullservice__button
+        justify-content: center
+        margin-top: 1em
+        border-radius: 5px
+        min-width: 10%
+        height: 2em
+        font-size: 16px
+
+@media (min-width: 1000px)
+
+    .fullservice__content
+        max-width: 50%
+        display: flex
+        justify-self: center
