@@ -5,7 +5,6 @@ import Button from "@material-ui/core/Button";
 import Feedback from "../Feedback";
 
 const RegisterPlayer = props => {
-  console.log("props", props);
   const [name, setName] = useState(null);
   const [surname, setSurname] = useState(null);
   const [email, setEmail] = useState(null);

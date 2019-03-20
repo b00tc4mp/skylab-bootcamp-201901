@@ -24,7 +24,8 @@
     "eject": "react-scripts eject",
     "test": "react-scripts test --runInBand",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
-    "test-coverage": "npm test -- --coverage"
+    "test-coverage": "npm test -- --coverage",
+    "deploy": "yarn build && mv build/index.html build/200.html && surge --domain padelcatapp.surge.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
