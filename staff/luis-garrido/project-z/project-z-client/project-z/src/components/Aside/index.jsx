@@ -2,6 +2,8 @@
 
 import React, { Fragment } from "react";
 import { Route, withRouter, Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import logic from "../../logic";
 import "./index.sass";
@@ -16,19 +18,30 @@ const Aside = props => {
         props.searchFocus.current.focus();
     };
 
+    const notify = message => toast(message);
+
+    const onProfileClick = () => {
+        if( logic.__userApiToken__ !== null ) {
+            logic.retrieveUserInfo()
+            .then(() => getUsernameLogged())
+            .catch(({ message }) => notify(message))
+        }
+        else {
+            props.history.push(`/login`)
+        }
+
+    }
+
     return (
         <Fragment>
-            <div className="navbar-tablet__logo">
+            <div className="navbar-tablet__logo"
+            onClick={() => props.history.push("/")}>
                 <p className="navbar-tablet__logo--project">PROJECT</p>
                 <p className="navbar-tablet__logo--z">Z</p>
             </div>
             <div
                 className="navbar-tablet__icons"
-                onClick={
-                    logic.__userApiToken__ !== null
-                        ? getUsernameLogged
-                        : () => props.history.push(`/login`)
-                }
+                onClick={onProfileClick}
             >
                 <i className="fas fa-user-ninja" />
             </div>

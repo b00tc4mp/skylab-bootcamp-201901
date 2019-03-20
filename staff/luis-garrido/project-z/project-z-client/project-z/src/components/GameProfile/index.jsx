@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Route, withRouter, Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import logic from "../../logic";
 
@@ -12,6 +14,7 @@ const {
 } = process.env;
 
 const GameProfile = ({
+    history,
     match: {
         params: { gameId }
     }
@@ -29,9 +32,29 @@ const GameProfile = ({
         logic.isUserLoggedIn && gameInfo && getPreScore();
     }, [gameInfo]);
 
+    // const retrieveGameInfo = async gameId => {
+    //     const _gameInfo = await logic.retrieveGameInfo(gameId);
+    //     setGameInfo(_gameInfo);
+    // };
+
     const retrieveGameInfo = async gameId => {
-        const _gameInfo = await logic.retrieveGameInfo(gameId);
-        setGameInfo(_gameInfo);
+        try {
+            logic
+                .retrieveGameInfo(gameId)
+                .then(res => setGameInfo(res))
+                .catch(({ message }) => {
+                    // notify("No results found!")
+                    history.push('/noresults')
+                });
+        } catch (error) {
+            // notify(error.message);
+            history.push('/noresults')
+        }
+    };
+
+    const notify = message => {
+        toast.dismiss()
+        toast.error(message)
     };
 
     const getPreScore = async () => {

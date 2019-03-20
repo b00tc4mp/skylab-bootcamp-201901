@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Route, withRouter, Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import logic from "../../logic";
 import "./index.sass";
@@ -14,6 +16,11 @@ const Register = props => {
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [feedbackRegister, setFeedbackRegister] = useState('')
+
+    const notify = message => {
+        toast.dismiss()
+        toast.error(message)
+    };
 
     const handleUsername = ({ target: { value: username } }) => {
         setUsername(username);
@@ -58,10 +65,10 @@ const Register = props => {
                     props.history.push("/login");
                 })
                 .catch(error => {
-                    setFeedbackRegister(error.message);
+                    notify(error.message);
                 });
         } catch ({ message }) {
-            setFeedbackRegister(message);
+            notify(message);
         }
     };
 

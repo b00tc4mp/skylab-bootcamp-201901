@@ -1557,6 +1557,33 @@ describe("logic", () => {
                 });
         });
 
+        it('should succes when "no text" flags are send', async () => {
+            const review = {
+                text: "no text",
+                title: "no text",
+                score: 4
+            };
+            let test = await logic
+                .postReview(idReviewer.id, gameId, review)
+                .then(async () => {
+                    let isGame = await Game.findOne({ id: gameId })
+                        .select("-__v")
+                        .populate("reviews");
+                    expect(() =>
+                        isGame.reviews.some(
+                            reviews => reviews.author.toString() === idReviewer
+                        )
+                    ).toBeTruthy();
+                    // expect(isGame.finalScore).toBe(review.score);
+                    // expect(isGame.scores.length).toBe(1);
+
+                    isGame.scores = undefined;
+                    isGame.reviews = [];
+
+                    await isGame.save();
+                });
+        })
+
         it("should fail when same user tries to review twice a game", async () => {
             let test = await logic
                 .postReview(idReviewer.id, gameId, review)
@@ -1915,6 +1942,76 @@ describe("logic", () => {
             });
         });
     });
+
+    // ----------- RETRIEVE ALL USERS -----------------
+
+    describe('Retrieve All Users', () => {
+        const admin = false;
+        const username = "quinwacca";
+        const avatar = "10";
+        const name = "Luis";
+        const surname = "Garrido";
+        const email = `luisgarrido-${Math.random()}@mail.com`;
+        const password = `123-${Math.random()}`;
+
+        let userId;
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10).then(hash =>
+                User.create({
+                    admin,
+                    username,
+                    avatar,
+                    name,
+                    surname,
+                    email,
+                    password: hash
+                }).then(({ id }) => (userId = id))
+            )
+        );
+
+        it('should succeed on retrieve all users', () => {
+            return logic.retrieveAllUsers()
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.length).toBe(1)
+                })
+        })
+    })
+
+    //--------- RETRIEVE EUCLIDAEN DISTANCE OF TWO REVIEWS -------
+
+    describe('Retrieve', () => {
+        const _id = '123'
+
+        const userReview = [{
+            game : _id,
+            score : 4,
+            author : 'dummy'
+        }]
+
+        const otherUserReview = [{
+            game : {
+                _id
+            },
+            score: 5,
+            author: 'tommy'
+        }]
+        
+        it('should retrieve correct euclidean distane', () => {
+            const { euclideanSimilarity } = logic.retrieveEuclideanDistance(userReview, otherUserReview)
+
+            expect(euclideanSimilarity).toBe(0.5)
+        })
+
+        it('should fail on string userReview', () => {
+            const userReview = 3
+
+            const { euclideanSimilarity } = logic.retrieveEuclideanDistance(userReview, otherUserReview)
+
+            expect(euclideanSimilarity).toBe(0.5)
+        })
+    })
 
     after(() =>
         Promise.all([User.deleteMany()]).then(() => mongoose.disconnect())

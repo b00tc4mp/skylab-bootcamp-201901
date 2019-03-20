@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Route, withRouter, Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import logic from "../../logic";
 
@@ -17,6 +19,11 @@ const UserProfile = ({
     const [username, setUsername] = useState("");
     const [adorableAvatar, setAdorableAvatar] = useState("");
 
+    const notify = message => {
+        toast.dismiss()
+        toast.error(message)
+    };
+
     useEffect(() => {
         retrieveUserInfo(_username);
         logic.isUserLoggedIn && getUsernameLogged();
@@ -25,8 +32,20 @@ const UserProfile = ({
         );
     }, [_username]);
 
-    const retrieveUserInfo = async username =>
-        setUserInfo(await logic.retrieveUserInfoByUsername(username));
+    // const retrieveUserInfo = async username =>
+    //     setUserInfo(await logic.retrieveUserInfoByUsername(username));
+
+    const retrieveUserInfo = username => {
+        try {
+            logic.retrieveUserInfoByUsername(username)
+            .then(res => setUserInfo(res))
+            .catch(error => {
+                setUserInfo([])
+            })
+        } catch ({ message }) {
+            notify(message)
+        }
+    }
 
     const handleLogout = () => {
         history.push("/logout");
@@ -41,7 +60,7 @@ const UserProfile = ({
         <Fragment>
             <div className="review-page">
                 <div className="header">
-                    <h2 className="header__title">{userInfo.username}</h2>
+                    <h2 className="header__title">{userInfo.length !== 0 ? userInfo.username : 'USER NOT FOUND'}</h2>
                 </div>
                 <div className="user-profile">
                     <div className="user-profile__info">
@@ -50,7 +69,7 @@ const UserProfile = ({
                             src={adorableAvatar}
                             alt="default avatar"
                         />
-                        <h2>{`${userInfo.name} ${userInfo.surname}`}</h2>
+                        <h2>{userInfo.length !== 0 ? `${userInfo.name} ${userInfo.surname}` : 'USER NOT FOUND'}</h2>
                     </div>
                     <div className="user-profile__logout">
                         {username === userInfo.username && (

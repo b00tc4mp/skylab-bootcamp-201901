@@ -37,7 +37,7 @@ body
     background-attachment: fixed
     display: grid
     grid-column-start: 2
-    grid-template-rows: 7.45em auto 4em
+    grid-template-rows: 7.43em auto 4em
     min-width: 320px
 
 .header 
@@ -78,7 +78,11 @@ body
 .nav-mobile__icons
     color: rgb(40,40,40) 
     align-self: center
-
+    cursor: pointer
+    transition: all .1s ease-out
+    &:hover
+        transform: scale(1.1)
+    
 .main 
     // width: 100vw
     height: 100vh
@@ -107,6 +111,9 @@ body
     color: transparent
     // color: rgba(255,81,246, 0.8)
     line-height: 1.1em
+    transition: all .1s ease-out
+    &:hover
+        transform: scale(1.1)
     &--project
         font-size: 0.7em
         margin-top: 0.4em
@@ -117,6 +124,9 @@ body
 .navbar-tablet__icons 
     display: none
     color: rgb(40,40,40)
+    transition: all .1s ease-out
+    &:hover
+        transform: scale(1.1)
 
 .header-mobile
     // height: 3em
@@ -306,6 +316,9 @@ body
         justify-self: end
         align-self: start
 
+.no-recommendations
+    text-align: center
+
 .logout
     padding: 0 1em
     width: 7em
@@ -353,6 +366,9 @@ body
         width: 5em
         object-fit: cover
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+        transition: all .1s ease-out
+        &:hover
+            transform: scale(1.1)
     &__date
         font-size: 0.8em
         color: rgb(140,140,140)
@@ -371,6 +387,10 @@ body
     border: 2px solid rgb(40,40,40,)
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
     margin-bottom: 0.5em
+    cursor: pointer
+    transition: all .1s ease-out
+    &:hover
+        transform: scale(1.1)
 
 
     
@@ -398,9 +418,11 @@ body
     
     .navbar-tablet__icons 
         display: block
+        cursor: pointer
     
     .navbar-tablet__logo
         display: block
+        cursor: pointer
     
     .header-mobile
         display: none

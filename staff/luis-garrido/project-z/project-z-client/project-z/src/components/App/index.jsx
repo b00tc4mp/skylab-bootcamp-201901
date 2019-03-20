@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Route, withRouter, Link, Switch, Redirect } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // import Register from '../Register'
 // import Login from '../Login'
@@ -20,33 +22,42 @@ import Register from "../Register";
 import UserProfile from "../UserProfile";
 import Random from "../Random";
 import TopFifty from "../TopFifty";
+import NoResults from "../NoResults";
 
 const App = ({ history }) => {
-    const [loginFeedback, setLoginFeedback] = useState(null);
-    const [registerFeedback, setRegisterFeedback] = useState(null);
     const [username, setUsername] = useState("");
 
     useEffect(() => {
         if (logic.isUserLoggedIn) getUsernameLogged();
     }, []);
 
+    const notify = message => {
+        toast.dismiss()
+        toast.error(message)
+    };
+
     const getUsernameLogged = async () => {
-        const user = await logic.retrieveUserInfo();
-        setUsername(user.username);
+        try {
+            const user = await logic.retrieveUserInfo();
+            setUsername(user.username);
+        } catch (error) {
+            notify(error.message);
+        }
     };
 
     const searchFocus = useRef(null);
-
+    
     return (
         <div className="main">
             <div className="navbar-tablet">
-                <Aside searchFocus={searchFocus}/>
+                <Aside searchFocus={searchFocus} />
             </div>
 
             <div className="container">
                 <Header searchFocus={searchFocus} />
 
                 <div className="content">
+        <ToastContainer />
                     <Switch>
                         <Route exact path="/" component={LandingPage} />
                         <Route path="/search/:query" component={Results} />
@@ -85,6 +96,7 @@ const App = ({ history }) => {
                         />
                         <Route exact path="/ranking" component={TopFifty} />
                         <Route exact path="/random" component={Random} />
+                        <Route exact path='/noresults' component={NoResults} />
                         <Route path="/:username" component={UserProfile} />
                     </Switch>
                 </div>

@@ -100,7 +100,7 @@ const RecommendedReviews = props => {
 
         setRecommendations(_filterFive);
     };
-
+    console.log(recommendations);
     return (
         <Fragment>
             <div className="top-landing">
@@ -108,17 +108,29 @@ const RecommendedReviews = props => {
                     <h2 className="header__title">Recommended Reviews</h2>
                 </div>
                 <div className="top-landing__results">
-                    {recommendations
-                        // .reverse()
-                        .map((recommendation, index) => (
-                            <Review
-                                index={index + 1}
-                                key={recommendation._id}
-                                review={recommendation}
-                                printFrom={"landingPage"}
-                            />
-                        ))}
-                    {newbieMessage && <p className="welcome">{newbieMessage}</p>}
+                    {recommendations.length ? (
+                        recommendations
+                            // .reverse()
+                            .map((recommendation, index) => {
+                                if (recommendation === undefined) return "";
+                                return (
+                                    <Review
+                                        index={index + 1}
+                                        key={recommendation._id}
+                                        review={recommendation}
+                                        printFrom={"landingPage"}
+                                    />
+                                );
+                            })
+                    ) : (
+                        <div className="no-recommendations">
+                            <p>No more recommendations for now.</p>
+                            <p> Keep calm and <Link to="/random">RATE GAMES</Link>!</p>
+                        </div>
+                    )}
+                    {newbieMessage && (
+                        <p className="welcome">{newbieMessage}</p>
+                    )}
                 </div>
             </div>
         </Fragment>

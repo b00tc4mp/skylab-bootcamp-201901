@@ -57,7 +57,7 @@ const Review = ({ index, history, review, printFrom }) => {
             : "review-card";
 
     // onClick={() => history.push(`/game/${review.game.id}`)}
-
+    
     return (
         <article className={reviewClass}>
             <div>

@@ -328,7 +328,7 @@ const logic = {
      */
     postReview(userId, gameId, review) {
         let { title, text, score } = review;
-        console.log(title);
+        // console.log(title);
         validate([
             { key: "userId", value: userId, type: String },
             { key: "gameId", value: gameId, type: String },
@@ -486,6 +486,11 @@ const logic = {
             });
     },
 
+    /**
+     * Retrieve random game Id
+     * 
+     * @returns {Promise} with game Id
+     */
     retrieveRandomGame() {
         return Game.count()
             .then(count => {
@@ -497,20 +502,28 @@ const logic = {
             .then(response => response);
     },
 
+    /**
+     * Retrieve list of all users
+     * 
+     * @returns {Promise} an array of every user, populated with reviews info
+     */
     retrieveAllUsers() {
-        return User.find().populate({ path: "reviews", populate: { path: "game author" } })
+        return User.find().populate({
+            path: "reviews",
+            populate: { path: "game author" }
+        });
     },
 
     retrieveEuclideanDistance(userReviews, otherUserReviews) {
         validate([
-            { key: "userReviews", value: userReviews, type: Object },
-            { key: "otherUserReviews", value: otherUserReviews, type: Object }
+            { key: "userReviews", value: userReviews, type: Array },
+            { key: "otherUserReviews", value: otherUserReviews, type: Array }
         ]);
 
         let euclideanDistances = [];
         let sumSquares = 0;
         let noGamesCoincidence = true;
-
+        
         userReviews.forEach(userReview => {
             otherUserReviews.find(otherUserReview => {
                 if (
@@ -534,18 +547,24 @@ const logic = {
             });
         });
 
-        console.log(euclideanDistances);
-        console.log("sumSquares : " + sumSquares);
+        // console.log(euclideanDistances);
+        // console.log("sumSquares : " + sumSquares);
 
         const euclideanDistance = Math.sqrt(sumSquares);
 
-        console.log("euclidean distance : " + euclideanDistance);
+        // console.log("euclidean distance : " + euclideanDistance);
 
         let euclideanSimilarity = 1 / (1 + euclideanDistance);
 
         if (noGamesCoincidence) euclideanSimilarity++;
 
-        console.log("euclidean similarity : ", euclideanSimilarity);
+        // console.log("euclidean similarity : ", euclideanSimilarity);
+
+        if (otherUserReviews.length === 0)
+            return {
+                euclideanSimilarity,
+                userComparing: otherUserReviews
+            };
 
         return {
             euclideanSimilarity,
@@ -647,9 +666,9 @@ const logic = {
                             if (genreLike !== null) {
                                 for (let i = 0; i < genreLike.length; i++) {
                                     if (genre === genreLike[i]) {
-                                        console.log(
-                                            `${genre} is like ${genreLike[i]}`
-                                        );
+                                        // console.log(
+                                        //     `${genre} is like ${genreLike[i]}`
+                                        // );
                                         // if (likeGames.userScore[index]=='5') jgenre++
                                         jgenre++;
                                     }
@@ -659,13 +678,13 @@ const logic = {
                                 }
                             }
                         });
-                        console.log("genre coincidence : " + kgenre);
-                        console.log("genre leng: " + likeGames.genres.length);
+                        // console.log("genre coincidence : " + kgenre);
+                        // console.log("genre leng: " + likeGames.genres.length);
                         if (kgenre !== 0)
                             genreScore = kgenre / likeGames.genres.length;
                     });
                 }
-                console.log("genresocre: " + genreScore);
+                // console.log("genresocre: " + genreScore);
 
                 let platformScore = 0;
 
@@ -676,9 +695,9 @@ const logic = {
                         let jplatform = 0;
                         for (let i = 0; i < platformLike.length; i++) {
                             if (platform === platformLike[i]) {
-                                console.log(
-                                    `${platform} is like ${platformLike[i]}`
-                                );
+                                // console.log(
+                                //     `${platform} is like ${platformLike[i]}`
+                                // );
                                 if (likeGames.userScore[index] == "5")
                                     jplatform++;
                                 jplatform++;
@@ -688,13 +707,13 @@ const logic = {
                             }
                         }
                     });
-                    console.log("platform coincidence: " + kplatform);
-                    console.log("platform leng: " + likeGames.platform.length);
+                    // console.log("platform coincidence: " + kplatform);
+                    // console.log("platform leng: " + likeGames.platform.length);
                     if (kplatform !== 0)
                         platformScore = kplatform / likeGames.platform.length;
                     // });
                 }
-                console.log("platformsocre: " + platformScore);
+                // console.log("platformsocre: " + platformScore);
 
                 let developerScore = 0;
 
@@ -706,11 +725,11 @@ const logic = {
                             if (developerLike !== null) {
                                 for (let i = 0; i < developerLike.length; i++) {
                                     if (developer === developerLike[i]) {
-                                        console.log(
-                                            `${developer} is like ${
-                                                developerLike[i]
-                                            }`
-                                        );
+                                        // console.log(
+                                        //     `${developer} is like ${
+                                        //         developerLike[i]
+                                        //     }`
+                                        // );
                                         if (likeGames.userScore[index] == "5")
                                             jdeveloper++;
                                         jdeveloper++;
@@ -722,16 +741,16 @@ const logic = {
                             }
                             // console.log("PUNTUACON : "+likeGames.userScore[index])
                         });
-                        console.log("developer coincidence : " + kdeveloper);
-                        console.log(
-                            "developer leng: " + likeGames.developers.length
-                        );
+                        // console.log("developer coincidence : " + kdeveloper);
+                        // console.log(
+                        //     "developer leng: " + likeGames.developers.length
+                        // );
                         if (kdeveloper !== 0)
                             developerScore =
                                 kdeveloper / likeGames.developers.length;
                     });
                 }
-                console.log("developerscore: " + developerScore);
+                // console.log("developerscore: " + developerScore);
 
                 // const dataToPrecog = {};
                 // if(!!finalScore) dataToPrecog.f = finalScore
@@ -741,7 +760,7 @@ const logic = {
                 if (finalScore) finalScoreDeviation *= finalScore;
                 else finalScoreDeviation = 30;
 
-                console.log("FINAK SCREkas: " + finalScore);
+                // console.log("FINAK SCREkas: " + finalScore);
 
                 const precogScore =
                     (platformScore * 30 +
@@ -749,7 +768,7 @@ const logic = {
                         developerScore * 50 +
                         finalScoreDeviation) /
                     100;
-                console.log("PRECOG SCORE: " + precogScore);
+                // console.log("PRECOG SCORE: " + precogScore);
                 return precogScore;
             });
     }

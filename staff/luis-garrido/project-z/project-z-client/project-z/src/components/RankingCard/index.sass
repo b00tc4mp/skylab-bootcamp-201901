@@ -5,6 +5,7 @@
     max-width: 800px
     margin: auto
     align-items: center
+    cursor: pointer
     &:hover
         background-color: rgba(0,0,0,0.15)
     &--background-even
@@ -19,6 +20,9 @@
         width: 100%
         max-height: 4em
         object-fit: cover
+        transition: all .1s ease-out
+        &:hover
+            transform: scale(1.1)
     &__info
         padding-left: 0.6em
         & a:hover

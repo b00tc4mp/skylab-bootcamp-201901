@@ -1,6 +1,9 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import Masonry from "react-masonry-component";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./index.sass";
 
 import logic from "../../logic";
@@ -14,13 +17,29 @@ const Results = props => {
         searchGames(props.match.params.query);
     }, [props.match.params.query]);
 
-    const searchGames = async query =>
-        setResults(await logic.searchGames(query));
+    const searchGames = async query => {
+        try {
+            logic
+                .searchGames(query)
+                .then(res => setResults(res))
+                .catch(({ message }) => {
+                    // notify("No results found!")
+                    props.history.push('/noresults')
+                });
+        } catch (error) {
+            notify(error.message);
+        }
+    };
+
+    const notify = message => {
+        toast.dismiss()
+        toast.error(message)
+    };
 
     const masonryOptions = {
         transitionDuration: 0,
         gutter: 1,
-        columnWidth: '.card'
+        columnWidth: ".card"
     };
 
     return (

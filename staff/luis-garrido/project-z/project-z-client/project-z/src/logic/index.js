@@ -107,6 +107,7 @@ const logic = {
      */
     logOutUser() {
         this.__userApiToken__ = null;
+        sessionStorage.clear()
     },
 
     retrieveUserInfo() {
