@@ -7,7 +7,7 @@ import CitySelector from '../CitySelector'
 
 class UploadProduct extends Component {
 
-    state = { tittle: null, description: null, price: null, category: null, city: null, image: null, feedback: null }
+    state = { tittle: null, description: null, price: null, category: null, city: null, image: null, feedback: null, model: null, waiting:false }
 
     handleInput = event => this.setState({ [event.target.name]: event.target.value })
 
@@ -17,14 +17,21 @@ class UploadProduct extends Component {
         const { state: { tittle, description, price, category, city, image } } = this
 
         try {
-            logic.createProduct({ tittle, description, price, category, city, image })
+            this.setState({waiting: true})
+            logic.createProduct({ tittle, description, price, image })
                 .then(({ id }) => {
                     this.setState({ feedback: '' })
                     return id
                 })
                 .then(id => {
                     if (this.state.image !== null) return logic.uploadProductImg(id, { image })
+                        .then(() => {
+                            if(this.state.model !== null)return logic.saveObject3d(id, this.state.model)
+                        })
+                        .then(() => this.setState({waiting: false}))
+                        .then(() => this.props.history.push('/'))
                 })
+                .then(() => this.setState({waiting: false}))
                 .then(() => this.props.history.push('/'))
                 .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
@@ -64,32 +71,46 @@ class UploadProduct extends Component {
                 <h3 className="uploadProduct__title">Your Product</h3>
             </div>
             <div className="form__inputrow">
-                <div className="upload">
-                    <input type="file" id="files" name="files" className="input-file ng-pristine ng-valid ng-touched" onChange={e => this.setState({ image: e.target.files[0] })} />
-                    {this.state.image? <h2>{this.state.image.name}</h2>  : <label for="files">
-                        <span className="add-image">
-                            Add <br /> Image
+                <div className="form__uploaders">
+                    <div className="upload">
+                        <input type="file" id="files" name="files" className="input-file ng-pristine ng-valid ng-touched" onChange={e => this.setState({ image: e.target.files[0] })} />
+                        {this.state.image ? <h2>{this.state.image.name}</h2> : <label for="files">
+                            <span className="add-image">
+                                Add <br /> Image
                             </span>
-                        <output id="list"></output>
-                    </label>}
+                            <output id="list"></output>
+                        </label>}
+                    </div>
+                    <div className="upload">
+                        <input type="file" id="files" name="files" className="input-file ng-pristine ng-valid ng-touched" onChange={e => this.setState({ model: e.target.files[0] })} />
+                        {this.state.model ? <h2>{this.state.model.name}</h2> : <label for="files">
+                            <span className="add-image">
+                                Add <br /> Model
+                            </span>
+                            <output id="list"></output>
+                        </label>}
+                    </div>
                 </div>
             </div>
+            {this.state.waiting && <div className="upload__donutcontainer">
+                <div className="upload__donut"></div>
+            </div>}
             <form className="form" onSubmit={handleFormSubmit}>
-                <div className="form__inputrow">
+                {/* <div className="form__inputrow">
                     <label className="form__label--input">City</label>
                     <input className="form__input" required="true" type="text" name="city" value={this.state.city} onChange={handleInput} onFocus={() => goToCity()} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Category</label>
                     <input className="form__input" required="true" type="text" name="category" value={this.state.category} onChange={handleInput} onFocus={() => goToCategory()} />
-                </div>
+                </div> */}
                 <div className="form__inputrow">
                     <label className="form__label--input">Tittle</label>
                     <input className="form__input" required="true" type="text" name="tittle" onChange={handleInput} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Description</label>
-                    <input className="form__input" required="true" type="text" name="description" onChange={handleInput} />
+                    <textarea rows="5" className="form__input" required="true" type="text" name="description" onChange={handleInput} />
                 </div>
                 <div className="form__inputrow">
                     <label className="form__label--input">Price</label>

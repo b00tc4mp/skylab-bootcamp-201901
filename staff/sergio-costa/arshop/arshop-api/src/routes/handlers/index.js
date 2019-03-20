@@ -45,5 +45,9 @@ module.exports = {
 
     retrieveMessagesFromChat: require('./retrieve-message-from-chatid'),
 
+    saveObject3d: require('./save-object-3d'),
+
+    retrieveObject3d: require('./retrieve-object-3d'),
+
     notFound: require('./not-found')
 }

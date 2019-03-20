@@ -7,7 +7,7 @@ import Product from '../Product';
 
 class ProductDetails extends Component {
 
-    state = { product: [], feedback: null, fav: false, userProduct: false, sold: null, username: null, imageUrl: null, userId:null }
+    state = { product: [], feedback: null, fav: false, userProduct: false, sold: null, username: null, imageUrl: null, userId: null, finished: false }
 
     componentDidMount() {
 
@@ -92,7 +92,8 @@ class ProductDetails extends Component {
                 .then(user => {
                     this.setState({ username: user[0].name })
                     this.setState({ imageUrl: user[0].imageUrl })
-                    this.setState({userId: user[0].id})
+                    this.setState({ userId: user[0].id })
+                    this.setState({finished : true})
                 })
         } catch (error) {
 
@@ -105,12 +106,23 @@ class ProductDetails extends Component {
         anotherUser(id)
     }
 
+    onCLickChat = () => {
+        logic.createChat(this.state.userId)
+            .then((id) => this.props.history.push(`/chat/${id}`))
+    }
+
+    handleProductId = id => {
+        
+        this.props.onProductId(id)
+    }
+
+
     render() {
 
         const { state: { product, feedback, fav, username } } = this
 
         return <section className="productDetails">
-            <div className="productDetails__header">
+            {this.state.finished && <div className="productDetails__header">
                 <div className="productDetails__html">
                     <div className="productDetails__icons">
                         <Link to="/">
@@ -128,18 +140,21 @@ class ProductDetails extends Component {
                             <p className="productDetails__tittle">{product.tittle}</p>
                             <p className="productDetails__description">{product.description}</p>
                         </div>
-                        <Link to="/ar/camera" className="productDetails__icons">
+                        <button className="productDetails__icons--arbtn" onClick={() => this.handleProductId(product.id)}>
                             <i className="fas fa-vr-cardboard productDetails__icons--ar"></i>
-                        </Link>
+                        </button>
                         {!this.state.userProduct && <div className="productDetails__user" onClick={event => [this.handleAnotherUser(this.state.userId), event.stopPropagation()]}>
-                            <img className="productDetails__user--img" src={this.state.imageUrl ? this.state.imageUrl : "/images/logoplaceholder.png" }></img>
+                            <img className="productDetails__user--img" src={this.state.imageUrl ? this.state.imageUrl : "/images/logoplaceholder.png"}></img>
                             <p className="productDetails__user--name">{username}</p>
                         </div>}
                     </div>
                     {this.state.userProduct && <button className="productDetails__btn" onClick={() => this.handleOnSell(product.id)}>{product.sold ? "Available" : "Check as Sold"}</button>}
-                    {!this.state.userProduct && <button className="productDetails__btn">Chat</button>}
+                    {!this.state.userProduct && <button className="productDetails__btn" onClick={() => this.onCLickChat()}>Chat</button>}
                 </div>
-            </div>
+            </div>}
+            {!this.state.finished &&<div className="donutcontainer">
+                <div className="donut"></div>
+            </div>}
             <Feedback message={feedback} />
         </section>
     }

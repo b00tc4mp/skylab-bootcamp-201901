@@ -454,6 +454,32 @@ const arshopApi = {
 
                 return response
             })
+    },
+
+    saveObject3d(token, productId, object3d) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+        let formData = new FormData()
+
+        formData.append('image', object3d)
+
+        return fetch(`${this.url}/save/object/${productId}`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
     }
 
 }

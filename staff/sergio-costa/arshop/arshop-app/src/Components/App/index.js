@@ -33,7 +33,7 @@ class App extends Component {
     exclude = () => {
         const pathname = this.props.location.pathname
         return (
-            pathname.includes('login') || pathname.includes('register') || pathname.includes('/upload/product') || pathname.includes('/user/profile') || pathname.includes(`product/`) || pathname.includes('/ar/camera') || pathname.includes(`/profile`) || pathname.includes('/chat')
+            pathname.includes('login') || pathname.includes('register') || pathname.includes('/upload/product') || pathname.includes('/user/profile') || pathname.includes(`product/`) || pathname.includes('/ar/camera') || pathname.includes(`/profile`) || pathname.includes('/chat') || pathname.includes('ar/camera')
         )
     }
 
@@ -63,13 +63,17 @@ class App extends Component {
         this.props.history.push(`/chat/${id}`)
     }
 
+    handleOnProductId = id => {
+        this.props.history.push(`/ar/camera/${id}`)
+    }
+
     render() {
         return <main className="app">
             {!this.exclude() && <Header onSearch={this.handleOnSearch} />}
             <Aside username={this.state.username} />
-            <Route exact path="/ar/camera" render={() => <ArCompo />} />
+            <Route exact path="/ar/camera/:id" render={props => <ArCompo productId={props.match.params.id}/>} />
             <Route exact path="/search/:query" render={props => <Results query={props.match.params.query} onProductSelect={this.productSelected} />} />
-            <Route exact path="/product/:id" render={props => <ProductDetails productId={props.match.params.id} anotherUser={this.handleAnotherUser} />} />
+            <Route exact path="/product/:id" render={props => <ProductDetails productId={props.match.params.id} anotherUser={this.handleAnotherUser} onProductId={this.handleOnProductId} />} />
             <Route exact path="/register" render={() => logic.isUserLoggedIn ? <Redirect to='/' /> : <Register />} />
             <Route exact path="/login" render={() => logic.isUserLoggedIn ? <Redirect to='/' /> : <Login onUser={this.onUser} />} />
             <Route exact path="/upload/product" render={() => !logic.isUserLoggedIn ? <Redirect to='/' /> : <UploadProduct city={this.state.city} category={this.state.category} />} />

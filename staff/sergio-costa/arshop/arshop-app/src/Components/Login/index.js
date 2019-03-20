@@ -45,6 +45,7 @@ class Login extends Component {
                     <div className="login__inputrow">
                         <input className="login__input" type="password" name="password" placeholder="Password" required="true" onChange={handlePasswordInput} />
                     </div>
+                    {this.state.feedback && <Feedback message={this.state.feedback} />}
                     <button className="login__btn">Login</button>
                 </form>
                 <div className="login__register">
@@ -53,7 +54,6 @@ class Login extends Component {
                     </p>
                 </div>
             </div>
-            {this.state.feedback && <Feedback message={this.state.feedback} />}
         </section >
     }
 }

@@ -77,7 +77,7 @@ class Aside extends Component {
                                             </Link>
                                         </li>
                                         <li className="menu__item" onClick={() => this._hideAside()}>
-                                            <Link to="/chat" title="favoroites" className="menu__link">
+                                            <Link to="/chat" title="chat" className="menu__link">
                                                 Chat
                                             </Link>
                                         </li>

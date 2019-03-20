@@ -9,11 +9,26 @@ class ArCompo extends Component {
         this.props.history.replace('/')
         var video = document.getElementsByTagName('video')[0]
         video.parentNode.removeChild(video)
+
+        // var body = document.getElementsByTagName('body')[0]
+        // body.removeAttribute("style")
+
+
     }
 
     componentDidMount() {
-
+        console.log(this.props.productId)
+        console.log(navigator.webkitGetUserMedia)
     }
+
+    // stopStreamVideo = videoElem => {
+    //     let stream = videoElem.srcObject
+    //     let tracks = stream.getTracks()
+
+    //     tracks.forEach(track => track.stop())
+
+    //     videoElem.srcObject = null
+    // }
 
     render() {
         // mas o menos correcto, tocando posicion y sin UI
@@ -24,7 +39,7 @@ class ArCompo extends Component {
             <Scene embedded arjs={{ sourceType: 'webcam', debugUIEnabled: 'false' }}>
                 <a-marker preset="hiro">
                     {/* <a-gltf-model src={`models/seat/scene.gltf`} scale="1 1 1"></a-gltf-model> */}
-                    <a-entity obj-model="obj: url(models/police/Aston VULCAN.obj)" position="0 0 0" rotation="-90 180 180" scale="0.0009 0.0009 0.0009"></a-entity>
+                    <a-entity obj-model={`obj: url(http://localhost:8000/api/object3d/${this.props.productId}.obj)`} position="0 0 0" rotation="-90 180 180" scale="0.0009 0.0009 0.0009"></a-entity>
                     {/* <Entity geometry={{ primitive: 'box', width: '1', height: '1' }}
                         position={{ x: 0, y: 0, z: -1 }} /> */}
                 </a-marker>

@@ -44,7 +44,7 @@ class Messages extends Component {
                     <Link to="/chat">
                         <i className="fas fa-long-arrow-alt-left profile__icons--back  header__back"></i>
                     </Link>
-                    <p className="messages__text">username</p>
+                    {/* <p className="messages__text">username</p> */}
                 </div>
             </header>
             <div className="messages">

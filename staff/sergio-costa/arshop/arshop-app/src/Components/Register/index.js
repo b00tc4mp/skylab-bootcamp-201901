@@ -46,27 +46,27 @@ class Register extends Component {
                 <img className="register__img" src="/images/logo.png"></img>
                 <form onSubmit={handleFormSubmit}>
                     <div className="register__inputrow">
-                        <input className="register__input" type="text" name="name" onChange={handleNameInput} placeholder="name" />
+                        <input className="register__input" required="true" type="text" name="name" onChange={handleNameInput} placeholder="name" />
                     </div>
                     <div className="register__inputrow">
-                        <input className="register__input" type="text" name="surname" onChange={handleSurnameInput} placeholder="surname" />
+                        <input className="register__input" required="true" type="text" name="surname" onChange={handleSurnameInput} placeholder="surname" />
                     </div>
                     <div className="register__inputrow">
-                        <input className="register__input" type="email" name="email" onChange={handleEmailInput} placeholder="email" />
+                        <input className="register__input" required="true" type="email" name="email" onChange={handleEmailInput} placeholder="email" />
                     </div>
                     <div className="register__inputrow">
-                        <input className="register__input" type="password" name="password" onChange={handlePasswordInput} placeholder="password" />
+                        <input className="register__input" required="true" type="password" name="password" onChange={handlePasswordInput} placeholder="password" />
                     </div>
                     <div className="register__inputrow">
-                        <input className="register__input" type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password" />
+                        <input className="register__input" required="true" type="password" name="passwordConfirmation" onChange={handlePasswordConfirmationInput} placeholder="confirm password" />
                     </div>
+                    {this.state.feedback && <Feedback message={this.state.feedback} />}
                     <button className="register__btn" >Register</button>
                 </form>
                 <p className="register__login-text">
                     <Link to="/login" className="register__link">Login Now</Link>
                 </p>
             </div>
-            {this.state.feedback && <Feedback message={this.state.feedback} />}
         </section >
     }
 }

@@ -31,14 +31,6 @@ class Chat extends Component {
         const { props: { id } } = this
 
         return <section>
-            <header className="header">
-                <div className="chat__container">
-                    <Link to="/">
-                        <i className="fas fa-long-arrow-alt-left profile__icons--back  header__back"></i>
-                    </Link>
-                    <p className="chat__text">Conversations</p>
-                </div>
-            </header>
             <div key={id} className="chat" onClick={() => this.handleOnChatCLick(id)}>
                 <img className="chat__img" src={this.state.imageUrl ? this.state.imageUrl : "/images/logoplaceholder.png"}></img>
                 <p className="chat__username">{this.state.username}</p>

@@ -2,6 +2,9 @@
 
 const { models: { User, Product, Chat, Message } } = require('arshop-data')
 const bcrypt = require('bcrypt')
+const fs = require('fs')
+const path = require('path')
+const streamifier = require('streamifier')
 
 /**
  * Abstraction of business logic.
@@ -514,6 +517,38 @@ const logic = {
             })
     },
 
+    // createChat(userId, id) {
+
+    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+    //     if (!userId.trim().length) throw Error('userid cannot be empty')
+
+    //     if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+    //     if (!id.trim().length) throw Error('id cannot be empty')
+
+    //     return User.findById(userId)
+    //         .then(user => {
+    //             if (!user) throw Error(`user with id ${userId} not found`)
+
+    //             return Chat.create({ users: [userId, id] })
+    //                 .then((chat) => {
+
+    //                     user.chats.push(chat.id)
+
+    //                     return user.save()
+    //                         .then(() => User.findById(id)
+    //                             .then(_user => {
+    //                                 if (!_user) throw Error(`user with id ${id} not found`)
+
+    //                                 _user.chats.push(chat.id)
+
+    //                                 return _user.save()
+    //                                     .then(() => chat.id)
+    //                             })
+    //                         )
+    //                 })
+    //         })
+    // },
+
     createChat(userId, id) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -526,22 +561,43 @@ const logic = {
             .then(user => {
                 if (!user) throw Error(`user with id ${userId} not found`)
 
-                return Chat.create({ users: [userId, id] })
-                    .then((chat) => {
+                return Chat.findOne({ users: [userId, id] })
+                    .then(chat => {
+                        if (chat) {
+                            console.log('alguien lo tiene')
+                            console.log(chat.id)
+                            return chat.id
+                        }
+                        else {
+                            return Chat.findOne({ users: [id, userId] })
+                                .then(_chat => {
+                                    if (_chat) {
+                                        console.log('alguien lo tiene')
+                                        console.log(_chat.id)
+                                        return _chat.id
+                                    }
+                                    else {
+                                        return Chat.create({ users: [userId, id] })
+                                            .then((__chat) => {
 
-                        user.chats.push(chat.id)
+                                                user.chats.push(__chat.id)
 
-                        return user.save()
-                            .then(() => User.findById(id)
-                                .then(_user => {
-                                    if (!_user) throw Error(`user with id ${id} not found`)
+                                                return user.save()
+                                                    .then(() => User.findById(id)
+                                                        .then(_user => {
+                                                            if (!_user) throw Error(`user with id ${id} not found`)
 
-                                    _user.chats.push(chat.id)
+                                                            _user.chats.push(__chat.id)
 
-                                    return _user.save()
-                                        .then(() => chat.id)
+                                                            return _user.save()
+                                                                .then(() => __chat.id)
+                                                        })
+                                                    )
+                                            })
+                                    }
                                 })
-                            )
+                        }
+
                     })
             })
     },
@@ -561,7 +617,7 @@ const logic = {
             .then(chat => {
                 if (!chat) throw Error(`chat with id ${chatId} not found`)
 
-                return Message.create({ sender: userId, text: text})
+                return Message.create({ sender: userId, text: text })
                     .then(message => {
                         chat.messages.push(message)
 
@@ -570,30 +626,30 @@ const logic = {
             })
     },
 
-    retrieveChats(userId){
+    retrieveChats(userId) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userid cannot be empty')
 
 
         return User.findById(userId)
-        .then(user => {
-            if (!user) throw Error(`user with id ${userId} not found`)
-            return user.chats
-        })
-        .then(idChats => {
-            return Chat.find({ _id: { $in: idChats } }).select('-__v').lean()
-        })
-        .then(chats => {
-            chats.forEach(chat => {
-                chat.id = chat._id.toString()
-                delete chat._id
+            .then(user => {
+                if (!user) throw Error(`user with id ${userId} not found`)
+                return user.chats
             })
-            return chats
-        })
+            .then(idChats => {
+                return Chat.find({ _id: { $in: idChats } }).select('-__v').lean()
+            })
+            .then(chats => {
+                chats.forEach(chat => {
+                    chat.id = chat._id.toString()
+                    delete chat._id
+                })
+                return chats
+            })
     },
 
-    retrieveMessagesFromChat(userId, chatId){
+    retrieveMessagesFromChat(userId, chatId) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userid cannot be empty')
@@ -603,12 +659,60 @@ const logic = {
 
         return Chat.findById(chatId)
             .then(chat => {
-                if(!chat)throw Error (`there are no chats with id ${chatId}`)
+                if (!chat) throw Error(`there are no chats with id ${chatId}`)
 
                 return chat.messages
             })
-    }
+    },
 
+    saveObject3d(userId, productId, object3d) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('userid cannot be empty')
+
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+
+        return (async () => {
+
+            let objectPath = path.join(__dirname, '../../models3d')
+            let pathId = path.join(objectPath, productId + '.obj')
+    
+            fs.writeFile(pathId, JSON.stringify(""), err => {
+                if (err) throw err
+            })
+    
+            let streamBuffer = streamifier.createReadStream(object3d);
+            // let exist = fs.existsSync(pathId)
+            // let rs = fs.createReadStream(object3d) //Must be a path, not an object
+            let ws = fs.createWriteStream(pathId)
+            // rs.on('data', (chunk) => chunk.pipe(ws))
+            // rs.on('end', console.log('end'))
+            streamBuffer.pipe(ws)
+            
+            return true
+        })()
+    },
+
+    retrieveObject3d(productId) {
+        if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
+        if (!productId.trim().length) throw Error('productId cannot be empty')
+
+
+        return (async () => {
+            let modelsPath = path.join(__dirname, '../../models3d')
+
+            let modelsItems = await fs.readdirSync(modelsPath)
+            debugger
+            let modelFound = modelsItems.find(foundId => foundId == productId)
+            debugger
+            let resultPath = path.join(modelsPath, modelFound)
+            debugger
+            let rs = fs.createReadStream(resultPath)
+
+            return rs
+        })()
+    }
 }
 
 module.exports = logic

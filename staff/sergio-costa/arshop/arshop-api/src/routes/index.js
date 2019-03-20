@@ -6,7 +6,7 @@ const imageParser = require('../image-parser')
 const cloudinaryUploader = require('../cloudinary')
 
 const { tokenVerifierMiddleware } = tokenHelper
-const { registerUser, authenticateUser, retrieveUser, updateUser, addProduct, retrieveProducts, retrieveProduct, toogleFav, retrieveFavs, searchProductsByCategory, searchProducts, updateProduct, retrieveUserProducts, toogleSold, uploadProductImg, uploadUserImg, retrieveUserFromProducts, retrieveUserWithId, retrieveProductsFromUserId, createChat, sendMessage, retrieveChats, retrieveMessagesFromChat, notFound } = require('./handlers')
+const { registerUser, authenticateUser, retrieveUser, updateUser, addProduct, retrieveProducts, retrieveProduct, toogleFav, retrieveFavs, searchProductsByCategory, searchProducts, updateProduct, retrieveUserProducts, toogleSold, uploadProductImg, uploadUserImg, retrieveUserFromProducts, retrieveUserWithId, retrieveProductsFromUserId, createChat, sendMessage, retrieveChats, retrieveMessagesFromChat, saveObject3d, retrieveObject3d, notFound } = require('./handlers')
 
 //#region cloudinary
 // const { parseImageUpload } = require('../../cloudinary/midlecloud')
@@ -64,6 +64,10 @@ router.post('/send/message/:id', tokenVerifierMiddleware, jsonBodyParser, sendMe
 router.get('/chats', tokenVerifierMiddleware, retrieveChats)
 
 router.get('/chat/:id', tokenVerifierMiddleware, retrieveMessagesFromChat)
+
+router.post('/save/object/:id', [tokenVerifierMiddleware, imageParser], saveObject3d)
+
+router.get('/object3d/:id', retrieveObject3d)
 
 router.get('*', notFound)
 

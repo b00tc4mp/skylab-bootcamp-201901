@@ -19,13 +19,11 @@ const Product = new Schema({
     category: {
         type: String,
         enum: ['vehicle','living place','electronic'],
-        required: true
     },
 
     city: {
         type: String,
         enum: ['Barcelona', 'Madrid'],
-        required: true
     },
 
     owner: {
@@ -41,11 +39,7 @@ const Product = new Schema({
 
     imageUrl: {
         type: String
-    },
-    
-    Model3D: {
-        type: String
-    } 
+    }, 
 })
 
 module.exports = Product

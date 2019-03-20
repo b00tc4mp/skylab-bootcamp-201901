@@ -55,7 +55,10 @@ class Results extends Component {
                 return <Product key={id} id={id} tittle={tittle} description={description} price={price} imageUrl={imageUrl} sold={sold} idFav={this.state.favIds} onProductSelect={this.props.onProductSelect} />
             })}
             {!products.length && <div className="results">
-                <img className="results__img" src="/images/lupa.png"/>
+                <div className="notFound">
+                    <p className="notFound__text">NOT</p>
+                    <p className="notFound__text">FOUND</p>
+                </div>
                 <Link to="/" className="results__btn">
                     GO HOME
                 </Link>

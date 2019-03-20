@@ -1,6 +1,7 @@
 'use strict'
 
 import arshopApi from '../arshop-api'
+import { type } from 'os';
 
 /**
  * Abstraction of business logic.
@@ -227,7 +228,14 @@ const logic = {
         if (!chatId.trim().length) throw Error('chatId cannot be empty')
 
         return arshopApi.retrieveMessagesFromChat(this.__userApiToken__, chatId)
-    }
+    },
+
+    saveObject3d(productId, object3d) {
+        if(typeof productId !== 'string')throw Error(`${productId} is not a string`)
+        if(!productId.trim().length)throw Error('productId cannot be empty')
+
+        return arshopApi.saveObject3d(this.__userApiToken__, productId, object3d)
+    },
 }
 
 export default logic

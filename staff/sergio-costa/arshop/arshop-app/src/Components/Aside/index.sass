@@ -65,6 +65,9 @@
         font-size: 1.3em
         color: #ff9b71
 
+        &:hover
+            cursor: pointer
+
         &--text
             margin-left: 0.7em
 
@@ -83,8 +86,16 @@
         color: black
         text-decoration: none
 
+        &:hover
+            cursor: pointer
+
     &__upload
         padding: 1em
         &:active
             background-color: lightgrey
 
+
+@media only screen and (min-width: 900px)
+
+    .sidebar--show
+        width: 20%

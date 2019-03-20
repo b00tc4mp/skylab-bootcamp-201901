@@ -16,7 +16,9 @@ class Search extends Component {
 
         const { state: { query }, props: { onSearch } } = this
 
-        onSearch(query)
+        if(query.trim().length){
+            onSearch(query)
+        }
     }
 
     render() {

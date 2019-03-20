@@ -5,7 +5,7 @@ module.exports = (req, res) => {
 
     try {
         logic.createChat(userId, id)
-            .then(id => res.json({id}))
+            .then(id => res.json(id))
             .catch(({ message }) => {
                 res.status(401).json({
                     error: message
