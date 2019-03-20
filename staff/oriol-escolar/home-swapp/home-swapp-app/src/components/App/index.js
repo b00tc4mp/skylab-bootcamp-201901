@@ -65,9 +65,9 @@ class App extends Component {
 
   updateInfo = async () => {
     if (this.state.user) {
-      const userFavs = null;
-      const userHouses = null;
-      const user = await logic.retrieveUser()
+      let userFavs = null;
+      let userHouses = null;
+      let user = await logic.retrieveUser()
       if(this.state.user){
         
         userFavs = await logic.retrieveFavorites()
