@@ -1,6 +1,6 @@
 'use strict'
 import homeSwappApi from '../api'
-import geocodeApi from '../geocodeApi'
+import geocodeApi from '../geocode-api'
 
 /**
  * Abstraction of business logic.

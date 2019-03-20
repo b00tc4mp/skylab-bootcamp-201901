@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import MapConainer from '../googleMap'
+import MapConainer from '../GoogleMap'
 import './index.sass';
 import ImageGallery from 'react-image-gallery';
 
@@ -16,9 +16,9 @@ class DetailedHouse extends Component {
         user: null,
         favorites: null,
         location: null
-
+        
     }
-
+    
     componentDidMount() {
         if (!this.state.thisHouse) {
             this.retrieveThisHouse(this.props.match.params.houseId)
@@ -34,110 +34,110 @@ class DetailedHouse extends Component {
     }
 
     componentDidUpdate(prepProvs) {
-        if (prepProvs.favorites !== this.state.favorites) {
+        if (JSON.stringify(prepProvs.favorites) !== JSON.stringify(this.state.favorites)) {
             const { favorites } = this.props
             this.setState({ favorites })
         }
-
-        if (this.state.user !== prepProvs.user) {
+        
+        if (JSON.stringify(this.state.user) !== JSON.stringify(prepProvs.user)) {
             this.setState({ user: prepProvs.user })
-
+            
         }
-
+        
     }
-
+    
     componentWillReceiveProps(props) {
-
+        
         if (!this.state.thisHouse) {
             this.retrieveThisHouse(props.match.params.houseId)
-
+            
         }
-
-        if (!this.state.user !== props.user) {
+        
+        if (JSON.stringify(this.state.user) !== JSON.stringify( props.user)) {
             this.setState({ user: props.user })
-
+            
         }
-
+        
     }
-
+    
     toggleFavorite = () => {
-
+        
     }
-
-
+    
+    
     retrieveThisHouse(houseId) {
         if (houseId) {
             const { state: { thisHouse } } = this
             if (!thisHouse)
-
-                return logic.retrieveHouse(houseId)
-                    .then(house => {
-                        const thisHouse = house;
-                        this.setState({ thisHouse })
-                        const { adress: { number, street, city, country } } = thisHouse
-                        return logic.retrievePoint(number, street, city, country)
-                            .then(location => {
-
-                                this.setState({ location })
-
-                            })
-                            .catch(() => true)
-
-                    })
-                    .catch(() => this.setState({ thisHouse: "ayayay" }))
-
-
+            
+            return logic.retrieveHouse(houseId)
+            .then(house => {
+                const thisHouse = house;
+                this.setState({ thisHouse })
+                const { adress: { number, street, city, country } } = thisHouse
+                return logic.retrievePoint(number, street, city, country)
+                .then(location => {
+                    
+                    this.setState({ location })
+                    
+                })
+                .catch(() => true)
+                
+            })
+            .catch(() => this.setState({ thisHouse: null }))
+            
+            
         }
-
+        
     }
-
-
+    
+    
     imageViewer = () => {
-
+        
         const { state: { thisHouse } } = this
-
+        
         if (thisHouse) {
-
+            
             let newImages = []
-
+            
             for (const image of thisHouse.images) {
-
-
+                
+                
                 let newImage = {
-
+                    
                     original: image,
                     thumbnail: image
                 }
-
+                
                 newImages.push(newImage)
-
+                
             }
-
-
+            
+            
             return <ImageGallery items={newImages} />
-
+            
         }
-
-
+        
+        
     }
-
+    
     contactButton = ()=> {
-
-
+        
+        
         this.props.contactButton(this.state.thisHouse.ownerId)
-
+        
     }
-
-
+    
+    
     goBack() {
-
+        
         window.history.back()
     }
-
+    
     render() {
-
+        
         const { state: { thisHouse, user, location }, props: { }, goBack, imageViewer,contactButton } = this
-
+        
         return <div className="detailedHouse" >
 
             <button className="detailedHouse__BackButton" onClick={goBack}>BACK</button>

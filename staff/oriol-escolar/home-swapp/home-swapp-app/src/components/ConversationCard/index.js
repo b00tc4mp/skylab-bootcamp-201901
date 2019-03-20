@@ -17,31 +17,28 @@ class ConversationCard extends Component {
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
 
-        this.setState({ interlocutorId: this.props.interlocutorId })
-            .then(() => {
-                if (this.state.interlocutorId) {
+        await this.setState({ interlocutorId: this.props.interlocutorId })
+        if (this.state.interlocutorId) {
 
-                    return logic.retrieveUserPublicInfo(this.state.interlocutorId)
-                    .then(username => this.setState({ interlocutorName = username }))
+            const username = await logic.retrieveUserPublicInfo(this.state.interlocutorId)
+            this.setState({ interlocutorName: username })
 
-                }
-            })
+        }
     }
 
-    showChat = this.props.showChat(this.state.interlocutorId)
 
 
     render() {
 
-        const { state: { interlocutorName, interlocutorId }, showChat } = this
+        const { state: { interlocutorName, interlocutorId }, showChat, props: { contactButton } } = this
 
         {
-            return interlocutorName && <div onClick={showChat} className="ConversationCard">
+            return interlocutorName && <div onClick={() => contactButton(interlocutorId)} className="conversationCard">
 
-                <img className="ConversationCard__img" src={images[0]}></img>
-                <p className="ConversationCard__text" >{inter}</p>
+                {/* <img className="ConversationCard__img" src={images[0]}></img> */}
+                <p className="conversationCard__text" >{interlocutorName}</p>
 
             </div>
         }

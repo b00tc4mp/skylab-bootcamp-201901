@@ -2,29 +2,30 @@ import React, { Component } from 'react';
 import { Route, Redirect, withRouter, Switch } from 'react-router-dom'
 import logo from '../../logo.svg';
 import './index.sass';
-import Login from '../loginPanel'
-import Register from '../registerPanel'
-import MyHouses from '../myHouses'
-import Favorites from '../favorites'
+import Login from '../LoginPanel'
+import Register from '../RegisterPanel'
+import MyHouses from '../MyHouses'
+import Favorites from '../Favorites'
 import LandingPage from '../LandingPage'
 import Header from '../Header'
-import SearchResults from '../searchResults'
-import CreateHouse from '../createHouse'
-import DetailedHouse from '../detailedHouse'
-import Chat from '../chat'
+import SearchResults from '../SearchResults'
+import CreateHouse from '../CreateHouse'
+import DetailedHouse from '../DetailedHouse'
+import Conversations from '../Conversations'
+import Chat from '../Chat'
 import logic from '../../logic'
 
 
 class App extends Component {
   state = {
-    token: "",
-    user: "",
-    userFavs: "",
-    userHouses: "",
+    token: null,
+    user: null,
+    userFavs: null,
+    userHouses: null,
     loginFeedback: null,
     registerFeedback: null,
     createHouseFeedback: null,
-    registered: "",
+    registered: null,
     conversations: [],
     userChat: null,
     messages: [],
@@ -40,8 +41,8 @@ class App extends Component {
     return logic.getUserApiToken() && logic.retrieveUser()
       .then(user => {
 
-       return this.setState({ user })
-          .then(() => this.setState({ conversations: user.conversations }))
+        this.setState({ user })
+        this.setState({ conversations: user.conversations })
 
 
 
@@ -54,12 +55,6 @@ class App extends Component {
 
   }
 
-  componentDidUpdate() {
-
-    if (!this.state.updating)
-      this.updateInfo()
-
-  }
 
   async userInfoRetriever() {
     // const user = await logic.registerUser()
@@ -69,29 +64,37 @@ class App extends Component {
   }
 
   updateInfo = async () => {
-    this.setState({ updating: true })
     if (this.state.user) {
+      const userFavs = null;
+      const userHouses = null;
       const user = await logic.retrieveUser()
-      const userFavs = await logic.retrieveFavorites()
-      const userHouses = await logic.retrieveMyHouses()
-      if (JSON.stringify(this.state.user) !== JSON.stringify(user)) {
-        this.setState({ user })
+      if(this.state.user){
+        
+        userFavs = await logic.retrieveFavorites()
 
+      }
+      if(this.state.user){
+        
+        userHouses = await logic.retrieveMyHouses()
+      }
+      if (JSON.stringify(this.state.user) !== JSON.stringify(user)) {
+        
+        this.setState({ user })
       }
 
       if (JSON.stringify(this.state.userFavs) !== JSON.stringify(userFavs)) {
+        
         this.setState({ userFavs })
-
       }
 
       if (JSON.stringify(this.state.userHouses) !== JSON.stringify(userHouses)) {
+        
         this.setState({ userHouses })
-
       }
 
       if (JSON.stringify(this.state.conversations) !== JSON.stringify(user.conversations)) {
         await this.setState({ conversations: user.conversations })
-
+        
         if (this.state.interlocutorId) {
 
           var index = this.state.conversations.findIndex(conver => conver.interlocutor == this.state.interlocutorId)
@@ -107,7 +110,7 @@ class App extends Component {
       }
 
       setTimeout(this.updateInfo, 3000);
-    }
+    } 
 
 
 
@@ -123,7 +126,7 @@ class App extends Component {
           this.setState({ token })
           return logic.retrieveUser()
             .then(user => this.setState({ user }))
-            .then(()=>this.updateInfo())
+            .then(() => this.updateInfo())
             .catch(({ message }) => {
               this.setState({ loginFeedback: message })
             })
@@ -202,8 +205,9 @@ class App extends Component {
 
 
   handleGoToLogout = () => {
+
     logic.logout();
-    this.setState({ user: "", token: "" })
+    this.setState({ user: null, token: null, userFavs: null, userHouses: null,conversations: [],userChat: null,messages: [],loginFeedback: null,registerFeedback: null,createHouseFeedback: null })
 
     this.props.history.push('/');
   }
@@ -252,17 +256,17 @@ class App extends Component {
 
 
   contactButton = async (userChat) => {
+
     await this.setState({ userChat })
     var index = this.state.conversations.findIndex(conver => conver.interlocutor == userChat)
-    
+
     if (index < 0) {
       debugger
       await this.setState({ messages: [] })
       this.props.history.push(`/chat`)
-      
-      
-    }else{
-      console.log('here ')
+
+
+    } else {
       await this.setState({ messages: this.state.conversations[index].messages })
       this.props.history.push(`/chat`)
 
@@ -326,7 +330,7 @@ class App extends Component {
       handleLogin, handleRegister, handleGoToConversations, handleGoToLogin, handleGoToLogout, handleGoToRegister,
       handleGoToUser, handleGoToLanding, toggleFavs, updateInfo, onCreateHousePage, onCreateHouse, retrieveHouse, contactButton, sendMessage,
 
-      state: { user, loginFeedback, registerFeedback, token, userHouses, userFavs, createHouseFeedback, userChat, messages }
+      state: { user, loginFeedback, registerFeedback, token, userHouses, userFavs, createHouseFeedback, userChat, messages, conversations }
     } = this
 
 
@@ -343,11 +347,11 @@ class App extends Component {
           <Switch>
             <Route path="/search/:query" render={() => <SearchResults toggleFavs={toggleFavs} updateInfo={updateInfo} userFavs={userFavs} retrieveHouse={retrieveHouse} />} />
             <Route path="/house/:houseId" render={() => <DetailedHouse toggleFavs={toggleFavs} favorites={userFavs} user={user} contactButton={contactButton} />} />
-            {/* <Route path="/editHouse/:houseId" render={() => <EditHouse />} /> */}
             <Route exact path="/createHouse" render={() => <CreateHouse onCreateHouse={onCreateHouse} createHouseFeedback={createHouseFeedback} />} />
             <Route exact path='/' render={() => <LandingPage />} />
             <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
             <Route exact path="/chat" render={() => <Chat interlocutorId={userChat} messages={messages} sendMessage={sendMessage} />} />
+            <Route exact path="/conversations" render={() => <Conversations conversations={conversations} contactButton={contactButton} />} />
             <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
           </Switch>
           <Route exact path="/user" render={() => <div>

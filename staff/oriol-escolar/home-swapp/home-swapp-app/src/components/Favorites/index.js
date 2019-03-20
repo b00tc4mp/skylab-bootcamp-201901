@@ -29,7 +29,6 @@ class Favorites extends Component {
         
         let index = favorites.findIndex(fav => fav.id === house.id)
         if (index < 0) {
-            console.log('done')
             favorites.push(house)
         } else {
             favorites.splice(index, 1)

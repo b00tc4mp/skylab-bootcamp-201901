@@ -21,9 +21,10 @@ class Header extends Component {
 
     }
 
-    componentWillReceiveProps(props) {
+    componentDidUpdate(prevProps) {
 
-        this.setState({ user: props.user })
+        if(this.state.user !== prevProps.user)
+        this.setState({ user: prevProps.user })
 
     }
 

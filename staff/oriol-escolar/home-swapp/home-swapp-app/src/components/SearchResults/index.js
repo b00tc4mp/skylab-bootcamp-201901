@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import './index.sass';
 import logic from '../../logic'
 import HouseCard from '../HouseCard'
-import CreateHouseCard from '../createHouseCard'
 
 
 class SearchResults extends Component {

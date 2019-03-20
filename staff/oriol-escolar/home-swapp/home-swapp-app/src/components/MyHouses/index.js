@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './index.sass';
 import logic from '../../logic'
 import HouseCard from '../HouseCard'
-import CreateHouseCard from '../createHouseCard'
+import CreateHouseCard from '../CreateHouseCard'
 
 
 class MyHouses extends Component {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './index.sass';
+import ConversationCard from '../ConversationCard'
 import logic from '../../logic'
 
 class Conversations extends Component {
@@ -16,30 +17,44 @@ class Conversations extends Component {
     componentDidMount() {
 
         this.setState({ conversations: this.props.conversations })
-           
+
     }
 
-    componentWillReceiveProps = (props)=>{
-        
-        if(props.conversations !== this.state.conversations)
-        this.setState({ conversations: this.props.conversations })
+    componentWillReceiveProps = (props) => {
 
-        
+        if (props.conversations !== this.state.conversations)
+            this.setState({ conversations: this.props.conversations })
+
+
+    }
+
+   
+
+
+    listConversations = () => {
+
+        const { state: { conversations } } = this
+
+        return conversations.map(conversation => {
+            return <ConversationCard contactButton={this.props.contactButton} interlocutorId={conversation.interlocutor} > </ConversationCard>
+        })
+
+
+
     }
 
 
     render() {
 
-        const { state: { interlocutorName, interlocutorId }, showChat } = this
+        const { state: { conversations }, listConversations } = this
 
-        {
-            return interlocutorName && <div onClick={showChat} className="ConversationCard">
 
-                <img className="ConversationCard__img" src={images[0]}></img>
-                <p className="ConversationCard__text" >{inter}</p>
+        return  <div className="Conversations">
 
+                {conversations ? listConversations() : <p> sjkgdsahdjkb</p> }
+                
             </div>
-        }
+
 
 
     }
