@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import logic from '../../logic'
 import './index.sass'
 
@@ -15,7 +15,7 @@ class Header extends Component {
         const { handleLogOut } = this
 
         return <header className="header">
-        <img src="https://res.cloudinary.com/dnvdmcxqw/image/upload/v1552734358/logo.png" />
+        <Link to="/home"><img src="https://res.cloudinary.com/dnvdmcxqw/image/upload/v1552734358/logo.png" /></Link>
         <i class="fas fa-sign-out-alt fa-2x" onClick={handleLogOut}></i>
         </header>
     }

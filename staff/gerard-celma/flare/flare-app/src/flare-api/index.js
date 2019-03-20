@@ -1,24 +1,16 @@
 'use strict'
 
+const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('errorify')
+const validate = require('flare-validation')
+
 const flareApi = {
     // url: "http://localhost:8000/api",
     url: 'https://stark-basin-28669.herokuapp.com/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
-        if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
-        if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw Error('surname is empty')
-
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
-
-        if (typeof passwordConfirm !== 'string') throw TypeError(`${passwordConfirm} is not a string`)
-        if (!passwordConfirm.trim().length) throw Error('password confirm is empty')
+        if(password !== passwordConfirm) throw new MatchingError('passwords do not match')
         
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -36,11 +28,7 @@ const flareApi = {
     },
 
     authenticateUser(email, password) {
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
-
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        validate([{ key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }])
 
         return fetch(`${this.url}/user/auth`, {
             method: 'POST',
@@ -58,8 +46,7 @@ const flareApi = {
     },
 
     retrieveUser(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/user`, {
             headers: {
@@ -75,8 +62,7 @@ const flareApi = {
     },
 
     retrieveUsers(token) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/users`, {
             headers: {
@@ -92,18 +78,8 @@ const flareApi = {
     },
 
     updateUser(token, name, surname, email) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-        if (!name.trim().length) throw Error('name cannot be empty')
-
-        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
-        if (!surname.trim().length) throw Error('surname cannot be empty')
-
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-        if (!email.trim().length) throw Error('email cannot be empty')
-        debugger
+        validate([{ key: 'token', value: token, type: String }, { key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }])
+        
         return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
@@ -121,14 +97,7 @@ const flareApi = {
     },
 
     uploadMessagePhoto(token, data, msgId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== File) throw TypeError(`${data} is not an object`)
-
-        if (typeof msgId !== 'string') throw TypeError(msgId + ' is not a string')
-        if (!msgId.trim().length) throw Error('msgId cannot be empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'data', value: data, type: File }, { key: 'msgId', value: msgId, type: String }])
 
         let formData = new FormData()
         formData.append('image', data)

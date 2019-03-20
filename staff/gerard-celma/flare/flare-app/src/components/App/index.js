@@ -5,7 +5,7 @@ import Login from '../Login'
 import CanvasLanding from '../CanvasLanding'
 import Home from '../Home'
 import Success from '../Success'
-import Fail from '../Fail'
+import SuccessRegister from '../Register/SuccessRegister'
 import Watch from '../Watch'
 import Profile from '../Profile'
 import ReadMessage from '../ReadMessage'
@@ -27,7 +27,7 @@ class App extends Component {
         <Route path="/read-message" render={() => logic.isUserLoggedIn ? <ReadMessage /> : <Redirect to="/landing" />} />
         <Route path="/flares-map" render={() => logic.isUserLoggedIn ? <FlaresMap /> : <Redirect to="/landing" />} />
         <Route path="/success" render={() => <Success />} />
-        <Route path="/fail" render={() => <Fail />} />
+        <Route path="/success-register" render={() => <SuccessRegister />} />
     </main>
   }
 }

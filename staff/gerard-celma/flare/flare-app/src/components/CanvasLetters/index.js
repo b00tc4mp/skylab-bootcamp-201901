@@ -6,7 +6,6 @@ class CanvasLetters extends Component {
     state = { fake: null}
 
     componentDidMount() {
-        // let colors = ["#EDEEC0", "#ED7B84", "#7397C3", "#7EB77F"]
         let colors = ["#ECCF78", "#D3707F", "#A1B3C6", "#8AA1A3"]
         let ctx = this.canvas.getContext("2d")
         let pathPointsFrom, pathPointsTo, pathPointsNow 
@@ -17,7 +16,6 @@ class CanvasLetters extends Component {
         ctx.lineWidth = 8
         ctx.lineCap = "round"
 
-        // var paths = [samplePath(this.circlePath), samplePath(this.rectPath), samplePath(this.trianglePath), samplePath(this.gerardPath)]
         var paths = [samplePath(this.letterW), samplePath(this.letterA), samplePath(this.letterT), samplePath(this.letterC), samplePath(this.letterH), samplePath(this.letterI), samplePath(this.letterN), samplePath(this.letterG)]
 
         function drawPathToCanvas() {
@@ -115,7 +113,7 @@ class CanvasLetters extends Component {
                 <path id="letter-w" d="M10,10 66,195 100,110 133,195 190,10" ref={(ref) => (this.letterW = ref)}/>
                 <path id="letter-a" d="M10,190 58,90 100,10 140,90 190,190 140,90 58,90" ref={(ref) => (this.letterA = ref)}/>
                 <path id="letter-t" d="M10,10 100,10 100,190 100,10 190,10" ref={(ref) => (this.letterT = ref)}/>
-                <path id="letter-c" d="M 180 60 Q 160 10 100 10 Q 15 10 10 100 Q 15 185 100 190 Q 180 185 180 115" ref={(ref) => (this.letterC = ref)}/>
+                <path id="letter-c" d="M 175 50 Q 160 10 100 10 Q 15 10 10 100 Q 15 190 100 190 Q 160 190 175 150 " ref={(ref) => (this.letterC = ref)}/>
                 <path id="letter-h" d="M 35 10 L 35 100 L 35 190 L 35 100 L 165 100 L 165 10 L 165 100 L 165 190" ref={(ref) => (this.letterH = ref)}/>
                 <path id="letter-i" d="M 40 10 L 100 10 L 160 10 L 100 10 L 100 190 L 160 190 L 100 190 L 40 190" ref={(ref) => (this.letterI = ref)}/>
                 <path id="letter-n" d="M 40 190 L 40 10 L 160 190 L 160 10" ref={(ref) => (this.letterN = ref)}/>

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import './index.sass'
 
-let ww = window.innerWidth
-let wh = window.innerHeight
+// let ww = window.innerWidth
+// let wh = window.innerHeight
 
 class CanvasLanding extends Component {
 
@@ -185,8 +185,8 @@ class CanvasLanding extends Component {
                 <div className="inner">
                     <h1>welcome to</h1>
                     <img src="https://res.cloudinary.com/dnvdmcxqw/image/upload/v1552734358/logo.png" />
-                    <p>Quick animation prototype to explore an idea for the hero of my personal portfolio. This was created using a canvas as a background where the triangles are drawn and animates with a overlay gradient on top of the canvas.</p>
-                    <p>Feel free to share and use it as inspiration for any of you projects, and if you like it show some love by following me on</p>
+                    <p>Flare is a platform that allows users to send messages based on geographical location and time. We invite you to register and try it out.</p>
+                    <p>Choose a user, add a text and an image to the message, select the date from which the message will be available and send it! The recipient will get your flare once located in the message position.</p>
                 </div>
                 <div className="login-down"><Link to="/login" className="login-down__text">login</Link></div>
                 <div className="background" ref={(ref) => (this.bg = ref)}>

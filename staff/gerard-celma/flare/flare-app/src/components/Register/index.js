@@ -19,7 +19,7 @@ class Register extends Component {
 
         try {
             logic.registerUser(name, surname, email, password, passwordConfirmation)
-                .then(() => this.props.history.push('/login'))
+                .then(() => this.props.history.push('/success-register'))
                 .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
             this.setState({ feedback: message })

@@ -37,9 +37,11 @@ class MessagesSent extends Component {
 
         return <section className="messagesSent">
             <p>Messages Sent</p>
+            <div className="noMessageContainer">
+                {((!sentMessages) || (sentMessages.length === 0)) && <div className="noMessagesContainer">no messages sent</div>}
+            </div>
             <div className="messagesContainer">
                 {sentMessages && sentMessages.map(({ _id, date, text, image, userIdTo:{ name, surname } }) => <div><p>To: {name} {surname}</p><p>Sent: {date.slice(0,10)}</p><img className="profileImage" src={image} /><p className="textMes">{text}</p><p className="trashMes"><i class="far fa-trash-alt" onClick={() => handleClick(_id)}></i></p></div>)}
-                {/* {sentMessages && <Accordion data={sentMessages} />} */}
             </div>
             {feedback && <Feedback message={feedback} />}
         </section>

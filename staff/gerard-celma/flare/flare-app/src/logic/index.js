@@ -1,6 +1,8 @@
 'use strict'
 
 import flareApi from '../flare-api'
+const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('errorify')
+const validate = require('flare-validation') 
 
 const logic = {
     __userApiToken__: null,
@@ -15,25 +17,7 @@ const logic = {
     * @param {string} passwordConfirmation 
     */
    registerUser(name, surname, email, password, passwordConfirmation) {
-    if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-
-    if (!name.trim().length) throw Error('name cannot be empty')
-
-    if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
-
-    if (!surname.trim().length) throw Error('surname cannot be empty')
-
-    if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
-    if (!email.trim().length) throw Error('email cannot be empty')
-
-    if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
-    if (!password.trim().length) throw Error('password cannot be empty')
-
-    if (typeof passwordConfirmation !== 'string') throw TypeError(passwordConfirmation + ' is not a string')
-
-    if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
+    validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirmation', value: passwordConfirmation, type: String }])
 
     if (password !== passwordConfirmation) throw Error('passwords do not match')
 
@@ -48,13 +32,7 @@ const logic = {
      * @param {string} password 
      */
     logInUser(email, password) {
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
-        if (!email.trim().length) throw Error('email cannot be empty')
-
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-
-        if (!password.trim().length) throw Error('password cannot be empty')
+        validate([{ key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }])
 
         return flareApi.authenticateUser(email, password)
             .then(({token}) => this.__userApiToken__ = token)
@@ -73,17 +51,7 @@ const logic = {
     },
 
     updateUser(name, surname, email) {
-        if (typeof name !== 'string') throw TypeError(name + ' is not a string')
-
-        if (!name.trim().length) throw Error('name cannot be empty')
-
-        if (typeof surname !== 'string') throw TypeError(surname + ' is not a string')
-
-        if (!surname.trim().length) throw Error('surname cannot be empty')
-
-        if (typeof email !== 'string') throw TypeError(email + ' is not a string')
-
-        if (!email.trim().length) throw Error('email cannot be empty')
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }])
 
         return flareApi.updateUser(this.__userApiToken__, name, surname, email)
             .then(user => user)

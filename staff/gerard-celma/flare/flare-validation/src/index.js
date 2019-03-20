@@ -33,6 +33,12 @@ function validate(params) {
                 if (optional && value == null) break
 
                 if (!(value instanceof Array)) throw TypeError(`${value} is not an array`)
+
+                break
+            case File:
+                if (optional && value == null) break
+
+                if (value.constructor !== File) throw TypeError(`${value} is not an object`)
         }
     })
 }

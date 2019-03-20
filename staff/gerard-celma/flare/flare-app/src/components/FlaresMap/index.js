@@ -39,7 +39,7 @@ class FlaresMap extends Component {
                 lat: 41.3983838,
                 lng: 2.199942128836028
                 }}
-                zoom={2.2}
+                zoom={2}
             >
                 {this.state.markers.map((marker) => (
                     <Marker

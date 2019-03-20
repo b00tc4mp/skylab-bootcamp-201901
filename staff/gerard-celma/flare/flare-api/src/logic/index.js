@@ -32,32 +32,33 @@ const logic = {
 
             const { id } = await User.create({ name, surname, email, password: hash })
 
+            // Nodemailer blocked is for testing------------------------------>
 
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'FlareWelcome@gmail.com',
-                    pass: 'jhg4qYIU7'
-                }
-            })
+            // const transporter = nodemailer.createTransport({
+            //     service: 'gmail',
+            //     auth: {
+            //         user: 'FlareWelcome@gmail.com',
+            //         pass: 'jhg4qYIU7'
+            //     }
+            // })
 
-            const mailOptions = {
-                from: 'FlareWelcome@gmail.com',
-                to: `${email}`,
-                subject: 'Welcome to Flare!',
-                html: `<h1>Thanks for registering ${name}!</h1>
-                    <p>We want to welcome you to Flare.<p>
-                    <p>Please click on the following <a href='http://localhost:3000'>link</a> in order to login and start shooting Flares!</p>
-                    <p>Remember to go to your profile and upload your profile picture so that other users can recognize you easily.</p>
-                    <p>Thanks</p>
-                    <p>The Flare team ;)</p>
-                `
-            }
+            // const mailOptions = {
+            //     from: 'FlareWelcome@gmail.com',
+            //     to: `${email}`,
+            //     subject: 'Welcome to Flare!',
+            //     html: `<h1>Thanks for registering ${name}!</h1>
+            //         <p>We want to welcome you to Flare.<p>
+            //         <p>Please click on the following <a href='http://localhost:3000'>link</a> in order to login and start shooting Flares!</p>
+            //         <p>Remember to go to your profile and upload your profile picture so that other users can recognize you easily.</p>
+            //         <p>Thanks</p>
+            //         <p>The Flare team ;)</p>
+            //     `
+            // }
 
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) throw new Error(`email could not be sent`)
-                else ('Email sent: ' + info.response)
-            })
+            // transporter.sendMail(mailOptions, function (error, info) {
+            //     if (error) throw new Error(`email could not be sent`)
+            //     else ('Email sent: ' + info.response)
+            // })
 
 
             return id

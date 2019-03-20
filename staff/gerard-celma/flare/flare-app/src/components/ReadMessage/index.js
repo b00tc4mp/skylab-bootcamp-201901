@@ -12,7 +12,7 @@ class ReadMessage extends Component {
         navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
         if(navigator.vibrate) {
-            navigator.vibrate(1000)
+            navigator.vibrate([1000, 250, 1000, 250, 1000, 250, 1000, 250, 1000, 250, 1000])
         }
     }
 

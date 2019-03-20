@@ -2,41 +2,39 @@
 
 require('dotenv').config()
 
-require('isomorphic-fetch')
-
 const { mongoose, models: { User, Message } } = require('datify')
-const expect = require('expect')
-const logic = require('.')
-const bcrypt = require('bcrypt')
+import flareApi from './index'
+import bcrypt from 'bcrypt'
 
 
-const { env: { TEST_DB_URL } } = process
+const { env: { REACT_APP_TEST_DB_URL } } = process
 
-describe('logic', () => {
-    before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
 
+describe('flareApi', () => {
+    beforeAll(() => mongoose.connect(REACT_APP_TEST_DB_URL, { useNewUrlParser: true }))
+    
     beforeEach(() =>
-        Promise.all([
-            Message.deleteMany(),
-            User.deleteMany()
-        ])
+    Promise.all([
+        Message.deleteMany(),
+        User.deleteMany()
+    ])
     )
-
+    
     describe('register user', () => {
         const name = 'carlos'
         const surname = 'perez'
         const email = `carlosperez-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const passwordConfirm = password
-
+        
         it('should succeed on valid data', async () => {
-            const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+            const id = await flareApi.registerUser(name, surname, email, password, passwordConfirm)
 
             expect(id).toBeDefined()
             expect(typeof id).toBe('string')
 
             const user = await User.findOne({ email })
-
+            
             expect(user.name).toBe(name)
             expect(user.surname).toBe(surname)
             expect(user.email).toBe(email)
@@ -53,7 +51,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -64,7 +62,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -76,7 +74,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -87,7 +85,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -98,7 +96,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -109,7 +107,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(Error('name is empty or blank'))
         })
 
@@ -120,7 +118,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError('undefined is not a string'))
         })
 
@@ -131,7 +129,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError('10 is not a string'))
         })
 
@@ -143,7 +141,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -154,7 +152,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -165,7 +163,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -176,7 +174,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(Error('surname is empty or blank'))
         })
 
@@ -187,7 +185,7 @@ describe('logic', () => {
             const password = undefined
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -198,7 +196,7 @@ describe('logic', () => {
             const password = 123
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -210,7 +208,7 @@ describe('logic', () => {
             const password = true
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -221,7 +219,7 @@ describe('logic', () => {
             const password = {}
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -232,7 +230,7 @@ describe('logic', () => {
             const password = []
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -243,10 +241,9 @@ describe('logic', () => {
             const password = ``
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                flareApi.registerUser(name, surname, email, password, password)
             }).toThrow(Error('password is empty or blank'))
         })
-        // init password check
 
         it('should fail on different password and passwordConfirm', () => {
             const name = 'carlos'
@@ -256,11 +253,9 @@ describe('logic', () => {
             const passwordConfirm = '456'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, passwordConfirm)
+                flareApi.registerUser(name, surname, email, password, passwordConfirm)
             }).toThrow(Error('passwords do not match'))
         })
-
-        // end password check
 
         it('should fail on existing user', () => {
             const name = 'carlos'
@@ -269,8 +264,8 @@ describe('logic', () => {
             const password = `123`
             const passwordConfirm = password
 
-            return logic.registerUser(name, surname, email, password, password)
-                    .then(() => logic.registerUser(name, surname, email, password, password))
+            return flareApi.registerUser(name, surname, email, password, password)
+                    .then(() => flareApi.registerUser(name, surname, email, password, password))
                         .catch(({message}) => {
                             expect(message).toBe(`user with email ${email} already exists`)
                         })  
@@ -292,7 +287,7 @@ describe('logic', () => {
         )
 
         it('should succeed on correct credentials', () =>
-            logic.authenticateUser(email, password)
+            flareApi.authenticateUser(email, password)
                 .then(id => expect(id).toBeDefined())
         )
 
@@ -301,7 +296,7 @@ describe('logic', () => {
             const password = pass
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -310,7 +305,7 @@ describe('logic', () => {
             const password = pass
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -320,7 +315,7 @@ describe('logic', () => {
             const password = pass
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -329,7 +324,7 @@ describe('logic', () => {
             const password = pass
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -338,7 +333,7 @@ describe('logic', () => {
             const password = pass
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -347,7 +342,7 @@ describe('logic', () => {
             const password = pass
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(Error('email is empty or blank'))
         })
 
@@ -356,7 +351,7 @@ describe('logic', () => {
             const password = undefined
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -365,7 +360,7 @@ describe('logic', () => {
             const password = 123
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -375,7 +370,7 @@ describe('logic', () => {
             const password = true
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -384,7 +379,7 @@ describe('logic', () => {
             const password = {}
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -393,7 +388,7 @@ describe('logic', () => {
             const password = []
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -402,7 +397,7 @@ describe('logic', () => {
             const password = ``
 
             expect(() => {
-                logic.authenticateUser(email, password)
+                flareApi.authenticateUser(email, password)
             }).toThrow(Error('password is empty or blank'))
         })
 
@@ -410,7 +405,7 @@ describe('logic', () => {
             const email = 'test666@mail.com'
             const password = pass
 
-            logic.authenticateUser(email, password)
+            flareApi.authenticateUser(email, password)
                 .catch(({message}) => {
                     expect(message).toBe(`user with email ${email} not found`)
                 })
@@ -420,78 +415,81 @@ describe('logic', () => {
             const email = mail
             const password = '456'
 
-            logic.authenticateUser(email, password)
+            flareApi.authenticateUser(email, password)
                 .catch(({message}) => {
                     expect(message).toBe('wrong credentials')
                 })
         })
     })
 
-    describe('retrieve user', () => {
+    describe.only('retrieve user', () => {
         const name = 'carlos'
         const surname = 'perez'
         const email = `carlosperez-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
 
         let userId
+        let token
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
                 .then(({ id }) => userId = id)
+                .then(() => flareApi.authenticateUser(email, password))
+                .then(res => token = res.token)
         )
 
-        it('should fail on undefined userId', () => {
-            const userId = undefined
+        it('should fail on undefined token', () => {
+            const token = undefined
 
             expect(() => {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUser(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on numeric userId', () => {
-            const userId = 123
+        it('should fail on numeric token', () => {
+            const token = 123
 
             expect(() => {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUser(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
 
-        it('should fail on boolean userId', () => {
-            const userId = true
+        it('should fail on boolean token', () => {
+            const token = true
 
             expect(() => {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUser(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on object userId', () => {
-            const userId = {}
+        it('should fail on object token', () => {
+            const token = {}
 
             expect(() => {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUser(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on array userId', () => {
-            const userId = []
+        it('should fail on array token', () => {
+            const token = []
 
             expect(() => {
-                logic.retrieveUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUser(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on empty userId', () => {
-            const userId = ``
+        it('should fail on empty token', () => {
+            const token = ``
 
             expect(() => {
-                logic.retrieveUser(userId)
-            }).toThrow(Error('userId is empty or blank'))
+                flareApi.retrieveUser(token)
+            }).toThrow(Error('token is empty or blank'))
         })
 
         it('should succeed on correct credentials', () =>
-            logic.retrieveUser(userId)
+            flareApi.retrieveUser(token)
                 .then(user => {
                     expect(user.id).toBe(userId)
                     expect(user.name).toBe(name)
@@ -503,7 +501,7 @@ describe('logic', () => {
         )
 
         it('should fail on wrong userId', () => {
-            logic.retrieveUser('5c83d5ab667269067002ce97')
+            flareApi.retrieveUser('5c83d5ab667269067002ce97')
                 .catch(({ message }) => {
                     expect(message).toBe(`user with id 5c83d5ab667269067002ce97 not found`)
                 })
@@ -517,64 +515,67 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
 
         let userId
+        let token
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
                 .then(({ id }) => userId = id)
+                .then(() => flareApi.authenticateUser(email, password))
+                .then(res => token = res.token)
         )
 
-        it('should fail on undefined userId', () => {
-            const userId = undefined
+        it('should fail on undefined token', () => {
+            const token = undefined
 
             expect(() => {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUsers(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on numeric userId', () => {
-            const userId = 123
+        it('should fail on numeric token', () => {
+            const token = 123
 
             expect(() => {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUsers(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
 
-        it('should fail on boolean userId', () => {
-            const userId = true
+        it('should fail on boolean token', () => {
+            const token = true
 
             expect(() => {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUsers(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on object userId', () => {
-            const userId = {}
+        it('should fail on object token', () => {
+            const token = {}
 
             expect(() => {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUsers(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on array userId', () => {
-            const userId = []
+        it('should fail on array token', () => {
+            const token = []
 
             expect(() => {
-                logic.retrieveUsers(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.retrieveUsers(token)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on empty userId', () => {
-            const userId = ``
+        it('should fail on empty token', () => {
+            const token = ``
 
             expect(() => {
-                logic.retrieveUsers(userId)
-            }).toThrow(Error('userId is empty or blank'))
+                flareApi.retrieveUsers(token)
+            }).toThrow(Error('token is empty or blank'))
         })
 
         it('should succeed on correct credentials', () =>
-            logic.retrieveUsers(userId)
+            flareApi.retrieveUsers(token)
                 .then(users => {
                             users.map(user => {
                             expect(user.id).toBe(userId)
@@ -587,10 +588,10 @@ describe('logic', () => {
                 })
         )
 
-        it('should fail on wrong userId', () => 
-            logic.retrieveUsers('5c83d5ab667269067002ce97')
+        it('should fail on wrong token', () => 
+            flareApi.retrieveUsers('5c83d5ab667269067002ce97')
                 .catch(({ message }) => {
-                    expect(message).toBe(`user with id 5c83d5ab667269067002ce97 not found, no permission to perform query`)
+                    expect(message).toBe(`jwt malformed`)
                 })
         )
     })
@@ -606,67 +607,70 @@ describe('logic', () => {
         const _email = `jaumepujol-${Math.random()}@mail.com`
 
         let userId
+        let token
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ name, surname, email, password: hash }))
                 .then(({ id }) => userId = id)
+                .then(() => flareApi.authenticateUser(email, password))
+                .then(res => token = res.token)
         )
 
-        it('should fail on undefined userId', () => {
-            const userId = undefined
+        it('should fail on undefined token', () => {
+            const token = undefined
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.updateUser(token, _name, _surname, _email)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on numeric userId', () => {
-            const userId = 123
+        it('should fail on numeric token', () => {
+            const token = 123
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.updateUser(token, _name, _surname, _email)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
 
-        it('should fail on boolean userId', () => {
-            const userId = true
+        it('should fail on boolean token', () => {
+            const token = true
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.updateUser(token, _name, _surname, _email)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on object userId', () => {
-            const userId = {}
+        it('should fail on object token', () => {
+            const token = {}
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.updateUser(token, _name, _surname, _email)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on array userId', () => {
-            const userId = []
+        it('should fail on array token', () => {
+            const token = []
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(TypeError(userId + ' is not a string'))
+                flareApi.updateUser(token, _name, _surname, _email)
+            }).toThrow(TypeError(token + ' is not a string'))
         })
 
-        it('should fail on empty userId', () => {
-            const userId = ``
+        it('should fail on empty token', () => {
+            const token = ``
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
-            }).toThrow(Error('userId is empty or blank'))
+                flareApi.updateUser(token, _name, _surname, _email)
+            }).toThrow(Error('token is empty or blank'))
         })
 
         it('should fail on undefined email', () => {
             const _email = undefined
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_email + ' is not a string'))
         })
 
@@ -674,7 +678,7 @@ describe('logic', () => {
             const _email = 123
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_email + ' is not a string'))
         })
 
@@ -683,7 +687,7 @@ describe('logic', () => {
             const _email = true
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_email + ' is not a string'))
         })
 
@@ -691,7 +695,7 @@ describe('logic', () => {
             const _email = {}
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_email + ' is not a string'))
         })
 
@@ -699,7 +703,7 @@ describe('logic', () => {
             const _email = []
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_email + ' is not a string'))
         })
 
@@ -707,7 +711,7 @@ describe('logic', () => {
             const _email = ''
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(Error('email is empty or blank'))
         })
 
@@ -715,7 +719,7 @@ describe('logic', () => {
             const _surname = undefined
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_surname + ' is not a string'))
         })
 
@@ -723,7 +727,7 @@ describe('logic', () => {
             const _surname = 123
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_surname + ' is not a string'))
         })
 
@@ -732,7 +736,7 @@ describe('logic', () => {
             const _surname = true
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_surname + ' is not a string'))
         })
 
@@ -740,7 +744,7 @@ describe('logic', () => {
             const _surname = {}
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_surname + ' is not a string'))
         })
 
@@ -748,7 +752,7 @@ describe('logic', () => {
             const _surname = []
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_surname + ' is not a string'))
         })
 
@@ -756,7 +760,7 @@ describe('logic', () => {
             const _surname = ''
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(Error('surname is empty or blank'))
         })
 
@@ -764,7 +768,7 @@ describe('logic', () => {
             const _name = undefined
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_name + ' is not a string'))
         })
 
@@ -772,7 +776,7 @@ describe('logic', () => {
             const _name = 123
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_name + ' is not a string'))
         })
 
@@ -781,7 +785,7 @@ describe('logic', () => {
             const _name = true
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_name + ' is not a string'))
         })
 
@@ -789,7 +793,7 @@ describe('logic', () => {
             const _name = {}
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_name + ' is not a string'))
         })
 
@@ -797,7 +801,7 @@ describe('logic', () => {
             const _name = []
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(TypeError(_name + ' is not a string'))
         })
 
@@ -805,12 +809,12 @@ describe('logic', () => {
             const _name = ''
 
             expect(() => {
-                logic.updateUser(userId, _name, _surname, _email)
+                flareApi.updateUser(userId, _name, _surname, _email)
             }).toThrow(Error('name is empty or blank'))
         })
         
         it('should work with correct credentials', () => 
-            logic.updateUser(userId, _name, _surname, _email)
+            flareApi.updateUser(token, _name, _surname, _email)
                 .then(user => {
                     expect(user.name).toBe(_name)
                     expect(user.surname).toBe(_surname)
@@ -819,85 +823,8 @@ describe('logic', () => {
         )
 
         it('should fail with incorrect credentials', () => 
-            logic.updateUser('5c83d64f667269067002ce99', _name, _surname, _email)
-                .catch(({ message }) => expect(message).toBe(`user with id 5c83d64f667269067002ce99 not found`))
-        )
-    })
-
-    describe('remove user', () => {
-        const name = 'carlos'
-        const surname = 'perez'
-        const email = `carlosperez-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
-
-        let userId
-
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash }))
-                .then(({ id }) => userId = id)
-        )
-
-        it('should fail on undefined userId', () => {
-            const userId = undefined
-
-            expect(() => {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on numeric userId', () => {
-            const userId = 123
-
-            expect(() => {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on boolean userId', () => {
-            const userId = true
-
-            expect(() => {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on object userId', () => {
-            const userId = {}
-
-            expect(() => {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on array userId', () => {
-            const userId = []
-
-            expect(() => {
-                logic.removeUser(userId)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on empty userId', () => {
-            const userId = ``
-
-            expect(() => {
-                logic.removeUser(userId)
-            }).toThrow(Error('userId is empty or blank'))
-        })
-
-        it('should succeed on correct userId', () => 
-            logic.removeUser(userId)
-                .then((user) => {
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-                })
-        )
-
-        it('should fail on incorrect userId', () =>
-                logic.removeUser('5c83d64f667269067002ce99')
-                    .catch(({ message }) => expect(message).toBe(`user with id 5c83d64f667269067002ce99 not found`))
+            flareApi.updateUser('5c83d64f667269067002ce99', _name, _surname, _email)
+                .catch(({ message }) => expect(message).toBe(`jwt malformed`))
         )
     })
 
@@ -917,9 +844,10 @@ describe('logic', () => {
         let text = 'sample message text'
 
         let userIdFrom
+        let token
         let userIdTo
         let msgId
-        let url = 'test url'
+        let data = new File(['foo', 'bar'],'name' ,[{filePropertyBag : 'foo'}])
 
         beforeEach(async () => {
    
@@ -928,6 +856,10 @@ describe('logic', () => {
             let { id } = await User.create({ name, surname, email, password: hash1 })
 
             userIdFrom = id
+
+            const userToken = await flareApi.authenticateUser(email, password)
+
+            token = userToken.token
 
             const hash2 = await bcrypt.hash(_password, 10)
 
@@ -1101,17 +1033,17 @@ describe('logic', () => {
         })
 
         it('should succeed on correct input', () => {
-            logic.uploadMessagePhoto(userIdFrom, url, msgId.toString())
+            flareApi.uploadMessagePhoto(token, data, msgId.toString())
                 .then((message) => {
                     expect(message).toBeDefined()
-                    expect(message.image).toBe('test url')
+                    expect(message.image).toBe('test data')
                 })
         })
 
-        it('shoul fail on wrong msgId', () => {
+        it('should fail on wrong msgId', () => {
             const msgId = "897ge9vvn9f87rfef70n9"
 
-            logic.uploadMessagePhoto(userIdFrom, url, msgId)
+            flareApi.uploadMessagePhoto(token, data, msgId)
                 .catch(({ message }) => {
                     expect(message).toBeDefined()
                     expect(message).toBe(`Cast to ObjectId failed for value \"${msgId}\" at path \"_id\" for model \"Message\"`)
@@ -2133,3 +2065,5 @@ describe('logic', () => {
             .then(() => mongoose.disconnect())
     )
 })
+
+

@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bcrypt": "^3.0.4",
+    "datify": "file:../flare-data",
+    "dotenv": "^7.0.0",
+    "errorify": "file:../flare-errors",
+    "flare-validation": "file:../flare-validation",
     "google-maps-react": "^2.0.2",
     "node-sass": "^4.11.0",
     "react": "^16.8.4",
@@ -13,7 +18,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --runInBand",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "test-coverage": "npm test -- --coverage --runInBand",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
