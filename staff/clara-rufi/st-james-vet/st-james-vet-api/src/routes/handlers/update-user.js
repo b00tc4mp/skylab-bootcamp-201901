@@ -6,7 +6,6 @@ module.exports = (req, res) => {
 
     try {
         logic.updateUser(name, surname, idCard, phone, adress, city, email)
-            // .then(user => res.json(user))
             .then(res.json.bind(res))
             .catch(({ message }) => {
                 res.status(400).json({

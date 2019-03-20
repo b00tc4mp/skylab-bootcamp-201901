@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import logic from '../../logic';
 
 
-
 class RegisterPet extends Component {
 
     state = { users: [], owner: null, name: '', specie: '', breed: '', color: '', gender: '', birthdate: '', microchip: '', petlicence: '', neutered: '', vaccionations: '', controls: '', details: '', isRegisterPet: false, error: null }
@@ -18,13 +17,11 @@ class RegisterPet extends Component {
     handleSelectChange = async event => {
         event.preventDefault()
         const userId = event.target.value
-        console.log(userId)
         if (!userId) return
         this.setState({ owner: userId })
     }
 
     componentDidMount() {
-        debugger
         this.retrieveUsers()
     }
 
@@ -141,8 +138,7 @@ class RegisterPet extends Component {
                     <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
                     {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
                     {this.state.isRegisterPet && <p className="feedback feedback__success">You have successfully registered {this.state.name}</p>}
-            
-                
+                           
             </section>
         </form>
 

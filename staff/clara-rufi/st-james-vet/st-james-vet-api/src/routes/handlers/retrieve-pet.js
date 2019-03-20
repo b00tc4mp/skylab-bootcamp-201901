@@ -5,7 +5,6 @@ module.exports = (req, res) => {
 
     try {
         logic.retrievePet(petsId)
-            // .then(user => res.json(user))
             .then(res.json.bind(res))
             .catch(({ message }) => {
                 res.status(400).json({

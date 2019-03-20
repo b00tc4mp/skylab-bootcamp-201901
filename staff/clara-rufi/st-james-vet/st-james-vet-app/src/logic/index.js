@@ -6,10 +6,10 @@
  */
 const logic = {
     url: 'http://localhost:8000/api',
-    // __userId__: null,
+    // url: 'https://calm-hollows-43621.herokuapp.com/api',
     __userToken__: null,
     __userAdmin__: null,
-    __updateToken__(){
+    __updateToken__() {
         this.__userToken__ = sessionStorage.getItem('__userToken__')
     },
 
@@ -40,17 +40,17 @@ const logic = {
 
         if (!idCard.trim().length) throw Error('idCard cannot be empty')
 
-        if(typeof phone !== 'string') throw TypeError (phone + ' is not a string')
+        if (typeof phone !== 'string') throw TypeError(phone + ' is not a string')
 
-        if (!phone.trim().length) throw Error ('phone cannot be empty')
+        if (!phone.trim().length) throw Error('phone cannot be empty')
 
-        if(typeof adress !== 'string') throw TypeError (adress + ' is not a string')
+        if (typeof adress !== 'string') throw TypeError(adress + ' is not a string')
 
-        if (!adress.trim().length) throw Error ('adress cannot be empty')
+        if (!adress.trim().length) throw Error('adress cannot be empty')
 
-        if(typeof city !== 'string') throw TypeError (city + ' is not a string')
+        if (typeof city !== 'string') throw TypeError(city + ' is not a string')
 
-        if (!city.trim().length) throw Error ('city cannot be empty')
+        if (!city.trim().length) throw Error('city cannot be empty')
 
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
@@ -73,7 +73,7 @@ const logic = {
             headers: {
                 'content-type': 'application/json'
             },
-            
+
             body: JSON.stringify({ name, surname, idCard, phone, adress, city, email, password, passwordConfirmation })
         })
             .then(response => response.json())
@@ -101,8 +101,8 @@ const logic = {
     * @param {string} controls
     * @param {string} details
     */
-    registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details) {
-        
+    registerPet(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details) {
+
         if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
         if (!owner.trim().length) throw Error('owner cannot be empty')
@@ -127,52 +127,51 @@ const logic = {
 
         if (!gender.trim().length) throw Error('gender cannot be empty')
 
-        if(typeof birthdate != 'string') throw TypeError (birthdate + ' is not a string')
+        if (typeof birthdate != 'string') throw TypeError(birthdate + ' is not a string')
 
-        if (!birthdate.trim().length) throw Error ('birthdate cannot be empty')
+        if (!birthdate.trim().length) throw Error('birthdate cannot be empty')
 
-        if(typeof microchip != 'string') throw TypeError (microchip + ' is not a string')
+        if (typeof microchip != 'string') throw TypeError(microchip + ' is not a string')
 
-        if (!microchip.trim().length) throw Error ('microchip cannot be empty')
+        if (!microchip.trim().length) throw Error('microchip cannot be empty')
 
-        if(typeof petlicence != 'string') throw TypeError (petlicence + ' is not a string')
+        if (typeof petlicence != 'string') throw TypeError(petlicence + ' is not a string')
 
-        if (!petlicence.trim().length) throw Error ('petlicence cannot be empty')
+        if (!petlicence.trim().length) throw Error('petlicence cannot be empty')
 
-        if(typeof vaccionations != 'string') throw TypeError (vaccionations + ' is not a string')
+        if (typeof vaccionations != 'string') throw TypeError(vaccionations + ' is not a string')
 
-        if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
+        if (!vaccionations.trim().length) throw Error('vaccionations cannot be empty')
 
-        if(typeof neutered != 'string') throw TypeError (neutered + ' is not a string')
+        if (typeof neutered != 'string') throw TypeError(neutered + ' is not a string')
 
-        if (!neutered.trim().length) throw Error ('neutered cannot be empty')
+        if (!neutered.trim().length) throw Error('neutered cannot be empty')
 
-        if(typeof controls != 'string') throw TypeError (controls + ' is not a string')
+        if (typeof controls != 'string') throw TypeError(controls + ' is not a string')
 
-        if (!controls.trim().length) throw Error ('controls cannot be empty')
+        if (!controls.trim().length) throw Error('controls cannot be empty')
 
-        if(typeof details != 'string') throw TypeError (details + ' is not a string')
+        if (typeof details != 'string') throw TypeError(details + ' is not a string')
 
-        if (!details.trim().length) throw Error ('details cannot be empty')
+        if (!details.trim().length) throw Error('details cannot be empty')
 
 
         console.log(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-       
+
         return fetch(`${this.url}/pet`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
+            body: JSON.stringify({ owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details })
         })
             .then(response => response.json())
             .then(({ message, error }) => {
                 if (error) throw Error(error)
-        
+
                 return message
             })
     },
-   
 
     /**
      * Logs in the user by its credentials.
@@ -188,9 +187,9 @@ const logic = {
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
         if (!password.trim().length) throw Error('password cannot be empty')
-  
+
         return fetch(`${this.url}/user/auth`, {
-           
+
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -227,8 +226,8 @@ const logic = {
     /**
      * Remove session storage
      */
-    removeStorage(){
-    sessionStorage.clear()
+    removeStorage() {
+        sessionStorage.clear()
     },
 
     /**
@@ -242,8 +241,8 @@ const logic = {
      * Retrieve all users registered
      */
     retrieveUsers() {
-        
-        // this.__updateToken__()
+
+        this.__updateToken__()
         return fetch(`${this.url}/users`, {
 
             headers: {
@@ -262,8 +261,8 @@ const logic = {
      * Retrieve owner's appointments
      */
     retrieveAppointmentsOwner() {
-        debugger
-        // this.__updateToken__()
+       
+        this.__updateToken__()
         return fetch(`${this.url}/appointmentsOwner`, {
 
             headers: {
@@ -275,7 +274,7 @@ const logic = {
                 if (response.error) throw Error(response.error)
 
                 response.forEach(appointment => appointment.date = new Date(appointment.date))
-                
+
                 return response
             })
     },
@@ -286,11 +285,11 @@ const logic = {
      * @param {string} year 
      * @param {string} month 
      */
-    retrieveAppointments(year, month) {  
-          
-        // this.__updateToken__()
+    retrieveAppointments(year, month) {
+
+        this.__updateToken__()
         return fetch(`${this.url}/appointments/${year}/${month}`, {
-          
+
             method: 'GET',
             headers: {
                 authorization: `Bearer ${this.__userToken__}`,
@@ -312,12 +311,12 @@ const logic = {
      * 
      * @param {string} userId 
      */
-    retrievePets(userId){
+    retrievePets(userId) {
 
-        //   this.__updateToken__()
+        this.__updateToken__()
         return fetch(`${this.url}/pets/${userId}`, {
-        
-            headers:{
+
+            headers: {
                 authorization: `Bearer ${this.__userToken__}`
             }
         })
@@ -336,7 +335,7 @@ const logic = {
      * @param {string} pet 
      * @param {string} date 
      */
-    assignAppointment(owner, pet, date){
+    assignAppointment(owner, pet, date) {
         if (typeof owner !== 'string') throw TypeError(owner + ' is not a string')
 
         if (!owner.trim().length) throw Error('owner cannot be empty')
@@ -348,18 +347,18 @@ const logic = {
         if (typeof date !== 'string') throw TypeError(date + ' is not a string')
 
 
-        //   this.__updateToken__()
+        this.__updateToken__()
         return fetch(`${this.url}/appointment`, {
             method: 'POST',
-            headers:{
+            headers: {
 
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ owner, pet, date})
+            body: JSON.stringify({ owner, pet, date })
         })
             .then(response => response.json())
             .then(response => {
-                if (response.error) throw Error("Please, select date higher than today")
+                if (response.error) throw Error("Please, select date higher than today and a correct hour. Check if the date has been assigned")
 
                 return response
             })
@@ -370,17 +369,17 @@ const logic = {
      * 
      * @param {string} Id 
      */
-    deleteAppointment(Id){
+    deleteAppointment(Id) {
 
         if (typeof Id !== 'string') throw TypeError(Id + ' is not a string')
 
         if (!Id.trim().length) throw Error('Id cannot be empty')
 
-        //   this.__updateToken__()
+        this.__updateToken__()
         return fetch(`${this.url}/appointment`, {
             method: 'DELETE',
-            headers:{
-        
+            headers: {
+
                 'content-type': 'application/json'
             },
             body: JSON.stringify({ Id })
@@ -398,8 +397,8 @@ const logic = {
      * Retrieve all users
      */
     retrieveUser() {
-      
-        //   this.__updateToken__()
+
+        this.__updateToken__()
         return fetch(`${this.url}/user/`, {
 
             headers: {
@@ -412,16 +411,16 @@ const logic = {
 
                 return response
             })
-        },
-    
+    },
+
     /**
      * Retrieve user's information
      * 
      * @param {string} userSelectedId 
      */
     retrieveUserSelected(userSelectedId) {
-        
-        // this.__updateToken__()
+
+        this.__updateToken__()
         return fetch(`${this.url}/user/${userSelectedId}`, {
 
             headers: {
@@ -434,16 +433,16 @@ const logic = {
 
                 return response
             })
-        },
-           
+    },
+
     /**
      * Retrieve pet's information
      * 
      * @param {string} petsId 
      */
     retrievePet(petsId) {
-      
-        //   this.__updateToken__()
+
+        this.__updateToken__()
         return fetch(`${this.url}/pet/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userToken__}`
@@ -463,8 +462,8 @@ const logic = {
      * @param {string} petsId 
      */
     retrievePetVisit(petsId) {
-       
-        //   this.__updateToken__()
+
+        this.__updateToken__()
         return fetch(`${this.url}/visit/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userToken__}`
@@ -476,9 +475,8 @@ const logic = {
 
                 return response
             })
-
     },
-    
+
     /**
      * Update user's information
      * 
@@ -490,16 +488,16 @@ const logic = {
      * @param {string} city 
      * @param {string} email 
      */
-    updateUser(name, surname, idCard, phone, adress, city, email) { 
-       
-        //   this.__updateToken__()
+    updateUser(name, surname, idCard, phone, adress, city, email) {
+
+        this.__updateToken__()
         return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${this.__userToken__}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({name, surname, idCard, phone, adress, city, email})
+            body: JSON.stringify({ name, surname, idCard, phone, adress, city, email })
         })
             .then(response => response.json())
             .then(response => {
@@ -509,7 +507,7 @@ const logic = {
             })
     },
 
-  
+
     /**
      * Update pet's information
      * 
@@ -519,16 +517,15 @@ const logic = {
      * @param {sgring} petlicence 
      */
     updatePet(petsId, name, microchip, petlicence) {
-        debugger
-      
-          this.__updateToken__()
+
+        this.__updateToken__()
         return fetch(`${this.url}/pet`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${this.__userToken__}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({petsId, name, microchip, petlicence})
+            body: JSON.stringify({ petsId, name, microchip, petlicence })
         })
             .then(response => response.json())
             .then(response => {
@@ -547,24 +544,24 @@ const logic = {
      * @param {string} details 
      */
     updateVisit(petsId, vaccionations, controls, details) {
-       
-        //   this.__updateToken__()
+
+        this.__updateToken__()
         return fetch(`${this.url}/visit`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${this.__userToken__}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({petsId, vaccionations, controls, details})
+            body: JSON.stringify({ petsId, vaccionations, controls, details })
         })
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)
 
                 return response
-        })
+            })
     }
-   
+
 }
 
 export default logic

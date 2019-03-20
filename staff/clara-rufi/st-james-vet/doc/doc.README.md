@@ -4,7 +4,8 @@ St-James-vet
 
 ## Introduction
 
-Application to manage the users of a veterinary clinic. The veterinarian registers the owners of the animals and their associated animals. Each visit, the veterinarian may add information to each animal and assign a visit time to the client and the client may modify it.
+Application to manage owners and pets of a veterinary clinic. Veterinarian registers owners and their animals, can modify their profiles and add information for each visit (details, controls, vaccins....). Veterinarian can also assign appointments to owners. 
+Owners can see their appointments and delete only the appointments two days before the day.
 
 ## Functional description
 

@@ -11,45 +11,40 @@ import './index.sass'
 
 class Home extends Component {
 
-    state = { isAdmin:logic.isAdmin}
+    state = { isAdmin: logic.isAdmin }
 
     handleVisit = event => {
         event.preventDefault()
         this.props.history.push('/visit')
     }
 
-   
-    handleAppointments = event =>{
+    handleAppointments = event => {
         event.preventDefault()
         this.props.history.push('/appointments')
     }
 
-    handleVisitOwner= event => {
+    handleVisitOwner = event => {
         event.preventDefault()
         this.props.history.push('/visitOwner')
     }
 
-    render(){
+    render() {
 
-        const {state: {isAdmin}}= this
+        const { state: { isAdmin } } = this
 
-    return <Fragment>
-        <Nav className= "fixed"></Nav>
-        <div className= "home"> 
-        {/* <button className= "button__home" onClick={this.handleRegisterOwner}>Register Owner</button> */}
-        {/* <button className= "button__home" onClick={this.handleEditOwner}>Edit Owner</button> */}
-        {/* <button className= "button__home" onClick={this.handleRegisterPet}>Register Pet</button> */}
-        {isAdmin && <button className= "button__home" onClick={this.handleVisit}>Visit</button>}
-        {/* <button className= "button__home" onClick={this.handleEditPet}> Edit Pet</button> */}
-        {isAdmin &&<button className= "button__home" onClick={this.handleAppointments}>Appointment</button>}
-        <button className= "button__home" onClick={this.handleVisitOwner}>Visit Owner</button>
-    </div>   
-    <div>
-        <img className= "img__Home" src={cat_dog} alt=""></img>
-    </div>
-    <Footer className='fixed'></Footer>
-</Fragment>
-}
+        return <Fragment>
+            <Nav className="fixed"></Nav>
+            <div className="home">
+                {isAdmin && <button className="button__home" onClick={this.handleVisit}>Visit</button>}
+                {isAdmin && <button className="button__home" onClick={this.handleAppointments}>Appointment</button>}
+                <button className="button__home" onClick={this.handleVisitOwner}>Visit Owner</button>
+            </div>
+            <div>
+                <img className="img__Home" src={cat_dog} alt=""></img>
+            </div>
+            <Footer className='fixed'></Footer>
+        </Fragment>
+    }
 
 }
 

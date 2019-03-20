@@ -21,7 +21,6 @@ class EditOwner extends Component {
 
     handleSelectChange = async event => {
         event.preventDefault()
-        debugger
         const userSelectedId = event.target.value
         console.log("user selected => " + userSelectedId)
         if (!userSelectedId) return
@@ -36,12 +35,10 @@ class EditOwner extends Component {
         this.editProfile(name, surname, idCard, phone, adress, city, email)
     }
 
-
     editProfile = async (name, surname, idCard, phone, adress, city, email) => {
         try {
-
             await logic.updateUser(name, surname, idCard, phone, adress, city, email)
-            this.setState({ isModified: true })
+            this.setState({ isModified: true, error: false })
         } catch ({ message }) {
             this.setState({ error: message })
         }
@@ -53,7 +50,6 @@ class EditOwner extends Component {
     }
 
     render() {
-
 
         return <form onSubmit={this.handleEditProfile} >
             <section class="form">
@@ -96,8 +92,6 @@ class EditOwner extends Component {
                 {this.state.isModified && <p className="feedback feedback__success">Profile successfully updated</p>}
             </section>
         </form>
-
-
 
     }
 }

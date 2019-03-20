@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import logic from '../../logic';
 
 
-
 class RegisterOwner extends Component {
 
     state = { name: '', surname: '', idCard: '', phone: '', adress: '', city: '', email: '', password: '', passwordConfirmation: '', error: null, isRegister: false, isLogin: true }
@@ -81,7 +80,6 @@ class RegisterOwner extends Component {
                 </div>
                 {this.state.isLogin &&<button type="submit" className="button">Sign in</button>}
                 <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
-                {/* {this.state.isRegister && <button className="button" onClick={this.handleGoLogin}>Go Login</button>} */}
                 {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
                 {this.state.isRegister && <p className="feedback feedback__success">You have successfully registered {this.state.name}</p>}
             </section>

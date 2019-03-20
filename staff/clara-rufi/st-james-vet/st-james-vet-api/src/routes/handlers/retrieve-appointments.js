@@ -1,10 +1,8 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    
-    debugger
-    const { params: { year, month} } = req
 
+    const { params: { year, month} } = req
 
     try {
         logic.retrieveAppointments(year, month)

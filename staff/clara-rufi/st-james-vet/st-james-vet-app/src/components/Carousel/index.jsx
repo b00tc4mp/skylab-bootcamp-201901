@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 
 import akita from '../images/akita.jpg'
 import boyero from '../images/boyero.jpg'
-import vet from '../images/vet.jpg'
 import british_cat from '../images/british_cat.jpg'
 import tortoise from '../images/tortoise.jpg'
+import tortoise2 from '../images/tortoise2.jpg'
+import tortoise3 from '../images/tortoise3.jpg'
 import microscope from '../images/microscope.jpg'
-import dog_vet from '../images/dog_vet.jpg'
-import vet1 from '../images/vet1.jpg'
+
+
 import './index.sass'
 
 
 class Carousel extends Component {
-
 
   render() {
 
@@ -24,19 +24,16 @@ class Carousel extends Component {
             <img class="d-block w-100" src={boyero} alt=""></img>
           </div>
           <div class="item">
-            <img class="d-block w-100" src={dog_vet} alt="" ></img>
+            <img class="d-block w-100" src={tortoise2} alt="" ></img>
           </div>
           <div class="item">
             <img class="d-block w-100" src={tortoise} alt=""></img>
           </div>
           <div class="item">
-            <img class="d-block w-100" src={vet} alt=""></img>
-          </div>
-          <div class="item">
             <img class="d-block w-100" src={british_cat} alt=""></img>
           </div>
           <div class="item">
-            <img class="d-block w-100" src={vet1} alt="" ></img>
+            <img class="d-block w-100" src={tortoise3} alt="" ></img>
           </div>
           <div class="item">
             <img class="d-block w-100" src={akita} alt="" ></img>
@@ -54,7 +51,6 @@ class Carousel extends Component {
           <span class="sr-only">Next</span>
         </a>
       </div>
-
 
       <div className="slogan">
         <p>Your neighborhood vet</p>

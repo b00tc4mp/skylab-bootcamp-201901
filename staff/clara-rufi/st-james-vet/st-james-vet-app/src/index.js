@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import { BrowserRouter } from 'react-router-dom'
+
 import { HashRouter } from 'react-router-dom'
 import App from './components/App'
 import * as serviceWorker from './serviceWorker'
@@ -10,15 +10,7 @@ import './index.sass'
 
 
 Object.defineProperties(logic, {
-    // __userId__: {
-    //     set(id) {
-    //         sessionStorage.setItem('__userId__', id)
-    //     },
 
-    //     get() {
-    //         return sessionStorage.getItem('__userId__')
-    //     }
-    // },
     __userToken__: {
         set(token) {
             sessionStorage.setItem('__userToken__', token)

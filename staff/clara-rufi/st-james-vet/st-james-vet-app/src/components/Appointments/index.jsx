@@ -5,11 +5,9 @@ import Calendar from '../Calendar'
 import './index.sass'
 
 
-
 class Appointments extends Component {
 
   state = { users: [], pets: [], appointments: [], error: null, confirmHour: false }
-
 
   handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 

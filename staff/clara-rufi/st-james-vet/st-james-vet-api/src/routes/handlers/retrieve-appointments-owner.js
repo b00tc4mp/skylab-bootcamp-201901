@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     debugger
     try {
         logic.retrieveAppointmentsOwner()
-            // .then(user => res.json(user))
+
             .then(res.json.bind(res))
             .catch(({ message }) => {
                 res.status(400).json({

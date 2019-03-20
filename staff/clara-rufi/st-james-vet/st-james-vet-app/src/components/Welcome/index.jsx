@@ -3,8 +3,6 @@ import Nav from '../Nav'
 import Footer from '../Footer'
 import Carousel from '../Carousel'
 
-import './index.sass'
-
 
 class Welcome extends Component{
    

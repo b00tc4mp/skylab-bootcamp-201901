@@ -9,7 +9,6 @@ class EditPet extends Component {
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
-
     componentDidMount() {
         this.retrieveUsers()
     }
@@ -27,25 +26,21 @@ class EditPet extends Component {
 
     retrievePets = async userId => {
         const pets = await logic.retrievePets(userId)
-        console.log("userId " + userId)
         this.setState({ pets })
     }
 
     handleSelectPet = async event => {
         event.preventDefault()
         const petsId = event.target.value
-        console.log("petsID " + petsId)
         const {name, microchip, petlicence} = await logic.retrievePet(petsId)
         this.setState({petsId, name, microchip, petlicence})
- 
     }
 
     handleGoHome = event => {
         event.preventDefault()
         this.props.history.push('/home')
     }
-    
-    
+      
     handleEditSubmit = event => {
         event.preventDefault()
         const { state: { petsId, name, microchip, petlicence } } = this

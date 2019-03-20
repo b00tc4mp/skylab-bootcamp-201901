@@ -17,7 +17,6 @@ class VisitOwner extends Component {
     }
 
     retrieveAppointmentsOwner = async () => {
-        debugger
         const appointmentsOwner = await logic.retrieveAppointmentsOwner()
         this.setState({ appointmentsOwner })
     }
@@ -41,7 +40,7 @@ class VisitOwner extends Component {
     deleteVisit = async (Id) => {
         try {
             await logic.deleteAppointment(Id)
-            this.setState({ askDelete: true, visitConfirmed: false, deleteVisit:false })
+            this.setState({ askDelete: true, visitConfirmed: false, deleteVisit: false })
         } catch ({ message }) {
             this.setState({ error: message, visitConfirmed: false })
         }
@@ -49,13 +48,13 @@ class VisitOwner extends Component {
 
     handleConfirmDeleteOK = event => {
         event.preventDefault()
-        this.setState({ askDelete: false, deleteVisit: true,error: false })
+        this.setState({ askDelete: false, deleteVisit: true, error: false })
         this.retrieveAppointmentsOwner()
     }
 
     handleConfirmDeleteNO = event => {
         event.preventDefault()
-        this.setState({ askDelete: false, error: false})
+        this.setState({ askDelete: false, error: false })
     }
 
 
@@ -74,9 +73,9 @@ class VisitOwner extends Component {
                     <th>
                         Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
                         <br />
-                        Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
+                        Hour:{' '}{date.getHours()}{':'}{date.getMinutes()  === 0 ? '00 h' : date.getMinutes() + ' h'}
                         <br />
-                        Pet:{' '}{pet.name}{owner.name}
+                        Pet:{' '}{pet.name}
                         <button onClick={this.handleDeleteVisit} value={id} className="button__delete">Delete</button>
                     </th>
                 </p>
@@ -88,7 +87,6 @@ class VisitOwner extends Component {
     visitOwner = (id, owner, pet, date) => {
         let dateVisit = date
         var today = new Date()
-        debugger
         if (dateVisit.getUTCFullYear() > today.getUTCFullYear())
 
             return (this.visitOwnerDetails(id, owner, pet, date))
@@ -111,9 +109,9 @@ class VisitOwner extends Component {
                     <th>
                         Date:{' '}{dateVisit.getUTCMonth() + 1}{'-'}{dateVisit.getUTCDate()}{'-'}{dateVisit.getUTCFullYear()}
                         <br />
-                        Hour:{' '}{dateVisit.getUTCHours() + 2}{':'}{dateVisit.getMinutes()}{'h'}
+                        Hour:{' '}{date.getUTCHours()}{':'}{date.getUTCMinutes()  === 0 ? '00 h' : date.getUTCMinutes() + ' h'}
                         <br />
-                        Pet:{' '}{pet.name}{owner.name}
+                        Pet:{' '}{pet.name}
                     </th>
                 </p>
             </tr>
@@ -127,6 +125,7 @@ class VisitOwner extends Component {
         return <form>
             <div className="input__form">
                 <h1>Appointments:</h1>
+                
                 {
                     appointmentsOwner.map(({ id, owner, pet, date }) => {
 
@@ -144,8 +143,8 @@ class VisitOwner extends Component {
                 {this.state.askDelete && <button onClick={this.handleConfirmDeleteNO} className="button__confirm">No</button>}
                 {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}
                 {<div className="no__appointments">
-                    <p>If you want an appointment or modify it, you can call at 01792 205000</p>
-                    <p>Or send us an email: stjamesvet@stjamesvet.com</p>
+                    <p>You can only delete visits with a date greater than 2 days</p>
+                    <p>If you want an appointment or modify it, you can call at 01792 205000, or send us an email: stjamesvet@stjamesvet.com</p>
                 </div>
 
                 }

@@ -8,7 +8,6 @@ const express = require('express')
 const tokenHelper = require('./token-helper')
 const package = require('../package.json')
 const router = require('../src/routes')
-// const cors = require('./cors')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
 
