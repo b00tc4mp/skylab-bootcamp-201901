@@ -26,6 +26,7 @@ describe('homeSwappApi ', () => {
         const passwordConfirm = password
 
         it('should succeed on valid data', async () => {
+
             const id = await homeSwappApi.registerUser(username, email, password, passwordConfirm)
 
             expect(id).toBeDefined()
@@ -1042,6 +1043,7 @@ describe('homeSwappApi ', () => {
                 })
                 .then((token) => {
                     _token = token;
+                    console.log(_token)
                 })
                 .then(() => homeSwappApi.createHouse(_token, images, description, info, adress)
                 )
@@ -1203,6 +1205,7 @@ describe('homeSwappApi ', () => {
                 })
                 .then((token) => {
                     _token = token;
+
                 })
                 .then(() => homeSwappApi.createHouse(_token, images, description, info, adress)
                 )
@@ -1263,7 +1266,46 @@ describe('homeSwappApi ', () => {
             }).toThrow(Error(`3 is not a string`))
         })
 
-        
+
+
+    })
+    
+
+
+    describe('retrieve user public info', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+
+
+
+        let userId
+
+        let text = 'test'
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+        )
+
+        it('should succeed on correct credentials', () =>
+            homeSwappApi.retrieveUserPublicInfo(userId)
+                .then(name => {
+
+                    expect(name).toBe(username)
+
+                })
+        )
+
+        it('should fail on undefined id', () => {
+
+            expect(() => {
+                homeSwappApi.retrieveUserPublicInfo(undefined)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+
 
     })
 

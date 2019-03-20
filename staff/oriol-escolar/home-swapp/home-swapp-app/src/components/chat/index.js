@@ -11,14 +11,22 @@ class Chat extends Component {
 
         interlocutorId: null,
         interlocutorName: null,
-        messages: null
+        messages: null,
+        text: ""
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
 
-        this.setState({ interlocutorId: this.props.interlocutorId, messages: this.props.messages })
+        await this.setState({ interlocutorId: this.props.interlocutorId, messages: this.props.messages })
 
+        if (this.state.interlocutorId) {
+
+            const interlocutorName = await logic.retrieveUserPublicInfo(this.state.interlocutorId)
+            this.setState({ interlocutorName })
+        }
+
+        window.scrollTo(0, 7000)
 
 
     }
@@ -27,6 +35,12 @@ class Chat extends Component {
         if (prepProvs.interlocutorId !== this.state.interlocutorId) {
             const { interlocutorId } = this.props
             this.setState({ interlocutorId })
+                .then(() => {
+
+                    return logic.retrieveUserPublicInfo(this.state.interlocutorId)
+                        .then((interlocutorName) => this.setState({ interlocutorName }))
+
+                })
         }
         if (prepProvs.messages !== this.state.messages) {
             const { messages } = this.props
@@ -37,7 +51,16 @@ class Chat extends Component {
 
     }
 
-    onSendMessage = () => {
+    onSendMessage = (event) => {
+
+        event.preventDefault()
+
+        const { state: { interlocutorId, text } } = this
+
+        logic.sendMessage(interlocutorId, text)
+        this.props.sendMessage(text).then(() => window.scrollTo(0, 7000))
+        this.setState({text:""})
+
 
 
 
@@ -49,44 +72,71 @@ class Chat extends Component {
         window.history.back()
     }
 
+    listMessages = () => {
+
+        const { state: { messages } } = this
+
+       return messages.map(message => {
+
+            if (message.sent) {
+                return <p className="chat-messages-message__sent">{message.text}</p>
+
+            } else {
+                return <p className="chat-messages-message__recieved">{message.text}</p>
+
+            }
+
+
+        })
+
+
+
+    }
+
+
+    handleInput = event => this.setState({ [event.target.name]: event.target.value })
+    
+
     render() {
 
-        const { state: { interlocutorName }, props: { }, goBack } = this
+        const { state: { interlocutorName,text }, props: { }, goBack, onSendMessage, handleInput,listMessages } = this
 
-        return <div className="chat" >
+        return <div>
 
-            <div className='chat-header'>
-                <img className ="chat-header__image" src="http://monumentfamilydentistry.com/wp-content/uploads/2015/11/user-placeholder.png" ></img>
-                <p className = "chat-header__username">Username</p>
-            </div>
-
-            <div className='chat-messages'>
-                <p className= "chat-messages-message__recieved">hey</p>
-                <p className="chat-messages-message__sent">hi</p>
-                <p className="chat-messages-message__sent">hi</p>
-                <p className="chat-messages-message__recieved" > how are you</p>
-                <p className= "chat-messages-message__recieved">hey</p>
-                <p className="chat-messages-message__sent">hi</p>
-                <p className="chat-messages-message__sent">hi</p>
-                <p className="chat-messages-message__recieved" > how are you</p>
-
-            </div>
-
-            <div className='chat-form'>
-
-                <form className='chat-form-form' >
-
-                    <input className="chat-form-form__input" type="text" name="text" placeholder="Type a message" />
-                    <button className="chat-form-form__button">Send </button>
-
-                </form>
+            {interlocutorName &&
 
 
-            </div>
+                <div className="chat" >
+                    <div className='chat-header'>
+                        <img className="chat-header__image" src="http://monumentfamilydentistry.com/wp-content/uploads/2015/11/user-placeholder.png" ></img>
+                        <p className="chat-header__username">{interlocutorName}</p>
+                    </div>
+
+                    <div className='chat-messages'>
+
+                            {listMessages()}
+
+                    </div>
+
+                    <div className='chat-form'>
+
+                        <form className='chat-form-form' onSubmit = {onSendMessage} >
+
+                            <input className="chat-form-form__input" type="text" name="text" placeholder="Type a message" value={text ? text:""} onChange={handleInput}/>
+                            <button className="chat-form-form__button">Send </button>
+
+                        </form>
+
+
+                    </div>
+
+                </div>
+
+
+            }
 
         </div>
     }
-
 
 }
 

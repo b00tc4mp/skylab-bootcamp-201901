@@ -315,12 +315,12 @@ const homeSwappApi = {
             })
     },
 
-    uploadImage(token,image){
+    uploadImage(token, image) {
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
 
-        if( !(image instanceof Blob)) throw TypeError (`${image} is not a blob`)
+        if (!(image instanceof Blob)) throw TypeError(`${image} is not a blob`)
 
         let formData = new FormData()
         formData.append('image', image)
@@ -332,7 +332,7 @@ const homeSwappApi = {
             },
             body: formData
         })
-        .then(response => response.json())
+            .then(response => response.json())
             .then(response => {
 
                 if (response.error) throw Error(response.error)
@@ -340,6 +340,56 @@ const homeSwappApi = {
                 return response
             })
 
+    },
+
+
+    sendMessage(token, id, text) {
+
+
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error('token is empty')
+
+        if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
+        if (!id.trim().length) throw Error('id is empty')
+
+        if (typeof text !== 'string') throw TypeError(`${text} is not a string`)
+        if (!text.trim().length) throw Error('text is empty')
+
+        return fetch(`${this.url}/user/send-message/${id}`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ text })
+        })
+            .then(response => response.json())
+            .then(response => {
+
+                if (response.error) throw Error(response.error)
+
+                return true
+            })
+    },
+
+
+    retrieveUserPublicInfo(userId) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error('token is empty')
+
+
+        return fetch(`${this.url}/user/${userId}`, {
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+
+                if (response.error) throw Error(response.error)
+                
+                return response
+            })
     }
 
 

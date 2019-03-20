@@ -221,7 +221,32 @@ const logic = {
         return homeSwappApi.uploadImage(this.getUserApiToken(),image)
 
 
+    },
+
+    sendMessage(interlocutorId,text){
+
+        if (typeof interlocutorId !== 'string') throw TypeError(`${interlocutorId} is not a string`)
+        if (typeof text !== 'string') throw TypeError(`${text} is not a string`)
+
+
+        return homeSwappApi.sendMessage(this.getUserApiToken(),interlocutorId,text)
+
+
+
+    },
+
+    retrieveUserPublicInfo(userId){
+
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+
+
+        return homeSwappApi.retrieveUserPublicInfo(userId)
+
+
+
     }
+
+
 
 
 }

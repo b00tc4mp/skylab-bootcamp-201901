@@ -1236,25 +1236,64 @@ describe('logic', () => {
         it('should fail on undefined id', () => {
 
             expect(() => {
-                logic.sendMessage(undefined,userId2,text)
+                logic.sendMessage(undefined, userId2, text)
             }).toThrow(Error(`${undefined} is not a string`))
         })
 
         it('should fail on undefined id2', () => {
 
             expect(() => {
-                logic.sendMessage(userId,undefined,text)
+                logic.sendMessage(userId, undefined, text)
             }).toThrow(Error(`${undefined} is not a string`))
         })
 
         it('should fail on undefined id2', () => {
 
             expect(() => {
-                logic.sendMessage(userId,userId2,undefined)
+                logic.sendMessage(userId, userId2, undefined)
             }).toThrow(Error(`${undefined} is not a string`))
         })
 
     })
+
+
+    describe('retrieve user public info', () => {
+        const username = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+
+
+
+        let userId
+
+        let text = 'test'
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+        )
+
+        it('should succeed on correct credentials', () =>
+            logic.retrieveUserPublicInfo(userId)
+                .then(name => {
+
+                    expect(name).toBe(username)
+
+                })
+        )
+
+        it('should fail on undefined id', () => {
+
+            expect(() => {
+                logic.retrieveUserPublicInfo(undefined)
+            }).toThrow(Error(`${undefined} is not a string`))
+        })
+
+       
+    })
+
+
 
 
     after(() =>
