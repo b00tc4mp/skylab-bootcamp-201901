@@ -21,6 +21,9 @@ div.selects {
   flex-direction: column;
   align-items: center;
   margin: $size-s;
+  label {
+    width: 100px;
+  }
 }
 
 div.select {
