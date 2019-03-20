@@ -48,7 +48,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 | Transversal | Server-side | Client-side | Testing |
 | :---------: |:-------: |:----------: |:---------: |
-||  Node.js | React | Mocha |
+| Agile Methodology|  Node.js | React | Mocha |
 | javascript (ES5, ES6) | express.js | CSS | Chai |
 | HTML | MongoDB, Mongoose  | Bootstrap | NYC (Istambul) |
 
@@ -83,8 +83,6 @@ In the diagram below we can see the components and some of their propieties.
 
 
 ## DESIGN (screenshots)
-
-##Some screenshots
 
 ### Home Page
 
