@@ -24,13 +24,10 @@ const theme = createMuiTheme({
 
 class App extends Component {
   state = {
-    player: null
+    player: null,
+    loginFeedback: null,
+    registerFeedback: null
   };
-  state = {
-    open: false
-  };
-  state = { loginFeedback: null };
-  state = { registerFeedback: null };
 
   handleLogin = (email, password) => {
     try {
