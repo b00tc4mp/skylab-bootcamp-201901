@@ -290,7 +290,7 @@ const logic = {
                 let jsonBuffer
                 try {
                     jsonBuffer = await fs.promises.readFile(jsonPath)
-                } catch(err) {
+                } catch (err) {
                     if (err) throw err
                 }
 
@@ -716,32 +716,65 @@ const logic = {
             const deleteFolder = async (myPath) => {
 
                 /* Reads the folder to access it's children */
-                let content = await fs.promises.readdir(myPath, err => {
+                // let content
+                // try {
+                //     content = await fs.promises.readdir(myPath, err => {
+                //         if (err) throw err
+                //     })
+                // } catch(err) {
+                //     if (err) throw err
+                // }
+                let content = await fs.readdirSync(myPath)
+
+                let files = await content.map(child => path.join(myPath, child)).filter(child => fs.lstatSync(child).isFile())
+
+                let dirs = await content.map(child => path.join(myPath, child)).filter(child => fs.lstatSync(child).isDirectory())
+
+                files.forEach(async file => await fs.unlink(file, err => {
                     if (err) throw err
+                }))
+                dirs.forEach(async dir => {
+                    return await deleteFolder(dir)
                 })
+                // /* Maps through the folder's children and ascertains if they are folders or files */
+                // content.map((file, index) => {
+                //     let currentPath = path.join(myPath, file);
 
-                /* Maps through the folder's children and ascertains if they are folders or files */
-                content.map(async (file, index) => {
-                    let currentPath = path.join(myPath, file);
+                //     /* Gets the childs status */
+                //     let fileStatus = fs.lstatSync(currentPath)
 
-                    /* Gets the childs status */
-                    let fileStatus = fs.lstatSync(currentPath)
-
-                    /* Checks if the child is a directory and if so reruns the recursive deletion on it, else removes the file */
-                    if (fileStatus.isDirectory()) {
-                        deleteFolder(currentPath);
-                    } else {
-                        return fs.unlinkSync(currentPath);
-                    }
-                })
-
-                /* Removes the folder */
-                await fs.promises.rmdir(myPath, err => {
-                    if (err) throw err
-                })
+                //     /* Checks if the child is a directory and if so reruns the recursive deletion on it, else removes the file */
+                //     if (fileStatus.isFile()) {
+                //         fs.unlinkSync(currentPath);
+                //     } else {
+                //         deleteFolder(currentPath);
+                //     }
+                // })
+                content = await fs.readdirSync(myPath)
+                if (content.length === 0) {
+                    fs.rmdirSync(myPath)
+                }
+                // if (dirs.length === 0) {
+                //     debugger
+                //     /* Removes the folder */
+                //     try {
+                //         await fs.promises.rmdir(myPath)
+                //     } catch (err) {
+                //         debugger
+                //         if (err) throw err
+                //     }
+                // } else {
+                //     await dirs.forEach(async dir => await deleteFolder(dir))
+                // }
                 return 'Done'
             }
-            return deleteFolder(myPath)
+            await deleteFolder(myPath)
+
+            if (fs.existsSync(myPath)) {
+                return deleteFolder(myPath)
+            }
+
+            return 'Done'
         })()
     },
     /**
@@ -1130,6 +1163,240 @@ const logic = {
             /* Ascertains if the new folder path exists, which shouldn't */
             if (fs.existsSync(newFolderCompletePath)) throw Error('path to new file already exists')
 
+            const move = (from, to) => {
+
+                function itemName(from) {
+                    // return from.match(/([^\/]*)\/*$/)[1]
+                    let regex = /\w+(?:\.\w+)*$/
+                    return from.match(regex)[0]
+                }
+
+                function listFiles(from) {
+                    return fs.readdirSync(from).map(item => path.join(from, item)).filter(item => fs.lstatSync(item).isFile())
+                }
+
+                function listFolders(from) {
+                    return fs.readdirSync(from).map(item => path.join(from, item)).filter(item => fs.lstatSync(item).isDirectory())
+                }
+
+                function mv(from, to) {
+                    const fromExists = fs.existsSync(from)
+
+                    if (!fromExists) throw Error('origin file or folder does not exist')
+
+                    const fromIsFile = fs.lstatSync(from).isFile()
+
+                    const toExists = fs.existsSync(to)
+
+                    let toIsFile = true
+
+                    let _fromName = itemName(from)
+
+                    if (toExists) {
+
+                        toIsFile = fs.lstatSync(to).isFile()
+
+                        if (toIsFile) {
+                            if (!fromIsFile) throw Error(`cannot move folder ${from} to file ${to}`)
+                        } else {
+                            if (!fromIsFile) {
+                                fs.mkdirSync(path.join(to, _fromName))
+
+                                // /* Reads the json file of the father directory, gets it as buffer */
+                                // let jsonBuffer = fs.readFileSync(path.join(to, '.this.json'))
+
+                                // /* Parses the json buffer */
+                                // let jsonFile = JSON.parse(jsonBuffer)
+
+
+                                // let nonAvailablePositions = jsonFile.children.map(child => {
+                                //     return Number(child.position)
+                                // })
+
+                                // /* Searches for an available position */
+                                // let desiredPosition = 0
+
+                                // /* Get positions which aren't available from @.this.json children */
+                                // while (nonAvailablePositions.includes(desiredPosition)) {
+                                //     ++desiredPosition
+                                // }
+
+                                // /* Folder data model */
+                                // let newChild = {
+                                //     name: _fromName,
+                                //     open: false,
+                                //     type: 'folder',
+                                //     position: desiredPosition
+                                // }
+
+                                // /* Pushes the child folder's data into the father's @.this.json file " */
+                                // jsonFile.children.push(newChild)
+                                // /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+                                // fs.writeFileSync(from, JSON.stringify(jsonFile, null, 4))
+
+                            }
+                        }
+                    } else {
+
+                        if (!fromIsFile) {
+                            debugger
+                            fs.mkdirSync(to)
+
+                            _fromName = ''
+                        }
+
+                        toIsFile = false
+                    }
+
+                    if (fromIsFile) {
+                        const content = fs.readFileSync(from)
+
+                        let updatedPath = path.join(to, _fromName)
+
+                        fs.writeFileSync(toIsFile ? to : updatedPath, content)
+
+                        rm(from)
+                    } else {
+
+                        if (toIsFile) throw Error('destiny is not a folder')
+
+                        const fromFiles = listFiles(from)
+
+                        const toFolder = path.join(to, _fromName)
+
+
+
+                        fromFiles.forEach(fromFile => {
+                            mv(fromFile, toFolder)
+                        })
+
+                        const fromFolders = listFolders(from)
+
+                        fromFolders.forEach(fromFolder => {
+                            const toSubFolder = toFolder //path.join(toFolder, itemName(fromFolder))
+
+                            mv(fromFolder, toSubFolder)
+                        })
+                        debugger
+
+                        let parentFolderSplitted = to.split('\\')
+
+                        let parentFolder = parentFolderSplitted.reduce((accum, slice) => {
+                            if (parentFolderSplitted.length === 1) return ""
+                            if (slice === parentFolderSplitted[parentFolderSplitted.length - 1]) return accum
+                            return accum + '/' + slice
+                        })
+
+                        /* Reads the json file of the father directory, gets it as buffer */
+                        let jsonBuffer = fs.readFileSync(path.join(parentFolder, '.this.json'))
+
+                        /* Parses the json buffer */
+                        let jsonFile = JSON.parse(jsonBuffer)
+
+
+                        let nonAvailablePositions = jsonFile.children.map(child => {
+                            return Number(child.position)
+                        })
+
+                        /* Searches for an available position */
+                        let desiredPosition = 0
+
+                        /* Get positions which aren't available from @.this.json children */
+                        while (nonAvailablePositions.includes(desiredPosition)) {
+                            ++desiredPosition
+                        }
+
+                        /* Folder data model */
+                        let newChild = {
+                            name: to.split('\\').reverse()[0],
+                            open: false,
+                            type: 'folder',
+                            position: desiredPosition
+                        }
+
+                        /* Pushes the child folder's data into the father's @.this.json file " */
+                        jsonFile.children.push(newChild)
+                        /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+                        fs.writeFileSync(path.join(parentFolder, '.this.json'), JSON.stringify(jsonFile, null, 4))
+
+                        rm(from)
+                    }
+                }
+
+                function rm(from) {
+                    const isFile = fs.lstatSync(from).isFile()
+
+                    if (isFile) {
+                        if (itemName(from) !== 'this.json') {
+
+                            let parentFolderSplitted = from.split('\\')
+
+                            let parentFolder = parentFolderSplitted.reduce((accum, slice) => {
+                                if (parentFolderSplitted.length === 1) return ""
+                                if (slice === parentFolderSplitted[parentFolderSplitted.length - 1]) return accum
+                                return accum + '/' + slice
+                            })
+                            if (fs.existsSync(path.join(parentFolder, '.this.json'))) {
+
+                                /* Reads the json file of the father directory, gets it as buffer */
+                                let jsonBuffer = fs.readFileSync(path.join(parentFolder, '.this.json'))
+
+                                /* Parses the json buffer */
+                                let jsonFile = JSON.parse(jsonBuffer)
+
+                                /* Finds the index of the child file to remove */
+                                let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === itemName(from))
+
+                                /* Removes the child by it's index */
+                                jsonFile.children.splice(childToRemoveIndex, 1)
+
+                                /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+                                fs.writeFileSync(from, JSON.stringify(jsonFile, null, 4))
+                            }
+                        }
+
+                        fs.unlinkSync(from)
+                    } else {
+
+                        let parentFolderSplitted = from.split('\\')
+
+                        let parentFolder = parentFolderSplitted.reduce((accum, slice) => {
+                            if (parentFolderSplitted.length === 1) return ""
+                            if (slice === parentFolderSplitted[parentFolderSplitted.length - 1]) return accum
+                            return accum + '/' + slice
+                        })
+                        if (fs.existsSync(path.join(parentFolder, '.this.json'))) {
+
+                            /* Reads the json file of the father directory, gets it as buffer */
+                            let jsonBuffer = fs.readFileSync(path.join(parentFolder, '.this.json'))
+
+                            /* Parses the json buffer */
+                            let jsonFile = JSON.parse(jsonBuffer)
+
+                            /* Finds the index of the child file to remove */
+                            let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === itemName(from))
+
+                            /* Removes the child by it's index */
+                            jsonFile.children.splice(childToRemoveIndex, 1)
+
+                            /* Overwrites the father's current @.this.json file with the new one which has the updated children */
+                            fs.writeFileSync(path.join(parentFolder, '.this.json'), JSON.stringify(jsonFile, null, 4))
+
+                            fs.rmdirSync(from)
+                        } else {
+                            fs.rmdirSync(from)
+                        }
+                        return 'Done'
+                    }
+                    return 'Done'
+                }
+
+                mv(from, to)
+                return 'Done'
+
+            }
+
+            return move(oldFolderCompletePath, newFolderCompletePath)
             /* Extracts the name of the directory to create */
             let dirName = newFolderPath.split('/').reverse()[0]
 
@@ -1150,7 +1417,7 @@ const logic = {
             let jsonFatherBuffer
             try {
                 jsonFatherBuffer = await fs.promises.readFile(jsonFatherPath)
-            } catch(err) {
+            } catch (err) {
                 if (err) throw err
             }
 
@@ -1250,7 +1517,7 @@ const logic = {
 
                 await filteredChildren.forEach(async child => {
                     let currentCompleteChildPath = oldFolderCompletePath + '/' + child
-
+                    debugger
                     let currentChildPath = oldFolderPath + '/' + child
 
                     let newCompleteChildPath = newFolderCompletePath + '/' + child
@@ -1335,6 +1602,8 @@ const logic = {
                         /* Ascertain if the file exists */
                         let fileStatus = fs.existsSync(currentCompleteChildPath)
 
+                        debugger
+
                         if (fileStatus) {
                             /* Moves file */
                             await fs.rename(currentCompleteChildPath, newCompleteChildPath, err => {
@@ -1342,60 +1611,64 @@ const logic = {
                             })
                         }
                     }
-                    await deleteFolder(oldFolderCompletePath)
                 })
                 /* Recursively deletes the desired folder by it's path */
                 const deleteFolder = async (myPath) => {
-                    /* Reads the folder to access it's children */
-                    let content
-                    try {
-                        content = await fs.promises.readdir(myPath, (err, files) => {
+                    let pathExists = fs.existsSync(myPath)
+                    if (pathExists) {
+                        /* Reads the folder to access it's children */
+                        let content
+                        try {
+                            content = await fs.promises.readdir(myPath, (err, files) => {
+                                if (err) throw err
+                                return files
+                            })
+                        } catch (err) {
                             if (err) throw err
-                            return files
-                        })
-                    } catch (err) {
-                        if (err) throw err
-                    }
-                    /* Maps through the folder's children and ascertains if they are folders or files */
-                    content.map(async (file, index) => {
-                        let currentPath = path.join(myPath, file);
-
-                        if (fs.existsSync(currentPath)) {
-                            /* Gets the childs status */
-                            let fileStatus = fs.lstatSync(currentPath)
-
-                            /* Checks if the child is a directory and if so reruns the recursive deletion on it, else removes the file */
-                            if (fileStatus.isDirectory()) {
-                                deleteFolder(currentPath);
-                            } else {
-                                return fs.unlinkSync(currentPath);
-                            }
                         }
-                    })
+                        debugger
+                        /* Maps through the folder's children and ascertains if they are folders or files */
+                        content.map(async (file, index) => {
+                            let currentPath = path.join(myPath, file);
 
-                    /* Reads the folder to access it's children */ //CHANGES HERE
-                    let finalContent
-                    try {
-                        finalContent = await fs.promises.readdir(myPath)
-                    } catch (err) {
-                        if (err) throw err
-                    }
+                            if (fs.existsSync(currentPath)) {
+                                /* Gets the childs status */
+                                let fileStatus = fs.lstatSync(currentPath)
 
-                    /* Ascertains that the folder has been emptied */
-                    if (finalContent.length > 0) return deleteFolder(myPath)
+                                /* Checks if the child is a directory and if so reruns the recursive deletion on it, else removes the file */
+                                if (fileStatus.isDirectory()) {
+                                    deleteFolder(currentPath);
+                                } else {
+                                    return fs.unlinkSync(currentPath);
+                                }
+                            }
+                        })
 
-                    let isFolderRemoved = fs.readdirSync(myPath)
+                        /* Reads the folder to access it's children */ //CHANGES HERE
+                        let finalContent
+                        try {
+                            finalContent = await fs.promises.readdir(myPath)
+                        } catch (err) {
+                            if (err) throw err
+                        }
 
-                    if (isFolderRemoved.length > 0) await deleteFolder(myPath)
+                        /* Ascertains that the folder has been emptied */
+                        if (finalContent.length > 0) return deleteFolder(myPath)
 
-                    /* Removes the folder */ //CHANGES HERE
-                    try {
-                        await fs.promises.rmdir(myPath)
-                    } catch(err) {
-                        if (err) throw err
+                        let isFolderRemoved = fs.readdirSync(myPath)
+
+                        if (isFolderRemoved.length > 0) await deleteFolder(myPath)
+
+                        /* Removes the folder */ //CHANGES HERE
+                        try {
+                            await fs.promises.rmdir(myPath)
+                        } catch (err) {
+                            if (err) throw err
+                        }
                     }
                     return 'Done'
                 }
+                await deleteFolder(oldFolderCompletePath)
                 return 'Done'
             } else {
                 throw Error(`Folder ${dirName} already exists in ${directory}`)
@@ -1403,62 +1676,62 @@ const logic = {
         })()
     },
 
-    move(token, from, to) {
+    move(from, to) {
 
         /*
         WORKAROUND :D
-        
+    
         const execSync = require('child_process').execSync
-        
+    
         function cp(from, to) {
             execSync(`cp -R ${from} ${to}`)
         }
         */
 
-        function cp(from, to) {
-            const fromExists = fs.existsSync(from)
+        // function cp(from, to) {
+        //     const fromExists = fs.existsSync(from)
 
-            if (!fromExists) throw Error('origin file or folder does not exist')
+        //     if (!fromExists) throw Error('origin file or folder does not exist')
 
-            const fromIsFile = fs.lstatSync(from).isFile()
+        //     const fromIsFile = fs.lstatSync(from).isFile()
 
-            const toExists = fs.existsSync(to)
+        //     const toExists = fs.existsSync(to)
 
-            let toIsFile = true
+        //     let toIsFile = true
 
-            if (toExists) {
-                toIsFile = fs.lstatSync(to).isFile()
-            } else if (!fromIsFile) {
-                fs.mkdirSync(to)
+        //     if (toExists) {
+        //         toIsFile = fs.lstatSync(to).isFile()
+        //     } else if (!fromIsFile) {
+        //         fs.mkdirSync(to)
 
-                toIsFile = false
-            }
+        //         toIsFile = false
+        //     }
 
-            const _fromName = itemName(from)
+        //     const _fromName = itemName(from)
 
-            if (fromIsFile) {
-                const rs = fs.createReadStream(from)
-                const ws = fs.createWriteStream(toIsFile ? to : path.join(to, _fromName))
+        //     if (fromIsFile) {
+        //         const rs = fs.createReadStream(from)
+        //         const ws = fs.createWriteStream(toIsFile ? to : path.join(to, _fromName))
 
-                rs.pipe(ws)
-            } else {
-                if (toIsFile) throw Error('destiny is not a folder')
+        //         rs.pipe(ws)
+        //     } else {
+        //         if (toIsFile) throw Error('destiny is not a folder')
 
-                const fromFiles = listFiles(from)
+        //         const fromFiles = listFiles(from)
 
-                const toFolder = to
+        //         const toFolder = to
 
-                fromFiles.forEach(fromFile => cp(fromFile, toFolder))
+        //         fromFiles.forEach(fromFile => cp(fromFile, toFolder))
 
-                const fromFolders = listFolders(from)
+        //         const fromFolders = listFolders(from)
 
-                fromFolders.forEach(fromFolder => {
-                    const toSubFolder = path.join(toFolder, itemName(fromFolder))
+        //         fromFolders.forEach(fromFolder => {
+        //             const toSubFolder = path.join(toFolder, itemName(fromFolder))
 
-                    cp(fromFolder, toSubFolder)
-                })
-            }
-        }
+        //             cp(fromFolder, toSubFolder)
+        //         })
+        //     }
+        // }
 
         function itemName(from) {
             return from.match(/([^\/]*)\/*$/)[1]

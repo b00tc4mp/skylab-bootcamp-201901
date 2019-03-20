@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import './index.sass'
 // import Hammer from 'hammerjs'
 import logic from '../../logic';
+import { debug } from 'util';
 
 function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, openFile, dragItem }) {
 

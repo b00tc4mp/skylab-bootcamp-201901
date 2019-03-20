@@ -1,12 +1,12 @@
 {
     "open": false,
     "type": "folder",
-    "name": "test",
+    "name": "huhu",
     "children": [
         {
-            "name": "test3",
+            "name": "ashdashdsa",
             "open": false,
-            "type": "folder",
+            "type": "file",
             "position": 0
         }
     ]

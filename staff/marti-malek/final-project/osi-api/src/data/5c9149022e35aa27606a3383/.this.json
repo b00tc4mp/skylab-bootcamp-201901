@@ -4,10 +4,16 @@
     "name": "Desktop",
     "children": [
         {
-            "name": "test2",
+            "name": "hehhe",
             "open": false,
             "type": "folder",
             "position": 1
+        },
+        {
+            "name": "jhihihi",
+            "open": false,
+            "type": "folder",
+            "position": 2
         }
     ]
 }
