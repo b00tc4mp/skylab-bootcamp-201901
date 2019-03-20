@@ -33,6 +33,11 @@ const Post = new Schema({
   countfavs: {
     type: Number,
     default: 0
+  },
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now
   }
 });
 Post.plugin(mongoosePaginate);

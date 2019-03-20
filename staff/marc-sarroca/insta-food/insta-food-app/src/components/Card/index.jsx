@@ -17,6 +17,7 @@ function Card({
   postUserId,
   countfavs,
   location,
+  date,
   call = () => {},
   call2 = () => {}
 }) {
@@ -24,6 +25,12 @@ function Card({
   const [total, setTotal] = useState(countfavs);
   const { user } = useContext(UserContext);
   const { id } = user;
+  const [y, setY] = useState("");
+  const [m, setM] = useState("");
+  const [d, setD] = useState("");
+  const [h, setH] = useState("");
+  const [min, setMin] = useState("");
+  const [s, setS] = useState("");
   const toggleFavorite = event => {
     if (location.pathname === "/profile") return;
     event.preventDefault();
@@ -35,7 +42,7 @@ function Card({
         : setTotal(total + 1);
     });
   };
-
+  const dateRefactor = new Date(date);
   const refreshComments = comments => {
     setComments(comments);
   };
@@ -46,7 +53,20 @@ function Card({
   const removePost = () => {
     logic.removePost(postId).then(() => call());
   };
-
+  useEffect(() => {
+    setY(dateRefactor.getFullYear());
+    setM(dateRefactor.getMonth() + 1);
+    setD(dateRefactor.getDate());
+    let hour = dateRefactor.getHours();
+    if (Number(hour) < 10) hour = "0" + hour;
+    setH(hour);
+    let minutes = dateRefactor.getMinutes();
+    if (Number(minutes) < 10) minutes = "0" + minutes;
+    setMin(minutes);
+    let seconds = dateRefactor.getSeconds();
+    if (Number(seconds) < 10) seconds = "0" + seconds;
+    setS(seconds);
+  }, []);
   return (
     <div className="instafood-card">
       <div className="instafood-card-header">
@@ -78,6 +98,9 @@ function Card({
         </div>
       </div>
       <img className="instafood-image" src={image} alt="Post" />
+      <p className="date">
+        {d}-{m}-{y}
+      </p>
       {title && <p className="instafood-title">{title}</p>}
       <div className="instafood-card-content">
         <div className="instafood-card-icons">
@@ -90,6 +113,7 @@ function Card({
             ""
           )}
         </div>
+
         <div className="instafood-description">
           {description && (
             <p>

@@ -3,6 +3,7 @@ import { UserContext } from "../../userContext";
 import { withRouter } from "react-router-dom";
 import logic from "../../logic";
 import Card from "../../components/Card";
+import "./index.sass";
 
 function CardList(props) {
   const { user } = useContext(UserContext);
@@ -47,7 +48,7 @@ function CardList(props) {
       .retrieveAllPosts(page)
       .then(p => {
         if (p.docs.length) {
-          setPosts([...posts, ...p.docs.reverse()]);
+          setPosts([...posts, ...p.docs]);
         } else {
           setn(true);
         }
@@ -65,7 +66,7 @@ function CardList(props) {
   };
   return (
     <Fragment>
-      <div id="load">
+      <div className="load">
         {posts.map(post => (
           <Card
             key={post._id}
@@ -81,6 +82,7 @@ function CardList(props) {
             countfavs={post.countfavs}
             email={post.user_id.email}
             path={props.location.pathname}
+            date={post.date}
           />
         ))}
       </div>

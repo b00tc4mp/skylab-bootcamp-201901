@@ -129,6 +129,7 @@ const logic = {
       })
       .then(() =>
         Post.find({ user_id: userId })
+          .sort([["date", -1]])
           .populate("comments.by", "username")
           .select("-__v")
           .lean()
@@ -148,7 +149,10 @@ const logic = {
         limit: 2,
         populate: ["comments.by", "username", "user_id"],
         select: "-__v -password",
-        lean: true
+        lean: true,
+        sort: {
+          date: -1
+        }
       }
     );
   },
