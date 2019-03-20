@@ -4,14 +4,14 @@ const cleanUpApi = {
     // url: 'http://localhost:8000',
     url: 'https://glacial-chamber-34618.herokuapp.com',
 
-    registerUser(name, surname, email, password, passwordConfirm) {
+    registerUser(name, surname, email, password, passwordConfirmation) {
 
         return fetch(`${this.url}/register`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, email, password, passwordConfirm })
+            body: JSON.stringify({ name, surname, email, password, passwordConfirmation })
         })
             .then(response => response.json())
             .then(({ id, error }) => {
