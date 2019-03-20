@@ -17,7 +17,7 @@
         display: none
 
     &__search
-        width: 95%
+        width: 100%
 
     &__search-button
         margin: 1em
@@ -32,17 +32,35 @@
     &__no-logo
         display: none
 
-    &__user-button
-        margin: 1em
+    // &__user-button
+    //     margin: 1em
+    //     margin-right: 2em
+    //     cursor: pointer
+
+    // &__user-button:hover
+    //     align-self: center
+    //     font-size: 1.2em
+    //     margin: 0.325em
+    //     margin-right: 1.8em
+    //     transition: 0.1s
+
+    &__user
+        display: flex
+        flex-flow: row
+        align-items: center
         margin-right: 2em
+        margin-left: 2em
         cursor: pointer
 
-    &__user-button:hover
-        align-self: center
-        font-size: 1.2em
-        margin: 0.325em
-        margin-right: 1.8em
-        transition: 0.1s
+    &__user-button
+        background-color: white
+        width: 2em
+        height: 2em
+        background-repeat: no-repeat
+        background-position: center
+        background-size: 100%
+        //margin: 0.1em
+        border-radius: 1em
 
     &__no-user-button
         display: none
@@ -67,8 +85,12 @@
     &__no-events-button
         display: none
 
-    &__down
+    &__arrow
+        color: $dark-gray
         margin-left: 0.5em
+
+    &__no-arrow
+        display: none
         
     &__right
         display: flex

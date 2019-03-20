@@ -7,28 +7,44 @@ import JoinEvent from '../JoinEvent'
 import NavBar from '../NavBar'
 import EventsNav from '../EventsNav'
 import EventsNearMeEvent from '../EventsNearMeEvent'
+import Feedback from '../Feedback'
 
-export default withRouter(function SelectedCategory ({ selectedCategory, setViewCategory, match, setShowDrowdown, setShowRightBar }) {
+export default withRouter(function SelectedCategory ({ selectedCategory, setViewCategory, match, setShowDropdown, setShowRightBar }) {
     const [events, setEvents] = useState()
     const [reservationName, setReservationName] = useState()
     const [joinEvent, setJoinEvent] = useState(false)
     const [userInEvent, setUserInEvent] = useState()
     const [selectedEvent, setSelectedEvent] = useState()
     const [phone, setPhone] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
 
     useEffect(() => {
         const { category } = match.params
 
-        logic.findEventsByCategory(category)
+        try {
+            logic.findEventsByCategory(category)
             .then(foundEvents => setEvents(foundEvents.events))
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('normal')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('alert')
+            setType('normal')
+        }
             
-    }, [joinEvent])
+    }, [feedback])
 
     return (
         <Fragment>
-            <NavBar setShowDrowdown={setShowDrowdown} setShowRightBar={setShowRightBar}/>
+            <NavBar setShowDropdown={setShowDropdown} setShowRightBar={setShowRightBar}/>
             <div className='selected-category'>
                 <EventsNav/>
+                <button><i className="fas fa-arrow-left selected-category__back-arrow"></i> back</button>
                 <div className='selected-category__elements'>
                     {events && events.length ? events.map(({ eventDate, eventTime, id, participants, reservationName, restaurantCategory, restaurantId, totalDist, restaurantName }) => {
                         return <div className='selected-category__event'><EventsNearMeEvent reservationName={reservationName} restaurantId={restaurantId} eventDate={eventDate} eventTime={eventTime} participants={participants} totalDist={totalDist} setJoinEvent={setJoinEvent} restaurantName={restaurantName} restaurantCategory={restaurantCategory} setUserInEvent={setUserInEvent} id={id} setSelectedEvent={setSelectedEvent} setReservationName={setReservationName} setPhone={setPhone}/></div>
@@ -36,7 +52,8 @@ export default withRouter(function SelectedCategory ({ selectedCategory, setView
                     ) : <div className='selected-category__no-event'><p className='selected-category__no-event-txt'>There are no events in this category, check out the other categories or create an event of your own!</p></div>}
                 </div>      
             </div>
-            {joinEvent && <JoinEvent selectedCategory={selectedCategory} reservationName={reservationName} setJoinEvent={setJoinEvent} userInEvent={userInEvent} selectedEvent={selectedEvent} phone={phone}/>}
+            {joinEvent && <JoinEvent setFeedback={setFeedback} setLevel={setLevel} setType={setType} selectedCategory={selectedCategory} reservationName={reservationName} setJoinEvent={setJoinEvent} userInEvent={userInEvent} selectedEvent={selectedEvent} phone={phone}/>}
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
         </Fragment>
     )
 })

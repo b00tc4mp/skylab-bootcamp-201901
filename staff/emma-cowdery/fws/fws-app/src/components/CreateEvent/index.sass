@@ -23,6 +23,7 @@
       flex-flow: column
       align-items: center
       color: $dark-gray
+      padding: 1.5em
 
    &__calendar
       width: 100%
@@ -35,13 +36,14 @@
 
    &__div
       display: flex
-      flex-flow: row
+      flex-flow: column
+      align-items: center
 
    &__lildiv
       display: flex
       flex-flow: column
-      align-items: center
-      margin: 2em
+      align-content: center
+      margin: 1em
 
    &__buttons
       display: flex
@@ -67,6 +69,23 @@
          box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
          cursor: pointer
 
+   &__minidiv
+      display: flex
+      flex-flow: row
+      margin-top: 1em
+
+   &__title
+      margin: 0
+
+   &__chat-name
+      border-radius: 0.5em
+      border-width: 0.1em
+      border-color: $dark-gray
+      padding: 0.4em
+
+   &__exp
+      text-align: center
+
 
 @media (min-width: 768px)
    .create-event
@@ -76,3 +95,8 @@
          border-radius: 15px
          padding: 1em
          width: 50%
+         padding: 1em
+
+      &__div
+         display: flex
+         flex-flow: column

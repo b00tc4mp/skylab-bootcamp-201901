@@ -56,11 +56,11 @@ export default function Calendar({ setEventDate }) {
 
                                 if (coloredDate && String(cloneDay).substring(0, 15) === String(coloredDate).substring(0, 15)) {
                                     dayNumber.push(
-                                        <div className={`oneDay ${selected}`} key={day} onClick={e => { e.preventDefault(); setEventDate(Date(dateFns.parse(cloneDay))); setColoredDate(cloneDay)}}>
+                                        <div className={`oneDay ${selected}`} key={day} onClick={e => { e.preventDefault(); setEventDate(cloneDay); setColoredDate(cloneDay)}}>
                                             <span>{formattedDate}</span>
                                         </div>
                                     )
-                                } else dayNumber.push(<div className={'oneDay'} key={day} onClick={e => { e.preventDefault(); setEventDate(Date(dateFns.parse(cloneDay))); setColoredDate(cloneDay); setSelected('selected'); console.log('click') }}>
+                                } else dayNumber.push(<div className={'oneDay'} key={day} onClick={e => { e.preventDefault(); setEventDate(cloneDay); setColoredDate(cloneDay); setSelected('selected')}}>
                                     <span>{formattedDate}</span>
                                 </div>)
                                 day = dateFns.addDays(day, 1)

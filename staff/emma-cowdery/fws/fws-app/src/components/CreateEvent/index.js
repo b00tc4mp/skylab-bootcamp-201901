@@ -55,21 +55,24 @@ export default function CreateEvent ({ setCreateEvent, lat, lng, rating, priceLe
                         <Calendar setEventDate={setEventDate}/>
                     </div>
                     <div className='create-event__div'>
-                        <div className='create-event__lildiv'>
-                            <p className='create-event__title'>select a time</p>
-                            <TimeSelector setEventTime={setEventTime}/>
+                        <div className='create-event__minidiv'>
+                            <div className='create-event__lildiv'>
+                                <p className='create-event__title'>select a time</p>
+                                <TimeSelector setEventTime={setEventTime}/>
+                            </div>
+                            <div className='create-event__lildiv'>
+                                <p className='create-event__title'>reservation name</p>
+                                <input className='create-event__name' type='text' placeholder='reservation name' onChange={e => {e.preventDefault(); setReservationName(e.target.value)}}/>
+                            </div>
                         </div>
-                        <div className='create-event__lildiv'>
-                            <p className='create-event__title'>reservation name</p>
-                            <input className='create-event__name' type='text' placeholder='reservation name' onChange={e => {e.preventDefault(); setReservationName(e.target.value)}}/>
-                        </div>
+                        
                         <div className='create-event__lildiv'>
                             <p className='create-event__title'>restaurant type</p>
                             <CategorySelector setRestaurantCategory={setRestaurantCategory}/>
                         </div>
                     </div>
-                    <p>want to chat with the strangers?</p>
-                    <p>to create a chat please enter a chat name</p>
+                    <p className='create-event__exp'>want to chat with the strangers?</p>
+                    <p className='create-event__exp'>to create a chat please enter a chat name</p>
                     <input className='create-event__chat-name' type='text' placeholder='chat name' onChange={e => {e.preventDefault(); setChatName(e.target.value)}}/>
                     <div className='create-event__buttons'>
                         <button className='create-event__buttons-cancel' onClick={e => {e.preventDefault(); setCreateEvent(false)}}>cancel</button>

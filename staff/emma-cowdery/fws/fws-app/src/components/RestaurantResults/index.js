@@ -7,6 +7,7 @@ import MoreRestaurantInfo from '../MoreRestaurantInfo'
 import BouncingLoader from '../BouncingLoader'
 import HowTo from '../HowTo'
 import CreateEvent from '../CreateEvent'
+import Feedback from '../Feedback'
 
 export default withRouter(function RestaurantResults(props) {
     const [results, setResults] = useState()
@@ -20,6 +21,12 @@ export default withRouter(function RestaurantResults(props) {
     const [rating, setRating] = useState()
     const [restaurantName, setRestaurantName] = useState()
     const [submit, setSubmit] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
+    const [bouncy, setBouncy] = useState(true)
+
+    
 
     useEffect(() => {
         logic.howTo()
@@ -28,11 +35,16 @@ export default withRouter(function RestaurantResults(props) {
     }, [])
 
     useEffect(() => {
+        setFeedback()
+        setLevel()
+        setType()
+        setBouncy(true)
         setResults()
 
         props.history.push(`/restaurant-results/search/${q}`)
 
-        logic.searchRetaurants(q)
+        try {
+            logic.searchRetaurants(q)
             .then(({results}) => {
                 let a = results.map(result => {
                     return logic.retrievePhoto(result.photos[0].photo_reference)
@@ -43,9 +55,17 @@ export default withRouter(function RestaurantResults(props) {
                 return Promise.all(a).then(b => b).then(()=> setResults(results))
             }) 
             .catch(err => {
-                console.log(err)
-                //delete console log and set feedback to err
-            })     
+                if (err.message === 'unable to search at this moment') setFeedback('no results')
+                else setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+                setBouncy(false)
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
     }, [q])
 
     return (
@@ -54,10 +74,11 @@ export default withRouter(function RestaurantResults(props) {
             <div className='restaurant-results'>
                 {results ? results.map(({ geometry, formatted_address, name, opening_hours, place_id, price_level, rating }) => {
                     return <div className='restaurant-results__restaurant'><MoreRestaurantInfo place_id={place_id} geometry={geometry} formatted_address={formatted_address} name={name} opening_hours={opening_hours} price_level={price_level} rating={rating} setSelectedRestaurant={setSelectedRestaurant} setLat={setLat} setLng={setLng} setPriceLevel={setPriceLevel} setRating={setRating} setRestaurantName={setRestaurantName} setCreateEvent={setCreateEvent}/></div>
-                }) : <BouncingLoader/>}
-                {showHowTo && <div className='restaurant-results__how-to'><HowTo setShowHowTo={setShowHowTo}/></div>}
+                }) : bouncy && <BouncingLoader/>}
+                {showHowTo && <HowTo setShowHowTo={setShowHowTo}/>}
             </div>
             {createEvent && <CreateEvent setCreateEvent={setCreateEvent} lat={lat} lng={lng} rating={rating} priceLevel={priceLevel} restaurantName={restaurantName} selectedRestaurant={selectedRestaurant} setLat={setLat} setLng={setLng} setRating={setRating} setPriceLevel={setPriceLevel} setRestaurantName={setRestaurantName}/>}
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
         </Fragment>
     )
 })

@@ -1,8 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import logic from '../../logic'
 import './index.sass'
+import BouncingLoader from '../BouncingLoader'
+import { withRouter, Route, Redirect } from 'react-router-dom'
 
-export default function Conversation ({ selectedChat }) {
+export default withRouter (function Conversation ({ selectedChat, history }) {
     const [messages, setMessages] = useState()
 
     // useEffect(() => {
@@ -10,6 +12,8 @@ export default function Conversation ({ selectedChat }) {
     // }, [])
 
     useEffect(() => {
+        //reloadMessages()
+        //window.scrollTo(300, 10000000)
         logic.retrieveUser()
             .then(({user}) => {
                 logic.messagesFromChat(selectedChat)
@@ -21,12 +25,12 @@ export default function Conversation ({ selectedChat }) {
                             logic.retrieveUserWithId(message.userId)
                                 .then(({user}) => {
                                     Object.defineProperty(message, 'username', { enumerable: true, configurable: true, writable: true, value: user.username })
-                                    console.log(message)
+                                    //console.log(message)
                                 })
                         })
                         //setMessages(messages)
                     })
-                    .then(() => setMessages(messages))
+                    .then(() => {setMessages(messages)})
             })
     }, [selectedChat])
 
@@ -39,6 +43,12 @@ export default function Conversation ({ selectedChat }) {
                         messages.map(message => {
                             if (message.userId === user.id) Object.defineProperty(message, 'who', { enumerable: true, configurable: true, writable: true, value: 'from-me' })
                             else Object.defineProperty(message, 'who', { enumerable: true, configurable: true, writable: true, value: 'from-someone' })
+
+                            logic.retrieveUserWithId(message.userId)
+                                .then(({user}) => {
+                                    Object.defineProperty(message, 'username', { enumerable: true, configurable: true, writable: true, value: user.username })
+                                    //console.log(message)
+                                })
                         })
                         setMessages(messages)
                     })
@@ -49,19 +59,18 @@ export default function Conversation ({ selectedChat }) {
  
     return (
         <Fragment>
-            {window.scrollTo(0,document.body.scrollHeight)}
             <div className='conversation'>
-                {messages && messages.length ? messages.map(({ userId, text, date, who, username }) => {
-                    console.log(username)
+                {messages ? messages.length ? messages.map(({ userId, text, date, who, username }) => {
                     return <div className={`conversation__message conversation__message-${who}`}>
-                        <p>{username}</p>
+                        <div onClick={e => {e.preventDefault(); history.push(`/user/${userId}`); console.log('click')}}><p>{username}</p></div>
                         <p className={`conversation__message-txt conversation__message-txt-${who}`}>{text}</p>
                         <p className={`conversation__message-date conversation__message-date-${who}`}>{date.substring(12, 16)}</p>
                     </div>
-                }) : <div className='conversation__none'>
+                }) : //<BouncingLoader/>}
+                <div className='conversation__none'>
                     <p>there are no messages in this chat, be the first one to send a message</p>
-                </div>}
+                </div> : <BouncingLoader/>}
             </div> 
         </Fragment>
     )
-}
+})

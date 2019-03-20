@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import logic from '../../logic'
 import './index.sass'
 import { withRouter, Route, Redirect } from 'react-router-dom'
+import Feedback from '../Feedback'
 
 export default withRouter( function Register(props) {
     const [name, setName] = useState()
@@ -10,6 +11,9 @@ export default withRouter( function Register(props) {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [passwordConfirmation, setPasswordConfirmation] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
 
     const handleNameChange = name => setName(name.target.value)
 
@@ -24,10 +28,21 @@ export default withRouter( function Register(props) {
     const handlePasswordConfirmationChange = passwordConfirmation => setPasswordConfirmation(passwordConfirmation.target.value)
 
     const handleRegisterSubmit = () => {
-        logic.registerUser(name, surname, email, username, password, passwordConfirmation)
+        try {
+            logic.registerUser(name, surname, email, username, password, passwordConfirmation)
             .then(id => {
                 if (id) props.history.push('/login')
             })
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('alert')
+                setType('normal')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('alert')
+            setType('normal')
+        }
     }
 
     const handleGoToLogin = () => {
@@ -64,6 +79,7 @@ export default withRouter( function Register(props) {
                             <p className='register-panel__input-title'>Password Confirmation</p>
                             <input type="password" placeholder="passwordConfirmation" value={passwordConfirmation} onChange={handlePasswordConfirmationChange} className='register-panel__input'></input> 
                         </div>
+                        {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
                         <button className='register-panel__register-button'>REGISTER</button>
                     </form>
                     <div className='register-panel__login'>

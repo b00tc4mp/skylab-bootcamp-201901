@@ -6,7 +6,7 @@ import logic from '../../logic'
 import InfoWindow from '../InfoWindow'
 import MapFilter from '../MapFilter'
 import JoinEvent from '../JoinEvent'
-import UnjoinEvent from '../UnjoinEvent'
+import Feedback from '../Feedback'
 
 export default function EventsMap ({setShowRightBar, setShowDropdown}) {
     const [userLocation, setUserLocation] = useState({ lat: 41.390356499999996, lng: 2.1941694})
@@ -26,6 +26,9 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
     const [selectedEvent, setSelectedEvent] = useState()
     const [id, setId] = useState()
     const [phone, setPhone] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
 
 
     //filter
@@ -37,13 +40,34 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
     const [filteredCategory, setFilteredCategory] = useState()
 
     useEffect(() => {
-        logic.geolocation()
-            .then(geolocation => setUserLocation(geolocation)) //googles geolocation is not totally accurate
-        
+        try {
+            logic.geolocation()
+            .then(geolocation => setUserLocation(geolocation))
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
         if (window.innerWidth < 1200) setMobile(true)
 
-        logic.retrieveUser()
+        try {
+            logic.retrieveUser()
             .then(({user}) => setUserId(user.id))
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
     }, [])
 
     useEffect(() => {
@@ -59,6 +83,12 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
     }, [userLocation, events])
 
     useEffect(() => {
+        setMapInGrid('-no-info')
+        setEventInfo(false)
+        setFeedback()
+        setLevel()
+        setType()
+        
         let filters = {'distance': distance}
 
         if (priceRange) Object.defineProperty(filters, 'priceRange', { value: priceRange, configurable: true, enumerable: true, writable: true })
@@ -71,8 +101,19 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
 
         if (filteredCategory) Object.defineProperty(filters, 'restaurantCategory', { value: filteredCategory, configurable: true, enumerable: true, writable: true })
 
-        logic.filterEvents(filters)
+        try {
+            logic.filterEvents(filters)
             .then(events => setEvents(events))
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
 
     }, [distance, timeRange, preferedDate, rating, priceRange, filteredCategory, joinEvent])
 
@@ -125,7 +166,8 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
                     </div>
                 </div>
             </div>
-    {joinEvent && <div><JoinEvent selectedEvent={selectedEvent} setJoinEvent={setJoinEvent} phone={phone} reservationName={reservationName} userInEvent={participants} setEventInfo={setEventInfo}/></div>}
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
+            {joinEvent && <div><JoinEvent setFeedback={setFeedback} setLevel={setLevel} setType={setType} selectedEvent={selectedEvent} setJoinEvent={setJoinEvent} phone={phone} reservationName={reservationName} userInEvent={participants} setEventInfo={setEventInfo}/></div>}
         </Fragment>
     )
 }

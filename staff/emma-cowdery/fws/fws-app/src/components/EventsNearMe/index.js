@@ -7,7 +7,7 @@ import logic from '../../logic'
 import BouncingLoader from '../BouncingLoader'
 import EventsNearMeEvent from '../EventsNearMeEvent'
 import JoinEvent from '../JoinEvent'
-import UnjoinEvent from '../UnjoinEvent'
+import Feedback from '../Feedback'
 
 export default function EventsNearMe({setShowRightBar, setShowDropdown}) {
     const [eventsNearme, setEventsNearme] = useState()
@@ -17,6 +17,9 @@ export default function EventsNearMe({setShowRightBar, setShowDropdown}) {
     const [userInEvent, setUserInEvent] = useState()
     const [reservationName, setReservationName] = useState()
     const [phone, setPhone] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState()
 
     useEffect(() => {
         getEvents()
@@ -47,7 +50,8 @@ export default function EventsNearMe({setShowRightBar, setShowDropdown}) {
                     }) : <BouncingLoader/>}
                 </div>
             </div>
-            {joinEvent && <div><JoinEvent selectedEvent={selectedEvent} setJoinEvent={setJoinEvent} phone={phone} reservationName={reservationName} userInEvent={userInEvent}/></div>}
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
+            {joinEvent && <div><JoinEvent setFeedback={setFeedback} setLevel={setLevel} setType={setType} selectedEvent={selectedEvent} setJoinEvent={setJoinEvent} phone={phone} reservationName={reservationName} userInEvent={userInEvent}/></div>}
         </Fragment>
     )
 }

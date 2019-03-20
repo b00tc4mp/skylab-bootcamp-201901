@@ -14,13 +14,11 @@
         flex-flow: row
 
         &-div
-            width: 15.1em
-            height: 15.1em
             background-color: white
 
         &-img
-            width: 15em
-            height: 12em
+            width: 9em
+            height: 9em
             background-repeat: no-repeat
             background-position: center
             background-size: 100%
@@ -28,6 +26,7 @@
             justify-content: flex-end
             align-items: flex-end
             border-radius: 5em
+            box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
 
             &-button
                 margin: 2.2em
@@ -45,11 +44,12 @@
         &-username
             font-size: 2em
             margin: 0.1em
+            margin-left: 0.3em
 
         &-socials
             display: flex
             flex-flow: row
-            margin-left: 0.5em
+            margin-left: 0.6em
 
             &-icon
                 color: $dark-gray
@@ -124,6 +124,7 @@
         // flex-flow: column
 
         &-edit
+            color: $dark-gray
             display: flex
             flex-flow: column
             margin-top: 2em
@@ -167,12 +168,34 @@
 
                 &-update
                     background-color: $dark-green
+        
+        &-info
+            color: $dark-gray
+            display: flex
+            flex-flow: column
+
+        &-events
+            border-width: 0
+            border-radius: 0.5em
+            padding: 1em
+            background-color: $dark-green
+            box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+            align-self: center
+
+            &-txt
+                color: white
+                font-size: 2.5em
+                margin: 0
 
 @media (min-width: 768px)
     .user-profile
         &__header
+            margin: 1em
+            
             &-img
                 height: 15em
+                width: 15em
+                border-radius: 7.1em
 
                 &-button
                     margin: 2.4em
@@ -186,5 +209,13 @@
             &-socials
                 &-icon
                     margin: 0.3em
+
+        &__body
+            margin: 2em
+            margin-left: 4em
+            margin-right: 4em
+            
+            &-events
+                align-self: flex-start
                     
             

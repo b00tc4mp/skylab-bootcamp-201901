@@ -142,7 +142,6 @@ const logic = {
 
         return (async () => {
             const data = { about: about, instagram: instagram, twitter: twitter, facebook: facebook }
-            console.log(data)
 
             const _user = await Users.findByIdAndUpdate(userId, data)
 
@@ -158,30 +157,30 @@ const logic = {
         })()
     },
 
-    /**
-     * 
-     * @param {string} userId 
-     * @param {string} password 
-     */
-    removeUser(userId, password) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
+    // /**
+    //  * 
+    //  * @param {string} userId 
+    //  * @param {string} password 
+    //  */
+    // removeUser(userId, password) {
+    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+    //     if (!userId.trim().length) throw Error('userId is empty')
 
-        if (typeof password !== 'string') throw TypeError(password + ' is not a string')
-        if (!password.trim().length) throw new EmptyError('password cannot be empty')
+    //     if (typeof password !== 'string') throw TypeError(password + ' is not a string')
+    //     if (!password.trim().length) throw new EmptyError('password cannot be empty')
 
-        return (async () => {
-            const user = await Users.findById(userId)
+    //     return (async () => {
+    //         const user = await Users.findById(userId)
 
-            if (!user) throw Error(`user with id ${userId} not found`)
+    //         if (!user) throw Error(`user with id ${userId} not found`)
 
-            const match = await bcrypt.compare(password, user.password)
+    //         const match = await bcrypt.compare(password, user.password)
 
-            if (!match) throw Error('wrong credentials')
+    //         if (!match) throw Error('wrong credentials')
 
-            Users.deleteOne(user)
-        })()
-    },
+    //         Users.deleteOne(user)
+    //     })()
+    // },
 
     /**
      * 
@@ -224,9 +223,6 @@ const logic = {
 
         if (typeof eventTime !== 'string') throw TypeError(`${eventTime} is not a string`)
         if (!eventTime.trim().length) throw Error('eventTime is empty')
-
-        if (typeof eventDate !== 'string') throw TypeError(`${eventDate} is not a string`)
-        if (!eventDate.trim().length) throw Error('eventDate is empty')
 
         if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
         if (!reservationName.trim().length) throw Error('reservationName cannot be empty')
@@ -334,12 +330,8 @@ const logic = {
 
             const { events } = user
 
-            console.log(events.length)
-
             return await Promise.all(events.map(async eventId => {
                 const event = await Events.findById(eventId).select('-__v').lean()
-
-                console.log(event)
 
                 event.id = event._id.toString()
 
@@ -467,6 +459,8 @@ const logic = {
             chatRooms.push(id)
 
             await user.save()
+
+            const event = await Events.findByIdAndUpdate(eventId, { chatId: id})
 
             return id
         })()
@@ -626,14 +620,6 @@ const logic = {
         })()
     },
 
-    // uploadImage(userId, file) {
-    //     return (async () => {
-    //         const url = await uploadImage(file)
-
-    //         console.log(url)
-    //     })
-    // },
-
     /**
      * 
      * @param {string} query 
@@ -758,14 +744,15 @@ const logic = {
         if (!userId.trim().length) throw Error('userId is empty')
 
         if (filters.constructor !== Object) throw TypeError(`${filters} is not an object`)
-        //console.log(filters)
 
         return (async () => {
             let events = []
 
             if (filters.hasOwnProperty('distance')) 
                 events = await logic.findEventsNearMe(userId, filters.distance)
-            
+
+                console.log((new Date(events[0].eventDate)).setHours(10,0,0,0))
+                console.log(filters.date.setHours(0, 0, 0, 0))
 
             if (filters.hasOwnProperty('restaurantCategory')) 
                     events = events.filter(event => event.restaurantCategory === filters.restaurantCategory)
@@ -783,7 +770,7 @@ const logic = {
                     events = events.filter(event => filters.timeRange[0] <= event.eventTime && event.eventTime <= filters.timeRange[1])
             
             if (filters.hasOwnProperty('date'))       
-                    events = events.filter(event => event.eventDate.substring(0, 15) === filters.date.substring(0, 15))
+                    events = events.filter(event => new Date(event.eventDate) === filters.date)
                 
             return events
         })()

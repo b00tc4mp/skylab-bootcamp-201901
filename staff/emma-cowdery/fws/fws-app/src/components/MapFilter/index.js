@@ -33,11 +33,6 @@ export default function MapFilter ({ setPreferedDate, setTimeRange, setFilteredC
         else setDistance(Number(e))
     }
 
-    console.log(time1)
-
-    console.log(time2)
-
-
     return (
         <div className='map-filter'>
             <div className='map-filter__fil'>
@@ -54,16 +49,16 @@ export default function MapFilter ({ setPreferedDate, setTimeRange, setFilteredC
                 </div>    
             </div>
             <div className='map-filter__fil'>
-                <p lassName='map-filter__fil-title'>select a price range</p>
+                <p className='map-filter__fil-title'>select a price range</p>
                 <div className='map-filter__fil-items'>
                     <div className='map-filter__fil-item'>
-                        <p lassName='map-filter__fil-txt'>max</p>
+                        <p className='map-filter__fil-txt'>min</p>
                         <select className='map-filter__fil-select' onChange={e => {e.preventDefault(); setMin(e.target.value)}} defaultValue='0'>
                             {values.map(value => <option value={value}>{value}</option>)}
                         </select>
                     </div>  
                     <div className='map-filter__fil-item'>
-                        <p lassName='map-filter__fil-txt'>min</p>
+                        <p className='map-filter__fil-txt'>max</p>
                         <select className='map-filter__fil-select' onChange={e => {e.preventDefault(); setMax(e.target.value)}} defaultValue='5'>
                             {values.map(value => <option value={value}>{value}</option>)}
                         </select>

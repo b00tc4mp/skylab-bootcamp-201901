@@ -3,15 +3,36 @@ import './index.sass'
 import logic from '../../logic'
 import { withRouter, Route, Redirect } from 'react-router-dom'
 import stringContainsAny from '../NavBar/string-contains-any'
+import Feedback from '../Feedback'
 
 export default withRouter(function RightBar (props) {
     const [user, setUser] = useState()
+    const [image, setImage] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
 
     const { history: { location: { pathname } } } = props
 
     useEffect(() => {
-        logic.retrieveUser()
-            .then(user => setUser(user.user))
+        try {
+            logic.retrieveUser()
+            .then(({user}) => {
+                setUser(user)
+
+                if(user.profilePicture) setImage({backgroundImage: `url(${user.profilePicture})`})
+                else setImage({backgroundImage: `url(images/default-user.png)`})
+            })
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
     }, [])
 
     const handleLogout = () => {
@@ -25,7 +46,7 @@ export default withRouter(function RightBar (props) {
                 <div className='right-bar__empty' onClick={e => {e.preventDefault(); props.setShowRightBar(false)}}></div>
                 <div className='right-bar__options'>
                     <div className='right-bar__profile'>
-                        <i className="fas fa-user right-bar__img"></i>
+                        <div className='right-bar__img' style={ image }></div>
                         <div>
                             <p className='right-bar__username'>{user.username}</p>
                             <p className='right-bar__email'>{user.email}</p>
@@ -40,6 +61,7 @@ export default withRouter(function RightBar (props) {
                     <button onClick={e => {e.preventDefault(); handleLogout(); props.setShowRightBar(false)}} className='right-bar__button-logout'><i class="fas fa-sign-out-alt right-bar__button-icon"></i> Logout</button>
                 </div>
             </div>}
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
         </Fragment>
     )
 })

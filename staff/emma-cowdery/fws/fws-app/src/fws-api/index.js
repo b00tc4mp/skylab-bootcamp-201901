@@ -200,9 +200,6 @@ const fwsApi = {
         if (typeof eventTime !== 'string') throw TypeError(`${eventTime} is not a string`)
         if (!eventTime.trim().length) throw Error('eventTime is empty')
 
-        if (typeof eventDate !== 'string') throw TypeError(`${eventDate} is not a string`)
-        if (!eventDate.trim().length) throw Error('eventDate is empty')
-
         if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
         if (!reservationName.trim().length) throw Error('reservationName cannot be empty')
 

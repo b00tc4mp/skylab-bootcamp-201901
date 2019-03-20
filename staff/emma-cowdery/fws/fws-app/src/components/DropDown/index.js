@@ -6,12 +6,18 @@ import stringContainsAny from '../NavBar/string-contains-any'
 
 export default withRouter(function DropDown (props) {
     const [user, setUser] = useState()
+    const [image, setImage] = useState()
 
     const { history: { location: { pathname } } } = props
 
     useEffect(() => {
         logic.retrieveUser()
-            .then(user => setUser(user.user))
+            .then(({user}) => {
+                setUser(user)
+                
+                if(user.profilePicture) setImage({backgroundImage: `url(${user.profilePicture})`})
+                else setImage({backgroundImage: `url(images/default-user.png)`})
+            })
     }, [])
 
     const handleLogout = () => {
@@ -23,7 +29,7 @@ export default withRouter(function DropDown (props) {
             <div className='drop-down' onClick={e => {e.preventDefault(); props.setShowDropdown(false)}}>
                 <div className='drop-down__content'>
                     <div className='drop-down__content-icondiv' onClick={e => {e.preventDefault(); props.setShowDropdown(false)}}>
-                        <i className='fas fa-user drop-down__content-user'></i>
+                        <div className='drop-down__content-img' style={ image }></div>
                         <i className="fas fa-chevron-up drop-down__content-arrow"></i>
                     </div>
                     <div className='drop-down__content-linksdiv'>

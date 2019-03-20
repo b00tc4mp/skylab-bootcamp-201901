@@ -16,7 +16,7 @@ const Events = new Schema({
     },
 
     eventDate: {
-        type: String,
+        type: Date,
         required: true
     },
 
@@ -48,6 +48,10 @@ const Events = new Schema({
     restaurantName: {
         type: String,
         required: true
+    },
+
+    chatId: {
+        type: String
     }
 })
 

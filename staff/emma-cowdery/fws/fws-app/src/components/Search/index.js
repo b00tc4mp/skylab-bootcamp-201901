@@ -4,7 +4,7 @@ import { withRouter, Route, Redirect } from 'react-router-dom'
 import './index.sass'
 //import { PromiseProvider } from 'mongoose'
 
-export default withRouter(function Search({ setSubmit, setSearch, setSearchButton, setLogo, setUserButton, setEventsButton, history, setQuery }) {
+export default withRouter(function Search({ setSubmit, setSearch, setSearchButton, setLogo, setUserButton, setEventsButton, history, setQuery, setArrow }) {
     const [query, setNewQuery ] = useState()
     const [mobile, setMobile] = useState(false)
 
@@ -31,7 +31,8 @@ export default withRouter(function Search({ setSubmit, setSearch, setSearchButto
     return (
         <form className="search" onSubmit={e => {e.preventDefault(); setQuery(query)}}>
             <input name="search" type="text" placeholder="search..." className="search__input" onChange={e => {e.preventDefault(); setNewQuery(e.target.value)}}></input>
-            {mobile ? <i class="fas fa-search search__button" onClick={e => {e.preventDefault(); setQuery(query); setSearch('no-search'); setSearchButton('search-button'); setLogo('logo'); setUserButton('user-button'); setEventsButton('events-button')}}></i> : <i class="fas fa-search search__button" onClick={e => {e.preventDefault(); setQuery(query)}}></i>}
+            {mobile ? <i class="fas fa-search search__button" onClick={e => {e.preventDefault(); setQuery(query); setSearch('no-search'); setSearchButton('search-button'); setLogo('logo'); setUserButton('user-button'); setArrow('arrow'); setEventsButton('events-button')}}></i> : <i class="fas fa-search search__button" onClick={e => {e.preventDefault(); setQuery(query)}}></i>}
+            {mobile && <i className="fas fa-times search__close" onClick={e => {e.preventDefault(); setSearch('no-search'); setSearchButton('search-button'); setLogo('logo'); setUserButton('user-button'); setArrow('arrow'); setEventsButton('events-button')}}></i>}
         </form>
     )
 })

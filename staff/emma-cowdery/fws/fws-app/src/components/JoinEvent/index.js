@@ -2,23 +2,51 @@ import React, { Fragment, useState, useEffect } from 'react'
 import './index.sass'
 import logic from '../../logic'
 
-export default function JoinEvent ({ reservationName, setJoinEvent, selectedEvent, phone, userInEvent, setEventInfo }) {
+export default function JoinEvent ({ reservationName, setJoinEvent, selectedEvent, phone, userInEvent, setEventInfo, setFeedback, setLevel, setType }) {
     const [join, setJoin] = useState()
 
     useEffect(() => {
-        logic.retrieveUser()
+        setFeedback()
+        setLevel()
+        setType()
+        try {
+            logic.retrieveUser()
             .then(({user}) => {
                 if (userInEvent.includes(user.id)) setJoin(false)
                 else setJoin(true)
             })
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
     }, [])
     
     function handleJoinEvent () {
-        logic.joinEvent(selectedEvent)
-            .then(event => {
-                //if (event) set feedback to event joined!
+        try {
+            logic.joinEvent(selectedEvent)
+            .then(({event}) => logic.joinChat(event.chatId))
+            .then(() => {
+                setFeedback('success!!!')
+                setLevel('success')
+                setType('banner')
                 setJoinEvent(false)
             })
+            .catch (err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
     }
 
     return (
@@ -54,7 +82,7 @@ export default function JoinEvent ({ reservationName, setJoinEvent, selectedEven
                         {join ? <button className='join-event__buttons-confirmation' onClick={handleJoinEvent}>join event</button> : <button className='join-event__buttons-confirmation' onClick={handleJoinEvent}>leave event</button>}
                     </div>  
                 </div>  
-            </div>   
+            </div>
         </Fragment>
     )
 }

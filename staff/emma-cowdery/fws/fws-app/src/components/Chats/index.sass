@@ -10,7 +10,21 @@
     &__no-messages
         display: flex
         flex-flow: column
-        align-content: center
+        align-items: center
+        padding: 1.5em
+
+        &-title
+            margin-top: 1em
+            color: $dark-gray
+            background-color: $light-green
+            border-width: 0
+            border-radius: 0.5em
+            padding: 1em
+
+        &-logo
+            margin-top: 0.6em
+            font-size: 10em
+            color: $dark-gray
 
     &__to-nav
         position: fixed
@@ -21,6 +35,7 @@
         font-size: 0.8em
         color: $dark-gray
         z-index: 3
+        cursor: pointer
 
         &-txt
             writing-mode: vertical-rl
@@ -45,6 +60,7 @@
         display: flex
         flex-flow: row
         height: 2em
+        justify-content: center
 
         &-input
             width: 100%
@@ -57,3 +73,20 @@
             border-radius: 0 0.5em 0.5em 0
             background-color: $light-yellow
             color: $dark-gray
+
+@media (min-width: 1200px)
+    .chats
+        display: grid
+        grid-template-columns: 1fr 2.3fr
+
+        &__nav
+            box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+            grid-column-start: 1
+            grid-column-end: 2
+
+        &__messaging
+            grid-column-start: 2
+            grid-column-end: 3
+
+        &__submit
+            width: 69.5%

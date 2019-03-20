@@ -2,23 +2,38 @@ import React, { Fragment, useEffect, useState } from 'react'
 import logic from '../../logic'
 import './index.sass'
 import BouncingLoader from '../BouncingLoader'
+import Feedback from '../Feedback'
 
 export default function MoreRestaurantInfo ({ place_id, geometry, formatted_address, name, price_level, rating, setSelectedRestaurant, setLat, setLng, setPriceLevel, setRating, setRestaurantName, setCreateEvent }) {
     const [result, setResult] = useState()
     const [counter, setCounter] = useState(0)
     const [eventStyle, setEventStyle] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState()
 
     if (counter === 10) setCounter(0)
     if (counter === -1) setCounter(9)
 
     useEffect(() => {
-        logic.restaurantDetails(place_id)
+        try {
+            logic.restaurantDetails(place_id)
             .then(({result}) => {
                 setResult(result)
                 
                 logic.retrievePhoto(result.photos[0].photo_reference)
                     .then(url => setEventStyle({backgroundImage: `url(${url})`}))
             })
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
     }, []) 
 
     useEffect(() => {
@@ -61,6 +76,7 @@ export default function MoreRestaurantInfo ({ place_id, geometry, formatted_addr
                     </div>
                 </div>
             : <BouncingLoader/>}
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
         </Fragment>
     )
 }

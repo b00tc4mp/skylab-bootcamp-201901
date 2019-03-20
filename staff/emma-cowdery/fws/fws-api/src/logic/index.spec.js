@@ -718,29 +718,23 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
         const howTo = true
 
-        let id
+        it('should suceed on correct data', () => {
 
-        beforeEach(() => {
-            debugger
             return bcrypt.hash(password, 10)
                 .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
                 .then(() => {
-                    Users.findOne({ email })
-                        .then(({_id}) => id = _id)
+                    return Users.findOne({ email })
+                        .then((res) => logic.retrieveUser(res._id.toString()))
+                        .then((user) => {
+                            expect(user).toBeDefined()
+                            expect(user.name).toBe(name)
+                            expect(user.surname).toBe(surname)
+                            expect(user.email).toBe(email)
+                            expect(user.username).toBe(username)
+                            expect(user.howTo).toBe(howTo)
+                        })
                 }) 
-        })
-
-        it('should suceed on correct data', () => {
-            console.log(id)
-            logic.retrieveUser(id)
-                .then(user => {
-                    expect(user).toBeDefined()
-                    expect(user.name).toBe(name)
-                    expect(user.surname).toBe(surname)
-                    expect(user.email).toBe(email)
-                    expect(user.username).toBe(username)
-                    expect(user.howTo).toBe(howTo)
-                })
+            
         })
 
         it('should fail on undefined user id', () => {
@@ -792,7 +786,158 @@ describe('logic', () => {
         })
     })
 
-    describe('remove user', () => {
+    // describe('remove user', () => {
+    //     const name = 'Manuel'
+    //     const surname = 'Barzio'
+    //     const email = `manuelbarzi-${Math.random()}@mail.com`
+    //     const username = `manu-${Math.random()}`
+    //     const password = `123-${Math.random()}`
+    //     const howTo = true
+
+    //     // beforeEach(() => 
+    //     //     bcrypt.hash(password, 10)
+    //     //         .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+    //     //         .then(() => {
+    //     //             Users.findOne({email})
+    //     //                 .then(({id}) => id = id)
+    //     //         })
+
+    //     //     // Users.findOne({ email })
+    //     //     //     .then(() => console.log('mm'))
+    //     //     //     .then(({id}) => id = id)
+    //     //     //     .catch(() => console.log('errrrror'))
+    //     // )
+
+    //     it('should suceed on correct data', () => {
+    //         return bcrypt.hash(password, 10)
+    //             .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+    //             .then(() => {
+    //                 return Users.findOne({email})
+    //                     .then((res) => logic.removeUser(res._id.toString(), password))
+    //                     .then(() => Users.findOne({email})
+    //                         .then(user => {
+    //                             console.log(user)
+    //                             expect(user).toBeUndefined()
+    //                             expect(user.name).toBeUndefined()
+    //                             expect(user.surname).toBeUndefined()
+    //                             expect(user.email).toBeUndefined()
+    //                             expect(user.username).toBeUndefined()
+    //                             expect(user.howTo).toBeUndefined()
+    //                         })
+    //                     )
+    //                 })
+    //             })
+
+    //     it('should fail on undefined user id', () => {
+    //         const userId = undefined
+    //         const password = `123-${Math.random()}`
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+
+    //     it('should fail on numeric user id', () => {
+    //         const userId = 123
+    //         const password = `123-${Math.random()}`
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+
+    //     it('should fail on boolean user id', () => {
+    //         const userId = true
+    //         const password = `123-${Math.random()}`
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+
+    //     it('should fail on object user id', () => {
+    //         const userId = {}
+    //         const password = `123-${Math.random()}`
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+
+    //     it('should fail on array user id', () => {
+    //         const userId = []
+    //         const password = `123-${Math.random()}`
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+
+    //     it('should fail on empty user id', () => {
+    //         const userId = ''
+    //         const password = `123-${Math.random()}`
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(userId + ' is not a string'))
+    //     })
+
+    //     it('should fail on undefined password', () => {
+    //         const userId = 'mksmdkdmkemdaskmda'
+    //         const password = undefined
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+
+    //     it('should fail on numeric password', () => {
+    //         const userId = 'mksmdkdmkemdaskmda'
+    //         const password = 123
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+
+
+    //     it('should fail on boolean password', () => {
+    //         const userId = 'mksmdkdmkemdaskmda'
+    //         const password = false
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+
+    //     it('should fail on object password', () => {
+    //         const userId = 'mksmdkdmkemdaskmda'
+    //         const password = {}
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+
+    //     it('should fail on array password', () => {
+    //         const userId = 'mksmdkdmkemdaskmda'
+    //         const password = []
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(TypeError(password + ' is not a string'))
+    //     })
+
+    //     it('should fail on empty password', () => {
+    //         const userId = 'mksmdkdmkemdaskmda'
+    //         const password = ''
+
+    //         expect(() => {
+    //             logic.removeUser(userId, password)
+    //         }).toThrow(Error('password cannot be empty'))
+    //     })
+    // })
+    describe('update profile picture', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         const email = `manuelbarzi-${Math.random()}@mail.com`
@@ -800,145 +945,26 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
         const howTo = true
 
-        let id
+        const url = 'lalalalallalalalalalala.com'
 
-        beforeEach(() => 
-            bcrypt.hash(password, 10)
+        it('should succeed on correct data', () => {
+            return bcrypt.hash(password, 10)
                 .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
                 .then(() => {
-                    Users.findOne({email})
-                        .then(({id}) => id = id)
-                })
-
-            // Users.findOne({ email })
-            //     .then(() => console.log('mm'))
-            //     .then(({id}) => id = id)
-            //     .catch(() => console.log('errrrror'))
-        )
-
-        it('should suceed on correct data', () =>
-            logic.removeUser(id, password)
-                .then(() => {
-                    Users.findOne({email})
-                        .then(user => {
-                            expect(user).toBeUndefined()
-                            expect(user.name).toBeUndefined()
-                            expect(user.surname).toBeUndefined()
-                            expect(user.email).toBeUndefined()
-                            expect(user.username).toBeUndefined()
-                            expect(user.howTo).toBeUndefined()
+                    return Users.findOne({email})
+                        .then((res) => logic.updateProfilePicture(res._id.toString(), url))
+                        .then((user) => {
+                            expect(user).toBeDefined()
+                            expect(user.name).toBe(name)
+                            expect(user.surname).toBe(surname)
+                            expect(user.email).toBe(email)
+                            expect(user.username).toBe(username)
+                            expect(user.howTo).toBe(howTo)
                         })
                 })
-        )
-
-        it('should fail on undefined user id', () => {
-            const userId = undefined
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(userId + ' is not a string'))
         })
 
-        it('should fail on numeric user id', () => {
-            const userId = 123
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on boolean user id', () => {
-            const userId = true
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on object user id', () => {
-            const userId = {}
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on array user id', () => {
-            const userId = []
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on empty user id', () => {
-            const userId = ''
-            const password = `123-${Math.random()}`
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(userId + ' is not a string'))
-        })
-
-        it('should fail on undefined password', () => {
-            const userId = 'mksmdkdmkemdaskmda'
-            const password = undefined
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-
-        it('should fail on numeric password', () => {
-            const userId = 'mksmdkdmkemdaskmda'
-            const password = 123
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-
-
-        it('should fail on boolean password', () => {
-            const userId = 'mksmdkdmkemdaskmda'
-            const password = false
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-
-        it('should fail on object password', () => {
-            const userId = 'mksmdkdmkemdaskmda'
-            const password = {}
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-
-        it('should fail on array password', () => {
-            const userId = 'mksmdkdmkemdaskmda'
-            const password = []
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(TypeError(password + ' is not a string'))
-        })
-
-        it('should fail on empty password', () => {
-            const userId = 'mksmdkdmkemdaskmda'
-            const password = ''
-
-            expect(() => {
-                logic.removeUser(userId, password)
-            }).toThrow(Error('password cannot be empty'))
-        })
+        //should fail
     })
 
     describe('create event', () => {
@@ -950,7 +976,6 @@ describe('logic', () => {
         const howTo = true
 
         const restaurantId = '998w9e8r90eqee'
-        var userId
         const eventTime = '13:30'
         const eventDate = '06/09/2019'
         const reservationName = 'pepito'
@@ -958,33 +983,30 @@ describe('logic', () => {
         const eventLocation = [222222, 222222]
         const priceLevel = 2
         const rating = 3
+        const restaurantName = 'mimi'
 
-        beforeEach(() => {
-            console.log('lalala')
-            bcrypt.hash(password, 10)
-                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo })),
-
-            Users.findOne({ email })
-                .then(() => console.log('dskadjnfjdsnfjkdnsjdnsajn'))
-                .then(user => console.log(user))
-                .then(({id}) => userId = id)
-        })
-
-        it('should succeed on correct data', async () => {
-            const id = await logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
-
-            expect(id).toBeDefined()
-
-            const event = await Events.findOne({ restaurantId })
-
-            expect(event.restaurantId).toBe(restaurantId)
-            expect(event.eventTime).toBe(eventTime)
-            expect(event.eventDate).toBe(eventDate)
-            expect(event.reservationName).toBe(reservationName)
-            expect(event.restaurantCategory).toBe(restaurantCategory)
-            expect(event.eventLocation).toBe(eventLocation)
-            expect(event.priceLevel).toBe(priceLevel)
-            expect(event.rating).toBe(rating)
+        it('should succeed on correct data', () => {
+            return bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+                .then(() => {
+                    return Users.findOne({email})
+                        .then((res) => logic.createEvent(restaurantId, res._id.toString(), eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName))
+                        .then((id) => {
+                            expect(id).toBeDefined()
+                        })
+                        .then(() => Events.findOne({restaurantId}))
+                        .then((event) => {
+                            expect(event.restaurantId).toBe(restaurantId)
+                            expect(event.eventTime).toBe(eventTime)
+                            expect(event.eventDate).toBe(eventDate)
+                            expect(event.reservationName).toBe(reservationName)
+                            expect(event.restaurantCategory).toBe(restaurantCategory)
+                            expect(event.eventLocation[0]).toBe(eventLocation[0])
+                            expect(event.eventLocation[1]).toBe(eventLocation[1])
+                            expect(event.priceLevel).toBe(priceLevel)
+                            expect(event.rating).toBe(rating)
+                        })
+                })
         })
 
         it('should fail on undefined restaurant id', () => {
@@ -1771,32 +1793,51 @@ describe('logic', () => {
     })
 
     describe('join event', () => {
-        const restaurantId = '998w9aaaae8r90eqee'
-        const userId = '23nx8d1347241sm'
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const username = `manu-${Math.random()}`
+        const password = `123-${Math.random()}`
+        const howTo = true
+
+        const restaurantId = '998w9e8r90eqee'
         const eventTime = '13:30'
         const eventDate = '06/09/2019'
+        const reservationName = 'pepito'
         const restaurantCategory = 'Tapas'
         const eventLocation = [222222, 222222]
         const priceLevel = 2
         const rating = 3
-        const reservationName = 'pepito'
+        const restaurantName = 'mimi'
 
-        beforeEach(() =>
-            Events.create({restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating})
-        )
+        // beforeEach(() =>
+        //     Events.create({restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating})
+        // )
 
-        it('should suceed on correct data', async() => {
-            const newUserId = '123456'
-
-            const event = await Events.findOne({ restaurantId })
-
-            const eventId = event.id
-
-            const updatedEvent = await logic.joinEvent(eventId, newUserId)
-
-            expect(updatedEvent.restaurantId).toBe(restaurantId)
-            expect(updatedEvent.eventTime).toBe(eventTime)
-            expect(updatedEvent.eventDate).toBe(eventDate)
+        it('should suceed on correct data', () => {
+            let userId
+            let eventId
+            return bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+                .then(() => {
+                    return Users.findOne({email})
+                        .then((res) => userId = res._id.toString())
+                        .then(() => Events.create({ restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName, participants: [userId] }))
+                        .then((id) => eventId = id)
+                        .then(() => logic.joinEvent(eventId, userId))
+                        .then((event) => {
+                            console.log(event)
+                            expect(event.restaurantId).toBe(restaurantId)
+                            expect(event.eventTime).toBe(eventTime)
+                            expect(event.eventDate).toBe(eventDate)
+                            expect(event.reservationName).toBe(reservationName)
+                            expect(event.restaurantCategory).toBe(restaurantCategory)
+                            expect(event.eventLocation[0]).toBe(eventLocation[0])
+                            expect(event.eventLocation[1]).toBe(eventLocation[1])
+                            expect(event.priceLevel).toBe(priceLevel)
+                            expect(event.rating).toBe(rating)
+                        })
+                })
         })
 
         it('should fail on undefined event id', () => {

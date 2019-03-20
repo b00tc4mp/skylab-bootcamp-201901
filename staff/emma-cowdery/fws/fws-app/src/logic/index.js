@@ -79,9 +79,7 @@ const logic = {
         return(async () => {
             const token = await fwsApi.authenticateUser(emailOrUsername, password)
 
-            console.log(token)
-
-            if (token.error) throw Error('login unsuccessful')
+            if (token.error) throw Error(`user not found`)
 
             this.__token__ = token.token
 
@@ -186,9 +184,6 @@ const logic = {
 
         if (typeof eventTime !== 'string') throw TypeError(eventTime + ' is not a string')
         if (!eventTime.trim().length) throw Error('eventTime cannot be empty')
-
-        if (typeof eventDate !== 'string') throw TypeError(eventDate + ' is not a string')
-        if (!eventDate.trim().length) throw Error('eventDate cannot be empty')
 
         if (typeof reservationName !== 'string') throw TypeError(reservationName + ' is not a string')
         if (!reservationName.trim().length) throw Error('reservationName cannot be empty')

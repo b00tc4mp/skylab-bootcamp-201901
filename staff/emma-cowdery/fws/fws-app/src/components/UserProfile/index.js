@@ -3,6 +3,7 @@ import logic from '../../logic'
 import './index.sass'
 import { withRouter, Route, Redirect } from 'react-router-dom'
 import NavBar from '../NavBar'
+import Feedback from '../Feedback'
 
 export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdown, match }) {
     const [image, setImage] = useState()
@@ -19,10 +20,15 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
     const [events, setEvents] = useState(0)
     const [number, setNumber] = useState(Math.random)
 
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
+
     const { id } = match.params
 
     useEffect(() => {
-        logic.retrieveUser()
+        try {
+            logic.retrieveUser()
             .then(({user}) => {
                 setUser(user)
                 if (user && user.instagram) setInstagram(user.instagram)
@@ -30,54 +36,86 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                 if (user && user.facebook) setFacebook(user.facebook)
                 if (user && user.about) setAbout(user.about)
             })
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
 
         if (id) {
-            logic.retrieveUserWithId(id)
-            .then(({user}) => {
-                setUserProfile(user)
-                if (user.profilePicture) setProfileStyle({backgroundImage: `url(${user.profilePicture})`})
-                else setProfileStyle({backgroundImage: `url(images/default-user.png)`})
-            })
-            .then(() => {
-                logic.retrieveEvents(id)
-                    .then(_events => {
-                        if (!_events.length) setEvents(0)
-                        else {
-                            _events.map(event => {if ((new Date()) > event.eventDate) setEvents(events + 1)})
-                        }
-                        
+            try {
+                logic.retrieveUserWithId(id)
+                    .then(({user}) => {
+                        setUserProfile(user)
+                        if (user.profilePicture) setProfileStyle({backgroundImage: `url(${user.profilePicture})`})
+                        else setProfileStyle({backgroundImage: `url(images/default-user.png)`})
                     })
-                    .catch(err => {
-                        if (err) setEvents(err)
-                    })
-            })
-            .catch(err => {
-                //set feedback
-            })
-        } else {
-            logic.retrieveUser()
-            .then(({user}) => {
-                setUserProfile(user)
-                if (user.image) setProfileStyle({backgroundImage: `url(${image})`})
-                else setProfileStyle({backgroundImage: `url(images/default-user.png)`})
-            })
-            .then(() => {
-                logic.userEvents()
-                    .then(_events => {
-                        if (!_events.length) setEvents(0)
-                        else {
-                            _events.map(event => {
-                                if ((new Date()) > event.eventDate) setEvents(events + 1)
+                    .then(() => {
+                        try {
+                            logic.retrieveUserWithId(id)
+                            .then(({user})=> {
+                                if (!user.events && !user.events.length) setEvents(0)
+                                else {
+                                    user.events.map(event => {if ((new Date()) > event.eventDate) setEvents(events + 1)})
+                                }
+                                
                             })
+                            .catch(err => {
+                                setFeedback(err.message)
+                                setLevel('warning')
+                                setType('banner')
+                            })
+
+                        } catch ({message}) {
+                            setFeedback(message)
+                            setLevel('warning')
+                            setType('banner')
                         }
                     })
-                    .catch(err => {
-                        if(err) setEvents(err)
+
+                } catch ({message}) {
+                    setFeedback(message)
+                    setLevel('warning')
+                    setType('banner')
+                }
+        } else {
+            try {
+                logic.retrieveUser()
+                    .then(({user}) => {
+                        setUserProfile(user)
+                        if (user.image) setProfileStyle({backgroundImage: `url(${user.image})`})
+                        else setProfileStyle({backgroundImage: `url(images/default-user.png)`})
                     })
-            })
-            .catch(err => {
-                //set feedback
-            })
+                    .then(() => {
+                        logic.userEvents()
+                            .then(_events => {
+                                if (!_events.length) setEvents(0)
+                                else {
+                                    _events.map(event => {
+                                        if ((new Date()) > event.eventDate) setEvents(events + 1)
+                                    })
+                                }
+                            })
+                            .catch(err => {
+                                if(err) setEvents(err)
+                            })
+                    })
+                    .catch(err => {
+                        setFeedback(err.message)
+                        setLevel('warning')
+                        setType('banner')
+                    })
+                } catch ({message}) {
+                    setFeedback(message)
+                    setLevel('warning')
+                    setType('banner')
+                }
         }
 
         if (window.innerWidth < 1200) setMobile(true)
@@ -90,12 +128,22 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                 .then(() => {
                     setEditImg(false)
                     setNumber(Math.random)
+                    setFeedback('image uploaded correctly')
+                    setLevel('success')
+                    setType('banner')
                 })
                 .catch(err => {
-                    //set feedback
+                    setFeedback(err.message)
+                    setLevel('alert')
+                    setType('banner')
+                    setFeedback('information updated correctly')
+                    setLevel('success')
+                    setType('banner')
                 })
-        } catch {
-            //set feedback
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('alert')
+            setType('banner')
         }
     }
 
@@ -111,15 +159,16 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                     setNumber(Math.random)
                 })
                 .catch(err => {
-                    console.log(err)
-                    //set feedback
+                    setFeedback(err.message)
+                    setLevel('alert')
+                    setType('banner')
                 })
-        } catch {
-            //set feedback
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('alert')
+            setType('banner')
         }
     }
-
-    console.log(facebook)
 
     
 
@@ -170,13 +219,10 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                         {userProfile.about !== 'no-about' ? <div className='user-profile__body-about'>
                             <p>{about}</p>
                         </div> : <p>No information available</p>}
-                        {userProfile.events && <div className='user-profile__body-events'>
-                            <p>{events}</p>
-                            <p>This user hasn't eaten with any strangers yet</p>
-                        </div>}
-                        {/* {userProfile.favouriteRestaurants.length && <div className='user-profile__body-favourites'>
-
-                        </div>} */}
+                        <h2 className='user-profile__body-info-title'>Event Count:</h2>
+                        {userProfile.events ? <div className='user-profile__body-events'>
+                            <p className='user-profile__body-events-txt'>{events} events</p>
+                        </div> : <p>This user hasn't eaten with any strangers yet</p>}
                     </div>}
                 </div>
                 {editImg && <div className='user-profile__upload'>
@@ -189,7 +235,8 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                         </div>
                     </div>
                 </div>}
-            </div>}       
+            </div>} 
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}      
         </Fragment>
     )
 })
