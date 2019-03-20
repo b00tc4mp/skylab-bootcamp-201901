@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
-import {Link,withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import './index.css'
+import feedback from '../../by-plugins/feedback'
 
 class UserById extends Component{
     state = {results: '',userName : ''} 
@@ -15,14 +16,14 @@ class UserById extends Component{
 
                 .then(results => {
                     this.setState({ results })
-                    console.log(results)
+                    
                 })
-                .catch( ({error}) => {
-                    this.setState({ results: null })
-                    console.log(error)
+                .catch( ({message}) => {
+                    feedback(message , "error")
                 }) 
         } catch ({message}) {
-            this.setState({ results: null})
+            feedback(message , "error")
+
         }
     }
 
@@ -33,15 +34,15 @@ class UserById extends Component{
             <section>
             <div className="user">
 
-            <div>
-            <img className="user__image" src={results.image} alt={results.name} />
+            <div className="user__image">
+            <img className="user__image-img" src={results.image} alt={results.name} />
             </div>
 
             <div className="user__content"> 
             
             <div className="user__name">
             <label className="user__name-label">Name:</label>
-            <p className="user__name-paragraph">{results.name}{results.surname}</p> 
+            <p className="user__name-paragraph">{results.name}  {results.surname}</p> 
             </div>
             
 
@@ -64,9 +65,6 @@ class UserById extends Component{
 
             </div>
 
-            <div>
-            <Link to="/home" className="user__link-home">Go home</Link>
-            </div>  
             </section>
         )
     }

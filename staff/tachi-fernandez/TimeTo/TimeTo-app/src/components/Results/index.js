@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Link,Redirect } from 'react-router-dom' 
+import { Link,withRouter } from 'react-router-dom' 
 import logic from '../../logic'
 import Search from '../Search'
 import Feedback from '../Feedback'
 import './index.css'
+import feedback from  '../../by-plugins/feedback'
 
 class Results extends Component {
     state = { events: null,results: this.props.results ,searchFeedback:null}
@@ -16,26 +17,15 @@ class Results extends Component {
         try {
             logic.listEventsByQuery(query)
                 .then(results => {
-                    debugger
-                    console.log(results)
                     this.setState({ results })
                 })
-                .catch( ({message}) => {
-                    debugger
-                    this.showMessageSearch(message)
+                .catch( ({message}) => {  
+                    feedback(message , "error")
                 }) 
-        } catch ({message}) {
-            debugger
-            this.showMessageSearch(message)
+        } catch ({message}) {  
+            feedback(message , "error")
         }
     }
-
-    showMessageSearch = message => {
-        this.setState({ searchFeedback: message })
-        setTimeout(()=> {
-          this.setState({ searchFeedback: null })
-        }, 4000)
-      }
 
     componentWillReceiveProps({match:{params:{query}}}){
         debugger
@@ -47,10 +37,10 @@ class Results extends Component {
                     this.setState({ results ,searchFeedback:null})
                 })
                 .catch( ({message}) => {
-                    this.showMessageSearch(message)
+                    feedback(message , "error")
                 }) 
         } catch ({message}) {
-            this.showMessageSearch(message)
+            feedback(message , "error")
         }
     }
 
@@ -79,4 +69,4 @@ class Results extends Component {
     }
 }
 
-export default Results
+export default withRouter(Results)

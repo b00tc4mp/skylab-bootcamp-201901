@@ -48,13 +48,13 @@
 }
 .register__form-button--blue {
   width: 100%;
-  background: #0a2b5b;
+  background: #0957ab;
 }
 .register__form-button--blue:hover {
   background: #1f5fbc;
 }
 .register__form-button--green {
-  background: #1f73fe;
+  background: #4697e6;
 }
 
 .button-primary-action {

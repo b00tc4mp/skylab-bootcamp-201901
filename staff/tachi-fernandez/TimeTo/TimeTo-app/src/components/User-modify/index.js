@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
-import {Link,withRouter} from 'react-router-dom'
-import Feedback from '../Feedback';
+import {withRouter} from 'react-router-dom'
 import './index.css'
+import feedback from '../../by-plugins/feedback'
 
 class UserModify extends Component{
-    state = {name:'',surname:'',age:'',description: '',image: '',updateFeedback: null} 
+    state = {name:'',surname:'',age:'',description: '',image: ''} 
     componentDidMount(){
         try {
             logic.retrieveUser()
@@ -19,24 +19,33 @@ class UserModify extends Component{
                         image: results.image
                     })
                 })
-                .catch( ({error}) => {
-                    this.setState({ results: null })
-                    console.log(error)
+                .catch( ({message}) => {
+                    feedback(message , "error")
+
                 }) 
         } catch ({message}) {
-            this.setState({ results: null})
+            feedback(message , "error")
+
         }
     }
 
+    showMessageUpdate = message => {
+        this.setState({ updateFeedback: message })
+        setTimeout(()=> {
+          this.setState({ updateFeedback: null })
+        }, 4000)
+      }
+
     handleNameInput = event => this.setState({ name: event.target.value  })
     handleSurnameInput = event => this.setState({ surname: event.target.value })
-    handleAgeInput = event => this.setState(Number({ age: event.target.value }))
+    handleAgeInput = event => this.setState({ age: Number(event.target.value) })
     handleDescriptionInput = event => this.setState({ description: event.target.value })
     handleImageInput = event => {
         let files = event.target.files[0]
-
+        debugger
         logic.updateImage(files)
             .then(image => {
+                debugger
                 this.setState({ image:image.secure_url})
                 this.props.history.push('/user')
             })
@@ -55,10 +64,10 @@ class UserModify extends Component{
                     this.setState({ searchFeedback:null}) 
                 })
                 .catch( ({message}) => {
-                    this.setState({ searchFeedback:message})
+                    feedback(message , "error")
                 }) 
         } catch ({message}) {
-            this.setState({ searchFeedback:message})
+            feedback(message , "error")
         }
     }
     
@@ -101,25 +110,27 @@ class UserModify extends Component{
 
             <div className="modify__card-description">
             <label className="modify__card-description-label">Description:</label>
-            <textarea  className="modify__card-description-input" onChange={handleDescriptionInput}  defaultValue={description}></textarea>
+            <input  className="modify__card-description-input" onChange={handleDescriptionInput} defaultValue={description}  type="textarea"></input>
             </div>
 
             
 
             <div className="modify__card-image">
             {image && (<img className="modify__card-image-img" src={image} alt={image} />)}
-                <input className="modify__card-image-input" onChange={handleImageInput} defaultValue={image} name="image" type="file"></input>
+                <label className="modify__card-image-label" htmlFor="file">
+                select File
+                <input className="modify__card-image-input" onChange={handleImageInput}
+                defaultValue={image} name="image" id="file" type="file"></input>
+                
+                </label>
             </div>
         
 
-            <div className="modify__card-button">
-            <button className="modify__card-button-mod"> Modify </button>
+            <div className="button-primary-action">
+            <button className="modify__card-button modify__card-button-blue"> Modify </button>
             </div>
            
-
-            <div className="modify__card-home">
-            <Link to="/home" className="modify__card-home-link">Go home</Link>
-            </div>  
+ 
         
             
 
@@ -127,7 +138,6 @@ class UserModify extends Component{
 
             </div>
 
-            { updateFeedback && <Feedback message={updateFeedback} level="warn" /> }
  
             </section>
         )

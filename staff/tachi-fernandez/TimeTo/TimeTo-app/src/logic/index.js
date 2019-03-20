@@ -1,5 +1,4 @@
-import userApi from '../user-api'
-import ListComments from '../components/List-comments';
+import userApi from '../Time-To-api'
 
 /**
  * Abstraction of business logic.
@@ -31,9 +30,11 @@ const logic = {
 
         if (!userName.trim().length) throw Error('userName cannot be empty')
 
-        if (typeof age !== 'string') throw TypeError(age + ' is not a string')
+        if (typeof age !== 'number') throw TypeError(age + ' is not a number')
 
-        if (!age.trim().length) throw Error('age cannot be empty')
+        if( age <= 0 ) throw Error('age is not posible')
+
+        if( age >= 122 ) throw Error('age is not posible')
 
         if (typeof description !== 'string') throw TypeError(description + ' is not a string')
 
@@ -54,7 +55,9 @@ const logic = {
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
         return userApi.register(name, surname, userName, age, description, email, password, passwordConfirmation)
-            .then(() => { })
+            .then(response => { 
+                return response
+            })
     },
 
     /**
@@ -81,7 +84,7 @@ const logic = {
     * Checks user is logged in.
     */
     get isUserLoggedIn() {
-        //TODO validation
+
         return !!this.__userApiToken__
     },
 
@@ -142,7 +145,9 @@ const logic = {
         if (!description.trim().length) throw Error('description is empty')
 
         return userApi.updateUser(name, surname, age, description, this.__userApiToken__)
-            .then(() => { })
+            .then(response => {
+               return response
+            })
 
 
     },
@@ -178,7 +183,9 @@ const logic = {
 
 
         return userApi.createEventUser(title, description, date, city, address, category, this.__userApiToken__)
-            .then(() => { })
+            .then(() => {
+                return {}
+            })
     },
 
     listEventsByQuery(query) {
@@ -217,7 +224,7 @@ const logic = {
 
         if (!text.trim().length) throw Error('text cannot be empty')
         return userApi.createComment(eventId, text, this.__userApiToken__)
-            .then(() => { })
+            .then(response => response)
     },
 
     listComments(eventId) {
@@ -241,7 +248,7 @@ const logic = {
         if (!commentId.trim().length) throw Error('commentId cannot be empty')
 
         return userApi.deleteComment(eventId, commentId, this.__userApiToken__)
-            .then(() => { })
+            .then(response => response)
     },
 
     toogleEvent(eventId) {
@@ -256,6 +263,7 @@ const logic = {
     },
 
     updateImage(image) {
+
         return userApi.updateImage(image, this.__userApiToken__)
             .then(response => {
                 return response

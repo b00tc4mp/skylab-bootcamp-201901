@@ -6,22 +6,32 @@ import logic from '../../logic'
 
 class Header extends Component {
 
-    state = { loginFeedback: null, registerFeedback: null }
 
-    onLogout = () => {
+    state = { loginFeedback: null, registerFeedback: null, showNav: false }
+
+    onLogout = event => {
+        event.preventDefault()
         logic.logOutUser()
         sessionStorage.clear()
         return this.props.history.push('/home')
     }
     
-      
+    componentDidMount() {
+        this.props.history.listen(() => {
+            this.setState({showNav: false})
+        });
+    }
+
+    toggle = () => {
+        this.setState({showNav: !this.state.showNav})
+    }
 
     render() {
         const { onLogout } = this
         return (<nav className="nav" role="navigation">
                 <div id="menuToggle">
                 
-                <input type="checkbox" />
+                <input  type="checkbox" checked={this.state.showNav} onChange={this.toggle}/>
                 
             
                 <span></span>
@@ -31,64 +41,45 @@ class Header extends Component {
                 
                         <ul id="menu">
 
-                        <li>
-                        {!logic.isUserLoggedIn ? <button
-                            onClick={() =>
-                            this.props.history.push('/register')}>Register
-                        </button> : ''}
-                        </li>
+                      
+
+                        {!logic.isUserLoggedIn ? <li > <Link to="/register" >
+                        Register
+                         </Link> </li>: ''}
                         
-                        {/* {!logic.isUserLoggedIn ? <a href="/register"><li>Register</li></a>: ''} */}
+
+                        {!logic.isUserLoggedIn ? <li> <Link to="/login" >
+                        Login
+                         </Link> </li>: ''}
 
 
-                        <li>
-                        {!logic.isUserLoggedIn ? <button
-                            onClick={() => this.props.history.push('/login')}>Login
-                        </button> : ''}
-                        </li>
+                        <li > <Link to="/home" >
+                        Home
+                         </Link> </li>
 
-                        {/* {!logic.isUserLoggedIn ? <a href="/login"><li>Login</li></a>: ''} */}
-
-
-                        <li>
-                        <button
-                            onClick={() => this.props.history.push('/home')}>Home
-                        </button> 
-                        </li>
                         
-                        <li>
-                        {logic.isUserLoggedIn ? <button
-                            onClick={() => this.props.history.push('/create-event')}>Create Event
-                        </button> : ''}
-                        </li>
+                        {logic.isUserLoggedIn ? <li> <Link to="/create-event" >
+                        Create Event
+                         </Link> </li>: ''}
 
-                        {/* {logic.isUserLoggedIn ? <a href="/create-event"><li>Create Events</li></a>: ''} */}
-
-                        {/* {!logic.isUserLoggedIn ? <a href="/create-event"><li>Register</li></a>: ''} */}
-
-                        <li>
-                        {logic.isUserLoggedIn ? <button
-                            onClick={onLogout}>Logout
-                        </button> : <Redirect to='/home' />}    
-                        </li>
-
-                        {/* {logic.isUserLoggedIn ? <a href="/user"><li>User</li></a>: ''} */}
+                       
 
 
-                        <li>
-                        {logic.isUserLoggedIn ? <button
-                            onClick={() => this.props.history.push('/user')}>User
-                        </button> : ''}
-                        </li>
-
-                        {/* {logic.isUserLoggedIn ? <a href="/my-events"><li>My Events</li></a>: ''} */}
+                        {logic.isUserLoggedIn ? <li> <a href="/Logout" onClick={onLogout} >
+                        Logout
+                         </a> </li>: <Redirect to="/home" />}
 
 
-                        <li>
-                        {logic.isUserLoggedIn ? <button
-                            onClick={() => this.props.history.push('/my-events')}> My Events
-                        </button> : ''}
-                        </li>
+                        {logic.isUserLoggedIn ? <li> <Link to="/user" >
+                        User
+                         </Link> </li>: ''}
+
+
+                        {logic.isUserLoggedIn ? <li> <Link to="/my-events" >
+                        My Events
+                         </Link> </li>: ''}
+
+                       
             
                         </ul>
                 </div>

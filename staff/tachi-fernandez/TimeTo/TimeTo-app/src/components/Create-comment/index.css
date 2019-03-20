@@ -11,9 +11,12 @@
   height: 60%;
 }
 .create__form-button {
-  margin-top: 1%;
-  border: 1px solid grey;
+  margin-top: 0%;
+  background: #4697e6;
+  border: 1px solid #4697e6;
   border-radius: 5px;
+  cursor: pointer;
+  color: white;
 }
 
 /*# sourceMappingURL=index.css.map */

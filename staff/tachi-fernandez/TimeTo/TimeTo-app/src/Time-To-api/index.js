@@ -1,30 +1,31 @@
+
 const userApi = {
     url: 'http://localhost:8000/final-proyect/api',
 
     register(name, surname, userName,age, description, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
+        if (!name.trim().length) throw Error('name cannot be empty')
 
         if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw Error('surname is empty')
+        if (!surname.trim().length) throw Error('surname cannot be empty')
 
         if (typeof userName !== 'string') throw TypeError(userName + ' is not a string')
         if (!userName.trim().length) throw Error('userName cannot be empty')
 
-        if (typeof age !== 'string') throw TypeError(`${age} is not a string`)
-        if (!age.trim().length) throw Error('age is empty')
+        if (typeof age !== 'number') throw TypeError(`${age} is not a number`)
+        if( age < 0 ) throw Error('age cannot is posible')
 
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
-        if (!description.trim().length) throw Error('description is empty')
+        if (!description.trim().length) throw Error('description cannot be empty')
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
+        if (!email.trim().length) throw Error('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        if (!password.trim().length) throw Error('password cannot be empty')
 
         if (typeof passwordConfirmation !== 'string') throw TypeError(`${passwordConfirmation} is not a string`)
-        if (!passwordConfirmation.trim().length) throw Error('passwordConfirmation is empty')
+        if (!passwordConfirmation.trim().length) throw Error('passwordConfirmation cannot be empty')
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -45,10 +46,10 @@ const userApi = {
 
     authenticate(email, password) {
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
-        if (!email.trim().length) throw Error('email is empty')
+        if (!email.trim().length) throw Error('email cannot be empty')
 
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
-        if (!password.trim().length) throw Error('password is empty')
+        if (!password.trim().length) throw Error('password cannot be empty')
 
         return fetch(`${this.url}/user/auth`, {
             method: 'POST',
@@ -72,7 +73,7 @@ const userApi = {
 
     retrieveUser(token) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/retrieve-user`, {
             headers: {
@@ -88,10 +89,10 @@ const userApi = {
 
     retireveUserById(userName ,token){
         if (typeof userName !== 'string') throw TypeError(`${userName} is not a string`)
-        if (!userName.trim().length) throw Error('userName is empty')
+        if (!userName.trim().length) throw Error('userName cannot be empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/retrieve-userId/${userName}`, {
             headers: {
@@ -107,18 +108,18 @@ const userApi = {
 
     updateUser(name,surname,age,description,token){
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
-        if (!name.trim().length) throw Error('name is empty')
+        if (!name.trim().length) throw Error('name cannot be empty')
 
         if (typeof surname !== 'string') throw TypeError(`${surname} is not a string`)
-        if (!surname.trim().length) throw Error('surname is empty')
+        if (!surname.trim().length) throw Error('surname cannot be empty')
 
-        if (typeof age !== 'number') throw TypeError(`${age} is not a string`)
+        if (typeof age !== 'number') throw TypeError(`${age} is not a number`)
 
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
-        if (!description.trim().length) throw Error('description is empty')
+        if (!description.trim().length) throw Error('description cannot be empty')
 
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        if (!token.trim().length) throw Error('token cannot be empty')
 
         return fetch(`${this.url}/user/update`, {
             method: 'PUT',
@@ -179,8 +180,7 @@ const userApi = {
         })
         .then(response => response.json())
         .then(response => {
-            const {eventId} = response
-            return eventId
+            return response
 
             //throw Error(response.Error)
         })
@@ -237,7 +237,7 @@ const userApi = {
 
     listEventById(eventId,token){
         if (typeof eventId !== 'string') throw TypeError(eventId + ' is not a string')
-        
+        debugger
         if (!eventId.trim().length) throw Error('eventId cannot be empty')
         
         if (typeof token !== 'string') throw TypeError(token + ' is not a string')

@@ -1,5 +1,9 @@
 .nav
   background: white
+  position: fixed
+  width: 100%
+  z-index: 99
+  top: 0
 
 #menuToggle
   display: block
@@ -51,7 +55,7 @@
   height: 100%
   opacity: 0.9
   margin: 0px
-  padding: 50px
+  padding: 0px
   padding-top: 0px
   background: #ededed
   list-style-type: none
@@ -59,15 +63,24 @@
   transform: translate(-100%, 0)
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1)
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), -webkit-transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1)
-  top: 0px
+  top: 63px
   left: 0px
   li
     border: 0px
     background: no-repeat
-    padding: 15px 20px
     border-top: 1px solid #c9bebe
     width: 100%
     text-align: left
+    & a
+      padding: 15px 20px
+      display: flex
+      text-decoration: none
+      font-weight: bold
+      color: #487ebb
+      &:hover
+        color: white
+        background: #487ebb
+
 
 #menuToggle input:checked ~ ul
   transform: none
@@ -79,6 +92,12 @@
   display: flex
   justify-content: center
   margin-top: -30px
+  position: relative
+  z-index: 2
+  width: 92px
+  align-self: center
+  margin: 0px auto
+  margin-top: -27px
   &__to
     color: #3e7bc0
   &__clock

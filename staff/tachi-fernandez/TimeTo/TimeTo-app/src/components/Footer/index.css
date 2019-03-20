@@ -1,14 +1,37 @@
 .footer {
   background-color: #262626;
   width: 100%;
+  height: 150px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .footer__title {
+  cursor: pointer;
+  display: flex;
   color: white;
+}
+.footer__title-to {
+  color: #3e7bc0;
+}
+.footer__title-clock {
+  margin-top: 26px;
+  color: #3e7bc0;
 }
 .footer__copy {
   display: flex;
   justify-content: flex-end;
   color: white;
+  margin-top: 25px;
+}
+.footer__logo {
+  color: white;
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+  margin-top: -15px;
+}
+.footer__logo-insta {
+  width: 20px;
 }
 
 /*# sourceMappingURL=index.css.map */

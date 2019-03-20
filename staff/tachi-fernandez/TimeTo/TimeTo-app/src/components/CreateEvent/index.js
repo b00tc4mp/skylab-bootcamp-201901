@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom' 
 import './index.sass'
+import Feedback from '../Feedback'
 
 
 class CreateEvent extends Component {
@@ -30,7 +31,10 @@ class CreateEvent extends Component {
             handleAddressInput,
             handleCategorySelect ,
             handleFromSubmit } = this
+
+        const {feedback} = this.props
         return (
+
 
           <section className="createEvent">
             <div className="createEvent__form">
@@ -42,7 +46,7 @@ class CreateEvent extends Component {
                 </div>
 
                 <div className="createEvent__form-description">
-                <textarea onChange={handleDescriptionInput} className="createEvent__form-input" maxLength="200" type="text" placeholder="Max: 250 characters" required/>
+                <textarea onChange={handleDescriptionInput} className="createEvent__form-input" maxLength="400" type="text" placeholder="Description of the event, meeting point, time... Max: 400 characters" required/>
                 </div>
 
                 <div className="createEvent__form-date">
@@ -54,11 +58,12 @@ class CreateEvent extends Component {
                 </div>
 
                 <div className="createEvent__form-address" >
-                <input onChange={handleAddressInput} className="createEvent__form-input" type="text" placeholder="address" required/>
+                <input onChange={handleAddressInput} className="createEvent__form-input" type="text" placeholder="Address" required/>
                 </div>
 
                 <div className="createEvent__form-category">
                 <select className="createEvent__form-select" onChange={handleCategorySelect}>
+                    <option>Category...</option>
                     <option value="5c7e95f564f6cfa555e483d6">Party</option>
                     <option value="5c7e961964f6cfa555e483e8">Food</option>
                     <option value="5c7e965a64f6cfa555e483ff">See Matches</option>
@@ -86,7 +91,7 @@ class CreateEvent extends Component {
                     </button>
                 </div>
 
-
+                { feedback && <Feedback message={feedback} level="warn" /> }
             </form>
             </div>
           </section>     

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
-import {Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import './index.css'
+import feedback from '../../by-plugins/feedback'
 
 class User extends Component{
     state = {results: ''} 
@@ -12,22 +13,20 @@ class User extends Component{
                     this.setState({ results })
                     console.log(results)
                 })
-                .catch( ({error}) => {
-                    this.setState({ results: null })
-                    console.log(error)
+                .catch( ({message}) => {
+                    feedback(message , "error")
                 }) 
         } catch ({message}) {
-            this.setState({ results: null})
+            feedback(message , "error")
         }
     }
 
     render(){
-        // const {results} = this.state
-        // const {events = []} = results
+      
         const {state:{results}} = this
 
         return( 
-            <section>
+            <section className="pad">
             <div className="user">
                 
             <div className="user__image">
@@ -56,17 +55,20 @@ class User extends Component{
             </div>
             </div>
 
+            <div className="button-primary-action">
+
+                <button  className="user__button user__button-blue"
+                    onClick={()  =>  this.props.history.push('/user-modify')}> Modify User
+                </button>
+                               
+
+            </div>
    
             </div>
 
-            <div className="user__button">
-                    <Link className="user__button-modify" to="/user-modify">Modify User</Link>
-                    <Link to="/home" className="user__button-home">Go home</Link>
-
-            </div>
             </section>
         )
     }
 }
 
-export default User
+export default withRouter(User)

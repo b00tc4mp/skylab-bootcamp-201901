@@ -15,110 +15,88 @@ import RedirectLoginOrRegister from '../Redirect-Login-or-Register';
 import UserById from '../User-by-id'
 import Results from '../Results';
 import Events from '../Events';
-import { debug } from 'util';
-import Feedback from '../Feedback'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
+import feedback from  '../../by-plugins/feedback'
 
 
 
 class App extends Component {
-  state = {loginFeedback: null , registerFeedback : null}
+  state = {loginFeedback: null , registerFeedback : null, eventFeedback: null}
   handleRegister = (name, surname, userName ,age, description, email, password, passwordConfirmation) => {
     try {
         logic.registerUser(name, surname, userName ,age, description, email, password, passwordConfirmation)
         .then( () => {
           this.setState({registerFeedback: null})
           this.props.history.push('/login')
-          alert('you have successfully registered')
-          
+          feedback('Completed registration' , 'success')          
         })
         .catch( ({message}) => {
-      this.showMessageRegister(message)
+          feedback(message , "error")
 
       })
     }catch ({message}){ 
-      this.showMessageRegister(message)
+      feedback(message , "error")
 
 
     }
   }
 
-  showMessageRegister = message => {
-    this.setState({ registerFeedback: message })
-    setTimeout(()=> {
-      this.setState({ registerFeedback: null })
-    }, 4000)
-  }
-
-  showMessageLogin = message => {
-    this.setState({ loginFeedback: message })
-    setTimeout(()=> {
-      this.setState({ loginFeedback: null })
-    }, 4000)
-  }
 
   handleLogin = (email,password) => {
     try{
       debugger
       logic.logInUser(email,password)
         .then( () => {            
-          debugger
             this.setState({ loginFeedback: null })
-            alert('you have successfully login')
             this.props.history.push('/home') 
+            feedback('successfully logged in' , 'success') 
         }).catch( ({message}) => {
-          this.showMessageLogin(message)
-
-            
-
+          feedback(message , "error")
         })
-
     }catch({message}){
-      this.showMessageLogin(message)
-
+      feedback(message , "error")
     }
   }
 
   handleCreateEvent = (title, description, date, city, address, category) => {
     try {
-      debugger
         logic.createEvent(title, description, date, city, address , category)
         .then( () => {
           this.props.history.push('/home')
-          alert('you have successfully create event')
-          
+          feedback('event created' , 'success') 
         })
         .catch(({message}) =>{
-          this.setState({registerFeedback: message})
+          feedback(message , "error")
         })
     }catch ({message}){ 
-      this.setState({registerFeedback: message})
+      feedback(message , "error")
     }
   }
 
-  //render={() => logic.isUserLoggedIn ? <Results /> : <Redirect to ='/login-or-register' 
  
 
     render() {
-      const  {handleRegister,handleLogin,handleCreateEvent , state:{loginFeedback,registerFeedback}} = this
+      const  {handleRegister,handleLogin,handleCreateEvent , state:{loginFeedback,registerFeedback,eventFeedback}} = this
     return (  
     <section className="App">
         <Header loginFeedback={loginFeedback} registerFeedback={registerFeedback} />
         <main>
+        <ToastContainer />
         <Switch>
             <Route path='/home' component={Home} />
-            <Route exact path='/category/:categoryId' component={EventsByCategory} />
-            <Route path='/results/:query'  component={Results}   />
-            <Route path='/event/:eventId' component={EventById} />
+            <Route exact path='/category/:categoryId' render={() => logic.isUserLoggedIn ? <EventsByCategory /> : <Redirect to="/login-or-register" />}  />
+            <Route path='/results/:query' render={() => logic.isUserLoggedIn ? <Results /> : <Redirect to="/home" />}    />
+            <Route path='/event/:eventId' render={() => logic.isUserLoggedIn ? <EventById /> : <Redirect to="/home" />}  />
             <Route path= '/user' render={() => logic.isUserLoggedIn ? <User  />:  '' }  />
             <Route path= '/user-modify' render={() => logic.isUserLoggedIn ? <UserModify /> : ''} />
             <Route path= '/my-events' render={() => logic.isUserLoggedIn ? <Events  />:  '' }  />
             <Route path='/register' render={props => !logic.isUserLoggedIn? <Register onRegister={handleRegister} feedback={registerFeedback}/> : <Redirect to = '/home'/>} /> 
             <Route path='/login' render={props => !logic.isUserLoggedIn? <Login onLogin={handleLogin} feedback={loginFeedback}  />  : <Redirect to  = '/home' /> } />
             <Route path= '/login-or-register' render={() => <RedirectLoginOrRegister />} />
-            <Route path='/create-event' render={props => logic.isUserLoggedIn ? <CreateEvent onCreateEvent={handleCreateEvent}/> : <Redirect to ='/register' />} />
-            {/* <Route path= '/results/:query' render={() => <Results /> } /> */}
-            <Route path='/:userName' render={() => <UserById /> } />
+            <Route path='/create-event' render={props => logic.isUserLoggedIn ? <CreateEvent feedback={eventFeedback} onCreateEvent={handleCreateEvent}/> : <Redirect to ='/register' />} />
+            <Route exact path='/:userName' render={() => <UserById /> } />
             <Route exact path= '/' render={()=> <Redirect to='/home' />} />
         </Switch>
         </main>

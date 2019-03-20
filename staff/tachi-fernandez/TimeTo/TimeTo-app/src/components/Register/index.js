@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Feedback from '../Feedback'
 import "./index.css"
 
@@ -12,7 +12,7 @@ class Register extends Component {
     handleNameInput = event => this.setState({ name: event.target.value })
     handleSurnameInput = event => this.setState({ surname: event.target.value })
     handleUserNameInput = event => this.setState({ userName: event.target.value })
-    handleAgeInput = event => this.setState({ age: event.target.value })
+    handleAgeInput = event => this.setState({ age: Number(event.target.value) })
     handleDescriptionArea = event => this.setState({ description: event.target.value })
     handleEmailInput = event => this.setState({ email: event.target.value })
     handlePasswordInput = event => this.setState({ password: event.target.value })

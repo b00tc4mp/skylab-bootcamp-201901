@@ -20,11 +20,12 @@
   flex-direction: row;
 }
 .comment__card-button {
-  background: #012776;
+  background: #0957ab;
   border-radius: 6px;
   color: #dbdbdb;
-  border: 1px solid #012776;
+  border: 1px solid #0957ab;
   cursor: pointer;
+  color: white;
 }
 
 @media (min-width: 600px) {

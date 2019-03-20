@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
-import { Link } from 'react-router-dom'
 import './index.css'
+import feedback from  '../../by-plugins/feedback'
 
 class Events extends Component {
     state = { results: '',y : '',m : '', d : ''  }
@@ -9,32 +9,22 @@ class Events extends Component {
         try {
             logic.retrieveUser()
                 .then(results => {
-                    this.setState({ results })
-                    console.log(results)
-                    // const date = new Date(results && results.events.map(_date => {
-                    //     return date = _date.date
-                    // }));
-                    //     this.setState({y: date.getFullYear()});
-                    //     this.setState({m : date.getMonth() + 1});
-                    //     this.setState({d : date.getDate()});
+                    this.setState({ results })       
                 })
-                .catch(({ error }) => {
-                    this.setState({ results: null })
-                    console.log(error)
+                .catch(({ message }) => {
+                    feedback(message , "error")
                 })
         } catch ({ message }) {
-            this.setState({ results: null })
+            feedback(message , "error")
         }
     }
 
     render() {
-        const { results,y,m,d } = this.state
+        const { results } = this.state
         const { events = [] } = results
-        console.log(events)
 
         return (
             <section className="my-events">
-                <Link to="/home">Go home</Link>
                 <div>
                     {(events || []).map(_event => {
                         return (
@@ -53,11 +43,11 @@ class Events extends Component {
 
                                 <div  className="my-events__event-dateAndUbication" >
 
-                                    <p className="my-events__event-dateAndUbication-date">Date: {`${y} / ${m} / ${d} `}</p>
+                                    <p className="my-events__event-dateAndUbication-date"> <i class="fas fa-calendar-alt"></i>  {_event.date && _event.date.substring(0,10)}</p>
 
-                                    <p className="my-events__event-dateAndUbication-city">{_event.city}</p>
+                                    <p className="my-events__event-dateAndUbication-city"> <i class="fas fa-city"></i>  {_event.city}</p>
 
-                                    <p className="my-events__event-dateAndUbication-address">{_event.address}</p>
+                                    <p className="my-events__event-dateAndUbication-address"> <i class="fas fa-road"></i> {_event.address}</p>
 
                                 </div>
 

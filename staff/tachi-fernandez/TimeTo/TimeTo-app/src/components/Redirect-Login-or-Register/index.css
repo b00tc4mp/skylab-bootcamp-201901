@@ -1,9 +1,12 @@
+.user {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
 .user__info {
-  background: rgba(0, 0, 0, 0.3);
   max-width: 500px;
   max-height: 400px;
   margin: 0 auto;
-  margin-top: 32%;
+  margin-top: 15%;
   width: 100%;
   height: 400px;
   border-radius: 6px;
@@ -13,7 +16,7 @@
   color: white;
   display: flex;
   justify-content: center;
-  margin-top: 20%;
+  margin-top: 5%;
 }
 .user__info-paragraph {
   color: white;
@@ -29,7 +32,7 @@
 }
 .button__login-link {
   text-decoration: none;
-  color: #1f73fe;
+  color: #0f2954;
   cursor: pointer;
 }
 .button__login-link:hover {
@@ -37,7 +40,7 @@
 }
 .button__register-link {
   text-decoration: none;
-  color: #1f73fe;
+  color: #0f2954;
   cursor: pointer;
 }
 .button__register-link:hover {

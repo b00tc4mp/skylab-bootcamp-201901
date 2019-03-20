@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
-import { Link } from 'react-router-dom'
+import { Link,withRouter } from 'react-router-dom'
 import ListComments from '../List-comments'
 import CreateComment from '../Create-comment'
 import './index.css'
+import feedback from  '../../by-plugins/feedback'
 
-import Event from '../../plugins/bus'
+import Event from '../../by-plugins/bus'
 
 class EventById extends Component {
     state = { events: '', eventId: '', user: null, button: false, y : '',m : '', d : '' , h : '', min: '' , s:'',members : []  }
@@ -29,16 +30,16 @@ class EventById extends Component {
                                 _events.members.some(member => member._id === user.id) ?
                                  this.setState({ button: true }) : 
                                  this.setState({ button: false })
-                                console.log(_events.members.some(member => member._id === user.id))
+                                
                             })
                         })
 
                 })
                 .catch(({ error }) => {
-                    this.setState({ events: null })
+                    feedback(error , "error")
                 })
         } catch ({ message }) {
-            this.setState({ events: null })
+            feedback(message , "error")
         }
     }
 
@@ -50,10 +51,10 @@ class EventById extends Component {
 
                 })
                 .catch(({ message }) => {
-                    this.setState({ registerFeedback: message })
+                    feedback(message , "error")
                 })
         } catch ({ message }) {
-            this.setState({ registerFeedback: message })
+            feedback(message , "error")
         }
     }
 
@@ -64,10 +65,10 @@ class EventById extends Component {
                     this.listEvents()
                 })
                 .catch(({ message }) => {
-                    this.setState({ registerFeedback: message })
+                    feedback(message , "error")
                 })
         } catch ({ message }) {
-            this.setState({ registerFeedback: message })
+            feedback(message , "error")
         }
     }
 
@@ -98,11 +99,12 @@ class EventById extends Component {
 
                     <div className="event__card-dateAndUbication" >
 
-                        <p className="event__card-dateAndUbication-date">Date: {`${y} / ${m} / ${d} `}</p>
+                        
+                        <p className="event__card-dateAndUbication-date"> <i class="fas fa-calendar-alt"></i> Date: {`${y} / ${m} / ${d} `}</p>
 
-                        <p className="event__card-dateAndUbication-city">{events.city}</p>
+                        <p className="event__card-dateAndUbication-city"> <i class="fas fa-city"></i> {events.city}</p>
 
-                        <p className="event__card-dateAndUbication-address">{events.address}</p>
+                        <p className="event__card-dateAndUbication-address"> <i class="fas fa-road"></i> {events.address}</p>
 
                     </div>
 
@@ -122,7 +124,7 @@ class EventById extends Component {
                         <div className="event__members" >
                         {events.members && (events.members || []).map(member => (
                                 <div>
-                                <Link type="text" className="event__members-link" to={`/${member.userName}/${member._id}`}>
+                                <Link type="text" className="event__members-link" to={`/${member.userName}`}>
                                     <div className="event__members-container">
                                     <img className="event__members-container-img" src={member.image} alt={member.name} />
                                     </div>
@@ -138,11 +140,6 @@ class EventById extends Component {
                         <div>
                             {(button === true) ? <button className="event__members-container-button-enter" onClick={() => toogleEvent(eventId)}>Salir</button> : <button className="event__members-container-button-exit" onClick={() => toogleEvent(eventId)}>Entrar</button>}
                         </div>
-
-                {/* <div>
-                    <Link to="/home">Go home</Link>
-                    <Link to={`/category/${events.category && events.category.id}`}>Go category</Link>
-                </div> */}
                     </div>
                 <CreateComment eventId={eventId} onCreateComment={handleCreateComment} />
                 <ListComments eventId={eventId} />
@@ -151,4 +148,4 @@ class EventById extends Component {
     }
 }
 
-export default EventById
+export default withRouter(EventById)

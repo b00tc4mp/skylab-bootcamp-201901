@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
 import { Link } from 'react-router-dom'
-import Event from '../../plugins/bus'
+import Event from '../../by-plugins/bus'
 import './index.css'
+import feedback from  '../../by-plugins/feedback'
 
 class ListComments extends Component {
     state = { comments: '', eventId: '', commentId: '' , author : '',userId : ''}
@@ -16,47 +17,34 @@ class ListComments extends Component {
             .then(result => {
                 this.setState({ userId : result.id })
             })
-            .catch( ({error}) => {
-                this.setState({ results: null })
-                console.log(error)
+            .catch( ({message}) => {
+                feedback(message , "error")
             }) 
         }
              catch ({message}) {
-        this.setState({ results: null})
+                feedback(message , "error")
     }
     }
     
 
     handleListComments = () => {
         const { eventId } = this.props
-        const{author} = this.state
         try {
             logic.listComments(eventId)
                 .then(comments => {
                     this.setState({ comments, eventId , author : comments.author})
                     console.log(comments)
-                    //
+                    
                 })
-                .catch(({ error }) => {
-                    this.setState({ comments: null })
-                    console.log(error)
+                .catch(({ message }) => {
+                    feedback(message , "error")
+                   
                 })
         } catch ({ message }) {
-            this.setState({ comments: null })
+            feedback(message , "error")
         }
     }
 
-    // handleComment = () => {
-    //     comments.map(_comment =>{
-    //         const date = new Date(_events.date);
-    //             this.setState({y: date.getFullYear()});
-    //             this.setState({m : date.getMonth() + 1});
-    //             this.setState({d : date.getDate()});
-    //             this.setState({h: date.getFullYear()});
-    //             this.setState({min : date.getMonth() + 1});
-    //             this.setState({s : date.getDate()});
-    //     })
-    // }
 
     deleteComment = (event, eventId) => {
         const { currentTarget: { value } } = event
@@ -71,11 +59,11 @@ class ListComments extends Component {
                     commentsArr <= 0 ? this.setState({ comments: [] }) : this.setState({ comments: commentsArr })
                     
                 })
-                .catch((error) => {
-                    console.log('mierda')
+                .catch((message) => {
+                    feedback(message , "error")
                 })
         } catch ({ message }) {
-            this.setState({ comments: null })
+            feedback(message , "error")
         }
     }
 

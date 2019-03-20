@@ -1,3 +1,6 @@
+.search {
+  margin-top: 100px;
+}
 .search__form {
   display: flex;
   flex-direction: column;

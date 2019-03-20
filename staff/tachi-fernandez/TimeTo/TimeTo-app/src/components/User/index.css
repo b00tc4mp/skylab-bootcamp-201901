@@ -1,6 +1,8 @@
 .user {
-  max-width: 400px;
+  max-width: 600px;
   margin: auto;
+  background: rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 .user__content {
   padding: 15px;
@@ -14,6 +16,7 @@
 }
 .user__image-img {
   width: 100%;
+  margin-top: 20px;
 }
 .user__name {
   display: flex;
@@ -21,11 +24,25 @@
   justify-content: center;
   justify-content: space-between;
 }
+.user__name-label {
+  color: white;
+  padding: 50px;
+}
+.user__name-paragraph {
+  color: white;
+}
 .user__username {
   display: flex;
   align-items: center;
   justify-content: center;
   justify-content: space-between;
+}
+.user__username-label {
+  color: white;
+  padding: 50px;
+}
+.user__username-paragraph {
+  color: white;
 }
 .user__description {
   display: flex;
@@ -33,57 +50,53 @@
   justify-content: center;
   justify-content: space-between;
 }
+.user__description-label {
+  color: white;
+  padding: 50px;
+}
+.user__description-paragraph {
+  color: white;
+}
 .user__age {
   display: flex;
   align-items: center;
   justify-content: center;
   justify-content: space-between;
 }
+.user__age-label {
+  color: white;
+  padding: 50px;
+}
+.user__age-paragraph {
+  color: white;
+}
 .user__button {
+  color: white;
   display: flex;
-  flex-direction: column;
-  padding: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 0;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 60px;
 }
-.user__button-modify {
-  text-decoration: none;
-  color: black;
-  width: 30%;
-  margin-left: 40%;
-  margin-top: 10%;
+.user__button-blue {
+  width: 75%;
+  background: #0957ab;
 }
-.user__button-modify:hover {
-  color: white;
-}
-.user__button-home {
-  text-decoration: none;
-  color: black;
-  width: 30%;
-  margin-left: 40%;
-  margin-top: 20%;
-}
-.user__button-home:hover {
-  color: white;
+.user__button-blue:hover {
+  background: #1f5fbc;
 }
 
-@media (min-width: 600px) {
-  .user__button-modify {
-    margin-top: 5%;
-    margin-left: 45%;
-  }
-  .user__button-home {
-    margin-left: 45%;
-    margin-top: 10%;
-  }
+.button-primary-action {
+  margin: 0px 0px 15px 0px;
+  display: flex;
+  justify-content: center;
 }
-@media (min-width: 600px) {
-  .user__button-modify {
-    margin-top: 2%;
-    margin-left: 47%;
-  }
-  .user__button-home {
-    margin-left: 47%;
-    margin-top: 5%;
-  }
+
+.pad {
+  padding: 15px;
 }
 
 /*# sourceMappingURL=index.css.map */

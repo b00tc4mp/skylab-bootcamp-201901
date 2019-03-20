@@ -3,9 +3,10 @@
     padding-right: 15px
     margin-top: 15px
     margin-bottom: 15px
-    background: rgba(255, 255, 255, 0.7)
+    background: rgba(0, 0, 0, 0.1)
     max-width: 400px
     margin: auto
+    padding-top: 40px
     &__card
         &-container
             position: relative
@@ -27,24 +28,30 @@
         &-title
             display: flex
             justify-content: center
+            color: #dbdbdb
         &-description
             display: flex
             justify-content: center
+            color: #dbdbdb
         &-dateAndUbication
             border-bottom: 2px solid #013385
             border-top: 2px solid #013385
-            display: flex
+            display: block
             justify-content: center
             justify-content: space-around
+            color: #dbdbdb
         &-creathor
             display: flex
             justify-content: center
             &-label
                 margin-top: 16px
                 margin-right: 3%
+                color: #dbdbdb
             &-paragraph
                 text-decoration: none
-                color: black
+                color: #0f2954
+                &:hover
+                    color: white
     &__members
         &-link
             display: flex
@@ -63,21 +70,28 @@
                 color: white
             &-button
                 &-enter
-                    background: #1f73fe
-                    border: 1px solid #0a2b5b
+                    background: #4697e6
+                    border: 1px solid #4697e6
                     border-radius: 5px
                     cursor: pointer
+                    color: white
 
                 &-exit
-                    background: #1f73fe
-                    border: 1px solid #0a2b5b
+                    background: #4697e6
+                    border: 1px solid #4697e6
                     border-radius: 5px
                     cursor: pointer
+                    color: white
+
 @media (min-width: 600px)
     .event
         max-width: 900px
         margin: auto
         &__card
+            &-dateAndUbication
+                display: flex
+                justify-content: center
+                justify-content: space-around
             &-container
                 width: 100%
                 height: 100%

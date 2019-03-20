@@ -1,6 +1,8 @@
 .user
-    max-width: 400px
+    max-width: 600px
     margin: auto
+    background: rgba(0, 0, 0, 0.1)
+    margin-top: 20px
     &__content
         padding: 15px
         padding-right: 20px
@@ -11,11 +13,17 @@
         width: 100%
         &-img
             width: 100%
+            margin-top: 20px
     &__name
         display: flex
         align-items: center
         justify-content: center
         justify-content: space-between
+        &-label
+            color: white
+            padding: 50px
+        &-paragraph
+            color: white
 
        
     &__username
@@ -23,12 +31,22 @@
         align-items: center
         justify-content: center
         justify-content: space-between
+        &-label
+            color: white
+            padding: 50px
+        &-paragraph
+            color: white
    
     &__description
         display: flex
         align-items: center
         justify-content: center
         justify-content: space-between
+        &-label
+            color: white
+            padding: 50px
+        &-paragraph
+            color: white
 
       
     &__age
@@ -36,46 +54,41 @@
         align-items: center
         justify-content: center
         justify-content: space-between
+        &-label
+            color: white
+            padding: 50px
+        &-paragraph
+            color: white
     
     &__button
+        color: white
         display: flex
-        flex-direction: column
-        padding: 20px
-        &-modify
-            text-decoration: none
-            color: black
-            width: 30%
-            margin-left: 40%
-            margin-top: 10%
+        justify-content: center
+        margin-bottom: 20px
+        border: 0
+        border-radius: 5px
+        padding: 10px 20px
+        cursor: pointer
+        width: 60px
+        &-blue
+            width: 75%
+            background: #0957ab
             &:hover
-                color: white
+                background: #1f5fbc
 
-        &-home
-            text-decoration: none
-            color: black
-            width: 30%
-            margin-left: 40%
-            margin-top: 20%
-            &:hover
-                color: white
-@media (min-width: 600px)
-    .user
-        &__button
-            &-modify
-                margin-top: 5%
-                margin-left: 45%
-            &-home
-                margin-left: 45%
-                margin-top: 10%
-@media (min-width: 600px)
-        .user
-            &__button
-                &-modify
-                    margin-top: 2%
-                    margin-left: 47%
-                &-home
-                    margin-left: 47%
-                    margin-top: 5%
+.button-primary-action
+    margin: 0px 0px 15px 0px
+    display: flex
+    justify-content: center
+
+.pad
+    padding: 15px
+
+
+
+
+
+            
 
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logic  from '../../logic'
-import {Link,Redirect} from 'react-router-dom'
+import {Link,Redirect,withRouter} from 'react-router-dom'
+import feedback from  '../../by-plugins/feedback'
 import './index.css'
 
 class EventsByCategory extends Component {
@@ -11,14 +12,12 @@ class EventsByCategory extends Component {
             logic.listEventsByCategory(categoryId)
                 .then(results => {
                     this.setState({ results })
-                    console.log(results)
                 })
-                .catch( ({error}) => {
-                    this.setState({ results: null })
-                    console.log(error)
+                .catch( ({message}) => {
+                    feedback(message , "error")
                 }) 
         } catch ({message}) {
-            this.setState({ results: null})
+            feedback(message , "error")
         }
     }
 
@@ -42,4 +41,4 @@ class EventsByCategory extends Component {
     }
 }
 
-export default  EventsByCategory
+export default  withRouter(EventsByCategory)
