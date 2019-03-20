@@ -59,7 +59,7 @@ class EditPet extends Component {
     render() {
 
         return <main> 
-        <form onSubmit={this.handleEditSubmit}>
+        <form className= "form__vet" onSubmit={this.handleEditSubmit}>
             <section className="form">
                 <h1>Pet's details:</h1>
                 <div className="input__form">

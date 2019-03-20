@@ -60,7 +60,7 @@ class Visit extends Component {
 
     render() {
 
-        return <form onSubmit={this.handleVisitSubmit}>
+        return <form className= "form__vet" onSubmit={this.handleVisitSubmit}>
             <section className="form">
                 <h1>Visit details:</h1>
                 <div className="input__form">

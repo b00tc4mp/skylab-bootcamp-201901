@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom'
 import moment from 'moment';
 
 import logic from '../../logic';
-
 import './index.sass'
 
 
@@ -161,6 +160,11 @@ class Calendar extends Component {
         this.setState({ askConfirmation: true, error: false, visitConfirmed: false, errorDate: false, deleteVisit: false })
     }
 
+    handleGoHome = event => {
+        event.preventDefault()
+        this.props.history.push('/home')
+      }
+    
 
     printVisit = (id, owner, pet, date) => {
         return (
@@ -189,7 +193,7 @@ class Calendar extends Component {
 
 
     render() {
-        const { state: { year, month, appointments }, printVisit } = this
+        const { state: { year, month, appointments, askConfirmation, visitConfirmed, errorDate, error }, printVisit, handleOnChange } = this
 
 
         const m = moment(`${year}-${month}`)
@@ -215,22 +219,22 @@ class Calendar extends Component {
                 <label>Hour</label>
                 <select name="hour" onChange={this.handleSelectHour} required>
                     <option></option>
-                    <option name="hour" value="17:00" onChange={this.handleOnChange}>17:00</option>
-                    <option name="hour" value="17:30" onChange={this.handleOnChange}>17:30</option>
-                    <option name="hour" value="18:00" onChange={this.handleOnChange}>18:00</option>
-                    <option name="hour" value="18:30" onChange={this.handleOnChange}>18:30</option>
-                    <option name="hour" value="19:00" onChange={this.handleOnChange}>19:00</option>
-                    <option name="hour" value="19:30" onChange={this.handleOnChange}>19:30</option>
+                    <option name="hour" value="17:00" onChange={handleOnChange}>17:00</option>
+                    <option name="hour" value="17:30" onChange={handleOnChange}>17:30</option>
+                    <option name="hour" value="18:00" onChange={handleOnChange}>18:00</option>
+                    <option name="hour" value="18:30" onChange={handleOnChange}>18:30</option>
+                    <option name="hour" value="19:00" onChange={handleOnChange}>19:00</option>
+                    <option name="hour" value="19:30" onChange={handleOnChange}>19:30</option>
                 </select>
                 {this.state.buttonConfirm && <button onClick={this.handleConfirmVisit} className="button">Confirm</button>}
 
-                {this.state.askConfirmation && <div><p className="feedback feedback__confirmation">Are you sure you want to assign this visit?</p></div>}
-                {this.state.askConfirmation && <button onClick={this.handleConfirmVisitOK} className="button__confirm">Yes</button>}
-                {this.state.askConfirmation && <button onClick={this.handleConfirmVisitNO} className="button__confirm">No</button>}
-                {this.state.visitConfirmed && <div><p className="feedback feedback__success">Visit successfully assigned</p></div>}
-                {this.state.errorDate && <div><p className="feedback feedback__error">Please, select a correct date</p></div>}
-                {this.state.errorDate && <button onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
-                {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
+                {askConfirmation && <div><p className="feedback feedback__confirmation">Are you sure you want to assign this visit?</p></div>}
+                {askConfirmation && <button onClick={this.handleConfirmVisitOK} className="button__confirm">Yes</button>}
+                {askConfirmation && <button onClick={this.handleConfirmVisitNO} className="button__confirm">No</button>}
+                {visitConfirmed && <div><p className="feedback feedback__success">Visit successfully assigned</p></div>}
+                {errorDate && <div><p className="feedback feedback__error">Please, select a correct date</p></div>}
+                {errorDate && <button onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
+                {error && <p className="feedback feedback__error">{this.state.error}</p>}
             
 
             </div>
@@ -277,6 +281,7 @@ class Calendar extends Component {
                     return days
                 })()
             }
+            <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
         </form>
     }
 }

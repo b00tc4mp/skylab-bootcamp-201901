@@ -7,7 +7,9 @@ import bcrypt from 'bcrypt'
 import 'isomorphic-fetch'
 const { mongoose, models: { User, Pet, Appointment } } = require('st-james-vet-data')
 
-const { env: { TEST_DB_URL } } = process
+const { env: { TEST_DB_URL, REACT_APP_API_URL } } = process
+
+logic.url = REACT_APP_API_URL
 
 
 describe('logic', () => {

@@ -62,8 +62,6 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error(' passwords do not match')
 
-        console.log(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation)
-
         return (async () => {
 
             let user = await User.findOne({ email })
@@ -90,7 +88,7 @@ const logic = {
    * @param {string} color 
    * @param {string} gender 
    * @param {string} birthdate
-   * @param {string} microchip
+   * @param {string} microchip - specifies whether o not the animal has a michochip
    * @param {string} neutered 
    * @param {string} vaccionations 
    * @param {string} details 
@@ -229,7 +227,7 @@ const logic = {
      * @param {string} appointmentId 
      */
     deleteAppointment(Id) {
-        debugger
+       
         if (typeof Id !== 'string') throw TypeError(Id + ' is not a string')
 
         if (!Id.trim().length) throw Error('appointmentId cannot be empty')
@@ -238,7 +236,6 @@ const logic = {
             .then((res) => {
                 if (res.deletedCount !== 1) throw Error(`appointment with id ${Id} not found`)
 
-                console.log("deleted")
                 return { status: 'ok', message: `appointment with id ${Id} succesfully deleted` }
             })
     },

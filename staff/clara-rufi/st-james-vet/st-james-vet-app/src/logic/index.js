@@ -5,8 +5,7 @@
  * Abstraction of business logic.
  */
 const logic = {
-    url: 'http://localhost:8000/api',
-    // url: 'https://calm-hollows-43621.herokuapp.com/api',
+    url: null,
     __userToken__: null,
     __userAdmin__: null,
     __updateToken__() {
@@ -65,8 +64,6 @@ const logic = {
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
-
-        console.log(name, surname, idCard, phone, adress, city, email, password, passwordConfirmation)
 
         return fetch(`${this.url}/user`, {
             method: 'POST',
@@ -154,9 +151,6 @@ const logic = {
         if (typeof details != 'string') throw TypeError(details + ' is not a string')
 
         if (!details.trim().length) throw Error('details cannot be empty')
-
-
-        console.log(owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
 
         return fetch(`${this.url}/pet`, {
             method: 'POST',

@@ -11,18 +11,12 @@ class Appointments extends Component {
 
   handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
-  handleGoHome = event => {
-    event.preventDefault()
-    this.props.history.push('/home')
-  }
-
 
   render() {
 
     return <section>
 
       <Calendar year={this.state.year} month={this.state.month} ></Calendar>
-      <button className="button__gohome" onClick={this.handleGoHome}>Go Home</button>
 
     </section>
 

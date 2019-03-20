@@ -33,7 +33,9 @@ Object.defineProperties(logic, {
   
 })
 
+const { REACT_APP_API_URL } = process.env
 
+logic.url = REACT_APP_API_URL
 
 ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'))
 

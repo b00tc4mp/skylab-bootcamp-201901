@@ -7,6 +7,8 @@ import tortoise from '../images/tortoise.jpg'
 import tortoise2 from '../images/tortoise2.jpg'
 import tortoise3 from '../images/tortoise3.jpg'
 import microscope from '../images/microscope.jpg'
+import cat from '../images/cat.jpg'
+import british2 from '../images/british2.jpg'
 
 
 import './index.sass'
@@ -24,7 +26,13 @@ class Carousel extends Component {
             <img class="d-block w-100" src={boyero} alt=""></img>
           </div>
           <div class="item">
+            <img class="d-block w-100" src={cat} alt="" ></img>
+          </div>
+          <div class="item">
             <img class="d-block w-100" src={tortoise2} alt="" ></img>
+          </div>
+          <div class="item">
+            <img class="d-block w-100" src={british2} alt="" ></img>
           </div>
           <div class="item">
             <img class="d-block w-100" src={tortoise} alt=""></img>

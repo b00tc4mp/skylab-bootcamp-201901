@@ -7,7 +7,7 @@ import './index.sass'
 
 class Nav extends Component {
    
-     state = { isLoggedIn: logic.__userToken__,  isAdmin:logic.isAdmin}
+     state = { isLoggedIn: logic.isUserLoggedIn,  isAdmin:logic.isAdmin}
 
     handleOnLogin = event => {
         event.preventDefault()

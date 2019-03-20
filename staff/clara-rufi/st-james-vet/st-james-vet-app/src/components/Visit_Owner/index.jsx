@@ -122,7 +122,7 @@ class VisitOwner extends Component {
 
         const { state: { appointmentsOwner }, visitOwner } = this
 
-        return <form>
+        return <form className= "form__vet">
             <div className="input__form">
                 <h1>Appointments:</h1>
                 

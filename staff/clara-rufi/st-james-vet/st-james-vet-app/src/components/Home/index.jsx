@@ -36,7 +36,7 @@ class Home extends Component {
             <Nav className="fixed"></Nav>
             <div className="home">
                 {isAdmin && <button className="button__home" onClick={this.handleVisit}>Visit</button>}
-                {isAdmin && <button className="button__home" onClick={this.handleAppointments}>Appointment</button>}
+                {isAdmin && <button className="button__home" onClick={this.handleAppointments}>Appointments</button>}
                 <button className="button__home" onClick={this.handleVisitOwner}>Visit Owner</button>
             </div>
             <div>

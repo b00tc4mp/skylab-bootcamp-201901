@@ -39,7 +39,7 @@ class RegisterOwner extends Component {
 
     render() {
 
-        return <form onSubmit={this.handleRegisterSubmit} >
+        return <form className= "form__vet" onSubmit={this.handleRegisterSubmit} >
             <section class="form">
                 <h1>Owner's details:</h1>
                 <div className="input__form">

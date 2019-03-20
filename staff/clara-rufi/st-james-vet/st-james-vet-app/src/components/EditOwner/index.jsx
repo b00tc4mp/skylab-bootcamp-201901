@@ -51,7 +51,7 @@ class EditOwner extends Component {
 
     render() {
 
-        return <form onSubmit={this.handleEditProfile} >
+        return <form className= "form__vet" onSubmit={this.handleEditProfile} >
             <section class="form">
                     <h1>Owner's details:</h1>
                 <div className="input__form">
