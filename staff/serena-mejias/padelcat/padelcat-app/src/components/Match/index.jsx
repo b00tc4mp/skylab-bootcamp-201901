@@ -72,7 +72,7 @@ export const Match = props => {
         </div>
       </div>
       <div className={styles.result}>{result}</div>
-      {admin && (
+      {admin && !result && (
         <Form
           onSubmit={onSubmit}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
