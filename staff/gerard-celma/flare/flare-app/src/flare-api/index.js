@@ -4,8 +4,8 @@ const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = 
 const validate = require('flare-validation')
 
 const flareApi = {
-    // url: "http://localhost:8000/api",
-    url: 'https://stark-basin-28669.herokuapp.com/api',
+    url: "http://localhost:8000/api",
+    // url: 'https://stark-basin-28669.herokuapp.com/api',
 
     registerUser(name, surname, email, password, passwordConfirm) {
         validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirm', value: passwordConfirm, type: String }])

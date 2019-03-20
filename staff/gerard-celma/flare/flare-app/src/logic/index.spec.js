@@ -285,7 +285,7 @@ describe('logic', () => {
         it('should succeed on correct data', () => {
             return logic.registerUser(name, surname, email, password, passwordConfirmation)
                     .then(res => {
-                        expect(res).toBeUndefined()
+                        expect(res).toBeDefined()
                     })
         })
     })
@@ -647,29 +647,258 @@ describe('logic', () => {
         })
     })
 
-    // describe('uploadMessagePhoto', () => {
-    //     let name = 'carlos'
-    //     let surname = 'perez'
-    //     let email 
-    //     let password = 'iufhfiwuyf'
-    //     let passwordConfirmation = 'iufhfiwuyf'
+    describe('uploadMessagePhoto', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email 
+        let password = 'iufhfiwuyf'
+        let passwordConfirmation = 'iufhfiwuyf'
 
-    //     let name2 = 'juan'
-    //     let surname2 = 'gomez'
-    //     let email2 
-    //     let password2 = 'iot39n7f8ruf'
-    //     let passwordConfirmation2 = 'iot39n7f8ruf'
+        let name2 = 'juan'
+        let surname2 = 'gomez'
+        let email2 
+        let password2 = 'iot39n7f8ruf'
+        let passwordConfirmation2 = 'iot39n7f8ruf'
+        let userIdTo
 
-    //     let data = new File(['foo', 'bar'],'name' ,[{filePropertyBag : 'foo'}])
+        let data = new File(['foo', 'bar'],'name' ,[{filePropertyBag : 'foo'}])
+        let launchDate = new Date().toJSON().slice(0, 10)
+        let position = [40.1234, 2.9876]
+        let text = 'test message'
+        let msgId
 
-    //     beforeEach(() => {
-    //         email = `carlosperez-${Math.random()}@mail.com`
-    //         return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
-    //                     .then(() => flareApi.authenticateUser(email, password))
-    //                         .then(({ token }) => logic.__userApiToken__ = token)
-    //                             .then(() => flare)
-    //     })
-    // })
+        beforeEach(() => {
+            email = `carlosperez-${Math.random()}@mail.com`
+            email2 = `juangomez-${Math.random()}@mail.com`
+            return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
+                        .then(() => flareApi.authenticateUser(email, password))
+                            .then(({ token }) => logic.__userApiToken__ = token)
+                                .then(() => flareApi.registerUser(name2, surname2, email2, password2, passwordConfirmation2))
+                                    .then(id => userIdTo = id)
+                                        .then(() => flareApi.createMessage(userIdTo, launchDate, position, text))
+                                            .then(({ id }) => msgId = id)
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.uploadMessagePhoto(data, msgId)
+                        .then(message => {
+                            expect(message).toBeDefined()
+                            expect(message.image).toBe('XXXX')
+                        })
+        })
+    })
+
+    describe('update user photo', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email 
+        let password = 'iufhfiwuyf'
+        let passwordConfirmation = 'iufhfiwuyf'
+
+        let data = new File(['foo', 'bar'],'name')
+
+        beforeEach(() => {
+            email = `carlosperez-${Math.random()}@mail.com`
+            return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
+                        .then(() => flareApi.authenticateUser(email, password))
+                            .then(({ token }) => logic.__userApiToken__ = token)
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.updateUserPhoto(data)
+                    .then((user) => {
+                        expect(user).toBeDefined()
+                    })
+        })
+    })
+
+    describe('create message', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email 
+        let password = 'iufhfiwuyf'
+        let passwordConfirmation = 'iufhfiwuyf'
+
+        let name2 = 'juan'
+        let surname2 = 'gomez'
+        let email2 
+        let password2 = 'iot39n7f8ruf'
+        let passwordConfirmation2 = 'iot39n7f8ruf'
+        let userIdTo
+
+        let launchDate = new Date().toJSON().slice(0, 10)
+        let position = [40.1234, 2.9876]
+        let text = 'test message'
+
+        beforeEach(() => {
+            email = `carlosperez-${Math.random()}@mail.com`
+            email2 = `juangomez-${Math.random()}@mail.com`
+            return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
+                        .then(() => flareApi.authenticateUser(email, password))
+                            .then(({ token }) => logic.__userApiToken__ = token)
+                                .then(() => flareApi.registerUser(name2, surname2, email2, password2, passwordConfirmation2))
+                                    .then(id => userIdTo = id)
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.createMessage(userIdTo, launchDate, position, text)
+                .then(message => {
+                    expect(message).toBeDefined()
+                    expect(message.userIdTo).toBe(userIdTo)
+                    expect(message.text).toBe(text)
+                    expect(message.position.toString()).toBe(position.toString())
+                })
+        })
+    })
+
+    describe('retrieve received messages', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email 
+        let password = 'iufhfiwuyf'
+        let passwordConfirmation = 'iufhfiwuyf'
+        let userId
+
+        let launchDate = new Date().toJSON().slice(0, 10)
+        let position = [40.1234, 2.9876]
+        let text = 'test message'
+
+        beforeEach(() => {
+            email = `carlosperez-${Math.random()}@mail.com`
+            return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
+                        .then(id => userId = id)
+                        .then(() => flareApi.authenticateUser(email, password))
+                            .then(({ token }) => logic.__userApiToken__ = token)
+                                .then(() => logic.createMessage(userId, launchDate, position, text))
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.retrieveReceivedMessages()
+                    .then(messages => {
+                        expect(messages).toBeDefined()
+                    })
+        })
+    })
+
+    describe('retrieve sent messages', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email 
+        let password = 'iufhfiwuyf'
+        let passwordConfirmation = 'iufhfiwuyf'
+        let userId
+
+        let launchDate = new Date().toJSON().slice(0, 10)
+        let position = [40.1234, 2.9876]
+        let text = 'test message'
+
+        beforeEach(() => {
+            email = `carlosperez-${Math.random()}@mail.com`
+            return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
+                        .then(id => userId = id)
+                        .then(() => flareApi.authenticateUser(email, password))
+                            .then(({ token }) => logic.__userApiToken__ = token)
+                                .then(() => logic.createMessage(userId, launchDate, position, text))
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.retrieveSentMessages()
+                    .then(messages => {
+                        expect(messages).toBeDefined()
+                    })
+        })
+    })
+
+    describe('retrieve all messages', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email 
+        let password = 'iufhfiwuyf'
+        let passwordConfirmation = 'iufhfiwuyf'
+        let userId
+
+        let launchDate = new Date().toJSON().slice(0, 10)
+        let position = [40.1234, 2.9876]
+        let text = 'test message'
+
+        beforeEach(() => {
+            email = `carlosperez-${Math.random()}@mail.com`
+            return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
+                        .then(id => userId = id)
+                        .then(() => flareApi.authenticateUser(email, password))
+                            .then(({ token }) => logic.__userApiToken__ = token)
+                                .then(() => logic.createMessage(userId, launchDate, position, text))
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.retrieveAllMessages()
+                    .then(messages => {
+                        expect(messages).toBeDefined()
+                    })
+        })
+    })
+
+    describe('message read', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email 
+        let password = 'iufhfiwuyf'
+        let passwordConfirmation = 'iufhfiwuyf'
+        let userId
+
+        let launchDate = new Date().toJSON().slice(0, 10)
+        let position = [40.1234, 2.9876]
+        let text = 'test message'
+        let msgId
+
+        beforeEach(() => {
+            email = `carlosperez-${Math.random()}@mail.com`
+            return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
+                        .then(id => userId = id)
+                        .then(() => flareApi.authenticateUser(email, password))
+                            .then(({ token }) => logic.__userApiToken__ = token)
+                                .then(() => logic.createMessage(userId, launchDate, position, text))
+                                    .then(({ _id }) => msgId = _id)
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.messageRead(msgId)
+                    .then(messages => {
+                        expect(messages).toBeDefined()
+                    })
+        })
+    })
+
+    describe('message delete', () => {
+        let name = 'carlos'
+        let surname = 'perez'
+        let email 
+        let password = 'iufhfiwuyf'
+        let passwordConfirmation = 'iufhfiwuyf'
+        let userId
+
+        let launchDate = new Date().toJSON().slice(0, 10)
+        let position = [40.1234, 2.9876]
+        let text = 'test message'
+        let msgId
+
+        beforeEach(() => {
+            email = `carlosperez-${Math.random()}@mail.com`
+            return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
+                        .then(id => userId = id)
+                        .then(() => flareApi.authenticateUser(email, password))
+                            .then(({ token }) => logic.__userApiToken__ = token)
+                                .then(() => logic.createMessage(userId, launchDate, position, text))
+                                    .then(({ _id }) => msgId = _id)
+        })
+
+        it('should succeed on correct credentials', () => {
+            return logic.messageDelete(msgId)
+                    .then(messages => {
+                        expect(messages).toBeDefined()
+                    })
+        })
+    })
 
     afterAll(() =>
         Promise.all([

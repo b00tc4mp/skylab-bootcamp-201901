@@ -422,7 +422,7 @@ describe('flareApi', () => {
         })
     })
 
-    describe.only('retrieve user', () => {
+    describe('retrieve user', () => {
         const name = 'carlos'
         const surname = 'perez'
         const email = `carlosperez-${Math.random()}@mail.com`
@@ -2057,7 +2057,7 @@ describe('flareApi', () => {
             })
     })
 
-    after(() =>
+    afterAll(() =>
         Promise.all([
             Message.deleteMany(),
             User.deleteMany()

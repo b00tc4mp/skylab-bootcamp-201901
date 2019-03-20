@@ -22,8 +22,9 @@ const logic = {
     if (password !== passwordConfirmation) throw Error('passwords do not match')
 
     return flareApi.registerUser(name, surname, email, password, passwordConfirmation)
-        .then(() => { })
+        .then((id) => id)
     },
+    
 
     /**
      * Logs in the user by its credentials.
@@ -38,6 +39,9 @@ const logic = {
             .then(({token}) => this.__userApiToken__ = token)
     },
 
+    /**
+     * Logs user out.
+     */
     logOutUser() {
         this.__userApiToken__ = null
     },
@@ -50,6 +54,13 @@ const logic = {
         return !!this.__userApiToken__
     },
 
+    /**
+     * Logs in the user by its credentials.
+     * 
+     * @param {string} name
+     * @param {string} surname
+     * @param {string} email  
+     */
     updateUser(name, surname, email) {
         validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }])
 
@@ -57,50 +68,61 @@ const logic = {
             .then(user => user)
     },
 
+    /**
+     * Retrieves a user.
+     */
     retrieveUser() {
         return flareApi.retrieveUser(this.__userApiToken__)
             .then(user => user)
     },
 
+    /**
+     * Retrieves all users.
+     */
     retrieveUsers() {
         return flareApi.retrieveUsers(this.__userApiToken__)
             .then(users => users)
     },
 
+    /**
+     * Updates message photo.
+     * 
+     * @param {File} data
+     * @param {string} msgId
+     */
     uploadMessagePhoto(data, msgId) {
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== File) throw TypeError(`${data} is not an object`)
-
-        if (typeof msgId !== 'string') throw TypeError(msgId + ' is not a string')
-        if (!msgId.trim().length) throw Error('msgId cannot be empty')
+        validate([{ key: 'data', value: data, type: File }, { key: 'msgId', value: msgId, type: String }])
 
         return flareApi.uploadMessagePhoto(this.__userApiToken__, data, msgId)
             .then(({user}) => user)
     },
 
+    /**
+     * Updates user photo.
+     * 
+     * @param {File} data
+     * @param {string} msgId
+     */
     updateUserPhoto(data) {
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== File) throw TypeError(`${data} is not an object`)
+        validate([{ key: 'data', value: data, type: File }])
 
         return flareApi.updateUserPhoto(this.__userApiToken__, data)
             .then(({user}) => user)
     },
 
     createMessage(userIdTo, launchDate, position, text) {
+        validate([{ key: 'userIdTo', value: userIdTo, type: String }, { key: 'launchDate', value: launchDate, type: String }, { key: 'position', value: position, type: Array }, { key: 'text', value: text, type: String }])
+
         let actualDate = new Date().toJSON().slice(0, 10)
-
-        if (typeof userIdTo !== 'string') throw TypeError(userIdTo + ' is not a string')
-
-        if (!userIdTo.trim().length) throw Error('Select user in order to send message')
-
         if (launchDate < actualDate) throw Error('You cannot select a past date')
-
-        // TODO validate launchDate, position, text
 
         return flareApi.createMessage(this.__userApiToken__, userIdTo, launchDate, position, text)
             .then(message => message)
     },
 
+    /**
+     * Retrieves received messages.
+     */
     retrieveReceivedMessages() {
         return flareApi.retrieveReceivedMessages(this.__userApiToken__)
             .then((messages) => messages)

@@ -43,6 +43,9 @@ Only registered users can access the platform's content.
 #### ![API Coverage](https://img.shields.io/badge/Flare%20API%20coverage-99.76-green.svg)
 ![API Coverage](images/test-coverage-flare-api.png)
 
+#### ![APP Coverage](https://img.shields.io/badge/Flare%20APP%20coverage-83-green.svg)
+![API Coverage](images/test-coverage-flare-app.png)
+
 ### Technologies
 Javascript, ReactJS, Node.js, Express, MongoDB & Mongoose.
 
