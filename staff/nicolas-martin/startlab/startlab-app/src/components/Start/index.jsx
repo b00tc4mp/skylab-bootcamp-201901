@@ -44,7 +44,6 @@ class Start extends Component {
                 .catch(message => {
                     let _failures = [{ err: { message } }]
                     this.checkResponse('', _failures)
-                    //this.emitFeedbackError(message)
                 })
         } catch ({ message }) {
             this.emitFeedback(message, 'error')
@@ -100,7 +99,7 @@ class Start extends Component {
 
                 <hr />
 
-                {activeExercise && checkResponse && <ResultsTest failures={failures} /*failures={} passes={}*/ />}
+                {activeExercise && checkResponse && <ResultsTest failures={failures} />}
 
                 {!activeExercise && <FinalMessage />}
 

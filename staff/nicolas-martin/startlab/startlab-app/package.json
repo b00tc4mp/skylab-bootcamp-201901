@@ -4,7 +4,6 @@
   "private": true,
   "devDependencies": {
     "bcrypt": "^3.0.4",
-    "dotenv": "^6.2.0",
     "react-scripts": "1.0.6",
     "startlab-data": "file:../startlab-data",
     "jsonwebtoken": "^8.5.1"
