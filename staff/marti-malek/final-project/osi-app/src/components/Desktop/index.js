@@ -7,9 +7,10 @@ import File from '../File'
 import Menu from '../Menu'
 import Finder from '../Finder'
 import logic from '../../logic'
+import Feedback from '../Feedback'
 import './index.sass'
 
-function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, openMenu, logOut, handleLogout, openFile, closeFile, dragStart, openFileFromFinder, updatePath }) {
+function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFinder, openFinderRoot, openMenu, logOut, handleLogout, openFile, closeFile, dragStart, openFileFromFinder, updatePath, closeFeedback, dragzoneError }) {
 
     let [level, setLevel] = useState([])
     let [positions, setPositions] = useState([])
@@ -25,9 +26,12 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
     let [finderItem, setFinderItem] = useState(null)
     let [clock, setClock] = useState(true)
     let [actualPath, setActualPath] = useState(null)
+    let [feedback, setFeedback] = useState(null)
+    let [feedbackError, setFeedbackError] = useState(null)
+    let [feedbackMessage, setFeedbackMessage] = useState(null)
     let desktop = useRef()
     let pathFromFinder
-    
+
     useEffect(() => {
         handleState()
     }, [])
@@ -49,6 +53,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             .then(dir => {
                 setLevel(dir)
             })
+            .catch(err => {
+                setFeedback(true)
+                setFeedbackError(err)
+            })
     }
 
     handleNewFolder = () => {
@@ -58,6 +66,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
                 setLevel(newPositions.children)
             })
             .then(() => handleState())
+            .catch(err => {
+                setFeedback(true)
+                setFeedbackError(err)
+            })
     }
 
     handleNewFile = () => {
@@ -65,12 +77,16 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             type: ".txt",
             content: ""
         }
-        return logic.createFile(fileContent,'/_newFile')
+        return logic.createFile(fileContent, '/_newFile')
             .then(() => logic.retrieveLevel('/'))
             .then(newPositions => {
                 setLevel(newPositions.children)
             })
             .then(() => handleState())
+            .catch(err => {
+                setFeedback(true)
+                setFeedbackError(err)
+            })
     }
 
     openDir = (e) => {
@@ -80,6 +96,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             .then(content => {
                 setFinderOpen(true)
                 setFinder(content)
+            })
+            .catch(err => {
+                setFeedback(true)
+                setFeedbackError(err)
             })
     }
 
@@ -92,6 +112,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
                 setFileContent(content)
                 setFileOpen(true)
             })
+            .catch(err => {
+                setFeedback(true)
+                setFeedbackError(err)
+            })
     }
 
     openFileFromFinder = path => {
@@ -102,6 +126,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
                 setFileContent(content)
                 setFileOpen(true)
             })
+            .catch(err => {
+                setFeedback(true)
+                setFeedbackError(err)
+            })
     }
 
     openFinderRoot = () => {
@@ -110,6 +138,10 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
             .then(content => {
                 setFinderOpen(true)
                 setFinder(content)
+            })
+            .catch(err => {
+                setFeedback(true)
+                setFeedbackError(err)
             })
     }
 
@@ -127,7 +159,7 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
         setShowMenu(true)
         setTimeout(() => setShowMenu(false), 3000)
     }
-    
+
     logOut = () => {
         setClock(false)
         handleLogout()
@@ -147,31 +179,45 @@ function Desktop({ handleState, handleNewFolder, handleNewFile, openDir, closeFi
         if (path) setActualPath(path)
     }
 
-    return <section className="desktop" id ="desktop" ref={desktop}>
-        <div className="desktop__clock">
+    closeFeedback = () => {
+        setFeedback(false)
+        setFeedbackError(null)
+        setFeedbackMessage(null)
+    }
+
+    dragzoneError = (err) => {
+        setFeedback(true)
+        setFeedbackError(err)
+    }
+
+    return <section className="desktop" id="desktop" ref={desktop}>
         {
-            clock && <Clock showClock={clock}></Clock>
+            feedback && <Feedback actualError={feedbackError} actualMessage={feedbackMessage} closeFeedback={closeFeedback}></Feedback>
         }
+        <div className="desktop__clock">
+            {
+                clock && <Clock showClock={clock}></Clock>
+            }
         </div>
         <div className="desktop__todos">
-        {
-            desktop && <Todos desktop={desktop}></Todos>
-        }
+            {
+                desktop && <Todos desktop={desktop}></Todos>
+            }
         </div>
         <div className="desktop__toolbar">
             <Toolbar newFolder={handleNewFolder} newFile={handleNewFile} openFinder={openFinderRoot} openMenu={openMenu}></Toolbar>
         </div>
         <div className="desktop__dragzone">
-            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} dragItem={finderItem}></Dragzone>
+            <Dragzone dir={level} pos={positions} openDir={openDir} openFile={openFile} dragItem={finderItem} setDragzoneError={dragzoneError}></Dragzone>
         </div>
         {
-            finder && finderOpen && actualPath ? <Finder pathFromFinder={pathFromFinder} actualFinderPath={actualPath} content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder} changePath={updatePath}></Finder> : null
+            finder && finderOpen && actualPath ? <Finder pathFromFinder={pathFromFinder} actualFinderPath={actualPath} content={finder} close={closeFinder} dragStart={dragStart} openFileFromFinder={openFileFromFinder} changePath={updatePath} finderFeedback={dragzoneError}></Finder> : null
         }
         {
             showMenu ? <Menu menuX={menuX} menuY={menuY} logOut={logOut}></Menu> : null
         }
         {
-            fileOpen ? <File file={fileContent} filePath={filePath} name={fileName} closeFile={closeFile}></File> : null
+            fileOpen ? <File file={fileContent} filePath={filePath} name={fileName} closeFile={closeFile} fileFeedback={dragzoneError}></File> : null
         }
     </section>
 }

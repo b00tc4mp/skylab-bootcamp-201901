@@ -6,12 +6,13 @@ function Todos({ desktop, goFullScreen }) {
     let [fullScreen, setFullScreen] = useState(null)
     let animationTo = useRef()
     let animationFrom = useRef()
+    // if (desktop.current && animationTo.current && animationFrom.current) { 
 
-    if (desktop.current && animationTo.current && animationFrom.current) { }
+    // }
     goFullScreen = () => {
+        let elem = desktop.current
         if (!fullScreen) {
             animationTo.current.beginElement()
-            var elem = desktop.current
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
             } else if (elem.mozRequestFullScreen) { /* Firefox */
@@ -38,7 +39,6 @@ function Todos({ desktop, goFullScreen }) {
     }
 
     return <section className="todos">
-        {/* <button className="todos__fullscreen" onClick={() => goFullScreen()}>FullScreen</button> */}
         <svg /* viewBox="0 0 24 24" */ className="todos__fullscreen" onClick={() => goFullScreen()}>
             <path
                 id="play"

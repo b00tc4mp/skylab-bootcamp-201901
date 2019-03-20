@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './index.sass'
-// import Hammer from 'hammerjs'
 import logic from '../../logic';
-import { debug } from 'util';
 
-function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, openFile, dragItem }) {
+function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, changeName, handleName, onTrashDrop, checkNews, openDir, openFile, dragItem, setDragzoneError }) {
 
     let [divs, setDivs] = useState(new Array(48).fill(null))
     let [newName, setNewName] = useState(null)
+    // let [dragzoneError, setDragzoneError] = useState(null)
     let oldNameTest
     let draggableTest
     let droppingTest
@@ -37,15 +36,29 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
         }
     }
 
-    handleName = e => {
+    handleName = (e, input) => {
         newName = e.target.value
         setNewName(e.target.value)
         let elems = document.querySelectorAll('#inputId')
         elems.forEach(elem => {
-            if (elem.innerText === e.target.value) throw Error(`Element with name ${e.target.value} already exists`)
+            if (elem.innerText === e.target.value) return setDragzoneError(`Item with name ${e.target.value} already exists`)
+        })
+        let newP = document.createElement('p')
+        newP.name = "name"
+        newP.id = "inputId"
+        newP.className = "name"
+        // newP.onClick = (e) => changeName(e)
+        newP.addEventListener('click', e => {
+                changeName(e, newP)
         })
         return logic.rename(oldNameTest, newName)
             .then(() => handleDivs())
+            .then(() => {
+                newP.innerText = newName
+                return input.parentElement.replaceChild(newP, input)})
+            .catch(err => {
+                setDragzoneError(err)
+            })
     }
 
     changeName = (e) => {
@@ -58,7 +71,7 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
         newInput.className = "nameInput"
         newInput.addEventListener('keyup', e => {
             if (e.key === 'Enter') {
-                handleName(e, e.target.parentElement, newInput)
+                handleName(e, newInput)
             }
         })
         if (e.target.className === "nameInput") return
@@ -68,6 +81,10 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
 
     onDragStart = ev => {
         draggableTest = ev.target
+        if (!ev.target.firstChild.innerText && !ev.target.firstChild.firstChild) {
+            setDragzoneError('Please name the item before moving it.')
+            return
+        }
         ev.dataTransfer.setData("text/plain", ev.target.firstChild.innerText ? ev.target.firstChild.innerText : ev.target.firstChild.firstChild.innerText)
     }
 
@@ -78,12 +95,19 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
 
     onTrashDrop = ev => {
         let name = ev.dataTransfer.getData("text")
+        if (!name) return setDragzoneError('Cannot remove unnamed items')
         if (draggableTest.id === "folder") {
             return logic.removeDir(name)
                 .then(() => handleDivs())
+                .catch(err => {
+                    setDragzoneError(err)
+                })
         } else {
             return logic.removeFile(name)
                 .then(() => handleDivs())
+                .catch(err => {
+                    setDragzoneError(err)
+                })
         }
     }
 
@@ -101,6 +125,9 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
                 let newPath = droppingTest.firstChild.innerText + '/' + oldPath
                 return logic.moveFile(oldPath, newPath)
                     .then(() => handleDivs())
+                    .catch(err => {
+                        setDragzoneError(err)
+                    })
             } else if (draggableTest.id === "folder" && droppingTest.id === "folder") {
                 if (draggableTest === droppingTest) {
                     return
@@ -109,16 +136,23 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
                     let newPath = '/' + droppingTest.firstChild.innerText + oldPath
                     return logic.moveDir(oldPath, newPath)
                         .then(() => handleDivs())
+                        .catch(err => {
+                            setDragzoneError(err)
+                        })
                 }
             } else if (draggableTest.id === "folder" && droppingTest.id === "file") {
-                console.error('Cannot move a folder into a file')
+                setDragzoneError('Cannot move a folder into a file')
                 return
             } else if (draggableTest.id === "file" && droppingTest.id === "file") {
-                console.error('Cannot move a file into a file')
+                setDragzoneError('Cannot move a folder into a file')
                 return
             } else {
+                if (!draggableTest.firstChild.innerText) return setDragzoneError('Cannot move an unnamed item')
                 return logic.updatePositions(draggableTest.firstChild.innerText, Number(droppingTest.id))
                     .then(() => handleDivs())
+                    .catch(err => {
+                        setDragzoneError(err)
+                    })
             }
         } else {
             if (dropItem[1] === "folder") {
@@ -126,11 +160,17 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
                 let newFolderPath = '/' + newFolderName
                 return logic.moveDir(dropItem[0], newFolderPath)
                     .then(() => handleDivs())
+                    .catch(err => {
+                        setDragzoneError(err)
+                    })
             } else if (dropItem[1] === "file") {
                 let newFileName = dropItem[0].split('/').reverse()[0]
                 let newFilePath = '/' + newFileName
                 return logic.moveFile(dropItem[0], newFilePath)
                     .then(() => handleDivs())
+                    .catch(err => {
+                        setDragzoneError(err)
+                    })
             }
         }
     }
@@ -163,6 +203,9 @@ function Dragzone({ onDragStart, onDrop, allowDrop, dir, handleDivs, pos, change
                         return <div className="droppable" key={index} keys={index} id={index} onDrop={(e) => onDrop(e)} onDragOver={(e) => allowDrop(e)}><span></span></div>
                     }
                 }))
+            })
+            .catch(err => {
+                setDragzoneError(err)
             })
     }
 

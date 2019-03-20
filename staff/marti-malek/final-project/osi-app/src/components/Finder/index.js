@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import logic from '../../logic'
 import './index.sass'
 
-function Finder({ content, close, dragStart, openFolder, openFile, openFileFromFinder, onDragStart, onDrag, dragEnd, actualFinderPath, pathFromFinder, changePath }) {
+function Finder({ content, close, dragStart, openFolder, openFile, openFileFromFinder, onDragStart, onDrag, dragEnd, actualFinderPath, finderFeedback, changePath }) {
 
     let finder = useRef()
     let [previousPath, setPreviousPath] = useState(null)
@@ -49,6 +49,9 @@ function Finder({ content, close, dragStart, openFolder, openFile, openFileFromF
         return logic.retrieveLevel(pathFromRoot)
             .then(newContent => {
                 setFinderContent(newContent)
+            })
+            .catch(err => {
+                finderFeedback(err)
             })
     }
 

@@ -4,13 +4,19 @@
     "name": "Desktop",
     "children": [
         {
-            "name": "hehhe",
+            "name": "yudasd",
             "open": false,
             "type": "folder",
+            "position": 0
+        },
+        {
+            "name": "okpok2",
+            "open": false,
+            "type": "file",
             "position": 1
         },
         {
-            "name": "jhihihi",
+            "name": "okpok",
             "open": false,
             "type": "folder",
             "position": 2

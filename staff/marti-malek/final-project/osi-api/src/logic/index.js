@@ -755,12 +755,12 @@ const logic = {
                     fs.rmdirSync(myPath)
                 }
                 // if (dirs.length === 0) {
-                //     debugger
+
                 //     /* Removes the folder */
                 //     try {
                 //         await fs.promises.rmdir(myPath)
                 //     } catch (err) {
-                //         debugger
+
                 //         if (err) throw err
                 //     }
                 // } else {
@@ -1166,9 +1166,12 @@ const logic = {
             const move = (from, to) => {
 
                 function itemName(from) {
-                    // return from.match(/([^\/]*)\/*$/)[1]
                     let regex = /\w+(?:\.\w+)*$/
-                    return from.match(regex)[0]
+                    if (from.match(regex)[0] === 'this.json') {
+                        return '.this.json'
+                    } else {
+                        return from.match(regex)[0]
+                    }
                 }
 
                 function listFiles(from) {
@@ -1239,7 +1242,7 @@ const logic = {
                     } else {
 
                         if (!fromIsFile) {
-                            debugger
+
                             fs.mkdirSync(to)
 
                             _fromName = ''
@@ -1253,7 +1256,7 @@ const logic = {
 
                         let updatedPath = path.join(to, _fromName)
 
-                        fs.writeFileSync(toIsFile ? to : updatedPath, content)
+                        fs.writeFileSync(toIsFile ? to : updatedPath, content) // Creates this.json instead of .this.json
 
                         rm(from)
                     } else {
@@ -1273,11 +1276,10 @@ const logic = {
                         const fromFolders = listFolders(from)
 
                         fromFolders.forEach(fromFolder => {
-                            const toSubFolder = toFolder //path.join(toFolder, itemName(fromFolder))
+                            const toSubFolder = toFolder
 
                             mv(fromFolder, toSubFolder)
                         })
-                        debugger
 
                         let parentFolderSplitted = to.split('\\')
 
@@ -1327,7 +1329,7 @@ const logic = {
                     const isFile = fs.lstatSync(from).isFile()
 
                     if (isFile) {
-                        if (itemName(from) !== 'this.json') {
+                        if (itemName(from) !== '.this.json') { //.THIS.JSON TODO
 
                             let parentFolderSplitted = from.split('\\')
 
@@ -1345,7 +1347,7 @@ const logic = {
                                 let jsonFile = JSON.parse(jsonBuffer)
 
                                 /* Finds the index of the child file to remove */
-                                let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === itemName(from))
+                                let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === itemName(from)) //TODO
 
                                 /* Removes the child by it's index */
                                 jsonFile.children.splice(childToRemoveIndex, 1)
@@ -1374,7 +1376,7 @@ const logic = {
                             let jsonFile = JSON.parse(jsonBuffer)
 
                             /* Finds the index of the child file to remove */
-                            let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === itemName(from))
+                            let childToRemoveIndex = jsonFile.children.findIndex(child => child.name === itemName(from)) //TODO
 
                             /* Removes the child by it's index */
                             jsonFile.children.splice(childToRemoveIndex, 1)
@@ -1517,7 +1519,7 @@ const logic = {
 
                 await filteredChildren.forEach(async child => {
                     let currentCompleteChildPath = oldFolderCompletePath + '/' + child
-                    debugger
+
                     let currentChildPath = oldFolderPath + '/' + child
 
                     let newCompleteChildPath = newFolderCompletePath + '/' + child
@@ -1602,8 +1604,6 @@ const logic = {
                         /* Ascertain if the file exists */
                         let fileStatus = fs.existsSync(currentCompleteChildPath)
 
-                        debugger
-
                         if (fileStatus) {
                             /* Moves file */
                             await fs.rename(currentCompleteChildPath, newCompleteChildPath, err => {
@@ -1626,7 +1626,7 @@ const logic = {
                         } catch (err) {
                             if (err) throw err
                         }
-                        debugger
+
                         /* Maps through the folder's children and ascertains if they are folders or files */
                         content.map(async (file, index) => {
                             let currentPath = path.join(myPath, file);
@@ -1676,156 +1676,160 @@ const logic = {
         })()
     },
 
-    move(from, to) {
+    // move(from, to) {
 
-        /*
-        WORKAROUND :D
+    //     /*
+    //     WORKAROUND :D
     
-        const execSync = require('child_process').execSync
+    //     const execSync = require('child_process').execSync
     
-        function cp(from, to) {
-            execSync(`cp -R ${from} ${to}`)
-        }
-        */
+    //     function cp(from, to) {
+    //         execSync(`cp -R ${from} ${to}`)
+    //     }
+    //     */
 
-        // function cp(from, to) {
-        //     const fromExists = fs.existsSync(from)
+    //     // function cp(from, to) {
+    //     //     const fromExists = fs.existsSync(from)
 
-        //     if (!fromExists) throw Error('origin file or folder does not exist')
+    //     //     if (!fromExists) throw Error('origin file or folder does not exist')
 
-        //     const fromIsFile = fs.lstatSync(from).isFile()
+    //     //     const fromIsFile = fs.lstatSync(from).isFile()
 
-        //     const toExists = fs.existsSync(to)
+    //     //     const toExists = fs.existsSync(to)
 
-        //     let toIsFile = true
+    //     //     let toIsFile = true
 
-        //     if (toExists) {
-        //         toIsFile = fs.lstatSync(to).isFile()
-        //     } else if (!fromIsFile) {
-        //         fs.mkdirSync(to)
+    //     //     if (toExists) {
+    //     //         toIsFile = fs.lstatSync(to).isFile()
+    //     //     } else if (!fromIsFile) {
+    //     //         fs.mkdirSync(to)
 
-        //         toIsFile = false
-        //     }
+    //     //         toIsFile = false
+    //     //     }
 
-        //     const _fromName = itemName(from)
+    //     //     const _fromName = itemName(from)
 
-        //     if (fromIsFile) {
-        //         const rs = fs.createReadStream(from)
-        //         const ws = fs.createWriteStream(toIsFile ? to : path.join(to, _fromName))
+    //     //     if (fromIsFile) {
+    //     //         const rs = fs.createReadStream(from)
+    //     //         const ws = fs.createWriteStream(toIsFile ? to : path.join(to, _fromName))
 
-        //         rs.pipe(ws)
-        //     } else {
-        //         if (toIsFile) throw Error('destiny is not a folder')
+    //     //         rs.pipe(ws)
+    //     //     } else {
+    //     //         if (toIsFile) throw Error('destiny is not a folder')
 
-        //         const fromFiles = listFiles(from)
+    //     //         const fromFiles = listFiles(from)
 
-        //         const toFolder = to
+    //     //         const toFolder = to
 
-        //         fromFiles.forEach(fromFile => cp(fromFile, toFolder))
+    //     //         fromFiles.forEach(fromFile => cp(fromFile, toFolder))
 
-        //         const fromFolders = listFolders(from)
+    //     //         const fromFolders = listFolders(from)
 
-        //         fromFolders.forEach(fromFolder => {
-        //             const toSubFolder = path.join(toFolder, itemName(fromFolder))
+    //     //         fromFolders.forEach(fromFolder => {
+    //     //             const toSubFolder = path.join(toFolder, itemName(fromFolder))
 
-        //             cp(fromFolder, toSubFolder)
-        //         })
-        //     }
-        // }
+    //     //             cp(fromFolder, toSubFolder)
+    //     //         })
+    //     //     }
+    //     // }
 
-        function itemName(from) {
-            return from.match(/([^\/]*)\/*$/)[1]
-        }
+    //     function itemName(from) {
+    //         if (from.match(/([^\/]*)\/*$/)[1] === 'this.json') {
+    //             return '.this.json'
+    //         } else {
+    //             return from.match(/([^\/]*)\/*$/)[1]
+    //         }
+    //     }
 
-        function listFiles(from) {
-            return fs.readdirSync(from).map(item => path.join(from, item)).filter(item => fs.lstatSync(item).isFile())
-        }
+    //     function listFiles(from) {
+    //         return fs.readdirSync(from).map(item => path.join(from, item)).filter(item => fs.lstatSync(item).isFile())
+    //     }
 
-        function listFolders(from) {
-            return fs.readdirSync(from).map(item => path.join(from, item)).filter(item => fs.lstatSync(item).isDirectory())
-        }
+    //     function listFolders(from) {
+    //         return fs.readdirSync(from).map(item => path.join(from, item)).filter(item => fs.lstatSync(item).isDirectory())
+    //     }
 
-        function mv(from, to) {
+    //     function mv(from, to) {
 
-            const fromExists = fs.existsSync(from)
+    //         const fromExists = fs.existsSync(from)
 
-            if (!fromExists) throw Error('origin file or folder does not exist')
+    //         if (!fromExists) throw Error('origin file or folder does not exist')
 
-            const fromIsFile = fs.lstatSync(from).isFile()
+    //         const fromIsFile = fs.lstatSync(from).isFile()
 
-            const toExists = fs.existsSync(to)
+    //         const toExists = fs.existsSync(to)
 
-            let toIsFile = true
+    //         let toIsFile = true
 
-            let _fromName = itemName(from)
+    //         let _fromName = itemName(from)
 
-            if (toExists) {
+    //         if (toExists) {
 
-                toIsFile = fs.lstatSync(to).isFile()
+    //             toIsFile = fs.lstatSync(to).isFile()
 
-                if (toIsFile) {
-                    if (!fromIsFile) throw Error(`cannot move folder ${from} to file ${to}`)
-                } else {
-                    if (!fromIsFile) fs.mkdirSync(path.join(to, _fromName))
-                }
-            } else {
+    //             if (toIsFile) {
+    //                 if (!fromIsFile) throw Error(`cannot move folder ${from} to file ${to}`)
+    //             } else {
+    //                 if (!fromIsFile) fs.mkdirSync(path.join(to, _fromName))
+    //             }
+    //         } else {
 
-                if (!fromIsFile) {
-                    fs.mkdirSync(to)
+    //             if (!fromIsFile) {
+    //                 fs.mkdirSync(to)
 
-                    _fromName = ''
-                }
+    //                 _fromName = ''
+    //             }
 
-                toIsFile = false
-            }
+    //             toIsFile = false
+    //         }
 
-            if (fromIsFile) {
+    //         if (fromIsFile) {
 
-                // const rs = fs.createReadStream(from)
-                // const ws = fs.createWriteStream(toIsFile ? to : path.join(to, _fromName))
+    //             // const rs = fs.createReadStream(from)
+    //             // const ws = fs.createWriteStream(toIsFile ? to : path.join(to, _fromName))
 
-                // rs.pipe(ws)
+    //             // rs.pipe(ws)
 
-                const content = fs.readFileSync(from)
-                fs.writeFileSync(toIsFile ? to : path.join(to, _fromName), content)
+    //             const content = fs.readFileSync(from)
+    //             fs.writeFileSync(toIsFile ? to : path.join(to, _fromName), content)
 
-                rm(from)
-            } else {
+    //             rm(from)
+    //         } else {
 
-                if (toIsFile) throw Error('destiny is not a folder')
+    //             if (toIsFile) throw Error('destiny is not a folder')
 
-                const fromFiles = listFiles(from)
+    //             const fromFiles = listFiles(from)
 
-                const toFolder = path.join(to, _fromName)
+    //             const toFolder = path.join(to, _fromName)
 
-                // if (!fs.existsSync(toFolder)) fs.mkdirSync(toFolder)
+    //             // if (!fs.existsSync(toFolder)) fs.mkdirSync(toFolder)
 
-                fromFiles.forEach(fromFile => {
-                    mv(fromFile, toFolder)
-                })
+    //             fromFiles.forEach(fromFile => {
+    //                 mv(fromFile, toFolder)
+    //             })
 
-                const fromFolders = listFolders(from)
+    //             const fromFolders = listFolders(from)
 
-                fromFolders.forEach(fromFolder => {
-                    const toSubFolder = toFolder //path.join(toFolder, itemName(fromFolder))
+    //             fromFolders.forEach(fromFolder => {
+    //                 const toSubFolder = toFolder //path.join(toFolder, itemName(fromFolder))
 
-                    mv(fromFolder, toSubFolder)
-                })
+    //                 mv(fromFolder, toSubFolder)
+    //             })
 
-                rm(from)
-            }
-        }
+    //             rm(from)
+    //         }
+    //     }
 
-        function rm(from) {
-            const isFile = fs.lstatSync(from).isFile()
+    //     function rm(from) {
+    //         const isFile = fs.lstatSync(from).isFile()
 
-            if (isFile) fs.unlinkSync(from)
-            else fs.rmdirSync(from)
-        }
+    //         if (isFile) fs.unlinkSync(from)
+    //         else fs.rmdirSync(from)
+    //     }
 
-        mv(from, to)
+    //     mv(from, to)
 
-    }
+    // }
 
 }
 

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import logic from '../../logic'
 import './index.sass'
 
-function File({ name, file, filePath, closeFile, showMenu, saveFile, onDrag, onDragStart, dragEnd }) {
+function File({ name, file, filePath, closeFile, showMenu, saveFile, onDrag, onDragStart, dragEnd, fileFeedback }) {
 
     let newText = useRef()
     let [openMenu, setOpenMenu] = useState(false)
@@ -16,6 +16,9 @@ function File({ name, file, filePath, closeFile, showMenu, saveFile, onDrag, onD
         // debugger
         return logic.updateFile(filePath, fileContent)
             .then(() => showMenu())
+            .catch(err => {
+                fileFeedback(err)
+            })
     }
 
     // if (newText.current) {

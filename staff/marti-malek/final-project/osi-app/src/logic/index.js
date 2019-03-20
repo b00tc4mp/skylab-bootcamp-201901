@@ -8,11 +8,7 @@ const logic = {
      * Checks if user is logged in.
      */
     get isUserLoggedIn() {
-        // if (this.__userApiToken__ === "null") {
-        //     return false
-        // } else {
-            return !!this.__userApiToken__
-        // }
+        return !!this.__userApiToken__
     },
 
     /**
@@ -84,7 +80,7 @@ const logic = {
     createDir(dirName) {
         return osiApi.createDir(this.__userApiToken__, dirName)
     },
-    
+
     retrieveDir(dirPath) {
         return osiApi.retrieveDir(this.__userApiToken__, dirPath)
     },
