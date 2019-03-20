@@ -23,8 +23,6 @@ function Card({
 }) {
   const [commentsPost, setComments] = useState("");
   const [total, setTotal] = useState(countfavs);
-  const { user } = useContext(UserContext);
-  const { id } = user;
   const [y, setY] = useState("");
   const [m, setM] = useState("");
   const [d, setD] = useState("");
@@ -74,16 +72,20 @@ function Card({
           className="instafood-card-user-name"
           to={`/profile/${postUserId}`}
         >
-          {location.pathname === "/posts" ? (
+          {location.pathname === "/posts" || "/search" ? (
             <img
               className="user-photo"
-              src={`https://api.adorable.io/avatars/285/${id}.png`}
+              src={`https://api.adorable.io/avatars/285/${username}.png`}
               alt="user"
             />
           ) : (
             ""
           )}
-          {location.pathname === "/posts" ? <span>{username}</span> : ""}
+          {location.pathname === "/posts" || "/search" ? (
+            <span>{username}</span>
+          ) : (
+            ""
+          )}
         </Link>
         <div className="insta-food-favorites">
           <i

@@ -60,6 +60,7 @@ function ProfilePost({ match }) {
             userFavorites={userFavorites}
             call={getUserPosts}
             call2={retrieveUserFavs}
+            date={post.date}
           />
         ))}
     </Fragment>

@@ -20,12 +20,13 @@ function Search({ history, match }) {
           obj.tags.includes(`#${initTag}`)
         );
         setPosts(filtered);
+        console.log("username", posts.docs);
         window.scrollTo(0, 0);
         if (filtered.length === 0) {
-          setSearchFeedback("No results");
+          showSearchFeedback("No results");
         }
       })
-      .catch(({ message }) => setSearchFeedback(message));
+      .catch(({ message }) => showSearchFeedback(message));
   };
 
   const retrieveUserFavs = () => {
@@ -35,6 +36,12 @@ function Search({ history, match }) {
   const handleClick = event => {
     event.preventDefault();
     history.push(`/search/${tag}`);
+  };
+
+  const hideSearchFeedback = () => setSearchFeedback(null);
+  const showSearchFeedback = message => {
+    setSearchFeedback(message);
+    setTimeout(hideSearchFeedback, 2000);
   };
 
   useEffect(() => {
@@ -60,6 +67,7 @@ function Search({ history, match }) {
         {posts &&
           posts.map(post => (
             <Card
+              username={post.user_id.username}
               key={post._id}
               title={post.title}
               image={post.image}
@@ -69,6 +77,7 @@ function Search({ history, match }) {
               searchByTag={searchByTag}
               userFavorites={userFavorites}
               countfavs={post.countfavs}
+              date={post.date}
               call={retrieveUserFavs}
             />
           ))}
