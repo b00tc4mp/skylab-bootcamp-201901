@@ -1,5 +1,9 @@
+require("dotenv").config()
+const { env: { URL_API } } = process
+
 const skylabApi = {
-    url: 'http://localhost:8000/api',
+    url: 'https://mighty-brushlands-87259.herokuapp.com/api/',
+    // url: 'http://localhost:8000/api', 
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
@@ -208,7 +212,7 @@ const skylabApi = {
                 if (response.error) throw Error(response.error)
                 return response
             })
-            
+
     },
 
     invitationList(token) {

@@ -6,10 +6,6 @@ const pug = require('pug')
 
 const emailing = {
   sendInvitation(emailTo, name) {
-    // validate([
-    //   { key: 'emailTo', value: emailTo, type: String },
-    //   { key: 'name', value: name, type: String }
-    // ])
 
     if (typeof emailTo !== 'string') throw TypeError(emailTo + ' is not a string')
     if (!emailTo.trim().length) throw Error('emailTo cannot be empty')

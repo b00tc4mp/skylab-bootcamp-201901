@@ -46,7 +46,6 @@ const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = p
 
 mongoose.connect(DB_URL, { useNewUrlParser: true })
     .then(() => {
-
         tokenHelper.jwtSecret = JWT_SECRET
 
         const app = express()

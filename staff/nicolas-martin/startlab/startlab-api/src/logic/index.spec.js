@@ -1407,10 +1407,8 @@ describe("logic", () => {
     })
 
     after(() =>
-        Promise.all([
-            User.deleteMany(), Exercise.deleteMany(), Invitation.deleteMany(), Historical.deleteMany()]).then(() =>
-                mongoose.disconnect()
-            )
+        Promise.all([User.deleteMany(), Exercise.deleteMany(), Invitation.deleteMany(), Historical.deleteMany()]).then(() =>
+        mongoose.disconnect())
     )
 
 })

@@ -15,14 +15,17 @@ class InvitationList extends Component {
       .catch(message => this.emitFeedback(message, 'error'))
   }
 
-  emitFeedback = (message, level) => toast[level](message, {
-    position: 'top-right',
-    autoClose: false,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-  })
+  emitFeedback = (message, level) => {
+    toast.dismiss()
+    return toast[level](message, {
+      position: 'top-right',
+      autoClose: level !== 'error',
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    })
+  }
 
   handleDelete = (id) => {
     logic.deleteInvitation(id)
