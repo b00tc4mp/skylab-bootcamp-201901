@@ -1,6 +1,6 @@
 @import "../../styles/_index.scss";
 
-section.container{
+section.container {
   display: flex;
   justify-content: center;
 }
@@ -18,5 +18,11 @@ label {
   margin-bottom: 20px;
   select {
     margin-left: 10px;
+  }
+}
+.buttonRegister {
+  margin-top: 20px;
+  button {
+    width: 100%;
   }
 }

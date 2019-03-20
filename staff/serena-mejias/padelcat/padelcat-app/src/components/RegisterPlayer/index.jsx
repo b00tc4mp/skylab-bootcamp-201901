@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { TextField, Select, InputLabel, MenuItem } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -42,12 +42,14 @@ const RegisterPlayer = props => {
       !email ||
       !password ||
       !passwordConfirm ||
+      !preferedPosition ||
       !link ||
       (password && password !== passwordConfirm)
     );
   };
-  const { feedback} = props;
-    return (
+
+  const { feedback } = props;
+  return (
     <section className={styles.container}>
       <form className={styles.register} onSubmit={handleRegisterSubmit}>
         <TextField
@@ -104,7 +106,7 @@ const RegisterPlayer = props => {
           <MenuItem value={"Right"}>Right</MenuItem>
           <MenuItem value={"Both"}>Both</MenuItem>
         </Select>
-        <div className={styles.button_register}>
+        <div className={styles.buttonRegister}>
           <Button
             variant="contained"
             color="primary"
