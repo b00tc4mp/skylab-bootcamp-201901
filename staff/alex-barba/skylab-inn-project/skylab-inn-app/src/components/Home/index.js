@@ -24,9 +24,15 @@ function Home({ history }) {
         try {
             logic.searchSkylaber(query)
                 .then(searchResults => {
-                    setShowSpinner(null)
-                    setFeedback(null)
-                    setSearchResults(searchResults)
+                    if(!searchResults.resContact.length && !searchResults.resTechs.length && !searchResults.resLang.length && !searchResults.resEdu.length && !searchResults.resWork.length){
+                        setSearchResults(null)
+                        setShowSpinner(null)
+                        setFeedback('No Skylabers matching your query')
+                    }else {
+                        setShowSpinner(null)
+                        setFeedback(null)
+                        setSearchResults(searchResults)
+                    }
                 })
                 .catch(({ message }) => {
                     setShowSpinner(null)
@@ -65,9 +71,15 @@ function Home({ history }) {
         try {
             logic.adSearchSkylaber(filter)
                 .then(searchResults => {
-                    setShowSpinner(null)
-                    setFeedback(null)
-                    setAdSearchResults(searchResults)
+                    if(!searchResults.length) {
+                        setAdSearchResults(null)
+                        setShowSpinner(null)
+                        setFeedback('No Skylabers matching your query')
+                    } else {
+                        setShowSpinner(null)
+                        setFeedback(null)
+                        setAdSearchResults(searchResults)
+                    }
                 })
                 .catch(({ message }) => {
                     setShowSpinner(null)

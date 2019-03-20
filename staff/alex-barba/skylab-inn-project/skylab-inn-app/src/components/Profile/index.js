@@ -31,8 +31,6 @@ export default function Profile({ onUpdateContactInfo, onAddInformation, onUpdat
     const [addEducation, setAddEducation] = useState(null)
     const [editEducation, setEditEducation] = useState(null)
 
-    console.log('pass here')
-
     const handleOnUploadPhoto = () => {
         setEditImage(null)
         onUploadPhoto(_image)

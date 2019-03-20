@@ -1,8 +1,10 @@
 import validate from 'skylab-inn-validation'
 
+const { REACT_APP_API_URL } = process.env
+
 const skylabInnApi = {
-    // url: 'http://localhost:8000/api',
-    url: 'https://fast-taiga-93895.herokuapp.com/api',
+
+    url: REACT_APP_API_URL,
 
     /**
      * Registers a user.

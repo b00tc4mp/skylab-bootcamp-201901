@@ -5,14 +5,20 @@ const validate = require('skylab-inn-validation')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
 const { createToken, verifyToken } = require('../token-helper')
+const streamifier = require('streamifier')
+const cloudinary = require('cloudinary').v2
+const fs = require('fs')
 
 /**
  * Abstraction of business logic.
  */
 const logic = {
 
-    url: null,
-    urlServer: null,
+    appUrl: null,
+    apiUrl: null,
+    cloud_name: null,
+    api_key: null,
+    api_secret: null,
 
     /**
      * Register a user.
@@ -70,7 +76,7 @@ const logic = {
                 subject: 'Welcome to the Skylab Universe!',
                 html: `<h1>Thanks for signing up ${name}!</h1>
                     <p>We just need you to verify you email to complete registration.<p>
-                    <p>Please click on the following <a href='${this.urlServer}/user/${status}/verify'>link</a>.</p>
+                    <p>Please click on the following <a href='${this.apiUrl}/user/${status}/verify'>link</a>.</p>
                     <p>Thanks</p>
                     <p>Skylab Inn</p>
                 `
@@ -199,8 +205,6 @@ const logic = {
             resEdu && (results.resEdu = resEdu)
             resWork && (results.resWork = resWork)
 
-            if (!resContact.length && !resTechs.length && !resLang.length && !resEdu.length && !resWork.length) throw new Error('No matches found!')
-
             return results
         })()
     },
@@ -250,8 +254,6 @@ const logic = {
             })
 
             let match = await User.find({ $and: adSearch })
-
-            if (!match.length) throw new Error('No matches found!')
 
             return match
         })()
@@ -560,7 +562,7 @@ const logic = {
                 subject: 'Join de Skylab Universe!',
                 html: `<h1>Welcome to Skylab Inn ${name}</h1>
                     <p>We would like to thank you once again for joining the Skylab Academy.<p>
-                    <p>We would like you to register in the following <a href='${this.url}/signup'>link</a> to join Skylab Inn.</p>
+                    <p>We would like you to register in the following <a href='${this.appUrl}/signup'>link</a> to join Skylab Inn.</p>
                     <p>We ask you to update your created profile in order to offer you the best job opportunities matching the company needs with your skills and experience.</p>
                     <p>This network will also allow you to se all Skylabers information, so that you can get in touch with any of them if you may ever need it.</p>
                     <p>See you soon!</p>
@@ -606,25 +608,44 @@ const logic = {
    * Update user information.
    * 
    * @param {String} userId 
-   * @param {String} url 
+   * @param {Buffer} buffer 
    * 
-   * @throws {TypeError} - if userId is not a string or data is not an object.
-   * @throws {Error} - if any param is empty or user is not found.
+   * @throws {TypeError} - if userId is not a string or buffer is not a buffer.
+   * @throws {Error} - if any param is empty, user is not found or image could not be uploaded.
    *
    * @returns {Object} - user.  
    */
-    updateUserPhoto(userId, url) {
+    updateUserPhoto(userId, buffer) {
 
-        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'buffer', value: buffer, type: Buffer }])
 
         return (async () => {
-            const user = await User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
+            const user = await User.findById(userId)
             if (!user) throw new Error(`user with userId ${userId} not found`)
 
-            user.id = user._id.toString()
-            delete user._id
+            cloudinary.config({
+                cloud_name: this.cloud_name,
+                api_key: this.api_key,
+                api_secret: this.api_secret
+            })
 
-            return user
+            const image = await new Promise((resolve, reject) => {
+
+                const upload_stream = cloudinary.uploader.upload_stream((err,image) => {
+
+                    if (err) return reject (`Image could not be uploaded: ${err}`)
+    
+                    resolve(image)
+                })
+                streamifier.createReadStream(buffer).pipe(upload_stream)
+            })
+
+            let _user = await User.findByIdAndUpdate(userId, { image: image.secure_url }, { new: true, runValidators: true }).select('-__v -password').lean()
+            
+            _user.id = user._id.toString()
+            delete _user._id
+
+            return _user
         })()
     },
 
@@ -700,7 +721,7 @@ const logic = {
 
             const results = await createToken(skylaberIds)
 
-            const hashedUrl = `http://localhost:3000/#/skylabers/${results}`
+            const hashedUrl = `${this.appUrl}/skylabers/${results}`
 
             return hashedUrl
         })()
