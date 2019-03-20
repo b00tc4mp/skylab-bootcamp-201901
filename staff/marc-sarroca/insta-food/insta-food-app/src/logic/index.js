@@ -48,12 +48,12 @@ const logic = {
   },
 
   createPost(title, description, image) {
-    if (typeof title !== "string") throw TypeError(`${title} is not a string`);
+    if (typeof title !== "string") throw Error("Title is not a string");
     if (!title.trim().length) throw Error("title is empty");
     if (typeof description !== "string")
-      throw TypeError(`${description} is not a string`);
+      throw Error("Description can't be empty");
     if (!description.trim().length) throw Error("description is empty");
-    if (typeof image !== "string") throw TypeError(`${image} is not a string`);
+    if (typeof image !== "string") throw Error("Image can't be is upload");
     if (!image.trim().length) throw Error("image is empty");
     return instaApi.createPost(
       title,

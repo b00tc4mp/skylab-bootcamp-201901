@@ -14,6 +14,7 @@ import useUser from "../../logic/user";
 import ButtonBar from "../ButtonBar";
 import TopBar from "../TopBar";
 import "./index.sass";
+import { ToastContainer, toast } from "react-toastify";
 
 function App(props) {
   const { userState, getUser, logout, login } = useUser();
@@ -80,6 +81,17 @@ function App(props) {
         </div>
       )}
       {user && <ButtonBar />}
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
     </UserContext.Provider>
   );
 }

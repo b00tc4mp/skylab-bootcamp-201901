@@ -25,7 +25,7 @@ function ProfilePost({ match }) {
     logic.retrieveUser().then(user => setUserFavorites(user.favorites));
   };
 
-  const getUserPosts = (postUserId = id) => {
+  const getUserPosts = (postUserId = match.params.userId || id) => {
     logic.retrievePostByUser(postUserId).then(res => {
       setPostsUser(res);
       window.scrollTo(0, 0);
@@ -37,7 +37,8 @@ function ProfilePost({ match }) {
       <div className="header-container">
         <img
           className="user-photo-profile"
-          src={`https://api.adorable.io/avatars/285/${id}.png`}
+          src={`https://api.adorable.io/avatars/285/${postsUser.user &&
+            postsUser.user._id}.png`}
           alt="user"
         />
         <div className="user-container">
@@ -47,22 +48,24 @@ function ProfilePost({ match }) {
           <span>Tienes {numPost} publicaciones</span>
         </div>
       </div>
-      {postsUser.post &&
-        postsUser.post.map(post => (
-          <Card
-            key={post._id}
-            title={post.title}
-            image={post.image}
-            description={post.description}
-            comments={post.comments}
-            countfavs={post.countfavs}
-            postId={post && post._id}
-            userFavorites={userFavorites}
-            call={getUserPosts}
-            call2={retrieveUserFavs}
-            date={post.date}
-          />
-        ))}
+      <div className="load">
+        {postsUser.post &&
+          postsUser.post.map(post => (
+            <Card
+              key={post._id}
+              title={post.title}
+              image={post.image}
+              description={post.description}
+              comments={post.comments}
+              countfavs={post.countfavs}
+              postId={post && post._id}
+              userFavorites={userFavorites}
+              call={getUserPosts}
+              call2={retrieveUserFavs}
+              date={post.date}
+            />
+          ))}
+      </div>
     </Fragment>
   );
 }

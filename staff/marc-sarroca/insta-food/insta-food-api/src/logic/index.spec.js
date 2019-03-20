@@ -700,7 +700,6 @@ describe("logic", () => {
         }).then(({ _id }) => (userId = _id.toString()))
       )
     );
-    console.log(userId);
 
     it("should succeed on correct credentials", () =>
       logic.retrieveUser(userId).then(user => {
@@ -1143,11 +1142,11 @@ describe("logic", () => {
         })
     );
     it("should succeed on valid data", async () => {
-      const retrievePost = await logic.retrieveAllPosts();
-      expect(retrievePost[0].title).toBe(title);
-      expect(retrievePost[0].description).toBe(description);
-      expect(retrievePost[0].image).toBe(image);
-      expect(retrievePost[0].user_id._id.toString()).toBe(user_id);
+      const retrievePost = await logic.retrieveAllPosts(1);
+      expect(retrievePost.docs[0].post.title).toBe(title);
+      expect(retrievePost.docs[0].description).toBe(description);
+      expect(retrievePost.docs[0].image).toBe(image);
+      expect(retrievePost.docs[0].user_id._id.toString()).toBe(user_id);
     });
   });
 
@@ -1373,7 +1372,6 @@ describe("logic", () => {
     );
     it("should succeed on valid data", async () => {
       const Comments = await logic.addCommentPost(user_id, postId, text);
-      console.log(Comments);
       expect(Comments.comments[0]._id).toBeDefined();
       expect(Comments.comments[0].body).toBe(text);
     });

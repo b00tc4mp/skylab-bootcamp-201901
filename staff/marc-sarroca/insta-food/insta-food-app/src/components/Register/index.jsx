@@ -3,6 +3,8 @@ import Feedback from "../Feedback";
 import "./index.sass";
 import logic from "../../logic";
 import { withRouter } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function Register(props) {
   const [email, setEmail] = useState(null);
@@ -27,9 +29,11 @@ function Register(props) {
         .then(() => props.history.push("/login"))
         .catch(({ message }) => setRegisterFeedback(message));
     } catch ({ message }) {
-      setRegisterFeedback(message);
+      notify(message);
     }
   };
+
+  const notify = message => toast.warn(message);
 
   return (
     <section className="panel-login-register">

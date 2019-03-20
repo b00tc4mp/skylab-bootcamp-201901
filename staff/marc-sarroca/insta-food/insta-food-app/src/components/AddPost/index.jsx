@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import logic from "../../logic";
 import storage from "../../firebase";
-import Feedback from "../Feedback";
 import { withRouter } from "react-router-dom";
 import "./index.sass";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function AddPost({ history }) {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [image, setImage] = useState(null);
   const [percentage, setPercentage] = useState(0);
-  const [addFeedback, setAddFeedback] = useState(null);
 
   const handleTitleInput = event => setTitle(event.target.value);
   const handleDescriptionInput = event => setDescription(event.target.value);
@@ -22,15 +22,10 @@ function AddPost({ history }) {
         .createPost(title, description, image)
         .then(() => history.push("/profile"));
     } catch ({ message }) {
-      showAddFeedback(message);
+      notify(message);
     }
   };
-  const hideAddFeedback = () => setAddFeedback(null);
-  const showAddFeedback = message => {
-    setAddFeedback(message);
-    setTimeout(hideAddFeedback, 2000);
-  };
-
+  const notify = message => toast.warn(message);
   const handleImageInput = e => {
     const file = e.target.files[0];
     const id = Date.now();
@@ -47,7 +42,7 @@ function AddPost({ history }) {
         //pushToLogin(percentage);
       },
       error => {
-        setAddFeedback(error.message);
+        notify(error.message);
       },
       () => {
         // Upload complete
@@ -95,7 +90,6 @@ function AddPost({ history }) {
         </div>
         <button className="post-button">Create Post</button>
       </form>
-      {addFeedback && <Feedback message={addFeedback} />}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState, createContext } from "react";
 import instaApi from "../instafood-api";
+import { toast } from "react-toastify";
 
 export default function useUser() {
   const context = createContext();
@@ -41,6 +42,7 @@ export default function useUser() {
       throw TypeError(password + " is not a string");
 
     if (!password.trim().length) throw Error("password cannot be empty");
+    const notify = message => toast(message);
 
     setUserState({
       isUserLoading: true
@@ -58,13 +60,13 @@ export default function useUser() {
           sessionStorage.setItem("__userId__", id);
           sessionStorage.setItem("__userApiToken__", token);
         })
-        .catch(({ message }) =>
+        .catch(({ message }) => {
           setUserState({
             user: null,
-            isUserLoading: false,
-            userError: message
-          })
-        );
+            isUserLoading: false
+          });
+          notify(message);
+        });
     } catch (error) {
       setUserState({ userError: error.message });
     }

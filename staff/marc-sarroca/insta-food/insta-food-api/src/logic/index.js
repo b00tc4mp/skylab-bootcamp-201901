@@ -146,7 +146,7 @@ const logic = {
       {},
       {
         page,
-        limit: 2,
+        limit: 10,
         populate: ["comments.by", "username", "user_id"],
         select: "-__v -password",
         lean: true,

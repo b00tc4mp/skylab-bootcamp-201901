@@ -5,8 +5,6 @@ module.exports = (req, res) => {
     params: { page }
   } = req;
 
-  console.log("holaaaa", page);
-
   try {
     logic
       .retrieveAllPosts(page)

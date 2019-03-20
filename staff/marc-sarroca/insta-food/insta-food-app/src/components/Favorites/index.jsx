@@ -18,7 +18,7 @@ const Favorites = () => {
     retrieveUserFavs();
   }, []);
   return (
-    <div className="fav-list">
+    <div className="load">
       {userFavorites &&
         userFavorites
           .reverse()

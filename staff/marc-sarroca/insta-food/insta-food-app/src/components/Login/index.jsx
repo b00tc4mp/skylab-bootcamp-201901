@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../userContext";
-import Feedback from "../Feedback";
 import "./index.sass";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { userError, login } = useContext(UserContext);
-  const [loginFeedback, setLoginFeedback] = useState(null);
+  const { login } = useContext(UserContext);
 
   const handleEmailInput = event => setEmail(event.target.value);
   const handlePasswordInput = event => setPassword(event.target.value);
@@ -17,9 +17,11 @@ function Login() {
     try {
       login(email, password);
     } catch ({ message }) {
-      setLoginFeedback(message);
+      notify(message);
     }
   };
+
+  const notify = message => toast.warn(message);
 
   return (
     <section className="panel-login-register">
@@ -44,8 +46,6 @@ function Login() {
           </span>
         </form>
       </div>
-      {loginFeedback && <Feedback message={loginFeedback} />}
-      {userError && <Feedback message={userError} />}
     </section>
   );
 }

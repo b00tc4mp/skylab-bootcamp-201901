@@ -2,15 +2,15 @@ import React, { useState, Fragment, useEffect } from "react";
 import logic from "../../logic";
 import Card from "../../components/Card";
 import { withRouter } from "react-router-dom";
-import Feedback from "../Feedback";
 import "./index.sass";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function Search({ history, match }) {
   const [posts, setPosts] = useState([]);
   const [tag, setTag] = useState("");
   const [userFavorites, setUserFavorites] = useState([]);
   const handleHashtagInput = event => setTag(event.target.value);
-  const [searchFeedback, setSearchFeedback] = useState(null);
 
   const searchByTag = async initTag => {
     logic
@@ -20,13 +20,12 @@ function Search({ history, match }) {
           obj.tags.includes(`#${initTag}`)
         );
         setPosts(filtered);
-        console.log("username", posts.docs);
         window.scrollTo(0, 0);
         if (filtered.length === 0) {
-          showSearchFeedback("No results");
+          notify("No results");
         }
       })
-      .catch(({ message }) => showSearchFeedback(message));
+      .catch(({ message }) => notify(message));
   };
 
   const retrieveUserFavs = () => {
@@ -38,11 +37,7 @@ function Search({ history, match }) {
     history.push(`/search/${tag}`);
   };
 
-  const hideSearchFeedback = () => setSearchFeedback(null);
-  const showSearchFeedback = message => {
-    setSearchFeedback(message);
-    setTimeout(hideSearchFeedback, 2000);
-  };
+  const notify = message => toast.warn(message);
 
   useEffect(() => {
     retrieveUserFavs();
@@ -60,10 +55,9 @@ function Search({ history, match }) {
             onChange={handleHashtagInput}
             placeholder="Search by tag"
           />
-          {searchFeedback && <Feedback message={searchFeedback} />}
         </form>
       </div>
-      <div className="card-list">
+      <div className="card-list load">
         {posts &&
           posts.map(post => (
             <Card

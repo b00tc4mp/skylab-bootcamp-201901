@@ -1,34 +1,31 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../userContext";
+import React from "react";
 import "./index.sass";
 import { Link } from "react-router-dom";
 
 function ButtonBar() {
-  const { user, logout } = useContext(UserContext);
-
   return (
     <section className="buttonBar">
-      <div className="landing">
+      <div className="landing ">
         <Link to="/posts">
-          <i className="fas fa-home fa-lg" />
+          <i className="fas fa-home fa-lg animation" />
         </Link>
       </div>
       <div className="search">
         <Link to="/search">
-          <i className="fas fa-search fa-lg" />
+          <i className="fas fa-search fa-lg animation" />
         </Link>
       </div>
       <div className="add">
         <Link to="/add">
-          <i className="fas fa-plus-circle fa-lg" />
+          <i className="fas fa-plus-circle fa-lg animation" />
         </Link>
       </div>
       <div className="favs">
         <Link to="/favorites">
-          <i className="far fa-star fa-lg" />
+          <i className="far fa-star fa-lg animation" />
         </Link>
       </div>
-      <div className="profile">
+      <div className="profile animation">
         <Link to="/profile">
           <i className="far fa-user fa-lg" />
         </Link>

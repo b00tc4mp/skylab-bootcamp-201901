@@ -11,7 +11,7 @@ function CardList(props) {
   const [posts, setPosts] = useState([]);
   const [userFavorites, setUserFavorites] = useState([]);
   const [page, setPage] = useState(1);
-  const [n, setn] = useState(false);
+  const [setn] = useState(false);
 
   window.scrollTo(0, 0);
 
@@ -19,9 +19,6 @@ function CardList(props) {
     getPosts();
     retrieveUserFavs();
   }, []);
-
-  let route = props.location.pathname;
-  console.log(route);
 
   window.onscroll = () => {
     if (!document.getElementById("load")) return;

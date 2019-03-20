@@ -4,7 +4,6 @@ import "./index.sass";
 import AddComment from "./AddComment";
 import logic from "../../logic";
 import { withRouter } from "react-router-dom";
-import { UserContext } from "../../userContext";
 
 function Card({
   title,
@@ -75,7 +74,7 @@ function Card({
           {location.pathname === "/posts" || "/search" ? (
             <img
               className="user-photo"
-              src={`https://api.adorable.io/avatars/285/${username}.png`}
+              src={`https://api.adorable.io/avatars/285/${postUserId}.png`}
               alt="user"
             />
           ) : (
