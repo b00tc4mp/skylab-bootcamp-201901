@@ -1,4 +1,4 @@
-# Final Project Gerard Celma
+# Flare
 Messaging app that allows users to send messages to other users, based on a specific position (lat,long) and a specific launch date.
 
 ## Contributing
