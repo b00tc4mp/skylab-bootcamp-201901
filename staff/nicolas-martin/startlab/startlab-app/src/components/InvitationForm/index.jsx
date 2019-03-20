@@ -20,14 +20,17 @@ class InvitationForm extends Component {
     }
   }
 
-  emitFeedback = (message, level) => toast[level](message, {
+  emitFeedback = (message, level) => {
+    toast.dismiss()
+    return toast[level](message, {
       position: 'top-right',
-      autoClose: false,
+      autoClose: level !== 'error',
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
-  })
+    })
+  }
 
   handleEmailInput = event => this.setState({ email: event.target.value })
 

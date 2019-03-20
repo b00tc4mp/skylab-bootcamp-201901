@@ -11,6 +11,10 @@
     "test-debug": "mocha debug src/**/*.spec.js",
     "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
   },
+  "nyc": {
+    "include": "src/logic",
+    "exclude": "**/*.spec.js" 
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

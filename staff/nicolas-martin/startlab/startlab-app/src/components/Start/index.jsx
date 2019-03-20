@@ -44,7 +44,7 @@ class Start extends Component {
                 .catch(message => {
                     let _failures = [{ err: { message } }]
                     this.checkResponse('', _failures)
-                    this.emitFeedbackError(message)
+                    //this.emitFeedbackError(message)
                 })
         } catch ({ message }) {
             this.emitFeedback(message, 'error')
@@ -77,15 +77,6 @@ class Start extends Component {
     handleAnswerChange = answer => this.setState({ answer })
 
     emitFeedback = (message, level) => toast[level](message, {
-        position: 'top-right',
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-    })
-
-    emitFeedbackError = message => toast.error(message, {
         position: 'top-right',
         autoClose: false,
         hideProgressBar: false,

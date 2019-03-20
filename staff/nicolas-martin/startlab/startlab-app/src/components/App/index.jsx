@@ -50,20 +50,23 @@ class App extends Component {
     }
   }
 
-  emitFeedback = (message, level) => toast[level](message, {
-    position: 'top-right',
-    autoClose: false,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-  })
+  emitFeedback = (message, level) => {
+    toast.dismiss()
+    return toast[level](message, {
+      position: 'top-right',
+      autoClose: level !== 'error',
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    })
+  }
 
   handleLogout = (event) => {
     event.preventDefault()
     logic.logOutUser()
     this.setState({ isAdmin: false, isLoggedIn: false })
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
 
   onExerciseEdit = (id) => this.props.history.push(`/admin/exercise/${id}`)
@@ -107,7 +110,7 @@ class App extends Component {
       <div className="app container">
         <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} onLogOut={handleLogout} />
         <Switch>
-          <Route exact path="/" render={() => isLoggedIn? <Home onStart={handleStart} /> : <Redirect to='/register' />} />
+          <Route exact path="/" render={() => (!isAdmin && isLoggedIn)? <Home onStart={handleStart} /> : <Redirect to='/admin/exercises' />} />
           <Route exact path="/start" component={Start} />
 
           <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} /> : <Redirect to='/' />} /> :

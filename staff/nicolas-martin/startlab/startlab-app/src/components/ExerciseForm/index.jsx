@@ -8,7 +8,6 @@ import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
 
-//import AnswerForm from '../AnswerForm'
 
 class ExerciseForm extends Component {
     state = {
@@ -48,14 +47,17 @@ class ExerciseForm extends Component {
         }
     }
 
-    emitFeedback = (message, level) => toast[level](message, {
-        position: 'top-right',
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-    })
+    emitFeedback = (message, level) => {
+        toast.dismiss()
+        return toast[level](message, {
+          position: 'top-right',
+          autoClose: level !== 'error',
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        })
+    }
 
     handleTitleInput = event => this.setState({ title: event.target.value })
 

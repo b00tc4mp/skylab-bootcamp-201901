@@ -41,7 +41,7 @@ const logic = {
         if (password !== passwordConfirm) throw Error('passwords do not match')
 
         return this.__isEmailInvited__(email)
-            .then(isInvited => {
+            .then(isInvited => { 
                 if (!isInvited) throw Error('only invited users can registered')
 
                 return User.findOne({ email })
@@ -463,10 +463,6 @@ const logic = {
 
         // const unit = `function target(){${answer}}module.exports = target` // we have to wrapped in a function target
 
-        // const script = new vm.Script(unit)
-        // const ctx = { module, console }
-        // script.runInNewContext(ctx) //ctx => { module: Module, console: Console, salute: [Function: salute] }
-
         var MyReporter = require('./reporter')
         MyReporter.callback = callback
 
@@ -474,9 +470,6 @@ const logic = {
         var exerciseFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
         var exerciseUserFile = path.join(process.cwd(), 'src', 'answer-files', userId, `${exerciseId}.js`)
 
-        // 1. read unitFile with [TARGET]
-        // 2. replace [TARGET] with answer
-        // 3. save the file in src/answer-files/≤userId>/<exerciseId>
 
         let testFromFile
         if (fs.existsSync(exerciseFile)) { // read exerciseFile if exists
