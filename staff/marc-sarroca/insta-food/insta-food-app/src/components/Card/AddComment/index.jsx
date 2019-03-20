@@ -27,7 +27,6 @@ function AddComment({ postId, refreshComments }) {
         name="comment"
         onChange={handleAddComment}
         placeholder="Escribe tu comentario"
-        autoFocus
       />
       <button className="comment-button" onClick={handleOnClick}>
         Publicar
