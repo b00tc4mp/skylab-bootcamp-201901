@@ -1,5 +1,7 @@
 # Flare
-Messaging app that allows users to send messages to other users, based on a specific position (lat,long) and a specific launch date.
+App that allows users to send messages based on a specific position (lat,long) and a specific launch date.
+
+## [Documentation](doc/README.md)
 
 ## [Demo](https://flare-app.surge.sh)
 
