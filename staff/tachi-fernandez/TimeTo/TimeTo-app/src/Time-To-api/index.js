@@ -237,7 +237,7 @@ const userApi = {
 
     listEventById(eventId,token){
         if (typeof eventId !== 'string') throw TypeError(eventId + ' is not a string')
-        debugger
+        
         if (!eventId.trim().length) throw Error('eventId cannot be empty')
         
         if (typeof token !== 'string') throw TypeError(token + ' is not a string')
@@ -357,7 +357,7 @@ const userApi = {
     },
 
     updateImage(image,token){
-        debugger
+        
         let formData = new FormData();
 		formData.append('image', image);
 

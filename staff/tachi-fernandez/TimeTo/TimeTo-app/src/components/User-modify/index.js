@@ -42,10 +42,8 @@ class UserModify extends Component{
     handleDescriptionInput = event => this.setState({ description: event.target.value })
     handleImageInput = event => {
         let files = event.target.files[0]
-        debugger
         logic.updateImage(files)
             .then(image => {
-                debugger
                 this.setState({ image:image.secure_url})
                 this.props.history.push('/user')
             })
