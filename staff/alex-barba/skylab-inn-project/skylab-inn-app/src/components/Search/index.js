@@ -74,7 +74,7 @@ export default function Search({ onSearch, onSkylaber }) {
                         </div>
                     )
                 })}
-                {searchResults && !!searchResults.resLang.elgnth &&
+                {searchResults && !!searchResults.resLang.length &&
                     <div className='search-results__header'>
                         <h5>Languages</h5>
                     </div>}
