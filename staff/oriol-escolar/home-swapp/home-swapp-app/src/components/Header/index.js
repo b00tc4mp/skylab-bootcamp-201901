@@ -113,7 +113,7 @@ class Header extends Component {
         return <div className="header">
 
 
-            <img className="header__logo" src="https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo1.png" onClick={goToLanding}></img>
+            <img className="header__logo" src="https://cdn4.iconfinder.com/data/icons/real-estate-69/64/home-swap-exchange-real-estate-renovate-512.png" onClick={goToLanding}></img>
 
             {user ? renderloggedButtons(goToLogout, goToConversations, goToUser) : renderUnloggedButtons(goToLogin, goToRegister)}
 

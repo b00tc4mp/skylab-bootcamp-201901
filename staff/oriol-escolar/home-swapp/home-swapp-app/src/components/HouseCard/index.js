@@ -93,7 +93,7 @@ class HouseCard extends Component {
 
     render() {
 
-        const { state: { logged, isFav }, props: { house: { adress, images, id }, origin }, deleteHouse, toggleFavorite, retrieveHouse } = this
+        const { state: { logged, isFav }, props: { house: { adress, images, id,info }, origin }, deleteHouse, toggleFavorite, retrieveHouse } = this
         const iSreadHeart = logged && origin != 'myHouses'
         const iSwhiteHeart = logged && origin != 'myHouses'
 
@@ -101,8 +101,10 @@ class HouseCard extends Component {
 
             <img className="HouseCard__img" src={images[0]}></img>
             <div className= "Houscard__textWrap">
-                <p className="HouseCard__text HouseCard__text-city">{adress.city}</p>
-                <p className="HouseCard__text HouseCard__text-adress" >{adress.street}  {adress.number}</p>
+                <p className="HouseCard__text HouseCard__text-adress">{adress.country},{adress.city},{adress.street} {adress.number}</p>
+                <p className="HouseCard__text HouseCard__text-info" >Pets allowed: {info.petsAllowed}</p>
+                <p className="HouseCard__text HouseCard__text-info" >Smokers allowed: {info.smokersAllowed  }</p>
+                <p className="HouseCard__text HouseCard__text-info" >Number of beds: {info.numberOfBeds}</p>
 
 
             </div>

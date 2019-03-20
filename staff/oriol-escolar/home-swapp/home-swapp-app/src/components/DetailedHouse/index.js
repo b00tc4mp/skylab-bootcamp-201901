@@ -157,17 +157,17 @@ class DetailedHouse extends Component {
                         </div>
                         <div>
                             <h3>Information</h3>
-                            <p> Pets allowed: <span>{thisHouse.info.petsAllowed} </span> </p>
-                            <p> Smokers allowed: <span>{thisHouse.info.smokersAllowed} </span> </p>
-                            <p> Number of beds: <span>{thisHouse.info.numberOfBeds} </span> </p>
+                            <p> Pets allowed: <span className="black">{thisHouse.info.petsAllowed} </span> </p>
+                            <p> Smokers allowed: <span className="black">{thisHouse.info.smokersAllowed} </span> </p>
+                            <p> Number of beds: <span className="black">{thisHouse.info.numberOfBeds} </span> </p>
 
                         </div>
 
                         <div>
                             <h3>Adress</h3>
-                            <p> Country: <span>{thisHouse.adress.country} </span> </p>
-                            <p> City: <span>{thisHouse.adress.city} </span> </p>
-                            <p> Street: <span>{thisHouse.adress.street} {thisHouse.adress.number} </span> </p>
+                            <p> Country: <span className="black">{thisHouse.adress.country} </span> </p>
+                            <p> City: <span className="black">{thisHouse.adress.city} </span> </p>
+                            <p> Street: <span className="black">{thisHouse.adress.street} {thisHouse.adress.number} </span> </p>
 
                         </div>
 
@@ -177,7 +177,7 @@ class DetailedHouse extends Component {
 
                     <div className='detailedHouse__content-infoBlock-2'>
 
-                        <p> {thisHouse.description}</p>
+                        <p className="black"> {thisHouse.description}</p>
 
                     </div>
                 </div>

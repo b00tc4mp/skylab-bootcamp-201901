@@ -2,21 +2,30 @@
 
 .image-gallery-right-nav:hover 
     background-color: rgba(0,0,0,0)
+    color: #CCB096
+.image-gallery-left-nav:hover 
+    z-index: 0
 .image-gallery-left-nav:hover 
     background-color: rgba(0,0,0,0)
+    color: #CCB096
 .image-gallery-fullscreen-button
     display: none
 .image-gallery-play-button:hover
     background-color: rgba(0,0,0,0)
+    color: #CCB096
+
 .image-gallery-image
     height: 400px
     width: 700px
+    z-index: 100000
     @media (min-width: 360px ) and (max-width: 768px )
         width: 290px
         height: 200px
         margin-right: 
 
-
+.black
+    color: black
+    font-weight: normal
 .image
     width: 800px    
     @media (min-width: 360px ) and (max-width: 768px )
@@ -53,6 +62,12 @@
 
             &__Contact
                 margin-top: 50px
+                margin-bottom: 50px
+                @media (min-width: 360px ) and (max-width: 768px )
+                    margin: 0px
+                    margin-top: 50px
+
+
         &-2
             text-align: left
             margin-left: 50px
@@ -60,4 +75,7 @@
             width: 700px
             text-overflow: hidden
             @media (min-width: 360px ) and (max-width: 768px )
-                margin-left: 0px
+                margin: 0px
+                margin-top: 20px
+                margin-bottom: 30px
+

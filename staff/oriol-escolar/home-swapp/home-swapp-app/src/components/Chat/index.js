@@ -31,8 +31,15 @@ class Chat extends Component {
 
     }
 
-    componentDidUpdate(prepProvs) {
-        if (prepProvs.interlocutorId !== this.state.interlocutorId) {
+    componentDidUpdate(){
+
+        window.scrollTo(0, 7000)
+        
+    }
+
+    componentWillReceiveProps(props) {
+
+        if (props.interlocutorId !== this.state.interlocutorId) {
             const { interlocutorId } = this.props
             this.setState({ interlocutorId })
                 .then(() => {
@@ -42,14 +49,14 @@ class Chat extends Component {
 
                 })
         }
-        if (prepProvs.messages !== this.state.messages) {
-            const { messages } = this.props
-            this.setState({ messages })
+        if (props.messages !== this.state.messages) {
+            this.setState({ messages: props.messages })
+            
         }
-
-
-
+        
     }
+
+
 
     onSendMessage = (event) => {
 
@@ -59,7 +66,7 @@ class Chat extends Component {
 
         logic.sendMessage(interlocutorId, text)
         this.props.sendMessage(text).then(() => window.scrollTo(0, 7000))
-        this.setState({text:""})
+        this.setState({ text: "" })
 
 
 
@@ -76,7 +83,7 @@ class Chat extends Component {
 
         const { state: { messages } } = this
 
-       return messages.map(message => {
+        return messages.map(message => {
 
             if (message.sent) {
                 return <p className="chat-messages-message__sent">{message.text}</p>
@@ -95,11 +102,11 @@ class Chat extends Component {
 
 
     handleInput = event => this.setState({ [event.target.name]: event.target.value })
-    
+
 
     render() {
 
-        const { state: { interlocutorName,text }, props: { }, goBack, onSendMessage, handleInput,listMessages } = this
+        const { state: { interlocutorName, text }, props: { }, goBack, onSendMessage, handleInput, listMessages } = this
 
         return <div>
 
@@ -114,15 +121,15 @@ class Chat extends Component {
 
                     <div className='chat-messages'>
 
-                            {listMessages()}
+                        {listMessages()}
 
                     </div>
 
                     <div className='chat-form'>
 
-                        <form className='chat-form-form' onSubmit = {onSendMessage} >
+                        <form className='chat-form-form' onSubmit={onSendMessage} >
 
-                            <input className="chat-form-form__input" type="text" name="text" placeholder="Type a message" value={text ? text:""} onChange={handleInput}/>
+                            <input className="chat-form-form__input" type="text" name="text" placeholder="Type a message" value={text ? text : ""} onChange={handleInput} />
                             <button className="chat-form-form__button">Send </button>
 
                         </form>

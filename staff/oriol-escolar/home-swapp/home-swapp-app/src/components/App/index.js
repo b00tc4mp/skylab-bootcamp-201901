@@ -95,9 +95,9 @@ class App extends Component {
       if (JSON.stringify(this.state.conversations) !== JSON.stringify(user.conversations)) {
         await this.setState({ conversations: user.conversations })
         
-        if (this.state.interlocutorId) {
+        if (this.state.userChat) {
 
-          var index = this.state.conversations.findIndex(conver => conver.interlocutor == this.state.interlocutorId)
+          var index = this.state.conversations.findIndex(conver => conver.interlocutor == this.state.userChat)
 
 
           await this.setState({ messages: this.state.conversations[index].messages })

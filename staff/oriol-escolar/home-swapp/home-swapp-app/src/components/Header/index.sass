@@ -1,18 +1,18 @@
 .header
-    background-color: #13b6c0
-    z-index: 2
+    background-color: #474545
     width: 100%
     display: flex
     align-items: center
     justify-content: space-between
     
     &__logo
-        height: 50px
-        margin: 10px
+        height: 100px
         margin-left: 30px
         cursor: pointer
+        -webkit-filter: invert(100%)
+
         @media (min-width: 360px ) and (max-width:  760px)
-            height: 20px
+            height: 50px
             margin-left: 10px
         @media (min-width: 768px ) and (max-width: 1020)
             height: 100px
@@ -23,45 +23,64 @@
         margin-right: 30px
         &__login
             margin: 10px
-            background: #13b6c0
+            background: #CCB096
             border: 2px solid white
             color: white
             &:hover
                 background: #fff
-                border: 2px solid #13b6c0
-                color: #13b6c0  
-
+                border: 2px solid #CCB096
+                color: #CCB096  
+            @media (min-width: 360px ) and (max-width:  760px)
+                width: 80px
 
         &__register
             margin: 10px
             margin: 10px
-            background: #13b6c0
+            background: #CCB096
             border: 2px solid white
             color: white
             &:hover
                 background: #fff
-                border: 2px solid #13b6c0
-                color: #13b6c0  
+                border: 2px solid #CCB096
+                color: #CCB096  
 
-
+            @media (min-width: 360px ) and (max-width:  760px)
+                width: 80px
+        @media (min-width: 360px ) and (max-width:  760px)
+            margin: 0px
+        
           
 
     &-loggedButtons
         display: flex
         &__messages
             height: 30px
-            margin-right: 10px 
-            margin-top: 10px 
-            color: white
+            margin-right: 30px 
+            margin-top: 20px 
+            color: #CCB096
             cursor: pointer   
+            font-size: 3rem
+
+            &:hover
+                color: white
+            @media (min-width: 360px ) and (max-width:  760px)
+                margin-right: 20px
+                font-size: 2rem
 
 
 
         &__logout
-            margin-top: 10px    
+            margin-top: 20px  
             height: 30px
-            color: white
+            color: #CCB096
             cursor: pointer
+            font-size: 3rem
+
+            &:hover
+                color: white
+            @media (min-width: 360px ) and (max-width:  760px)
+                font-size: 2rem
+                margin-right: 10px
 
         &__userProfile
             margin-top: 10px    
