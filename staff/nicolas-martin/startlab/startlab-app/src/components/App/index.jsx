@@ -110,10 +110,10 @@ class App extends Component {
       <div className="app container">
         <Header isLoggedIn={isLoggedIn} isAdmin={isAdmin} onLogOut={handleLogout} />
         <Switch>
-          <Route exact path="/" render={() => (!isAdmin && isLoggedIn)? <Home onStart={handleStart} /> : <Redirect to='/admin/exercises' />} />
+          <Route exact path="/" render={() => !isLoggedIn? <Home onStart={handleStart} /> : <Redirect to='/' />} />
           <Route exact path="/start" component={Start} />
 
-          <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} /> : <Redirect to='/' />} /> :
+          <Route exact path="/register/" render={() => !isLoggedIn ? <Register onRegister={handleRegister} /> : <Redirect to='/' />} />
           <Route exact path="/login" render={() => !isLoggedIn ? <Login onLogin={handleLogin} /> : <Redirect to='/' />} />
 
           <Route exact path="/admin/exercises" render={() => isAdmin ? <ExerciseList handleEdit={onEdit} handleNew={onNew} /> : <Redirect to='/' />} />
