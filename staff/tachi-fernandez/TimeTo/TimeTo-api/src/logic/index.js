@@ -142,19 +142,19 @@ const logic = {
     })();
   },
 
-  retrieveUserById(userName,userId){
+  retrieveUserById(userName,otherUserId){
     if (typeof userName !== "string") throw TypeError(userName + " is not a string");
 
     if (!userName.trim().length) throw Error("userName cannot be empty");
 
-    if (typeof userId !== "string") throw TypeError(userId + " is not a string");
+    if (typeof otherUserId !== "string") throw TypeError(otherUserId + " is not a string");
 
-    if (!userId.trim().length) throw Error("userId cannot be empty");
+    if (!otherUserId.trim().length) throw Error("otherUserId cannot be empty");
 
     return (async () => {
-      const user = await User.findById(userId).select('-password -__v',).lean()
+      const user = await User.findById(otherUserId).select('-password -__v',).lean()
 
-      if (!user) throw Error(`user with id ${userId} not found`);
+      if (!user) throw Error(`user with id ${otherUserId} not found`);
 
       const otherUser = await User.findOne({userName: new RegExp('^'+userName+'$', "i")}).select('-password -__v',).lean()
 
@@ -184,7 +184,6 @@ const logic = {
 
     if (typeof age !== "number") throw TypeError(age + " is not a string");
 
-
     if (typeof description !== "string") throw TypeError(description + " is not a string");
 
     if (!description.trim().length) throw Error("description cannot be empty");
@@ -193,7 +192,7 @@ const logic = {
     return (async () => {
 
 
-      const user = await User.findOneAndUpdate({ _id: userId }, { name, surname,age,description, email }, {runValidators: true})
+      const user = await User.findOneAndUpdate({ _id: userId }, { name, surname,age,description }, {runValidators: true})
       .select('-password -__v')
       .lean()
 
@@ -311,6 +310,10 @@ const logic = {
       delete events.members[0].events
       
       events.save()
+
+      user.events.push(events.id)
+
+      user.save()
 
       return events
       
@@ -561,7 +564,6 @@ const logic = {
   },
 
   toogleEvent(userId,eventId){
-    debugger
     
     if (typeof userId !== "string") throw TypeError(userId + " is not a string");
 
@@ -572,7 +574,6 @@ const logic = {
     if (!eventId.trim().length) throw Error("eventId cannot be empty");
 
     return(async () => {
-      debugger
       const user = await User.findById(userId)
 
       if (!user) throw Error(`user with id ${userId} not found`);
@@ -590,7 +591,7 @@ const logic = {
       
       const indexEvent = events.members.findIndex(_userId =>  _userId.toString() === userId)
           if (indexEvent < 0) events.members.push(userId)
-          else events.members.splice(index, 1)
+          else events.members.splice(indexEvent, 1)
 
           events.save()
           

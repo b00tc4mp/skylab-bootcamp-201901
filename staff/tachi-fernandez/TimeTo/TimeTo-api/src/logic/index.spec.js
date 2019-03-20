@@ -418,14 +418,180 @@ describe('logic', () => {
         it('should fail on empty userId', () => {
             const otherUserId = ''
 
-
             expect(() => {
-                logic.retrieveUserById(otherUserId)
+                logic.retrieveUserById(userName,otherUserId)
             }).toThrow(TypeError('otherUserId cannot be empty'))
         })
-        
 
+        it('should fail on empty userName', () => {
+            const userName = ''
+
+            expect(() => {
+                logic.retrieveUserById(userName,otherUserId)
+            }).toThrow(TypeError('userName cannot be empty'))
+        })
+
+        it('should fail on undefined userName', () => {
+            const userName = undefined
+
+            expect(() => {
+                logic.retrieveUserById(userName,otherUserId)
+            }).toThrow(TypeError(userName + " is not a string"))
+        })
+
+        it('should fail on undefined userId', () => {
+            const otherUserId = undefined
+
+            expect(() => {
+                logic.retrieveUserById(userName,otherUserId)
+            }).toThrow(TypeError(otherUserId + " is not a string"))
+        })
+    })
+
+    describe('update user' , () => {
+        const name = 'Tachi'
+        const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
+        const age = 22
+        const description = 'Hola muy buenas'
+        const email = `Tachiii-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
         
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname,userName,age, email,description, password: hash }))
+                .then(({id}) => {
+                    userId = id
+                })
+        )
+        it('should succed on correct data' , () => {
+            let name = 'Tachi'
+            let surname = 'Fernandez'
+            let age = 22
+            let description = 'Hola muy buenas'
+
+            logic.updateUser(userId,name,surname,age,description)
+            .then(user => {
+                expect(user.name).toBe(name)
+                expect(user.surname).toBe(surname)
+                expect(user.age).toBe(age)
+                expect(user.description).toBe(description)
+            })
+
+        })
+
+        it('should fail on undefined name' , () => {
+            let name = undefined
+            let surname = 'Fernandez'
+            let age = 22
+            let description = 'Hola muy buenas'
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError(name + " is not a string"))
+            
+        }) 
+
+        it('should fail on undefined surname' , () => {
+            let name = 'Tachi'
+            let surname = undefined
+            let age = 22
+            let description = 'Hola muy buenas'
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError(surname + " is not a string"))
+            
+        }) 
+
+        it('should fail on undefined age' , () => {
+            let name = 'Tachi'
+            let surname = 'Fernandez'
+            let age = undefined
+            let description = 'Hola muy buenas'
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError(age + " is not a string"))
+            
+        }) 
+
+        it('should fail on undefined description' , () => {
+            let name = 'Tachi'
+            let surname = 'Fernandez'
+            let age = 22
+            let description = undefined
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError(description + " is not a string"))
+            
+        }) 
+
+        it('should fail on empty name' , () => {
+            let name = ''
+            let surname = 'Fernandez'
+            let age = 22
+            let description = 'Hola muy buenas'
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError('name cannot be empty'))
+            
+        }) 
+
+        it('should fail on empty surname' , () => {
+            let name = 'Tachi'
+            let surname = ''
+            let age = 22
+            let description = 'Hola muy buenas'
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError('surname cannot be empty'))
+            
+        }) 
+
+        it('should fail on empty description' , () => {
+            let name = 'Tachi'
+            let surname = 'Fernandez'
+            let age = 22
+            let description = ''
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError('description cannot be empty'))
+            
+        }) 
+
+        it('should fail on empty description' , () => {
+            let name = 'Tachi'
+            let surname = 'Fernandez'
+            let age = 22
+            let description = 'Hola muy buenas'
+            let userId = ''
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError('userId cannot be empty'))
+            
+        }) 
+
+        it('should fail on empty description' , () => {
+            let name = 'Tachi'
+            let surname = 'Fernandez'
+            let age = 22
+            let description = 'Hola muy buenas'
+            let userId = undefined
+
+            expect(() => {
+                logic.updateUser(userId,name,surname,age,description)
+            }).toThrow(TypeError(userId + " is not a string"))
+            
+        }) 
+
+
     })
 
     describe("delete user" , () => {
@@ -1056,6 +1222,32 @@ describe('logic', () => {
                         expect(comments).toBeDefined()
                     })
                 })  
+
+                it('should fail on empty userId', () => {
+                    const userId = ''            
+        
+                    expect(() => {
+                        logic.listComments(userId,eventId)
+                    }).toThrow(TypeError('userId cannot be empty'))
+                })
+
+                it('should fail on empty eventId', () => {
+                    const eventId = ''            
+        
+                    expect(() => {
+                        logic.listComments(userId,eventId)
+                    }).toThrow(TypeError('eventId cannot be empty'))
+                })
+
+                
+
+                it('should fail on undefined userId', () => {
+                    const userId = undefined            
+        
+                    expect(() => {
+                        logic.listComments(userId,eventId)
+                    }).toThrow(TypeError(userId + ' is not a string'))
+                })
     })
 
     describe("delete comment" , () => {
@@ -1143,6 +1335,73 @@ describe('logic', () => {
                 
                 
     })
+
+    describe('update image' , () => {
+        const name = 'Tachi'
+        const surname = 'Fernandez'
+        const userName = `Tachi1010-${Math.random()}`
+        const age = 22
+        const description = 'Hola muy buenas'
+        const email = `Tachiii-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname,userName,age, email,description, password: hash }))
+                .then(({id}) => {
+                    userId = id
+                })
+        )
+        
+        it('should succed on correct data' , () => {
+            let image = 'https://res.cloudinary.com/dj6yymmpj/image/upload/v1552478235/avatar.png'
+
+            logic.updateImage(userId,image)
+            .then(user => {
+                expect(user.image).toBe(image)
+            })
+        })
+
+        it('should fail on empty image', () => {
+            let image = ''            
+
+            expect(() => {
+                logic.updateImage(userId,image)
+            }).toThrow(TypeError('image cannot be empty'))
+        })
+
+        it('should fail on empty userId', () => {
+            const userId = ''
+            let image = 'https://res.cloudinary.com/dj6yymmpj/image/upload/v1552478235/avatar.png'            
+
+            expect(() => {
+                logic.updateImage(userId,image)
+            }).toThrow(TypeError('userId cannot be empty'))
+        })
+
+        it('should fail on undefined image', () => {
+            let image = undefined          
+
+            expect(() => {
+                logic.updateImage(userId,image)
+            }).toThrow(TypeError(image + ' is not a string'))
+        })
+
+        it('should fail on undefined userId', () => {
+            let image = 'https://res.cloudinary.com/dj6yymmpj/image/upload/v1552478235/avatar.png'          
+            let userId = undefined
+ 
+            expect(() => {
+                logic.updateImage(userId,image)
+            }).toThrow(TypeError(userId + ' is not a string'))
+        })
+
+    })
+
+
+
+    
 
     
 
